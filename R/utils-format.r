@@ -53,13 +53,6 @@ named_rule <- function(..., pad = "-") {
 }
 
 
-#' @export
-print.BoolResult <- function(x, ...) {
-  cat(x)
-  if (!x) cat(": ", attr(x, "comment"), sep = "")
-  cat("\n")
-}
-
 # function for the thousand separator,
 # returns "," unless it's used for the decimal point, in which case returns "."
 big_mark <- function(x, ...) {

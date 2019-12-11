@@ -51,7 +51,7 @@ test_that("named argument become list columns", {
 })
 
 test_that("multiple outputs can access data (#2998)", {
-  out <- do(data_frame(a = 1), g = nrow(.), h = nrow(.))
+  out <- do(tibble(a = 1), g = nrow(.), h = nrow(.))
   expect_equal(names(out), c("g", "h"))
   expect_equal(out$g, list(1L))
   expect_equal(out$h, list(1L))
@@ -68,21 +68,21 @@ test_that("empty results preserved (#597)", {
 
   dat <- data.frame(a = 1:2, b = factor(1:2))
   expect_equal(
-    dat %>% group_by(b) %>% do(blankdf(.)),
+    dat %>% group_by(b, .drop = FALSE) %>% do(blankdf(.)),
     data.frame(b = factor(integer(), levels = 1:2), blank = numeric())
   )
 })
 
 test_that("empty inputs give empty outputs (#597)", {
   out <- data.frame(a = numeric(), b = factor()) %>%
-    group_by(b) %>%
+    group_by(b, .drop = FALSE) %>%
     do(data.frame())
-  expect_equal(out, data.frame(b = factor()) %>% group_by(b))
+  expect_equal(out, data.frame(b = factor()) %>% group_by(b, .drop = FALSE))
 
   out <- data.frame(a = numeric(), b = character()) %>%
-    group_by(b) %>%
+    group_by(b, .drop = FALSE) %>%
     do(data.frame())
-  expect_equal(out, data.frame(b = character()) %>% group_by(b))
+  expect_equal(out, data.frame(b = character()) %>% group_by(b, .drop = FALSE))
 })
 
 test_that("grouped do evaluates args in correct environment", {
@@ -128,7 +128,7 @@ test_that("can do on rowwise dataframe", {
 # Zero row inputs --------------------------------------------------------------
 
 test_that("empty data frames give consistent outputs", {
-  dat <- data_frame(x = numeric(0), g = character(0))
+  dat <- tibble(x = numeric(0), g = character(0))
   grp <- dat %>% group_by(g)
   emt <- grp %>% filter(FALSE)
 
@@ -203,6 +203,13 @@ test_that("empty data frames give consistent outputs", {
 test_that("handling of empty data frames in do", {
   blankdf <- function(x) data.frame(blank = numeric(0))
   dat <- data.frame(a = 1:2, b = factor(1:2))
-  res <- dat %>% group_by(b) %>% do(blankdf(.))
+  res <- dat %>% group_by(b, .drop = FALSE) %>% do(blankdf(.))
   expect_equal(names(res), c("b", "blank"))
+})
+
+test_that("do() does not retain .drop attribute (#4176)", {
+  res <- iris %>%
+    group_by(Species) %>%
+    do(data.frame(n=1))
+  expect_null(attr(res, ".drop", exact = TRUE))
 })

@@ -49,9 +49,10 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   xlen <- length(x)
   n <- pmin(n, xlen)
 
-  out <- c(x[-seq_len(n)], rep(default, n))
-  attributes(out) <- attributes(x)
-  out
+  vec_c(
+    vec_slice(x, -seq_len(n)),
+    vec_repeat(default, n)
+  )
 }
 
 #' @export
@@ -75,7 +76,8 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   xlen <- length(x)
   n <- pmin(n, xlen)
 
-  out <- c(rep(default, n), x[seq_len(xlen - n)])
-  attributes(out) <- attributes(x)
-  out
+  vec_c(
+    vec_repeat(default, n),
+    vec_slice(x, seq_len(xlen - n))
+  )
 }

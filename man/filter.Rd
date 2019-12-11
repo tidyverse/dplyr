@@ -127,8 +127,11 @@ filter(starwars, mass > !!mass, height > !!height)
 \seealso{
 \code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and \code{\link[=filter_at]{filter_at()}}.
 
-Other single table verbs: \code{\link{arrange}},
-  \code{\link{mutate}}, \code{\link{select}},
-  \code{\link{slice}}, \code{\link{summarise}}
+Other single table verbs: 
+\code{\link{arrange}()},
+\code{\link{mutate}()},
+\code{\link{select}()},
+\code{\link{slice}()},
+\code{\link{summarise}()}
 }
 \concept{single table verbs}

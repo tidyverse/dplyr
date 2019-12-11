@@ -1,7 +1,7 @@
 context("transmute")
 
 test_that("non-syntactic grouping variable is preserved (#1138)", {
-  df <- data_frame(`a b` = 1L) %>% group_by(`a b`) %>% transmute()
+  df <- tibble(`a b` = 1L) %>% group_by(`a b`) %>% transmute()
   expect_named(df, "a b")
 })
 
@@ -17,7 +17,7 @@ test_that("transmute with no args returns nothing", {
 # transmute variables -----------------------------------------------
 
 test_that("transmute succeeds in presence of raw columns (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
   expect_identical(transmute(df, a), df["a"])
   expect_identical(transmute(df, b), df["b"])
 })
@@ -39,4 +39,9 @@ test_that("arguments to rename() don't match vars_rename() arguments (#2861)", {
 
 test_that("can transmute() with .data pronoun (#2715)", {
   expect_identical(transmute(mtcars, .data$cyl), transmute(mtcars, cyl))
+})
+
+test_that("transmute() does not warn when a variable is removed with = NULL (#4609)", {
+  df <- data.frame(x=1)
+  expect_warning(transmute(df, y =x+1, z=y*2, y = NULL), NA)
 })

@@ -16,6 +16,7 @@
 \alias{tribble}
 \alias{tibble}
 \alias{as_tibble}
+\alias{view}
 \alias{trunc_mat}
 \alias{tbl_sum}
 \alias{contains}
@@ -37,8 +38,8 @@ below to see their documentation.
 \describe{
   \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
 
-  \item{tibble}{\code{\link[tibble]{data_frame}}, \code{\link[tibble]{data_frame_}}, \code{\link[tibble]{as_data_frame}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{lst_}}, \code{\link[tibble]{add_row}}, \code{\link[tibble]{type_sum}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{frame_data}}, \code{\link[tibble]{tribble}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{as_tibble}}, \code{\link[tibble]{trunc_mat}}, \code{\link[tibble]{tbl_sum}}}
+  \item{tibble}{\code{\link[tibble]{add_row}}, \code{\link[tibble]{as_data_frame}}, \code{\link[tibble]{as_tibble}}, \code{\link[tibble]{data_frame}}, \code{\link[tibble]{data_frame_}}, \code{\link[tibble]{frame_data}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{lst_}}, \code{\link[tibble]{tbl_sum}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, \code{\link[tibble]{trunc_mat}}, \code{\link[tibble]{type_sum}}, \code{\link[tibble]{view}}}
 
-  \item{tidyselect}{\code{\link[tidyselect]{contains}}, \code{\link[tidyselect]{ends_with}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect]{matches}}, \code{\link[tidyselect]{num_range}}, \code{\link[tidyselect]{one_of}}, \code{\link[tidyselect]{starts_with}}, \code{\link[tidyselect]{last_col}}}
+  \item{tidyselect}{\code{\link[tidyselect]{contains}}, \code{\link[tidyselect]{ends_with}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect]{last_col}}, \code{\link[tidyselect]{matches}}, \code{\link[tidyselect]{num_range}}, \code{\link[tidyselect]{one_of}}, \code{\link[tidyselect]{starts_with}}}
 }}
 

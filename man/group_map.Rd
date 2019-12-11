@@ -2,15 +2,18 @@
 % Please edit documentation in R/group_map.R
 \name{group_map}
 \alias{group_map}
+\alias{group_modify}
 \alias{group_walk}
 \title{Apply a function to each group}
 \usage{
-group_map(.tbl, .f, ...)
+group_map(.data, .f, ..., keep = FALSE)
 
-group_walk(.tbl, .f, ...)
+group_modify(.data, .f, ..., keep = FALSE)
+
+group_walk(.data, .f, ...)
 }
 \arguments{
-\item{.tbl}{A grouped tibble}
+\item{.data}{A grouped tibble}
 
 \item{.f}{A function or formula to apply to each group. It must return a data frame.
 
@@ -27,25 +30,27 @@ that identifies the group
 }}
 
 \item{...}{Additional arguments passed on to \code{.f}}
+
+\item{keep}{are the grouping variables kept in \code{.x}}
 }
 \value{
 \itemize{
-\item \code{group_map()} row binds the data frames returned by \code{.f}
+\item \code{group_modify()} returns a grouped tibble. In that case \code{.f} must return a data frame.
+\item \code{group_map()} returns a list of results from calling \code{.f} on each group
 \item \code{group_walk()} calls \code{.f} for side effects and returns the input \code{.tbl}, invisibly
 }
 }
 \description{
-\code{group_map()} and \code{group_walk()} are purrr-style functions that can
+\code{group_map()}, \code{group_modify()} and \code{group_walk()} are purrr-style functions that can
 be used to iterate on grouped tibbles.
 }
 \details{
 \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
-\itemize{
-\item Use \code{group_map()} when \code{summarize()} is too limited, in terms of what you need
-to do and return for each group. \code{group_map()} is good for "data frame in, data frame out".
+
+Use \code{group_modify()} when \code{summarize()} is too limited, in terms of what you need
+to do and return for each group. \code{group_modify()} is good for "data frame in, data frame out".
 If that is too limited, you need to use a \link[=group_nest]{nested} or \link[=group_split]{split} workflow.
-\item \code{group_map()} and \code{group_walk()} are an evolution of \code{\link[=do]{do()}}, if you have used that before.
-}
+\code{group_modify()} is an evolution of \code{\link[=do]{do()}}, if you have used that before.
 
 Each conceptual group of the data frame is exposed to the function \code{.f} with two pieces of information:
 \itemize{
@@ -53,34 +58,52 @@ Each conceptual group of the data frame is exposed to the function \code{.f} wit
 \item The key, a tibble with exactly one row and columns for each grouping variable, exposed as \code{.y}.
 }
 
-\code{.f} must return a data frame that does not contain any of the grouping variables of \code{.tbl}.
-
-For completeness, \code{group_map()} and \code{group_walk()} also work on
+For completeness, \code{group_modify()}, \code{group_map} and \code{group_walk()} also work on
 ungrouped data frames, in that case the function is applied to the
 entire data frame (exposed as \code{.x}), and \code{.y} is a one row tibble with no
 column, consistently with \code{\link[=group_keys]{group_keys()}}.
 }
 \examples{
+
+# return a list
 mtcars \%>\%
   group_by(cyl) \%>\%
   group_map(~ head(.x, 2L))
 
+# return a tibble grouped by `cyl` with 2 rows per group
+# the grouping data is recalculated
+mtcars \%>\%
+  group_by(cyl) \%>\%
+  group_modify(~ head(.x, 2L))
+
 if (requireNamespace("broom", quietly = TRUE)) {
+  # a list of tibbles
   iris \%>\%
     group_by(Species) \%>\%
     group_map(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
+
+  # a restructured grouped tibble
+  iris \%>\%
+    group_by(Species) \%>\%
+    group_modify(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
 }
 
+# a list of vectors
 iris \%>\%
   group_by(Species) \%>\%
-  group_map(~ {
+  group_map(~ quantile(.x$Petal.Length, probs = c(0.25, 0.5, 0.75)))
+
+# to use group_modify() the lambda must return a data frame
+iris \%>\%
+  group_by(Species) \%>\%
+  group_modify(~ {
      quantile(.x$Petal.Length, probs = c(0.25, 0.5, 0.75)) \%>\%
      tibble::enframe(name = "prob", value = "quantile")
   })
 
 iris \%>\%
   group_by(Species) \%>\%
-  group_map(~ {
+  group_modify(~ {
     .x \%>\%
       purrr::map_dfc(fivenum) \%>\%
       mutate(nms = c("min", "Q1", "median", "Q3", "max"))
@@ -94,16 +117,21 @@ iris \%>\%
 list.files(temp, pattern = "csv$")
 unlink(temp, recursive = TRUE)
 
-# group_map() and ungrouped data frames
+# group_modify() and ungrouped data frames
 mtcars \%>\%
-  group_map(~ head(.x, 2L))
+  group_modify(~ head(.x, 2L))
 
 }
 \seealso{
-Other grouping functions: \code{\link{group_by_all}},
-  \code{\link{group_by}}, \code{\link{group_indices}},
-  \code{\link{group_keys}}, \code{\link{group_nest}},
-  \code{\link{group_rows}}, \code{\link{group_size}},
-  \code{\link{group_trim}}, \code{\link{groups}}
+Other grouping functions: 
+\code{\link{group_by_all}()},
+\code{\link{group_by}()},
+\code{\link{group_indices}()},
+\code{\link{group_keys}()},
+\code{\link{group_nest}()},
+\code{\link{group_rows}()},
+\code{\link{group_size}()},
+\code{\link{group_trim}()},
+\code{\link{groups}()}
 }
 \concept{grouping functions}

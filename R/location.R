@@ -6,7 +6,9 @@
 #' @param df a data frame
 #' @param x,y two data frames to compare
 #' @keywords internal
+#' @importFrom lobstr obj_addr obj_addrs
 #' @export
+#'
 #' @examples
 #' location(mtcars)
 #'
@@ -16,12 +18,15 @@
 #' changes(mtcars, mtcars)
 #' changes(mtcars, mtcars2)
 location <- function(df) {
+  signal_soft_deprecated("location() is deprecated, please use functions in the lobstr package")
+
   assert_that(is.data.frame(df))
 
+  attrs <- attributes(df)
   structure(list(
-    df = loc(df),
-    vars = dfloc(df),
-    attr = plfloc(attributes(df))
+    df = obj_addr(df),
+    vars = set_names(obj_addrs(df), names(df)),
+    attr = set_names(obj_addrs(attrs), names(attrs))
   ), class = "location")
 }
 
@@ -46,6 +51,8 @@ print.location <- function(x, ...) {
 #' @rdname location
 #' @export
 changes <- function(x, y) {
+  signal_soft_deprecated("changes() is deprecated, please use functions in the lobstr package")
+
   x <- location(x)
   y <- location(y)
 

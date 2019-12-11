@@ -69,7 +69,7 @@ As well as `x` and `y`, each mutating join takes an argument `by` that controls 
     Note that the year columns in the output are disambiguated with a suffix.
 
   * A named character vector: `by = c("x" = "a")`. This will
-    match variable `x` in table `x` to variable `a` in table `b`. The 
+    match variable `x` in table `x` to variable `a` in table `y`. The 
     variables from use will be used in the output.
     
     Each flight has an origin and destination `airport`, so we need to specify
@@ -85,8 +85,8 @@ As well as `x` and `y`, each mutating join takes an argument `by` that controls 
 There are four types of mutating join, which differ in their behaviour when a match is not found. We'll illustrate each with a simple example:
 
 ```{r}
-df1 <- data_frame(x = c(1, 2), y = 2:1)
-df2 <- data_frame(x = c(1, 3), a = 10, b = "a")
+df1 <- tibble(x = c(1, 2), y = 2:1)
+df2 <- tibble(x = c(1, 3), a = 10, b = "a")
 ```
 
   * `inner_join(x, y)` only includes observations that match in both `x` and `y`.
@@ -124,8 +124,8 @@ The left, right and full joins are collectively know as __outer joins__. When a 
 While mutating joins are primarily used to add new variables, they can also generate new observations. If a match is not unique, a join will add all possible combinations (the Cartesian product) of the matching observations:
 
 ```{r}
-df1 <- data_frame(x = c(1, 1, 2), y = 1:3)
-df2 <- data_frame(x = c(1, 1, 2), z = c("a", "b", "a"))
+df1 <- tibble(x = c(1, 1, 2), y = 1:3)
+df2 <- tibble(x = c(1, 1, 2), z = c("a", "b", "a"))
 
 df1 %>% left_join(df2)
 ```
@@ -149,8 +149,8 @@ flights %>%
 If you're worried about what observations your joins will match, start with a `semi_join()` or `anti_join()`. `semi_join()` and `anti_join()` never duplicate; they only ever remove observations. 
 
 ```{r}
-df1 <- data_frame(x = c(1, 1, 3, 4), y = 1:4)
-df2 <- data_frame(x = c(1, 1, 2), z = c("a", "b", "a"))
+df1 <- tibble(x = c(1, 1, 3, 4), y = 1:4)
+df2 <- tibble(x = c(1, 1, 2), z = c("a", "b", "a"))
 
 # Four rows to start with:
 df1 %>% nrow()
@@ -171,8 +171,8 @@ The final type of two-table verb is set operations. These expect the `x` and `y`
 Given this simple data:
 
 ```{r}
-(df1 <- data_frame(x = 1:2, y = c(1L, 1L)))
-(df2 <- data_frame(x = 1:2, y = 1:2))
+(df1 <- tibble(x = 1:2, y = c(1L, 1L)))
+(df2 <- tibble(x = 1:2, y = 1:2))
 ```
 
 The four possibilities are:
@@ -193,8 +193,8 @@ When joining tables, dplyr is a little more conservative than base R about the t
   * Factors with different levels are coerced to character with a warning:
     
     ```{r}
-    df1 <- data_frame(x = 1, y = factor("a"))
-    df2 <- data_frame(x = 2, y = factor("b"))
+    df1 <- tibble(x = 1, y = factor("a"))
+    df2 <- tibble(x = 2, y = factor("b"))
     full_join(df1, df2) %>% str()
     ```
 
@@ -202,36 +202,36 @@ When joining tables, dplyr is a little more conservative than base R about the t
     with a warning:
   
     ```{r}
-    df1 <- data_frame(x = 1, y = factor("a", levels = c("a", "b")))
-    df2 <- data_frame(x = 2, y = factor("b", levels = c("b", "a")))
+    df1 <- tibble(x = 1, y = factor("a", levels = c("a", "b")))
+    df2 <- tibble(x = 2, y = factor("b", levels = c("b", "a")))
     full_join(df1, df2) %>% str()
     ```
 
   * Factors are preserved only if the levels match exactly:
     
     ```{r}
-    df1 <- data_frame(x = 1, y = factor("a", levels = c("a", "b")))
-    df2 <- data_frame(x = 2, y = factor("b", levels = c("a", "b")))
+    df1 <- tibble(x = 1, y = factor("a", levels = c("a", "b")))
+    df2 <- tibble(x = 2, y = factor("b", levels = c("a", "b")))
     full_join(df1, df2) %>% str()
     ```    
 
   * A factor and a character are coerced to character with a warning:
     
     ```{r}
-    df1 <- data_frame(x = 1, y = "a")
-    df2 <- data_frame(x = 2, y = factor("a"))
+    df1 <- tibble(x = 1, y = "a")
+    df2 <- tibble(x = 2, y = factor("a"))
     full_join(df1, df2) %>% str()
     ```
     
 Otherwise logicals will be silently upcast to integer, and integer to numeric, but coercing to character will raise an error:
 
 ```{r, error = TRUE, purl = FALSE}
-df1 <- data_frame(x = 1, y = 1L)
-df2 <- data_frame(x = 2, y = 1.5)
+df1 <- tibble(x = 1, y = 1L)
+df2 <- tibble(x = 2, y = 1.5)
 full_join(df1, df2) %>% str()
 
-df1 <- data_frame(x = 1, y = 1L)
-df2 <- data_frame(x = 2, y = "a")
+df1 <- tibble(x = 1, y = 1L)
+df2 <- tibble(x = 2, y = "a")
 full_join(df1, df2) %>% str()
 ```
 

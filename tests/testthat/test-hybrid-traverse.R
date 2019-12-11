@@ -1,6 +1,6 @@
 context("hybrid-traverse")
 
-test_df <- data_frame(
+test_df <- tibble(
   id = c(1L, 2L, 2L),
   a = 1:3,
   b = as.numeric(1:3),
@@ -64,7 +64,7 @@ test_that("[[ works for rowwise access of list columns (#912)", {
 
   expect_equal(
     df %>% rowwise() %>% transmute(z = y[[x]]),
-    data_frame(z = c(1, 4))
+    tibble(z = c(1, 4))
   )
 })
 
@@ -438,7 +438,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("columns named .data and .env are overridden", {
-    conflict_data <- data_frame(id = test_df$id, .data = 1:3, .env = 3:1)
+    conflict_data <- tibble(id = test_df$id, .data = 1:3, .env = 3:1)
 
     expect_equal(
       conflict_data %>%
@@ -449,12 +449,12 @@ test_hybrid <- function(grouping) {
           is_env_env = all(vapply(env, is.environment, logical(1))),
           is_data_env = all(vapply(env, is.environment, logical(1)))
         ),
-      data_frame(is_env_env = TRUE, is_data_env = TRUE)
+      tibble(is_env_env = TRUE, is_data_env = TRUE)
     )
   })
 
   test_that("contents of columns named .data and .env can be accessed", {
-    conflict_data <- data_frame(id = test_df$id, .data = 1:3, .env = 3:1)
+    conflict_data <- tibble(id = test_df$id, .data = 1:3, .env = 3:1)
 
     expect_equal(
       conflict_data %>%
@@ -469,6 +469,7 @@ test_hybrid <- function(grouping) {
         summarise_at(vars(env, data), list(mean))
     )
 
+    scoped_lifecycle_silence()
     expect_equal(
       conflict_data %>%
         grouping() %>%

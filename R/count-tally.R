@@ -4,7 +4,8 @@
 #' `tally()` is a convenient wrapper for summarise that will either call
 #' [n()] or \code{\link{sum}(n)} depending on whether you're tallying
 #' for the first time, or re-tallying. `count()` is similar but calls
-#' [group_by()] before and [ungroup()] after.
+#' [group_by()] before and [ungroup()] after. If the data is already
+#' grouped, `count()` adds an additional group that is removed afterwards.
 #'
 #' `add_tally()` adds a column `n` to a table based on the number
 #' of items within each existing group, while `add_count()` is a shortcut that
@@ -13,14 +14,11 @@
 #' they add an additional column rather than collapsing each group.
 #'
 #' @note
-#' The column name in the returned data is usually `n`, even if you
-#' have supplied a weight.
+#' The column name in the returned data is given by the `name` argument,
+#' set to `"n"` by default.
 #'
-#' If the data already has a column named `n`, the output column
-#' will be called `nn`. If the table already has columns called `n` and `nn`
-#' then the column returned will be `nnn`, and so on.
-#'
-#' To control the output column name use `name`.
+#' If the data already has a column by that name, the output column
+#' will be prefixed by an extra `"n"` as many times as necessary.
 #'
 #' @param x a [tbl()] to tally/count.
 #' @param ... Variables to group by.
@@ -35,6 +33,7 @@
 #'   `vignette("programming")` for an introduction to these concepts.
 #' @param sort if `TRUE` will sort output in descending order of `n`
 #' @param name The output column name. If omitted, it will be `n`.
+#' @param .drop see [group_by()]
 #' @return A tbl, grouped the same way as `x`.
 #' @export
 #' @examples
@@ -43,6 +42,9 @@
 #' mtcars %>% group_by(cyl) %>% tally()
 #' # count() is a short-hand for group_by() + tally()
 #' mtcars %>% count(cyl)
+#' # Note that if the data is already grouped, count() adds
+#' # an additional group that is removed afterwards
+#' mtcars %>% group_by(gear) %>% count(carb)
 #'
 #' # add_tally() is short-hand for mutate()
 #' mtcars %>% add_tally()
@@ -124,19 +126,19 @@ n_name <- function(x, name = "n") {
 
 #' @export
 #' @rdname tally
-count <- function(x, ..., wt = NULL, sort = FALSE, name = "n") {
+count <- function(x, ..., wt = NULL, sort = FALSE, name = "n", .drop = group_by_drop_default(x)) {
   groups <- group_vars(x)
 
   if (dots_n(...)) {
-    x <- group_by(x, ..., add = TRUE)
+    x <- .group_by_static_drop(x, ..., add = TRUE, .drop = .drop)
   }
   x <- tally(x, wt = !!enquo(wt), sort = sort, name = name)
-  x <- group_by(x, !!!syms(groups), add = FALSE)
+  x <- .group_by_static_drop(x, !!!syms(groups), add = FALSE, .drop = .drop)
   x
 }
 #' @export
 #' @rdname se-deprecated
-count_ <- function(x, vars, wt = NULL, sort = FALSE) {
+count_ <- function(x, vars, wt = NULL, sort = FALSE, .drop = group_by_drop_default(x)) {
   signal_soft_deprecated(paste_line(
     "count_() is deprecated. ",
     "Please use count() instead",
@@ -148,7 +150,7 @@ count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
   wt <- wt %||% quo(NULL)
   wt <- compat_lazy(wt, caller_env())
-  count(x, !!!vars, wt = !!wt, sort = sort)
+  count(x, !!!vars, wt = !!wt, sort = sort, .drop = .drop)
 }
 
 #' @rdname tally
@@ -179,7 +181,7 @@ add_tally <- function(x, wt, sort = FALSE, name = "n") {
     out <- arrange(out, desc(!!sym(n_name)))
   }
 
-  grouped_df(out, group_vars(x))
+  grouped_df(out, group_vars(x), drop = group_by_drop_default(x))
 }
 #' @rdname se-deprecated
 #' @export
@@ -202,7 +204,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = "n") {
   grouped <- group_by(x, ..., add = TRUE)
 
   out <- add_tally(grouped, wt = !!enquo(wt), sort = sort, name = name)
-  grouped_df(out, g)
+  grouped_df(out, g, drop = group_by_drop_default(grouped))
 }
 #' @rdname se-deprecated
 #' @export

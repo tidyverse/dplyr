@@ -50,6 +50,15 @@ reference:
   - ends_with("join")
   - join.tbl_df
 
+- title: Computation on groups
+  contents:
+  - group_cols
+  - group_map
+  - group_modify
+  - group_trim
+  - group_rows
+  - group_split
+
 - title: Remote tables
   contents:
   - auto_copy
@@ -70,6 +79,7 @@ reference:
   - between
   - case_when
   - coalesce
+  - combine
   - cumany
   - desc
   - if_else
@@ -117,7 +127,22 @@ navbar:
     - text: Compatibility
       href: articles/compatibility.html
   - text: News
-    href: news/index.html
+    menu:
+    - text: "Release notes"
+    - text: "Version 0.8.4"
+      href: https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/
+    - text: "Version 0.8.3"
+      href: https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/
+    - text: "Version 0.8.2"
+      href: https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/
+    - text: "Version 0.8.1"
+      href: https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/
+    - text: "Version 0.8.0"
+      href: https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/
+    - text: "Version 0.7.5"
+      href: https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/
+    - text: "Change log"
+      href: news/index.html
   right:
   - icon: fa-github fa-lg
     href: https://github.com/tidyverse/dplyr

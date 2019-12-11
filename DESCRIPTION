@@ -1,7 +1,7 @@
 Type: Package
 Package: dplyr
 Title: A Grammar of Data Manipulation
-Version: 0.8.0
+Version: 0.8.99.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre"), comment = c(ORCID = "0000-0003-4757-117X")),
     person("Romain", "Fran\u00e7ois", role = "aut", comment = c(ORCID = "0000-0002-2444-4226")),
@@ -12,54 +12,56 @@ Authors@R: c(
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
 License: MIT + file LICENSE
-URL: http://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
 BugReports: https://github.com/tidyverse/dplyr/issues
 Depends: 
-    R (>= 3.1.2)
+    R (>= 3.2.0)
 Imports: 
     assertthat (>= 0.2.0),
-    glue (>= 1.1.1),
+    glue (>= 1.3.0),
     magrittr (>= 1.5),
     methods,
-    pkgconfig (>= 2.0.1),
-    R6 (>= 2.2.2),
-    Rcpp (>= 1.0.0),
-    rlang (>= 0.3.0),
-    tibble (>= 2.0.0),
+    lobstr,
+    pkgconfig,
+    R6,
+    rlang (>= 0.4.0),
+    tibble (>= 2.1.3.9000),
     tidyselect (>= 0.2.5),
-    utils
+    utils,
+    vctrs (>= 0.2.0.9007),
+    zeallot
 Suggests: 
-    bit64 (>= 0.9.7),
+    bit64,
     callr,
-    covr (>= 3.0.1),
-    DBI (>= 0.7.14),
-    dbplyr (>= 1.2.0),
-    dtplyr (>= 0.0.2),
-    ggplot2 (>= 2.2.1),
-    hms (>= 0.4.1),
-    knitr (>= 1.19),
-    Lahman (>= 3.0-1),
+    covr,
+    crayon (>= 1.3.4),
+    DBI,
+    dbplyr,
+    dtplyr,
+    ggplot2,
+    hms,
+    knitr,
+    Lahman,
     lubridate,
     MASS,
-    mgcv (>= 1.8.23),
-    microbenchmark (>= 1.4.4),
-    nycflights13 (>= 0.2.2),
-    rmarkdown (>= 1.8),
-    RMySQL (>= 0.10.13),
-    RPostgreSQL (>= 0.6.2),
-    RSQLite (>= 2.0),
-    testthat (>= 2.0.0),
-    withr (>= 2.1.1),
+    mgcv,
+    microbenchmark,
+    nycflights13,
+    rmarkdown,
+    RMySQL,
+    RPostgreSQL,
+    RSQLite,
+    testthat,
+    withr,
     broom,
     purrr,
-    readr,
-    crayon
-LinkingTo: 
-    BH (>= 1.58.0-1),
-    plogr (>= 0.1.10),
-    Rcpp (>= 1.0.0)
+    readr
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
+Remotes:
+    tidyverse/tibble,
+    r-lib/pillar,
+    r-lib/vctrs

@@ -1,9 +1,141 @@
-# dplyr 0.8.0
+# dplyr 0.9.0 (in development)
+
+* `mutate()` and `summarise()` automatically unpack unnamed tibble results (#2326).
+
+* `group_keys.rowwise_df()` gives a 0 column data frame with n() rows. 
+
+* `group_by()` uses hashing from the `vctrs` package. 
+
+* `combine()` is soft deprecated.
+
+* `location()` and `changes()` are soft deprecated, please use functions from the lobstr package. 
+
+* `group_map()` is now a generic (#4576).
+
+* The first argument of `group_map()`, `group_modify()` and `group_walk()`
+  has been changed to `.data` for consistency with other generics.
+
+* `group_by()` uses hashing from the `vctrs` package. 
+
+* Better performance for extracting slices of factors and ordered factors (#4501).
+
+* `group_by()` uses hashing from the `vctrs` package. 
+
+* `group_by()` does not create an arbitrary NA group when grouping by factors with `drop = TRUE` (#4460).
+
+* `rbind_all()` and `rbind_list()` have been removed (@bjungbogati, #4433).
+
+* `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
+
+* `rename_at()` and `rename_all()` call the function with a simple character vector, not a `dplyr_sel_vars` (#4459). 
+
+* `select_vars()`, `rename_vars()`, `select_var()`, `current_vars()` are now deprecated (@perezp44, #4432)
+
+* `group_modify()` works with additional arguments (@billdenney and @cderv, #4509)
+
+# dplyr 0.8.3 (2019-07-04)
+
+* Fixed performance regression introduced in version 0.8.2 (#4458). 
+
+# dplyr 0.8.2 (2019-06-28)
+
+## New functions
+
+* `top_frac(data, proportion)` is a shorthand for `top_n(data, proportion * n())` (#4017).  
+
+## colwise changes
+
+* Using quosures in colwise verbs is deprecated (#4330).
+
+* Updated `distinct_if()`, `distinct_at()` and `distinct_all()` to include `.keep_all` argument (@beansrowning, #4343).
+
+* `rename_at()` handles empty selection (#4324). 
+
+* `*_if()` functions correctly handle columns with special names (#4380).
+
+* colwise functions support constants in formulas (#4374). 
+
+## Hybrid evaluation changes
+
+* hybrid rank functions correctly handle NA (#4427). 
+
+* `first()`, `last()` and `nth()` hybrid version handles factors (#4295).
+
+## Minor changes
+
+* `top_n()` quotes its `n` argument, `n` no longer needs to be constant for all groups (#4017).  
+
+* `tbl_vars()` keeps information on grouping columns by returning a `dplyr_sel_vars` object (#4106). 
+
+* `group_split()` always sets the `ptype` attribute, which make it more robust in the case where there
+  are 0 groups. 
+
+* `group_map()` and `group_modify()` work in the 0 group edge case (#4421)
+
+* `select.list()` method added so that `select()` does not dispatch on lists (#4279). 
+
+* `view()` is reexported from tibble (#4423). 
+
+* `group_by()` puts NA groups last in character vectors (#4227).
+
+* `arrange()` handles integer64 objects (#4366). 
+
+* `summarise()` correctly resolves summarised list columns (#4349). 
+
+# dplyr 0.8.1 (2019-05-14)
 
 ## Breaking changes
 
-* `Error in n() : could not find function "n"` indicates when functions 
-  like `n()`, `row_number()`, ... are not imported or prefixed. 
+* `group_modify()` is the new name of the function previously known as `group_map()`
+
+## New functions
+
+* `group_map()` now only calls the function on each group and return a list. 
+
+* `group_by_drop_default()`, previously known as `dplyr:::group_drops()` is exported (#4245).
+
+## Minor changes
+
+* Lists of formulas passed to colwise verbs are now automatically named.
+
+* `group_by()` does a shallow copy even in the no groups case (#4221).
+
+* Fixed `mutate()` on rowwise data frames with 0 rows (#4224).
+
+* Fixed handling of bare formulas in colwise verbs (#4183).
+
+* Fixed performance of `n_distinct()` (#4202). 
+
+* `group_indices()` now ignores empty groups by default for `data.frame`, which is
+  consistent with the default of `group_by()` (@yutannihilation, #4208). 
+
+* Fixed integer overflow in hybrid `ntile()` (#4186). 
+
+* colwise functions `summarise_at()` ... can rename vars in the case of multiple functions (#4180).
+
+* `select_if()` and `rename_if()` handle logical vector predicate (#4213). 
+
+* hybrid `min()` and `max()` cast to integer when possible (#4258).
+
+* `bind_rows()` correctly handles the cases where there are multiple consecutive `NULL` (#4296). 
+
+* Support for R 3.1.* has been dropped. The minimal R version supported is now 3.2.0. 
+  https://www.tidyverse.org/articles/2019/04/r-version-support/
+
+* `rename_at()` handles empty selection (#4324). 
+
+# dplyr 0.8.0.1 (2019-02-15)
+
+* Fixed integer C/C++ division, forced released by CRAN (#4185). 
+
+# dplyr 0.8.0 (2019-02-14)
+
+## Breaking changes
+
+* The error `could not find function "n"` or the warning 
+  ```Calling `n()` without importing or prefixing it is deprecated, use `dplyr::n()` ``` 
+  
+  indicates when functions like `n()`, `row_number()`, ... are not imported or prefixed. 
   
   The easiest fix is to import dplyr with `import(dplyr)` in your `NAMESPACE` or
   `#' @import dplyr` in a roxygen comment, alternatively such functions can be 
@@ -16,11 +148,9 @@
   
   - `sample_n()` and `sample_frac()` have gained `...`
   - `filter()` and `slice()` have gained `.preserve`
+  - `group_by()` has gained `.drop`
 
-* Code that assumes that there are no empty groups might fail, because of the 
-  new grouping algorithm described below. 
-  
-* `Error: `.data` is a corrupt grouped_df, ...`  signals code that makes 
+* ```Error: `.data` is a corrupt grouped_df, ...```  signals code that makes 
   wrong assumptions about the internals of a grouped data frame. 
 
 ## New functions
@@ -76,9 +206,13 @@
     group_map(~ head(.x, 2L))
   ```
 
+* `distinct_prepare()`, previously known as `distinct_vars()` is exported. This is mostly useful for
+  alternative backends (e.g. `dbplyr`). 
+
 ## Major changes
 
-* `group_by()` respects levels of factors and keeps empty groups (#341). 
+* `group_by()` gains the `.drop` argument. When set to `FALSE` the groups are generated 
+  based on factor levels, hence some groups may be empty (#341). 
 
     ```r
     # 3 groups
@@ -86,16 +220,26 @@
       x = 1:2, 
       f = factor(c("a", "b"), levels = c("a", "b", "c"))
     ) %>% 
-      group_by(f)
+      group_by(f, .drop = FALSE)
       
     # the order of the grouping variables matter
     df <- tibble(
       x = c(1,2,1,2), 
       f = factor(c("a", "b", "a", "b"), levels = c("a", "b", "c"))
     )
-    df %>% group_by(f, x)
-    df %>% group_by(x, f)
+    df %>% group_by(f, x, .drop = FALSE)
+    df %>% group_by(x, f, .drop = FALSE)
     ```
+    
+  The default behaviour drops the empty groups as in the previous versions. 
+  
+  ```r
+  tibble(
+      x = 1:2, 
+      f = factor(c("a", "b"), levels = c("a", "b", "c"))
+    ) %>% 
+      group_by(f)
+  ```
 
 * `filter()` and `slice()` gain a `.preserve` argument to control which groups it should keep. The default 
   `filter(.preserve = FALSE)` recalculates the grouping structure based on the resulting data, 
@@ -106,7 +250,7 @@
       x = c(1,2,1,2), 
       f = factor(c("a", "b", "a", "b"), levels = c("a", "b", "c"))
     ) %>% 
-      group_by(x, f)
+      group_by(x, f, .drop = FALSE)
     
     df %>% filter(x == 1)
     df %>% filter(x == 1, .preserve = TRUE)
@@ -154,6 +298,12 @@
 * `glimpse()` prints group information on grouped tibbles (#3384).
 
 * `sample_n()` and `sample_frac()` gain `...` (#2888). 
+
+* Scoped filter variants now support functions and purrr-like lambdas:
+
+  ```r
+  mtcars %>% filter_at(vars(hp, vs), ~ . %% 2 == 0)
+  ```
 
 ## Lifecycle
 

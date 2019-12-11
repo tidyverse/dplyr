@@ -23,8 +23,10 @@
 #'  - An anonymous function, `function(x) mean(x, na.rm = TRUE)`
 #'  - An anonymous function in \pkg{purrr} notation, `~mean(., na.rm = TRUE)`
 #'
-#' @param .args,args A named list of additional arguments to be added
-#'   to all function calls.
+#' @param .args,args A named list of additional arguments to be added to all
+#'   function calls. As `funs()` is being deprecated, use other methods to
+#'   supply arguments: `...` argument in [scoped verbs][summarise_at()] or make
+#'   own functions with [purrr::partial()].
 #' @export
 #' @examples
 #' funs(mean, "mean", mean(., na.rm = TRUE))
@@ -43,15 +45,18 @@
 funs <- function(..., .args = list()) {
   signal_soft_deprecated(paste_line(
     "funs() is soft deprecated as of dplyr 0.8.0",
-    "please use list() instead",
+    "Please use a list of either functions or lambdas: ",
     "",
-    "# Before:",
-    "funs(name = f(.)",
+    "  # Simple named list: ",
+    "  list(mean = mean, median = median)",
     "",
-    "# After: ",
-    "list(name = ~f(.))"
+    "  # Auto named with `tibble::lst()`: ",
+    "  tibble::lst(mean, median)",
+    "",
+    "  # Using lambdas",
+    "  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))"
   ))
-  dots <- quos(...)
+  dots <- enquos(...)
   default_env <- caller_env()
 
   funs <- map(dots, function(quo) as_fun(quo, default_env, .args))
@@ -69,33 +74,61 @@ new_funs <- function(funs) {
   funs
 }
 
-as_fun_list <- function(.x, .quo, .env, ...) {
-  # Capture quosure before evaluating .x
-  force(.quo)
-
-  # If a fun_list, update args
+as_fun_list <- function(.funs, .env, ...) {
   args <- list2(...)
-  if (is_fun_list(.x)) {
+
+  if (is_fun_list(.funs)) {
     if (!is_empty(args)) {
-      .x[] <- map(.x, call_modify, !!!args)
+      .funs[] <- map(.funs, call_modify, !!!args)
     }
-    return(.x)
+    return(.funs)
   }
 
-  # Take functions by expression if they are supplied by name. This
-  # way we can evaluate it hybridly.
-  if (is_function(.x) && quo_is_symbol(.quo)) {
-    .x <- list(.quo)
-  } else if (is_character(.x)) {
-    .x <- as.list(.x)
-  } else if (is_bare_formula(.x, lhs = FALSE)) {
-    .x <- list(as_function(.x))
-  } else if (!is_list(.x)) {
-    .x <- list(.x)
+  if (is_list(.funs) && length(.funs) > 1) {
+    .funs <- auto_name_formulas(.funs)
   }
 
-  funs <- map(.x, as_fun, .env = fun_env(.quo, .env), args)
-  new_funs(funs)
+  if (!is_character(.funs) && !is_list(.funs)) {
+    .funs <- list(.funs)
+  }
+
+  if(is_character(.funs) && is_null(names(.funs)) && length(.funs) != 1L) {
+    names(.funs) <- .funs
+  }
+
+  funs <- map(.funs, function(.x){
+    if (is_formula(.x)) {
+      if (is_quosure(.x)) {
+        signal_soft_deprecated(paste_line(
+          "Using quosures is deprecated",
+          "Please use a one-sided formula, a function, or a function name"
+        ), env = .env)
+        .x <- new_formula(NULL, quo_squash(.x), quo_get_env(.x))
+      }
+      .x <- as_inlined_function(.x, env = .env)
+    } else {
+      if (is_character(.x)) {
+        .x <- get(.x, .env, mode = "function")
+      } else if (!is_function(.x)) {
+        abort("expecting a one sided formula, a function, or a function name.")
+      }
+      if (length(args)) {
+        .x <- new_quosure(
+          call2(.x, quote(.), !!!args),
+          env = .env
+        )
+      }
+    }
+    .x
+  })
+  attr(funs, "have_name") <- any(names2(funs) != "")
+  funs
+}
+
+auto_name_formulas <- function(funs) {
+  where <- !have_name(funs) & map_lgl(funs, function(x) is_bare_formula(x) && is_call(f_rhs(x)))
+  names(funs)[where] <- map_chr(funs[where], function(x) as_label(f_rhs(x)[[1]]))
+  funs
 }
 
 as_fun <- function(.x, .env, .args) {
@@ -168,4 +201,80 @@ funs_ <- function(dots, args = list(), env = base_env()) {
 
   dots <- compat_lazy_dots(dots, caller_env())
   funs(!!!dots, .args = args)
+}
+
+#' Do values in a numeric vector fall in specified range?
+#'
+#' This is a shortcut for `x >= left & x <= right`, implemented
+#' efficiently in C++ for local values, and translated to the
+#' appropriate SQL for remote tables.
+#'
+#' @param x A numeric vector of values
+#' @param left,right Boundary values
+#' @export
+#' @examples
+#' between(1:12, 7, 9)
+#'
+#' x <- rnorm(1e2)
+#' x[between(x, -1, 1)]
+between <- function(x, left, right) {
+  if (!is.double(x)) {
+    x <- as.numeric(x)
+  }
+  .Call(`dplyr_between`, x, as.numeric(left), as.numeric(right))
+}
+
+#' Cumulativate versions of any, all, and mean
+#'
+#' dplyr provides `cumall()`, `cumany()`, and `cummean()` to complete R's set
+#' of cumulative functions.
+#'
+#' @section Cumulative logical functions:
+#'
+#' These are particularly useful in conjunction with `filter()`:
+#'
+#' * `cumall(x)`: all cases until the first `FALSE`.
+#' * `cumall(!x)`: all cases until the first `TRUE`.
+#' * `cumany(x)`: all cases after the first `TRUE`.
+#' * `cumany(!x)`: all cases after the first `FALSE`.
+#'
+#' @param x For `cumall()` and `cumany()`, a logical vector; for
+#'   `cummean()` an integer or numeric vector.
+#' @return A vector the same length as `x`.
+#' @examples
+#' # `cummean()` returns a numeric/integer vector of the same length
+#' # as the input vector.
+#' x <- c(1, 3, 5, 2, 2)
+#' cummean(x)
+#' cumsum(x) / seq_along(x)
+#'
+#' # `cumall()` and `cumany()` return logicals
+#' cumall(x < 5)
+#' cumany(x == 3)
+#'
+#' # `cumall()` vs. `cumany()`
+#' df <- data.frame(
+#'   date = as.Date("2020-01-01") + 0:6,
+#'   balance = c(100, 50, 25, -25, -50, 30, 120)
+#' )
+#' # all rows after first overdraft
+#' df %>% filter(cumany(balance < 0))
+#' # all rows until first overdraft
+#' df %>% filter(cumall(!(balance < 0)))
+#'
+#' @export
+cumall <- function(x) {
+  .Call(`dplyr_cumall`, as.logical(x))
+}
+
+#' @rdname cumall
+#' @export
+cumany <- function(x) {
+  .Call(`dplyr_cumany`, as.logical(x))
+}
+
+#' @rdname cumall
+#' @export
+cummean <- function(x) {
+  .Call(`dplyr_cummean`, as.numeric(x))
 }

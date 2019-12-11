@@ -283,10 +283,10 @@ test_that("check suffix input", {
 
 # Misc --------------------------------------------------------------------
 
-test_that("inner_join does not segfault on NA in factors (#306)", {
+test_that("inner_join handles on NA in factors (#306)", {
   a <- data.frame(x = c("p", "q", NA), y = c(1, 2, 3), stringsAsFactors = TRUE)
   b <- data.frame(x = c("p", "q", "r"), z = c(4, 5, 6), stringsAsFactors = TRUE)
-  expect_warning(res <- inner_join(a, b, "x"), "joining factors with different levels")
+  res <- inner_join(a, b, "x")
   expect_equal(nrow(res), 2L)
 })
 
@@ -349,11 +349,11 @@ test_that("join functions error on column not found #371", {
 })
 
 test_that("inner_join is symmetric (even when joining on character & factor)", {
-  foo <- data_frame(id = factor(c("a", "b")), var1 = "foo")
-  bar <- data_frame(id = c("a", "b"), var2 = "bar")
+  foo <- tibble(id = factor(c("a", "b")), var1 = "foo")
+  bar <- tibble(id = c("a", "b"), var2 = "bar")
 
-  expect_warning(tmp1 <- inner_join(foo, bar, by = "id"), "joining factor and character")
-  expect_warning(tmp2 <- inner_join(bar, foo, by = "id"), "joining character vector and factor")
+  tmp1 <- inner_join(foo, bar, by = "id")
+  tmp2 <- inner_join(bar, foo, by = "id")
 
   expect_is(tmp1$id, "character")
   expect_is(tmp2$id, "character")
@@ -378,8 +378,8 @@ test_that("inner_join is symmetric, even when type of join var is different (#45
 })
 
 test_that("left_join by different variable names (#617)", {
-  x <- data_frame(x1 = c(1, 3, 2))
-  y <- data_frame(y1 = c(1, 2, 3), y2 = c("foo", "foo", "bar"))
+  x <- tibble(x1 = c(1, 3, 2))
+  y <- tibble(y1 = c(1, 2, 3), y2 = c("foo", "foo", "bar"))
   res <- left_join(x, y, by = c("x1" = "y1"))
   expect_equal(names(res), c("x1", "y2"))
   expect_equal(res$x1, c(1, 3, 2))
@@ -432,7 +432,7 @@ test_that("full_join #96", {
   expect_equal(res$z[3:5], 3:5)
 })
 
-test_that("JoinStringFactorVisitor and JoinFactorStringVisitor handle NA #688", {
+test_that("joining strings and factors handle NA #688", {
   x <- data.frame(Greek = c("Alpha", "Beta", NA), numbers = 1:3)
   y <- data.frame(
     Greek = c("Alpha", "Beta", "Gamma"),
@@ -440,20 +440,12 @@ test_that("JoinStringFactorVisitor and JoinFactorStringVisitor handle NA #688", 
     stringsAsFactors = F
   )
 
-  expect_warning(
-    res <- left_join(x, y, by = "Greek"),
-    "Column `Greek` joining factor and character vector, coercing into character vector",
-    fixed = TRUE
-  )
+  res <- left_join(x, y, by = "Greek")
   expect_true(is.na(res$Greek[3]))
   expect_true(is.na(res$Letters[3]))
   expect_equal(res$numbers, 1:3)
 
-  expect_warning(
-    res <- left_join(y, x, by = "Greek"),
-    "Column `Greek` joining character vector and factor, coercing into character vector",
-    fixed = TRUE
-  )
+  res <- left_join(y, x, by = "Greek")
   expect_equal(res$Greek, y$Greek)
   expect_equal(res$Letters, y$Letters)
   expect_equal(res$numbers[1:2], 1:2)
@@ -474,46 +466,48 @@ test_that("JoinFactorFactorVisitor_SameLevels preserve levels order (#675)", {
 })
 
 test_that("inner_join does not reorder (#684)", {
-  test <- data_frame(Greek = c("Alpha", "Beta", "Gamma"), Letters = LETTERS[1:3])
-  lookup <- data_frame(Letters = c("C", "B", "C"))
+  test <- tibble(Greek = c("Alpha", "Beta", "Gamma"), Letters = LETTERS[1:3])
+  lookup <- tibble(Letters = c("C", "B", "C"))
   res <- inner_join(lookup, test)
   expect_equal(res$Letters, c("C", "B", "C"))
 })
 
-test_that("joins coerce factors with different levels to character (#684)", {
-  d1 <- data_frame(a = factor(c("a", "b", "c")))
-  d2 <- data_frame(a = factor(c("a", "e")))
-  expect_warning(res <- inner_join(d1, d2))
-  expect_is(res$a, "character")
+test_that("joins coerce factors with different levels to factor (#684)", {
+  d1 <- tibble(a = factor(c("a", "b", "c")))
+  d2 <- tibble(a = factor(c("a", "e")))
+  res <- inner_join(d1, d2)
+  expect_is(res$a, "factor")
+  expect_equal(levels(res$a), c("a", "b", "c", "e"))
 
   # different orders
   d2 <- d1
   attr(d2$a, "levels") <- c("c", "b", "a")
-  expect_warning(res <- inner_join(d1, d2))
-  expect_is(res$a, "character")
+  res <- inner_join(d1, d2)
+  expect_is(res$a, "factor")
+  expect_equal(levels(res$a), c("a", "b", "c"))
 })
 
 test_that("joins between factor and character coerces to character with a warning (#684)", {
-  d1 <- data_frame(a = factor(c("a", "b", "c")))
-  d2 <- data_frame(a = c("a", "e"))
-  expect_warning(res <- inner_join(d1, d2))
+  d1 <- tibble(a = factor(c("a", "b", "c")))
+  d2 <- tibble(a = c("a", "e"))
+  res <- inner_join(d1, d2)
   expect_is(res$a, "character")
 
-  expect_warning(res <- inner_join(d2, d1))
+  res <- inner_join(d2, d1)
   expect_is(res$a, "character")
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
-  d1 <- data_frame(x = 1:5, y = 1:5) %>% group_by(x, y)
-  d2 <- data_frame(x = 1:5, y = 1:5)
+  d1 <- tibble(x = 1:5, y = 1:5) %>% group_by(x, y)
+  d2 <- tibble(x = 1:5, y = 1:5)
   res <- inner_join(d1, d2, by = "x")
   expect_groups(d1, c("x", "y"))
   expect_groups(res, c("x", "y.x"))
 })
 
 test_that("group column names are null when joined data frames are not grouped (#2330)", {
-  d1 <- data_frame(x = 1:5, y = 1:5)
-  d2 <- data_frame(x = 1:5, y = 1:5)
+  d1 <- tibble(x = 1:5, y = 1:5)
+  d2 <- tibble(x = 1:5, y = 1:5)
   res <- inner_join(d1, d2, by = "x")
   expect_no_groups(res)
 })
@@ -541,27 +535,27 @@ test_that("join columns are not moved to the left (#802)", {
 test_that("join can handle multiple encodings (#769)", {
   text <- c("\xC9lise", "Pierre", "Fran\xE7ois")
   Encoding(text) <- "latin1"
-  x <- data_frame(name = text, score = c(5, 7, 6))
-  y <- data_frame(name = text, attendance = c(8, 10, 9))
+  x <- tibble(name = text, score = c(5, 7, 6))
+  y <- tibble(name = text, attendance = c(8, 10, 9))
   res <- left_join(x, y, by = "name")
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, x$name)
 
-  x <- data_frame(name = factor(text), score = c(5, 7, 6))
-  y <- data_frame(name = text, attendance = c(8, 10, 9))
-  res <- suppressWarnings(left_join(x, y, by = "name"))
+  x <- tibble(name = factor(text), score = c(5, 7, 6))
+  y <- tibble(name = text, attendance = c(8, 10, 9))
+  res <- left_join(x, y, by = "name")
   expect_equal(nrow(res), 3L)
-  expect_equal(res$name, y$name)
+  expect_equal(as.character(res$name), y$name)
 
-  x <- data_frame(name = text, score = c(5, 7, 6))
-  y <- data_frame(name = factor(text), attendance = c(8, 10, 9))
-  res <- suppressWarnings(left_join(x, y, by = "name"))
+  x <- tibble(name = text, score = c(5, 7, 6))
+  y <- tibble(name = factor(text), attendance = c(8, 10, 9))
+  res <- left_join(x, y, by = "name")
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, x$name)
 
-  x <- data_frame(name = factor(text), score = c(5, 7, 6))
-  y <- data_frame(name = factor(text), attendance = c(8, 10, 9))
-  res <- suppressWarnings(left_join(x, y, by = "name"))
+  x <- tibble(name = factor(text), score = c(5, 7, 6))
+  y <- tibble(name = factor(text), attendance = c(8, 10, 9))
+  res <- left_join(x, y, by = "name")
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, x$name)
 })
@@ -593,8 +587,8 @@ test_that("inner join gives same result as merge by default (#1281)", {
 })
 
 test_that("join handles matrices #1230", {
-  df1 <- data_frame(x = 1:10, text = letters[1:10])
-  df2 <- data_frame(x = 1:5, text = "")
+  df1 <- tibble(x = 1:10, text = letters[1:10])
+  df2 <- tibble(x = 1:5, text = "")
   df2$text <- matrix(LETTERS[1:10], nrow = 5)
 
   res <- left_join(df1, df2, by = c("x" = "x")) %>% filter(x > 5)
@@ -656,39 +650,33 @@ test_that("join functions are protected against empty by (#1496)", {
   y <- data.frame(a = 1)
   expect_error(
     left_join(x, y, by = names(x)),
-    "`by` must specify variables to join by",
-    fixed = TRUE
+    class = "dplyr_join_empty_by"
   )
   expect_error(
     right_join(x, y, by = names(x)),
-    "`by` must specify variables to join by",
-    fixed = TRUE
+    class = "dplyr_join_empty_by"
   )
   expect_error(
     semi_join(x, y, by = names(x)),
-    "`by` must specify variables to join by",
-    fixed = TRUE
+    class = "dplyr_join_empty_by"
   )
   expect_error(
     full_join(x, y, by = names(x)),
-    "`by` must specify variables to join by",
-    fixed = TRUE
+    class = "dplyr_join_empty_by"
   )
   expect_error(
     anti_join(x, y, by = names(x)),
-    "`by` must specify variables to join by",
-    fixed = TRUE
+    class = "dplyr_join_empty_by"
   )
   expect_error(
     inner_join(x, y, by = names(x)),
-    "`by` must specify variables to join by",
-    fixed = TRUE
+    class = "dplyr_join_empty_by"
   )
 })
 
 test_that("joins takes care of duplicates in by (#1192)", {
-  data2 <- data_frame(a = 1:3)
-  data1 <- data_frame(a = 1:3, c = 3:5)
+  data2 <- tibble(a = 1:3)
+  data1 <- tibble(a = 1:3, c = 3:5)
 
   res1 <- left_join(data1, data2, by = c("a", "a"))
   res2 <- left_join(data1, data2, by = c("a" = "a"))
@@ -698,7 +686,8 @@ test_that("joins takes care of duplicates in by (#1192)", {
 # Joined columns result in correct type ----------------------------------------
 
 test_that("result of joining POSIXct is POSIXct (#1578)", {
-  data1 <- data_frame(
+  skip("until https://github.com/r-lib/vctrs/issues/540")
+  data1 <- tibble(
     t = seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"),
     x = 1:2
   )
@@ -709,11 +698,11 @@ test_that("result of joining POSIXct is POSIXct (#1578)", {
 })
 
 test_that("joins allows extra attributes if they are identical (#1636)", {
-  tbl_left <- data_frame(
+  tbl_left <- tibble(
     i = rep(c(1, 2, 3), each = 2),
     x1 = letters[1:6]
   )
-  tbl_right <- data_frame(
+  tbl_right <- tibble(
     i = c(1, 2, 3),
     x2 = letters[1:3]
   )
@@ -738,36 +727,31 @@ test_that("joins work with factors of different levels (#1712)", {
   d1 <- iris[, c("Species", "Sepal.Length")]
   d2 <- iris[, c("Species", "Sepal.Width")]
   d2$Species <- factor(as.character(d2$Species), levels = rev(levels(d1$Species)))
-  expect_warning(res1 <- left_join(d1, d2, by = "Species"))
+  res1 <- left_join(d1, d2, by = "Species")
 
   d1$Species <- as.character(d1$Species)
   d2$Species <- as.character(d2$Species)
   res2 <- left_join(d1, d2, by = "Species")
-  expect_equal(res1, res2)
+  expect_equal(res1$Sepal.Length, res2$Sepal.Length)
+  expect_equal(res1$Sepal.Width, res2$Sepal.Width)
+  expect_equal(as.character(res1$Species), res2$Species)
+  expect_equal(levels(res1$Species), levels(iris$Species))
 })
 
 test_that("anti and semi joins give correct result when by variable is a factor (#1571)", {
   big <- data.frame(letter = rep(c("a", "b"), each = 2), number = 1:2)
   small <- data.frame(letter = "b")
-  expect_warning(
-    aj_result <- anti_join(big, small, by = "letter"),
-    "Column `letter` joining factors with different levels, coercing to character vector",
-    fixed = TRUE
-  )
+  aj_result <- anti_join(big, small, by = "letter")
   expect_equal(aj_result$number, 1:2)
   expect_equal(aj_result$letter, factor(c("a", "a"), levels = c("a", "b")))
 
-  expect_warning(
-    sj_result <- semi_join(big, small, by = "letter"),
-    "Column `letter` joining factors with different levels, coercing to character vector",
-    fixed = TRUE
-  )
+  sj_result <- semi_join(big, small, by = "letter")
   expect_equal(sj_result$number, 1:2)
   expect_equal(sj_result$letter, factor(c("b", "b"), levels = c("a", "b")))
 })
 
 test_that("inner join not crashing (#1559)", {
-  df3 <- data_frame(
+  df3 <- tibble(
     id = c(102, 102, 102, 121),
     name = c("qwer", "qwer", "qwer", "asdf"),
     k = factor(c("one", "two", "total", "one"), levels = c("one", "two", "total")),
@@ -776,7 +760,7 @@ test_that("inner join not crashing (#1559)", {
     btm = c(25654.957609, 29375.7547216667, 55030.7123306667, 10469.3523273333),
     top = c(22238.368946, 30341.516924, 52579.88587, 9541.893144)
   )
-  df4 <- data_frame(
+  df4 <- tibble(
     id = c(102, 102, 102, 121),
     name = c("qwer", "qwer", "qwer", "asdf"),
     k = factor(c("one", "two", "total", "one"), levels = c("one", "two", "total")),
@@ -792,6 +776,7 @@ test_that("inner join not crashing (#1559)", {
 # Encoding ----------------------------------------------------------------
 
 test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
+  skip("encoding issues")
   with_non_utf8_encoding({
     special <- get_native_lang_string()
 
@@ -863,10 +848,10 @@ test_that("left_join handles mix of encodings in column names (#1571)", {
   with_non_utf8_encoding({
     special <- get_native_lang_string()
 
-    df1 <- data_frame(x = 1:6, foo = 1:6)
+    df1 <- tibble(x = 1:6, foo = 1:6)
     names(df1)[1] <- special
 
-    df2 <- data_frame(x = 1:6, baz = 1:6)
+    df2 <- tibble(x = 1:6, baz = 1:6)
     names(df2)[1] <- enc2native(special)
 
     expect_message(res <- left_join(df1, df2), special, fixed = TRUE)
@@ -880,8 +865,10 @@ test_that("left_join handles mix of encodings in column names (#1571)", {
 # Misc --------------------------------------------------------------------
 
 test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
-  df1 <- data_frame(a = NA)
-  df2 <- data_frame(a = NA, b = 1:3)
+  skip("until vctrs can power na_matches = 'never'")
+
+  df1 <- tibble(a = NA)
+  df2 <- tibble(a = NA, b = 1:3)
   for (na_matches in c("na", "never")) {
     accept_na_match <- (na_matches == "na")
     expect_equal(inner_join(df1, df2, na_matches = na_matches) %>% nrow(), 0 + 3 * accept_na_match)
@@ -894,8 +881,8 @@ test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
 })
 
 test_that("joins regroups (#1597, #3566)", {
-  df1 <- data_frame(a = 1:3) %>% group_by(a)
-  df2 <- data_frame(a = rep(1:4, 2)) %>% group_by(a)
+  df1 <- tibble(a = 1:3) %>% group_by(a)
+  df2 <- tibble(a = rep(1:4, 2)) %>% group_by(a)
 
   expect_grouped <- function(df) {
     expect_true(is_grouped_df(df))
@@ -912,31 +899,10 @@ test_that("joins regroups (#1597, #3566)", {
 
 test_that("join accepts tz attributes (#2643)", {
   # It's the same time:
-  df1 <- data_frame(a = as.POSIXct("2009-01-01 10:00:00", tz = "Europe/London"))
-  df2 <- data_frame(a = as.POSIXct("2009-01-01 11:00:00", tz = "Europe/Paris"))
+  df1 <- tibble(a = as.POSIXct("2009-01-01 10:00:00", tz = "Europe/London"))
+  df2 <- tibble(a = as.POSIXct("2009-01-01 11:00:00", tz = "Europe/Paris"))
   result <- inner_join(df1, df2, by = "a")
   expect_equal(nrow(result), 1)
-})
-
-test_that("join takes LHS with warning if attributes inconsistent", {
-  df1 <- tibble(a = 1:2, b = 2:1)
-  df2 <- tibble(
-    a = structure(1:2, foo = "bar"),
-    c = 2:1
-  )
-
-  expect_warning(
-    out1 <- left_join(df1, df2, by = "a"),
-    "Column `a` has different attributes on LHS and RHS of join"
-  )
-  expect_warning(out2 <- left_join(df2, df1, by = "a"))
-  expect_warning(
-    out3 <- left_join(df1, df2, by = c("b" = "a")),
-    "Column `b`/`a` has different attributes on LHS and RHS of join"
-  )
-
-  expect_equal(attr(out1$a, "foo"), NULL)
-  expect_equal(attr(out2$a, "foo"), "bar")
 })
 
 test_that("common_by() message", {
@@ -963,37 +929,37 @@ test_that("common_by() message", {
 
 test_that("semi- and anti-joins preserve order (#2964)", {
   expect_identical(
-    data_frame(a = 3:1) %>% semi_join(data_frame(a = 1:3)),
-    data_frame(a = 3:1)
+    tibble(a = 3:1) %>% semi_join(tibble(a = 1:3)),
+    tibble(a = 3:1)
   )
   expect_identical(
-    data_frame(a = 3:1) %>% anti_join(data_frame(a = 4:6)),
-    data_frame(a = 3:1)
+    tibble(a = 3:1) %>% anti_join(tibble(a = 4:6)),
+    tibble(a = 3:1)
   )
 })
 
 test_that("join handles raw vectors", {
-  df1 <- data_frame(r = as.raw(1:4), x = 1:4)
-  df2 <- data_frame(r = as.raw(3:6), y = 3:6)
+  df1 <- tibble(r = as.raw(1:4), x = 1:4)
+  df2 <- tibble(r = as.raw(3:6), y = 3:6)
 
   expect_identical(
     left_join(df1, df2, by = "r"),
-    data_frame(r = as.raw(1:4), x = 1:4, y = c(NA, NA, 3:4))
+    tibble(r = as.raw(1:4), x = 1:4, y = c(NA, NA, 3:4))
   )
 
   expect_identical(
     right_join(df1, df2, by = "r"),
-    data_frame(r = as.raw(3:6), x = c(3:4, NA, NA), y = c(3:6))
+    tibble(r = as.raw(3:6), x = c(3:4, NA, NA), y = c(3:6))
   )
 
   expect_identical(
     full_join(df1, df2, by = "r"),
-    data_frame(r = as.raw(1:6), x = c(1:4, NA, NA), y = c(NA, NA, 3:6))
+    tibble(r = as.raw(1:6), x = c(1:4, NA, NA), y = c(NA, NA, 3:6))
   )
 
   expect_identical(
     inner_join(df1, df2, by = "r"),
-    data_frame(r = as.raw(3:4), x = c(3:4), y = c(3:4))
+    tibble(r = as.raw(3:4), x = c(3:4), y = c(3:4))
   )
 })
 
@@ -1024,8 +990,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     left_join(df1, df2, by = c("x", "y")),
-    "name",
-    fixed = TRUE
+    class = "tibble_error_column_names_must_be_unique"
   )
 
   expect_error(
@@ -1036,8 +1001,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     right_join(df1, df2, by = c("x", "y")),
-    "name",
-    fixed = TRUE
+    class = "tibble_error_column_names_must_be_unique"
   )
 
   expect_error(
@@ -1048,8 +1012,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     inner_join(df1, df2, by = c("x", "y")),
-    "name",
-    fixed = TRUE
+    class = "tibble_error_column_names_must_be_unique"
   )
 
   expect_error(
@@ -1060,8 +1023,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     full_join(df1, df2, by = c("x", "y")),
-    "name",
-    fixed = TRUE
+    class = "tibble_error_column_names_must_be_unique"
   )
 
   expect_error(
@@ -1072,8 +1034,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     semi_join(df1, df2, by = c("x", "y")),
-    "name",
-    fixed = TRUE
+    class = "tibble_error_column_names_must_be_unique"
   )
 
   # FIXME: Compatibility, should throw an error eventually
@@ -1088,8 +1049,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     anti_join(df1, df2, by = c("x", "y")),
-    "name",
-    fixed = TRUE
+    class = "tibble_error_column_names_must_be_unique"
   )
 
   # FIXME: Compatibility, should throw an error eventually

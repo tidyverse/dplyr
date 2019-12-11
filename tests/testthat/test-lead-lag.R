@@ -19,7 +19,7 @@ test_that("lead and lag preserves dates and times", {
 })
 
 test_that("#925 is fixed", {
-  data <- data_frame(
+  data <- tibble(
     name = c("Rob", "Pete", "Rob", "John", "Rob", "Pete", "John", "Pete", "John", "Pete", "Rob", "Rob"),
     time = c(3, 2, 5, 3, 2, 3, 2, 4, 1, 1, 4, 1)
   )
@@ -39,7 +39,7 @@ test_that("#925 is fixed", {
 })
 
 test_that("#937 is fixed", {
-  df <- data_frame(
+  df <- tibble(
     name = rep(c("Al", "Jen"), 3),
     score = rep(c(100, 80, 60), 2)
   )
@@ -77,4 +77,15 @@ test_that("input checks", {
     "`n` must be a nonnegative integer scalar, not a character vector of length 1",
     fixed = TRUE
   )
+})
+
+test_that("lead() and lag() respect bit64::integer64 (#4558)", {
+  data <- c(1, 2, 3)
+  x <- bit64::as.integer64(data)
+  expect_equal(lead(x), bit64::as.integer64(lead(data)))
+  expect_equal(lag(x) , bit64::as.integer64(lag(data)))
+
+  y <- 3:1
+  expect_equal(lead(x, order_by = y), bit64::as.integer64(lead(data, order_by = y)))
+  expect_equal(lag(x, order_by = y) , bit64::as.integer64(lag(data, order_by = y)))
 })

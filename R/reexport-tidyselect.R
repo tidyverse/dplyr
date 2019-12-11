@@ -50,9 +50,10 @@ tidyselect::last_col
 #'   rename a variable that doesn't exist.
 #' @param var A variable specified as in the same argument of
 #'   [tidyselect::vars_pull()].
+#' @keywords internal
 #' @export
 select_vars <- function(vars = chr(), ..., include = chr(), exclude = chr()) {
-  signal_soft_deprecated(paste_line(
+  warn_deprecated(paste_line(
     "select_vars() is deprecated. ",
     "Please use tidyselect::vars_select() instead"
   ))
@@ -60,20 +61,18 @@ select_vars <- function(vars = chr(), ..., include = chr(), exclude = chr()) {
   tidyselect::vars_select(.vars = vars, ..., .include = include, .exclude = exclude)
 }
 #' @rdname select_vars
-#' @inheritParams tidyselect::vars_rename
 #' @export
 rename_vars <- function(vars = chr(), ..., strict = TRUE) {
-  signal_soft_deprecated(paste_line(
+  warn_deprecated(paste_line(
     "rename_vars() is deprecated. ",
     "Please use tidyselect::vars_rename() instead"
   ))
   tidyselect::vars_rename(.vars = vars, ..., .strict = strict)
 }
 #' @rdname select_vars
-#' @inheritParams tidyselect::vars_pull
 #' @export
 select_var <- function(vars, var = -1) {
-  signal_soft_deprecated(paste_line(
+  warn_deprecated(paste_line(
     "select_var() is deprecated. ",
     "Please use tidyselect::vars_pull() instead"
   ))
@@ -82,7 +81,7 @@ select_var <- function(vars, var = -1) {
 #' @rdname select_vars
 #' @export
 current_vars <- function(...) {
-  signal_soft_deprecated(paste_line(
+  warn_deprecated(paste_line(
     "current_vars() is deprecated. ",
     "Please use tidyselect::peek_vars() instead"
   ))
@@ -95,7 +94,7 @@ current_vars <- function(...) {
 #'   include/exclude.
 #' @export
 select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
-  signal_soft_deprecated(paste_line(
+  warn_deprecated(paste_line(
     "select_vars_() is deprecated. ",
     "Please use tidyselect::vars_select() instead"
   ))
@@ -106,7 +105,7 @@ select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
 #' @export
 #' @rdname se-deprecated
 rename_vars_ <- function(vars, args) {
-  signal_soft_deprecated(paste_line(
+  warn_deprecated(paste_line(
     "rename_vars_() is deprecated. ",
     "Please use tidyselect::vars_rename() instead"
   ))

@@ -6,7 +6,7 @@
 #' @param tbls,tbls_x,tbls_y A list of [tbl()]s.
 #' @param op A function with a single argument, called often with each
 #'   element of `tbls`.
-#' @param ref For checking, an data frame to test results against. If not
+#' @param ref For checking, a data frame to test results against. If not
 #'   supplied, defaults to the results from the first `src`.
 #' @param compare A function used to compare the results. Defaults to
 #'   `equal_data_frame` which ignores the order of rows and columns.

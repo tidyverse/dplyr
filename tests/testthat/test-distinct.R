@@ -22,26 +22,26 @@ test_that("distinct for single column works as expected (#1937)", {
 })
 
 test_that("distinct works for 0-sized columns (#1437)", {
-  df <- data_frame(x = 1:10) %>% select(-x)
+  df <- tibble(x = 1:10) %>% select(-x)
   ddf <- distinct(df)
   expect_equal(ncol(ddf), 0L)
 })
 
 test_that("if no variables specified, uses all", {
-  df <- data_frame(x = c(1, 1), y = c(2, 2))
-  expect_equal(distinct(df), data_frame(x = 1, y = 2))
+  df <- tibble(x = c(1, 1), y = c(2, 2))
+  expect_equal(distinct(df), tibble(x = 1, y = 2))
 })
 
 test_that("distinct keeps only specified cols", {
-  df <- data_frame(x = c(1, 1, 1), y = c(1, 1, 1))
-  expect_equal(df %>% distinct(x), data_frame(x = 1))
+  df <- tibble(x = c(1, 1, 1), y = c(1, 1, 1))
+  expect_equal(df %>% distinct(x), tibble(x = 1))
 })
 
 test_that("unless .keep_all = TRUE", {
-  df <- data_frame(x = c(1, 1, 1), y = 3:1)
+  df <- tibble(x = c(1, 1, 1), y = 3:1)
 
-  expect_equal(df %>% distinct(x), data_frame(x = 1))
-  expect_equal(df %>% distinct(x, .keep_all = TRUE), data_frame(x = 1, y = 3L))
+  expect_equal(df %>% distinct(x), tibble(x = 1))
+  expect_equal(df %>% distinct(x, .keep_all = TRUE), tibble(x = 1, y = 3L))
 })
 
 test_that("distinct doesn't duplicate columns", {
@@ -194,4 +194,20 @@ test_that("distinct handles 0 columns edge case (#2954)", {
 test_that("distinct respects the order of the given variables (#3195)",{
   d <- data.frame(x=1:2, y=3:4)
   expect_equal(names(distinct(d, y, x)), c("y", "x"))
+})
+
+test_that("distinct() understands both NA variants (#4516)", {
+  df <- data.frame(col_a = c(1, NA, NA))
+  df$col_a <- df$col_a+0
+  df$col_a[2] <- NA_real_
+  expect_equal(nrow(distinct(df)), 2L)
+
+  df_1 <- data.frame(col_a = c(1, NA))
+  df_2 <- data.frame(col_a = c(1, NA))
+
+  df_1$col_a <- df_1$col_a+0
+  df_2$col_a <- df_2$col_a+0
+
+  df_1$col_a[2] <- NA
+  expect_equal(nrow(setdiff(df_1, df_2)), 0L)
 })

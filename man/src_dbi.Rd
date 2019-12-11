@@ -7,11 +7,23 @@
 \alias{src_sqlite}
 \title{Source for database backends}
 \usage{
-src_mysql(dbname, host = NULL, port = 0L, username = "root",
-  password = "", ...)
+src_mysql(
+  dbname,
+  host = NULL,
+  port = 0L,
+  username = "root",
+  password = "",
+  ...
+)
 
-src_postgres(dbname = NULL, host = NULL, port = NULL, user = NULL,
-  password = NULL, ...)
+src_postgres(
+  dbname = NULL,
+  host = NULL,
+  port = NULL,
+  user = NULL,
+  password = NULL,
+  ...
+)
 
 src_sqlite(path, create = FALSE)
 }

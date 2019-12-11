@@ -49,7 +49,7 @@ test_that("two arranges equivalent to one", {
   df1 <- df %>% arrange(x, y)
   df2 <- df %>% arrange(y) %>% arrange(x)
 
-  expect_equal(df1, df2)
+  expect_identical(df1, df2)
 })
 
 test_that("arrange handles list columns (#282)", {
@@ -76,7 +76,7 @@ test_that("grouped arrange ignores group (#491 -> #1206)", {
 })
 
 test_that("arrange keeps the grouping structure (#605)", {
-  dat <- data_frame(g = c(2, 2, 1, 1), x = c(1, 3, 2, 4))
+  dat <- tibble(g = c(2, 2, 1, 1), x = c(1, 3, 2, 4))
   res <- dat %>% group_by(g) %>% arrange()
   expect_is(res, "grouped_df")
   expect_equal(res$x, dat$x)
@@ -84,7 +84,7 @@ test_that("arrange keeps the grouping structure (#605)", {
   res <- dat %>% group_by(g) %>% arrange(x)
   expect_is(res, "grouped_df")
   expect_equal(res$x, 1:4)
-  expect_equal(group_rows(res), list(c(2, 4), c(1, 3)))
+  expect_equal(group_rows(res), list_of(c(2, 4), c(1, 3), .ptype = integer()))
 })
 
 test_that("arrange handles complex vectors", {
@@ -123,7 +123,7 @@ test_that("arrange works with empty data frame (#1142)", {
 })
 
 test_that("arrange respects locale (#1280)", {
-  df2 <- data_frame(words = c("casa", "\u00e1rbol", "zona", "\u00f3rgano"))
+  df2 <- tibble(words = c("casa", "\u00e1rbol", "zona", "\u00f3rgano"))
 
   res <- df2 %>% arrange(words)
   expect_equal(res$words, sort(df2$words))
@@ -146,37 +146,46 @@ test_that("duplicated column name is explicit about which column (#996)", {
   expect_error(df %>% arrange())
 })
 
-test_that("arrange fails gracefully on list columns (#1489)", {
+test_that("arrange handles list columns (#1489)", {
   df <- expand.grid(group = 1:2, y = 1, x = 1) %>%
     group_by(group) %>%
     do(fit = lm(data = ., y ~ x))
   expect_error(
     arrange(df, fit),
-    "Argument 1 is of unsupported type list",
-    fixed = TRUE
+    NA
   )
 })
 
 test_that("arrange supports raw columns (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
   expect_identical(arrange(df, a), df)
   expect_identical(arrange(df, b), df)
   expect_identical(arrange(df, desc(a)), df[3:1, ])
   expect_identical(arrange(df, desc(b)), df[3:1, ])
 })
 
-test_that("arrange fails gracefully on matrix input (#1870)", {
-  df <- data_frame(a = 1:3, b = 4:6)
-  expect_error(
+test_that("arrange does not fail on matrix input (#1870)", {
+  df <- tibble(a = 1:3, b = 4:6)
+  expect_equal(
     arrange(df, is.na(df)),
-    "Argument 1 is of unsupported type matrix",
-    fixed = TRUE
+    df
   )
 })
 
-test_that("arrange fails gracefully on data.frame input (#3153)", {
-  df <- tibble(x = 1:150, iri = rnorm(150))
-  expect_error(arrange(df, iris), "Argument 1 is of unsupported type data.frame")
+test_that("arrange handles matrices", {
+  df <- tibble(a = 1:3, b = 4:6, mat = matrix(6:1, ncol = 2))
+  expect_equal(
+    arrange(df, mat),
+    slice(df, 3:1)
+  )
+})
+
+test_that("arrange handles data.frame input (#3153)", {
+  df <- tibble(x = 1:150, iris = iris)
+  expect_identical(
+    arrange(df, iris),
+    vec_slice(df, vec_order(iris))
+  )
 })
 
 test_that("arrange.data.frame recognizes the .by_group argument (#3546)", {
@@ -184,6 +193,31 @@ test_that("arrange.data.frame recognizes the .by_group argument (#3546)", {
   res <- df %>%
     arrange(foo, .by_group=TRUE)
   expect_identical(res, df)
+})
+
+test_that("desc(<not just a symbol>) works (#4099)", {
+  df <- data.frame(x = rep(1, 5), y = c(0, 3, 1.5, -5, 4)) %>%
+    mutate(diff = x - y, absdiff = abs(x - y))
+  expect_identical(
+    arrange(df, desc(abs(diff))),
+    arrange(df, desc(absdiff))
+  )
+})
+
+test_that("arrange supports bit64::integer64 (#4366)", {
+  df <- tibble(x = bit64::as.integer64(c(1, 3, 2, 1)))
+  expect_identical(
+    arrange(df, x),
+    tibble(x = bit64::as.integer64(c(1, 1, 2, 3)))
+  )
+  expect_identical(
+    arrange(df, desc(x)),
+    tibble(x = bit64::as.integer64(c(3, 2, 1, 1)))
+  )
+  expect_identical(
+    arrange(df, -x),
+    tibble(x = bit64::as.integer64(c(3, 2, 1, 1)))
+  )
 })
 
 # grouped_df --------------------------------------------------------------

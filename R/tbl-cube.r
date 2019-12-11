@@ -184,11 +184,11 @@ as.data.frame.tbl_cube <- function(x, ...) {
 
 #' @rdname as.table.tbl_cube
 #' @description For a cube, the data frame returned by
-#'   [tibble::as_data_frame()] resulting data frame contains the
+#'   [tibble::as_tibble()] resulting data frame contains the
 #'   dimensions as character values (and not as factors).
 #' @export
 as_tibble.tbl_cube <- function(x, ...) {
-  as_data_frame(as.data.frame(x, ..., stringsAsFactors = FALSE))
+  as_tibble(as.data.frame(x, ..., stringsAsFactors = FALSE))
 }
 
 # Coercion methods -------------------------------------------------------------
@@ -204,8 +204,8 @@ as.tbl_cube <- function(x, ...) UseMethod("as.tbl_cube")
 #' @export
 #' @rdname as.tbl_cube
 #' @param dim_names names of the dimensions. Defaults to the names of
-#' @param met_name a string to use as the name for the measure
 #'   the [dimnames()].
+#' @param met_name a string to use as the name for the measure.
 as.tbl_cube.array <- function(x, dim_names = names(dimnames(x)), met_name = deparse(substitute(x)),
                               ...) {
   force(met_name)
@@ -302,7 +302,7 @@ select_.tbl_cube <- function(.data, ..., .dots = list()) {
 
 #' @export
 rename.tbl_cube <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data$mets), !!!quos(...))
+  vars <- tidyselect::vars_rename(names(.data$mets), !!!enquos(...))
   .data$mets <- .data$mets[vars]
   .data
 }
@@ -315,7 +315,7 @@ rename_.tbl_cube <- function(.data, ..., .dots = list()) {
 
 #' @export
 filter.tbl_cube <- function(.data, ...) {
-  dots <- quos(...)
+  dots <- enquos(...)
 
   idx <- map2_int(
     seq_along(dots), dots,
@@ -361,7 +361,7 @@ find_index <- function(x, names) {
 }
 
 #' @export
-group_by.tbl_cube <- function(.data, ..., add = FALSE) {
+group_by.tbl_cube <- function(.data, ..., add = FALSE, .drop = FALSE) {
   groups <- group_by_prepare(.data, ..., add = add)
 
   # Convert symbols to indices
@@ -390,7 +390,7 @@ group_vars.tbl_cube <- function(x) {
 
 #' @export
 summarise.tbl_cube <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- enquos(..., .named = TRUE)
 
   out_dims <- .data$dims[.data$groups]
   n <- lengths(out_dims)
@@ -404,7 +404,7 @@ summarise.tbl_cube <- function(.data, ...) {
 
   # Loop over each group
   for (i in seq_len(nrow(slices))) {
-    index <- as_list(slices[i, , drop = FALSE])
+    index <- as.list(slices[i, , drop = FALSE])
     mets <- map(
       .data$mets, subs_index,
       i = .data$groups, val = index,

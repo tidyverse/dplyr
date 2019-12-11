@@ -4,6 +4,7 @@
 ^\.travis\.yml$
 .Rprofile
 inst/db
+inst/bench
 man-roxygen
 demo/pandas
 ^\.httr-oauth$
@@ -29,9 +30,10 @@ demo/pandas
 ^docs$
 ^_pkgdown\.yml$
 ^issues$
-^tic\.R$
 ^CONDUCT\.md$
 ^archive$
 ^\.drake$
 ^CRAN-RELEASE$
 ^\.github$
+^\.github/workflows/R-CMD-check\.yaml$
+^\.github/workflows/pr-commands\.yaml$

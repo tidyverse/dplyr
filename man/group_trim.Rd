@@ -4,10 +4,12 @@
 \alias{group_trim}
 \title{Trim grouping structure}
 \usage{
-group_trim(.tbl)
+group_trim(.tbl, .drop = group_by_drop_default(.tbl))
 }
 \arguments{
 \item{.tbl}{A \link[=grouped_df]{grouped data frame}}
+
+\item{.drop}{See \code{\link[=group_by]{group_by()}}}
 }
 \value{
 A \link[=grouped_df]{grouped data frame}
@@ -25,15 +27,20 @@ to select a subset of groups.
 \examples{
 iris \%>\%
   group_by(Species) \%>\%
-  filter(Species == "setosa") \%>\%
+  filter(Species == "setosa", .preserve = TRUE) \%>\%
   group_trim()
 
 }
 \seealso{
-Other grouping functions: \code{\link{group_by_all}},
-  \code{\link{group_by}}, \code{\link{group_indices}},
-  \code{\link{group_keys}}, \code{\link{group_map}},
-  \code{\link{group_nest}}, \code{\link{group_rows}},
-  \code{\link{group_size}}, \code{\link{groups}}
+Other grouping functions: 
+\code{\link{group_by_all}()},
+\code{\link{group_by}()},
+\code{\link{group_indices}()},
+\code{\link{group_keys}()},
+\code{\link{group_map}()},
+\code{\link{group_nest}()},
+\code{\link{group_rows}()},
+\code{\link{group_size}()},
+\code{\link{groups}()}
 }
 \concept{grouping functions}

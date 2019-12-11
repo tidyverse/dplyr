@@ -41,7 +41,7 @@ test_that("returns user defined variable name", {
   expect_equal(names(res), c("g", var_name))
   expect_equal(res[[var_name]], c(2, 3))
 })
-          
+
 test_that("count() does not ignore non-factor empty groups (#4013)",  {
   d <- data.frame(x = c("a", "a", "b", "b"),
     value = 1:4,
@@ -106,13 +106,13 @@ test_that("returns error if user-defined name equals a grouped variable", {
 # tally -------------------------------------------------------------------
 
 test_that("weighted tally drops NAs (#1145)", {
-  df <- data_frame(x = c(1, 1, NA))
+  df <- tibble(x = c(1, 1, NA))
 
   expect_equal(tally(df, x)$n, 2)
 })
 
 test_that("returns column with user-defined name", {
-  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "counts"
   res <- df %>% tally(name = name)
 
@@ -120,7 +120,7 @@ test_that("returns column with user-defined name", {
 })
 
 test_that("returns column with user-defined name if it is not a grouped variable", {
-  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "g"
   res <- df %>% tally(name = name)
 
@@ -128,10 +128,16 @@ test_that("returns column with user-defined name if it is not a grouped variable
 })
 
 test_that("returns error if user-defined name equals a grouped variable", {
-  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "g"
 
   expect_error(df %>% group_by(g) %>% tally(name = name))
+})
+
+test_that("tally uses variable named n as default wt.", {
+  df <- tibble(n = 1:3)
+  expect_message(res <- df %>%  tally(), "Using `n` as weighting variable")
+  expect_equal(res$n, sum(1:3))
 })
 
 
@@ -171,7 +177,7 @@ test_that("add_tally can be given a weighting variable", {
 })
 
 test_that("adds column with user-defined variable name if it is not a grouped variable name", {
-  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "val"
   res <- df %>% add_tally(name = name)
 
@@ -179,8 +185,49 @@ test_that("adds column with user-defined variable name if it is not a grouped va
 })
 
 test_that("returns error if user-defined name equals a grouped variable", {
-  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "val"
   expect_error(df %>% group_by(val) %>% add_tally(name = name))
+})
+
+# count and .drop ----------------------------------------------------
+
+test_that("count() deals with .drop", {
+  d <- tibble(
+    f1 = factor("b", levels = c("a", "b", "c")),
+    f2 = factor("g", levels = c("e", "f", "g")),
+    x  = 48
+  )
+  res <- d %>%
+    group_by(f1, .drop = TRUE) %>%
+    count(f2, .drop = TRUE)
+
+  res2 <- d %>%
+    group_by(f1, .drop = TRUE) %>%
+    count(f2)
+
+  res3 <- d %>%
+    group_by(f1, .drop = TRUE) %>%
+    count(f2, .drop = FALSE)
+
+  expect_equal(n_groups(res), 1L)
+  expect_identical(res, res2)
+  expect_equal(n_groups(res3), 3L)
+  expect_equal(nrow(res3), 9L)
+})
+
+test_that("add_count() respects .drop",  {
+  d <- tibble(
+    f1 = factor("b", levels = c("a", "b", "c")),
+    f2 = factor("g", levels = c("e", "f", "g")),
+    x  = 48
+  )
+  res1 <- d %>% group_by(f1) %>% add_count(f2, .drop = FALSE)
+  res2 <- d %>% group_by(f1) %>% add_count(f2, .drop = TRUE)
+  res3 <- d %>% group_by(f1) %>% add_count(f2)
+
+  expect_identical(res2, res3)
+  expect_equal(n_groups(res2), 1)
+  expect_equal(n_groups(res1), 3)
 })
 

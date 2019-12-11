@@ -1,6 +1,6 @@
 
 group_nest_impl <- function(.tbl, .key, keep = FALSE){
-  mutate(group_keys(.tbl), !!.key := group_split_impl(.tbl, isTRUE(keep), environment(), TRUE))
+  mutate(group_keys(.tbl), !!.key := group_split(.tbl, keep = keep))
 }
 
 #' Nest a tibble using a grouping specification
@@ -50,7 +50,7 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 #'   group_nest()
 #'
 #' #----- use case 2: using group_nest() on a ungrouped data frame with
-#' #                  a grouoping specification that uses the data mask
+#' #                  a grouping specification that uses the data mask
 #' starwars %>%
 #'   group_nest(species, homeworld)
 #'

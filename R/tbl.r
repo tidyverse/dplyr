@@ -41,10 +41,24 @@ as.tbl <- function(x, ...) UseMethod("as.tbl")
 #' @export
 as.tbl.tbl <- function(x, ...) x
 
+tbl_vars_dispatch <- function(x) {
+  UseMethod("tbl_vars")
+}
+
+new_sel_vars <- function(vars, group_vars) {
+  structure(
+    vars,
+    groups = group_vars,
+    class = c("dplyr_sel_vars", "character")
+  )
+}
+
 #' List variables provided by a tbl.
 #'
 #' `tbl_vars()` returns all variables while `tbl_nongroup_vars()`
-#' returns only non-grouping variables.
+#' returns only non-grouping variables. The `groups` attribute
+#' of the object returned by `tbl_vars()` is a character vector of the
+#' grouping columns.
 #'
 #' @export
 #' @param x A tbl object
@@ -52,6 +66,9 @@ as.tbl.tbl <- function(x, ...) x
 #'   variables.
 #' @keywords internal
 tbl_vars <- function(x) {
+  return(new_sel_vars(tbl_vars_dispatch(x), group_vars(x)))
+
+  # For roxygen and static analysis
   UseMethod("tbl_vars")
 }
 #' @rdname tbl_vars
@@ -60,17 +77,6 @@ tbl_nongroup_vars <- function(x) {
   setdiff(tbl_vars(x), group_vars(x))
 }
 
-# Should `tbl_vars()` return this object?
-sel_vars <- function(x) {
-  vars <- tbl_vars(x)
-  group_vars <- group_vars(x)
-
-  structure(
-    vars,
-    class = "dplyr_sel_vars",
-    groups = group_vars
-  )
-}
 is_sel_vars <- function(x) {
   inherits(x, "dplyr_sel_vars")
 }

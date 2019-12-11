@@ -12,33 +12,67 @@
 \alias{anti_join.tbl_df}
 \title{Join data frame tbls}
 \usage{
-\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE,
-  keep = FALSE, name = NULL, ...)
+\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 
-\method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"), ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches"))
+\method{inner_join}{tbl_df}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches")
+)
 
-\method{nest_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  keep = FALSE, name = NULL, ...)
+\method{nest_join}{tbl_df}(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 
-\method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"), ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches"))
+\method{left_join}{tbl_df}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches")
+)
 
-\method{right_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"), ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches"))
+\method{right_join}{tbl_df}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches")
+)
 
-\method{full_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"), ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches"))
+\method{full_join}{tbl_df}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches")
+)
 
-\method{semi_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches"))
+\method{semi_join}{tbl_df}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches")
+)
 
-\method{anti_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches"))
+\method{anti_join}{tbl_df}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches")
+)
 }
 \arguments{
 \item{x}{tbls to join}
@@ -46,7 +80,7 @@
 \item{y}{tbls to join}
 
 \item{by}{a character vector of variables to join by.  If \code{NULL}, the
-default, \code{*_join()} will do a natural join, using all variables with
+default, \verb{*_join()} will do a natural join, using all variables with
 common names across the two tables. A message lists the variables so
 that you can check they're right (to suppress the message, simply
 explicitly list the variables that you want to join).

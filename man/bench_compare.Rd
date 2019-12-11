@@ -13,8 +13,7 @@ bench_tbls(tbls, op, ..., times = 10)
 
 compare_tbls(tbls, op, ref = NULL, compare = equal_data_frame, ...)
 
-compare_tbls2(tbls_x, tbls_y, op, ref = NULL,
-  compare = equal_data_frame, ...)
+compare_tbls2(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame, ...)
 
 eval_tbls(tbls, op)
 
@@ -34,7 +33,7 @@ For \code{bench_tbls()}: additional benchmarks to run.}
 \item{times}{For benchmarking, the number of times each operation is
 repeated.}
 
-\item{ref}{For checking, an data frame to test results against. If not
+\item{ref}{For checking, a data frame to test results against. If not
 supplied, defaults to the results from the first \code{src}.}
 
 \item{compare}{A function used to compare the results. Defaults to

@@ -5,7 +5,7 @@
 \alias{ungroup}
 \title{Group by one or more variables}
 \usage{
-group_by(.data, ..., add = FALSE)
+group_by(.data, ..., add = FALSE, .drop = group_by_drop_default(.data))
 
 ungroup(x, ...)
 }
@@ -19,6 +19,9 @@ will be silently dropped.}
 \item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
 override existing groups. To add to the existing groups, use
 \code{add = TRUE}.}
+
+\item{.drop}{When \code{.drop = TRUE}, empty groups are dropped. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for
+what the default value is for this argument.}
 
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }
@@ -106,10 +109,15 @@ tbl \%>\%
 
 }
 \seealso{
-Other grouping functions: \code{\link{group_by_all}},
-  \code{\link{group_indices}}, \code{\link{group_keys}},
-  \code{\link{group_map}}, \code{\link{group_nest}},
-  \code{\link{group_rows}}, \code{\link{group_size}},
-  \code{\link{group_trim}}, \code{\link{groups}}
+Other grouping functions: 
+\code{\link{group_by_all}()},
+\code{\link{group_indices}()},
+\code{\link{group_keys}()},
+\code{\link{group_map}()},
+\code{\link{group_nest}()},
+\code{\link{group_rows}()},
+\code{\link{group_size}()},
+\code{\link{group_trim}()},
+\code{\link{groups}()}
 }
 \concept{grouping functions}

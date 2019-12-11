@@ -6,19 +6,10 @@ dist: trusty
 cache: packages
 latex: false
 fortran: false
-r_build_args: '--no-manual'
 
 jobs:
   include:
-  - r: devel
-  - r: 3.1
-    warnings_are_errors: false
-
-  - stage: full
-    os: osx
   - r: release
-    after_success:
-    - Rscript -e 'covr::codecov()'
     before_cache:
     - Rscript -e 'remotes::install_cran("pkgdown")'
     - Rscript -e 'remotes::install_github("tidyverse/tidytemplate")'
@@ -26,21 +17,6 @@ jobs:
       provider: script
       script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
       skip_cleanup: true
-  - r: 3.4
-  - r: 3.3
-  - r: 3.2
-    warnings_are_errors: false
-  - r: release
-    env:
-      - DEVEL_PACKAGES=true
-    r_github_packages:
-      - RcppCore/Rcpp
-      - r-lib/rlang
-      - tidyverse/tibble
-      - tidyverse/tidyselect
-
-matrix:
-  fast_finish: true
 
 env:
   global:
@@ -48,3 +24,4 @@ env:
   - MAKEFLAGS="-j 2"
   - TRAVIS_CXXFLAGS="-Wall -Wextra -pedantic -Werror"
   - R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
+  - _R_CHECK_SYSTEM_CLOCK_=FALSE

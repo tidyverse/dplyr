@@ -59,8 +59,11 @@ filter(mtcars, row_number() == n())
 filter(mtcars, between(row_number(), 5, n()))
 }
 \seealso{
-Other single table verbs: \code{\link{arrange}},
-  \code{\link{filter}}, \code{\link{mutate}},
-  \code{\link{select}}, \code{\link{summarise}}
+Other single table verbs: 
+\code{\link{arrange}()},
+\code{\link{filter}()},
+\code{\link{mutate}()},
+\code{\link{select}()},
+\code{\link{summarise}()}
 }
 \concept{single table verbs}

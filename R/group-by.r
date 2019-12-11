@@ -33,8 +33,8 @@
 #' @param add When `add = FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
-#' @inheritParams filter
-#'
+#' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
+#'   what the default value is for this argument.
 #' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
 #'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
 #'   otherwise.
@@ -88,11 +88,11 @@
 #'   group_by(y) %>%
 #'   group_rows()
 #'
-group_by <- function(.data, ..., add = FALSE) {
+group_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   UseMethod("group_by")
 }
 #' @export
-group_by.default <- function(.data, ..., add = FALSE) {
+group_by.default <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
 }
 #' @export
@@ -119,9 +119,9 @@ ungroup <- function(x, ...) {
 
 #' Prepare for grouping.
 #'
-#' Performs standard operations that should happen before individual methods
-#' process the data. This includes mutating the tbl to add new grouping columns
-#' and updating the groups (based on add)
+#' `*_prepare()` performs standard manipulation that is needed prior
+#' to actual data processing. They are only be needed by packages
+#' that implement dplyr backends.
 #'
 #' @return A list
 #'   \item{data}{Modified tbl}
@@ -129,7 +129,7 @@ ungroup <- function(x, ...) {
 #' @export
 #' @keywords internal
 group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
-  new_groups <- c(quos(...), compat_lazy_dots(.dots, caller_env()))
+  new_groups <- c(enquos(...), compat_lazy_dots(.dots, caller_env()))
   new_groups <- new_groups[!map_lgl(new_groups, quo_is_missing)]
 
   # If any calls, use mutate to add new columns, then group by those
@@ -149,6 +149,31 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
     groups = syms(group_names),
     group_names = group_names
   )
+}
+
+quo_is_variable_reference <- function(quo) {
+  if (quo_is_symbol(quo)) {
+    return(TRUE)
+  }
+
+  if (quo_is_call(quo, n = 2)) {
+    expr <- quo_get_expr(quo)
+
+    if (node_cadr(expr) == sym(".data")) {
+      fun <- node_car(expr)
+      param <- node_cadr(node_cdr(expr))
+
+      if (fun == sym("$") && (is_symbol(param) || (is_string(param) && length(param) == 1L))) {
+        return(TRUE)
+      }
+
+      if (fun == sym("[[") && (is_string(param) && length(param) == 1L)) {
+        return(TRUE)
+      }
+    }
+  }
+
+  FALSE
 }
 
 add_computed_columns <- function(.data, vars) {
@@ -184,6 +209,9 @@ groups <- function(x) {
   UseMethod("groups")
 }
 
+#' @export
+groups.default <- function(x) NULL
+
 #' @rdname groups
 #' @export
 group_vars <- function(x) {
@@ -193,4 +221,42 @@ group_vars <- function(x) {
 #' @export
 group_vars.default <- function(x) {
   deparse_names(groups(x))
+}
+
+#' Default value for .drop argument of group_by
+#'
+#' @param .tbl A data frame
+#'
+#' @return `TRUE` unless `.tbl` is a grouped data frame that was previously
+#'   obtained by `group_by(.drop = FALSE)`
+#'
+#' @examples
+#' group_by_drop_default(iris)
+#'
+#' iris %>%
+#'   group_by(Species) %>%
+#'   group_by_drop_default()
+#'
+#' iris %>%
+#'   group_by(Species, .drop = FALSE) %>%
+#'   group_by_drop_default()
+#'
+#' @keywords internal
+#' @export
+group_by_drop_default <- function(.tbl) {
+  UseMethod("group_by_drop_default")
+}
+
+#' @export
+group_by_drop_default.default <- function(.tbl) {
+  TRUE
+}
+
+#' @export
+group_by_drop_default.grouped_df <- function(.tbl) {
+  tryCatch({
+    !identical(attr(group_data(.tbl), ".drop"), FALSE)
+  }, error = function(e){
+    TRUE
+  })
 }

@@ -1,6 +1,5 @@
-release_date: February 1
-rel_release_date: weeks
-my_version: 0.7.8
-my_news_url: https://github.com/tidyverse/dplyr/blob/master/NEWS.md#dplyr-080
-release_version: 0.8.0
-release_details: "This release represents about 9 months of development, detailed in this blog post: https://www.tidyverse.org/articles/2018/12/dplyr-0-8-0-release-candidate/"
+release_date: Oct 7
+rel_release_date: days
+my_news_url: https://github.com/tidyverse/dplyr/blob/master/NEWS.md
+release_version: 0.8.4
+release_details: Minor follow up release

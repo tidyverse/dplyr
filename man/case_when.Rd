@@ -22,7 +22,7 @@ value of \code{n} must be consistent across all cases. The case of
 
 These dots support \link[rlang:list2]{tidy dots} features. In
 particular, if your patterns are stored in a list, you can
-splice that in with \code{!!!}.}
+splice that in with \verb{!!!}.}
 }
 \value{
 A vector of length 1 or \code{n}, matching the length of the logical
@@ -31,7 +31,7 @@ RHS. Inconsistent lengths or types will generate an error.
 }
 \description{
 This function allows you to vectorise multiple \code{\link[=if_else]{if_else()}}
-statements. It is an R equivalent of the SQL \code{CASE WHEN} statement.
+statements. It is an R equivalent of the SQL \verb{CASE WHEN} statement.
 If no cases match, \code{NA} is returned.
 }
 \examples{
@@ -59,6 +59,17 @@ case_when(
   x \%\% 35 == 0 ~ "fizz buzz"
 )
 
+# Note that NA values in the vector x do not get special treatment. If you want
+# to explicitly handle NA values you can use the `is.na` function:
+x[2:4] <- NA_real_
+case_when(
+  x \%\% 35 == 0 ~ "fizz buzz",
+  x \%\% 5 == 0 ~ "fizz",
+  x \%\% 7 == 0 ~ "buzz",
+  is.na(x) ~ "nope",
+  TRUE ~ as.character(x)
+)
+
 # All RHS values need to be of the same type. Inconsistent types will throw an error.
 # This applies also to NA values used in RHS: NA is logical, use
 # typed values like NA_real_, NA_complex, NA_character_, NA_integer_ as appropriate.
@@ -74,6 +85,16 @@ case_when(
   x \%\% 7 == 0 ~ 7,
   TRUE ~ NA_real_
 )
+
+# case_when() evaluates all RHS expressions, and then constructs its
+# result by extracting the selected (via the LHS expressions) parts.
+# In particular NaN are produced in this case:
+y <- seq(-2, 2, by = .5)
+case_when(
+  y >= 0 ~ sqrt(y),
+  TRUE   ~ y
+)
+
 # This throws an error as NA is logical not numeric
 \dontrun{
 case_when(

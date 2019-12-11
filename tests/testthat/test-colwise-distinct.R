@@ -1,7 +1,7 @@
 context("colwise distinct")
 
 test_that("scoped distinct is identical to manual distinct", {
-  df <- data_frame(
+  df <- tibble(
     x = rep(2:5, each=2),
     y = rep(2:3, each = 4),
     z = "a"
@@ -13,7 +13,7 @@ test_that("scoped distinct is identical to manual distinct", {
 })
 
 test_that(".funs is applied to variables before getting distinct rows", {
-  df <- data_frame(
+  df <- tibble(
     x = rep(2:5, each=2),
     y = rep(2:3, each = 4)
   )

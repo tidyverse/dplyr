@@ -14,7 +14,9 @@ tbl_nongroup_vars(x)
 }
 \description{
 \code{tbl_vars()} returns all variables while \code{tbl_nongroup_vars()}
-returns only non-grouping variables.
+returns only non-grouping variables. The \code{groups} attribute
+of the object returned by \code{tbl_vars()} is a character vector of the
+grouping columns.
 }
 \seealso{
 \code{\link[=group_vars]{group_vars()}} for a function that returns grouping

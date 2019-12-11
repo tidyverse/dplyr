@@ -145,7 +145,7 @@ test_that("ntile works with one argument (#3418)", {
 })
 
 test_that("rank functions deal correctly with NA (#774)", {
-  data <- data_frame(x = c(1, 2, NA, 1, 0, NA))
+  data <- tibble(x = c(1, 2, NA, 1, 0, NA))
   res <- data %>% mutate(
     min_rank = min_rank(x),
     percent_rank = percent_rank(x),
@@ -168,7 +168,7 @@ test_that("rank functions deal correctly with NA (#774)", {
   expect_equal(res$ntile[ c(1, 2, 4, 5) ], c(1L, 2L, 2L, 1L))
   expect_equal(res$row_number[ c(1, 2, 4, 5) ], c(2L, 4L, 3L, 1L))
 
-  data <- data_frame(
+  data <- tibble(
     x = rep(c(1, 2, NA, 1, 0, NA), 2),
     g = rep(c(1, 2), each = 6)
   )
@@ -235,14 +235,14 @@ test_that("lag handles default argument in mutate (#915)", {
 #   expect_error(df_sqlite %>% mutate(r = row_number()), "does not support")
 # })
 
-test_that("dim attribute is stripped from grouped mutate (#1918)", {
-  df <- data.frame(a = 1:3, b = 1:3)
+test_that("mutate handles matrix columns", {
+  df <- data.frame(a = rep(1:3, each = 2), b = 1:6)
 
   df_regular <- mutate(df, b = scale(b))
   df_grouped <- mutate(group_by(df, a), b = scale(b))
   df_rowwise <- mutate(rowwise(df), b = scale(b))
 
-  expect_null(dim(df$b))
-  expect_null(dim(df_grouped$b))
-  expect_null(dim(df_rowwise$b))
+  expect_equal(dim(df_regular$b), c(6, 1))
+  expect_equal(dim(df_grouped$b), c(6, 1))
+  expect_equal(dim(df_rowwise$b), c(6, 1))
 })

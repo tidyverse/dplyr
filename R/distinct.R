@@ -18,7 +18,6 @@
 #' @param .keep_all If `TRUE`, keep all variables in `.data`.
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
-#' @inheritParams filter
 #' @export
 #' @examples
 #' df <- tibble(
@@ -74,10 +73,11 @@ distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
   UseMethod("distinct_")
 }
 
-#' Same basic philosophy as group_by: lazy_dots comes in, list of data and
+#' Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
 #' vars (character vector) comes out.
-#' @noRd
-distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
+#' @rdname group_by_prepare
+#' @export
+distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
   stopifnot(is_quosures(vars), is.character(group_vars))
 
   # If no input, keep all variables
@@ -160,5 +160,9 @@ list_cols_warning <- function(df, keep_cols) {
 #' n_distinct(x)
 #' @export
 n_distinct <- function(..., na.rm = FALSE) {
-  n_distinct_multi(list(...), na.rm)
+  data <- tibble(...)
+  if (isTRUE(na.rm)){
+    data <- vec_slice(data, !reduce(map(data, vec_equal_na), `|`))
+  }
+  vec_unique_count(data)
 }

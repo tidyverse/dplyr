@@ -8,14 +8,14 @@ test_that("select does not lose grouping (#147)", {
 })
 
 test_that("grouping variables preserved with a message (#1511)", {
-  df <- data_frame(g = 1:3, x = 3:1) %>% group_by(g)
+  df <- tibble(g = 1:3, x = 3:1) %>% group_by(g)
 
   expect_message(res <- select(df, x), "Adding missing grouping variables")
   expect_named(res, c("g", "x"))
 })
 
 test_that("non-syntactic grouping variable is preserved (#1138)", {
-  df <- data_frame(`a b` = 1L) %>% group_by(`a b`) %>% select()
+  df <- tibble(`a b` = 1L) %>% group_by(`a b`) %>% select()
   expect_named(df, "a b")
 })
 
@@ -65,16 +65,10 @@ test_that("select can be before group_by (#309)", {
 })
 
 test_that("rename errors with invalid grouped data frame (#640)", {
-  df <- data_frame(a = 1:3, b = 2:4, d = 3:5) %>% group_by(a, b)
+  df <- tibble(a = 1:3, b = 2:4, d = 3:5) %>% group_by(a, b)
   df$a <- NULL
-  expect_error(
-    df %>% rename(e = d),
-    "not found in groups metadata"
-  )
-  expect_error(
-    df %>% rename(e = b),
-    "not found in groups metadata"
-  )
+  expect_error(df %>% rename(e = d))
+  expect_error(df %>% rename(e = b))
 })
 
 test_that("rename() handles data pronoun", {
@@ -82,7 +76,7 @@ test_that("rename() handles data pronoun", {
 })
 
 test_that("select succeeds in presence of raw columns (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
   expect_identical(select(df, a), df["a"])
   expect_identical(select(df, b), df["b"])
   expect_identical(select(df, -b), df["a"])
@@ -116,7 +110,7 @@ test_that("can select() with character vectors", {
 
 test_that("rename() to UTF-8 column names", {
   skip_on_os("windows") # needs an rlang update? #3049
-  df <- data_frame(a = 1) %>% rename("\u5e78" := a)
+  df <- tibble(a = 1) %>% rename("\u5e78" := a)
 
   expect_equal(colnames(df), "\u5e78")
 })
@@ -145,7 +139,6 @@ test_that("select works on empty names (#3601)", {
 })
 
 test_that("select works on NA names (#3601)", {
-  skip("to be discussed")
   df <- data.frame(x=1, y=2, z=3)
   colnames(df) <- c("x","y",NA)
   expect_identical(select(df, x)$x, 1)

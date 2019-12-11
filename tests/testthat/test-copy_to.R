@@ -63,3 +63,10 @@ test_that("src_sqlite() errs if path does not exist", {
     fixed = TRUE
   )
 })
+
+test_that("src_tbls() includes all tbls (#4326)", {
+  expect_equal(
+    src_tbls(src_df(env = env(. = iris))),
+    "."
+  )
+})

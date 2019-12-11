@@ -19,20 +19,28 @@ test_that("validate_grouped_df (#3837)", {
     tibble(x = 1:10),
     groups = tibble(".rows" := list(1:5, -1L))
   )
-  expect_error(validate_grouped_df(df), "indices of group 2 are out of bounds")
+  expect_error(validate_grouped_df(df, check_bounds = TRUE), "out of bounds indices", class = "dplyr_grouped_df_corrupt")
 
   attr(df, "groups")$.rows <- list(11L)
-  expect_error(validate_grouped_df(df), "indices of group 1 are out of bounds")
+  expect_error(validate_grouped_df(df, check_bounds = TRUE), "out of bounds indices", class = "dplyr_grouped_df_corrupt")
 
   attr(df, "groups")$.rows <- list(0L)
-  expect_error(validate_grouped_df(df), "indices of group 1 are out of bounds")
+  expect_error(validate_grouped_df(df, check_bounds = TRUE), "out of bounds indices", class = "dplyr_grouped_df_corrupt")
 
   attr(df, "groups")$.rows <- list(1)
-  expect_error(validate_grouped_df(df), "`.rows` column is not a list of one-based integer vectors")
+  expect_error(validate_grouped_df(df), "`.rows` column is not a list of one-based integer vectors", class = "dplyr_grouped_df_corrupt")
 
   attr(df, "groups") <- tibble()
-  expect_error(validate_grouped_df(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
+  expect_error(validate_grouped_df(df), "The `groups` attribute is not a data frame with its last column called `.rows`", class = "dplyr_grouped_df_corrupt")
 
   attr(df, "groups") <- NULL
-  expect_error(validate_grouped_df(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
+  expect_error(validate_grouped_df(df), "The `groups` attribute is not a data frame with its last column called `.rows`", class = "dplyr_grouped_df_corrupt")
+})
+
+test_that("new_grouped_df does not have rownames (#4173)", {
+  tbl <- new_grouped_df(
+    tibble(x = rnorm(10)),
+    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+  )
+  expect_false(tibble::has_rownames(tbl))
 })

@@ -8,8 +8,7 @@
 \usage{
 sample_n(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...)
 
-sample_frac(tbl, size = 1, replace = FALSE, weight = NULL,
-  .env = NULL, ...)
+sample_frac(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL, ...)
 }
 \arguments{
 \item{tbl}{tbl of data.}

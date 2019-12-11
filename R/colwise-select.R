@@ -46,7 +46,7 @@
 #' select_all(mtcars)
 #' @export
 select_all <- function(.tbl, .funs = list(), ...) {
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
+  funs <- as_fun_list(.funs, caller_env(), ...)
   vars <- tbl_vars(.tbl)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
@@ -54,7 +54,7 @@ select_all <- function(.tbl, .funs = list(), ...) {
 #' @rdname select_all
 #' @export
 rename_all <- function(.tbl, .funs = list(), ...) {
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
+  funs <- as_fun_list(.funs, caller_env(), ...)
   vars <- tbl_vars(.tbl)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)
@@ -63,8 +63,10 @@ rename_all <- function(.tbl, .funs = list(), ...) {
 #' @rdname select_all
 #' @export
 select_if <- function(.tbl, .predicate, .funs = list(), ...) {
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  .predicate <- as_fun_list(.predicate, enquo(.predicate), caller_env())
+  funs <- as_fun_list(.funs, caller_env(), ...)
+  if (!is_logical(.predicate)) {
+    .predicate <- as_fun_list(.predicate, caller_env())
+  }
   vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
@@ -72,8 +74,10 @@ select_if <- function(.tbl, .predicate, .funs = list(), ...) {
 #' @rdname select_all
 #' @export
 rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  .predicate <- as_fun_list(.predicate, enquo(.predicate), caller_env())
+  funs <- as_fun_list(.funs, caller_env(), ...)
+  if (!is_logical(.predicate)) {
+    .predicate <- as_fun_list(.predicate, caller_env())
+  }
   vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)
@@ -83,7 +87,7 @@ rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
 #' @export
 select_at <- function(.tbl, .vars, .funs = list(), ...) {
   vars <- tbl_at_vars(.tbl, .vars, .include_group_vars = TRUE)
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
+  funs <- as_fun_list(.funs, caller_env(), ...)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
 }
@@ -91,7 +95,7 @@ select_at <- function(.tbl, .vars, .funs = list(), ...) {
 #' @export
 rename_at <- function(.tbl, .vars, .funs = list(), ...) {
   vars <- tbl_at_vars(.tbl, .vars, .include_group_vars = TRUE)
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
+  funs <- as_fun_list(.funs, caller_env(), ...)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)
 }
@@ -104,7 +108,11 @@ vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
     if (is_quosure(fun)) {
       fun <- quo_as_function(fun)
     }
-    syms <- set_names(syms(vars), fun(vars))
+    syms <- if (length(vars)) {
+      set_names(syms(vars), fun(as.character(vars)))
+    } else {
+      set_names(syms(vars))
+    }
   } else if (!strict) {
     syms <- syms(vars)
   } else {

@@ -53,7 +53,7 @@ test_that("incomplete", {
 
   cube <- as.tbl_cube(d, met_name = "value")
   expect_true(is.na(as.data.frame(filter(cube, s == 1, j == 2))[["value"]]))
-  expect_equal(filter(as_data_frame(as.data.frame(cube)), s != 1 | j != 2), d)
+  expect_equal(filter(as_tibble(cube), s != 1 | j != 2), d)
 })
 
 test_that("duplicate", {
@@ -107,7 +107,7 @@ test_that("can coerce to data_frame", {
 
   expect_identical(
     tbl_df(as.data.frame(slice, stringsAsFactors = FALSE)),
-    as_data_frame(slice)
+    as_tibble(slice)
   )
 })
 

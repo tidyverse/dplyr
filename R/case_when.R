@@ -49,6 +49,17 @@
 #'   x %% 35 == 0 ~ "fizz buzz"
 #' )
 #'
+#' # Note that NA values in the vector x do not get special treatment. If you want
+#' # to explicitly handle NA values you can use the `is.na` function:
+#' x[2:4] <- NA_real_
+#' case_when(
+#'   x %% 35 == 0 ~ "fizz buzz",
+#'   x %% 5 == 0 ~ "fizz",
+#'   x %% 7 == 0 ~ "buzz",
+#'   is.na(x) ~ "nope",
+#'   TRUE ~ as.character(x)
+#' )
+#'
 #' # All RHS values need to be of the same type. Inconsistent types will throw an error.
 #' # This applies also to NA values used in RHS: NA is logical, use
 #' # typed values like NA_real_, NA_complex, NA_character_, NA_integer_ as appropriate.
@@ -64,6 +75,16 @@
 #'   x %% 7 == 0 ~ 7,
 #'   TRUE ~ NA_real_
 #' )
+#'
+#' # case_when() evaluates all RHS expressions, and then constructs its
+#' # result by extracting the selected (via the LHS expressions) parts.
+#' # In particular NaN are produced in this case:
+#' y <- seq(-2, 2, by = .5)
+#' case_when(
+#'   y >= 0 ~ sqrt(y),
+#'   TRUE   ~ y
+#' )
+#'
 #' # This throws an error as NA is logical not numeric
 #' \dontrun{
 #' case_when(

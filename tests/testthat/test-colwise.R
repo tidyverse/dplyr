@@ -17,6 +17,7 @@ test_that("tbl_at_vars() treats `NULL` as empty inputs", {
 })
 
 test_that("tbl_if_vars() errs on bad input", {
+  scoped_lifecycle_silence()
   expect_error(
     tbl_if_vars(iris, funs(identity, force), environment()),
     "`.predicate` must have length 1, not 2",
@@ -24,10 +25,20 @@ test_that("tbl_if_vars() errs on bad input", {
   )
 
   .funs <- list(identity, force)
-  .funs <- as_fun_list(.funs, enquo(.funs), caller_env())
+  .funs <- as_fun_list(.funs, caller_env())
   expect_error(
     tbl_if_vars(iris, .funs, environment()),
     "`.predicate` must have length 1, not 2",
     fixed = TRUE
   )
+})
+
+test_that("lists of formulas are auto-named", {
+  df <- tibble(x = 1:3, y = 4:6)
+
+  out <- df %>% summarise_all(list(~ mean(.), ~sd(.x, na.rm = TRUE)))
+  expect_named(out, c("x_mean", "y_mean", "x_sd", "y_sd"))
+
+  out <- df %>% summarise_all(list(foobar = ~ mean(.), ~sd(.x, na.rm = TRUE)))
+  expect_named(out, c("x_foobar", "y_foobar", "x_sd", "y_sd"))
 })

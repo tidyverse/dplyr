@@ -3,7 +3,7 @@
 #' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
 #'
 #' See [this repository](https://github.com/jennybc/row-oriented-workflows)
-#' for alternative ways to perform row-wise operations
+#' for alternative ways to perform row-wise operations.
 #'
 #' `rowwise()` is used for the results of [do()] when you
 #' create list-variables. It is also useful to support arbitrary
@@ -25,7 +25,6 @@
 rowwise <- function(data) {
   stopifnot(is.data.frame(data))
 
-  assert_all_allow_list(data)
   structure(data, class = c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 }
 
@@ -62,17 +61,17 @@ n_groups.rowwise_df <- function(x) {
 }
 
 #' @export
-group_by.rowwise_df <- function(.data, ..., add = FALSE) {
+group_by.rowwise_df <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   warn("Grouping rowwise data frame strips rowwise nature")
   .data <- ungroup(.data)
 
   groups <- group_by_prepare(.data, ..., add = add)
-  grouped_df(groups$data, groups$group_names)
+  grouped_df(groups$data, groups$group_names, .drop)
 }
 #' @export
-group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE) {
+group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE, .drop = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!!dots, add = add)
+  group_by(.data, !!!dots, add = add, .drop = .drop)
 }
 
 
@@ -83,7 +82,7 @@ do.rowwise_df <- function(.data, ...) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- quos(...)
+  args <- enquos(...)
   named <- named_args(args)
 
   # Create new environment, inheriting from parent, with an active binding
@@ -108,7 +107,7 @@ do.rowwise_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(NULL, out, groups(.data))
+    label_output_dataframe(NULL, out, groups(.data), group_by_drop_default(.data))
   } else {
     label_output_list(NULL, out, groups(.data))
   }

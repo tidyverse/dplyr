@@ -72,15 +72,13 @@ test_that("mutate fails with wrong result size (#152)", {
   expect_equal(mutate(df, y = 1:2)$y, rep(1:2, 2))
   expect_error(
     mutate(mtcars, zz = 1:2),
-    "Column `zz` must be length 32 (the number of rows) or one, not 2",
-    fixed = TRUE
+    class = "vctrs_error_recycle_incompatible_size"
   )
 
   df <- group_by(data.frame(x = c(2, 2, 3, 3, 3)), x)
   expect_error(
     mutate(df, y = 1:2),
-    "Column `y` must be length 3 (the group size) or one, not 2",
-    fixed = TRUE
+    class = "vctrs_error_recycle_incompatible_size"
   )
 })
 
@@ -89,8 +87,7 @@ test_that("mutate refuses to use symbols not from the data", {
   df <- group_by(data.frame(x = c(1, 2, 2, 3, 3, 3)), x)
   expect_error(
     mutate(df, z = y),
-    "Column `z` must be length 1 (the group size), not 6",
-    fixed = TRUE
+    class = "vctrs_error_recycle_incompatible_size"
   )
 })
 
@@ -141,13 +138,11 @@ test_that("mutate handles out of data variables", {
   int <- 1:6
   expect_error(
     mutate(gdf, int = int),
-    "Column `int` must be length 2 (the group size) or one, not 6",
-    fixed = TRUE
+    class = "vctrs_error_recycle_incompatible_size"
   )
   expect_error(
     mutate(tbl_df(df), int = int),
-    "Column `int` must be length 4 (the number of rows) or one, not 6",
-    fixed = TRUE
+    class = "vctrs_error_recycle_incompatible_size"
   )
 
   int  <- 1:4
@@ -206,12 +201,11 @@ test_that("mutate handles passing ...", {
   expect_equal(res$after, rep("after", 4))
 })
 
-test_that("mutate fails on unsupported column type", {
+test_that("mutate handles POSIXlt", {
   df <- data.frame(created = c("2014/1/1", "2014/1/2", "2014/1/2"))
   expect_error(
     mutate(df, date = strptime(created, "%Y/%m/%d")),
-    "Column `date` is of unsupported class POSIXlt",
-    fixed = TRUE
+    NA
   )
 
   df <- data.frame(
@@ -220,12 +214,9 @@ test_that("mutate fails on unsupported column type", {
   )
   expect_error(
     mutate(group_by(df, g), date = strptime(created, "%Y/%m/%d")),
-    "Column `date` is of unsupported class POSIXlt",
-    fixed = TRUE
+    NA
   )
-})
 
-test_that("mutate can handle POSIXlt columns (#3854)", {
   df <- data.frame(g=c(1,1,3))
   df$created <- strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
 
@@ -244,8 +235,7 @@ test_that("mutate errors when results are not compatible accross groups (#299)",
   d <- data.frame(x = rep(1:5, each = 3))
   expect_error(
     mutate(group_by(d, x), val = ifelse(x < 3, "foo", 2)),
-    "Column `val` can't be converted from character to numeric",
-    fixed = TRUE
+    class = "vctrs_error_incompatible_type"
   )
 })
 
@@ -278,27 +268,28 @@ test_that("mutate remove variables with = NULL syntax (#462)", {
   expect_false("cyl" %in% names(data))
 })
 
-test_that("mutate strips names, but only if grouped (#1689, #2675)", {
-  data <- data_frame(a = 1:3) %>% mutate(b = setNames(nm = a))
+test_that("mutate keeps names (#1689, #2675)", {
+  data <- tibble(a = 1:3) %>% mutate(b = setNames(nm = a))
   expect_equal(names(data$b), as.character(1:3))
 
-  data <- data_frame(a = 1:3) %>% rowwise() %>% mutate(b = setNames(nm = a))
-  expect_null(names(data$b))
+  data <- tibble(a = 1:3) %>% rowwise() %>% mutate(b = setNames(nm = a))
+  expect_equal(names(data$b), as.character(1:3))
 
-  data <- data_frame(a = c(1, 1, 2)) %>% group_by(a) %>% mutate(b = setNames(nm = a))
-  expect_null(names(data$b))
+  data <- tibble(a = c(1, 1, 2)) %>% group_by(a) %>% mutate(b = setNames(nm = a))
+  expect_equal(names(data$b), c("1", "1", "2"))
 })
 
 test_that("mutate does not strip names of list-columns (#2675)", {
+  skip("until https://github.com/tidyverse/tibble/pull/627")
   vec <- list(a = 1, b = 2)
-  data <- data_frame(x = vec)
+  data <- tibble(x = vec)
   data <- mutate(data, x)
   expect_identical(names(vec), c("a", "b"))
   expect_identical(names(data$x), c("a", "b"))
 })
 
 test_that("mutate removes columns when the expression evaluates to NULL for all groups (#2945)", {
-  df <- data_frame(a = 1:3, b=4:6)
+  df <- tibble(a = 1:3, b=4:6)
   gf <- group_by(df, a)
   rf <- rowwise(df)
 
@@ -316,10 +307,10 @@ test_that("mutate removes columns when the expression evaluates to NULL for all 
   )
 })
 
-test_that("mutate treats NULL specially when the expression sometimes evaulates to NULL (#2945)", {
-  df <- data_frame(a = 1:3, b=4:6) %>% group_by(a)
-  expect_equal( mutate(df, if(a==1) NULL else "foo") %>% pull(), c(NA, "foo", "foo"))
-  expect_equal( mutate(df, if(a==1) NULL else list(b)) %>% pull(), list(NULL, 5L, 6L))
+test_that("mutate aborts when the expression sometimes evaluates to NULL (#2945)", {
+  df <- tibble(a = 1:3, b=4:6) %>% group_by(a)
+  expect_error( mutate(df, if(a==1) NULL else "foo"))
+  expect_error( mutate(df, if(a==1) NULL else list(b)))
 })
 
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
@@ -370,13 +361,13 @@ test_that("namespace extraction works in hybrid (#412)", {
 })
 
 test_that("hybrid not get in the way of order_by (#169)", {
-  df <- data_frame(x = 10:1, y = 1:10)
+  df <- tibble(x = 10:1, y = 1:10)
   res <- mutate(df, z = order_by(x, cumsum(y)))
   expect_equal(res$z, rev(cumsum(10:1)))
 })
 
 test_that("mutate supports difftime objects (#390)", {
-  df <- data_frame(
+  df <- tibble(
     grp = c(1, 1, 2, 2),
     val = c(1, 3, 4, 6),
     date1 = c(rep(Sys.Date() - 10, 2), rep(Sys.Date() - 20, 2)),
@@ -397,25 +388,30 @@ test_that("mutate supports difftime objects (#390)", {
 
 test_that("mutate works on zero-row grouped data frame (#596)", {
   dat <- data.frame(a = numeric(0), b = character(0))
-  res <- dat %>% group_by(b) %>% mutate(a2 = a * 2)
+  res <- dat %>% group_by(b, .drop = FALSE) %>% mutate(a2 = a * 2)
   expect_is(res$a2, "numeric")
   expect_is(res, "grouped_df")
   expect_equal(res$a2, numeric(0))
 
-  expect_equal(group_rows(res), list())
+  expect_equal(group_rows(res), list_of(.ptype = integer()))
   expect_equal(group_data(res)$b, factor(character(0)))
 })
 
+test_that("mutate works on zero-row rowwise data frame (#4224)", {
+  dat <- data.frame(a = numeric(0))
+  res <- dat %>% rowwise() %>% mutate(a2 = a * 2)
+  expect_is(res$a2, "numeric")
+  expect_is(res, "rowwise_df")
+  expect_equal(res$a2, numeric(0))
+})
+
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
-  # Currently failing (#2967)
-  skip_on_os("windows")
-  df <- data_frame(a = "1", b = "2")
+  skip("encoding issues")
+  scoped_lifecycle_silence()
+  df <- tibble(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
   res <- df %>% mutate_all(funs(as.numeric)) %>% names()
-  expect_equal(res, names(df))
-
-  res <- df %>% mutate_all(list(as.numeric)) %>% names()
   expect_equal(res, names(df))
 })
 
@@ -425,7 +421,7 @@ test_that("nested hybrid functions do the right thing (#637)", {
 })
 
 test_that("mutate handles using and gathering complex data (#436)", {
-  d <- data_frame(x = 1:10, y = 1:10 + 2i)
+  d <- tibble(x = 1:10, y = 1:10 + 2i)
   res <- mutate(d, real = Re(y), imag = Im(y), z = 2 * y, constant = 2 + 2i)
   expect_equal(names(res), c("x", "y", "real", "imag", "z", "constant"))
   expect_equal(res$real, Re(d$y))
@@ -434,25 +430,25 @@ test_that("mutate handles using and gathering complex data (#436)", {
   expect_true(all(res$constant == 2 + 2i))
 })
 
-test_that("mutate forbids POSIXlt results (#670)", {
-  expect_error(
-    data.frame(time = "2014/01/01 10:10:10") %>%
-      mutate(time = as.POSIXlt(time)),
-    "Column `time` is of unsupported class POSIXlt",
-    fixed = TRUE
+test_that("mutate handles POSIXlt (#670)", {
+  time <- "2014/01/01 10:10:10"
+  res <- data.frame(time = time) %>%
+    mutate(time = as.POSIXlt(time))
+
+  expect_equal(
+    res$time, as.POSIXlt(time)
   )
 
-  expect_error(
-    data.frame(time = "2014/01/01 10:10:10", a = 2) %>%
+  res <- data.frame(time = time, a = 2) %>%
       group_by(a) %>%
-      mutate(time = as.POSIXlt(time)),
-    "Column `time` is of unsupported class POSIXlt",
-    fixed = TRUE
+      mutate(time = as.POSIXlt(time))
+  expect_equal(
+    res$time, as.POSIXlt(time)
   )
 })
 
 test_that("constant factor can be handled by mutate (#715)", {
-  d <- data_frame(x = 1:2) %>% mutate(y = factor("A"))
+  d <- tibble(x = 1:2) %>% mutate(y = factor("A"))
   expect_true(is.factor(d$y))
   expect_equal(d$y, factor(c("A", "A")))
 })
@@ -475,8 +471,25 @@ test_that("row_number handles empty data frames (#762)", {
   expect_equal(nrow(res), 0L)
 })
 
+test_that("hybrid rank functions handle NA (#4427)", {
+  df <- tibble(a = runif(1000, -1, 1), b = runif(1000, -1, 1))
+  df$a[df$a < 0] <- NA
+  df$b[df$b < 0] <- NA
+  df <- df %>%
+    mutate(
+      gain = b - a,
+      cume_dist_hybrid = cume_dist(gain),
+      cume_dist_std = cume_dist(b - a),
+      pct_rank_hybrid = percent_rank(gain),
+      pct_rank_std = percent_rank(b-a)
+    )
+
+  expect_equal(df$cume_dist_hybrid, df$cume_dist_std)
+  expect_equal(df$pct_rank_hybrid, df$pct_rank_std)
+})
+
 test_that("no utf8 invasion (#722)", {
-  skip_on_os("windows")
+  skip("fails on windows, but also on one cran machine")
 
   source("utf-8.txt", local = TRUE, encoding = "UTF-8")
 })
@@ -494,8 +507,8 @@ test_that("mutate works on empty data frames (#1142)", {
 })
 
 test_that("mutate handles 0 rows rowwise (#1300)", {
-  a <- data_frame(x = 1)
-  b <- data_frame(y = character())
+  a <- tibble(x = 1)
+  b <- tibble(y = character())
 
   g <- function(y) {
     1
@@ -508,22 +521,16 @@ test_that("mutate handles 0 rows rowwise (#1300)", {
   expect_equal(nrow(res), 0L)
 })
 
-test_that("rhs of mutate cannot be a data frame (#3298)", {
+test_that("mutate handles data frame columns", {
   df <- data.frame("a" = c(1, 2, 3), "b" = c(2, 3, 4), "base_col" = c(3, 4, 5))
-  expect_error(
-    mutate(df, new_col = data.frame(1:3)),
-    "Column `new_col` is of unsupported class data.frame"
-  )
+  res <- mutate(df, new_col = data.frame(x = 1:3))
+  expect_equal(res$new_col, data.frame(x = 1:3))
 
-  expect_error(
-    mutate(group_by(df, a), new_col = data.frame(1:3)),
-    "Column `new_col` is of unsupported class data.frame"
-  )
+  res <- mutate(group_by(df, a), new_col = data.frame(x = a))
+  expect_equal(res$new_col, data.frame(x = 1:3))
 
-  expect_error(
-    mutate(rowwise(df), new_col = data.frame(1:3)),
-    "Column `new_col` is of unsupported class data.frame"
-  )
+  res <- mutate(rowwise(df), new_col = data.frame(x = a))
+  expect_equal(res$new_col, data.frame(x = 1:3))
 })
 
 test_that("regression test for #637", {
@@ -568,12 +575,12 @@ test_that("mutate handles the all NA case (#958)", {
 
 test_that("rowwise mutate gives expected results (#1381)", {
   f <- function(x) ifelse(x < 2, NA_real_, x)
-  res <- data_frame(x = 1:3) %>% rowwise() %>% mutate(y = f(x))
+  res <- tibble(x = 1:3) %>% rowwise() %>% mutate(y = f(x))
   expect_equal(res$y, c(NA, 2, 3))
 })
 
 test_that("mutate handles factors (#1414)", {
-  d <- data_frame(
+  d <- tibble(
     g = c(1, 1, 1, 2, 2, 3, 3),
     f = c("a", "b", "a", "a", "a", "b", "b")
   )
@@ -582,7 +589,7 @@ test_that("mutate handles factors (#1414)", {
 })
 
 test_that("mutate handles results from one group with all NA values (#1463) ", {
-  df <- data_frame(x = c(1, 2), y = c(1, NA))
+  df <- tibble(x = c(1, 2), y = c(1, NA))
   res <- df %>% group_by(x) %>% mutate(z = ifelse(y > 1, 1, 2))
   expect_true(is.na(res$z[2]))
   expect_is(res$z, "numeric")
@@ -615,7 +622,7 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
     mutate(pass2 = P2 / (P2 + F2))
   expect_true(is.nan(res$pass2[1]))
 
-  Pass <- data_frame(
+  Pass <- tibble(
     P1 = c(2L, 0L, 10L, 8L, 9L),
     F1 = c(0L, 2L, 0L, 4L, 3L),
     P2 = c(0L, 3L, 2L, 2L, 2L),
@@ -634,7 +641,7 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
 })
 
 test_that("hybrid evaluator leaves formulas untouched (#1447)", {
-  d <- data_frame(g = 1:2, training = list(mtcars, mtcars * 2))
+  d <- tibble(g = 1:2, training = list(mtcars, mtcars * 2))
   mpg <- data.frame(x = 1:10, y = 1:10)
   res <- d %>%
     group_by(g) %>%
@@ -645,7 +652,7 @@ test_that("hybrid evaluator leaves formulas untouched (#1447)", {
 })
 
 test_that("lead/lag inside mutate handles expressions as value for default (#1411) ", {
-  df <- data_frame(x = 1:3)
+  df <- tibble(x = 1:3)
   res <- mutate(df, leadn = lead(x, default = x[1]), lagn = lag(x, default = x[1]))
   expect_equal(res$leadn, lead(df$x, default = df$x[1]))
   expect_equal(res$lagn, lag(df$x, default = df$x[1]))
@@ -663,7 +670,7 @@ test_that("grouped mutate does not drop grouping attributes (#1020)", {
 })
 
 test_that("grouped mutate coerces integer + double -> double (#1892)", {
-  df <- data_frame(
+  df <- tibble(
     id = c(1, 4),
     value = c(1L, NA),
     group = c("A", "B")
@@ -683,27 +690,24 @@ test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)
     }
   }
 
-  df <- data_frame(
+  df <- tibble(
     id = c(1, 4),
     group = c("A", "B")
   ) %>%
-    group_by(group)
-  expect_warning(
-    df <- df %>%
-      mutate(value = factor_or_character(id))
-  )
+    group_by(group) %>%
+    mutate(value = factor_or_character(id))
   expect_type(df$value, "character")
   expect_identical(df$value, c("world", "hello"))
 })
 
 test_that("lead/lag works on more complex expressions (#1588)", {
-  df <- data_frame(x = rep(1:5, 2), g = rep(1:2, each = 5)) %>% group_by(g)
+  df <- tibble(x = rep(1:5, 2), g = rep(1:2, each = 5)) %>% group_by(g)
   res <- df %>% mutate(y = lead(x > 3))
   expect_equal(res$y, rep(lead(1:5 > 3), 2))
 })
 
 test_that("Adding a Column of NA to a Grouped Table gives expected results (#1645)", {
-  dataset <- data_frame(A = 1:10, B = 10:1, group = factor(sample(LETTERS[25:26], 10, TRUE)))
+  dataset <- tibble(A = 1:10, B = 10:1, group = factor(sample(LETTERS[25:26], 10, TRUE)))
   res <- dataset %>% group_by(group) %>% mutate(prediction = factor(NA))
   expect_true(all(is.na(res$prediction)))
   expect_is(res$prediction, "factor")
@@ -714,7 +718,7 @@ test_that("Deep copies are performed when needed (#1463)", {
   res <- data.frame(prob = c(F, T)) %>%
     rowwise() %>%
     mutate(model = list(x = prob))
-  expect_equal(unlist(res$model), c(FALSE, TRUE))
+  expect_equal(unlist(res$model), c(x = FALSE, x = TRUE))
 
   res <- data.frame(x = 1:4, g = c(1, 1, 1, 2)) %>%
     group_by(g) %>%
@@ -738,40 +742,41 @@ test_that("mutate() supports unquoted values", {
   expect_identical(mutate(df, out = !!1), mutate(df, out = 1))
   expect_identical(mutate(df, out = !!(1:5)), mutate(df, out = 1:5))
   expect_identical(mutate(df, out = !!quote(1:5)), mutate(df, out = 1:5))
-  expect_error(mutate(df, out = !!(1:2)), "must be length 5 (the number of rows)", fixed = TRUE)
-  expect_error(mutate(df, out = !!env(a = 1)), "unsupported type")
+  expect_error(mutate(df, out = !!(1:2)), class = "vctrs_error_recycle_incompatible_size")
+  expect_error(mutate(df, out = !!env(a = 1)), class = "vctrs_error_scalar_type")
 
   gdf <- group_by(df, g)
   expect_identical(mutate(gdf, out = !!1), mutate(gdf, out = 1))
-  expect_identical(mutate(gdf, out = !!(1:5)), group_by(mutate(df, out = 1:5), g))
-  expect_error(mutate(gdf, out = !!quote(1:5)), "must be length 2 (the group size)", fixed = TRUE)
-  expect_error(mutate(gdf, out = !!(1:2)), "must be length 5 (the group size)", fixed = TRUE)
-  expect_error(mutate(gdf, out = !!env(a = 1)), "unsupported type")
+  expect_error(mutate(gdf, out = !!quote(1:5)), class = "vctrs_error_recycle_incompatible_size")
+  expect_error(mutate(gdf, out = !!(1:2)), class = "vctrs_error_recycle_incompatible_size")
+  expect_error(mutate(gdf, out = !!env(a = 1)), class = "vctrs_error_scalar_type")
 })
 
-test_that("gathering handles promotion from raw", {
-  df <- data_frame(a = 1:4, g = c(1, 1, 2, 2))
-  # collecting raw in the first group, then other types
+test_that("auto-splicing for tibbles", {
   expect_identical(
-    df %>% group_by(g) %>% mutate(b = if (all(a < 3)) as.raw(a) else a) %>% pull(b),
-    1:4
+    tibble(a = 1) %>% mutate(tibble(b = 2)),
+    tibble(a = 1, b = 2)
   )
   expect_identical(
-    df %>% group_by(g) %>% mutate(b = if (all(a < 3)) as.raw(a) else as.numeric(a)) %>% pull(b),
-    as.numeric(1:4)
+    tibble(a = 1) %>% mutate(tibble(b = 2), tibble(b = 3)),
+    tibble(a = 1, b = 3)
+  )
+  expect_identical(
+    tibble(a = 1) %>% mutate(tibble(b = 2), c = b),
+    tibble(a = 1, b = 2, c = 2)
   )
 })
 
 # Error messages ----------------------------------------------------------
 
 test_that("mutate handles raw vectors in columns (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_identical(mutate(df, a = 1), data_frame(a = 1, b = as.raw(1:3)))
-  expect_identical(mutate(df, b = 1), data_frame(a = 1:3, b = 1))
-  expect_identical(mutate(df, c = 1), data_frame(a = 1:3, b = as.raw(1:3), c = 1))
-  expect_identical(mutate(df, c = as.raw(a)), data_frame(a = 1:3, b = as.raw(1:3), c = as.raw(1:3)))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
+  expect_identical(mutate(df, a = 1), tibble(a = 1, b = as.raw(1:3)))
+  expect_identical(mutate(df, b = 1), tibble(a = 1:3, b = 1))
+  expect_identical(mutate(df, c = 1), tibble(a = 1:3, b = as.raw(1:3), c = 1))
+  expect_identical(mutate(df, c = as.raw(a)), tibble(a = 1:3, b = as.raw(1:3), c = as.raw(1:3)))
 
-  df <- data_frame(a = 1:4, g = c(1, 1, 2, 2))
+  df <- tibble(a = 1:4, g = c(1, 1, 2, 2))
   expect_identical(mutate(df, b = as.raw(a)) %>% group_by(g) %>% pull(b), as.raw(1:4))
   expect_identical(mutate(df, b = as.raw(a)) %>% rowwise() %>% pull(b), as.raw(1:4))
 })
@@ -779,13 +784,11 @@ test_that("mutate handles raw vectors in columns (#1803)", {
 test_that("grouped mutate errors on incompatible column type (#1641)", {
   expect_error(
     tibble(x = 1) %>% mutate(y = mean),
-    "Column `y` is of unsupported type function",
-    fixed = TRUE
+    class = "vctrs_error_scalar_type"
   )
   expect_error(
     tibble(x = 1) %>% mutate(y = quote(a)),
-    "Column `y` is of unsupported type symbol",
-    fixed = TRUE
+    class = "vctrs_error_scalar_type"
   )
 })
 
@@ -798,7 +801,7 @@ test_that("can reuse new variables", {
 
 test_that("can use character vectors in grouped mutate (#2971)", {
   df <-
-    data_frame(x = 1:10000) %>%
+    tibble(x = 1:10000) %>%
     group_by(x) %>%
     mutate(
       y = as.character(runif(1L)),
@@ -809,7 +812,8 @@ test_that("can use character vectors in grouped mutate (#2971)", {
 })
 
 test_that("mutate() to UTF-8 column names", {
-  df <- data_frame(a = 1) %>% mutate("\u5e78" := a)
+  skip_on_cran()
+  df <- tibble(a = 1) %>% mutate("\u5e78" := a)
 
   expect_equal(colnames(df), c("a", "\u5e78"))
 })
@@ -834,14 +838,6 @@ test_that("grouped subsets are not lazy (#3360)", {
   expect_identical(res, list(make_call("a"), make_call("b")))
 })
 
-test_that("errors don't have tracebacks (#3662)", {
-  err <- capture_condition(mutate(tibble(x = 1:10) %>% mutate(z = y)))
-  expect_null(conditionCall(err))
-
-  err <- capture_condition(n_distinct())
-  expect_null(conditionCall(err))
-})
-
 test_that("columns are no longer available when set to NULL on mutate (#3799)", {
   tbl <- tibble(x = 1:2, y = 1:2)
   expect_error(mutate(tbl, y = NULL, a = +sum(y)))
@@ -863,7 +859,7 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
       Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
       Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
     )
-  expect_equal(res, expected)
+  expect_identical(res, expected)
 
   res <- iris %>%
     group_by(Species) %>%
@@ -877,14 +873,14 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
       Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
       Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
     )
-  expect_equal(res, expected)
+  expect_identical(res, expected)
 })
 
 test_that("mutate() does not segfault when setting an unknown column to NULL (#4035)", {
   expect_true(all_equal(mutate(mtcars, dummy = NULL), mtcars))
 })
 
-test_that("mutate() skips evaluation of R expression for empty groups (#4088)", {
+test_that("mutate() evaluates expression for empty groups", {
   count <- 0
 
   d <- tibble(f = factor(c("a", "b"), levels = c("a", "b", "c"))) %>%
@@ -898,8 +894,43 @@ test_that("mutate() skips evaluation of R expression for empty groups (#4088)", 
   expect_equal(count, 3L)
 
   res <- tibble(f = factor(levels = c("a", "b", "c"))) %>%
-    group_by(f) %>%
+    group_by(f, .drop = FALSE) %>%
     mutate(x = { count <<- count + 1; 675} )
-  expect_equal(count, 4L)
+  expect_equal(count, 6L)
   expect_is(res$x, "numeric")
 })
+
+test_that("mutate() unpacks unnamed tibble results (#2326, #3630)", {
+  expect_equal(
+    iris %>% group_by(Species) %>% mutate(
+      tibble(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
+    ),
+    iris %>% group_by(Species) %>% mutate(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
+  )
+
+  expect_equal(
+    iris %>% group_by(Species) %>% mutate(
+      tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    ),
+    iris %>% group_by(Species) %>% mutate(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+  )
+})
+
+test_that("mutate() packs named tibble results (#2326, #3630)", {
+  res <- iris %>%
+    group_by(Species) %>%
+    mutate(
+      out = tibble(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
+    )
+  expect_is(res$out, "data.frame")
+  expect_equal(nrow(res$out), nrow(iris))
+
+  res <- iris %>%
+    group_by(Species) %>%
+    mutate(
+      out = tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    )
+  expect_is(res$out, "data.frame")
+  expect_equal(nrow(res$out), nrow(iris))
+})
+

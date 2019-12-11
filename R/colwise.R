@@ -144,18 +144,16 @@ print.any_vars <- function(x, ...) {
 # Requires tbl_vars() method
 tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE) {
   if (.include_group_vars) {
-    tibble_vars <- sel_vars(tbl)
+    tibble_vars <- tbl_vars(tbl)
   } else {
     tibble_vars <- tbl_nongroup_vars(tbl)
   }
 
   if (is_null(vars)) {
     character()
-  } else if (is_character(vars)) {
-    vars
   } else if (is_integerish(vars)) {
     tibble_vars[vars]
-  } else if (is_quosures(vars)) {
+  } else if (is_quosures(vars) || is_character(vars)) {
     out <- tidyselect::vars_select(tibble_vars, !!!vars)
     if (!any(have_name(vars))) {
       names(out) <- NULL
@@ -185,12 +183,9 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
     return(syms(tibble_vars[.p]))
   }
 
-  if (inherits(.tbl, "tbl_lazy")) {
-    inform("Applying predicate on the first 100 rows")
-    .tbl <- collect(.tbl, n = 100)
-  }
+  .tbl <- tbl_ptype(.tbl)
 
-  if (is_fun_list(.p)) {
+  if (is_fun_list(.p) || is_list(.p)) {
     if (length(.p) != 1) {
       bad_args(".predicate", "must have length 1, not {length(.p)}")
     }
@@ -204,12 +199,68 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
 
   n <- length(tibble_vars)
   selected <- new_logical(n)
+
   for (i in seq_len(n)) {
-    selected[[i]] <- .p(.tbl[[tibble_vars[[i]]]], ...)
+    column <- .tbl[[tibble_vars[[i]]]]
+    selected[[i]] <- isTRUE(eval_tidy(.p(column, ...)))
   }
 
   tibble_vars[selected]
 }
 tbl_if_syms <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars))
+}
+
+#' Return a prototype of a tbl
+#'
+#' Used in `_if` functions to enable type-based selection even when the data
+#' is lazily generated. Should either return the complete tibble, or if that
+#' can not be computed quickly, a 0-row tibble where the columns are of
+#' the correct type.
+#'
+#' @export
+#' @keywords internal
+tbl_ptype <- function(.data) {
+  UseMethod("tbl_ptype")
+}
+
+#' @export
+tbl_ptype.default <- function(.data) {
+  if (inherits(.data, "tbl_lazy")) {
+    # TODO: remove once moved to dplyr
+    inform("Applying predicate on the first 100 rows")
+    collect(.data, n = 100)
+  } else {
+    .data
+  }
+}
+
+# The lambda must inherit from:
+# - Execution environment (bound arguments with purrr lambda syntax)
+# - Lexical environment (local variables)
+# - Data mask (other columns)
+#
+# So we need:
+# - Inheritance from closure -> lexical
+# - A maskable quosure
+as_inlined_function <- function(f, env, ...) {
+  # Process unquote operator at inlining time
+  f <- expr_interp(f)
+
+  # Transform to a purrr-like lambda
+  fn <- as_function(f, env = env)
+
+  body(fn) <- expr({
+    # Force all arguments
+    base::pairlist(...)
+
+    # Transform the lambda body into a maskable quosure inheriting
+    # from the execution environment
+    `_quo` <- rlang::quo(!!body(fn))
+
+    # Evaluate the quosure in the mask
+    rlang::eval_bare(`_quo`, base::parent.frame())
+  })
+
+  structure(fn, class = "inline_colwise_function", formula = f)
 }

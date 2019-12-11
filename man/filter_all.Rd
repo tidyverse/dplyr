@@ -16,10 +16,14 @@ filter_at(.tbl, .vars, .vars_predicate, .preserve = FALSE)
 \item{.tbl}{A \code{tbl} object.}
 
 \item{.vars_predicate}{A quoted predicate expression as returned by
-\code{\link[=all_vars]{all_vars()}} or \code{\link[=any_vars]{any_vars()}}.}
+\code{\link[=all_vars]{all_vars()}} or \code{\link[=any_vars]{any_vars()}}.
 
-\item{.preserve}{when \code{TRUE} (the default), the grouping structure
-is preserved, otherwise it is recalculated based on the resulting data.}
+Can also be a function or purrr-like formula. In this case, the
+intersection of the results is taken by default and there's
+currently no way to request the union.}
+
+\item{.preserve}{when \code{FALSE} (the default), the grouping structure
+is recalculated based on the resulting data, otherwise it is kept as is.}
 
 \item{.predicate}{A predicate function to be applied to the columns
 or a logical vector. The variables for which \code{.predicate} is or
@@ -66,4 +70,11 @@ filter_at(mtcars, vars(starts_with("d")), any_vars((. \%\% 2) == 0))
 
 # And filter_if() selects variables with a predicate function:
 filter_if(mtcars, ~ all(floor(.) == .), all_vars(. != 0))
+
+
+# We're working on a new syntax to allow functions instead,
+# including purrr-like lambda functions. This is already
+# operational, but there's currently no way to specify the union of
+# the predicate results:
+mtcars \%>\% filter_at(vars(hp, vs), ~ . \%\% 2 == 0)
 }

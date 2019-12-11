@@ -1,16 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# dplyr <a href='https:/dplyr.tidyverse.org'><img src='man/figures/logo.png' align="right" height="139" /></a>
+# dplyr <a href='https://dplyr.tidyverse.org'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
-[![Travis build
-status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr)
+[![R build
+status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R-CMD-check)
 [![Codecov test
 coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
 <!-- badges: end -->
@@ -33,13 +31,26 @@ perform any operation “by group”. You can learn more about them in
 provides a variety of two-table verbs, which you can learn about in
 `vignette("two-table")`.
 
-dplyr is designed to abstract over how the data is stored. That means as
-well as working with local data frames, you can also work with remote
-database tables, using exactly the same R code. Install the dbplyr
-package then read `vignette("databases", package = "dbplyr")`.
-
 If you are new to dplyr, the best place to start is the [data import
 chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
+
+## Backends
+
+dplyr is designed to abstract over how the data is stored. Out of the
+box, dplyr works with data frames/tibbles; other packages provide
+alternative computational backends:
+
+  - For large, in-memory datasets, try
+    [dtplyr](https://dtplyr.tidyverse.org/) to access the excellent
+    performance of [data.table](http://r-datatable.com/).
+
+  - For data in relational databases,
+    [dbplyr](http://dbplyr.tidyverse.org/) will automatically translate
+    your dplyr code in to SQL.
+
+  - For very large datasets stored in [Apache
+    Spark](https://spark.apache.org), use
+    [sparklyr](https://spark.rstudio.com).
 
 ## Installation
 
@@ -49,16 +60,6 @@ install.packages("tidyverse")
 
 # Alternatively, install just dplyr:
 install.packages("dplyr")
-```
-
-### Release candidate
-
-dplyr 0.8.0 will be release on February 1st, you can install the release
-candidate from GitHub.
-
-``` r
-# install.packages("devtools")
-devtools::install_github("tidyverse/dplyr@rc_0.8.0")
 ```
 
 ### Development version
@@ -137,8 +138,9 @@ starwars %>%
     n = n(),
     mass = mean(mass, na.rm = TRUE)
   ) %>%
-  filter(n > 1)
-#> # A tibble: 9 x 3
+  filter(n > 1,
+         mass > 50)
+#> # A tibble: 8 x 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
 #> 1 Droid        5  69.8
@@ -146,7 +148,7 @@ starwars %>%
 #> 3 Human       35  82.8
 #> 4 Kaminoan     2  88  
 #> 5 Mirialan     2  53.1
-#> # … with 4 more rows
+#> # … with 3 more rows
 ```
 
 ## Getting help
@@ -160,5 +162,5 @@ and other discussion, please use
 -----
 
 Please note that this project is released with a [Contributor Code of
-Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
-you agree to abide by its terms.
+Conduct](https://dplyr.tidyverse.org/CODE_OF_CONDUCT). By participating
+in this project you agree to abide by its terms.
