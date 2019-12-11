@@ -27,7 +27,7 @@ a more featureful family of functions: \code{\link[=mutate_all]{mutate_all()}},
 \code{\link[=mutate_at]{mutate_at()}}, \code{\link[=mutate_if]{mutate_if()}}, \code{\link[=summarise_all]{summarise_all()}}, \code{\link[=summarise_at]{summarise_at()}}
 and \code{\link[=summarise_if]{summarise_if()}}.
 
-The \code{_each()} functions have two replacements depending on what
+The \verb{_each()} functions have two replacements depending on what
 variables you want to apply \code{funs} to. To apply a function to all
 variables, use \code{\link[=mutate_all]{mutate_all()}} or \code{\link[=summarise_all]{summarise_all()}}. To apply a
 function to a selection of variables, use \code{\link[=mutate_at]{mutate_at()}} or

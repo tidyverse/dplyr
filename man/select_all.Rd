@@ -50,7 +50,7 @@ renaming retains them.
 renaming.
 }
 
-The \code{_if} and \code{_at} variants always retain grouping variables for grouped
+The \verb{_if} and \verb{_at} variants always retain grouping variables for grouped
 data frames.
 }
 \section{Grouping variables}{

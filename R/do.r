@@ -27,7 +27,6 @@
 #' means that `summarise()` applied to the result of `do()` can
 #' act like `ldply()`.
 #'
-#' @inheritParams filter
 #' @param .data a tbl
 #' @param ... Expressions to apply to each group. If named, results will be
 #'   stored in a new column. If unnamed, should return a data frame. You can

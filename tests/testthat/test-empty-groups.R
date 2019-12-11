@@ -1,10 +1,11 @@
 context("empty groups")
 
-df <- data_frame(
+df <- tibble(
   e = 1,
   f = factor(c(1, 1, 2, 2), levels = 1:3),
   g = c(1, 1, 2, 2),
-  x = c(1, 2, 1, 4)) %>%
+  x = c(1, 2, 1, 4)
+) %>%
   group_by(e, f, g, .drop = FALSE)
 
 test_that("filter and slice keep zero length groups", {

@@ -7,10 +7,16 @@
 \alias{add_count}
 \title{Count/tally observations by group}
 \usage{
-tally(x, wt = NULL, sort = FALSE, name = "n")
+tally(x, wt, sort = FALSE, name = "n")
 
-count(x, ..., wt = NULL, sort = FALSE, name = "n",
-  .drop = group_by_drop_default(x))
+count(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = "n",
+  .drop = group_by_drop_default(x)
+)
 
 add_tally(x, wt, sort = FALSE, name = "n")
 

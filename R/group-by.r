@@ -35,8 +35,6 @@
 #'   `add = TRUE`.
 #' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
 #'   what the default value is for this argument.
-#' @inheritParams filter
-#'
 #' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
 #'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
 #'   otherwise.
@@ -153,6 +151,31 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
   )
 }
 
+quo_is_variable_reference <- function(quo) {
+  if (quo_is_symbol(quo)) {
+    return(TRUE)
+  }
+
+  if (quo_is_call(quo, n = 2)) {
+    expr <- quo_get_expr(quo)
+
+    if (node_cadr(expr) == sym(".data")) {
+      fun <- node_car(expr)
+      param <- node_cadr(node_cdr(expr))
+
+      if (fun == sym("$") && (is_symbol(param) || (is_string(param) && length(param) == 1L))) {
+        return(TRUE)
+      }
+
+      if (fun == sym("[[") && (is_string(param) && length(param) == 1L)) {
+        return(TRUE)
+      }
+    }
+  }
+
+  FALSE
+}
+
 add_computed_columns <- function(.data, vars) {
   is_symbol <- map_lgl(vars, quo_is_variable_reference)
   named <- have_name(vars)
@@ -218,6 +241,7 @@ group_vars.default <- function(x) {
 #'   group_by(Species, .drop = FALSE) %>%
 #'   group_by_drop_default()
 #'
+#' @keywords internal
 #' @export
 group_by_drop_default <- function(.tbl) {
   UseMethod("group_by_drop_default")
