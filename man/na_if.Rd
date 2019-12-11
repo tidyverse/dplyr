@@ -16,7 +16,7 @@ A modified version of \code{x} that replaces any values that
 are equal to \code{y} with NA.
 }
 \description{
-This is a translation of the SQL command \code{NULL_IF}. It is useful
+This is a translation of the SQL command \code{NULLIF}. It is useful
 if you want to convert an annoying value to \code{NA}.
 }
 \examples{
