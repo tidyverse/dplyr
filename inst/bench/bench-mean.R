@@ -75,8 +75,12 @@ bench_mean <- function(n = 1e6, ngroups = 1000) {
       select(branch, fun, n, ngroups, min:last_col())
   }, args = args, libpath = "../bench-libs/0.8.3")
 
-  as_tibble(vec_rbind(master_length, master_internal, master_mean, released_internal, released_hybrid_mean, released_nonhybrid_mean))
+  as_tibble(vec_rbind(master_length, master_internal, master_mean, released_internal, released_hybrid_mean, released_nonhybrid_mean)) %>%
+    select(branch:ngroups, median, mem_alloc, n_gc)
 }
 
 bench_mean(1e6, 10)
 bench_mean(1e6, 100000)
+
+bench_mean(1e7, 10)
+bench_mean(1e7, 1000000)
