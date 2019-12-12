@@ -189,7 +189,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
     res <- mask$eval(quo, group)
 
-    if (!inherits(res, "logical") || vec_size(res) != n) {
+    if (!inherits(res, "logical")) {
       abort(
         "filter() expressions should return logical vectors of the same size as the group",
         "dplyr_filter_wrong_result"
