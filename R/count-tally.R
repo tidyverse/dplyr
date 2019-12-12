@@ -72,7 +72,7 @@
 #' starwars %>%
 #'   add_count(species) %>%
 #'   filter(n == 1)
-tally <- function(x, wt = NULL, sort = FALSE, name = "n") {
+tally <- function(x, wt, sort = FALSE, name = "n") {
   wt <- enquo(wt)
 
   if (quo_is_missing(wt) && "n" %in% tbl_vars(x)) {

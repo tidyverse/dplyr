@@ -50,6 +50,15 @@ reference:
   - ends_with("join")
   - join.tbl_df
 
+- title: Computation on groups
+  contents:
+  - group_cols
+  - group_map
+  - group_modify
+  - group_trim
+  - group_rows
+  - group_split
+
 - title: Remote tables
   contents:
   - auto_copy
@@ -70,6 +79,7 @@ reference:
   - between
   - case_when
   - coalesce
+  - combine
   - cumany
   - desc
   - if_else
@@ -119,6 +129,8 @@ navbar:
   - text: News
     menu:
     - text: "Release notes"
+    - text: "Version 0.8.4"
+      href: https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/
     - text: "Version 0.8.3"
       href: https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/
     - text: "Version 0.8.2"

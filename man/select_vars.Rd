@@ -38,3 +38,4 @@ and will be deprecated sometimes in the future.
 \details{
 \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("deprecated")}
 }
+\keyword{internal}

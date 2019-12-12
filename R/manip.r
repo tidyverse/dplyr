@@ -488,7 +488,7 @@ transmute.default <- function(.data, ...) {
   dots <- enquos(..., .named = TRUE)
   out <- mutate(.data, !!!dots)
 
-  keep <- names(dots)
+  keep <- intersect(names(dots), names(out))
   select(out, one_of(keep))
 }
 #' @export
@@ -560,20 +560,6 @@ arrange_ <- function(.data, ..., .dots = list()) {
   ))
 
   UseMethod("arrange_")
-}
-
-#' @export
-#' @rdname arrange
-#' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
-#'   grouped data frames only.
-arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
-  if (.by_group) {
-    dots <- c(quos(!!!groups(.data)), enquos(...))
-  } else {
-    dots <- enquos(...)
-  }
-
-  arrange_impl(.data, dots, environment())
 }
 
 #' Select/rename variables by name

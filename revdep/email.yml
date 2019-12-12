@@ -1,5 +1,5 @@
-release_date: April 22
+release_date: Oct 7
 rel_release_date: days
 my_news_url: https://github.com/tidyverse/dplyr/blob/master/NEWS.md
-release_version: 0.8.1
-release_details: "This release is a follow up to the 0.8.0 release"
+release_version: 0.8.4
+release_details: Minor follow up release

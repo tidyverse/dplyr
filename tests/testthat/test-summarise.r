@@ -65,51 +65,49 @@ test_that("summarise gives proper errors (#153)", {
     y = c(1, 2, 2),
     z = runif(3)
   )
+  # expect_error(
+  #   summarise(df, null = identity(NULL)),
+  #   "Column `identity(NULL)` is of unsupported type NULL",
+  #   fixed = TRUE
+  # )
+  # expect_error(
+  #   summarise(df, z = log(z)),
+  #   "Column `log(z)` must be length 1 (a summary value), not 3",
+  #   fixed = TRUE
+  # )
+  # expect_error(
+  #   summarise(df, y = y[1:2]),
+  #   "Column `y[1:2]` must be length 1 (a summary value), not 2",
+  #   fixed = TRUE
+  # )
   expect_error(
-    summarise(df, identity(NULL)),
-    "Column `identity(NULL)` is of unsupported type NULL",
-    fixed = TRUE
-  )
-  expect_error(
-    summarise(df, log(z)),
-    "Column `log(z)` must be length 1 (a summary value), not 3",
-    fixed = TRUE
-  )
-  expect_error(
-    summarise(df, y[1:2]),
-    "Column `y[1:2]` must be length 1 (a summary value), not 2",
-    fixed = TRUE
-  )
-  expect_error(
-    summarise(df, env(a = 1)),
-    "Column `env(a = 1)` is of unsupported type environment",
-    fixed = TRUE
+    summarise(df, a = env(a = 1)),
+    "Unsupported type"
   )
 
   gdf <- group_by(df, x, y)
   expect_error(
-    summarise(gdf, identity(NULL)),
-    "Column `identity(NULL)` is of unsupported type NULL",
-    fixed = TRUE
+    summarise(gdf, null = identity(NULL)),
+    "Unsupported type"
   )
+  # expect_error(
+  #   summarise(gdf, a = z),
+  #   "Column `z` must be length 1 (a summary value), not 2",
+  #   fixed = TRUE
+  # )
+  # expect_error(
+  #   summarise(gdf, a = log(z)),
+  #   "Column `log(z)` must be length 1 (a summary value), not 2",
+  #   fixed = TRUE
+  # )
+  # expect_error(
+  #   summarise(gdf, a = y[1:2]),
+  #   "Column `y[1:2]` must be length 1 (a summary value), not 2",
+  #   fixed = TRUE
+  # )
   expect_error(
-    summarise(gdf, z),
-    "Column `z` must be length 1 (a summary value), not 2",
-    fixed = TRUE
-  )
-  expect_error(
-    summarise(gdf, log(z)),
-    "Column `log(z)` must be length 1 (a summary value), not 2",
-    fixed = TRUE
-  )
-  expect_error(
-    summarise(gdf, y[1:2]),
-    "Column `y[1:2]` must be length 1 (a summary value), not 2",
-    fixed = TRUE
-  )
-  expect_error(
-    summarise(gdf, env(a = 1)),
-    "Column `env(a = 1)` is of unsupported type environment",
+    summarise(gdf, b = env(a = 1)),
+    "Unsupported type",
     fixed = TRUE
   )
 })
@@ -207,15 +205,23 @@ test_that("summarise propagate attributes (#194)", {
   expect_equal(class(res$min__g), c("POSIXct", "POSIXt"))
 })
 
-test_that("summarise strips names, but only if grouped (#2231, #2675)", {
-  data <- tibble(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
+test_that("summarise allows names (#2675)", {
+  data <- tibble(a = 1:3) %>% summarise(b = c("1" = a[[1]]))
   expect_equal(names(data$b), "1")
 
   data <- tibble(a = 1:3) %>% rowwise() %>% summarise(b = setNames(nm = a))
-  expect_null(names(data$b))
+  expect_equal(names(data$b), c("1", "2", "3"))
 
   data <- tibble(a = c(1, 1, 2)) %>% group_by(a) %>% summarise(b = setNames(nm = a[[1]]))
-  expect_null(names(data$b))
+  expect_equal(names(data$b), c("1", "2"))
+
+  res <- data.frame(x = c(1:3), y = letters[1:3]) %>%
+    group_by(y) %>%
+    summarise(
+      a = length(x),
+      b = quantile(x, 0.5)
+    )
+  expect_equal(res$b, c("50%" = 1, "50%" = 2, "50%" = 3))
 })
 
 test_that("summarise fails on missing variables", {
@@ -288,27 +294,23 @@ test_that("integer overflow (#304)", {
   values <- rep(1e9, 6)
   dat <- data.frame(groups, X1 = as.integer(values), X2 = values)
   # now group and summarise
-  expect_warning(
-    res <- group_by(dat, groups) %>%
-      summarise(sum_integer = sum(X1), sum_numeric = sum(X2)),
-    "integer overflow"
-  )
-  expect_true(all(is.na(res$sum_integer)))
+  res <- group_by(dat, groups) %>%
+    summarise(sum_integer = sum(X1), sum_numeric = sum(X2))
   expect_equal(res$sum_numeric, rep(3e9, 2L))
 })
 
-test_that("summarise checks outputs (#300)", {
-  expect_error(
-    summarise(mtcars, mpg, cyl),
-    "Column `mpg` must be length 1 (a summary value), not 32",
-    fixed = TRUE
-  )
-  expect_error(
-    summarise(mtcars, mpg + cyl),
-    "Column `mpg + cyl` must be length 1 (a summary value), not 32",
-    fixed = TRUE
-  )
-})
+# test_that("summarise checks outputs (#300)", {
+#   expect_error(
+#     summarise(mtcars, mpg, cyl),
+#     "Column `mpg` must be length 1 (a summary value), not 32",
+#     fixed = TRUE
+#   )
+#   expect_error(
+#     summarise(mtcars, mpg + cyl),
+#     "Column `mpg + cyl` must be length 1 (a summary value), not 32",
+#     fixed = TRUE
+#   )
+# })
 
 test_that("comment attribute is allowed (#346)", {
   test <- data.frame(A = c(1, 1, 0, 0), B = c(2, 2, 3, 3))
@@ -321,17 +323,6 @@ test_that("AsIs class is allowed (#453)", {
   test <- data.frame(A = c(1, 1, 0, 0), B = I(c(2, 2, 3, 3)))
   res <- group_by(test, B)
   expect_equal(res$B, test$B)
-})
-
-test_that("names attribute is not retained (#357)", {
-  df <- data.frame(x = c(1:3), y = letters[1:3])
-  df <- group_by(df, y)
-  m <- df %>% summarise(
-    a = length(x),
-    b = quantile(x, 0.5)
-  )
-  expect_equal(m$b, c(1, 2, 3))
-  expect_null(names(m$b))
 })
 
 test_that("na.rm is supported (#168)", {
@@ -588,12 +579,8 @@ test_that("n_distinct front end supports na.rm argument (#1052)", {
   expect_equal(n_distinct(x, na.rm = TRUE), 3L)
 })
 
-test_that("n_distinct without arguments stops (#1957)", {
-  expect_error(
-    n_distinct(),
-    "Need at least one column for `n_distinct()`",
-    fixed = TRUE
-  )
+test_that("n_distinct() without arguments gives 0 (#1957)", {
+  expect_equal(n_distinct(), 0)
 })
 
 test_that("hybrid evaluation does not take place for objects with a class (#1237)", {
@@ -663,9 +650,9 @@ test_that("summarise correctly handles NA groups (#1261)", {
     b2 = NA_character_
   )
 
-  res <- tmp %>% group_by(a, b1) %>% summarise(n())
+  res <- tmp %>% group_by(a, b1) %>% summarise(n = n())
   expect_equal(nrow(res), 2L)
-  res <- tmp %>% group_by(a, b2) %>% summarise(n())
+  res <- tmp %>% group_by(a, b2) %>% summarise(n = n())
   expect_equal(nrow(res), 2L)
 })
 
@@ -703,7 +690,9 @@ test_that("hybrid max works when not used on columns (#1369)", {
 
 test_that("min and max handle empty sets in summarise (#1481, #3997)", {
   df <- tibble(A = numeric())
-  res <- df %>% summarise(Min = min(A, na.rm = TRUE), Max = max(A, na.rm = TRUE))
+  expect_warning(
+    res <- df %>% summarise(Min = min(A, na.rm = TRUE), Max = max(A, na.rm = TRUE))
+  )
   expect_equal(res$Min, Inf)
   expect_equal(res$Max, -Inf)
 })
@@ -761,6 +750,7 @@ test_that("data.frame columns are supported in summarise (#1425)", {
 })
 
 test_that("summarise handles min/max of already summarised variable (#1622)", {
+  skip("until https://github.com/r-lib/vctrs/issues/540")
   df <- data.frame(
     FIRST_DAY = rep(seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"), 2),
     event = c("a", "a", "b", "b")
@@ -836,16 +826,16 @@ test_that("summarise handles raw columns (#1803)", {
   expect_identical(summarise(df, c = b[[1]]), tibble(c = as.raw(1)))
 })
 
-test_that("dim attribute is stripped from grouped summarise (#1918)", {
+test_that("summarise supports matrix columns", {
   df <- data.frame(a = 1:3, b = 1:3)
 
-  df_regular <- summarise(df, b = scale(b)[1, 1])
+  df_regular <- summarise(df, b = scale(b))
   df_grouped <- summarise(group_by(df, a), b = scale(b))
   df_rowwise <- summarise(rowwise(df), b = scale(b))
 
-  expect_null(dim(df$b))
-  expect_null(dim(df_grouped$b))
-  expect_null(dim(df_rowwise$b))
+  expect_equal(dim(df_regular$b), c(3, 1))
+  expect_equal(dim(df_grouped$b), c(3, 1))
+  expect_equal(dim(df_rowwise$b), c(3, 1))
 })
 
 test_that("typing and NAs for grouped summarise (#1839)", {
@@ -879,8 +869,8 @@ test_that("typing and NAs for grouped summarise (#1839)", {
       group_by(id) %>%
       summarise(a = a[[1]]) %>%
       .$a,
-    "Column `a` can't promote group 1 to numeric",
-    fixed = TRUE
+    "No common type",
+    class = "vctrs_error_incompatible_type"
   )
 
   expect_identical(
@@ -923,8 +913,8 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       rowwise() %>%
       summarise(a = a[[1]]) %>%
       .$a,
-    "Column `a` can't promote group 1 to numeric",
-    fixed = TRUE
+    "No common type",
+    class = "vctrs_error_incompatible_type"
   )
 
   expect_error(
@@ -932,8 +922,8 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       rowwise() %>%
       summarise(a = a[1]) %>%
       .$a,
-    "Column `a` can't promote group 1 to numeric",
-    fixed = TRUE
+    "No common type",
+    class = "vctrs_error_incompatible_type"
   )
 })
 
@@ -1013,15 +1003,15 @@ test_that("summarise() supports unquoted values", {
   df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
   expect_identical(summarise(df, out = !!1), tibble(out = 1))
   expect_identical(summarise(df, out = !!quote(identity(1))), tibble(out = 1))
-  expect_error(summarise(df, out = !!(1:2)), "must be length 1 (the number of groups)", fixed = TRUE)
-  expect_error(summarise(df, out = !!env(a = 1)), "unsupported type")
+  expect_equal(summarise(df, out = !!(1:2)), tibble(out = 1:2))
+  expect_error(summarise(df, out = !!env(a = 1)), "Unsupported type")
 
   gdf <- group_by(df, g)
   expect_identical(summarise(gdf, out = !!1), summarise(gdf, out = 1))
-  expect_identical(summarise(gdf, out = !!(1:2)), tibble(g = c(1, 2), out = 1:2))
+  expect_identical(summarise(gdf, out = !!(1:2)), tibble(g = c(1, 1, 2, 2), out = c(1:2, 1:2)))
   expect_identical(summarise(gdf, out = !!quote(identity(1))), summarise(gdf, out = 1))
-  expect_error(summarise(gdf, out = !!(1:5)), "must be length 2 (the number of groups)", fixed = TRUE)
-  expect_error(summarise(gdf, out = !!env(a = 1)), "unsupported type")
+  expect_equal(summarise(gdf, out = !!(1:5)) %>% nrow(), 10L)
+  expect_error(summarise(gdf, out = !!env(a = 1)), "Unsupported type")
 })
 
 test_that("first() and last() can be called without dplyr loaded (#3498)", {
@@ -1061,10 +1051,11 @@ test_that("summarise correctly reconstruct group rows", {
   d <- tibble(x = 1:4, g1 = rep(1:2, 2), g2 = 1:4) %>%
     group_by(g1, g2) %>%
     summarise(x = x+1)
-  expect_equal(group_rows(d), list(1:2, 3:4))
+  expect_equal(group_rows(d), list_of(1:2, 3:4))
 })
 
 test_that("summarise can handle POSIXlt columns (#3854)", {
+  skip("until https://github.com/tidyverse/tibble/pull/626")
   df <- data.frame(g=c(1,1,3))
   df$created <- strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
 
@@ -1072,36 +1063,6 @@ test_that("summarise can handle POSIXlt columns (#3854)", {
     group_by(g) %>%
     summarise(data = list(created))
   expect_true(all(sapply(res$data, inherits, "POSIXlt")))
-})
-
-test_that("the data mask marks subsets as not mutable", {
-  res <- mtcars %>%
-    group_by(cyl) %>%
-    summarise(ngroup = n(), shared = is_maybe_shared(environment(), sym("ngroup")))
-  expect_true(all(res$shared))
-  expect_true(all(maybe_shared_columns(res)))
-})
-
-test_that("column_subset respects S3 local [. method (#3923)", {
-  testS3Class <- function(x, X){
-    structure(x, class = "testS3Class", X = X)
-  }
-  `[.testS3Class` <- function(x, i, ...) {
-    testS3Class(unclass(x)[i, ...], X = attr(x, "X"))
-  }
-  df <- tibble(x = rep(1:2, each = 5), y = testS3Class(1:10, X = 100))
-  res <- df %>%
-    group_by(x) %>%
-    summarise(chunk = list(y))
-  expect_equal(res$chunk[[1]], df$y[df$x == 1])
-  expect_equal(res$chunk[[1]], df$y[df$x == 1])
-
-  df$y <- testS3Class(matrix(1:20, ncol = 2), X = 200)
-  res <- df %>%
-    group_by(x) %>%
-    summarise(chunk = list(y))
-  expect_equal(res$chunk[[1]], df$y[df$x == 1, , drop = FALSE])
-  expect_equal(res$chunk[[1]], df$y[df$x == 1, , drop = FALSE])
 })
 
 test_that("tidy eval does not infloop (#4049)", {
@@ -1137,9 +1098,11 @@ test_that("hybrid min() and max() coerce to integer if there is no infinity (#42
   expect_is(tbl$min, "integer")
   expect_is(tbl$max, "integer")
 
-  tbl <- data.frame(a = 1L, b = factor("a", levels = c("a", "b"))) %>%
-    group_by(b, .drop = FALSE) %>%
-    summarise_all(list(min = min, max = max))
+  expect_warning(
+    tbl <- data.frame(a = 1L, b = factor("a", levels = c("a", "b"))) %>%
+      group_by(b, .drop = FALSE) %>%
+      summarise_all(list(min = min, max = max))
+  )
   expect_equal(tbl,
     data.frame(
       b = factor(c("a", "b"), levels = c("a", "b")),
@@ -1157,4 +1120,23 @@ test_that("summarise() correctly handle summarised list columns (#4349)", {
     summarise(z = list(1), y = z)
   expect_identical(res$z, res$y)
   expect_equal(res$z, list(1))
+})
+
+test_that("summarise() unpacks unnamed tibble results (#2326)", {
+  expect_equal(
+    iris %>% group_by(Species) %>% summarise(
+      tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    ),
+    iris %>% group_by(Species) %>% summarise(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+  )
+})
+
+test_that("summarise() packs named tibble results (#2326)", {
+  res <- iris %>%
+    group_by(Species) %>%
+    summarise(
+      out = tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    )
+  expect_is(res$out, "data.frame")
+  expect_equal(nrow(res$out), 3L)
 })

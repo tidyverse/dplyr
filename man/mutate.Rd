@@ -157,8 +157,11 @@ mass <- 100
 mutate(starwars, mass = mass / !!mass)
 }
 \seealso{
-Other single table verbs: \code{\link{arrange}},
-  \code{\link{filter}}, \code{\link{select}},
-  \code{\link{slice}}, \code{\link{summarise}}
+Other single table verbs: 
+\code{\link{arrange}()},
+\code{\link{filter}()},
+\code{\link{select}()},
+\code{\link{slice}()},
+\code{\link{summarise}()}
 }
 \concept{single table verbs}

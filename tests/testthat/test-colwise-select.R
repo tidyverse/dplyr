@@ -91,6 +91,7 @@ test_that("select variants can use grouping variables (#3351, #3480)", {
 })
 
 test_that("select_if keeps grouping cols", {
+  skip_if(getRversion() < "3.5.0")
   expect_silent(df <- iris %>% group_by(Species) %>% select_if(is.numeric))
   expect_equal(df, tbl_df(iris[c(5, 1:4)]))
 })
@@ -198,4 +199,12 @@ test_that("rename_all/at() call the function with simple character vector (#4459
 
   out <- rename_at(mtcars, vars(everything()), fun)
   expect_equal(names(out)[1L], 'fuel_efficiency')
+})
+
+test_that("select_if() discards the column when predicate gives NA (#4486)", {
+  out <- tibble(mycol=c("","",NA)) %>% select_if(~!all(.==""))
+  expect_identical(
+    out,
+    tibble::new_tibble(list(), nrow = 3L)
+  )
 })

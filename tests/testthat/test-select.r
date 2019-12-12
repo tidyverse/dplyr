@@ -67,14 +67,8 @@ test_that("select can be before group_by (#309)", {
 test_that("rename errors with invalid grouped data frame (#640)", {
   df <- tibble(a = 1:3, b = 2:4, d = 3:5) %>% group_by(a, b)
   df$a <- NULL
-  expect_error(
-    df %>% rename(e = d),
-    "not found in groups metadata"
-  )
-  expect_error(
-    df %>% rename(e = b),
-    "not found in groups metadata"
-  )
+  expect_error(df %>% rename(e = d))
+  expect_error(df %>% rename(e = b))
 })
 
 test_that("rename() handles data pronoun", {
@@ -145,7 +139,6 @@ test_that("select works on empty names (#3601)", {
 })
 
 test_that("select works on NA names (#3601)", {
-  skip("to be discussed")
   df <- data.frame(x=1, y=2, z=3)
   colnames(df) <- c("x","y",NA)
   expect_identical(select(df, x)$x, 1)

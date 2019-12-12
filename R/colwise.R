@@ -183,10 +183,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
     return(syms(tibble_vars[.p]))
   }
 
-  if (inherits(.tbl, "tbl_lazy")) {
-    inform("Applying predicate on the first 100 rows")
-    .tbl <- collect(.tbl, n = 100)
-  }
+  .tbl <- tbl_ptype(.tbl)
 
   if (is_fun_list(.p) || is_list(.p)) {
     if (length(.p) != 1) {
@@ -205,13 +202,37 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
 
   for (i in seq_len(n)) {
     column <- .tbl[[tibble_vars[[i]]]]
-    selected[[i]] <- eval_tidy(.p(column, ...))
+    selected[[i]] <- isTRUE(eval_tidy(.p(column, ...)))
   }
 
   tibble_vars[selected]
 }
 tbl_if_syms <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars))
+}
+
+#' Return a prototype of a tbl
+#'
+#' Used in `_if` functions to enable type-based selection even when the data
+#' is lazily generated. Should either return the complete tibble, or if that
+#' can not be computed quickly, a 0-row tibble where the columns are of
+#' the correct type.
+#'
+#' @export
+#' @keywords internal
+tbl_ptype <- function(.data) {
+  UseMethod("tbl_ptype")
+}
+
+#' @export
+tbl_ptype.default <- function(.data) {
+  if (inherits(.data, "tbl_lazy")) {
+    # TODO: remove once moved to dplyr
+    inform("Applying predicate on the first 100 rows")
+    collect(.data, n = 100)
+  } else {
+    .data
+  }
 }
 
 # The lambda must inherit from:

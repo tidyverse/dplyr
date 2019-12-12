@@ -17,8 +17,11 @@ test_that("group_keys.grouped_df() works", {
   )
 })
 
-test_that("group_keys.rowwise_df() is an error", {
-  expect_error(group_keys(rowwise(iris)))
+test_that("group_keys.rowwise_df() is a 0 columns data frame of the right number of rows", {
+  expect_equal(
+    group_keys(rowwise(iris)),
+    tibble::new_tibble(list(), nrow = nrow(iris))
+  )
 })
 
 test_that("group_split() respects .drop", {

@@ -1,6 +1,37 @@
-# dplyr (development version)
+# dplyr 0.9.0 (in development)
+
+* `mutate()` and `summarise()` automatically unpack unnamed tibble results (#2326).
+
+* `group_keys.rowwise_df()` gives a 0 column data frame with n() rows. 
+
+* `group_by()` uses hashing from the `vctrs` package. 
+
+* `combine()` is soft deprecated.
+
+* `location()` and `changes()` are soft deprecated, please use functions from the lobstr package. 
+
+* `group_map()` is now a generic (#4576).
+
+* The first argument of `group_map()`, `group_modify()` and `group_walk()`
+  has been changed to `.data` for consistency with other generics.
+
+* `group_by()` uses hashing from the `vctrs` package. 
+
+* Better performance for extracting slices of factors and ordered factors (#4501).
+
+* `group_by()` uses hashing from the `vctrs` package. 
+
+* `group_by()` does not create an arbitrary NA group when grouping by factors with `drop = TRUE` (#4460).
+
+* `rbind_all()` and `rbind_list()` have been removed (@bjungbogati, #4433).
+
+* `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
 
 * `rename_at()` and `rename_all()` call the function with a simple character vector, not a `dplyr_sel_vars` (#4459). 
+
+* `select_vars()`, `rename_vars()`, `select_var()`, `current_vars()` are now deprecated (@perezp44, #4432)
+
+* `group_modify()` works with additional arguments (@billdenney and @cderv, #4509)
 
 # dplyr 0.8.3 (2019-07-04)
 

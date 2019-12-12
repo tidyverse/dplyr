@@ -57,22 +57,3 @@ is_dataframe_like <- function(x) {
 
   TRUE
 }
-
-
-# Deprecated functions ----------------------------------------------------
-
-#' @export
-#' @rdname bind
-#' @usage NULL
-rbind_list <- function(...) {
-  .Deprecated("bind_rows()")
-  tbl_df(bind_rows_(list_or_dots(...), id = NULL))
-}
-
-#' @export
-#' @rdname bind
-#' @usage NULL
-rbind_all <- function(x, id = NULL) {
-  .Deprecated("bind_rows()")
-  bind_rows_(x, id = id)
-}

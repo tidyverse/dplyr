@@ -28,3 +28,4 @@ iris \%>\%
   group_by_drop_default()
 
 }
+\keyword{internal}

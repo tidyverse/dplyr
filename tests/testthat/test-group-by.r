@@ -73,10 +73,14 @@ test_that("mutate does not loose variables (#144)", {
 })
 
 test_that("group_by uses shallow copy", {
+  skip("until https://github.com/tidyverse/tibble/pull/627")
   m1 <- group_by(mtcars, cyl)
   expect_no_groups(mtcars)
 
-  expect_equal(dfloc(mtcars), dfloc(m1))
+  expect_equal(
+    lobstr::obj_addrs(mtcars),
+    lobstr::obj_addrs(m1)
+  )
 })
 
 test_that("group_by handles NA in factors #341", {
@@ -107,43 +111,41 @@ test_that("group_by orders by groups. #242", {
   expect_equal(group_data(df)$a, sqrt(1:10))
 })
 
-test_that("group_by only allows grouping by columns whos class are on the allow list", {
+test_that("Can group_by() a POSIXlt", {
+  skip("until https://github.com/r-lib/vctrs/issues/554")
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
-  expect_error(
-    group_by(df, times),
-    "Column `times` can't be used as a grouping variable because it's a POSIXlt/POSIXt",
-    fixed = TRUE
-  )
+  g <- group_by(df, times)
+  expect_equal(group_rows(g), list_of(1L, 2L, 3L, 4L, 5L))
 })
 
 test_that("group_by only applies the allow list to grouping variables", {
+  skip("until https://github.com/tidyverse/tibble/pull/626")
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
 
   res <- group_by(df, x, .drop = FALSE)
   expect_equal(groups(res), list(sym("x")))
+
   expect_identical(
     group_data(res),
-    structure(tibble(x := 1:5, ".rows" := as.list(1:5)), .drop = FALSE)
+    structure(tibble(x := 1:5, ".rows" := list_of(1L, 2L, 3L, 4L, 5L)), .drop = FALSE)
   )
 
   res <- group_by(df, x)
   expect_equal(groups(res), list(sym("x")))
   expect_identical(
     group_data(res),
-    structure(tibble(x := 1:5, ".rows" := as.list(1:5)), .drop = TRUE)
+    structure(tibble(x := 1:5, ".rows" := list_of(1L, 2L, 3L, 4L, 5L)), .drop = TRUE)
   )
 })
 
-test_that("group_by fails when lists are used as grouping variables (#276)", {
-  df <- data.frame(x = 1:3)
-  df$y <- list(1:2, 1:3, 1:4)
-  expect_error(
-    group_by(df, y),
-    "Column `y` can't be used as a grouping variable because it's a list",
-    fixed = TRUE
-  )
+test_that("group_by() handles list as grouping variables", {
+  df <- tibble(x = 1:3, y = list(1:2, 1:3, 1:2))
+  gdata <- group_data(group_by(df, y))
+  expect_equal(nrow(gdata), 2L)
+  expect_equal(gdata$y, list(1:2, 1:3))
+  expect_equal(gdata$.rows, list_of(c(1L, 3L), 2L))
 })
 
 test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
@@ -154,11 +156,7 @@ test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
 test_that("grouped_df errors on NULL labels (#398)", {
   m <- mtcars %>% group_by(cyl)
   attr(m, "groups") <- NULL
-  expect_error(
-    m %>% do(mpg = mean(.$mpg)),
-    "is a corrupt grouped_df",
-    fixed = TRUE
-  )
+  expect_error(m %>% do(mpg = mean(.$mpg)))
 })
 
 test_that("grouped_df errors on non-existent var (#2330)", {
@@ -324,11 +322,11 @@ test_that("group_by() does not affect input data (#3028)", {
 })
 
 test_that("group_by() does not mutate for nothing when using the .data pronoun (#2752, #3533)", {
-  expect_equal(
+  expect_identical(
     iris %>% group_by(Species) %>% group_by(.data$Species),
     iris %>% group_by(Species)
   )
-  expect_equal(
+  expect_identical(
     iris %>% group_by(Species) %>% group_by(.data[["Species"]]),
     iris %>% group_by(Species)
   )
@@ -405,7 +403,7 @@ test_that("arrange handles grouped tibble with 0 groups (#3935)", {
 test_that("group_by() with empty spec produces a grouped data frame with 0 grouping variables", {
   gdata <- group_data(group_by(iris))
   expect_equal(names(gdata), ".rows")
-  expect_equal(gdata$.rows, list(1:nrow(iris)))
+  expect_equal(gdata$.rows, list_of(1:nrow(iris)))
 })
 
 # .drop = TRUE ---------------------------------------------------
@@ -418,7 +416,7 @@ test_that("group_by(.drop = TRUE) drops empty groups (4061)", {
   expect_identical(
     group_data(res),
     structure(
-      tibble(Species = factor("setosa", levels = levels(iris$Species)), .rows := list(1:50)),
+      tibble(Species = factor("setosa", levels = levels(iris$Species)), .rows := list_of(1:50)),
       .drop = TRUE
     )
   )
@@ -525,5 +523,16 @@ test_that("group_by() puts NA groups last in STRSXP (#4227)", {
     group_by(x) %>%
     group_data()
   expect_identical(res$x, c("apple", "banana", NA_character_))
-  expect_identical(res$.rows, list(1L, 3L, 2L))
+  expect_identical(res$.rows, list_of(1L, 3L, 2L))
 })
+
+test_that("group_by() does not create arbitrary NA groups for factors when drop = TRUE (#4460)", {
+  skip_if(getRversion() < "3.5.0")
+
+  res <- expect_warning(group_data(group_by(iris, Species)[0, ]), NA)
+  expect_equal(nrow(res), 0L)
+
+  res <- expect_warning(group_data(group_by(iris[0, ], Species)), NA)
+  expect_equal(nrow(res), 0L)
+})
+
