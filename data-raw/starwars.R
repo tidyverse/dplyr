@@ -108,4 +108,4 @@ starwars %>%
   mutate_if(is.list, ~ map_chr(., paste, collapse = ", ")) %>%
   write_csv("data-raw/starwars.csv")
 
-devtools::use_data(starwars, overwrite = TRUE)
+usethis::use_data(starwars, overwrite = TRUE)
