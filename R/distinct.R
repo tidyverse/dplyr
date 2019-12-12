@@ -18,7 +18,6 @@
 #' @param .keep_all If `TRUE`, keep all variables in `.data`.
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
-#' @inheritParams filter
 #' @export
 #' @examples
 #' df <- tibble(
@@ -161,5 +160,9 @@ list_cols_warning <- function(df, keep_cols) {
 #' n_distinct(x)
 #' @export
 n_distinct <- function(..., na.rm = FALSE) {
-  n_distinct_multi(list(...), na.rm)
+  data <- tibble(...)
+  if (isTRUE(na.rm)){
+    data <- vec_slice(data, !reduce(map(data, vec_equal_na), `|`))
+  }
+  vec_unique_count(data)
 }

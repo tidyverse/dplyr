@@ -37,49 +37,44 @@ test_that("data frames not equal if missing row", {
 test_that("data frames not equal if missing col", {
   expect_match(
     all.equal(tbl_df(mtcars), mtcars[, -1]),
-    "Cols in x but not y: `mpg`"
+    "different number of columns : 11 vs 10"
   )
   expect_match(
     all.equal(tbl_df(iris), iris[, -1]),
-    "Cols in x but not y: `Sepal.Length`"
+    "different number of columns : 5 vs 4"
   )
   expect_match(
     all.equal(tbl_df(df_all), df_all[, -1]),
-    "Cols in x but not y: `a`"
+    "different number of columns : 7 vs 6"
   )
 })
 
 test_that("factors equal only if levels equal", {
   df1 <- tibble(x = factor(c("a", "b")))
   df2 <- tibble(x = factor(c("a", "d")))
-  expect_equal(
+  expect_match(
     all.equal(df1, df2),
-    "Factor levels not equal for column `x`"
+    "Different types for column `x`"
   )
-  expect_equal(
+  expect_match(
     all.equal(df2, df1),
-    "Factor levels not equal for column `x`"
+    "Different types for column `x`"
   )
 })
 
 test_that("factor comparison requires strict equality of levels (#2440)", {
   df1 <- tibble(x = factor("a"))
   df2 <- tibble(x = factor("a", levels = c("a", "b")))
-  expect_equal(
+  expect_match(
     all.equal(df1, df2),
-    "Factor levels not equal for column `x`"
+    "Different types for column `x`"
   )
-  expect_equal(
+  expect_match(
     all.equal(df2, df1),
-    "Factor levels not equal for column `x`"
+    "Different types for column `x`"
   )
-  expect_warning(expect_true(all.equal(df1, df2, convert = TRUE)), "joining factors")
-  expect_warning(expect_true(all.equal(df2, df1, convert = TRUE)), "joining factors")
-})
-
-test_that("BoolResult does not overwrite singleton R_TrueValue", {
-  dplyr:::equal_data_frame(mtcars, mtcars)
-  expect_equal(class(2 == 2), "logical")
+  expect_true(all.equal(df1, df2, convert = TRUE))
+  expect_true(all.equal(df2, df1, convert = TRUE))
 })
 
 test_that("all.equal.data.frame handles data.frames with NULL names", {
@@ -116,11 +111,11 @@ test_that("equality test fails when convert is FALSE and types don't match (#148
   df1 <- tibble(x = "a")
   df2 <- tibble(x = factor("a"))
 
-  expect_equal(
+  expect_match(
     all_equal(df1, df2, convert = FALSE),
-    "Incompatible type for column `x`: x character, y factor"
+    "Different types for column `x`"
   )
-  expect_warning(all_equal(df1, df2, convert = TRUE))
+  expect_true(all_equal(df1, df2, convert = TRUE))
 })
 
 test_that("equality handles data frames with 0 rows (#1506)", {
@@ -141,24 +136,21 @@ test_that("equality handle raw columns", {
 test_that("equality returns a message for convert = TRUE", {
   df1 <- tibble(x = 1:3)
   df2 <- tibble(x = as.character(1:3))
-  expect_match(all.equal(df1, df2), "Incompatible")
-  expect_match(all.equal(df1, df2, convert = TRUE), "Incompatible")
+  expect_match(all.equal(df1, df2), "Different types for column `x`")
+  expect_match(all.equal(df1, df2, convert = TRUE), "Incompatible types for column `x`")
 })
 
 test_that("numeric and integer can be compared if convert = TRUE", {
   df1 <- tibble(x = 1:3)
   df2 <- tibble(x = as.numeric(1:3))
-  expect_match(all.equal(df1, df2), "Incompatible")
+  expect_match(all.equal(df1, df2), "Different types for column `x`")
   expect_true(all.equal(df1, df2, convert = TRUE))
 })
 
 test_that("returns vector for more than one difference (#1819)", {
-  expect_equal(
+  expect_match(
     all.equal(tibble(a = 1, b = 2), tibble(a = 1L, b = 2L)),
-    c(
-      "Incompatible type for column `a`: x numeric, y integer",
-      "Incompatible type for column `b`: x numeric, y integer"
-    )
+    "Different types for column `a`.*Different types for column `b`"
   )
 })
 
@@ -169,10 +161,7 @@ test_that("returns UTF-8 column names (#2441)", {
 
   expect_equal(
     all.equal(df1, df2),
-    c(
-      "Cols in y but not x: `\u798f`. ",
-      "Cols in x but not y: `\u5e78`. "
-    ),
+    c( "not compatible: \n- Cols in y but not x: `\u798f`.\n- Cols in x but not y: `\u5e78`.\n"),
     fixed = TRUE
   )
 })
@@ -180,13 +169,13 @@ test_that("returns UTF-8 column names (#2441)", {
 test_that("proper message formatting for set operations", {
   expect_error(
     union(tibble(a = 1), tibble(a = "1")),
-    "not compatible: Incompatible type for column `a`: x numeric, y character",
+    "not compatible: \n- Incompatible types for column `a`: double vs character\n",
     fixed = TRUE
   )
 
   expect_error(
     union(tibble(a = 1, b = 2), tibble(a = "1", b = "2")),
-    "not compatible: \n- Incompatible type for column `a`: x numeric, y character\n- Incompatible type for column `b`: x numeric, y character",
+    "not compatible: \n- Incompatible types for column `a`: double vs character\n- Incompatible types for column `b`: double vs character\n",
     fixed = TRUE
   )
 })
@@ -194,11 +183,16 @@ test_that("proper message formatting for set operations", {
 test_that("ignore column order", {
   expect_equal(
     all.equal(tibble(a = 1, b = 2), tibble(b = 2, a = 1), ignore_col_order = FALSE),
-    "Same column names, but different order"
+    "- Same column names, but different order"
   )
 
   expect_equal(
     all.equal(tibble(a = 1, b = 2), tibble(a = 1), ignore_col_order = FALSE),
-    "Cols in x but not y: `b`. "
+    "- different number of columns : 2 vs 1"
   )
+})
+
+test_that("all.equal() works on nameless tibbles (#4552)", {
+  ir <- set_names(iris, NULL)
+  expect_true(all.equal(ir, ir))
 })

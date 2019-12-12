@@ -7,7 +7,7 @@
 \usage{
 new_grouped_df(x, groups, ..., class = character())
 
-validate_grouped_df(x)
+validate_grouped_df(x, check_bounds = FALSE)
 }
 \arguments{
 \item{x}{A data frame}
@@ -19,6 +19,8 @@ a list of 1 based integer vectors that all are between 1 and the number of rows 
 \item{...}{additional attributes}
 
 \item{class}{additional class, will be prepended to canonical classes of a grouped data frame.}
+
+\item{check_bounds}{whether to check all indices for out of bounds problems in grouped_df objects}
 }
 \description{
 \code{new_grouped_df()} is a constructor designed to be high-performance so only

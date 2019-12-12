@@ -4,7 +4,7 @@
 \alias{pull}
 \title{Pull out a single variable}
 \usage{
-pull(.data, var = -1)
+pull(.data, var = -1, name = NULL)
 }
 \arguments{
 \item{.data}{A table of data}
@@ -22,6 +22,9 @@ column you've created most recently).
 This argument is taken by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names and column positions).}
+
+\item{name}{An optional parameter that specifies the column to be used
+as names for a named vector. Specified in a similar manner as \code{var}.}
 }
 \description{
 This works like \code{[[} for local data frames, and automatically collects
@@ -39,5 +42,8 @@ df \%>\%
   mutate(z = x * y) \%>\%
   pull()
 }
+
+# Pull a named vector
+starwars \%>\% pull(height, name)
 
 }

@@ -91,6 +91,7 @@ test_that("select variants can use grouping variables (#3351, #3480)", {
 })
 
 test_that("select_if keeps grouping cols", {
+  skip_if(getRversion() < "3.5.0")
   expect_silent(df <- iris %>% group_by(Species) %>% select_if(is.numeric))
   expect_equal(df, tbl_df(iris[c(5, 1:4)]))
 })

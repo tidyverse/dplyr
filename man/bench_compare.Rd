@@ -13,8 +13,7 @@ bench_tbls(tbls, op, ..., times = 10)
 
 compare_tbls(tbls, op, ref = NULL, compare = equal_data_frame, ...)
 
-compare_tbls2(tbls_x, tbls_y, op, ref = NULL,
-  compare = equal_data_frame, ...)
+compare_tbls2(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame, ...)
 
 eval_tbls(tbls, op)
 

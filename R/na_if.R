@@ -1,6 +1,6 @@
 #' Convert values to NA
 #'
-#' This is a translation of the SQL command `NULL_IF`. It is useful
+#' This is a translation of the SQL command `NULLIF`. It is useful
 #' if you want to convert an annoying value to `NA`.
 #'
 #' @param x Vector to modify

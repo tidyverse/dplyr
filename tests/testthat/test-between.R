@@ -12,7 +12,7 @@ test_that("compatible with base R", {
 })
 
 test_that("warns when called on S3 object", {
-  expect_warning(between(factor(1:5), 1, 3), "numeric vector with S3 class")
+  expect_warning(between(structure(c(1, 5), class = "foo"), 1, 3), "numeric vector with S3 class")
 })
 
 test_that("unless it's a date or date time", {

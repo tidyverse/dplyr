@@ -1,7 +1,6 @@
 ## Release summary
 
-This is an emergency release due to community finding of a 
-major performance regression. 
+This is an minor release
 
 ## Test environments
 
@@ -14,38 +13,62 @@ major performance regression.
 
 0 ERRORs | 0 WARNINGs | 1 NOTE
 
-*   installed size is  8.3Mb
+*   checking installed package size ... NOTE
+    installed size is  8.4Mb
     sub-directories of 1Mb or more:
       libs   6.1Mb
-       
+
 ## revdepcheck results
 
-We checked 1739 reverse dependencies (1578 from CRAN + 161 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 1983 reverse dependencies (1765 from CRAN + 218 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 5 new problems
- * We failed to check 78 packages
+ * We saw 8 new problems
+ * We failed to check 82 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
-(This reports the first line of each new failure)
 
-Packages ggmap, oec, portalr, solrium, tidyquant appear to have false errors. 
+## Missing or unexported object: ‘dplyr::rbind_all’
 
-* ggmap
-  checking installed package size ... NOTE
+aemo
+boxr
+ggvis
+gQTLstats
+mlVAR
+Rariant
 
-* oec
-  checking dependencies in R code ... NOTE
+Emails or pull requests sent. The `rbind_all()` function has finally been 
+removed after being deprecated for a long time. 
 
-* portalr
-  checking tests ...
+## Unexported objects imported by ':::' calls: ‘dplyr:::compat_lazy_dots’ ‘dplyr:::find_var’
 
-* solrium
-  checking Rd cross-references ... NOTE
+dbplyr
 
-* tidyquant
-  checking tests ...
+Pull request sent. 
+
+## explore
+
+Package `explore` fails because of this fix: 
+
+* `group_by()` does not create an arbitrary NA group when grouping by factors with `drop = TRUE` (#4460).
+
+We've sent a pull request. 
+
+## checking S3 generic/method consistency ... WARNING
+
+group_modify() formals have changed, this affects package egor, pull request sent
+
+## Already fixed
+
+broomExtra development version appears to work, the failures of packages
+ggstatsplot and groupedstats are related. 
+
+## Other issues
+
+- Packages DeLorean, geneXtendeR, MonetDBLite, OncoSimulR, perturbatr, sigmajs timed out
+- Package MXM had a NOTE about install size
+- Packages rgho and TCGAutils failed because of a remote api call
 
 ### Failed to check
 
@@ -53,9 +76,9 @@ Packages ggmap, oec, portalr, solrium, tidyquant appear to have false errors.
 * ADMMsigma            (NA)
 * airGR                (NA)
 * BAS                  (NA)
+* BayesPostEst         (NA)
 * BMTME                (NA)
 * BradleyTerryScalable (NA)
-* breathtestcore       (NA)
 * brunnermunzel        (NA)
 * bsam                 (NA)
 * CaseBasedReasoning   (NA)
@@ -63,40 +86,40 @@ Packages ggmap, oec, portalr, solrium, tidyquant appear to have false errors.
 * circumplex           (NA)
 * clustermq            (NA)
 * colorednoise         (NA)
+* corrcoverage         (NA)
 * Countr               (NA)
 * cpr                  (NA)
 * crawl                (NA)
 * DataVisualizations   (NA)
+* DeLorean             (NA)
 * DepthProc            (NA)
+* dexter               (NA)
 * dodgr                (NA)
 * dtwclust             (NA)
 * dynfrail             (NA)
 * exuber               (NA)
+* fable                (NA)
 * fastLink             (NA)
+* fingertipsR          (NA)
 * fourierin            (NA)
 * FSelectorRcpp        (NA)
 * gap                  (NA)
-* genogeographer       (NA)
 * GenomicMating        (NA)
 * goldi                (NA)
 * graphicalVAR         (NA)
 * heatwaveR            (NA)
-* idealstan            (NA)
 * idefix               (NA)
 * iRF                  (NA)
-* loose.rock           (NA)
 * lpirfs               (NA)
-* MetaboList           (NA)
+* mfbvar               (NA)
 * miceFast             (NA)
-* missCompare          (NA)
+* MixMatrix            (NA)
 * momentuHMM           (NA)
 * morse                (NA)
 * mrgsolve             (NA)
-* neonUtilities        (NA)
 * nlmixr               (NA)
+* oceanis              (NA)
 * openair              (NA)
-* OutliersO3           (NA)
-* parSim               (NA)
 * partition            (NA)
 * pccc                 (NA)
 * phase1PRMD           (NA)
@@ -105,25 +128,29 @@ Packages ggmap, oec, portalr, solrium, tidyquant appear to have false errors.
 * pomp                 (NA)
 * poppr                (NA)
 * PPforest             (NA)
+* psychonetrics        (NA)
 * quanteda             (NA)
 * quokar               (NA)
 * qwraps2              (NA)
-* radtools             (NA)
 * resautonet           (NA)
+* rgho                 (NA)
 * RSSL                 (NA)
 * RxODE                (NA)
 * sarima               (NA)
 * scanstatistics       (NA)
 * SCPME                (NA)
 * sf                   (NA)
-* simglm               (NA)
+* sigminer             (NA)
+* SimBIID              (NA)
 * simputation          (NA)
-* solvebio             (NA)
+* simts                (NA)
 * SpaCCr               (NA)
+* stcos                (NA)
 * telefit              (NA)
 * vapour               (NA)
 * VarSelLCM            (NA)
 * vlad                 (NA)
 * walker               (NA)
-* wand                 (NA)
 * weibulltools         (NA)
+* WHO                  (NA)
+* windfarmGA           (NA)

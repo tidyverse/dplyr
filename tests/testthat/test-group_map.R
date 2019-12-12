@@ -1,6 +1,6 @@
 context("group_map")
 
-test_that("group_map() makes a grouped_df", {
+test_that("group_map() respects empty groups", {
   res <- group_by(mtcars, cyl) %>%
     group_map(~ head(.x, 2L))
   expect_equal(length(res), 3L)
@@ -49,21 +49,21 @@ test_that("group_modify() makes a grouped_df", {
     group_modify(~ head(.x, 2L))
 
   expect_equal(nrow(res), 6L)
-  expect_equal(group_rows(res), list(1:2, 3:4, 5:6))
+  expect_equal(group_rows(res), list_of(1:2, 3:4, 5:6))
 
   res <- iris %>%
     group_by(Species) %>%
     filter(Species == "setosa") %>%
     group_modify(~ tally(.x))
   expect_equal(nrow(res), 1L)
-  expect_equal(group_rows(res), list(1L))
+  expect_equal(group_rows(res), list_of(1L))
 
   res <- iris %>%
     group_by(Species, .drop = FALSE) %>%
     filter(Species == "setosa") %>%
     group_modify(~ tally(.x))
   expect_equal(nrow(res), 3L)
-  expect_equal(group_rows(res), list(1L, 2L, 3L))
+  expect_equal(group_rows(res), list_of(1L, 2L, 3L))
 })
 
 test_that("group_modify() rejects non data frames", {
@@ -115,4 +115,24 @@ test_that("group_modify() uses ptype on empty splits (#4421)", {
     filter(hp > 1000) %>%
     group_modify(~.x)
   expect_equal(res, group_by(mtcars[integer(0L), ], cyl))
+})
+
+test_that("group_modify() works with additional arguments (#4509)", {
+  myfun <- function(.x, .y, foo) {
+    .x[[foo]] <- 1
+    .x
+  }
+  
+  srcdata <-
+    data.frame(
+      A=rep(1:2, each = 3)
+    ) %>%
+    group_by(A)
+  targetdata <- srcdata
+  targetdata$bar <- 1
+  
+  expect_equal(
+    group_modify(.data = srcdata, .f = myfun, foo = "bar"),
+    targetdata
+  )
 })

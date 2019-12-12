@@ -22,7 +22,7 @@ value of \code{n} must be consistent across all cases. The case of
 
 These dots support \link[rlang:list2]{tidy dots} features. In
 particular, if your patterns are stored in a list, you can
-splice that in with \code{!!!}.}
+splice that in with \verb{!!!}.}
 }
 \value{
 A vector of length 1 or \code{n}, matching the length of the logical
@@ -31,7 +31,7 @@ RHS. Inconsistent lengths or types will generate an error.
 }
 \description{
 This function allows you to vectorise multiple \code{\link[=if_else]{if_else()}}
-statements. It is an R equivalent of the SQL \code{CASE WHEN} statement.
+statements. It is an R equivalent of the SQL \verb{CASE WHEN} statement.
 If no cases match, \code{NA} is returned.
 }
 \examples{

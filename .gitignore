@@ -20,3 +20,4 @@ vignettes/*.R
 /.dir-locals.el
 /issues
 /.drake
+bench-libs
