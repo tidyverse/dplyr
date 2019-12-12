@@ -2,19 +2,9 @@
 % Please edit documentation in R/all-equal.r
 \name{all_equal}
 \alias{all_equal}
-\alias{all.equal.tbl_df}
 \title{Flexible equality comparison for data frames}
 \usage{
 all_equal(
-  target,
-  current,
-  ignore_col_order = TRUE,
-  ignore_row_order = TRUE,
-  convert = FALSE,
-  ...
-)
-
-\method{all.equal}{tbl_df}(
   target,
   current,
   ignore_col_order = TRUE,
