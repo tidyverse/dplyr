@@ -47,7 +47,8 @@ starwars <- tibble(
   skin_color = people %>% map_chr("skin_color"),
   eye_color = people %>% map_chr("eye_color"),
   birth_year = people %>% map_chr("birth_year") %>% parse_number(na = "unknown"),
-  gender = people %>% map_chr("gender") %>% parse_character(na = "n/a"),
+  sex = people %>% map_chr("gender") %>% parse_character(na = "n/a"),
+  gender = NA_character_,
   homeworld = people %>% map_chr("homeworld") %>% planets[.] %>% unname(),
   species = people %>% map("species") %>% map_chr(1, .null = NA) %>% species[.] %>% unname(),
   films = people %>% map("films") %>% map(. %>% flatten_chr() %>% films[.] %>% unname()),
@@ -55,17 +56,56 @@ starwars <- tibble(
   starships = people %>% map("starships", .default = list()) %>% map(. %>% flatten_chr() %>% starships[.] %>% unname())
 )
 
-# A little exploration
+
+# Add gender --------------------------------------------------------------
+
+# For asexual and hermaphroditic individuals we need to add some manually
+# collected data from @MeganBeckett.
+
+# Droids are robots and do not have a biological sex. But they
+# they have a gender, determined by they were programmed:
+# https://starwars.fandom.com/wiki/Sexes
+#
+# Hutts are hermaphroditic, but identify as either male or female
+
+genders <- c(
+  "C-3PO" = "masculine",  # https://starwars.fandom.com/wiki/C-3PO
+  "BB8" = "masculine",    # https://starwars.fandom.com/wiki/BB-8
+  "IG-88" = "masculine",  # https://starwars.fandom.com/wiki/IG-88
+  "R5-D4" = "masculine",  # https://starwars.fandom.com/wiki/R5-D4
+  "R2-D2" = "masculine",  # https://starwars.fandom.com/wiki/R2-D2
+  "R4-P17" = "feminine",  # https://starwars.fandom.com/wiki/R4-P17
+  "Jabba Desilijic Tiure" = "masculine" # https://starwars.fandom.com/wiki/Jabba_Desilijic_Tiure
+)
+
+starwars <- mutate(starwars,
+  species = ifelse(name == "R4-P17", "droid", species), # R4-P17 is a droid
+  sex = ifelse(species == "droid", "none", sex), # Droids don't have biological sex
+  gender = case_when(
+    sex == "male" ~ "masculine",
+    sex == "female" ~ "feminine",
+    TRUE ~ unname(genders[name])
+  )
+)
+
+starwars %>% filter(is.na(sex)) %>% select(name, species, gender, sex)
+
+starwars %>% count(gender, sort = TRUE)
+starwars %>% count(sex, gender, sort = TRUE)
+
+# Basic checks -------------------------------------------------------------
+
 starwars %>% count(species, sort = TRUE)
 starwars %>% count(homeworld, sort = TRUE)
 starwars %>% count(skin_color, sort = TRUE)
-starwars %>% count(gender, sort = TRUE)
 
 starwars %>% group_by(species) %>% summarise(mass = mean(mass, na.rm = T))
+
+# Save --------------------------------------------------------------------
 
 # Save in convenient form for diffs
 starwars %>%
   mutate_if(is.list, ~ map_chr(., paste, collapse = ", ")) %>%
-  write_csv("starwars.csv")
+  write_csv("data-raw/starwars.csv")
 
 devtools::use_data(starwars, overwrite = TRUE)
