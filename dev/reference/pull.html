@@ -196,7 +196,7 @@ before indexing for remote data tables." />
 before indexing for remote data tables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pull</span>(<span class='no'>.data</span>, <span class='kw'>var</span> <span class='kw'>=</span> -<span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>pull</span>(<span class='no'>.data</span>, <span class='kw'>var</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -219,6 +219,11 @@ column you've created most recently).</p>
 <a href='https://rlang.r-lib.org/reference/nse-force.html'>quasiquotation</a> (you can unquote column
 names and column positions).</p></td>
     </tr>
+    <tr>
+      <th>name</th>
+      <td><p>An optional parameter that specifies the column to be used
+as names for a named vector. Specified in a similar manner as <code>var</code>.</p></td>
+    </tr>
     </table>
 
 
@@ -233,6 +238,65 @@ names and column positions).</p></td>
   <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> * <span class='no'>y</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>pull</span>()
 }</div><div class='output co'>#&gt;  [1] 10 18 24 28 30 30 28 24 18 10</div><div class='input'>
+<span class='co'># Pull a named vector</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(<span class='no'>height</span>, <span class='no'>name</span>)</div><div class='output co'>#&gt;        Luke Skywalker                 C-3PO                 R2-D2 
+#&gt;                   172                   167                    96 
+#&gt;           Darth Vader           Leia Organa             Owen Lars 
+#&gt;                   202                   150                   178 
+#&gt;    Beru Whitesun lars                 R5-D4     Biggs Darklighter 
+#&gt;                   165                    97                   183 
+#&gt;        Obi-Wan Kenobi      Anakin Skywalker        Wilhuff Tarkin 
+#&gt;                   182                   188                   180 
+#&gt;             Chewbacca              Han Solo                Greedo 
+#&gt;                   228                   180                   173 
+#&gt; Jabba Desilijic Tiure        Wedge Antilles      Jek Tono Porkins 
+#&gt;                   175                   170                   180 
+#&gt;                  Yoda             Palpatine             Boba Fett 
+#&gt;                    66                   170                   183 
+#&gt;                 IG-88                 Bossk      Lando Calrissian 
+#&gt;                   200                   190                   177 
+#&gt;                 Lobot                Ackbar            Mon Mothma 
+#&gt;                   175                   180                   150 
+#&gt;          Arvel Crynyd Wicket Systri Warrick             Nien Nunb 
+#&gt;                    NA                    88                   160 
+#&gt;          Qui-Gon Jinn           Nute Gunray         Finis Valorum 
+#&gt;                   193                   191                   170 
+#&gt;         Jar Jar Binks          Roos Tarpals            Rugor Nass 
+#&gt;                   196                   224                   206 
+#&gt;              Ric Olié                 Watto               Sebulba 
+#&gt;                   183                   137                   112 
+#&gt;         Quarsh Panaka        Shmi Skywalker            Darth Maul 
+#&gt;                   183                   163                   175 
+#&gt;           Bib Fortuna           Ayla Secura              Dud Bolt 
+#&gt;                   180                   178                    94 
+#&gt;               Gasgano        Ben Quadinaros            Mace Windu 
+#&gt;                   122                   163                   188 
+#&gt;          Ki-Adi-Mundi             Kit Fisto             Eeth Koth 
+#&gt;                   198                   196                   171 
+#&gt;            Adi Gallia           Saesee Tiin           Yarael Poof 
+#&gt;                   184                   188                   264 
+#&gt;              Plo Koon            Mas Amedda          Gregar Typho 
+#&gt;                   188                   196                   185 
+#&gt;                 Cordé           Cliegg Lars     Poggle the Lesser 
+#&gt;                   157                   183                   183 
+#&gt;       Luminara Unduli         Barriss Offee                 Dormé 
+#&gt;                   170                   166                   165 
+#&gt;                 Dooku   Bail Prestor Organa            Jango Fett 
+#&gt;                   193                   191                   183 
+#&gt;            Zam Wesell       Dexter Jettster               Lama Su 
+#&gt;                   168                   198                   229 
+#&gt;               Taun We            Jocasta Nu         Ratts Tyerell 
+#&gt;                   213                   167                    79 
+#&gt;                R4-P17            Wat Tambor              San Hill 
+#&gt;                    96                   193                   191 
+#&gt;              Shaak Ti              Grievous               Tarfful 
+#&gt;                   178                   216                   234 
+#&gt;       Raymus Antilles             Sly Moore            Tion Medon 
+#&gt;                   188                   178                   206 
+#&gt;                  Finn                   Rey           Poe Dameron 
+#&gt;                    NA                    NA                    NA 
+#&gt;                   BB8        Captain Phasma         Padmé Amidala 
+#&gt;                    NA                    NA                   165 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
