@@ -65,7 +65,7 @@ starwars %>% group_by(species) %>% summarise(mass = mean(mass, na.rm = T))
 
 # Save in convenient form for diffs
 starwars %>%
-  mutate_if(is.list, ~ map_chr(., str_flatten, ", ")) %>%
+  mutate_if(is.list, ~ map_chr(., paste, collapse = ", ")) %>%
   write_csv("starwars.csv")
 
 devtools::use_data(starwars, overwrite = TRUE)
