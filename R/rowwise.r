@@ -68,12 +68,6 @@ group_by.rowwise_df <- function(.data, ..., add = FALSE, .drop = group_by_drop_d
   groups <- group_by_prepare(.data, ..., add = add)
   grouped_df(groups$data, groups$group_names, .drop)
 }
-#' @export
-group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE, .drop = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!!dots, add = add, .drop = .drop)
-}
-
 
 # Do ---------------------------------------------------------------------------
 

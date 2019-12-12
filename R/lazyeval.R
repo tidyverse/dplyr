@@ -73,6 +73,17 @@ arrange_ <- function(.data, ..., .dots = list()) {
 
   UseMethod("arrange_")
 }
+#' @export
+arrange_.data.frame <- function(.data, ..., .dots = list(), .by_group = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  arrange(.data, !!!dots, .by_group = .by_group)
+}
+#' @export
+arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  arrange_data_frame(.data, !!!dots, .by_group = .by_group)
+}
+
 
 #' @export
 #' @rdname se-deprecated
@@ -109,6 +120,16 @@ distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
   ))
 
   UseMethod("distinct_")
+}
+#' @export
+distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  distinct(.data, !!!dots, .keep_all = .keep_all)
+}
+#' @export
+distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  distinct(.data, !!!dots, .keep_all = .keep_all)
 }
 
 #' @export
@@ -161,7 +182,16 @@ filter_ <- function(.data, ..., .dots = list()) {
   ))
   UseMethod("filter_")
 }
-
+#' @export
+filter_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  filter(.data, !!!dots)
+}
+#' @export
+filter_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  filter(.data, !!!dots)
+}
 
 #' @export
 #' @rdname se-deprecated
@@ -195,7 +225,16 @@ group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
 
   UseMethod("group_by_")
 }
-
+#' @export
+group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  group_by(.data, !!!dots, add = add)
+}
+#' @export
+group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE, .drop = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  group_by(.data, !!!dots, add = add, .drop = .drop)
+}
 
 
 #' @export
@@ -221,7 +260,16 @@ group_indices_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   group_indices(.data, !!!dots)
 }
-
+#' @export
+group_indices_.grouped_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  group_indices(.data, !!!dots)
+}
+#' @export
+group_indices_.rowwise_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  group_indices(.data, !!!dots)
+}
 
 #' @export
 mutate.default <- function(.data, ...) {
@@ -239,6 +287,16 @@ mutate_ <- function(.data, ..., .dots = list()) {
   ))
 
   UseMethod("mutate_")
+}
+#' @export
+mutate_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  mutate(.data, !!!dots)
+}
+#' @export
+mutate_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  mutate(.data, !!!dots)
 }
 
 #' @rdname se-deprecated
@@ -298,6 +356,17 @@ rename_ <- function(.data, ..., .dots = list()) {
 
   UseMethod("rename_")
 }
+#' @export
+rename_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  rename(.data, !!!dots)
+}
+#' @export
+rename_.grouped_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  rename(.data, !!!dots)
+}
+
 
 #' @export
 #' @rdname se-deprecated
@@ -326,6 +395,16 @@ select_ <- function(.data, ..., .dots = list()) {
   ))
 
   UseMethod("select_")
+}
+#' @export
+select_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  select(.data, !!!dots)
+}
+#' @export
+select_.grouped_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  select.grouped_df(.data, !!!dots)
 }
 
 
@@ -359,6 +438,16 @@ slice_ <- function(.data, ..., .dots = list()) {
   ))
   UseMethod("slice_")
 }
+#' @export
+slice_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  slice(.data, !!!dots)
+}
+#' @export
+slice_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  slice(.data, !!!dots)
+}
 
 
 #' @export
@@ -377,6 +466,16 @@ summarise_ <- function(.data, ..., .dots = list()) {
   ))
 
   UseMethod("summarise_")
+}
+#' @export
+summarise_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  summarise(.data, !!!dots)
+}
+#' @export
+summarise_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  summarise(.data, !!!dots)
 }
 #' @rdname se-deprecated
 #' @export

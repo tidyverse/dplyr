@@ -106,12 +106,6 @@ arrange.tbl_df <- function(.data, ..., .by_group = FALSE) {
   arrange_data_frame(.data, ..., .by_group = .by_group)
 }
 
-#' @export
-arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange_data_frame(.data, !!!dots, .by_group = .by_group)
-}
-
 regroup <- function(data) {
   # only keep the non empty groups
   non_empty <- map_lgl(group_rows(data), function(.x) length(.x) > 0)
@@ -225,11 +219,6 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   out
 }
-#' @export
-filter_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!!dots)
-}
 
 #' @export
 slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
@@ -302,11 +291,6 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   }
 
   out
-}
-#' @export
-slice_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  slice(.data, !!!dots)
 }
 
 #' @export
@@ -387,11 +371,6 @@ mutate.tbl_df <- function(.data, ...) {
 
   out
 
-}
-#' @export
-mutate_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  mutate(.data, !!!dots)
 }
 
 DataMask <- R6Class("DataMask",
@@ -541,12 +520,6 @@ summarise.tbl_df <- function(.data, ...) {
   }
 
   out
-}
-
-#' @export
-summarise_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  summarise(.data, !!!dots)
 }
 
 # Joins ------------------------------------------------------------------------

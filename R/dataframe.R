@@ -33,11 +33,6 @@ group_by.data.frame <- function(.data, ..., add = FALSE, .drop = group_by_drop_d
   groups <- group_by_prepare(.data, ..., add = add)
   grouped_df(groups$data, groups$group_names, .drop)
 }
-#' @export
-group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!!dots, add = add)
-}
 
 #' @export
 ungroup.data.frame <- function(x, ...) x
@@ -57,50 +52,25 @@ n_groups.data.frame <- function(x) 1L
 filter.data.frame <- function(.data, ..., .preserve = FALSE) {
   as.data.frame(filter(tbl_df(.data), ..., .preserve = .preserve))
 }
-#' @export
-filter_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!!dots)
-}
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
   as.data.frame(slice(tbl_df(.data), ..., .preserve = .preserve))
-}
-#' @export
-slice_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  slice(.data, !!!dots)
 }
 
 #' @export
 summarise.data.frame <- function(.data, ...) {
   as.data.frame(summarise(tbl_df(.data), ...))
 }
-#' @export
-summarise_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  summarise(.data, !!!dots)
-}
 
 #' @export
 mutate.data.frame <- function(.data, ...) {
   as.data.frame(mutate(tbl_df(.data), ...))
 }
-#' @export
-mutate_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  mutate(.data, !!!dots)
-}
 
 #' @export
 arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
   as.data.frame(arrange(tbl_df(.data), ..., .by_group = .by_group))
-}
-#' @export
-arrange_.data.frame <- function(.data, ..., .dots = list(), .by_group = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange(.data, !!!dots, .by_group = .by_group)
 }
 
 #' @export
@@ -109,23 +79,12 @@ select.data.frame <- function(.data, ...) {
   vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
   select_impl(.data, vars)
 }
-#' @export
-select_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  select(.data, !!!dots)
-}
 
 #' @export
 rename.data.frame <- function(.data, ...) {
   vars <- tidyselect::vars_rename(names(.data), !!!enquos(...))
   select_impl(.data, vars)
 }
-#' @export
-rename_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  rename(.data, !!!dots)
-}
-
 
 # Joins ------------------------------------------------------------------------
 
@@ -345,12 +304,6 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
     vec_unique_loc(dist$data[, dist$vars, drop = FALSE])
   )
 }
-#' @export
-distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  distinct(.data, !!!dots, .keep_all = .keep_all)
-}
-
 
 # Do ---------------------------------------------------------------------------
 
