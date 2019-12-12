@@ -776,6 +776,7 @@ test_that("inner join not crashing (#1559)", {
 # Encoding ----------------------------------------------------------------
 
 test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
+  skip("encoding issues")
   with_non_utf8_encoding({
     special <- get_native_lang_string()
 

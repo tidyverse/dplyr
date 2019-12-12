@@ -206,7 +206,7 @@ test_that("summarise propagate attributes (#194)", {
 })
 
 test_that("summarise allows names (#2675)", {
-  data <- tibble(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
+  data <- tibble(a = 1:3) %>% summarise(b = c("1" = a[[1]]))
   expect_equal(names(data$b), "1")
 
   data <- tibble(a = 1:3) %>% rowwise() %>% summarise(b = setNames(nm = a))

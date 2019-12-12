@@ -707,7 +707,7 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 #' @export
 #' @rdname join.tbl_df
 nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
-  name_var <- name %||% expr_name(enexpr(y))
+  name_var <- name %||% as_label(enexpr(y))
 
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))

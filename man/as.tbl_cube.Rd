@@ -34,10 +34,10 @@ tables and data frames.}
 
 \item{...}{Passed on to individual methods; otherwise ignored.}
 
-\item{dim_names}{names of the dimensions. Defaults to the names of}
-
-\item{met_name}{a string to use as the name for the measure
+\item{dim_names}{names of the dimensions. Defaults to the names of
 the \code{\link[=dimnames]{dimnames()}}.}
+
+\item{met_name}{a string to use as the name for the measure.}
 }
 \description{
 Coerce an existing data structure into a \code{tbl_cube}
