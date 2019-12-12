@@ -345,10 +345,10 @@ will be prefixed by an extra <code>"n"</code> as many times as necessary.</p>
 #&gt;  1 Human    Tatooine      8
 #&gt;  2 Human    Naboo         5
 #&gt;  3 Human    &lt;NA&gt;          5
-#&gt;  4 Gungan   Naboo         3
-#&gt;  5 Human    Alderaan      3
-#&gt;  6 Droid    Tatooine      2
-#&gt;  7 Droid    &lt;NA&gt;          2
+#&gt;  4 Droid    &lt;NA&gt;          3
+#&gt;  5 Gungan   Naboo         3
+#&gt;  6 Human    Alderaan      3
+#&gt;  7 Droid    Tatooine      2
 #&gt;  8 Human    Corellia      2
 #&gt;  9 Human    Coruscant     2
 #&gt; 10 Kaminoan Kamino        2
@@ -376,10 +376,10 @@ will be prefixed by an extra <code>"n"</code> as many times as necessary.</p>
 #&gt;  1 Human    Tatooine                       8
 #&gt;  2 Human    Naboo                          5
 #&gt;  3 Human    &lt;NA&gt;                           5
-#&gt;  4 Gungan   Naboo                          3
-#&gt;  5 Human    Alderaan                       3
-#&gt;  6 Droid    Tatooine                       2
-#&gt;  7 Droid    &lt;NA&gt;                           2
+#&gt;  4 Droid    &lt;NA&gt;                           3
+#&gt;  5 Gungan   Naboo                          3
+#&gt;  6 Human    Alderaan                       3
+#&gt;  7 Droid    Tatooine                       2
 #&gt;  8 Human    Corellia                       2
 #&gt;  9 Human    Coruscant                      2
 #&gt; 10 Kaminoan Kamino                         2
@@ -402,19 +402,19 @@ will be prefixed by an extra <code>"n"</code> as many times as necessary.</p>
 <span class='co'># e.g.: show details for species that have a single member</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>add_count</span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>n</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 29 x 14
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Gree…    173    74 &lt;NA&gt;       green      black             44 male  
-#&gt;  2 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma…
-#&gt;  3 Yoda      66    17 white      green      brown            896 male  
-#&gt;  4 Bossk    190   113 none       green      red               53 male  
-#&gt;  5 Ackb…    180    83 none       brown mot… orange            41 male  
-#&gt;  6 Wick…     88    20 brown      brown      brown              8 male  
-#&gt;  7 Nien…    160    68 none       grey       black             NA male  
-#&gt;  8 Nute…    191    90 none       mottled g… red               NA male  
-#&gt;  9 Watto    137    NA black      blue, grey yellow            NA male  
-#&gt; 10 Sebu…    112    40 none       grey, red  orange            NA male  
+  <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>n</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 29 x 15
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+#&gt;  1 Gree…    173    74 &lt;NA&gt;       green      black             44 male  mascu…
+#&gt;  2 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herm… mascu…
+#&gt;  3 Yoda      66    17 white      green      brown            896 male  mascu…
+#&gt;  4 Bossk    190   113 none       green      red               53 male  mascu…
+#&gt;  5 Ackb…    180    83 none       brown mot… orange            41 male  mascu…
+#&gt;  6 Wick…     88    20 brown      brown      brown              8 male  mascu…
+#&gt;  7 Nien…    160    68 none       grey       black             NA male  mascu…
+#&gt;  8 Nute…    191    90 none       mottled g… red               NA male  mascu…
+#&gt;  9 Watto    137    NA black      blue, grey yellow            NA male  mascu…
+#&gt; 10 Sebu…    112    40 none       grey, red  orange            NA male  mascu…
 #&gt; # … with 19 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, n &lt;int&gt;</div></pre>
   </div>

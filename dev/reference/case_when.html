@@ -331,18 +331,18 @@ RHS. Inconsistent lengths or types will generate an error.</p>
       <span class='fl'>TRUE</span>                      ~ <span class='st'>"other"</span>
     )
   )</div><div class='output co'>#&gt; # A tibble: 87 x 6
-#&gt;    name               height  mass gender species type 
-#&gt;    &lt;chr&gt;               &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;
-#&gt;  1 Luke Skywalker        172    77 male   Human   other
-#&gt;  2 C-3PO                 167    75 &lt;NA&gt;   Droid   robot
-#&gt;  3 R2-D2                  96    32 &lt;NA&gt;   Droid   robot
-#&gt;  4 Darth Vader           202   136 male   Human   large
-#&gt;  5 Leia Organa           150    49 female Human   other
-#&gt;  6 Owen Lars             178   120 male   Human   other
-#&gt;  7 Beru Whitesun lars    165    75 female Human   other
-#&gt;  8 R5-D4                  97    32 &lt;NA&gt;   Droid   robot
-#&gt;  9 Biggs Darklighter     183    84 male   Human   other
-#&gt; 10 Obi-Wan Kenobi        182    77 male   Human   other
+#&gt;    name               height  mass gender    species type 
+#&gt;    &lt;chr&gt;               &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;
+#&gt;  1 Luke Skywalker        172    77 masculine Human   other
+#&gt;  2 C-3PO                 167    75 masculine Droid   robot
+#&gt;  3 R2-D2                  96    32 masculine Droid   robot
+#&gt;  4 Darth Vader           202   136 masculine Human   large
+#&gt;  5 Leia Organa           150    49 feminine  Human   other
+#&gt;  6 Owen Lars             178   120 masculine Human   other
+#&gt;  7 Beru Whitesun lars    165    75 feminine  Human   other
+#&gt;  8 R5-D4                  97    32 masculine Droid   robot
+#&gt;  9 Biggs Darklighter     183    84 masculine Human   other
+#&gt; 10 Obi-Wan Kenobi        182    77 masculine Human   other
 #&gt; # … with 77 more rows</div><div class='input'>
 
 <span class='co'># `case_when()` is not a tidy eval function. If you'd like to reuse</span>
@@ -368,7 +368,7 @@ RHS. Inconsistent lengths or types will generate an error.</p>
 #&gt; [46] "other" "other" "other" "other" "other" "other" "other" "other" "large"
 #&gt; [55] "other" "other" "other" "other" "other" "other" "other" "other" "other"
 #&gt; [64] "other" "other" "other" "other" "other" "large" "large" "other" "other"
-#&gt; [73] "other" "other" "other" "other" "large" "large" "other" "other" "large"
+#&gt; [73] "robot" "other" "other" "other" "large" "large" "other" "other" "large"
 #&gt; [82] "other" "other" "other" "robot" "other" "other"</div><div class='input'>
 <span class='co'># `case_when()` ignores `NULL` inputs. This is useful when you'd</span>
 <span class='co'># like to use a pattern only under certain conditions. Here we'll</span>

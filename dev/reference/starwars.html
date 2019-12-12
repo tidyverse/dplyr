@@ -205,7 +205,8 @@
 <dt>mass</dt><dd><p>Weight (kg)</p></dd>
 <dt>hair_color,skin_color,eye_color</dt><dd><p>Hair, skin, and eye colors</p></dd>
 <dt>birth_year</dt><dd><p>Year born (BBY = Before Battle of Yavin)</p></dd>
-<dt>gender</dt><dd><p>male, female, hermaphrodite, or none.</p></dd>
+<dt>sex</dt><dd><p>The biological sex of the character, namely male, female, hermaphroditic, or none (as in the case for Droids).</p></dd>
+<dt>gender</dt><dd><p>The gender role or gender identity of the character as determined by their personality or the way they were progammed (as in the case for Droids).</p></dd>
 <dt>homeworld</dt><dd><p>Name of homeworld</p></dd>
 <dt>species</dt><dd><p>Name of species</p></dd>
 <dt>films</dt><dd><p>List of films the character appeared in</p></dd>
@@ -215,19 +216,19 @@
 </dl>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>starwars</span></div><div class='output co'>#&gt; # A tibble: 87 x 13
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Luke…    172    77 blond      fair       blue            19   male  
-#&gt;  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
-#&gt;  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
-#&gt;  4 Dart…    202   136 none       white      yellow          41.9 male  
-#&gt;  5 Leia…    150    49 brown      light      brown           19   female
-#&gt;  6 Owen…    178   120 brown, gr… light      blue            52   male  
-#&gt;  7 Beru…    165    75 brown      light      blue            47   female
-#&gt;  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
-#&gt;  9 Bigg…    183    84 black      light      brown           24   male  
-#&gt; 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  
+    <pre class="examples"><div class='input'><span class='no'>starwars</span></div><div class='output co'>#&gt; # A tibble: 87 x 14
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+#&gt;  1 Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt;  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
+#&gt;  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
+#&gt;  4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt;  5 Leia…    150    49 brown      light      brown           19   fema… femin…
+#&gt;  6 Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+#&gt;  7 Beru…    165    75 brown      light      blue            47   fema… femin…
+#&gt;  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   none  mascu…
+#&gt;  9 Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
 #&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div></pre>
   </div>

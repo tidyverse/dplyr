@@ -193,6 +193,7 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code>starwars</code> dataset now does a better job of separating biological sex from gender identity. The previous <code>gender</code> column has been renamed to <code>sex</code>, since it actually describes the individual’s biological sex. A new <code>gender</code> column encodes the actual gender identity using other information about the Star Wars universe (<a href='https://github.com/MeganBeckett'>@MeganBeckett</a>, <a href='https://github.com/tidyverse/dplyr/issues/4456'>#4456</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> automatically unpack unnamed tibble results (<a href='https://github.com/tidyverse/dplyr/issues/2326'>#2326</a>).</p></li>
 <li><p><code>group_keys.rowwise_df()</code> gives a 0 column data frame with n() rows.</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by()</a></code> uses hashing from the <code>vctrs</code> package.</p></li>

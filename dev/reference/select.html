@@ -386,19 +386,19 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt; # … with 140 more rows</div><div class='input'>
 <span class='co'># Select the grouping variables:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='group_cols.html'>group_cols</a></span>())</div><div class='output co'>#&gt; # A tibble: 87 x 1
-#&gt; # Groups:   gender [5]
-#&gt;    gender
-#&gt;    &lt;chr&gt; 
-#&gt;  1 male  
-#&gt;  2 &lt;NA&gt;  
-#&gt;  3 &lt;NA&gt;  
-#&gt;  4 male  
-#&gt;  5 female
-#&gt;  6 male  
-#&gt;  7 female
-#&gt;  8 &lt;NA&gt;  
-#&gt;  9 male  
-#&gt; 10 male  
+#&gt; # Groups:   gender [3]
+#&gt;    gender   
+#&gt;    &lt;chr&gt;    
+#&gt;  1 masculine
+#&gt;  2 masculine
+#&gt;  3 masculine
+#&gt;  4 masculine
+#&gt;  5 feminine 
+#&gt;  6 masculine
+#&gt;  7 feminine 
+#&gt;  8 masculine
+#&gt;  9 masculine
+#&gt; 10 masculine
 #&gt; # … with 77 more rows</div><div class='input'>
 
 <span class='co'># The .data pronoun is available:</span>

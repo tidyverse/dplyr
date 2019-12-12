@@ -483,38 +483,40 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>mutate</span>(<span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pull.html'>pull</a></span>()</div><div class='output co'>#&gt;  [1] 0.9505639 1.6187050 0.6906475 1.6789181 0.9070715 1.4813984 1.3883747
-#&gt;  [8] 0.6906475 1.0369788 0.9505639 1.0369788        NA 1.3826385 0.9875989
-#&gt; [15] 0.9135290 1.0000000 0.9505639 1.3579485 0.2098648 0.9258740 0.9653779
-#&gt; [22] 1.0000000 1.3949834 0.9752539 0.9752539 1.0246339        NA        NA
-#&gt; [29] 0.2468997 0.8394591 1.0987038 1.1110488        NA 0.8147691 1.0122889
-#&gt; [36]        NA        NA        NA 0.4937995        NA        NA 0.9875989
-#&gt; [43]        NA 1.0181414 0.5555244        NA 0.8024241 1.0369788 1.0122889
-#&gt; [50] 1.0740138        NA 0.9255831        NA        NA 0.9875989        NA
-#&gt; [57] 1.0493238        NA        NA 0.9875989 1.0403554 0.9255831        NA
-#&gt; [64] 0.9875989        NA 0.9752539 1.0181414 1.2591886 1.0863588        NA
-#&gt; [71]        NA 0.1851748        NA 0.5925593        NA 1.0551648 1.9628528
-#&gt; [78] 1.6789181 0.9752539 0.8885598 0.9875989        NA        NA        NA
-#&gt; [85]        NA        NA 0.8330248</div><div class='input'>
+  <span class='fu'><a href='pull.html'>pull</a></span>()</div><div class='output co'>#&gt;  [1]  0.7254095  0.7065677  0.3014689  1.2812428  0.8959772  1.1305083
+#&gt;  [7]  1.3713937  0.3014689  0.7913558  0.7254095  0.7913558         NA
+#&gt; [13]  1.0551411  0.7536722  0.6971468 12.7935861  0.7254095  1.0362993
+#&gt; [19]  0.1601553  0.7065677  0.7367146  1.3189264  1.0645620  0.7442513
+#&gt; [25]  0.7442513  0.7819349         NA         NA  0.1884181  0.6406214
+#&gt; [31]  0.8384604  0.8478813         NA  0.6217796  0.7725140         NA
+#&gt; [37]         NA         NA  0.3768361         NA         NA  0.7536722
+#&gt; [43]         NA  1.0056887  0.4239406         NA  0.6123587  0.7913558
+#&gt; [49]  0.7725140  0.8196185         NA  0.9142625         NA         NA
+#&gt; [55]  0.7536722         NA  0.8007767         NA         NA  0.7536722
+#&gt; [61]  1.0276310  0.9142625         NA  0.7536722         NA  0.7442513
+#&gt; [67]  1.0056887  0.9609321  0.8290395         NA         NA  0.1413135
+#&gt; [73]         NA  0.4522033         NA  1.0422592  1.4979236  1.2812428
+#&gt; [79]  0.7442513  1.0000000  0.7536722         NA         NA         NA
+#&gt; [85]         NA         NA  0.8228362</div><div class='input'>
 <span class='co'># Note that you can't overwrite grouping variables:</span>
 <span class='no'>gdf</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>mutate</span>(<span class='no'>gdf</span>, <span class='kw'>cyl</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>100</span>))</div><div class='output co'>#&gt; Error : Column `cyl` can't be modified because it's a grouping variable</div><div class='input'>
 
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
-<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>prod</span> <span class='kw'>=</span> <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>1</span>]]]] * <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>2</span>]]]])</div><div class='output co'>#&gt; # A tibble: 87 x 14
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Luke…    172    77 blond      fair       blue            19   male  
-#&gt;  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
-#&gt;  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
-#&gt;  4 Dart…    202   136 none       white      yellow          41.9 male  
-#&gt;  5 Leia…    150    49 brown      light      brown           19   female
-#&gt;  6 Owen…    178   120 brown, gr… light      blue            52   male  
-#&gt;  7 Beru…    165    75 brown      light      blue            47   female
-#&gt;  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
-#&gt;  9 Bigg…    183    84 black      light      brown           24   male  
-#&gt; 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  
+<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>prod</span> <span class='kw'>=</span> <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>1</span>]]]] * <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>2</span>]]]])</div><div class='output co'>#&gt; # A tibble: 87 x 15
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+#&gt;  1 Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt;  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
+#&gt;  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
+#&gt;  4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt;  5 Leia…    150    49 brown      light      brown           19   fema… femin…
+#&gt;  6 Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+#&gt;  7 Beru…    165    75 brown      light      blue            47   fema… femin…
+#&gt;  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   none  mascu…
+#&gt;  9 Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
 #&gt; # … with 77 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, prod &lt;dbl&gt;</div><div class='input'>
 <span class='co'># For more complex cases, knowledge of tidy evaluation and the</span>
@@ -524,19 +526,19 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 <span class='co'># bypass the data frame and its columns. Here is how to divide the</span>
 <span class='co'># column `mass` by an object of the same name:</span>
 <span class='no'>mass</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
-<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>mass</span> <span class='kw'>=</span> <span class='no'>mass</span> / !!<span class='no'>mass</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 13
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Luke…    172  0.77 blond      fair       blue            19   male  
-#&gt;  2 C-3PO    167  0.75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
-#&gt;  3 R2-D2     96  0.32 &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
-#&gt;  4 Dart…    202  1.36 none       white      yellow          41.9 male  
-#&gt;  5 Leia…    150  0.49 brown      light      brown           19   female
-#&gt;  6 Owen…    178  1.2  brown, gr… light      blue            52   male  
-#&gt;  7 Beru…    165  0.75 brown      light      blue            47   female
-#&gt;  8 R5-D4     97  0.32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
-#&gt;  9 Bigg…    183  0.84 black      light      brown           24   male  
-#&gt; 10 Obi-…    182  0.77 auburn, w… fair       blue-gray       57   male  
+<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>mass</span> <span class='kw'>=</span> <span class='no'>mass</span> / !!<span class='no'>mass</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 14
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+#&gt;  1 Luke…    172  0.77 blond      fair       blue            19   male  mascu…
+#&gt;  2 C-3PO    167  0.75 &lt;NA&gt;       gold       yellow         112   none  mascu…
+#&gt;  3 R2-D2     96  0.32 &lt;NA&gt;       white, bl… red             33   none  mascu…
+#&gt;  4 Dart…    202  1.36 none       white      yellow          41.9 male  mascu…
+#&gt;  5 Leia…    150  0.49 brown      light      brown           19   fema… femin…
+#&gt;  6 Owen…    178  1.2  brown, gr… light      blue            52   male  mascu…
+#&gt;  7 Beru…    165  0.75 brown      light      blue            47   fema… femin…
+#&gt;  8 R5-D4     97  0.32 &lt;NA&gt;       white, red red             NA   none  mascu…
+#&gt;  9 Bigg…    183  0.84 black      light      brown           24   male  mascu…
+#&gt; 10 Obi-…    182  0.77 auburn, w… fair       blue-gray       57   male  mascu…
 #&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div></pre>
   </div>
