@@ -413,3 +413,8 @@ test_that("filter() handles matrix and data frame columns (#3630)", {
   expect_equal(filter(gdf, y[,1] == 1), gdf[1, ])
   expect_equal(filter(gdf, z$A == 1), gdf[1, ])
 })
+
+test_that("filter() handles logical (#4638)", {
+  tbl <- tibble(a = c(a = TRUE))
+  expect_equal(filter(tbl, a), tbl)
+})
