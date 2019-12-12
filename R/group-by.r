@@ -110,8 +110,11 @@ ungroup <- function(x, ...) {
 #'   \item{groups}{Modified groups}
 #' @export
 #' @keywords internal
-group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
-  new_groups <- c(enquos(...), compat_lazy_dots(.dots, caller_env()))
+group_by_prepare <- function(.data, ..., .dots = "DEFUNCT", add = FALSE) {
+  if (!missing(.dots)) {
+    abort("Use of `.dots` is defunct")
+  }
+  new_groups <- enquos(...)
   new_groups <- new_groups[!map_lgl(new_groups, quo_is_missing)]
 
   # If any calls, use mutate to add new columns, then group by those
