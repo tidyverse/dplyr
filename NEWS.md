@@ -1,5 +1,11 @@
 # dplyr 0.9.0 (in development)
 
+* `starwars` dataset now does a better job of separating biological sex from
+  gender identity. The previous `gender` column has been renamed to `sex`,
+  since it actually describes the individual's biological sex. A new `gender`
+  column encodes the actual gender identity using other information about
+  the Star Wars universe (@MeganBeckett, #4456).
+  
 * `mutate()` and `summarise()` automatically unpack unnamed tibble results (#2326).
 
 * `group_keys.rowwise_df()` gives a 0 column data frame with n() rows. 
