@@ -79,8 +79,9 @@ genders <- c(
 )
 
 starwars <- mutate(starwars,
-  species = ifelse(name == "R4-P17", "droid", species), # R4-P17 is a droid
-  sex = ifelse(species == "droid", "none", sex), # Droids don't have biological sex
+  sex = ifelse(sex == "hermaphrodite", "hermaphroditic", sex),
+  species = ifelse(name == "R4-P17", "Droid", species), # R4-P17 is a droid
+  sex = ifelse(species == "Droid", "none", sex), # Droids don't have biological sex
   gender = case_when(
     sex == "male" ~ "masculine",
     sex == "female" ~ "feminine",

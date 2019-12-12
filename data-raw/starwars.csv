@@ -1,12 +1,12 @@
 name,height,mass,hair_color,skin_color,eye_color,birth_year,sex,gender,homeworld,species,films,vehicles,starships
 Luke Skywalker,172,77,blond,fair,blue,19,male,masculine,Tatooine,Human,"The Empire Strikes Back, Revenge of the Sith, Return of the Jedi, A New Hope, The Force Awakens","Snowspeeder, Imperial Speeder Bike","X-wing, Imperial shuttle"
-C-3PO,167,75,NA,gold,yellow,112,NA,masculine,Tatooine,Droid,"The Empire Strikes Back, Attack of the Clones, The Phantom Menace, Revenge of the Sith, Return of the Jedi, A New Hope",,
-R2-D2,96,32,NA,"white, blue",red,33,NA,masculine,Naboo,Droid,"The Empire Strikes Back, Attack of the Clones, The Phantom Menace, Revenge of the Sith, Return of the Jedi, A New Hope, The Force Awakens",,
+C-3PO,167,75,NA,gold,yellow,112,none,masculine,Tatooine,Droid,"The Empire Strikes Back, Attack of the Clones, The Phantom Menace, Revenge of the Sith, Return of the Jedi, A New Hope",,
+R2-D2,96,32,NA,"white, blue",red,33,none,masculine,Naboo,Droid,"The Empire Strikes Back, Attack of the Clones, The Phantom Menace, Revenge of the Sith, Return of the Jedi, A New Hope, The Force Awakens",,
 Darth Vader,202,136,none,white,yellow,41.9,male,masculine,Tatooine,Human,"The Empire Strikes Back, Revenge of the Sith, Return of the Jedi, A New Hope",,TIE Advanced x1
 Leia Organa,150,49,brown,light,brown,19,female,feminine,Alderaan,Human,"The Empire Strikes Back, Revenge of the Sith, Return of the Jedi, A New Hope, The Force Awakens",Imperial Speeder Bike,
 Owen Lars,178,120,"brown, grey",light,blue,52,male,masculine,Tatooine,Human,"Attack of the Clones, Revenge of the Sith, A New Hope",,
 Beru Whitesun lars,165,75,brown,light,blue,47,female,feminine,Tatooine,Human,"Attack of the Clones, Revenge of the Sith, A New Hope",,
-R5-D4,97,32,NA,"white, red",red,NA,NA,masculine,Tatooine,Droid,A New Hope,,
+R5-D4,97,32,NA,"white, red",red,NA,none,masculine,Tatooine,Droid,A New Hope,,
 Biggs Darklighter,183,84,black,light,brown,24,male,masculine,Tatooine,Human,A New Hope,,X-wing
 Obi-Wan Kenobi,182,77,"auburn, white",fair,blue-gray,57,male,masculine,Stewjon,Human,"The Empire Strikes Back, Attack of the Clones, The Phantom Menace, Revenge of the Sith, Return of the Jedi, A New Hope",Tribubble bongo,"Jedi starfighter, Trade Federation cruiser, Naboo star skiff, Jedi Interceptor, Belbullab-22 starfighter"
 Anakin Skywalker,188,84,blond,fair,blue,41.9,male,masculine,Tatooine,Human,"Attack of the Clones, The Phantom Menace, Revenge of the Sith","Zephyr-G swoop bike, XJ-6 airspeeder","Trade Federation cruiser, Jedi Interceptor, Naboo fighter"
@@ -14,7 +14,7 @@ Wilhuff Tarkin,180,NA,"auburn, grey",fair,blue,64,male,masculine,Eriadu,Human,"R
 Chewbacca,228,112,brown,unknown,blue,200,male,masculine,Kashyyyk,Wookiee,"The Empire Strikes Back, Revenge of the Sith, Return of the Jedi, A New Hope, The Force Awakens",AT-ST,"Millennium Falcon, Imperial shuttle"
 Han Solo,180,80,brown,fair,brown,29,male,masculine,Corellia,Human,"The Empire Strikes Back, Return of the Jedi, A New Hope, The Force Awakens",,"Millennium Falcon, Imperial shuttle"
 Greedo,173,74,NA,green,black,44,male,masculine,Rodia,Rodian,A New Hope,,
-Jabba Desilijic Tiure,175,1358,NA,"green-tan, brown",orange,600,hermaphrodite,masculine,Nal Hutta,Hutt,"The Phantom Menace, Return of the Jedi, A New Hope",,
+Jabba Desilijic Tiure,175,1358,NA,"green-tan, brown",orange,600,hermaphroditic,masculine,Nal Hutta,Hutt,"The Phantom Menace, Return of the Jedi, A New Hope",,
 Wedge Antilles,170,77,brown,fair,hazel,21,male,masculine,Corellia,Human,"The Empire Strikes Back, Return of the Jedi, A New Hope",Snowspeeder,X-wing
 Jek Tono Porkins,180,110,brown,fair,blue,NA,male,masculine,Bestine IV,Human,A New Hope,,X-wing
 Yoda,66,17,white,green,brown,896,male,masculine,NA,Yoda's species,"The Empire Strikes Back, Attack of the Clones, The Phantom Menace, Revenge of the Sith, Return of the Jedi",,
@@ -71,7 +71,7 @@ Lama Su,229,88,none,grey,black,NA,male,masculine,Kamino,Kaminoan,Attack of the C
 Taun We,213,NA,none,grey,black,NA,female,feminine,Kamino,Kaminoan,Attack of the Clones,,
 Jocasta Nu,167,NA,white,fair,blue,NA,female,feminine,Coruscant,Human,Attack of the Clones,,
 Ratts Tyerell,79,15,none,"grey, blue",unknown,NA,male,masculine,Aleen Minor,Aleena,The Phantom Menace,,
-R4-P17,96,NA,none,"silver, red","red, blue",NA,none,feminine,NA,droid,"Attack of the Clones, Revenge of the Sith",,
+R4-P17,96,NA,none,"silver, red","red, blue",NA,none,feminine,NA,Droid,"Attack of the Clones, Revenge of the Sith",,
 Wat Tambor,193,48,none,"green, grey",unknown,NA,male,masculine,Skako,Skakoan,Attack of the Clones,,
 San Hill,191,NA,none,grey,gold,NA,male,masculine,Muunilinst,Muun,Attack of the Clones,,
 Shaak Ti,178,57,none,"red, blue, white",black,NA,female,feminine,Shili,Togruta,"Attack of the Clones, Revenge of the Sith",,
