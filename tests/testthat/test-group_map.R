@@ -114,7 +114,7 @@ test_that("group_modify() uses ptype on empty splits (#4421)", {
     group_by(cyl) %>%
     filter(hp > 1000) %>%
     group_modify(~.x)
-  expect_equal(res, group_by(mtcars[integer(0L), ], cyl))
+  expect_equal(res, group_by(mtcars[integer(0L), names(res)], cyl))
 })
 
 test_that("group_modify() works with additional arguments (#4509)", {
@@ -122,7 +122,7 @@ test_that("group_modify() works with additional arguments (#4509)", {
     .x[[foo]] <- 1
     .x
   }
-  
+
   srcdata <-
     data.frame(
       A=rep(1:2, each = 3)
@@ -130,7 +130,7 @@ test_that("group_modify() works with additional arguments (#4509)", {
     group_by(A)
   targetdata <- srcdata
   targetdata$bar <- 1
-  
+
   expect_equal(
     group_modify(.data = srcdata, .f = myfun, foo = "bar"),
     targetdata

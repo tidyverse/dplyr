@@ -51,12 +51,11 @@ test_that("distinct doesn't duplicate columns", {
   expect_named(df %>% group_by(a) %>% distinct(a), "a")
 })
 
-
 test_that("grouped distinct always includes group cols", {
   df <- tibble(g = c(1, 2), x = c(1, 2))
 
   out <- df %>% group_by(g) %>% distinct(x)
-  expect_equal(df, out)
+  expect_named(out, c("x", "g"))
 })
 
 test_that("empty grouped distinct equivalent to empty ungrouped", {

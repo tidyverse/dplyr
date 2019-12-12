@@ -266,7 +266,7 @@ test_that("filter works with rowwise data (#1099)", {
   df <- tibble(First = c("string1", "string2"), Second = c("Sentence with string1", "something"))
   res <- df %>% rowwise() %>% filter(grepl(First, Second, fixed = TRUE))
   expect_equal(nrow(res), 1L)
-  expect_equal(df[1, ], res)
+  expect_equal(df[1, ], ungroup(res))
 })
 
 test_that("grouped filter handles indices (#880)", {

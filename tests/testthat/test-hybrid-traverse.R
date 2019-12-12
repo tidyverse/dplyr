@@ -63,7 +63,7 @@ test_that("[[ works for rowwise access of list columns (#912)", {
   )
 
   expect_equal(
-    df %>% rowwise() %>% transmute(z = y[[x]]),
+    df %>% rowwise() %>% transmute(z = y[[x]]) %>% ungroup(),
     tibble(z = c(1, 4))
   )
 })

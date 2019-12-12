@@ -1,5 +1,13 @@
 # dplyr 0.9.0 (in development)
 
+* dplyr no longer provides a `all.equal.tbl_df()` method. It never should have
+  done so in the first place because it owns neither the generic nor the class.
+  It also provided a problematic implementation because, by default, it 
+  ignored the order of the rows and the columns which is usually important.
+  This is likely to cause new test failures in downstream packages; but on
+  the whole we believe those failures to either reflect unexpected behaviour
+  or tests that need to be strengthened (#2751).
+
 * `starwars` dataset now does a better job of separating biological sex from
   gender identity. The previous `gender` column has been renamed to `sex`,
   since it actually describes the individual's biological sex. A new `gender`

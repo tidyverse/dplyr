@@ -53,7 +53,7 @@ test_that("incomplete", {
 
   cube <- as.tbl_cube(d, met_name = "value")
   expect_true(is.na(as.data.frame(filter(cube, s == 1, j == 2))[["value"]]))
-  expect_equal(filter(as_tibble(cube), s != 1 | j != 2), d)
+  expect_equal(filter(as_tibble(cube), s != 1 | j != 2), as_tibble(d))
 })
 
 test_that("duplicate", {

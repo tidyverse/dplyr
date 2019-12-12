@@ -68,8 +68,8 @@ test_that("empty results preserved (#597)", {
 
   dat <- data.frame(a = 1:2, b = factor(1:2))
   expect_equal(
-    dat %>% group_by(b, .drop = FALSE) %>% do(blankdf(.)),
-    data.frame(b = factor(integer(), levels = 1:2), blank = numeric())
+    dat %>% group_by(b, .drop = FALSE) %>% do(blankdf(.)) %>% ungroup(),
+    tibble(b = factor(integer(), levels = 1:2), blank = numeric())
   )
 })
 
