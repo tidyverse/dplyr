@@ -112,22 +112,6 @@
 filter <- function(.data, ..., .preserve = FALSE) {
   UseMethod("filter")
 }
-#' @export
-filter.default <- function(.data, ..., .preserve = FALSE) {
-  filter_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
-#' @rdname se-deprecated
-filter_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "filter_() is deprecated. ",
-    "Please use filter() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with filter() : https://tidyeval.tidyverse.org"
-  ))
-  UseMethod("filter_")
-}
 
 #' Choose rows by position
 #'
@@ -174,22 +158,6 @@ filter_ <- function(.data, ..., .dots = list()) {
 #' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ..., .preserve = FALSE) {
   UseMethod("slice")
-}
-#' @export
-slice.default <- function(.data, ..., .preserve = FALSE) {
-  slice_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
-#' @rdname se-deprecated
-slice_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "slice_() is deprecated. ",
-    "Please use slice() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with slice() : https://tidyeval.tidyverse.org"
-  ))
-  UseMethod("slice_")
 }
 
 #' Reduce multiple values down to a single value
@@ -276,31 +244,9 @@ slice_ <- function(.data, ..., .dots = list()) {
 summarise <- function(.data, ...) {
   UseMethod("summarise")
 }
-#' @export
-summarise.default <- function(.data, ...) {
-  summarise_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
-#' @rdname se-deprecated
-summarise_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "summarise_() is deprecated. ",
-    "Please use summarise() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with summarise() : https://tidyeval.tidyverse.org"
-  ))
-
-  UseMethod("summarise_")
-}
-
 #' @rdname summarise
 #' @export
 summarize <- summarise
-#' @rdname se-deprecated
-#' @export
-summarize_ <- summarise_
-
 
 #' Create or transform variables
 #'
@@ -447,40 +393,12 @@ summarize_ <- summarise_
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
-#' @export
-mutate.default <- function(.data, ...) {
-  mutate_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
-#' @rdname se-deprecated
-mutate_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "mutate_() is deprecated. ",
-    "Please use mutate() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with mutate() : https://tidyeval.tidyverse.org"
-  ))
 
-  UseMethod("mutate_")
-}
 
 #' @rdname mutate
 #' @export
 transmute <- function(.data, ...) {
   UseMethod("transmute")
-}
-#' @rdname se-deprecated
-#' @export
-transmute_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "transmute_() is deprecated. ",
-    "Please use transmute() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with transmute() : https://tidyeval.tidyverse.org"
-  ))
-  UseMethod("transmute_")
 }
 
 #' @export
@@ -491,11 +409,6 @@ transmute.default <- function(.data, ...) {
   keep <- intersect(names(dots), names(out))
   select(out, one_of(keep))
 }
-#' @export
-transmute_.default <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  transmute(.data, !!!dots)
-}
 
 #' @export
 transmute.grouped_df <- function(.data, ...) {
@@ -505,12 +418,6 @@ transmute.grouped_df <- function(.data, ...) {
 
   .select_grouped_df(out, one_of(keep), notify = FALSE)
 }
-#' @export
-transmute_.grouped_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  transmute(.data, !!!dots)
-}
-
 
 #' Arrange rows by variables
 #'
@@ -543,23 +450,6 @@ transmute_.grouped_df <- function(.data, ..., .dots = list()) {
 #' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
 arrange <- function(.data, ...) {
   UseMethod("arrange")
-}
-#' @export
-arrange.default <- function(.data, ...) {
-  arrange_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
-#' @rdname se-deprecated
-arrange_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "arrange_() is deprecated. ",
-    "Please use arrange() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with arrange() : https://tidyeval.tidyverse.org"
-  ))
-
-  UseMethod("arrange_")
 }
 
 #' Select/rename variables by name
@@ -684,24 +574,6 @@ select <- function(.data, ...) {
   UseMethod("select")
 }
 #' @export
-select.default <- function(.data, ...) {
-  select_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
-#' @rdname se-deprecated
-select_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "select_() is deprecated. ",
-    "Please use select() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with select() : https://tidyeval.tidyverse.org"
-  ))
-
-  UseMethod("select_")
-}
-
-#' @export
 select.list <- function(.data, ...) {
   abort("`select()` doesn't handle lists.")
 }
@@ -710,23 +582,6 @@ select.list <- function(.data, ...) {
 #' @export
 rename <- function(.data, ...) {
   UseMethod("rename")
-}
-#' @export
-rename.default <- function(.data, ...) {
-  rename_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @rdname se-deprecated
-#' @export
-rename_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "rename_() is deprecated. ",
-    "Please use rename() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with rename() : https://tidyeval.tidyverse.org"
-  ))
-
-  UseMethod("rename_")
 }
 
 #' The number of observations in the current group.
@@ -746,27 +601,3 @@ rename_ <- function(.data, ..., .dots = list()) {
 n <- function() {
   from_context("..group_size")
 }
-
-#' Deprecated SE versions of main verbs.
-#'
-#' dplyr used to offer twin versions of each verb suffixed with an
-#' underscore. These versions had standard evaluation (SE) semantics:
-#' rather than taking arguments by code, like NSE verbs, they took
-#' arguments by value. Their purpose was to make it possible to
-#' program with dplyr. However, dplyr now uses tidy evaluation
-#' semantics. NSE verbs still capture their arguments, but you can now
-#' unquote parts of these arguments. This offers full programmability
-#' with NSE verbs. Thus, the underscored versions are now superfluous.
-#'
-#' Unquoting triggers immediate evaluation of its operand and inlines
-#' the result within the captured expression. This result can be a
-#' value or an expression to be evaluated later with the rest of the
-#' argument. See `vignette("programming")` for more information.
-#'
-#' @name se-deprecated
-#' @param .data A data frame.
-#' @param dots,.dots,... Pair/values of expressions coercible to lazy objects.
-#' @param vars Various meanings depending on the verb.
-#' @param args Various meanings depending on the verb.
-#' @keywords internal
-NULL

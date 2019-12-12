@@ -91,24 +91,6 @@
 group_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   UseMethod("group_by")
 }
-#' @export
-group_by.default <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
-  group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
-}
-#' @export
-#' @rdname se-deprecated
-#' @inheritParams group_by
-group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "group_by_() is deprecated. ",
-    "Please use group_by() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with group_by() : https://tidyeval.tidyverse.org"
-  ))
-
-  UseMethod("group_by_")
-}
 
 #' @rdname group_by
 #' @export

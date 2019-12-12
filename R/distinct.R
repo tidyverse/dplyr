@@ -54,24 +54,6 @@
 distinct <- function(.data, ..., .keep_all = FALSE) {
   UseMethod("distinct")
 }
-#' @export
-distinct.default <- function(.data, ..., .keep_all = FALSE) {
-  distinct_(.data, .dots = compat_as_lazy_dots(...), .keep_all = .keep_all)
-}
-#' @export
-#' @rdname se-deprecated
-#' @inheritParams distinct
-distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "distinct_() is deprecated. ",
-    "Please use distinct() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with distinct() : https://tidyeval.tidyverse.org"
-  ))
-
-  UseMethod("distinct_")
-}
 
 #' Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
 #' vars (character vector) comes out.

@@ -445,11 +445,6 @@ do.grouped_df <- function(.data, ...) {
     label_output_list(labels, out, groups(.data))
   }
 }
-#' @export
-do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
-  dots <- compat_lazy_dots(.dots, env, ...)
-  do(.data, !!!dots)
-}
 
 # Set operations ---------------------------------------------------------------
 

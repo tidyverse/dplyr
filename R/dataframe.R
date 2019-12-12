@@ -376,11 +376,6 @@ do.data.frame <- function(.data, ...) {
 
   out
 }
-#' @export
-do_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  do(.data, !!!dots)
-}
 
 # Random samples ---------------------------------------------------------------
 

@@ -112,8 +112,3 @@ do.rowwise_df <- function(.data, ...) {
     label_output_list(NULL, out, groups(.data))
   }
 }
-#' @export
-do_.rowwise_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  do(.data, !!!dots)
-}
