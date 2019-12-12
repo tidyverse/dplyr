@@ -67,13 +67,7 @@ group_indices.grouped_df <- function(.data, ...) {
   if (dots_n(...)) {
     warn("group_indices_.grouped_df ignores extra arguments")
   }
-  n <- nrow(.data)
-  res <- integer(n)
-  rows <- group_rows(.data)
-  for (i in seq_along(rows)) {
-    res[rows[[i]]] <- i
-  }
-  res
+  .Call(`dplyr_group_indices`, .data, nrow(.data))
 }
 #' @export
 group_indices_.grouped_df <- function(.data, ..., .dots = list()) {
