@@ -1,10 +1,5 @@
 # dplyr 0.9.0 (in development)
 
-* The `.dots` argument to `group_by_prepare()` is now defunct. This is a bit 
-  of an aggressive change, but `group_by_prepare()` is only used by people
-  maintaining dplyr backends, and they should've been moving away from 
-  lazyeval for some time now.
-
 * `starwars` dataset now does a better job of separating biological sex from
   gender identity. The previous `gender` column has been renamed to `sex`,
   since it actually describes the individual's biological sex. A new `gender`
