@@ -394,14 +394,6 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
   mutate(.data, !!!dots)
 }
 
-validate_summarise_sizes <- function(x, .size) {
-  # https://github.com/r-lib/vctrs/pull/539
-  sizes <- map_int(x, vec_size)
-  if (any(sizes != .size)) {
-    abort("Result does not respect vec_size() == .size")
-  }
-}
-
 DataMask <- R6Class("DataMask",
   public = list(
     initialize = function(data, caller, rows = group_rows(data)) {
@@ -411,47 +403,40 @@ DataMask <- R6Class("DataMask",
 
       private$data <- data
       private$caller <- caller
+      private$bindings <- env()
 
-      # chunks_env has promises for all columns of data
-      # the promise resolves to a list of slices (one item per group)
-      # for a column
-      chunks_env <- env()
-
-      if (inherits(data, "rowwise_df")) {
-        # approximation for now, until perhaps vec_get() or something similar
-        # https://github.com/r-lib/vctrs/issues/141
-        map2(data, names(data), function(col, nm) {
+      # A function that returns all the chunks for a column
+      resolve_chunks <- if (inherits(data, "rowwise_df")) {
+        function(index) {
+          col <- .subset2(data, index)
           if (is_list(col) && !is.data.frame(col)) {
-            env_bind_lazy(chunks_env, !!nm := map(rows, function(row) vec_slice(col, row)[[1L]]))
+            map(rows, function(row) vec_slice(col, row)[[1L]])
           } else {
-            env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
+            map(rows, vec_slice, x = col)
           }
-        })
+        }
       } else {
-        map2(data, names(data), function(col, nm) {
-          env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
-        })
+        function(index) map(rows, vec_slice, x = .subset2(data, index))
       }
 
-      private$bindings <- env()
-      column_names <- set_names(names(data))
+      binding_fn <- function(index, chunks = resolve_chunks(index)){
+        # chunks is a promise of the list of all chunks for the column
+        # at this index, so resolve_chunks() is only called when
+        # the active binding is touched
+        function() .subset2(chunks, private$current_group)
+      }
+      env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
 
-      env_bind_active(private$bindings, !!!map(column_names, function(column) {
-        function() {
-          chunks_env[[column]][[private$current_group]]
-        }
-      }))
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
     },
 
     add = function(name, chunks) {
-      force(chunks)
       if (name %in% group_vars(private$data)) {
         abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
       }
       env_bind_active(private$bindings, !!name := function() {
-        chunks[[private$current_group]]
+        .subset2(chunks, private$current_group)
       })
     },
 
@@ -460,15 +445,11 @@ DataMask <- R6Class("DataMask",
     },
 
     eval = function(quo, group) {
-      private$current_group <- group
-      current_rows <- private$rows[[group]]
-      n <- length(current_rows)
+      .Call(`dplyr_mask_eval`, quo, group, private, context_env)
+    },
 
-      # n() and row_number() need these
-      context_env[["..group_size"]] <- n
-      context_env[["..group_number"]] <- group
-
-      eval_tidy(quo, private$mask, env = private$caller)
+    eval_all = function(quo, dots_names, i) {
+      .Call(`dplyr_mask_eval_all`, quo, private, context_env, dots_names, i)
     },
 
     finalize = function() {
@@ -515,27 +496,11 @@ summarise.tbl_df <- function(.data, ...) {
     #
     # TODO: reinject hybrid evaluation at the R level
     quo <- dots[[i]]
-    chunks <- map(seq_along(rows), function(group) {
-      mask$eval(quo, group)
-    })
+    chunks <- mask$eval_all(quo, dots_names, i)
 
-    ok <- all(map_lgl(chunks, vec_is))
-    if (!ok) {
-      if (is.null(dots_names) || dots_names[i] == "") {
-        abort(glue("Unsupported type at index {i}"))
-      } else {
-        abort(glue("Unsupported type for result `{dots_names[i]}`"))
-      }
-    }
-
-    if (identical(.size, 1L)) {
-      sizes <- map_int(chunks, vec_size)
-      if (any(sizes != 1L)) {
-        .size <- sizes
-      }
-    } else {
-      validate_summarise_sizes(chunks, .size)
-    }
+    # check that vec_size() of chunks is compatible with .size
+    # and maybe update .size
+    .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks)
 
     result <- vec_c(!!!chunks)
 

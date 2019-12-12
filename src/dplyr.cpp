@@ -39,12 +39,71 @@ SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::levels = Rf_install("levels");
 SEXP symbols::groups = Rf_install("groups");
 SEXP symbols::vars = Rf_install("vars");
+SEXP symbols::current_group = Rf_install("current_group");
+SEXP symbols::rows = Rf_install("rows");
+SEXP symbols::dot_dot_group_size = Rf_install("..group_size");
+SEXP symbols::dot_dot_group_number = Rf_install("..group_number");
+SEXP symbols::mask = Rf_install("mask");
+SEXP symbols::caller = Rf_install("caller");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
 
+} // dplyr
+
+namespace rlang {
+
+// *INDENT-OFF*
+struct rlang_api_ptrs_t {
+  SEXP (*eval_tidy)(SEXP expr, SEXP data, SEXP env);
+
+  rlang_api_ptrs_t() {
+    eval_tidy =         (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_eval_tidy");
+  }
+};
+// *INDENT-ON*
+
+const rlang_api_ptrs_t& rlang_api() {
+  static rlang_api_ptrs_t ptrs;
+  return ptrs;
 }
+
+inline SEXP eval_tidy(SEXP expr, SEXP data, SEXP env) {
+  return rlang_api().eval_tidy(expr, data, env);
+}
+
+}
+
+namespace vctrs {
+
+// *INDENT-OFF*
+struct vctrs_api_ptrs_t {
+  bool (*vec_is_vector)(SEXP x);
+  R_len_t (*short_vec_size)(SEXP x);
+
+  vctrs_api_ptrs_t() {
+    vec_is_vector =         (bool (*)(SEXP)) R_GetCCallable("vctrs", "vec_is_vector");
+    short_vec_size  =         (R_len_t (*)(SEXP)) R_GetCCallable("vctrs", "short_vec_size");
+  }
+};
+// *INDENT-ON*
+
+const vctrs_api_ptrs_t& vctrs_api() {
+  static vctrs_api_ptrs_t ptrs;
+  return ptrs;
+}
+
+inline bool vec_is_vector(SEXP x) {
+  return vctrs_api().vec_is_vector(x);
+}
+
+inline R_len_t short_vec_size(SEXP x) {
+  return vctrs_api().short_vec_size(x);
+}
+
+}
+
 
 // support for expand_groups()
 class ExpanderCollecter;
@@ -343,6 +402,120 @@ SEXP dplyr_filter_update_rows(SEXP s_n_rows, SEXP group_indices, SEXP keep, SEXP
   return new_rows;
 }
 
+SEXP dplyr_mask_eval(SEXP quo, SEXP group, SEXP env_private, SEXP env_context) {
+  SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
+  SEXP current_rows = VECTOR_ELT(rows, INTEGER(group)[0] - 1);
+
+  R_xlen_t n = XLENGTH(current_rows);
+  Rf_defineVar(dplyr::symbols::current_group, group, env_private);
+  Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n), env_context);
+  Rf_defineVar(dplyr::symbols::dot_dot_group_number, group, env_context);
+
+  SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
+  SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));
+  SEXP result = PROTECT(rlang::eval_tidy(quo, mask, caller));
+
+  UNPROTECT(4);
+  return result;
+}
+
+SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i) {
+  SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
+  R_xlen_t ngroups = XLENGTH(rows);
+
+  SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
+  SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));
+
+  SEXP chunks = PROTECT(Rf_allocVector(VECSXP, ngroups));
+  for (R_xlen_t i = 0; i < ngroups; i++) {
+    SEXP rows_i = VECTOR_ELT(rows, i);
+    R_xlen_t n_i = XLENGTH(rows_i);
+    SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));
+    Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);
+    Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
+    Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
+
+    SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
+    if (!vctrs::vec_is_vector(result_i)) {
+      if (!Rf_isNull(dots_names)) {
+        SEXP name = STRING_ELT(dots_names, i);
+        if (XLENGTH(name) > 0) {
+          Rf_error("Unsupported type for result `%s`", CHAR(name));
+        }
+      }
+      int i = INTEGER(sexp_i)[0];
+      Rf_error("Unsupported type at index %d", i);
+    }
+
+    SET_VECTOR_ELT(chunks, i, result_i);
+
+    UNPROTECT(2);
+  }
+
+  UNPROTECT(4);
+  return chunks;
+}
+
+SEXP dplyr_vec_sizes(SEXP chunks) {
+  R_xlen_t n = XLENGTH(chunks);
+  SEXP res = PROTECT(Rf_allocVector(INTSXP, n));
+  int* p_res = INTEGER(res);
+
+  for (R_xlen_t i = 0; i < n; i++, ++p_res) {
+    *p_res = vctrs::short_vec_size(VECTOR_ELT(chunks, i));
+  }
+
+  UNPROTECT(1);
+  return res;
+}
+
+SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks) {
+  R_xlen_t nchunks = XLENGTH(chunks);
+
+  if (XLENGTH(size) == 1 && INTEGER(size)[0] == 1) {
+    // we might not have to allocate the vector of sizes if
+    // all the chunks are of size 1
+
+    R_xlen_t i = 0;
+    for (; i < nchunks; i++) {
+      if (vctrs::short_vec_size(VECTOR_ELT(chunks, i)) != 1) {
+        break;
+      }
+    }
+
+    if (i == nchunks) {
+      // we can just return the input size
+      return size;
+    }
+
+    // we need to return a vector to track the new sizes
+    size = PROTECT(Rf_allocVector(INTSXP, nchunks));
+    int* p_size = INTEGER(size);
+
+    // until i, all sizes are 1
+    for (R_xlen_t j = 0; j < i; j++, ++p_size) {
+      *p_size = 1;
+    }
+
+    // then finish with i
+    for (; i < nchunks; i++, ++p_size) {
+      *p_size = vctrs::short_vec_size(VECTOR_ELT(chunks, i));
+    }
+    UNPROTECT(1);
+    return size;
+  } else {
+    // size is already a vector, we need to check if the sizes of chunks
+    // matches
+    int* p_size;
+    for (R_xlen_t i = 0; i < nchunks; i++, ++p_size) {
+      if (*p_size != vctrs::short_vec_size(VECTOR_ELT(chunks, i))) {
+        Rf_error("Result does not respect vec_size() == .size");
+      }
+    }
+    return size;
+  }
+}
+
 // ------- funs
 
 SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right) {
@@ -554,6 +727,27 @@ SEXP dplyr_group_keys_impl(SEXP data) {
   return keys;
 }
 
+SEXP dplyr_group_indices(SEXP data, SEXP s_nr) {
+  SEXP groups = Rf_getAttrib(data, dplyr::symbols::groups);
+  SEXP rows = VECTOR_ELT(groups, XLENGTH(groups) - 1);
+  R_xlen_t nr = INTEGER(s_nr)[0];
+  R_xlen_t ng = XLENGTH(rows);
+
+  SEXP indices = PROTECT(Rf_allocVector(INTSXP, nr));
+  int* p_indices = INTEGER(indices);
+  for (R_xlen_t i = 0; i < ng; i++) {
+    SEXP rows_i = VECTOR_ELT(rows, i);
+    R_xlen_t n_i = XLENGTH(rows_i);
+    int* p_rows_i = INTEGER(rows_i);
+    for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i) {
+      p_indices[*p_rows_i - 1] = i + 1;
+    }
+  }
+
+  UNPROTECT(1);
+  return indices;
+}
+
 static const R_CallMethodDef CallEntries[] = {
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
   {"dplyr_filter_update_rows", (DL_FUNC)& dplyr_filter_update_rows, 4},
@@ -563,6 +757,12 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
   {"dplyr_group_keys_impl", (DL_FUNC)& dplyr_group_keys_impl, 1},
+  {"dplyr_mask_eval", (DL_FUNC)& dplyr_mask_eval, 4},
+  {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 5},
+  {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
+  {"dplyr_validate_summarise_sizes", (DL_FUNC)& dplyr_validate_summarise_sizes, 2},
+  {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
+
   {NULL, NULL, 0}
 };
 
