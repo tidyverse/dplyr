@@ -29,7 +29,8 @@ Imports:
     tidyselect (>= 0.2.5),
     utils,
     vctrs (>= 0.2.0.9007),
-    zeallot
+    zeallot,
+    lifecycle
 Suggests: 
     bit64,
     callr,
