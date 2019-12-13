@@ -469,7 +469,6 @@ test_hybrid <- function(grouping) {
         summarise_at(vars(env, data), list(mean))
     )
 
-    scoped_lifecycle_silence()
     expect_equal(
       conflict_data %>%
         grouping() %>%
@@ -480,7 +479,7 @@ test_hybrid <- function(grouping) {
       conflict_data %>%
         set_names("id", "data", "env") %>%
         grouping() %>%
-        summarise_at(vars(env, data), funs(mean))
+        summarise_at(vars(env, data), list(mean))
     )
   })
 }

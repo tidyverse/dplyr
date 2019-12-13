@@ -26,26 +26,15 @@ test_that("can select/rename with predicate", {
   expect_identical(rename_if(df, is_integerish, toupper), set_names(df, c("X", "y", "Z")))
 })
 
-test_that("can supply funs()", {
-  scoped_lifecycle_silence()
-  expect_identical(select_if(df, funs(is_integerish(.)), funs(toupper(.))), set_names(df[c("x", "z")], c("X", "Z")))
-  expect_identical(rename_if(df, funs(is_integerish(.)), funs(toupper(.))), set_names(df, c("X", "y", "Z")))
-
-  expect_identical(select_if(df, list(~is_integerish(.)), list(~toupper(.))), set_names(df[c("x", "z")], c("X", "Z")))
-  expect_identical(rename_if(df, list(~is_integerish(.)), list(~toupper(.))), set_names(df, c("X", "y", "Z")))
-})
-
-test_that("fails when more than one renaming function is supplied", {
-  scoped_lifecycle_silence()
-  expect_error(
-    select_all(df, funs(tolower, toupper)),
-    "`.funs` must contain one renaming function, not 2",
-    fixed = TRUE
+test_that("can take list, but only containing single function", {
+  expect_identical(
+    select_if(df, list(~ is_integerish(.)), list(~ toupper(.))),
+    set_names(df[c("x", "z")], c("X", "Z"))
   )
-  expect_error(
-    rename_all(df, funs(tolower, toupper)),
-    "`.funs` must contain one renaming function, not 2",
-    fixed = TRUE
+
+  expect_identical(
+    rename_if(df, list(~ is_integerish(.)), list(~ toupper(.))),
+    set_names(df, c("X", "y", "Z"))
   )
 
   expect_error(
