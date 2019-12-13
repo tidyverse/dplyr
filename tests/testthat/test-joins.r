@@ -361,12 +361,12 @@ test_that("inner_join is symmetric (even when joining on character & factor)", {
   expect_equal(names(tmp1), c("id", "var1", "var2"))
   expect_equal(names(tmp2), c("id", "var2", "var1"))
 
-  expect_equal(tmp1, tmp2)
+  expect_equal(tmp1, tmp2[names(tmp1)])
 })
 
 test_that("inner_join is symmetric, even when type of join var is different (#450)", {
-  foo <- tbl_df(data.frame(id = 1:10, var1 = "foo"))
-  bar <- tbl_df(data.frame(id = as.numeric(rep(1:10, 5)), var2 = "bar"))
+  foo <- tibble(id = 1:10, var1 = "foo")
+  bar <- tibble(id = as.numeric(rep(1:10, 5)), var2 = "bar")
 
   tmp1 <- inner_join(foo, bar, by = "id")
   tmp2 <- inner_join(bar, foo, by = "id")
@@ -374,7 +374,7 @@ test_that("inner_join is symmetric, even when type of join var is different (#45
   expect_equal(names(tmp1), c("id", "var1", "var2"))
   expect_equal(names(tmp2), c("id", "var2", "var1"))
 
-  expect_equal(tmp1, tmp2)
+  expect_equal(tmp1, tmp2 %>% select(!!names(tmp1)) %>% arrange(id))
 })
 
 test_that("left_join by different variable names (#617)", {

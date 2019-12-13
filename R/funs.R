@@ -43,8 +43,7 @@
 #' funs(function(x) mean(x, na.rm = TRUE))
 #' funs(~mean(x, na.rm = TRUE))}
 funs <- function(..., .args = list()) {
-  signal_soft_deprecated(paste_line(
-    "funs() is soft deprecated as of dplyr 0.8.0",
+  lifecycle::deprecate_warn("1.0.0", "funs()", details = paste_line(
     "Please use a list of either functions or lambdas: ",
     "",
     "  # Simple named list: ",
@@ -56,6 +55,7 @@ funs <- function(..., .args = list()) {
     "  # Using lambdas",
     "  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))"
   ))
+
   dots <- enquos(...)
   default_env <- caller_env()
 

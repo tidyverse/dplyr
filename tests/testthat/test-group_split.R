@@ -43,8 +43,7 @@ test_that("group_split.grouped_df() works", {
 })
 
 test_that("group_split / bind_rows round trip", {
-  setosa <- iris %>%
-    filter(Species == "setosa")
+  setosa <- iris %>% filter(Species == "setosa") %>% as_tibble()
 
   chunks <- setosa %>% group_split(Species)
   expect_equal(length(chunks), 1L)

@@ -71,7 +71,7 @@ test_that("bind_cols handles lists (#1104)", {
 })
 
 test_that("bind_cols handles empty argument list (#1963)", {
-  expect_equal(bind_cols(), data.frame())
+  expect_equal(bind_cols(), tibble())
 })
 
 test_that("bind_cols handles all-NULL values (#2303)", {

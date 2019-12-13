@@ -1104,7 +1104,7 @@ test_that("hybrid min() and max() coerce to integer if there is no infinity (#42
       summarise_all(list(min = min, max = max))
   )
   expect_equal(tbl,
-    data.frame(
+    tibble(
       b = factor(c("a", "b"), levels = c("a", "b")),
       min = c(1, Inf),
       max = c(1, -Inf)
