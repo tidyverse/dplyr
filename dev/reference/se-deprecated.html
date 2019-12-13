@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deprecated SE versions of main verbs. — tally_ • dplyr</title>
+<title>Deprecated SE versions of main verbs. — se-deprecated • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,7 +47,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Deprecated SE versions of main verbs. — tally_" />
+<meta property="og:title" content="Deprecated SE versions of main verbs. — se-deprecated" />
 <meta property="og:description" content="dplyr used to offer twin versions of each verb suffixed with an
 underscore. These versions had standard evaluation (SE) semantics:
 rather than taking arguments by code, like NSE verbs, they took
@@ -193,7 +193,7 @@ with NSE verbs. Thus, the underscored versions are now superfluous." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Deprecated SE versions of main verbs.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/count-tally.R'><code>R/count-tally.R</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/distinct.R'><code>R/distinct.R</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/do.r'><code>R/do.r</code></a>, and 6 more</small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/lazyeval.R'><code>R/lazyeval.R</code></a></small>
     <div class="hidden name"><code>se-deprecated.Rd</code></div>
     </div>
 
@@ -208,17 +208,19 @@ unquote parts of these arguments. This offers full programmability
 with NSE verbs. Thus, the underscored versions are now superfluous.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tally_</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='fu'>count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>x</span>))
+    <pre class="usage"><span class='fu'>add_count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>add_tally_</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>add_count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>arrange_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+
+<span class='fu'>count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>x</span>))
 
 <span class='fu'>distinct_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='no'>.dots</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>do_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+
+<span class='fu'>filter_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
 <span class='fu'>funs_</span>(<span class='no'>dots</span>, <span class='kw'>args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>base_env</span>())
 
@@ -226,34 +228,36 @@ with NSE verbs. Thus, the underscored versions are now superfluous.</p>
 
 <span class='fu'>group_indices_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'>filter_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>mutate_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+
+<span class='fu'>tally_</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'>transmute_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+
+<span class='fu'>rename_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+
+<span class='fu'>rename_vars_</span>(<span class='no'>vars</span>, <span class='no'>args</span>)
+
+<span class='fu'>select_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+
+<span class='fu'>select_vars_</span>(<span class='no'>vars</span>, <span class='no'>args</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>chr</span>())
 
 <span class='fu'>slice_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
 <span class='fu'>summarise_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'>summarize_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
-
-<span class='fu'>mutate_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
-
-<span class='fu'>transmute_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
-
-<span class='fu'>arrange_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
-
-<span class='fu'>select_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
-
-<span class='fu'>rename_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
-
-<span class='fu'>select_vars_</span>(<span class='no'>vars</span>, <span class='no'>args</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>chr</span>())
-
-<span class='fu'>rename_vars_</span>(<span class='no'>vars</span>, <span class='no'>args</span>)</pre>
+<span class='fu'>summarize_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a <code><a href='tbl.html'>tbl()</a></code> to tally/count.</p></td>
+      <td><p>A <code><a href='tbl.html'>tbl()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>vars</th>
+      <td><p>Various meanings depending on the verb.</p></td>
     </tr>
     <tr>
       <th>wt</th>
@@ -272,16 +276,13 @@ frame. It supports <a href='https://rlang.r-lib.org/reference/nse-force.html'>un
       <td><p>if <code>TRUE</code> will sort output in descending order of <code>n</code></p></td>
     </tr>
     <tr>
-      <th>vars</th>
-      <td><p>Various meanings depending on the verb.</p></td>
+      <th>.data</th>
+      <td><p>A data frame.</p></td>
     </tr>
     <tr>
       <th>.drop</th>
-      <td><p>see <code><a href='group_by.html'>group_by()</a></code></p></td>
-    </tr>
-    <tr>
-      <th>.data</th>
-      <td><p>A data frame.</p></td>
+      <td><p>When <code>.drop = TRUE</code>, empty groups are dropped. See <code><a href='group_by_drop_default.html'>group_by_drop_default()</a></code> for
+what the default value is for this argument.</p></td>
     </tr>
     <tr>
       <th>.keep_all</th>
