@@ -1,7 +1,7 @@
 context("slice")
 
 test_that("slice handles numeric input (#226)", {
-  g <- mtcars %>% group_by(cyl)
+  g <- mtcars %>% arrange(cyl) %>% group_by(cyl)
   res <- g %>% slice(1)
   expect_equal(nrow(res), 3)
   expect_equal(res, g %>% filter(row_number() == 1L))
@@ -37,7 +37,7 @@ test_that("slice forbids positive and negative together", {
 })
 
 test_that("slice works with grouped data", {
-  g <- group_by(mtcars, cyl)
+  g <- mtcars %>% arrange(cyl) %>% group_by(cyl)
 
   res <- slice(g, 1:2)
   exp <- filter(g, row_number() < 3)
@@ -99,8 +99,9 @@ test_that("slice handles empty data frames (#1219)", {
 })
 
 test_that("slice works fine if n > nrow(df) (#1269)", {
-  slice_res <- mtcars %>% group_by(cyl) %>% slice(8)
-  filter_res <- mtcars %>% group_by(cyl) %>% filter(row_number() == 8)
+  by_slice <- mtcars %>% arrange(cyl) %>%  group_by(cyl)
+  slice_res <- by_slice  %>% slice(8)
+  filter_res <- by_slice %>% group_by(cyl) %>% filter(row_number() == 8)
   expect_equal(slice_res, filter_res)
 })
 

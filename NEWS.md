@@ -1,5 +1,13 @@
 # dplyr 0.9.0 (in development)
 
+* dplyr no longer provides a `all.equal.tbl_df()` method. It never should have
+  done so in the first place because it owns neither the generic nor the class.
+  It also provided a problematic implementation because, by default, it 
+  ignored the order of the rows and the columns which is usually important.
+  This is likely to cause new test failures in downstream packages; but on
+  the whole we believe those failures to either reflect unexpected behaviour
+  or tests that need to be strengthened (#2751).
+
 * `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
   (#4429).
 
