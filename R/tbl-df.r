@@ -303,11 +303,12 @@ mutate.tbl_df <- function(.data, ...) {
   }
 
   rows <- group_rows(.data)
-  rows_lengths <- lengths(rows)
-  # workaround when there are 0 groups
+    # workaround when there are 0 groups
   if (length(rows) == 0L) {
     rows <- list(integer(0))
   }
+  rows_lengths <- lengths(rows)
+
 
   o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
   mask <- DataMask$new(.data, caller_env(), rows)
@@ -320,20 +321,20 @@ mutate.tbl_df <- function(.data, ...) {
     # recycling it appropriately to match the group size
     #
     # TODO: reinject hybrid evaluation at the R level
-    chunks <- map2(seq_along(rows), lengths(rows), function(group, n) {
-      vec_recycle(mask$eval(dots[[i]], group), n)
-    })
+    c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]], dots_names, i)
 
-    null_results <- map_lgl(chunks, is.null)
-    if (all(null_results)) {
+    if (is.null(chunks)) {
       if (!is.null(dots_names) && dots_names[i] != "" && dots_names[[i]] %in% c(names(.data), names(new_columns))) {
         new_columns[[dots_names[i]]] <- zap()
         mask$remove(dots_names[i])
       }
       next
     }
-    if (any(null_results)) {
-      abort("incompatible results for mutate(), some results are NULL")
+
+    if (needs_recycle) {
+      chunks <- map2(chunks, rows_lengths, function(chunk, n) {
+        vec_recycle(chunk, n)
+      })
     }
 
     result <- vec_slice(vec_c(!!!chunks), o_rows)
@@ -427,8 +428,12 @@ DataMask <- R6Class("DataMask",
       .Call(`dplyr_mask_eval`, quo, group, private, context_env)
     },
 
-    eval_all = function(quo, dots_names, i) {
-      .Call(`dplyr_mask_eval_all`, quo, private, context_env, dots_names, i)
+    eval_all_summarise = function(quo, dots_names, i) {
+      .Call(`dplyr_mask_eval_all_summarise`, quo, private, context_env, dots_names, i)
+    },
+
+    eval_all_mutate = function(quo, dots_names, i) {
+      .Call(`dplyr_mask_eval_all_mutate`, quo, private, context_env, dots_names, i)
     },
 
     finalize = function() {
@@ -475,7 +480,7 @@ summarise.tbl_df <- function(.data, ...) {
     #
     # TODO: reinject hybrid evaluation at the R level
     quo <- dots[[i]]
-    chunks <- mask$eval_all(quo, dots_names, i)
+    chunks <- mask$eval_all_summarise(quo, dots_names, i)
 
     # check that vec_size() of chunks is compatible with .size
     # and maybe update .size
