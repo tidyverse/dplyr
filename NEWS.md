@@ -3,6 +3,8 @@
 * `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
   (#4429).
 
+* `funs()` is deprecated and now issues a warning on first use (#3932).
+
 * `starwars` dataset now does a better job of separating biological sex from
   gender identity. The previous `gender` column has been renamed to `sex`,
   since it actually describes the individual's biological sex. A new `gender`
