@@ -87,28 +87,3 @@ current_vars <- function(...) {
   ))
   tidyselect::peek_vars(...)
 }
-
-
-#' @rdname se-deprecated
-#' @param include,exclude Character vector of column names to always
-#'   include/exclude.
-#' @export
-select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
-  warn_deprecated(paste_line(
-    "select_vars_() is deprecated. ",
-    "Please use tidyselect::vars_select() instead"
-  ))
-
-  args <- compat_lazy_dots(args, caller_env())
-  select_vars(vars, !!!args, include = include, exclude = exclude)
-}
-#' @export
-#' @rdname se-deprecated
-rename_vars_ <- function(vars, args) {
-  warn_deprecated(paste_line(
-    "rename_vars_() is deprecated. ",
-    "Please use tidyselect::vars_rename() instead"
-  ))
-  args <- compat_lazy_dots(args, caller_env())
-  rename_vars(vars, !!!args)
-}

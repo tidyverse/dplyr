@@ -91,24 +91,6 @@
 group_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   UseMethod("group_by")
 }
-#' @export
-group_by.default <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
-  group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
-}
-#' @export
-#' @rdname se-deprecated
-#' @inheritParams group_by
-group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "group_by_() is deprecated. ",
-    "Please use group_by() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with group_by() : https://tidyeval.tidyverse.org"
-  ))
-
-  UseMethod("group_by_")
-}
 
 #' @rdname group_by
 #' @export
@@ -128,8 +110,12 @@ ungroup <- function(x, ...) {
 #'   \item{groups}{Modified groups}
 #' @export
 #' @keywords internal
-group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
-  new_groups <- c(enquos(...), compat_lazy_dots(.dots, caller_env()))
+group_by_prepare <- function(.data, ..., .dots = "DEFUNCT", add = FALSE) {
+  new_groups <- enquos(...)
+  if (!missing(.dots)) {
+    # Used by dbplyr 1.4.2 so can't aggressively deprecate
+    new_groups <- c(new_groups, compat_lazy_dots(.dots))
+  }
   new_groups <- new_groups[!map_lgl(new_groups, quo_is_missing)]
 
   # If any calls, use mutate to add new columns, then group by those

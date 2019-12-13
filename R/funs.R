@@ -189,20 +189,6 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
   invisible(x)
 }
 
-#' @export
-#' @rdname se-deprecated
-#' @inheritParams funs
-#' @param env The environment in which functions should be evaluated.
-funs_ <- function(dots, args = list(), env = base_env()) {
-  signal_soft_deprecated(paste_line(
-    "funs_() is deprecated. ",
-    "Please use list() instead"
-  ))
-
-  dots <- compat_lazy_dots(dots, caller_env())
-  funs(!!!dots, .args = args)
-}
-
 #' Do values in a numeric vector fall in specified range?
 #'
 #' This is a shortcut for `x >= left & x <= right`, implemented
