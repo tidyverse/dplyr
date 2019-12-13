@@ -52,7 +52,7 @@ Suggests:
     RMySQL,
     RPostgreSQL,
     RSQLite,
-    testthat,
+    testthat (>= 2.1.0),
     withr,
     broom,
     purrr,
