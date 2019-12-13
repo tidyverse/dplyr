@@ -19,12 +19,6 @@
     <loc>https://dplyr.tidyverse.org/reference/arrange_all.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/reference/as.table.tbl_cube.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/as.tbl_cube.html</loc>
-  </url>
-  <url>
     <loc>https://dplyr.tidyverse.org/reference/auto_copy.html</loc>
   </url>
   <url>
@@ -181,9 +175,6 @@
     <loc>https://dplyr.tidyverse.org/reference/na_if.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/reference/nasa.html</loc>
-  </url>
-  <url>
     <loc>https://dplyr.tidyverse.org/reference/near.html</loc>
   </url>
   <url>
@@ -275,9 +266,6 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/tbl.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/tbl_cube.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/tbl_df.html</loc>

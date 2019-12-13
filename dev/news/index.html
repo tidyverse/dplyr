@@ -193,6 +193,7 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code>tbl_cube()</code> and <code>nasa</code> have been pulled out into a separate cubelyr package (<a href='https://github.com/tidyverse/dplyr/issues/4429'>#4429</a>).</p></li>
 <li><p><code><a href="../reference/funs.html">funs()</a></code> is deprecated and now issues a warning on first use (<a href='https://github.com/tidyverse/dplyr/issues/3932'>#3932</a>).</p></li>
 <li><p><code>starwars</code> dataset now does a better job of separating biological sex from gender identity. The previous <code>gender</code> column has been renamed to <code>sex</code>, since it actually describes the individual’s biological sex. A new <code>gender</code> column encodes the actual gender identity using other information about the Star Wars universe (<a href='https://github.com/MeganBeckett'>@MeganBeckett</a>, <a href='https://github.com/tidyverse/dplyr/issues/4456'>#4456</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> automatically unpack unnamed tibble results (<a href='https://github.com/tidyverse/dplyr/issues/2326'>#2326</a>).</p></li>
@@ -1436,7 +1437,7 @@ starwars %&gt;%
 <a href="#minor-improvements-1" class="anchor"></a>Minor improvements</h2>
 <ul>
 <li><p>If you load plyr after dplyr, you’ll get a message suggesting that you load plyr first (<a href='https://github.com/tidyverse/dplyr/issues/347'>#347</a>).</p></li>
-<li><p><code><a href="../reference/as.tbl_cube.html">as.tbl_cube()</a></code> gains a method for matrices (<a href='https://github.com/tidyverse/dplyr/issues/359'>#359</a>, <a href='https://github.com/paulstaab'>@paulstaab</a>)</p></li>
+<li><p><code>as.tbl_cube()</code> gains a method for matrices (<a href='https://github.com/tidyverse/dplyr/issues/359'>#359</a>, <a href='https://github.com/paulstaab'>@paulstaab</a>)</p></li>
 <li><p><code><a href="../reference/compute.html">compute()</a></code> gains <code>temporary</code> argument so you can control whether the results are temporary or permanent (<a href='https://github.com/tidyverse/dplyr/issues/382'>#382</a>, <a href='https://github.com/cpsievert'>@cpsievert</a>)</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by()</a></code> now defaults to <code>add = FALSE</code> so that it sets the grouping variables rather than adding to the existing list. I think this is how most people expected <code>group_by</code> to work anyway, so it’s unlikely to cause problems (<a href='https://github.com/tidyverse/dplyr/issues/385'>#385</a>).</p></li>
 <li><p>Support for <a href="http://www.monetdb.org">MonetDB</a> tables with <code>src_monetdb()</code> (<a href='https://github.com/tidyverse/dplyr/issues/8'>#8</a>, thanks to <a href='https://github.com/hannesmuehleisen'>@hannesmuehleisen</a>).</p></li>
