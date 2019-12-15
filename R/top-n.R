@@ -52,7 +52,7 @@
 #'   top_n(1, G)
 #' }
 #' }
-top_n <- function(x, n, wt) {
+top_n <- function(x, n, wt, sort = FALSE) {
   wt <- enquo(wt)
   if (quo_is_missing(wt)) {
     vars <- tbl_vars(x)
@@ -60,8 +60,12 @@ top_n <- function(x, n, wt) {
     inform(glue("Selecting by ", wt_name))
     wt <- sym(wt_name)
   }
-
-  filter(x, top_n_rank({{ n }}, !!wt))
+  out <- filter(x, top_n_rank({{ n }}, !!wt))
+  if (sort) {
+    arrange(out, desc(!!wt))
+  } else {
+    out
+  }  
 }
 
 top_n_rank <- function(n, wt) {
