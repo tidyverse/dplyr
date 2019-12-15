@@ -19,6 +19,9 @@
 #' @param wt (Optional). The variable to use for ordering. If not
 #'   specified, defaults to the last variable in the tbl.
 #'
+#' @param sort if `TRUE` will sort output in descending order of the variable 
+#'   used for ordering. 
+#'
 #' @details
 #'   Both `n` and `wt` are automatically [quoted][rlang::enquo] and later
 #'   [evaluated][rlang::eval_tidy] in the context of the data
