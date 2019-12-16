@@ -507,17 +507,7 @@ test_that("mutate works on empty data frames (#1142)", {
 })
 
 test_that("mutate handles 0 rows rowwise (#1300)", {
-  a <- tibble(x = 1)
-  b <- tibble(y = character())
-
-  g <- function(y) {
-    1
-  }
-  f <- function() {
-    b %>% rowwise() %>% mutate(z = g(y))
-  }
-
-  res <- f()
+  res <- tibble(y = character()) %>% rowwise() %>% mutate(z = 1)
   expect_equal(nrow(res), 0L)
 })
 
@@ -743,13 +733,13 @@ test_that("mutate() supports unquoted values", {
   expect_identical(mutate(df, out = !!(1:5)), mutate(df, out = 1:5))
   expect_identical(mutate(df, out = !!quote(1:5)), mutate(df, out = 1:5))
   expect_error(mutate(df, out = !!(1:2)), class = "vctrs_error_recycle_incompatible_size")
-  expect_error(mutate(df, out = !!env(a = 1)), class = "vctrs_error_scalar_type")
+  expect_error(mutate(df, out = !!env(a = 1)), "Unsupported type for result `out`")
 
   gdf <- group_by(df, g)
   expect_identical(mutate(gdf, out = !!1), mutate(gdf, out = 1))
   expect_error(mutate(gdf, out = !!quote(1:5)), class = "vctrs_error_recycle_incompatible_size")
   expect_error(mutate(gdf, out = !!(1:2)), class = "vctrs_error_recycle_incompatible_size")
-  expect_error(mutate(gdf, out = !!env(a = 1)), class = "vctrs_error_scalar_type")
+  expect_error(mutate(gdf, out = !!env(a = 1)), "Unsupported type for result `out`")
 })
 
 test_that("auto-splicing for tibbles", {
@@ -784,11 +774,11 @@ test_that("mutate handles raw vectors in columns (#1803)", {
 test_that("grouped mutate errors on incompatible column type (#1641)", {
   expect_error(
     tibble(x = 1) %>% mutate(y = mean),
-    class = "vctrs_error_scalar_type"
+    "Unsupported type for result `y`"
   )
   expect_error(
     tibble(x = 1) %>% mutate(y = quote(a)),
-    class = "vctrs_error_scalar_type"
+    "Unsupported type for result `y`"
   )
 })
 
