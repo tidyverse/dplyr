@@ -646,7 +646,7 @@ SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks) {
   } else {
     // size is already a vector, we need to check if the sizes of chunks
     // matches
-    int* p_size;
+    int* p_size = INTEGER(size);
     for (R_xlen_t i = 0; i < nchunks; i++, ++p_size) {
       if (*p_size != vctrs::short_vec_size(VECTOR_ELT(chunks, i))) {
         Rf_error("Result does not respect vec_size() == .size");
