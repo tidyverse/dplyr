@@ -172,6 +172,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   }
 
   mask <- DataMask$new(.data, caller_env(), rows)
+  on.exit(mask$restore())
 
   c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(quo)
   out <- vec_slice(.data, keep)
@@ -207,8 +208,11 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   rows <- group_rows(.data)
   mask <- DataMask$new(.data, caller_env(), rows)
+  on.exit(mask$restore())
 
   quo <- quo(c(!!!dots))
+
+  chunks <- mask$eval_all(quo)
 
   slice_indices <- new_list(length(rows))
   new_rows <- new_list(length(rows))
@@ -216,14 +220,7 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   for (group in seq_along(rows)) {
     current_rows <- rows[[group]]
-
-    n <- length(current_rows)
-    if (n == 0L) {
-      new_rows[[group]] <- integer()
-      next
-    }
-
-    res <- mask$eval(quo, group)
+    res <- chunks[[group]]
 
     if (is.logical(res) && all(is.na(res))) {
       res <- integer()
@@ -289,6 +286,7 @@ mutate.tbl_df <- function(.data, ...) {
 
   o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
   mask <- DataMask$new(.data, caller_env(), rows)
+  on.exit(mask$restore())
 
   new_columns <- list()
 
@@ -401,8 +399,8 @@ DataMask <- R6Class("DataMask",
       rm(list = name, envir = private$bindings)
     },
 
-    eval = function(quo, group) {
-      .Call(`dplyr_mask_eval`, quo, group, private, context_env)
+    eval_all = function(quo) {
+      .Call(`dplyr_mask_eval_all`, quo, private, context_env)
     },
 
     eval_all_summarise = function(quo, dots_names, i) {
@@ -417,7 +415,7 @@ DataMask <- R6Class("DataMask",
       .Call(`dplyr_mask_eval_all_filter`, quo, private, context_env, nrow(private$data))
     },
 
-    finalize = function() {
+    restore = function() {
       context_env[["..group_size"]] <- private$old_group_size
       context_env[["..group_number"]] <- private$old_group_number
     }
@@ -450,6 +448,7 @@ summarise.tbl_df <- function(.data, ...) {
   }
 
   mask <- DataMask$new(.data, caller_env(), rows)
+  on.exit(mask$restore())
 
   summaries <- list()
 

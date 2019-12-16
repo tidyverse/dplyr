@@ -402,21 +402,29 @@ SEXP dplyr_filter_update_rows(SEXP s_n_rows, SEXP group_indices, SEXP keep, SEXP
   return new_rows;
 }
 
-SEXP dplyr_mask_eval(SEXP quo, SEXP group, SEXP env_private, SEXP env_context) {
+SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private, SEXP env_context) {
   SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
-  SEXP current_rows = VECTOR_ELT(rows, INTEGER(group)[0] - 1);
-
-  R_xlen_t n = XLENGTH(current_rows);
-  Rf_defineVar(dplyr::symbols::current_group, group, env_private);
-  Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n), env_context);
-  Rf_defineVar(dplyr::symbols::dot_dot_group_number, group, env_context);
+  R_xlen_t ngroups = XLENGTH(rows);
 
   SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
   SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));
-  SEXP result = PROTECT(rlang::eval_tidy(quo, mask, caller));
+
+  SEXP chunks = PROTECT(Rf_allocVector(VECSXP, ngroups));
+
+  for (R_xlen_t i = 0; i < ngroups; i++) {
+    SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));
+    Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);
+    Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(XLENGTH(VECTOR_ELT(rows, i))), env_context);
+    Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
+
+    SET_VECTOR_ELT(chunks, i, rlang::eval_tidy(quo, mask, caller));
+
+    UNPROTECT(1);
+  }
 
   UNPROTECT(4);
-  return result;
+
+  return chunks;
 }
 
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i) {
@@ -587,7 +595,6 @@ SEXP dplyr_mask_eval_all_filter(SEXP quo, SEXP env_private, SEXP env_context, SE
 
   return res;
 }
-
 
 SEXP dplyr_vec_sizes(SEXP chunks) {
   R_xlen_t n = XLENGTH(chunks);
@@ -890,7 +897,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
   {"dplyr_group_keys_impl", (DL_FUNC)& dplyr_group_keys_impl, 1},
-  {"dplyr_mask_eval", (DL_FUNC)& dplyr_mask_eval, 4},
+
+  {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 3},
   {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 5},
   {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 5},
   {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
