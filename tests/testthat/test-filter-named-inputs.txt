@@ -1,9 +1,5 @@
-Filter specifications must not be named
-* Did you mean `x == 1`?
-Filter specifications must not be named
-* Did you mean `x == "A"`?
+filter() expressions should return logical vectors of the same size as the group
+filter() expressions should return logical vectors of the same size as the group
 Filter specifications must not be named
 * Did you mean `x == 1 & y > 2`?
-Filter specifications must not be named
-* Did you mean `x == 1`?
-* Did you mean `z == 3`?
+object 'y' not found

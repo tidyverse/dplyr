@@ -157,11 +157,15 @@ regroup <- function(data) {
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)
+  if (is_empty(dots)) {
+    return(.data)
+  }
   if (any(have_name(dots))) {
     bad <- dots[have_name(dots)]
-    bad_eq_ops(bad, "Filter specifications must not be named")
-  } else if (is_empty(dots)) {
-    return(.data)
+    bad <- bad[map_lgl(bad, quo_is_call)]
+    if (length(bad)) {
+      bad_eq_ops(bad, "Filter specifications must not be named")
+    }
   }
 
   rows <- group_rows(.data)
