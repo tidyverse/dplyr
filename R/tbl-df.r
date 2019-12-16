@@ -173,29 +173,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   mask <- DataMask$new(.data, caller_env(), rows)
 
-  keep <- logical(nrow(.data))
-  group_indices <- integer(nrow(.data))
-  new_rows_sizes <- integer(length(rows))
-
-  for (group in seq_along(rows)) {
-    current_rows <- rows[[group]]
-    n <- length(current_rows)
-
-    res <- mask$eval(quo, group)
-
-    if (!inherits(res, "logical")) {
-      abort(
-        "filter() expressions should return logical vectors of the same size as the group",
-        "dplyr_filter_wrong_result"
-      )
-    }
-    res <- vec_recycle(res, n)
-
-    new_rows_sizes[group] <- sum(res, na.rm = TRUE)
-    group_indices[current_rows] <- group
-    keep[current_rows[res]] <- TRUE
-  }
-
+  c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(quo)
   out <- vec_slice(.data, keep)
 
   # regroup
@@ -303,12 +281,11 @@ mutate.tbl_df <- function(.data, ...) {
   }
 
   rows <- group_rows(.data)
-    # workaround when there are 0 groups
+  # workaround when there are 0 groups
   if (length(rows) == 0L) {
     rows <- list(integer(0))
   }
-  rows_lengths <- lengths(rows)
-
+  rows_lengths <- .Call(`dplyr_vec_sizes`, rows)
 
   o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
   mask <- DataMask$new(.data, caller_env(), rows)
@@ -434,6 +411,10 @@ DataMask <- R6Class("DataMask",
 
     eval_all_mutate = function(quo, dots_names, i) {
       .Call(`dplyr_mask_eval_all_mutate`, quo, private, context_env, dots_names, i)
+    },
+
+    eval_all_filter = function(quo) {
+      .Call(`dplyr_mask_eval_all_filter`, quo, private, context_env, nrow(private$data))
     },
 
     finalize = function() {

@@ -2,12 +2,14 @@ context("Filter")
 
 test_that("filter fails if inputs incorrect length (#156)", {
   expect_error(
-    filter(tbl_df(mtcars), c(F, T)),
-    class = "vctrs_error_recycle_incompatible_size"
+    filter(tbl_df(mtcars), c(FALSE, TRUE)),
+    "filter() expressions should return logical vectors of the same size as the group",
+    fixed = TRUE
   )
   expect_error(
-    filter(group_by(mtcars, am), c(F, T)),
-    class  = "vctrs_error_recycle_incompatible_size"
+    filter(group_by(mtcars, am), c(FALSE, TRUE)),
+    "filter() expressions should return logical vectors of the same size as the group",
+    fixed = TRUE
   )
 })
 
@@ -18,8 +20,6 @@ test_that("filter gives useful error message when given incorrect input", {
     fixed = TRUE
   )
 })
-
-
 
 test_that("filter complains if inputs are named", {
   expect_known_output(
@@ -98,11 +98,13 @@ test_that("filter propagates attributes", {
 test_that("filter fails on integer indices", {
   expect_error(
     filter(mtcars, 1:2),
-    class = "dplyr_filter_wrong_result"
+    "filter() expressions should return logical vectors of the same size as the group",
+    fixed = TRUE
   )
   expect_error(
     filter(group_by(mtcars, cyl), 1:2),
-    class = "dplyr_filter_wrong_result"
+    "filter() expressions should return logical vectors of the same size as the group",
+    fixed = TRUE
   )
 })
 

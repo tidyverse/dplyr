@@ -523,6 +523,72 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
   return res;
 }
 
+SEXP dplyr_mask_eval_all_filter(SEXP quo, SEXP env_private, SEXP env_context, SEXP s_n) {
+  SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
+  R_xlen_t ngroups = XLENGTH(rows);
+
+  SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
+  SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));
+
+  R_xlen_t n = Rf_asInteger(s_n);
+  SEXP keep = PROTECT(Rf_allocVector(LGLSXP, n));
+  int* p_keep = LOGICAL(keep);
+  SEXP new_group_sizes = PROTECT(Rf_allocVector(INTSXP, ngroups));
+  int* p_new_group_sizes = INTEGER(new_group_sizes);
+
+  SEXP group_indices = PROTECT(Rf_allocVector(INTSXP, n));
+  int* p_group_indices = INTEGER(group_indices);
+
+  SEXP res = PROTECT(Rf_allocVector(VECSXP, 3));
+  SET_VECTOR_ELT(res, 0, keep);
+  SET_VECTOR_ELT(res, 1, new_group_sizes);
+  SET_VECTOR_ELT(res, 2, group_indices);
+
+  for (R_xlen_t i = 0; i < ngroups; i++) {
+    SEXP rows_i = VECTOR_ELT(rows, i);
+    R_xlen_t n_i = XLENGTH(rows_i);
+    SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));
+    Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);
+    Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
+    Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
+
+    SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
+    if (TYPEOF(result_i) != LGLSXP) {
+      Rf_error("filter() expressions should return logical vectors of the same size as the group");
+    }
+    R_xlen_t n_result_i = XLENGTH(result_i);
+
+    // sprinkle
+    int* p_rows_i = INTEGER(rows_i);
+    if (n_i == n_result_i) {
+      int* p_result_i = LOGICAL(result_i);
+      int nkeep = 0;
+      for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i, ++p_result_i) {
+        p_keep[*p_rows_i - 1] = *p_result_i == TRUE;
+        p_group_indices[*p_rows_i - 1] = i + 1;
+        nkeep += (*p_result_i == TRUE);
+      }
+      p_new_group_sizes[i] = nkeep;
+    } else if (n_result_i == 1) {
+      int constant_result_i = *LOGICAL(result_i);
+      for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i) {
+        p_keep[*p_rows_i - 1] = constant_result_i;
+        p_group_indices[*p_rows_i - 1] = i + 1;
+      }
+      p_new_group_sizes[i] = n_i * (constant_result_i == TRUE);
+    } else {
+      Rf_error("filter() expressions should return logical vectors of the same size as the group");
+    }
+
+    UNPROTECT(2);
+  }
+
+  UNPROTECT(7);
+
+  return res;
+}
+
+
 SEXP dplyr_vec_sizes(SEXP chunks) {
   R_xlen_t n = XLENGTH(chunks);
   SEXP res = PROTECT(Rf_allocVector(INTSXP, n));
@@ -827,6 +893,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval", (DL_FUNC)& dplyr_mask_eval, 4},
   {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 5},
   {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 5},
+  {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
+
   {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
   {"dplyr_validate_summarise_sizes", (DL_FUNC)& dplyr_validate_summarise_sizes, 2},
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
