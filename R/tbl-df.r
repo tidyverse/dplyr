@@ -156,6 +156,14 @@ regroup <- function(data) {
 
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
+  dots <- enquos(...)
+  if (any(have_name(dots))) {
+    bad <- dots[have_name(dots)]
+    bad_eq_ops(bad, "Filter specifications must not be named")
+  } else if (is_empty(dots)) {
+    return(.data)
+  }
+
   rows <- group_rows(.data)
 
   # workaround when there are 0 groups
@@ -166,6 +174,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   mask <- DataMask$new(.data, caller_env(), rows)
   on.exit(mask$restore())
 
+  quo <- all_exprs(!!!dots, .vectorised = TRUE)
   c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(quo)
 
   out <- vec_slice(.data, keep)
