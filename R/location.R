@@ -20,7 +20,9 @@
 location <- function(df) {
   signal_soft_deprecated("location() is deprecated, please use functions in the lobstr package")
 
-  assert_that(is.data.frame(df))
+  if (!is.data.frame(df)) {
+    abort("location() is meant for data frames")
+  }
 
   attrs <- attributes(df)
   structure(list(

@@ -17,7 +17,6 @@ BugReports: https://github.com/tidyverse/dplyr/issues
 Depends: 
     R (>= 3.2.0)
 Imports: 
-    assertthat (>= 0.2.0),
     glue (>= 1.3.0),
     magrittr (>= 1.5),
     methods,

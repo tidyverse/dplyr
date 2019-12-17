@@ -12,9 +12,10 @@ expand_groups <- function(old_groups, positions, nr) {
 make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
   data <- as_tibble(data)
 
-  assert_that(
-    (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars)
-  )
+  is_symbol_list <- (is.list(vars) && all(sapply(vars, is.name)))
+  if(!is_symbol_list && !is.character(vars)) {
+    abort("incompatible `vars`, should be a list of symbols or a character vector")
+  }
   if (is.list(vars)) {
     vars <- deparse_names(vars)
   }

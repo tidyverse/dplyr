@@ -37,7 +37,6 @@
 #' @useDynLib dplyr, .registration = TRUE
 #' @keywords internal
 #' @import rlang
-#' @importFrom assertthat assert_that is.flag on_failure<-
 #' @importFrom glue glue glue_collapse
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
