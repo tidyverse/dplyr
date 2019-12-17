@@ -268,15 +268,7 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   out
 }
 
-#' @export
-mutate.tbl_df <- function(.data, ...) {
-  dots <- enquos(...)
-  dots_names <- names(dots)
-  auto_named_dots <- names(enquos(..., .named = TRUE))
-  if (length(dots) == 0L) {
-    return(.data)
-  }
-
+mutate_new_columns <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -286,7 +278,13 @@ mutate.tbl_df <- function(.data, ...) {
 
   o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
   mask <- DataMask$new(.data, caller_env(), rows)
-  on.exit(mask$restore())
+
+  dots <- enquos(...)
+  dots_names <- names(dots)
+  auto_named_dots <- names(enquos(..., .named = TRUE))
+  if (length(dots) == 0L) {
+    return(.data)
+  }
 
   new_columns <- list()
 
@@ -311,7 +309,6 @@ mutate.tbl_df <- function(.data, ...) {
         vec_recycle(chunk, n)
       })
     }
-
     result <- vec_slice(vec_c(!!!chunks), o_rows)
 
     if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
@@ -330,6 +327,13 @@ mutate.tbl_df <- function(.data, ...) {
     }
 
   }
+  new_columns
+}
+
+
+#' @export
+mutate.tbl_df <- function(.data, ...) {
+  new_columns <- mutate_new_columns(.data, ...)
 
   out <- .data
   new_column_names <- names(new_columns)
@@ -346,7 +350,6 @@ mutate.tbl_df <- function(.data, ...) {
   }
 
   out
-
 }
 
 DataMask <- R6Class("DataMask",
