@@ -172,7 +172,6 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   }
 
   mask <- DataMask$new(.data, caller_env(), rows)
-  on.exit(mask$restore())
 
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
   c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(quo)
@@ -213,7 +212,6 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   rows <- group_rows(.data)
   mask <- DataMask$new(.data, caller_env(), rows)
-  on.exit(mask$restore())
 
   quo <- quo(c(!!!dots))
 
@@ -289,13 +287,6 @@ mutate_new_columns <- function(.data, ...) {
   auto_named_dots <- names(enquos(..., .named = TRUE))
   if (length(dots) == 0L) {
     return(list())
-  }
-
-  dots <- enquos(...)
-  dots_names <- names(dots)
-  auto_named_dots <- names(enquos(..., .named = TRUE))
-  if (length(dots) == 0L) {
-    return(.data)
   }
 
   new_columns <- list()
@@ -482,11 +473,6 @@ DataMask <- R6Class("DataMask",
       .Call(`dplyr_mask_eval_all_filter`, quo, private, context_env, nrow(private$data))
     },
 
-    restore = function() {
-      context_env[["..group_size"]] <- private$old_group_size
-      context_env[["..group_number"]] <- private$old_group_number
-    },
-
     pick = function(vars) {
       eval_tidy(quo(tibble(!!!syms(vars))), private$mask)
     },
@@ -523,7 +509,6 @@ summarise.tbl_df <- function(.data, ...) {
   }
 
   mask <- DataMask$new(.data, caller_env(), rows)
-  on.exit(mask$restore())
 
   dots <- enquos(...)
   dots_names <- names(dots)
