@@ -45,3 +45,10 @@ test_that("transmute() does not warn when a variable is removed with = NULL (#46
   df <- data.frame(x=1)
   expect_warning(transmute(df, y =x+1, z=y*2, y = NULL), NA)
 })
+
+test_that("transmute() can handle auto splicing", {
+  expect_equal(
+    iris %>% transmute(tibble(Sepal.Length, Sepal.Width)),
+    iris %>% select(Sepal.Length, Sepal.Width)
+  )
+})
