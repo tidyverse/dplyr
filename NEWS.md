@@ -4,6 +4,8 @@
 
 * `pull()` can now return named vectors by specifying an additional column name
   (@ilarischeinin, #4102).
+* New function `across()` that can be used inside `summarise()` or `mutate()` 
+  to apply a function (or a set of functions) to a selection of columns. 
 
 * dplyr no longer provides a `all.equal.tbl_df()` method. It never should have
   done so in the first place because it owns neither the generic nor the class.
@@ -36,6 +38,7 @@
 
 * The first argument of `group_map()`, `group_modify()` and `group_walk()`
   has been changed to `.data` for consistency with other generics.
+  
 * `group_by()` uses hashing from the `vctrs` package. 
 
 # dplyr 0.8.4 (development version)
