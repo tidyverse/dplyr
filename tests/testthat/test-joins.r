@@ -1168,3 +1168,19 @@ test_that("joins reject data frames with NA columns (#3417)", {
     fixed = TRUE
   )
 })
+
+test_that("left_join() respects original row orders (#4639)", {
+  d1 <- tibble(a = c(1:3, 3:1))
+  d2 <- tibble(a = 3:1, b = 1:3)
+
+  res <- left_join(d1, d2, by = "a")
+  expect_equal(res$a, d1$a)
+  expect_equal(res$b, c(3:1, 1:3))
+
+  d1 <- tibble(a = c(1:3, 3:1))
+  d2 <- tibble(a = c(3:1, 1), b = 1:4)
+
+  res <- left_join(d1, d2, by = "a")
+  expect_equal(res$a, c(1, 1:3, 3:1, 1))
+  expect_equal(res$b, c(3:4, 2:1, 1:2, 3:4))
+})
