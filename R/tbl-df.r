@@ -779,30 +779,29 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   # unique values and where they are in each
   x_split <- vec_group_pos(x[, by_x, drop = FALSE])
-  y_split <- vec_group_pos(y[, by_y, drop = FALSE])
 
   # matching uniques in x with uniques in y
   matches <- vec_match(
-    y_split$key,
-    set_names(x_split$key, names(y_split$key))
+    y[, by_y, drop = FALSE],
+    set_names(x_split$key, names(y)[by_y])
   )
 
   # for each unique value in y, expand the ids according to the number
   # of matches in x
-  y_indices <- vec_c(!!!map2(matches, y_split$pos, function(match, ids, lhs_id) {
+  y_indices <- vec_c(!!!map2(matches, seq_along(matches), function(match, id, lhs_id) {
     if (is.na(match)) {
-      ids
+      id
     } else {
-      vec_repeat(ids, each = length(lhs_id[[match]]))
+      vec_repeat(id, each = length(lhs_id[[match]]))
     }
   }, lhs_id = x_split$pos), .ptype = integer())
 
   # same for ids of x
-  x_indices <- vec_c(!!!map2(matches, y_split$pos, function(match, ids, lhs_id) {
+  x_indices <- vec_c(!!!map2(matches, seq_along(matches), function(match, id, lhs_id) {
     if (is.na(match)) {
-      vec_repeat(NA_integer_, length(ids))
+      NA_integer_
     } else {
-      vec_repeat(lhs_id[[match]], times = length(ids))
+      vec_repeat(lhs_id[[match]], times = length(id))
     }
   }, lhs_id = x_split$pos), .ptype = integer())
 
