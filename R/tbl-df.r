@@ -283,7 +283,7 @@ mutate_new_columns <- function(.data, ...) {
   dots_names <- names(dots)
   auto_named_dots <- names(enquos(..., .named = TRUE))
   if (length(dots) == 0L) {
-    return(.data)
+    return(list())
   }
 
   new_columns <- list()
@@ -327,6 +327,7 @@ mutate_new_columns <- function(.data, ...) {
     }
 
   }
+
   new_columns
 }
 
@@ -334,6 +335,9 @@ mutate_new_columns <- function(.data, ...) {
 #' @export
 mutate.tbl_df <- function(.data, ...) {
   new_columns <- mutate_new_columns(.data, ...)
+  if (!length(new_columns)) {
+    return(.data)
+  }
 
   out <- .data
   new_column_names <- names(new_columns)
@@ -351,6 +355,30 @@ mutate.tbl_df <- function(.data, ...) {
 
   out
 }
+
+#' @export
+transmute.tbl_df <- function(.data, ...) {
+  new_columns <- mutate_new_columns(.data, ...)
+
+  out <- .data[, group_vars(.data), drop = FALSE]
+  new_column_names <- names(new_columns)
+  for (i in seq_along(new_columns)) {
+    if (!inherits(new_columns[[i]], "rlang_zap")) {
+      out[[new_column_names[i]]] <-  new_columns[[i]]
+    }
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
+  out
+}
+
 
 DataMask <- R6Class("DataMask",
   public = list(

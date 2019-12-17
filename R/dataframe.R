@@ -69,6 +69,11 @@ mutate.data.frame <- function(.data, ...) {
 }
 
 #' @export
+transmute.data.frame <- function(.data, ...) {
+  as.data.frame(transmute(tbl_df(.data), ...))
+}
+
+#' @export
 arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
   as.data.frame(arrange(tbl_df(.data), ..., .by_group = .by_group))
 }

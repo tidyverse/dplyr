@@ -401,24 +401,6 @@ transmute <- function(.data, ...) {
   UseMethod("transmute")
 }
 
-#' @export
-transmute.default <- function(.data, ...) {
-  dots <- enquos(..., .named = TRUE)
-  out <- mutate(.data, !!!dots)
-
-  keep <- intersect(names(dots), names(out))
-  select(out, one_of(keep))
-}
-
-#' @export
-transmute.grouped_df <- function(.data, ...) {
-  dots <- enquos(..., .named = TRUE)
-  out <- mutate(.data, !!!dots)
-  keep <- names(dots)
-
-  .select_grouped_df(out, one_of(keep), notify = FALSE)
-}
-
 #' Arrange rows by variables
 #'
 #' Order tbl rows by an expression involving its variables.
