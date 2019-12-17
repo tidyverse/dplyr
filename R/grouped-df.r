@@ -299,13 +299,6 @@ group_cols <- function(vars = peek_vars()) {
 
 # see arrange.r for arrange.grouped_df
 
-.select_grouped_df <- function(.data, ..., notify = TRUE) {
-  # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
-  vars <- ensure_group_vars(vars, .data, notify = notify)
-  select_impl(.data, vars)
-}
-
 select_impl <- function(.data, vars) {
   positions <- match(vars, names(.data))
   if (any(test <- is.na(positions))) {
@@ -347,7 +340,9 @@ select_impl <- function(.data, vars) {
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  .select_grouped_df(.data, !!!enquos(...), notify = TRUE)
+  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
+  vars <- ensure_group_vars(vars, .data, notify = TRUE)
+  select_impl(.data, vars)
 }
 
 ensure_group_vars <- function(vars, data, notify = TRUE) {
