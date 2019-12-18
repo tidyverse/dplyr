@@ -1,5 +1,8 @@
 # dplyr 0.9.0 (in development)
 
+* `pull()` can now return named vectors by specifying an additional column name
+  (@ilarischeinin, #4102).
+
 * dplyr no longer provides a `all.equal.tbl_df()` method. It never should have
   done so in the first place because it owns neither the generic nor the class.
   It also provided a problematic implementation because, by default, it 
