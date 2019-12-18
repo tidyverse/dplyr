@@ -106,12 +106,6 @@ arrange.tbl_df <- function(.data, ..., .by_group = FALSE) {
   arrange_data_frame(.data, ..., .by_group = .by_group)
 }
 
-#' @export
-arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange_data_frame(.data, !!!dots, .by_group = .by_group)
-}
-
 regroup <- function(data) {
   # only keep the non empty groups
   non_empty <- map_lgl(group_rows(data), function(.x) length(.x) > 0)
@@ -178,30 +172,9 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   }
 
   mask <- DataMask$new(.data, caller_env(), rows)
+  on.exit(mask$restore())
 
-  keep <- logical(nrow(.data))
-  group_indices <- integer(nrow(.data))
-  new_rows_sizes <- integer(length(rows))
-
-  for (group in seq_along(rows)) {
-    current_rows <- rows[[group]]
-    n <- length(current_rows)
-
-    res <- mask$eval(quo, group)
-
-    if (!inherits(res, "logical")) {
-      abort(
-        "filter() expressions should return logical vectors of the same size as the group",
-        "dplyr_filter_wrong_result"
-      )
-    }
-    res <- vec_recycle(res, n)
-
-    new_rows_sizes[group] <- sum(res, na.rm = TRUE)
-    group_indices[current_rows] <- group
-    keep[current_rows[res]] <- TRUE
-  }
-
+  c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(quo)
   out <- vec_slice(.data, keep)
 
   # regroup
@@ -225,11 +198,6 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   out
 }
-#' @export
-filter_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!!dots)
-}
 
 #' @export
 slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
@@ -240,8 +208,11 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   rows <- group_rows(.data)
   mask <- DataMask$new(.data, caller_env(), rows)
+  on.exit(mask$restore())
 
   quo <- quo(c(!!!dots))
+
+  chunks <- mask$eval_all(quo)
 
   slice_indices <- new_list(length(rows))
   new_rows <- new_list(length(rows))
@@ -249,14 +220,7 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   for (group in seq_along(rows)) {
     current_rows <- rows[[group]]
-
-    n <- length(current_rows)
-    if (n == 0L) {
-      new_rows[[group]] <- integer()
-      next
-    }
-
-    res <- mask$eval(quo, group)
+    res <- chunks[[group]]
 
     if (is.logical(res) && all(is.na(res))) {
       res <- integer()
@@ -303,30 +267,24 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   out
 }
-#' @export
-slice_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  slice(.data, !!!dots)
-}
 
-#' @export
-mutate.tbl_df <- function(.data, ...) {
-  dots <- enquos(...)
-  dots_names <- names(dots)
-  auto_named_dots <- names(enquos(..., .named = TRUE))
-  if (length(dots) == 0L) {
-    return(.data)
-  }
-
+mutate_new_columns <- function(.data, ...) {
   rows <- group_rows(.data)
-  rows_lengths <- lengths(rows)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
     rows <- list(integer(0))
   }
+  rows_lengths <- .Call(`dplyr_vec_sizes`, rows)
 
   o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
   mask <- DataMask$new(.data, caller_env(), rows)
+
+  dots <- enquos(...)
+  dots_names <- names(dots)
+  auto_named_dots <- names(enquos(..., .named = TRUE))
+  if (length(dots) == 0L) {
+    return(list())
+  }
 
   new_columns <- list()
 
@@ -336,22 +294,21 @@ mutate.tbl_df <- function(.data, ...) {
     # recycling it appropriately to match the group size
     #
     # TODO: reinject hybrid evaluation at the R level
-    chunks <- map2(seq_along(rows), lengths(rows), function(group, n) {
-      vec_recycle(mask$eval(dots[[i]], group), n)
-    })
+    c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]], dots_names, i)
 
-    null_results <- map_lgl(chunks, is.null)
-    if (all(null_results)) {
+    if (is.null(chunks)) {
       if (!is.null(dots_names) && dots_names[i] != "" && dots_names[[i]] %in% c(names(.data), names(new_columns))) {
         new_columns[[dots_names[i]]] <- zap()
         mask$remove(dots_names[i])
       }
       next
     }
-    if (any(null_results)) {
-      abort("incompatible results for mutate(), some results are NULL")
-    }
 
+    if (needs_recycle) {
+      chunks <- map2(chunks, rows_lengths, function(chunk, n) {
+        vec_recycle(chunk, n)
+      })
+    }
     result <- vec_slice(vec_c(!!!chunks), o_rows)
 
     if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
@@ -371,6 +328,17 @@ mutate.tbl_df <- function(.data, ...) {
 
   }
 
+  new_columns
+}
+
+
+#' @export
+mutate.tbl_df <- function(.data, ...) {
+  new_columns <- mutate_new_columns(.data, ...)
+  if (!length(new_columns)) {
+    return(.data)
+  }
+
   out <- .data
   new_column_names <- names(new_columns)
   for (i in seq_along(new_columns)) {
@@ -386,13 +354,31 @@ mutate.tbl_df <- function(.data, ...) {
   }
 
   out
+}
 
-}
 #' @export
-mutate_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  mutate(.data, !!!dots)
+transmute.tbl_df <- function(.data, ...) {
+  new_columns <- mutate_new_columns(.data, ...)
+
+  out <- .data[, group_vars(.data), drop = FALSE]
+  new_column_names <- names(new_columns)
+  for (i in seq_along(new_columns)) {
+    if (!inherits(new_columns[[i]], "rlang_zap")) {
+      out[[new_column_names[i]]] <-  new_columns[[i]]
+    }
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
+  out
 }
+
 
 DataMask <- R6Class("DataMask",
   public = list(
@@ -444,15 +430,23 @@ DataMask <- R6Class("DataMask",
       rm(list = name, envir = private$bindings)
     },
 
-    eval = function(quo, group) {
-      .Call(`dplyr_mask_eval`, quo, group, private, context_env)
+    eval_all = function(quo) {
+      .Call(`dplyr_mask_eval_all`, quo, private, context_env)
     },
 
-    eval_all = function(quo, dots_names, i) {
-      .Call(`dplyr_mask_eval_all`, quo, private, context_env, dots_names, i)
+    eval_all_summarise = function(quo, dots_names, i) {
+      .Call(`dplyr_mask_eval_all_summarise`, quo, private, context_env, dots_names, i)
     },
 
-    finalize = function() {
+    eval_all_mutate = function(quo, dots_names, i) {
+      .Call(`dplyr_mask_eval_all_mutate`, quo, private, context_env, dots_names, i)
+    },
+
+    eval_all_filter = function(quo) {
+      .Call(`dplyr_mask_eval_all_filter`, quo, private, context_env, nrow(private$data))
+    },
+
+    restore = function() {
       context_env[["..group_size"]] <- private$old_group_size
       context_env[["..group_number"]] <- private$old_group_number
     }
@@ -485,6 +479,7 @@ summarise.tbl_df <- function(.data, ...) {
   }
 
   mask <- DataMask$new(.data, caller_env(), rows)
+  on.exit(mask$restore())
 
   summaries <- list()
 
@@ -496,7 +491,7 @@ summarise.tbl_df <- function(.data, ...) {
     #
     # TODO: reinject hybrid evaluation at the R level
     quo <- dots[[i]]
-    chunks <- mask$eval_all(quo, dots_names, i)
+    chunks <- mask$eval_all_summarise(quo, dots_names, i)
 
     # check that vec_size() of chunks is compatible with .size
     # and maybe update .size
@@ -541,12 +536,6 @@ summarise.tbl_df <- function(.data, ...) {
   }
 
   out
-}
-
-#' @export
-summarise_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  summarise(.data, !!!dots)
 }
 
 # Joins ------------------------------------------------------------------------

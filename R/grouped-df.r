@@ -1,4 +1,4 @@
-utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows"))
+utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows", "new_rows_sizes", "needs_recycle"))
 
 vec_split_id_order <- function(x) {
   split_id <- vec_group_pos(x)
@@ -12,9 +12,10 @@ expand_groups <- function(old_groups, positions, nr) {
 make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
   data <- as_tibble(data)
 
-  assert_that(
-    (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars)
-  )
+  is_symbol_list <- (is.list(vars) && all(sapply(vars, is.name)))
+  if(!is_symbol_list && !is.character(vars)) {
+    abort("incompatible `vars`, should be a list of symbols or a character vector")
+  }
   if (is.list(vars)) {
     vars <- deparse_names(vars)
   }
@@ -298,13 +299,6 @@ group_cols <- function(vars = peek_vars()) {
 
 # see arrange.r for arrange.grouped_df
 
-.select_grouped_df <- function(.data, ..., notify = TRUE) {
-  # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
-  vars <- ensure_group_vars(vars, .data, notify = notify)
-  select_impl(.data, vars)
-}
-
 select_impl <- function(.data, vars) {
   positions <- match(vars, names(.data))
   if (any(test <- is.na(positions))) {
@@ -346,12 +340,9 @@ select_impl <- function(.data, vars) {
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  .select_grouped_df(.data, !!!enquos(...), notify = TRUE)
-}
-#' @export
-select_.grouped_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  select.grouped_df(.data, !!!dots)
+  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
+  vars <- ensure_group_vars(vars, .data, notify = TRUE)
+  select_impl(.data, vars)
 }
 
 ensure_group_vars <- function(vars, data, notify = TRUE) {
@@ -376,12 +367,6 @@ rename.grouped_df <- function(.data, ...) {
   vars <- tidyselect::vars_rename(names(.data), ...)
   select_impl(.data, vars)
 }
-#' @export
-rename_.grouped_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  rename(.data, !!!dots)
-}
-
 
 # Do ---------------------------------------------------------------------------
 
@@ -445,11 +430,6 @@ do.grouped_df <- function(.data, ...) {
     label_output_list(labels, out, groups(.data))
   }
 }
-#' @export
-do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
-  dots <- compat_lazy_dots(.dots, env, ...)
-  do(.data, !!!dots)
-}
 
 # Set operations ---------------------------------------------------------------
 
@@ -469,9 +449,4 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
     groups(.data),
     group_by_drop_default(.data)
   )
-}
-#' @export
-distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  distinct(.data, !!!dots, .keep_all = .keep_all)
 }

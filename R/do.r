@@ -87,26 +87,9 @@
 do <- function(.data, ...) {
   UseMethod("do")
 }
-#' @export
-do.default <- function(.data, ...) {
-  do_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
-#' @rdname se-deprecated
-do_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "do_() is deprecated. ",
-    "Please use group_map() instead"
-  ))
-  UseMethod("do_")
-}
 
 #' @export
 do.NULL <- function(.data, ...) {
-  NULL
-}
-#' @export
-do_.NULL <- function(.data, ..., .dots = list()) {
   NULL
 }
 

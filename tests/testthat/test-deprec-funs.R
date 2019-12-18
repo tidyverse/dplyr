@@ -1,4 +1,6 @@
-context("funs")
+
+setup(options(lifecycle_verbosity = "quiet"))
+teardown(options(lifecycle_verbosity = NULL))
 
 test_that("fun_list is merged with new args", {
   scoped_lifecycle_silence()
@@ -11,6 +13,14 @@ test_that("funs() works with namespaced calls", {
   scoped_lifecycle_silence()
   expect_identical(summarise_all(mtcars, funs(base::mean(.))), summarise_all(mtcars, funs(mean(.))))
   expect_identical(summarise_all(mtcars, funs(base::mean)), summarise_all(mtcars, funs(mean(.))))
+})
+
+test_that("funs() found in local environment", {
+  f <- function(x) 1
+  df <- data.frame(x = c(2:10, 1000))
+
+  out <- summarise_all(df, funs(f = f, mean = mean, median = median))
+  expect_equal(out, data.frame(f = 1, mean = 105.4, median = 6.5))
 })
 
 test_that("funs() accepts quoted functions", {
@@ -87,14 +97,6 @@ test_that("can enfun() purrr-style lambdas", {
   res <- enfun(~ mean(.x))
   expect_equal(length(res), 1L)
   expect_true(typeof(res[[1]]) == "closure")
-})
-
-test_that("as_fun_list() uses rlang auto-naming", {
-  nms <- names(as_fun_list(list(min, max), env()))
-
-  # Just check they are labellised as literals enclosed in brackets to
-  # insulate from upstream changes
-  expect_true(all(grepl("^<", nms)))
 })
 
 test_that("funs_ works", {

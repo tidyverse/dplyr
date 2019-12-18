@@ -22,31 +22,6 @@ group_indices.default <- function(.data, ...) {
     group_indices_(.data, .dots = compat_as_lazy_dots(...))
   }
 }
-#' @export
-#' @rdname se-deprecated
-group_indices_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "group_indices_() is deprecated. ",
-    "Please use group_indices() instead"
-  ))
-
-  UseMethod("group_indices_")
-}
-
-#' @export
-group_indices.data.frame <- function(.data, ..., .drop = TRUE) {
-  dots <- enquos(...)
-  if (length(dots) == 0L) {
-    return(rep(1L, nrow(.data)))
-  }
-  group_indices(group_by(.data, !!!dots, .drop = .drop))
-}
-
-#' @export
-group_indices_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_indices(.data, !!!dots)
-}
 
 #' @export
 group_indices.rowwise_df <- function(.data, ...) {
@@ -54,11 +29,6 @@ group_indices.rowwise_df <- function(.data, ...) {
     warn("group_indices_.rowwise_df ignores extra arguments")
   }
   seq_len(nrow(.data))
-}
-#' @export
-group_indices_.rowwise_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_indices(.data, !!!dots)
 }
 
 #' @importFrom rlang dots_n
@@ -68,9 +38,4 @@ group_indices.grouped_df <- function(.data, ...) {
     warn("group_indices_.grouped_df ignores extra arguments")
   }
   .Call(`dplyr_group_indices`, .data, nrow(.data))
-}
-#' @export
-group_indices_.grouped_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_indices(.data, !!!dots)
 }

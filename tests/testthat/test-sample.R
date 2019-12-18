@@ -131,11 +131,11 @@ test_that("sample_n and sample_frac can call n() (#3413)", {
   )
   gdf <- group_by(df, g)
 
-  expect_equal(sample_n(df, n()), df)
-  expect_equal(sample_n(gdf, n()), gdf)
+  expect_equal(nrow(sample_n(df, n())), nrow(df))
+  expect_equal(nrow(sample_n(gdf, n())), nrow(gdf))
 
-  expect_equal(nrow(sample_n(df, n()-2L)), nrow(df)-2)
-  expect_equal(nrow(sample_n(gdf, n()-2L)), nrow(df)-4)
+  expect_equal(nrow(sample_n(df, n() - 2L)), nrow(df) - 2)
+  expect_equal(nrow(sample_n(gdf, n() - 2L)), nrow(df) - 4)
 })
 
 test_that("sample_n and sample_frac handles lazy grouped data frames (#3380)", {

@@ -1,62 +1,24 @@
 context("colwise mutate/summarise")
 
-test_that("funs found in current environment", {
-  f <- function(x) 1
-  df <- data.frame(x = c(2:10, 1000))
-
-  with_lifecycle_silence({
-    out <- summarise_all(df, funs(f, mean, median))
-  })
-  expect_equal(out, data.frame(f = 1, mean = 105.4, median = 6.5))
-
-  out <- summarise_all(df, list(f = f, mean = mean, median = median))
-  expect_equal(out, data.frame(f = 1, mean = 105.4, median = 6.5))
-  # TODO: expect_error(summarise_all(df, list(f, mean, median)))
-})
-
-test_that("can use character vectors", {
+test_that("can use character vectors or bare functions", {
   df <- data.frame(x = 1:3)
-  scoped_lifecycle_silence()
+  expect_equal(summarise_all(df, "mean"), data.frame(x = 2))
+  expect_equal(summarise_all(df, mean), data.frame(x = 2))
 
-  expect_equal(summarise_all(df, "mean"), summarise_all(df, funs(mean)))
-  expect_equal(mutate_all(df, list(mean = "mean")), mutate_all(df, funs(mean = mean)))
-
-  expect_equal(summarise_all(df, "mean"), summarise_all(df, list(mean)))
-  expect_equal(mutate_all(df, list(mean = "mean")), mutate_all(df, list(mean = mean)))
-})
-
-test_that("can use bare functions", {
-  df <- data.frame(x = 1:3)
-  scoped_lifecycle_silence()
-
-  expect_equal(summarise_all(df, mean), summarise_all(df, funs(mean)))
-  expect_equal(mutate_all(df, mean), mutate_all(df, funs(mean)))
-
-  expect_equal(summarise_all(df, mean), summarise_all(df, list(mean)))
-  expect_equal(mutate_all(df, mean), mutate_all(df, list(mean)))
+  expect_equal(mutate_all(df, list(x = "mean")), data.frame(x = rep(2, 3)))
+  expect_equal(mutate_all(df, list(x = mean)), data.frame(x = rep(2, 3)))
 })
 
 test_that("default names are smallest unique set", {
   df <- data.frame(x = 1:3, y = 1:3)
-  scoped_lifecycle_silence()
-
-  expect_named(summarise_at(df, vars(x:y), funs(mean)), c("x", "y"))
-  expect_named(summarise_at(df, vars(x), funs(mean, sd)), c("mean", "sd"))
-  expect_named(summarise_at(df, vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(summarise_at(df, vars(x = x), funs(mean, sd)), c("x_mean", "x_sd"))
 
   expect_named(summarise_at(df, vars(x:y), list(mean)), c("x", "y"))
   expect_named(summarise_at(df, vars(x), list(mean = mean, sd = sd)), c("mean", "sd"))
   expect_named(summarise_at(df, vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-
-  expect_named(summarise_at(df, vars(x:y), funs(base::mean, stats::sd)), c("x_base::mean", "y_base::mean", "x_stats::sd", "y_stats::sd"))
 })
 
-test_that("named arguments force complete named", {
-  scoped_lifecycle_silence()
+test_that("named arguments force complete names", {
   df <- data.frame(x = 1:3, y = 1:3)
-  expect_named(summarise_at(df, vars(x:y), funs(mean = mean)), c("x_mean", "y_mean"))
-  expect_named(summarise_at(df, vars(x = x), funs(mean = mean, sd = sd)), c("x_mean", "x_sd"))
 
   expect_named(summarise_at(df, vars(x:y), list(mean = mean)), c("x_mean", "y_mean"))
   expect_named(summarise_at(df, vars(x = x), list(mean = mean, sd = sd)), c("x_mean", "x_sd"))
@@ -118,11 +80,6 @@ test_that("predicate can be quoted", {
 })
 
 test_that("transmute verbs do not retain original variables", {
-  scoped_lifecycle_silence()
-  expect_named(transmute_all(tibble(x = 1:3, y = 1:3), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(transmute_if(tibble(x = 1:3, y = 1:3), is_integer, funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(transmute_at(tibble(x = 1:3, y = 1:3), vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-
   expect_named(transmute_all(tibble(x = 1:3, y = 1:3), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
   expect_named(transmute_if(tibble(x = 1:3, y = 1:3), is_integer, list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
   expect_named(transmute_at(tibble(x = 1:3, y = 1:3), vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
@@ -141,9 +98,7 @@ test_that("selection works with grouped data frames (#2624)", {
 })
 
 test_that("at selection works even if not all ops are named (#2634)", {
-  scoped_lifecycle_silence()
   df <- tibble(x = 1, y = 2)
-  expect_identical(mutate_at(df, vars(z = x, y), funs(. + 1)), tibble(x = 1, y = 3, z = 2))
   expect_identical(mutate_at(df, vars(z = x, y), list(~. + 1)), tibble(x = 1, y = 3, z = 2))
 })
 
@@ -216,26 +171,12 @@ test_that("_each() and _all() families agree", {
   scoped_lifecycle_silence()
   df <- data.frame(x = 1:3, y = 1:3)
 
-  expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean))
-  expect_equal(summarise_each(df, funs(mean), x), summarise_at(df, vars(x), mean))
-  expect_equal(summarise_each(df, funs(mean = mean), x), summarise_at(df, vars(x), funs(mean = mean)))
-  expect_equal(summarise_each(df, funs(mean = mean), x:y), summarise_at(df, vars(x:y), funs(mean = mean)))
-  expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean))
-  expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean))
-
   expect_equal(summarise_each(df, list(mean)), summarise_all(df, mean))
   expect_equal(summarise_each(df, list(mean), x), summarise_at(df, vars(x), mean))
   expect_equal(summarise_each(df, list(mean = mean), x), summarise_at(df, vars(x), list(mean = mean)))
   expect_equal(summarise_each(df, list(mean = mean), x:y), summarise_at(df, vars(x:y), list(mean = mean)))
   expect_equal(summarise_each(df, list(mean), x:y), summarise_at(df, vars(x:y), mean))
   expect_equal(summarise_each(df, list(mean), z = y), summarise_at(df, vars(z = y), mean))
-
-  expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean))
-  expect_equal(mutate_each(df, funs(mean), x), mutate_at(df, vars(x), mean))
-  expect_equal(mutate_each(df, funs(mean = mean), x), mutate_at(df, vars(x), funs(mean = mean)))
-  expect_equal(mutate_each(df, funs(mean = mean), x:y), mutate_at(df, vars(x:y), funs(mean = mean)))
-  expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean))
-  expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean))
 
   expect_equal(mutate_each(df, list(mean)), mutate_all(df, mean))
   expect_equal(mutate_each(df, list(mean), x), mutate_at(df, vars(x), mean))
@@ -263,31 +204,10 @@ test_that("group_by_(at,all) handle utf-8 names (#3829)", {
 test_that("*_(all,at) handle utf-8 names (#2967)", {
   # skip_if(getRversion() <= "3.4.0")
   skip("will come back to this later")
-  scoped_lifecycle_silence()
   withr::with_locale( c(LC_CTYPE = "C"), {
     name <- "\u4e2d"
     tbl <- tibble(a = 1) %>%
       setNames(name)
-
-    res <- tbl %>%
-      mutate_all(funs(as.character)) %>%
-      names()
-    expect_equal(res, name)
-
-    res <- tbl %>%
-      mutate_at(name, funs(as.character)) %>%
-      names()
-    expect_equal(res, name)
-
-    res <- tbl %>%
-      summarise_all(funs(as.character)) %>%
-      names()
-    expect_equal(res, name)
-
-    res <- tbl %>%
-      summarise_at(name, funs(as.character)) %>%
-      names()
-    expect_equal(res, name)
 
     res <- tbl %>%
       mutate_all(list(as.character)) %>%

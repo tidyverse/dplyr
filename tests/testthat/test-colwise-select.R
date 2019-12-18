@@ -26,26 +26,15 @@ test_that("can select/rename with predicate", {
   expect_identical(rename_if(df, is_integerish, toupper), set_names(df, c("X", "y", "Z")))
 })
 
-test_that("can supply funs()", {
-  scoped_lifecycle_silence()
-  expect_identical(select_if(df, funs(is_integerish(.)), funs(toupper(.))), set_names(df[c("x", "z")], c("X", "Z")))
-  expect_identical(rename_if(df, funs(is_integerish(.)), funs(toupper(.))), set_names(df, c("X", "y", "Z")))
-
-  expect_identical(select_if(df, list(~is_integerish(.)), list(~toupper(.))), set_names(df[c("x", "z")], c("X", "Z")))
-  expect_identical(rename_if(df, list(~is_integerish(.)), list(~toupper(.))), set_names(df, c("X", "y", "Z")))
-})
-
-test_that("fails when more than one renaming function is supplied", {
-  scoped_lifecycle_silence()
-  expect_error(
-    select_all(df, funs(tolower, toupper)),
-    "`.funs` must contain one renaming function, not 2",
-    fixed = TRUE
+test_that("can take list, but only containing single function", {
+  expect_identical(
+    select_if(df, list(~ is_integerish(.)), list(~ toupper(.))),
+    set_names(df[c("x", "z")], c("X", "Z"))
   )
-  expect_error(
-    rename_all(df, funs(tolower, toupper)),
-    "`.funs` must contain one renaming function, not 2",
-    fixed = TRUE
+
+  expect_identical(
+    rename_if(df, list(~ is_integerish(.)), list(~ toupper(.))),
+    set_names(df, c("X", "y", "Z"))
   )
 
   expect_error(
@@ -92,8 +81,10 @@ test_that("select variants can use grouping variables (#3351, #3480)", {
 
 test_that("select_if keeps grouping cols", {
   skip_if(getRversion() < "3.5.0")
-  expect_silent(df <- iris %>% group_by(Species) %>% select_if(is.numeric))
-  expect_equal(df, tbl_df(iris[c(5, 1:4)]))
+
+  by_species <- iris %>% group_by(Species)
+  expect_silent(df <- by_species %>% select_if(is.numeric))
+  expect_equal(df, by_species[c(5, 1:4)])
 })
 
 test_that("select_if() handles non-syntactic colnames", {

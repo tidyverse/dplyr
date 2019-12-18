@@ -17,10 +17,10 @@ BugReports: https://github.com/tidyverse/dplyr/issues
 Depends: 
     R (>= 3.2.0)
 Imports: 
-    assertthat (>= 0.2.0),
     glue (>= 1.3.0),
     magrittr (>= 1.5),
     methods,
+    lifecycle,
     lobstr,
     pkgconfig,
     R6,
@@ -51,7 +51,7 @@ Suggests:
     RMySQL,
     RPostgreSQL,
     RSQLite,
-    testthat,
+    testthat (>= 2.1.0),
     withr,
     broom,
     purrr,

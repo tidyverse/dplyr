@@ -55,11 +55,10 @@ test_that("local group_by preserves variable types", {
   )
 
   for (var in names(df_var)) {
-    expected <- tibble(unique(df_var[[var]]), n = 1L)
-    names(expected)[1] <- var
+    expected <- tibble(!!var := sort(unique(df_var[[var]])), n = 1L)
 
     summarised <- df_var %>% group_by(!!sym(var)) %>% summarise(n = n())
-    expect_equal(summarised, expected, info = var)
+    expect_equal(summarised, expected)
   }
 })
 
