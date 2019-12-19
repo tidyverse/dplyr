@@ -409,10 +409,9 @@ test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
   scoped_lifecycle_silence()
   df <- tibble(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
-
-  res <- df %>% mutate_all(funs(as.numeric))
   .Internal(inspect(names(df)))
-  .Internal(inspect(names(res)))
+
+  res <- df %>% mutate_all(as.numeric)
   expect_equal(names(res), names(df))
 })
 
