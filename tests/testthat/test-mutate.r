@@ -408,10 +408,7 @@ test_that("mutate works on zero-row rowwise data frame (#4224)", {
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
   scoped_lifecycle_silence()
   df <- tibble(a = "1", b = "2")
-  new_names <- c("a", enc2native("\u4e2d"))
-  names(df) <- new_names
-  .Internal(inspect(new_names))
-  .Internal(inspect(names(df)))
+  names(df) <- c("a", enc2native("\u4e2d"))
 
   res <- df %>% mutate_all(as.numeric)
   expect_equal(names(res), names(df))

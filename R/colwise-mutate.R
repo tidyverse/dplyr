@@ -247,6 +247,7 @@ summarize_at <- summarise_at
 mutate_all <- function(.tbl, .funs, ...) {
   check_grouped(.tbl, "mutate", "all", alt = TRUE)
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
+  .Internal(inspect(funs))
   mutate(.tbl, !!!funs)
 }
 #' @rdname mutate_all
