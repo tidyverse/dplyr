@@ -202,7 +202,7 @@ However, modern best practice is to use tbl() directly on an DBIConnection." />
 open source databases:</p><ul>
 <li><p><code>src_mysql()</code> connects to a MySQL or MariaDB database using <code><a href='https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.html'>RMySQL::MySQL()</a></code>.</p></li>
 <li><p><code>src_postgres()</code> connects to PostgreSQL using <code><a href='https://rdrr.io/pkg/RPostgreSQL/man/PostgreSQL.html'>RPostgreSQL::PostgreSQL()</a></code></p></li>
-<li><p><code>src_sqlite()</code> to connect to a SQLite database using <code><a href='https://rdrr.io/pkg/RSQLite/man/SQLite.html'>RSQLite::SQLite()</a></code>.</p></li>
+<li><p><code>src_sqlite()</code> to connect to a SQLite database using <code><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>RSQLite::SQLite()</a></code>.</p></li>
 </ul>
 
 <p>However, modern best practice is to use <code><a href='tbl.html'>tbl()</a></code> directly on an <code>DBIConnection</code>.</p>
@@ -288,7 +288,7 @@ into R.</p>
     <pre class="examples"><div class='input'><span class='co'># Basic connection using DBI -------------------------------------------</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>dbplyr</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
 
-<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RSQLite/man/SQLite.html'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
+<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
 <span class='fu'><a href='copy_to.html'>copy_to</a></span>(<span class='no'>con</span>, <span class='no'>mtcars</span>)
 
 <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbListTables.html'>dbListTables</a></span>(<span class='no'>con</span>)

@@ -193,6 +193,7 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/pull.html">pull()</a></code> can now return named vectors by specifying an additional column name (<a href='https://github.com/ilarischeinin'>@ilarischeinin</a>, <a href='https://github.com/tidyverse/dplyr/issues/4102'>#4102</a>).</p></li>
 <li><p>dplyr no longer provides a <code>all.equal.tbl_df()</code> method. It never should have done so in the first place because it owns neither the generic nor the class. It also provided a problematic implementation because, by default, it ignored the order of the rows and the columns which is usually important. This is likely to cause new test failures in downstream packages; but on the whole we believe those failures to either reflect unexpected behaviour or tests that need to be strengthened (<a href='https://github.com/tidyverse/dplyr/issues/2751'>#2751</a>).</p></li>
 <li><p><code>tbl_cube()</code> and <code>nasa</code> have been pulled out into a separate cubelyr package (<a href='https://github.com/tidyverse/dplyr/issues/4429'>#4429</a>).</p></li>
 <li><p><code><a href="../reference/funs.html">funs()</a></code> is deprecated and now issues a warning on first use (<a href='https://github.com/tidyverse/dplyr/issues/3932'>#3932</a>).</p></li>
@@ -733,7 +734,7 @@ select(mtcars, -(!! vars))</code></pre>
 <p>You can continue to use <code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code>, but I recommend a new style that makes the connection to DBI more clear:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(RSQLite<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/RSQLite/man/SQLite.html">SQLite</a></span>(), <span class="st">":memory:"</span>)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(RSQLite<span class="op">::</span><span class="kw"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html">SQLite</a></span>(), <span class="st">":memory:"</span>)</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4">DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html">dbWriteTable</a></span>(con, <span class="st">"mtcars"</span>, mtcars)</a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb11-6" data-line-number="6">mtcars2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tbl.html">tbl</a></span>(con, <span class="st">"mtcars"</span>)</a>
