@@ -406,13 +406,14 @@ test_that("mutate works on zero-row rowwise data frame (#4224)", {
 })
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
-  skip("encoding issues")
   scoped_lifecycle_silence()
   df <- tibble(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
-  res <- df %>% mutate_all(funs(as.numeric)) %>% names()
-  expect_equal(res, names(df))
+  res <- df %>% mutate_all(funs(as.numeric))
+  .Internal(inspect(names(df)))
+  .Internal(inspect(names(res)))
+  expect_equal(names(res), names(df))
 })
 
 test_that("nested hybrid functions do the right thing (#637)", {
