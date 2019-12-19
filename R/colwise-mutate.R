@@ -247,7 +247,6 @@ summarize_at <- summarise_at
 mutate_all <- function(.tbl, .funs, ...) {
   check_grouped(.tbl, "mutate", "all", alt = TRUE)
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
-  .Internal(inspect(funs))
   mutate(.tbl, !!!funs)
 }
 #' @rdname mutate_all
@@ -356,7 +355,9 @@ manip_apply_syms <- function(funs, syms, tbl) {
 
   # Use symbols as default names
   unnamed <- !have_name(syms)
+  .Internal(inspect(names(syms)))
   names(syms)[unnamed] <- map_chr(syms[unnamed], as_string)
+  .Internal(inspect(names(syms)))
 
   if (length(funs) == 1 && !attr(funs, "have_name")) {
     names(out) <- names(syms)
