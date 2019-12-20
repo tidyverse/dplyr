@@ -407,7 +407,7 @@ test_that("mutate works on zero-row rowwise data frame (#4224)", {
 
 test_that("env_bind_active() twice encoding", {
   e <- env(empty_env())
-  funs <- function() 42
+  funs <- list(function() 42)
   names(funs) <- enc2native("\u4e2d")
   env_bind_active(e, !!!funs)
   print(">>>> env_bind_active()")
