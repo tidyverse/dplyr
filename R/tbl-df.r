@@ -314,7 +314,8 @@ mutate_new_columns <- function(.data, ...) {
     }
     result <- vec_slice(vec_c(!!!chunks), o_rows)
 
-    if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
+    not_named <- (is.null(dots_names) || dots_names[i] == "")
+    if (not_named && is.data.frame(result)) {
       new_columns[names(result)] <- result
 
       # remember each result separately
@@ -322,11 +323,13 @@ mutate_new_columns <- function(.data, ...) {
         mask$add(nm, pluck(chunks, i))
       })
     } else {
+      name <- if (not_named) auto_named_dots[i] else dots_names[i]
+
       # treat as a single output otherwise
-      new_columns[[ auto_named_dots[i] ]] <- result
+      new_columns[[name]] <- result
 
       # remember
-      mask$add(auto_named_dots[i], chunks)
+      mask$add(name, chunks)
     }
 
   }
@@ -448,14 +451,10 @@ DataMask <- R6Class("DataMask",
       if (name %in% group_vars(private$data)) {
         abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
       }
-      print("DataMask$add()")
-      .Internal(inspect(name))
 
       env_bind_active(private$bindings, !!name := function() {
         .subset2(chunks, private$current_group)
       })
-      print("</ DataMask$add()")
-
     },
 
     remove = function(name) {
