@@ -405,20 +405,7 @@ test_that("mutate works on zero-row rowwise data frame (#4224)", {
   expect_equal(res$a2, numeric(0))
 })
 
-test_that("env_has() and env_get() agree", {
-  names <- c("a", enc2native("\u4e2d"))
-  e <- env(empty_env())
-  print("env_has()")
-  print(ok <- env_has(e, names))
-
-  if(any(ok)) {
-    print("env_get_list()")
-    print(env_get_list(e, names[ok]))
-  }
-})
-
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
-  scoped_lifecycle_silence()
   df <- tibble(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 

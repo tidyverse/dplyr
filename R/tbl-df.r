@@ -415,7 +415,7 @@ DataMask <- R6Class("DataMask",
       private$rows <- rows
       private$data <- data
       private$caller <- caller
-      private$bindings <- env()
+      private$bindings <- env(empty_env())
       private$keys <- group_keys(data)
 
       # A function that returns all the chunks for a column
@@ -438,8 +438,12 @@ DataMask <- R6Class("DataMask",
         # the active binding is touched
         function() .subset2(chunks, private$current_group)
       }
+      print("DataMask$new() - names(data)")
+      .Internal(inspect(names(data)))
+      print("DataMask$new() - env_has()")
+      print(env_has(private$bindings, names(data)))
       env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
-
+      print("env_bind_active()")
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
     },
