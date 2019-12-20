@@ -438,10 +438,7 @@ DataMask <- R6Class("DataMask",
         # the active binding is touched
         function() .subset2(chunks, private$current_group)
       }
-      print("<env_bind_active>")
-      print(names(data))
       env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
-      print("</env_bind_active>")
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
@@ -451,9 +448,14 @@ DataMask <- R6Class("DataMask",
       if (name %in% group_vars(private$data)) {
         abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
       }
+      print("DataMask$add()")
+      .Internal(inspect(name))
+
       env_bind_active(private$bindings, !!name := function() {
         .subset2(chunks, private$current_group)
       })
+      print("</ DataMask$add()")
+
     },
 
     remove = function(name) {
