@@ -292,17 +292,7 @@ manip_all <- function(.tbl, .funs, .quo, .env, ..., .include_group_vars = FALSE)
   if (.include_group_vars) {
     syms <- syms(tbl_vars(.tbl))
   } else {
-
-    print("names(.tbl)")
-    .Internal(inspect(names(.tbl)))
-
-    print("tbl_nongroup_vars(.tbl)")
-    .Internal(inspect(tbl_nongroup_vars(.tbl)))
-
     syms <- syms(tbl_nongroup_vars(.tbl))
-
-    print("syms")
-    .Internal(inspect(syms))
   }
   funs <- as_fun_list(.funs, .env, ...)
   manip_apply_syms(funs, syms, .tbl)
@@ -365,7 +355,11 @@ manip_apply_syms <- function(funs, syms, tbl) {
 
   # Use symbols as default names
   unnamed <- !have_name(syms)
+  print("syms[unnamed]")
+  .Internal(inspect(syms[unnamed]))
   names(syms)[unnamed] <- map_chr(syms[unnamed], as_string)
+  print("names(syms)[unnamed]")
+  .Internal(inspect(names(syms)[unnamed]))
 
   if (length(funs) == 1 && !attr(funs, "have_name")) {
     names(out) <- names(syms)
