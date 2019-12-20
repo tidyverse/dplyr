@@ -438,11 +438,10 @@ DataMask <- R6Class("DataMask",
         # the active binding is touched
         function() .subset2(chunks, private$current_group)
       }
-      names_data <- names(data)
-      for (i in seq_len(data)) {
-        makeActiveBinding(names_data[i], binding_fn(i), private$bindings)
-      }
-      # env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
+      print("<env_bind_active>")
+      print(names(data))
+      env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
+      print("</env_bind_active>")
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
