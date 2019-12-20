@@ -324,8 +324,6 @@ mutate_new_columns <- function(.data, ...) {
       })
     } else {
       name <- if (not_named) auto_named_dots[i] else dots_names[i]
-      print(">>> name <- if (not_named) auto_named_dots[i] else dots_names[i]")
-      .Internal(inspect(name))
 
       # treat as a single output otherwise
       new_columns[[name]] <- result
