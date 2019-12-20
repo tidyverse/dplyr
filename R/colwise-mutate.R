@@ -247,12 +247,6 @@ summarize_at <- summarise_at
 mutate_all <- function(.tbl, .funs, ...) {
   check_grouped(.tbl, "mutate", "all", alt = TRUE)
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
-  print("names(.tbl)")
-  .Internal(inspect(names(.tbl)))
-
-  print("names(funs")
-  .Internal(inspect(names(funs)))
-
   mutate(.tbl, !!!funs)
 }
 #' @rdname mutate_all
@@ -298,7 +292,17 @@ manip_all <- function(.tbl, .funs, .quo, .env, ..., .include_group_vars = FALSE)
   if (.include_group_vars) {
     syms <- syms(tbl_vars(.tbl))
   } else {
+
+    print("names(.tbl)")
+    .Internal(inspect(names(.tbl)))
+
+    print("tbl_nongroup_vars(.tbl)")
+    .Internal(inspect(tbl_nongroup_vars(.tbl)))
+
     syms <- syms(tbl_nongroup_vars(.tbl))
+
+    print("syms")
+    .Internal(inspect(syms))
   }
   funs <- as_fun_list(.funs, .env, ...)
   manip_apply_syms(funs, syms, .tbl)
