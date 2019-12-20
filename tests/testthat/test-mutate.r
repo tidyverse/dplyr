@@ -405,26 +405,14 @@ test_that("mutate works on zero-row rowwise data frame (#4224)", {
   expect_equal(res$a2, numeric(0))
 })
 
-test_that("env_bind_active() twice encoding", {
-  e <- env(empty_env())
-  funs <- list(function() 42)
-  names(funs) <- enc2native("\u4e2d")
-  env_bind_active(e, !!!funs)
-  print(">>>> env_bind_active()")
-  print(env_names(e))
-
-  names(funs) <- as_string(names(funs))
-  env_bind_active(e, !!!funs)
-
-  print(env_names(e))
-})
-
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
-  df <- tibble(a = "1", b = "2")
-  names(df) <- c("a", enc2native("\u4e2d"))
+  with_non_utf8_encoding({
+    df <- tibble(a = "1", b = "2")
+    names(df) <- c("a", enc2native("\u4e2d"))
 
-  res <- df %>% mutate_all(as.numeric)
-  expect_equal(names(res), names(df))
+    res <- df %>% mutate_all(as.numeric)
+    expect_equal(names(res), names(df))
+  })
 })
 
 test_that("nested hybrid functions do the right thing (#637)", {
