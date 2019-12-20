@@ -346,6 +346,8 @@ manip_apply_syms <- function(funs, syms, tbl) {
         out[[i, j]] <- expr_substitute(funs[[j]], quote(.), syms[[i]])
       } else {
         out[[i, j]] <- call2(funs[[j]], syms[[i]])
+        print("out[[i, j]]")
+        .Internal(inspect(out[[i, j]]))
       }
       attr(out[[i, j]], "position") <- pos
     }
@@ -355,11 +357,7 @@ manip_apply_syms <- function(funs, syms, tbl) {
 
   # Use symbols as default names
   unnamed <- !have_name(syms)
-  print("syms[unnamed]")
-  .Internal(inspect(syms[unnamed]))
   names(syms)[unnamed] <- map_chr(syms[unnamed], as_string)
-  print("names(syms)[unnamed]")
-  .Internal(inspect(names(syms)[unnamed]))
 
   if (length(funs) == 1 && !attr(funs, "have_name")) {
     names(out) <- names(syms)
