@@ -346,8 +346,6 @@ manip_apply_syms <- function(funs, syms, tbl) {
         out[[i, j]] <- expr_substitute(funs[[j]], quote(.), syms[[i]])
       } else {
         out[[i, j]] <- call2(funs[[j]], syms[[i]])
-        print("out[[i, j]]")
-        .Internal(inspect(out[[i, j]]))
       }
       attr(out[[i, j]], "position") <- pos
     }
@@ -377,5 +375,6 @@ manip_apply_syms <- function(funs, syms, tbl) {
       names(out) <- paste(grid$var, grid$call, sep = "_")
     }
   }
+  .Internal(inspect(out))
   out
 }
