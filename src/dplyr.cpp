@@ -448,11 +448,11 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private, SEXP env_context,
       if (!Rf_isNull(dots_names)) {
         SEXP name = STRING_ELT(dots_names, i);
         if (XLENGTH(name) > 0) {
-          Rf_error("Unsupported type for result `%s`", CHAR(name));
+          Rf_errorcall(R_NilValue, "Unsupported type for result `%s`", CHAR(name));
         }
       }
       int i = INTEGER(sexp_i)[0];
-      Rf_error("Unsupported type at index %d", i);
+      Rf_errorcall(R_NilValue, "Unsupported type at index %d", i);
     }
 
     SET_VECTOR_ELT(chunks, i, result_i);
@@ -489,7 +489,7 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
       if (seen_vec) {
         // the current chunk is NULL but there were some non NULL
         // chunks, so this is an error
-        Rf_error("incompatible results for mutate(), some results are NULL");
+        Rf_errorcall(R_NilValue, "incompatible results for mutate(), some results are NULL");
       } else {
         UNPROTECT(2);
         continue;
@@ -502,11 +502,11 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
       if (!Rf_isNull(dots_names)) {
         SEXP name = STRING_ELT(dots_names, i);
         if (XLENGTH(name) > 0) {
-          Rf_error("Unsupported type for result `%s`", CHAR(name));
+          Rf_errorcall(R_NilValue, "Unsupported type for result `%s`", CHAR(name));
         }
       }
       int i = INTEGER(sexp_i)[0];
-      Rf_error("Unsupported type at index %d", i);
+      Rf_errorcall(R_NilValue, "Unsupported type at index %d", i);
     }
 
     if (!needs_recycle && vctrs::short_vec_size(result_i) != n_i) {
@@ -562,7 +562,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quo, SEXP env_private, SEXP env_context, SE
 
     SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
     if (TYPEOF(result_i) != LGLSXP) {
-      Rf_error("filter() expressions should return logical vectors of the same size as the group");
+      Rf_errorcall(R_NilValue, "filter() expressions should return logical vectors of the same size as the group");
     }
     R_xlen_t n_result_i = XLENGTH(result_i);
 
@@ -585,7 +585,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quo, SEXP env_private, SEXP env_context, SE
       }
       p_new_group_sizes[i] = n_i * (constant_result_i == TRUE);
     } else {
-      Rf_error("filter() expressions should return logical vectors of the same size as the group");
+      Rf_errorcall(R_NilValue, "filter() expressions should return logical vectors of the same size as the group");
     }
 
     UNPROTECT(2);
@@ -646,10 +646,10 @@ SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks) {
   } else {
     // size is already a vector, we need to check if the sizes of chunks
     // matches
-    int* p_size;
+    int* p_size = INTEGER(size);
     for (R_xlen_t i = 0; i < nchunks; i++, ++p_size) {
       if (*p_size != vctrs::short_vec_size(VECTOR_ELT(chunks, i))) {
-        Rf_error("Result does not respect vec_size() == .size");
+        Rf_errorcall(R_NilValue, "Result does not respect vec_size() == .size");
       }
     }
     return size;

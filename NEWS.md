@@ -1,5 +1,10 @@
 # dplyr 0.9.0 (in development)
 
+* `ungroup()` can now selectively remove grouping variables (#3760).
+
+* `pull()` can now return named vectors by specifying an additional column name
+  (@ilarischeinin, #4102).
+
 * dplyr no longer provides a `all.equal.tbl_df()` method. It never should have
   done so in the first place because it owns neither the generic nor the class.
   It also provided a problematic implementation because, by default, it 
@@ -23,8 +28,6 @@
 
 * `group_keys.rowwise_df()` gives a 0 column data frame with n() rows. 
 
-* `group_by()` uses hashing from the `vctrs` package. 
-
 * `combine()` is soft deprecated.
 
 * `location()` and `changes()` are soft deprecated, please use functions from the lobstr package. 
@@ -33,8 +36,6 @@
 
 * The first argument of `group_map()`, `group_modify()` and `group_walk()`
   has been changed to `.data` for consistency with other generics.
-
-* `group_by()` uses hashing from the `vctrs` package. 
 
 * Better performance for extracting slices of factors and ordered factors (#4501).
 

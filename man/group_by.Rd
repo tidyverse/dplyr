@@ -12,9 +12,8 @@ ungroup(x, ...)
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Variables to group by. All tbls accept variable names.
-Some tbls will accept functions of variables. Duplicated groups
-will be silently dropped.}
+\item{...}{In \code{group_by()}, variables or computations to group by.
+In \code{ungroup()}, variables to remove from the grouping.}
 
 \item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
 override existing groups. To add to the existing groups, use
@@ -85,10 +84,10 @@ by_vs \%>\%
   summarise(n = sum(n))
 
 # You can group by expressions: this is just short-hand for
-# a mutate/rename followed by a simple group_by
+# a mutate() followed by a group_by()
 mtcars \%>\% group_by(vsam = vs + am)
 
-# By default, group_by overrides existing grouping
+# By default, group_by() overrides existing grouping
 by_cyl \%>\%
   group_by(vs, am) \%>\%
   group_vars()
@@ -97,6 +96,7 @@ by_cyl \%>\%
 by_cyl \%>\%
   group_by(vs, am, add = TRUE) \%>\%
   group_vars()
+
 
 # when factors are involved, groups can be empty
 tbl <- tibble(

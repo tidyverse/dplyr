@@ -35,7 +35,10 @@ group_by.data.frame <- function(.data, ..., add = FALSE, .drop = group_by_drop_d
 }
 
 #' @export
-ungroup.data.frame <- function(x, ...) x
+ungroup.data.frame <- function(x, ...) {
+  ellipsis::check_dots_empty()
+  x
+}
 
 #' @export
 group_size.data.frame <- function(x) nrow(x)
@@ -66,6 +69,11 @@ summarise.data.frame <- function(.data, ...) {
 #' @export
 mutate.data.frame <- function(.data, ...) {
   as.data.frame(mutate(tbl_df(.data), ...))
+}
+
+#' @export
+transmute.data.frame <- function(.data, ...) {
+  as.data.frame(transmute(tbl_df(.data), ...))
 }
 
 #' @export

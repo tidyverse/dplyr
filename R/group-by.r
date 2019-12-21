@@ -27,9 +27,8 @@
 #'
 #' @family grouping functions
 #' @param .data a tbl
-#' @param ... Variables to group by. All tbls accept variable names.
-#'   Some tbls will accept functions of variables. Duplicated groups
-#'   will be silently dropped.
+#' @param ... In `group_by()`, variables or computations to group by.
+#'   In `ungroup()`, variables to remove from the grouping.
 #' @param add When `add = FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
@@ -66,10 +65,10 @@
 #'   summarise(n = sum(n))
 #'
 #' # You can group by expressions: this is just short-hand for
-#' # a mutate/rename followed by a simple group_by
+#' # a mutate() followed by a group_by()
 #' mtcars %>% group_by(vsam = vs + am)
 #'
-#' # By default, group_by overrides existing grouping
+#' # By default, group_by() overrides existing grouping
 #' by_cyl %>%
 #'   group_by(vs, am) %>%
 #'   group_vars()
@@ -78,6 +77,7 @@
 #' by_cyl %>%
 #'   group_by(vs, am, add = TRUE) %>%
 #'   group_vars()
+#'
 #'
 #' # when factors are involved, groups can be empty
 #' tbl <- tibble(

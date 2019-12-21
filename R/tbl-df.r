@@ -268,15 +268,7 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   out
 }
 
-#' @export
-mutate.tbl_df <- function(.data, ...) {
-  dots <- enquos(...)
-  dots_names <- names(dots)
-  auto_named_dots <- names(enquos(..., .named = TRUE))
-  if (length(dots) == 0L) {
-    return(.data)
-  }
-
+mutate_new_columns <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -286,7 +278,13 @@ mutate.tbl_df <- function(.data, ...) {
 
   o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
   mask <- DataMask$new(.data, caller_env(), rows)
-  on.exit(mask$restore())
+
+  dots <- enquos(...)
+  dots_names <- names(dots)
+  auto_named_dots <- names(enquos(..., .named = TRUE))
+  if (length(dots) == 0L) {
+    return(list())
+  }
 
   new_columns <- list()
 
@@ -311,7 +309,6 @@ mutate.tbl_df <- function(.data, ...) {
         vec_recycle(chunk, n)
       })
     }
-
     result <- vec_slice(vec_c(!!!chunks), o_rows)
 
     if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
@@ -331,6 +328,17 @@ mutate.tbl_df <- function(.data, ...) {
 
   }
 
+  new_columns
+}
+
+
+#' @export
+mutate.tbl_df <- function(.data, ...) {
+  new_columns <- mutate_new_columns(.data, ...)
+  if (!length(new_columns)) {
+    return(.data)
+  }
+
   out <- .data
   new_column_names <- names(new_columns)
   for (i in seq_along(new_columns)) {
@@ -346,8 +354,31 @@ mutate.tbl_df <- function(.data, ...) {
   }
 
   out
-
 }
+
+#' @export
+transmute.tbl_df <- function(.data, ...) {
+  new_columns <- mutate_new_columns(.data, ...)
+
+  out <- .data[, group_vars(.data), drop = FALSE]
+  new_column_names <- names(new_columns)
+  for (i in seq_along(new_columns)) {
+    if (!inherits(new_columns[[i]], "rlang_zap")) {
+      out[[new_column_names[i]]] <-  new_columns[[i]]
+    }
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
+  out
+}
+
 
 DataMask <- R6Class("DataMask",
   public = list(

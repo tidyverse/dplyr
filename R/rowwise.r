@@ -41,6 +41,7 @@ print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
 
 #' @export
 ungroup.rowwise_df <- function(x, ...) {
+  ellipsis::check_dots_empty()
   class(x) <- c("tbl_df", "tbl", "data.frame")
   x
 }
