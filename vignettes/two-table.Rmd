@@ -11,9 +11,6 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 5)
 library(dplyr)
-knit_print.tbl_df <- function(x, options) {
-  knitr::knit_print(trunc_mat(x), options)
-}
 ```
 
 It's rare that a data analysis involves only a single table of data. In practice, you'll normally have many tables that contribute to an analysis, and you need flexible tools to combine them. In dplyr, there are three families of verbs that work with two tables at a time:
