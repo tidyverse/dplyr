@@ -15,7 +15,6 @@
 
 * `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
   (#4429).
-* `ungroup()` now selectively remove grouping variables.
 
 * `funs()` is deprecated and now issues a warning on first use (#3932).
 
