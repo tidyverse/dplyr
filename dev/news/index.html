@@ -193,6 +193,7 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/group_by.html">ungroup()</a></code> can now selectively remove grouping variables (<a href='https://github.com/tidyverse/dplyr/issues/3760'>#3760</a>).</p></li>
 <li><p><code><a href="../reference/pull.html">pull()</a></code> can now return named vectors by specifying an additional column name (<a href='https://github.com/ilarischeinin'>@ilarischeinin</a>, <a href='https://github.com/tidyverse/dplyr/issues/4102'>#4102</a>).</p></li>
 <li><p>dplyr no longer provides a <code>all.equal.tbl_df()</code> method. It never should have done so in the first place because it owns neither the generic nor the class. It also provided a problematic implementation because, by default, it ignored the order of the rows and the columns which is usually important. This is likely to cause new test failures in downstream packages; but on the whole we believe those failures to either reflect unexpected behaviour or tests that need to be strengthened (<a href='https://github.com/tidyverse/dplyr/issues/2751'>#2751</a>).</p></li>
 <li><p><code>tbl_cube()</code> and <code>nasa</code> have been pulled out into a separate cubelyr package (<a href='https://github.com/tidyverse/dplyr/issues/4429'>#4429</a>).</p></li>
@@ -200,12 +201,10 @@
 <li><p><code>starwars</code> dataset now does a better job of separating biological sex from gender identity. The previous <code>gender</code> column has been renamed to <code>sex</code>, since it actually describes the individual’s biological sex. A new <code>gender</code> column encodes the actual gender identity using other information about the Star Wars universe (<a href='https://github.com/MeganBeckett'>@MeganBeckett</a>, <a href='https://github.com/tidyverse/dplyr/issues/4456'>#4456</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> automatically unpack unnamed tibble results (<a href='https://github.com/tidyverse/dplyr/issues/2326'>#2326</a>).</p></li>
 <li><p><code>group_keys.rowwise_df()</code> gives a 0 column data frame with n() rows.</p></li>
-<li><p><code><a href="../reference/group_by.html">group_by()</a></code> uses hashing from the <code>vctrs</code> package.</p></li>
 <li><p><code><a href="../reference/combine.html">combine()</a></code> is soft deprecated.</p></li>
 <li><p><code><a href="../reference/location.html">location()</a></code> and <code><a href="../reference/location.html">changes()</a></code> are soft deprecated, please use functions from the lobstr package.</p></li>
 <li><p><code><a href="../reference/group_map.html">group_map()</a></code> is now a generic (<a href='https://github.com/tidyverse/dplyr/issues/4576'>#4576</a>).</p></li>
 <li><p>The first argument of <code><a href="../reference/group_map.html">group_map()</a></code>, <code><a href="../reference/group_map.html">group_modify()</a></code> and <code><a href="../reference/group_map.html">group_walk()</a></code> has been changed to <code>.data</code> for consistency with other generics.</p></li>
-<li><p><code><a href="../reference/group_by.html">group_by()</a></code> uses hashing from the <code>vctrs</code> package.</p></li>
 <li><p>Better performance for extracting slices of factors and ordered factors (<a href='https://github.com/tidyverse/dplyr/issues/4501'>#4501</a>).</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by()</a></code> uses hashing from the <code>vctrs</code> package.</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by()</a></code> does not create an arbitrary NA group when grouping by factors with <code>drop = TRUE</code> (<a href='https://github.com/tidyverse/dplyr/issues/4460'>#4460</a>).</p></li>

@@ -211,9 +211,8 @@ where operations are performed "by group". <code>ungroup()</code> removes groupi
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Variables to group by. All tbls accept variable names.
-Some tbls will accept functions of variables. Duplicated groups
-will be silently dropped.</p></td>
+      <td><p>In <code>group_by()</code>, variables or computations to group by.
+In <code>ungroup()</code>, variables to remove from the grouping.</p></td>
     </tr>
     <tr>
       <th>add</th>
@@ -333,7 +332,7 @@ variables.</p>
 #&gt;   &lt;int&gt;
 #&gt; 1    32</div><div class='input'>
 <span class='co'># You can group by expressions: this is just short-hand for</span>
-<span class='co'># a mutate/rename followed by a simple group_by</span>
+<span class='co'># a mutate() followed by a group_by()</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='kw'>vsam</span> <span class='kw'>=</span> <span class='no'>vs</span> + <span class='no'>am</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 12
 #&gt; # Groups:   vsam [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  vsam
@@ -349,7 +348,7 @@ variables.</p>
 #&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2     1
 #&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4     1
 #&gt; # … with 22 more rows</div><div class='input'>
-<span class='co'># By default, group_by overrides existing grouping</span>
+<span class='co'># By default, group_by() overrides existing grouping</span>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='groups.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "vs" "am"</div><div class='input'>
@@ -357,6 +356,7 @@ variables.</p>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='groups.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl" "vs"  "am" </div><div class='input'>
+
 <span class='co'># when factors are involved, groups can be empty</span>
 <span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>,
