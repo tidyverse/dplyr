@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* `ungroup()` can now selectively remove grouping variables (#3760).
+
 * `pull()` can now return named vectors by specifying an additional column name
   (@ilarischeinin, #4102).
 

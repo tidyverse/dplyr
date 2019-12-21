@@ -9,9 +9,8 @@ group_indices(.data, ...)
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Variables to group by. All tbls accept variable names.
-Some tbls will accept functions of variables. Duplicated groups
-will be silently dropped.}
+\item{...}{In \code{group_by()}, variables or computations to group by.
+In \code{ungroup()}, variables to remove from the grouping.}
 }
 \description{
 Generate a unique id for each group
