@@ -28,8 +28,6 @@
 
 * `group_keys.rowwise_df()` gives a 0 column data frame with n() rows. 
 
-* `group_by()` uses hashing from the `vctrs` package. 
-
 * `combine()` is soft deprecated.
 
 * `location()` and `changes()` are soft deprecated, please use functions from the lobstr package. 
@@ -38,8 +36,6 @@
 
 * The first argument of `group_map()`, `group_modify()` and `group_walk()`
   has been changed to `.data` for consistency with other generics.
-
-* `group_by()` uses hashing from the `vctrs` package. 
 
 * Better performance for extracting slices of factors and ordered factors (#4501).
 
