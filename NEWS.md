@@ -54,7 +54,6 @@
 * `group_modify()` works with additional arguments (@billdenney and @cderv, #4509)
 
 * `src_tbls()` accepts `...` arguments (#4485, @ianmcook). This could be a breaking change for some dplyr backend packages that implement `src_tbls()`.
-* `src_tbls()` accepts `...` arguments (#4485, @ianmcook).
 
 # dplyr 0.8.3 (2019-07-04)
 
