@@ -231,9 +231,17 @@ as_tibble.grouped_df <- function(x, ...) {
 
 #' @export
 ungroup.grouped_df <- function(x, ...) {
-  attr(x, "groups") <- NULL
-  attr(x, "class") <- c("tbl_df", "tbl", "data.frame")
-  x
+  if (missing(...)) {
+    attr(x, "groups") <- NULL
+    attr(x, "class") <- c("tbl_df", "tbl", "data.frame")
+    x
+  } else {
+    old_groups <- group_vars(x)
+    to_remove <- tidyselect::vars_select(names(x), ...)
+
+    new_groups <- setdiff(old_groups, to_remove)
+    group_by(x, !!!syms(new_groups))
+  }
 }
 
 #' @importFrom tibble is_tibble
