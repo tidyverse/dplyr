@@ -604,27 +604,24 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   x_indices <- rep(x_indices, lengths(y_indices))
   y_indices <- vec_c(!!!y_indices, .pytype = integer())
 
+  x_slice <- vec_slice(x, x_indices)
+  y_slice <- vec_slice(y, y_indices)
+
   # joined columns, cast to their common types
-  joined <- vec_slice(x[, by_x, drop = FALSE], x_indices)
-  joined <- set_names(joined, vars$alias[seq_len(ncol(joined))])
-  joined[] <- map2(joined, y[, by_y, drop = FALSE], function(joined_i, y_i) {
-    vec_cast(joined_i, to = vec_ptype_common(joined_i, y_i))
-  })
+  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
 
-  # colums from x
-  x_result <- set_names(
-    vec_slice(x[, aux_x, drop = FALSE], x_indices),
-    vars$alias[seq2(ncol(joined) + 1, ncol(x))]
-  )
+  # join columns, perhaps with casting,
+  # x columns stay in same position
+  join_ptype <- vec_ptype2(x[, by_x, drop = FALSE], set_names(y[, by_y, drop = FALSE], names(x)[by_x]))
+  out[by_x] <- vec_cast(x_slice[, by_x, drop = FALSE], to = join_ptype)
 
-  # columns from y
-  y_result <- set_names(
-    vec_slice(y[, aux_y, drop = FALSE], y_indices),
-    vars$alias[seq2(ncol(x) + 1, length(vars$alias))]
-  )
+  # other columns from x
+  out[aux_x] <- x_slice[, aux_x, drop = FALSE]
 
-  out <- add_column(joined, !!!x_result, !!!y_result)
-  reconstruct_join(out, x, vars)
+  # then columns from y
+  out[ncol(x) + seq_along(aux_y)] <- y_slice[, aux_y, drop = FALSE]
+
+  reconstruct_join(as_tibble(out), x, vars)
 }
 
 #' @export
@@ -731,6 +728,7 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
       vec_repeat(ids, each = length(rhs_id[[match]]))
     }
   }, rhs_id = y_split$pos), .ptype = integer())
+  x_slice <- vec_slice(x, x_indices)
 
   # same for ids of y
   y_indices <- vec_c(!!!map2(matches, seq_along(matches), function(match, ids, rhs_id) {
@@ -740,21 +738,22 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
       rhs_id[[match]]
     }
   }, rhs_id = y_split$pos), .ptype = integer())
+  y_slice <- vec_slice(y, y_indices)
 
-  # colums from x
-  x_result <- set_names(
-    vec_slice(x, x_indices),
-    vars$alias[seq_len(ncol(x))]
-  )
+  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
 
-  # columns from y
-  y_result <- set_names(
-    vec_slice(y[, aux_y, drop = FALSE], y_indices),
-    vars$alias[seq2(ncol(x) + 1, length(vars$alias))]
-  )
+  # join columns, perhaps with casting,
+  # x columns stay in same position
+  join_ptype <- vec_ptype2(x[, by_x, drop = FALSE], set_names(y[, by_y, drop = FALSE], names(x)[by_x]))
+  out[by_x] <- vec_cast(x_slice[, by_x, drop = FALSE], to = join_ptype)
 
-  out <- add_column(x_result, !!!y_result)
-  reconstruct_join(out, x, vars)
+  # other columns from x
+  out[aux_x] <- x_slice[, aux_x, drop = FALSE]
+
+  # then columns from y
+  out[ncol(x) + seq_along(aux_y)] <- y_slice[, aux_y, drop = FALSE]
+
+  reconstruct_join(as_tibble(out), x, vars)
 }
 
 #' @export
@@ -805,26 +804,22 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
     }
   }, lhs_id = x_split$pos), .ptype = integer())
 
-  # the joined columns (taken from `y`)
-  join_result <- set_names(
-    vec_slice(y[, by_y, drop = FALSE], y_indices),
-    alias[seq_len(length(by_y))]
-  )
+  x_slice <- vec_slice(x, x_indices)
+  y_slice <- vec_slice(y, y_indices)
 
-  # colums from x
-  x_result <- set_names(
-    vec_slice(x[, aux_x, drop = FALSE], x_indices),
-    alias[seq2(length(by_y) + 1L, length(by_y) + length(aux_x))]
-  )
+  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
 
-  # columns from y
-  y_result <- set_names(
-    vec_slice(y[, aux_y, drop = FALSE], y_indices),
-    alias[seq2(length(by_y) + length(aux_x) + 1, length(alias))]
-  )
+  # the joined columns (taken from `y`) and then cast to common type
+  join_ptype <- vec_ptype2(x[, by_x, drop = FALSE], set_names(y[, by_y, drop = FALSE], names(x)[by_x]))
+  out[by_x] <- vec_cast(set_names(y_slice[, by_y, drop = FALSE], names(x)[by_x]), to = join_ptype)
 
-  out <- add_column(join_result, !!!x_result, !!!y_result)
-  reconstruct_join(out, x, vars)
+  # other colums from x
+  out[aux_x] <- x_slice[, aux_x, drop = FALSE]
+
+  # then columns from y
+  out[ncol(x) + seq_along(aux_y)] <- y_slice[, aux_y, drop = FALSE]
+
+  reconstruct_join(as_tibble(out), x, vars)
 }
 
 #' @export
@@ -887,78 +882,92 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   # rows in y and not in x
   y_indices_two <- vec_c(!!!y_split$pos[is.na(y_matches)], .ptype = integer())
 
-  # joined columns, cast to their common types
-  joined <- bind_rows(
-    vec_slice(set_names(x[, by_x, drop = FALSE], by_names), x_indices_one),
-    vec_slice(set_names(y[, by_y, drop = FALSE], by_names), y_indices_two)
+  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
+
+  out[by_x] <- vec_rbind(
+    vec_slice(x[, by_x, drop = FALSE], x_indices_one),
+    vec_slice(y[, by_y, drop = FALSE], y_indices_two)
   )
 
-  # colums from x
-  x_result <- set_names(
-    vec_slice(x[, aux_x, drop = FALSE], c(x_indices_one, x_indices_two)),
-    vars$alias[seq2(ncol(joined) + 1, ncol(x))]
-  )
+  # other colums from x
+  out[aux_x] <- vec_slice(x[, aux_x, drop = FALSE], c(x_indices_one, x_indices_two))
 
   # columns from y
-  y_result <- set_names(
-    vec_slice(y[, aux_y, drop = FALSE], c(y_indices_one, y_indices_two)),
-    vars$alias[seq2(ncol(x) + 1, length(vars$alias))]
-  )
+  out[ncol(x) + seq_along(aux_y)] <- vec_slice(y[, aux_y, drop = FALSE], c(y_indices_one, y_indices_two))
 
-  out <- add_column(joined, !!!x_result, !!!y_result)
-  reconstruct_join(out, x, vars)
+  reconstruct_join(as_tibble(out), x, vars)
 }
 
 #' @export
 #' @rdname join.tbl_df
-semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
+semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ..., suffix = c(".x", ".y"),
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x), warn_only = TRUE)
-  check_valid_names(tbl_vars(y), warn_only = TRUE)
+  check_valid_names(tbl_vars(x))
+  check_valid_names(tbl_vars(y))
 
   by <- common_by(by, x, y)
   by_x <- check_by_x(by$x)
   y <- auto_copy(x, y, copy = copy)
+  suffix <- check_suffix(suffix)
+  na_matches <- check_na_matches(na_matches)
 
-  x_split <- vec_group_pos(x[, by_x, drop = FALSE])
+  y <- auto_copy(x, y, copy = copy)
+
+  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+  by_x <- check_by_x(vars$idx$x$by)
+  by_y <- vars$idx$y$by
+  aux_x <- vars$idx$x$aux
+  aux_y <- vars$idx$y$aux
+
   y_split <- vec_group_pos(
-    set_names(y[, by$y, drop = FALSE], by_x)
+    set_names(y[, by_y, drop = FALSE], names(x)[by_x])
+  )
+  x_indices <- which(!is.na(vec_match(x[, by_x, drop = FALSE], y_split$key)))
+
+  out <- new_list(ncol(x), names = names(x))
+  out[by_x] <- vec_cast(
+    vec_slice(x[, by_x, drop = FALSE], x_indices),
+    vec_ptype2(x[, by_x, drop = FALSE], y[, by_y, drop = FALSE])
   )
 
-  matches <- which(!is.na(vec_match(x_split$key, y_split$key)))
-  x_indices <- sort(vec_c(!!!x_split$pos[matches], .ptype = integer()))
-
-  out <- vec_slice(x, x_indices)
-  if (is_grouped_df(x)) {
-    out <- grouped_df(out, group_vars(x), group_by_drop_default(x))
-  }
-  out
+  out[aux_x] <- vec_slice(x[, aux_x, drop = FALSE], x_indices)
+  reconstruct_join(as_tibble(out), x, vars)
 }
 
 #' @export
 #' @rdname join.tbl_df
-anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
+anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ..., suffix = c(".x", ".y"),
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x), warn_only = TRUE)
-  check_valid_names(tbl_vars(y), warn_only = TRUE)
+  check_valid_names(tbl_vars(x))
+  check_valid_names(tbl_vars(y))
 
   by <- common_by(by, x, y)
   by_x <- check_by_x(by$x)
+  y <- auto_copy(x, y, copy = copy)
+  suffix <- check_suffix(suffix)
+  na_matches <- check_na_matches(na_matches)
 
-  x_split <- vec_group_pos(x[, by_x, drop = FALSE])
+  y <- auto_copy(x, y, copy = copy)
+
+  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+  by_x <- check_by_x(vars$idx$x$by)
+  by_y <- vars$idx$y$by
+  aux_x <- vars$idx$x$aux
+  aux_y <- vars$idx$y$aux
+
   y_split <- vec_group_pos(
-    set_names(y[, by$y, drop = FALSE], by_x)
+    set_names(y[, by_y, drop = FALSE], names(x)[by_x])
+  )
+  x_indices <- which(is.na(vec_match(x[, by_x, drop = FALSE], y_split$key)))
+
+  out <- new_list(ncol(x), names = names(x))
+  out[by_x] <- vec_cast(
+    vec_slice(x[, by_x, drop = FALSE], x_indices),
+    vec_ptype2(x[, by_x, drop = FALSE], y[, by_y, drop = FALSE])
   )
 
-  # TODO: this is almost exactly the same as semi_join except for the `!`
-  matches <- which(is.na(vec_match(x_split$key, y_split$key)))
-  x_indices <- sort(vec_c(!!!x_split$pos[matches], .ptype = integer()))
-
-  out <- vec_slice(x, x_indices)
-  if (is_grouped_df(x)) {
-    out <- grouped_df(out, group_vars(x), group_by_drop_default(x))
-  }
-  out
+  out[aux_x] <- vec_slice(x[, aux_x, drop = FALSE], x_indices)
+  reconstruct_join(as_tibble(out), x, vars)
 }
 
 reconstruct_join <- function(out, x, vars) {

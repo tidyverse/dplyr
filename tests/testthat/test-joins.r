@@ -1037,14 +1037,9 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
     class = "tibble_error_column_names_must_be_unique"
   )
 
-  # FIXME: Compatibility, should throw an error eventually
-  expect_warning(
-    expect_equal(
-      semi_join(df2, df1, by = c("x", "y")),
-      data.frame(x = 2:3, y = 2:3)
-    ),
-    "Column `x` must have a unique name",
-    fixed = TRUE
+  expect_error(
+    semi_join(df2, df1, by = c("x", "y")),
+    "Column `x` must have a unique name", fixed = TRUE
   )
 
   expect_error(
@@ -1052,12 +1047,8 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
     class = "tibble_error_column_names_must_be_unique"
   )
 
-  # FIXME: Compatibility, should throw an error eventually
-  expect_warning(
-    expect_equal(
-      anti_join(df2, df1, by = c("x", "y")),
-      data.frame(x = 4L, y = 4L)
-    ),
+  expect_error(
+    anti_join(df2, df1, by = c("x", "y")),
     "Column `x` must have a unique name",
     fixed = TRUE
   )
@@ -1136,33 +1127,33 @@ test_that("joins reject data frames with NA columns (#3417)", {
     fixed = TRUE
   )
 
-  expect_warning(
+  expect_error(
     semi_join(df_aa, df_b),
     "Column `1` cannot have NA as name",
     fixed = TRUE
   )
-  expect_warning(
+  expect_error(
     semi_join(df_aa, df_ba),
     "Column `1` cannot have NA as name",
     fixed = TRUE
   )
-  expect_warning(
+  expect_error(
     semi_join(df_a, df_ba),
     "Column `2` cannot have NA as name",
     fixed = TRUE
   )
 
-  expect_warning(
+  expect_error(
     anti_join(df_aa, df_b),
     "Column `1` cannot have NA as name",
     fixed = TRUE
   )
-  expect_warning(
+  expect_error(
     anti_join(df_aa, df_ba),
     "Column `1` cannot have NA as name",
     fixed = TRUE
   )
-  expect_warning(
+  expect_error(
     anti_join(df_a, df_ba),
     "Column `2` cannot have NA as name",
     fixed = TRUE
