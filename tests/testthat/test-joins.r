@@ -1037,14 +1037,9 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
     class = "tibble_error_column_names_must_be_unique"
   )
 
-  # FIXME: Compatibility, should throw an error eventually
-  expect_warning(
-    expect_equal(
-      semi_join(df2, df1, by = c("x", "y")),
-      data.frame(x = 2:3, y = 2:3)
-    ),
-    "Column `x` must have a unique name",
-    fixed = TRUE
+  expect_error(
+    semi_join(df2, df1, by = c("x", "y")),
+    "Column `x` must have a unique name", fixed = TRUE
   )
 
   expect_error(
@@ -1052,12 +1047,8 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
     class = "tibble_error_column_names_must_be_unique"
   )
 
-  # FIXME: Compatibility, should throw an error eventually
-  expect_warning(
-    expect_equal(
-      anti_join(df2, df1, by = c("x", "y")),
-      data.frame(x = 4L, y = 4L)
-    ),
+  expect_error(
+    anti_join(df2, df1, by = c("x", "y")),
     "Column `x` must have a unique name",
     fixed = TRUE
   )
@@ -1136,35 +1127,60 @@ test_that("joins reject data frames with NA columns (#3417)", {
     fixed = TRUE
   )
 
-  expect_warning(
+  expect_error(
     semi_join(df_aa, df_b),
     "Column `1` cannot have NA as name",
     fixed = TRUE
   )
-  expect_warning(
+  expect_error(
     semi_join(df_aa, df_ba),
     "Column `1` cannot have NA as name",
     fixed = TRUE
   )
-  expect_warning(
+  expect_error(
     semi_join(df_a, df_ba),
     "Column `2` cannot have NA as name",
     fixed = TRUE
   )
 
-  expect_warning(
+  expect_error(
     anti_join(df_aa, df_b),
     "Column `1` cannot have NA as name",
     fixed = TRUE
   )
-  expect_warning(
+  expect_error(
     anti_join(df_aa, df_ba),
     "Column `1` cannot have NA as name",
     fixed = TRUE
   )
-  expect_warning(
+  expect_error(
     anti_join(df_a, df_ba),
     "Column `2` cannot have NA as name",
     fixed = TRUE
   )
+})
+
+test_that("left_join() respects original row orders of x (#4639)", {
+  d1 <- tibble(a = c(1:3, 3:1))
+  d2 <- tibble(a = 3:1, b = 1:3)
+
+  res <- left_join(d1, d2, by = "a")
+  expect_equal(res$a, d1$a)
+  expect_equal(res$b, c(3:1, 1:3))
+
+  d1 <- tibble(a = c(1:3, 3:1))
+  d2 <- tibble(a = c(3:1, 1), b = 1:4)
+
+  res <- left_join(d1, d2, by = "a")
+  expect_equal(res$a, c(1, 1:3, 3:1, 1))
+  expect_equal(res$b, c(3:4, 2:1, 1:2, 3:4))
+})
+
+test_that("right_join() respects original row orders of y (#4639)", {
+  d1 <- tibble(a = c(3:1))
+  d2 <- tibble(a = c(1:3, 3:1), b = 1:6)
+
+  res <- right_join(d1, d2)
+  expect_equal(res$a, d2$a)
+  expect_equal(res$b, 1:6)
 })
