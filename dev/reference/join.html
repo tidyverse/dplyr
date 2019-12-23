@@ -368,13 +368,13 @@ the grouping of <code>x</code>.</p>
 #&gt; 2 Paul  Beatles bass  </div><div class='input'><span class='co'># This is good practice in production code</span>
 
 <span class='co'># Use a named `by` if the join variables have different names</span>
-<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>))</div><div class='output co'>#&gt; # A tibble: 4 x 3
+<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: number of items to replace is not a multiple of replacement length</span></div><div class='output co'>#&gt; # A tibble: 4 x 3
 #&gt;   name  band    plays 
 #&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
 #&gt; 1 Mick  Stones  &lt;NA&gt;  
 #&gt; 2 John  Beatles guitar
 #&gt; 3 Paul  Beatles bass  
-#&gt; 4 Keith &lt;NA&gt;    guitar</div><div class='input'># Note that only the key from the LHS is kept
+#&gt; 4 &lt;NA&gt;  &lt;NA&gt;    guitar</div><div class='input'># Note that only the key from the LHS is kept
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

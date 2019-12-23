@@ -173,13 +173,13 @@
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/join.html">left_join</a></span>(airlines)</a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; Joining, by = "carrier"</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; # A tibble: 336,776 x 9</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name                 </span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                </span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      United Air Lines Inc.</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      United Air Lines Inc.</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 3  2013     1     1     5 EWR    ORD   N39463  UA      United Air Lines Inc.</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 4  2013     1     1     6 JFK    LAX   N29129  UA      United Air Lines Inc.</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 5  2013     1     1     6 EWR    SFO   N53441  UA      United Air Lines Inc.</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name                  </span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                 </span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      United Air Lines Inc. </span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      United Air Lines Inc. </span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      American Airlines Inc.</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      JetBlue Airways       </span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Delta Air Lines Inc.  </span></a>
 <a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; # … with 336,771 more rows</span></a></code></pre></div>
 <div id="controlling-how-the-tables-are-matched" class="section level3">
 <h3 class="hasAnchor">
@@ -194,10 +194,10 @@
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier  temp  dewp humid</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA       39.0  28.0  64.4</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1     5 EWR    ORD   N39463  UA       39.0  28.0  64.4</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 5  2013     1     1     5 JFK    BQN   N804JB  B6       39.0  27.0  61.6</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6       39.0  27.0  61.6</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL       39.9  25.0  54.8</span></a>
 <a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; # … with 336,771 more rows, and 7 more variables: wind_dir &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; #   wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; #   visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
@@ -209,10 +209,10 @@
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   year.x month   day  hour origin dest  tailnum carrier year.y type </span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1   2013     1     1     5 EWR    IAH   N14228  UA        1999 Fixe…</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2   2013     1     8    14 EWR    MIA   N14228  UA        1999 Fixe…</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3   2013     1     9     7 EWR    BOS   N14228  UA        1999 Fixe…</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 4   2013     1     9    11 EWR    TPA   N14228  UA        1999 Fixe…</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 5   2013     1    13     8 EWR    BOS   N14228  UA        1999 Fixe…</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2   2013     1     1     5 LGA    IAH   N24211  UA        1998 Fixe…</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3   2013     1     1     5 JFK    MIA   N619AA  AA        1990 Fixe…</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 4   2013     1     1     5 JFK    BQN   N804JB  B6        2012 Fixe…</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 5   2013     1     1     6 LGA    ATL   N668DN  DL        1991 Fixe…</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; # … with 336,771 more rows, and 6 more variables: manufacturer &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span></a></code></pre></div>
 <p>Note that the year columns in the output are disambiguated with a suffix.</p>
@@ -226,9 +226,9 @@
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Geor…  30.0 -95.3    97</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      Geor…  30.0 -95.3    97</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1     6 LGA    IAH   N459UA  UA      Geor…  30.0 -95.3    97</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1     7 LGA    IAH   N488UA  UA      Geor…  30.0 -95.3    97</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 5  2013     1     1     7 EWR    IAH   N37408  UA      Geor…  30.0 -95.3    97</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      Miam…  25.8 -80.3     8</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      &lt;NA&gt;   NA    NA      NA</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Hart…  33.6 -84.4  1026</span></a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; #   tzone &lt;chr&gt;</span></a>
 <a class="sourceLine" id="cb4-12" data-line-number="12">flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/join.html">left_join</a></span>(airports, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"origin"</span> =<span class="st"> "faa"</span>))</a>
@@ -236,10 +236,10 @@
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Newa…  40.7 -74.2    18</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 2  2013     1     1     5 EWR    ORD   N39463  UA      Newa…  40.7 -74.2    18</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 3  2013     1     1     6 EWR    FLL   N516JB  B6      Newa…  40.7 -74.2    18</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 4  2013     1     1     6 EWR    SFO   N53441  UA      Newa…  40.7 -74.2    18</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 5  2013     1     1     6 EWR    LAS   N76515  UA      Newa…  40.7 -74.2    18</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      La G…  40.8 -73.9    22</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      John…  40.6 -73.8    13</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      John…  40.6 -73.8    13</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      La G…  40.8 -73.9    22</span></a>
 <a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; #   tzone &lt;chr&gt;</span></a></code></pre></div>
 </li>
