@@ -48,7 +48,7 @@ current_column <- function() {
 #'
 #' `current_column()` gives the name of the column currently being processed.
 #'
-#' `current_key()` return the tibble of keys for the current group: a single row, and one column per grouping variable
+#' `current_key()` return metadata about the "current" element: a single row tibble, with one column per grouping variable
 #'
 #' @examples
 #'

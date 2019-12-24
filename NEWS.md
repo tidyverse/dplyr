@@ -4,6 +4,7 @@
 
 * `pull()` can now return named vectors by specifying an additional column name
   (@ilarischeinin, #4102).
+  
 * New function `across()` that can be used inside `summarise()` or `mutate()` 
   to apply a function (or a set of functions) to a selection of columns. 
 
