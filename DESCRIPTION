@@ -66,5 +66,5 @@ Remotes:
     tidyverse/tibble,
     r-lib/pillar,
     r-lib/vctrs, 
-    r-lib/tidyselect
+    r-lib/tidyselect,
     r-lib/rlang
