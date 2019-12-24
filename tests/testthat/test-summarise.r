@@ -1013,20 +1013,6 @@ test_that("summarise() supports unquoted values", {
   expect_error(summarise(gdf, out = !!env(a = 1)), "Unsupported type")
 })
 
-test_that("first() and last() can be called without dplyr loaded (#3498)", {
-  skip_if_not_installed("callr")
-  df <- callr::r(function() {
-    dplyr::summarise(tibble::tibble(a = 1:3),
-      x = dplyr::first(.data$a),
-      y = dplyr::last(.data$a),
-      z = dplyr::first(c(.data$a))
-    )
-  })
-  expect_equal(df$x, 1L)
-  expect_equal(df$y, 3L)
-  expect_equal(df$z, 1L)
-})
-
 test_that("hybrid sum handles NA correctly (#3528)",{
   d <- tibble(x = c(1L,2L,NA) )
 
