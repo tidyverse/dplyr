@@ -163,7 +163,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   } else if (is_empty(dots)) {
     return(.data)
   }
-  quo <- all_exprs(!!!dots, .vectorised = TRUE)
+
   rows <- group_rows(.data)
 
   # workaround when there are 0 groups
@@ -172,9 +172,10 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   }
 
   mask <- DataMask$new(.data, caller_env(), rows)
-  on.exit(mask$restore())
 
+  quo <- all_exprs(!!!dots, .vectorised = TRUE)
   c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(quo)
+
   out <- vec_slice(.data, keep)
 
   # regroup
@@ -201,6 +202,9 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
+  rows <- group_rows(.data)
+  mask <- DataMask$new(.data, caller_env(), rows)
+
   dots <- enquos(...)
   if (is_empty(dots)) {
     return(.data)
@@ -208,7 +212,6 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   rows <- group_rows(.data)
   mask <- DataMask$new(.data, caller_env(), rows)
-  on.exit(mask$restore())
 
   quo <- quo(c(!!!dots))
 
@@ -379,17 +382,41 @@ transmute.tbl_df <- function(.data, ...) {
   out
 }
 
+poke_mask <- function(mask) {
+  old <- context_env[["..mask"]]
+  context_env[["..mask"]] <- mask
+  old
+}
+
+peek_mask <- function() {
+  context_env[["..mask"]] %||% abort("No dplyr data mask registered")
+}
+
+scoped_mask <- function(mask, frame = caller_env()) {
+  old_mask <- poke_mask(mask)
+  old_group_size <- context_env[["..group_size"]]
+  old_group_number <- context_env[["..group_number"]]
+
+  expr <- call2(on.exit, expr({
+    poke_mask(!!old_mask)
+    context_env[["..group_size"]] <- !!old_group_size
+    context_env[["..group_number"]] <- !!old_group_number
+  }), add = TRUE)
+  eval_bare(expr, frame)
+}
 
 DataMask <- R6Class("DataMask",
   public = list(
     initialize = function(data, caller, rows = group_rows(data)) {
-      private$old_group_size <- context_env[["..group_size"]]
-      private$old_group_number <- context_env[["..group_number"]]
-      private$rows <- rows
+      frame <- caller_env(n = 2)
+      tidyselect::scoped_vars(tbl_vars(data), frame)
+      scoped_mask(self, frame)
 
+      private$rows <- rows
       private$data <- data
       private$caller <- caller
       private$bindings <- env()
+      private$keys <- group_keys(data)
 
       # A function that returns all the chunks for a column
       resolve_chunks <- if (inherits(data, "rowwise_df")) {
@@ -446,9 +473,16 @@ DataMask <- R6Class("DataMask",
       .Call(`dplyr_mask_eval_all_filter`, quo, private, context_env, nrow(private$data))
     },
 
-    restore = function() {
-      context_env[["..group_size"]] <- private$old_group_size
-      context_env[["..group_number"]] <- private$old_group_number
+    pick = function(vars) {
+      eval_tidy(quo(tibble(!!!syms(vars))), private$mask)
+    },
+
+    current_key = function() {
+      vec_slice(keys, private$current_group)
+    },
+
+    full_data = function() {
+      private$data
     }
 
   ),
@@ -456,9 +490,9 @@ DataMask <- R6Class("DataMask",
   private = list(
     data = NULL,
     mask = NULL,
-    old_group_size = 0L,
-    old_group_number = 0L,
+    old_vars = character(),
     rows = NULL,
+    keys = NULL,
     bindings = NULL,
     current_group = 0L,
     caller = NULL
@@ -468,10 +502,6 @@ DataMask <- R6Class("DataMask",
 #' @importFrom tibble add_column
 #' @export
 summarise.tbl_df <- function(.data, ...) {
-  dots <- enquos(...)
-  dots_names <- names(dots)
-  auto_named_dots <- names(enquos(..., .named = TRUE))
-
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -479,7 +509,10 @@ summarise.tbl_df <- function(.data, ...) {
   }
 
   mask <- DataMask$new(.data, caller_env(), rows)
-  on.exit(mask$restore())
+
+  dots <- enquos(...)
+  dots_names <- names(dots)
+  auto_named_dots <- names(enquos(..., .named = TRUE))
 
   summaries <- list()
 
