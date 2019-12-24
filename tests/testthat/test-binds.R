@@ -30,7 +30,6 @@ test_that("bind_rows() err for invalid ID", {
 # columns -----------------------------------------------------------------
 
 test_that("cbind uses shallow copies", {
-  skip("maybe look it up in vctrs")
   df1 <- data.frame(
     int = 1:10,
     num = rnorm(10),
