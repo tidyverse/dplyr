@@ -67,7 +67,6 @@ test_that("bind_cols handles all-NULL values (#2303)", {
 })
 
 test_that("bind_cols repairs names", {
-  skip("until using newer name repair")
   df <- tibble(a = 1, b = 2)
   bound <- bind_cols(df, df)
 
