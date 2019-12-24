@@ -15,18 +15,6 @@ test_that("bind_cols() err for non-data frames (#2373)", {
   )
 })
 
-test_that("bind_rows() err for non-data frames (#2373)", {
-  skip("to be discussed")
-  df1 <- tibble(x = 1)
-  df2 <- structure(list(x = 1), class = "blah_frame")
-
-  expect_error(
-    bind_rows(df1, df2),
-    "Argument 2 must be a data frame or a named atomic vector, not a blah_frame",
-    fixed = TRUE
-  )
-})
-
 test_that("bind_rows() err for invalid ID", {
   df1 <- tibble(x = 1:3)
   df2 <- tibble(x = 4:6)
