@@ -39,7 +39,12 @@ set_non_utf8_encoding <- function() {
   tryCatch(
     locale <- set_encoding("en_US.ISO88591"),
     warning = function(e) {
-      testthat::skip("Cannot set latin-1 encoding")
+      tryCatch(
+        locale <<- set_encoding("fr_CH.ISO8859-15"),
+        warning = function(w) {
+          testthat::skip("Cannot set latin-1 encoding")
+        }
+      )
     }
   )
   locale

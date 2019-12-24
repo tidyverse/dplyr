@@ -776,7 +776,6 @@ test_that("inner join not crashing (#1559)", {
 # Encoding ----------------------------------------------------------------
 
 test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
-  skip("encoding issues")
   with_non_utf8_encoding({
     special <- get_native_lang_string()
 
@@ -784,59 +783,30 @@ test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
       for (factor2 in c(FALSE, TRUE)) {
         for (encoder1 in c(enc2native, enc2utf8)) {
           for (encoder2 in c(enc2native, enc2utf8)) {
-            df1 <- data.frame(x = encoder1(special), y = 1, stringsAsFactors = factor1)
-            df1 <- tbl_df(df1)
-            df2 <- data.frame(x = encoder2(special), z = 2, stringsAsFactors = factor2)
-            df2 <- tbl_df(df2)
-            df <- data.frame(x = special, y = 1, z = 2, stringsAsFactors = factor1 && factor2)
-            df <- tbl_df(df)
 
-            info <- paste(
-              factor1,
-              factor2,
-              Encoding(as.character(df1$x)),
-              Encoding(as.character(df2$x))
+            df1 <- as_tibble(data.frame(x = encoder1(special), y = 1, stringsAsFactors = factor1))
+            df2 <- as_tibble(data.frame(x = encoder2(special), z = 2, stringsAsFactors = factor2))
+            df <- as_tibble(data.frame(x = special, y = 1, z = 2, stringsAsFactors = factor1 && factor2))
+
+            expect_equal(inner_join(df1, df2, by = "x"), df)
+            expect_equal(left_join(df1, df2, by = "x"), df)
+            expect_equal(right_join(df1, df2, by = "x"), df)
+            expect_equal(full_join(df1, df2, by = "x"), df)
+
+            factor_ <- if (factor1 && factor2) {
+              function(x) factor(x = x, levels = special)
+            } else identity
+
+            expect_equal(
+              semi_join(df1, df2, by = "x"),
+              tibble(x = factor_(special), y = 1)
             )
 
-            if (factor1 != factor2) {
-              warning_msg <- "coercing"
-            } else {
-              warning_msg <- NA
-            }
-
-            expect_warning_msg <- function(code, msg = warning_msg) {
-              expect_warning(
-                code, msg,
-                info = paste(deparse(substitute(code)[[2]][[1]]), info)
-              )
-            }
-
-            expect_equal_df <- function(code, df_ = df) {
-              code <- substitute(code)
-              eval(bquote(
-                expect_equal(
-                  .(code), df_,
-                  info = paste(deparse(code[[1]]), info)
-                )
-              ))
-            }
-
-            expect_warning_msg(expect_equal_df(inner_join(df1, df2, by = "x")))
-            expect_warning_msg(expect_equal_df(left_join(df1, df2, by = "x")))
-            expect_warning_msg(expect_equal_df(right_join(df1, df2, by = "x")))
-            expect_warning_msg(expect_equal_df(full_join(df1, df2, by = "x")))
-            expect_warning_msg(
-              expect_equal_df(
-                semi_join(df1, df2, by = "x"),
-                data.frame(x = special, y = 1, stringsAsFactors = factor1)
-              )
+            expect_equal(
+              anti_join(df1, df2, by = "x"),
+              tibble(x = factor_(character()), y = numeric())
             )
-            expect_warning_msg(
-              expect_equal_df(
-                anti_join(df1, df2, by = "x"),
-                data.frame(x = special, y = 1, stringsAsFactors = factor1)[0, ]
-              )
-            )
+
           }
         }
       }

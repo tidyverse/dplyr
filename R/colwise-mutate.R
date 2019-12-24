@@ -375,5 +375,6 @@ manip_apply_syms <- function(funs, syms, tbl) {
       names(out) <- paste(grid$var, grid$call, sep = "_")
     }
   }
+
   out
 }

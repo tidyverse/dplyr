@@ -25,7 +25,7 @@ Imports:
     lobstr,
     pkgconfig,
     R6,
-    rlang (>= 0.4.0),
+    rlang (>= 0.4.2.9000),
     tibble (>= 2.1.3.9000),
     tidyselect (>= 0.2.5),
     utils,
@@ -66,5 +66,5 @@ Remotes:
     tidyverse/tibble,
     r-lib/pillar,
     r-lib/vctrs, 
-    r-lib/tidyselect
-
+    r-lib/tidyselect,
+    r-lib/rlang
