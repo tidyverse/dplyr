@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Print the location in memory of a data frame — location • dplyr</title>
+<title>Apply a function or a set of functions to a set of columns — current_key • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,9 +47,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Print the location in memory of a data frame — location" />
-<meta property="og:description" content="This is useful for understand how and when dplyr makes copies of data
-frames" />
+<meta property="og:title" content="Apply a function or a set of functions to a set of columns — current_key" />
+<meta property="og:description" content="Creates a data frame by applying a set of functions to a tidy
+selection of columns in the current slice" />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -186,87 +186,90 @@ frames" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Print the location in memory of a data frame</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/location.R'><code>R/location.R</code></a></small>
-    <div class="hidden name"><code>location.Rd</code></div>
+    <h1>Apply a function or a set of functions to a set of columns</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/across.R'><code>R/across.R</code></a></small>
+    <div class="hidden name"><code>across.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This is useful for understand how and when dplyr makes copies of data
-frames</p>
+    <p>Creates a data frame by applying a set of functions to a tidy
+selection of columns in the current slice</p>
     </div>
 
-    <pre class="usage"><span class='fu'>location</span>(<span class='no'>df</span>)
+    <pre class="usage"><span class='fu'>current_key</span>()
 
-<span class='fu'>changes</span>(<span class='no'>x</span>, <span class='no'>y</span>)</pre>
+<span class='fu'>current_column</span>()
+
+<span class='fu'>across</span>(<span class='no'>select</span>, <span class='kw'>fns</span> <span class='kw'>=</span> <span class='no'>identity</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>a data frame</p></td>
+      <th>select</th>
+      <td><p>tidy selection of columns</p></td>
     </tr>
     <tr>
-      <th>x, y</th>
-      <td><p>two data frames to compare</p></td>
+      <th>fns</th>
+      <td><p>Functions to apply to each of the selected columns. Possible
+values are:</p><ul>
+<li><p>A single function or a single quosure style lambda, e.g. <code>~ mean(.x, na.rm = TRUE)</code></p></li>
+<li><p>A named list of functions and/or lambdas</p></li>
+</ul></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A tibble</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This allows you to use <code><a href='select.html'>select()</a></code> semantics inside in <code><a href='summarise.html'>summarise()</a></code> and <code><a href='mutate.html'>mutate()</a></code></p>
+<p>When a single function is given, it is applied to each of the selected columns
+and the output columns are named after the selected input columns.</p>
+<p>When a named list of functions is given, the result is made of as many columns
+as the number of functions, each of these output columns is a pack, i.e.
+a data frame column made from the result of the function applied across the
+selected columns.</p>
+<p><code>current_column()</code> gives the name of the column currently being processed.</p>
+<p><code>current_key()</code> return metadata about the "current" element: a single row tibble, with one column per grouping variable</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: location() is deprecated, please use functions in the lobstr package</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; &lt;0x802c328&gt;
-#&gt; Variables:
-#&gt;  * mpg:       &lt;0x81029f0&gt;
-#&gt;  * cyl:       &lt;0x80354f0&gt;
-#&gt;  * disp:      &lt;0x8035630&gt;
-#&gt;  * hp:        &lt;0x81b60c0&gt;
-#&gt;  * drat:      &lt;0x81b6200&gt;
-#&gt;  * wt:        &lt;0x81b6340&gt;
-#&gt;  * qsec:      &lt;0x838c930&gt;
-#&gt;  * vs:        &lt;0x838ca70&gt;
-#&gt;  * am:        &lt;0x838cbb0&gt;
-#&gt;  * gear:      &lt;0x838ccf0&gt;
-#&gt;  * carb:      &lt;0x838ce30&gt;
-#&gt; Attributes:
-#&gt;  * names:     &lt;0x802c278&gt;
-#&gt;  * row.names: &lt;0x838cf70&gt;
-#&gt;  * class:     &lt;0x5b97040&gt;</div><div class='input'>
-<span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x113eea78&gt;
-#&gt; Variables:
-#&gt;  * mpg:       &lt;0x81029f0&gt;
-#&gt;  * cyl:       &lt;0x80354f0&gt;
-#&gt;  * disp:      &lt;0x8035630&gt;
-#&gt;  * hp:        &lt;0x81b60c0&gt;
-#&gt;  * drat:      &lt;0x81b6200&gt;
-#&gt;  * wt:        &lt;0x81b6340&gt;
-#&gt;  * qsec:      &lt;0x838c930&gt;
-#&gt;  * vs:        &lt;0x838ca70&gt;
-#&gt;  * am:        &lt;0x838cbb0&gt;
-#&gt;  * gear:      &lt;0x838ccf0&gt;
-#&gt;  * carb:      &lt;0x838ce30&gt;
-#&gt;  * cyl2:      &lt;0xa333360&gt;
-#&gt; Attributes:
-#&gt;  * names:     &lt;0x113ee868&gt;
-#&gt;  * row.names: &lt;0xa027970 &gt;
-#&gt;  * class:     &lt;0x58f38e8 &gt;</div><div class='input'>
-<span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: changes() is deprecated, please use functions in the lobstr package</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
-#&gt;           old     new      
-#&gt; cyl2      &lt;added&gt; 0xa333360
-#&gt; 
-#&gt; Changed attributes:
-#&gt;           old       new       
-#&gt; names     0x802c278 0x113ee868
-#&gt; row.names 0x838cf70 0x86f26d0 
-#&gt; class     0x5b97040 0x58f38e8 </div></pre>
+    <pre class="examples"><div class='input'>
+<span class='co'># A single function</span>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='no'>mean</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt;   Species    Sepal.Length Sepal.Width
+#&gt;   &lt;fct&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+#&gt; 1 setosa             5.01        3.43
+#&gt; 2 versicolor         5.94        2.77
+#&gt; 3 virginica          6.59        2.97</div><div class='input'>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), ~<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt;   Species    Sepal.Length Sepal.Width
+#&gt;   &lt;fct&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+#&gt; 1 setosa             5.01        3.43
+#&gt; 2 versicolor         5.94        2.77
+#&gt; 3 virginica          6.59        2.97</div><div class='input'>
+<span class='co'># a named list of functions</span>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='no'>sd</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt;   Species    mean$Sepal.Length $Sepal.Width sd$Sepal.Length $Sepal.Width
+#&gt;   &lt;fct&gt;                  &lt;dbl&gt;        &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;
+#&gt; 1 setosa                  5.01         3.43           0.352        0.379
+#&gt; 2 versicolor              5.94         2.77           0.516        0.314
+#&gt; 3 virginica               6.59         2.97           0.636        0.322</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

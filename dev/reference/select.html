@@ -224,8 +224,8 @@ start with all variables.</p>
 represent column positions. They also support
 <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a> and splicing. See
 <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p>
-<p>See <a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>select helpers</a> for more details and
-examples about tidyselect helpers such as <code><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>starts_with()</a></code>, <code><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>everything()</a></code>, ...</p></td>
+<p>See <a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>select helpers</a> for more details and
+examples about tidyselect helpers such as <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with()</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything()</a></code>, ...</p></td>
     </tr>
     </table>
 
@@ -245,11 +245,11 @@ wouldn't do anything useful.)  To calculate using column values, see
 
 <p>As well as using existing functions like <code>:</code> and <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code>, there are
 a number of special functions that only work inside <code>select()</code>:</p><ul>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>starts_with()</a></code>, <code><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>ends_with()</a></code>, <code><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>contains()</a></code></p></li>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>matches()</a></code></p></li>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>num_range()</a></code></p></li>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>one_of()</a></code></p></li>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>everything()</a></code></p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with()</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with()</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains()</a></code></p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>matches()</a></code></p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>num_range()</a></code></p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/one_of.html'>one_of()</a></code></p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything()</a></code></p></li>
 <li><p><code><a href='group_cols.html'>group_cols()</a></code></p></li>
 </ul>
 
@@ -284,7 +284,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>iris</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>iris</span>) <span class='co'># so it prints a little nicer</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 2
+<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 2
 #&gt;    Petal.Length Petal.Width
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;
 #&gt;  1          1.4         0.2
@@ -297,7 +297,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt;  8          1.5         0.2
 #&gt;  9          1.4         0.2
 #&gt; 10          1.5         0.1
-#&gt; # … with 140 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>ends_with</a></span>(<span class='st'>"Width"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 2
+#&gt; # … with 140 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with</a></span>(<span class='st'>"Width"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 2
 #&gt;    Sepal.Width Petal.Width
 #&gt;          &lt;dbl&gt;       &lt;dbl&gt;
 #&gt;  1         3.5         0.2
@@ -312,7 +312,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt; 10         3.1         0.1
 #&gt; # … with 140 more rows</div><div class='input'>
 <span class='co'># Move Species variable to the front</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='no'>Species</span>, <span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>everything</a></span>())</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='no'>Species</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>())</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Species Sepal.Length Sepal.Width Petal.Length Petal.Width
 #&gt;    &lt;fct&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
 #&gt;  1 setosa           5.1         3.5          1.4         0.2
@@ -356,7 +356,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt;  7 0.677 0.665   0.176  0.987  0.713  0.0220 0.0440 0.994
 #&gt;  8 0.849 0.874   0.925  0.540  0.673  0.426  0.216  0.372
 #&gt;  9 0.432 0.149   0.233  0.0661 0.152  0.104  0.768  0.302
-#&gt; 10 0.389 0.536   0.336  0.614  0.288  0.378  0.826  0.798</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 3
+#&gt; 10 0.389 0.536   0.336  0.614  0.288  0.378  0.826  0.798</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 3
 #&gt;       V4     V5    V6
 #&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1 0.932 0.577  0.946
@@ -370,7 +370,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt;  9 0.432 0.104  0.302
 #&gt; 10 0.389 0.378  0.798</div><div class='input'>
 <span class='co'># Drop variables with -</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, -<span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 3
+<span class='fu'>select</span>(<span class='no'>iris</span>, -<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 3
 #&gt;    Sepal.Length Sepal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
 #&gt;  1          5.1         3.5 setosa 
@@ -504,7 +504,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt; 10          4.9         3.1          1.5         0.1 setosa 
 #&gt; # … with 140 more rows</div><div class='input'>
 <span class='co'># * select() can rename variables in a group</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='kw'>obs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>starts_with</a></span>(<span class='st'>'S'</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 3
+<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='kw'>obs</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>'S'</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 3
 #&gt;     obs1  obs2 obs3  
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; 
 #&gt;  1   5.1   3.5 setosa

@@ -258,10 +258,10 @@ into account to determine filtered rows.</p>
 <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate intersection&gt;
 #&gt; &lt;quosure&gt;
 #&gt; expr: ^is.na(.)
-#&gt; env:  0x9555f28</div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
+#&gt; env:  0x46616b8</div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
 #&gt; &lt;quosure&gt;
 #&gt; expr: ^is.na(.)
-#&gt; env:  0x9555f28</div><div class='input'>
+#&gt; env:  0x46616b8</div><div class='input'>
 
 <span class='co'># You can take the intersection of the replicated expressions:</span>
 <span class='fu'>filter_all</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='no'>.</span> <span class='kw'>&gt;</span> <span class='fl'>150</span>))</div><div class='output co'>#&gt;  [1] mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb
@@ -292,7 +292,7 @@ into account to determine filtered rows.</p>
 
 <span class='co'># You can vary the selection of columns on which to apply the</span>
 <span class='co'># predicate. filter_at() takes a vars() specification:</span>
-<span class='fu'>filter_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>starts_with</a></span>(<span class='st'>"d"</span>)), <span class='fu'><a href='all_vars.html'>any_vars</a></span>((<span class='no'>.</span> <span class='kw'>%%</span> <span class='fl'>2</span>) <span class='kw'>==</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt;     mpg cyl disp  hp drat    wt  qsec vs am gear carb
+<span class='fu'>filter_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"d"</span>)), <span class='fu'><a href='all_vars.html'>any_vars</a></span>((<span class='no'>.</span> <span class='kw'>%%</span> <span class='fl'>2</span>) <span class='kw'>==</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt;     mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; 1  21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 #&gt; 2  21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
 #&gt; 3  22.8   4  108  93 3.85 2.320 18.61  1  1    4    1

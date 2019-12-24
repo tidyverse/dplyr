@@ -400,7 +400,7 @@ if not included in the selection.</p>
 #&gt; Ford Pantera L        8 264  0  1    5    4
 #&gt; Ferrari Dino          6 175  0  1    5    6
 #&gt; Maserati Bora         8 335  0  1    5    8
-#&gt; Volvo 142E            4 109  1  1    4    2</div><div class='input'><span class='fu'>select_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>contains</a></span>(<span class='st'>"ar"</span>), <span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>starts_with</a></span>(<span class='st'>"c"</span>)), <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM CARB
+#&gt; Volvo 142E            4 109  1  1    4    2</div><div class='input'><span class='fu'>select_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"ar"</span>), <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"c"</span>)), <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM CARB
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4
 #&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4
 #&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    1
@@ -564,7 +564,7 @@ if not included in the selection.</p>
 #&gt; Ford Pantera L        8 264  0  1    5    4
 #&gt; Ferrari Dino          6 175  0  1    5    6
 #&gt; Maserati Bora         8 335  0  1    5    8
-#&gt; Volvo 142E            4 109  1  1    4    2</div><div class='input'><span class='fu'>select_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>everything</a></span>()))</div><div class='output co'>#&gt; data frame with 0 columns and 32 rows</div><div class='input'><span class='fu'>select_all</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Volvo 142E            4 109  1  1    4    2</div><div class='input'><span class='fu'>select_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>()))</div><div class='output co'>#&gt; data frame with 0 columns and 32 rows</div><div class='input'><span class='fu'>select_all</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1

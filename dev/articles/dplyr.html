@@ -290,7 +290,7 @@
 <a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt; # … with 336,772 more rows, and 9 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
-<p>There are a number of helper functions you can use within <code><a href="../reference/select.html">select()</a></code>, like <code><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">starts_with()</a></code>, <code><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">ends_with()</a></code>, <code><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">matches()</a></code> and <code><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">contains()</a></code>. These let you quickly match larger blocks of variables that meet some criterion. See <code><a href="../reference/select.html">?select</a></code> for more details.</p>
+<p>There are a number of helper functions you can use within <code><a href="../reference/select.html">select()</a></code>, like <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">matches()</a></code> and <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains()</a></code>. These let you quickly match larger blocks of variables that meet some criterion. See <code><a href="../reference/select.html">?select</a></code> for more details.</p>
 <p>You can rename variables with <code><a href="../reference/select.html">select()</a></code> by using named arguments:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="dt">tail_num =</span> tailnum)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
@@ -529,7 +529,7 @@
 <a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)</a></code></pre></div>
 <p>One useful subtlety is that this only applies to bare names and to selecting calls like <code><a href="https://rdrr.io/r/base/c.html">c(year, month, day)</a></code> or <code>year:day</code>. In all other cases, the columns of the data frame are not put in scope. This allows you to refer to contextual variables in selection helpers:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">year &lt;-<span class="st"> "dep"</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw"><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">starts_with</a></span>(year))</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(year))</a>
 <a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
 <a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt;   dep_time dep_delay</span></a>
 <a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span></a>
@@ -553,14 +553,18 @@
 <p>For a long time, <code><a href="../reference/select.html">select()</a></code> used to only understand column positions. Counting from dplyr 0.6, it now understands column names as well. This makes it a bit easier to program with <code><a href="../reference/select.html">select()</a></code>:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"year"</span>, <span class="st">"month"</span>)</a>
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, vars, <span class="st">"day"</span>)</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt;    year month   day</span></a>
-<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1</span></a>
-<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1</span></a>
-<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1</span></a>
-<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1</span></a>
-<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt; Note: Using an external vector in selections is ambiguous.</span></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt; ℹ Use `all_of(vars)` instead of `vars` to silence this message.</span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&gt; ℹ See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</span></a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="co">#&gt; This message is displayed once per session.</span></a>
+<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&gt;    year month   day</span></a>
+<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt; 1  2013     1     1</span></a>
+<a class="sourceLine" id="cb21-11" data-line-number="11"><span class="co">#&gt; 2  2013     1     1</span></a>
+<a class="sourceLine" id="cb21-12" data-line-number="12"><span class="co">#&gt; 3  2013     1     1</span></a>
+<a class="sourceLine" id="cb21-13" data-line-number="13"><span class="co">#&gt; 4  2013     1     1</span></a>
+<a class="sourceLine" id="cb21-14" data-line-number="14"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 <p>Note that the code above is somewhat unsafe because you might have added a column named <code>vars</code> to the tibble, or you might apply the code to another data frame containing such a column. To avoid this issue, you can wrap the variable in an <code><a href="https://rdrr.io/r/base/identity.html">identity()</a></code> call as we mentioned above, as this will bypass column names. However, a more explicit and general method that works in all dplyr verbs is to unquote the variable with the <code>!!</code> operator. This tells dplyr to bypass the data frame and to directly look in the context:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># Let's create a new `vars` column:</span></a>
 <a class="sourceLine" id="cb22-2" data-line-number="2">flights<span class="op">$</span>vars &lt;-<span class="st"> </span>flights<span class="op">$</span>year</a>

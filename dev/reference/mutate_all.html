@@ -376,7 +376,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># You can also supply selection helpers to _at() functions but you have</span>
 <span class='co'># to quote them with vars():</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>matches</a></span>(<span class='st'>"Sepal"</span>)), <span class='no'>log</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>matches</a></span>(<span class='st'>"Sepal"</span>)), <span class='no'>log</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
 #&gt;  1         1.63        1.25          1.4         0.2 setosa 
