@@ -489,7 +489,7 @@ test_that("hybrid rank functions handle NA (#4427)", {
 })
 
 test_that("no utf8 invasion (#722)", {
-  skip("fails on windows, but also on one cran machine")
+  skip_if_not(l10n_info()$"UTF-8")
 
   source("utf-8.txt", local = TRUE, encoding = "UTF-8")
 })
