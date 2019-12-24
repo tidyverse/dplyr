@@ -76,31 +76,24 @@ across <- function(select, fns = identity) {
 
   if (single_function) {
     fns <- as_function(fns)
+
+    as_tibble(imap(data, function(.x, .y) {
+      old <- poke_current_column(.y)
+      on.exit(set_current_column(old))
+      fns(.x)
+    }))
   } else {
     if (is.null(names(fns))) {
       abort("funs should be a single function, a single formula, or a named list of functions or formulas")
     }
     fns <- map(fns, as_function)
-  }
 
-  f <- function(df) {
-    if (single_function) {
-      as_tibble(imap(df, function(.x, .y) {
+    as_tibble(map(fns, function(f) {
+      as_tibble(imap(data, function(.x, .y) {
         old <- poke_current_column(.y)
         on.exit(set_current_column(old))
-        fns(.x)
+        f(.x)
       }))
-    } else {
-      results <- map(fns, function(f) {
-        as_tibble(imap(df, function(.x, .y) {
-          old <- poke_current_column(.y)
-          on.exit(set_current_column(old))
-          f(.x)
-        }))
-      })
-      tibble(!!!results)
-    }
+    }))
   }
-
-  f(data)
 }
