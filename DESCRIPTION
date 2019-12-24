@@ -30,8 +30,7 @@ Imports:
     tidyselect (>= 0.2.5),
     utils,
     vctrs (>= 0.2.0.9007),
-    zeallot,
-    ellipsis
+    zeallot
 Suggests: 
     bit64,
     callr,
