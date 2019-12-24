@@ -750,7 +750,6 @@ test_that("data.frame columns are supported in summarise (#1425)", {
 })
 
 test_that("summarise handles min/max of already summarised variable (#1622)", {
-  skip("until https://github.com/r-lib/vctrs/issues/540")
   df <- data.frame(
     FIRST_DAY = rep(seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"), 2),
     event = c("a", "a", "b", "b")
