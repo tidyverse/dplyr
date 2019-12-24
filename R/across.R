@@ -1,7 +1,4 @@
-#' key data frame for the current group
-#'
-#' @return A data frame, with a single row, and one column per grouping variable
-#'
+#' @rdname across
 #' @export
 current_key <- function() {
   peek_mask()$current_key()
@@ -28,6 +25,8 @@ current_column <- function() {
 #' Creates a data frame by applying a set of functions to a tidy
 #' selection of columns in the current slice
 #'
+#' This allows you to use [select()] semantics inside in [summarise()] and [mutate()]
+#'
 #' @param select tidy selection of columns
 #' @param fns Functions to apply to each of the selected columns. Possible
 #'   values are:
@@ -35,19 +34,21 @@ current_column <- function() {
 #'   - A single function or a single quosure style lambda, e.g. `~ mean(.x, na.rm = TRUE)`
 #'   - A named list of functions and/or lambdas
 #'
-#'  @return A tibble
+#' @return A tibble
 #'
-#'  @details
+#' @details
 #'
-#'  When a single function is given, it is applied to each of the selected columns
-#'  and the output columns are named after the selected input columns.
+#' When a single function is given, it is applied to each of the selected columns
+#' and the output columns are named after the selected input columns.
 #'
-#'  When a named list of functions is given, the result is made of as many columns
-#'  as the number of functions, each of these output columns is a pack, i.e.
-#'  a data frame column made from the result of the function applied across the
-#'  selected columns.
+#' When a named list of functions is given, the result is made of as many columns
+#' as the number of functions, each of these output columns is a pack, i.e.
+#' a data frame column made from the result of the function applied across the
+#' selected columns.
 #'
-#'  `current_column()` gives the name of the column currently being processed.
+#' `current_column()` gives the name of the column currently being processed.
+#'
+#' `current_key()` return the tibble of keys for the current group: a single row, and one column per grouping variable
 #'
 #' @examples
 #'
