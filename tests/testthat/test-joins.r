@@ -834,7 +834,7 @@ test_that("left_join handles mix of encodings in column names (#1571)", {
 # Misc --------------------------------------------------------------------
 
 test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
-  skip("until vctrs can power na_matches = 'never'")
+  skip("until https://github.com/r-lib/vctrs/issues/718")
 
   df1 <- tibble(a = NA)
   df2 <- tibble(a = NA, b = 1:3)
