@@ -512,7 +512,6 @@ test_that("bind_rows accepts difftime objects", {
 })
 
 test_that("bind_rows accepts hms objects", {
-  skip("until hms has better vctrs support")
   df1 <- data.frame(x = hms::hms(hours = 1))
   df2 <- data.frame(x = as.difftime(1, units = "mins"))
   res <- bind_rows(df1, df2)
