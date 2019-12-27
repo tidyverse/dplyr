@@ -119,12 +119,8 @@ group_by_prepare <- function(.data, ..., .dots = "DEFUNCT", add = FALSE) {
   new_groups <- new_groups[!map_lgl(new_groups, quo_is_missing)]
 
   # If any calls, use mutate to add new columns, then group by those
-  .data <- add_computed_columns(.data, new_groups)
+  c(.data, group_names) %<-% add_computed_columns(.data, new_groups)
 
-  # Once we've done the mutate, we need to name all objects
-  new_groups <- exprs_auto_name(new_groups)
-
-  group_names <- names(new_groups)
   if (add) {
     group_names <- c(group_vars(.data), group_names)
   }
@@ -171,9 +167,21 @@ add_computed_columns <- function(.data, vars) {
   # Shortcut necessary, otherwise all columns are analyzed in mutate(),
   # this can change behavior
   mutate_vars <- vars[needs_mutate]
-  if (length(mutate_vars) == 0L) return(.data)
+  which_need_update <- which(needs_mutate)
 
-  mutate(.data, !!!mutate_vars)
+  column_names <- as.list(names(exprs_auto_name(vars)))
+
+  if (length(mutate_vars) > 0L) {
+    for (i in seq_along(mutate_vars)) {
+      new_columns <- mutate_new_columns(.data, !!!mutate_vars[i])
+      column_names[[which_need_update[i]]] <- names(new_columns)
+      .data <- mutate_finish(.data, new_columns)
+    }
+  }
+
+  column_names <- rev(unique(rev(vec_c(!!!column_names, .ptype = chr()))))
+
+  list(data = .data, added_names = column_names)
 }
 
 #' Return grouping variables

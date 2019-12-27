@@ -73,7 +73,7 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
   }
 
   # If any calls, use mutate to add new columns, then distinct on those
-  .data <- add_computed_columns(.data, vars)
+  .data <- add_computed_columns(.data, vars)$data
   vars <- exprs_auto_name(vars)
 
   # Once we've done the mutate, we no longer need lazy objects, and
