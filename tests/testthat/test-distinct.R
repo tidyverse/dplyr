@@ -210,3 +210,20 @@ test_that("distinct() understands both NA variants (#4516)", {
   df_1$col_a[2] <- NA
   expect_equal(nrow(setdiff(df_1, df_2)), 0L)
 })
+
+test_that("distinct() handles auto splicing", {
+  expect_equal(
+    iris %>% distinct(Species),
+    iris %>% distinct(data.frame(Species=Species))
+  )
+
+  expect_equal(
+    iris %>% distinct(Species),
+    iris %>% distinct(across(Species))
+  )
+
+  expect_equal(
+    iris %>% mutate(across(starts_with("Sepal"), round)) %>% distinct(Sepal.Length, Sepal.Width),
+    iris %>% distinct(across(starts_with("Sepal"), round))
+  )
+})

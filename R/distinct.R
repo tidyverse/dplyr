@@ -73,19 +73,18 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
   }
 
   # If any calls, use mutate to add new columns, then distinct on those
-  .data <- add_computed_columns(.data, vars)$data
-  vars <- exprs_auto_name(vars)
+  c(.data, distinct_vars) %<-% add_computed_columns(.data, vars)
 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use their names
-  missing_vars <- setdiff(names(vars), names(.data))
+  missing_vars <- setdiff(distinct_vars, names(.data))
 
   if (length(missing_vars) > 0) {
     missing_items <- fmt_items(fmt_obj(missing_vars))
-    vars <- vars[names(vars) %in% names(.data)]
-    if (length(vars) > 0) {
+    distinct_vars <- distinct_vars[distinct_vars %in% names(.data)]
+    if (length(distinct_vars) > 0) {
       true_vars <- glue("The following variables will be used:
-                        {fmt_items(names(vars))}")
+                        {fmt_items(distinct_vars)}")
     } else {
       true_vars <- "The operation will return the input unchanged."
     }
@@ -97,7 +96,7 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
     warn(msg)
   }
 
-  new_vars <- unique(c(names(vars), group_vars))
+  new_vars <- unique(c(distinct_vars, group_vars))
 
   # Keep the order of the variables
   out_vars <- intersect(new_vars, names(.data))
