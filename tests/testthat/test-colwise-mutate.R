@@ -187,9 +187,8 @@ test_that("_each() and _all() families agree", {
 })
 
 test_that("group_by_(at,all) handle utf-8 names (#3829)", {
-  skip_if(getRversion() <= "3.4.0")
-  withr::with_locale( c(LC_CTYPE = "C"), {
-    name <- "\u4e2d"
+  with_non_utf8_encoding({
+    name <- get_native_lang_string()
     tbl <- tibble(a = 1) %>%
       setNames(name)
 
