@@ -234,14 +234,6 @@ test_that("*_(all,at) handle utf-8 names (#2967)", {
   })
 })
 
-test_that("mutate_all() handles non syntactic names (#4094)", {
-  skip("for now, will fix this after 0.8.0")
-  tbl <- tibble(`..1` = "a")
-  res <- mutate_all(tbl, toupper)
-  expect_equal(names(tbl), names(res))
-  expect_equal(res[["..1"]], "A")
-})
-
 test_that("summarise_at with multiple columns AND unnamed functions works (#4119)", {
   res <- storms %>%
     summarise_at(vars(wind, pressure), list(mean, median))
