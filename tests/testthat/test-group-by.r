@@ -535,3 +535,32 @@ test_that("group_by() does not create arbitrary NA groups for factors when drop 
   expect_equal(nrow(res), 0L)
 })
 
+test_that("group_by() can handle auto splicing in the mutate() step", {
+  expect_identical(
+    iris %>% group_by(Species),
+    iris %>% group_by(data.frame(Species = Species))
+  )
+
+  expect_identical(
+    iris %>% group_by(Species),
+    iris %>% group_by(across(Species))
+  )
+
+  expect_identical(
+    iris %>% mutate(across(starts_with("Sepal"), round)) %>% group_by(Sepal.Length, Sepal.Width),
+    iris %>% group_by(across(starts_with("Sepal"), round))
+  )
+
+})
+
+test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {
+  expect_identical(
+    iris %>% mutate(across(starts_with("Sepal"), round)) %>% group_by(Sepal.Length, Sepal.Width, Species),
+    iris %>% group_by(across(starts_with("Sepal"), round), Species)
+  )
+
+  expect_identical(
+    iris %>% mutate(across(starts_with("Sepal"), round)) %>% group_by(Species, Sepal.Length, Sepal.Width),
+    iris %>% group_by(Species, across(starts_with("Sepal"), round))
+  )
+})

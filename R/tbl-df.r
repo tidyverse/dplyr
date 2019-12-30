@@ -337,10 +337,7 @@ mutate_new_columns <- function(.data, ...) {
   new_columns
 }
 
-
-#' @export
-mutate.tbl_df <- function(.data, ...) {
-  new_columns <- mutate_new_columns(.data, ...)
+mutate_finish <- function(.data, new_columns) {
   if (!length(new_columns)) {
     return(.data)
   }
@@ -360,6 +357,13 @@ mutate.tbl_df <- function(.data, ...) {
   }
 
   out
+}
+
+
+#' @export
+mutate.tbl_df <- function(.data, ...) {
+  new_columns <- mutate_new_columns(.data, ...)
+  mutate_finish(.data, new_columns)
 }
 
 #' @export
