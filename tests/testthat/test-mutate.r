@@ -924,3 +924,12 @@ test_that("mutate() packs named tibble results (#2326, #3630)", {
   expect_equal(nrow(res$out), nrow(iris))
 })
 
+test_that("DataMask$add() forces chunks (#4677)", {
+  df <- tibble(bf10 = 0.244) %>%
+    mutate(
+      bf01 = 1 / bf10,
+      log_e_bf10 = log(bf10),
+      log_e_bf01 = log(bf01)
+    )
+  expect_equal(df$log_e_bf01, log(1 / 0.244))
+})
