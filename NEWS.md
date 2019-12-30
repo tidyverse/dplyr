@@ -8,6 +8,8 @@
 
 * `order_by()` gives an informative hint if you accidentally call it instead
   of `arrange()` #3357.
+* `filter()` handles data frame results when all columns are logical vectors
+  by reducing them with `&` (#4678). 
 
 * `ungroup()` can now selectively remove grouping variables (#3760).
 

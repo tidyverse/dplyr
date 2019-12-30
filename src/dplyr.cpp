@@ -531,6 +531,16 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
   return res;
 }
 
+bool all_lgl_columns(SEXP data) {
+  R_xlen_t nc = XLENGTH(data);
+
+  for (R_xlen_t i = 0; i < nc; i++) {
+    if (TYPEOF(VECTOR_ELT(data, i)) != LGLSXP) return false;
+  }
+
+  return true;
+}
+
 SEXP dplyr_mask_eval_all_filter(SEXP quo, SEXP env_private, SEXP env_context, SEXP s_n) {
   SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
   R_xlen_t ngroups = XLENGTH(rows);
@@ -555,12 +565,42 @@ SEXP dplyr_mask_eval_all_filter(SEXP quo, SEXP env_private, SEXP env_context, SE
   for (R_xlen_t i = 0; i < ngroups; i++) {
     SEXP rows_i = VECTOR_ELT(rows, i);
     R_xlen_t n_i = XLENGTH(rows_i);
-    SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));
+    int np = 0;
+    SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1)); np++;
     Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);
     Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
     Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
 
-    SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
+    SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller)); np++;
+    if (Rf_inherits(result_i, "data.frame")) {
+      if (!XLENGTH(result_i)) {
+        result_i = Rf_ScalarLogical(TRUE);
+      } else {
+        if (!all_lgl_columns(result_i)) {
+          Rf_errorcall(R_NilValue, "All columns should be logical for data frame results in filter()");
+        }
+
+        SEXP first = VECTOR_ELT(result_i, 0);
+        R_xlen_t nri = XLENGTH(first);
+
+        SEXP result_i_lgl = PROTECT(Rf_allocVector(LGLSXP, nri)); np++;
+
+        // copy first vector
+        std::copy(LOGICAL(first), LOGICAL(first) + nri, LOGICAL(result_i_lgl));
+
+        // then reduce other vectors
+        for (R_xlen_t j = 1; j < XLENGTH(result_i); j++) {
+          int* p_result_i_lgl = LOGICAL(result_i_lgl);
+          int* p_result_j = LOGICAL(VECTOR_ELT(result_i, j));
+          for (R_xlen_t k = 0; k < nri; k++, ++p_result_i_lgl, ++p_result_j) {
+            *p_result_i_lgl = (*p_result_i_lgl == TRUE) && (*p_result_j == TRUE);
+          }
+        }
+
+        result_i = result_i_lgl;
+      }
+    }
+
     if (TYPEOF(result_i) != LGLSXP) {
       Rf_errorcall(R_NilValue, "filter() expressions should return logical vectors of the same size as the group");
     }
@@ -588,7 +628,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quo, SEXP env_private, SEXP env_context, SE
       Rf_errorcall(R_NilValue, "filter() expressions should return logical vectors of the same size as the group");
     }
 
-    UNPROTECT(2);
+    UNPROTECT(np);
   }
 
   UNPROTECT(7);

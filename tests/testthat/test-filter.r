@@ -416,7 +416,29 @@ test_that("filter() handles matrix and data frame columns (#3630)", {
   expect_equal(filter(gdf, z$A == 1), gdf[1, ])
 })
 
-test_that("filter() handles logical (#4638)", {
+test_that("filter() handles named logical (#4638)", {
   tbl <- tibble(a = c(a = TRUE))
   expect_equal(filter(tbl, a), tbl)
+})
+
+test_that("filter() reduce&() data frame results (#4678)", {
+  expect_identical(
+    iris %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3)),
+    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3)
+  )
+
+  expect_identical(
+    iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3)),
+    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3)
+  )
+
+  expect_identical(
+    iris %>% filter(across(starts_with("Sepal"), ~ . > 3)),
+    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3)
+  )
+
+  expect_identical(
+    iris %>% group_by(Species) %>% filter(across(starts_with("Sepal"), ~ . > 3)),
+    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3)
+  )
 })
