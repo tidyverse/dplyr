@@ -503,13 +503,6 @@ test_that("group_by(add = TRUE) sets .drop if the origonal data was .drop", {
   expect_true(group_by_drop_default(res))
 })
 
-test_that("group_by() makes a shallow copy of data even in the corner case", {
-  df <- data.frame(x = 1:4)
-  gdf <- group_by(df)
-  expect_true(inherits(gdf, "tbl_df"))
-  expect_false(inherits(df, "tbl_df"))
-})
-
 test_that("group_by_drop_default() is forgiving about corrupt grouped df (#4306)",{
   df <- tibble(x = 1:2, y = 1:2) %>%
     structure(class = c("grouped_df", "tbl_df", "tbl", "data.frame"))

@@ -99,7 +99,10 @@ make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
 #' @export
 grouped_df <- function(data, vars, drop = FALSE) {
   if (!length(vars)) {
-    return(as_tibble(data))
+    if (is_grouped_df(data)) {
+      data <- as_tibble(data)
+    }
+    return(data)
   }
 
   # structure the grouped data
