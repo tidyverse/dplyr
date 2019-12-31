@@ -416,19 +416,50 @@ test_that("filter() reduce&() data frame results (#4678)", {
     iris %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3)),
     iris %>% filter(Sepal.Length > 3, Sepal.Width > 3)
   )
+  expect_identical(
+    iris %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3), Petal.Length < 3),
+    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
+  )
+
 
   expect_identical(
     iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3)),
     iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3)
   )
+  expect_identical(
+    iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3), Petal.Length < 3),
+    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
+  )
+})
 
+test_that("filter() understands across()", {
   expect_identical(
     iris %>% filter(across(starts_with("Sepal"), ~ . > 3)),
     iris %>% filter(Sepal.Length > 3, Sepal.Width > 3)
+  )
+  expect_identical(
+    iris %>% filter(across(starts_with("Sepal"), ~ . > 3), Petal.Length < 3),
+    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
   )
 
   expect_identical(
     iris %>% group_by(Species) %>% filter(across(starts_with("Sepal"), ~ . > 3)),
     iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3)
+  )
+  expect_identical(
+    iris %>% group_by(Species) %>% filter(across(starts_with("Sepal"), ~ . > 3), Petal.Length < 3),
+    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
+  )
+})
+
+test_that("filter() checks data frame columns for conformity", {
+  expect_error(
+    iris %>% filter(data.frame(c(TRUE, FALSE))),
+    "wrong size"
+  )
+
+  expect_error(
+    iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, 1:n())),
+    "expecting logical"
   )
 })

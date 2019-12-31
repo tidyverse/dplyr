@@ -541,84 +541,79 @@ bool all_lgl_columns(SEXP data) {
   return true;
 }
 
-int and_lgl(int x, int y) {
-  return x == TRUE && y == TRUE;
-}
-
 void reduce_lgl(SEXP reduced, SEXP x, int n) {
   R_xlen_t nres = XLENGTH(x);
   int* p_reduced = LOGICAL(reduced);
   if (nres == 1) {
     if (LOGICAL(x)[0] != TRUE) {
-      std::fill(p_reduced, p_reduced + n, FALSE);
+      for (R_xlen_t i = 0; i < n; i++, ++p_reduced) {
+        *p_reduced = FALSE;
+      }
     }
   } else {
-    std::transform(p_reduced, p_reduced + n, LOGICAL(x), p_reduced, and_lgl);
+    int* p_x = LOGICAL(x);
+    for (R_xlen_t i = 0; i < n; i++, ++p_reduced, ++p_x) {
+      *p_reduced = *p_reduced == TRUE && *p_x == TRUE ;
+    }
   }
 }
 
 SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t n, R_xlen_t group_index) {
-  // first evaluate all expressions
-  SEXP results = PROTECT(Rf_allocVector(VECSXP, nquos));
-  for (R_xlen_t i = 0; i < nquos; i++) {
-    SET_VECTOR_ELT(results, i, rlang::eval_tidy(VECTOR_ELT(quos, i), mask, caller));
+  // then reduce to a single logical vector of size n
+  SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
+
+  // init with TRUE
+  int* p_reduced = LOGICAL(reduced);
+  for (R_xlen_t i = 0; i < n ; i++, ++p_reduced) {
+    *p_reduced = TRUE;
   }
 
-  // then reduce to a single logical vector of size n
-  SEXP reduced;
+  // reduce
+  for (R_xlen_t i=0; i < nquos; i++) {
+    SEXP res = PROTECT(rlang::eval_tidy(VECTOR_ELT(quos, i), mask, caller));
 
-  if (nquos == 1 && TYPEOF(VECTOR_ELT(results, 0)) == LGLSXP && XLENGTH(VECTOR_ELT(results, 0)) == n) {
-    // simple case when there is only one expression
-    // giving a logical vector, this is probably the most frequent case
-    reduced = VECTOR_ELT(results, 0);
-  } else {
-    // otherwise we need to reduce
-    reduced = PROTECT(Rf_allocVector(LGLSXP, n));
-
-    // init with TRUE
-    int* p_reduced = LOGICAL(reduced);
-    std::fill(p_reduced, p_reduced + n, TRUE);
-
-    // reduce
-    for (R_xlen_t i=0; i < nquos; i++) {
-      SEXP res = VECTOR_ELT(results, i);
-
-      if (TYPEOF(res) == LGLSXP) {
-        R_xlen_t nres = XLENGTH(res);
-        if (nres != n && nres != 1) {
-          Rf_errorcall(R_NilValue,
-            "filter() expression #%d evaluates to logical vector of wrong size. \n - group = %d\n - group size = %d \n - result size = %d", (i+1), group_index + 1, n, XLENGTH(res)
-          );
-        }
-        reduce_lgl(reduced, res, n);
-      } else if(Rf_inherits(res, "data.frame")) {
-        R_xlen_t ncol = XLENGTH(res);
-        if (ncol == 0) continue;
-
-        for (R_xlen_t j=0; j<ncol; j++) {
-          SEXP res_j = VECTOR_ELT(res, j);
-          if (TYPEOF(res_j) != LGLSXP) {
-            Rf_errorcall(R_NilValue,
-              "filter() expression #%d evaluates to data frame with non logical column.\n - group = %d\n - column index = %d\n - type = %s", (i+1), group_index + 1, j + 1, Rf_type2char(TYPEOF(res_j))
-            );
-          }
-
-          R_xlen_t nres_j = XLENGTH(res_j);
-          if (nres_j != n && nres_j != 1) {
-            Rf_errorcall(R_NilValue,
-              "filter() expression #%d evaluates to data frame of wrong size. \n - group = %d\n - group size = %d\n - result size = %d", (i+1), group_index + 1, n, XLENGTH(res_j)
-            );
-          }
-          reduce_lgl(reduced, res_j, n);
-
-        }
-      } else {
+    if (TYPEOF(res) == LGLSXP) {
+      R_xlen_t nres = XLENGTH(res);
+      if (nres != n && nres != 1) {
         Rf_errorcall(R_NilValue,
-          "filter() expression #%d evaluates to unexpected type. \n - group = %d\n - result type = %s", (i+1), group_index + 1, Rf_type2char(TYPEOF(res))
+          "filter() expression #%d evaluates to logical vector of wrong size. \n * group = %d\n * group size = %d \n * result size = %d", (i+1), group_index + 1, n, XLENGTH(res)
         );
       }
-    }
+      reduce_lgl(reduced, res, n);
+    } else if(Rf_inherits(res, "data.frame")) {
+      R_xlen_t ncol = XLENGTH(res);
+      if (ncol == 0) continue;
 
+      // reducing each column
+      for (R_xlen_t j=0; j<ncol; j++) {
+        SEXP res_j = VECTOR_ELT(res, j);
+
+        // we can only reduce logical columns
+        if (TYPEOF(res_j) != LGLSXP) {
+          SEXP colnames = PROTECT(Rf_getAttrib(res, R_NamesSymbol));
+          Rf_errorcall(R_NilValue,
+            "filter() expression #%d evaluates to data frame with non logical column.\n * group = %d\n * column index = %d, name = %s, \n * type = %s, expecting logical", i+1, group_index + 1, j + 1, CHAR(STRING_ELT(colnames, j)), Rf_type2char(TYPEOF(res_j))
+          );
+          UNPROTECT(1);
+        }
+
+        // ... and the size must be either 1 or n (tidy recycling rules)
+        R_xlen_t nres_j = XLENGTH(res_j);
+        if (nres_j != n && nres_j != 1) {
+          Rf_errorcall(R_NilValue,
+            "filter() expression #%d evaluates to data frame of wrong size. \n * group = %d\n * group size = %d\n * result size = %d", (i+1), group_index + 1, n, XLENGTH(res_j)
+          );
+        }
+
+        // all good, we can reduce that column
+        reduce_lgl(reduced, res_j, n);
+
+      }
+    } else {
+      Rf_errorcall(R_NilValue,
+        "filter() expression #%d evaluates to unexpected type.\n * group = %d\n * result type = %s, expecting logical", (i+1), group_index + 1, Rf_type2char(TYPEOF(res))
+      );
+    }
     UNPROTECT(1);
   }
 
