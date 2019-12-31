@@ -28,9 +28,17 @@
 order_by <- function(order_by, call) {
   quo <- enquo(call)
   expr <- quo_get_expr(quo)
+
   if (!is_call(expr)) {
-    type <- friendly_type_of(expr)
-    bad_args("call", "must be a function call, not { type }")
+    if (is_symbol(expr)) {
+      bad_args("call",
+        "must be a function call, not a symbol.\n",
+        "* Did you mean `arrange({as_label(enquo(order_by))}, {expr})` ?"
+      )
+    } else {
+      type <- friendly_type_of(expr)
+      bad_args("call", "must be a function call, not { type }.")
+    }
   }
 
   fn <- set_expr(quo, node_car(expr))

@@ -1,0 +1,7 @@
+> order_by(mtcars, 10)
+Error: `call` must be a function call, not a double vector.
+
+> order_by(mtcars, cyl)
+Error: `call` must be a function call, not a symbol.
+* Did you mean `arrange(mtcars, cyl)` ?
+
