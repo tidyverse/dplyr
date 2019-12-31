@@ -3,13 +3,11 @@ context("Filter")
 test_that("filter fails if inputs incorrect length (#156)", {
   expect_error(
     filter(tbl_df(mtcars), c(FALSE, TRUE)),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
+    "wrong size"
   )
   expect_error(
     filter(group_by(mtcars, am), c(FALSE, TRUE)),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
+    "wrong size"
   )
 })
 
@@ -96,16 +94,8 @@ test_that("filter propagates attributes", {
 })
 
 test_that("filter fails on integer indices", {
-  expect_error(
-    filter(mtcars, 1:2),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
-  )
-  expect_error(
-    filter(group_by(mtcars, cyl), 1:2),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
-  )
+  expect_error(filter(mtcars, 1:2), "unexpected type")
+  expect_error(filter(group_by(mtcars, cyl), 1:2), "unexpected type")
 })
 
 test_that("filter discards NA", {

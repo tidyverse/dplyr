@@ -541,7 +541,93 @@ bool all_lgl_columns(SEXP data) {
   return true;
 }
 
-SEXP dplyr_mask_eval_all_filter(SEXP quo, SEXP env_private, SEXP env_context, SEXP s_n) {
+int and_lgl(int x, int y) {
+  return x == TRUE && y == TRUE;
+}
+
+void reduce_lgl(SEXP reduced, SEXP x, int n) {
+  R_xlen_t nres = XLENGTH(x);
+  int* p_reduced = LOGICAL(reduced);
+  if (nres == 1) {
+    if (LOGICAL(x)[0] != TRUE) {
+      std::fill(p_reduced, p_reduced + n, FALSE);
+    }
+  } else {
+    std::transform(p_reduced, p_reduced + n, LOGICAL(x), p_reduced, and_lgl);
+  }
+}
+
+SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t n, R_xlen_t group_index) {
+  // first evaluate all expressions
+  SEXP results = PROTECT(Rf_allocVector(VECSXP, nquos));
+  for (R_xlen_t i = 0; i < nquos; i++) {
+    SET_VECTOR_ELT(results, i, rlang::eval_tidy(VECTOR_ELT(quos, i), mask, caller));
+  }
+
+  // then reduce to a single logical vector of size n
+  SEXP reduced;
+
+  if (nquos == 1 && TYPEOF(VECTOR_ELT(results, 0)) == LGLSXP && XLENGTH(VECTOR_ELT(results, 0)) == n) {
+    // simple case when there is only one expression
+    // giving a logical vector, this is probably the most frequent case
+    reduced = VECTOR_ELT(results, 0);
+  } else {
+    // otherwise we need to reduce
+    reduced = PROTECT(Rf_allocVector(LGLSXP, n));
+
+    // init with TRUE
+    int* p_reduced = LOGICAL(reduced);
+    std::fill(p_reduced, p_reduced + n, TRUE);
+
+    // reduce
+    for (R_xlen_t i=0; i < nquos; i++) {
+      SEXP res = VECTOR_ELT(results, i);
+
+      if (TYPEOF(res) == LGLSXP) {
+        R_xlen_t nres = XLENGTH(res);
+        if (nres != n && nres != 1) {
+          Rf_errorcall(R_NilValue,
+            "filter() expression #%d evaluates to logical vector of wrong size. \n - group = %d\n - group size = %d \n - result size = %d", (i+1), group_index + 1, n, XLENGTH(res)
+          );
+        }
+        reduce_lgl(reduced, res, n);
+      } else if(Rf_inherits(res, "data.frame")) {
+        R_xlen_t ncol = XLENGTH(res);
+        if (ncol == 0) continue;
+
+        for (R_xlen_t j=0; j<ncol; j++) {
+          SEXP res_j = VECTOR_ELT(res, j);
+          if (TYPEOF(res_j) != LGLSXP) {
+            Rf_errorcall(R_NilValue,
+              "filter() expression #%d evaluates to data frame with non logical column.\n - group = %d\n - column index = %d\n - type = %s", (i+1), group_index + 1, j + 1, Rf_type2char(TYPEOF(res_j))
+            );
+          }
+
+          R_xlen_t nres_j = XLENGTH(res_j);
+          if (nres_j != n && nres_j != 1) {
+            Rf_errorcall(R_NilValue,
+              "filter() expression #%d evaluates to data frame of wrong size. \n - group = %d\n - group size = %d\n - result size = %d", (i+1), group_index + 1, n, XLENGTH(res_j)
+            );
+          }
+          reduce_lgl(reduced, res_j, n);
+
+        }
+      } else {
+        Rf_errorcall(R_NilValue,
+          "filter() expression #%d evaluates to unexpected type. \n - group = %d\n - result type = %s", (i+1), group_index + 1, Rf_type2char(TYPEOF(res))
+        );
+      }
+    }
+
+    UNPROTECT(1);
+  }
+
+  UNPROTECT(1);
+  return reduced;
+}
+
+SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, SEXP s_n) {
+  R_xlen_t nquos = XLENGTH(quos);
   SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
   R_xlen_t ngroups = XLENGTH(rows);
 
@@ -565,70 +651,25 @@ SEXP dplyr_mask_eval_all_filter(SEXP quo, SEXP env_private, SEXP env_context, SE
   for (R_xlen_t i = 0; i < ngroups; i++) {
     SEXP rows_i = VECTOR_ELT(rows, i);
     R_xlen_t n_i = XLENGTH(rows_i);
-    int np = 0;
-    SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1)); np++;
+    SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));
     Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);
     Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
     Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
 
-    SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller)); np++;
-    if (Rf_inherits(result_i, "data.frame")) {
-      if (!XLENGTH(result_i)) {
-        result_i = Rf_ScalarLogical(TRUE);
-      } else {
-        if (!all_lgl_columns(result_i)) {
-          Rf_errorcall(R_NilValue, "All columns should be logical for data frame results in filter()");
-        }
+    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, nquos, n_i, i));
 
-        SEXP first = VECTOR_ELT(result_i, 0);
-        R_xlen_t nri = XLENGTH(first);
-
-        SEXP result_i_lgl = PROTECT(Rf_allocVector(LGLSXP, nri)); np++;
-
-        // copy first vector
-        std::copy(LOGICAL(first), LOGICAL(first) + nri, LOGICAL(result_i_lgl));
-
-        // then reduce other vectors
-        for (R_xlen_t j = 1; j < XLENGTH(result_i); j++) {
-          int* p_result_i_lgl = LOGICAL(result_i_lgl);
-          int* p_result_j = LOGICAL(VECTOR_ELT(result_i, j));
-          for (R_xlen_t k = 0; k < nri; k++, ++p_result_i_lgl, ++p_result_j) {
-            *p_result_i_lgl = (*p_result_i_lgl == TRUE) && (*p_result_j == TRUE);
-          }
-        }
-
-        result_i = result_i_lgl;
-      }
-    }
-
-    if (TYPEOF(result_i) != LGLSXP) {
-      Rf_errorcall(R_NilValue, "filter() expressions should return logical vectors of the same size as the group");
-    }
-    R_xlen_t n_result_i = XLENGTH(result_i);
-
-    // sprinkle
+    // sprinkle back to overall logical vector
     int* p_rows_i = INTEGER(rows_i);
-    if (n_i == n_result_i) {
-      int* p_result_i = LOGICAL(result_i);
-      int nkeep = 0;
-      for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i, ++p_result_i) {
-        p_keep[*p_rows_i - 1] = *p_result_i == TRUE;
-        p_group_indices[*p_rows_i - 1] = i + 1;
-        nkeep += (*p_result_i == TRUE);
-      }
-      p_new_group_sizes[i] = nkeep;
-    } else if (n_result_i == 1) {
-      int constant_result_i = *LOGICAL(result_i);
-      for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i) {
-        p_keep[*p_rows_i - 1] = constant_result_i;
-        p_group_indices[*p_rows_i - 1] = i + 1;
-      }
-      p_new_group_sizes[i] = n_i * (constant_result_i == TRUE);
-    } else {
-      Rf_errorcall(R_NilValue, "filter() expressions should return logical vectors of the same size as the group");
+    int* p_result_i = LOGICAL(result_i);
+    int nkeep = 0;
+    for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i, ++p_result_i) {
+      p_keep[*p_rows_i - 1] = *p_result_i == TRUE;
+      p_group_indices[*p_rows_i - 1] = i + 1;
+      nkeep += (*p_result_i == TRUE);
     }
+    p_new_group_sizes[i] = nkeep;
 
-    UNPROTECT(np);
+    UNPROTECT(2);
   }
 
   UNPROTECT(7);

@@ -173,8 +173,9 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   mask <- DataMask$new(.data, caller_env(), rows)
 
-  quo <- all_exprs(!!!dots, .vectorised = TRUE)
-  c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(quo)
+  # quo <- all_exprs(!!!dots, .vectorised = TRUE)
+
+  c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(dots)
 
   out <- vec_slice(.data, keep)
 
@@ -477,8 +478,8 @@ DataMask <- R6Class("DataMask",
       .Call(`dplyr_mask_eval_all_mutate`, quo, private, context_env, dots_names, i)
     },
 
-    eval_all_filter = function(quo) {
-      .Call(`dplyr_mask_eval_all_filter`, quo, private, context_env, nrow(private$data))
+    eval_all_filter = function(quos) {
+      .Call(`dplyr_mask_eval_all_filter`, quos, private, context_env, nrow(private$data))
     },
 
     pick = function(vars) {
