@@ -69,17 +69,15 @@ summarize_(.data, ..., .dots = list())
 
 \item{vars}{Various meanings depending on the verb.}
 
-\item{wt}{(Optional) If omitted (and no variable named \code{n} exists in the
-data), will count the number of rows.
-If specified, will perform a "weighted" tally by summing the
-(non-missing) values of variable \code{wt}. A column named \code{n} (but not \code{nn} or
-\code{nnn}) will be used as weighting variable by default in \code{tally()}, but not
-in \code{count()}. This argument is automatically \link[rlang:quo]{quoted} and later
-\link[rlang:eval_tidy]{evaluated} in the context of the data
-frame. It supports \link[rlang:quasiquotation]{unquoting}. See
-\code{vignette("programming")} for an introduction to these concepts.}
+\item{wt}{(Optional) If omitted, will count the number of rows.
+If specified, will perform a "weighted" tally by summing the (non-missing)
+values of variable \code{wt}.
 
-\item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
+If omitted, and column \code{n} exists, it will automatically be used as a
+weighting variable, although you will have to specify \code{name} to provide
+a new name for the output.}
+
+\item{sort}{If \code{TRUE} will sort output in descending order of \code{n}.}
 
 \item{.data}{A data frame.}
 

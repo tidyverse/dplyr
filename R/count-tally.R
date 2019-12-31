@@ -1,122 +1,94 @@
 #' Count/tally observations by group
 #'
 #' @description
-#' `tally()` is a convenient wrapper for summarise that will either call
-#' [n()] or \code{\link{sum}(n)} depending on whether you're tallying
-#' for the first time, or re-tallying. `count()` is similar but calls
-#' [group_by()] before and [ungroup()] after. If the data is already
-#' grouped, `count()` adds an additional group that is removed afterwards.
+#' `count()` lets you quickly count the unique values of a variable, or
+#' unique combinations of multiple variables. `tally()` is a lower-level
+#' helper that works on already grouped data. Both can perform weighted counts,
+#' if you give `wt` the name of a variable to weight by.
 #'
-#' `add_tally()` adds a column `n` to a table based on the number
-#' of items within each existing group, while `add_count()` is a shortcut that
-#' does the grouping as well. These functions are to [tally()]
-#' and [count()] as [mutate()] is to [summarise()]:
-#' they add an additional column rather than collapsing each group.
+#' `count()` and `tally()` are shortcuts for `summarise()`; `add_count()`
+#' and `add_tally()` perform the identical operations but use `mutate()`
+#' instead of `summarise()` so that they add a new column with group-wise
+#' counts.
 #'
-#' @note
-#' The column name in the returned data is given by the `name` argument,
-#' set to `"n"` by default.
-#'
-#' If the data already has a column by that name, the output column
-#' will be prefixed by an extra `"n"` as many times as necessary.
-#'
-#' @param x a [tbl()] to tally/count.
+#' @param x A [tbl()] to tally/count.
 #' @param ... Variables to group by.
-#' @param wt (Optional) If omitted (and no variable named `n` exists in the
-#'   data), will count the number of rows.
-#'   If specified, will perform a "weighted" tally by summing the
-#'   (non-missing) values of variable `wt`. A column named `n` (but not `nn` or
-#'   `nnn`) will be used as weighting variable by default in `tally()`, but not
-#'   in `count()`. This argument is automatically [quoted][rlang::quo] and later
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. It supports [unquoting][rlang::quasiquotation]. See
-#'   `vignette("programming")` for an introduction to these concepts.
-#' @param sort if `TRUE` will sort output in descending order of `n`
-#' @param name The output column name. If omitted, it will be `n`.
+#' @param wt (Optional) If omitted, will count the number of rows.
+#'   If specified, will perform a "weighted" tally by summing the (non-missing)
+#'   values of variable `wt`.
+#'
+#'   If omitted, and column `n` exists, it will automatically be used as a
+#'   weighting variable, although you will have to specify `name` to provide
+#'   a new name for the output.
+#' @param sort If `TRUE` will sort output in descending order of `n`.
+#' @param name The name of the new column in the output.
+#'
+#'   If omitted, it will default to `n`. If there's already a column called `n`,
+#'   it will error, and require you to specify the name.
 #' @param .drop see [group_by()]
-#' @return A tbl, grouped the same way as `x`.
+#' @return A tbl, grouped the same way as the input.
 #' @export
 #' @examples
-#' # tally() is short-hand for summarise()
-#' mtcars %>% tally()
-#' mtcars %>% group_by(cyl) %>% tally()
-#' # count() is a short-hand for group_by() + tally()
-#' mtcars %>% count(cyl)
-#' # Note that if the data is already grouped, count() adds
-#' # an additional group that is removed afterwards
-#' mtcars %>% group_by(gear) %>% count(carb)
+#' # count() is a convenient way to get a sense of the distribution of
+#' # values in a dataset
+#' starwars %>% count(species)
+#' starwars %>% count(species, sort = TRUE)
 #'
-#' # add_tally() is short-hand for mutate()
-#' mtcars %>% add_tally()
-#' # add_count() is a short-hand for group_by() + add_tally()
-#' mtcars %>% add_count(cyl)
+#' # use the `wt` argument to perform a weighted count. This is useful
+#' # when the data has already been aggregated once
+#' df <- tribble(
+#'   ~name,    ~gender,   ~runs,
+#'   "Max",    "male",       10,
+#'   "Sandra", "female",      1,
+#'   "Susan",  "female",      4
+#' )
+#' # counts rows:
+#' df %>% count(gender)
+#' # counts runs:
+#' df %>% count(gender, wt = runs)
 #'
-#' # count() and tally() are designed so that you can call
-#' # them repeatedly, each time rolling up a level of detail
-#' species <-
-#'  starwars %>%
-#'  count(species, homeworld, sort = TRUE)
-#' species
-#' species %>% count(species, sort = TRUE)
+#' # tally() is a lower-level function that assumes you've done the grouping
+#' starwars %>% tally()
+#' starwars %>% group_by(species) %>% tally()
 #'
-#' # Change the name of the newly created column:
-#' species <-
-#'  starwars %>%
-#'  count(species, homeworld, sort = TRUE, name = "n_species_by_homeworld")
-#' species
-#' species %>%
-#'  count(species, sort = TRUE, name = "n_species")
-#'
-#' # add_count() is useful for groupwise filtering
-#' # e.g.: show details for species that have a single member
-#' starwars %>%
-#'   add_count(species) %>%
-#'   filter(n == 1)
-tally <- function(x, wt, sort = FALSE, name = "n") {
-  wt <- enquo(wt)
-
-  if (quo_is_missing(wt) && "n" %in% tbl_vars(x)) {
-    inform("Using `n` as weighting variable")
-    wt <- quo(n)
-  }
-
-  if (quo_is_missing(wt) || quo_is_null(wt)) {
-    n <- quo(n())
-  } else {
-    n <- quo(sum(!!wt, na.rm = TRUE))
-  }
-
-  n_name <- n_name(group_vars(x), name)
-
-  if (name != "n" && name %in% group_vars(x)) {
-    abort(glue("Column `{name}` already exists in grouped variables"))
-  }
-
-  out <- summarise(x, !!n_name := !!n)
+#' # both count() and tally() have add_ variants that work like
+#' # mutate() instead of summarise
+#' df %>% add_count(gender, wt = runs)
+#' df %>% add_tally(wt = runs)
+tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
+  n <- tally_n(x, {{ wt }})
+  name <- check_name(x, name)
+  out <- summarise(x, !!name := !!n)
 
   if (sort) {
-    arrange(out, desc(!!sym(n_name)))
+    arrange(out, desc(!!sym(name)))
   } else {
     out
   }
 }
 
-n_name <- function(x, name = "n") {
-  while (name %in% x) {
-    name <- paste0("n", name)
-  }
+#' @rdname tally
+#' @export
+add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
+  n <- tally_n(x, {{ wt }})
+  name <- check_name(x, name)
+  out <- mutate(x, !!name := !!n)
 
-  name
+  if (sort) {
+    arrange(out, desc(!!sym(name)))
+  } else {
+    out
+  }
 }
 
 #' @export
 #' @rdname tally
-count <- function(x, ..., wt = NULL, sort = FALSE, name = "n", .drop = group_by_drop_default(x)) {
+count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   groups <- group_vars(x)
-
-  if (dots_n(...)) {
+  if (!missing(...)) {
     x <- .group_by_static_drop(x, ..., add = TRUE, .drop = .drop)
   }
+
   x <- tally(x, wt = !!enquo(wt), sort = sort, name = name)
   x <- .group_by_static_drop(x, !!!syms(groups), add = FALSE, .drop = .drop)
   x
@@ -124,41 +96,47 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = "n", .drop = group_by_
 
 #' @rdname tally
 #' @export
-add_tally <- function(x, wt, sort = FALSE, name = "n") {
-  wt <- enquo(wt)
+add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+  groups <- group_vars(x)
+  if (!missing(...)) {
+    x <- .group_by_static_drop(x, ..., add = TRUE, .drop = .drop)
+  }
 
-  if (quo_is_missing(wt) && "n" %in% tbl_vars(x)) {
+  x <- add_tally(x, wt = !!enquo(wt), sort = sort, name = name)
+  x <- .group_by_static_drop(x, !!!syms(groups), add = FALSE, .drop = .drop)
+  x
+}
+
+# Helpers -----------------------------------------------------------------
+
+tally_n <- function(x, wt) {
+  wt <- enquo(wt)
+  if (quo_is_null(wt) && "n" %in% tbl_vars(x)) {
     inform("Using `n` as weighting variable")
     wt <- quo(n)
   }
 
-  if (quo_is_missing(wt) || quo_is_null(wt)) {
-    n <- quo(n())
+  if (quo_is_null(wt)) {
+    quo(n())
   } else {
-    n <- quo(sum(!!wt, na.rm = TRUE))
+    quo(sum(!!wt, na.rm = TRUE))
   }
-
-  n_name <- n_name(group_vars(x), name)
-
-  if (name != "n" && name %in% group_vars(x)) {
-    abort(glue("Column `{name}` already exists in grouped variables"))
-  }
-
-  out <- mutate(x, !!n_name := !!n)
-
-  if (sort) {
-    out <- arrange(out, desc(!!sym(n_name)))
-  }
-
-  grouped_df(out, group_vars(x), drop = group_by_drop_default(x))
 }
 
-#' @rdname tally
-#' @export
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = "n") {
-  g <- group_vars(x)
-  grouped <- group_by(x, ..., add = TRUE)
+check_name <- function(df, name) {
+  if (is.null(name)) {
+    if ("n" %in% tbl_vars(df)) {
+      glubort(
+        "Column 'n' is already present in output\n",
+        "* Use `name = \"new_name\"` to pick a new name"
+      )
+    }
+    return("n")
+  }
 
-  out <- add_tally(grouped, wt = !!enquo(wt), sort = sort, name = name)
-  grouped_df(out, g, drop = group_by_drop_default(grouped))
+  if (!is.character(name) || length(name) != 1) {
+    abort("`name` must be a single string")
+  }
+
+  name
 }

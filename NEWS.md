@@ -1,5 +1,11 @@
 # dplyr 0.9.0 (in development)
 
+* `tally()` and `count()` now error if the default output `name` (n), already
+  exists in the data frame. You'll now need to specify it yourself; this 
+  replaces the existing ad hoc approach which used `nn`, `nnn` etc.
+  If you supply an explicit `name`, it will override an existing column
+  with that name (#4284).
+
 * `order_by()` gives an informative hint if you accidentally call it instead
   of `arrange()` #3357.
 

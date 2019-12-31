@@ -2,104 +2,94 @@
 % Please edit documentation in R/count-tally.R
 \name{tally}
 \alias{tally}
-\alias{count}
 \alias{add_tally}
+\alias{count}
 \alias{add_count}
 \title{Count/tally observations by group}
 \usage{
-tally(x, wt, sort = FALSE, name = "n")
+tally(x, wt = NULL, sort = FALSE, name = NULL)
+
+add_tally(x, wt = NULL, sort = FALSE, name = NULL)
 
 count(
   x,
   ...,
   wt = NULL,
   sort = FALSE,
-  name = "n",
+  name = NULL,
   .drop = group_by_drop_default(x)
 )
 
-add_tally(x, wt, sort = FALSE, name = "n")
-
-add_count(x, ..., wt = NULL, sort = FALSE, name = "n")
+add_count(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = group_by_drop_default(x)
+)
 }
 \arguments{
-\item{x}{a \code{\link[=tbl]{tbl()}} to tally/count.}
+\item{x}{A \code{\link[=tbl]{tbl()}} to tally/count.}
 
-\item{wt}{(Optional) If omitted (and no variable named \code{n} exists in the
-data), will count the number of rows.
-If specified, will perform a "weighted" tally by summing the
-(non-missing) values of variable \code{wt}. A column named \code{n} (but not \code{nn} or
-\code{nnn}) will be used as weighting variable by default in \code{tally()}, but not
-in \code{count()}. This argument is automatically \link[rlang:quo]{quoted} and later
-\link[rlang:eval_tidy]{evaluated} in the context of the data
-frame. It supports \link[rlang:quasiquotation]{unquoting}. See
-\code{vignette("programming")} for an introduction to these concepts.}
+\item{wt}{(Optional) If omitted, will count the number of rows.
+If specified, will perform a "weighted" tally by summing the (non-missing)
+values of variable \code{wt}.
 
-\item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
+If omitted, and column \code{n} exists, it will automatically be used as a
+weighting variable, although you will have to specify \code{name} to provide
+a new name for the output.}
 
-\item{name}{The output column name. If omitted, it will be \code{n}.}
+\item{sort}{If \code{TRUE} will sort output in descending order of \code{n}.}
+
+\item{name}{The name of the new column in the output.
+
+If omitted, it will default to \code{n}. If there's already a column called \code{n},
+it will error, and require you to specify the name.}
 
 \item{...}{Variables to group by.}
 
 \item{.drop}{see \code{\link[=group_by]{group_by()}}}
 }
 \value{
-A tbl, grouped the same way as \code{x}.
+A tbl, grouped the same way as the input.
 }
 \description{
-\code{tally()} is a convenient wrapper for summarise that will either call
-\code{\link[=n]{n()}} or \code{\link{sum}(n)} depending on whether you're tallying
-for the first time, or re-tallying. \code{count()} is similar but calls
-\code{\link[=group_by]{group_by()}} before and \code{\link[=ungroup]{ungroup()}} after. If the data is already
-grouped, \code{count()} adds an additional group that is removed afterwards.
+\code{count()} lets you quickly count the unique values of a variable, or
+unique combinations of multiple variables. \code{tally()} is a lower-level
+helper that works on already grouped data. Both can perform weighted counts,
+if you give \code{wt} the name of a variable to weight by.
 
-\code{add_tally()} adds a column \code{n} to a table based on the number
-of items within each existing group, while \code{add_count()} is a shortcut that
-does the grouping as well. These functions are to \code{\link[=tally]{tally()}}
-and \code{\link[=count]{count()}} as \code{\link[=mutate]{mutate()}} is to \code{\link[=summarise]{summarise()}}:
-they add an additional column rather than collapsing each group.
-}
-\note{
-The column name in the returned data is given by the \code{name} argument,
-set to \code{"n"} by default.
-
-If the data already has a column by that name, the output column
-will be prefixed by an extra \code{"n"} as many times as necessary.
+\code{count()} and \code{tally()} are shortcuts for \code{summarise()}; \code{add_count()}
+and \code{add_tally()} perform the identical operations but use \code{mutate()}
+instead of \code{summarise()} so that they add a new column with group-wise
+counts.
 }
 \examples{
-# tally() is short-hand for summarise()
-mtcars \%>\% tally()
-mtcars \%>\% group_by(cyl) \%>\% tally()
-# count() is a short-hand for group_by() + tally()
-mtcars \%>\% count(cyl)
-# Note that if the data is already grouped, count() adds
-# an additional group that is removed afterwards
-mtcars \%>\% group_by(gear) \%>\% count(carb)
+# count() is a convenient way to get a sense of the distribution of
+# values in a dataset
+starwars \%>\% count(species)
+starwars \%>\% count(species, sort = TRUE)
 
-# add_tally() is short-hand for mutate()
-mtcars \%>\% add_tally()
-# add_count() is a short-hand for group_by() + add_tally()
-mtcars \%>\% add_count(cyl)
+# use the `wt` argument to perform a weighted count. This is useful
+# when the data has already been aggregated once
+df <- tribble(
+  ~name,    ~gender,   ~runs,
+  "Max",    "male",       10,
+  "Sandra", "female",      1,
+  "Susan",  "female",      4
+)
+# counts rows:
+df \%>\% count(gender)
+# counts runs:
+df \%>\% count(gender, wt = runs)
 
-# count() and tally() are designed so that you can call
-# them repeatedly, each time rolling up a level of detail
-species <-
- starwars \%>\%
- count(species, homeworld, sort = TRUE)
-species
-species \%>\% count(species, sort = TRUE)
+# tally() is a lower-level function that assumes you've done the grouping
+starwars \%>\% tally()
+starwars \%>\% group_by(species) \%>\% tally()
 
-# Change the name of the newly created column:
-species <-
- starwars \%>\%
- count(species, homeworld, sort = TRUE, name = "n_species_by_homeworld")
-species
-species \%>\%
- count(species, sort = TRUE, name = "n_species")
-
-# add_count() is useful for groupwise filtering
-# e.g.: show details for species that have a single member
-starwars \%>\%
-  add_count(species) \%>\%
-  filter(n == 1)
+# both count() and tally() have add_ variants that work like
+# mutate() instead of summarise
+df \%>\% add_count(gender, wt = runs)
+df \%>\% add_tally(wt = runs)
 }
