@@ -48,16 +48,14 @@
 
 
 <meta property="og:title" content="Count/tally observations by group — tally" />
-<meta property="og:description" content="tally() is a convenient wrapper for summarise that will either call
-n() or sum(n) depending on whether you're tallying
-for the first time, or re-tallying. count() is similar but calls
-group_by() before and ungroup() after. If the data is already
-grouped, count() adds an additional group that is removed afterwards.
-add_tally() adds a column n to a table based on the number
-of items within each existing group, while add_count() is a shortcut that
-does the grouping as well. These functions are to tally()
-and count() as mutate() is to summarise():
-they add an additional column rather than collapsing each group." />
+<meta property="og:description" content="count() lets you quickly count the unique values of a variable, or
+unique combinations of multiple variables. tally() is a lower-level
+helper that works on already grouped data. Both can perform weighted counts,
+if you give wt the name of a variable to weight by.
+count() and tally() are shortcuts for summarise(); add_count()
+and add_tally() perform the identical operations but use mutate()
+instead of summarise() so that they add a new column with group-wise
+counts." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -200,59 +198,63 @@ they add an additional column rather than collapsing each group." />
     </div>
 
     <div class="ref-description">
-    <p><code>tally()</code> is a convenient wrapper for summarise that will either call
-<code><a href='n.html'>n()</a></code> or <code><a href='https://rdrr.io/r/base/sum.html'>sum</a>(n)</code> depending on whether you're tallying
-for the first time, or re-tallying. <code>count()</code> is similar but calls
-<code><a href='group_by.html'>group_by()</a></code> before and <code><a href='group_by.html'>ungroup()</a></code> after. If the data is already
-grouped, <code>count()</code> adds an additional group that is removed afterwards.</p>
-<p><code>add_tally()</code> adds a column <code>n</code> to a table based on the number
-of items within each existing group, while <code>add_count()</code> is a shortcut that
-does the grouping as well. These functions are to <code>tally()</code>
-and <code>count()</code> as <code><a href='mutate.html'>mutate()</a></code> is to <code><a href='summarise.html'>summarise()</a></code>:
-they add an additional column rather than collapsing each group.</p>
+    <p><code>count()</code> lets you quickly count the unique values of a variable, or
+unique combinations of multiple variables. <code>tally()</code> is a lower-level
+helper that works on already grouped data. Both can perform weighted counts,
+if you give <code>wt</code> the name of a variable to weight by.</p>
+<p><code>count()</code> and <code>tally()</code> are shortcuts for <code><a href='summarise.html'>summarise()</a></code>; <code>add_count()</code>
+and <code>add_tally()</code> perform the identical operations but use <code><a href='mutate.html'>mutate()</a></code>
+instead of <code><a href='summarise.html'>summarise()</a></code> so that they add a new column with group-wise
+counts.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tally</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"n"</span>)
+    <pre class="usage"><span class='fu'>tally</span>(<span class='no'>x</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>add_tally</span>(<span class='no'>x</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>count</span>(
   <span class='no'>x</span>,
   <span class='no'>...</span>,
   <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"n"</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>x</span>)
 )
 
-<span class='fu'>add_tally</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"n"</span>)
-
-<span class='fu'>add_count</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"n"</span>)</pre>
+<span class='fu'>add_count</span>(
+  <span class='no'>x</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>x</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a <code><a href='tbl.html'>tbl()</a></code> to tally/count.</p></td>
+      <td><p>A <code><a href='tbl.html'>tbl()</a></code> to tally/count.</p></td>
     </tr>
     <tr>
       <th>wt</th>
-      <td><p>(Optional) If omitted (and no variable named <code>n</code> exists in the
-data), will count the number of rows.
-If specified, will perform a "weighted" tally by summing the
-(non-missing) values of variable <code>wt</code>. A column named <code>n</code> (but not <code>nn</code> or
-<code>nnn</code>) will be used as weighting variable by default in <code>tally()</code>, but not
-in <code>count()</code>. This argument is automatically <a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quoted</a> and later
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. It supports <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a>. See
-<code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p></td>
+      <td><p>(Optional) If omitted, will count the number of rows.
+If specified, will perform a "weighted" tally by summing the (non-missing)
+values of variable <code>wt</code>.</p>
+<p>If omitted, and column <code>n</code> exists, it will automatically be used as a
+weighting variable, although you will have to specify <code>name</code> to provide
+a new name for the output.</p></td>
     </tr>
     <tr>
       <th>sort</th>
-      <td><p>if <code>TRUE</code> will sort output in descending order of <code>n</code></p></td>
+      <td><p>If <code>TRUE</code> will sort output in descending order of <code>n</code>.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>The output column name. If omitted, it will be <code>n</code>.</p></td>
+      <td><p>The name of the new column in the output.</p>
+<p>If omitted, it will default to <code>n</code>. If there's already a column called <code>n</code>,
+it will error, and require you to specify the name.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -266,164 +268,94 @@ frame. It supports <a href='https://rlang.r-lib.org/reference/nse-force.html'>un
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tbl, grouped the same way as <code>x</code>.</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>The column name in the returned data is given by the <code>name</code> argument,
-set to <code>"n"</code> by default.</p>
-<p>If the data already has a column by that name, the output column
-will be prefixed by an extra <code>"n"</code> as many times as necessary.</p>
+    <p>A tbl, grouped the same way as the input.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># tally() is short-hand for summarise()</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt;    n
-#&gt; 1 32</div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt;     cyl     n
-#&gt;   &lt;dbl&gt; &lt;int&gt;
-#&gt; 1     4    11
-#&gt; 2     6     7
-#&gt; 3     8    14</div><div class='input'><span class='co'># count() is a short-hand for group_by() + tally()</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt;     cyl     n
-#&gt;   &lt;dbl&gt; &lt;int&gt;
-#&gt; 1     4    11
-#&gt; 2     6     7
-#&gt; 3     8    14</div><div class='input'><span class='co'># Note that if the data is already grouped, count() adds</span>
-<span class='co'># an additional group that is removed afterwards</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gear</span>) <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>carb</span>)</div><div class='output co'>#&gt; # A tibble: 11 x 3
-#&gt; # Groups:   gear [3]
-#&gt;     gear  carb     n
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt;  1     3     1     3
-#&gt;  2     3     2     4
-#&gt;  3     3     3     3
-#&gt;  4     3     4     5
-#&gt;  5     4     1     4
-#&gt;  6     4     2     4
-#&gt;  7     4     4     4
-#&gt;  8     5     2     2
-#&gt;  9     5     4     1
-#&gt; 10     5     6     1
-#&gt; 11     5     8     1</div><div class='input'>
-<span class='co'># add_tally() is short-hand for mutate()</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_tally</span>()</div><div class='output co'>#&gt; # A tibble: 32 x 12
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb     n
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4    32
-#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4    32
-#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1    32
-#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1    32
-#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2    32
-#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1    32
-#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4    32
-#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2    32
-#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2    32
-#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4    32
-#&gt; # … with 22 more rows</div><div class='input'><span class='co'># add_count() is a short-hand for group_by() + add_tally()</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_count</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 12
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb     n
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4     7
-#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4     7
-#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1    11
-#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1     7
-#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2    14
-#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1     7
-#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4    14
-#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2    11
-#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2    11
-#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4     7
-#&gt; # … with 22 more rows</div><div class='input'>
-<span class='co'># count() and tally() are designed so that you can call</span>
-<span class='co'># them repeatedly, each time rolling up a level of detail</span>
-<span class='no'>species</span> <span class='kw'>&lt;-</span>
- <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
- <span class='fu'>count</span>(<span class='no'>species</span>, <span class='no'>homeworld</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>species</span></div><div class='output co'>#&gt; # A tibble: 58 x 3
-#&gt;    species  homeworld     n
-#&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;int&gt;
-#&gt;  1 Human    Tatooine      8
-#&gt;  2 Human    Naboo         5
-#&gt;  3 Human    &lt;NA&gt;          5
-#&gt;  4 Droid    &lt;NA&gt;          3
-#&gt;  5 Gungan   Naboo         3
-#&gt;  6 Human    Alderaan      3
-#&gt;  7 Droid    Tatooine      2
-#&gt;  8 Human    Corellia      2
-#&gt;  9 Human    Coruscant     2
-#&gt; 10 Kaminoan Kamino        2
-#&gt; # … with 48 more rows</div><div class='input'><span class='no'>species</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
+    <pre class="examples"><div class='input'><span class='co'># count() is a convenient way to get a sense of the distribution of</span>
+<span class='co'># values in a dataset</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
+#&gt;    species       n
+#&gt;    &lt;chr&gt;     &lt;int&gt;
+#&gt;  1 Aleena        1
+#&gt;  2 Besalisk      1
+#&gt;  3 Cerean        1
+#&gt;  4 Chagrian      1
+#&gt;  5 Clawdite      1
+#&gt;  6 Droid         6
+#&gt;  7 Dug           1
+#&gt;  8 Ewok          1
+#&gt;  9 Geonosian     1
+#&gt; 10 Gungan        3
+#&gt; # … with 28 more rows</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
 #&gt;    species      n
 #&gt;    &lt;chr&gt;    &lt;int&gt;
-#&gt;  1 Human       16
-#&gt;  2 Droid        3
-#&gt;  3 &lt;NA&gt;         3
-#&gt;  4 Zabrak       2
-#&gt;  5 Aleena       1
-#&gt;  6 Besalisk     1
-#&gt;  7 Cerean       1
-#&gt;  8 Chagrian     1
-#&gt;  9 Clawdite     1
-#&gt; 10 Dug          1
+#&gt;  1 Human       35
+#&gt;  2 Droid        6
+#&gt;  3 &lt;NA&gt;         4
+#&gt;  4 Gungan       3
+#&gt;  5 Kaminoan     2
+#&gt;  6 Mirialan     2
+#&gt;  7 Twi'lek      2
+#&gt;  8 Wookiee      2
+#&gt;  9 Zabrak       2
+#&gt; 10 Aleena       1
 #&gt; # … with 28 more rows</div><div class='input'>
-<span class='co'># Change the name of the newly created column:</span>
-<span class='no'>species</span> <span class='kw'>&lt;-</span>
- <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
- <span class='fu'>count</span>(<span class='no'>species</span>, <span class='no'>homeworld</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"n_species_by_homeworld"</span>)
-<span class='no'>species</span></div><div class='output co'>#&gt; # A tibble: 58 x 3
-#&gt;    species  homeworld n_species_by_homeworld
-#&gt;    &lt;chr&gt;    &lt;chr&gt;                      &lt;int&gt;
-#&gt;  1 Human    Tatooine                       8
-#&gt;  2 Human    Naboo                          5
-#&gt;  3 Human    &lt;NA&gt;                           5
-#&gt;  4 Droid    &lt;NA&gt;                           3
-#&gt;  5 Gungan   Naboo                          3
-#&gt;  6 Human    Alderaan                       3
-#&gt;  7 Droid    Tatooine                       2
-#&gt;  8 Human    Corellia                       2
-#&gt;  9 Human    Coruscant                      2
-#&gt; 10 Kaminoan Kamino                         2
-#&gt; # … with 48 more rows</div><div class='input'><span class='no'>species</span> <span class='kw'>%&gt;%</span>
- <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"n_species"</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
-#&gt;    species  n_species
-#&gt;    &lt;chr&gt;        &lt;int&gt;
-#&gt;  1 Human           16
-#&gt;  2 Droid            3
-#&gt;  3 &lt;NA&gt;             3
-#&gt;  4 Zabrak           2
-#&gt;  5 Aleena           1
-#&gt;  6 Besalisk         1
-#&gt;  7 Cerean           1
-#&gt;  8 Chagrian         1
-#&gt;  9 Clawdite         1
-#&gt; 10 Dug              1
+<span class='co'># use the `wt` argument to perform a weighted count. This is useful</span>
+<span class='co'># when the data has already been aggregated once</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
+  ~<span class='no'>name</span>,    ~<span class='no'>gender</span>,   ~<span class='no'>runs</span>,
+  <span class='st'>"Max"</span>,    <span class='st'>"male"</span>,       <span class='fl'>10</span>,
+  <span class='st'>"Sandra"</span>, <span class='st'>"female"</span>,      <span class='fl'>1</span>,
+  <span class='st'>"Susan"</span>,  <span class='st'>"female"</span>,      <span class='fl'>4</span>
+)
+<span class='co'># counts rows:</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;   gender     n
+#&gt;   &lt;chr&gt;  &lt;int&gt;
+#&gt; 1 female     2
+#&gt; 2 male       1</div><div class='input'><span class='co'># counts runs:</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;   gender     n
+#&gt;   &lt;chr&gt;  &lt;dbl&gt;
+#&gt; 1 female     5
+#&gt; 2 male      10</div><div class='input'>
+<span class='co'># tally() is a lower-level function that assumes you've done the grouping</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt; # A tibble: 1 x 1
+#&gt;       n
+#&gt;   &lt;int&gt;
+#&gt; 1    87</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt; # A tibble: 38 x 2
+#&gt;    species       n
+#&gt;    &lt;chr&gt;     &lt;int&gt;
+#&gt;  1 Aleena        1
+#&gt;  2 Besalisk      1
+#&gt;  3 Cerean        1
+#&gt;  4 Chagrian      1
+#&gt;  5 Clawdite      1
+#&gt;  6 Droid         6
+#&gt;  7 Dug           1
+#&gt;  8 Ewok          1
+#&gt;  9 Geonosian     1
+#&gt; 10 Gungan        3
 #&gt; # … with 28 more rows</div><div class='input'>
-<span class='co'># add_count() is useful for groupwise filtering</span>
-<span class='co'># e.g.: show details for species that have a single member</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>add_count</span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>n</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 29 x 15
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Gree…    173    74 &lt;NA&gt;       green      black             44 male  mascu…
-#&gt;  2 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herm… mascu…
-#&gt;  3 Yoda      66    17 white      green      brown            896 male  mascu…
-#&gt;  4 Bossk    190   113 none       green      red               53 male  mascu…
-#&gt;  5 Ackb…    180    83 none       brown mot… orange            41 male  mascu…
-#&gt;  6 Wick…     88    20 brown      brown      brown              8 male  mascu…
-#&gt;  7 Nien…    160    68 none       grey       black             NA male  mascu…
-#&gt;  8 Nute…    191    90 none       mottled g… red               NA male  mascu…
-#&gt;  9 Watto    137    NA black      blue, grey yellow            NA male  mascu…
-#&gt; 10 Sebu…    112    40 none       grey, red  orange            NA male  mascu…
-#&gt; # … with 19 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, n &lt;int&gt;</div></pre>
+<span class='co'># both count() and tally() have add_ variants that work like</span>
+<span class='co'># mutate() instead of summarise</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_count</span>(<span class='no'>gender</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 4
+#&gt;   name   gender  runs     n
+#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 Max    male      10    10
+#&gt; 2 Sandra female     1     5
+#&gt; 3 Susan  female     4     5</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_tally</span>(<span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 4
+#&gt;   name   gender  runs     n
+#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 Max    male      10    15
+#&gt; 2 Sandra female     1    15
+#&gt; 3 Susan  female     4    15</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#note">Note</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -261,19 +261,16 @@ with NSE verbs. Thus, the underscored versions are now superfluous.</p>
     </tr>
     <tr>
       <th>wt</th>
-      <td><p>(Optional) If omitted (and no variable named <code>n</code> exists in the
-data), will count the number of rows.
-If specified, will perform a "weighted" tally by summing the
-(non-missing) values of variable <code>wt</code>. A column named <code>n</code> (but not <code>nn</code> or
-<code>nnn</code>) will be used as weighting variable by default in <code><a href='tally.html'>tally()</a></code>, but not
-in <code><a href='tally.html'>count()</a></code>. This argument is automatically <a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quoted</a> and later
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. It supports <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a>. See
-<code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p></td>
+      <td><p>(Optional) If omitted, will count the number of rows.
+If specified, will perform a "weighted" tally by summing the (non-missing)
+values of variable <code>wt</code>.</p>
+<p>If omitted, and column <code>n</code> exists, it will automatically be used as a
+weighting variable, although you will have to specify <code>name</code> to provide
+a new name for the output.</p></td>
     </tr>
     <tr>
       <th>sort</th>
-      <td><p>if <code>TRUE</code> will sort output in descending order of <code>n</code></p></td>
+      <td><p>If <code>TRUE</code> will sort output in descending order of <code>n</code>.</p></td>
     </tr>
     <tr>
       <th>.data</th>
