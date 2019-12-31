@@ -173,8 +173,6 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   mask <- DataMask$new(.data, caller_env(), rows)
 
-  # quo <- all_exprs(!!!dots, .vectorised = TRUE)
-
   c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(dots)
 
   out <- vec_slice(.data, keep)
