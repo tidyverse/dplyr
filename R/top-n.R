@@ -6,7 +6,7 @@
 #' ordered or sorted.
 #'
 #' @param x a [tbl()] to filter
-#' @param n number of rows to return for `top_n()`, fraction of rows to
+#' @param n \tidyeval number of rows to return for `top_n()`, fraction of rows to
 #'   return for `top_frac()`.
 #'
 #'   If `x` is grouped, this is the
@@ -16,13 +16,8 @@
 #'   If `n` is positive, selects the top rows. If negative,
 #'   selects the bottom rows.
 #'
-#' @param wt (Optional). The variable to use for ordering. If not
+#' @param wt \tidyeval (Optional). The variable to use for ordering. If not
 #'   specified, defaults to the last variable in the tbl.
-#'
-#' @details
-#'   Both `n` and `wt` are automatically [quoted][rlang::enquo] and later
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. It supports [unquoting][rlang::quasiquotation].
 #'
 #' @export
 #' @examples

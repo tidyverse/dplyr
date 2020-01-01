@@ -12,7 +12,7 @@ top_frac(x, n, wt)
 \arguments{
 \item{x}{a \code{\link[=tbl]{tbl()}} to filter}
 
-\item{n}{number of rows to return for \code{top_n()}, fraction of rows to
+\item{n}{\tidyeval number of rows to return for \code{top_n()}, fraction of rows to
 return for \code{top_frac()}.
 
 If \code{x} is grouped, this is the
@@ -22,7 +22,7 @@ there are ties.
 If \code{n} is positive, selects the top rows. If negative,
 selects the bottom rows.}
 
-\item{wt}{(Optional). The variable to use for ordering. If not
+\item{wt}{\tidyeval (Optional). The variable to use for ordering. If not
 specified, defaults to the last variable in the tbl.}
 }
 \description{
@@ -30,11 +30,6 @@ This is a convenient wrapper that uses \code{\link[=filter]{filter()}} and
 \code{\link[=min_rank]{min_rank()}} to select the top or bottom entries in each group,
 with respect to \code{wt}. Note, the resulting data frame will not be
 ordered or sorted.
-}
-\details{
-Both \code{n} and \code{wt} are automatically \link[rlang:enquo]{quoted} and later
-\link[rlang:eval_tidy]{evaluated} in the context of the data
-frame. It supports \link[rlang:quasiquotation]{unquoting}.
 }
 \examples{
 df <- data.frame(x = c(6, 4, 1, 10, 3, 1, 1))
