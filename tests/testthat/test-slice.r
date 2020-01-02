@@ -203,3 +203,50 @@ test_that("slice() handles matrix and data frame columns (#3630)", {
   expect_equal(slice(gdf, 1), gdf)
   expect_equal(slice(gdf, 1), gdf)
 })
+
+
+# Slice variants ----------------------------------------------------------
+
+test_that("functions silently truncate results", {
+  df <- data.frame(x = 1:5)
+
+  expect_equal(df %>% slice_head(n = 6) %>% nrow(), 5)
+  expect_equal(df %>% slice_tail(n = 6) %>% nrow(), 5)
+  expect_equal(df %>% slice_sample(n = 6) %>% nrow(), 5)
+  expect_equal(df %>% slice_min(x, n = 6) %>% nrow(), 5)
+  expect_equal(df %>% slice_max(x, n = 6) %>% nrow(), 5)
+})
+
+test_that("min and max return ties by default", {
+  df <- data.frame(x = c(1, 1, 1, 2, 2))
+  expect_equal(df %>% slice_min(x, n = 1) %>% nrow(), 3)
+  expect_equal(df %>% slice_max(x, n = 1) %>% nrow(), 2)
+
+  expect_equal(df %>% slice_min(x, n = 1, with_ties = FALSE) %>% nrow(), 1)
+  expect_equal(df %>% slice_max(x, n = 1, with_ties = FALSE) %>% nrow(), 1)
+})
+
+test_that("min and max reorder results", {
+  df <- data.frame(id = 1:4, x = c(2, 3, 1, 2))
+
+  expect_equal(df %>% slice_min(x, n = 2) %>% pull(id), c(3, 1, 4))
+  expect_equal(df %>% slice_min(x, n = 2, with_ties = FALSE) %>% pull(id), c(3, 1))
+  expect_equal(df %>% slice_max(x, n = 2) %>% pull(id), c(2, 1, 4))
+  expect_equal(df %>% slice_max(x, n = 2, with_ties = FALSE) %>% pull(id), c(2, 1))
+})
+
+test_that("arguments to sample are passed along", {
+  df <- data.frame(x = 1:100, wt = c(1, rep(0, 99)))
+
+  expect_equal(df %>% slice_sample(n = 1, weight_by = wt) %>% pull(x), 1)
+  expect_equal(df %>% slice_sample(n = 2, weight_by = wt, replace = TRUE) %>% pull(x), c(1, 1))
+})
+
+test_that("n and prop are carefully validated", {
+  expect_error(check_slice_size(), "exactly one")
+  expect_error(check_slice_size(n = 1, prop = 1), "exactly one")
+  expect_error(check_slice_size(n = "a"), "single number")
+  expect_error(check_slice_size(prop = "a"), "single number")
+  expect_error(check_slice_size(n = -1), "positive number")
+  expect_error(check_slice_size(prop = -1), "positive number")
+})

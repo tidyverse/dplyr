@@ -1,5 +1,16 @@
 # dplyr 0.9.0 (in development)
 
+* `slice()` gains a new set of helpers:
+
+  * `slice_head()` and `slice_tail()` select the first and last rows, like
+    `head()` and `tail()`, but will work by group.
+    
+  * `slice_sample()` randomly selects rows, taking over from `sample_frac()` 
+     and `sample_n()`.
+  
+  * `slice_min()` and `slice_max()` select the rows with the minimum or 
+    maximum values of a variable, taking over from the confusing `top_n()`.
+
 * `tally()` and `count()` now error if the default output `name` (n), already
   exists in the data frame. You'll now need to specify it yourself; this 
   replaces the existing ad hoc approach which used `nn`, `nnn` etc.
