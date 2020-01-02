@@ -7,7 +7,7 @@
 case_when(...)
 }
 \arguments{
-\item{...}{A sequence of two-sided formulas. The left hand side (LHS)
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> A sequence of two-sided formulas. The left hand side (LHS)
 determines which values match this case. The right hand side (RHS)
 provides the replacement value.
 
@@ -18,11 +18,7 @@ Both LHS and RHS may have the same length of either 1 or \code{n}. The
 value of \code{n} must be consistent across all cases. The case of
 \code{n == 0} is treated as a variant of \code{n != 1}.
 
-\code{NULL} inputs are ignored.
-
-These dots support \link[rlang:list2]{tidy dots} features. In
-particular, if your patterns are stored in a list, you can
-splice that in with \verb{!!!}.}
+\code{NULL} inputs are ignored.}
 }
 \value{
 A vector of length 1 or \code{n}, matching the length of the logical
