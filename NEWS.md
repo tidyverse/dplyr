@@ -1,5 +1,8 @@
 # dplyr 0.9.0 (in development)
 
+* `top_n()` has been retired in favour of `slice_min()`/`slice_max()`. See
+  `?top_n` for details about why, and how to convert old to new usage (#4494).
+
 * `slice()` gains a new set of helpers:
 
   * `slice_head()` and `slice_tail()` select the first and last rows, like

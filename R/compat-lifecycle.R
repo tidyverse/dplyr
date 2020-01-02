@@ -195,7 +195,7 @@ lifecycle_img <- function(stage, url) {
     maturing = ,
     stable = ,
     questioning = ,
-    archived =
+    retired =
       sprintf(
         "\\out{<a href='%s'><img src='%s' alt='%s lifecycle'></a>}",
         url,
