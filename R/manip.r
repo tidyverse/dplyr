@@ -53,15 +53,9 @@
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
 #'   for [tbl_df()], [dtplyr::tbl_dt()] and [dbplyr::tbl_dbi()].
-#' @param ... Logical predicates defined in terms of the variables in `.data`.
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Logical predicates defined in terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   condition evaluates to `TRUE` are kept.
-#'
-#'   The arguments in `...` are automatically [quoted][rlang::quo] and
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. They support [unquoting][rlang::quasiquotation] and
-#'   splicing. See `vignette("programming")` for an introduction to
-#'   these concepts.
 #' @param .preserve when `FALSE` (the default), the grouping structure
 #'   is recalculated based on the resulting data, otherwise it is kept as is.
 #' @return An object of the same class as `.data`.
@@ -124,16 +118,10 @@ filter <- function(.data, ..., .preserve = FALSE) {
 #'
 #' @family single table verbs
 #' @param .data A tbl.
-#' @param ... Integer row values.  Provide either positive values to keep,
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Integer row values.  Provide either positive values to keep,
 #'   or negative values to drop. The values provided must be either all
 #'   positive or all negative.  Indices beyond the number of rows in the
 #'   input are silently ignored.
-#'
-#'   The arguments in `...` are automatically [quoted][rlang::quo] and
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. They support [unquoting][rlang::quasiquotation] and
-#'   splicing. See `vignette("programming")` for an introduction to
-#'   these concepts.
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
 #' @export
@@ -193,15 +181,9 @@ slice <- function(.data, ..., .preserve = FALSE) {
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... Name-value pairs of summary functions. The name will be the
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of summary functions. The name will be the
 #'   name of the variable in the result. The value should be an expression
 #'   that returns a single value like `min(x)`, `n()`, or `sum(is.na(y))`.
-#'
-#'   The arguments in `...` are automatically [quoted][rlang::quo] and
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. They support [unquoting][rlang::quasiquotation] and
-#'   splicing. See `vignette("programming")` for an introduction to
-#'   these concepts.
 #' @family single table verbs
 #' @return An object of the same class as `.data`. One grouping level will
 #'   be dropped.
@@ -311,18 +293,12 @@ summarize <- summarise
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... Name-value pairs of expressions, each with length 1 or the same
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of expressions, each with length 1 or the same
 #'   length as the number of rows in the group (if using [group_by()]) or in the entire
 #'   input (if not using groups). The name of each argument will be the name of
 #'   a new variable, and the value will be its corresponding value.  Use a `NULL`
 #'   value in `mutate` to drop a variable.  New variables overwrite existing variables
 #'   of the same name.
-#'
-#'   The arguments in `...` are automatically [quoted][rlang::quo] and
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. They support [unquoting][rlang::quasiquotation] and
-#'   splicing. See `vignette("programming")` for an introduction to
-#'   these concepts.
 #' @family single table verbs
 #' @return An object of the same class as `.data`.
 #' @examples
@@ -417,8 +393,8 @@ transmute <- function(.data, ...) {
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... Comma separated list of unquoted variable names, or expressions
-#'   involving variable names. Use [desc()] to sort a variable in descending order.
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or variables.
+#'   Use [desc()] to sort a variable in descending order.
 #' @family single table verbs
 #' @return An object of the same class as `.data`.
 #' @examples
@@ -473,7 +449,7 @@ arrange <- function(.data, ...) {
 #'
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... One or more unquoted expressions separated by commas.
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted expressions separated by commas.
 #'   You can treat variable names like they are positions, so you can
 #'   use expressions like `x:y` to select ranges of variables.
 #'
@@ -482,13 +458,6 @@ arrange <- function(.data, ...) {
 #'   start with all variables.
 #'
 #'   Use named arguments, e.g. `new_name = old_name`, to rename selected variables.
-#'
-#'   The arguments in `...` are automatically [quoted][rlang::quo] and
-#'   [evaluated][rlang::eval_tidy] in a context where column names
-#'   represent column positions. They also support
-#'   [unquoting][rlang::quasiquotation] and splicing. See
-#'   `vignette("programming")` for an introduction to these concepts.
-#'
 #'   See [select helpers][tidyselect::select_helpers] for more details and
 #'   examples about tidyselect helpers such as `starts_with()`, `everything()`, ...
 #' @return An object of the same class as `.data`.

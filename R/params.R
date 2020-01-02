@@ -29,6 +29,25 @@
 #' * If you want the user to supply the colum name in a function call,
 #'   __embrace__ the argument name: `{{ var }}`.
 #'
+#' # Dot-dot-dot (...)
+#'
+#' When this modifier is applied to `...`, there is one additional technique
+#' which solves the problem of creating a new variable with a name supplied
+#' by the user. Use `!!var := expression`. (Note the use of `:=` instead of
+#' `=`).
+#'
 #' @keywords internal
 #' @name dplyr_tidy_eval
+NULL
+
+
+#' Argument type: tidy-select
+#'
+#' @description
+#' This page the argument modifier `<tidy-select>`. This indicates that the
+#' argument uses the tidyselect syntax which provides a concise DSL for
+#' selecting variables based on their names.
+#'
+#' @keywords internal
+#' @name dplyr_tidy_select
 NULL

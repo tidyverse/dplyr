@@ -7,17 +7,13 @@
 funs(..., .args = list())
 }
 \arguments{
-\item{...}{A list of functions specified by:
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> A list of functions specified by:
 \itemize{
 \item Their name, \code{"mean"}
 \item The function itself, \code{mean}
 \item A call to the function with \code{.} as a dummy argument,
 \code{mean(., na.rm = TRUE)}
 }
-
-These arguments are automatically \link[rlang:quo]{quoted}. They
-support \link[rlang:quasiquotation]{unquoting} and splicing. See
-\code{vignette("programming")} for an introduction to these concepts.
 
 The following notations are \strong{not} supported, see examples:
 \itemize{

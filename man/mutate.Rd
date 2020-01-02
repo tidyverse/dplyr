@@ -13,18 +13,12 @@ transmute(.data, ...)
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
-\item{...}{Name-value pairs of expressions, each with length 1 or the same
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of expressions, each with length 1 or the same
 length as the number of rows in the group (if using \code{\link[=group_by]{group_by()}}) or in the entire
 input (if not using groups). The name of each argument will be the name of
 a new variable, and the value will be its corresponding value.  Use a \code{NULL}
 value in \code{mutate} to drop a variable.  New variables overwrite existing variables
-of the same name.
-
-The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
-\link[rlang:eval_tidy]{evaluated} in the context of the data
-frame. They support \link[rlang:quasiquotation]{unquoting} and
-splicing. See \code{vignette("programming")} for an introduction to
-these concepts.}
+of the same name.}
 }
 \value{
 An object of the same class as \code{.data}.

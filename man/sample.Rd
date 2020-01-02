@@ -13,20 +13,15 @@ sample_frac(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL, ...)
 \arguments{
 \item{tbl}{tbl of data.}
 
-\item{size}{For \code{sample_n()}, the number of rows to select.
+\item{size}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> For \code{sample_n()}, the number of rows to select.
 For \code{sample_frac()}, the fraction of rows to select.
 If \code{tbl} is grouped, \code{size} applies to each group.}
 
 \item{replace}{Sample with or without replacement?}
 
-\item{weight}{Sampling weights. This must evaluate to a vector of
+\item{weight}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Sampling weights. This must evaluate to a vector of
 non-negative numbers the same length as the input. Weights are
-automatically standardised to sum to 1.
-
-This argument is automatically \link[rlang:quo]{quoted} and later
-\link[rlang:eval_tidy]{evaluated} in the context of the data
-frame. It supports \link[rlang:quasiquotation]{unquoting}. See
-\code{vignette("programming")} for an introduction to these concepts.}
+automatically standardised to sum to 1.}
 
 \item{.env}{This variable is deprecated and no longer has any
 effect. To evaluate \code{weight} in a particular context, you can

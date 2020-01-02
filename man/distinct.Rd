@@ -9,7 +9,7 @@ distinct(.data, ..., .keep_all = FALSE)
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Optional variables to use when determining uniqueness. If there
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Optional variables to use when determining uniqueness. If there
 are multiple rows for a given combination of inputs, only the first
 row will be preserved. If omitted, will use all variables.}
 

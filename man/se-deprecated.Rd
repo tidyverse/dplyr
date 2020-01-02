@@ -69,7 +69,7 @@ summarize_(.data, ..., .dots = list())
 
 \item{vars}{Various meanings depending on the verb.}
 
-\item{wt}{(Optional) If omitted, will count the number of rows.
+\item{wt}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> If omitted, will count the number of rows.
 If specified, will perform a "weighted" tally by summing the (non-missing)
 values of variable \code{wt}.
 

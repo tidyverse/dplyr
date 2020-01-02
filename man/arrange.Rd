@@ -13,8 +13,8 @@ arrange(.data, ...)
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
-\item{...}{Comma separated list of unquoted variable names, or expressions
-involving variable names. Use \code{\link[=desc]{desc()}} to sort a variable in descending order.}
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Variables, or functions or variables.
+Use \code{\link[=desc]{desc()}} to sort a variable in descending order.}
 
 \item{.by_group}{If \code{TRUE}, will sort first by grouping variable. Applies to
 grouped data frames only.}
