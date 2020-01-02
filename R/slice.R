@@ -57,6 +57,11 @@
 #' # are rounded down, so group a gets 0 rows
 #' df %>% group_by(group) %>% slice_head(prop = 0.5)
 slice_head <- function(.data, ..., n, prop) {
+  UseMethod("slice_head")
+}
+
+#' @export
+slice_head.data.frame <- function(.data, ..., n, prop) {
   size <- check_slice_size(n, prop)
   idx <- switch(size$type,
     n =    function(n) seq2(1, min(size$n, n)),
@@ -69,6 +74,11 @@ slice_head <- function(.data, ..., n, prop) {
 #' @export
 #' @rdname slice_head
 slice_tail <- function(.data, ..., n, prop) {
+  UseMethod("slice_tail")
+}
+
+#' @export
+slice_tail.data.frame <- function(.data, ..., n, prop) {
   size <- check_slice_size(n, prop)
   idx <- switch(size$type,
     n =    function(n) seq2(max(n - size$n + 1, 1), n),
@@ -84,6 +94,11 @@ slice_tail <- function(.data, ..., n, prop) {
 #'   may return more rows than you request. Use `FALSE` to ignore ties,
 #'   and return the first `n` rows.
 slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+  UseMethod("slice_min")
+}
+
+#' @export
+slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   if (missing(order_by)) {
     abort("argument `order_by` is missing, with no default")
   }
@@ -106,6 +121,11 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 #' @export
 #' @rdname slice_head
 slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+  UseMethod("slice_max")
+}
+
+#' @export
+slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   if (missing(order_by)) {
     abort("argument `order_by` is missing, with no default")
   }
@@ -134,6 +154,11 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 #'   non-negative numbers the same length as the input. Weights are
 #'   automatically standardised to sum to 1.
 slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
+  UseMethod("slice_sample")
+}
+
+#' @export
+slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
   size <- check_slice_size(n, prop)
   idx <- switch(size$type,
     n =    function(x, n) sample_int(n, size$n, replace = replace, wt = x),
