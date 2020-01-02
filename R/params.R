@@ -10,13 +10,14 @@
 #' The primary motivation for tidy evaluation is that it provides data-masking,
 #' which blurs the distinction between two types of variables:
 #'
-#' * __env-variables__ are "programming" variables; they live in an environment,
-#'   and are usually created with `<-`. Env-variables can be any type of R
+#' * __env-variables__ are "programming" variables and live in an environment.
+#'   They are usually created with `<-`. Env-variables can be any type of R
 #'   object.
 #'
-#' * __data-variables__ are "statistical" variables; they live in a data frame.
-#'   Data-variables must be something that can live in a data frame, which means
-#'   that they are vectors.
+#' * __data-variables__ are "statistical" variables and live in a data frame.
+#'   They usually come from data files (e.g. `csv`), or are created by
+#'   manipulating existing variables. Data-variables live inside data frames,
+#'   so must be vectors.
 #'
 #' # Referring to variables indirectly
 #'

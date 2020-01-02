@@ -14,12 +14,13 @@ non-standard evaluation used throughout the tidyverse.
 The primary motivation for tidy evaluation is that it provides data-masking,
 which blurs the distinction between two types of variables:
 \itemize{
-\item \strong{env-variables} are "programming" variables; they live in an environment,
-and are usually created with \verb{<-}. Env-variables can be any type of R
+\item \strong{env-variables} are "programming" variables and live in an environment.
+They are usually created with \verb{<-}. Env-variables can be any type of R
 object.
-\item \strong{data-variables} are "statistical" variables; they live in a data frame.
-Data-variables must be something that can live in a data frame, which means
-that they are vectors.
+\item \strong{data-variables} are "statistical" variables and live in a data frame.
+They usually come from data files (e.g. \code{csv}), or are created by
+manipulating existing variables. Data-variables live inside data frames,
+so must be vectors.
 }
 }
 \section{Referring to variables indirectly}{
