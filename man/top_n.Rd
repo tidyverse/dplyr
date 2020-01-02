@@ -12,8 +12,8 @@ top_frac(x, n, wt)
 \arguments{
 \item{x}{a \code{\link[=tbl]{tbl()}} to filter}
 
-\item{n}{\tidyeval number of rows to return for \code{top_n()}, fraction of rows to
-return for \code{top_frac()}.
+\item{n}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Number of rows to return for
+\code{top_n()}, fraction of rows to return for \code{top_frac()}.
 
 If \code{x} is grouped, this is the
 number (or fraction) of rows per group. Will include more rows if

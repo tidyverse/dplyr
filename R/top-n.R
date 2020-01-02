@@ -6,8 +6,8 @@
 #' ordered or sorted.
 #'
 #' @param x a [tbl()] to filter
-#' @param n \tidyeval number of rows to return for `top_n()`, fraction of rows to
-#'   return for `top_frac()`.
+#' @param n <[`tidy-eval`][dplyr_tidy_eval]> Number of rows to return for
+#'   `top_n()`, fraction of rows to return for `top_frac()`.
 #'
 #'   If `x` is grouped, this is the
 #'   number (or fraction) of rows per group. Will include more rows if

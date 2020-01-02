@@ -1,14 +1,14 @@
-#' Argument type: tidy eval
+#' Argument type: tidy-eval
 #'
 #' @description
-#' This page the argument type `[tidy eval]`. This indicates that the argument
-#' uses **tidy evaluation** a special type of non-standard evaluation used
-#' throughout the tidyverse.
+#' This page the argument modifier `<tidy-eval>`. This indicates that the
+#' argument uses **tidy evaluation** with **data masking**; a special type of
+#' non-standard evaluation used throughout the tidyverse.
 #'
 #' # Key terms
 #'
-#' The primary motivation for tidy evaluation is that it blurs the distinction
-#' between two types of variables:
+#' The primary motivation for tidy evaluation is that it provides data-masking,
+#' which blurs the distinction between two types of variables:
 #'
 #' * __env-variables__ are "programming" variables; they live in an environment,
 #'   and are usually created with `<-`. Env-variables can be any type of R

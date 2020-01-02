@@ -2,17 +2,17 @@
 % Please edit documentation in R/params.R
 \name{dplyr_tidy_eval}
 \alias{dplyr_tidy_eval}
-\title{Argument type: tidy eval}
+\title{Argument type: tidy-eval}
 \description{
-This page the argument type \verb{[tidy eval]}. This indicates that the argument
-uses \strong{tidy evaluation} a special type of non-standard evaluation used
-throughout the tidyverse.
+This page the argument modifier \verb{<tidy-eval>}. This indicates that the
+argument uses \strong{tidy evaluation} with \strong{data masking}; a special type of
+non-standard evaluation used throughout the tidyverse.
 }
 \keyword{internal}
 \section{Key terms}{
 
-The primary motivation for tidy evaluation is that it blurs the distinction
-between two types of variables:
+The primary motivation for tidy evaluation is that it provides data-masking,
+which blurs the distinction between two types of variables:
 \itemize{
 \item \strong{env-variables} are "programming" variables; they live in an environment,
 and are usually created with \verb{<-}. Env-variables can be any type of R
