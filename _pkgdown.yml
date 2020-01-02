@@ -29,13 +29,11 @@ reference:
   contents:
   - distinct
   - do
-  - sample
   - slice
 
 - title: Single-table helpers
   contents:
   - count
-  - top_n
   - scoped
   - ends_with("_at")
   - all_vars

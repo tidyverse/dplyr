@@ -3,8 +3,9 @@
 #' @description
 #' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("retired")}
 #' `top_n()` has been retired in favour of [slice_min()]/[slice_max()].
-#' It will not be deprecated in the neat future, but we will only perform
-#' critical bug fixes, and we recommend moving to the newer alternatives.
+#' While it will not be deprecated in the near future, retirement means
+#' that we will only perform critical bug fixes so we recommend moving to the
+#' newer alternatives.
 #'
 #' `top_n()` was retired because the name was fundamentally confusing as
 #' it returned what you might reasonably consider to be the _bottom_

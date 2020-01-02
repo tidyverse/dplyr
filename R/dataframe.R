@@ -338,36 +338,6 @@ do.data.frame <- function(.data, ...) {
   out
 }
 
-# Random samples ---------------------------------------------------------------
-
-
-#' @export
-sample_n.data.frame <- function(tbl, size, replace = FALSE,
-                                weight = NULL, .env = NULL, ...) {
-  if (!is_null(.env)) {
-    inform("`.env` is deprecated and no longer has any effect")
-  }
-
-  size <- enquo(size)
-  weight <- enquo(weight)
-
-  slice(tbl, sample.int(n(), check_size(!!size, n(), replace = replace), replace = replace, prob = !!weight))
-}
-
-
-#' @export
-sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
-                                   weight = NULL, .env = NULL, ...) {
-  if (!is_null(.env)) {
-    inform("`.env` is deprecated and no longer has any effect")
-  }
-
-  size <- enquo(size)
-  weight <- enquo(weight)
-
-  slice(tbl, sample.int(n(), round(n() * check_frac(!!size, replace = replace)), replace = replace, prob = !!weight))
-}
-
 # Misc -------------------------------------------------------------------------
 
 #' @export

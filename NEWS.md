@@ -1,5 +1,9 @@
 # dplyr 0.9.0 (in development)
 
+* `sample_n()` and `sample_frac()` have been retired in favour of new 
+  `slice_sample()`. See `?sample_n` for details about why, and for examples
+  converting from old to new usage.
+
 * `top_n()` has been retired in favour of `slice_min()`/`slice_max()`. See
   `?top_n` for details about why, and how to convert old to new usage (#4494).
 
