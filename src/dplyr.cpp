@@ -11,6 +11,8 @@
 
 namespace dplyr {
 
+SEXP ns = NULL;
+
 SEXP get_classes_vctrs_list_of() {
   SEXP klasses = Rf_allocVector(STRSXP, 3);
   R_PreserveObject(klasses);
@@ -45,6 +47,9 @@ SEXP symbols::dot_dot_group_size = Rf_install("..group_size");
 SEXP symbols::dot_dot_group_number = Rf_install("..group_number");
 SEXP symbols::mask = Rf_install("mask");
 SEXP symbols::caller = Rf_install("caller");
+
+SEXP symbols::stop_filter_incompatible_size = Rf_install("stop_filter_incompatible_size");
+SEXP symbols::stop_filter_incompatible_type = Rf_install("stop_filter_incompatible_type");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();
@@ -558,75 +563,55 @@ void reduce_lgl(SEXP reduced, SEXP x, int n) {
   }
 }
 
-void filter_check_size(SEXP res, int i, R_xlen_t n, R_xlen_t group_index, bool is_grouped) {
+void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t group_index, R_xlen_t nres, R_xlen_t n, SEXP data) {
+  SEXP s_index_expression = PROTECT(Rf_ScalarInteger(i + 1));
+  SEXP s_index_group = PROTECT(Rf_ScalarInteger(group_index + 1));
+
+  SEXP s_expected_size = PROTECT(Rf_ScalarInteger(n));
+  SEXP s_size = PROTECT(Rf_ScalarInteger(nres));
+
+  SEXP call = Rf_lang6(
+    dplyr::symbols::stop_filter_incompatible_size,
+    s_index_expression, s_index_group, s_size, s_expected_size, data
+  );
+  Rf_eval(call, dplyr::ns);
+}
+
+void stop_filter_incompatible_type(R_xlen_t i, R_xlen_t column_index, R_xlen_t group_index, SEXP result, SEXP data) {
+  SEXP s_index_expression = PROTECT(Rf_ScalarInteger(i + 1));
+  SEXP s_column_index = PROTECT(Rf_ScalarInteger(i + 1));
+  SEXP s_index_group = PROTECT(Rf_ScalarInteger(group_index + 1));
+
+  SEXP call = Rf_lang6(
+    dplyr::symbols::stop_filter_incompatible_type,
+    s_index_expression, s_column_index, s_index_group, result, data
+  );
+  Rf_eval(call, dplyr::ns);
+}
+
+
+void filter_check_size(SEXP res, int i, R_xlen_t n, R_xlen_t group_index, SEXP data) {
   R_xlen_t nres = vctrs::short_vec_size(res);
   if (nres != n && nres != 1) {
-    if (is_grouped) {
-      Rf_errorcall(R_NilValue,
-        "`filter()` argument #%d is incorrect\n"
-        "✖ It must be size %d or 1, not size %d\n"
-        "ℹ The error occured in group %d",
-        i + 1, n, nres, group_index + 1
-      );
-    } else {
-      Rf_errorcall(R_NilValue,
-        "`filter()` argument #%d is incorrect\n"
-        "✖ It must be of size %d or 1, not size %d\n",
-        i + 1, n, nres
-      );
-    }
+    stop_filter_incompatible_size(i, group_index, nres, n, data);
   }
 }
 
-void filter_check_type(SEXP res, R_xlen_t i, R_xlen_t group_index, bool is_grouped) {
+void filter_check_type(SEXP res, R_xlen_t i, R_xlen_t group_index, SEXP data) {
   if (TYPEOF(res) == LGLSXP) return;
 
   if (Rf_inherits(res, "data.frame")) {
     R_xlen_t ncol = XLENGTH(res);
     if (ncol == 0) return;
 
-    SEXP colnames = PROTECT(Rf_getAttrib(res, R_NamesSymbol));
     for (R_xlen_t j=0; j<ncol; j++) {
       SEXP res_j = VECTOR_ELT(res, j);
       if (TYPEOF(res_j) != LGLSXP) {
-        if (is_grouped) {
-          Rf_errorcall(R_NilValue,
-            "`filter() expression #%d / column #%d (%s) is incorrect\n"
-            "✖ It must be a logical vector, not a %s\n"
-            "ℹ The error occured in group %d",
-            i+1, j+1, CHAR(STRING_ELT(colnames, j)),
-            Rf_type2char(TYPEOF(res_j)),
-            group_index + 1
-          );
-        } else {
-          Rf_errorcall(R_NilValue,
-            "`filter() expression #%d / column #%d (%s) is incorrect\n"
-            "✖ It must be a logical vector, not a %s",
-            i+1, j+1, CHAR(STRING_ELT(colnames, j)),
-            Rf_type2char(TYPEOF(res_j))
-          );
-        }
+        stop_filter_incompatible_type(i, j + 1, group_index, res_j, data);
       }
     }
-    UNPROTECT(1);
   } else {
-    if (is_grouped) {
-      Rf_errorcall(R_NilValue,
-        "`filter()` argument #%d is incorrect\n"
-        "✖ It must a logical vector, not a %s\n"
-        "ℹ The error occured in group %d",
-        i + 1,
-        Rf_type2char(TYPEOF(res)),
-        group_index + 1
-      );
-    } else {
-      Rf_errorcall(R_NilValue,
-        "`filter()` argument #%d is incorrect\n"
-        "✖ It must a logical vector, not a %s",
-        i + 1,
-        Rf_type2char(TYPEOF(res))
-      );
-    }
+    stop_filter_incompatible_type(i, 0, group_index, res, data);
   }
 }
 
@@ -645,8 +630,8 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
   for (R_xlen_t i=0; i < nquos; i++) {
     SEXP res = PROTECT(rlang::eval_tidy(VECTOR_ELT(quos, i), mask, caller));
 
-    filter_check_size(res, i, n, group_index, is_grouped);
-    filter_check_type(res, i, group_index, is_grouped);
+    filter_check_size(res, i, n, group_index, full_data);
+    filter_check_type(res, i, group_index, full_data);
 
     if (TYPEOF(res) == LGLSXP) {
       reduce_lgl(reduced, res, n);
@@ -1007,7 +992,13 @@ SEXP dplyr_group_indices(SEXP data, SEXP s_nr) {
   return indices;
 }
 
+SEXP dplyr_init_library(SEXP ns) {
+  dplyr::ns = ns;
+}
+
 static const R_CallMethodDef CallEntries[] = {
+  {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 1},
+
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
   {"dplyr_filter_update_rows", (DL_FUNC)& dplyr_filter_update_rows, 4},
   {"dplyr_between", (DL_FUNC)& dplyr_between, 3},

@@ -14,6 +14,9 @@ struct symbols {
   static SEXP dot_dot_group_number;
   static SEXP mask;
   static SEXP caller;
+
+  static SEXP stop_filter_incompatible_size;
+  static SEXP stop_filter_incompatible_type;
 };
 
 struct vectors {
