@@ -89,15 +89,7 @@ mtcars \%>\%
 # Refer to column names stored as strings with the `.data` pronoun:
 var <- "mass"
 summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
-
-# For more complex cases, knowledge of tidy evaluation and the
-# unquote operator `!!` is required. See https://tidyeval.tidyverse.org/
-#
-# One useful and simple tidy eval technique is to use `!!` to
-# bypass the data frame and its columns. Here is how to divide the
-# column `mass` by an object of the same name:
-mass <- 100
-summarise(starwars, avg = mean(mass / !!mass, na.rm = TRUE))
+# Learn more in ?dplyr_tidy_eval
 }
 \seealso{
 Other single table verbs: 

@@ -93,16 +93,7 @@
 #'     .data[[vars[[1]]]] > cond[[1]],
 #'     .data[[vars[[2]]]] > cond[[2]]
 #'   )
-#'
-#' # For more complex cases, knowledge of tidy evaluation and the
-#' # unquote operator `!!` is required. See https://tidyeval.tidyverse.org/
-#' #
-#' # One useful and simple tidy eval technique is to use `!!` to bypass
-#' # the data frame and its columns. Here is how to filter the columns
-#' # `mass` and `height` relative to objects of the same names:
-#' mass <- 80
-#' height <- 150
-#' filter(starwars, mass > !!mass, height > !!height)
+#' # Learn more in ?dplyr_tidy_eval
 filter <- function(.data, ..., .preserve = FALSE) {
   UseMethod("filter")
 }
@@ -214,15 +205,7 @@ slice <- function(.data, ..., .preserve = FALSE) {
 #' # Refer to column names stored as strings with the `.data` pronoun:
 #' var <- "mass"
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
-#'
-#' # For more complex cases, knowledge of tidy evaluation and the
-#' # unquote operator `!!` is required. See https://tidyeval.tidyverse.org/
-#' #
-#' # One useful and simple tidy eval technique is to use `!!` to
-#' # bypass the data frame and its columns. Here is how to divide the
-#' # column `mass` by an object of the same name:
-#' mass <- 100
-#' summarise(starwars, avg = mean(mass / !!mass, na.rm = TRUE))
+#' # Learn more in ?dplyr_tidy_eval
 summarise <- function(.data, ...) {
   UseMethod("summarise")
 }
@@ -357,15 +340,7 @@ summarize <- summarise
 #' # Refer to column names stored as strings with the `.data` pronoun:
 #' vars <- c("mass", "height")
 #' mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
-#'
-#' # For more complex cases, knowledge of tidy evaluation and the
-#' # unquote operator `!!` is required. See https://tidyeval.tidyverse.org/
-#' #
-#' # One useful and simple tidy eval technique is to use `!!` to
-#' # bypass the data frame and its columns. Here is how to divide the
-#' # column `mass` by an object of the same name:
-#' mass <- 100
-#' mutate(starwars, mass = mass / !!mass)
+#' # Learn more in ?dplyr_tidy_eval
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
@@ -487,15 +462,6 @@ arrange <- function(.data, ...) {
 #' starwars %>% group_by(gender) %>% select(group_cols())
 #'
 #'
-#' # The .data pronoun is available:
-#' select(mtcars, .data$cyl)
-#' select(mtcars, .data$mpg : .data$disp)
-#'
-#' # However it isn't available within calls since those are evaluated
-#' # outside of the data context. This would fail if run:
-#' # select(mtcars, identical(.data$cyl))
-#'
-#'
 #' # Renaming -----------------------------------------
 #' # * select() keeps only the variables you specify
 #' select(iris, petal_length = Petal.Length)
@@ -505,22 +471,6 @@ arrange <- function(.data, ...) {
 #'
 #' # * select() can rename variables in a group
 #' select(iris, obs = starts_with('S'))
-#'
-#' # Unquoting ----------------------------------------
-#'
-#' # Like all dplyr verbs, select() supports unquoting of symbols:
-#' vars <- list(
-#'   var1 = sym("cyl"),
-#'   var2 = sym("am")
-#' )
-#' select(mtcars, !!!vars)
-#'
-#' # For convenience it also supports strings and character
-#' # vectors. This is unlike other verbs where strings would be
-#' # ambiguous.
-#' vars <- c(var1 = "cyl", var2 ="am")
-#' select(mtcars, !!vars)
-#' rename(mtcars, !!vars)
 select <- function(.data, ...) {
   UseMethod("select")
 }

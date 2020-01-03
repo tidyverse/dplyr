@@ -107,16 +107,7 @@ starwars \%>\%
     .data[[vars[[1]]]] > cond[[1]],
     .data[[vars[[2]]]] > cond[[2]]
   )
-
-# For more complex cases, knowledge of tidy evaluation and the
-# unquote operator `!!` is required. See https://tidyeval.tidyverse.org/
-#
-# One useful and simple tidy eval technique is to use `!!` to bypass
-# the data frame and its columns. Here is how to filter the columns
-# `mass` and `height` relative to objects of the same names:
-mass <- 80
-height <- 150
-filter(starwars, mass > !!mass, height > !!height)
+# Learn more in ?dplyr_tidy_eval
 }
 \seealso{
 \code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and \code{\link[=filter_at]{filter_at()}}.
