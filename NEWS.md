@@ -12,9 +12,6 @@
 * `filter()` handles data frame results when all columns are logical vectors
   by reducing them with `&` (#4678). 
 
-* `order_by()` gives an informative hint if you accidentally call it instead
-  of `arrange()` (#3357).
-
 * `ungroup()` can now selectively remove grouping variables (#3760).
 
 * `pull()` can now return named vectors by specifying an additional column name
