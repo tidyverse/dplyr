@@ -1,24 +1,5 @@
 context("Filter")
 
-test_that("filter fails if inputs incorrect length (#156)", {
-  expect_error(
-    filter(tbl_df(mtcars), c(FALSE, TRUE)),
-    "wrong size"
-  )
-  expect_error(
-    filter(group_by(mtcars, am), c(FALSE, TRUE)),
-    "wrong size"
-  )
-})
-
-test_that("filter gives useful error message when given incorrect input", {
-  # error message by rlang
-  expect_error(filter(tbl_df(mtcars), `_x`),
-    "_x",
-    fixed = TRUE
-  )
-})
-
 test_that("filter complains if inputs are named", {
   expect_known_output(
     file =   test_path("test-filter-named-inputs.txt"),
@@ -91,11 +72,6 @@ test_that("filter propagates attributes", {
   test <- data.frame(Date = ISOdate(2010, 01, 01, 1:10))
   test2 <- test %>% filter(Date < ISOdate(2010, 01, 01, 5))
   expect_equal(test$Date[1:4], test2$Date)
-})
-
-test_that("filter fails on integer indices", {
-  expect_error(filter(mtcars, 1:2), "unexpected type")
-  expect_error(filter(group_by(mtcars, cyl), 1:2), "unexpected type")
 })
 
 test_that("filter discards NA", {
@@ -432,34 +408,39 @@ test_that("filter() reduce&() data frame results (#4678)", {
   )
 })
 
-test_that("filter() understands across()", {
-  expect_identical(
-    iris %>% filter(across(starts_with("Sepal"), ~ . > 3)),
-    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3)
-  )
-  expect_identical(
-    iris %>% filter(across(starts_with("Sepal"), ~ . > 3), Petal.Length < 3),
-    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
-  )
+test_that("filter() gives useful error messages", {
+  verify_output(test_path("test-filter-error.txt"), {
+    "wrong type"
+    iris %>%
+      group_by(Species) %>%
+      filter(1:2)
+    iris %>%
+      filter(1:2)
 
-  expect_identical(
-    iris %>% group_by(Species) %>% filter(across(starts_with("Sepal"), ~ . > 3)),
-    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3)
-  )
-  expect_identical(
-    iris %>% group_by(Species) %>% filter(across(starts_with("Sepal"), ~ . > 3), Petal.Length < 3),
-    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
-  )
-})
-
-test_that("filter() checks data frame columns for conformity", {
-  expect_error(
-    iris %>% filter(data.frame(c(TRUE, FALSE))),
     "wrong size"
-  )
+    iris %>%
+      group_by(Species) %>%
+      filter(c(TRUE, FALSE))
+    iris %>%
+      filter(c(TRUE, FALSE))
 
-  expect_error(
-    iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, 1:n())),
-    "expecting logical"
-  )
+
+    "wrong size in column"
+    iris %>%
+      group_by(Species) %>%
+      filter(data.frame(c(TRUE, FALSE)))
+    iris %>%
+      filter(data.frame(c(TRUE, FALSE)))
+
+    "wrong type in column"
+    iris %>%
+      group_by(Species) %>%
+      filter(data.frame(Sepal.Length > 3, 1:n()))
+    iris %>%
+      filter(data.frame(Sepal.Length > 3, 1:n()))
+
+    "unknown column"
+    tbl_df(mtcars) %>%
+      filter(`_x`)
+  })
 })

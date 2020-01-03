@@ -1,0 +1,44 @@
+> # wrong type
+> iris %>% group_by(Species) %>% filter(1:2)
+Error: `filter()` argument #1 is incorrect
+✖ It must a logical vector, not a integer
+ℹ The error occured in group 1
+
+> iris %>% filter(1:2)
+Error: `filter()` argument #1 is incorrect
+✖ It must a logical vector, not a integer
+
+> # wrong size
+> iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))
+Error: `filter()` argument #1 is incorrect
+✖ It must be size 50 or 1, not size 2
+ℹ The error occured in group 1
+
+> iris %>% filter(c(TRUE, FALSE))
+Error: `filter()` argument #1 is incorrect
+✖ It must be of size 150 or 1, not size 2
+
+> # wrong size in column
+> iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE)))
+Error: `filter()` argument #1 is incorrect
+✖ It must be size 50 or 1, not size 2
+ℹ The error occured in group 1
+
+> iris %>% filter(data.frame(c(TRUE, FALSE)))
+Error: `filter()` argument #1 is incorrect
+✖ It must be of size 150 or 1, not size 2
+
+> # wrong type in column
+> iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, 1:n()))
+Error: `filter() expression #1 / column #2 (X1.n..) is incorrect
+✖ It must be a logical vector, not a integer
+ℹ The error occured in group 1
+
+> iris %>% filter(data.frame(Sepal.Length > 3, 1:n()))
+Error: `filter() expression #1 / column #2 (X1.n..) is incorrect
+✖ It must be a logical vector, not a integer
+
+> # unknown column
+> tbl_df(mtcars) %>% filter(`_x`)
+Error in mask$eval_all_filter(dots): object '_x' not found
+
