@@ -994,6 +994,7 @@ SEXP dplyr_group_indices(SEXP data, SEXP s_nr) {
 
 SEXP dplyr_init_library(SEXP ns) {
   dplyr::ns = ns;
+  return R_NilValue;
 }
 
 static const R_CallMethodDef CallEntries[] = {
