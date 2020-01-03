@@ -4,8 +4,38 @@
 \alias{dplyr_tidy_select}
 \title{Argument type: tidy-select}
 \description{
-This page the argument modifier \verb{<tidy-select>}. This indicates that the
-argument uses the tidyselect syntax which provides a concise DSL for
-selecting variables based on their names.
+This page the describes the \verb{<tidy-select>} argument modifier which indicates
+that the tidyselect syntax which provides a concise DSL for selecting
+variables based on their names. This is a special type of non-standard
+evaluation used throughout the tidyverse when selecting multiple variables.
 }
 \keyword{internal}
+\section{General usage}{
+
+If you have a data frame with variables \code{apple}, \code{banana}, \code{cantelope},
+\code{date}, \code{eggplant}, \code{fig}, \code{grape} you can:
+\itemize{
+\item Select individual variables with their name: e.g. \code{c(apple, fig, grape)}.
+\item Select contiguous variables with \code{:}, e.g. \code{apple:date}.
+\item Select variables with named-based helpers: e.g. \code{ends_with("a")},
+\code{contains("g")}. See full list in \link[tidyselect:select_helpers]{tidyselect::select_helpers}.
+\item Select variables of a given type with a \code{is} function: \code{is.numeric},
+\code{is.factor}, \code{is.character}, etc.
+\item Invert a selection with \code{!}: \code{!is.numeric}, or \code{!contains("x")}.
+\item Create logical combination with \code{|} and \code{&}:
+\code{starts_with("a") | starts_with("b")}, \code{contains("x") & is.numeric}
+\item Remove variables from a collection with \code{-}:
+\code{is.numeric - starts_with("a")}
+}
+}
+\section{Indirection}{
+
+There are two main cases:
+\itemize{
+\item If you have a character vector of column names, use \code{all_of()},
+e.g \code{select(df, all_of(vars))}.
+\item If you you want the user to supply a tidyselect specification in a
+function argument, embrace the function argument, e.g
+\code{select(df, {{ vars }})}.
+}
+}
