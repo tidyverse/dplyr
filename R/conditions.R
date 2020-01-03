@@ -66,7 +66,7 @@ stop_filter_incompatible_type <- function(index_expression, index_column_name, i
 
 #' @export
 cnd_header.dplyr_error_filter_eval <- function(cnd) {
-  glue("`filter()` argument ..{cnd$index_expression} errored")
+  glue("`filter()` argument `..{cnd$index_expression}` errored")
 }
 
 #' @export
