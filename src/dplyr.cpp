@@ -11,7 +11,7 @@
 
 namespace dplyr {
 
-SEXP ns = NULL;
+SEXP envs::ns_dplyr = NULL;
 
 SEXP get_classes_vctrs_list_of() {
   SEXP klasses = Rf_allocVector(STRSXP, 3);
@@ -574,7 +574,7 @@ void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t group_index, R_xlen_t nr
     dplyr::symbols::stop_filter_incompatible_size,
     s_index_expression, s_index_group, s_size, s_expected_size, data
   );
-  Rf_eval(call, dplyr::ns);
+  Rf_eval(call, dplyr::envs::ns_dplyr);
 }
 
 void stop_filter_incompatible_type(R_xlen_t i, R_xlen_t column_index, R_xlen_t group_index, SEXP result, SEXP data) {
@@ -586,7 +586,7 @@ void stop_filter_incompatible_type(R_xlen_t i, R_xlen_t column_index, R_xlen_t g
     dplyr::symbols::stop_filter_incompatible_type,
     s_index_expression, s_column_index, s_index_group, result, data
   );
-  Rf_eval(call, dplyr::ns);
+  Rf_eval(call, dplyr::envs::ns_dplyr);
 }
 
 
@@ -618,7 +618,6 @@ void filter_check_type(SEXP res, R_xlen_t i, R_xlen_t group_index, SEXP data) {
 SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t n, R_xlen_t group_index, SEXP full_data) {
   // then reduce to a single logical vector of size n
   SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
-  bool is_grouped = Rf_inherits(full_data, "grouped_df");
 
   // init with TRUE
   int* p_reduced = LOGICAL(reduced);
@@ -993,7 +992,7 @@ SEXP dplyr_group_indices(SEXP data, SEXP s_nr) {
 }
 
 SEXP dplyr_init_library(SEXP ns) {
-  dplyr::ns = ns;
+  dplyr::envs::ns_dplyr = ns;
   return R_NilValue;
 }
 

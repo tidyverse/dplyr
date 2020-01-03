@@ -3,6 +3,10 @@
 
 namespace dplyr {
 
+struct envs {
+  static SEXP ns_dplyr;
+};
+
 struct symbols {
   static SEXP groups;
   static SEXP levels;
