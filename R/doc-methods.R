@@ -2,11 +2,11 @@
 methods_generic <- function(x) {
   # Return early if generic not defined in global environment
   # This happens when the documentation is read before the package is attached.
-  if (!env_has(globalenv(), x, inherit = TRUE)) {
+  if (!"package:dplyr" %in% search()) {
     return(data.frame())
   }
 
-  info <- evalq(attr(utils::methods(x), "info"), envir = globalenv())
+  info <- eval(expr(attr(utils::methods(!!x), "info")), envir = globalenv())
   info <- tibble::as_tibble(info, rownames = "method")
 
   generic_esc <- gsub("([.\\[])", "\\\\\\1", x)
@@ -56,15 +56,18 @@ topic_links <- function(class, package, topic) {
 help_topic <- function(x, pkg) {
   find_one <- function(topic, pkg) {
     if (identical(pkg, "")) {
-      return(NA)
+      return(NA_character_)
     }
 
     path <- system.file("help", "aliases.rds", package = pkg)
     if (!file.exists(path)) {
-      return(NA)
+      return(NA_character_)
     }
 
     aliases <- readRDS(path)
+    if (!topic %in% names(aliases)) {
+      return(NA_character_)
+    }
     aliases[[topic]]
   }
 
