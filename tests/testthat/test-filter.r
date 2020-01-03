@@ -413,9 +413,9 @@ test_that("filter() gives useful error messages", {
     "wrong type"
     iris %>%
       group_by(Species) %>%
-      filter(1:2)
+      filter(1:n())
     iris %>%
-      filter(1:2)
+      filter(1:n())
 
     "wrong size"
     iris %>%

@@ -558,6 +558,78 @@ void reduce_lgl(SEXP reduced, SEXP x, int n) {
   }
 }
 
+void filter_check_size(SEXP res, int i, R_xlen_t n, R_xlen_t group_index, bool is_grouped) {
+  R_xlen_t nres = vctrs::short_vec_size(res);
+  if (nres != n && nres != 1) {
+    if (is_grouped) {
+      Rf_errorcall(R_NilValue,
+        "`filter()` argument #%d is incorrect\n"
+        "✖ It must be size %d or 1, not size %d\n"
+        "ℹ The error occured in group %d",
+        i + 1, n, nres, group_index + 1
+      );
+    } else {
+      Rf_errorcall(R_NilValue,
+        "`filter()` argument #%d is incorrect\n"
+        "✖ It must be of size %d or 1, not size %d\n",
+        i + 1, n, nres
+      );
+    }
+  }
+}
+
+void filter_check_type(SEXP res, R_xlen_t i, R_xlen_t group_index, bool is_grouped) {
+  if (TYPEOF(res) == LGLSXP) return;
+
+  if (Rf_inherits(res, "data.frame")) {
+    R_xlen_t ncol = XLENGTH(res);
+    if (ncol == 0) return;
+
+    SEXP colnames = PROTECT(Rf_getAttrib(res, R_NamesSymbol));
+    for (R_xlen_t j=0; j<ncol; j++) {
+      SEXP res_j = VECTOR_ELT(res, j);
+      if (TYPEOF(res_j) != LGLSXP) {
+        if (is_grouped) {
+          Rf_errorcall(R_NilValue,
+            "`filter() expression #%d / column #%d (%s) is incorrect\n"
+            "✖ It must be a logical vector, not a %s\n"
+            "ℹ The error occured in group %d",
+            i+1, j+1, CHAR(STRING_ELT(colnames, j)),
+            Rf_type2char(TYPEOF(res_j)),
+            group_index + 1
+          );
+        } else {
+          Rf_errorcall(R_NilValue,
+            "`filter() expression #%d / column #%d (%s) is incorrect\n"
+            "✖ It must be a logical vector, not a %s",
+            i+1, j+1, CHAR(STRING_ELT(colnames, j)),
+            Rf_type2char(TYPEOF(res_j))
+          );
+        }
+      }
+    }
+    UNPROTECT(1);
+  } else {
+    if (is_grouped) {
+      Rf_errorcall(R_NilValue,
+        "`filter()` argument #%d is incorrect\n"
+        "✖ It must a logical vector, not a %s\n"
+        "ℹ The error occured in group %d",
+        i + 1,
+        Rf_type2char(TYPEOF(res)),
+        group_index + 1
+      );
+    } else {
+      Rf_errorcall(R_NilValue,
+        "`filter()` argument #%d is incorrect\n"
+        "✖ It must a logical vector, not a %s",
+        i + 1,
+        Rf_type2char(TYPEOF(res))
+      );
+    }
+  }
+}
+
 SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t n, R_xlen_t group_index, SEXP full_data) {
   // then reduce to a single logical vector of size n
   SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
@@ -573,98 +645,18 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
   for (R_xlen_t i=0; i < nquos; i++) {
     SEXP res = PROTECT(rlang::eval_tidy(VECTOR_ELT(quos, i), mask, caller));
 
+    filter_check_size(res, i, n, group_index, is_grouped);
+    filter_check_type(res, i, group_index, is_grouped);
+
     if (TYPEOF(res) == LGLSXP) {
-      R_xlen_t nres = XLENGTH(res);
-      if (nres != n && nres != 1) {
-        if (is_grouped) {
-          Rf_errorcall(R_NilValue,
-            "`filter()` argument #%d is incorrect\n"
-            "✖ It must be size %d or 1, not size %d\n"
-            "ℹ The error occured in group %d",
-            i + 1, n, nres, group_index + 1
-          );
-        } else {
-          Rf_errorcall(R_NilValue,
-            "`filter()` argument #%d is incorrect\n"
-            "✖ It must be of size %d or 1, not size %d\n",
-            i + 1, n, nres
-          );
-        }
-      }
       reduce_lgl(reduced, res, n);
     } else if(Rf_inherits(res, "data.frame")) {
       R_xlen_t ncol = XLENGTH(res);
-      if (ncol == 0) continue;
-
-      // reducing each column
       for (R_xlen_t j=0; j<ncol; j++) {
-        SEXP res_j = VECTOR_ELT(res, j);
-
-        // we can only reduce logical columns
-        if (TYPEOF(res_j) != LGLSXP) {
-          SEXP colnames = PROTECT(Rf_getAttrib(res, R_NamesSymbol));
-          if (is_grouped) {
-            Rf_errorcall(R_NilValue,
-              "`filter() expression #%d / column #%d (%s) is incorrect\n"
-              "✖ It must be a logical vector, not a %s\n"
-              "ℹ The error occured in group %d",
-              i+1, j+1, CHAR(STRING_ELT(colnames, j)),
-              Rf_type2char(TYPEOF(res_j)),
-              group_index + 1
-            );
-          } else {
-            Rf_errorcall(R_NilValue,
-              "`filter() expression #%d / column #%d (%s) is incorrect\n"
-              "✖ It must be a logical vector, not a %s",
-              i+1, j+1, CHAR(STRING_ELT(colnames, j)),
-              Rf_type2char(TYPEOF(res_j))
-            );
-          }
-          UNPROTECT(1);
-        }
-
-        // ... and the size must be either 1 or n (tidy recycling rules)
-        R_xlen_t nres_j = XLENGTH(res_j);
-        if (nres_j != n && nres_j != 1) {
-          if (is_grouped) {
-            Rf_errorcall(R_NilValue,
-              "`filter()` argument #%d is incorrect\n"
-              "✖ It must be size %d or 1, not size %d\n"
-              "ℹ The error occured in group %d",
-              i + 1, n, nres_j, group_index + 1
-            );
-          } else {
-            Rf_errorcall(R_NilValue,
-              "`filter()` argument #%d is incorrect\n"
-              "✖ It must be of size %d or 1, not size %d\n",
-              i + 1, n, nres_j
-            );
-          }
-        }
-
-        // all good, we can reduce that column
-        reduce_lgl(reduced, res_j, n);
-
-      }
-    } else {
-      if (is_grouped) {
-        Rf_errorcall(R_NilValue,
-          "`filter()` argument #%d is incorrect\n"
-          "✖ It must a logical vector, not a %s\n"
-          "ℹ The error occured in group %d",
-          i + 1,
-          Rf_type2char(TYPEOF(res)),
-          group_index + 1
-        );
-      } else {
-        Rf_errorcall(R_NilValue,
-          "`filter()` argument #%d is incorrect\n"
-          "✖ It must a logical vector, not a %s",
-          i + 1,
-          Rf_type2char(TYPEOF(res))
-        );
+        reduce_lgl(reduced, VECTOR_ELT(res, j), n);
       }
     }
+
     UNPROTECT(1);
   }
 
