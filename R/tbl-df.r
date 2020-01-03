@@ -477,7 +477,7 @@ DataMask <- R6Class("DataMask",
     },
 
     eval_all_filter = function(quos) {
-      .Call(`dplyr_mask_eval_all_filter`, quos, private, context_env, nrow(private$data))
+      .Call(`dplyr_mask_eval_all_filter`, quos, private, context_env, nrow(private$data), private$data)
     },
 
     pick = function(vars) {

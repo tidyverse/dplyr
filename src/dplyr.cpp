@@ -558,9 +558,10 @@ void reduce_lgl(SEXP reduced, SEXP x, int n) {
   }
 }
 
-SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t n, R_xlen_t group_index) {
+SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t n, R_xlen_t group_index, SEXP full_data) {
   // then reduce to a single logical vector of size n
   SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
+  bool is_grouped = Rf_inherits(full_data, "grouped_df");
 
   // init with TRUE
   int* p_reduced = LOGICAL(reduced);
@@ -575,9 +576,20 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
     if (TYPEOF(res) == LGLSXP) {
       R_xlen_t nres = XLENGTH(res);
       if (nres != n && nres != 1) {
-        Rf_errorcall(R_NilValue,
-          "filter() expression #%d evaluates to logical vector of wrong size. \n * group = %d\n * group size = %d \n * result size = %d", (i+1), group_index + 1, n, XLENGTH(res)
-        );
+        if (is_grouped) {
+          Rf_errorcall(R_NilValue,
+            "`filter()` argument #%d is incorrect\n"
+            "✖ It must be size %d or 1, not size %d\n"
+            "ℹ The error occured in group %d",
+            i + 1, n, nres, group_index + 1
+          );
+        } else {
+          Rf_errorcall(R_NilValue,
+            "`filter()` argument #%d is incorrect\n"
+            "✖ It must be of size %d or 1, not size %d\n",
+            i + 1, n, nres
+          );
+        }
       }
       reduce_lgl(reduced, res, n);
     } else if(Rf_inherits(res, "data.frame")) {
@@ -591,18 +603,43 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
         // we can only reduce logical columns
         if (TYPEOF(res_j) != LGLSXP) {
           SEXP colnames = PROTECT(Rf_getAttrib(res, R_NamesSymbol));
-          Rf_errorcall(R_NilValue,
-            "filter() expression #%d evaluates to data frame with non logical column.\n * group = %d\n * column index = %d, name = %s, \n * type = %s, expecting logical", i+1, group_index + 1, j + 1, CHAR(STRING_ELT(colnames, j)), Rf_type2char(TYPEOF(res_j))
-          );
+          if (is_grouped) {
+            Rf_errorcall(R_NilValue,
+              "`filter() expression #%d / column #%d (%s) is incorrect\n"
+              "✖ It must be a logical vector, not a %s\n"
+              "ℹ The error occured in group %d",
+              i+1, j+1, CHAR(STRING_ELT(colnames, j)),
+              Rf_type2char(TYPEOF(res_j)),
+              group_index + 1
+            );
+          } else {
+            Rf_errorcall(R_NilValue,
+              "`filter() expression #%d / column #%d (%s) is incorrect\n"
+              "✖ It must be a logical vector, not a %s",
+              i+1, j+1, CHAR(STRING_ELT(colnames, j)),
+              Rf_type2char(TYPEOF(res_j))
+            );
+          }
           UNPROTECT(1);
         }
 
         // ... and the size must be either 1 or n (tidy recycling rules)
         R_xlen_t nres_j = XLENGTH(res_j);
         if (nres_j != n && nres_j != 1) {
-          Rf_errorcall(R_NilValue,
-            "filter() expression #%d evaluates to data frame of wrong size. \n * group = %d\n * group size = %d\n * result size = %d", (i+1), group_index + 1, n, XLENGTH(res_j)
-          );
+          if (is_grouped) {
+            Rf_errorcall(R_NilValue,
+              "`filter()` argument #%d is incorrect\n"
+              "✖ It must be size %d or 1, not size %d\n"
+              "ℹ The error occured in group %d",
+              i + 1, n, nres_j, group_index + 1
+            );
+          } else {
+            Rf_errorcall(R_NilValue,
+              "`filter()` argument #%d is incorrect\n"
+              "✖ It must be of size %d or 1, not size %d\n",
+              i + 1, n, nres_j
+            );
+          }
         }
 
         // all good, we can reduce that column
@@ -610,9 +647,23 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
 
       }
     } else {
-      Rf_errorcall(R_NilValue,
-        "filter() expression #%d evaluates to unexpected type.\n * group = %d\n * result type = %s, expecting logical", (i+1), group_index + 1, Rf_type2char(TYPEOF(res))
-      );
+      if (is_grouped) {
+        Rf_errorcall(R_NilValue,
+          "`filter()` argument #%d is incorrect\n"
+          "✖ It must a logical vector, not a %s\n"
+          "ℹ The error occured in group %d",
+          i + 1,
+          Rf_type2char(TYPEOF(res)),
+          group_index + 1
+        );
+      } else {
+        Rf_errorcall(R_NilValue,
+          "`filter()` argument #%d is incorrect\n"
+          "✖ It must a logical vector, not a %s",
+          i + 1,
+          Rf_type2char(TYPEOF(res))
+        );
+      }
     }
     UNPROTECT(1);
   }
@@ -621,7 +672,7 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
   return reduced;
 }
 
-SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, SEXP s_n) {
+SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, SEXP s_n, SEXP full_data) {
   R_xlen_t nquos = XLENGTH(quos);
   SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
   R_xlen_t ngroups = XLENGTH(rows);
@@ -651,7 +702,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, S
     Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
     Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
 
-    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, nquos, n_i, i));
+    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, nquos, n_i, i, full_data));
 
     // sprinkle back to overall logical vector
     int* p_rows_i = INTEGER(rows_i);
@@ -977,7 +1028,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 3},
   {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 5},
   {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 5},
-  {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
+  {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 5},
 
   {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
   {"dplyr_validate_summarise_sizes", (DL_FUNC)& dplyr_validate_summarise_sizes, 2},
