@@ -176,7 +176,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   tryCatch({
     c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(dots, env_filter)
   }, simpleError = function(e) {
-    stop_filter_eval_tidy(e, env_filter$index_expression)
+    stop_filter_eval_tidy(e, env_filter$current_expression)
   })
 
   out <- vec_slice(.data, keep)
