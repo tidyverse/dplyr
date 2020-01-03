@@ -440,7 +440,7 @@ test_that("filter() gives useful error messages", {
       filter(data.frame(Sepal.Length > 3, 1:n()))
 
     "unknown column"
-    tbl_df(mtcars) %>%
+    mtcars %>%
       filter(`_x`)
   })
 })
