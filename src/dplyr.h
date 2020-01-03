@@ -23,6 +23,7 @@ struct symbols {
   static SEXP ptype;
   static SEXP vars;
   static SEXP current_group;
+  static SEXP current_expression;
   static SEXP rows;
   static SEXP dot_dot_group_size;
   static SEXP dot_dot_group_number;
@@ -40,7 +41,7 @@ struct vectors {
 };
 
 void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t group_index, R_xlen_t nres, R_xlen_t n, SEXP data);
-void stop_filter_incompatible_type(R_xlen_t i, R_xlen_t column_index, R_xlen_t group_index, SEXP result, SEXP data);
+void stop_filter_incompatible_type(R_xlen_t i, SEXP column_name, R_xlen_t group_index, SEXP result, SEXP data);
 
 } // namespace dplyr
 
@@ -64,7 +65,7 @@ SEXP dplyr_group_keys_impl(SEXP data);
 SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private, SEXP env_context);
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i);
-SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, SEXP s_n, SEXP full_data);
+SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, SEXP s_n, SEXP full_data, SEXP env_filter);
 SEXP dplyr_vec_sizes(SEXP chunks);
 SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);

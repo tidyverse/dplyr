@@ -439,8 +439,11 @@ test_that("filter() gives useful error messages", {
     iris %>%
       filter(data.frame(Sepal.Length > 3, 1:n()))
 
-    "unknown column"
+    "evaluation error"
     mtcars %>%
+      filter(`_x`)
+    mtcars %>%
+      group_by(cyl) %>%
       filter(`_x`)
   })
 })

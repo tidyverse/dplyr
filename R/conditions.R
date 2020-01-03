@@ -4,7 +4,7 @@ stop_dplyr <- function(message = NULL, .subclass = NULL, ...) {
 
 #' @export
 cnd_header.dplyr_error_filter_size <- function(cnd) {
-  glue("`filter()` argument #{cnd$index_expression} is incorrect")
+  glue("`filter()` argument `..{cnd$index_expression}` is incorrect")
 }
 
 #' @export
@@ -33,10 +33,10 @@ stop_filter_incompatible_size <- function(index_expression, index_group, size, e
 
 #' @export
 cnd_header.dplyr_error_filter_type <- function(cnd) {
-  if (cnd$index_column > 0) {
-    glue("`filter()` argument #{cnd$index_expression} / column #{cnd$index_column} is incorrect")
+  if (!is.null(cnd$index_column_name)) {
+    glue("`filter()` argument `..{cnd$index_expression}${cnd$index_column_name}` is incorrect")
   } else {
-    glue("`filter()` argument #{cnd$index_expression} is incorrect")
+    glue("`filter()` argument `..{cnd$index_expression}` is incorrect")
   }
 
 }
@@ -54,12 +54,36 @@ cnd_body.dplyr_error_filter_type <- function(cnd) {
   format_error_bullets(bullets)
 }
 
-stop_filter_incompatible_type <- function(index_expression, index_column, index_group, result, data) {
+stop_filter_incompatible_type <- function(index_expression, index_column_name, index_group, result, data) {
   stop_dplyr(.subclass = "dplyr_error_filter_type",
     index_expression = index_expression,
-    index_column = index_column,
+    index_column_name = index_column_name,
     index_group = index_group,
     result = result,
     data = data
+  )
+}
+
+#' @export
+cnd_header.dplyr_error_filter_eval <- function(cnd) {
+  glue("`filter()` argument ..{cnd$index_expression} errored")
+}
+
+#' @export
+cnd_body.dplyr_error_filter_eval <- function(cnd) {
+  bullets <- c(x = cnd$message)
+  if(is_grouped_df(cnd$data)){
+    bullets <- c(bullets, c(i = glue("The error occured in group {cnd$group}")))
+  }
+  format_error_bullets(bullets)
+}
+
+stop_filter_eval_tidy <- function(e, index_expression) {
+  stop_dplyr(
+    conditionMessage(e),
+    "dplyr_error_filter_eval",
+    index_expression = index_expression,
+    data = peek_mask()$full_data(),
+    group = peek_mask()$get_current_group()
   )
 }

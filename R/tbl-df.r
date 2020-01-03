@@ -172,11 +172,11 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   }
 
   mask <- DataMask$new(.data, caller_env(), rows)
-
+  env_filter <- env()
   tryCatch({
-    c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(dots)
+    c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(dots, env_filter)
   }, simpleError = function(e) {
-    rlang::abort(conditionMessage(e))
+    stop_filter_eval_tidy(e, env_filter$index_expression)
   })
 
   out <- vec_slice(.data, keep)
@@ -480,8 +480,8 @@ DataMask <- R6Class("DataMask",
       .Call(`dplyr_mask_eval_all_mutate`, quo, private, context_env, dots_names, i)
     },
 
-    eval_all_filter = function(quos) {
-      .Call(`dplyr_mask_eval_all_filter`, quos, private, context_env, nrow(private$data), private$data)
+    eval_all_filter = function(quos, env_filter) {
+      .Call(`dplyr_mask_eval_all_filter`, quos, private, context_env, nrow(private$data), private$data, env_filter)
     },
 
     pick = function(vars) {
@@ -490,6 +490,10 @@ DataMask <- R6Class("DataMask",
 
     current_key = function() {
       vec_slice(keys, private$current_group)
+    },
+
+    get_current_group = function() {
+      private$current_group
     },
 
     full_data = function() {

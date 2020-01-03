@@ -15,14 +15,13 @@ void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t group_index, R_xlen_t nr
   Rf_eval(call, dplyr::envs::ns_dplyr);
 }
 
-void stop_filter_incompatible_type(R_xlen_t i, R_xlen_t column_index, R_xlen_t group_index, SEXP result, SEXP data) {
+void stop_filter_incompatible_type(R_xlen_t i, SEXP column_name, R_xlen_t group_index, SEXP result, SEXP data){
   SEXP s_index_expression = PROTECT(Rf_ScalarInteger(i + 1));
-  SEXP s_column_index = PROTECT(Rf_ScalarInteger(i + 1));
   SEXP s_index_group = PROTECT(Rf_ScalarInteger(group_index + 1));
 
   SEXP call = Rf_lang6(
     dplyr::symbols::stop_filter_incompatible_type,
-    s_index_expression, s_column_index, s_index_group, result, data
+    s_index_expression, column_name, s_index_group, result, data
   );
   Rf_eval(call, dplyr::envs::ns_dplyr);
 }

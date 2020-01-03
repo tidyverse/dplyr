@@ -44,15 +44,18 @@ void filter_check_type(SEXP res, R_xlen_t i, R_xlen_t group_index, SEXP data) {
     for (R_xlen_t j=0; j<ncol; j++) {
       SEXP res_j = VECTOR_ELT(res, j);
       if (TYPEOF(res_j) != LGLSXP) {
-        dplyr::stop_filter_incompatible_type(i, j + 1, group_index, res_j, data);
+        SEXP colnames = PROTECT(Rf_getAttrib(res, R_NamesSymbol));
+        SEXP colnames_j = PROTECT(Rf_allocVector(STRSXP, 1));
+        SET_STRING_ELT(colnames_j, 0, STRING_ELT(colnames, j));
+        dplyr::stop_filter_incompatible_type(i, colnames_j, group_index, res_j, data);
       }
     }
   } else {
-    dplyr::stop_filter_incompatible_type(i, 0, group_index, res, data);
+    dplyr::stop_filter_incompatible_type(i, R_NilValue, group_index, res, data);
   }
 }
 
-SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t n, R_xlen_t group_index, SEXP full_data) {
+SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t n, R_xlen_t group_index, SEXP full_data, SEXP env_filter) {
   // then reduce to a single logical vector of size n
   SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
 
@@ -64,6 +67,9 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
 
   // reduce
   for (R_xlen_t i=0; i < nquos; i++) {
+    SEXP current_expression = PROTECT(Rf_ScalarInteger(i+1));
+    Rf_defineVar(dplyr::symbols::current_expression, current_expression, env_filter);
+
     SEXP res = PROTECT(rlang::eval_tidy(VECTOR_ELT(quos, i), mask, caller));
 
     filter_check_size(res, i, n, group_index, full_data);
@@ -78,14 +84,14 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
       }
     }
 
-    UNPROTECT(1);
+    UNPROTECT(2);
   }
 
   UNPROTECT(1);
   return reduced;
 }
 
-SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, SEXP s_n, SEXP full_data) {
+SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, SEXP s_n, SEXP full_data, SEXP env_filter) {
   R_xlen_t nquos = XLENGTH(quos);
   SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
   R_xlen_t ngroups = XLENGTH(rows);
@@ -115,7 +121,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, S
     Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
     Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
 
-    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, nquos, n_i, i, full_data));
+    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, nquos, n_i, i, full_data, env_filter));
 
     // sprinkle back to overall logical vector
     int* p_rows_i = INTEGER(rows_i);
