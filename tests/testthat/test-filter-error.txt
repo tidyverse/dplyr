@@ -40,5 +40,5 @@ x It must be a logical vector, not a integer
 
 > # unknown column
 > mtcars %>% filter(`_x`)
-Error in mask$eval_all_filter(dots): object '_x' not found
+Error: object '_x' not found
 

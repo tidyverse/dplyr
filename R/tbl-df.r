@@ -173,7 +173,11 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   mask <- DataMask$new(.data, caller_env(), rows)
 
-  c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(dots)
+  tryCatch({
+    c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(dots)
+  }, simpleError = function(e) {
+    rlang::abort(conditionMessage(e))
+  })
 
   out <- vec_slice(.data, keep)
 
