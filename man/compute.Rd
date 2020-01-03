@@ -32,9 +32,9 @@ All functions preserve grouping and ordering.
 }
 \section{Methods}{
 
-These functions are \strong{generics}, which means that different packages can
-provide implementations (methods) for other classes. See the documentation
-of individual methods for extra arguments and differences in behaviour.
+These functions are \strong{generics}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 \itemize{

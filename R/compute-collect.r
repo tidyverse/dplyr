@@ -10,9 +10,9 @@
 #' All functions preserve grouping and ordering.
 #'
 #' @section Methods:
-#' These functions are **generics**, which means that different packages can
-#' provide implementations (methods) for other classes. See the documentation
-#' of individual methods for extra arguments and differences in behaviour.
+#' These functions are **generics**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
 #'
 #' Methods available in currently loaded packages:
 #' * `compute()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("compute")}

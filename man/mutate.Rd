@@ -10,8 +10,9 @@ mutate(.data, ...)
 transmute(.data, ...)
 }
 \arguments{
-\item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy
+data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for more
+details.}
 
 \item{...}{Name-value pairs of expressions, each with length 1 or the same
 length as the number of rows in the group (if using \code{\link[=group_by]{group_by()}}) or in the entire

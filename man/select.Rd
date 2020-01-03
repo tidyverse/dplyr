@@ -10,8 +10,9 @@ select(.data, ...)
 rename(.data, ...)
 }
 \arguments{
-\item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy
+data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for more
+details.}
 
 \item{...}{One or more unquoted expressions separated by commas.
 You can treat variable names like they are positions, so you can

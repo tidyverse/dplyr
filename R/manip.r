@@ -50,9 +50,17 @@
 #' [filter_at()]) make it easy to apply a filtering condition to a
 #' selection of variables.
 #'
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("filter")}.
+#'
 #' @family single table verbs
-#' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for [tbl_df()], [dtplyr::tbl_dt()] and [dbplyr::tbl_dbi()].
+#' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy
+#'   data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for more
+#'   details.
 #' @param ... Logical predicates defined in terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   condition evaluates to `TRUE` are kept.
