@@ -96,8 +96,8 @@ cnd_header.dplyr_error_filter_named <- function(cnd) {
 #' @export
 cnd_body.dplyr_error_filter_named <- function(cnd) {
   bullets <- c(
-    i = "This usually means `=` is used insted of `==`",
-    i = glue("Did you mean: `{names(cnd$quo)} == {as_label(cnd$quo[[1]])}`")
+    i = "This usually means that you've used `=` instead of `==`",
+    i = glue("Did you mean `{names(cnd$quo)} == {as_label(cnd$quo[[1]])}` ?")
   )
   format_error_bullets(bullets)
 }
