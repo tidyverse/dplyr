@@ -59,7 +59,9 @@ Error: `filter()` argument `..1` errored
 x object '_x' not found
 
 > mtcars %>% group_by(cyl) %>% filter(`_x`)
-Error in list2env(as.list(.x), parent = .envir): names(x) must be a character vector of the same length as x
+Error: `filter()` argument `..1` errored
+x object '_x' not found
+i The error occured in group 1
 
 
 named inputs

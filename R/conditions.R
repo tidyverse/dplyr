@@ -73,7 +73,7 @@ cnd_header.dplyr_error_filter_eval <- function(cnd) {
 cnd_body.dplyr_error_filter_eval <- function(cnd) {
   bullets <- c(x = cnd$message)
   if(is_grouped_df(cnd$data)){
-    bullets <- c(bullets, c(i = glue_data("The error occured in group {group}")))
+    bullets <- c(bullets, c(i = glue_data(cnd, "The error occured in group {group}")))
   }
   format_error_bullets(bullets)
 }
