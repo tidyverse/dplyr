@@ -37,7 +37,7 @@
 #' @useDynLib dplyr, .registration = TRUE
 #' @keywords internal
 #' @import rlang
-#' @importFrom glue glue glue_collapse
+#' @importFrom glue glue glue_collapse glue_data
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
 #' @importFrom methods is

@@ -1,4 +1,7 @@
-> # wrong type
+
+wrong type
+==========
+
 > iris %>% group_by(Species) %>% filter(1:n())
 Error: `filter()` argument `..1` is incorrect
 x It must be a logical vector, not a integer
@@ -8,7 +11,10 @@ i The error occured in group 1
 Error: `filter()` argument `..1` is incorrect
 x It must be a logical vector, not a integer
 
-> # wrong size
+
+wrong size
+==========
+
 > iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))
 Error: `filter()` argument `..1` is incorrect
 x It must be of size 50 or 1, not size 2
@@ -18,7 +24,10 @@ i The error occured in group 1
 Error: `filter()` argument `..1` is incorrect
 x It must be of size 150 or 1, not size 2
 
-> # wrong size in column
+
+wrong size in column
+====================
+
 > iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE)))
 Error: `filter()` argument `..1` is incorrect
 x It must be of size 50 or 1, not size 2
@@ -28,7 +37,10 @@ i The error occured in group 1
 Error: `filter()` argument `..1` is incorrect
 x It must be of size 150 or 1, not size 2
 
-> # wrong type in column
+
+wrong type in column
+====================
+
 > iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, 1:n()))
 Error: `filter()` argument `..1$X1.n..` is incorrect
 x It must be a logical vector, not a integer
@@ -38,7 +50,10 @@ i The error occured in group 1
 Error: `filter()` argument `..1$X1.n..` is incorrect
 x It must be a logical vector, not a integer
 
-> # evaluation error
+
+evaluation error
+================
+
 > mtcars %>% filter(`_x`)
 Error: `filter()` argument `..1` errored
 x object '_x' not found
@@ -47,4 +62,23 @@ x object '_x' not found
 Error: `filter()` argument `..1` errored
 x object '_x' not found
 i The error occured in group 1
+
+
+named inputs
+============
+
+> filter(mtcars, x = 1)
+Error: `filter()` argument `..1` is named
+i This usually means that you've used `=` instead of `==`
+i Did you mean `x == 1` ?
+
+> filter(mtcars, y > 2, z = 3)
+Error: `filter()` argument `..2` is named
+i This usually means that you've used `=` instead of `==`
+i Did you mean `z == 3` ?
+
+> filter(mtcars, TRUE, x = 1)
+Error: `filter()` argument `..2` is named
+i This usually means that you've used `=` instead of `==`
+i Did you mean `x == 1` ?
 

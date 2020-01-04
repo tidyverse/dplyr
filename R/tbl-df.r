@@ -157,11 +157,22 @@ regroup <- function(data) {
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)
-  if (any(have_name(dots))) {
-    bad <- dots[have_name(dots)]
-    bad_eq_ops(bad, "Filter specifications must not be named")
-  } else if (is_empty(dots)) {
+  if (is_empty(dots)) {
     return(.data)
+  }
+  named <- have_name(dots)
+  if (any(named)) {
+    for (i in which(named)) {
+      quo <- dots[[i]]
+
+      # only allow named logical vectors, anything else
+      # is suspicious
+      expr <- quo_get_expr(quo)
+      if (!is.logical(expr)) {
+        stop_filter_named(i, expr, names(dots)[i])
+      }
+
+    }
   }
 
   rows <- group_rows(.data)

@@ -1,17 +1,5 @@
 context("Filter")
 
-test_that("filter complains if inputs are named", {
-  expect_known_output(
-    file =   test_path("test-filter-named-inputs.txt"),
-    {
-      capture_error_msg(filter(mtcars, x = 1))
-      capture_error_msg(filter(mtcars, x = "A"))
-      capture_error_msg(filter(mtcars, x = 1 & y > 2))
-      capture_error_msg(filter(mtcars, x = 1, y > 2, z = 3))
-    }
-  )
-})
-
 test_that("filter handles passing ...", {
   df <- data.frame(x = 1:4)
 
@@ -408,42 +396,59 @@ test_that("filter() reduce&() data frame results (#4678)", {
   )
 })
 
+test_that("filter() allows named constants that resolve to logical vectors (#4612)", {
+  filters <- mtcars %>%
+    transmute(
+      cyl %in% 6:8,
+      hp / drat > 50
+    )
+
+  expect_identical(
+    mtcars %>% filter(!!!filters),
+    mtcars %>% filter(!!!unname(filters))
+  )
+})
+
 test_that("filter() gives useful error messages", {
   verify_output(test_path("test-filter-error.txt"), {
-    "wrong type"
+    "# wrong type"
     iris %>%
       group_by(Species) %>%
       filter(1:n())
     iris %>%
       filter(1:n())
 
-    "wrong size"
+    "# wrong size"
     iris %>%
       group_by(Species) %>%
       filter(c(TRUE, FALSE))
     iris %>%
       filter(c(TRUE, FALSE))
 
-
-    "wrong size in column"
+    "# wrong size in column"
     iris %>%
       group_by(Species) %>%
       filter(data.frame(c(TRUE, FALSE)))
     iris %>%
       filter(data.frame(c(TRUE, FALSE)))
 
-    "wrong type in column"
+    "# wrong type in column"
     iris %>%
       group_by(Species) %>%
       filter(data.frame(Sepal.Length > 3, 1:n()))
     iris %>%
       filter(data.frame(Sepal.Length > 3, 1:n()))
 
-    "evaluation error"
+    "# evaluation error"
     mtcars %>%
       filter(`_x`)
     mtcars %>%
       group_by(cyl) %>%
       filter(`_x`)
+
+    "# named inputs"
+    filter(mtcars, x = 1)
+    filter(mtcars, y > 2, z = 3)
+    filter(mtcars, TRUE, x = 1)
   })
 })
