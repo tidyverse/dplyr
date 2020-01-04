@@ -411,46 +411,44 @@ test_that("filter() allows named constants that resolve to logical vectors (#461
 
 test_that("filter() gives useful error messages", {
   verify_output(test_path("test-filter-error.txt"), {
-    "wrong type"
+    "# wrong type"
     iris %>%
       group_by(Species) %>%
       filter(1:n())
     iris %>%
       filter(1:n())
 
-    "wrong size"
+    "# wrong size"
     iris %>%
       group_by(Species) %>%
       filter(c(TRUE, FALSE))
     iris %>%
       filter(c(TRUE, FALSE))
 
-
-    "wrong size in column"
+    "# wrong size in column"
     iris %>%
       group_by(Species) %>%
       filter(data.frame(c(TRUE, FALSE)))
     iris %>%
       filter(data.frame(c(TRUE, FALSE)))
 
-    "wrong type in column"
+    "# wrong type in column"
     iris %>%
       group_by(Species) %>%
       filter(data.frame(Sepal.Length > 3, 1:n()))
     iris %>%
       filter(data.frame(Sepal.Length > 3, 1:n()))
 
-    "evaluation error"
+    "# evaluation error"
     mtcars %>%
       filter(`_x`)
     mtcars %>%
       group_by(cyl) %>%
       filter(`_x`)
 
-    "named inputs"
+    "# named inputs"
     filter(mtcars, x = 1)
-    filter(mtcars, x = "A")
-    filter(mtcars, x = 1 & y > 2)
-    filter(mtcars, x = 1, y > 2, z = 3)
+    filter(mtcars, y > 2, z = 3)
+    filter(mtcars, TRUE, x = 1)
   })
 })

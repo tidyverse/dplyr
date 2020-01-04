@@ -160,18 +160,18 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   if (is_empty(dots)) {
     return(.data)
   }
-  if (any(have_name(dots))) {
-    named <- have_name(dots)
-    if (any(named)) {
-      for (i in seq_along(named)) {
-        quo <- dots[[i]]
-        if(named[i]) {
-          # let logical vectors slide
-          if (quo_is_call(quo) || !is.logical(quo_get_expr(quo))) {
-            stop_filter_named(i, dots[i])
-          }
-        }
+  named <- have_name(dots)
+  if (any(named)) {
+    for (i in which(named)) {
+      quo <- dots[[i]]
+
+      # only allow named logical vectors, anything else
+      # is suspicious
+      expr <- quo_get_expr(quo)
+      if (!is.logical(expr)) {
+        stop_filter_named(i, expr, names(dots)[i])
       }
+
     }
   }
 
