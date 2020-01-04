@@ -10,7 +10,8 @@
   of `arrange()` #3357.
 
 * `filter()` handles data frame results when all columns are logical vectors
-  by reducing them with `&` (#4678). 
+  by reducing them with `&` (#4678). In particular this means `across()` can be used
+  in `filter()`. `filter()` gains better error messages with more information. 
 
 * `ungroup()` can now selectively remove grouping variables (#3760).
 
