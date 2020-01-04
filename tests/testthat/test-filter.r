@@ -1,17 +1,5 @@
 context("Filter")
 
-test_that("filter complains if inputs are named", {
-  expect_known_output(
-    file =   test_path("test-filter-named-inputs.txt"),
-    {
-      capture_error_msg(filter(mtcars, x = 1))
-      capture_error_msg(filter(mtcars, x = "A"))
-      capture_error_msg(filter(mtcars, x = 1 & y > 2))
-      capture_error_msg(filter(mtcars, x = 1, y > 2, z = 3))
-    }
-  )
-})
-
 test_that("filter handles passing ...", {
   df <- data.frame(x = 1:4)
 
@@ -408,6 +396,19 @@ test_that("filter() reduce&() data frame results (#4678)", {
   )
 })
 
+test_that("filter() allows named constants that resolve to logical vectors (#4612)", {
+  filters <- mtcars %>%
+    transmute(
+      cyl %in% 6:8,
+      hp / drat > 50
+    )
+
+  expect_identical(
+    mtcars %>% filter(!!!filters),
+    mtcars %>% filter(!!!unname(filters))
+  )
+})
+
 test_that("filter() gives useful error messages", {
   verify_output(test_path("test-filter-error.txt"), {
     "wrong type"
@@ -445,5 +446,11 @@ test_that("filter() gives useful error messages", {
     mtcars %>%
       group_by(cyl) %>%
       filter(`_x`)
+
+    "named inputs"
+    filter(mtcars, x = 1)
+    filter(mtcars, x = "A")
+    filter(mtcars, x = 1 & y > 2)
+    filter(mtcars, x = 1, y > 2, z = 3)
   })
 })

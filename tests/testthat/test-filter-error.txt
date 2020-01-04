@@ -48,3 +48,24 @@ Error: `filter()` argument `..1` errored
 x object '_x' not found
 i The error occured in group 1
 
+> # named inputs
+> filter(mtcars, x = 1)
+Error: `filter()` argument `..1` is named
+i This usually means `=` is used insted of `==`
+i Did you mean: `x == 1`
+
+> filter(mtcars, x = "A")
+Error: `filter()` argument `..1` is named
+i This usually means `=` is used insted of `==`
+i Did you mean: `x == "A"`
+
+> filter(mtcars, x = 1 & y > 2)
+Error: `filter()` argument `..1` is named
+i This usually means `=` is used insted of `==`
+i Did you mean: `x == 1 & y > 2`
+
+> filter(mtcars, x = 1, y > 2, z = 3)
+Error: `filter()` argument `..1` is named
+i This usually means `=` is used insted of `==`
+i Did you mean: `x == 1`
+

@@ -87,3 +87,25 @@ stop_filter_eval_tidy <- function(e, index_expression) {
     group = peek_mask()$get_current_group()
   )
 }
+
+#' @export
+cnd_header.dplyr_error_filter_named <- function(cnd) {
+  glue("`filter()` argument `..{cnd$index_expression}` is named")
+}
+
+#' @export
+cnd_body.dplyr_error_filter_named <- function(cnd) {
+  bullets <- c(
+    i = "This usually means `=` is used insted of `==`",
+    i = glue("Did you mean: `{names(cnd$quo)} == {as_label(cnd$quo[[1]])}`")
+  )
+  format_error_bullets(bullets)
+}
+
+stop_filter_named <- function(index_expression, quo) {
+  stop_dplyr(
+    .subclass = "dplyr_error_filter_named",
+    index_expression = index_expression,
+    quo = quo
+  )
+}

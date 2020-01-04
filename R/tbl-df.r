@@ -161,10 +161,17 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
     return(.data)
   }
   if (any(have_name(dots))) {
-    bad <- dots[have_name(dots)]
-    bad <- bad[map_lgl(bad, quo_is_call)]
-    if (length(bad)) {
-      bad_eq_ops(bad, "Filter specifications must not be named")
+    named <- have_name(dots)
+    if (any(named)) {
+      for (i in seq_along(named)) {
+        quo <- dots[[i]]
+        if(named[i]) {
+          # let logical vectors slide
+          if (quo_is_call(quo) || !is.logical(quo_get_expr(quo))) {
+            stop_filter_named(i, dots[i])
+          }
+        }
+      }
     }
   }
 
