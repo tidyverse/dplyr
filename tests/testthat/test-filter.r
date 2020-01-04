@@ -1,26 +1,5 @@
 context("Filter")
 
-test_that("filter fails if inputs incorrect length (#156)", {
-  expect_error(
-    filter(tbl_df(mtcars), c(FALSE, TRUE)),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
-  )
-  expect_error(
-    filter(group_by(mtcars, am), c(FALSE, TRUE)),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
-  )
-})
-
-test_that("filter gives useful error message when given incorrect input", {
-  # error message by rlang
-  expect_error(filter(tbl_df(mtcars), `_x`),
-    "_x",
-    fixed = TRUE
-  )
-})
-
 test_that("filter complains if inputs are named", {
   expect_known_output(
     file =   test_path("test-filter-named-inputs.txt"),
@@ -93,19 +72,6 @@ test_that("filter propagates attributes", {
   test <- data.frame(Date = ISOdate(2010, 01, 01, 1:10))
   test2 <- test %>% filter(Date < ISOdate(2010, 01, 01, 5))
   expect_equal(test$Date[1:4], test2$Date)
-})
-
-test_that("filter fails on integer indices", {
-  expect_error(
-    filter(mtcars, 1:2),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
-  )
-  expect_error(
-    filter(group_by(mtcars, cyl), 1:2),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
-  )
 })
 
 test_that("filter discards NA", {
@@ -416,7 +382,68 @@ test_that("filter() handles matrix and data frame columns (#3630)", {
   expect_equal(filter(gdf, z$A == 1), gdf[1, ])
 })
 
-test_that("filter() handles logical (#4638)", {
+test_that("filter() handles named logical (#4638)", {
   tbl <- tibble(a = c(a = TRUE))
   expect_equal(filter(tbl, a), tbl)
+})
+
+test_that("filter() reduce&() data frame results (#4678)", {
+  expect_identical(
+    iris %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3)),
+    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3)
+  )
+  expect_identical(
+    iris %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3), Petal.Length < 3),
+    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
+  )
+
+
+  expect_identical(
+    iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3)),
+    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3)
+  )
+  expect_identical(
+    iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3), Petal.Length < 3),
+    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
+  )
+})
+
+test_that("filter() gives useful error messages", {
+  verify_output(test_path("test-filter-error.txt"), {
+    "wrong type"
+    iris %>%
+      group_by(Species) %>%
+      filter(1:n())
+    iris %>%
+      filter(1:n())
+
+    "wrong size"
+    iris %>%
+      group_by(Species) %>%
+      filter(c(TRUE, FALSE))
+    iris %>%
+      filter(c(TRUE, FALSE))
+
+
+    "wrong size in column"
+    iris %>%
+      group_by(Species) %>%
+      filter(data.frame(c(TRUE, FALSE)))
+    iris %>%
+      filter(data.frame(c(TRUE, FALSE)))
+
+    "wrong type in column"
+    iris %>%
+      group_by(Species) %>%
+      filter(data.frame(Sepal.Length > 3, 1:n()))
+    iris %>%
+      filter(data.frame(Sepal.Length > 3, 1:n()))
+
+    "evaluation error"
+    mtcars %>%
+      filter(`_x`)
+    mtcars %>%
+      group_by(cyl) %>%
+      filter(`_x`)
+  })
 })
