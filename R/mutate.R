@@ -144,6 +144,12 @@ mutate.tbl_df <- function(.data, ...) {
 }
 
 #' @export
+mutate.data.frame <- function(.data, ...) {
+  as.data.frame(mutate(tbl_df(.data), ...))
+}
+
+
+#' @export
 transmute.tbl_df <- function(.data, ...) {
   new_columns <- mutate_new_columns(.data, ...)
 
@@ -166,6 +172,10 @@ transmute.tbl_df <- function(.data, ...) {
   out
 }
 
+#' @export
+transmute.data.frame <- function(.data, ...) {
+  as.data.frame(transmute(tbl_df(.data), ...))
+}
 
 # Helpers -----------------------------------------------------------------
 

@@ -110,3 +110,8 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   out
 }
+
+#' @export
+slice.data.frame <- function(.data, ..., .preserve = FALSE) {
+  as.data.frame(slice(tbl_df(.data), ..., .preserve = .preserve))
+}

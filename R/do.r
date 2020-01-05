@@ -155,6 +155,29 @@ do.grouped_df <- function(.data, ...) {
   }
 }
 
+#' @export
+do.data.frame <- function(.data, ...) {
+  args <- enquos(...)
+  named <- named_args(args)
+
+  # Create custom data mask with `.` pronoun
+  mask <- new_data_mask(new_environment())
+  env_bind_do_pronouns(mask, .data)
+
+  if (!named) {
+    out <- eval_tidy(args[[1]], mask)
+    if (!inherits(out, "data.frame")) {
+      bad("Result must be a data frame, not {fmt_classes(out)}")
+    }
+  } else {
+    out <- map(args, function(arg) list(eval_tidy(arg, mask)))
+    names(out) <- names(args)
+    out <- tibble::as_tibble(out, validate = FALSE)
+  }
+
+  out
+}
+
 # Helper functions -------------------------------------------------------------
 
 env_bind_do_pronouns <- function(env, data) {

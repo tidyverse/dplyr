@@ -35,15 +35,20 @@
 compute <- function(x, name = random_table_name(), ...) {
   UseMethod("compute")
 }
-
 #' @export
 #' @rdname compute
 collect <- function(x, ...) {
   UseMethod("collect")
 }
-
 #' @export
 #' @rdname compute
 collapse <- function(x, ...) {
   UseMethod("collapse")
 }
+
+#' @export
+collect.data.frame <- function(x, ...) x
+#' @export
+compute.data.frame <- function(x, ...) x
+#' @export
+collapse.data.frame <- function(x, ...) x

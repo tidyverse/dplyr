@@ -108,11 +108,24 @@ select.grouped_df <- function(.data, ...) {
 }
 
 #' @export
+select.data.frame <- function(.data, ...) {
+  # Pass via splicing to avoid matching vars_select() arguments
+  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
+  select_impl(.data, vars)
+}
+
+
+#' @export
 rename.grouped_df <- function(.data, ...) {
   vars <- tidyselect::vars_rename(names(.data), ...)
   select_impl(.data, vars)
 }
 
+#' @export
+rename.data.frame <- function(.data, ...) {
+  vars <- tidyselect::vars_rename(names(.data), !!!enquos(...))
+  select_impl(.data, vars)
+}
 
 
 # Helpers -----------------------------------------------------------------

@@ -148,6 +148,16 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
   )
 }
 
+
+#' @export
+distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
+  dist <- distinct_prepare(.data, enquos(...), .keep_all = .keep_all)
+  vec_slice(
+    dist$data[, dist$keep, drop = FALSE],
+    vec_unique_loc(dist$data[, dist$vars, drop = FALSE])
+  )
+}
+
 #' @export
 # Can't use NextMethod() in R 3.1, r-lib/rlang#486
 distinct.tbl_df <- distinct.data.frame

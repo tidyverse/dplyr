@@ -92,11 +92,23 @@ group_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.dat
   UseMethod("group_by")
 }
 
+#' @export
+group_by.data.frame <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
+  groups <- group_by_prepare(.data, ..., add = add)
+  grouped_df(groups$data, groups$group_names, .drop)
+}
+
 #' @rdname group_by
 #' @export
 #' @param x A [tbl()]
 ungroup <- function(x, ...) {
   UseMethod("ungroup")
+}
+
+#' @export
+ungroup.data.frame <- function(x, ...) {
+  ellipsis::check_dots_empty()
+  x
 }
 
 #' Prepare for grouping.

@@ -625,6 +625,43 @@ reconstruct_join <- function(out, x, vars) {
   out
 }
 
+#' @export
+inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(inner_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
+left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(left_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
+#' @rdname join.tbl_df
+nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ... ) {
+  as.data.frame(nest_join(tbl_df(x), y, by = by, copy = copy, ..., keep = keep, name = name))
+}
+
+#' @export
+right_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(right_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
+full_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(full_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
+semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(semi_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
+anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(anti_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+
 
 # Helpers -----------------------------------------------------------------
 

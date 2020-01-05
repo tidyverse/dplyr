@@ -40,10 +40,13 @@ arrange.tbl_df <- function(.data, ..., .by_group = FALSE) {
 }
 
 
+#' @export
+arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
+  as.data.frame(arrange(tbl_df(.data), ..., .by_group = .by_group))
+}
+
 
 # Helpers -----------------------------------------------------------------
-
-
 
 arrange_data_frame <- function(.data, ..., .by_group = FALSE) {
   if (dots_n(...) == 0L) {

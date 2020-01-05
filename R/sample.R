@@ -47,26 +47,42 @@ NULL
 sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...) {
   UseMethod("sample_n")
 }
-
 #' @rdname sample
 #' @export
 sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL, ...) {
   UseMethod("sample_frac")
 }
 
-# Data frames (and tbl_df) -----------------------------------------------------
+#' @export
+sample_n.data.frame <- function(tbl, size, replace = FALSE,
+                                weight = NULL, .env = NULL, ...) {
+  if (!is_null(.env)) {
+    inform("`.env` is deprecated and no longer has any effect")
+  }
 
-# Grouped data frames ----------------------------------------------------------
+  size <- enquo(size)
+  weight <- enquo(weight)
 
+  slice(tbl, sample.int(n(), check_size(!!size, n(), replace = replace), replace = replace, prob = !!weight))
+}
+#' @export
+sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
+                                   weight = NULL, .env = NULL, ...) {
+  if (!is_null(.env)) {
+    inform("`.env` is deprecated and no longer has any effect")
+  }
 
-# Default method ---------------------------------------------------------------
+  size <- enquo(size)
+  weight <- enquo(weight)
+
+  slice(tbl, sample.int(n(), round(n() * check_frac(!!size, replace = replace)), replace = replace, prob = !!weight))
+}
 
 #' @export
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame(), ...) {
   bad_args("tbl", "must be a data frame, not {friendly_type_of(tbl)}")
 }
-
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame(), ...) {

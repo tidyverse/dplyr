@@ -144,3 +144,8 @@ summarise.tbl_df <- function(.data, ...) {
 
   out
 }
+
+#' @export
+summarise.data.frame <- function(.data, ...) {
+  as.data.frame(summarise(tbl_df(.data), ...))
+}

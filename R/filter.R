@@ -99,7 +99,6 @@ filter <- function(.data, ..., .preserve = FALSE) {
   UseMethod("filter")
 }
 
-
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)
@@ -158,6 +157,11 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   }
 
   out
+}
+
+#' @export
+filter.data.frame <- function(.data, ..., .preserve = FALSE) {
+  as.data.frame(filter(tbl_df(.data), ..., .preserve = .preserve))
 }
 
 regroup <- function(data) {
