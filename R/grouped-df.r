@@ -187,37 +187,6 @@ tbl_sum.grouped_df <- function(x) {
 }
 
 #' @export
-group_size.grouped_df <- function(x) {
-  lengths(group_rows(x))
-}
-
-#' @export
-n_groups.grouped_df <- function(x) {
-  nrow(group_data(x))
-}
-
-#' @export
-groups.grouped_df <- function(x) {
-  syms(group_vars(x))
-}
-
-#' @export
-group_vars.grouped_df <- function(x) {
-  groups <- group_data(x)
-  if (is.character(groups)) {
-    # lazy grouped
-    groups
-  } else if (is.data.frame(groups)) {
-    # resolved, extract from the names of the data frame
-    head(names(groups), -1L)
-  } else if (is.list(groups)) {
-    # Need this for compatibility with existing packages that might
-    # use the old list of symbols format
-    map_chr(groups, as_string)
-  }
-}
-
-#' @export
 as.data.frame.grouped_df <- function(x, row.names = NULL,
                                      optional = FALSE, ...) {
   x <- ungroup(x)
@@ -228,21 +197,6 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
 #' @export
 as_tibble.grouped_df <- function(x, ...) {
   ungroup(x)
-}
-
-#' @export
-ungroup.grouped_df <- function(x, ...) {
-  if (missing(...)) {
-    attr(x, "groups") <- NULL
-    attr(x, "class") <- c("tbl_df", "tbl", "data.frame")
-    x
-  } else {
-    old_groups <- group_vars(x)
-    to_remove <- tidyselect::vars_select(names(x), ...)
-
-    new_groups <- setdiff(old_groups, to_remove)
-    group_by(x, !!!syms(new_groups))
-  }
 }
 
 #' @importFrom tibble is_tibble

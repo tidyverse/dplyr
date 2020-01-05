@@ -106,6 +106,21 @@ ungroup <- function(x, ...) {
 }
 
 #' @export
+ungroup.grouped_df <- function(x, ...) {
+  if (missing(...)) {
+    attr(x, "groups") <- NULL
+    attr(x, "class") <- c("tbl_df", "tbl", "data.frame")
+    x
+  } else {
+    old_groups <- group_vars(x)
+    to_remove <- tidyselect::vars_select(names(x), ...)
+
+    new_groups <- setdiff(old_groups, to_remove)
+    group_by(x, !!!syms(new_groups))
+  }
+}
+
+#' @export
 ungroup.data.frame <- function(x, ...) {
   ellipsis::check_dots_empty()
   x
@@ -216,12 +231,33 @@ groups <- function(x) {
 }
 
 #' @export
+groups.grouped_df <- function(x) {
+  syms(group_vars(x))
+}
+
+#' @export
 groups.default <- function(x) NULL
 
 #' @rdname groups
 #' @export
 group_vars <- function(x) {
   UseMethod("group_vars")
+}
+
+#' @export
+group_vars.grouped_df <- function(x) {
+  groups <- group_data(x)
+  if (is.character(groups)) {
+    # lazy grouped
+    groups
+  } else if (is.data.frame(groups)) {
+    # resolved, extract from the names of the data frame
+    head(names(groups), -1L)
+  } else if (is.list(groups)) {
+    # Need this for compatibility with existing packages that might
+    # use the old list of symbols format
+    map_chr(groups, as_string)
+  }
 }
 
 #' @export
