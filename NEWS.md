@@ -6,6 +6,8 @@
   `eval_tbls2()` are now deprecated. That were only used in a handful of 
   packages, and we now believe that you're better off performing comparisons 
   more directly (#4675).
+* `distinct()` errors if you request it use variables that don't exist
+  (this was previously a warning) (#4656).
 
 * `tally()` and `count()` now error if the default output `name` (n), already
   exists in the data frame. You'll now need to specify it yourself; this 

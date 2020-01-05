@@ -78,33 +78,20 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use their names
   missing_vars <- setdiff(distinct_vars, names(.data))
-
   if (length(missing_vars) > 0) {
-    missing_items <- fmt_items(fmt_obj(missing_vars))
-    distinct_vars <- distinct_vars[distinct_vars %in% names(.data)]
-    if (length(distinct_vars) > 0) {
-      true_vars <- glue("The following variables will be used:
-                        {fmt_items(distinct_vars)}")
-    } else {
-      true_vars <- "The operation will return the input unchanged."
-    }
-    msg <- glue("Trying to compute distinct() for variables not found in the data:
-                {missing_items}
-                This is an error, but only a warning is raised for compatibility reasons.
-                {true_vars}
-                ")
-    warn(msg)
+    abort(c(
+      "distinct() must use existing variables",
+      glue("`{missing_vars}` not found in `.data`")
+    ))
   }
 
-  new_vars <- unique(c(distinct_vars, group_vars))
-
-  # Keep the order of the variables
-  out_vars <- intersect(names(.data), new_vars)
+  # Always include grouping variables preserving input order
+  out_vars <- intersect(names(.data), c(distinct_vars, group_vars))
 
   if (.keep_all) {
     keep <- seq_along(.data)
   } else {
-    keep <- unique(out_vars)
+    keep <- out_vars
   }
 
   list(data = .data, vars = out_vars, keep = keep)
