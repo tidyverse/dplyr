@@ -65,10 +65,9 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
 
   # If no input, keep all variables
   if (length(vars) == 0) {
-    vars <- list_cols_warning(.data, seq_along(.data))
     return(list(
       data = .data,
-      vars = vars,
+      vars = seq_along(.data),
       keep = seq_along(.data)
     ))
   }
@@ -108,27 +107,9 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
     keep <- unique(out_vars)
   }
 
-  out_vars <- list_cols_warning(.data, out_vars)
   list(data = .data, vars = out_vars, keep = keep)
 }
 
-#' Throw an error if there are tbl columns of type list
-#'
-#' @noRd
-list_cols_warning <- function(df, keep_cols) {
-  df_keep <- df[keep_cols]
-  lists <- map_lgl(df_keep, is.list)
-  if (any(lists)) {
-    items <- fmt_items(fmt_obj(names(df_keep)[lists]))
-    warn(
-      glue("distinct() does not fully support columns of type `list`.
-            List elements are compared by reference, see ?distinct for details.
-            This affects the following columns:
-            {items}")
-    )
-  }
-  keep_cols
-}
 
 #' Efficiently count the number of unique values in a set of vector
 #'

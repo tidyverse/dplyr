@@ -154,16 +154,8 @@ test_that("distinct on a dataframe or tibble with columns of type list throws an
   )
   df2 <- data.frame(x = 1:5, y = I(list(1:3, 2:4, 3:5, 4:6, 5:7)))
 
-  expect_warning(
-    expect_identical(df %>% distinct(), df %>% slice(c(1, 3, 5))),
-    "distinct() does not fully support columns of type `list`.\nList elements are compared by reference, see ?distinct for details.\nThis affects the following columns:\n- `b`",
-    fixed = TRUE
-  )
-  expect_warning(
-    expect_identical(df2 %>% distinct(), df2),
-    "distinct() does not fully support columns of type `list`.\nList elements are compared by reference, see ?distinct for details.\nThis affects the following columns:\n- `y`",
-    fixed = TRUE
-  )
+  expect_identical(df2 %>% distinct(), df2)
+  expect_identical(df %>% distinct(), df %>% slice(c(1, 3, 5)))
 })
 
 test_that("distinct handles 0 columns edge case (#2954)", {
