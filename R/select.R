@@ -98,3 +98,75 @@ select.list <- function(.data, ...) {
 rename <- function(.data, ...) {
   UseMethod("rename")
 }
+
+
+#' @export
+select.grouped_df <- function(.data, ...) {
+  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
+  vars <- ensure_group_vars(vars, .data, notify = TRUE)
+  select_impl(.data, vars)
+}
+
+#' @export
+rename.grouped_df <- function(.data, ...) {
+  vars <- tidyselect::vars_rename(names(.data), ...)
+  select_impl(.data, vars)
+}
+
+
+
+# Helpers -----------------------------------------------------------------
+
+select_impl <- function(.data, vars) {
+  positions <- match(vars, names(.data))
+  if (any(test <- is.na(positions))) {
+    wrong <- which(test)[1L]
+    abort(
+      glue(
+        "invalid column index : {wrong} for variable: '{new}' = '{old}'",
+        new = names(vars)[wrong], vars[wrong]
+      ),
+      .subclass = "dplyr_select_wrong_selection"
+    )
+  }
+
+  out <- set_names(.data[, positions, drop = FALSE], names(vars))
+
+  if (is_grouped_df(.data)) {
+    # we might have to alter the names of the groups metadata
+    groups <- attr(.data, "groups")
+
+    # check grouped metadata
+    group_names <- names(groups)[seq_len(ncol(groups) - 1L)]
+    if (any(test <- ! group_names %in% vars)) {
+      abort(
+        glue("{col} not found in groups metadata. Probably a corrupt grouped_df object.", col = group_names[test[1L]]),
+        "dplyr_select_corrupt_grouped_df"
+      )
+    }
+
+    group_vars <- c(vars[vars %in% names(groups)], .rows = ".rows")
+    groups <- select_impl(groups, group_vars)
+
+    out <- new_grouped_df(out, groups)
+  }
+
+  out
+}
+
+ensure_group_vars <- function(vars, data, notify = TRUE) {
+  group_names <- group_vars(data)
+  missing <- setdiff(group_names, vars)
+
+  if (length(missing) > 0) {
+    if (notify) {
+      inform(glue(
+        "Adding missing grouping variables: ",
+        paste0("`", missing, "`", collapse = ", ")
+      ))
+    }
+    vars <- c(set_names(missing, missing), vars)
+  }
+
+  vars
+}

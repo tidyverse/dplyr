@@ -130,6 +130,25 @@ list_cols_warning <- function(df, keep_cols) {
   keep_cols
 }
 
+#' @export
+distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
+  dist <- distinct_prepare(
+    .data,
+    vars = enquos(...),
+    group_vars = group_vars(.data),
+    .keep_all = .keep_all
+  )
+  grouped_df(
+    vec_slice(
+      .data[, dist$keep, drop = FALSE],
+      vec_unique_loc(.data[, dist$vars, drop = FALSE])
+    ),
+    groups(.data),
+    group_by_drop_default(.data)
+  )
+}
+
+
 #' Efficiently count the number of unique values in a set of vector
 #'
 #' This is a faster and more concise equivalent of `length(unique(x))`

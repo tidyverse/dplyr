@@ -93,6 +93,68 @@ do.NULL <- function(.data, ...) {
   NULL
 }
 
+
+#' @export
+do.grouped_df <- function(.data, ...) {
+  index <- group_rows(.data)
+  labels <- select(group_data(.data), -last_col())
+  attr(labels, ".drop") <- NULL
+
+  # Create ungroup version of data frame suitable for subsetting
+  group_data <- ungroup(.data)
+
+  args <- enquos(...)
+  named <- named_args(args)
+  mask <- new_data_mask(new_environment())
+
+  n <- length(index)
+  m <- length(args)
+
+  # Special case for zero-group/zero-row input
+  if (n == 0) {
+    if (named) {
+      out <- rep_len(list(list()), length(args))
+      out <- set_names(out, names(args))
+      out <- label_output_list(labels, out, groups(.data))
+    } else {
+      env_bind_do_pronouns(mask, group_data)
+      out <- eval_tidy(args[[1]], mask)
+      out <- out[0, , drop = FALSE]
+      out <- label_output_dataframe(labels, list(list(out)), groups(.data), group_by_drop_default(.data))
+    }
+    return(out)
+  }
+
+  # Add pronouns with active bindings that resolve to the current
+  # subset. `_i` is found in environment of this function because of
+  # usual scoping rules.
+  group_slice <- function(value) {
+    if (missing(value)) {
+      group_data[index[[`_i`]], , drop = FALSE]
+    } else {
+      group_data[index[[`_i`]], ] <<- value
+    }
+  }
+  env_bind_do_pronouns(mask, group_slice)
+
+  out <- replicate(m, vector("list", n), simplify = FALSE)
+  names(out) <- names(args)
+  p <- progress_estimated(n * m, min_time = 2)
+
+  for (`_i` in seq_len(n)) {
+    for (j in seq_len(m)) {
+      out[[j]][`_i`] <- list(eval_tidy(args[[j]], mask))
+      p$tick()$print()
+    }
+  }
+
+  if (!named) {
+    label_output_dataframe(labels, out, groups(.data), group_by_drop_default(.data))
+  } else {
+    label_output_list(labels, out, groups(.data))
+  }
+}
+
 # Helper functions -------------------------------------------------------------
 
 env_bind_do_pronouns <- function(env, data) {
