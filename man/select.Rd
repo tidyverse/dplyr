@@ -13,22 +13,16 @@ rename(.data, ...)
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
-\item{...}{One or more unquoted expressions separated by commas.
-You can treat variable names like they are positions, so you can
-use expressions like \code{x:y} to select ranges of variables.
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> One or more unquoted
+expressions separated by commas. You can treat variable names like they
+are positions, so you can use expressions like \code{x:y} to select ranges of
+variables.
 
 Positive values select variables; negative values drop variables.
 If the first expression is negative, \code{select()} will automatically
 start with all variables.
 
 Use named arguments, e.g. \code{new_name = old_name}, to rename selected variables.
-
-The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
-\link[rlang:eval_tidy]{evaluated} in a context where column names
-represent column positions. They also support
-\link[rlang:quasiquotation]{unquoting} and splicing. See
-\code{vignette("programming")} for an introduction to these concepts.
-
 See \link[tidyselect:select_helpers]{select helpers} for more details and
 examples about tidyselect helpers such as \code{starts_with()}, \code{everything()}, ...}
 }
@@ -107,15 +101,6 @@ select(iris, -starts_with("Petal"))
 starwars \%>\% group_by(gender) \%>\% select(group_cols())
 
 
-# The .data pronoun is available:
-select(mtcars, .data$cyl)
-select(mtcars, .data$mpg : .data$disp)
-
-# However it isn't available within calls since those are evaluated
-# outside of the data context. This would fail if run:
-# select(mtcars, identical(.data$cyl))
-
-
 # Renaming -----------------------------------------
 # * select() keeps only the variables you specify
 select(iris, petal_length = Petal.Length)
@@ -125,22 +110,6 @@ rename(iris, petal_length = Petal.Length)
 
 # * select() can rename variables in a group
 select(iris, obs = starts_with('S'))
-
-# Unquoting ----------------------------------------
-
-# Like all dplyr verbs, select() supports unquoting of symbols:
-vars <- list(
-  var1 = sym("cyl"),
-  var2 = sym("am")
-)
-select(mtcars, !!!vars)
-
-# For convenience it also supports strings and character
-# vectors. This is unlike other verbs where strings would be
-# ambiguous.
-vars <- c(var1 = "cyl", var2 ="am")
-select(mtcars, !!vars)
-rename(mtcars, !!vars)
 }
 \seealso{
 Other single table verbs: 

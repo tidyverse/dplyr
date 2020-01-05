@@ -7,10 +7,8 @@
 coalesce(...)
 }
 \arguments{
-\item{...}{Vectors. All inputs should either be length 1, or the
-same length as the first argument.
-
-These dots support \link[rlang:tidy-dots]{tidy dots} features.}
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Vectors. All inputs should either be length 1, or the
+same length as the first argument.}
 }
 \value{
 A vector the same length as the first \code{...} argument with

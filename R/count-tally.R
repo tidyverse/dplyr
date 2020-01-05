@@ -12,8 +12,8 @@
 #' counts.
 #'
 #' @param x A [tbl()] to tally/count.
-#' @param ... Variables to group by.
-#' @param wt (Optional) If omitted, will count the number of rows.
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables to group by.
+#' @param wt <[`tidy-eval`][dplyr_tidy_eval]> If omitted, will count the number of rows.
 #'   If specified, will perform a "weighted" tally by summing the (non-missing)
 #'   values of variable `wt`.
 #'

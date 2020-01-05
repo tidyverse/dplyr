@@ -13,15 +13,10 @@ summarize(.data, ...)
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
-\item{...}{Name-value pairs of summary functions. The name will be the
-name of the variable in the result. The value should be an expression
-that returns a single value like \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.
-
-The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
-\link[rlang:eval_tidy]{evaluated} in the context of the data
-frame. They support \link[rlang:quasiquotation]{unquoting} and
-splicing. See \code{vignette("programming")} for an introduction to
-these concepts.}
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of summary
+functions. The name will be the name of the variable in the result.
+The value should be an expression that returns a single value like
+\code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.}
 }
 \value{
 An object of the same class as \code{.data}. One grouping level will
@@ -95,15 +90,7 @@ mtcars \%>\%
 # Refer to column names stored as strings with the `.data` pronoun:
 var <- "mass"
 summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
-
-# For more complex cases, knowledge of tidy evaluation and the
-# unquote operator `!!` is required. See https://tidyeval.tidyverse.org/
-#
-# One useful and simple tidy eval technique is to use `!!` to
-# bypass the data frame and its columns. Here is how to divide the
-# column `mass` by an object of the same name:
-mass <- 100
-summarise(starwars, avg = mean(mass / !!mass, na.rm = TRUE))
+# Learn more in ?dplyr_tidy_eval
 }
 \seealso{
 Other single table verbs: 

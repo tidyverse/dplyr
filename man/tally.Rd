@@ -32,7 +32,7 @@ add_count(
 \arguments{
 \item{x}{A \code{\link[=tbl]{tbl()}} to tally/count.}
 
-\item{wt}{(Optional) If omitted, will count the number of rows.
+\item{wt}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> If omitted, will count the number of rows.
 If specified, will perform a "weighted" tally by summing the (non-missing)
 values of variable \code{wt}.
 
@@ -47,7 +47,7 @@ a new name for the output.}
 If omitted, it will default to \code{n}. If there's already a column called \code{n},
 it will error, and require you to specify the name.}
 
-\item{...}{Variables to group by.}
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Variables to group by.}
 
 \item{.drop}{see \code{\link[=group_by]{group_by()}}}
 }
