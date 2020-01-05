@@ -163,7 +163,6 @@ validate_grouped_df <- function(x, check_bounds = FALSE) {
   x
 }
 
-
 setOldClass(c("grouped_df", "tbl_df", "tbl", "data.frame"))
 
 #' @rdname grouped_df
