@@ -70,6 +70,17 @@
 #' mtcars %>% mutate(!!var_name := 235 / mpg)
 #' ```
 #'
+#' Note that `...` automatically provides indirection, so you can use it as is
+#' (i.e. without embracing) inside a function:
+#'
+#' ```
+#' grouped_mean <- function(df, var, ...) {
+#'   df %>%
+#'     group_by(...) %>%
+#'     summarise(mean = mean({{ var }}))
+#' }
+#' ```
+#'
 #' @keywords internal
 #' @name dplyr_tidy_eval
 NULL
@@ -89,6 +100,12 @@ NULL
 #' `date`, `eggplant`, `fig`, `grape` you can:
 #'
 #' * Select individual variables with their name: e.g. `c(apple, fig, grape)`.
+#'
+#' * Select data-variables stored in a env-variable with `all_of()` (which
+#'   will error if a variable is not found) or `any_of()` (which is
+#'   relaxed and will silently drop missing variables), e.g.
+#'   if `vars <- c("apple", "fig", "peach")`, then `all_of(vars)` will
+#'   error; `any_of(vars)` will select `apple` and `fig`.
 #'
 #' * Select contiguous variables with `:`, e.g. `apple:date`.
 #'
@@ -110,8 +127,10 @@ NULL
 #'
 #' There are two main cases:
 #'
-#' *   If you have a character vector of column names, use `all_of()`,
-#'     e.g `select(df, all_of(vars))`.
+#' *   If you have a character vector of column names, use `all_of()`
+#'     or `any_of()`, depending on whether or not you want unknown variable
+#'     names to cause an error, e.g `select(df, all_of(vars))`,
+#'     `select(df, -any_of(vars))`.
 #'
 #' *   If you you want the user to supply a tidyselect specification in a
 #'     function argument, embrace the function argument, e.g
