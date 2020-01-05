@@ -55,7 +55,7 @@ test_that("grouped distinct always includes group cols", {
   df <- tibble(g = c(1, 2), x = c(1, 2))
 
   out <- df %>% group_by(g) %>% distinct(x)
-  expect_named(out, c("x", "g"))
+  expect_named(out, c("g", "x"))
 })
 
 test_that("empty grouped distinct equivalent to empty ungrouped", {
@@ -166,9 +166,9 @@ test_that("distinct handles 0 columns edge case (#2954)", {
   expect_equal(nrow(distinct(tibble())), 0L)
 })
 
-test_that("distinct respects the order of the given variables (#3195)",{
-  d <- data.frame(x=1:2, y=3:4)
-  expect_equal(names(distinct(d, y, x)), c("y", "x"))
+test_that("distinct preserves order of the input variables (#3195)",{
+  d <- data.frame(x = 1:2, y = 3:4)
+  expect_equal(names(distinct(d, y, x)), c("x", "y"))
 })
 
 test_that("distinct() understands both NA variants (#4516)", {
