@@ -214,17 +214,13 @@ for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://rdrr
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Name-value pairs of expressions, each with length 1 or the same
-length as the number of rows in the group (if using <code><a href='group_by.html'>group_by()</a></code>) or in the entire
-input (if not using groups). The name of each argument will be the name of
-a new variable, and the value will be its corresponding value.  Use a <code>NULL</code>
-value in <code>mutate</code> to drop a variable.  New variables overwrite existing variables
-of the same name.</p>
-<p>The arguments in <code>...</code> are automatically <a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quoted</a> and
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. They support <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a> and
-splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
-these concepts.</p></td>
+      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; Name-value pairs of expressions,
+each with length 1 or the same length as the number of rows in the group
+(if using <code><a href='group_by.html'>group_by()</a></code>) or in the entire input (if not using groups).
+The name of each argument will be the name of a new variable, and the
+value will be its corresponding value. Use a <code>NULL</code> value in <code>mutate</code>
+to drop a variable.  New variables overwrite existing variables
+of the same name.</p></td>
     </tr>
     </table>
 
@@ -518,29 +514,8 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt;  9 Bigg…    183    84 black      light      brown           24   male  mascu…
 #&gt; 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
 #&gt; # … with 77 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, prod &lt;dbl&gt;</div><div class='input'>
-<span class='co'># For more complex cases, knowledge of tidy evaluation and the</span>
-<span class='co'># unquote operator `!!` is required. See https://tidyeval.tidyverse.org/</span>
-<span class='co'>#</span>
-<span class='co'># One useful and simple tidy eval technique is to use `!!` to</span>
-<span class='co'># bypass the data frame and its columns. Here is how to divide the</span>
-<span class='co'># column `mass` by an object of the same name:</span>
-<span class='no'>mass</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
-<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>mass</span> <span class='kw'>=</span> <span class='no'>mass</span> / !!<span class='no'>mass</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 14
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Luke…    172  0.77 blond      fair       blue            19   male  mascu…
-#&gt;  2 C-3PO    167  0.75 &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt;  3 R2-D2     96  0.32 &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt;  4 Dart…    202  1.36 none       white      yellow          41.9 male  mascu…
-#&gt;  5 Leia…    150  0.49 brown      light      brown           19   fema… femin…
-#&gt;  6 Owen…    178  1.2  brown, gr… light      blue            52   male  mascu…
-#&gt;  7 Beru…    165  0.75 brown      light      blue            47   fema… femin…
-#&gt;  8 R5-D4     97  0.32 &lt;NA&gt;       white, red red             NA   none  mascu…
-#&gt;  9 Bigg…    183  0.84 black      light      brown           24   male  mascu…
-#&gt; 10 Obi-…    182  0.77 auburn, w… fair       blue-gray       57   male  mascu…
-#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div></pre>
+#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, prod &lt;dbl&gt;</div><div class='input'># Learn more in ?dplyr_tidy_eval
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

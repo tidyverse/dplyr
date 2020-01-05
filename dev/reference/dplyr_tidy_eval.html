@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a list of functions calls. — funs • dplyr</title>
+<title>Argument type: tidy-eval — dplyr_tidy_eval • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,9 +47,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Create a list of functions calls. — funs" />
-<meta property="og:description" content="funs() provides a flexible way to generate a named list of
-functions for input to other functions like summarise_at()." />
+<meta property="og:title" content="Argument type: tidy-eval — dplyr_tidy_eval" />
+<meta property="og:description" content="This page the describes the &amp;lt;tidy-eval&amp;gt; argument modifier which indicates
+that the argument uses tidy evaluation with data masking.
+This is a special type of non-standard evaluation used throughout the
+tidyverse." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -186,88 +188,96 @@ functions for input to other functions like summarise_at()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a list of functions calls.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-funs.R'><code>R/deprec-funs.R</code></a></small>
-    <div class="hidden name"><code>funs.Rd</code></div>
+    <h1>Argument type: tidy-eval</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/doc-params.R'><code>R/doc-params.R</code></a></small>
+    <div class="hidden name"><code>dplyr_tidy_eval.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>funs()</code> provides a flexible way to generate a named list of
-functions for input to other functions like <code><a href='summarise_all.html'>summarise_at()</a></code>.</p>
+    <p>This page the describes the <code>&lt;tidy-eval&gt;</code> argument modifier which indicates
+that the argument uses <strong>tidy evaluation</strong> with <strong>data masking</strong>.
+This is a special type of non-standard evaluation used throughout the
+tidyverse.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>funs</span>(<span class='no'>...</span>, <span class='kw'>.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>...</th>
-      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; A list of functions specified by:</p><ul>
-<li><p>Their name, <code>"mean"</code></p></li>
-<li><p>The function itself, <code>mean</code></p></li>
-<li><p>A call to the function with <code>.</code> as a dummy argument,
-<code><a href='https://rdrr.io/r/base/mean.html'>mean(., na.rm = TRUE)</a></code></p></li>
+
+    <h2 class="hasAnchor" id="key-terms"><a class="anchor" href="#key-terms"></a>Key terms</h2>
+
+    
+
+<p>The primary motivation for tidy evaluation in dplyr is that it provides
+<strong>data masking</strong>, which blurs the distinction between two types of variables:</p><ul>
+<li><p><strong>env-variables</strong> are "programming" variables and live in an environment.
+They are usually created with <code>&lt;-</code>. Env-variables can be any type of R
+object.</p></li>
+<li><p><strong>data-variables</strong> are "statistical" variables and live in a data frame.
+They usually come from data files (e.g. <code>.csv</code>, <code>.xls</code>), or are created by
+manipulating existing variables. Data-variables live inside data frames,
+so must be vectors.</p></li>
 </ul>
 
-<p>The following notations are <strong>not</strong> supported, see examples:</p><ul>
-<li><p>An anonymous function, <code>function(x) mean(x, na.rm = TRUE)</code></p></li>
-<li><p>An anonymous function in <span class="pkg">purrr</span> notation, <code>~mean(., na.rm = TRUE)</code></p></li>
-</ul></td>
-    </tr>
-    <tr>
-      <th>.args, args</th>
-      <td><p>A named list of additional arguments to be added to all
-function calls. As <code>funs()</code> is being deprecated, use other methods to
-supply arguments: <code>...</code> argument in <a href='summarise_all.html'>scoped verbs</a> or make
-own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.html'>purrr::partial()</a></code>.</p></td>
-    </tr>
-    </table>
+    <h2 class="hasAnchor" id="general-usage"><a class="anchor" href="#general-usage"></a>General usage</h2>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    
 
-    <p><img src='figures/lifecycle-soft-deprecated.svg' alt='Soft-deprecated lifecycle' /></p>
+<p>Data masking allows you to refer to variables in the "current" data frame
+(usually supplied in the <code>.data</code> argument), without any other prefix.
+It's what allows you to type (e.g.) <code>filter(diamonds, x == 0 &amp; y == 0 &amp; z == 0)</code>
+instead of <code>diamonds[diamonds$x == 0 &amp; diamonds$y == 0 &amp; diamonds$z == 0, ]</code>.</p>
+    <h2 class="hasAnchor" id="indirection"><a class="anchor" href="#indirection"></a>Indirection</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>funs</span>(<span class='no'>mean</span>, <span class='st'>"mean"</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `funs()` is deprecated as of dplyr 1.0.0.</span>
-#&gt; <span class='warning'>Please use a list of either functions or lambdas: </span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Simple named list: </span>
-#&gt; <span class='warning'>  list(mean = mean, median = median)</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Auto named with `tibble::lst()`: </span>
-#&gt; <span class='warning'>  tibble::lst(mean, median)</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Using lambdas</span>
-#&gt; <span class='warning'>  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ mean: mean(.)
-#&gt; $ mean: mean(.)
-#&gt; $ mean: mean(., na.rm = TRUE)</div><div class='input'>
-<span class='co'># Override default names</span>
-<span class='fu'>funs</span>(<span class='kw'>m1</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>m2</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>m3</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ m1: mean(.)
-#&gt; $ m2: mean(.)
-#&gt; $ m3: mean(., na.rm = TRUE)</div><div class='input'>
-<span class='co'># If you have function names in a vector, use funs_</span>
-<span class='no'>fs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"min"</span>, <span class='st'>"max"</span>)
-<span class='fu'><a href='se-deprecated.html'>funs_</a></span>(<span class='no'>fs</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: funs_() is deprecated. </span>
-#&gt; <span class='warning'>Please use list() instead</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ min: min(.)
-#&gt; $ max: max(.)</div><div class='input'>
-<span class='co'># Not supported</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>funs</span>(<span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-<span class='fu'>funs</span>(~<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))}</div></pre>
+    
+
+<p>The main challenge of data masking arises when you introduce some
+indirection, i.e. instead of directly typing the name of a variable you
+want to supply it in a function argument or character vector.</p>
+<p>There are two main cases:</p><ul>
+<li><p>If you want the user to supply the variable (or function of variables)
+in a function argument, embrace the argument, e.g. <code><a href='filter.html'>filter(df, {{ var }})</a></code>.</p><pre>dist_summary &lt;- function(df, var) {
+  df %&gt;%
+    summarise(n = n(), min = min({{ var }}), max = max({{ var }}))
+}
+mtcars %&gt;% dist_summary(mpg)
+mtcars %&gt;% group_by(cyl) %&gt;% dist_summary(mpg)
+</pre></li>
+<li><p>If you have the column name as a character vector, use the <code>.data</code>
+pronoun, e.g. <code><a href='summarise.html'>summarise(df, mean = mean(.data[[var]]))</a></code>.</p><pre>for (var in names(mtcars)) {
+  mtcars %&gt;% count(.data[[var]]) %&gt;% print()
+}
+
+lapply(names(mtcars), function(var) mtcars %&gt;% count(.data[[var]]))
+</pre></li>
+</ul>
+
+    <h2 class="hasAnchor" id="dot-dot-dot-"><a class="anchor" href="#dot-dot-dot-"></a>Dot-dot-dot (...)</h2>
+
+    
+
+<p>When this modifier is applied to <code>...</code>, there is one other useful technique
+which solves the problem of creating a new variable with a name supplied
+by the user. Use <code>!!var := expression</code>. (Note the use of <code>:=</code> instead of
+<code>=</code>).</p><pre>var_name &lt;- "l100km"
+mtcars %&gt;% mutate(!!var_name := 235 / mpg)
+</pre>
+
+<p>Note that <code>...</code> automatically provides indirection, so you can use it as is
+(i.e. without embracing) inside a function:</p><pre>grouped_mean &lt;- function(df, var, ...) {
+  df %&gt;%
+    group_by(...) %&gt;%
+    summarise(mean = mean({{ var }}))
+}
+</pre>
+
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#key-terms">Key terms</a></li>
+      <li><a href="#general-usage">General usage</a></li>
+      <li><a href="#indirection">Indirection</a></li>
+      <li><a href="#dot-dot-dot-">Dot-dot-dot (...)</a></li>
     </ul>
 
   </div>

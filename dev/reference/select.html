@@ -212,19 +212,15 @@ for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://rdrr
     </tr>
     <tr>
       <th>...</th>
-      <td><p>One or more unquoted expressions separated by commas.
-You can treat variable names like they are positions, so you can
-use expressions like <code>x:y</code> to select ranges of variables.</p>
+      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; One or more unquoted
+expressions separated by commas. You can treat variable names like they
+are positions, so you can use expressions like <code>x:y</code> to select ranges of
+variables.</p>
 <p>Positive values select variables; negative values drop variables.
 If the first expression is negative, <code>select()</code> will automatically
 start with all variables.</p>
-<p>Use named arguments, e.g. <code>new_name = old_name</code>, to rename selected variables.</p>
-<p>The arguments in <code>...</code> are automatically <a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quoted</a> and
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in a context where column names
-represent column positions. They also support
-<a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a> and splicing. See
-<code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p>
-<p>See <a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>select helpers</a> for more details and
+<p>Use named arguments, e.g. <code>new_name = old_name</code>, to rename selected variables.
+See <a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>select helpers</a> for more details and
 examples about tidyselect helpers such as <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with()</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything()</a></code>, ...</p></td>
     </tr>
     </table>
@@ -401,77 +397,6 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt; 10 masculine
 #&gt; # … with 77 more rows</div><div class='input'>
 
-<span class='co'># The .data pronoun is available:</span>
-<span class='fu'>select</span>(<span class='no'>mtcars</span>, <span class='no'>.data</span>$<span class='no'>cyl</span>)</div><div class='output co'>#&gt;                     cyl
-#&gt; Mazda RX4             6
-#&gt; Mazda RX4 Wag         6
-#&gt; Datsun 710            4
-#&gt; Hornet 4 Drive        6
-#&gt; Hornet Sportabout     8
-#&gt; Valiant               6
-#&gt; Duster 360            8
-#&gt; Merc 240D             4
-#&gt; Merc 230              4
-#&gt; Merc 280              6
-#&gt; Merc 280C             6
-#&gt; Merc 450SE            8
-#&gt; Merc 450SL            8
-#&gt; Merc 450SLC           8
-#&gt; Cadillac Fleetwood    8
-#&gt; Lincoln Continental   8
-#&gt; Chrysler Imperial     8
-#&gt; Fiat 128              4
-#&gt; Honda Civic           4
-#&gt; Toyota Corolla        4
-#&gt; Toyota Corona         4
-#&gt; Dodge Challenger      8
-#&gt; AMC Javelin           8
-#&gt; Camaro Z28            8
-#&gt; Pontiac Firebird      8
-#&gt; Fiat X1-9             4
-#&gt; Porsche 914-2         4
-#&gt; Lotus Europa          4
-#&gt; Ford Pantera L        8
-#&gt; Ferrari Dino          6
-#&gt; Maserati Bora         8
-#&gt; Volvo 142E            4</div><div class='input'><span class='fu'>select</span>(<span class='no'>mtcars</span>, <span class='no'>.data</span>$<span class='no'>mpg</span> : <span class='no'>.data</span>$<span class='no'>disp</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp
-#&gt; Mazda RX4           21.0   6 160.0
-#&gt; Mazda RX4 Wag       21.0   6 160.0
-#&gt; Datsun 710          22.8   4 108.0
-#&gt; Hornet 4 Drive      21.4   6 258.0
-#&gt; Hornet Sportabout   18.7   8 360.0
-#&gt; Valiant             18.1   6 225.0
-#&gt; Duster 360          14.3   8 360.0
-#&gt; Merc 240D           24.4   4 146.7
-#&gt; Merc 230            22.8   4 140.8
-#&gt; Merc 280            19.2   6 167.6
-#&gt; Merc 280C           17.8   6 167.6
-#&gt; Merc 450SE          16.4   8 275.8
-#&gt; Merc 450SL          17.3   8 275.8
-#&gt; Merc 450SLC         15.2   8 275.8
-#&gt; Cadillac Fleetwood  10.4   8 472.0
-#&gt; Lincoln Continental 10.4   8 460.0
-#&gt; Chrysler Imperial   14.7   8 440.0
-#&gt; Fiat 128            32.4   4  78.7
-#&gt; Honda Civic         30.4   4  75.7
-#&gt; Toyota Corolla      33.9   4  71.1
-#&gt; Toyota Corona       21.5   4 120.1
-#&gt; Dodge Challenger    15.5   8 318.0
-#&gt; AMC Javelin         15.2   8 304.0
-#&gt; Camaro Z28          13.3   8 350.0
-#&gt; Pontiac Firebird    19.2   8 400.0
-#&gt; Fiat X1-9           27.3   4  79.0
-#&gt; Porsche 914-2       26.0   4 120.3
-#&gt; Lotus Europa        30.4   4  95.1
-#&gt; Ford Pantera L      15.8   8 351.0
-#&gt; Ferrari Dino        19.7   6 145.0
-#&gt; Maserati Bora       15.0   8 301.0
-#&gt; Volvo 142E          21.4   4 121.0</div><div class='input'>
-<span class='co'># However it isn't available within calls since those are evaluated</span>
-<span class='co'># outside of the data context. This would fail if run:</span>
-<span class='co'># select(mtcars, identical(.data$cyl))</span>
-
-
 <span class='co'># Renaming -----------------------------------------</span>
 <span class='co'># * select() keeps only the variables you specify</span>
 <span class='fu'>select</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 1
@@ -517,116 +442,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt;  8   5     3.4 setosa
 #&gt;  9   4.4   2.9 setosa
 #&gt; 10   4.9   3.1 setosa
-#&gt; # … with 140 more rows</div><div class='input'>
-<span class='co'># Unquoting ----------------------------------------</span>
-
-<span class='co'># Like all dplyr verbs, select() supports unquoting of symbols:</span>
-<span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-  <span class='kw'>var1</span> <span class='kw'>=</span> <span class='fu'><a href='tidyeval.html'>sym</a></span>(<span class='st'>"cyl"</span>),
-  <span class='kw'>var2</span> <span class='kw'>=</span> <span class='fu'><a href='tidyeval.html'>sym</a></span>(<span class='st'>"am"</span>)
-)
-<span class='fu'>select</span>(<span class='no'>mtcars</span>, !!!<span class='no'>vars</span>)</div><div class='output co'>#&gt;                     var1 var2
-#&gt; Mazda RX4              6    1
-#&gt; Mazda RX4 Wag          6    1
-#&gt; Datsun 710             4    1
-#&gt; Hornet 4 Drive         6    0
-#&gt; Hornet Sportabout      8    0
-#&gt; Valiant                6    0
-#&gt; Duster 360             8    0
-#&gt; Merc 240D              4    0
-#&gt; Merc 230               4    0
-#&gt; Merc 280               6    0
-#&gt; Merc 280C              6    0
-#&gt; Merc 450SE             8    0
-#&gt; Merc 450SL             8    0
-#&gt; Merc 450SLC            8    0
-#&gt; Cadillac Fleetwood     8    0
-#&gt; Lincoln Continental    8    0
-#&gt; Chrysler Imperial      8    0
-#&gt; Fiat 128               4    1
-#&gt; Honda Civic            4    1
-#&gt; Toyota Corolla         4    1
-#&gt; Toyota Corona          4    0
-#&gt; Dodge Challenger       8    0
-#&gt; AMC Javelin            8    0
-#&gt; Camaro Z28             8    0
-#&gt; Pontiac Firebird       8    0
-#&gt; Fiat X1-9              4    1
-#&gt; Porsche 914-2          4    1
-#&gt; Lotus Europa           4    1
-#&gt; Ford Pantera L         8    1
-#&gt; Ferrari Dino           6    1
-#&gt; Maserati Bora          8    1
-#&gt; Volvo 142E             4    1</div><div class='input'>
-<span class='co'># For convenience it also supports strings and character</span>
-<span class='co'># vectors. This is unlike other verbs where strings would be</span>
-<span class='co'># ambiguous.</span>
-<span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='st'>"cyl"</span>, <span class='kw'>var2</span> <span class='kw'>=</span><span class='st'>"am"</span>)
-<span class='fu'>select</span>(<span class='no'>mtcars</span>, !!<span class='no'>vars</span>)</div><div class='output co'>#&gt;                     var1 var2
-#&gt; Mazda RX4              6    1
-#&gt; Mazda RX4 Wag          6    1
-#&gt; Datsun 710             4    1
-#&gt; Hornet 4 Drive         6    0
-#&gt; Hornet Sportabout      8    0
-#&gt; Valiant                6    0
-#&gt; Duster 360             8    0
-#&gt; Merc 240D              4    0
-#&gt; Merc 230               4    0
-#&gt; Merc 280               6    0
-#&gt; Merc 280C              6    0
-#&gt; Merc 450SE             8    0
-#&gt; Merc 450SL             8    0
-#&gt; Merc 450SLC            8    0
-#&gt; Cadillac Fleetwood     8    0
-#&gt; Lincoln Continental    8    0
-#&gt; Chrysler Imperial      8    0
-#&gt; Fiat 128               4    1
-#&gt; Honda Civic            4    1
-#&gt; Toyota Corolla         4    1
-#&gt; Toyota Corona          4    0
-#&gt; Dodge Challenger       8    0
-#&gt; AMC Javelin            8    0
-#&gt; Camaro Z28             8    0
-#&gt; Pontiac Firebird       8    0
-#&gt; Fiat X1-9              4    1
-#&gt; Porsche 914-2          4    1
-#&gt; Lotus Europa           4    1
-#&gt; Ford Pantera L         8    1
-#&gt; Ferrari Dino           6    1
-#&gt; Maserati Bora          8    1
-#&gt; Volvo 142E             4    1</div><div class='input'><span class='fu'>rename</span>(<span class='no'>mtcars</span>, !!<span class='no'>vars</span>)</div><div class='output co'>#&gt;                      mpg var1  disp  hp drat    wt  qsec vs var2 gear carb
-#&gt; Mazda RX4           21.0    6 160.0 110 3.90 2.620 16.46  0    1    4    4
-#&gt; Mazda RX4 Wag       21.0    6 160.0 110 3.90 2.875 17.02  0    1    4    4
-#&gt; Datsun 710          22.8    4 108.0  93 3.85 2.320 18.61  1    1    4    1
-#&gt; Hornet 4 Drive      21.4    6 258.0 110 3.08 3.215 19.44  1    0    3    1
-#&gt; Hornet Sportabout   18.7    8 360.0 175 3.15 3.440 17.02  0    0    3    2
-#&gt; Valiant             18.1    6 225.0 105 2.76 3.460 20.22  1    0    3    1
-#&gt; Duster 360          14.3    8 360.0 245 3.21 3.570 15.84  0    0    3    4
-#&gt; Merc 240D           24.4    4 146.7  62 3.69 3.190 20.00  1    0    4    2
-#&gt; Merc 230            22.8    4 140.8  95 3.92 3.150 22.90  1    0    4    2
-#&gt; Merc 280            19.2    6 167.6 123 3.92 3.440 18.30  1    0    4    4
-#&gt; Merc 280C           17.8    6 167.6 123 3.92 3.440 18.90  1    0    4    4
-#&gt; Merc 450SE          16.4    8 275.8 180 3.07 4.070 17.40  0    0    3    3
-#&gt; Merc 450SL          17.3    8 275.8 180 3.07 3.730 17.60  0    0    3    3
-#&gt; Merc 450SLC         15.2    8 275.8 180 3.07 3.780 18.00  0    0    3    3
-#&gt; Cadillac Fleetwood  10.4    8 472.0 205 2.93 5.250 17.98  0    0    3    4
-#&gt; Lincoln Continental 10.4    8 460.0 215 3.00 5.424 17.82  0    0    3    4
-#&gt; Chrysler Imperial   14.7    8 440.0 230 3.23 5.345 17.42  0    0    3    4
-#&gt; Fiat 128            32.4    4  78.7  66 4.08 2.200 19.47  1    1    4    1
-#&gt; Honda Civic         30.4    4  75.7  52 4.93 1.615 18.52  1    1    4    2
-#&gt; Toyota Corolla      33.9    4  71.1  65 4.22 1.835 19.90  1    1    4    1
-#&gt; Toyota Corona       21.5    4 120.1  97 3.70 2.465 20.01  1    0    3    1
-#&gt; Dodge Challenger    15.5    8 318.0 150 2.76 3.520 16.87  0    0    3    2
-#&gt; AMC Javelin         15.2    8 304.0 150 3.15 3.435 17.30  0    0    3    2
-#&gt; Camaro Z28          13.3    8 350.0 245 3.73 3.840 15.41  0    0    3    4
-#&gt; Pontiac Firebird    19.2    8 400.0 175 3.08 3.845 17.05  0    0    3    2
-#&gt; Fiat X1-9           27.3    4  79.0  66 4.08 1.935 18.90  1    1    4    1
-#&gt; Porsche 914-2       26.0    4 120.3  91 4.43 2.140 16.70  0    1    5    2
-#&gt; Lotus Europa        30.4    4  95.1 113 3.77 1.513 16.90  1    1    5    2
-#&gt; Ford Pantera L      15.8    8 351.0 264 4.22 3.170 14.50  0    1    5    4
-#&gt; Ferrari Dino        19.7    6 145.0 175 3.62 2.770 15.50  0    1    5    6
-#&gt; Maserati Bora       15.0    8 301.0 335 3.54 3.570 14.60  0    1    5    8
-#&gt; Volvo 142E          21.4    4 121.0 109 4.11 2.780 18.60  1    1    4    2</div></pre>
+#&gt; # … with 140 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

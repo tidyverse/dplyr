@@ -210,14 +210,10 @@ for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://rdrr
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Logical predicates defined in terms of the variables in <code>.data</code>.
+      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; Logical predicates defined in
+terms of the variables in <code>.data</code>.
 Multiple conditions are combined with <code>&amp;</code>. Only rows where the
-condition evaluates to <code>TRUE</code> are kept.</p>
-<p>The arguments in <code>...</code> are automatically <a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quoted</a> and
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. They support <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a> and
-splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
-these concepts.</p></td>
+condition evaluates to <code>TRUE</code> are kept.</p></td>
     </tr>
     <tr>
       <th>.preserve</th>
@@ -418,30 +414,8 @@ selection of variables.</p>
 #&gt;  9 Bossk    190   113 none       green      red             53   male  mascu…
 #&gt; 10 Ackb…    180    83 none       brown mot… orange          41   male  mascu…
 #&gt; # … with 11 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
-<span class='co'># For more complex cases, knowledge of tidy evaluation and the</span>
-<span class='co'># unquote operator `!!` is required. See https://tidyeval.tidyverse.org/</span>
-<span class='co'>#</span>
-<span class='co'># One useful and simple tidy eval technique is to use `!!` to bypass</span>
-<span class='co'># the data frame and its columns. Here is how to filter the columns</span>
-<span class='co'># `mass` and `height` relative to objects of the same names:</span>
-<span class='no'>mass</span> <span class='kw'>&lt;-</span> <span class='fl'>80</span>
-<span class='no'>height</span> <span class='kw'>&lt;-</span> <span class='fl'>150</span>
-<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>mass</span> <span class='kw'>&gt;</span> !!<span class='no'>mass</span>, <span class='no'>height</span> <span class='kw'>&gt;</span> !!<span class='no'>height</span>)</div><div class='output co'>#&gt; # A tibble: 21 x 14
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Dart…    202   136 none       white      yellow          41.9 male  mascu…
-#&gt;  2 Owen…    178   120 brown, gr… light      blue            52   male  mascu…
-#&gt;  3 Bigg…    183    84 black      light      brown           24   male  mascu…
-#&gt;  4 Anak…    188    84 blond      fair       blue            41.9 male  mascu…
-#&gt;  5 Chew…    228   112 brown      unknown    blue           200   male  mascu…
-#&gt;  6 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herm… mascu…
-#&gt;  7 Jek …    180   110 brown      fair       blue            NA   male  mascu…
-#&gt;  8 IG-88    200   140 none       metal      red             15   none  mascu…
-#&gt;  9 Bossk    190   113 none       green      red             53   male  mascu…
-#&gt; 10 Ackb…    180    83 none       brown mot… orange          41   male  mascu…
-#&gt; # … with 11 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div></pre>
+#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'># Learn more in ?dplyr_tidy_eval
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

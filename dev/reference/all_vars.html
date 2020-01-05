@@ -211,13 +211,8 @@ variant takes the intersection of the predicate expressions with
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>expr</th>
-      <td><p>A predicate expression. This variable supports
-<a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a> and will be evaluated in the
-context of the data frame. It should return a logical vector.</p>
-<p>This argument is automatically <a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quoted</a> and later
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. It supports <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a>. See
-<code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p></td>
+      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; An expression that
+returns a logical vector, using <code>.</code> to refer to the "current" variable.</p></td>
     </tr>
     </table>
 

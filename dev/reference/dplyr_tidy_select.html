@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a list of functions calls. — funs • dplyr</title>
+<title>Argument type: tidy-select — dplyr_tidy_select • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,9 +47,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Create a list of functions calls. — funs" />
-<meta property="og:description" content="funs() provides a flexible way to generate a named list of
-functions for input to other functions like summarise_at()." />
+<meta property="og:title" content="Argument type: tidy-select — dplyr_tidy_select" />
+<meta property="og:description" content="This page the describes the &amp;lt;tidy-select&amp;gt; argument modifier which indicates
+that the tidyselect syntax which provides a concise DSL for selecting
+variables based on their names. This is a special type of non-standard
+evaluation used throughout the tidyverse when selecting multiple variables." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -186,88 +188,65 @@ functions for input to other functions like summarise_at()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a list of functions calls.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-funs.R'><code>R/deprec-funs.R</code></a></small>
-    <div class="hidden name"><code>funs.Rd</code></div>
+    <h1>Argument type: tidy-select</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/doc-params.R'><code>R/doc-params.R</code></a></small>
+    <div class="hidden name"><code>dplyr_tidy_select.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>funs()</code> provides a flexible way to generate a named list of
-functions for input to other functions like <code><a href='summarise_all.html'>summarise_at()</a></code>.</p>
+    <p>This page the describes the <code>&lt;tidy-select&gt;</code> argument modifier which indicates
+that the tidyselect syntax which provides a concise DSL for selecting
+variables based on their names. This is a special type of non-standard
+evaluation used throughout the tidyverse when selecting multiple variables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>funs</span>(<span class='no'>...</span>, <span class='kw'>.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>...</th>
-      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; A list of functions specified by:</p><ul>
-<li><p>Their name, <code>"mean"</code></p></li>
-<li><p>The function itself, <code>mean</code></p></li>
-<li><p>A call to the function with <code>.</code> as a dummy argument,
-<code><a href='https://rdrr.io/r/base/mean.html'>mean(., na.rm = TRUE)</a></code></p></li>
+
+    <h2 class="hasAnchor" id="general-usage"><a class="anchor" href="#general-usage"></a>General usage</h2>
+
+    
+
+<p>If you have a data frame with variables <code>apple</code>, <code>banana</code>, <code>cantelope</code>,
+<code>date</code>, <code>eggplant</code>, <code>fig</code>, <code>grape</code> you can:</p><ul>
+<li><p>Select individual variables with their name: e.g. <code><a href='https://rdrr.io/r/base/c.html'>c(apple, fig, grape)</a></code>.</p></li>
+<li><p>Select data-variables stored in a env-variable with <code>all_of()</code> (which
+will error if a variable is not found) or <code>any_of()</code> (which is
+relaxed and will silently drop missing variables), e.g.
+if <code>vars &lt;- c("apple", "fig", "peach")</code>, then <code>all_of(vars)</code> will
+error; <code>any_of(vars)</code> will select <code>apple</code> and <code>fig</code>.</p></li>
+<li><p>Select contiguous variables with <code>:</code>, e.g. <code>apple:date</code>.</p></li>
+<li><p>Select variables with named-based helpers: e.g. <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with("a")</a></code>,
+<code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains("g")</a></code>. See full list in <a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>tidyselect::select_helpers</a>.</p></li>
+<li><p>Select variables of a given type with a <code>is</code> function: <code>is.numeric</code>,
+<code>is.factor</code>, <code>is.character</code>, etc.</p></li>
+<li><p>Invert a selection with <code>!</code>: <code>!is.numeric</code>, or <code>!contains("x")</code>.</p></li>
+<li><p>Create logical combination with <code>|</code> and <code>&amp;</code>:
+<code>starts_with("a") | starts_with("b")</code>, <code>contains("x") &amp; is.numeric</code></p></li>
+<li><p>Remove variables from a collection with <code>-</code>:
+<code>is.numeric - starts_with("a")</code></p></li>
 </ul>
 
-<p>The following notations are <strong>not</strong> supported, see examples:</p><ul>
-<li><p>An anonymous function, <code>function(x) mean(x, na.rm = TRUE)</code></p></li>
-<li><p>An anonymous function in <span class="pkg">purrr</span> notation, <code>~mean(., na.rm = TRUE)</code></p></li>
-</ul></td>
-    </tr>
-    <tr>
-      <th>.args, args</th>
-      <td><p>A named list of additional arguments to be added to all
-function calls. As <code>funs()</code> is being deprecated, use other methods to
-supply arguments: <code>...</code> argument in <a href='summarise_all.html'>scoped verbs</a> or make
-own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.html'>purrr::partial()</a></code>.</p></td>
-    </tr>
-    </table>
+    <h2 class="hasAnchor" id="indirection"><a class="anchor" href="#indirection"></a>Indirection</h2>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    
 
-    <p><img src='figures/lifecycle-soft-deprecated.svg' alt='Soft-deprecated lifecycle' /></p>
+<p>There are two main cases:</p><ul>
+<li><p>If you have a character vector of column names, use <code>all_of()</code>
+or <code>any_of()</code>, depending on whether or not you want unknown variable
+names to cause an error, e.g <code><a href='select.html'>select(df, all_of(vars))</a></code>,
+<code><a href='select.html'>select(df, -any_of(vars))</a></code>.</p></li>
+<li><p>If you you want the user to supply a tidyselect specification in a
+function argument, embrace the function argument, e.g
+<code><a href='select.html'>select(df, {{ vars }})</a></code>.</p></li>
+</ul>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>funs</span>(<span class='no'>mean</span>, <span class='st'>"mean"</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `funs()` is deprecated as of dplyr 1.0.0.</span>
-#&gt; <span class='warning'>Please use a list of either functions or lambdas: </span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Simple named list: </span>
-#&gt; <span class='warning'>  list(mean = mean, median = median)</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Auto named with `tibble::lst()`: </span>
-#&gt; <span class='warning'>  tibble::lst(mean, median)</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Using lambdas</span>
-#&gt; <span class='warning'>  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ mean: mean(.)
-#&gt; $ mean: mean(.)
-#&gt; $ mean: mean(., na.rm = TRUE)</div><div class='input'>
-<span class='co'># Override default names</span>
-<span class='fu'>funs</span>(<span class='kw'>m1</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>m2</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>m3</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ m1: mean(.)
-#&gt; $ m2: mean(.)
-#&gt; $ m3: mean(., na.rm = TRUE)</div><div class='input'>
-<span class='co'># If you have function names in a vector, use funs_</span>
-<span class='no'>fs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"min"</span>, <span class='st'>"max"</span>)
-<span class='fu'><a href='se-deprecated.html'>funs_</a></span>(<span class='no'>fs</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: funs_() is deprecated. </span>
-#&gt; <span class='warning'>Please use list() instead</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ min: min(.)
-#&gt; $ max: max(.)</div><div class='input'>
-<span class='co'># Not supported</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>funs</span>(<span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-<span class='fu'>funs</span>(~<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))}</div></pre>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#general-usage">General usage</a></li>
+      <li><a href="#indirection">Indirection</a></li>
     </ul>
 
   </div>

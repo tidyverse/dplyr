@@ -216,52 +216,52 @@ frames</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: location() is deprecated, please use functions in the lobstr package</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; &lt;0x6ca86c8&gt;
+#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; &lt;0x7dcfa58&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x6dfe680&gt;
-#&gt;  * cyl:       &lt;0x6ce60d0&gt;
-#&gt;  * disp:      &lt;0x6ce6210&gt;
-#&gt;  * hp:        &lt;0x6e45b20&gt;
-#&gt;  * drat:      &lt;0x6e45c60&gt;
-#&gt;  * wt:        &lt;0x6e45da0&gt;
-#&gt;  * qsec:      &lt;0x6e45ee0&gt;
-#&gt;  * vs:        &lt;0x6e46020&gt;
-#&gt;  * am:        &lt;0x6e46160&gt;
-#&gt;  * gear:      &lt;0x6e462a0&gt;
-#&gt;  * carb:      &lt;0x6e463e0&gt;
+#&gt;  * mpg:       &lt;0x76683a0&gt;
+#&gt;  * cyl:       &lt;0x7b4d5f0&gt;
+#&gt;  * disp:      &lt;0x78a46d0&gt;
+#&gt;  * hp:        &lt;0x7d8be60&gt;
+#&gt;  * drat:      &lt;0x7b6c130&gt;
+#&gt;  * wt:        &lt;0x7a1d370&gt;
+#&gt;  * qsec:      &lt;0x7a1d4b0&gt;
+#&gt;  * vs:        &lt;0x7a1d5f0&gt;
+#&gt;  * am:        &lt;0x7a1d730&gt;
+#&gt;  * gear:      &lt;0x7a1d870&gt;
+#&gt;  * carb:      &lt;0x7a1d9b0&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x6ca8618&gt;
-#&gt;  * row.names: &lt;0x6c4e360&gt;
-#&gt;  * class:     &lt;0x4f4d4f8&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0x7dcf9a8&gt;
+#&gt;  * row.names: &lt;0x79e0920&gt;
+#&gt;  * class:     &lt;0x5d7ed18&gt;</div><div class='input'>
 <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0xe3024d8&gt;
+<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0xfd1d5f8&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x6dfe680&gt;
-#&gt;  * cyl:       &lt;0x6ce60d0&gt;
-#&gt;  * disp:      &lt;0x6ce6210&gt;
-#&gt;  * hp:        &lt;0x6e45b20&gt;
-#&gt;  * drat:      &lt;0x6e45c60&gt;
-#&gt;  * wt:        &lt;0x6e45da0&gt;
-#&gt;  * qsec:      &lt;0x6e45ee0&gt;
-#&gt;  * vs:        &lt;0x6e46020&gt;
-#&gt;  * am:        &lt;0x6e46160&gt;
-#&gt;  * gear:      &lt;0x6e462a0&gt;
-#&gt;  * carb:      &lt;0x6e463e0&gt;
-#&gt;  * cyl2:      &lt;0xa9da4c0&gt;
+#&gt;  * mpg:       &lt;0x76683a0&gt;
+#&gt;  * cyl:       &lt;0x7b4d5f0&gt;
+#&gt;  * disp:      &lt;0x78a46d0&gt;
+#&gt;  * hp:        &lt;0x7d8be60&gt;
+#&gt;  * drat:      &lt;0x7b6c130&gt;
+#&gt;  * wt:        &lt;0x7a1d370&gt;
+#&gt;  * qsec:      &lt;0x7a1d4b0&gt;
+#&gt;  * vs:        &lt;0x7a1d5f0&gt;
+#&gt;  * am:        &lt;0x7a1d730&gt;
+#&gt;  * gear:      &lt;0x7a1d870&gt;
+#&gt;  * carb:      &lt;0x7a1d9b0&gt;
+#&gt;  * cyl2:      &lt;0x737cfd0&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0xe3022c8&gt;
-#&gt;  * row.names: &lt;0x753aa50&gt;
-#&gt;  * class:     &lt;0x40dd358&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0xfd1d3e8&gt;
+#&gt;  * row.names: &lt;0x97a26d8&gt;
+#&gt;  * class:     &lt;0x29c5268&gt;</div><div class='input'>
 <span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: changes() is deprecated, please use functions in the lobstr package</span>
 #&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
 #&gt;           old     new      
-#&gt; cyl2      &lt;added&gt; 0xa9da4c0
+#&gt; cyl2      &lt;added&gt; 0x737cfd0
 #&gt; 
 #&gt; Changed attributes:
 #&gt;           old       new      
-#&gt; names     0x6ca8618 0xe3022c8
-#&gt; row.names 0x6c4e360 0x8dfadc0
-#&gt; class     0x4f4d4f8 0x40dd358</div></pre>
+#&gt; names     0x7dcf9a8 0xfd1d3e8
+#&gt; row.names 0x79e0920 0x8b0c168
+#&gt; class     0x5d7ed18 0x29c5268</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

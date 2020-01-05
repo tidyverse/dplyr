@@ -211,7 +211,7 @@ tbls.</p>
     </tr>
     <tr>
       <th>size</th>
-      <td><p>For <code>sample_n()</code>, the number of rows to select.
+      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; For <code>sample_n()</code>, the number of rows to select.
 For <code>sample_frac()</code>, the fraction of rows to select.
 If <code>tbl</code> is grouped, <code>size</code> applies to each group.</p></td>
     </tr>
@@ -221,13 +221,9 @@ If <code>tbl</code> is grouped, <code>size</code> applies to each group.</p></td
     </tr>
     <tr>
       <th>weight</th>
-      <td><p>Sampling weights. This must evaluate to a vector of
+      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Sampling weights. This must evaluate to a vector of
 non-negative numbers the same length as the input. Weights are
-automatically standardised to sum to 1.</p>
-<p>This argument is automatically <a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quoted</a> and later
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. It supports <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a>. See
-<code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p></td>
+automatically standardised to sum to 1.</p></td>
     </tr>
     <tr>
       <th>.env</th>

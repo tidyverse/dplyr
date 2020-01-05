@@ -207,15 +207,10 @@ the ordinal position within the group.</p>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Integer row values.  Provide either positive values to keep,
-or negative values to drop. The values provided must be either all
-positive or all negative.  Indices beyond the number of rows in the
-input are silently ignored.</p>
-<p>The arguments in <code>...</code> are automatically <a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quoted</a> and
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. They support <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a> and
-splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
-these concepts.</p></td>
+      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; Integer row values.
+Provide either positive values to keep, or negative values to drop.
+The values provided must be either all positive or all negative.
+Indices beyond the number of rows in the input are silently ignored.</p></td>
     </tr>
     <tr>
       <th>.preserve</th>

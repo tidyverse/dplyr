@@ -205,7 +205,7 @@ If no cases match, <code>NA</code> is returned.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>A sequence of two-sided formulas. The left hand side (LHS)
+      <td><p>&lt;<code><a href='https://rlang.r-lib.org/reference/dyn-dots.html'>dynamic-dots</a></code>&gt; A sequence of two-sided formulas. The left hand side (LHS)
 determines which values match this case. The right hand side (RHS)
 provides the replacement value.</p>
 <p>The LHS must evaluate to a logical vector. The RHS does not need to be
@@ -213,10 +213,7 @@ logical, but all RHSs must evaluate to the same type of vector.</p>
 <p>Both LHS and RHS may have the same length of either 1 or <code>n</code>. The
 value of <code>n</code> must be consistent across all cases. The case of
 <code>n == 0</code> is treated as a variant of <code>n != 1</code>.</p>
-<p><code>NULL</code> inputs are ignored.</p>
-<p>These dots support <a href='https://rlang.r-lib.org/reference/list2.html'>tidy dots</a> features. In
-particular, if your patterns are stored in a list, you can
-splice that in with <code>!!!</code>.</p></td>
+<p><code>NULL</code> inputs are ignored.</p></td>
     </tr>
     </table>
 
