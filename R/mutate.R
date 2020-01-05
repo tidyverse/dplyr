@@ -137,3 +137,122 @@ transmute <- function(.data, ...) {
   UseMethod("transmute")
 }
 
+#' @export
+mutate.tbl_df <- function(.data, ...) {
+  new_columns <- mutate_new_columns(.data, ...)
+  mutate_finish(.data, new_columns)
+}
+
+#' @export
+transmute.tbl_df <- function(.data, ...) {
+  new_columns <- mutate_new_columns(.data, ...)
+
+  out <- .data[, group_vars(.data), drop = FALSE]
+  new_column_names <- names(new_columns)
+  for (i in seq_along(new_columns)) {
+    if (!inherits(new_columns[[i]], "rlang_zap")) {
+      out[[new_column_names[i]]] <-  new_columns[[i]]
+    }
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
+  out
+}
+
+
+# Helpers -----------------------------------------------------------------
+
+mutate_new_columns <- function(.data, ...) {
+  rows <- group_rows(.data)
+  # workaround when there are 0 groups
+  if (length(rows) == 0L) {
+    rows <- list(integer(0))
+  }
+  rows_lengths <- .Call(`dplyr_vec_sizes`, rows)
+
+  o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
+  mask <- DataMask$new(.data, caller_env(), rows)
+
+  dots <- enquos(...)
+  dots_names <- names(dots)
+  auto_named_dots <- names(enquos(..., .named = TRUE))
+  if (length(dots) == 0L) {
+    return(list())
+  }
+
+  new_columns <- list()
+
+  for (i in seq_along(dots)) {
+    # a list in which each element is the result of
+    # evaluating the quosure in the "sliced data mask"
+    # recycling it appropriately to match the group size
+    #
+    # TODO: reinject hybrid evaluation at the R level
+    c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]], dots_names, i)
+
+    if (is.null(chunks)) {
+      if (!is.null(dots_names) && dots_names[i] != "" && dots_names[[i]] %in% c(names(.data), names(new_columns))) {
+        new_columns[[dots_names[i]]] <- zap()
+        mask$remove(dots_names[i])
+      }
+      next
+    }
+
+    if (needs_recycle) {
+      chunks <- map2(chunks, rows_lengths, function(chunk, n) {
+        vec_recycle(chunk, n)
+      })
+    }
+    result <- vec_slice(vec_c(!!!chunks), o_rows)
+
+    not_named <- (is.null(dots_names) || dots_names[i] == "")
+    if (not_named && is.data.frame(result)) {
+      new_columns[names(result)] <- result
+
+      # remember each result separately
+      map2(seq_along(result), names(result), function(i, nm) {
+        mask$add(nm, pluck(chunks, i))
+      })
+    } else {
+      name <- if (not_named) auto_named_dots[i] else dots_names[i]
+
+      # treat as a single output otherwise
+      new_columns[[name]] <- result
+
+      # remember
+      mask$add(name, chunks)
+    }
+
+  }
+
+  new_columns
+}
+
+mutate_finish <- function(.data, new_columns) {
+  if (!length(new_columns)) {
+    return(.data)
+  }
+
+  out <- .data
+  new_column_names <- names(new_columns)
+  for (i in seq_along(new_columns)) {
+    out[[new_column_names[i]]] <- if (!inherits(new_columns[[i]], "rlang_zap")) new_columns[[i]]
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
+  out
+}

@@ -72,3 +72,75 @@ summarise <- function(.data, ...) {
 #' @rdname summarise
 #' @export
 summarize <- summarise
+
+#' @importFrom tibble add_column
+#' @export
+summarise.tbl_df <- function(.data, ...) {
+  rows <- group_rows(.data)
+  # workaround when there are 0 groups
+  if (length(rows) == 0L) {
+    rows <- list(integer(0))
+  }
+
+  mask <- DataMask$new(.data, caller_env(), rows)
+
+  dots <- enquos(...)
+  dots_names <- names(dots)
+  auto_named_dots <- names(enquos(..., .named = TRUE))
+
+  summaries <- list()
+
+  .size <- 1L
+
+  for (i in seq_along(dots)) {
+    # a list in which each element is the result of
+    # evaluating the quosure in the "sliced data mask"
+    #
+    # TODO: reinject hybrid evaluation at the R level
+    quo <- dots[[i]]
+    chunks <- mask$eval_all_summarise(quo, dots_names, i)
+
+    # check that vec_size() of chunks is compatible with .size
+    # and maybe update .size
+    .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks)
+
+    result <- vec_c(!!!chunks)
+
+    if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
+      summaries[names(result)] <- result
+
+      # remember each result separately
+      map2(seq_along(result), names(result), function(i, nm) {
+        mask$add(nm, pluck(chunks, i))
+      })
+    } else {
+      # treat as a single output otherwise
+      summaries[[ auto_named_dots[i] ]] <-  result
+
+      # remember
+      mask$add(auto_named_dots[i], chunks)
+    }
+
+  }
+
+  grouping <- group_keys(.data)
+  if (!identical(.size, 1L)) {
+    grouping <- vec_slice(grouping, rep(seq2(1L, nrow(grouping)), .size))
+  }
+
+  out <- add_column(grouping, !!!summaries)
+
+  if (is_grouped_df(.data) && length(group_vars(.data)) > 1) {
+    out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
+  out
+}

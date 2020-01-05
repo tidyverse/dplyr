@@ -148,6 +148,10 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
   )
 }
 
+#' @export
+# Can't use NextMethod() in R 3.1, r-lib/rlang#486
+distinct.tbl_df <- distinct.data.frame
+
 
 #' Efficiently count the number of unique values in a set of vector
 #'
