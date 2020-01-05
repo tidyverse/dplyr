@@ -13,9 +13,10 @@ summarize(.data, ...)
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of summary functions. The name will be the
-name of the variable in the result. The value should be an expression
-that returns a single value like \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.}
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of summary
+functions. The name will be the name of the variable in the result.
+The value should be an expression that returns a single value like
+\code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.}
 }
 \value{
 An object of the same class as \code{.data}. One grouping level will

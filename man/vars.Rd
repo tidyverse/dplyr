@@ -7,9 +7,9 @@
 vars(...)
 }
 \arguments{
-\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Variables to include/exclude in mutate/summarise. You
-can use same specifications as in \code{\link[=select]{select()}}. If missing,
-defaults to all non-grouping variables.}
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Variables to include/exclude
+in mutate/summarise. You can use same specifications as in \code{\link[=select]{select()}}.
+If missing, defaults to all non-grouping variables.}
 }
 \description{
 This helper is intended to provide equivalent semantics to

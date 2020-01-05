@@ -9,10 +9,10 @@ slice(.data, ..., .preserve = FALSE)
 \arguments{
 \item{.data}{A tbl.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Integer row values.  Provide either positive values to keep,
-or negative values to drop. The values provided must be either all
-positive or all negative.  Indices beyond the number of rows in the
-input are silently ignored.}
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Integer row values.
+Provide either positive values to keep, or negative values to drop.
+The values provided must be either all positive or all negative.
+Indices beyond the number of rows in the input are silently ignored.}
 
 \item{.preserve}{when \code{FALSE} (the default), the grouping structure
 is recalculated based on the resulting data, otherwise it is kept as is.}

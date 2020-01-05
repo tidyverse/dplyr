@@ -53,7 +53,8 @@
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
 #'   for [tbl_df()], [dtplyr::tbl_dt()] and [dbplyr::tbl_dbi()].
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Logical predicates defined in terms of the variables in `.data`.
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Logical predicates defined in
+#'   terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   condition evaluates to `TRUE` are kept.
 #' @param .preserve when `FALSE` (the default), the grouping structure
@@ -109,10 +110,10 @@ filter <- function(.data, ..., .preserve = FALSE) {
 #'
 #' @family single table verbs
 #' @param .data A tbl.
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Integer row values.  Provide either positive values to keep,
-#'   or negative values to drop. The values provided must be either all
-#'   positive or all negative.  Indices beyond the number of rows in the
-#'   input are silently ignored.
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Integer row values.
+#'   Provide either positive values to keep, or negative values to drop.
+#'   The values provided must be either all positive or all negative.
+#'   Indices beyond the number of rows in the input are silently ignored.
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
 #' @export
@@ -172,9 +173,10 @@ slice <- function(.data, ..., .preserve = FALSE) {
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of summary functions. The name will be the
-#'   name of the variable in the result. The value should be an expression
-#'   that returns a single value like `min(x)`, `n()`, or `sum(is.na(y))`.
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of summary
+#'   functions. The name will be the name of the variable in the result.
+#'   The value should be an expression that returns a single value like
+#'   `min(x)`, `n()`, or `sum(is.na(y))`.
 #' @family single table verbs
 #' @return An object of the same class as `.data`. One grouping level will
 #'   be dropped.
@@ -276,11 +278,12 @@ summarize <- summarise
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of expressions, each with length 1 or the same
-#'   length as the number of rows in the group (if using [group_by()]) or in the entire
-#'   input (if not using groups). The name of each argument will be the name of
-#'   a new variable, and the value will be its corresponding value.  Use a `NULL`
-#'   value in `mutate` to drop a variable.  New variables overwrite existing variables
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of expressions,
+#'   each with length 1 or the same length as the number of rows in the group
+#'   (if using [group_by()]) or in the entire input (if not using groups).
+#'   The name of each argument will be the name of a new variable, and the
+#'   value will be its corresponding value. Use a `NULL` value in `mutate`
+#'   to drop a variable.  New variables overwrite existing variables
 #'   of the same name.
 #' @family single table verbs
 #' @return An object of the same class as `.data`.
@@ -368,8 +371,8 @@ transmute <- function(.data, ...) {
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or variables.
-#'   Use [desc()] to sort a variable in descending order.
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or
+#'   variables. Use [desc()] to sort a variable in descending order.
 #' @family single table verbs
 #' @return An object of the same class as `.data`.
 #' @examples
@@ -424,9 +427,10 @@ arrange <- function(.data, ...) {
 #'
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted expressions separated by commas.
-#'   You can treat variable names like they are positions, so you can
-#'   use expressions like `x:y` to select ranges of variables.
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
+#'   expressions separated by commas. You can treat variable names like they
+#'   are positions, so you can use expressions like `x:y` to select ranges of
+#'   variables.
 #'
 #'   Positive values select variables; negative values drop variables.
 #'   If the first expression is negative, `select()` will automatically

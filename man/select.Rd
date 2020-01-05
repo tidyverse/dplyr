@@ -13,9 +13,10 @@ rename(.data, ...)
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
-\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> One or more unquoted expressions separated by commas.
-You can treat variable names like they are positions, so you can
-use expressions like \code{x:y} to select ranges of variables.
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> One or more unquoted
+expressions separated by commas. You can treat variable names like they
+are positions, so you can use expressions like \code{x:y} to select ranges of
+variables.
 
 Positive values select variables; negative values drop variables.
 If the first expression is negative, \code{select()} will automatically

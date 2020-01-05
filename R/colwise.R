@@ -87,9 +87,9 @@ NULL
 #' Note that verbs accepting a `vars()` specification also accept a
 #' numeric vector of positions or a character vector of column names.
 #'
-#' @param ... <[`tidy-select`][dplyr_tidy_select]> Variables to include/exclude in mutate/summarise. You
-#'   can use same specifications as in [select()]. If missing,
-#'   defaults to all non-grouping variables.
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> Variables to include/exclude
+#'   in mutate/summarise. You can use same specifications as in [select()].
+#'   If missing, defaults to all non-grouping variables.
 #' @seealso [all_vars()] and [any_vars()] for other quoting
 #'   functions that you can use with scoped verbs.
 #' @export
