@@ -5,6 +5,15 @@ test_that("non-syntactic grouping variable is preserved (#1138)", {
   expect_named(df, "a b")
 })
 
+test_that("transmute preserves variable order", {
+  df <- tibble(x = 1, g = 2)
+
+  out <- df %>%
+    group_by(g) %>%
+    transmute(x = 2)
+
+  expect_named(out, c("x", "g"))
+})
 
 # Empty transmutes -------------------------------------------------
 
