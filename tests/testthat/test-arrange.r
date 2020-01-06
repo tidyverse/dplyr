@@ -136,10 +136,7 @@ test_that("arrange handles list columns (#1489)", {
   df <- expand.grid(group = 1:2, y = 1, x = 1) %>%
     group_by(group) %>%
     do(fit = lm(data = ., y ~ x))
-  expect_error(
-    arrange(df, fit),
-    NA
-  )
+  expect_equivalent(arrange(df, fit), df)
 })
 
 test_that("arrange supports raw columns (#1803)", {

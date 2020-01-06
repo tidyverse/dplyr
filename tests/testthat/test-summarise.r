@@ -223,22 +223,6 @@ test_that("summarise allows names (#2675)", {
   expect_equal(res$b, c("50%" = 1, "50%" = 2, "50%" = 3))
 })
 
-test_that("summarise fails on missing variables", {
-  # error messages from rlang
-  expect_error(summarise(mtcars, a = mean(notthear)))
-})
-
-test_that("summarise fails on missing variables when grouping (#2223)", {
-  # error messages from rlang
-  expect_error(summarise(group_by(mtcars, cyl), a = mean(notthear)))
-})
-
-test_that("n() does not accept arguments", {
-  expect_error(
-    summarise(group_by(mtcars, cyl), n(hp))
-  )
-})
-
 test_that("hybrid nests correctly", {
   res <- group_by(mtcars, cyl) %>%
     summarise(a = if (n() > 10) 1 else 2)
@@ -297,19 +281,6 @@ test_that("integer overflow (#304)", {
     summarise(sum_integer = sum(X1), sum_numeric = sum(X2))
   expect_equal(res$sum_numeric, rep(3e9, 2L))
 })
-
-# test_that("summarise checks outputs (#300)", {
-#   expect_error(
-#     summarise(mtcars, mpg, cyl),
-#     "Column `mpg` must be length 1 (a summary value), not 32",
-#     fixed = TRUE
-#   )
-#   expect_error(
-#     summarise(mtcars, mpg + cyl),
-#     "Column `mpg + cyl` must be length 1 (a summary value), not 32",
-#     fixed = TRUE
-#   )
-# })
 
 test_that("comment attribute is allowed (#346)", {
   test <- data.frame(A = c(1, 1, 0, 0), B = c(2, 2, 3, 3))
@@ -383,12 +354,6 @@ test_that("summarise hybrid functions can use summarized variables", {
   expect_identical(res$var, rep(NA_real_, 2))
 })
 
-test_that("LazySubset is not confused about input data size (#452)", {
-  res <- data.frame(a = c(10, 100)) %>% summarise(b = sum(a), c = sum(a) * 2)
-  expect_equal(res$b, 110)
-  expect_equal(res$c, 220)
-})
-
 test_that("nth, first, last promote dates and times (#509)", {
   data <- tibble(
     ID = rep(letters[1:4], each = 5),
@@ -412,8 +377,6 @@ test_that("nth, first, last promote dates and times (#509)", {
   expect_is(res$time2, "POSIXct")
   expect_is(res$first_time, "POSIXct")
   expect_is(res$last_time, "POSIXct")
-  # error messages from rlang
-  expect_error(data %>% group_by(ID) %>% summarise(time2 = nth(times, 2)))
 })
 
 test_that("nth, first, last preserves factor data (#509)", {
@@ -455,12 +418,6 @@ test_that("nth handle negative value (#1584) ", {
   expect_equal(res$x4[2], 9)
   expect_equal(res$x5, c(99, 6))
   expect_equal(res$x6, c(99, 9))
-})
-
-test_that("LazyGroupSubsets is robust about columns not from the data (#600)", {
-  foo <- tibble(x = 1:10, y = 1:10)
-  # error messages from rlang
-  expect_error(foo %>% group_by(x) %>% summarise(first_y = first(z)))
 })
 
 test_that("can summarise first(x[-1]) (#1980)", {
@@ -1122,4 +1079,38 @@ test_that("summarise() packs named tibble results (#2326)", {
     )
   expect_is(res$out, "data.frame")
   expect_equal(nrow(res$out), 3L)
+})
+
+test_that("across() does not select grouping variables", {
+  expect_identical(
+    iris %>% group_by(Species) %>% summarise(across(is.numeric, mean)),
+    iris %>% group_by(Species) %>% summarise(across(everything(), mean))
+  )
+})
+
+# Errors ------------------------------------------------------------------
+
+test_that("summarise() give meaningful errors", {
+  verify_output(test_path("test-summarise-errors.txt"), {
+    "# Can't modify grouping variable"
+    data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4) %>%
+      group_by(a, b) %>%
+      summarise(a = mean(x), a = b + 1)
+
+    "# unsupported type"
+    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+      summarise(a = env(a = 1))
+    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+      group_by(df, x, y) %>%
+      summarise(a = env(a = 1))
+    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+      summarise(a = NULL)
+    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+      group_by(df, x, y) %>%
+      summarise(a = NULL)
+
+    "# Missing variable"
+    summarise(mtcars, a = mean(not_there))
+    summarise(group_by(mtcars, cyl), a = mean(not_there))
+  })
 })

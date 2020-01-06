@@ -70,9 +70,13 @@ test_that("lead() and lag() respect bit64::integer64 (#4558)", {
 
 test_that("lead() / lag() give meaningful errors", {
   verify_output(test_path("test-lead-lag-errors.txt"), {
+    "# complicance of n argument"
     lead(letters, -1)
     lead(letters, "1")
     lag(letters, -1)
     lag(letters, "1")
+
+    "# ts"
+    lag(ts(1:10))
   })
 })

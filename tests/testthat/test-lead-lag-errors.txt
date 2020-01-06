@@ -1,3 +1,7 @@
+
+complicance of n argument
+=========================
+
 > lead(letters, -1)
 Error: `n` must be a nonnegative integer scalar, not a double vector of length 1
 
@@ -9,4 +13,11 @@ Error: `n` must be a nonnegative integer scalar, not a double vector of length 1
 
 > lag(letters, "1")
 Error: `n` must be a nonnegative integer scalar, not a character vector of length 1
+
+
+ts
+==
+
+> lag(ts(1:10))
+Error: `x` must be a vector, not a ts object, do you want `stats::lag()`?
 
