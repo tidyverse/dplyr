@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Join data frame tbls — nest_join.data.frame • dplyr</title>
+<title>Join data frame tbls — join.tbl_df • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,7 +47,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Join data frame tbls — nest_join.data.frame" />
+<meta property="og:title" content="Join data frame tbls — join.tbl_df" />
 <meta property="og:description" content="See join for a description of the general purpose of the
 functions." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
@@ -187,7 +187,7 @@ functions." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Join data frame tbls</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/dataframe.R'><code>R/dataframe.R</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/tbl-df.r'><code>R/tbl-df.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/join.r'><code>R/join.r</code></a></small>
     <div class="hidden name"><code>join.tbl_df.Rd</code></div>
     </div>
 
@@ -196,10 +196,7 @@ functions." />
 functions.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='join.html'>nest_join</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for tbl_df</span>
+    <pre class="usage"><span class='co'># S3 method for tbl_df</span>
 <span class='fu'><a href='join.html'>inner_join</a></span>(
   <span class='no'>x</span>,
   <span class='no'>y</span>,
@@ -264,7 +261,10 @@ functions.</p>
   <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>,
   <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw pkg'>pkgconfig</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pkgconfig/man/get_config.html'>get_config</a></span>(<span class='st'>"dplyr::na_matches"</span>)
-)</pre>
+)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'><a href='join.html'>nest_join</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -296,22 +296,14 @@ same src as <code>x</code>.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.</p></td>
     </tr>
     <tr>
-      <th>keep</th>
-      <td><p>If <code>TRUE</code> the by columns are kept in the nesting joins.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>the name of the list column nesting joins create. If <code>NULL</code> the name of <code>y</code> is used.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>included for compatibility with the generic; otherwise ignored.</p></td>
-    </tr>
-    <tr>
       <th>suffix</th>
       <td><p>If there are non-joined duplicate variables in <code>x</code> and
 <code>y</code>, these suffixes will be added to the output to disambiguate them.
 Should be a character vector of length 2.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>included for compatibility with the generic; otherwise ignored.</p></td>
     </tr>
     <tr>
       <th>na_matches</th>
@@ -321,6 +313,14 @@ different, like joins for database sources, similarly to
 The default, <code>"na"</code>, always treats two <code>NA</code> or <code>NaN</code> values as equal, like <code><a href='https://rdrr.io/r/base/merge.html'>merge()</a></code>.
 Users and package authors can change the default behavior by calling
 <code><a href='https://rdrr.io/pkg/pkgconfig/man/set_config.html'>pkgconfig::set_config("dplyr::na_matches" = "never")</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>keep</th>
+      <td><p>If <code>TRUE</code> the by columns are kept in the nesting joins.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>the name of the list column nesting joins create. If <code>NULL</code> the name of <code>y</code> is used.</p></td>
     </tr>
     </table>
 
