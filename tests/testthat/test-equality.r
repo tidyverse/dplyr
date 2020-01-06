@@ -145,7 +145,6 @@ test_that("returns vector for more than one difference (#1819)", {
 })
 
 test_that("returns UTF-8 column names (#2441)", {
-  skip_on_cran()
   df1 <- tibble("\u5e78" := 1)
   df2 <- tibble("\u798f" := 1)
 

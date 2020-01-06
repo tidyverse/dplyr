@@ -183,7 +183,6 @@ test_that("combine works with NA and Date (#2203)", {
 
 
 test_that("combine works with NA and complex (#2203)", {
-  skip("until https://github.com/r-lib/vctrs/issues/564")
   scoped_lifecycle_silence()
 
   # NA first
@@ -242,15 +241,9 @@ test_that("combine works with difftime", {
     combine(as.difftime(2, units = "weeks"), as.difftime(3, units = "weeks")),
     as.difftime(c(2, 3), units = "weeks")
   )
-})
-
-test_that("combine works with hms and difftime", {
-  skip("until hms has better vctrs support")
-  scoped_lifecycle_silence()
-
   expect_equal(
     combine(as.difftime(2, units = "weeks"), hms::hms(hours = 1)),
-    as.difftime(c(2 * 7 * 24 * 60 * 60, 3600), units = "secs")
+    hms::hms(seconds = c(2 * 7 * 24 * 60 * 60, 3600))
   )
   expect_equal(
     combine(hms::hms(hours = 1), as.difftime(2, units = "weeks")),

@@ -280,7 +280,6 @@ test_that("mutate keeps names (#1689, #2675)", {
 })
 
 test_that("mutate does not strip names of list-columns (#2675)", {
-  skip("until https://github.com/tidyverse/tibble/pull/627")
   vec <- list(a = 1, b = 2)
   data <- tibble(x = vec)
   data <- mutate(data, x)
@@ -490,7 +489,6 @@ test_that("hybrid rank functions handle NA (#4427)", {
 
 test_that("no utf8 invasion (#722)", {
   skip_if_not(l10n_info()$"UTF-8")
-
   source("utf-8.txt", local = TRUE, encoding = "UTF-8")
 })
 
@@ -802,7 +800,6 @@ test_that("can use character vectors in grouped mutate (#2971)", {
 })
 
 test_that("mutate() to UTF-8 column names", {
-  skip_on_cran()
   df <- tibble(a = 1) %>% mutate("\u5e78" := a)
 
   expect_equal(colnames(df), c("a", "\u5e78"))
