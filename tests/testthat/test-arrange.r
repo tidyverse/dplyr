@@ -132,20 +132,6 @@ test_that("arrange respects locale (#1280)", {
   expect_equal(res$words, sort(df2$words, decreasing = TRUE))
 })
 
-test_that("duplicated column name is explicit about which column (#996)", {
-  df <- data.frame(x = 1:10, x = 1:10)
-  names(df) <- c("x", "x")
-
-  # Error message created by tibble
-  expect_error(df %>% arrange())
-
-  df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
-  names(df) <- c("x", "x", "y", "y")
-
-  # Error message created by tibble
-  expect_error(df %>% arrange())
-})
-
 test_that("arrange handles list columns (#1489)", {
   df <- expand.grid(group = 1:2, y = 1, x = 1) %>%
     group_by(group) %>%
@@ -229,4 +215,20 @@ test_that("can choose to include grouping vars", {
   df2 <- df %>% arrange(g, x)
 
   expect_equal(df1, df2)
+})
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("arrange() gives meaningful errors", {
+  verify_output(test_path("test-arrange.txt"), {
+    "# duplicated column name"
+    df <- data.frame(x = 1:10, x = 1:10)
+    names(df) <- c("x", "x")
+    df %>% arrange()
+
+    df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
+    names(df) <- c("x", "x", "y", "y")
+    df %>% arrange()
+  })
 })
