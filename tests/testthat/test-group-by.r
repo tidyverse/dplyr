@@ -72,7 +72,6 @@ test_that("mutate does not loose variables (#144)", {
 })
 
 test_that("group_by uses shallow copy", {
-  skip("until https://github.com/tidyverse/tibble/pull/627")
   m1 <- group_by(mtcars, cyl)
   expect_no_groups(mtcars)
 
