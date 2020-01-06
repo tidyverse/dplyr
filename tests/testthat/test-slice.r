@@ -25,17 +25,6 @@ test_that("slice works with negative indices", {
   expect_equivalent(res, exp)
 })
 
-test_that("slice forbids positive and negative together", {
-  expect_error(
-    mtcars %>% slice(c(-1, 2)),
-    class = "dplyr_slice_ambiguous"
-  )
-  expect_error(
-    mtcars %>% slice(c(2:3, -1)),
-    class = "dplyr_slice_ambiguous"
-  )
-})
-
 test_that("slice works with grouped data", {
   g <- mtcars %>% arrange(cyl) %>% group_by(cyl)
 
@@ -81,14 +70,6 @@ test_that("slice handles NA (#1235)", {
 test_that("slice handles logical NA (#3970)", {
   df <- tibble(x = 1:3)
   expect_equal(nrow(slice(df, NA)), 0L)
-  expect_error(
-    slice(df, TRUE),
-    class = "dplyr_slice_incompatible"
-  )
-  expect_error(
-    slice(df, FALSE),
-    class = "dplyr_slice_incompatible"
-  )
 })
 
 test_that("slice handles empty data frames (#1219)", {
@@ -203,7 +184,6 @@ test_that("slice() handles matrix and data frame columns (#3630)", {
   expect_equal(slice(gdf, 1), gdf)
 })
 
-
 # Slice variants ----------------------------------------------------------
 
 test_that("functions silently truncate results", {
@@ -248,4 +228,20 @@ test_that("n and prop are carefully validated", {
   expect_error(check_slice_size(prop = "a"), "single number")
   expect_error(check_slice_size(n = -1), "positive number")
   expect_error(check_slice_size(prop = -1), "positive number")
+})
+
+# Errors ------------------------------------------------------------------
+
+test_that("rename errors with invalid grouped data frame (#640)", {
+  df <- tibble(x = 1:3)
+
+  verify_output(test_path("test-slice-errors.txt"), {
+    "# Incompatible type"
+    slice(df, TRUE)
+    slice(df, FALSE)
+
+    "# Mix of positive and negative integers"
+    mtcars %>% slice(c(-1, 2))
+    mtcars %>% slice(c(2:3, -1))
+  })
 })

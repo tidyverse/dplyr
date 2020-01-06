@@ -1,0 +1,20 @@
+
+Incompatible type
+=================
+
+> slice(df, TRUE)
+Error: slice() expressions should return indices (positive or negative integers)
+
+> slice(df, FALSE)
+Error: slice() expressions should return indices (positive or negative integers)
+
+
+Mix of positive and negative integers
+=====================================
+
+> mtcars %>% slice(c(-1, 2))
+Error: slice() expressions should return either all positive or all negative
+
+> mtcars %>% slice(c(2:3, -1))
+Error: slice() expressions should return either all positive or all negative
+
