@@ -819,15 +819,6 @@ test_that("typing and NAs for grouped summarise (#1839)", {
     c(NA, "yes")
   )
 
-  expect_error(
-    tibble(id = 1:2, a = list(1, "2")) %>%
-      group_by(id) %>%
-      summarise(a = a[[1]]) %>%
-      .$a,
-    "No common type",
-    class = "vctrs_error_incompatible_type"
-  )
-
   expect_identical(
     tibble(id = 1:2, a = list(1, "2")) %>%
       group_by(id) %>%
@@ -861,24 +852,6 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       summarise(a = ifelse(all(a < 2), NA, "yes")) %>%
       .$a,
     c(NA, "yes")
-  )
-
-  expect_error(
-    tibble(id = 1:2, a = list(1, "2")) %>%
-      rowwise() %>%
-      summarise(a = a[[1]]) %>%
-      .$a,
-    "No common type",
-    class = "vctrs_error_incompatible_type"
-  )
-
-  expect_error(
-    tibble(id = 1:2, a = list(1, "2")) %>%
-      rowwise() %>%
-      summarise(a = a[1]) %>%
-      .$a,
-    "No common type",
-    class = "vctrs_error_incompatible_type"
   )
 })
 
@@ -959,14 +932,12 @@ test_that("summarise() supports unquoted values", {
   expect_identical(summarise(df, out = !!1), tibble(out = 1))
   expect_identical(summarise(df, out = !!quote(identity(1))), tibble(out = 1))
   expect_equal(summarise(df, out = !!(1:2)), tibble(out = 1:2))
-  expect_error(summarise(df, out = !!env(a = 1)), "Unsupported type")
 
   gdf <- group_by(df, g)
   expect_identical(summarise(gdf, out = !!1), summarise(gdf, out = 1))
   expect_identical(summarise(gdf, out = !!(1:2)), tibble(g = c(1, 1, 2, 2), out = c(1:2, 1:2)))
   expect_identical(summarise(gdf, out = !!quote(identity(1))), summarise(gdf, out = 1))
   expect_equal(summarise(gdf, out = !!(1:5)) %>% nrow(), 10L)
-  expect_error(summarise(gdf, out = !!env(a = 1)), "Unsupported type")
 })
 
 test_that("hybrid sum handles NA correctly (#3528)",{
@@ -1088,29 +1059,37 @@ test_that("across() does not select grouping variables", {
   )
 })
 
-# Errors ------------------------------------------------------------------
-
 test_that("summarise() give meaningful errors", {
   verify_output(test_path("test-summarise-errors.txt"), {
-    "# Can't modify grouping variable"
-    data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4) %>%
-      group_by(a, b) %>%
-      summarise(a = mean(x), a = b + 1)
-
     "# unsupported type"
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       summarise(a = env(a = 1))
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-      group_by(df, x, y) %>%
+      group_by(x, y) %>%
       summarise(a = env(a = 1))
+
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       summarise(a = NULL)
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-      group_by(df, x, y) %>%
+      group_by(x, y) %>%
       summarise(a = NULL)
+
+    tibble(id = 1:2, a = list(1, "2")) %>%
+      group_by(id) %>%
+      summarise(a = a[[1]])
+    tibble(id = 1:2, a = list(1, "2")) %>%
+      rowwise() %>%
+      summarise(a = a[[1]])
 
     "# Missing variable"
     summarise(mtcars, a = mean(not_there))
     summarise(group_by(mtcars, cyl), a = mean(not_there))
+
+    "# Cannot modify grouping variable"
+    data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4) %>%
+      group_by(a, b) %>%
+      summarise(a = mean(x), a = b + 1)
   })
 })
+
+

@@ -1,21 +1,22 @@
 
-Can't modify grouping variable
-==============================
+unsupported type
+================
 
-> data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4) %>% group_by(a, b)
-+ %>% summarise(a = mean(x), a = b + 1)
-+ # # unsupported type
-+ tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = env(a = 1))
-+ tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(df, x, y)
-+ %>% summarise(a = env(a = 1))
+> tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = env(a = 1))
++ tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = env(
++   a = 1))
 + tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = NULL)
-+ tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(df, x, y)
-+ %>% summarise(a = NULL)
++ tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = NULL)
++ tibble(id = 1:2, a = list(1, "2")) %>% group_by(id) %>% summarise(a = a[[1]])
++ tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[1]])
 + # # Missing variable
 + summarise(mtcars, a = mean(not_there))
 + summarise(group_by(mtcars, cyl), a = mean(not_there))
-Error: <text>:3:1: unexpected SPECIAL
-2: data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4) %>% group_by(a, b)
-3: %>%
-   ^
++ # # Cannot modify grouping variable
++ data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4) %>% group_by(a, b)
++ %>% summarise(a = mean(x), a = b + 1)
+Error: <text>:14:1: unexpected SPECIAL
+13: data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4) %>% group_by(a, b)
+14: %>%
+    ^
 
