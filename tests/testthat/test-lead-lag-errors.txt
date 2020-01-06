@@ -1,0 +1,12 @@
+> lead(letters, -1)
+Error: `n` must be a nonnegative integer scalar, not a double vector of length 1
+
+> lead(letters, "1")
+Error: `n` must be a nonnegative integer scalar, not a character vector of length 1
+
+> lag(letters, -1)
+Error: `n` must be a nonnegative integer scalar, not a double vector of length 1
+
+> lag(letters, "1")
+Error: `n` must be a nonnegative integer scalar, not a character vector of length 1
+
