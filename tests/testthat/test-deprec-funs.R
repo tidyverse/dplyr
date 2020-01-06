@@ -33,25 +33,6 @@ test_that("funs() accepts quoted calls", {
   expect_identical(funs(mean), funs(mean(.)))
 })
 
-<<<<<<< HEAD
-test_that("funs() gives a clear error message (#3368)", {
-  expect_error(
-    funs(function(si) { mp[si] }),
-    glue("`function(si) {{
-             mp[si]
-         }}` must be a function name (quoted or unquoted) or an unquoted call, not `function`"),
-    fixed = TRUE
-  )
-
-  expect_error(
-    funs(~mp[.]),
-    "`~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`",
-    fixed = TRUE
-  )
-})
-
-=======
->>>>>>> More verify_output()
 test_that("funs() can be merged with new arguments", {
   fns <- funs(foo(.))
   expect_identical(as_fun_list(fns, current_env(), foo = 1L), funs(foo(., foo = 1L)))
@@ -120,7 +101,6 @@ test_that("as_fun_list() auto names chr vectors (4307)", {
 # Errors ------------------------------------------------------------------
 
 test_that("funs() give meaningful error messages", {
-  scoped_lifecycle_silence()
   verify_output(test_path("test-deprec-funs.txt"), {
     funs(function(si) { mp[si] })
     funs(~mp[.])

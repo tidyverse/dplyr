@@ -170,6 +170,9 @@ test_that("can override output column", {
   expect_named(add_tally(df, name = "xxx"), c("g", "x", "xxx"))
 })
 
+
+# Errors ------------------------------------------------------------------
+
 test_that("count() give meaningful errors", {
   verify_output(test_path("test-count-tally.txt"), {
     df <- data.frame(n = c(1, 1, 2, 2, 2))

@@ -37,3 +37,35 @@ Error: Must index existing elements.
 x Can't subset position 3.
 i There are only 2 elements.
 
+
+incompatible types
+==================
+
+> data.frame(x = rep(1:5, each = 3)) %>% group_by(x) %>% mutate(val = ifelse(
++   x < 3, "foo", 2))
+Error: No common type for `..1` <character> and `..3` <double>.
+
+
+incompatible size
+=================
+
+> int <- 1:6
+> data.frame(x = c(2, 2, 3, 3)) %>% mutate(gdf, int = int)
+Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'gdf' not found
+
+> data.frame(x = c(2, 2, 3, 3)) %>% mutate(gdf, int = 1:5)
+Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'gdf' not found
+
+> data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(gdf, int = int)
+Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'gdf' not found
+
+> data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(gdf, int = 1:5)
+Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'gdf' not found
+
+
+refuse to modify grouping variables
+===================================
+
+> mutate(group_by(tbl_df(mtcars), am), am = am + 2)
+Error: Column `am` can't be modified because it's a grouping variable
+

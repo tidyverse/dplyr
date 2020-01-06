@@ -1,0 +1,24 @@
+> df <- tibble(x = 0L, y = 0.5, z = 1)
+
+colwise rename()
+================
+
+> df %>% rename_all()
+Error: `.funs` must specify a renaming function
+
+> df %>% rename_if(is_integerish)
+Error: `.funs` must specify a renaming function
+
+> df %>% rename_at(vars(x:y))
+Error: `.funs` must specify a renaming function
+
+> df %>% rename_all(list(tolower, toupper))
+Error: `.funs` must contain one renaming function, not 2
+
+
+colwise select() 
+=================
+
+> df %>% select_all(list(tolower, toupper))
+Error: `.funs` must contain one renaming function, not 2
+

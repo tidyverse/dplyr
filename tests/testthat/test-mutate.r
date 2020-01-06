@@ -68,30 +68,6 @@ test_that("mutate handles constants (#152)", {
   expect_equal(res$zz, rep(1, nrow(mtcars)))
 })
 
-test_that("mutate fails with wrong result size (#152)", {
-  df <- group_by(data.frame(x = c(2, 2, 3, 3)), x)
-  expect_equal(mutate(df, y = 1:2)$y, rep(1:2, 2))
-  expect_error(
-    mutate(mtcars, zz = 1:2),
-    class = "vctrs_error_recycle_incompatible_size"
-  )
-
-  df <- group_by(data.frame(x = c(2, 2, 3, 3, 3)), x)
-  expect_error(
-    mutate(df, y = 1:2),
-    class = "vctrs_error_recycle_incompatible_size"
-  )
-})
-
-test_that("mutate refuses to use symbols not from the data", {
-  y <- 1:6
-  df <- group_by(data.frame(x = c(1, 2, 2, 3, 3, 3)), x)
-  expect_error(
-    mutate(df, z = y),
-    class = "vctrs_error_recycle_incompatible_size"
-  )
-})
-
 test_that("mutate recycles results of length 1", {
   df <- data.frame(x = c(2, 2, 3, 3))
   expect_equal(mutate(df, z = length(x))$z, rep(4, 4))
@@ -135,16 +111,6 @@ test_that("mutate handles out of data variables", {
   expect_equal(res$bool, rep(bool, 2))
   expect_equal(res$dat, rep(dat, 2))
   expect_equal(res$tim, rep(tim, 2))
-
-  int <- 1:6
-  expect_error(
-    mutate(gdf, int = int),
-    class = "vctrs_error_recycle_incompatible_size"
-  )
-  expect_error(
-    mutate(df, int = int),
-    class = "vctrs_error_recycle_incompatible_size"
-  )
 
   int  <- 1:4
   str  <- rep(c("foo", "bar"), 2)
@@ -203,25 +169,10 @@ test_that("mutate handles passing ...", {
 })
 
 test_that("mutate handles POSIXlt", {
-  df <- data.frame(created = c("2014/1/1", "2014/1/2", "2014/1/2"))
-  expect_error(
-    mutate(df, date = strptime(created, "%Y/%m/%d")),
-    NA
-  )
-
-  df <- data.frame(
-    created = c("2014/1/1", "2014/1/2", "2014/1/2"),
-    g = c(1, 1, 2)
-  )
-  expect_error(
-    mutate(group_by(df, g), date = strptime(created, "%Y/%m/%d")),
-    NA
-  )
-
-  df <- data.frame(g=c(1,1,3))
-  df$created <- strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
-
-  res <- df %>%
+  res <- tibble(
+    g = c(1,1,3),
+    created = strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
+  ) %>%
     group_by(g) %>%
     mutate(Y = format(created, "%Y"))
   expect_true(all(res$Y == "2014"))
@@ -230,14 +181,6 @@ test_that("mutate handles POSIXlt", {
 test_that("mutate modifies same column repeatedly (#243)", {
   df <- data.frame(x = 1)
   expect_equal(mutate(df, x = x + 1, x = x + 1)$x, 3)
-})
-
-test_that("mutate errors when results are not compatible across groups (#299)", {
-  d <- data.frame(x = rep(1:5, each = 3))
-  expect_error(
-    mutate(group_by(d, x), val = ifelse(x < 3, "foo", 2)),
-    class = "vctrs_error_incompatible_type"
-  )
 })
 
 test_that("assignments don't overwrite variables (#315)", {
@@ -333,11 +276,6 @@ test_that("hybrid evaluation goes deep enough (#554)", {
   res1 <- iris %>% mutate(test = 1 == 2 | row_number() < 10)
   res2 <- iris %>% mutate(test = row_number() < 10 | 1 == 2)
   expect_equal(res1, res2)
-})
-
-test_that("hybrid does not segfault when given non existing variable (#569)", {
-  # error message from rlang
-  expect_error(mtcars %>% summarise(first(mp)))
 })
 
 test_that("namespace extraction works in hybrid (#412)", {
@@ -900,24 +838,58 @@ test_that("DataMask$add() forces chunks (#4677)", {
 })
 
 test_that("mutate() give meaningful errors", {
-  tbl <- tibble(x = 1:2, y = 1:2)
-
-  df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
-
   verify_output(test_path("test-mutate.txt"), {
+    tbl <- tibble(x = 1:2, y = 1:2)
+
     "# setting column to NULL makes it unavailable"
-    tbl %>% mutate(y = NULL, a = sum(y))
-    tbl %>% group_by(x) %>% mutate(y = NULL, a = sum(y))
+    tbl %>%
+      mutate(y = NULL, a = sum(y))
+    tbl %>%
+      group_by(x) %>%
+      mutate(y = NULL, a = sum(y))
 
     "# incompatible column type"
-    tibble(x = 1) %>% mutate(y = mean)
-    tibble(x = 1) %>% mutate(y = quote(a))
+    tibble(x = 1) %>%
+      mutate(y = mean)
+    tibble(x = 1) %>%
+      mutate(y = quote(a))
 
     "# Unsupported type"
-    df %>% mutate(df, out = !!env(a = 1))
-    df %>% group_by(g) %>% mutate(gdf, out = !!env(a = 1))
+    df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
+    df %>%
+      mutate(df, out = !!env(a = 1))
+    df %>%
+      group_by(g) %>%
+      mutate(gdf, out = !!env(a = 1))
 
     "# result is sometimes NULL"
-    tibble(a = 1:3, b=4:6) %>% group_by(a) %>% mutate(if(a==1) NULL else "foo")
+    tibble(a = 1:3, b=4:6) %>%
+      group_by(a) %>%
+      mutate(if(a==1) NULL else "foo")
+
+    "# incompatible types"
+    data.frame(x = rep(1:5, each = 3)) %>%
+      group_by(x) %>%
+      mutate(val = ifelse(x < 3, "foo", 2))
+
+    "# incompatible size"
+    int <- 1:6
+    data.frame(x = c(2, 2, 3, 3)) %>%
+      mutate(gdf, int = int)
+    data.frame(x = c(2, 2, 3, 3)) %>%
+      mutate(gdf, int = 1:5)
+
+    data.frame(x = c(2, 2, 3, 3)) %>%
+      group_by(x) %>%
+      mutate(gdf, int = int)
+    data.frame(x = c(2, 2, 3, 3)) %>%
+      group_by(x) %>%
+      mutate(gdf, int = 1:5)
+
+    "# refuse to modify grouping variables"
+    mutate(group_by(tbl_df(mtcars), am), am = am + 2)
+
   })
 })
+
+
