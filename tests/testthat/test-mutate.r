@@ -889,6 +889,9 @@ test_that("mutate() give meaningful errors", {
     "# refuse to modify grouping variables"
     mutate(group_by(tbl_df(mtcars), am), am = am + 2)
 
+    "# .data pronoun"
+    tibble(a = 1) %>% mutate(c = .data$b)
+    tibble(a = 1:3) %>% group_by(a) %>% mutate(c = .data$b)
   })
 })
 
