@@ -18,5 +18,22 @@
 group_size <- function(x) UseMethod("group_size")
 
 #' @export
+group_size.grouped_df <- function(x) {
+  lengths(group_rows(x))
+}
+
+#' @export
+group_size.data.frame <- function(x) nrow(x)
+
+
+#' @export
 #' @rdname group_size
 n_groups <- function(x) UseMethod("n_groups")
+
+#' @export
+n_groups.grouped_df <- function(x) {
+  nrow(group_data(x))
+}
+
+#' @export
+n_groups.data.frame <- function(x) 1L

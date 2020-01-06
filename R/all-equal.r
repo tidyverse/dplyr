@@ -38,3 +38,59 @@ all_equal <- function(target, current, ignore_col_order = TRUE,
     convert = convert
   )
 }
+
+equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
+  compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
+  if (!isTRUE(compat)) {
+    return(compat)
+  }
+
+  nrows_x <- nrow(x)
+  nrows_y <- nrow(y)
+  if (nrows_x != nrows_y) {
+    return("Different number of rows")
+  }
+
+  if (ncol(x) == 0L) {
+    return(TRUE)
+  }
+
+  # suppressMessages({
+    x <- as_tibble(x, .name_repair = "universal")
+    y <- as_tibble(y, .name_repair = "universal")
+  # })
+
+  x_split <- vec_split_id_order(x)
+  y_split <- vec_split_id_order(y[, names(x), drop = FALSE])
+
+  # keys must be identical
+  msg <- ""
+  if (any(wrong <- !vec_in(x_split$key, y_split$key))) {
+    rows <- sort(map_int(x_split$pos[which(wrong)], function(.x) .x[1L]))
+    msg <- paste0(msg, "- Rows in x but not in y: ", glue_collapse(rows, sep = ", "), "\n")
+  }
+
+  if (any(wrong <- !vec_in(y_split$key, x_split$key))) {
+    rows <- sort(map_int(y_split$pos[which(wrong)], function(.x) .x[1L]))
+    msg <- paste0(msg, "- Rows in y but not in x: ", glue_collapse(rows, sep = ", "), "\n")
+  }
+  if (msg != "") {
+    return(msg)
+  }
+
+  # keys are identical, check that rows occur the same number of times
+  if (any(wrong <- lengths(x_split$pos) != lengths(y_split$pos))) {
+    rows <- sort(map_int(x_split$pos[which(wrong)], function(.x) .x[1L]))
+    return(paste0("- Rows with difference occurences in x and y: ",
+      glue_collapse(rows, sep = ", "),
+      "\n"
+    ))
+  }
+
+  # then if we care about row order, the id need to be identical
+  if (!ignore_row_order && !all(vec_equal(x_split$pos, y_split$pos))) {
+    return("Same row values, but different order")
+  }
+
+  TRUE
+}
