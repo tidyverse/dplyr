@@ -161,6 +161,9 @@ transmute.tbl_df <- function(.data, ...) {
     }
   }
 
+  # Preserve order of existing variables
+  out <- out[union(intersect(names(.data), names(out)), names(out))]
+
   # copy back attributes
   # TODO: challenge that with some vctrs theory
   atts <- attributes(.data)
