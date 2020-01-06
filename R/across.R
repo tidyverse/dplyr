@@ -70,7 +70,12 @@ current_column <- function() {
 #' @export
 across <- function(select, fns = identity) {
   mask <- peek_mask()
-  vars <- eval_select(expr({{select}}), mask$full_data())
+  data <- mask$full_data()
+
+  vars <- eval_select(
+    expr({{select}}),
+    data[, setdiff(names(data), group_vars(data))]
+  )
   data <- mask$pick(names(vars))
 
   single_function <- is.function(fns) || is_formula(fns)

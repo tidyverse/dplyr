@@ -1124,3 +1124,10 @@ test_that("summarise() packs named tibble results (#2326)", {
   expect_is(res$out, "data.frame")
   expect_equal(nrow(res$out), 3L)
 })
+
+test_that("across() does not select grouping variables", {
+  expect_identical(
+    iris %>% group_by(Species) %>% summarise(across(is.numeric, mean)),
+    iris %>% group_by(Species) %>% summarise(across(everything(), mean))
+  )
+})
