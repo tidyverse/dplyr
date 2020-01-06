@@ -15,6 +15,14 @@ test_that("bind_cols() err for non-data frames (#2373)", {
   )
 })
 
+test_that("bind_rows can handle lists (#1104)", {
+  skip("to be discussed")
+  res <- bind_rows(list(x = 1, y = "a"), list(x = 2, y = "b"))
+  expect_equal(nrow(res), 2L)
+  expect_is(res$x, "numeric")
+  expect_is(res$y, "character")
+})
+
 test_that("bind_rows() err for invalid ID", {
   df1 <- tibble(x = 1:3)
   df2 <- tibble(x = 4:6)
@@ -328,14 +336,6 @@ test_that("bind_rows respects ordered factors (#1112)", {
 test_that("bind_rows can handle lists (#1104)", {
   my_list <- list(tibble(x = 1, y = "a"), tibble(x = 2, y = "b"))
   res <- bind_rows(my_list)
-  expect_equal(nrow(res), 2L)
-  expect_is(res$x, "numeric")
-  expect_is(res$y, "character")
-})
-
-test_that("bind_rows can handle lists (#1104)", {
-  skip("to be discussed")
-  res <- bind_rows(list(x = 1, y = "a"), list(x = 2, y = "b"))
   expect_equal(nrow(res), 2L)
   expect_is(res$x, "numeric")
   expect_is(res$y, "character")
