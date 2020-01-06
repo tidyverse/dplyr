@@ -315,28 +315,22 @@ See examples.</p>
 #&gt; 2     2     2
 #&gt; 3     2     1</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt; # Groups:   g [2]
-#&gt;       x     g
+#&gt;       g     x
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     1
 #&gt; 2     2     2
-#&gt; 3     1     2</div><div class='input'>
+#&gt; 3     2     1</div><div class='input'>
 <span class='co'># Values in list columns are compared by reference, this can lead to</span>
 <span class='co'># surprising results</span>
 <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>as.list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>))) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; Rows: 3
 #&gt; Columns: 1
-#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; <span class='warning'>Warning: distinct() does not fully support columns of type `list`.</span>
-#&gt; <span class='warning'>List elements are compared by reference, see ?distinct for details.</span>
-#&gt; <span class='warning'>This affects the following columns:</span>
-#&gt; <span class='warning'>- `a`</span></div><div class='output co'>#&gt; # A tibble: 2 x 1
+#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; # A tibble: 2 x 1
 #&gt;   a        
 #&gt;   &lt;list&gt;   
 #&gt; 1 &lt;dbl [1]&gt;
 #&gt; 2 &lt;dbl [1]&gt;</div><div class='input'><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>as.list</a></span>(<span class='fl'>1</span>:<span class='fl'>2</span>)[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>)]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; Rows: 3
 #&gt; Columns: 1
-#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; <span class='warning'>Warning: distinct() does not fully support columns of type `list`.</span>
-#&gt; <span class='warning'>List elements are compared by reference, see ?distinct for details.</span>
-#&gt; <span class='warning'>This affects the following columns:</span>
-#&gt; <span class='warning'>- `a`</span></div><div class='output co'>#&gt; # A tibble: 2 x 1
+#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; # A tibble: 2 x 1
 #&gt;   a        
 #&gt;   &lt;list&gt;   
 #&gt; 1 &lt;int [1]&gt;
