@@ -48,8 +48,11 @@
 
 
 <meta property="og:title" content="Evaluate, compare, benchmark operations of a set of srcs. — bench_compare" />
-<meta property="og:description" content="These functions support the comparison of results and timings across
-multiple sources." />
+<meta property="og:description" content="
+
+These functions are deprecated because we now believe that you're
+better of performing the comparisons directly, yourself, in order to
+generate more informative test failures." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -187,13 +190,16 @@ multiple sources." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Evaluate, compare, benchmark operations of a set of srcs.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/bench-compare.r'><code>R/bench-compare.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-bench-compare.r'><code>R/deprec-bench-compare.r</code></a></small>
     <div class="hidden name"><code>bench_compare.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>These functions support the comparison of results and timings across
-multiple sources.</p>
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' />
+
+These functions are deprecated because we now believe that you're
+better of performing the comparisons directly, yourself, in order to
+generate more informative test failures.</p>
     </div>
 
     <pre class="usage"><span class='fu'>bench_tbls</span>(<span class='no'>tbls</span>, <span class='no'>op</span>, <span class='no'>...</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>10</span>)
@@ -248,49 +254,13 @@ supplied, defaults to the results from the first <code>src</code>.</p></td>
 an error is thrown.</p>
 <p><code>bench_tbls()</code>: an object of class
 <code><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark::microbenchmark()</a></code></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='src_local.html'>src_local()</a></code> for working with local data</p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"microbenchmark"</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'>has_lahman</span>()) {
-<span class='no'>lahman_local</span> <span class='kw'>&lt;-</span> <span class='fu'>lahman_srcs</span>(<span class='st'>"df"</span>, <span class='st'>"sqlite"</span>)
-<span class='no'>teams</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>lahman_local</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Teams"</span>))
-
-<span class='fu'>compare_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
-<span class='fu'>bench_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
-
-<span class='co'># You can also supply arbitrary additional arguments to bench_tbls</span>
-<span class='co'># if there are other operations you'd like to compare.</span>
-<span class='fu'>bench_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>),
-   <span class='kw'>base</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span>(<span class='kw pkg'>Lahman</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/Lahman/man/Teams.html'>Teams</a></span>, <span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
-
-<span class='co'># A more complicated example using multiple tables</span>
-<span class='no'>setup</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>src</span>) {
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='no'>src</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Batting"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>stint</span> <span class='kw'>==</span> <span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>:<span class='no'>H</span>),
-    <span class='no'>src</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Master"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>, <span class='no'>birthYear</span>)
-  )
-}
-<span class='no'>two_tables</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>lahman_local</span>, <span class='no'>setup</span>)
-
-<span class='no'>op</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>tbls</span>) {
-  <span class='fu'><a href='join.html'>semi_join</a></span>(<span class='no'>tbls</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>tbls</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"playerID"</span>)
-}
-<span class='co'># compare_tbls(two_tables, op)</span>
-<span class='fu'>bench_tbls</span>(<span class='no'>two_tables</span>, <span class='no'>op</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-
-}
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
