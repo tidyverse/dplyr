@@ -168,7 +168,7 @@ test_that("summarise_at removes grouping variables (#3613)", {
 # Deprecated ---------------------------------------------------------
 
 test_that("_each() and _all() families agree", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
   df <- data.frame(x = 1:3, y = 1:3)
 
   expect_equal(summarise_each(df, list(mean)), summarise_all(df, mean))
