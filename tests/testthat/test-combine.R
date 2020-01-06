@@ -183,7 +183,6 @@ test_that("combine works with NA and Date (#2203)", {
 
 
 test_that("combine works with NA and complex (#2203)", {
-  skip("until https://github.com/r-lib/vctrs/issues/564")
   scoped_lifecycle_silence()
 
   # NA first
