@@ -307,12 +307,6 @@ test_that("mutate removes columns when the expression evaluates to NULL for all 
   )
 })
 
-test_that("mutate aborts when the expression sometimes evaluates to NULL (#2945)", {
-  df <- tibble(a = 1:3, b=4:6) %>% group_by(a)
-  expect_error( mutate(df, if(a==1) NULL else "foo"))
-  expect_error( mutate(df, if(a==1) NULL else list(b)))
-})
-
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
   one_mod <- tibble(grp = "a", x = runif(5, 0, 1)) %>%
     mutate(y = rnorm(x, x * 2, 1)) %>%
@@ -730,14 +724,9 @@ test_that("mutate() supports unquoted values", {
   expect_identical(mutate(df, out = !!1), mutate(df, out = 1))
   expect_identical(mutate(df, out = !!(1:5)), mutate(df, out = 1:5))
   expect_identical(mutate(df, out = !!quote(1:5)), mutate(df, out = 1:5))
-  expect_error(mutate(df, out = !!(1:2)), class = "vctrs_error_recycle_incompatible_size")
-  expect_error(mutate(df, out = !!env(a = 1)), "Unsupported type for result `out`")
 
   gdf <- group_by(df, g)
   expect_identical(mutate(gdf, out = !!1), mutate(gdf, out = 1))
-  expect_error(mutate(gdf, out = !!quote(1:5)), class = "vctrs_error_recycle_incompatible_size")
-  expect_error(mutate(gdf, out = !!(1:2)), class = "vctrs_error_recycle_incompatible_size")
-  expect_error(mutate(gdf, out = !!env(a = 1)), "Unsupported type for result `out`")
 })
 
 test_that("auto-splicing for tibbles", {
@@ -767,17 +756,6 @@ test_that("mutate handles raw vectors in columns (#1803)", {
   df <- tibble(a = 1:4, g = c(1, 1, 2, 2))
   expect_identical(mutate(df, b = as.raw(a)) %>% group_by(g) %>% pull(b), as.raw(1:4))
   expect_identical(mutate(df, b = as.raw(a)) %>% rowwise() %>% pull(b), as.raw(1:4))
-})
-
-test_that("grouped mutate errors on incompatible column type (#1641)", {
-  expect_error(
-    tibble(x = 1) %>% mutate(y = mean),
-    "Unsupported type for result `y`"
-  )
-  expect_error(
-    tibble(x = 1) %>% mutate(y = quote(a)),
-    "Unsupported type for result `y`"
-  )
 })
 
 test_that("can reuse new variables", {
@@ -823,16 +801,6 @@ test_that("grouped subsets are not lazy (#3360)", {
     pull()
 
   expect_identical(res, list(make_call("a"), make_call("b")))
-})
-
-test_that("columns are no longer available when set to NULL on mutate (#3799)", {
-  tbl <- tibble(x = 1:2, y = 1:2)
-  expect_error(mutate(tbl, y = NULL, a = +sum(y)))
-  expect_error(mutate(tbl, y = NULL, a = sum(y)))
-
-  tbl <- tbl %>% group_by(x)
-  expect_error(mutate(tbl, y = NULL, a = +sum(y)))
-  expect_error(mutate(tbl, y = NULL, a = sum(y)))
 })
 
 test_that("rlang lambda inherit from the data mask (#3843)", {
@@ -929,4 +897,27 @@ test_that("DataMask$add() forces chunks (#4677)", {
       log_e_bf01 = log(bf01)
     )
   expect_equal(df$log_e_bf01, log(1 / 0.244))
+})
+
+test_that("mutate() give meaningful errors", {
+  tbl <- tibble(x = 1:2, y = 1:2)
+
+  df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
+
+  verify_output(test_path("test-mutate.txt"), {
+    "# setting column to NULL makes it unavailable"
+    tbl %>% mutate(y = NULL, a = sum(y))
+    tbl %>% group_by(x) %>% mutate(y = NULL, a = sum(y))
+
+    "# incompatible column type"
+    tibble(x = 1) %>% mutate(y = mean)
+    tibble(x = 1) %>% mutate(y = quote(a))
+
+    "# Unsupported type"
+    df %>% mutate(df, out = !!env(a = 1))
+    df %>% group_by(g) %>% mutate(gdf, out = !!env(a = 1))
+
+    "# result is sometimes NULL"
+    tibble(a = 1:3, b=4:6) %>% group_by(a) %>% mutate(if(a==1) NULL else "foo")
+  })
 })

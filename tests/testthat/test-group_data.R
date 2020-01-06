@@ -49,6 +49,25 @@ test_that("group_rows and group_data work with 0 rows data frames (#3489)", {
   )
 })
 
+test_that("new_grouped_df can create alternative grouping structures (#3837)", {
+  tbl <- new_grouped_df(
+    tibble(x = rnorm(10)),
+    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+  )
+  res <- summarise(tbl, x = mean(x))
+  expect_equal(nrow(res), 5L)
+})
+
+test_that("new_grouped_df does not have rownames (#4173)", {
+  tbl <- new_grouped_df(
+    tibble(x = rnorm(10)),
+    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+  )
+  expect_false(tibble::has_rownames(tbl))
+})
+
+
+
 # Errors ------------------------------------------------------------------
 
 test_that("group_data() give meaningful errors", {
@@ -72,6 +91,25 @@ test_that("group_data() give meaningful errors", {
   attr(df5, "vars") <- "g"
   attr(df5, "class") <- c("grouped_df", "tbl_df", "tbl", "data.frame")
 
+  df6 <- new_grouped_df(
+    tibble(x = 1:10),
+    groups = tibble(".rows" := list(1:5, -1L))
+  )
+  df7 <- df6
+  attr(df7, "groups")$.rows <- list(11L)
+
+  df8 <- df6
+  attr(df8, "groups")$.rows <- list(0L)
+
+  df9 <- df6
+  attr(df9, "groups")$.rows <- list(1)
+
+  df10 <- df6
+  attr(df10, "groups") <- tibble()
+
+  df11 <- df6
+  attr(df11, "groups") <- NULL
+
   verify_output(test_path("test-group_data.txt"), {
     "# Invalid `groups` attribute"
     group_data(df1)
@@ -81,5 +119,19 @@ test_that("group_data() give meaningful errors", {
 
     "# Older style grouped_df"
     validate_grouped_df(df5)
+
+    "# new_grouped_df()"
+    new_grouped_df(
+      tibble(x = 1:10),
+      tibble(other = list(1:2))
+    )
+
+    "# validate_grouped_df()"
+    validate_grouped_df(df6, check_bounds = TRUE)
+    validate_grouped_df(df7, check_bounds = TRUE)
+    validate_grouped_df(df8, check_bounds = TRUE)
+    validate_grouped_df(df9)
+    validate_grouped_df(df10)
+    validate_grouped_df(df11)
   })
 })

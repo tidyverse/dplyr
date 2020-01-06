@@ -21,3 +21,32 @@ Older style grouped_df
 > validate_grouped_df(df5)
 Error: Corrupt grouped_df data using the old format
 
+
+new_grouped_df()
+================
+
+> new_grouped_df(tibble(x = 1:10), tibble(other = list(1:2)))
+Error in new_grouped_df(tibble(x = 1:10), tibble(other = list(1:2))): tail(names(groups), 1L) == ".rows" is not TRUE
+
+
+validate_grouped_df()
+=====================
+
+> validate_grouped_df(df6, check_bounds = TRUE)
+Error: out of bounds indices
+
+> validate_grouped_df(df7, check_bounds = TRUE)
+Error: out of bounds indices
+
+> validate_grouped_df(df8, check_bounds = TRUE)
+Error: out of bounds indices
+
+> validate_grouped_df(df9)
+Error: `.rows` column is not a list of one-based integer vectors
+
+> validate_grouped_df(df10)
+Error: The `groups` attribute is not a data frame with its last column called `.rows`
+
+> validate_grouped_df(df11)
+Error: The `groups` attribute is not a data frame with its last column called `.rows`
+

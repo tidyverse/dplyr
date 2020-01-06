@@ -1,0 +1,39 @@
+
+setting column to NULL makes it unavailable
+===========================================
+
+> tbl %>% mutate(y = NULL, a = sum(y))
+Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'y' not found
+
+> tbl %>% group_by(x) %>% mutate(y = NULL, a = sum(y))
+Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'y' not found
+
+
+incompatible column type
+========================
+
+> tibble(x = 1) %>% mutate(y = mean)
+Error: Unsupported type for result `y`
+
+> tibble(x = 1) %>% mutate(y = quote(a))
+Error: Unsupported type for result `y`
+
+
+Unsupported type
+================
+
+> df %>% mutate(df, out = !!env(a = 1))
+Error: Unsupported type at index 2
+
+> df %>% group_by(g) %>% mutate(gdf, out = !!env(a = 1))
+Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'gdf' not found
+
+
+result is sometimes NULL
+========================
+
+> tibble(a = 1:3, b = 4:6) %>% group_by(a) %>% mutate(if (a == 1) NULL else "foo")
+Error: Must index existing elements.
+x Can't subset position 3.
+i There are only 2 elements.
+
