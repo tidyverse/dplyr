@@ -153,27 +153,30 @@ SEXP dplyr_filter_update_rows(SEXP s_n_rows, SEXP group_indices, SEXP keep, SEXP
 
   // allocate each new_rows element
   int* p_new_rows_sizes = INTEGER(new_rows_sizes);
-  std::vector<int> tracks(n_groups);
+  SEXP tracks = PROTECT(Rf_allocVector(INTSXP, n_groups));
+  int* p_tracks = INTEGER(tracks);
   std::vector<int*> p_new_rows(n_groups);
-  for (R_xlen_t i = 0; i < n_groups; i++) {
+  for (R_xlen_t i = 0; i < n_groups; i++, ++p_tracks) {
+    *p_tracks = 0;
     SEXP new_rows_i = Rf_allocVector(INTSXP, p_new_rows_sizes[i]);
     SET_VECTOR_ELT(new_rows, i, new_rows_i);
     p_new_rows[i] = INTEGER(new_rows_i);
   }
 
   // traverse group_indices and keep to fill new_rows
+  p_tracks = INTEGER(tracks);
   int* p_group_indices = INTEGER(group_indices);
   int* p_keep = LOGICAL(keep);
   R_xlen_t j = 1;
   for (R_xlen_t i = 0; i < n_rows; i++) {
     if (p_keep[i] == TRUE) {
       int g = p_group_indices[i];
-      int track = tracks[g - 1]++;
+      int track = p_tracks[g - 1]++;
       p_new_rows[g - 1][track] = j++;
     }
   }
 
-  UNPROTECT(1);
+  UNPROTECT(2);
 
   return new_rows;
 }
