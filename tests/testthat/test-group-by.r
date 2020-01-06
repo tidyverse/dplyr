@@ -72,7 +72,6 @@ test_that("mutate does not loose variables (#144)", {
 })
 
 test_that("group_by uses shallow copy", {
-  skip("until https://github.com/tidyverse/tibble/pull/627")
   m1 <- group_by(mtcars, cyl)
   expect_no_groups(mtcars)
 
@@ -111,32 +110,10 @@ test_that("group_by orders by groups. #242", {
 })
 
 test_that("Can group_by() a POSIXlt", {
-  skip("until https://github.com/r-lib/vctrs/issues/554")
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
   g <- group_by(df, times)
-  expect_equal(group_rows(g), list_of(1L, 2L, 3L, 4L, 5L))
-})
-
-test_that("group_by only applies the allow list to grouping variables", {
-  skip("until https://github.com/tidyverse/tibble/pull/626")
-  df <- data.frame(times = 1:5, x = 1:5)
-  df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
-
-  res <- group_by(df, x, .drop = FALSE)
-  expect_equal(groups(res), list(sym("x")))
-
-  expect_identical(
-    group_data(res),
-    structure(tibble(x := 1:5, ".rows" := list_of(1L, 2L, 3L, 4L, 5L)), .drop = FALSE)
-  )
-
-  res <- group_by(df, x)
-  expect_equal(groups(res), list(sym("x")))
-  expect_identical(
-    group_data(res),
-    structure(tibble(x := 1:5, ".rows" := list_of(1L, 2L, 3L, 4L, 5L)), .drop = TRUE)
-  )
+  expect_equal(nrow(group_data(g)), 5L)
 })
 
 test_that("group_by() handles list as grouping variables", {
@@ -503,13 +480,6 @@ test_that("group_by(add = TRUE) sets .drop if the origonal data was .drop", {
   expect_true(group_by_drop_default(res))
 })
 
-test_that("group_by() makes a shallow copy of data even in the corner case", {
-  df <- data.frame(x = 1:4)
-  gdf <- group_by(df)
-  expect_true(inherits(gdf, "tbl_df"))
-  expect_false(inherits(df, "tbl_df"))
-})
-
 test_that("group_by_drop_default() is forgiving about corrupt grouped df (#4306)",{
   df <- tibble(x = 1:2, y = 1:2) %>%
     structure(class = c("grouped_df", "tbl_df", "tbl", "data.frame"))
@@ -526,8 +496,6 @@ test_that("group_by() puts NA groups last in STRSXP (#4227)", {
 })
 
 test_that("group_by() does not create arbitrary NA groups for factors when drop = TRUE (#4460)", {
-  skip_if(getRversion() < "3.5.0")
-
   res <- expect_warning(group_data(group_by(iris, Species)[0, ]), NA)
   expect_equal(nrow(res), 0L)
 

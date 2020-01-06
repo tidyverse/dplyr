@@ -15,18 +15,6 @@ test_that("bind_cols() err for non-data frames (#2373)", {
   )
 })
 
-test_that("bind_rows() err for non-data frames (#2373)", {
-  skip("to be discussed")
-  df1 <- tibble(x = 1)
-  df2 <- structure(list(x = 1), class = "blah_frame")
-
-  expect_error(
-    bind_rows(df1, df2),
-    "Argument 2 must be a data frame or a named atomic vector, not a blah_frame",
-    fixed = TRUE
-  )
-})
-
 test_that("bind_rows() err for invalid ID", {
   df1 <- tibble(x = 1:3)
   df2 <- tibble(x = 4:6)
@@ -42,7 +30,6 @@ test_that("bind_rows() err for invalid ID", {
 # columns -----------------------------------------------------------------
 
 test_that("cbind uses shallow copies", {
-  skip("maybe look it up in vctrs")
   df1 <- data.frame(
     int = 1:10,
     num = rnorm(10),
@@ -80,7 +67,6 @@ test_that("bind_cols handles all-NULL values (#2303)", {
 })
 
 test_that("bind_cols repairs names", {
-  skip("until using newer name repair")
   df <- tibble(a = 1, b = 2)
   bound <- bind_cols(df, df)
 
@@ -339,22 +325,6 @@ test_that("bind_rows respects ordered factors (#1112)", {
   expect_equal(levels(df$id), levels(res$id))
 })
 
-test_that("bind_rows can handle lists (#1104)", {
-  my_list <- list(tibble(x = 1, y = "a"), tibble(x = 2, y = "b"))
-  res <- bind_rows(my_list)
-  expect_equal(nrow(res), 2L)
-  expect_is(res$x, "numeric")
-  expect_is(res$y, "character")
-})
-
-test_that("bind_rows can handle lists (#1104)", {
-  skip("to be discussed")
-  res <- bind_rows(list(x = 1, y = "a"), list(x = 2, y = "b"))
-  expect_equal(nrow(res), 2L)
-  expect_is(res$x, "numeric")
-  expect_is(res$y, "character")
-})
-
 test_that("bind_rows keeps ordered factors (#948)", {
   y <- bind_rows(
     data.frame(x = factor(c(1, 2, 3), ordered = TRUE)),
@@ -416,7 +386,6 @@ test_that("string vectors are filled with NA not blanks before collection (#595)
 })
 
 test_that("bind_rows handles POSIXct stored as integer (#1402)", {
-  skip("vctrs issues on old R versions")
   now <- Sys.time()
 
   df1 <- data.frame(time = now)
@@ -527,7 +496,6 @@ test_that("bind_rows accepts difftime objects", {
 })
 
 test_that("bind_rows accepts hms objects", {
-  skip("until hms has better vctrs support")
   df1 <- data.frame(x = hms::hms(hours = 1))
   df2 <- data.frame(x = as.difftime(1, units = "mins"))
   res <- bind_rows(df1, df2)
@@ -561,7 +529,7 @@ test_that("bind_rows() accepts lists of dataframe-like lists as first argument",
 })
 
 test_that("columns that are OBJECT but have NULL class are handled gracefully (#3349)", {
-  skip("until https://github.com/r-lib/vctrs/issues/563")
+  skip("until https://github.com/r-lib/vctrs/pull/719 is merged")
   mod <- lm(y ~ ., data = freeny)
   data <- model.frame(mod)
   data_list <- list(data, data)
