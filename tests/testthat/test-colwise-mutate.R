@@ -187,9 +187,8 @@ test_that("_each() and _all() families agree", {
 })
 
 test_that("group_by_(at,all) handle utf-8 names (#3829)", {
-  skip_if(getRversion() <= "3.4.0")
-  withr::with_locale( c(LC_CTYPE = "C"), {
-    name <- "\u4e2d"
+  with_non_utf8_encoding({
+    name <- get_native_lang_string()
     tbl <- tibble(a = 1) %>%
       setNames(name)
 
@@ -202,10 +201,8 @@ test_that("group_by_(at,all) handle utf-8 names (#3829)", {
 })
 
 test_that("*_(all,at) handle utf-8 names (#2967)", {
-  # skip_if(getRversion() <= "3.4.0")
-  skip("will come back to this later")
-  withr::with_locale( c(LC_CTYPE = "C"), {
-    name <- "\u4e2d"
+  with_non_utf8_encoding({
+    name <- get_native_lang_string()
     tbl <- tibble(a = 1) %>%
       setNames(name)
 
@@ -232,14 +229,6 @@ test_that("*_(all,at) handle utf-8 names (#2967)", {
     res <- select_at(tbl, name) %>% names()
     expect_equal(res, name)
   })
-})
-
-test_that("mutate_all() handles non syntactic names (#4094)", {
-  skip("for now, will fix this after 0.8.0")
-  tbl <- tibble(`..1` = "a")
-  res <- mutate_all(tbl, toupper)
-  expect_equal(names(tbl), names(res))
-  expect_equal(res[["..1"]], "A")
 })
 
 test_that("summarise_at with multiple columns AND unnamed functions works (#4119)", {
