@@ -12,15 +12,16 @@ sample_frac(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL, ...)
 \arguments{
 \item{tbl}{A data.frame.}
 
-\item{size}{For \code{sample_n()}, the number of rows to select.
+\item{size}{<\code{\link[=dplyr_tidy_select]{tidy-select}}>
+For \code{sample_n()}, the number of rows to select.
 For \code{sample_frac()}, the fraction of rows to select.
 If \code{tbl} is grouped, \code{size} applies to each group.}
 
 \item{replace}{Sample with or without replacement?}
 
-\item{weight}{Sampling weights. This must evaluate to a vector of
-non-negative numbers the same length as the input. Weights are
-automatically standardised to sum to 1.}
+\item{weight}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Sampling weights.
+This must evaluate to a vector of non-negative numbers the same length as
+the input. Weights are automatically standardised to sum to 1.}
 
 \item{.env}{DEPRECATED.}
 

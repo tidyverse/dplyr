@@ -7,16 +7,12 @@
 #' `funs()` provides a flexible way to generate a named list of
 #' functions for input to other functions like [summarise_at()].
 #'
-#' @param ... A list of functions specified by:
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> A list of functions specified by:
 #'
 #'  - Their name, `"mean"`
 #'  - The function itself, `mean`
 #'  - A call to the function with `.` as a dummy argument,
 #'    `mean(., na.rm = TRUE)`
-#'
-#'  These arguments are automatically [quoted][rlang::quo]. They
-#'  support [unquoting][rlang::quasiquotation] and splicing. See
-#'  `vignette("programming")` for an introduction to these concepts.
 #'
 #'  The following notations are **not** supported, see examples:
 #'

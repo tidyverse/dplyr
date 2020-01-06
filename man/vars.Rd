@@ -7,14 +7,9 @@
 vars(...)
 }
 \arguments{
-\item{...}{Variables to include/exclude in mutate/summarise. You
-can use same specifications as in \code{\link[=select]{select()}}. If missing,
-defaults to all non-grouping variables.
-
-These arguments are automatically \link[rlang:quo]{quoted} and later
-\link[rlang:eval_tidy]{evaluated} in the context of the data
-frame. They support \link[rlang:quasiquotation]{unquoting}. See
-\code{vignette("programming")} for an introduction to these concepts.}
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Variables to include/exclude
+in mutate/summarise. You can use same specifications as in \code{\link[=select]{select()}}.
+If missing, defaults to all non-grouping variables.}
 }
 \description{
 This helper is intended to provide equivalent semantics to

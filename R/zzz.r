@@ -8,6 +8,8 @@
 
   compat_lengths()
 
+  ns <- ns_env("dplyr")
+  .Call(dplyr_init_library, ns_env())
   invisible()
 }
 

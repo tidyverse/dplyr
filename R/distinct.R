@@ -12,9 +12,10 @@
 #' See examples.
 #'
 #' @param .data a tbl
-#' @param ... Optional variables to use when determining uniqueness. If there
-#'   are multiple rows for a given combination of inputs, only the first
-#'   row will be preserved. If omitted, will use all variables.
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Optional variables to use when
+#'   determining uniqueness. If there are multiple rows for a given combination
+#'   of inputs, only the first row will be preserved. If omitted, will use all
+#'   variables.
 #' @param .keep_all If `TRUE`, keep all variables in `.data`.
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
@@ -64,10 +65,9 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
 
   # If no input, keep all variables
   if (length(vars) == 0) {
-    vars <- list_cols_warning(.data, seq_along(.data))
     return(list(
       data = .data,
-      vars = vars,
+      vars = seq_along(.data),
       keep = seq_along(.data)
     ))
   }
@@ -78,56 +78,58 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use their names
   missing_vars <- setdiff(distinct_vars, names(.data))
-
   if (length(missing_vars) > 0) {
-    missing_items <- fmt_items(fmt_obj(missing_vars))
-    distinct_vars <- distinct_vars[distinct_vars %in% names(.data)]
-    if (length(distinct_vars) > 0) {
-      true_vars <- glue("The following variables will be used:
-                        {fmt_items(distinct_vars)}")
-    } else {
-      true_vars <- "The operation will return the input unchanged."
-    }
-    msg <- glue("Trying to compute distinct() for variables not found in the data:
-                {missing_items}
-                This is an error, but only a warning is raised for compatibility reasons.
-                {true_vars}
-                ")
-    warn(msg)
+    abort(c(
+      "distinct() must use existing variables",
+      glue("`{missing_vars}` not found in `.data`")
+    ))
   }
 
-  new_vars <- unique(c(distinct_vars, group_vars))
-
-  # Keep the order of the variables
-  out_vars <- intersect(new_vars, names(.data))
+  # Always include grouping variables preserving input order
+  out_vars <- intersect(names(.data), c(distinct_vars, group_vars))
 
   if (.keep_all) {
     keep <- seq_along(.data)
   } else {
-    keep <- unique(out_vars)
+    keep <- out_vars
   }
 
-  out_vars <- list_cols_warning(.data, out_vars)
   list(data = .data, vars = out_vars, keep = keep)
 }
 
-#' Throw an error if there are tbl columns of type list
-#'
-#' @noRd
-list_cols_warning <- function(df, keep_cols) {
-  df_keep <- df[keep_cols]
-  lists <- map_lgl(df_keep, is.list)
-  if (any(lists)) {
-    items <- fmt_items(fmt_obj(names(df_keep)[lists]))
-    warn(
-      glue("distinct() does not fully support columns of type `list`.
-            List elements are compared by reference, see ?distinct for details.
-            This affects the following columns:
-            {items}")
-    )
-  }
-  keep_cols
+
+#' @export
+distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
+  dist <- distinct_prepare(
+    .data,
+    vars = enquos(...),
+    group_vars = group_vars(.data),
+    .keep_all = .keep_all
+  )
+  grouped_df(
+    vec_slice(
+      .data[, dist$keep, drop = FALSE],
+      vec_unique_loc(.data[, dist$vars, drop = FALSE])
+    ),
+    groups(.data),
+    group_by_drop_default(.data)
+  )
 }
+
+
+#' @export
+distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
+  dist <- distinct_prepare(.data, enquos(...), .keep_all = .keep_all)
+  vec_slice(
+    dist$data[, dist$keep, drop = FALSE],
+    vec_unique_loc(dist$data[, dist$vars, drop = FALSE])
+  )
+}
+
+#' @export
+# Can't use NextMethod() in R 3.1, r-lib/rlang#486
+distinct.tbl_df <- distinct.data.frame
+
 
 #' Efficiently count the number of unique values in a set of vector
 #'

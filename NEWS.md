@@ -17,6 +17,14 @@
   
   * `slice_min()` and `slice_max()` select the rows with the minimum or 
     maximum values of a variable, taking over from the confusing `top_n()`.
+* `transmute()` now preserves order of input variables (#4693).
+
+* `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()` and 
+  `eval_tbls2()` are now deprecated. That were only used in a handful of 
+  packages, and we now believe that you're better off performing comparisons 
+  more directly (#4675).
+* `distinct()` errors if you request it use variables that don't exist
+  (this was previously a warning) (#4656).
 
 * `tally()` and `count()` now error if the default output `name` (n), already
   exists in the data frame. You'll now need to specify it yourself; this 
@@ -26,6 +34,10 @@
 
 * `order_by()` gives an informative hint if you accidentally call it instead
   of `arrange()` #3357.
+
+* `filter()` handles data frame results when all columns are logical vectors
+  by reducing them with `&` (#4678). In particular this means `across()` can be used
+  in `filter()`. `filter()` gains better error messages with more information. 
 
 * `ungroup()` can now selectively remove grouping variables (#3760).
 

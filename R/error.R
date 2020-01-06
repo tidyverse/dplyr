@@ -29,18 +29,6 @@ bad_calls <- function(calls, ..., .envir = parent.frame()) {
   glubort(fmt_calls(calls), ..., .envir = .envir)
 }
 
-bad_named_calls <- function(named_calls, ..., .envir = parent.frame()) {
-  glubort(fmt_named_calls(named_calls), ..., .envir = .envir)
-}
-
-bad_eq_ops <- function(named_calls, ..., .envir = parent.frame()) {
-  glubort(NULL, ..., "\n", fmt_wrong_eq_ops(named_calls), sep="", .envir = .envir)
-}
-
-bad_cols <- function(cols, ..., .envir = parent.frame()) {
-  glubort(fmt_cols(cols), ..., .envir = .envir)
-}
-
 bad_measures <- function(measures, ..., .envir = parent.frame()) {
   glubort(fmt_measures(measures), ..., .envir = .envir)
 }

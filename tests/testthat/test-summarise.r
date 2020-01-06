@@ -750,7 +750,6 @@ test_that("data.frame columns are supported in summarise (#1425)", {
 })
 
 test_that("summarise handles min/max of already summarised variable (#1622)", {
-  skip("until https://github.com/r-lib/vctrs/issues/540")
   df <- data.frame(
     FIRST_DAY = rep(seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"), 2),
     event = c("a", "a", "b", "b")
@@ -1014,20 +1013,6 @@ test_that("summarise() supports unquoted values", {
   expect_error(summarise(gdf, out = !!env(a = 1)), "Unsupported type")
 })
 
-test_that("first() and last() can be called without dplyr loaded (#3498)", {
-  skip_if_not_installed("callr")
-  df <- callr::r(function() {
-    dplyr::summarise(tibble::tibble(a = 1:3),
-      x = dplyr::first(.data$a),
-      y = dplyr::last(.data$a),
-      z = dplyr::first(c(.data$a))
-    )
-  })
-  expect_equal(df$x, 1L)
-  expect_equal(df$y, 3L)
-  expect_equal(df$z, 1L)
-})
-
 test_that("hybrid sum handles NA correctly (#3528)",{
   d <- tibble(x = c(1L,2L,NA) )
 
@@ -1055,7 +1040,6 @@ test_that("summarise correctly reconstruct group rows", {
 })
 
 test_that("summarise can handle POSIXlt columns (#3854)", {
-  skip("until https://github.com/tidyverse/tibble/pull/626")
   df <- data.frame(g=c(1,1,3))
   df$created <- strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
 

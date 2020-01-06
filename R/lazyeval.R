@@ -126,11 +126,17 @@ distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!!dots, .keep_all = .keep_all)
 }
+
+#' @export
+# Can't use NextMethod() in R 3.1, r-lib/rlang#486
+distinct_.tbl_df <- distinct_.data.frame
+
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!!dots, .keep_all = .keep_all)
 }
+
 
 #' @export
 #' @rdname se-deprecated

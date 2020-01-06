@@ -109,9 +109,7 @@ test_that("can select() with character vectors", {
 })
 
 test_that("rename() to UTF-8 column names", {
-  skip_on_os("windows") # needs an rlang update? #3049
   df <- tibble(a = 1) %>% rename("\u5e78" := a)
-
   expect_equal(colnames(df), "\u5e78")
 })
 
