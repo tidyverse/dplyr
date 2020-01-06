@@ -86,11 +86,11 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   groups <- group_vars(x)
   if (!missing(...)) {
-    x <- .group_by_static_drop(x, ..., add = TRUE, .drop = .drop)
+    x <- .group_by_static_drop(x, ..., .add = TRUE, .drop = .drop)
   }
 
   x <- tally(x, wt = !!enquo(wt), sort = sort, name = name)
-  x <- .group_by_static_drop(x, !!!syms(groups), add = FALSE, .drop = .drop)
+  x <- .group_by_static_drop(x, !!!syms(groups), .add = FALSE, .drop = .drop)
   x
 }
 
@@ -99,11 +99,11 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by
 add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   groups <- group_vars(x)
   if (!missing(...)) {
-    x <- .group_by_static_drop(x, ..., add = TRUE, .drop = .drop)
+    x <- .group_by_static_drop(x, ..., .add = TRUE, .drop = .drop)
   }
 
   x <- add_tally(x, wt = !!enquo(wt), sort = sort, name = name)
-  x <- .group_by_static_drop(x, !!!syms(groups), add = FALSE, .drop = .drop)
+  x <- .group_by_static_drop(x, !!!syms(groups), .add = FALSE, .drop = .drop)
   x
 }
 

@@ -8,7 +8,13 @@ vars (character vector) comes out.}
 \usage{
 distinct_prepare(.data, vars, group_vars = character(), .keep_all = FALSE)
 
-group_by_prepare(.data, ..., .dots = "DEFUNCT", add = FALSE)
+group_by_prepare(
+  .data,
+  ...,
+  .dots = "DEFUNCT",
+  .add = FALSE,
+  add = deprecated()
+)
 }
 \value{
 A list
