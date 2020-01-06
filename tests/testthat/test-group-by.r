@@ -496,8 +496,6 @@ test_that("group_by() puts NA groups last in STRSXP (#4227)", {
 })
 
 test_that("group_by() does not create arbitrary NA groups for factors when drop = TRUE (#4460)", {
-  skip_if(getRversion() < "3.5.0")
-
   res <- expect_warning(group_data(group_by(iris, Species)[0, ]), NA)
   expect_equal(nrow(res), 0L)
 
