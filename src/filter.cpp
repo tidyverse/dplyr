@@ -1,5 +1,4 @@
 #include "dplyr.h"
-#include <vector>
 
 bool all_lgl_columns(SEXP data) {
   R_xlen_t nc = XLENGTH(data);
@@ -155,9 +154,10 @@ SEXP dplyr_filter_update_rows(SEXP s_n_rows, SEXP group_indices, SEXP keep, SEXP
   int* p_new_rows_sizes = INTEGER(new_rows_sizes);
   SEXP tracks = PROTECT(Rf_allocVector(INTSXP, n_groups));
   int* p_tracks = INTEGER(tracks);
-  std::vector<int*> p_new_rows(n_groups);
-  for (R_xlen_t i = 0; i < n_groups; i++, ++p_tracks) {
-    *p_tracks = 0;
+  memset(p_tracks, 0, n_groups * sizeof(int));
+  int** p_new_rows = (int**)R_alloc(n_groups, sizeof(int*));
+
+  for (R_xlen_t i = 0; i < n_groups; i++) {
     SEXP new_rows_i = Rf_allocVector(INTSXP, p_new_rows_sizes[i]);
     SET_VECTOR_ELT(new_rows, i, new_rows_i);
     p_new_rows[i] = INTEGER(new_rows_i);
