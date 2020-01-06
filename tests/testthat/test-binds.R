@@ -1,32 +1,5 @@
 context("binds")
 
-
-# error -------------------------------------------------------------------
-
-test_that("bind_cols() err for non-data frames (#2373)", {
-  skip("to be discussed")
-  df1 <- tibble(x = 1)
-  df2 <- structure(list(x = 1), class = "blah_frame")
-
-  expect_error(
-    bind_cols(df1, df2),
-    "Argument 2 must be a data frame or a named atomic vector, not a blah_frame",
-    fixed = TRUE
-  )
-})
-
-test_that("bind_rows() err for invalid ID", {
-  df1 <- tibble(x = 1:3)
-  df2 <- tibble(x = 4:6)
-
-  expect_error(
-    bind_rows(df1, df2, .id = 5),
-    "`.id` must be a scalar string, not a double vector of length 1",
-    fixed = TRUE
-  )
-})
-
-
 # columns -----------------------------------------------------------------
 
 test_that("cbind uses shallow copies", {
@@ -117,19 +90,6 @@ test_that("bind_rows ignores NULL", {
 
   expect_equal(bind_rows(df, NULL), df)
   expect_equal(bind_rows(list(df, NULL)), df)
-})
-
-test_that("bind_rows only accepts data frames or named vectors", {
-  ll <- list(1:5, env(a = 1))
-  expect_error(
-    bind_rows(ll),
-    "Argument 1 must have names"
-  )
-  ll <- list(tibble(a = 1:5), env(a = 1))
-  expect_error(
-    bind_rows(ll),
-    "Argument 2 must be a data frame or a named atomic vector"
-  )
 })
 
 test_that("bind_rows handles list columns (#463)", {
@@ -227,22 +187,6 @@ test_that("bind_rows handles NA in factors #279", {
   res <- bind_rows(df1, df2)
   expect_equal(res$a, factor(c("a", NA)))
 })
-
-test_that("bind_rows doesn't promote integer/numeric to factor", {
-  df1 <- tibble(a = factor("a"))
-  df2 <- tibble(a = 1L)
-  df3 <- tibble(a = 1)
-
-  expect_error(
-    bind_rows(df1, df2),
-    class = "vctrs_error_incompatible_type"
-  )
-  expect_error(
-    bind_rows(df1, df3),
-    class = "vctrs_error_incompatible_type"
-  )
-})
-
 
 test_that("bind_rows preserves timezones #298", {
   dates1 <- data.frame(
@@ -420,30 +364,6 @@ test_that("bind_rows handles 0-length named list (#1515)", {
   expect_equal(ncol(res), 0L)
 })
 
-test_that("bind_rows handles promotion to strings (#1538)", {
-  df1 <- tibble(b = c(1, 2))
-  df2 <- tibble(b = c(1L, 2L))
-  df3 <- tibble(b = factor(c("A", "B")))
-  df4 <- tibble(b = c("C", "D"))
-
-  expect_error(
-    bind_rows(df1, df3),
-    class = "vctrs_error_incompatible_type"
-  )
-  expect_error(
-    bind_rows(df1, df4),
-    class = "vctrs_error_incompatible_type"
-  )
-  expect_error(
-    bind_rows(df2, df3),
-    class = "vctrs_error_incompatible_type"
-  )
-  expect_error(
-    bind_rows(df2, df4),
-    class = "vctrs_error_incompatible_type"
-  )
-})
-
 test_that("bind_rows infers classes from first result (#1692)", {
   d1 <- data.frame(a = 1:10, b = rep(1:2, each = 5))
   d2 <- as_tibble(d1)
@@ -502,14 +422,6 @@ test_that("bind_rows accepts hms objects", {
   expect_equal(res$x, hms::hms(hours = c(1, 0), minutes = c(0, 1)))
 })
 
-test_that("bind_rows() fails with unnamed vectors", {
-  expect_error(
-    bind_rows(1:2),
-    "Argument 1 must have names",
-    fixed = TRUE
-  )
-})
-
 test_that("bind_rows() handles rowwise vectors", {
   tbl <- bind_rows(
       tibble(a = "foo", b = "bar"),
@@ -544,17 +456,6 @@ test_that("accepts named columns", {
   expect_identical(bind_cols(!!!mtcars), as_tibble(mtcars))
 })
 
-test_that("uncompatible sizes fail", {
-  expect_error(
-    bind_cols(a = 1:2, mtcars),
-    class = "vctrs_error_incompatible_size"
-  )
-  expect_error(
-    bind_cols(mtcars, a = 1:3),
-    class = "vctrs_error_incompatible_size"
-  )
-})
-
 test_that("supports NULL values", {
   expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), tibble(a = 1, b = 2))
 })
@@ -584,3 +485,43 @@ test_that("bind_rows() correctly restores (#2457)", {
   expect_is(df$x, "vctrs_list_of")
 })
 
+
+# Errors ------------------------------------------------------------------
+
+test_that("*_bind() give meaningful errors", {
+  verify_output(test_path("test-binds-errors.txt"), {
+    "# invalid .id"
+    df1 <- tibble(x = 1:3)
+    df2 <- tibble(x = 4:6)
+    bind_rows(df1, df2, .id = 5)
+
+    "# invalid type"
+    ll <- list(1:5, env(a = 1))
+    bind_rows(ll)
+
+    ll <- list(tibble(a = 1:5), env(a = 1))
+    bind_rows(ll)
+
+    df1 <- tibble(a = factor("a"))
+    df2 <- tibble(a = 1L)
+    df3 <- tibble(a = 1)
+    bind_rows(df1, df2)
+    bind_rows(df1, df3)
+
+    df1 <- tibble(b = c(1, 2))
+    df2 <- tibble(b = c(1L, 2L))
+    df3 <- tibble(b = factor(c("A", "B")))
+    df4 <- tibble(b = c("C", "D"))
+    bind_rows(df1, df3)
+    bind_rows(df1, df4)
+    bind_rows(df2, df3)
+    bind_rows(df2, df4)
+
+    "# unnamed vectors"
+    bind_rows(1:2)
+
+    "# incompatible size"
+    bind_cols(a = 1:2, mtcars)
+    bind_cols(mtcars, a = 1:3)
+  })
+})
