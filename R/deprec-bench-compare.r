@@ -1,7 +1,9 @@
 #' Evaluate, compare, benchmark operations of a set of srcs.
 #'
-#' These functions support the comparison of results and timings across
-#' multiple sources.
+#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("deprecated")}
+#' These functions are deprecated because we now believe that you're
+#' better of performing the comparisons directly, yourself, in order to
+#' generate more informative test failures.
 #'
 #' @param tbls,tbls_x,tbls_y A list of [tbl()]s.
 #' @param op A function with a single argument, called often with each
@@ -25,38 +27,6 @@
 #'
 #'   `bench_tbls()`: an object of class
 #'   [microbenchmark::microbenchmark()]
-#' @seealso [src_local()] for working with local data
-#' @examples
-#' \dontrun{
-#' if (require("microbenchmark") && has_lahman()) {
-#' lahman_local <- lahman_srcs("df", "sqlite")
-#' teams <- lapply(lahman_local, function(x) x %>% tbl("Teams"))
-#'
-#' compare_tbls(teams, function(x) x %>% filter(yearID == 2010))
-#' bench_tbls(teams, function(x) x %>% filter(yearID == 2010))
-#'
-#' # You can also supply arbitrary additional arguments to bench_tbls
-#' # if there are other operations you'd like to compare.
-#' bench_tbls(teams, function(x) x %>% filter(yearID == 2010),
-#'    base = subset(Lahman::Teams, yearID == 2010))
-#'
-#' # A more complicated example using multiple tables
-#' setup <- function(src) {
-#'   list(
-#'     src %>% tbl("Batting") %>% filter(stint == 1) %>% select(playerID:H),
-#'     src %>% tbl("Master") %>% select(playerID, birthYear)
-#'   )
-#' }
-#' two_tables <- lapply(lahman_local, setup)
-#'
-#' op <- function(tbls) {
-#'   semi_join(tbls[[1]], tbls[[2]], by = "playerID")
-#' }
-#' # compare_tbls(two_tables, op)
-#' bench_tbls(two_tables, op, times = 2)
-#'
-#' }
-#' }
 #' @name bench_compare
 #' @keywords internal
 NULL
@@ -64,6 +34,7 @@ NULL
 #' @export
 #' @rdname bench_compare
 bench_tbls <- function(tbls, op, ..., times = 10) {
+  lifecycle::deprecate_warn("1.0.0", "bench_tbls()")
   check_pkg("microbenchmark", "compute table benchmarks")
 
   # Generate call to microbenchmark function that evaluates op for each tbl
@@ -82,6 +53,8 @@ bench_tbls <- function(tbls, op, ..., times = 10) {
 #' @export
 #' @rdname bench_compare
 compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) {
+  lifecycle::deprecate_warn("1.0.0", "compare_tbls()")
+
   results <- eval_tbls(tbls, op)
   expect_equal_tbls(results, compare = compare, ...)
 }
@@ -89,6 +62,8 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
 #' @export
 #' @rdname bench_compare
 compare_tbls2 <- function(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame, ...) {
+  lifecycle::deprecate_warn("1.0.0", "compare_tbls2()")
+
   results <- eval_tbls2(tbls_x, tbls_y, op)
   expect_equal_tbls(results, compare = compare, ...)
 }
@@ -99,7 +74,6 @@ expect_equal_tbls <- function(results, ref = NULL, compare = equal_data_frame, .
   if (length(results) < 2 && is.null(ref)) {
     testthat::skip("Need at least two srcs to compare")
   }
-
 
   if (is.null(ref)) {
     ref <- results[[1]]
@@ -126,11 +100,13 @@ expect_equal_tbls <- function(results, ref = NULL, compare = equal_data_frame, .
 #' @export
 #' @rdname bench_compare
 eval_tbls <- function(tbls, op) {
+  lifecycle::deprecate_warn("1.0.0", "eval_tbls()")
   lapply(tbls, function(x) as.data.frame(op(x)))
 }
 
 #' @export
 #' @rdname bench_compare
 eval_tbls2 <- function(tbls_x, tbls_y, op) {
+  lifecycle::deprecate_warn("1.0.0", "eval_tbls2()")
   Map(function(x, y) as.data.frame(op(x, y)), tbls_x, tbls_y)
 }

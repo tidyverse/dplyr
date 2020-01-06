@@ -1,5 +1,10 @@
 # dplyr 0.9.0 (in development)
 
+* `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()` and 
+  `eval_tbls2()` are now deprecated. That were only used in a handful of 
+  packages, and we now believe that you're better off performing comparisons 
+  more directly (#4675).
+
 * `tally()` and `count()` now error if the default output `name` (n), already
   exists in the data frame. You'll now need to specify it yourself; this 
   replaces the existing ad hoc approach which used `nn`, `nnn` etc.
