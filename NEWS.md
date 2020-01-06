@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* `transmute()` now preserves order of input variables (#4693).
+
 * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()` and 
   `eval_tbls2()` are now deprecated. That were only used in a handful of 
   packages, and we now believe that you're better off performing comparisons 
