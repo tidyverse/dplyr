@@ -1,4 +1,5 @@
 #include "dplyr.h"
+#include <vector>
 
 bool all_lgl_columns(SEXP data) {
   R_xlen_t nc = XLENGTH(data);

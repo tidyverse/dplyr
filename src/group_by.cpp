@@ -1,4 +1,5 @@
 #include "dplyr.h"
+#include <vector>
 
 // support for expand_groups()
 class ExpanderCollecter;

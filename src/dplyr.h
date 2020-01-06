@@ -6,11 +6,6 @@
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
 
-#include <algorithm>
-#include <vector>
-#include <string>
-
-
 namespace dplyr {
 
 struct envs {

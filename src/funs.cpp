@@ -12,10 +12,11 @@ SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right) {
     Rf_warningcall(R_NilValue, "between() called on numeric vector with S3 class");
   }
 
+  int* p_out = LOGICAL(out);
   if (R_IsNA(left) || R_IsNA(right)) {
-    std::fill(LOGICAL(out), LOGICAL(out) + n, NA_LOGICAL);
+    for (R_xlen_t i=0; i<XLENGTH(out); i++, ++p_out) *p_out = NA_LOGICAL;
+
   } else {
-    int* p_out = LOGICAL(out);
     double* p_x = REAL(x);
     for (R_xlen_t i = 0; i < n; ++i, ++p_x, ++p_out) {
       *p_out = R_IsNA(*p_x) ? NA_LOGICAL : (*p_x >= left) && (*p_x <= right);
