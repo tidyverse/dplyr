@@ -48,7 +48,7 @@
 
 
 <meta property="og:title" content="Select distinct/unique rows — distinct" />
-<meta property="og:description" content="Retain only unique/distinct rows from an input tbl. This is similar
+<meta property="og:description" content="Select only unique/distinct rows from a data frame. This is similar
 to unique.data.frame(), but considerably faster." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -192,7 +192,7 @@ to unique.data.frame(), but considerably faster." />
     </div>
 
     <div class="ref-description">
-    <p>Retain only unique/distinct rows from an input tbl. This is similar
+    <p>Select only unique/distinct rows from a data frame. This is similar
 to <code><a href='https://rdrr.io/r/base/unique.html'>unique.data.frame()</a></code>, but considerably faster.</p>
     </div>
 
@@ -220,15 +220,6 @@ first row of values.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Comparing list columns is not fully supported.
-Elements in list columns are compared by reference.
-A warning will be given when trying to include list columns in the
-computation.
-This behavior is kept for compatibility reasons and may change in a future
-version.
-See examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
@@ -319,28 +310,12 @@ See examples.</p>
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     1
 #&gt; 2     2     2
-#&gt; 3     2     1</div><div class='input'>
-<span class='co'># Values in list columns are compared by reference, this can lead to</span>
-<span class='co'># surprising results</span>
-<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>as.list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>))) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; Rows: 3
-#&gt; Columns: 1
-#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; # A tibble: 2 x 1
-#&gt;   a        
-#&gt;   &lt;list&gt;   
-#&gt; 1 &lt;dbl [1]&gt;
-#&gt; 2 &lt;dbl [1]&gt;</div><div class='input'><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>as.list</a></span>(<span class='fl'>1</span>:<span class='fl'>2</span>)[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>)]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; Rows: 3
-#&gt; Columns: 1
-#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; # A tibble: 2 x 1
-#&gt;   a        
-#&gt;   &lt;list&gt;   
-#&gt; 1 &lt;int [1]&gt;
-#&gt; 2 &lt;int [1]&gt;</div></pre>
+#&gt; 3     2     1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
