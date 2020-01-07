@@ -204,18 +204,14 @@ as_tibble.grouped_df <- function(x, ...) {
 #' @importFrom tibble is_tibble
 #' @export
 `[.grouped_df` <- function(x, i, j, drop = FALSE) {
-  y <- NextMethod()
+  out <- NextMethod()
 
-  if (isTRUE(drop) && !is_tibble(y)) {
-    return(y)
+  if (isTRUE(drop) && !is.data.frame(y)) {
+    return(out)
   }
 
-  group_names <- group_vars(x)
-  if (!all(group_names %in% names(y))) {
-    tbl_df(y)
-  } else {
-    grouped_df(y, group_names, group_by_drop_default(x))
-  }
+  groups <- intersect(names(out), group_vars(x))
+  grouped_df(out, groups, group_by_drop_default(x))
 }
 
 #' @method rbind grouped_df
