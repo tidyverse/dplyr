@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* `failwith()` which was deprecated in 0.7.0 is now defunct.
+
 * `sample_n()` and `sample_frac()` have been retired in favour of new 
   `slice_sample()`. See `?sample_n` for details about why, and for examples
   converting from old to new usage.
