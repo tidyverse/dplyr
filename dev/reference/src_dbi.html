@@ -242,7 +242,7 @@ open source databases:</p><ul>
     <tr>
       <th>...</th>
       <td><p>for the src, other arguments passed on to the underlying
-database connector, <code><a href='https://rdrr.io/pkg/DBI/man/dbConnect.html'>DBI::dbConnect()</a></code>. For the tbl, included for
+database connector, <code><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>DBI::dbConnect()</a></code>. For the tbl, included for
 compatibility with the generic, but otherwise ignored.</p></td>
     </tr>
     <tr>
@@ -288,10 +288,10 @@ into R.</p>
     <pre class="examples"><div class='input'><span class='co'># Basic connection using DBI -------------------------------------------</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>dbplyr</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
 
-<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DBI/man/dbConnect.html'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
+<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
 <span class='fu'><a href='copy_to.html'>copy_to</a></span>(<span class='no'>con</span>, <span class='no'>mtcars</span>)
 
-<span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DBI/man/dbListTables.html'>dbListTables</a></span>(<span class='no'>con</span>)
+<span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbListTables.html'>dbListTables</a></span>(<span class='no'>con</span>)
 
 <span class='co'># To retrieve a single table from a source, use `tbl()`</span>
 <span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"mtcars"</span>)
