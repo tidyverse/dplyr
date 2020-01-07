@@ -76,7 +76,6 @@ reference:
   - between
   - case_when
   - coalesce
-  - combine
   - cumany
   - desc
   - if_else
