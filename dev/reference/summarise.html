@@ -48,9 +48,12 @@
 
 
 <meta property="og:title" content="Reduce multiple values down to a single value — summarise" />
-<meta property="og:description" content="Create one or more scalar variables summarizing the variables of an
-existing tbl. Tbls with groups created by group_by() will result in one
-row in the output for each group.  Tbls with no groups will result in one row." />
+<meta property="og:description" content="summarise() creates a new data frame. It will have one row for each
+combination of grouping variable; if there are no grouping variables, the
+output will have a single row summarising all observations in the input.
+It will contain one column for each grouping variable and one column
+for each of the summary statistics that you have specified.
+summarise() and summarize() are synonyms." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -193,9 +196,12 @@ row in the output for each group.  Tbls with no groups will result in one row." 
     </div>
 
     <div class="ref-description">
-    <p>Create one or more scalar variables summarizing the variables of an
-existing tbl. Tbls with groups created by <code><a href='group_by.html'>group_by()</a></code> will result in one
-row in the output for each group.  Tbls with no groups will result in one row.</p>
+    <p><code>summarise()</code> creates a new data frame. It will have one row for each
+combination of grouping variable; if there are no grouping variables, the
+output will have a single row summarising all observations in the input.
+It will contain one column for each grouping variable and one column
+for each of the summary statistics that you have specified.</p>
+<p><code>summarise()</code> and <code>summarize()</code> are synonyms.</p>
     </div>
 
     <pre class="usage"><span class='fu'>summarise</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
@@ -221,11 +227,10 @@ The value should be an expression that returns a single value like
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same class as <code>.data</code>. One grouping level will
-be dropped.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><code>summarise()</code> and <code>summarize()</code> are synonyms.</p>
+    <p>An object of the same class as <code>.data</code>.</p>
+<p>If <code>.data</code> is grouped, then the last group will be dropped,
+e.g.<code>df %&gt;% group_by(x, y) %&gt;% summarise(n())</code> will be grouped by
+<code>x</code>. This happens because each group now occupies only a single row.</p>
     <h2 class="hasAnchor" id="useful-functions"><a class="anchor" href="#useful-functions"></a>Useful functions</h2>
 
     
@@ -289,15 +294,15 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
   <span class='fu'>summarise</span>(<span class='kw'>cyl_n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='groups.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl"</div><div class='input'>
 
-<span class='co'># Reusing variable names when summarising may lead to unexpected results</span>
+<span class='co'># BEWARE: reusing variable names may lead to unexpected results</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='no'>disp</span>), <span class='kw'>double_disp</span> <span class='kw'>=</span> <span class='no'>disp</span> * <span class='fl'>2</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 4
-#&gt;     cyl  disp    sd double_disp
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
-#&gt; 1     4  105.    NA        210.
-#&gt; 2     6  183.    NA        367.
-#&gt; 3     8  353.    NA        706.</div><div class='input'>
+  <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt;     cyl  disp    sd
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1     4  105.    NA
+#&gt; 2     6  183.    NA
+#&gt; 3     8  353.    NA</div><div class='input'>
 
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
 <span class='no'>var</span> <span class='kw'>&lt;-</span> <span class='st'>"mass"</span>
@@ -312,7 +317,6 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#useful-functions">Useful functions</a></li>
       <li><a href="#backend-variations">Backend variations</a></li>
       <li><a href="#tidy-data">Tidy data</a></li>

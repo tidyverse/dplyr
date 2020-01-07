@@ -48,7 +48,11 @@
 
 
 <meta property="og:title" content="Arrange rows by variables — arrange" />
-<meta property="og:description" content="Order tbl rows by an expression involving its variables." />
+<meta property="og:description" content="Order data frame rows by the values of selected variables.
+Unlike other dplyr verbs, arrange() largely ignores grouping; you
+need to explicit mention grouping variables (or use  by_group = TRUE)
+in order to group by them, and functions of variables are evaluated
+once per data frame, not once per group." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -191,7 +195,11 @@
     </div>
 
     <div class="ref-description">
-    <p>Order tbl rows by an expression involving its variables.</p>
+    <p>Order data frame rows by the values of selected variables.
+Unlike other dplyr verbs, <code>arrange()</code> largely ignores grouping; you
+need to explicit mention grouping variables (or use  <code>by_group = TRUE</code>)
+in order to group by them, and functions of variables are evaluated
+once per data frame, not once per group.</p>
     </div>
 
     <pre class="usage"><span class='fu'>arrange</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
