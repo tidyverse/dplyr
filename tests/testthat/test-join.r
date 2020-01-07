@@ -1151,3 +1151,12 @@ test_that("right_join() respects original row orders of y (#4639)", {
   expect_equal(res$a, d2$a)
   expect_equal(res$b, 1:6)
 })
+
+test_that("full_join() correctly restores columns (#4649)", {
+  df1 <- tibble(x = "x", by = 1)
+  df2 <- tibble(y = "y", by = 1)
+  res <- tibble(x = "x", by = 1, y = "y")
+
+  expect_equal(res, full_join(df1, df2, by = "by"))
+  expect_equal(res, right_join(df1, df2, by ="by"))
+})
