@@ -1,17 +1,33 @@
-#' Create a data frame tbl.
+#' Coerce to a tibble
 #'
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 #' Please use [tibble::as_tibble()] instead.
 #'
 #' @export
 #' @keywords internal
-#' @param data a data frame
+#' @param data,x Object to coerce
 tbl_df <- function(data) {
   lifecycle::deprecate_warn("1.0.0", "tbl_df()", "tibble::as_tibble()")
   # Works in tibble < 1.5.0 too, because .name_repair will be
   # swallowed by the ellipsis
   as_tibble(data, .name_repair = "check_unique")
 }
+
+#' @export
+#' @rdname tbl_df
+as.tbl <- function(x, ...) {
+  lifecycle::deprecate_warn("1.0.0", "as.tbl()", "tibble::as_tibble()")
+  UseMethod("as.tbl")
+}
+
+#' @export
+as.tbl.tbl <- function(x, ...) x
+
+#' @export
+as.tbl.data.frame <- function(x, ...) {
+  as_tibble(x)
+}
+
 
 #' Convert row names to an explicit variable.
 #'

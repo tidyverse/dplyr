@@ -2,12 +2,15 @@
 % Please edit documentation in R/deprec-tibble.R
 \name{tbl_df}
 \alias{tbl_df}
-\title{Create a data frame tbl.}
+\alias{as.tbl}
+\title{Coerce to a tibble}
 \usage{
 tbl_df(data)
+
+as.tbl(x, ...)
 }
 \arguments{
-\item{data}{a data frame}
+\item{data, x}{Object to coerce}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}

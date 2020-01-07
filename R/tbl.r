@@ -22,8 +22,6 @@ tbl <- function(src, ...) {
 #' @param object to test/coerce.
 #' @param ... For `tbl()`, other fields used by class. For `as.tbl()`,
 #'   other arguments passed to methods.
-#' @examples
-#' as.tbl(mtcars)
 make_tbl <- function(subclass, ...) {
   subclass <- paste0("tbl_", subclass)
   structure(list(...), class = c(subclass, "tbl"))
@@ -32,19 +30,6 @@ make_tbl <- function(subclass, ...) {
 #' @rdname tbl
 #' @export
 is.tbl <- function(x) inherits(x, "tbl")
-
-#' @export
-#' @rdname tbl
-#' @param x an object to coerce to a `tbl`
-as.tbl <- function(x, ...) UseMethod("as.tbl")
-
-#' @export
-as.tbl.tbl <- function(x, ...) x
-
-#' @export
-as.tbl.data.frame <- function(x, ...) {
-  as_tibble(x)
-}
 
 tbl_vars_dispatch <- function(x) {
   UseMethod("tbl_vars")
