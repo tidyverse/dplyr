@@ -58,9 +58,6 @@ slice.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.dat
 }
 
 slice_indices <- function(.data, ...) {
-  rows <- group_rows(.data)
-  mask <- DataMask$new(.data, caller_env(), rows)
-
   dots <- enquos(...)
   if (is_empty(dots)) {
     return(.data)
