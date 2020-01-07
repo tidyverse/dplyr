@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* `id()`, deprecated in dplyr 0.5.0, is now defunct.
+
 * `failwith()` which was deprecated in 0.7.0 is now defunct.
 
 * `sample_n()` and `sample_frac()` have been retired in favour of new 
