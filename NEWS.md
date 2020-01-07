@@ -5,6 +5,8 @@
   and you can control with `options(lifecycle_verbosity = x)` where
   `x` is one of NULL, "quiet", "warning", and "error".
 
+* `id()`, deprecated in dplyr 0.5.0, is now defunct.
+
 * `failwith()` which was deprecated in 0.7.0 is now defunct.
 
 * `sample_n()` and `sample_frac()` have been retired in favour of new 
