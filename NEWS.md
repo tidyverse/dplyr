@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* Grouped data frames now have `[<-` and `$<-` methods that 
+
 * `[.grouped_df` now regroups to respect any grouping columns that have
   been removed (#4708).
 

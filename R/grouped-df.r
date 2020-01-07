@@ -214,6 +214,28 @@ as_tibble.grouped_df <- function(x, ...) {
   grouped_df(out, groups, group_by_drop_default(x))
 }
 
+#' @export
+`$<-.grouped_df` <- function(x, name, ..., value) {
+  out <- NextMethod()
+  if (name %in% group_vars(x)) {
+    grouped_df(out, group_vars(x), group_by_drop_default(x))
+  } else {
+    out
+  }
+}
+
+#' @export
+`[<-.grouped_df` <- function(x, i, j, ..., value) {
+  out <- NextMethod()
+  grouped_df(out, group_vars(out), group_by_drop_default(x))
+}
+
+#' @export
+`[[<-.grouped_df` <- function(x, ..., value) {
+  out <- NextMethod()
+  grouped_df(out, group_vars(x), group_by_drop_default(x))
+}
+
 #' @method rbind grouped_df
 #' @export
 rbind.grouped_df <- function(...) {
