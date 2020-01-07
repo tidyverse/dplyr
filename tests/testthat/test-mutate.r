@@ -842,56 +842,38 @@ test_that("mutate() give meaningful errors", {
     tbl <- tibble(x = 1:2, y = 1:2)
 
     "# setting column to NULL makes it unavailable"
-    tbl %>%
-      mutate(y = NULL, a = sum(y))
-    tbl %>%
-      group_by(x) %>%
-      mutate(y = NULL, a = sum(y))
+    mutate(tbl, y = NULL, a = sum(y))
+    mutate(group_by(tbl, x), y = NULL, a = sum(y))
 
     "# incompatible column type"
-    tibble(x = 1) %>%
-      mutate(y = mean)
-    tibble(x = 1) %>%
-      mutate(y = quote(a))
+    mutate(tibble(x = 1), y = mean)
+    mutate(tibble(x = 1), y = quote(a))
 
     "# Unsupported type"
     df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
-    df %>%
-      mutate(df, out = !!env(a = 1))
-    df %>%
-      group_by(g) %>%
-      mutate(out = !!env(a = 1))
+    mutate(df, out = !!env(a = 1))
+    mutate(group_by(df, g), out = !!env(a = 1))
 
     "# result is sometimes NULL"
-    tibble(a = 1:3, b=4:6) %>%
-      group_by(a) %>%
-      mutate(if(a==1) NULL else "foo")
+    mutate(group_by(tibble(a = 1:3, b=4:6), a), if(a==1) NULL else "foo")
 
     "# incompatible types"
-    data.frame(x = rep(1:5, each = 3)) %>%
-      group_by(x) %>%
-      mutate(val = ifelse(x < 3, "foo", 2))
+    mutate(group_by(data.frame(x = rep(1:5, each = 3)), x), val = ifelse(x < 3, "foo", 2))
 
     "# incompatible size"
     int <- 1:6
-    data.frame(x = c(2, 2, 3, 3)) %>%
-      mutate(int = int)
-    data.frame(x = c(2, 2, 3, 3)) %>%
-      mutate(int = 1:5)
+    mutate(data.frame(x = c(2, 2, 3, 3)), int = int)
+    mutate(data.frame(x = c(2, 2, 3, 3)), int = 1:5)
 
-    data.frame(x = c(2, 2, 3, 3)) %>%
-      group_by(x) %>%
-      mutate(int = int)
-    data.frame(x = c(2, 2, 3, 3)) %>%
-      group_by(x) %>%
-      mutate(int = 1:5)
+    mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = int)
+    mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = 1:5)
 
     "# refuse to modify grouping variables"
     mutate(group_by(tbl_df(mtcars), am), am = am + 2)
 
     "# .data pronoun"
-    tibble(a = 1) %>% mutate(c = .data$b)
-    tibble(a = 1:3) %>% group_by(a) %>% mutate(c = .data$b)
+    mutate(tibble(a = 1), c = .data$b)
+    mutate(group_by(tibble(a = 1:3), a), c = .data$b)
   })
 })
 
