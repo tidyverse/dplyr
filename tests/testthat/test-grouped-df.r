@@ -30,3 +30,16 @@ test_that("$<-, [[<-, and [<- update grouping data if needed", {
   expect_equal(group_data({gf2 <- gf; gf2[[1]] <- 3; gf2})$x, 3)
   expect_equal(group_data(`[<-`(gf, 1, "x", 4))$x, 4)
 })
+
+test_that("can remove grouping cols with subset assignment", {
+  df <- tibble(x = 1, y = 2)
+  gf1 <- gf2 <- gf3 <- group_by(df, x, y)
+
+  gf1$x <- NULL
+  gf2[["x"]] <- NULL
+  gf3[, "x"] <- NULL
+
+  expect_named(group_data(gf1), c("y", ".rows"))
+  expect_named(group_data(gf2), c("y", ".rows"))
+  expect_named(group_data(gf3), c("y", ".rows"))
+})
