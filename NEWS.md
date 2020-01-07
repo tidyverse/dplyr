@@ -1,5 +1,10 @@
 # dplyr 0.9.0 (in development)
 
+* All deprecations now use the [lifecycle](https://lifecycle.r-lib.org), 
+  that means by default you'll only see a deprecation warning once per session,
+  and you can control with `options(lifecycle_verbosity = x)` where
+  `x` is one of NULL, "quiet", "warning", and "error".
+
 * `failwith()` which was deprecated in 0.7.0 is now defunct.
 
 * `sample_n()` and `sample_frac()` have been retired in favour of new 
