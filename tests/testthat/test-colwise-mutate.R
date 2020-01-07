@@ -165,27 +165,6 @@ test_that("summarise_at removes grouping variables (#3613)", {
   expect_equal(names(res), c("g", "y"))
 })
 
-# Deprecated ---------------------------------------------------------
-
-test_that("_each() and _all() families agree", {
-  local_lifecycle_silence()
-  df <- data.frame(x = 1:3, y = 1:3)
-
-  expect_equal(summarise_each(df, list(mean)), summarise_all(df, mean))
-  expect_equal(summarise_each(df, list(mean), x), summarise_at(df, vars(x), mean))
-  expect_equal(summarise_each(df, list(mean = mean), x), summarise_at(df, vars(x), list(mean = mean)))
-  expect_equal(summarise_each(df, list(mean = mean), x:y), summarise_at(df, vars(x:y), list(mean = mean)))
-  expect_equal(summarise_each(df, list(mean), x:y), summarise_at(df, vars(x:y), mean))
-  expect_equal(summarise_each(df, list(mean), z = y), summarise_at(df, vars(z = y), mean))
-
-  expect_equal(mutate_each(df, list(mean)), mutate_all(df, mean))
-  expect_equal(mutate_each(df, list(mean), x), mutate_at(df, vars(x), mean))
-  expect_equal(mutate_each(df, list(mean = mean), x), mutate_at(df, vars(x), list(mean = mean)))
-  expect_equal(mutate_each(df, list(mean = mean), x:y), mutate_at(df, vars(x:y), list(mean = mean)))
-  expect_equal(mutate_each(df, list(mean), x:y), mutate_at(df, vars(x:y), mean))
-  expect_equal(mutate_each(df, list(mean), z = y), mutate_at(df, vars(z = y), mean))
-})
-
 test_that("group_by_(at,all) handle utf-8 names (#3829)", {
   with_non_utf8_encoding({
     name <- get_native_lang_string()
