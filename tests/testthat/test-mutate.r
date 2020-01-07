@@ -838,7 +838,7 @@ test_that("DataMask$add() forces chunks (#4677)", {
 })
 
 test_that("mutate() give meaningful errors", {
-  verify_output(test_path("test-mutate.txt"), {
+  verify_output(test_path("test-mutate-errors.txt"), {
     tbl <- tibble(x = 1:2, y = 1:2)
 
     "# setting column to NULL makes it unavailable"

@@ -67,7 +67,7 @@ test_that("colwise filter support .data$. in the quosure versions", {
 # Errors ------------------------------------------------------------------
 
 test_that("colwise filter() give meaningful errors", {
-  verify_output(test_path("test-colwise-filter.txt"), {
+  verify_output(test_path("test-colwise-filter-errors.txt"), {
     filter_if(mtcars, is_character, all_vars(. > 0))
     filter_all(mtcars, list(~. > 0))
   })

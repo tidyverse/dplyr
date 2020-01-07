@@ -111,7 +111,7 @@ test_that("group_modify() works with additional arguments (#4509)", {
 test_that("group_map() give meaningful errors", {
   head1 <- function(d) head(d, 1)
 
-  verify_output(test_path("test-group_map.txt"), {
+  verify_output(test_path("test-group_map-errors.txt"), {
     "# group_modify()"
     mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19))
     mtcars %>% group_by(cyl) %>% group_modify(~ 10)

@@ -173,7 +173,7 @@ test_that("select_if() discards the column when predicate gives NA (#4486)", {
 # Errors ------------------------------------------------------------------
 
 test_that("colwise select() / rename() give meaningful errors", {
-  verify_output(test_path("test-colwise-select.txt"), {
+  verify_output(test_path("test-colwise-select-errors.txt"), {
     df <- tibble(x = 0L, y = 0.5, z = 1)
 
     "# colwise rename()"

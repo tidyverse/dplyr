@@ -110,7 +110,7 @@ test_that("group_data() give meaningful errors", {
   df11 <- df6
   attr(df11, "groups") <- NULL
 
-  verify_output(test_path("test-group_data.txt"), {
+  verify_output(test_path("test-group_data-errors.txt"), {
     "# Invalid `groups` attribute"
     group_data(df1)
     group_data(df2)

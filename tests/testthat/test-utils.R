@@ -9,7 +9,7 @@ test_that("quo_is_variable_reference handles .data",{
 })
 
 test_that("check_pkg() give meaningful error messages", {
-  verify_output(test_path("test-utils.txt"), {
+  verify_output(test_path("test-utils-errors.txt"), {
     dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz")
     dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz", install = FALSE)
   })

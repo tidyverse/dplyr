@@ -218,7 +218,7 @@ test_that("can choose to include grouping vars", {
 # Errors ------------------------------------------------------------------
 
 test_that("arrange() gives meaningful errors", {
-  verify_output(test_path("test-arrange.txt"), {
+  verify_output(test_path("test-arrange-errors.txt"), {
     "# duplicated column name"
     df <- data.frame(x = 1:10, x = 1:10)
     names(df) <- c("x", "x")

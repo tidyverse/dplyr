@@ -174,7 +174,7 @@ test_that("can override output column", {
 # Errors ------------------------------------------------------------------
 
 test_that("count() give meaningful errors", {
-  verify_output(test_path("test-count-tally.txt"), {
+  verify_output(test_path("test-count-tally-errors.txt"), {
     df <- data.frame(n = c(1, 1, 2, 2, 2))
     add_count(df, n)
 

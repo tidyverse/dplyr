@@ -176,7 +176,7 @@ test_that("all.equal() works on nameless tibbles (#4552)", {
 # Errors ------------------------------------------------------------------
 
 test_that("count() give meaningful errors", {
-  verify_output(test_path("test-equality.txt"), {
+  verify_output(test_path("test-equality-errors.txt"), {
     union(tibble(a = 1), tibble(a = "1"))
     union(tibble(a = 1, b = 2), tibble(a = "1", b = "2"))
   })
