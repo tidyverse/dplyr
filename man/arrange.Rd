@@ -5,9 +5,9 @@
 \alias{arrange.data.frame}
 \title{Arrange rows by variables}
 \usage{
-arrange(.data, ...)
+arrange(.data, ..., .by_group = FALSE)
 
-\method{arrange}{data.frame}(.data, ...)
+\method{arrange}{data.frame}(.data, ..., .by_group = FALSE)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
