@@ -1,0 +1,59 @@
+> df2 <- tibble(x = rep(1:2, 100), y = rep(c(0, 1), 100), g = rep(1:2, each = 100))
+> grp <- df2 %>% group_by(g)
+
+base R error messages
+=====================
+
+> sample_n(grp, nrow(df2) / 2, weight = y)
+Error in sample.int(n(), check_size(~nrow(df2)/2, n(), replace = replace), : too few positive probabilities
+
+> sample_frac(grp, 1, weight = y)
+Error in sample.int(n(), round(n() * check_frac(~1, replace = replace)), : too few positive probabilities
+
+
+can't sample more values than obs (without replacement)
+=======================================================
+
+> mtcars %>% group_by(cyl) %>% sample_n(10)
+Error: `size` must be less or equal than 7 (size of data), set `replace` = TRUE to use sampling with replacement
+
+
+unknown type
+============
+
+> sample_n(list())
+Error: `tbl` must be a data frame, not a list
+
+> sample_frac(list())
+Error: `tbl` must be a data frame, not a list
+
+
+helper function check_weight()
+==============================
+
+> check_weight(letters[1:2], 2)
+Error: `weight` must be a numeric, not a character vector
+
+> check_weight(-1:-2, 2)
+Error: `weight` must be a vector with all values nonnegative, not -1
+
+> check_weight(letters, 2)
+Error: `weight` must be a numeric, not a character vector
+
+
+respects weight
+===============
+
+> df <- data.frame(x = 1:2, y = c(0, 1))
+> sample_n(df, 2, weight = y)
+Error in sample.int(n(), check_size(~2, n(), replace = replace), replace = replace, : too few positive probabilities
+
+> sample_frac(df, 2)
+Error: `size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement
+
+> sample_frac(df %>% group_by(y), 2)
+Error: `size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement
+
+> sample_frac(df, 1, weight = y)
+Error in sample.int(n(), round(n() * check_frac(~1, replace = replace)), : too few positive probabilities
+

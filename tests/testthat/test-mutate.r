@@ -712,7 +712,7 @@ test_that("can use character vectors in grouped mutate (#2971)", {
       z = as.character(runif(1L))
     )
 
-  expect_error(df %>% distinct(x, .keep_all = TRUE), NA)
+  expect_no_error(df %>% distinct(x, .keep_all = TRUE))
 })
 
 test_that("mutate() to UTF-8 column names", {

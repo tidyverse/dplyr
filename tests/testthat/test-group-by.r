@@ -129,20 +129,6 @@ test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
   expect_equal(names(res), c("vs", "mpg"))
 })
 
-test_that("grouped_df errors on NULL labels (#398)", {
-  m <- mtcars %>% group_by(cyl)
-  attr(m, "groups") <- NULL
-  expect_error(m %>% do(mpg = mean(.$mpg)))
-})
-
-test_that("grouped_df errors on non-existent var (#2330)", {
-  df <- data.frame(x = 1:5)
-  expect_error(
-    grouped_df(df, list(quote(y)), FALSE),
-    "Column `y` is unknown"
-  )
-})
-
 test_that("group_by only creates one group for NA (#401)", {
   x <- as.numeric(c(NA, NA, NA, 10:1, 10:1))
   w <- c(20, 30, 40, 1:10, 1:10) * 10
@@ -189,20 +175,6 @@ test_that("group_by works with zero-row data frames (#486)", {
   expect_equal(dim(x), c(0, 2))
   expect_groups(x, "g")
   expect_equal(group_size(x), integer(0))
-})
-
-test_that("grouped_df requires a list of symbols (#665)", {
-  features <- list("feat1", "feat2", "feat3")
-  # error message by assertthat
-  expect_error(grouped_df(data.frame(feat1 = 1, feat2 = 2, feat3 = 3), features))
-})
-
-test_that("group_by gives meaningful message with unknow column (#716)", {
-  expect_error(
-    group_by(iris, wrong_name_of_variable),
-    "Column `wrong_name_of_variable` is unknown",
-    fixed = TRUE
-  )
 })
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
@@ -525,4 +497,24 @@ test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {
     iris %>% mutate(across(starts_with("Sepal"), round)) %>% group_by(Species, Sepal.Length, Sepal.Width),
     iris %>% group_by(Species, across(starts_with("Sepal"), round))
   )
+})
+
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("group_by() gives meaningful error messages", {
+  verify_output(test_path("test-group-by-errors.txt"), {
+    m <- mtcars %>% group_by(cyl)
+    attr(m, "groups") <- NULL
+    m %>% do(mpg = mean(.$mpg))
+
+    "# unknown column"
+    group_by(iris, wrong_name_of_variable)
+    grouped_df(data.frame(x = 1), list(quote(y)), FALSE)
+
+    "# incompatible type"
+    grouped_df(data.frame(x = 1), list("x"))
+
+  })
 })

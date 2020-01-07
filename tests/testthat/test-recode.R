@@ -1,50 +1,11 @@
 context("recode")
 
-test_that("error if no arguments", {
-  expect_error(
-    recode(1:5), "No replacements provided"
-  )
-  expect_error(
-    recode("a"), "No replacements provided"
-  )
-  expect_error(
-    recode(factor("a")), "No replacements provided"
-  )
-})
-
-test_that("error if unnamed", {
-  expect_error(
-    recode("a", b = 5, "c"),
-    "Argument 3 must be named, not unnamed"
-  )
-  expect_error(
-    recode(factor("a"), b = 5, "c"),
-    "Argument 3 must be named, not unnamed",
-    fixed = TRUE
-  )
-})
-
-test_that("error if missing given for factors", {
-  expect_error(
-    recode(factor("a"), a = 5, .missing = 10),
-    "`.missing` is not supported for factors",
-    fixed = TRUE
-  )
-})
-
 test_that("positional substitution works", {
   expect_equal(recode(1:2, "a", "b"), c("a", "b"))
 })
 
 test_that("names override positions", {
   expect_equal(recode(1:2, `2` = "b", `1` = "a"), c("a", "b"))
-})
-
-test_that("numeric vals must be all named or not named at all", {
-  expect_error(
-    recode(1:2, "b", `1` = "a"),
-    "Either all values must be named, or none must be named"
-  )
 })
 
 test_that("named substitution works", {
@@ -185,4 +146,21 @@ test_that("can recode factor with redundant levels", {
     recode_factor(letters[1:4], d = "c", b = "a"),
     factor(c("a", "a", "c", "c"), levels = c("c", "a"))
   )
+})
+
+# Errors --------------------------------------------
+
+test_that("recode() gives meaningful error messages", {
+  verify_output(test_path("test-recode-errors.txt"), {
+    recode(1:2, "b", `1` = "a")
+    recode(factor("a"), a = 5, .missing = 10)
+
+    recode("a", b = 5, "c")
+    recode(factor("a"), b = 5, "c")
+
+    "# no replacement"
+    recode(1:5)
+    recode("a")
+    recode(factor("a"))
+  })
 })

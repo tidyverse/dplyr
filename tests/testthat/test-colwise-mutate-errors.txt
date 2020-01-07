@@ -1,0 +1,22 @@
+> with_lifecycle_errors({
++   summarise_at(mtcars, vars(mpg), quo(mean(.)))
++   mutate_at(mtcars, vars(mpg), quo(mean(.)))
++ })
++ # # column not found
++ mutate_at(tibble(), "test", ~1)
++ # # not summarising grouping variables
++ tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>% group_by(gr1)
++  %>% summarise_at(tbl, vars(gr1), mean)
++ # # not mutating grouping variables
++ tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8)
++ %>% group_by(gr1)
++ mutate_at(tbl, vars(gr1), sqrt)
++ transmute_at(tbl, vars(gr1), sqrt)
++ # # improper additional arguments
++ mutate_all(mtcars, round, 0, 0)
++ mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
+Error: <text>:9:2: unexpected SPECIAL
+8: tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>% group_by(gr1)
+9:  %>%
+    ^
+
