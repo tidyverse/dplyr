@@ -48,7 +48,7 @@ names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("maturing")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("maturing")}
 
 The \link{scoped} variants of \code{\link[=mutate]{mutate()}} and \code{\link[=transmute]{transmute()}} make it easy to apply
 the same transformation to multiple variables. There are three variants:

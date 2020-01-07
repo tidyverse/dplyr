@@ -2,7 +2,7 @@
 #'
 #' @description
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("maturing")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("maturing")}
 #'
 #' The [scoped] variants of [summarise()] make it easy to apply the same
 #' transformation to multiple variables.
@@ -150,7 +150,7 @@ summarize_at <- summarise_at
 #'
 #' @description
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("maturing")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("maturing")}
 #'
 #' The [scoped] variants of [mutate()] and [transmute()] make it easy to apply
 #' the same transformation to multiple variables. There are three variants:
