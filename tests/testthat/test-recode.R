@@ -152,7 +152,6 @@ test_that("can recode factor with redundant levels", {
 
 test_that("recode() gives meaningful error messages", {
   verify_output(test_path("test-recode-errors.txt"), {
-    recode(1:2, "b", `1` = "a")
     recode(factor("a"), a = 5, .missing = 10)
 
     recode("a", b = 5, "c")

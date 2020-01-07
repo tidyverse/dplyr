@@ -25,8 +25,8 @@ Unsupported type
 > df %>% mutate(df, out = !!env(a = 1))
 Error: Unsupported type at index 2
 
-> df %>% group_by(g) %>% mutate(gdf, out = !!env(a = 1))
-Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'gdf' not found
+> df %>% group_by(g) %>% mutate(out = !!env(a = 1))
+Error: Unsupported type for result `out`
 
 
 result is sometimes NULL
@@ -50,17 +50,17 @@ incompatible size
 =================
 
 > int <- 1:6
-> data.frame(x = c(2, 2, 3, 3)) %>% mutate(gdf, int = int)
-Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'gdf' not found
+> data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = int)
+Error: Vector of length 6 cannot be recycled to length 4. Only vectors of length one can be recycled.
 
-> data.frame(x = c(2, 2, 3, 3)) %>% mutate(gdf, int = 1:5)
-Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'gdf' not found
+> data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)
+Error: Vector of length 5 cannot be recycled to length 4. Only vectors of length one can be recycled.
 
-> data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(gdf, int = int)
-Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'gdf' not found
+> data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(int = int)
+Error: Vector of length 6 cannot be recycled to length 2. Only vectors of length one can be recycled.
 
-> data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(gdf, int = 1:5)
-Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'gdf' not found
+> data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)
+Error: Vector of length 5 cannot be recycled to length 2. Only vectors of length one can be recycled.
 
 
 refuse to modify grouping variables

@@ -1,12 +1,22 @@
-> recode(1:2, "b", 1 = "a")
-+ recode(factor("a"), a = 5, .missing = 10)
-+ recode("a", b = 5, "c")
-+ recode(factor("a"), b = 5, "c")
-+ # # no replacement
-+ recode(1:5)
-+ recode("a")
-+ recode(factor("a"))
-Error: <text>:1:20: unexpected '='
-1: recode(1:2, "b", 1 =
-                       ^
+> recode(factor("a"), a = 5, .missing = 10)
+Error: `.missing` is not supported for factors
+
+> recode("a", b = 5, "c")
+Error: Argument 3 must be named, not unnamed
+
+> recode(factor("a"), b = 5, "c")
+Error: Argument 3 must be named, not unnamed
+
+
+no replacement
+==============
+
+> recode(1:5)
+Error: No replacements provided
+
+> recode("a")
+Error: No replacements provided
+
+> recode(factor("a"))
+Error: No replacements provided
 

@@ -860,7 +860,7 @@ test_that("mutate() give meaningful errors", {
       mutate(df, out = !!env(a = 1))
     df %>%
       group_by(g) %>%
-      mutate(gdf, out = !!env(a = 1))
+      mutate(out = !!env(a = 1))
 
     "# result is sometimes NULL"
     tibble(a = 1:3, b=4:6) %>%
@@ -875,16 +875,16 @@ test_that("mutate() give meaningful errors", {
     "# incompatible size"
     int <- 1:6
     data.frame(x = c(2, 2, 3, 3)) %>%
-      mutate(gdf, int = int)
+      mutate(int = int)
     data.frame(x = c(2, 2, 3, 3)) %>%
-      mutate(gdf, int = 1:5)
+      mutate(int = 1:5)
 
     data.frame(x = c(2, 2, 3, 3)) %>%
       group_by(x) %>%
-      mutate(gdf, int = int)
+      mutate(int = int)
     data.frame(x = c(2, 2, 3, 3)) %>%
       group_by(x) %>%
-      mutate(gdf, int = 1:5)
+      mutate(int = 1:5)
 
     "# refuse to modify grouping variables"
     mutate(group_by(tbl_df(mtcars), am), am = am + 2)
