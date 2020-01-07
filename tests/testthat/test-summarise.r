@@ -1052,13 +1052,6 @@ test_that("summarise() packs named tibble results (#2326)", {
   expect_equal(nrow(res$out), 3L)
 })
 
-test_that("across() does not select grouping variables", {
-  expect_identical(
-    iris %>% group_by(Species) %>% summarise(across(is.numeric, mean)),
-    iris %>% group_by(Species) %>% summarise(across(everything(), mean))
-  )
-})
-
 test_that("summarise() give meaningful errors", {
   verify_output(test_path("test-summarise-errors.txt"), {
     "# unsupported type"
