@@ -206,7 +206,7 @@ as_tibble.grouped_df <- function(x, ...) {
 `[.grouped_df` <- function(x, i, j, drop = FALSE) {
   out <- NextMethod()
 
-  if (isTRUE(drop) && !is.data.frame(y)) {
+  if (isTRUE(drop) && !is.data.frame(out)) {
     return(out)
   }
 

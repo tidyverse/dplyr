@@ -20,6 +20,14 @@ test_that("[ method can remove grouping vars", {
   expect_equal(gf[3], df[3])
 })
 
+test_that("[ supports drop=TRUE (#3714)", {
+  df <- tibble(x = 1, y = 2)
+  gf <- group_by(df, x)
+
+  expect_type(gf[, "y", drop = TRUE], "double")
+  expect_s3_class(gf[, c("x", "y"), drop = TRUE], "grouped_df")
+})
+
 test_that("$<-, [[<-, and [<- update grouping data if needed", {
   df <- tibble(x = 1, y = 2)
   gf <- group_by(df, x)
