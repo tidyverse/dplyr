@@ -25,7 +25,7 @@ specified, defaults to the last variable in the tbl.}
 \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("retired")}
 \code{top_n()} has been retired in favour of \code{\link[=slice_min]{slice_min()}}/\code{\link[=slice_max]{slice_max()}}.
 While it will not be deprecated in the near future, retirement means
-that we will only perform critical bug fixes so we recommend moving to the
+that we will only perform critical bug fixes, so we recommend moving to the
 newer alternatives.
 
 \code{top_n()} was retired because the name was fundamentally confusing as

@@ -29,7 +29,7 @@ rows in the group (or \code{prop > 1}), it will be silently truncated to the
 group size. If the \code{prop}ortion of a group size is not an integer, it will
 be rounded down.}
 
-\item{order_by}{Variable, or function or variables, to order by.}
+\item{order_by}{Variable, or function of variables to order by.}
 
 \item{with_ties}{Should ties be kept together? The default, \code{TRUE},
 may return more rows than you request. Use \code{FALSE} to ignore ties,
@@ -73,7 +73,7 @@ mtcars \%>\% slice_min(cyl, n = 1, with_ties = FALSE)
 mtcars \%>\% slice_sample(n = 5)
 mtcars \%>\% slice_sample(n = 5, replace = TRUE)
 
-# you can optional weight by a variable - this code weights by the
+# you can optionally weight by a variable - this code weights by the
 # physical weight of the cars, so heavy cars are more likely to get
 # selected
 mtcars \%>\% slice_sample(weight_by = wt, n = 5)
@@ -88,7 +88,7 @@ df <- tibble(
 # size, so the following code works without error
 df \%>\% group_by(group) \%>\% slice_head(n = 2)
 
-# When specifying the proportion of rows to include, non-integer sizes
+# When specifying the proportion of rows to include non-integer sizes
 # are rounded down, so group a gets 0 rows
 df \%>\% group_by(group) \%>\% slice_head(prop = 0.5)
 }

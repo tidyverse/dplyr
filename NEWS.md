@@ -10,7 +10,7 @@
 * `slice()` gains a new set of helpers:
 
   * `slice_head()` and `slice_tail()` select the first and last rows, like
-    `head()` and `tail()`, but will work by group.
+    `head()` and `tail()`, but return `n` rows _per group_.
     
   * `slice_sample()` randomly selects rows, taking over from `sample_frac()` 
      and `sample_n()`.

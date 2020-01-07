@@ -7,9 +7,9 @@
 #' retirement means that we will only perform critical bug fixes, so we recommend
 #' moving to the newer alternative.
 #'
-#' These functions were retired because we realised that, rather than having
-#' two functions it was more convenient to have two mutually exclusive arguments
-#' to a single function. This also made it to clean up a few other smaller
+#' These functions were retired because we realised it was more convenient to
+#' have two mutually exclusive arguments to one function, rather than two
+#' separate functions. This also made it to clean up a few other smaller
 #' design issues with `sample_n()`/`sample_frac`:
 #'
 #' * The connection to `slice()` was not obvious.

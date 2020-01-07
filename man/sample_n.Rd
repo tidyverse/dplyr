@@ -31,12 +31,12 @@ the input. Weights are automatically standardised to sum to 1.}
 \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("retired")}
 \code{sample_n()} and \code{sample_frac()} have been retired in favour of
 \code{\link[=slice_sample]{slice_sample()}}. While they will not be deprecated in the near future,
-retirement means that we will only perform critical bug fixes so we recommend
+retirement means that we will only perform critical bug fixes, so we recommend
 moving to the newer alternative.
 
-These functions were retired because we realised that rather than having
-two functions it was more convenient to have two mutually exclusive arguments
-to a single function. This also made it to clean up a few other smaller
+These functions were retired because we realised it was more convenient to
+have two mutually exclusive arguments to one function, rather than two
+separate functions. This also made it to clean up a few other smaller
 design issues with \code{sample_n()}/\code{sample_frac}:
 \itemize{
 \item The connection to \code{slice()} was not obvious.

@@ -209,7 +209,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 
 #' @export
 #' @rdname slice_head
-#' @param order_by Variable, or function, or variables to order by.
+#' @param order_by Variable or function of variables to order by.
 #' @param with_ties Should ties be kept together? The default, `TRUE`,
 #'   may return more rows than you request. Use `FALSE` to ignore ties,
 #'   and return the first `n` rows.
