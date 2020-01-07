@@ -1,5 +1,11 @@
 # dplyr 0.9.0 (in development)
 
+* `as.tbl()` and `tbl_df()` have been formally deprecated.
+  Please use `as_tibble()` instead.
+  
+* `add_rownames()` has been deprecated. Please use 
+  `tibble::rownames_to_column()` instead.
+
 * `sample_n()` and `sample_frac()` have been retired in favour of new 
   `slice_sample()`. See `?sample_n` for details about why, and for examples
   converting from old to new usage.
