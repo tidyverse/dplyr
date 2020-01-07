@@ -1,5 +1,8 @@
 # dplyr 0.9.0 (in development)
 
+* `src_local()` has been deprecated; it was part of an approach to testing
+  dplyr backends that didn't pan out.
+
 * `id()`, deprecated in dplyr 0.5.0, is now defunct.
 
 * `failwith()` which was deprecated in 0.7.0 is now defunct.

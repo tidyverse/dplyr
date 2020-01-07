@@ -1,21 +1,17 @@
-#' A local source.
+#' A local source
 #'
-#' This is mainly useful for testing, since makes it possible to refer to
-#' local and remote tables using exactly the same syntax.
-#'
-#' Generally, `src_local()` should not be called directly, but instead
-#' one of the constructors should be used.
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' This function was deprecated since it existed to support a style of testing
+#' dplyr backends that turned out not to be useful.
 #'
 #' @param tbl name of the function used to generate `tbl` objects
 #' @param pkg,env Either the name of a package or an environment object in
 #'   which to look for objects.
 #' @keywords internal
 #' @export
-#' @examples
-#' if (require("Lahman")) {
-#' batting_df <- tbl(src_df("Lahman"), "Batting")
-#' }
 src_local <- function(tbl, pkg = NULL, env = NULL) {
+  lifecycle::deprecate_warn("1.0.0", "src_local()")
+
   if (!xor(is.null(pkg), is.null(env))) {
     glubort(NULL, "Exactly one of `pkg` and `env` must be non-NULL, ",
       "not {(!is.null(pkg)) + (!is.null(env))}"
