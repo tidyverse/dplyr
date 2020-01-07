@@ -193,7 +193,8 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
-<li><p><code><a href="../reference/failwith.html">failwith()</a></code> which was deprecated in 0.7.0 is now defunct.</p></li>
+<li><p><code><a href="../reference/defunct.html">id()</a></code>, deprecated in dplyr 0.5.0, is now defunct.</p></li>
+<li><p><code><a href="../reference/defunct.html">failwith()</a></code> which was deprecated in 0.7.0 is now defunct.</p></li>
 <li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> have been retired in favour of new <code><a href="../reference/slice_head.html">slice_sample()</a></code>. See <code><a href="../reference/sample_n.html">?sample_n</a></code> for details about why, and for examples converting from old to new usage.</p></li>
 <li><p><code><a href="../reference/top_n.html">top_n()</a></code> has been retired in favour of <code><a href="../reference/slice_head.html">slice_min()</a></code>/<code><a href="../reference/slice_head.html">slice_max()</a></code>. See <code><a href="../reference/top_n.html">?top_n</a></code> for details about why, and how to convert old to new usage (<a href='https://github.com/tidyverse/dplyr/issues/4494'>#4494</a>).</p></li>
 <li>
@@ -746,7 +747,7 @@ select(mtcars, -(!! vars))</code></pre>
 <ul>
 <li><p>dplyr no longer messages that you need dtplyr to work with data.table (<a href='https://github.com/tidyverse/dplyr/issues/2489'>#2489</a>).</p></li>
 <li><p>Long deprecated <code>regroup()</code>, <code>mutate_each_q()</code> and <code>summarise_each_q()</code> functions have been removed.</p></li>
-<li><p>Deprecated <code><a href="../reference/failwith.html">failwith()</a></code>. I’m not even sure why it was here.</p></li>
+<li><p>Deprecated <code><a href="../reference/defunct.html">failwith()</a></code>. I’m not even sure why it was here.</p></li>
 <li><p>Soft-deprecated <code><a href="../reference/summarise_each.html">mutate_each()</a></code> and <code><a href="../reference/summarise_each.html">summarise_each()</a></code>, these functions print a message which will be changed to a warning in the next release.</p></li>
 <li><p>The <code>.env</code> argument to <code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> is defunct, passing a value to this argument print a message which will be changed to a warning in the next release.</p></li>
 </ul>
@@ -945,7 +946,7 @@ starwars %&gt;%
 <a href="#deprecated-and-defunct-functions-1" class="anchor"></a>Deprecated and defunct functions</h3>
 <ul>
 <li><p>The long deprecated <code>chain()</code>, <code>chain_q()</code> and <code>%.%</code> have been removed. Please use <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> instead.</p></li>
-<li><p><code><a href="../reference/id.html">id()</a></code> has been deprecated. Please use <code><a href="../reference/group_indices.html">group_indices()</a></code> instead (<a href='https://github.com/tidyverse/dplyr/issues/808'>#808</a>).</p></li>
+<li><p><code><a href="../reference/defunct.html">id()</a></code> has been deprecated. Please use <code><a href="../reference/group_indices.html">group_indices()</a></code> instead (<a href='https://github.com/tidyverse/dplyr/issues/808'>#808</a>).</p></li>
 <li><p><code>rbind_all()</code> and <code>rbind_list()</code> are formally deprecated. Please use <code><a href="../reference/bind.html">bind_rows()</a></code> instead (<a href='https://github.com/tidyverse/dplyr/issues/803'>#803</a>).</p></li>
 <li><p>Outdated benchmarking demos have been removed (<a href='https://github.com/tidyverse/dplyr/issues/1487'>#1487</a>).</p></li>
 <li><p>Code related to starting and signalling clusters has been moved out to <a href="http://github.com/hadley/multidplyr">multidplyr</a>.</p></li>

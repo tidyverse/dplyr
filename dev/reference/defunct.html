@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Print the location in memory of a data frame — location • dplyr</title>
+<title>Defunct functions — defunct • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,9 +47,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Print the location in memory of a data frame — location" />
-<meta property="og:description" content="This is useful for understand how and when dplyr makes copies of data
-frames" />
+<meta property="og:title" content="Defunct functions — defunct" />
+<meta property="og:description" content="
+
+Executing these functions will tell you which function replaces them." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -186,88 +187,27 @@ frames" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Print the location in memory of a data frame</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/location.R'><code>R/location.R</code></a></small>
-    <div class="hidden name"><code>location.Rd</code></div>
+    <h1>Defunct functions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/defunct.r'><code>R/defunct.r</code></a></small>
+    <div class="hidden name"><code>defunct.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This is useful for understand how and when dplyr makes copies of data
-frames</p>
+    <p><img src='figures/lifecycle-defunct.svg' alt='Defunct lifecycle' />
+
+Executing these functions will tell you which function replaces them.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>location</span>(<span class='no'>df</span>)
+    <pre class="usage"><span class='fu'>id</span>(<span class='no'>.variables</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>changes</span>(<span class='no'>x</span>, <span class='no'>y</span>)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>df</th>
-      <td><p>a data frame</p></td>
-    </tr>
-    <tr>
-      <th>x, y</th>
-      <td><p>two data frames to compare</p></td>
-    </tr>
-    </table>
+<span class='fu'>failwith</span>(<span class='kw'>default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>f</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: location() is deprecated, please use functions in the lobstr package</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; &lt;0x6abbbe8&gt;
-#&gt; Variables:
-#&gt;  * mpg:       &lt;0x5e421c0&gt;
-#&gt;  * cyl:       &lt;0x5e42300&gt;
-#&gt;  * disp:      &lt;0x5e42440&gt;
-#&gt;  * hp:        &lt;0x6b21e20&gt;
-#&gt;  * drat:      &lt;0x6b21f60&gt;
-#&gt;  * wt:        &lt;0x6b220a0&gt;
-#&gt;  * qsec:      &lt;0x16ad080&gt;
-#&gt;  * vs:        &lt;0x16ad1c0&gt;
-#&gt;  * am:        &lt;0x16ad300&gt;
-#&gt;  * gear:      &lt;0x6794980&gt;
-#&gt;  * carb:      &lt;0x6794ac0&gt;
-#&gt; Attributes:
-#&gt;  * names:     &lt;0x6abbb38&gt;
-#&gt;  * row.names: &lt;0x6794c00&gt;
-#&gt;  * class:     &lt;0x3ca2890&gt;</div><div class='input'>
-<span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0xdb4c028&gt;
-#&gt; Variables:
-#&gt;  * mpg:       &lt;0x5e421c0&gt;
-#&gt;  * cyl:       &lt;0x5e42300&gt;
-#&gt;  * disp:      &lt;0x5e42440&gt;
-#&gt;  * hp:        &lt;0x6b21e20&gt;
-#&gt;  * drat:      &lt;0x6b21f60&gt;
-#&gt;  * wt:        &lt;0x6b220a0&gt;
-#&gt;  * qsec:      &lt;0x16ad080&gt;
-#&gt;  * vs:        &lt;0x16ad1c0&gt;
-#&gt;  * am:        &lt;0x16ad300&gt;
-#&gt;  * gear:      &lt;0x6794980&gt;
-#&gt;  * carb:      &lt;0x6794ac0&gt;
-#&gt;  * cyl2:      &lt;0x68036d0&gt;
-#&gt; Attributes:
-#&gt;  * names:     &lt;0xdb4be18&gt;
-#&gt;  * row.names: &lt;0x5f21c50&gt;
-#&gt;  * class:     &lt;0x3ecaa00&gt;</div><div class='input'>
-<span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: changes() is deprecated, please use functions in the lobstr package</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
-#&gt;           old     new      
-#&gt; cyl2      &lt;added&gt; 0x68036d0
-#&gt; 
-#&gt; Changed attributes:
-#&gt;           old       new      
-#&gt; names     0x6abbb38 0xdb4be18
-#&gt; row.names 0x6794c00 0x6b6bc88
-#&gt; class     0x3ca2890 0x3ecaa00</div></pre>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

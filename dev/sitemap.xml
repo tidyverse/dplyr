@@ -67,6 +67,9 @@
     <loc>https://dplyr.tidyverse.org/reference/cumall.html</loc>
   </url>
   <url>
+    <loc>https://dplyr.tidyverse.org/reference/defunct.html</loc>
+  </url>
+  <url>
     <loc>https://dplyr.tidyverse.org/reference/desc.html</loc>
   </url>
   <url>
@@ -92,9 +95,6 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/explain.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/failwith.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/filter.html</loc>
@@ -146,9 +146,6 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/groups.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/id.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/ident.html</loc>
