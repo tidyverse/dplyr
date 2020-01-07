@@ -3,11 +3,15 @@
 \name{defunct}
 \alias{defunct}
 \alias{id}
+\alias{failwith}
 \title{Defunct functions}
 \usage{
 id(.variables, drop = FALSE)
+
+failwith(default = NULL, f, quiet = FALSE)
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("defunct")}
+Executing these functions will tell you which function replaces them.
 }
 \keyword{internal}
