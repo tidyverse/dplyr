@@ -29,18 +29,15 @@ reference:
   contents:
   - distinct
   - do
-  - sample
   - slice
 
 - title: Single-table helpers
   contents:
   - count
-  - top_n
   - scoped
   - ends_with("_at")
   - all_vars
   - vars
-  - funs
 
 - title: Two-table verbs
   contents:
@@ -79,7 +76,6 @@ reference:
   - between
   - case_when
   - coalesce
-  - combine
   - cumany
   - desc
   - if_else

@@ -1,4 +1,31 @@
-context("underscore")
+setup(options(lifecycle_verbosity = "quiet"))
+teardown(options(lifecycle_verbosity = NULL))
+
+test_that("can select negatively (#2519)", {
+  expect_identical(select_(mtcars, ~ -cyl), mtcars[-2])
+})
+
+test_that("select yields proper names", {
+  expect_identical(names(select_(mtcars, ~ cyl:hp)), c("cyl", "disp", "hp"))
+})
+
+test_that("lazydots are named and arrange() doesn't fail (it assumes empty names)", {
+  dots <- compat_lazy_dots(list(), env(), "cyl")
+  expect_identical(names(dots), "")
+  expect_identical(arrange_(mtcars, "cyl"), arrange(mtcars, cyl))
+})
+
+test_that("mutate_each_() and summarise_each_() handle lazydots", {
+  cyl_chr <- mutate_each_(mtcars, list(as.character), "cyl")$cyl
+  expect_identical(cyl_chr, as.character(mtcars$cyl))
+
+  cyl_mean <- summarise_each_(mtcars, list(mean), "cyl")$cyl
+  expect_equal(cyl_mean, mean(mtcars$cyl))
+})
+
+test_that("select_vars_() handles lazydots", {
+  expect_identical(select_vars_(letters, c("a", "b")), set_names(c("a", "b")))
+})
 
 df <- tibble(
   a = c(1:3, 2:3),
@@ -6,7 +33,6 @@ df <- tibble(
 )
 
 test_that("arrange_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     arrange_(df, ~ -a),
     arrange(df, -a)
@@ -24,7 +50,6 @@ test_that("arrange_ works", {
 })
 
 test_that("count_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     count_(df, ~ b),
     count(df, b)
@@ -48,7 +73,6 @@ test_that("count_ works", {
 })
 
 test_that("distinct_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     distinct_(df, ~ a),
     distinct(df, a)
@@ -81,7 +105,6 @@ test_that("distinct_ works", {
 })
 
 test_that("do_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     do_(df, ~ tibble(-.$a)),
     do(df, tibble(-.$a))
@@ -120,7 +143,6 @@ test_that("do_ works", {
 })
 
 test_that("filter_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     filter_(df, ~ a > 1),
     filter(df, a > 1)
@@ -139,7 +161,6 @@ test_that("filter_ works", {
 })
 
 test_that("group_by_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     group_by_(df, ~ a),
     group_by(df, a)
@@ -207,7 +228,6 @@ test_that("group_by_ works", {
 })
 
 test_that("mutate_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     mutate_(df, c = ~ -a),
     mutate(df, c = -a)
@@ -236,7 +256,6 @@ test_that("mutate_ works", {
 })
 
 test_that("rename_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     rename_(df, c = ~ a),
     rename(df, c = a)
@@ -254,7 +273,6 @@ test_that("rename_ works", {
 })
 
 test_that("select_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     select_(df, ~ a),
     select(df, a)
@@ -288,7 +306,6 @@ test_that("select_ works", {
 })
 
 test_that("slice_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     slice_(df, ~ 2:n()),
     slice(df, 2:n())
@@ -312,7 +329,6 @@ test_that("slice_ works", {
 })
 
 test_that("summarise_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     summarise_(df, a = ~ mean(a)),
     summarise(df, a = mean(a))
@@ -351,7 +367,6 @@ test_that("summarise_ works", {
 })
 
 test_that("summarize_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     summarize_(df, a = ~ mean(a)),
     summarize(df, a = mean(a))
@@ -384,7 +399,6 @@ test_that("summarize_ works", {
 })
 
 test_that("transmute_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     transmute_(df, c = ~ -a),
     transmute(df, c = -a)
@@ -405,4 +419,33 @@ test_that("transmute_ works", {
     transmute_(df, .dots = "foo"),
     transmute(df, foo)
   )
+})
+
+
+test_that("group_by_ backwards compatibility with add = TRUE adds groups", {
+  df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
+  add_groups_extendedclass <- function(tbl) {
+    grouped <- group_by(tbl, x)
+    group_by.default(grouped, y, add = TRUE)
+  }
+
+  expect_groups(add_groups_extendedclass(df), c("x", "y"))
+})
+
+test_that("_each() and _all() families agree", {
+  df <- data.frame(x = 1:3, y = 1:3)
+
+  expect_equal(summarise_each(df, list(mean)), summarise_all(df, mean))
+  expect_equal(summarise_each(df, list(mean), x), summarise_at(df, vars(x), mean))
+  expect_equal(summarise_each(df, list(mean = mean), x), summarise_at(df, vars(x), list(mean = mean)))
+  expect_equal(summarise_each(df, list(mean = mean), x:y), summarise_at(df, vars(x:y), list(mean = mean)))
+  expect_equal(summarise_each(df, list(mean), x:y), summarise_at(df, vars(x:y), mean))
+  expect_equal(summarise_each(df, list(mean), z = y), summarise_at(df, vars(z = y), mean))
+
+  expect_equal(mutate_each(df, list(mean)), mutate_all(df, mean))
+  expect_equal(mutate_each(df, list(mean), x), mutate_at(df, vars(x), mean))
+  expect_equal(mutate_each(df, list(mean = mean), x), mutate_at(df, vars(x), list(mean = mean)))
+  expect_equal(mutate_each(df, list(mean = mean), x:y), mutate_at(df, vars(x:y), list(mean = mean)))
+  expect_equal(mutate_each(df, list(mean), x:y), mutate_at(df, vars(x:y), mean))
+  expect_equal(mutate_each(df, list(mean), z = y), mutate_at(df, vars(z = y), mean))
 })

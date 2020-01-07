@@ -1,6 +1,10 @@
 #' Arrange rows by variables
 #'
-#' Order tbl rows by an expression involving its variables.
+#' Order data frame rows by the values of selected variables.
+#' Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
+#' need to explicit mention grouping variables (or use  `by_group = TRUE`)
+#' in order to group by them, and functions of variables are evaluated
+#' once per data frame, not once per group.
 #'
 #' @section Locales:
 #' The sort order for character vectors will depend on the collating sequence

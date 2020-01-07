@@ -1,5 +1,8 @@
 #' Deprecated SE versions of main verbs.
 #'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#'
 #' dplyr used to offer twin versions of each verb suffixed with an
 #' underscore. These versions had standard evaluation (SE) semantics:
 #' rather than taking arguments by code, like NSE verbs, they took
@@ -22,18 +25,16 @@
 #' @keywords internal
 NULL
 
-# -------------------------------------------------------------------------
+lazy_deprec <- function(fun, hint = TRUE) {
+  lifecycle::deprecate_warn("0.7.0", paste0(fun, "_()"), paste0(fun, "()"),
+    details = if (hint) "See ?dplyr_tidy_eval for more help"
+  )
+}
 
 #' @rdname se-deprecated
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "add_count_() is deprecated. ",
-    "Please use add_count() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with add_count() : https://tidyeval.tidyverse.org"
-  ))
+  lazy_deprec("add_count")
 
   vars <- compat_lazy_dots(vars, caller_env())
   wt <- wt %||% quo(NULL)
@@ -44,13 +45,7 @@ add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
 #' @rdname se-deprecated
 #' @export
 add_tally_ <- function(x, wt, sort = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "add_tally_() is deprecated. ",
-    "Please use add_tally() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with add_tally() : https://tidyeval.tidyverse.org"
-  ))
+  lazy_deprec("add_tally")
 
   wt <- compat_lazy(wt, caller_env())
   add_tally(x, !!wt, sort = sort)
@@ -63,14 +58,7 @@ arrange.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 arrange_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "arrange_() is deprecated. ",
-    "Please use arrange() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with arrange() : https://tidyeval.tidyverse.org"
-  ))
-
+  lazy_deprec("arrange")
   UseMethod("arrange_")
 }
 #' @export
@@ -88,13 +76,7 @@ arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
 #' @export
 #' @rdname se-deprecated
 count_ <- function(x, vars, wt = NULL, sort = FALSE, .drop = group_by_drop_default(x)) {
-  signal_soft_deprecated(paste_line(
-    "count_() is deprecated. ",
-    "Please use count() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with count() : https://tidyeval.tidyverse.org"
-  ))
+  lazy_deprec("count")
 
   vars <- compat_lazy_dots(vars, caller_env())
   wt <- wt %||% quo(NULL)
@@ -111,14 +93,7 @@ distinct.default <- function(.data, ..., .keep_all = FALSE) {
 #' @rdname se-deprecated
 #' @inheritParams distinct
 distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "distinct_() is deprecated. ",
-    "Please use distinct() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with distinct() : https://tidyeval.tidyverse.org"
-  ))
-
+  lazy_deprec("distinct")
   UseMethod("distinct_")
 }
 #' @export
@@ -141,10 +116,7 @@ distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 #' @export
 #' @rdname se-deprecated
 do_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "do_() is deprecated. ",
-    "Please use group_map() instead"
-  ))
+  lazy_deprec("do")
   UseMethod("do_")
 }
 #' @export
@@ -179,13 +151,7 @@ filter.default <- function(.data, ..., .preserve = FALSE) {
 #' @export
 #' @rdname se-deprecated
 filter_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "filter_() is deprecated. ",
-    "Please use filter() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with filter() : https://tidyeval.tidyverse.org"
-  ))
+  lazy_deprec("filter")
   UseMethod("filter_")
 }
 #' @export
@@ -204,11 +170,7 @@ filter_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @inheritParams funs
 #' @param env The environment in which functions should be evaluated.
 funs_ <- function(dots, args = list(), env = base_env()) {
-  signal_soft_deprecated(paste_line(
-    "funs_() is deprecated. ",
-    "Please use list() instead"
-  ))
-
+  lazy_deprec("funs")
   dots <- compat_lazy_dots(dots, caller_env())
   funs(!!!dots, .args = args)
 }
@@ -221,14 +183,7 @@ group_by.default <- function(.data, ..., add = FALSE, .drop = group_by_drop_defa
 #' @rdname se-deprecated
 #' @inheritParams group_by
 group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "group_by_() is deprecated. ",
-    "Please use group_by() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with group_by() : https://tidyeval.tidyverse.org"
-  ))
-
+  lazy_deprec("group_by")
   UseMethod("group_by_")
 }
 #' @export
@@ -246,11 +201,7 @@ group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE, .drop 
 #' @export
 #' @rdname se-deprecated
 group_indices_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "group_indices_() is deprecated. ",
-    "Please use group_indices() instead"
-  ))
-
+  lazy_deprec("group_indices", hint = FALSE)
   UseMethod("group_indices_")
 }
 #' @export
@@ -284,14 +235,7 @@ mutate.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 mutate_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "mutate_() is deprecated. ",
-    "Please use mutate() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with mutate() : https://tidyeval.tidyverse.org"
-  ))
-
+  lazy_deprec("mutate")
   UseMethod("mutate_")
 }
 #' @export
@@ -309,13 +253,7 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @inheritParams tally
 #' @export
 tally_ <- function(x, wt, sort = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "tally_() is deprecated. ",
-    "Please use tally() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with tally() : https://tidyeval.tidyverse.org"
-  ))
+  lazy_deprec("tally")
 
   wt <- compat_lazy(wt, caller_env())
   tally(x, wt = !!wt, sort = sort)
@@ -325,13 +263,7 @@ tally_ <- function(x, wt, sort = FALSE) {
 #' @rdname se-deprecated
 #' @export
 transmute_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "transmute_() is deprecated. ",
-    "Please use transmute() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with transmute() : https://tidyeval.tidyverse.org"
-  ))
+  lazy_deprec("transmute")
   UseMethod("transmute_")
 }
 #' @export
@@ -352,14 +284,7 @@ rename.default <- function(.data, ...) {
 #' @rdname se-deprecated
 #' @export
 rename_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "rename_() is deprecated. ",
-    "Please use rename() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with rename() : https://tidyeval.tidyverse.org"
-  ))
-
+  lazy_deprec("rename", hint = FALSE)
   UseMethod("rename_")
 }
 #' @export
@@ -377,12 +302,9 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @export
 #' @rdname se-deprecated
 rename_vars_ <- function(vars, args) {
-  warn_deprecated(paste_line(
-    "rename_vars_() is deprecated. ",
-    "Please use tidyselect::vars_rename() instead"
-  ))
+  lifecycle::deprecate_warn("0.7.0", "rename_vars_()", "tidyselect::vars_rename()")
   args <- compat_lazy_dots(args, caller_env())
-  rename_vars(vars, !!!args)
+  tidyselect::vars_rename(vars, !!!args)
 }
 
 #' @export
@@ -392,14 +314,7 @@ select.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 select_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "select_() is deprecated. ",
-    "Please use select() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with select() : https://tidyeval.tidyverse.org"
-  ))
-
+  lazy_deprec("select", hint = FALSE)
   UseMethod("select_")
 }
 #' @export
@@ -419,13 +334,9 @@ select_.grouped_df <- function(.data, ..., .dots = list()) {
 #'   include/exclude.
 #' @export
 select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
-  warn_deprecated(paste_line(
-    "select_vars_() is deprecated. ",
-    "Please use tidyselect::vars_select() instead"
-  ))
-
+  lifecycle::deprecate_warn("0.7.0", "select_vars_()", "tidyselect::vars_select()")
   args <- compat_lazy_dots(args, caller_env())
-  select_vars(vars, !!!args, include = include, exclude = exclude)
+  tidyselect::vars_select(vars, !!!args, include = include, exclude = exclude)
 }
 
 #' @export
@@ -435,13 +346,7 @@ slice.default <- function(.data, ..., .preserve = FALSE) {
 #' @export
 #' @rdname se-deprecated
 slice_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "slice_() is deprecated. ",
-    "Please use slice() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with slice() : https://tidyeval.tidyverse.org"
-  ))
+  lazy_deprec("slice", hint = FALSE)
   UseMethod("slice_")
 }
 #' @export
@@ -463,14 +368,7 @@ summarise.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 summarise_ <- function(.data, ..., .dots = list()) {
-  signal_soft_deprecated(paste_line(
-    "summarise_() is deprecated. ",
-    "Please use summarise() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with summarise() : https://tidyeval.tidyverse.org"
-  ))
-
+  lazy_deprec("summarise", hint = FALSE)
   UseMethod("summarise_")
 }
 #' @export
@@ -490,23 +388,11 @@ summarize_ <- summarise_
 
 #' Summarise and mutate multiple columns.
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("deprecated")}
-#'
 #' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 #'
 #' `mutate_each()` and `summarise_each()` are deprecated in favour of
-#' a more featureful family of functions: [mutate_all()],
-#' [mutate_at()], [mutate_if()], [summarise_all()], [summarise_at()]
-#' and [summarise_if()].
-#'
-#' The `_each()` functions have two replacements depending on what
-#' variables you want to apply `funs` to. To apply a function to all
-#' variables, use [mutate_all()] or [summarise_all()]. To apply a
-#' function to a selection of variables, use [mutate_at()] or
-#' [summarise_at()].
-#'
-#' See the relevant section of `vignette("compatibility")` for more
-#' information.
+#' the new [across()] function that works within `summarise()` and `mutate()`.
 #'
 #' @keywords internal
 #' @export
@@ -516,13 +402,7 @@ summarise_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  signal_soft_deprecated(paste_line(
-    "summarise_each() is deprecated",
-    "Please use summarise_if(), summarise_at(), or summarise_all() instead: ",
-    "",
-    "  - To map `funs` over all variables, use summarise_all()",
-    "  - To map `funs` over a selection of variables, use summarise_at()"
-  ))
+  lifecycle::deprecate_warn("0.7.0", "summarise_each_()", "across()")
 
   if (is_empty(vars)) {
     vars <- tbl_nongroup_vars(tbl)
@@ -552,13 +432,8 @@ mutate_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  signal_soft_deprecated(paste_line(
-    "mutate_each() is deprecated",
-    "Please use mutate_if(), mutate_at(), or mutate_all() instead: ",
-    "",
-    "  - To map `funs` over all variables, use mutate_all()",
-    "  - To map `funs` over a selection of variables, use mutate_at()"
-  ))
+  lifecycle::deprecate_warn("0.7.0", "mutate_each_()", "across()")
+
   if (is_empty(vars)) {
     vars <- tbl_nongroup_vars(tbl)
   } else {

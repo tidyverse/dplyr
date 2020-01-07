@@ -1,57 +1,43 @@
 #' Select top (or bottom) n rows (by value)
 #'
-#' This is a convenient wrapper that uses [filter()] and
-#' [min_rank()] to select the top or bottom entries in each group,
-#' with respect to `wt`. Note, the resulting data frame will not be
-#' ordered or sorted.
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#' `top_n()` has been retired in favour of [slice_min()]/[slice_max()].
+#' While it will not be deprecated in the near future, retirement means
+#' that we will only perform critical bug fixes, so we recommend moving to the
+#' newer alternatives.
 #'
-#' @param x a [tbl()] to filter
-#' @param n number of rows to return for `top_n()`, fraction of rows to
-#'   return for `top_frac()`.
+#' `top_n()` was retired because the name was fundamentally confusing as
+#' it returned what you might reasonably consider to be the _bottom_
+#' rows. Additionally, the `wt` variable had a confusing name, and strange
+#' default (the last column in the data frame). Unfortunately we could not
+#' see an easy way to fix the existing `top_n()` function without breaking
+#' existing code, so we created a new alternative.
 #'
-#'   If `x` is grouped, this is the
-#'   number (or fraction) of rows per group. Will include more rows if
-#'   there are ties.
-#'
-#'   If `n` is positive, selects the top rows. If negative,
-#'   selects the bottom rows.
-#'
+#' @param x A data frame.
+#' @param n Number of rows to return for `top_n()`, fraction of rows to
+#'   return for `top_frac()`. If `n` is positive, selects the top rows.
+#'   If negative, selects the bottom rows.
+
+#'   If `x` is grouped, this is the number (or fraction) of rows per group.
+#'   Will include more rows if there are ties.
 #' @param wt (Optional). The variable to use for ordering. If not
 #'   specified, defaults to the last variable in the tbl.
-#'
-#' @details
-#'   Both `n` and `wt` are automatically [quoted][rlang::enquo] and later
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. It supports [unquoting][rlang::quasiquotation].
-#'
+#' @keywords internal
 #' @export
 #' @examples
 #' df <- data.frame(x = c(6, 4, 1, 10, 3, 1, 1))
-#' df %>% top_n(2)
 #'
-#' # half the rows
-#' df %>% top_n(n() * .5)
+#' df %>% top_n(2)  # highest values
+#' df %>% top_n(-2) # lowest values
+#' # now use
+#' df %>% slice_max(x, n = 2)
+#' df %>% slice_min(x, n = 2)
+#'
+#' # top_frac() -> prop argument of slice_min()/slice_max()
 #' df %>% top_frac(.5)
-#'
-#' # Negative values select bottom from group. Note that we get more
-#' # than 2 values here because there's a tie: top_n() either takes
-#' # all rows with a value, or none.
-#' df %>% top_n(-2)
-#'
-#' if (require("Lahman")) {
-#' # Find 10 players with most games
-#' tbl_df(Batting) %>%
-#'   group_by(playerID) %>%
-#'   tally(G) %>%
-#'   top_n(10)
-#'
-#' # Find year with most games for each player
-#' \dontrun{
-#' tbl_df(Batting) %>%
-#'   group_by(playerID) %>%
-#'   top_n(1, G)
-#' }
-#' }
+#' # ->
+#' df %>% slice_max(x, prop = 0.5)
 top_n <- function(x, n, wt) {
   wt <- enquo(wt)
   if (quo_is_missing(wt)) {

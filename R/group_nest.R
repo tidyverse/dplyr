@@ -5,7 +5,7 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 
 #' Nest a tibble using a grouping specification
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
 #' @family grouping functions
 #'

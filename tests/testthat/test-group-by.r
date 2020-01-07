@@ -20,16 +20,6 @@ test_that("add = TRUE is deprecated", {
   expect_equal(group_vars(out), c("x", "y"))
 })
 
-test_that("group_by_ backwards compatibility with add = TRUE adds groups", {
-  scoped_lifecycle_silence()
-  add_groups_extendedclass <- function(tbl) {
-    grouped <- group_by(tbl, x)
-    group_by.default(grouped, y, add = TRUE)
-  }
-
-  expect_groups(add_groups_extendedclass(df), c("x", "y"))
-})
-
 test_that("joins preserve grouping", {
   g <- group_by(df, x)
 

@@ -5,6 +5,32 @@
   it prevents you from creating a new grouping var called `add` and
   it violates our naming conventions (#4137).
 
+* All deprecations now use the [lifecycle](https://lifecycle.r-lib.org), 
+  that means by default you'll only see a deprecation warning once per session,
+  and you can control with `options(lifecycle_verbosity = x)` where
+  `x` is one of NULL, "quiet", "warning", and "error".
+
+* `id()`, deprecated in dplyr 0.5.0, is now defunct.
+
+* `failwith()` which was deprecated in 0.7.0 is now defunct.
+
+* `sample_n()` and `sample_frac()` have been retired in favour of new 
+  `slice_sample()`. See `?sample_n` for details about why, and for examples
+  converting from old to new usage.
+
+* `top_n()` has been retired in favour of `slice_min()`/`slice_max()`. See
+  `?top_n` for details about why, and how to convert old to new usage (#4494).
+
+* `slice()` gains a new set of helpers:
+
+  * `slice_head()` and `slice_tail()` select the first and last rows, like
+    `head()` and `tail()`, but return `n` rows _per group_.
+    
+  * `slice_sample()` randomly selects rows, taking over from `sample_frac()` 
+     and `sample_n()`.
+  
+  * `slice_min()` and `slice_max()` select the rows with the minimum or 
+    maximum values of a variable, taking over from the confusing `top_n()`.
 * `transmute()` now preserves order of input variables (#4693).
 
 * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()` and 

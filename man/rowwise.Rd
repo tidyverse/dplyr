@@ -10,7 +10,7 @@ rowwise(data)
 \item{data}{Input data frame.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
 }
 \details{
 See \href{https://github.com/jennybc/row-oriented-workflows}{this repository}
