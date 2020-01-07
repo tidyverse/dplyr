@@ -17,7 +17,7 @@ failwith(default = NULL, f, quiet = FALSE)
 a function
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("defunct")}
 Please use \code{\link[purrr:possibly]{purrr::possibly()}} instead.
 }
 \keyword{internal}

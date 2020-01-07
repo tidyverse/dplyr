@@ -1,6 +1,6 @@
 #' Fail with specified value.
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("defunct")}
 #' Please use [purrr::possibly()] instead.
 #'
 #' @param default default value
