@@ -48,14 +48,19 @@
 
 
 <meta property="og:title" content="Deprecated SE versions of main verbs. — se-deprecated" />
-<meta property="og:description" content="dplyr used to offer twin versions of each verb suffixed with an
+<meta property="og:description" content="
+dplyr used to offer twin versions of each verb suffixed with an
 underscore. These versions had standard evaluation (SE) semantics:
 rather than taking arguments by code, like NSE verbs, they took
 arguments by value. Their purpose was to make it possible to
 program with dplyr. However, dplyr now uses tidy evaluation
 semantics. NSE verbs still capture their arguments, but you can now
 unquote parts of these arguments. This offers full programmability
-with NSE verbs. Thus, the underscored versions are now superfluous." />
+with NSE verbs. Thus, the underscored versions are now superfluous.
+Unquoting triggers immediate evaluation of its operand and inlines
+the result within the captured expression. This result can be a
+value or an expression to be evaluated later with the rest of the
+argument. See vignette(&quot;programming&quot;) for more information." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -193,12 +198,13 @@ with NSE verbs. Thus, the underscored versions are now superfluous." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Deprecated SE versions of main verbs.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/lazyeval.R'><code>R/lazyeval.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-lazyeval.R'><code>R/deprec-lazyeval.R</code></a></small>
     <div class="hidden name"><code>se-deprecated.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>dplyr used to offer twin versions of each verb suffixed with an
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>dplyr used to offer twin versions of each verb suffixed with an
 underscore. These versions had standard evaluation (SE) semantics:
 rather than taking arguments by code, like NSE verbs, they took
 arguments by value. Their purpose was to make it possible to
@@ -206,6 +212,10 @@ program with dplyr. However, dplyr now uses tidy evaluation
 semantics. NSE verbs still capture their arguments, but you can now
 unquote parts of these arguments. This offers full programmability
 with NSE verbs. Thus, the underscored versions are now superfluous.</p>
+<p>Unquoting triggers immediate evaluation of its operand and inlines
+the result within the captured expression. This result can be a
+value or an expression to be evaluated later with the rest of the
+argument. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for more information.</p>
     </div>
 
     <pre class="usage"><span class='fu'>add_count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
@@ -312,19 +322,12 @@ include/exclude.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Unquoting triggers immediate evaluation of its operand and inlines
-the result within the captured expression. This result can be a
-value or an expression to be evaluated later with the rest of the
-argument. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for more information.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

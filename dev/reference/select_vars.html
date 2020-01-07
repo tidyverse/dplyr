@@ -48,10 +48,10 @@
 
 
 <meta property="og:title" content="Select variables — select_vars" />
-<meta property="og:description" content="Retired: These functions now live in the tidyselect package as
+<meta property="og:description" content="
+These functions now live in the tidyselect package as
 tidyselect::vars_select(), tidyselect::vars_rename() and
-tidyselect::vars_pull(). These dplyr aliases are soft-deprecated
-and will be deprecated sometimes in the future." />
+tidyselect::vars_pull()." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -189,15 +189,15 @@ and will be deprecated sometimes in the future." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Select variables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/reexport-tidyselect.R'><code>R/reexport-tidyselect.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-tidyselect.R'><code>R/deprec-tidyselect.R</code></a></small>
     <div class="hidden name"><code>select_vars.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><strong>Retired</strong>: These functions now live in the tidyselect package as
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>These functions now live in the tidyselect package as
 <code><a href='https://tidyselect.r-lib.org/reference/vars_select.html'>tidyselect::vars_select()</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/vars_select.html'>tidyselect::vars_rename()</a></code> and
-<code><a href='https://tidyselect.r-lib.org/reference/vars_pull.html'>tidyselect::vars_pull()</a></code>. These dplyr aliases are soft-deprecated
-and will be deprecated sometimes in the future.</p>
+<code><a href='https://tidyselect.r-lib.org/reference/vars_pull.html'>tidyselect::vars_pull()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>select_vars</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='no'>...</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>chr</span>())
@@ -208,44 +208,12 @@ and will be deprecated sometimes in the future.</p>
 
 <span class='fu'>current_vars</span>(<span class='no'>...</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>vars</th>
-      <td><p>A character vector of existing column names.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Expressions to compute.</p></td>
-    </tr>
-    <tr>
-      <th>include, exclude</th>
-      <td><p>Character vector of column names to always
-include/exclude.</p></td>
-    </tr>
-    <tr>
-      <th>strict</th>
-      <td><p>If <code>TRUE</code>, will throw an error if you attempt to
-rename a variable that doesn't exist.</p></td>
-    </tr>
-    <tr>
-      <th>var</th>
-      <td><p>A variable specified as in the same argument of
-<code><a href='https://tidyselect.r-lib.org/reference/vars_pull.html'>tidyselect::vars_pull()</a></code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

@@ -48,12 +48,10 @@
 
 
 <meta property="og:title" content="Combine vectors — combine" />
-<meta property="og:description" content="combine() acts like c() or
-unlist() but uses consistent dplyr coercion rules.
-If combine() it is called with exactly one list argument, the list is
-simplified (similarly to unlist(recursive = FALSE)). NULL arguments are
-ignored. If the result is empty, logical() is returned.
-Use vctrs::vec_c() if you never want to unlist." />
+<meta property="og:description" content="
+combine() is deprecated in favour of vctrs::vec_c(). combine()
+attempted to automatically guess whether you wanted c() or unlist(),
+but could fail in surprising ways. We now believe it's better to be explicit." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -191,17 +189,15 @@ Use vctrs::vec_c() if you never want to unlist." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Combine vectors</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/bind.r'><code>R/bind.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-combine.R'><code>R/deprec-combine.R</code></a></small>
     <div class="hidden name"><code>combine.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>combine()</code> acts like <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> or
-<code><a href='https://rdrr.io/r/base/unlist.html'>unlist()</a></code> but uses consistent dplyr coercion rules.</p>
-<p>If <code>combine()</code> it is called with exactly one list argument, the list is
-simplified (similarly to <code><a href='https://rdrr.io/r/base/unlist.html'>unlist(recursive = FALSE)</a></code>). <code>NULL</code> arguments are
-ignored. If the result is empty, <code><a href='https://rdrr.io/r/base/logical.html'>logical()</a></code> is returned.
-Use <code><a href='https://rdrr.io/pkg/vctrs/man/vec_c.html'>vctrs::vec_c()</a></code> if you never want to unlist.</p>
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p><code>combine()</code> is deprecated in favour of <code><a href='https://rdrr.io/pkg/vctrs/man/vec_c.html'>vctrs::vec_c()</a></code>. <code>combine()</code>
+attempted to automatically guess whether you wanted <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> or <code><a href='https://rdrr.io/r/base/unlist.html'>unlist()</a></code>,
+but could fail in surprising ways. We now believe it's better to be explicit.</p>
     </div>
 
     <pre class="usage"><span class='fu'>combine</span>(<span class='no'>...</span>)</pre>
@@ -215,31 +211,27 @@ Use <code><a href='https://rdrr.io/pkg/vctrs/man/vec_c.html'>vctrs::vec_c()</a><
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><a href='https://www.tidyverse.org/lifecycle/#questioning'><img src='figures/lifecycle-questioning.svg' alt='Questioning lifecycle'></a></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='bind.html'>bind_rows()</a></code> and <code><a href='bind.html'>bind_cols()</a></code> in <a href='bind.html'>bind</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># combine applies the same coercion rules as bind_rows()</span>
-<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"a"</span>)
+    <pre class="examples"><div class='input'><span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"a"</span>)
 <span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"b"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>f1</span>, <span class='no'>f2</span>)</div><div class='output co'>#&gt; [1] 1 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>f1</span>, <span class='no'>f2</span>))</div><div class='output co'>#&gt; [1] a b
-#&gt; Levels: a b</div><div class='input'>
-<span class='fu'>combine</span>(<span class='no'>f1</span>, <span class='no'>f2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: combine() is deprecated. </span>
-#&gt; <span class='warning'>Please use vctrs::vec_c() instead</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; [1] a b
-#&gt; Levels: a b</div><div class='input'><span class='fu'>combine</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>f1</span>, <span class='no'>f2</span>))</div><div class='output co'>#&gt; [1] a b
+
+<span class='fu'>combine</span>(<span class='no'>f1</span>, <span class='no'>f2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `combine()` is deprecated as of dplyr 1.0.0.</span>
+#&gt; <span class='warning'>Please use `vctrs::vec_c()` instead.</span>
+#&gt; <span class='warning'>This warning is displayed once per session.</span>
+#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; [1] a b
+#&gt; Levels: a b</div><div class='input'><span class='co'># -&gt;</span>
+<span class='kw pkg'>vctrs</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/vctrs/man/vec_c.html'>vec_c</a></span>(<span class='no'>f1</span>, <span class='no'>f1</span>)</div><div class='output co'>#&gt; [1] a a
+#&gt; Levels: a</div><div class='input'>
+<span class='fu'>combine</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>f1</span>, <span class='no'>f2</span>))</div><div class='output co'>#&gt; [1] a b
+#&gt; Levels: a b</div><div class='input'><span class='co'># -&gt;</span>
+<span class='kw pkg'>vctrs</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/vctrs/man/vec_c.html'>vec_c</a></span>(!!!<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>f1</span>, <span class='no'>f2</span>))</div><div class='output co'>#&gt; [1] a b
 #&gt; Levels: a b</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

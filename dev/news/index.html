@@ -193,6 +193,7 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>All deprecations now use the <a href="https://lifecycle.r-lib.org">lifecycle</a>, that means by default you’ll only see a deprecation warning once per session, and you can control with <code><a href="https://rdrr.io/r/base/options.html">options(lifecycle_verbosity = x)</a></code> where <code>x</code> is one of NULL, “quiet”, “warning”, and “error”.</p></li>
 <li><p><code><a href="../reference/defunct.html">id()</a></code>, deprecated in dplyr 0.5.0, is now defunct.</p></li>
 <li><p><code><a href="../reference/defunct.html">failwith()</a></code> which was deprecated in 0.7.0 is now defunct.</p></li>
 <li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> have been retired in favour of new <code><a href="../reference/slice_head.html">slice_sample()</a></code>. See <code><a href="../reference/sample_n.html">?sample_n</a></code> for details about why, and for examples converting from old to new usage.</p></li>

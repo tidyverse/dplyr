@@ -48,17 +48,9 @@
 
 
 <meta property="og:title" content="Summarise and mutate multiple columns. — summarise_each" />
-<meta property="og:description" content="mutate_each() and summarise_each() are deprecated in favour of
-a more featureful family of functions: mutate_all(),
-mutate_at(), mutate_if(), summarise_all(), summarise_at()
-and summarise_if().
-The _each() functions have two replacements depending on what
-variables you want to apply funs to. To apply a function to all
-variables, use mutate_all() or summarise_all(). To apply a
-function to a selection of variables, use mutate_at() or
-summarise_at().
-See the relevant section of vignette(&quot;compatibility&quot;) for more
-information." />
+<meta property="og:description" content="
+mutate_each() and summarise_each() are deprecated in favour of
+the new across() function that works within summarise() and mutate()." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -196,22 +188,14 @@ information." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarise and mutate multiple columns.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/lazyeval.R'><code>R/lazyeval.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-lazyeval.R'><code>R/deprec-lazyeval.R</code></a></small>
     <div class="hidden name"><code>summarise_each.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>mutate_each()</code> and <code>summarise_each()</code> are deprecated in favour of
-a more featureful family of functions: <code><a href='mutate_all.html'>mutate_all()</a></code>,
-<code><a href='mutate_all.html'>mutate_at()</a></code>, <code><a href='mutate_all.html'>mutate_if()</a></code>, <code><a href='summarise_all.html'>summarise_all()</a></code>, <code><a href='summarise_all.html'>summarise_at()</a></code>
-and <code><a href='summarise_all.html'>summarise_if()</a></code>.</p>
-<p>The <code>_each()</code> functions have two replacements depending on what
-variables you want to apply <code>funs</code> to. To apply a function to all
-variables, use <code><a href='mutate_all.html'>mutate_all()</a></code> or <code><a href='summarise_all.html'>summarise_all()</a></code>. To apply a
-function to a selection of variables, use <code><a href='mutate_all.html'>mutate_at()</a></code> or
-<code><a href='summarise_all.html'>summarise_at()</a></code>.</p>
-<p>See the relevant section of <code><a href='../articles/compatibility.html'>vignette("compatibility")</a></code> for more
-information.</p>
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p><code>mutate_each()</code> and <code>summarise_each()</code> are deprecated in favour of
+the new <code><a href='across.html'>across()</a></code> function that works within <code><a href='summarise.html'>summarise()</a></code> and <code><a href='mutate.html'>mutate()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>summarise_each</span>(<span class='no'>tbl</span>, <span class='no'>funs</span>, <span class='no'>...</span>)
@@ -227,15 +211,11 @@ information.</p>
 <span class='fu'>summarize_each_</span>(<span class='no'>tbl</span>, <span class='no'>funs</span>, <span class='no'>vars</span>)</pre>
 
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>
