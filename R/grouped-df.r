@@ -212,7 +212,7 @@ as_tibble.grouped_df <- function(x, ...) {
 
   group_names <- group_vars(x)
   if (!all(group_names %in% names(y))) {
-    tbl_df(y)
+    as_tibble(y)
   } else {
     grouped_df(y, group_names, group_by_drop_default(x))
   }

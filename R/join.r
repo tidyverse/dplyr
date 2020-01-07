@@ -171,10 +171,10 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #'   `pkgconfig::set_config("dplyr::na_matches" = "never")`.
 #' @examples
 #' if (require("Lahman")) {
-#' batting_df <- tbl_df(Batting)
-#' person_df <- tbl_df(Master)
+#' batting_df <- as_tibble(Batting)
+#' person_df <- as_tibble(Master)
 #'
-#' uperson_df <- tbl_df(Master[!duplicated(Master$playerID), ])
+#' uperson_df <- as_tibble(Master[!duplicated(Master$playerID), ])
 #'
 #' # Inner join: match batting and person data
 #' inner_join(batting_df, person_df)
@@ -627,38 +627,38 @@ reconstruct_join <- function(out, x, vars) {
 
 #' @export
 inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(inner_join(tbl_df(x), y, by = by, copy = copy, ...))
+  as.data.frame(inner_join(as_tibble(x), y, by = by, copy = copy, ...))
 }
 
 #' @export
 left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(left_join(tbl_df(x), y, by = by, copy = copy, ...))
+  as.data.frame(left_join(as_tibble(x), y, by = by, copy = copy, ...))
 }
 
 #' @export
 #' @rdname join.tbl_df
 nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ... ) {
-  as.data.frame(nest_join(tbl_df(x), y, by = by, copy = copy, ..., keep = keep, name = name))
+  as.data.frame(nest_join(as_tibble(x), y, by = by, copy = copy, ..., keep = keep, name = name))
 }
 
 #' @export
 right_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(right_join(tbl_df(x), y, by = by, copy = copy, ...))
+  as.data.frame(right_join(as_tibble(x), y, by = by, copy = copy, ...))
 }
 
 #' @export
 full_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(full_join(tbl_df(x), y, by = by, copy = copy, ...))
+  as.data.frame(full_join(as_tibble(x), y, by = by, copy = copy, ...))
 }
 
 #' @export
 semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(semi_join(tbl_df(x), y, by = by, copy = copy, ...))
+  as.data.frame(semi_join(as_tibble(x), y, by = by, copy = copy, ...))
 }
 
 #' @export
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(anti_join(tbl_df(x), y, by = by, copy = copy, ...))
+  as.data.frame(anti_join(as_tibble(x), y, by = by, copy = copy, ...))
 }
 
 

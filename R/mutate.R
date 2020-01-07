@@ -145,7 +145,7 @@ mutate.tbl_df <- function(.data, ...) {
 
 #' @export
 mutate.data.frame <- function(.data, ...) {
-  as.data.frame(mutate(tbl_df(.data), ...))
+  as.data.frame(mutate(as_tibble(.data), ...))
 }
 
 
@@ -177,7 +177,7 @@ transmute.tbl_df <- function(.data, ...) {
 
 #' @export
 transmute.data.frame <- function(.data, ...) {
-  as.data.frame(transmute(tbl_df(.data), ...))
+  as.data.frame(transmute(as_tibble(.data), ...))
 }
 
 # Helpers -----------------------------------------------------------------

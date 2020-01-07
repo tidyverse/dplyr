@@ -113,7 +113,7 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  as.data.frame(slice(tbl_df(.data), ..., .preserve = .preserve))
+  as.data.frame(slice(as_tibble(.data), ..., .preserve = .preserve))
 }
 
 # Slice helpers -----------------------------------------------------------

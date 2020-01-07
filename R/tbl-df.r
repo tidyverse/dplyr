@@ -1,19 +1,7 @@
-#' Create a data frame tbl.
-#'
-#' Deprecated: please use [tibble::as_tibble()] instead.
-#'
-#' @export
-#' @keywords internal
-#' @param data a data frame
-tbl_df <- function(data) {
-  # Works in tibble < 1.5.0 too, because .name_repair will be
-  # swallowed by the ellipsis
-  as_tibble(data, .name_repair = "check_unique")
-}
 
 #' @export
 as.tbl.data.frame <- function(x, ...) {
-  tbl_df(x)
+  as_tibble(x)
 }
 
 #' @export
