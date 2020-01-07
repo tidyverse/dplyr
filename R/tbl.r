@@ -28,6 +28,7 @@ make_tbl <- function(subclass, ...) {
 }
 
 #' @rdname tbl
+#' @param x Any object
 #' @export
 is.tbl <- function(x) inherits(x, "tbl")
 

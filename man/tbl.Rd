@@ -13,6 +13,8 @@ is.tbl(x)
 \item{src}{A data source}
 
 \item{...}{Other arguments passed on to the individual methods}
+
+\item{x}{Any object}
 }
 \description{
 This is a generic method that dispatches based on the first argument.
