@@ -238,7 +238,7 @@ the reasons why they're not equal. Use <code><a href='https://rdrr.io/r/base/Log
 result in an <code>if</code> expression.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>scramble</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>[<span class='fu'><a href='sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>x</span>)), <span class='fu'><a href='sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>x</span>))]
+    <pre class="examples"><div class='input'><span class='no'>scramble</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>[<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>x</span>)), <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>x</span>))]
 
 <span class='co'># By default, ordering of rows and columns ignored</span>
 <span class='fu'>all_equal</span>(<span class='no'>mtcars</span>, <span class='fu'>scramble</span>(<span class='no'>mtcars</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>

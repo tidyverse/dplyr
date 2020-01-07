@@ -202,7 +202,7 @@
 <li>
 <code><a href="../reference/summarise.html">summarise()</a></code> to condense multiple values to a single value.</li>
 <li>
-<code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> to take random samples.</li>
+<code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> to take random samples.</li>
 </ul>
 <div id="filter-rows-with-filter" class="section level3">
 <h3 class="hasAnchor">
@@ -382,8 +382,8 @@
 <h3 class="hasAnchor">
 <a href="#randomly-sample-rows-with-sample_n-and-sample_frac" class="anchor"></a>Randomly sample rows with <code>sample_n()</code> and <code>sample_frac()</code>
 </h3>
-<p>You can use <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> to take a random sample of rows: use <code><a href="../reference/sample.html">sample_n()</a></code> for a fixed number and <code><a href="../reference/sample.html">sample_frac()</a></code> for a fixed fraction.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/sample.html">sample_n</a></span>(flights, <span class="dv">10</span>)</a>
+<p>You can use <code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> to take a random sample of rows: use <code><a href="../reference/sample_n.html">sample_n()</a></code> for a fixed number and <code><a href="../reference/sample_n.html">sample_frac()</a></code> for a fixed fraction.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/sample_n.html">sample_n</a></span>(flights, <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 19</span></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
 <a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
@@ -394,7 +394,7 @@
 <a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; # … with 6 more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="kw"><a href="../reference/sample.html">sample_frac</a></span>(flights, <span class="fl">0.01</span>)</a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="kw"><a href="../reference/sample_n.html">sample_frac</a></span>(flights, <span class="fl">0.01</span>)</a>
 <a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; # A tibble: 3,368 x 19</span></a>
 <a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
 <a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
@@ -433,7 +433,7 @@
 <li><p>grouped <code><a href="../reference/select.html">select()</a></code> is the same as ungrouped <code><a href="../reference/select.html">select()</a></code>, except that grouping variables are always retained.</p></li>
 <li><p>grouped <code><a href="../reference/arrange.html">arrange()</a></code> is the same as ungrouped; unless you set <code>.by_group = TRUE</code>, in which case it orders first by the grouping variables</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> are most useful in conjunction with window functions (like <code><a href="https://rdrr.io/r/base/rank.html">rank()</a></code>, or <code>min(x) == x</code>). They are described in detail in <code><a href="../articles/window-functions.html">vignette("window-functions")</a></code>.</p></li>
-<li><p><code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> sample the specified number/fraction of rows in each group.</p></li>
+<li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> sample the specified number/fraction of rows in each group.</p></li>
 <li><p><code><a href="../reference/summarise.html">summarise()</a></code> computes the summary for each group.</p></li>
 </ul>
 <p>In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (<code>count = n()</code>) and computing the average distance (<code>dist = mean(distance, na.rm = TRUE)</code>) and arrival delay (<code>delay = mean(arr_delay, na.rm = TRUE)</code>). We then use ggplot2 to display the output.</p>

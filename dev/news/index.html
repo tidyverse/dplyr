@@ -193,6 +193,17 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> have been retired in favour of new <code><a href="../reference/slice_head.html">slice_sample()</a></code>. See <code><a href="../reference/sample_n.html">?sample_n</a></code> for details about why, and for examples converting from old to new usage.</p></li>
+<li><p><code><a href="../reference/top_n.html">top_n()</a></code> has been retired in favour of <code><a href="../reference/slice_head.html">slice_min()</a></code>/<code><a href="../reference/slice_head.html">slice_max()</a></code>. See <code><a href="../reference/top_n.html">?top_n</a></code> for details about why, and how to convert old to new usage (<a href='https://github.com/tidyverse/dplyr/issues/4494'>#4494</a>).</p></li>
+<li>
+<p><code><a href="../reference/slice.html">slice()</a></code> gains a new set of helpers:</p>
+<ul>
+<li><p><code><a href="../reference/slice_head.html">slice_head()</a></code> and <code><a href="../reference/slice_head.html">slice_tail()</a></code> select the first and last rows, like <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> and <code><a href="https://rdrr.io/r/utils/head.html">tail()</a></code>, but return <code>n</code> rows <em>per group</em>.</p></li>
+<li><p><code><a href="../reference/slice_head.html">slice_sample()</a></code> randomly selects rows, taking over from <code><a href="../reference/sample_n.html">sample_frac()</a></code> and <code><a href="../reference/sample_n.html">sample_n()</a></code>.</p></li>
+<li>
+<code><a href="../reference/slice_head.html">slice_min()</a></code> and <code><a href="../reference/slice_head.html">slice_max()</a></code> select the rows with the minimum or maximum values of a variable, taking over from the confusing <code><a href="../reference/top_n.html">top_n()</a></code>.</li>
+</ul>
+</li>
 <li><p><code><a href="../reference/mutate.html">transmute()</a></code> now preserves order of input variables (<a href='https://github.com/tidyverse/dplyr/issues/4693'>#4693</a>).</p></li>
 <li>
 <code><a href="../reference/bench_compare.html">bench_tbls()</a></code>, <code><a href="../reference/bench_compare.html">compare_tbls()</a></code>, <code><a href="../reference/bench_compare.html">compare_tbls2()</a></code>, <code><a href="../reference/bench_compare.html">eval_tbls()</a></code> and <code><a href="../reference/bench_compare.html">eval_tbls2()</a></code> are now deprecated. That were only used in a handful of packages, and we now believe that you’re better off performing comparisons more directly (<a href='https://github.com/tidyverse/dplyr/issues/4675'>#4675</a>).</li>
@@ -353,7 +364,7 @@
 <p>If you see <code>checking S3 generic/method consistency</code> in R CMD check for your package, note that :</p>
 <ul>
 <li>
-<code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> have gained <code>...</code>
+<code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> have gained <code>...</code>
 </li>
 <li>
 <code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/slice.html">slice()</a></code> have gained <code>.preserve</code>
@@ -452,7 +463,7 @@
 <a href="#minor-changes-2" class="anchor"></a>Minor changes</h2>
 <ul>
 <li><p><code><a href="../reference/tally.html">tally()</a></code> works correctly on non-data frame table sources such as <code>tbl_sql</code> (<a href='https://github.com/tidyverse/dplyr/issues/3075'>#3075</a>).</p></li>
-<li><p><code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> can use <code><a href="../reference/context.html">n()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3527'>#3527</a>)</p></li>
+<li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> can use <code><a href="../reference/context.html">n()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3527'>#3527</a>)</p></li>
 <li><p><code><a href="../reference/distinct.html">distinct()</a></code> respects the order of the variables provided (<a href='https://github.com/tidyverse/dplyr/issues/3195'>#3195</a>, <a href='https://github.com/foo-bar-baz-qux'>@foo-bar-baz-qux</a>) and handles the 0 rows and 0 columns special case (<a href='https://github.com/tidyverse/dplyr/issues/2954'>#2954</a>).</p></li>
 <li><p><code><a href="../reference/combine.html">combine()</a></code> uses tidy dots (<a href='https://github.com/tidyverse/dplyr/issues/3407'>#3407</a>).</p></li>
 <li><p><code><a href="../reference/group_indices.html">group_indices()</a></code> can be used without argument in expressions in verbs (<a href='https://github.com/tidyverse/dplyr/issues/1185'>#1185</a>).</p></li>
@@ -463,7 +474,7 @@
 <li><p>grouped data frames support <code>[, drop = TRUE]</code> (<a href='https://github.com/tidyverse/dplyr/issues/3714'>#3714</a>).</p></li>
 <li><p>New low-level constructor <code><a href="../reference/new_grouped_df.html">new_grouped_df()</a></code> and validator <code>validate_grouped_df</code> (<a href='https://github.com/tidyverse/dplyr/issues/3837'>#3837</a>).</p></li>
 <li><p><code><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse()</a></code> prints group information on grouped tibbles (<a href='https://github.com/tidyverse/dplyr/issues/3384'>#3384</a>).</p></li>
-<li><p><code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> gain <code>...</code> (<a href='https://github.com/tidyverse/dplyr/issues/2888'>#2888</a>).</p></li>
+<li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> gain <code>...</code> (<a href='https://github.com/tidyverse/dplyr/issues/2888'>#2888</a>).</p></li>
 <li>
 <p>Scoped filter variants now support functions and purrr-like lambdas:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter_all.html">filter_at</a></span>(<span class="kw"><a href="../reference/vars.html">vars</a></span>(hp, vs), <span class="op">~</span><span class="st"> </span>. <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</a></code></pre></div>
@@ -496,7 +507,7 @@
 <p>Unwind-protection also makes dplyr more robust in corner cases because it ensures the C++ destructors are correctly called in all circumstances (debugger exit, captured condition, restart invokation).</p>
 </li>
 <li>
-<code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> gain <code>...</code> (<a href='https://github.com/tidyverse/dplyr/issues/2888'>#2888</a>).</li>
+<code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> gain <code>...</code> (<a href='https://github.com/tidyverse/dplyr/issues/2888'>#2888</a>).</li>
 <li><p>Improved performance for wide tibbles (<a href='https://github.com/tidyverse/dplyr/issues/3335'>#3335</a>).</p></li>
 <li><p>Faster hybrid <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>, <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/stats/cor.html">var()</a></code> and <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code> for logical vectors (<a href='https://github.com/tidyverse/dplyr/issues/3189'>#3189</a>).</p></li>
 <li><p>Hybrid version of <code><a href="https://rdrr.io/r/base/sum.html">sum(na.rm = FALSE)</a></code> exits early when there are missing values. This considerably improves performance when there are missing values early in the vector (<a href='https://github.com/tidyverse/dplyr/issues/3288'>#3288</a>).</p></li>
@@ -638,7 +649,7 @@ select(mtcars, -(!! vars))</code></pre>
 <a href="#performance-1" class="anchor"></a>Performance</h2>
 <ul>
 <li>
-<code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> on grouped data frame are now faster especially for those with large number of groups (<a href='https://github.com/tidyverse/dplyr/issues/3193'>#3193</a>, <a href='https://github.com/saurfang'>@saurfang</a>).</li>
+<code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> on grouped data frame are now faster especially for those with large number of groups (<a href='https://github.com/tidyverse/dplyr/issues/3193'>#3193</a>, <a href='https://github.com/saurfang'>@saurfang</a>).</li>
 </ul>
 </div>
 <div id="internal-1" class="section level2">
@@ -736,7 +747,7 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>Long deprecated <code>regroup()</code>, <code>mutate_each_q()</code> and <code>summarise_each_q()</code> functions have been removed.</p></li>
 <li><p>Deprecated <code><a href="../reference/failwith.html">failwith()</a></code>. I’m not even sure why it was here.</p></li>
 <li><p>Soft-deprecated <code><a href="../reference/summarise_each.html">mutate_each()</a></code> and <code><a href="../reference/summarise_each.html">summarise_each()</a></code>, these functions print a message which will be changed to a warning in the next release.</p></li>
-<li><p>The <code>.env</code> argument to <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> is defunct, passing a value to this argument print a message which will be changed to a warning in the next release.</p></li>
+<li><p>The <code>.env</code> argument to <code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> is defunct, passing a value to this argument print a message which will be changed to a warning in the next release.</p></li>
 </ul>
 </div>
 <div id="databases" class="section level2">
@@ -750,12 +761,12 @@ select(mtcars, -(!! vars))</code></pre>
 <p>You can continue to use <code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code>, but I recommend a new style that makes the connection to DBI more clear:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(RSQLite<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/RSQLite/man/SQLite.html">SQLite</a></span>(), <span class="st">":memory:"</span>)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html">dbWriteTable</a></span>(con, <span class="st">"mtcars"</span>, mtcars)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/DBI/man/dbConnect.html">dbConnect</a></span>(RSQLite<span class="op">::</span><span class="kw"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html">SQLite</a></span>(), <span class="st">":memory:"</span>)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">DBI<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/DBI/man/dbWriteTable.html">dbWriteTable</a></span>(con, <span class="st">"mtcars"</span>, mtcars)</a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb11-6" data-line-number="6">mtcars2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tbl.html">tbl</a></span>(con, <span class="st">"mtcars"</span>)</a>
 <a class="sourceLine" id="cb11-7" data-line-number="7">mtcars2</a></code></pre></div>
-<p>This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with <code><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html">DBI::dbGetQuery()</a></code> and <code><a href="https://dbi.r-dbi.org/reference/dbExecute.html">DBI::dbExecute()</a></code>.</p>
+<p>This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with <code><a href="https://rdrr.io/pkg/DBI/man/dbGetQuery.html">DBI::dbGetQuery()</a></code> and <code><a href="https://rdrr.io/pkg/DBI/man/dbExecute.html">DBI::dbExecute()</a></code>.</p>
 <p>If you’ve implemented a database backend for dplyr, please read the <a href="https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends">backend news</a> to see what’s changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see <code><a href="../reference/check_dbplyr.html">wrap_dbplyr_obj()</a></code> for helpers.</p>
 </div>
 <div id="utf-8" class="section level2">
@@ -793,7 +804,7 @@ starwars %&gt;%
   summarise_at(vars(height:mass), mean, na.rm = TRUE)</code></pre>
 <p>This means that the underscored version of each main verb is no longer needed, and so these functions have been deprecated (but remain around for backward compatibility).</p>
 <ul>
-<li><p><code><a href="../reference/order_by.html">order_by()</a></code>, <code><a href="../reference/top_n.html">top_n()</a></code>, <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> now use tidyeval to capture their arguments by expression. This makes it possible to use unquoting idioms (see <code><a href="../articles/programming.html">vignette("programming")</a></code>) and fixes scoping issues (<a href='https://github.com/tidyverse/dplyr/issues/2297'>#2297</a>).</p></li>
+<li><p><code><a href="../reference/order_by.html">order_by()</a></code>, <code><a href="../reference/top_n.html">top_n()</a></code>, <code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> now use tidyeval to capture their arguments by expression. This makes it possible to use unquoting idioms (see <code><a href="../articles/programming.html">vignette("programming")</a></code>) and fixes scoping issues (<a href='https://github.com/tidyverse/dplyr/issues/2297'>#2297</a>).</p></li>
 <li><p>Most verbs taking dots now ignore the last argument if empty. This makes it easier to copy lines of code without having to worry about deleting trailing commas (<a href='https://github.com/tidyverse/dplyr/issues/1039'>#1039</a>).</p></li>
 <li>
 <p>[API] The new <code>.data</code> and <code>.env</code> environments can be used inside all verbs that operate on data: <code>.data$column_name</code> accesses the column <code>column_name</code>, whereas <code>.env$var</code> accesses the external variable <code>var</code>. Columns or external variables named <code>.data</code> or <code>.env</code> are shadowed, use <code>.data$...</code> and/or <code>.env$...</code> to access them. (<code>.data</code> implements strict matching also for the <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> operator (<a href='https://github.com/tidyverse/dplyr/issues/2591'>#2591</a>).)</p>
@@ -1385,7 +1396,7 @@ starwars %&gt;%
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> makes a <code>rowwise_df</code> when given a <code>rowwise_df</code> (<a href='https://github.com/tidyverse/dplyr/issues/463'>#463</a>).</p></li>
 <li><p><code>rbind_all()</code> creates <code>tbl_df</code> objects instead of raw <code>data.frame</code>s.</p></li>
 <li><p>If <code><a href="../reference/select.html">select()</a></code> doesn’t match any variables, it returns a 0-column data frame, instead of the original (<a href='https://github.com/tidyverse/dplyr/issues/498'>#498</a>). It no longer fails when if some columns are not named (<a href='https://github.com/tidyverse/dplyr/issues/492'>#492</a>)</p></li>
-<li><p><code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> methods for data.frames exported. (<a href='https://github.com/tidyverse/dplyr/issues/405'>#405</a>, <a href='https://github.com/alyst'>@alyst</a>)</p></li>
+<li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> methods for data.frames exported. (<a href='https://github.com/tidyverse/dplyr/issues/405'>#405</a>, <a href='https://github.com/alyst'>@alyst</a>)</p></li>
 <li><p>A grouped data frame may have 0 groups (<a href='https://github.com/tidyverse/dplyr/issues/486'>#486</a>). Grouped df objects gain some basic validity checking, which should prevent some crashes related to corrupt <code>grouped_df</code> objects made by <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/606'>#606</a>).</p></li>
 <li><p>More coherence when joining columns of compatible but different types, e.g. when joining a character vector and a factor (<a href='https://github.com/tidyverse/dplyr/issues/455'>#455</a>), or a numeric and integer (<a href='https://github.com/tidyverse/dplyr/issues/450'>#450</a>)</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> works for on zero-row grouped data frame, and with list columns (<a href='https://github.com/tidyverse/dplyr/issues/555'>#555</a>).</p></li>
@@ -1446,7 +1457,7 @@ starwars %&gt;%
 <p>dplyr 0.2 adds three new verbs:</p>
 <ul>
 <li><p><code><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse()</a></code> makes it possible to see all the columns in a tbl, displaying as much data for each variable as can be fit on a single line.</p></li>
-<li><p><code><a href="../reference/sample.html">sample_n()</a></code> randomly samples a fixed number of rows from a tbl; <code><a href="../reference/sample.html">sample_frac()</a></code> randomly samples a fixed fraction of rows. Only works for local data frames and data tables (<a href='https://github.com/tidyverse/dplyr/issues/202'>#202</a>).</p></li>
+<li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> randomly samples a fixed number of rows from a tbl; <code><a href="../reference/sample_n.html">sample_frac()</a></code> randomly samples a fixed fraction of rows. Only works for local data frames and data tables (<a href='https://github.com/tidyverse/dplyr/issues/202'>#202</a>).</p></li>
 <li><p><code><a href="../reference/summarise_each.html">summarise_each()</a></code> and <code><a href="../reference/summarise_each.html">mutate_each()</a></code> make it easy to apply one or more functions to multiple columns in a tbl (<a href='https://github.com/tidyverse/dplyr/issues/178'>#178</a>).</p></li>
 </ul>
 </div>

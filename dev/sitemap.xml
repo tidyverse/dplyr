@@ -217,7 +217,7 @@
     <loc>https://dplyr.tidyverse.org/reference/same_src.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/reference/sample.html</loc>
+    <loc>https://dplyr.tidyverse.org/reference/sample_n.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/scoped.html</loc>
@@ -239,6 +239,9 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/slice.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/reference/slice_head.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/sql.html</loc>
