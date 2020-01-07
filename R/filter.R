@@ -100,28 +100,36 @@ filter <- function(.data, ..., .preserve = FALSE) {
 }
 
 #' @export
-filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
-  dots <- enquos(...)
-  if (is_empty(dots)) {
+filter.data.frame <- function(.data, ..., .preserve = FALSE) {
+  if (missing(...)) {
     return(.data)
   }
-  named <- have_name(dots)
-  if (any(named)) {
-    for (i in which(named)) {
-      quo <- dots[[i]]
 
-      # only allow named logical vectors, anything else
-      # is suspicious
-      expr <- quo_get_expr(quo)
-      if (!is.logical(expr)) {
-        stop_filter_named(i, expr, names(dots)[i])
-      }
+  idx <- filter_indices(.data, ...)
+  .data[idx[[1]], , drop = FALSE]
+}
 
-    }
+#' @export
+filter.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.data)) {
+  if (missing(...)) {
+    return(.data)
   }
 
-  rows <- group_rows(.data)
+  idx <- filter_indices(.data, ...)
+  data <- as.data.frame(.data)[idx[[1]], , drop = FALSE]
 
+  groups <- group_data(.data)
+  groups$.rows <- filter_update_rows(nrow(.data), idx[[3]], idx[[1]], idx[[2]])
+  groups <- group_data_trim(groups, .preserve)
+
+  new_grouped_df(data, groups)
+}
+
+filter_indices <- function(.data, ...) {
+  dots <- enquos(...)
+  check_filter(dots)
+
+  rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
     rows <- list(integer(0))
@@ -129,62 +137,30 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   mask <- DataMask$new(.data, caller_env(), rows)
   env_filter <- env()
-  tryCatch({
-    c(keep, new_rows_sizes, group_indices) %<-% mask$eval_all_filter(dots, env_filter)
-  }, simpleError = function(e) {
-    stop_filter_eval_tidy(e, env_filter$current_expression)
-  })
-
-  out <- vec_slice(.data, keep)
-
-  # regroup
-  if (is_grouped_df(.data)) {
-    new_groups <- group_data(.data)
-    new_groups$.rows <- filter_update_rows(nrow(.data), group_indices, keep, new_rows_sizes)
-    attr(out, "groups") <- new_groups
-
-    if (!.preserve) {
-      out <- regroup(out)
+  tryCatch(
+    mask$eval_all_filter(dots, env_filter),
+    simpleError = function(e) {
+      stop_filter_eval_tidy(e, env_filter$current_expression)
     }
-  }
-
-  # copy back attributes
-  # TODO: challenge that with some vctrs theory
-  atts <- attributes(.data)
-  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
-  for(name in names(atts)) {
-    attr(out, name) <- atts[[name]]
-  }
-
-  out
+  )
 }
 
-#' @export
-filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  as.data.frame(filter(tbl_df(.data), ..., .preserve = .preserve))
-}
+check_filter <- function(dots) {
+  named <- have_name(dots)
 
-regroup <- function(data) {
-  # only keep the non empty groups
-  non_empty <- map_lgl(group_rows(data), function(.x) length(.x) > 0)
-  gdata <- filter(group_data(data), non_empty)
+  for (i in which(named)) {
+    quo <- dots[[i]]
 
-  # then group the grouping data to get expansion if needed
-  gdata <- grouped_df(gdata, head(names(gdata), -1L), isTRUE(attr(group_data(data), ".drop")))
-  new_groups <- group_data(gdata)
-  old_rows  <- gdata$.rows
-
-  new_groups$.rows <- new_list_of(map(new_groups$.rows, function(.x) {
-    if (length(.x) == 1L) {
-      old_rows[[.x]]
-    } else {
-      integer()
+    # only allow named logical vectors, anything else
+    # is suspicious
+    expr <- quo_get_expr(quo)
+    if (!is.logical(expr)) {
+      stop_filter_named(i, expr, names(dots)[i])
     }
-  }), ptype = integer())
 
-  attr(data, "groups") <- new_groups
-  data
+  }
 }
+
 
 filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
   .Call(`dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)

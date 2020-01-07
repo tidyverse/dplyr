@@ -108,6 +108,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, S
   SEXP group_indices = PROTECT(Rf_allocVector(INTSXP, n));
   int* p_group_indices = INTEGER(group_indices);
 
+  // TODO: set names
   SEXP res = PROTECT(Rf_allocVector(VECSXP, 3));
   SET_VECTOR_ELT(res, 0, keep);
   SET_VECTOR_ELT(res, 1, new_group_sizes);

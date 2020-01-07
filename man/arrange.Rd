@@ -2,12 +2,12 @@
 % Please edit documentation in R/arrange.R
 \name{arrange}
 \alias{arrange}
-\alias{arrange.tbl_df}
+\alias{arrange.data.frame}
 \title{Arrange rows by variables}
 \usage{
 arrange(.data, ...)
 
-\method{arrange}{tbl_df}(.data, ..., .by_group = FALSE)
+\method{arrange}{data.frame}(.data, ...)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods

@@ -259,3 +259,13 @@ group_cols <- function(vars = peek_vars()) {
     int()
   }
 }
+
+
+group_data_trim <- function(group_data, preserve = FALSE) {
+  if (preserve) {
+    return(group_data)
+  }
+
+  non_empty <- lengths(group_data$".rows") > 0
+  group_data[non_empty, , drop = FALSE]
+}
