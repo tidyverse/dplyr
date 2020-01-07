@@ -23,7 +23,11 @@ grouped data frames only.}
 An object of the same class as \code{.data}.
 }
 \description{
-Order tbl rows by an expression involving its variables.
+Order data frame rows by the values of selected variables.
+Unlike other dplyr verbs, \code{arrange()} largely ignores grouping; you
+need to explicit mention grouping variables (or use  \code{by_group = TRUE})
+in order to group by them, and functions of variables are evaluated
+once per data frame, not once per group.
 }
 \section{Locales}{
 

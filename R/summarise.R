@@ -1,8 +1,11 @@
 #' Reduce multiple values down to a single value
 #'
-#' Create one or more scalar variables summarizing the variables of an
-#' existing tbl. Tbls with groups created by [group_by()] will result in one
-#' row in the output for each group.  Tbls with no groups will result in one row.
+#' @description
+#' `summarise()` creates a new data frame. It will have one row for each
+#' combination of grouping variable; if there are no grouping variables, the
+#' output will have a single row summarising all observations in the input.
+#' It will contain one column for each grouping variable and one column
+#' for each of the summary statistics that you have specified.
 #'
 #' `summarise()` and `summarize()` are synonyms.
 #'
@@ -36,8 +39,11 @@
 #'   The value should be an expression that returns a single value like
 #'   `min(x)`, `n()`, or `sum(is.na(y))`.
 #' @family single table verbs
-#' @return An object of the same class as `.data`. One grouping level will
-#'   be dropped.
+#' @return An object of the same class as `.data`.
+#'
+#'   If `.data` is grouped, then the last group will be dropped,
+#'   e.g.`df %>% group_by(x, y) %>% summarise(n())` will be grouped by
+#'   `x`. This happens because each group now occupies only a single row.
 #' @examples
 #' # A summary applied to ungrouped tbl returns a single row
 #' mtcars %>%
@@ -56,10 +62,10 @@
 #'   group_vars()
 #'
 #'
-#' # Reusing variable names when summarising may lead to unexpected results
+#' # BEWARE: reusing variable names may lead to unexpected results
 #' mtcars %>%
 #'   group_by(cyl) %>%
-#'   summarise(disp = mean(disp), sd = sd(disp), double_disp = disp * 2)
+#'   summarise(disp = mean(disp), sd = sd(disp))
 #'
 #'
 #' # Refer to column names stored as strings with the `.data` pronoun:
