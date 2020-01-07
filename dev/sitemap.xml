@@ -58,6 +58,9 @@
     <loc>https://dplyr.tidyverse.org/reference/compute.html</loc>
   </url>
   <url>
+    <loc>https://dplyr.tidyverse.org/reference/context.html</loc>
+  </url>
+  <url>
     <loc>https://dplyr.tidyverse.org/reference/copy_to.html</loc>
   </url>
   <url>
@@ -173,9 +176,6 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/mutate_all.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/n.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/n_distinct.html</loc>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply a function or a set of functions to a set of columns — current_key • dplyr</title>
+<title>Apply a function (or a set of functions) to a set of columns — across • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,9 +47,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Apply a function or a set of functions to a set of columns — current_key" />
-<meta property="og:description" content="Creates a data frame by applying a set of functions to a tidy
-selection of columns in the current slice" />
+<meta property="og:title" content="Apply a function (or a set of functions) to a set of columns — across" />
+<meta property="og:description" content="across() makes it easy to apply the same transformation to multiple
+columns, allowing you to use select() semantics inside in summarise() and
+mutate(). across() replaces the family of &quot;scoped variants&quot; like
+summarise_at(), summarise_if(), and summarise_all()." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -186,57 +188,56 @@ selection of columns in the current slice" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply a function or a set of functions to a set of columns</h1>
+    <h1>Apply a function (or a set of functions) to a set of columns</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/across.R'><code>R/across.R</code></a></small>
     <div class="hidden name"><code>across.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates a data frame by applying a set of functions to a tidy
-selection of columns in the current slice</p>
+    <p><code>across()</code> makes it easy to apply the same transformation to multiple
+columns, allowing you to use <code><a href='select.html'>select()</a></code> semantics inside in <code><a href='summarise.html'>summarise()</a></code> and
+<code><a href='mutate.html'>mutate()</a></code>. <code>across()</code> replaces the family of "scoped variants" like
+<code><a href='summarise_all.html'>summarise_at()</a></code>, <code><a href='summarise_all.html'>summarise_if()</a></code>, and <code><a href='summarise_all.html'>summarise_all()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>current_key</span>()
-
-<span class='fu'>current_column</span>()
-
-<span class='fu'>across</span>(<span class='no'>select</span>, <span class='kw'>fns</span> <span class='kw'>=</span> <span class='no'>identity</span>)</pre>
+    <pre class="usage"><span class='fu'>across</span>(<span class='no'>cols</span>, <span class='kw'>fns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>select</th>
-      <td><p>tidy selection of columns</p></td>
+      <th>cols</th>
+      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Columns to transform.
+Because <code>across()</code> is used within functions like <code><a href='summarise.html'>summarise()</a></code> and
+<code><a href='mutate.html'>mutate()</a></code>, you can't grouping variables.</p></td>
     </tr>
     <tr>
       <th>fns</th>
-      <td><p>Functions to apply to each of the selected columns. Possible
-values are:</p><ul>
-<li><p>A single function or a single quosure style lambda, e.g. <code>~ mean(.x, na.rm = TRUE)</code></p></li>
-<li><p>A named list of functions and/or lambdas</p></li>
-</ul></td>
+      <td><p>Functions to apply to each of the selected columns.
+Possible values are:</p><ul>
+<li><p><code>NULL</code>, to returns the columns untransformed.</p></li>
+<li><p>A function, e.g. <code>mean</code>.</p></li>
+<li><p>A purrr-style lambda, e.g. <code>~ mean(.x, na.rm = TRUE)</code></p></li>
+<li><p>A named list of functions/lambdas, e.g.
+<code>list(mean = mean, n_miss = ~ sum(is.na(.x))</code></p></li>
+</ul>
+
+<p>Within these functions you can use <code><a href='context.html'>current_column()</a></code> and <code><a href='context.html'>current_key()</a></code>
+to access the current column and grouping keys respectively.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This allows you to use <code><a href='select.html'>select()</a></code> semantics inside in <code><a href='summarise.html'>summarise()</a></code> and <code><a href='mutate.html'>mutate()</a></code></p>
-<p>When a single function is given, it is applied to each of the selected columns
-and the output columns are named after the selected input columns.</p>
-<p>When a named list of functions is given, the result is made of as many columns
-as the number of functions, each of these output columns is a pack, i.e.
-a data frame column made from the result of the function applied across the
-selected columns.</p>
-<p><code>current_column()</code> gives the name of the column currently being processed.</p>
-<p><code>current_key()</code> return metadata about the "current" element: a single row tibble, with one column per grouping variable</p>
+    <p>A tibble.</p>
+<p>When <code>fns</code> is a single function, it will have one column for each
+column in <code>cols</code></p>
+<p>When <code>fns</code> is a named list, it will have one column for each element
+of <code>fns</code>. Each column will be a df-column that contains one column
+for each column in <code>cols</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># A single function</span>
+    <pre class="examples"><div class='input'><span class='co'># A function</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='no'>mean</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
@@ -244,7 +245,23 @@ selected columns.</p>
 #&gt;   &lt;fct&gt;             &lt;dbl&gt;       &lt;dbl&gt;
 #&gt; 1 setosa             5.01        3.43
 #&gt; 2 versicolor         5.94        2.77
-#&gt; 3 virginica          6.59        2.97</div><div class='input'>
+#&gt; 3 virginica          6.59        2.97</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'>across</span>(<span class='no'>is.factor</span>, <span class='no'>as.character</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 5
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+#&gt;  1          5.1         3.5          1.4         0.2 setosa 
+#&gt;  2          4.9         3            1.4         0.2 setosa 
+#&gt;  3          4.7         3.2          1.3         0.2 setosa 
+#&gt;  4          4.6         3.1          1.5         0.2 setosa 
+#&gt;  5          5           3.6          1.4         0.2 setosa 
+#&gt;  6          5.4         3.9          1.7         0.4 setosa 
+#&gt;  7          4.6         3.4          1.4         0.3 setosa 
+#&gt;  8          5           3.4          1.5         0.2 setosa 
+#&gt;  9          4.4         2.9          1.4         0.2 setosa 
+#&gt; 10          4.9         3.1          1.5         0.1 setosa 
+#&gt; # … with 140 more rows</div><div class='input'>
+<span class='co'># A purrr-style formula</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), ~<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 3
@@ -253,7 +270,7 @@ selected columns.</p>
 #&gt; 1 setosa             5.01        3.43
 #&gt; 2 versicolor         5.94        2.77
 #&gt; 3 virginica          6.59        2.97</div><div class='input'>
-<span class='co'># a named list of functions</span>
+<span class='co'># A named list of functions</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='no'>sd</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 3
@@ -261,15 +278,13 @@ selected columns.</p>
 #&gt;   &lt;fct&gt;                  &lt;dbl&gt;        &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;
 #&gt; 1 setosa                  5.01         3.43           0.352        0.379
 #&gt; 2 versicolor              5.94         2.77           0.516        0.314
-#&gt; 3 virginica               6.59         2.97           0.636        0.322</div><div class='input'>
-</div></pre>
+#&gt; 3 virginica               6.59         2.97           0.636        0.322</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

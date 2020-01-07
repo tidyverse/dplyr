@@ -311,7 +311,7 @@ variables.</p>
 #&gt; 3  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4</div><div class='input'>
 <span class='co'># Each call to summarise() removes a layer of grouping</span>
 <span class='no'>by_vs_am</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>)
-<span class='no'>by_vs</span> <span class='kw'>&lt;-</span> <span class='no'>by_vs_am</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>())
+<span class='no'>by_vs</span> <span class='kw'>&lt;-</span> <span class='no'>by_vs_am</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>())
 <span class='no'>by_vs</span></div><div class='output co'>#&gt; # A tibble: 4 x 3
 #&gt; # Groups:   vs [2]
 #&gt;      vs    am     n

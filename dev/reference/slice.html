@@ -242,8 +242,8 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>1L</span>)</div><div class='output co'>#&gt;   mpg cyl disp  hp drat   wt  qsec vs am gear carb
 #&gt; 1  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='co'># Similar to tail(mtcars, 1):</span>
-<span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt;    mpg cyl disp  hp drat   wt qsec vs am gear carb
-#&gt; 1 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>5</span>:<span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;    mpg cyl disp  hp drat   wt qsec vs am gear carb
+#&gt; 1 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>5</span>:<span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; 1  18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
 #&gt; 2  18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
 #&gt; 3  14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
@@ -272,7 +272,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt; 26 19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
 #&gt; 27 15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
 #&gt; 28 21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='co'># Rows can be dropped with negative indices:</span>
-<span class='fu'>slice</span>(<span class='no'>mtcars</span>, -<span class='fl'>5</span>:-<span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+<span class='fu'>slice</span>(<span class='no'>mtcars</span>, -<span class='fl'>5</span>:-<span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 #&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
 #&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
@@ -297,8 +297,8 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 <span class='co'># but won't be as fast for in-memory data. For many databases, you'll</span>
 <span class='co'># need to supply an explicit variable to use to compute the row number.</span>
 <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='kw'>==</span> <span class='fl'>1L</span>)</div><div class='output co'>#&gt;   mpg cyl disp  hp drat   wt  qsec vs am gear carb
-#&gt; 1  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='kw'>==</span> <span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt;    mpg cyl disp  hp drat   wt qsec vs am gear carb
-#&gt; 1 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='between.html'>between</a></span>(<span class='fu'><a href='ranking.html'>row_number</a></span>(), <span class='fl'>5</span>, <span class='fu'><a href='n.html'>n</a></span>()))</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; 1  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='kw'>==</span> <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;    mpg cyl disp  hp drat   wt qsec vs am gear carb
+#&gt; 1 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='between.html'>between</a></span>(<span class='fu'><a href='ranking.html'>row_number</a></span>(), <span class='fl'>5</span>, <span class='fu'><a href='context.html'>n</a></span>()))</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; 1  18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
 #&gt; 2  18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
 #&gt; 3  14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4

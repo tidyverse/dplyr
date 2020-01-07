@@ -439,7 +439,7 @@
 <p>In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (<code>count = n()</code>) and computing the average distance (<code>dist = mean(distance, na.rm = TRUE)</code>) and arrival delay (<code>delay = mean(arr_delay, na.rm = TRUE)</code>). We then use ggplot2 to display the output.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">by_tailnum &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, tailnum)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(by_tailnum,</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">count =</span> <span class="kw"><a href="../reference/n.html">n</a></span>(),</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">count =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(),</a>
 <a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dt">dist =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(distance, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
 <a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="dt">delay =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb14-6" data-line-number="6">delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(delay, count <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>, dist <span class="op">&lt;</span><span class="st"> </span><span class="dv">2000</span>)</a>
@@ -453,7 +453,7 @@
 <p><img src="dplyr_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
 <p>You use <code><a href="../reference/summarise.html">summarise()</a></code> with <strong>aggregate functions</strong>, which take a vector of values and return a single number. There are many useful examples of such functions in base R like <code><a href="https://rdrr.io/r/base/Extremes.html">min()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code>, <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>, <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code>, <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code>, and <code><a href="https://rdrr.io/r/stats/IQR.html">IQR()</a></code>. dplyr provides a handful of others:</p>
 <ul>
-<li><p><code><a href="../reference/n.html">n()</a></code>: the number of observations in the current group</p></li>
+<li><p><code><a href="../reference/context.html">n()</a></code>: the number of observations in the current group</p></li>
 <li><p><code><a href="../reference/n_distinct.html">n_distinct(x)</a></code>:the number of unique values in <code>x</code>.</p></li>
 <li><p><code><a href="../reference/nth.html">first(x)</a></code>, <code><a href="../reference/nth.html">last(x)</a></code> and <code><a href="../reference/nth.html">nth(x, n)</a></code> - these work similarly to <code>x[1]</code>, <code>x[length(x)]</code>, and <code>x[n]</code> but give you more control over the result if the value is missing.</p></li>
 </ul>
@@ -461,7 +461,7 @@
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">destinations &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, dest)</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(destinations,</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="dt">planes =</span> <span class="kw"><a href="../reference/n_distinct.html">n_distinct</a></span>(tailnum),</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">  <span class="dt">flights =</span> <span class="kw"><a href="../reference/n.html">n</a></span>()</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">  <span class="dt">flights =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()</a>
 <a class="sourceLine" id="cb15-5" data-line-number="5">)</a>
 <a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; # A tibble: 105 x 3</span></a>
 <a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt;   dest  planes flights</span></a>
@@ -473,7 +473,7 @@
 <a class="sourceLine" id="cb15-13" data-line-number="13"><span class="co">#&gt; # … with 101 more rows</span></a></code></pre></div>
 <p>When you group by multiple variables, each summary peels off one level of the grouping. That makes it easy to progressively roll-up a dataset:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">daily &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day)</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">(per_day   &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(daily, <span class="dt">flights =</span> <span class="kw"><a href="../reference/n.html">n</a></span>()))</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">(per_day   &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(daily, <span class="dt">flights =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()))</a>
 <a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; # A tibble: 365 x 4</span></a>
 <a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; # Groups:   year, month [12]</span></a>
 <a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt;    year month   day flights</span></a>

@@ -286,13 +286,13 @@ method.</p>
 
     <p>Usually a logical value indicating success. Most failures should generate
 an error. However, <code>db_has_table()</code> should return <code>NA</code> if
-temporary tables cannot be listed with <code><a href='https://rdrr.io/pkg/DBI/man/dbListTables.html'>DBI::dbListTables()</a></code> (due to backend
+temporary tables cannot be listed with <code><a href='https://dbi.r-dbi.org/reference/dbListTables.html'>DBI::dbListTables()</a></code> (due to backend
 API limitations for example). As a result, you methods will rely on the
 backend to throw an error if a table exists when it shouldn't.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A few backend methods do not call the standard DBI S4 methods including</p><ul>
-<li><p><code>db_data_type()</code>: Calls <code><a href='https://rdrr.io/pkg/DBI/man/dbDataType.html'>DBI::dbDataType()</a></code> for every field
+<li><p><code>db_data_type()</code>: Calls <code><a href='https://dbi.r-dbi.org/reference/dbDataType.html'>DBI::dbDataType()</a></code> for every field
 (e.g. data frame column) and returns a vector of corresponding SQL data
 types</p></li>
 <li><p><code>db_save_query()</code>: Builds and executes a

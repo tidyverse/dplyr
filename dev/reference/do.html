@@ -341,7 +341,7 @@ act like <code>ldply()</code>.</p>
 
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># This longer example shows the progress bar in action</span>
-<span class='no'>by_dest</span> <span class='kw'>&lt;-</span> <span class='no'>flights</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>dest</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'><a href='n.html'>n</a></span>() <span class='kw'>&gt;</span> <span class='fl'>100</span>)
+<span class='no'>by_dest</span> <span class='kw'>&lt;-</span> <span class='no'>flights</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>dest</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'><a href='context.html'>n</a></span>() <span class='kw'>&gt;</span> <span class='fl'>100</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>mgcv</span>)
 <span class='no'>by_dest</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>gam</a></span>(<span class='no'>arr_delay</span> ~ <span class='fu'><a href='https://rdrr.io/pkg/mgcv/man/s.html'>s</a></span>(<span class='no'>dep_time</span>) + <span class='no'>month</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
 }

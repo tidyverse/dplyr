@@ -346,7 +346,7 @@
 <a class="sourceLine" id="cb19-10" data-line-number="10"><span class="kw">my_summarise</span>(df, g1)</a>
 <a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&gt; expr: ^group_var</span></a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; env:  0x6a64008</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; env:  0x6ffde40</span></a>
 <a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; Error: Column `group_var` is unknown</span></a></code></pre></div>
 <p>I’ve added a <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> call to make it obvious what’s going wrong here: <code><a href="../reference/tidyeval-compat.html">quo(group_var)</a></code> always returns <code>~group_var</code>. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return <code>~g1</code>.</p>
 <p>By analogy to strings, we don’t want <code>""</code>, instead we want some function that turns an argument into a string. That’s the job of <code><a href="../reference/tidyeval.html">enquo()</a></code>. <code><a href="../reference/tidyeval.html">enquo()</a></code> uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a <strong>promise</strong>.)</p>
@@ -375,19 +375,19 @@
 <h3 class="hasAnchor">
 <a href="#different-input-variable" class="anchor"></a>Different input variable</h3>
 <p>Now let’s tackle something a bit more complicated. The code below shows a duplicate <code><a href="../reference/summarise.html">summarise()</a></code> statement where we compute three summaries, varying the input variable.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a), <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(a), <span class="dt">n =</span> <span class="kw"><a href="../reference/n.html">n</a></span>())</a>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a), <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(a), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</a>
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
 <a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt;    mean   sum     n</span></a>
 <a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&gt; 1     3    15     5</span></a>
-<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a <span class="op">*</span><span class="st"> </span>b), <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(a <span class="op">*</span><span class="st"> </span>b), <span class="dt">n =</span> <span class="kw"><a href="../reference/n.html">n</a></span>())</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a <span class="op">*</span><span class="st"> </span>b), <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(a <span class="op">*</span><span class="st"> </span>b), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</a>
 <a class="sourceLine" id="cb21-7" data-line-number="7"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
 <a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&gt;    mean   sum     n</span></a>
 <a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt; 1   8.6    43     5</span></a></code></pre></div>
 <p>To turn this into a function, we start by testing the basic approach interactively: we quote the variable with <code><a href="../reference/tidyeval-compat.html">quo()</a></code>, then unquoting it in the dplyr call with <code>!!</code>. Notice that we can unquote anywhere inside a complicated expression.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">my_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(a)</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="op">!!</span><span class="st"> </span>my_var), <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="op">!!</span><span class="st"> </span>my_var), <span class="dt">n =</span> <span class="kw"><a href="../reference/n.html">n</a></span>())</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="op">!!</span><span class="st"> </span>my_var), <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="op">!!</span><span class="st"> </span>my_var), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</a>
 <a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
 <a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#&gt;    mean   sum     n</span></a>
 <a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
@@ -396,7 +396,7 @@
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df,</a>
 <a class="sourceLine" id="cb23-2" data-line-number="2">  <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="op">!!</span><span class="st"> </span>my_var),</a>
 <a class="sourceLine" id="cb23-3" data-line-number="3">  <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="op">!!</span><span class="st"> </span>my_var),</a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">  <span class="dt">n =</span> <span class="kw"><a href="../reference/n.html">n</a></span>()</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">  <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()</a>
 <a class="sourceLine" id="cb23-5" data-line-number="5">))</a>
 <a class="sourceLine" id="cb23-6" data-line-number="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb23-7" data-line-number="7"><span class="co">#&gt; expr: ^summarise(df, mean = mean(^a), sum = sum(^a), n = n())</span></a>
@@ -408,7 +408,7 @@
 <a class="sourceLine" id="cb24-4" data-line-number="4">  <span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df,</a>
 <a class="sourceLine" id="cb24-5" data-line-number="5">    <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="op">!!</span><span class="st"> </span>expr),</a>
 <a class="sourceLine" id="cb24-6" data-line-number="6">    <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="op">!!</span><span class="st"> </span>expr),</a>
-<a class="sourceLine" id="cb24-7" data-line-number="7">    <span class="dt">n =</span> <span class="kw"><a href="../reference/n.html">n</a></span>()</a>
+<a class="sourceLine" id="cb24-7" data-line-number="7">    <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()</a>
 <a class="sourceLine" id="cb24-8" data-line-number="8">  )</a>
 <a class="sourceLine" id="cb24-9" data-line-number="9">}</a>
 <a class="sourceLine" id="cb24-10" data-line-number="10"><span class="kw">my_summarise2</span>(df, a)</a>
@@ -537,18 +537,18 @@
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">x1</a>
 <a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co">#&gt; expr: ^x</span></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; env:  0x6ffa760</span></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; env:  0x75831a0</span></a>
 <a class="sourceLine" id="cb32-5" data-line-number="5">x2</a>
 <a class="sourceLine" id="cb32-6" data-line-number="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt; expr: ^x</span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; env:  0x70610a8</span></a></code></pre></div>
+<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; env:  0x75ed948</span></a></code></pre></div>
 <p>But if you inspect the environments using <code><a href="https://rlang.r-lib.org/reference/get_env.html">rlang::get_env()</a></code> — they’re different.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rlang)</a>
 <a class="sourceLine" id="cb33-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw"><a href="https://rlang.r-lib.org/reference/get_env.html">get_env</a></span>(x1)</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; &lt;environment: 0x6ffa760&gt;</span></a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; &lt;environment: 0x75831a0&gt;</span></a>
 <a class="sourceLine" id="cb33-5" data-line-number="5"><span class="kw"><a href="https://rlang.r-lib.org/reference/get_env.html">get_env</a></span>(x2)</a>
-<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; &lt;environment: 0x70610a8&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; &lt;environment: 0x75ed948&gt;</span></a></code></pre></div>
 <p>Further, when we evaluate those formulas using <code><a href="https://rlang.r-lib.org/reference/eval_tidy.html">rlang::eval_tidy()</a></code>, we see that they yield different values:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="https://rlang.r-lib.org/reference/eval_tidy.html">eval_tidy</a></span>(x1)</a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#&gt; [1] 10</span></a>
@@ -672,7 +672,7 @@
 <a class="sourceLine" id="cb43-4" data-line-number="4"><span class="co">#&gt; expr: ^list(foo = 1L, bar = ^baz)</span></a>
 <a class="sourceLine" id="cb43-5" data-line-number="5"><span class="co">#&gt; env:  global</span></a></code></pre></div>
 <p>This makes it easy to program with dplyr verbs that take named dots:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">args &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(cyl)), <span class="dt">count =</span> <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="../reference/n.html">n</a></span>()))</a>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">args &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(cyl)), <span class="dt">count =</span> <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="../reference/context.html">n</a></span>()))</a>
 <a class="sourceLine" id="cb44-2" data-line-number="2">mtcars <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb44-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(am) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb44-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="op">!!!</span><span class="st"> </span>args)</a>
@@ -694,7 +694,7 @@
 <a class="sourceLine" id="cb45-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(am) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb45-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
 <a class="sourceLine" id="cb45-7" data-line-number="7">    <span class="op">!!</span><span class="st"> </span>mean_nm <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(cyl),</a>
-<a class="sourceLine" id="cb45-8" data-line-number="8">    <span class="op">!!</span><span class="st"> </span>count_nm <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="../reference/n.html">n</a></span>()</a>
+<a class="sourceLine" id="cb45-8" data-line-number="8">    <span class="op">!!</span><span class="st"> </span>count_nm <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="../reference/context.html">n</a></span>()</a>
 <a class="sourceLine" id="cb45-9" data-line-number="9">  )</a>
 <a class="sourceLine" id="cb45-10" data-line-number="10"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
 <a class="sourceLine" id="cb45-11" data-line-number="11"><span class="co">#&gt;      am  mean count</span></a>

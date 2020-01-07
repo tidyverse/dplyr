@@ -270,14 +270,14 @@ package for more tools for working with factors and their levels.</p>
     <pre class="examples"><div class='input'><span class='co'># For character values, recode values with named arguments only. Unmatched</span>
 <span class='co'># values are unchanged.</span>
 <span class='no'>char_vec</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>)</div><div class='output co'>#&gt;  [1] "Apple" "b"     "Apple" "b"     "c"     "Apple" "c"     "c"     "b"    
-#&gt; [10] "Apple"</div><div class='input'><span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>)</div><div class='output co'>#&gt;  [1] "Apple"  "Banana" "Apple"  "Banana" "c"      "Apple"  "c"      "c"     
-#&gt;  [9] "Banana" "Apple" </div><div class='input'>
+<span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>)</div><div class='output co'>#&gt;  [1] "c"     "Apple" "b"     "c"     "b"     "Apple" "b"     "Apple" "c"    
+#&gt; [10] "b"    </div><div class='input'><span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>)</div><div class='output co'>#&gt;  [1] "c"      "Apple"  "Banana" "c"      "Banana" "Apple"  "Banana" "Apple" 
+#&gt;  [9] "c"      "Banana"</div><div class='input'>
 <span class='co'># Use .default as replacement for unmatched values. Note that NA and</span>
 <span class='co'># replacement values need to be of the same type. For more information, see</span>
 <span class='co'># https://adv-r.hadley.nz/vectors-chap.html#missing-values</span>
-<span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>)</div><div class='output co'>#&gt;  [1] "Apple"  "Banana" "Apple"  "Banana" NA       "Apple"  NA       NA      
-#&gt;  [9] "Banana" "Apple" </div><div class='input'>
+<span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>)</div><div class='output co'>#&gt;  [1] NA       "Apple"  "Banana" NA       "Banana" "Apple"  "Banana" "Apple" 
+#&gt;  [9] NA       "Banana"</div><div class='input'>
 <span class='co'># Throws an error as NA is logical, not character.</span>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
@@ -285,8 +285,8 @@ package for more tools for working with factors and their levels.</p>
 
 <span class='co'># Use a named character vector for unquote splicing with !!!</span>
 <span class='no'>level_key</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"banana"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"carrot"</span>)
-<span class='fu'>recode</span>(<span class='no'>char_vec</span>, !!!<span class='no'>level_key</span>)</div><div class='output co'>#&gt;  [1] "apple"  "banana" "apple"  "banana" "carrot" "apple"  "carrot" "carrot"
-#&gt;  [9] "banana" "apple" </div><div class='input'>
+<span class='fu'>recode</span>(<span class='no'>char_vec</span>, !!!<span class='no'>level_key</span>)</div><div class='output co'>#&gt;  [1] "carrot" "apple"  "banana" "carrot" "banana" "apple"  "banana" "apple" 
+#&gt;  [9] "carrot" "banana"</div><div class='input'>
 <span class='co'># For numeric values, named arguments can also be used</span>
 <span class='no'>num_vec</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='fl'>NA</span>)
 <span class='fu'>recode</span>(<span class='no'>num_vec</span>, <span class='kw'>`2`</span> <span class='kw'>=</span> <span class='fl'>20L</span>, <span class='kw'>`4`</span> <span class='kw'>=</span> <span class='fl'>40L</span>)</div><div class='output co'>#&gt; [1]  1 20  3 40 NA</div><div class='input'>
@@ -321,7 +321,7 @@ package for more tools for working with factors and their levels.</p>
 #&gt; Levels: z y a</div><div class='input'>
 <span class='co'># Use a named character vector to recode factors with unquote splicing.</span>
 <span class='no'>level_key</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"banana"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"carrot"</span>)
-<span class='fu'>recode_factor</span>(<span class='no'>char_vec</span>, !!!<span class='no'>level_key</span>)</div><div class='output co'>#&gt;  [1] apple  banana apple  banana carrot apple  carrot carrot banana apple 
+<span class='fu'>recode_factor</span>(<span class='no'>char_vec</span>, !!!<span class='no'>level_key</span>)</div><div class='output co'>#&gt;  [1] carrot apple  banana carrot banana apple  banana apple  carrot banana
 #&gt; Levels: apple banana carrot</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

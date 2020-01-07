@@ -341,30 +341,30 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>10</span>))
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl_df.html'>tbl_df</a></span>(<span class='no'>df</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>1</span>, <span class='fl'>9</span>, <span class='fl'>8</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>6</span>, <span class='fl'>10</span>)])
 <span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 8
-#&gt;       V4      V7     V1     V9     V8     V5     V2    V6
-#&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1 0.932 0.568   0.0717 0.410  0.0512 0.577  0.149  0.946
-#&gt;  2 0.197 0.614   0.0935 0.493  0.727  0.249  0.589  0.585
-#&gt;  3 0.181 0.00233 0.460  0.251  0.226  0.692  0.0815 0.338
-#&gt;  4 0.564 0.129   0.568  0.603  0.427  0.330  0.748  0.876
-#&gt;  5 0.685 0.261   0.353  0.465  0.0613 0.241  0.330  0.313
-#&gt;  6 0.475 0.971   0.634  0.876  0.515  0.602  0.246  0.259
-#&gt;  7 0.677 0.665   0.176  0.987  0.713  0.0220 0.0440 0.994
-#&gt;  8 0.849 0.874   0.925  0.540  0.673  0.426  0.216  0.372
-#&gt;  9 0.432 0.149   0.233  0.0661 0.152  0.104  0.768  0.302
-#&gt; 10 0.389 0.536   0.336  0.614  0.288  0.378  0.826  0.798</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 3
-#&gt;       V4     V5    V6
-#&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1 0.932 0.577  0.946
-#&gt;  2 0.197 0.249  0.585
-#&gt;  3 0.181 0.692  0.338
-#&gt;  4 0.564 0.330  0.876
-#&gt;  5 0.685 0.241  0.313
-#&gt;  6 0.475 0.602  0.259
-#&gt;  7 0.677 0.0220 0.994
-#&gt;  8 0.849 0.426  0.372
-#&gt;  9 0.432 0.104  0.302
-#&gt; 10 0.389 0.378  0.798</div><div class='input'>
+#&gt;         V4     V7     V1    V9    V8     V5    V2     V6
+#&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;  1 0.876   0.603  0.651  0.772 0.698 0.129  0.564 0.427 
+#&gt;  2 0.313   0.465  0.308  0.882 0.649 0.261  0.685 0.0613
+#&gt;  3 0.259   0.876  0.0170 0.612 0.671 0.971  0.475 0.515 
+#&gt;  4 0.994   0.987  0.0375 0.441 0.997 0.665  0.677 0.713 
+#&gt;  5 0.372   0.540  0.378  0.759 0.973 0.874  0.849 0.673 
+#&gt;  6 0.302   0.0661 0.294  0.178 0.387 0.149  0.432 0.152 
+#&gt;  7 0.798   0.614  0.786  0.297 0.636 0.536  0.389 0.288 
+#&gt;  8 0.568   0.753  0.932  0.890 0.623 0.0512 0.577 0.410 
+#&gt;  9 0.614   0.222  0.197  0.412 0.214 0.727  0.249 0.493 
+#&gt; 10 0.00233 0.262  0.181  0.578 0.175 0.226  0.692 0.251 </div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 3
+#&gt;         V4     V5     V6
+#&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;  1 0.876   0.129  0.427 
+#&gt;  2 0.313   0.261  0.0613
+#&gt;  3 0.259   0.971  0.515 
+#&gt;  4 0.994   0.665  0.713 
+#&gt;  5 0.372   0.874  0.673 
+#&gt;  6 0.302   0.149  0.152 
+#&gt;  7 0.798   0.536  0.288 
+#&gt;  8 0.568   0.0512 0.410 
+#&gt;  9 0.614   0.727  0.493 
+#&gt; 10 0.00233 0.226  0.251 </div><div class='input'>
 <span class='co'># Drop variables with -</span>
 <span class='fu'>select</span>(<span class='no'>iris</span>, -<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 3
 #&gt;    Sepal.Length Sepal.Width Species

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Low-level construction and validation for the grouped_df class — new_grouped_df • dplyr</title>
+<title>Context dependent expressions — context • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,11 +47,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Low-level construction and validation for the grouped_df class — new_grouped_df" />
-<meta property="og:description" content="new_grouped_df() is a constructor designed to be high-performance so only
-check types, not values. This means it is the caller's responsibility
-to create valid values, and hence this is for expert use only.
-validate_grouped_df() validates the attributes of a grouped_df." />
+<meta property="og:title" content="Context dependent expressions — context" />
+<meta property="og:description" content="These functions return information about the &quot;current&quot; group or &quot;current&quot;
+variable, so only work inside specific contexts
+n() gives the current group size.
+current_key() gives the group keys, a tibble with one row and one column
+for each grouping variable.
+current_column() gives the current column being used in across().
+
+" />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -188,71 +192,57 @@ validate_grouped_df() validates the attributes of a grouped_df." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Low-level construction and validation for the grouped_df class</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/grouped-df.r'><code>R/grouped-df.r</code></a></small>
-    <div class="hidden name"><code>new_grouped_df.Rd</code></div>
+    <h1>Context dependent expressions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/context.R'><code>R/context.R</code></a></small>
+    <div class="hidden name"><code>context.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>new_grouped_df()</code> is a constructor designed to be high-performance so only
-check types, not values. This means it is the caller's responsibility
-to create valid values, and hence this is for expert use only.</p>
-<p><code>validate_grouped_df()</code> validates the attributes of a <code>grouped_df</code>.</p>
+    <p>These functions return information about the "current" group or "current"
+variable, so only work inside specific contexts</p><ul>
+<li><p><code>n()</code> gives the current group size.</p></li>
+<li><p><code>current_key()</code> gives the group keys, a tibble with one row and one column
+for each grouping variable.</p></li>
+<li><p><code>current_column()</code> gives the current column being used in <code><a href='across.html'>across()</a></code>.</p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>new_grouped_df</span>(<span class='no'>x</span>, <span class='no'>groups</span>, <span class='no'>...</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>())
+    <pre class="usage"><span class='fu'>n</span>()
 
-<span class='fu'>validate_grouped_df</span>(<span class='no'>x</span>, <span class='kw'>check_bounds</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>current_key</span>()
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>A data frame</p></td>
-    </tr>
-    <tr>
-      <th>groups</th>
-      <td><p>The grouped structure, <code>groups</code> should be a data frame.
-Its last column should be called <code>.rows</code> and be
-a list of 1 based integer vectors that all are between 1 and the number of rows of <code>.data</code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>additional attributes</p></td>
-    </tr>
-    <tr>
-      <th>class</th>
-      <td><p>additional class, will be prepended to canonical classes of a grouped data frame.</p></td>
-    </tr>
-    <tr>
-      <th>check_bounds</th>
-      <td><p>whether to check all indices for out of bounds problems in grouped_df objects</p></td>
-    </tr>
-    </table>
+<span class='fu'>current_column</span>()</pre>
+
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># 5 bootstrap samples</span>
-<span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='fu'>new_grouped_df</span>(
-  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>)),
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='st'>".rows"</span> <span class='kw'>:=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>replicate</a></span>(<span class='fl'>5</span>, <span class='fu'><a href='sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))
-)
-<span class='co'># mean of each bootstrap sample</span>
-<span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='no'>tbl</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; # A tibble: 5 x 1
-#&gt;        x
-#&gt;    &lt;dbl&gt;
-#&gt; 1 -0.427
-#&gt; 2 -0.388
-#&gt; 3 -0.685
-#&gt; 4 -0.213
-#&gt; 5 -0.453</div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='fl'>1</span>:<span class='fl'>3</span>), <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>))
+
+<span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>n</span>())</div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt;       g     n
+#&gt;   &lt;int&gt; &lt;int&gt;
+#&gt; 1     1     1
+#&gt; 2     2     2
+#&gt; 3     3     3</div><div class='input'>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), ~ <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'>current_column</span>(), <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>.x</span>, <span class='fl'>2</span>))))</div><div class='output co'>#&gt; # A tibble: 6 x 3
+#&gt; # Groups:   g [3]
+#&gt;       g x      y     
+#&gt;   &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; 
+#&gt; 1     1 x 0.86 y 0.88
+#&gt; 2     2 x 0.35 y 0.96
+#&gt; 3     2 x 0    y 0   
+#&gt; 4     3 x 0.21 y 0.55
+#&gt; 5     3 x 0.95 y 0.22
+#&gt; 6     3 x 0.28 y 0.65</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
