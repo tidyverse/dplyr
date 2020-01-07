@@ -1,26 +1,3 @@
-
-#' @export
-as.tbl.data.frame <- function(x, ...) {
-  as_tibble(x)
-}
-
-#' @export
-tbl_vars.data.frame <- function(x) {
-  names(x)
-}
-
-#' @export
-same_src.data.frame <- function(x, y) {
-  is.data.frame(y)
-}
-
-#' @export
-auto_copy.tbl_df <- function(x, y, copy = FALSE, ...) {
-  as.data.frame(y)
-}
-
-# Verbs ------------------------------------------------------------------------
-
 poke_mask <- function(mask) {
   old <- context_env[["..mask"]]
   context_env[["..mask"]] <- mask

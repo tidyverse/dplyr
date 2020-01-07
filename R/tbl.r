@@ -41,6 +41,11 @@ as.tbl <- function(x, ...) UseMethod("as.tbl")
 #' @export
 as.tbl.tbl <- function(x, ...) x
 
+#' @export
+as.tbl.data.frame <- function(x, ...) {
+  as_tibble(x)
+}
+
 tbl_vars_dispatch <- function(x) {
   UseMethod("tbl_vars")
 }
@@ -71,6 +76,12 @@ tbl_vars <- function(x) {
   # For roxygen and static analysis
   UseMethod("tbl_vars")
 }
+
+#' @export
+tbl_vars.data.frame <- function(x) {
+  names(x)
+}
+
 #' @rdname tbl_vars
 #' @export
 tbl_nongroup_vars <- function(x) {
