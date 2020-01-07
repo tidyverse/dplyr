@@ -98,3 +98,7 @@ compact_null <- function(x) {
 paste_line <- function(...) {
   paste(chr(...), collapse = "\n")
 }
+
+abort_if_not <- function(...) {
+  tryCatch(stopifnot(...), simpleError = function(e) abort(e))
+}

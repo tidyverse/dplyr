@@ -48,7 +48,7 @@ distinct <- function(.data, ..., .keep_all = FALSE) {
 #' @rdname group_by_prepare
 #' @export
 distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
-  stopifnot(is_quosures(vars), is.character(group_vars))
+  abort_if_not(is_quosures(vars), is.character(group_vars))
 
   # If no input, keep all variables
   if (length(vars) == 0) {

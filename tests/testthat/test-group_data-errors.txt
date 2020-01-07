@@ -26,7 +26,8 @@ new_grouped_df()
 ================
 
 > new_grouped_df(tibble(x = 1:10), tibble(other = list(1:2)))
-Error in new_grouped_df(tibble(x = 1:10), tibble(other = list(1:2))): tail(names(groups), 1L) == ".rows" is not TRUE
+Error: `new_grouped_df()` incompatible argument
+* `groups` should be a data frame, and its last column be called `.rows`
 
 
 validate_grouped_df()

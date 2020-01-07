@@ -40,7 +40,7 @@
 #' # These functions always return a single value
 #' first(integer())
 nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
-  stopifnot(length(n) == 1, is.numeric(n))
+  abort_if_not(length(n) == 1, is.numeric(n))
   n <- trunc(n)
 
   if (n == 0 || n > length(x) || n < -length(x)) {
