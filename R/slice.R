@@ -158,7 +158,7 @@ slice.data.frame <- function(.data, ..., .preserve = FALSE) {
 #' mtcars %>% slice_sample(n = 5)
 #' mtcars %>% slice_sample(n = 5, replace = TRUE)
 #'
-#' # you can optional weight by a variable - this code weights by the
+#' # you can optionally weight by a variable - this code weights by the
 #' # physical weight of the cars, so heavy cars are more likely to get
 #' # selected
 #' mtcars %>% slice_sample(weight_by = wt, n = 5)
@@ -173,7 +173,7 @@ slice.data.frame <- function(.data, ..., .preserve = FALSE) {
 #' # size, so the following code works without error
 #' df %>% group_by(group) %>% slice_head(n = 2)
 #'
-#' # When specifying the proportion of rows to include, non-integer sizes
+#' # When specifying the proportion of rows to include non-integer sizes
 #' # are rounded down, so group a gets 0 rows
 #' df %>% group_by(group) %>% slice_head(prop = 0.5)
 slice_head <- function(.data, ..., n, prop) {
@@ -209,7 +209,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 
 #' @export
 #' @rdname slice_head
-#' @param order_by Variable, or function or variables, to order by.
+#' @param order_by Variable, or function, or variables to order by.
 #' @param with_ties Should ties be kept together? The default, `TRUE`,
 #'   may return more rows than you request. Use `FALSE` to ignore ties,
 #'   and return the first `n` rows.
