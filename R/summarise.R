@@ -129,12 +129,14 @@ summarise.tbl_df <- function(.data, ...) {
 
   }
 
-  grouping <- group_keys(.data)
+  out <- group_keys(.data)
   if (!identical(.size, 1L)) {
-    grouping <- vec_slice(grouping, rep(seq2(1L, nrow(grouping)), .size))
+    out <- vec_slice(out, rep(seq2(1L, nrow(out)), .size))
   }
 
-  out <- add_column(grouping, !!!summaries)
+  for (i in seq_along(summaries)) {
+    out[[names(summaries)[i]]] <- summaries[[i]]
+  }
 
   if (is_grouped_df(.data) && length(group_vars(.data)) > 1) {
     out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))

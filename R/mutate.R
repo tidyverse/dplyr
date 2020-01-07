@@ -45,9 +45,6 @@
 #' The former normalises `mass` by the global average whereas the
 #' latter normalises by the averages within gender levels.
 #'
-#' Note that you can't overwrite a grouping variable within
-#' `mutate()`.
-#'
 #' `mutate()` does not evaluate the expressions when the group is empty.
 #'
 #' @section Scoped mutation and transmutation:
@@ -257,6 +254,12 @@ mutate_finish <- function(.data, new_columns) {
   new_column_names <- names(new_columns)
   for (i in seq_along(new_columns)) {
     out[[new_column_names[i]]] <- if (!inherits(new_columns[[i]], "rlang_zap")) new_columns[[i]]
+  }
+
+  # Re-group if needed
+  groups <- group_vars(.data)
+  if (any(groups %in% names(new_columns))) {
+    out <- grouped_df(out, intersect(groups, names(.data)))
   }
 
   # copy back attributes

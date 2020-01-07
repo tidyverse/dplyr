@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* `mutate()` and `summarise()` can now modify grouping variables (#4709).
+
 * `id()`, deprecated in dplyr 0.5.0, is now defunct.
 
 * `failwith()` which was deprecated in 0.7.0 is now defunct.
