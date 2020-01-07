@@ -1,16 +1,13 @@
-
 setup(options(lifecycle_verbosity = "quiet"))
 teardown(options(lifecycle_verbosity = NULL))
 
 test_that("fun_list is merged with new args", {
-  local_lifecycle_silence()
   funs <- funs(fn = bar)
   funs <- as_fun_list(funs, env(), baz = "baz")
   expect_identical(funs$fn, quo(bar(., baz = "baz")))
 })
 
 test_that("funs() works with namespaced calls", {
-  local_lifecycle_silence()
   expect_identical(summarise_all(mtcars, funs(base::mean(.))), summarise_all(mtcars, funs(mean(.))))
   expect_identical(summarise_all(mtcars, funs(base::mean)), summarise_all(mtcars, funs(mean(.))))
 })
@@ -24,23 +21,19 @@ test_that("funs() found in local environment", {
 })
 
 test_that("funs() accepts quoted functions", {
-  local_lifecycle_silence()
   expect_identical(funs(mean), funs("mean"))
 })
 
 test_that("funs() accepts unquoted functions", {
-  local_lifecycle_silence()
   funs <- funs(fn = !!mean)
   expect_identical(funs$fn, new_quosure(call2(base::mean, quote(.))))
 })
 
 test_that("funs() accepts quoted calls", {
-  local_lifecycle_silence()
   expect_identical(funs(mean), funs(mean(.)))
 })
 
 test_that("funs() gives a clear error message (#3368)", {
-  local_lifecycle_silence()
   expect_error(
     funs(function(si) { mp[si] }),
     glue("`function(si) {{
@@ -57,7 +50,6 @@ test_that("funs() gives a clear error message (#3368)", {
 })
 
 test_that("funs() can be merged with new arguments", {
-  local_lifecycle_silence()
   fns <- funs(foo(.))
   expect_identical(as_fun_list(fns, current_env(), foo = 1L), funs(foo(., foo = 1L)))
 })
@@ -80,7 +72,6 @@ test_that("can enfun() named functions by expression", {
 })
 
 test_that("local objects are not treated as symbols", {
-  local_lifecycle_silence()
   mean <- funs(my_mean(.))
   expect_identical(enfun(mean), mean)
 })
@@ -100,7 +91,6 @@ test_that("can enfun() purrr-style lambdas", {
 })
 
 test_that("funs_ works", {
-  local_lifecycle_silence()
   expect_equal(
     funs(mean),
     funs_(list(~ mean))

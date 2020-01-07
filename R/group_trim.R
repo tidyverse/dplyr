@@ -1,6 +1,6 @@
 #' Trim grouping structure
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
 #' @family grouping functions
 #'

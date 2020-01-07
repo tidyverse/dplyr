@@ -1,6 +1,10 @@
 # dplyr 0.9.0 (in development)
 
 * `mutate()` and `summarise()` can now modify grouping variables (#4709).
+* All deprecations now use the [lifecycle](https://lifecycle.r-lib.org), 
+  that means by default you'll only see a deprecation warning once per session,
+  and you can control with `options(lifecycle_verbosity = x)` where
+  `x` is one of NULL, "quiet", "warning", and "error".
 
 * `id()`, deprecated in dplyr 0.5.0, is now defunct.
 

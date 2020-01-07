@@ -45,7 +45,7 @@ that identifies the group
 be used to iterate on grouped tibbles.
 }
 \details{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 
 Use \code{group_modify()} when \code{summarize()} is too limited, in terms of what you need
 to do and return for each group. \code{group_modify()} is good for "data frame in, data frame out".

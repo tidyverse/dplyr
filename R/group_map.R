@@ -9,7 +9,7 @@ as_group_map_function <- function(.f) {
 
 #' Apply a function to each group
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
 #' @description
 #'
