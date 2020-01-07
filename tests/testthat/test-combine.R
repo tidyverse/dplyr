@@ -1,7 +1,7 @@
 context("combine")
 
 test_that("combine handles NULL (#1596, #3365)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   expect_equal(combine(list(NULL, 1, 2)), c(1, 2))
   expect_equal(combine(list(1, NULL, 2)), c(1, 2))
@@ -13,7 +13,7 @@ test_that("combine handles NULL (#1596, #3365)", {
 })
 
 test_that("combine complains about incompatibilites", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   expect_error(
     combine("a", 1),
@@ -26,13 +26,13 @@ test_that("combine complains about incompatibilites", {
 })
 
 test_that("combine works with input that used to fail (#1780)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
   no <- list(alpha = letters[1:3], omega = letters[24:26])
   expect_equal(combine(no), unlist(no, use.names = FALSE))
 })
 
 test_that("combine works with NA and logical (#2203)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   # NA first
   expected_result <- c(NA, TRUE, FALSE, NA, TRUE)
@@ -51,7 +51,7 @@ test_that("combine works with NA and logical (#2203)", {
 })
 
 test_that("combine works with NA and integers (#2203)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   works <- combine(list(1L, 2L, NA, 4L))
   expect_equal(works, c(1L, 2L, NA, 4L))
@@ -60,7 +60,7 @@ test_that("combine works with NA and integers (#2203)", {
 })
 
 test_that("combine works with NA and factors (#2203)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   # NA first
   fac <- factor(c("a", "c", NA, "b"), levels = letters[1:3])
@@ -87,7 +87,7 @@ test_that("combine works with NA and factors (#2203)", {
 })
 
 test_that("combine works with NA and double (#2203)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   # NA first
   works <- combine(list(NA, 1.5, 2.5, NA, 4.5))
@@ -101,7 +101,7 @@ test_that("combine works with NA and double (#2203)", {
 })
 
 test_that("combine works with NA and characters (#2203)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   # NA first
   works <- combine(list(NA, "a", "b", "c", NA, "e"))
@@ -116,7 +116,7 @@ test_that("combine works with NA and characters (#2203)", {
 
 
 test_that("combine works with NA and POSIXct (#2203)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   # NA first
   works <- combine(list(
@@ -148,7 +148,7 @@ test_that("combine works with NA and POSIXct (#2203)", {
 })
 
 test_that("combine works with NA and Date (#2203)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   # NA first
   expected_result <- as.Date("2010-01-01") + c(NA, 1, 2, NA, 4)
@@ -183,7 +183,7 @@ test_that("combine works with NA and Date (#2203)", {
 
 
 test_that("combine works with NA and complex (#2203)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   # NA first
   expected_result <- c(NA, 1 + 2i)
@@ -210,7 +210,7 @@ test_that("combine works with NA and complex (#2203)", {
 })
 
 test_that("combine works with integer64 (#1092)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   expect_equal(
     combine(bit64::as.integer64(2^34), bit64::as.integer64(2^35)),
@@ -219,7 +219,7 @@ test_that("combine works with integer64 (#1092)", {
 })
 
 test_that("combine works with difftime", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   expect_equal(
     combine(as.difftime(1, units = "mins"), as.difftime(1, units = "hours")),
@@ -252,7 +252,7 @@ test_that("combine works with difftime", {
 })
 
 test_that("combine uses tidy dots (#3407)", {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
 
   chunks <- list(1,2,3)
   expect_equal(combine(!!!chunks), c(1,2,3))

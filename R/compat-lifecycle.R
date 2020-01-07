@@ -1,4 +1,4 @@
-# nocov start - compat-lifecycle (last updated: rlang 0.3.0.9000)
+# nocov start --- compat-lifecycle --- 2019-11-15 Fri 15:55
 
 # This file serves as a reference for currently unexported rlang
 # lifecycle functions. Please find the most recent version in rlang's
@@ -59,12 +59,30 @@
 NULL
 
 signal_soft_deprecated <- function(msg, id = msg, env = caller_env(2)) {
+  msg <- lifecycle_validate_message(msg)
+  stopifnot(
+    rlang::is_string(id),
+    rlang::is_environment(env)
+  )
+
   if (rlang::is_true(rlang::peek_option("lifecycle_disable_warnings"))) {
     return(invisible(NULL))
   }
 
+  env_inherits_global <- function(env) {
+    # `topenv(emptyenv())` returns the global env. Return `FALSE` in
+    # that case to allow passing the empty env when the
+    # soft-deprecation should not be promoted to deprecation based on
+    # the caller environment.
+    if (rlang::is_reference(env, emptyenv())) {
+      return(FALSE)
+    }
+
+    rlang::is_reference(topenv(env), rlang::global_env())
+  }
+
   if (rlang::is_true(rlang::peek_option("lifecycle_verbose_soft_deprecation")) ||
-      rlang::is_reference(topenv(env), rlang::global_env())) {
+      env_inherits_global(env)) {
     warn_deprecated(msg, id)
     return(invisible(NULL))
   }
@@ -83,6 +101,9 @@ signal_soft_deprecated <- function(msg, id = msg, env = caller_env(2)) {
 }
 
 warn_deprecated <- function(msg, id = msg) {
+  msg <- lifecycle_validate_message(msg)
+  stopifnot(rlang::is_string(id))
+
   if (rlang::is_true(rlang::peek_option("lifecycle_disable_warnings"))) {
     return(invisible(NULL))
   }
@@ -98,53 +119,61 @@ warn_deprecated <- function(msg, id = msg) {
   silver <- function(x) if (has_colour()) crayon::silver(x) else x
 
   if (rlang::is_true(rlang::peek_option("lifecycle_warnings_as_errors"))) {
-    signal <- .Defunct
+    .Signal <- stop_defunct
   } else {
-    signal <- .Deprecated
+    .Signal <- .Deprecated
   }
 
-  signal(msg = paste0(
-    msg,
-    "\n",
-    silver("This warning is displayed once per session.")
-  ))
+  if (!rlang::is_true(rlang::peek_option("lifecycle_repeat_warnings"))) {
+    msg <- paste0(msg, "\n", silver("This warning is displayed once per session."))
+  }
+
+  .Signal(msg = msg)
 }
 deprecation_env <- new.env(parent = emptyenv())
 
 stop_defunct <- function(msg) {
-  .Defunct(msg = msg)
+  msg <- lifecycle_validate_message(msg)
+  err <- cnd(
+    c("defunctError", "error", "condition"),
+    old = NULL,
+    new = NULL,
+    package = NULL,
+    message = msg
+  )
+  stop(err)
 }
 
-scoped_lifecycle_silence <- function(frame = rlang::caller_env()) {
-  rlang::scoped_options(.frame = frame,
+local_lifecycle_silence <- function(frame = rlang::caller_env()) {
+  rlang::local_options(.frame = frame,
     lifecycle_disable_warnings = TRUE
   )
 }
 with_lifecycle_silence <- function(expr) {
-  scoped_lifecycle_silence()
+  local_lifecycle_silence()
   expr
 }
 
-scoped_lifecycle_warnings <- function(frame = rlang::caller_env()) {
-  rlang::scoped_options(.frame = frame,
+local_lifecycle_warnings <- function(frame = rlang::caller_env()) {
+  rlang::local_options(.frame = frame,
     lifecycle_disable_warnings = FALSE,
     lifecycle_verbose_soft_deprecation = TRUE,
     lifecycle_repeat_warnings = TRUE
   )
 }
 with_lifecycle_warnings <- function(expr) {
-  scoped_lifecycle_warnings()
+  local_lifecycle_warnings()
   expr
 }
 
-scoped_lifecycle_errors <- function(frame = rlang::caller_env()) {
-  scoped_lifecycle_warnings(frame = frame)
-  rlang::scoped_options(.frame = frame,
+local_lifecycle_errors <- function(frame = rlang::caller_env()) {
+  local_lifecycle_warnings(frame = frame)
+  rlang::local_options(.frame = frame,
     lifecycle_warnings_as_errors = TRUE
   )
 }
 with_lifecycle_errors <- function(expr) {
-  scoped_lifecycle_errors()
+  local_lifecycle_errors()
   expr
 }
 
@@ -171,6 +200,7 @@ with_lifecycle_errors <- function(expr) {
 #'   `"experimental"`, `"maturing"`, `"stable"`, `"questioning"`,
 #'   `"archived"`, `"soft-deprecated"`, `"deprecated"`, `"defunct"`.
 #'
+#' @keywords internal
 #' @noRd
 NULL
 
@@ -195,6 +225,7 @@ lifecycle_img <- function(stage, url) {
     maturing = ,
     stable = ,
     questioning = ,
+    retired = ,
     archived =
       sprintf(
         "\\out{<a href='%s'><img src='%s' alt='%s lifecycle'></a>}",
@@ -220,6 +251,11 @@ lifecycle_img <- function(stage, url) {
 upcase1 <- function(x) {
   substr(x, 1, 1) <- toupper(substr(x, 1, 1))
   x
+}
+
+lifecycle_validate_message <- function(msg) {
+  stopifnot(is_character(msg))
+  paste0(msg, collapse = "\n")
 }
 
 

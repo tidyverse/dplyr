@@ -1,5 +1,22 @@
 # dplyr 0.9.0 (in development)
 
+* `sample_n()` and `sample_frac()` have been retired in favour of new 
+  `slice_sample()`. See `?sample_n` for details about why, and for examples
+  converting from old to new usage.
+
+* `top_n()` has been retired in favour of `slice_min()`/`slice_max()`. See
+  `?top_n` for details about why, and how to convert old to new usage (#4494).
+
+* `slice()` gains a new set of helpers:
+
+  * `slice_head()` and `slice_tail()` select the first and last rows, like
+    `head()` and `tail()`, but return `n` rows _per group_.
+    
+  * `slice_sample()` randomly selects rows, taking over from `sample_frac()` 
+     and `sample_n()`.
+  
+  * `slice_min()` and `slice_max()` select the rows with the minimum or 
+    maximum values of a variable, taking over from the confusing `top_n()`.
 * `transmute()` now preserves order of input variables (#4693).
 
 * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()` and 
