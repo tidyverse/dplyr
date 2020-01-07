@@ -1,7 +1,7 @@
 #' Select top (or bottom) n rows (by value)
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("retired")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
 #' `top_n()` has been retired in favour of [slice_min()]/[slice_max()].
 #' While it will not be deprecated in the near future, retirement means
 #' that we will only perform critical bug fixes, so we recommend moving to the

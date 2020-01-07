@@ -1,7 +1,7 @@
 #' Sample n rows from a table
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("retired")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
 #' `sample_n()` and `sample_frac()` have been retired in favour of
 #' [slice_sample()]. While they will not be deprecated in the near future,
 #' retirement means that we will only perform critical bug fixes, so we recommend

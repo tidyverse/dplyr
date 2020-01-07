@@ -1,6 +1,6 @@
 #' Evaluate, compare, benchmark operations of a set of srcs.
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("deprecated")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 #' These functions are deprecated because we now believe that you're
 #' better of performing the comparisons directly, yourself, in order to
 #' generate more informative test failures.
