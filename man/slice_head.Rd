@@ -29,7 +29,7 @@ rows in the group (or \code{prop > 1}), it will be silently truncated to the
 group size. If the \code{prop}ortion of a group size is not an integer, it will
 be rounded down.}
 
-\item{order_by}{Variable, or function of variables to order by.}
+\item{order_by}{Variable or function of variables to order by.}
 
 \item{with_ties}{Should ties be kept together? The default, \code{TRUE},
 may return more rows than you request. Use \code{FALSE} to ignore ties,
