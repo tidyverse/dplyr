@@ -890,7 +890,7 @@ test_that("*_join() give meaningful errors", {
     "# NA in any side of suffix argument"
     inner_join(e, f, "x", suffix = c(".x", NA))
     left_join(e, f, "x", suffix = c(NA, ".y"))
-    right_join(e, f, "x", suffix = c(NA_character_, NA))
+    right_join(e, f, "x", suffix = as.character(c(NA, NA)))
     full_join(e, f, "x", suffix = c("x", NA))
 
     "# check suffix input"
@@ -913,24 +913,6 @@ test_that("*_join() give meaningful errors", {
     full_join(x, y, by = names(x))
     anti_join(x, y, by = names(x))
     inner_join(x, y, by = names(x))
-
-    "# duplicate column"
-    df1 <- data.frame(x1 = 1:3, x2 = 1:3, y = 1:3)
-    names(df1)[1:2] <- "x"
-    df2 <- data.frame(x = 2:4, y = 2:4)
-
-    left_join(df1, df2, by = c("x", "y"))
-    left_join(df2, df1, by = c("x", "y"))
-    right_join(df1, df2, by = c("x", "y"))
-    right_join(df2, df1, by = c("x", "y"))
-    inner_join(df1, df2, by = c("x", "y"))
-    inner_join(df2, df1, by = c("x", "y"))
-    full_join(df1, df2, by = c("x", "y"))
-    full_join(df2, df1, by = c("x", "y"))
-    semi_join(df1, df2, by = c("x", "y"))
-    semi_join(df2, df1, by = c("x", "y"))
-    anti_join(df1, df2, by = c("x", "y"))
-    anti_join(df2, df1, by = c("x", "y"))
 
     "# NA columns"
     df_a <- tibble(B = c("a", "b", "c"), AA = 1:3)
@@ -959,5 +941,23 @@ test_that("*_join() give meaningful errors", {
     anti_join(df_aa, df_b)
     anti_join(df_aa, df_ba)
     anti_join(df_a, df_ba)
+
+    "# duplicate column"
+    df1 <- data.frame(x1 = 1:3, x2 = 1:3, y = 1:3)
+    names(df1)[1:2] <- "x"
+    df2 <- data.frame(x = 2:4, y = 2:4)
+
+    left_join(df1, df2, by = c("x", "y"))
+    left_join(df2, df1, by = c("x", "y"))
+    right_join(df1, df2, by = c("x", "y"))
+    right_join(df2, df1, by = c("x", "y"))
+    inner_join(df1, df2, by = c("x", "y"))
+    inner_join(df2, df1, by = c("x", "y"))
+    full_join(df1, df2, by = c("x", "y"))
+    full_join(df2, df1, by = c("x", "y"))
+    semi_join(df1, df2, by = c("x", "y"))
+    semi_join(df2, df1, by = c("x", "y"))
+    anti_join(df1, df2, by = c("x", "y"))
+    anti_join(df2, df1, by = c("x", "y"))
   })
 })
