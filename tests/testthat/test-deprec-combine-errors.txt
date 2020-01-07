@@ -1,4 +1,8 @@
 > combine("a", 1)
+Warning: combine() is deprecated. 
+Please use vctrs::vec_c() instead
+This warning is displayed once per session.
+
 Error: No common type for `..1` <character> and `..2` <double>.
 
 > combine(factor("a"), 1L)

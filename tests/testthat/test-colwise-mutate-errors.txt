@@ -3,14 +3,12 @@
 + })
 Error: Using quosures is deprecated
 Please use a one-sided formula, a function, or a function name
-This warning is displayed once per session.
 
 > with_lifecycle_errors({
 +   mutate_at(mtcars, vars(mpg), quo(mean(.)))
 + })
 Error: Using quosures is deprecated
 Please use a one-sided formula, a function, or a function name
-This warning is displayed once per session.
 
 
 column not found
