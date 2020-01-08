@@ -92,7 +92,7 @@ df_var <- tibble(
 )
 
 test_that("bind_rows() equivalent to rbind()", {
-  exp <- tbl_df(rbind(df_var, df_var, df_var))
+  exp <- as_tibble(rbind(df_var, df_var, df_var))
   res <- bind_rows(df_var, df_var, df_var)
   for(name in names(exp)) {
     expect_equal(res[[name]], exp[[name]])
@@ -446,7 +446,7 @@ test_that("bind_rows handles promotion to strings (#1538)", {
 
 test_that("bind_rows infers classes from first result (#1692)", {
   d1 <- data.frame(a = 1:10, b = rep(1:2, each = 5))
-  d2 <- tbl_df(d1)
+  d2 <- as_tibble(d1)
   d3 <- group_by(d1, b)
   d4 <- rowwise(d1)
   d5 <- list(a = 1:10, b = rep(1:2, each = 5))

@@ -161,7 +161,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  as.data.frame(filter(tbl_df(.data), ..., .preserve = .preserve))
+  as.data.frame(filter(as_tibble(.data), ..., .preserve = .preserve))
 }
 
 regroup <- function(data) {

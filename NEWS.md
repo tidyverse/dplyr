@@ -1,5 +1,10 @@
 # dplyr 0.9.0 (in development)
 
+* `as.tbl()` and `tbl_df()` have been formally deprecated.
+  Please use `as_tibble()` instead.
+  
+* `add_rownames()` has been deprecated. Please use 
+  `tibble::rownames_to_column()` instead.
 * `src_local()` has been deprecated; it was part of an approach to testing
   dplyr backends that didn't pan out.
 

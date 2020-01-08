@@ -48,3 +48,8 @@ src_tbls <- function(x, ...) {
 same_src <- function(x, y) {
   UseMethod("same_src")
 }
+
+#' @export
+same_src.data.frame <- function(x, y) {
+  is.data.frame(y)
+}

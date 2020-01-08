@@ -34,7 +34,7 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
 #' @rdname src_local
 #' @export
 src_df <- function(pkg = NULL, env = NULL) {
-  src_local("tbl_df", pkg, env)
+  src_local("as_tibble", pkg, env)
 }
 
 #' @export

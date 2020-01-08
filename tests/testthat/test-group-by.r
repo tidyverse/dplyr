@@ -31,7 +31,7 @@ test_that("joins preserve grouping", {
 
 test_that("constructors drops groups", {
   df <- data.frame(x = 1:3) %>% group_by(x)
-  expect_no_groups(tbl_df(df))
+  expect_no_groups(as_tibble(df))
 })
 
 test_that("grouping by constant adds column (#410)", {
@@ -63,7 +63,7 @@ test_that("local group_by preserves variable types", {
 })
 
 test_that("mutate does not loose variables (#144)", {
-  df <- tbl_df(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
+  df <- tibble(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8))
   by_ab <- group_by(df, a, b)
   by_a <- summarise(by_ab, x = sum(x))
   by_a_quartile <- group_by(by_a, quartile = ntile(x, 4))
@@ -240,7 +240,7 @@ test_that("group_by keeps attributes", {
 })
 
 test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
-  res <- tbl_df(mtcars) %>% rowwise() %>% ungroup() %>% class()
+  res <- mtcars %>% rowwise() %>% ungroup() %>% class()
   expect_equal(res, c("tbl_df", "tbl", "data.frame"))
 })
 
