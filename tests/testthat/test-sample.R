@@ -4,10 +4,10 @@ context("Sample")
 
 test_that("sample preserves class", {
   expect_is(sample_n(mtcars, 1), "data.frame")
-  expect_is(sample_n(tbl_df(mtcars), 1), "tbl_df")
+  expect_is(sample_n(as_tibble(mtcars), 1), "tbl_df")
 
   expect_is(sample_frac(mtcars, 1), "data.frame")
-  expect_is(sample_frac(tbl_df(mtcars), 1), "tbl_df")
+  expect_is(sample_frac(as_tibble(mtcars), 1), "tbl_df")
 })
 
 # Ungrouped --------------------------------------------------------------------

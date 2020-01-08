@@ -202,7 +202,7 @@ test_that("lag and lead work on factors inside mutate (#955)", {
   exp_lag  <- test_factor != lag(test_factor)
   exp_lead <- test_factor != lead(test_factor)
 
-  test_df <- tbl_df(data.frame(test = test_factor))
+  test_df <- tibble(test = test_factor)
   res <- test_df %>% mutate(
     is_diff_lag  = (test != lag(test)),
     is_diff_lead = (test != lead(test))

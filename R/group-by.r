@@ -29,9 +29,13 @@
 #' @param .data a tbl
 #' @param ... In `group_by()`, variables or computations to group by.
 #'   In `ungroup()`, variables to remove from the grouping.
-#' @param add When `add = FALSE`, the default, `group_by()` will
+#' @param .add When `FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
-#'   `add = TRUE`.
+#'   `.add = TRUE`.
+#'
+#'   This argument was previously called `add`, but that prevented
+#'   creating a new grouping variable called `add`, and conflicts with
+#'   our naming conventions.
 #' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
 #'   what the default value is for this argument.
 #' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
@@ -75,7 +79,7 @@
 #'
 #' # Use add = TRUE to instead append
 #' by_cyl %>%
-#'   group_by(vs, am, add = TRUE) %>%
+#'   group_by(vs, am, .add = TRUE) %>%
 #'   group_vars()
 #'
 #'
@@ -88,13 +92,13 @@
 #'   group_by(y) %>%
 #'   group_rows()
 #'
-group_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
+group_by <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
   UseMethod("group_by")
 }
 
 #' @export
-group_by.data.frame <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
-  groups <- group_by_prepare(.data, ..., add = add)
+group_by.data.frame <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
+  groups <- group_by_prepare(.data, ..., .add = .add)
   grouped_df(groups$data, groups$group_names, .drop)
 }
 
@@ -137,7 +141,13 @@ ungroup.data.frame <- function(x, ...) {
 #'   \item{groups}{Modified groups}
 #' @export
 #' @keywords internal
-group_by_prepare <- function(.data, ..., .dots = "DEFUNCT", add = FALSE) {
+group_by_prepare <- function(.data, ..., .dots = "DEFUNCT", .add = FALSE, add = deprecated()) {
+
+  if (!missing(add)) {
+    lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )")
+    .add <- add
+  }
+
   new_groups <- enquos(...)
   if (!missing(.dots)) {
     # Used by dbplyr 1.4.2 so can't aggressively deprecate
@@ -148,7 +158,7 @@ group_by_prepare <- function(.data, ..., .dots = "DEFUNCT", add = FALSE) {
   # If any calls, use mutate to add new columns, then group by those
   c(.data, group_names) %<-% add_computed_columns(.data, new_groups)
 
-  if (add) {
+  if (.add) {
     group_names <- c(group_vars(.data), group_names)
   }
   group_names <- unique(group_names)
