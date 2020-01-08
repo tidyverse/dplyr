@@ -1,6 +1,9 @@
 # dplyr 0.9.0 (in development)
 
-* Grouped data frames now have `[<-` and `$<-` methods that 
+* Grouped data frames now have `[[<-`, `[<-` and `$<-` methods that will 
+  re-generate the underlying grouping. Note that modifying grouping variables 
+  in multiple steps (i.e. `df$grp1 <- 1; df$grp2 <- 1`) will be inefficient
+  since the data frame will be regrouped after each modification.
 
 * `[.grouped_df` now regroups to respect any grouping columns that have
   been removed (#4708).
