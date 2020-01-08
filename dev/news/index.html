@@ -193,6 +193,7 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/group_by.html">group_by(..., .add = TRUE)</a></code> replaces <code><a href="../reference/group_by.html">group_by(..., add = TRUE)</a></code>, with a deprecation message. The old argument name was a mistake because it prevents you from creating a new grouping var called <code>add</code> and it violates our naming conventions (<a href='https://github.com/tidyverse/dplyr/issues/4137'>#4137</a>).</p></li>
 <li><p>All deprecations now use the <a href="https://lifecycle.r-lib.org">lifecycle</a>, that means by default you’ll only see a deprecation warning once per session, and you can control with <code><a href="https://rdrr.io/r/base/options.html">options(lifecycle_verbosity = x)</a></code> where <code>x</code> is one of NULL, “quiet”, “warning”, and “error”.</p></li>
 <li><p><code><a href="../reference/defunct.html">id()</a></code>, deprecated in dplyr 0.5.0, is now defunct.</p></li>
 <li><p><code><a href="../reference/defunct.html">failwith()</a></code> which was deprecated in 0.7.0 is now defunct.</p></li>

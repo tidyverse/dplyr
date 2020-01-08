@@ -311,9 +311,12 @@ first row of values.</p></td>
     </tr>
     <tr>
       <th>add</th>
-      <td><p>When <code>add = FALSE</code>, the default, <code><a href='group_by.html'>group_by()</a></code> will
+      <td><p>When <code>FALSE</code>, the default, <code><a href='group_by.html'>group_by()</a></code> will
 override existing groups. To add to the existing groups, use
-<code>add = TRUE</code>.</p></td>
+<code>.add = TRUE</code>.</p>
+<p>This argument was previously called <code>add</code>, but that prevented
+creating a new grouping variable called <code>add</code>, and conflicts with
+our naming conventions.</p></td>
     </tr>
     <tr>
       <th>include, exclude</th>

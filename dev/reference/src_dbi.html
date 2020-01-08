@@ -333,7 +333,10 @@ into R.</p>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>playerID</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='explain.html'>show_query</a></span>()
-}</div><div class='output co'>#&gt; &lt;SQL&gt;
+}</div><div class='output co'>#&gt; <span class='warning'>Warning: The `add` argument of `group_by()` is deprecated as of dplyr 1.0.0.</span>
+#&gt; <span class='warning'>Please use the `.add` argument instead.</span>
+#&gt; <span class='warning'>This warning is displayed once per session.</span>
+#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; &lt;SQL&gt;
 #&gt; SELECT `playerID`, COUNT() AS `n`
 #&gt; FROM `Batting`
 #&gt; WHERE (`G` &gt; 0.0)

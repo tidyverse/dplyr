@@ -198,7 +198,7 @@ where operations are performed &quot;by group&quot;. ungroup() removes grouping.
 where operations are performed "by group". <code>ungroup()</code> removes grouping.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_by</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.data</span>))
+    <pre class="usage"><span class='fu'>group_by</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.data</span>))
 
 <span class='fu'>ungroup</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
@@ -215,10 +215,13 @@ where operations are performed "by group". <code>ungroup()</code> removes groupi
 In <code>ungroup()</code>, variables to remove from the grouping.</p></td>
     </tr>
     <tr>
-      <th>add</th>
-      <td><p>When <code>add = FALSE</code>, the default, <code>group_by()</code> will
+      <th>.add</th>
+      <td><p>When <code>FALSE</code>, the default, <code>group_by()</code> will
 override existing groups. To add to the existing groups, use
-<code>add = TRUE</code>.</p></td>
+<code>.add = TRUE</code>.</p>
+<p>This argument was previously called <code>add</code>, but that prevented
+creating a new grouping variable called <code>add</code>, and conflicts with
+our naming conventions.</p></td>
     </tr>
     <tr>
       <th>.drop</th>
@@ -354,7 +357,7 @@ variables.</p>
   <span class='fu'><a href='groups.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "vs" "am"</div><div class='input'>
 <span class='co'># Use add = TRUE to instead append</span>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>, <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='groups.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl" "vs"  "am" </div><div class='input'>
 
 <span class='co'># when factors are involved, groups can be empty</span>
