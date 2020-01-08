@@ -30,7 +30,7 @@ test_that("select doesn't fail if some names missing", {
 })
 
 
-# Empty selects -------------------------------------------------
+# Special cases -------------------------------------------------
 
 test_that("select with no args returns nothing", {
   empty <- select(mtcars)
@@ -47,6 +47,17 @@ test_that("select excluding all vars returns nothing", {
 test_that("negating empty match returns everything", {
   df <- data.frame(x = 1:3, y = 3:1)
   expect_equal(select(df, -starts_with("xyz")), df)
+})
+
+test_that("can work with duplicate columns", {
+  df <- tibble(x = 1, x = 2, y = 1, .name_repair = "minimal")
+
+  # can extract duplicate cols by position
+  expect_named(df %>% select(1, 3), c("x", "y"))
+  expect_named(df %>% rename(x2 = 2), c("x", "x2", "y"))
+
+  # can select out non-duplicated columns
+  expect_named(df %>% select(y), "y")
 })
 
 # Select variables -----------------------------------------------

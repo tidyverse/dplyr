@@ -99,77 +99,72 @@ rename <- function(.data, ...) {
   UseMethod("rename")
 }
 
+#' @export
+select.data.frame <- function(.data, ...) {
+  idx <- tidyselect::eval_select(expr(c(...)), .data)
+  set_names(.data[, idx, drop = FALSE], names(idx))
+}
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
-  vars <- ensure_group_vars(vars, .data, notify = TRUE)
-  select_impl(.data, vars)
-}
+  idx <- tidyselect::eval_select(expr(c(...)), .data)
+  idx <- ensure_group_vars(idx, .data, notify = TRUE)
+  group_idx <- group_idx(.data, idx)
 
-#' @export
-select.data.frame <- function(.data, ...) {
-  # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
-  select_impl(.data, vars)
-}
+  data <- as.data.frame(.data)
+  groups <- group_data(.data)
+  group_idx <- c(group_idx, .rows = ncol(groups))
 
+  data <- set_names(data[, idx, drop = FALSE], names(idx))
+  groups <- set_names(groups[, group_idx, drop = FALSE], names(group_idx))
 
-#' @export
-rename.grouped_df <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data), ...)
-  select_impl(.data, vars)
+  new_grouped_df(data, groups)
 }
 
 #' @export
 rename.data.frame <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data), !!!enquos(...))
-  select_impl(.data, vars)
+  idx <- tidyselect::eval_rename(expr(c(...)), .data)
+  names(.data)[idx] <- names(idx)
+
+  .data
 }
 
+#' @export
+rename.grouped_df <- function(.data, ...) {
+  idx <- tidyselect::eval_rename(expr(c(...)), .data)
+  group_idx <- group_idx(.data, idx)
+
+  data <- as.data.frame(.data)
+  groups <- group_data(.data)
+
+  names(data)[idx] <- names(idx)
+  names(groups)[group_idx] <- names(group_idx)
+
+  new_grouped_df(data, groups)
+}
 
 # Helpers -----------------------------------------------------------------
 
-select_impl <- function(.data, vars) {
-  positions <- match(vars, names(.data))
-  if (any(test <- is.na(positions))) {
-    wrong <- which(test)[1L]
-    abort(
-      glue(
-        "invalid column index : {wrong} for variable: '{new}' = '{old}'",
-        new = names(vars)[wrong], vars[wrong]
-      ),
-      .subclass = "dplyr_select_wrong_selection"
-    )
-  }
-
-  out <- set_names(.data[, positions, drop = FALSE], names(vars))
-
-  if (is_grouped_df(.data)) {
-    # we might have to alter the names of the groups metadata
-    groups <- attr(.data, "groups")
-    group_vars <- c(vars[vars %in% names(groups)], .rows = ".rows")
-    groups <- select_impl(groups, group_vars)
-
-    out <- new_grouped_df(out, groups)
-  }
-
-  out
+group_idx <- function(data, idx, force_group = FALSE) {
+  vars <- set_names(names(data)[idx], names(idx))
+  group_vars <- vars[vars %in% group_vars(data)]
+  set_names(match(group_vars, group_vars(data)), names(group_vars))
 }
 
-ensure_group_vars <- function(vars, data, notify = TRUE) {
-  group_names <- group_vars(data)
-  missing <- setdiff(group_names, vars)
+ensure_group_vars <- function(idx, data, notify = TRUE) {
+  group_idx <- match(group_vars(data), names(data))
+  missing <- setdiff(group_idx, idx)
 
   if (length(missing) > 0) {
+    vars <- names(data)[missing]
     if (notify) {
       inform(glue(
         "Adding missing grouping variables: ",
-        paste0("`", missing, "`", collapse = ", ")
+        paste0("`", names(data)[missing], "`", collapse = ", ")
       ))
     }
-    vars <- c(set_names(missing, missing), vars)
+    idx <- c(set_names(missing, vars), idx)
   }
 
-  vars
+  idx
 }
