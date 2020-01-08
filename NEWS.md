@@ -1,6 +1,7 @@
 # dplyr 0.9.0 (in development)
 
 * `mutate()` and `summarise()` can now modify grouping variables (#4709).
+
 * `as.tbl()` and `tbl_df()` have been formally deprecated.
   Please use `as_tibble()` instead.
   
