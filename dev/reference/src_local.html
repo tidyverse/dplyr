@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A local source. — src_local • dplyr</title>
+<title>A local source — src_local • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,9 +47,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="A local source. — src_local" />
-<meta property="og:description" content="This is mainly useful for testing, since makes it possible to refer to
-local and remote tables using exactly the same syntax." />
+<meta property="og:title" content="A local source — src_local" />
+<meta property="og:description" content="
+
+This function was deprecated since it existed to support a style of testing
+dplyr backends that turned out not to be useful." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -186,14 +188,16 @@ local and remote tables using exactly the same syntax." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A local source.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/src-local.r'><code>R/src-local.r</code></a></small>
+    <h1>A local source</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-src-local.r'><code>R/deprec-src-local.r</code></a></small>
     <div class="hidden name"><code>src_local.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This is mainly useful for testing, since makes it possible to refer to
-local and remote tables using exactly the same syntax.</p>
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' />
+
+This function was deprecated since it existed to support a style of testing
+dplyr backends that turned out not to be useful.</p>
     </div>
 
     <pre class="usage"><span class='fu'>src_local</span>(<span class='no'>tbl</span>, <span class='kw'>pkg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
@@ -214,22 +218,12 @@ which to look for objects.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Generally, <code>src_local()</code> should not be called directly, but instead
-one of the constructors should be used.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"Lahman"</span>)) {
-<span class='no'>batting_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='fu'>src_df</span>(<span class='st'>"Lahman"</span>), <span class='st'>"Batting"</span>)
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
