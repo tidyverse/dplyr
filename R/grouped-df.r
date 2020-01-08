@@ -214,7 +214,11 @@ as_tibble.grouped_df <- function(x, ...) {
     as_tibble(out)
   } else {
     groups <- intersect(names(out), group_vars(x))
-    grouped_df(out, groups, group_by_drop_default(x))
+    if ((missing(i) || nargs() == 2) && identical(groups, group_vars(x))) {
+      new_grouped_df(out, group_data(x))
+    } else {
+      grouped_df(out, groups, group_by_drop_default(x))
+    }
   }
 }
 

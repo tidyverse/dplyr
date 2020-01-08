@@ -17,6 +17,14 @@ test_that("[ method can remove grouping vars", {
   expect_equal(gf[3], df[3])
 })
 
+test_that("[ method reuses group_data() if possible", {
+  df <- tibble(x = 1, y = 2, z = 3)
+  gf <- group_by(df, x, y)
+
+  expect_reference(group_data(gf), group_data(gf[1:2]))
+  expect_reference(group_data(gf), group_data(gf[, 1:2]))
+})
+
 test_that("[ supports drop=TRUE (#3714)", {
   df <- tibble(x = 1, y = 2)
   gf <- group_by(df, x)
