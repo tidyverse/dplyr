@@ -54,7 +54,7 @@ Selections can be combined using Boolean algebra like:
 \item \code{!starts_with("a")}: doesn't start with "a"
 }
 
-To remove variable from a selection, use \code{-}:
+To remove variables from a selection, use \code{-}:
 \itemize{
 \item \code{starts_with("a") - ends_width("x")}: start with "a" and doesn't end with "x"
 \item \code{is.numeric - c(a, b, c)}: numeric variables except for \code{a}, \code{b}, \code{c}.
@@ -100,7 +100,7 @@ select(iris, Species, everything())
 
 # Move `Sepal.Length` to the back: first select everything except
 # `Sepal.Length`, then select `Sepal.Length`
-select(iris, -Sepal.Length, Sepal.Length)
+select(iris, !Sepal.Length, Sepal.Length)
 
 # Renaming -----------------------------------------
 # * select() keeps only the variables you specify

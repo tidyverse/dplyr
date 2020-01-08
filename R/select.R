@@ -26,7 +26,7 @@
 #' * `starts_with("a") | starts_with("b")`: start with "a" or "b"
 #' * `!starts_with("a")`: doesn't start with "a"
 #'
-#' To remove variable from a selection, use `-`:
+#' To remove variables from a selection, use `-`:
 #'
 #' * `starts_with("a") - ends_width("x")`: start with "a" and doesn't end with "x"
 #' * `is.numeric - c(a, b, c)`: numeric variables except for `a`, `b`, `c`.
@@ -79,7 +79,7 @@
 #'
 #' # Move `Sepal.Length` to the back: first select everything except
 #' # `Sepal.Length`, then select `Sepal.Length`
-#' select(iris, -Sepal.Length, Sepal.Length)
+#' select(iris, !Sepal.Length, Sepal.Length)
 #'
 #' # Renaming -----------------------------------------
 #' # * select() keeps only the variables you specify
