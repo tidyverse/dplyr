@@ -244,6 +244,21 @@ as_tibble.grouped_df <- function(x, ...) {
   grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
 }
 
+#' @export
+`names<-.grouped_df` <- function(x, value) {
+  data <- as.data.frame(x)
+  names(data) <- value
+
+  groups <- group_data(x)
+  group_loc <- match(intersect(names(x), names(groups)), names(groups))
+  group_names <- c(value[group_loc], ".rows")
+  if (!identical(group_names, names(groups))) {
+    names(groups) <- c(value[group_loc], ".rows")
+  }
+
+  new_grouped_df(data, groups)
+}
+
 #' @method rbind grouped_df
 #' @export
 rbind.grouped_df <- function(...) {

@@ -2,7 +2,7 @@
 
 * `mutate()` and `summarise()` can now modify grouping variables (#4709).
 
-* Grouped data frames now have `[[<-`, `[<-` and `$<-` methods that will 
+* Grouped data frames now have `names<-`, `[[<-`, `[<-` and `$<-` methods that
   re-generate the underlying grouping. Note that modifying grouping variables 
   in multiple steps (i.e. `df$grp1 <- 1; df$grp2 <- 1`) will be inefficient
   since the data frame will be regrouped after each modification.
