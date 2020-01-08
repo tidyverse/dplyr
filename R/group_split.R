@@ -106,7 +106,7 @@ group_split.rowwise_df <- function(.tbl, ..., keep = TRUE) {
 #' @export
 group_split.grouped_df <- function(.tbl, ..., keep = TRUE) {
   if (dots_n(...)) {
-    warn("... is ignored in group_split(<grouped_df>), please use group_by(..., add = TRUE) %>% group_split()")
+    warn("... is ignored in group_split(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_split()")
   }
 
   data <- as_tibble(.tbl)

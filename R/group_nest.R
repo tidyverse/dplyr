@@ -72,7 +72,7 @@ group_nest.data.frame <- function(.tbl, ..., .key = "data", keep = FALSE) {
 #' @export
 group_nest.grouped_df <- function(.tbl, ..., .key = "data", keep = FALSE) {
   if (dots_n(...)) {
-    warn("... is ignored in group_nest(<grouped_df>), please use group_by(..., add = TRUE) %>% group_nest()")
+    warn("... is ignored in group_nest(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_nest()")
   }
   group_nest_impl(.tbl, .key = .key, keep = keep)
 }

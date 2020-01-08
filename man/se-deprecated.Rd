@@ -94,9 +94,13 @@ first row of values.}
 
 \item{env}{The environment in which functions should be evaluated.}
 
-\item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
+\item{add}{When \code{FALSE}, the default, \code{group_by()} will
 override existing groups. To add to the existing groups, use
-\code{add = TRUE}.}
+\code{.add = TRUE}.
+
+This argument was previously called \code{add}, but that prevented
+creating a new grouping variable called \code{add}, and conflicts with
+our naming conventions.}
 
 \item{include, exclude}{Character vector of column names to always
 include/exclude.}
