@@ -2,22 +2,22 @@ context("Group by")
 
 df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
 
-test_that("group_by with add = TRUE adds groups", {
-  add_groups1 <- function(tbl) group_by(tbl, x, y, add = TRUE)
-  add_groups2 <- function(tbl) group_by(group_by(tbl, x, add = TRUE), y, add = TRUE)
+test_that("group_by with .add = TRUE adds groups", {
+  add_groups1 <- function(tbl) group_by(tbl, x, y, .add = TRUE)
+  add_groups2 <- function(tbl) group_by(group_by(tbl, x, .add = TRUE), y, .add = TRUE)
 
   expect_groups(add_groups1(df), c("x", "y"))
   expect_groups(add_groups2(df), c("x", "y"))
 })
 
-test_that("group_by_ backwards compatibility with add = TRUE adds groups", {
-  local_lifecycle_silence()
-  add_groups_extendedclass <- function(tbl) {
-    grouped <- group_by(tbl, x)
-    group_by.default(grouped, y, add = TRUE)
-  }
+test_that("add = TRUE is deprecated", {
+  df <- tibble(x = 1, y = 2)
 
-  expect_groups(add_groups_extendedclass(df), c("x", "y"))
+  expect_warning(
+    out <- df %>% group_by(x) %>% group_by(y, add = TRUE),
+    "deprecated"
+  )
+  expect_equal(group_vars(out), c("x", "y"))
 })
 
 test_that("joins preserve grouping", {
@@ -31,7 +31,7 @@ test_that("joins preserve grouping", {
 
 test_that("constructors drops groups", {
   df <- data.frame(x = 1:3) %>% group_by(x)
-  expect_no_groups(tbl_df(df))
+  expect_no_groups(as_tibble(df))
 })
 
 test_that("grouping by constant adds column (#410)", {
@@ -63,7 +63,7 @@ test_that("local group_by preserves variable types", {
 })
 
 test_that("mutate does not loose variables (#144)", {
-  df <- tbl_df(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
+  df <- tibble(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8))
   by_ab <- group_by(df, a, b)
   by_a <- summarise(by_ab, x = sum(x))
   by_a_quartile <- group_by(by_a, quartile = ntile(x, 4))
@@ -240,7 +240,7 @@ test_that("group_by keeps attributes", {
 })
 
 test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
-  res <- tbl_df(mtcars) %>% rowwise() %>% ungroup() %>% class()
+  res <- mtcars %>% rowwise() %>% ungroup() %>% class()
   expect_equal(res, c("tbl_df", "tbl", "data.frame"))
 })
 
@@ -469,7 +469,7 @@ test_that("group_by(add = TRUE) sets .drop if the origonal data was .drop", {
     x  = 48
   )
 
-  res <- group_by(group_by(d, f1, .drop = TRUE), f2, add = TRUE)
+  res <- group_by(group_by(d, f1, .drop = TRUE), f2, .add = TRUE)
   expect_equal(n_groups(res), 1L)
   expect_true(group_by_drop_default(res))
 })

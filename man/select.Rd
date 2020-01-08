@@ -90,7 +90,7 @@ select(iris, Species, everything())
 select(iris, -Sepal.Length, Sepal.Length)
 
 df <- as.data.frame(matrix(runif(100), nrow = 10))
-df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
+df <- as_tibble(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 select(df, V4:V6)
 select(df, num_range("V", 4:6))
 

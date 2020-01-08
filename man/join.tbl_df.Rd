@@ -117,10 +117,10 @@ functions.
 }
 \examples{
 if (require("Lahman")) {
-batting_df <- tbl_df(Batting)
-person_df <- tbl_df(Master)
+batting_df <- as_tibble(Batting)
+person_df <- as_tibble(Master)
 
-uperson_df <- tbl_df(Master[!duplicated(Master$playerID), ])
+uperson_df <- as_tibble(Master[!duplicated(Master$playerID), ])
 
 # Inner join: match batting and person data
 inner_join(batting_df, person_df)

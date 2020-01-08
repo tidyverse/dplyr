@@ -42,4 +42,5 @@
 #' @importFrom utils head tail
 #' @importFrom methods is
 #' @importFrom pkgconfig get_config
+#' @importFrom lifecycle deprecated
 "_PACKAGE"

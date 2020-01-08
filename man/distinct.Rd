@@ -19,17 +19,8 @@ If a combination of \code{...} is not distinct, this keeps the
 first row of values.}
 }
 \description{
-Retain only unique/distinct rows from an input tbl. This is similar
+Select only unique/distinct rows from a data frame. This is similar
 to \code{\link[=unique.data.frame]{unique.data.frame()}}, but considerably faster.
-}
-\details{
-Comparing list columns is not fully supported.
-Elements in list columns are compared by reference.
-A warning will be given when trying to include list columns in the
-computation.
-This behavior is kept for compatibility reasons and may change in a future
-version.
-See examples.
 }
 \examples{
 df <- tibble(
@@ -58,9 +49,4 @@ df <- tibble(
 ) \%>\% group_by(g)
 df \%>\% distinct()
 df \%>\% distinct(x)
-
-# Values in list columns are compared by reference, this can lead to
-# surprising results
-tibble(a = as.list(c(1, 1, 2))) \%>\% glimpse() \%>\% distinct()
-tibble(a = as.list(1:2)[c(1, 1, 2)]) \%>\% glimpse() \%>\% distinct()
 }

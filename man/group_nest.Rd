@@ -24,7 +24,7 @@ with matching rows of the remaining columns.
 Nest a tibble using a grouping specification
 }
 \details{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 }
 \section{Grouped data frames}{
 

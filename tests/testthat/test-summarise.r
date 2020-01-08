@@ -30,10 +30,10 @@ test_that("summarise peels off a single layer of grouping", {
 })
 
 test_that("summarise can refer to variables that were just created (#138)", {
-  res <- summarise(tbl_df(mtcars), cyl1 = mean(cyl), cyl2 = cyl1 + 1)
+  res <- summarise(mtcars, cyl1 = mean(cyl), cyl2 = cyl1 + 1)
   expect_equal(res$cyl2, mean(mtcars$cyl) + 1)
 
-  gmtcars <- group_by(tbl_df(mtcars), am)
+  gmtcars <- group_by(mtcars, am)
   res <- summarise(gmtcars, cyl1 = mean(cyl), cyl2 = cyl1 + 1)
   res_direct <- summarise(gmtcars, cyl2 = mean(cyl) + 1)
   expect_equal(res$cyl2, res_direct$cyl2)
@@ -52,7 +52,7 @@ test_that("summarise can refer to factor variables that were just created (#2217
 
 test_that("summarise refuses to modify grouping variable (#143)", {
   df <- data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4)
-  ds <- group_by(tbl_df(df), a, b)
+  ds <- group_by(df, a, b)
   expect_error(
     summarise(ds, a = mean(x), a = b + 1),
     "Column `a` can't be modified because it's a grouping variable"
@@ -118,7 +118,7 @@ test_that("summarise handles constants (#153)", {
   now <- Sys.time()
 
   res <- summarise(
-    tbl_df(df),
+    df,
     int = 1L, num = 1, str = "foo", bool = TRUE, date = today, time = now
   )
   expect_equal(res$int,  1L)
@@ -162,7 +162,7 @@ test_that("summarise handles passing ...", {
   expect_equal(res$before, "before")
   expect_equal(res$after, "after")
 
-  df <- tbl_df(df)
+  df <- as_tibble(df)
   res <- h(x3 = 3)
   expect_equal(res$x1, 1)
   expect_equal(res$x2, 2)

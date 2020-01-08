@@ -7,6 +7,23 @@
 
 * `[.grouped_df` now regroups to respect any grouping columns that have
   been removed (#4708).
+* `as.tbl()` and `tbl_df()` have been formally deprecated.
+  Please use `as_tibble()` instead.
+  
+* `add_rownames()` has been deprecated. Please use 
+  `tibble::rownames_to_column()` instead.
+* `src_local()` has been deprecated; it was part of an approach to testing
+  dplyr backends that didn't pan out.
+
+* `group_by(..., .add = TRUE)` replaces `group_by(..., add = TRUE)`,
+  with a deprecation message. The old argument name was a mistake because
+  it prevents you from creating a new grouping var called `add` and
+  it violates our naming conventions (#4137).
+
+* All deprecations now use the [lifecycle](https://lifecycle.r-lib.org), 
+  that means by default you'll only see a deprecation warning once per session,
+  and you can control with `options(lifecycle_verbosity = x)` where
+  `x` is one of NULL, "quiet", "warning", and "error".
 
 * `id()`, deprecated in dplyr 0.5.0, is now defunct.
 
