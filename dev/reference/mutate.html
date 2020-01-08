@@ -262,8 +262,6 @@ involved. Compare this ungrouped mutate:</p><pre>starwars %&gt;%
 
 <p>The former normalises <code>mass</code> by the global average whereas the
 latter normalises by the averages within gender levels.</p>
-<p>Note that you can't overwrite a grouping variable within
-<code>mutate()</code>.</p>
 <p><code>mutate()</code> does not evaluate the expressions when the group is empty.</p>
     <h2 class="hasAnchor" id="scoped-mutation-and-transmutation"><a class="anchor" href="#scoped-mutation-and-transmutation"></a>Scoped mutation and transmutation</h2>
 
@@ -496,7 +494,21 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt; [85]         NA         NA  0.8228362</div><div class='input'>
 <span class='co'># Note that you can't overwrite grouping variables:</span>
 <span class='no'>gdf</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>mutate</span>(<span class='no'>gdf</span>, <span class='kw'>cyl</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>100</span>))</div><div class='output co'>#&gt; Error : Column `cyl` can't be modified because it's a grouping variable</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>mutate</span>(<span class='no'>gdf</span>, <span class='kw'>cyl</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>100</span>))</div><div class='output co'>#&gt; # A tibble: 32 x 11
+#&gt; # Groups:   cyl [3]
+#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1  21     600  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt;  2  21     600  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt;  3  22.8   400  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt;  4  21.4   600  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt;  5  18.7   800  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt;  6  18.1   600  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt;  7  14.3   800  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt;  8  24.4   400  147.    62  3.69  3.19  20       1     0     4     2
+#&gt;  9  22.8   400  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; 10  19.2   600  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; # … with 22 more rows</div><div class='input'>
 
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
