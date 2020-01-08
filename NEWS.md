@@ -1,5 +1,10 @@
 # dplyr 0.9.0 (in development)
 
+* `group_by(..., .add = TRUE)` replaces `group_by(..., add = TRUE)`,
+  with a deprecation message. The old argument name was a mistake because
+  it prevents you from creating a new grouping var called `add` and
+  it violates our naming conventions (#4137).
+
 * All deprecations now use the [lifecycle](https://lifecycle.r-lib.org), 
   that means by default you'll only see a deprecation warning once per session,
   and you can control with `options(lifecycle_verbosity = x)` where
