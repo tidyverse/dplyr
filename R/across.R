@@ -46,14 +46,14 @@
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 #' @export
-across <- function(cols, fns = NULL) {
+across <- function(cols, fns = NULL, .including_grouping = FALSE) {
   mask <- peek_mask()
   data <- mask$full_data()
+  if (!isTRUE(.including_grouping)) {
+    data <- data[, setdiff(names(data), group_vars(data))]
+  }
 
-  vars <- tidyselect::eval_select(
-    expr({{ cols }}),
-    data[, setdiff(names(data), group_vars(data))]
-  )
+  vars <- tidyselect::eval_select(expr({{ cols }}), data)
   data <- mask$pick(names(vars))
 
   if (is.null(fns)) {
