@@ -54,12 +54,13 @@ test_that("mutate can rename variables (#137)", {
   expect_equal(res$cyl2, res$cyl)
 })
 
-test_that("mutate refuses to modify grouping vars (#143)", {
-  expect_error(
-    mutate(group_by(mtcars, am), am = am + 2),
-    "Column `am` can't be modified because it's a grouping variable",
-    fixed = TRUE
-  )
+test_that("mutate regroups after modifying grouping vars", {
+  df <- tibble(x = 1:2, y = 2)
+  gf <- group_by(df, x)
+
+  out <- gf %>% mutate(x = 1)
+  expect_equal(out$x, c(1, 1))
+  expect_equal(nrow(group_data(out)), 1)
 })
 
 test_that("mutate handles constants (#152)", {

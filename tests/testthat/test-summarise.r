@@ -50,13 +50,12 @@ test_that("summarise can refer to factor variables that were just created (#2217
   )
 })
 
-test_that("summarise refuses to modify grouping variable (#143)", {
-  df <- data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4)
-  ds <- group_by(df, a, b)
-  expect_error(
-    summarise(ds, a = mean(x), a = b + 1),
-    "Column `a` can't be modified because it's a grouping variable"
-  )
+test_that("summarise can modify grouping variables", {
+  df <- tibble(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2))
+  gf <- group_by(df, a)
+
+  out <- summarise(gf, a = min(a) + 1)
+  expect_equal(out$a, c(2, 3))
 })
 
 test_that("summarise gives proper errors (#153)", {

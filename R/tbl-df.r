@@ -61,9 +61,6 @@ DataMask <- R6Class("DataMask",
     },
 
     add = function(name, chunks) {
-      if (name %in% group_vars(private$data)) {
-        abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
-      }
       force(chunks)
       env_bind_active(private$bindings, !!name := function() {
         .subset2(chunks, private$current_group)
