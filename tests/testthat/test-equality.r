@@ -13,28 +13,28 @@ df_all <- data.frame(
 )
 
 test_that("data frames equal to themselves", {
-  expect_true(all_equal(tbl_df(mtcars), tbl_df(mtcars)))
-  expect_true(all_equal(tbl_df(iris), tbl_df(iris)))
-  expect_true(all_equal(tbl_df(df_all), tbl_df(df_all)))
+  expect_true(all_equal(mtcars, mtcars))
+  expect_true(all_equal(iris, iris))
+  expect_true(all_equal(df_all, df_all))
 })
 
 test_that("data frames not equal if missing row", {
-  expect_match(all_equal(tbl_df(mtcars), mtcars[-1, ]), "Different number of rows")
-  expect_match(all_equal(tbl_df(iris), iris[-1, ]), "Different number of rows")
-  expect_match(all_equal(tbl_df(df_all), df_all[-1, ]), "Different number of rows")
+  expect_match(all_equal(mtcars, mtcars[-1, ]), "Different number of rows")
+  expect_match(all_equal(iris, iris[-1, ]), "Different number of rows")
+  expect_match(all_equal(df_all, df_all[-1, ]), "Different number of rows")
 })
 
 test_that("data frames not equal if missing col", {
   expect_match(
-    all_equal(tbl_df(mtcars), mtcars[, -1]),
+    all_equal(mtcars, mtcars[, -1]),
     "different number of columns : 11 vs 10"
   )
   expect_match(
-    all_equal(tbl_df(iris), iris[, -1]),
+    all_equal(iris, iris[, -1]),
     "different number of columns : 5 vs 4"
   )
   expect_match(
-    all_equal(tbl_df(df_all), df_all[, -1]),
+    all_equal(df_all, df_all[, -1]),
     "different number of columns : 7 vs 6"
   )
 })

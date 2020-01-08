@@ -1,38 +1,3 @@
-#' Create a data frame tbl.
-#'
-#' Deprecated: please use [tibble::as_tibble()] instead.
-#'
-#' @export
-#' @keywords internal
-#' @param data a data frame
-tbl_df <- function(data) {
-  # Works in tibble < 1.5.0 too, because .name_repair will be
-  # swallowed by the ellipsis
-  as_tibble(data, .name_repair = "check_unique")
-}
-
-#' @export
-as.tbl.data.frame <- function(x, ...) {
-  tbl_df(x)
-}
-
-#' @export
-tbl_vars.data.frame <- function(x) {
-  names(x)
-}
-
-#' @export
-same_src.data.frame <- function(x, y) {
-  is.data.frame(y)
-}
-
-#' @export
-auto_copy.tbl_df <- function(x, y, copy = FALSE, ...) {
-  as.data.frame(y)
-}
-
-# Verbs ------------------------------------------------------------------------
-
 poke_mask <- function(mask) {
   old <- context_env[["..mask"]]
   context_env[["..mask"]] <- mask
@@ -96,9 +61,6 @@ DataMask <- R6Class("DataMask",
     },
 
     add = function(name, chunks) {
-      if (name %in% group_vars(private$data)) {
-        abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
-      }
       force(chunks)
       env_bind_active(private$bindings, !!name := function() {
         .subset2(chunks, private$current_group)

@@ -204,18 +204,59 @@ as_tibble.grouped_df <- function(x, ...) {
 #' @importFrom tibble is_tibble
 #' @export
 `[.grouped_df` <- function(x, i, j, drop = FALSE) {
-  y <- NextMethod()
+  out <- NextMethod()
 
-  if (isTRUE(drop) && !is_tibble(y)) {
-    return(y)
+  if (!is.data.frame(out)) {
+    return(out)
   }
 
-  group_names <- group_vars(x)
-  if (!all(group_names %in% names(y))) {
-    tbl_df(y)
+  if (drop) {
+    as_tibble(out)
   } else {
-    grouped_df(y, group_names, group_by_drop_default(x))
+    groups <- intersect(names(out), group_vars(x))
+    if ((missing(i) || nargs() == 2) && identical(groups, group_vars(x))) {
+      new_grouped_df(out, group_data(x))
+    } else {
+      grouped_df(out, groups, group_by_drop_default(x))
+    }
   }
+}
+
+#' @export
+`$<-.grouped_df` <- function(x, name, ..., value) {
+  out <- NextMethod()
+  if (name %in% group_vars(x)) {
+    grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
+  } else {
+    out
+  }
+}
+
+#' @export
+`[<-.grouped_df` <- function(x, i, j, ..., value) {
+  out <- NextMethod()
+  grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
+}
+
+#' @export
+`[[<-.grouped_df` <- function(x, ..., value) {
+  out <- NextMethod()
+  grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
+}
+
+#' @export
+`names<-.grouped_df` <- function(x, value) {
+  data <- as.data.frame(x)
+  names(data) <- value
+
+  groups <- group_data(x)
+  group_loc <- match(intersect(names(x), names(groups)), names(groups))
+  group_names <- c(value[group_loc], ".rows")
+  if (!identical(group_names, names(groups))) {
+    names(groups) <- c(value[group_loc], ".rows")
+  }
+
+  new_grouped_df(data, groups)
 }
 
 #' @method rbind grouped_df

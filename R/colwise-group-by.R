@@ -36,7 +36,7 @@ group_by_all <- function(.tbl, .funs = list(), ..., .add = FALSE, .drop = group_
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
-  .group_by_static_drop(.tbl, !!!funs, add = .add, .drop = .drop)
+  .group_by_static_drop(.tbl, !!!funs, .add = .add, .drop = .drop)
 }
 #' @rdname group_by_all
 #' @export
@@ -45,7 +45,7 @@ group_by_at <- function(.tbl, .vars, .funs = list(), ..., .add = FALSE, .drop = 
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
-  .group_by_static_drop(.tbl, !!!funs, add = .add, .drop = .drop)
+  .group_by_static_drop(.tbl, !!!funs, .add = .add, .drop = .drop)
 }
 #' @rdname group_by_all
 #' @export
@@ -54,5 +54,5 @@ group_by_if <- function(.tbl, .predicate, .funs = list(), ..., .add = FALSE, .dr
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   }
-  .group_by_static_drop(.tbl, !!!funs, add = .add, .drop = .drop)
+  .group_by_static_drop(.tbl, !!!funs, .add = .add, .drop = .drop)
 }

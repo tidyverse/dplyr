@@ -65,7 +65,7 @@
 #' select(iris, -Sepal.Length, Sepal.Length)
 #'
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
-#' df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
+#' df <- as_tibble(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 #' select(df, V4:V6)
 #' select(df, num_range("V", 4:6))
 #'
@@ -148,16 +148,6 @@ select_impl <- function(.data, vars) {
   if (is_grouped_df(.data)) {
     # we might have to alter the names of the groups metadata
     groups <- attr(.data, "groups")
-
-    # check grouped metadata
-    group_names <- names(groups)[seq_len(ncol(groups) - 1L)]
-    if (any(test <- ! group_names %in% vars)) {
-      abort(
-        glue("{col} not found in groups metadata. Probably a corrupt grouped_df object.", col = group_names[test[1L]]),
-        "dplyr_select_corrupt_grouped_df"
-      )
-    }
-
     group_vars <- c(vars[vars %in% names(groups)], .rows = ".rows")
     groups <- select_impl(groups, group_vars)
 

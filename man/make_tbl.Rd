@@ -20,7 +20,4 @@ other arguments passed to methods.}
 \code{tbl()} is the standard constructor for tbls. \code{as.tbl()} coerces,
 and \code{is.tbl()} tests.
 }
-\examples{
-as.tbl(mtcars)
-}
 \keyword{internal}

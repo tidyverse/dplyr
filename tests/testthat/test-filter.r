@@ -85,11 +85,10 @@ test_that("date class remains on filter (#273)", {
 })
 
 test_that("filter handles $ correctly (#278)", {
-  d1 <- tbl_df(data.frame(
+  d1 <- tibble(
     num1 = as.character(sample(1:10, 1000, T)),
     var1 = runif(1000),
-    stringsAsFactors = FALSE
-  ))
+  )
   d2 <- data.frame(num1 = as.character(1:3), stringsAsFactors = FALSE)
 
   res1 <- d1 %>% filter(num1 %in% c("1", "2", "3"))
@@ -107,7 +106,7 @@ test_that("$ does not end call traversing. #502", {
 
   # Generate some dummy data
   d <- expand.grid(Subject = 1:3, TrialNo = 1:2, Time = 1:3) %>%
-    tbl_df() %>%
+    as_tibble() %>%
     arrange(Subject, TrialNo, Time) %>%
     mutate(Outcome = (1:18 %% c(5, 7, 11)) / 10)
 

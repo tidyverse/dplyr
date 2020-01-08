@@ -45,3 +45,8 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
 
   UseMethod("auto_copy")
 }
+
+#' @export
+auto_copy.data.frame <- function(x, y, copy = FALSE, ...) {
+  as.data.frame(y)
+}

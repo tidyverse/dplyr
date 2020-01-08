@@ -31,39 +31,40 @@ test_that("two mutates equivalent to one", {
 })
 
 test_that("mutate can refer to variables that were just created (#140)", {
-  res <- mutate(tbl_df(mtcars), cyl1 = cyl + 1, cyl2 = cyl1 + 1)
+  res <- mutate(mtcars, cyl1 = cyl + 1, cyl2 = cyl1 + 1)
   expect_equal(res$cyl2, mtcars$cyl + 2)
 
-  gmtcars <- group_by(tbl_df(mtcars), am)
+  gmtcars <- group_by(mtcars, am)
   res <- mutate(gmtcars, cyl1 = cyl + 1, cyl2 = cyl1 + 1)
   res_direct <- mutate(gmtcars, cyl2 = cyl + 2)
   expect_equal(res$cyl2, res_direct$cyl2)
 })
 
 test_that("mutate handles logical result (#141)", {
-  x <- data.frame(x = 1:10, g = rep(c(1, 2), each = 5))
-  res <- tbl_df(x) %>% group_by(g) %>% mutate(r = x > mean(x))
+  x <- tibble(x = 1:10, g = rep(c(1, 2), each = 5))
+  res <- x %>% group_by(g) %>% mutate(r = x > mean(x))
   expect_equal(res$r, rep(c(FALSE, FALSE, FALSE, TRUE, TRUE), 2))
 })
 
 test_that("mutate can rename variables (#137)", {
-  res <- mutate(tbl_df(mtcars), cyl2 = cyl)
+  res <- mutate(mtcars, cyl2 = cyl)
   expect_equal(res$cyl2, mtcars$cyl)
 
-  res <- mutate(group_by(tbl_df(mtcars), am), cyl2 = cyl)
+  res <- mutate(group_by(mtcars, am), cyl2 = cyl)
   expect_equal(res$cyl2, res$cyl)
 })
 
-test_that("mutate refuses to modify grouping vars (#143)", {
-  expect_error(
-    mutate(group_by(tbl_df(mtcars), am), am = am + 2),
-    "Column `am` can't be modified because it's a grouping variable",
-    fixed = TRUE
-  )
+test_that("mutate regroups after modifying grouping vars", {
+  df <- tibble(x = 1:2, y = 2)
+  gf <- group_by(df, x)
+
+  out <- gf %>% mutate(x = 1)
+  expect_equal(out$x, c(1, 1))
+  expect_equal(nrow(group_data(out)), 1)
 })
 
 test_that("mutate handles constants (#152)", {
-  res <- mutate(tbl_df(mtcars), zz = 1)
+  res <- mutate(mtcars, zz = 1)
   expect_equal(res$zz, rep(1, nrow(mtcars)))
 })
 
@@ -93,7 +94,7 @@ test_that("mutate refuses to use symbols not from the data", {
 
 test_that("mutate recycles results of length 1", {
   df <- data.frame(x = c(2, 2, 3, 3))
-  expect_equal(mutate(tbl_df(df), z = length(x))$z, rep(4, 4))
+  expect_equal(mutate(df, z = length(x))$z, rep(4, 4))
   expect_equal(mutate(group_by(df, x), z = length(x))$z, rep(2, 4))
 
   int  <- 1L
@@ -141,7 +142,7 @@ test_that("mutate handles out of data variables", {
     class = "vctrs_error_recycle_incompatible_size"
   )
   expect_error(
-    mutate(tbl_df(df), int = int),
+    mutate(df, int = int),
     class = "vctrs_error_recycle_incompatible_size"
   )
 
@@ -153,7 +154,7 @@ test_that("mutate handles out of data variables", {
   tim  <- rep(now, 4)
 
   res <- mutate(
-    tbl_df(df),
+    df,
     int = int, str = str, num = num, bool = bool, tim = tim, dat = dat
   )
   expect_equal(res$int, int)
@@ -186,7 +187,7 @@ test_that("mutate handles passing ...", {
   expect_equal(res$before, rep("before", 4))
   expect_equal(res$after, rep("after", 4))
 
-  df <- tbl_df(df)
+  df <- as_tibble(df)
   res <- h(x3 = 3)
   expect_equal(res$x1, rep(1, 4))
   expect_equal(res$x2, rep(2, 4))
@@ -313,8 +314,7 @@ test_that("mutate aborts when the expression sometimes evaluates to NULL (#2945)
 })
 
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
-  one_mod <- data.frame(grp = "a", x = runif(5, 0, 1)) %>%
-    tbl_df() %>%
+  one_mod <- tibble(grp = "a", x = runif(5, 0, 1)) %>%
     mutate(y = rnorm(x, x * 2, 1)) %>%
     group_by(grp) %>%
     do(mod = lm(y ~ x, data = .))
