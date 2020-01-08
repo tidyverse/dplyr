@@ -532,7 +532,7 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   out[by_x] <- vec_rbind(
     vec_slice(x[, by_x, drop = FALSE], x_indices_one),
-    vec_slice(y[, by_y, drop = FALSE], y_indices_two)
+    set_names(vec_slice(y[, by_y, drop = FALSE], y_indices_two), names(x)[by_x])
   )
 
   # other colums from x

@@ -27,7 +27,7 @@ all the columns, including the grouping variables.
 Split data frame by groups
 }
 \details{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 
 \code{\link[=group_split]{group_split()}} works like \code{\link[base:split]{base::split()}} but
 \itemize{
