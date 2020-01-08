@@ -206,12 +206,16 @@ as_tibble.grouped_df <- function(x, ...) {
 `[.grouped_df` <- function(x, i, j, drop = FALSE) {
   out <- NextMethod()
 
-  if (isTRUE(drop) && !is.data.frame(out)) {
+  if (!is.data.frame(out)) {
     return(out)
   }
 
-  groups <- intersect(names(out), group_vars(x))
-  grouped_df(out, groups, group_by_drop_default(x))
+  if (drop) {
+    as_tibble(out)
+  } else {
+    groups <- intersect(names(out), group_vars(x))
+    grouped_df(out, groups, group_by_drop_default(x))
+  }
 }
 
 #' @export

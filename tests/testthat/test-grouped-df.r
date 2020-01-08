@@ -22,7 +22,7 @@ test_that("[ supports drop=TRUE (#3714)", {
   gf <- group_by(df, x)
 
   expect_type(gf[, "y", drop = TRUE], "double")
-  expect_s3_class(gf[, c("x", "y"), drop = TRUE], "grouped_df")
+  expect_s3_class(gf[, c("x", "y"), drop = TRUE], "tbl_df")
 })
 
 test_that("$<-, [[<-, and [<- update grouping data if needed", {
