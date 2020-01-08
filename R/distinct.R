@@ -1,15 +1,7 @@
 #' Select distinct/unique rows
 #'
-#' Retain only unique/distinct rows from an input tbl. This is similar
+#' Select only unique/distinct rows from a data frame. This is similar
 #' to [unique.data.frame()], but considerably faster.
-#'
-#' Comparing list columns is not fully supported.
-#' Elements in list columns are compared by reference.
-#' A warning will be given when trying to include list columns in the
-#' computation.
-#' This behavior is kept for compatibility reasons and may change in a future
-#' version.
-#' See examples.
 #'
 #' @param .data a tbl
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Optional variables to use when
@@ -47,11 +39,6 @@
 #' ) %>% group_by(g)
 #' df %>% distinct()
 #' df %>% distinct(x)
-#'
-#' # Values in list columns are compared by reference, this can lead to
-#' # surprising results
-#' tibble(a = as.list(c(1, 1, 2))) %>% glimpse() %>% distinct()
-#' tibble(a = as.list(1:2)[c(1, 1, 2)]) %>% glimpse() %>% distinct()
 distinct <- function(.data, ..., .keep_all = FALSE) {
   UseMethod("distinct")
 }

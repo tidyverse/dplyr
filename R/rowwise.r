@@ -1,6 +1,6 @@
 #' Group input by rows
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
 #'
 #' See [this repository](https://github.com/jennybc/row-oriented-workflows)
 #' for alternative ways to perform row-wise operations.

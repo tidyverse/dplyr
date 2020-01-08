@@ -1,5 +1,8 @@
 #' Print the location in memory of a data frame
 #'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#'
 #' This is useful for understand how and when dplyr makes copies of data
 #' frames
 #'
@@ -11,14 +14,18 @@
 #'
 #' @examples
 #' location(mtcars)
+#' # ->
+#' lobstr::ref(mtcars)
 #'
 #' mtcars2 <- mutate(mtcars, cyl2 = cyl * 2)
-#' location(mtcars2)
+#' # ->
+#' lobstr::ref(mtcars2)
 #'
-#' changes(mtcars, mtcars)
 #' changes(mtcars, mtcars2)
+#' # ->
+#' lobstr::ref(mtcars, mtcars2)
 location <- function(df) {
-  signal_soft_deprecated("location() is deprecated, please use functions in the lobstr package")
+  lifecycle::deprecate_warn("1.0.0", "location()", "lobst::ref()")
 
   if (!is.data.frame(df)) {
     abort("location() is meant for data frames")
@@ -53,7 +60,7 @@ print.location <- function(x, ...) {
 #' @rdname location
 #' @export
 changes <- function(x, y) {
-  signal_soft_deprecated("changes() is deprecated, please use functions in the lobstr package")
+  lifecycle::deprecate_warn("1.0.0", "changes()", "lobstr::ref()")
 
   x <- location(x)
   y <- location(y)

@@ -1,6 +1,6 @@
 #' Do anything
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
 #'
 #' `do()` is marked as questioning as of dplyr 0.8.0, and may be advantageously
 #' replaced by [group_modify()].

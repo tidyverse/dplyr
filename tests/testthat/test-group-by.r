@@ -10,16 +10,6 @@ test_that("group_by with add = TRUE adds groups", {
   expect_groups(add_groups2(df), c("x", "y"))
 })
 
-test_that("group_by_ backwards compatibility with add = TRUE adds groups", {
-  local_lifecycle_silence()
-  add_groups_extendedclass <- function(tbl) {
-    grouped <- group_by(tbl, x)
-    group_by.default(grouped, y, add = TRUE)
-  }
-
-  expect_groups(add_groups_extendedclass(df), c("x", "y"))
-})
-
 test_that("joins preserve grouping", {
   g <- group_by(df, x)
 
