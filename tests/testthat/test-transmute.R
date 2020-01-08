@@ -5,22 +5,23 @@ test_that("non-syntactic grouping variable is preserved (#1138)", {
   expect_named(df, "a b")
 })
 
-test_that("transmute preserves variable order", {
-  df <- tibble(x = 1, g = 2)
+test_that("transmute preserves variable of output", {
+  df <- tibble(x = 1, y = 2)
+  expect_named(df %>% transmute(y = 1, x = 2), c("y", "x"))
 
-  out <- df %>%
-    group_by(g) %>%
-    transmute(x = 2)
-
-  expect_named(out, c("x", "g"))
+  # even when grouped
+  gf <- group_by(df, x)
+  expect_named(gf %>% transmute(y = 1, x = 2), c("y", "x"))
 })
 
 # Empty transmutes -------------------------------------------------
 
-test_that("transmute with no args returns nothing", {
-  empty <- transmute(mtcars)
-  expect_equal(ncol(empty), 0)
-  expect_equal(nrow(empty), 32)
+test_that("transmute with no args returns grouping vars", {
+  df <- tibble(x = 1, y = 2)
+  gf <- group_by(df, x)
+
+  expect_equal(df %>% transmute(), df[integer()])
+  expect_equal(gf %>% transmute(), gf[1L])
 })
 
 # transmute variables -----------------------------------------------

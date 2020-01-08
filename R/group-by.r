@@ -210,9 +210,9 @@ add_computed_columns <- function(.data, vars) {
 
   if (length(mutate_vars) > 0L) {
     for (i in seq_along(mutate_vars)) {
-      new_columns <- mutate_new_columns(.data, !!!mutate_vars[i])
-      column_names[[which_need_update[i]]] <- names(new_columns)
-      .data <- mutate_finish(.data, new_columns)
+      cols <- mutate_new_columns(.data, !!!mutate_vars[i])
+      column_names[[which_need_update[i]]] <- names(cols$add)
+      .data[names(cols$add)] <- cols$add
     }
   }
 
