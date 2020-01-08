@@ -193,6 +193,9 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>Grouped data frames now have <code>[[&lt;-</code>, <code>[&lt;-</code> and <code>$&lt;-</code> methods that will re-generate the underlying grouping. Note that modifying grouping variables in multiple steps (i.e. <code>df$grp1 &lt;- 1; df$grp2 &lt;- 1</code>) will be inefficient since the data frame will be regrouped after each modification.</p></li>
+<li>
+<code>[.grouped_df</code> now regroups to respect any grouping columns that have been removed (<a href='https://github.com/tidyverse/dplyr/issues/4708'>#4708</a>).</li>
 <li><p><code><a href="../reference/tbl_df.html">as.tbl()</a></code> and <code><a href="../reference/tbl_df.html">tbl_df()</a></code> have been formally deprecated. Please use <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code> instead.</p></li>
 <li>
 <code><a href="../reference/add_rownames.html">add_rownames()</a></code> has been deprecated. Please use <code><a href="https://tibble.tidyverse.org/reference/rownames.html">tibble::rownames_to_column()</a></code> instead.</li>
