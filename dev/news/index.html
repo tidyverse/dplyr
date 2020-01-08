@@ -193,6 +193,9 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/tbl_df.html">as.tbl()</a></code> and <code><a href="../reference/tbl_df.html">tbl_df()</a></code> have been formally deprecated. Please use <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code> instead.</p></li>
+<li>
+<code><a href="../reference/add_rownames.html">add_rownames()</a></code> has been deprecated. Please use <code><a href="https://tibble.tidyverse.org/reference/rownames.html">tibble::rownames_to_column()</a></code> instead.</li>
 <li><p><code><a href="../reference/src_local.html">src_local()</a></code> has been deprecated; it was part of an approach to testing dplyr backends that didn’t pan out.</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by(..., .add = TRUE)</a></code> replaces <code><a href="../reference/group_by.html">group_by(..., add = TRUE)</a></code>, with a deprecation message. The old argument name was a mistake because it prevents you from creating a new grouping var called <code>add</code> and it violates our naming conventions (<a href='https://github.com/tidyverse/dplyr/issues/4137'>#4137</a>).</p></li>
 <li><p>All deprecations now use the <a href="https://lifecycle.r-lib.org">lifecycle</a>, that means by default you’ll only see a deprecation warning once per session, and you can control with <code><a href="https://rdrr.io/r/base/options.html">options(lifecycle_verbosity = x)</a></code> where <code>x</code> is one of NULL, “quiet”, “warning”, and “error”.</p></li>

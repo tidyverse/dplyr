@@ -48,7 +48,9 @@
 
 
 <meta property="og:title" content="Convert row names to an explicit variable. — add_rownames" />
-<meta property="og:description" content="Deprecated, use tibble::rownames_to_column() instead." />
+<meta property="og:description" content="
+
+Please use tibble::rownames_to_column() instead." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -186,12 +188,14 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Convert row names to an explicit variable.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/dataframe.R'><code>R/dataframe.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-tibble.R'><code>R/deprec-tibble.R</code></a></small>
     <div class="hidden name"><code>add_rownames.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Deprecated, use <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code> instead.</p>
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' />
+
+Please use <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code> instead.</p>
     </div>
 
     <pre class="usage"><span class='fu'>add_rownames</span>(<span class='no'>df</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"rowname"</span>)</pre>
@@ -210,41 +214,11 @@
     </table>
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl_df.html'>tbl_df</a></span>()</div><div class='output co'>#&gt; # A tibble: 32 x 11
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-#&gt; # … with 22 more rows</div><div class='input'>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_rownames</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Deprecated, use tibble::rownames_to_column() instead.</span></div><div class='output co'>#&gt; # A tibble: 32 x 12
-#&gt;    rowname       mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1 Mazda RX4    21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#&gt;  2 Mazda RX4 …  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#&gt;  3 Datsun 710   22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt;  4 Hornet 4 D…  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-#&gt;  5 Hornet Spo…  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt;  6 Valiant      18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-#&gt;  7 Duster 360   14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-#&gt;  8 Merc 240D    24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt;  9 Merc 230     22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-#&gt; 10 Merc 280     19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-#&gt; # … with 22 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
