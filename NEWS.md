@@ -1,5 +1,13 @@
 # dplyr 0.9.0 (in development)
 
+* `select()` and `rename()` use the latest version of the tidyselect interface.
+  Practically, this means that you can now combine selections using Boolean
+  logic (i.e. `!`, `&` and `|`), and use predicate functions 
+  (e.g. `is.character`) to select variables by type (#4680). It also makes
+  it possible to use `select()` and `rename()` to repair data frames with
+  duplicated names (#4615) and prevents you from accidentally introducing
+  duplicate names (#4643).
+
 * `mutate()` and `summarise()` can now modify grouping variables (#4709).
 
 * Grouped data frames now have `[[<-`, `[<-` and `$<-` methods that will 
