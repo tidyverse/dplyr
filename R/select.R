@@ -1,27 +1,38 @@
 #' Select/rename variables by name
 #'
-#' Choose or rename variables from a tbl.
-#' `select()` keeps only the variables you mention; `rename()`
-#' keeps all variables.
-#'
-#' These functions work by column index, not value; thus, an expression
-#' like `select(data.frame(x = 1:5, y = 10), z = x+1)` does not create a variable
-#' with values `2:6`. (In the current implementation, the expression `z = x+1`
-#' wouldn't do anything useful.)  To calculate using column values, see
-#' [mutate()]/[transmute()].
+#' Select or rename variables in a data frame, using a concise mini-language
+#' that makes it easy to refer to variables based on their name (e.g.
+#' `a:f` selects all columns between `a` on the left to `f` on the right).
+#' You can also use predicate functions like [is.numeric] to select variables
+#' based on their properties.
 #'
 #' @section Useful functions:
 #' As well as using existing functions like `:` and `c()`, there are
 #' a number of special functions that only work inside `select()`:
 #'
-#' * [starts_with()], [ends_with()], [contains()]
-#' * [matches()]
-#' * [num_range()]
-#' * [one_of()]
-#' * [everything()]
-#' * [group_cols()]
+#' * [any_of()], [all_of()].
+#' * [starts_with()], [ends_with()], [contains()], [matches()].
+#' * [num_range()].
+#' * [group_cols()], [last_col()].
+#' * [everything()].
 #'
-#' To drop variables, use `-`.
+#' You can also use predicate functions (functions that return a single `TRUE`
+#' or `FALSE`) like `is.numeric`, `is.character`, and `is.factor`
+#' to select variables with specific types.
+#'
+#' Selections can be combined using Boolean algebra like:
+#'
+#' * `starts_with("a") & ends_with("x")`: start with "a" and end with "x"
+#' * `starts_with("a") | starts_with("b")`: start with "a" or "b"
+#' * `!starts_with("a")`: doesn't start with "a"
+#'
+#' To remove variable from a selection, use `-`:
+#'
+#' * `starts_with("a") - ends_width("x")`: start with "a" and doesn't end with "x"
+#' * `is.numeric - c(a, b, c)`: numeric variables except for `a`, `b`, `c`.
+#'
+#' See [select helpers][tidyselect::select_helpers] for more details and
+#' examples.
 #'
 #' Note that except for `:`, `-` and `c()`, all complex expressions
 #' are evaluated outside the data frame context. This is to prevent
@@ -36,19 +47,13 @@
 #' easy to apply a renaming function to a selection of variables.
 #'
 #' @inheritParams filter
-#' @inheritSection filter Tidy data
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
 #'   expressions separated by commas. You can treat variable names like they
 #'   are positions, so you can use expressions like `x:y` to select ranges of
 #'   variables.
 #'
-#'   Positive values select variables; negative values drop variables.
-#'   If the first expression is negative, `select()` will automatically
-#'   start with all variables.
-#'
-#'   Use named arguments, e.g. `new_name = old_name`, to rename selected variables.
-#'   See [select helpers][tidyselect::select_helpers] for more details and
-#'   examples about tidyselect helpers such as `starts_with()`, `everything()`, ...
+#'   Use named arguments, e.g. `new_name = old_name`, to rename selected
+#'   variables.
 #' @return An object of the same class as `.data`.
 #' @family single table verbs
 #' @export
@@ -56,25 +61,25 @@
 #' iris <- as_tibble(iris) # so it prints a little nicer
 #' select(iris, starts_with("Petal"))
 #' select(iris, ends_with("Width"))
-#'
-#' # Move Species variable to the front
-#' select(iris, Species, everything())
-#'
-#' # Move Sepal.Length variable to back
-#' # first select all variables except Sepal.Length, then re select Sepal.Length
-#' select(iris, -Sepal.Length, Sepal.Length)
+#' select(iris, !starts_with("Petal"))
+#' select(iris, starts_with("Petal") & ends_with("Width"))
+#' select(iris, is.numeric)
 #'
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
 #' df <- as_tibble(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 #' select(df, V4:V6)
 #' select(df, num_range("V", 4:6))
 #'
-#' # Drop variables with -
-#' select(iris, -starts_with("Petal"))
-#'
 #' # Select the grouping variables:
 #' starwars %>% group_by(gender) %>% select(group_cols())
 #'
+#' # Moving variables around --------------------------
+#' # Move `Species` to the front
+#' select(iris, Species, everything())
+#'
+#' # Move `Sepal.Length` to the back: first select everything except
+#' # `Sepal.Length`, then select `Sepal.Length`
+#' select(iris, -Sepal.Length, Sepal.Length)
 #'
 #' # Renaming -----------------------------------------
 #' # * select() keeps only the variables you specify
