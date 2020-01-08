@@ -107,7 +107,7 @@ rename <- function(.data, ...) {
 #' @export
 select.data.frame <- function(.data, ...) {
   loc <- tidyselect::eval_select(expr(c(...)), .data)
-  set_names(.data[, loc, drop = FALSE], names(loc))
+  set_names(.data[loc], names(loc))
 }
 
 #' @export
@@ -120,8 +120,8 @@ select.grouped_df <- function(.data, ...) {
   groups <- group_data(.data)
   group_loc <- c(group_loc, .rows = ncol(groups))
 
-  data <- set_names(data[, loc, drop = FALSE], names(loc))
-  groups <- set_names(groups[, group_loc, drop = FALSE], names(group_loc))
+  data <- set_names(data[loc], names(loc))
+  groups <- set_names(groups[group_loc], names(group_loc))
 
   new_grouped_df(data, groups)
 }
