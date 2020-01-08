@@ -1,5 +1,8 @@
 # dplyr 0.9.0 (in development)
 
+* `src_local()` has been deprecated; it was part of an approach to testing
+  dplyr backends that didn't pan out.
+
 * `group_by(..., .add = TRUE)` replaces `group_by(..., add = TRUE)`,
   with a deprecation message. The old argument name was a mistake because
   it prevents you from creating a new grouping var called `add` and
