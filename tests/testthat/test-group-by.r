@@ -319,12 +319,6 @@ test_that("tbl_sum gets the right number of groups", {
   expect_equal(res, c("A tibble" = "4 x 1", "Groups" = "x [2]"))
 })
 
-test_that("grouped data frames support drop=TRUE (#3714)", {
-  expect_is(group_by(iris, Species)[ , "Sepal.Width", drop=TRUE], "numeric")
-
-  expect_is(group_by(iris, Species)[ , c("Species", "Sepal.Width"), drop=TRUE], "grouped_df")
-})
-
 test_that("group_by ignores empty quosures (3780)", {
   empty <- quo()
   expect_equal(group_by(mtcars, cyl), group_by(mtcars, cyl, !!empty))
