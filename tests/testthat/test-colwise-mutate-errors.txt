@@ -1,15 +1,3 @@
-> with_lifecycle_errors({
-+   summarise_at(mtcars, vars(mpg), quo(mean(.)))
-+ })
-Error: Using quosures is deprecated
-Please use a one-sided formula, a function, or a function name
-
-> with_lifecycle_errors({
-+   mutate_at(mtcars, vars(mpg), quo(mean(.)))
-+ })
-Error: Using quosures is deprecated
-Please use a one-sided formula, a function, or a function name
-
 
 column not found
 ================
