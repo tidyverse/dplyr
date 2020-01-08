@@ -6,7 +6,12 @@ group_keys <- function(.tbl, ...) {
 
 #' @export
 group_keys.data.frame <- function(.tbl, ...){
-  .Call(`dplyr_group_keys_impl`, group_by(.tbl, ...))
+  if (missing(...)) {
+    out <- group_data(.tbl)
+    out[-length(out)]
+  } else {
+    group_keys(group_by(.tbl, ..., .add = TRUE))
+  }
 }
 
 #' @export

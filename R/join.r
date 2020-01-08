@@ -270,6 +270,7 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   reconstruct_join(as_tibble(out), x, vars)
 }
 
+#' @importFrom tibble add_column
 #' @export
 #' @rdname join.tbl_df
 nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
