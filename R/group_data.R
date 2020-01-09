@@ -1,30 +1,27 @@
-#' @rdname group_data
-#' @export
-group_rows <- function(.data) {
-  group_data(.data)[[".rows"]]
-}
-
-#' Grouping data
+#' Grouping metadata
 #'
-#' @family grouping functions
-#' @param .data a tibble
+#' @description
+#' * `group_data()`: data frame that defines the grouping structure.
+#'   The last column, always called `.rows`, is a list of integer vectors that
+#'   gives the location of the rows in each group.
 #'
-#' @return `group_data()` return a tibble with one row per group. The last column, always called `.rows`
-#' is a list of integer vectors indicating the rows for each group.
-#' If `.data` is a grouped data frame the first columns are the grouping variables.
-#' `group_rows()` just returns the list of indices.
+#' * `group_rows()`: integer vector giving the location of the rows in each group.
 #'
+#' * `group_vars()`: names of grouping variables as character vector
+#'
+#' * `groups()`: names of grouping as list of symbols
+#'
+#' @param .data,x A data frame or extension (like a tibble or grouped tibble).
 #' @examples
 #' df <- tibble(x = c(1,1,2,2))
-#'
-#' # one row
-#' group_data(df)
+#' group_vars(df)
 #' group_rows(df)
+#' group_data(df)
 #'
-#' # 2 rows, one for each group
-#' group_by(df,x) %>% group_data()
-#' group_by(df,x) %>% group_rows()
-#'
+#' gf <- group_by(df, x)
+#' group_vars(gf)
+#' group_rows(gf)
+#' group_data(gf)
 #' @export
 group_data <- function(.data) {
   UseMethod("group_data")
@@ -47,4 +44,32 @@ group_data.rowwise_df <- function(.data) {
 #' @export
 group_data.grouped_df <- function(.data) {
   attr(validate_grouped_df(.data), "groups")
+}
+
+#' @rdname group_data
+#' @export
+group_rows <- function(.data) {
+  group_data(.data)[[".rows"]]
+}
+
+#' @export
+#' @rdname group_data
+group_vars <- function(x) {
+  UseMethod("group_vars")
+}
+
+#' @export
+group_vars.data.frame <- function(x) {
+  setdiff(names(group_data(x)), ".rows")
+}
+
+#' @export
+#' @rdname group_data
+groups <- function(x) {
+  UseMethod("groups")
+}
+
+#' @export
+groups.data.frame <- function(x) {
+  syms(group_vars(x))
 }

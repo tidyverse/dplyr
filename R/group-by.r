@@ -221,40 +221,6 @@ add_computed_columns <- function(.data, vars) {
   list(data = .data, added_names = column_names)
 }
 
-#' Return grouping variables
-#'
-#' `group_vars()` returns a character vector; `groups()` returns a list of
-#' symbols.
-#'
-#' @family grouping functions
-#' @param x A [tbl()]
-#'
-#' @seealso [group_cols()] for matching grouping variables in
-#'   [selection contexts][select].
-#' @export
-#' @examples
-#' df <- tibble(x = 1, y = 2) %>% group_by(x, y)
-#' group_vars(df)
-#' groups(df)
-groups <- function(x) {
-  UseMethod("groups")
-}
-
-#' @export
-groups.data.frame <- function(x) {
-  syms(group_vars(x))
-}
-
-#' @rdname groups
-#' @export
-group_vars <- function(x) {
-  UseMethod("group_vars")
-}
-
-#' @export
-group_vars.data.frame <- function(x) {
-  setdiff(names(group_data(x)), ".rows")
-}
 
 #' Default value for .drop argument of group_by
 #'
