@@ -31,7 +31,7 @@ any_exprs <- function(..., .vectorised = TRUE) {
 ##   environment][rlang::base_env] unless you supply a
 ##   [quosure][rlang::quo].
 quo_reduce <- function(..., .op) {
-  stopifnot(is_symbol(.op) || is_function(.op))
+  abort_if_not(is_symbol(.op) || is_function(.op))
 
   dots <- enquos(...)
   if (length(dots) == 0) {

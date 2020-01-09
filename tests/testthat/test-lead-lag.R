@@ -55,30 +55,6 @@ test_that("#937 is fixed", {
   )
 })
 
-test_that("input checks", {
-  expect_error(
-    lead(letters, -1),
-    "`n` must be a nonnegative integer scalar, not a double vector of length 1",
-    fixed = TRUE
-  )
-  expect_error(
-    lead(letters, "1"),
-    "`n` must be a nonnegative integer scalar, not a character vector of length 1",
-    fixed = TRUE
-  )
-
-  expect_error(
-    lag(letters, -1),
-    "`n` must be a nonnegative integer scalar, not a double vector of length 1",
-    fixed = TRUE
-  )
-  expect_error(
-    lag(letters, "1"),
-    "`n` must be a nonnegative integer scalar, not a character vector of length 1",
-    fixed = TRUE
-  )
-})
-
 test_that("lead() and lag() respect bit64::integer64 (#4558)", {
   data <- c(1, 2, 3)
   x <- bit64::as.integer64(data)
@@ -88,4 +64,19 @@ test_that("lead() and lag() respect bit64::integer64 (#4558)", {
   y <- 3:1
   expect_equal(lead(x, order_by = y), bit64::as.integer64(lead(data, order_by = y)))
   expect_equal(lag(x, order_by = y) , bit64::as.integer64(lag(data, order_by = y)))
+})
+
+# Errors ------------------------------------------------------------------
+
+test_that("lead() / lag() give meaningful errors", {
+  verify_output(test_path("test-lead-lag-errors.txt"), {
+    "# complicance of n argument"
+    lead(letters, -1)
+    lead(letters, "1")
+    lag(letters, -1)
+    lag(letters, "1")
+
+    "# ts"
+    lag(ts(1:10))
+  })
 })

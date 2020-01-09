@@ -409,7 +409,7 @@ test_that("filter() allows named constants that resolve to logical vectors (#461
 })
 
 test_that("filter() gives useful error messages", {
-  verify_output(test_path("test-filter-error.txt"), {
+  verify_output(test_path("test-filter-errors.txt"), {
     "# wrong type"
     iris %>%
       group_by(Species) %>%
@@ -449,5 +449,8 @@ test_that("filter() gives useful error messages", {
     filter(mtcars, x = 1)
     filter(mtcars, y > 2, z = 3)
     filter(mtcars, TRUE, x = 1)
+
+    "# ts "
+    filter(ts(1:10))
   })
 })

@@ -168,7 +168,14 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   }
 
   if (is_logical(.p)) {
-    stopifnot(length(.p) == length(tibble_vars))
+    if (length(.p) != length(tibble_vars)) {
+      abort(c(
+        "`.p` is invalid",
+        x = "`.p` should have the same size as the number of variables in the tibble",
+        i = glue("`.p` is size {length(.p)}"),
+        i = glue("The tibble has {length(tibble_vars}) columns, {including} the grouping variables", including = if (.include_group_vars) "including" else "non including")
+      ))
+    }
     return(syms(tibble_vars[.p]))
   }
 

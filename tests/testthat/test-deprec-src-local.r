@@ -15,27 +15,22 @@ test_that("src_local only overwrites if overwrite = TRUE", {
 
   src_env <- src_df(env = env)
 
-  expect_error(
-    copy_to(src_env, tibble(x = 1), name = "x"),
-    "object with `name` = `x` must not already exist, unless `overwrite` = TRUE",
-    fixed = TRUE
-  )
-
   df <- tibble(x = 1)
   copy_to(src_env, df, name = "x", overwrite = TRUE)
   expect_equal(env$x, df)
 })
 
-test_that("src_local errs with pkg/env", {
-  expect_error(
-    src_df("base", new.env()),
-    "Exactly one of `pkg` and `env` must be non-NULL, not 2",
-    fixed = TRUE
-  )
+test_that("src_local() gives meaningful error messages", {
+  verify_output(test_path("test-deprec-src-local-errors.txt"), {
 
-  expect_error(
-    src_df(),
-    "Exactly one of `pkg` and `env` must be non-NULL, not 0",
-    fixed = TRUE
-  )
+    "# src_local errs with pkg/env"
+    src_df("base", new.env())
+    src_df()
+
+    "# copy_to"
+    env <- new.env(parent = emptyenv())
+    env$x <- 1
+    src_env <- src_df(env = env)
+    copy_to(src_env, tibble(x = 1), name = "x")
+  })
 })

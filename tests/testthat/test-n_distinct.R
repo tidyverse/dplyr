@@ -31,7 +31,6 @@ test_that("n_distinct treats NA correctly in the REALSXP case (#384)", {
 test_that("n_distinct recycles length 1 vectors (#3685)", {
   expect_equal(n_distinct(1, 1:4), 4)
   expect_equal(n_distinct(1:4, 1), 4)
-  expect_error(n_distinct(1:2, 1:3))
 
   d <- tibble(x = 1:4)
   res <- d %>%
@@ -63,4 +62,13 @@ test_that("n_distinct handles expressions in na.rm (#3686)", {
   expect_equal(d %>% summarise(n = n_distinct(x, na.rm = no)) %>% pull(), 5)
 
   expect_equal(d %>% summarise(n = n_distinct(x, na.rm = TRUE || TRUE)) %>% pull(), 4)
+})
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("n_distinct() gives meaningful error messages", {
+  verify_output(test_path("test-n-distinct-errors.txt"), {
+    n_distinct(1:2, 1:3)
+  })
 })
