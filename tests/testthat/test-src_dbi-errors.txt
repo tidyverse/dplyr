@@ -1,0 +1,3 @@
+> src_sqlite(":memory:")
+Error: `path` must already exist, unless `create` = TRUE
+

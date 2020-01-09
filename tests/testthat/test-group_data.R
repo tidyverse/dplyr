@@ -12,6 +12,7 @@ test_that("group_data() returns a tidy tibble (#3489)", {
 
   expect_is(group_data(df), "tbl_df")
   expect_equal(names(group_data(df)), ".rows")
+
   expect_equivalent(group_rows(df), list(1:4))
 
   gd <- group_by(df,x)
@@ -48,36 +49,89 @@ test_that("group_rows and group_data work with 0 rows data frames (#3489)", {
   )
 })
 
-test_that("GroupDataFrame checks the structure of the groups attribute", {
-  df <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
-  groups <- attr(df, "groups")
-  groups[[2]] <- 1:2
-  attr(df, "groups") <- groups
-  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`", class = "dplyr_grouped_df_corrupt")
-
-  df <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
-  groups <- attr(df, "groups")
-  names(groups) <- c("g", "not.rows")
-  attr(df, "groups") <- groups
-  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`", class = "dplyr_grouped_df_corrupt")
-
-  attr(df, "groups") <- tibble()
-  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`", class = "dplyr_grouped_df_corrupt")
-
-  attr(df, "groups") <- NA
-  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`", class = "dplyr_grouped_df_corrupt")
+test_that("new_grouped_df can create alternative grouping structures (#3837)", {
+  tbl <- new_grouped_df(
+    tibble(x = rnorm(10)),
+    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+  )
+  res <- summarise(tbl, x = mean(x))
+  expect_equal(nrow(res), 5L)
 })
 
-test_that("older style grouped_df is no longer supported", {
-  df <- tibble(x = 1:4, g = rep(1:2, each = 2))
-  attr(df, "vars") <- "g"
-  attr(df, "class") <- c("grouped_df", "tbl_df", "tbl", "data.frame")
-  expect_error(validate_grouped_df(df), class = "dplyr_grouped_df_corrupt")
-
-  df <- structure(
-    data.frame(x=1),
-    class = c("grouped_df", "tbl_df", "tbl", "data.frame"),
-    vars = list(sym("x"))
+test_that("new_grouped_df does not have rownames (#4173)", {
+  tbl <- new_grouped_df(
+    tibble(x = rnorm(10)),
+    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
   )
-  expect_error(validate_grouped_df(df), class = "dplyr_grouped_df_corrupt")
+  expect_false(tibble::has_rownames(tbl))
+})
+
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("group_data() give meaningful errors", {
+  df1 <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
+  groups <- attr(df1, "groups")
+  groups[[2]] <- 1:2
+  attr(df1, "groups") <- groups
+
+  df2 <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
+  groups <- attr(df2, "groups")
+  names(groups) <- c("g", "not.rows")
+  attr(df2, "groups") <- groups
+
+  df3 <- df2
+  attr(df3, "groups") <- tibble()
+
+  df4 <- df3
+  attr(df4, "groups") <- NA
+
+  df5 <- tibble(x = 1:4, g = rep(1:2, each = 2))
+  attr(df5, "vars") <- "g"
+  attr(df5, "class") <- c("grouped_df", "tbl_df", "tbl", "data.frame")
+
+  df6 <- new_grouped_df(
+    tibble(x = 1:10),
+    groups = tibble(".rows" := list(1:5, -1L))
+  )
+  df7 <- df6
+  attr(df7, "groups")$.rows <- list(11L)
+
+  df8 <- df6
+  attr(df8, "groups")$.rows <- list(0L)
+
+  df9 <- df6
+  attr(df9, "groups")$.rows <- list(1)
+
+  df10 <- df6
+  attr(df10, "groups") <- tibble()
+
+  df11 <- df6
+  attr(df11, "groups") <- NULL
+
+  verify_output(test_path("test-group_data-errors.txt"), {
+    "# Invalid `groups` attribute"
+    group_data(df1)
+    group_data(df2)
+    group_data(df3)
+    group_data(df4)
+
+    "# Older style grouped_df"
+    validate_grouped_df(df5)
+
+    "# new_grouped_df()"
+    new_grouped_df(
+      tibble(x = 1:10),
+      tibble(other = list(1:2))
+    )
+
+    "# validate_grouped_df()"
+    validate_grouped_df(df6, check_bounds = TRUE)
+    validate_grouped_df(df7, check_bounds = TRUE)
+    validate_grouped_df(df8, check_bounds = TRUE)
+    validate_grouped_df(df9)
+    validate_grouped_df(df10)
+    validate_grouped_df(df11)
+  })
 })

@@ -1,0 +1,13 @@
+> tibble(x = 1, y = 2) %>% group_by(x, y) %>% ungroup(z)
+Error: Must select existing columns.
+x Can't subset element with unknown name `z`.
+
+> tibble(x = 1) %>% ungroup(x)
+Error: `...` is not empty.
+
+We detected these problematic arguments:
+* `..1`
+
+These dots only exist to allow future extensions and should be empty.
+Did you misspecify an argument?
+

@@ -8,39 +8,12 @@ df <- data.frame(
   y = 6:1
 ) %>% group_by(g)
 
-test_that("can't use both named and unnamed args", {
-  expect_error(
-    df %>% do(x = 1, 2),
-    "Arguments must either be all named or all unnamed",
-    fixed = TRUE
-  )
-})
-
-test_that("unnamed elements must return data frames", {
-  expect_error(
-    df %>% ungroup() %>% do(1), "Result must be a data frame, not numeric"
-  )
-  expect_error(
-    df %>% do(1), "Results 1, 2, 3 must be data frames, not numeric"
-  )
-  expect_error(
-    df %>% do("a"), "Results 1, 2, 3 must be data frames, not character"
-  )
-})
-
 test_that("unnamed results bound together by row", {
   first <- df %>% do(head(., 1))
 
   expect_equal(nrow(first), 3)
   expect_equal(first$g, 1:3)
   expect_equal(first$x, c(1, 2, 4))
-})
-
-test_that("can only use single unnamed argument", {
-  expect_error(
-    df %>% do(head, tail),
-    "Can only supply one unnamed argument, not 2"
-  )
 })
 
 test_that("named argument become list columns", {
@@ -212,4 +185,26 @@ test_that("do() does not retain .drop attribute (#4176)", {
     group_by(Species) %>%
     do(data.frame(n=1))
   expect_null(attr(res, ".drop", exact = TRUE))
+})
+
+# Errors --------------------------------------------
+
+test_that("do() gives meaningful error messages", {
+  verify_output(test_path("test-do-errors.txt"), {
+    df <- data.frame(
+      g = c(1, 2, 2, 3, 3, 3),
+      x = 1:6,
+      y = 6:1
+    ) %>% group_by(g)
+
+    df %>% do(head, tail)
+
+    "# unnamed elements must return data frames"
+    df %>% ungroup() %>% do(1)
+    df %>% do(1)
+    df %>% do("a")
+
+    "# can't use both named and unnamed args"
+    df %>% do(x = 1, 2)
+  })
 })

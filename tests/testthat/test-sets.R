@@ -1,32 +1,5 @@
 context("Set ops")
 
-test_that("set operation give useful error message. #903", {
-  alfa <- tibble(
-    land = c("Sverige", "Norway", "Danmark", "Island", "GB"),
-    data = rnorm(length(land))
-  )
-
-  beta <- tibble(
-    land = c("Norge", "Danmark", "Island", "Storbritannien"),
-    data2 = rnorm(length(land))
-  )
-  expect_error(
-    intersect(alfa, beta),
-    "not compatible: \n- Cols in y but not x: `data2`.\n- Cols in x but not y: `data`.",
-    fixed = TRUE
-  )
-  expect_error(
-    union(alfa, beta),
-    "not compatible: \n- Cols in y but not x: `data2`.\n- Cols in x but not y: `data`.",
-    fixed = TRUE
-  )
-  expect_error(
-    setdiff(alfa, beta),
-    "not compatible: \n- Cols in y but not x: `data2`.\n- Cols in x but not y: `data`.",
-    fixed = TRUE
-  )
-})
-
 test_that("set operations use coercion rules (#799)", {
   df1 <- tibble(x = 1:2, y = c(1, 1))
   df2 <- tibble(x = 1:2, y = 1:2)
@@ -117,4 +90,24 @@ test_that("set equality", {
   expect_true(setequal(df2, df2))
   expect_false(setequal(df1, df2))
   expect_false(setequal(df2, df1))
+})
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("set operation give useful error message. #903", {
+  verify_output(test_path("test-sets-errors.txt"), {
+    alfa <- tibble(
+      land = c("Sverige", "Norway", "Danmark", "Island", "GB"),
+      data = rnorm(length(land))
+    )
+
+    beta <- tibble(
+      land = c("Norge", "Danmark", "Island", "Storbritannien"),
+      data2 = rnorm(length(land))
+    )
+    intersect(alfa, beta)
+    union(alfa, beta)
+    setdiff(alfa, beta)
+  })
 })

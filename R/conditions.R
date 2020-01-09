@@ -1,5 +1,5 @@
-stop_dplyr <- function(message = NULL, .subclass = NULL, ...) {
-  abort(message, .subclass = c(.subclass, "dplyr_error"), ...)
+stop_dplyr <- function(.subclass = NULL, ...) {
+  abort("", .subclass = c(.subclass, "dplyr_error"), ...)
 }
 
 #' @export
@@ -21,7 +21,7 @@ cnd_body.dplyr_error_filter_size <- function(cnd) {
 }
 
 stop_filter_incompatible_size <- function(index_expression, index_group, size, expected_size, data) {
-  stop_dplyr(.subclass = "dplyr_error_filter_size",
+  stop_dplyr("dplyr_error_filter_size",
     index_expression = index_expression,
     index_group = index_group,
     size = size,
@@ -55,7 +55,7 @@ cnd_body.dplyr_error_filter_type <- function(cnd) {
 }
 
 stop_filter_incompatible_type <- function(index_expression, index_column_name, index_group, result, data) {
-  stop_dplyr(.subclass = "dplyr_error_filter_type",
+  stop_dplyr("dplyr_error_filter_type",
     index_expression = index_expression,
     index_column_name = index_column_name,
     index_group = index_group,
@@ -80,8 +80,8 @@ cnd_body.dplyr_error_filter_eval <- function(cnd) {
 
 stop_filter_eval_tidy <- function(e, index_expression) {
   stop_dplyr(
-    conditionMessage(e),
     "dplyr_error_filter_eval",
+    message = conditionMessage(e),
     index_expression = index_expression,
     data = peek_mask()$full_data(),
     group = peek_mask()$get_current_group()
@@ -109,4 +109,16 @@ stop_filter_named <- function(index, expr, name) {
     expr = expr,
     name = name
   )
+}
+
+#' @export
+cnd_header.dplyr_error_select_corrupt <- function(cnd) {
+  "`select()` received a corrupt `grouped_df` object"
+}
+
+#' @export
+cnd_body.dplyr_error_select_corrupt <- function(cnd) {
+  format_error_bullets(c(
+    glue_data(cnd, "data appears to be grouped by `{col}`, but `{col}` is not a column")
+  ))
 }
