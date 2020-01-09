@@ -297,6 +297,35 @@ test_that("colwise verbs soft deprecate quosures (#4330)", {
   expect_warning(summarise_at(mtcars, vars(mpg), quo(mean(.))), "quosure")
 })
 
+
+test_that("rlang lambda inherit from the data mask (#3843)", {
+  res <- iris %>%
+    mutate_at(
+      vars(starts_with("Petal")),
+      ~ ifelse(Species == "setosa" & . < 1.5, NA, .)
+    )
+  expected <- iris %>%
+    mutate(
+      Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
+      Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
+    )
+  expect_identical(res, expected)
+
+  res <- iris %>%
+    group_by(Species) %>%
+    mutate_at(
+      vars(starts_with("Petal")),
+      ~ ifelse(Species == "setosa" & . < 1.5, NA, .)
+    )
+  expected <- iris %>%
+    group_by(Species) %>%
+    mutate(
+      Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
+      Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
+    )
+  expect_identical(res, expected)
+})
+
 # Errors --------------------------------------------
 
 test_that("colwise mutate gives meaningful error messages", {
@@ -314,4 +343,3 @@ test_that("colwise mutate gives meaningful error messages", {
     mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
   })
 })
-
