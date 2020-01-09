@@ -248,25 +248,25 @@ specified, defaults to the last variable in the tbl.</p></td>
 
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>2</span>)  <span class='co'># highest values</span></div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
 #&gt; 1  6
-#&gt; 2 10</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(-<span class='fl'>2</span>) <span class='co'># lowest values</span></div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;   x
-#&gt; 1 1
-#&gt; 2 1
-#&gt; 3 1</div><div class='input'><span class='co'># now use</span>
+#&gt; 4 10</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(-<span class='fl'>2</span>) <span class='co'># lowest values</span></div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;   x
+#&gt; 3 1
+#&gt; 6 1
+#&gt; 7 1</div><div class='input'><span class='co'># now use</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice_head.html'>slice_max</a></span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;    x
-#&gt; 1 10
-#&gt; 2  6</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice_head.html'>slice_min</a></span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;   x
-#&gt; 1 1
-#&gt; 2 1
-#&gt; 3 1</div><div class='input'>
+#&gt; 4 10
+#&gt; 1  6</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice_head.html'>slice_min</a></span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;   x
+#&gt; 3 1
+#&gt; 6 1
+#&gt; 7 1</div><div class='input'>
 <span class='co'># top_frac() -&gt; prop argument of slice_min()/slice_max()</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_frac</span>(<span class='fl'>.5</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
 #&gt; 1  6
 #&gt; 2  4
-#&gt; 3 10</div><div class='input'><span class='co'># -&gt;</span>
+#&gt; 4 10</div><div class='input'><span class='co'># -&gt;</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice_head.html'>slice_max</a></span>(<span class='no'>x</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;    x
-#&gt; 1 10
-#&gt; 2  6
-#&gt; 3  4</div></pre>
+#&gt; 4 10
+#&gt; 1  6
+#&gt; 2  4</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

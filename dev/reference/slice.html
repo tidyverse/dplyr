@@ -240,48 +240,48 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>1L</span>)</div><div class='output co'>#&gt;   mpg cyl disp  hp drat   wt  qsec vs am gear carb
-#&gt; 1  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='co'># Similar to tail(mtcars, 1):</span>
-<span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;    mpg cyl disp  hp drat   wt qsec vs am gear carb
-#&gt; 1 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>5</span>:<span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1  18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; 2  18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; 3  14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; 4  24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; 5  22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; 6  19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; 7  17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 8  16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 9  17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 10 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; 11 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; 12 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; 13 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; 14 32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; 15 30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; 16 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; 17 21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; 18 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; 19 15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; 20 13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; 21 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; 22 27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; 23 26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; 24 30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; 25 15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; 26 19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; 27 15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; 28 21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='co'># Rows can be dropped with negative indices:</span>
-<span class='fu'>slice</span>(<span class='no'>mtcars</span>, -<span class='fl'>5</span>:-<span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</div><div class='input'><span class='co'># In this case, the result will be equivalent to:</span>
-<span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>1</span>:<span class='fl'>4</span>)</div><div class='output co'>#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>1L</span>)</div><div class='output co'>#&gt;           mpg cyl disp  hp drat   wt  qsec vs am gear carb
+#&gt; Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='co'># Similar to tail(mtcars, 1):</span>
+<span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;             mpg cyl disp  hp drat   wt qsec vs am gear carb
+#&gt; Volvo 142E 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>5</span>:<span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='co'># Rows can be dropped with negative indices:</span>
+<span class='fu'>slice</span>(<span class='no'>mtcars</span>, -<span class='fl'>5</span>:-<span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;                 mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#&gt; Mazda RX4      21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+#&gt; Mazda RX4 Wag  21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+#&gt; Datsun 710     22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+#&gt; Hornet 4 Drive 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</div><div class='input'><span class='co'># In this case, the result will be equivalent to:</span>
+<span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>1</span>:<span class='fl'>4</span>)</div><div class='output co'>#&gt;                 mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#&gt; Mazda RX4      21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+#&gt; Mazda RX4 Wag  21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+#&gt; Datsun 710     22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+#&gt; Hornet 4 Drive 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</div><div class='input'>
 <span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>mtcars</span>, <span class='no'>cyl</span>)
 <span class='fu'>slice</span>(<span class='no'>by_cyl</span>, <span class='fl'>1</span>:<span class='fl'>2</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 11
 #&gt; # Groups:   cyl [3]
@@ -296,37 +296,37 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 <span class='co'># Equivalent code using filter that will also work with databases,</span>
 <span class='co'># but won't be as fast for in-memory data. For many databases, you'll</span>
 <span class='co'># need to supply an explicit variable to use to compute the row number.</span>
-<span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='kw'>==</span> <span class='fl'>1L</span>)</div><div class='output co'>#&gt;   mpg cyl disp  hp drat   wt  qsec vs am gear carb
-#&gt; 1  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='kw'>==</span> <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;    mpg cyl disp  hp drat   wt qsec vs am gear carb
-#&gt; 1 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='between.html'>between</a></span>(<span class='fu'><a href='ranking.html'>row_number</a></span>(), <span class='fl'>5</span>, <span class='fu'><a href='context.html'>n</a></span>()))</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1  18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; 2  18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; 3  14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; 4  24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; 5  22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; 6  19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; 7  17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 8  16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 9  17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 10 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; 11 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; 12 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; 13 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; 14 32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; 15 30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; 16 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; 17 21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; 18 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; 19 15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; 20 13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; 21 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; 22 27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; 23 26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; 24 30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; 25 15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; 26 19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; 27 15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; 28 21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div></pre>
+<span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='kw'>==</span> <span class='fl'>1L</span>)</div><div class='output co'>#&gt;           mpg cyl disp  hp drat   wt  qsec vs am gear carb
+#&gt; Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='kw'>==</span> <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;             mpg cyl disp  hp drat   wt qsec vs am gear carb
+#&gt; Volvo 142E 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='between.html'>between</a></span>(<span class='fu'><a href='ranking.html'>row_number</a></span>(), <span class='fl'>5</span>, <span class='fu'><a href='context.html'>n</a></span>()))</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

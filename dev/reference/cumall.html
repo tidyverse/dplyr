@@ -242,10 +242,10 @@ of cumulative functions.</p>
 )
 <span class='co'># all rows after first overdraft</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'>cumany</span>(<span class='no'>balance</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt;         date balance
-#&gt; 1 2020-01-04     -25
-#&gt; 2 2020-01-05     -50
-#&gt; 3 2020-01-06      30
-#&gt; 4 2020-01-07     120</div><div class='input'><span class='co'># all rows until first overdraft</span>
+#&gt; 4 2020-01-04     -25
+#&gt; 5 2020-01-05     -50
+#&gt; 6 2020-01-06      30
+#&gt; 7 2020-01-07     120</div><div class='input'><span class='co'># all rows until first overdraft</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'>cumall</span>(!(<span class='no'>balance</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>)))</div><div class='output co'>#&gt;         date balance
 #&gt; 1 2020-01-01     100
 #&gt; 2 2020-01-02      50
