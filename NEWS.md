@@ -1,5 +1,8 @@
 # dplyr 0.9.0 (in development)
 
+* Experimental `group_keys()` no longer takes `...`; instead do grouping first
+  yourself.
+
 * `groups()` now returns `list()` for ungrouped data; previously it returned
   `NULL` which was type-unstable (when there are groups it returns a list
   of symbols).

@@ -2,12 +2,15 @@
 % Please edit documentation in R/group_data.R
 \name{group_data}
 \alias{group_data}
+\alias{group_keys}
 \alias{group_rows}
 \alias{group_vars}
 \alias{groups}
 \title{Grouping metadata}
 \usage{
 group_data(.data)
+
+group_keys(.tbl, ...)
 
 group_rows(.data)
 
@@ -23,7 +26,8 @@ groups(x)
 \item \code{group_data()}: data frame that defines the grouping structure.
 The last column, always called \code{.rows}, is a list of integer vectors that
 gives the location of the rows in each group.
-\item \code{group_rows()}: integer vector giving the location of the rows in each group.
+\item \code{group_data()}: just the grouping structure from \code{group_data()}.
+\item \code{group_rows()}: just row locations from \code{group_data()}
 \item \code{group_vars()}: names of grouping variables as character vector
 \item \code{groups()}: names of grouping as list of symbols
 }

@@ -5,13 +5,15 @@
 #'   The last column, always called `.rows`, is a list of integer vectors that
 #'   gives the location of the rows in each group.
 #'
-#' * `group_rows()`: integer vector giving the location of the rows in each group.
+#' * `group_data()`: just the grouping structure from `group_data()`.
+#'
+#' * `group_rows()`: just row locations from `group_data()`
 #'
 #' * `group_vars()`: names of grouping variables as character vector
 #'
 #' * `groups()`: names of grouping as list of symbols
 #'
-#' @param .data,x A data frame or extension (like a tibble or grouped tibble).
+#' @param .data,.tbl,x A data frame or extension (like a tibble or grouped tibble).
 #' @examples
 #' df <- tibble(x = c(1,1,2,2))
 #' group_vars(df)
@@ -44,6 +46,22 @@ group_data.rowwise_df <- function(.data) {
 #' @export
 group_data.grouped_df <- function(.data) {
   attr(validate_grouped_df(.data), "groups")
+}
+
+#' @rdname group_data
+#' @export
+group_keys <- function(.tbl, ...) {
+  if (!missing(...)) {
+    abort("Use of `...` is deprecated; please `group_by()` first.")
+  }
+  UseMethod("group_keys")
+}
+
+#' @export
+group_keys.data.frame <- function(.tbl, ...){
+  out <- group_data(.tbl)
+  attr(out, ".drop") <- NULL
+  out[-length(out)]
 }
 
 #' @rdname group_data
