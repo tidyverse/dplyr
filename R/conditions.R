@@ -26,12 +26,11 @@ stop_filter_incompatible_type <- function(index_expression, index_column_name, i
 stop_filter_eval_tidy <- function(e, index_expression) {
   data  <- peek_mask()$full_data()
   group <- peek_mask()$get_current_group()
-  stop_dplyr(
-    "dplyr_error_filter_eval",
-    message = conditionMessage(e),
-    index_expression = index_expression,
-    data = peek_mask()$full_data(),
-    group = peek_mask()$get_current_group()
+
+  stop_dplyr("dplyr_error_filter_eval",
+    "`filter()` argument `..{index_expression}` errored",
+    x = conditionMessage(e),
+    i = if(is_grouped_df(data)) "The error occured in group {group}"
   )
 }
 
