@@ -21,7 +21,7 @@ column you've created most recently).
 
 This argument is taken by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names and column positions).}
+names and column locations).}
 
 \item{name}{An optional parameter that specifies the column to be used
 as names for a named vector. Specified in a similar manner as \code{var}.}
