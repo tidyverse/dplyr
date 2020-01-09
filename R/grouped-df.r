@@ -6,7 +6,7 @@
 #'
 #' @keywords internal
 #' @param data a tbl or data frame.
-#' @param vars a character vector or a list of [name()]
+#' @param vars A character vector.
 #' @param drop When `.drop = TRUE`, empty groups are dropped.
 #'
 #' @import vctrs
@@ -14,6 +14,8 @@
 #'
 #' @export
 grouped_df <- function(data, vars, drop = FALSE) {
+  stopifnot(is.character(vars))
+
   if (length(vars) == 0) {
     as_tibble(data)
   } else {
@@ -23,16 +25,6 @@ grouped_df <- function(data, vars, drop = FALSE) {
 }
 
 compute_groups <- function(data, vars, drop = FALSE) {
-  data <- as_tibble(data)
-
-  is_symbol_list <- (is.list(vars) && all(sapply(vars, is.name)))
-  if(!is_symbol_list && !is.character(vars)) {
-    abort("incompatible `vars`, should be a list of symbols or a character vector")
-  }
-  if (is.list(vars)) {
-    vars <- deparse_names(vars)
-  }
-
   unknown <- setdiff(vars, tbl_vars(data))
   if (n_unknown <- length(unknown)) {
     if(n_unknown == 1) {

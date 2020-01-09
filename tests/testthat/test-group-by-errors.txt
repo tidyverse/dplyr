@@ -3,20 +3,6 @@
 > m %>% do(mpg = mean(.$mpg))
 Error: The `groups` attribute is not a data frame with its last column called `.rows`
 
-
-unknown column
-==============
-
 > group_by(iris, wrong_name_of_variable)
 Error: Column `wrong_name_of_variable` is unknown
-
-> grouped_df(data.frame(x = 1), list(quote(y)), FALSE)
-Error: Column `y` is unknown
-
-
-incompatible type
-=================
-
-> grouped_df(data.frame(x = 1), list("x"))
-Error: incompatible `vars`, should be a list of symbols or a character vector
 

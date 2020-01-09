@@ -120,7 +120,7 @@ do.grouped_df <- function(.data, ...) {
       env_bind_do_pronouns(mask, group_data)
       out <- eval_tidy(args[[1]], mask)
       out <- out[0, , drop = FALSE]
-      out <- label_output_dataframe(labels, list(list(out)), groups(.data), group_by_drop_default(.data))
+      out <- label_output_dataframe(labels, list(list(out)), group_vars(.data), group_by_drop_default(.data))
     }
     return(out)
   }
@@ -149,9 +149,9 @@ do.grouped_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(labels, out, groups(.data), group_by_drop_default(.data))
+    label_output_dataframe(labels, out, group_vars(.data), group_by_drop_default(.data))
   } else {
-    label_output_list(labels, out, groups(.data))
+    label_output_list(labels, out, group_vars(.data))
   }
 }
 

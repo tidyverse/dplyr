@@ -88,3 +88,10 @@ test_that("names<- doesn't modify group data if not necessary", {
   names(gf1) <- c("x", "Y")
   expect_reference(group_data(gf1), group_data(gf2))
 })
+
+test_that("helper gives meaningful error messages", {
+  verify_output(test_path("test-grouped-df-errors.txt"), {
+    grouped_df(data.frame(x = 1), "y", FALSE)
+    grouped_df(data.frame(x = 1), 1)
+  })
+})

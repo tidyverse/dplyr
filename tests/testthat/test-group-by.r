@@ -509,12 +509,6 @@ test_that("group_by() gives meaningful error messages", {
     attr(m, "groups") <- NULL
     m %>% do(mpg = mean(.$mpg))
 
-    "# unknown column"
     group_by(iris, wrong_name_of_variable)
-    grouped_df(data.frame(x = 1), list(quote(y)), FALSE)
-
-    "# incompatible type"
-    grouped_df(data.frame(x = 1), list("x"))
-
   })
 })
