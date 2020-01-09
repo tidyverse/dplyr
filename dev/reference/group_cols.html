@@ -218,7 +218,7 @@ variables outside selection contexts.</p></div>
     <pre class="examples"><div class='input'><span class='no'>gdf</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>)
 
 <span class='co'># Select the grouping variables:</span>
-<span class='no'>gdf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='fu'>group_cols</span>())</div><div class='output co'>#&gt; # A tibble: 150 x 1
+<span class='no'>gdf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='fu'>group_cols</span>())</div><div class='output co'>#&gt; <span class='message'>Adding missing grouping variables: `Species`</span></div><div class='output co'>#&gt; # A tibble: 150 x 1
 #&gt; # Groups:   Species [3]
 #&gt;    Species
 #&gt;    &lt;fct&gt;  
