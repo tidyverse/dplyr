@@ -40,8 +40,8 @@ compute_groups <- function(data, vars, drop = FALSE) {
   }
 
   # Only train the dictionary based on selected columns
-  grouping_variables <- select(ungroup(data), one_of(vars))
-  c(old_keys, old_rows) %<-% vec_split_id_order(grouping_variables)
+  group_vars <- as_tibble(data)[vars]
+  c(old_keys, old_rows) %<-% vec_split_id_order(group_vars)
 
   map2(old_keys, names(old_keys), function(x, n) {
     if (is.factor(x) && anyNA(x)) {
@@ -83,7 +83,7 @@ compute_groups <- function(data, vars, drop = FALSE) {
         vec_slice(unique, index)
       }
     })
-    names(new_keys) <- names(grouping_variables)
+    names(new_keys) <- vars
 
     groups <- tibble(!!!new_keys, .rows := new_rows)
   }
