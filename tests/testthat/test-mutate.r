@@ -868,9 +868,6 @@ test_that("mutate() give meaningful errors", {
     mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = int)
     mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = 1:5)
 
-    "# refuse to modify grouping variables"
-    mutate(group_by(tbl_df(mtcars), am), am = am + 2)
-
     "# .data pronoun"
     mutate(tibble(a = 1), c = .data$b)
     mutate(group_by(tibble(a = 1:3), a), c = .data$b)

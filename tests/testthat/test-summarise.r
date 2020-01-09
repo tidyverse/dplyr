@@ -1077,11 +1077,6 @@ test_that("summarise() give meaningful errors", {
     "# Missing variable"
     summarise(mtcars, a = mean(not_there))
     summarise(group_by(mtcars, cyl), a = mean(not_there))
-
-    "# Cannot modify grouping variable"
-    df <- data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4)
-    df <- group_by(df, a, b)
-    summarise(df, a = mean(x), a = b + 1)
   })
 })
 

@@ -31,12 +31,3 @@ Error in mean(not_there): object 'not_there' not found
 > summarise(group_by(mtcars, cyl), a = mean(not_there))
 Error in mean(not_there): object 'not_there' not found
 
-
-Cannot modify grouping variable
-===============================
-
-> df <- data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4)
-> df <- group_by(df, a, b)
-> summarise(df, a = mean(x), a = b + 1)
-Error: Column `a` can't be modified because it's a grouping variable
-

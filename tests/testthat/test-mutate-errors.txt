@@ -1,3 +1,4 @@
+> tbl <- tibble(x = 1:2, y = 1:2)
 
 setting column to NULL makes it unavailable
 ===========================================
@@ -22,6 +23,7 @@ Error: Unsupported type for result `y`
 Unsupported type
 ================
 
+> df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
 > mutate(df, out = !!env(a = 1))
 Error: Unsupported type for result `out`
 
@@ -65,13 +67,6 @@ x It must be size 2 or 1, not 6.
 > mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = 1:5)
 Error: `x` can't be recycled to size 2.
 x It must be size 2 or 1, not 5.
-
-
-refuse to modify grouping variables
-===================================
-
-> mutate(group_by(tbl_df(mtcars), am), am = am + 2)
-Error: Column `am` can't be modified because it's a grouping variable
 
 
 .data pronoun

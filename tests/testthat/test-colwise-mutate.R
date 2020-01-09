@@ -309,11 +309,6 @@ test_that("colwise mutate gives meaningful error messages", {
     tbl <- group_by(tbl, gr1)
     summarise_at(tbl, vars(gr1), mean)
 
-    "# not mutating grouping variables"
-    tbl <- group_by(tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8), gr1)
-    mutate_at(tbl, vars(gr1), sqrt)
-    transmute_at(tbl, vars(gr1), sqrt)
-
     "# improper additional arguments"
     mutate_all(mtcars, round, 0, 0)
     mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)

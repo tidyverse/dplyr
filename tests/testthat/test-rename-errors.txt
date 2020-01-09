@@ -1,8 +1,0 @@
-> df %>% rename(e = d)
-Error: `select()` received a corrupt `grouped_df` object
-* data appears to be grouped by `a`, but `a` is not a column
-
-> df %>% rename(e = b)
-Error: `select()` received a corrupt `grouped_df` object
-* data appears to be grouped by `a`, but `a` is not a column
-
