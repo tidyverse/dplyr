@@ -81,23 +81,6 @@ test_that("group_by uses shallow copy", {
   )
 })
 
-test_that("group_by handles NA in factors #341", {
-  d <- tibble(x = 1:3, f = factor(c("a", "b", NA)))
-  expect_warning(g <- group_by(d, f), "Factor `f` contains implicit NA")
-  expect_equal(group_size(g), rep(1L, 3L))
-
-  d <- tibble(
-    f1 = factor(c(1,1,2,2)),
-    f2 = factor(c(1,2,1,NA)),
-    x  = 1:4
-  )
-  expect_warning(g <- group_by(d, f1, f2))
-  expect_equal(group_size(g), c(1L,1L,1L,1L))
-
-  expect_warning(g <- group_by(d, f1, f2, .drop = FALSE))
-  expect_equal(group_size(g), c(1L,1L,1L,0L,1L))
-})
-
 test_that("group_by orders by groups. #242", {
   df <- data.frame(a = sample(1:10, 3000, replace = TRUE)) %>% group_by(a)
   expect_equal(group_data(df)$a, 1:10)
