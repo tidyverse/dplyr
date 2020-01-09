@@ -14,21 +14,15 @@
 #'
 #' @export
 grouped_df <- function(data, vars, drop = FALSE) {
-  if (!length(vars)) {
-    if (is_grouped_df(data)) {
-      data <- as_tibble(data)
-    }
-    return(data)
+  if (length(vars) == 0) {
+    as_tibble(data)
+  } else {
+    groups <- compute_groups(data, vars, drop = drop)
+    new_grouped_df(data, groups)
   }
-
-  # structure the grouped data
-  new_grouped_df(
-    data,
-    groups = make_grouped_df_groups_attribute(data, vars, drop = drop)
-  )
 }
 
-make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
+compute_groups <- function(data, vars, drop = FALSE) {
   data <- as_tibble(data)
 
   is_symbol_list <- (is.list(vars) && all(sapply(vars, is.name)))
