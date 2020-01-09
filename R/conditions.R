@@ -8,6 +8,7 @@ stop_filter_incompatible_size <- function(index_expression, index_group, size, e
     "`filter()` argument `..{index_expression}` is incorrect",
     x = "It must be of size {expected_size} or 1, not size {size}",
     i = if(is_grouped_df(data)) "The error occured in group {index_group}"
+  )
 }
 
 stop_filter_incompatible_type <- function(index_expression, index_column_name, index_group, result, data) {
