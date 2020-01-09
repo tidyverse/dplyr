@@ -13,6 +13,10 @@
 #'
 #' * `groups()`: names of grouping as list of symbols
 #'
+#' * `group_size()`: vector giving size of each group
+#'
+#' * `n_groups()`: total number of groups
+#'
 #' @param .data,.tbl,x A data frame or extension (like a tibble or grouped tibble).
 #' @examples
 #' df <- tibble(x = c(1,1,2,2))
@@ -90,4 +94,22 @@ groups <- function(x) {
 #' @export
 groups.data.frame <- function(x) {
   syms(group_vars(x))
+}
+
+#' @export
+#' @rdname group_data
+group_size <- function(x) UseMethod("group_size")
+
+#' @export
+group_size.data.frame <- function(x) {
+  lengths(group_rows(x))
+}
+
+#' @export
+#' @rdname group_data
+n_groups <- function(x) UseMethod("n_groups")
+
+#' @export
+n_groups.data.frame <- function(x) {
+  nrow(group_data(x))
 }

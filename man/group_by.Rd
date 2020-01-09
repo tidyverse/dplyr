@@ -118,7 +118,6 @@ Other grouping functions:
 \code{\link{group_indices}()},
 \code{\link{group_map}()},
 \code{\link{group_nest}()},
-\code{\link{group_size}()},
 \code{\link{group_split}()},
 \code{\link{group_trim}()}
 }

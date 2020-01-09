@@ -6,6 +6,8 @@
 \alias{group_rows}
 \alias{group_vars}
 \alias{groups}
+\alias{group_size}
+\alias{n_groups}
 \title{Grouping metadata}
 \usage{
 group_data(.data)
@@ -17,9 +19,13 @@ group_rows(.data)
 group_vars(x)
 
 groups(x)
+
+group_size(x)
+
+n_groups(x)
 }
 \arguments{
-\item{.data, x}{A data frame or extension (like a tibble or grouped tibble).}
+\item{.data, .tbl, x}{A data frame or extension (like a tibble or grouped tibble).}
 }
 \description{
 \itemize{
@@ -30,6 +36,8 @@ gives the location of the rows in each group.
 \item \code{group_rows()}: just row locations from \code{group_data()}
 \item \code{group_vars()}: names of grouping variables as character vector
 \item \code{groups()}: names of grouping as list of symbols
+\item \code{group_size()}: vector giving size of each group
+\item \code{n_groups()}: total number of groups
 }
 }
 \examples{
