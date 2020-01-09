@@ -14,6 +14,7 @@
 #'
 #' @export
 grouped_df <- function(data, vars, drop = FALSE) {
+  stopifnot(is.data.frame(data))
   stopifnot(is.character(vars))
 
   if (length(vars) == 0) {
@@ -25,13 +26,10 @@ grouped_df <- function(data, vars, drop = FALSE) {
 }
 
 compute_groups <- function(data, vars, drop = FALSE) {
-  unknown <- setdiff(vars, tbl_vars(data))
-  if (n_unknown <- length(unknown)) {
-    if(n_unknown == 1) {
-      abort(glue("Column `{unknown}` is unknown"))
-    } else {
-      abort(glue("Column `{unknown}` are unknown", unknown = glue_collapse(unknown, sep  = ", ")))
-    }
+  unknown <- setdiff(vars, names(data))
+  if (length(unknown) > 0) {
+    vars <- paste0(encodeString(vars, quote = "`"), collapse = ", ")
+    abort(glue("`vars` missing from `data`: {vars}"))
   }
 
   # Only train the dictionary based on selected columns

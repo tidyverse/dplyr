@@ -4,5 +4,6 @@
 Error: The `groups` attribute is not a data frame with its last column called `.rows`
 
 > group_by(iris, wrong_name_of_variable)
-Error: Column `wrong_name_of_variable` is unknown
+Error: Must `group_by()` variables found in `.data`
+* Column `wrong_name_of_variable` is not found
 
