@@ -84,38 +84,27 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
   list(data = .data, vars = out_vars, keep = keep)
 }
 
+#' @export
+distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
+  prep <- distinct_prepare(.data, enquos(...), .keep_all = .keep_all)
+
+  idx <- vec_unique_loc(prep$data[, prep$vars, drop = FALSE])
+  prep$data[idx, prep$keep, drop = FALSE]
+}
 
 #' @export
 distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_prepare(
+  prep <- distinct_prepare(
     .data,
     vars = enquos(...),
     group_vars = group_vars(.data),
     .keep_all = .keep_all
   )
-  grouped_df(
-    vec_slice(
-      .data[, dist$keep, drop = FALSE],
-      vec_unique_loc(.data[, dist$vars, drop = FALSE])
-    ),
-    groups(.data),
-    group_by_drop_default(.data)
-  )
+
+  # TODO: figure out how to update group indices more efficiently
+  idx <- vec_unique_loc(prep$data[, prep$vars, drop = FALSE])
+  prep$data[idx, prep$keep, drop = FALSE]
 }
-
-
-#' @export
-distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_prepare(.data, enquos(...), .keep_all = .keep_all)
-  vec_slice(
-    dist$data[, dist$keep, drop = FALSE],
-    vec_unique_loc(dist$data[, dist$vars, drop = FALSE])
-  )
-}
-
-#' @export
-# Can't use NextMethod() in R 3.1, r-lib/rlang#486
-distinct.tbl_df <- distinct.data.frame
 
 
 #' Efficiently count the number of unique values in a set of vector

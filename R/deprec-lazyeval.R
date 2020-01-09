@@ -69,7 +69,7 @@ arrange_.data.frame <- function(.data, ..., .dots = list(), .by_group = FALSE) {
 #' @export
 arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange_data_frame(.data, !!!dots, .by_group = .by_group)
+  arrange(.data, !!!dots, .by_group = .by_group)
 }
 
 

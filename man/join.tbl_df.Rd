@@ -7,8 +7,8 @@
 \alias{left_join.tbl_df}
 \alias{right_join.tbl_df}
 \alias{full_join.tbl_df}
-\alias{semi_join.tbl_df}
-\alias{anti_join.tbl_df}
+\alias{semi_join.data.frame}
+\alias{anti_join.data.frame}
 \alias{nest_join.data.frame}
 \title{Join data frame tbls}
 \usage{
@@ -54,7 +54,7 @@
   na_matches = pkgconfig::get_config("dplyr::na_matches")
 )
 
-\method{semi_join}{tbl_df}(
+\method{semi_join}{data.frame}(
   x,
   y,
   by = NULL,
@@ -63,7 +63,7 @@
   na_matches = pkgconfig::get_config("dplyr::na_matches")
 )
 
-\method{anti_join}{tbl_df}(
+\method{anti_join}{data.frame}(
   x,
   y,
   by = NULL,

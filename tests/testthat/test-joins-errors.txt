@@ -179,13 +179,13 @@ Error: Column name `x` must not be duplicated.
 Error: Column `x` must have a unique name
 
 > semi_join(df1, df2, by = c("x", "y"))
-Error: Column name `x` must not be duplicated.
+Error: Column `x` must have a unique name
 
 > semi_join(df2, df1, by = c("x", "y"))
 Error: Column `x` must have a unique name
 
 > anti_join(df1, df2, by = c("x", "y"))
-Error: Column name `x` must not be duplicated.
+Error: Column `x` must have a unique name
 
 > anti_join(df2, df1, by = c("x", "y"))
 Error: Column `x` must have a unique name

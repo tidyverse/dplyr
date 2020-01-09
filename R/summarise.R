@@ -79,9 +79,31 @@ summarise <- function(.data, ...) {
 #' @export
 summarize <- summarise
 
-#' @importFrom tibble add_column
 #' @export
-summarise.tbl_df <- function(.data, ...) {
+summarise.data.frame <- function(.data, ...) {
+  cols <- summarise_new_cols(.data, ...)
+
+  out <- group_keys(.data)
+  if (!identical(cols$size, 1L)) {
+    out <- vec_slice(out, rep(1:nrow(out), cols$size))
+  }
+  out[names(cols$new)] <- cols$new
+  out
+}
+
+#' @export
+summarise.grouped_df <- function(.data, ...) {
+  out <- NextMethod()
+
+  group_vars <- group_vars(.data)
+  if (length(group_vars) > 1) {
+    out <- grouped_df(out, group_vars[-length(group_vars)], group_by_drop_default(.data))
+  }
+
+  out
+}
+
+summarise_new_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -94,7 +116,7 @@ summarise.tbl_df <- function(.data, ...) {
   dots_names <- names(dots)
   auto_named_dots <- names(enquos(..., .named = TRUE))
 
-  summaries <- list()
+  cols <- list()
 
   .size <- 1L
 
@@ -113,7 +135,7 @@ summarise.tbl_df <- function(.data, ...) {
     result <- vec_c(!!!chunks)
 
     if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
-      summaries[names(result)] <- result
+      cols[names(result)] <- result
 
       # remember each result separately
       map2(seq_along(result), names(result), function(i, nm) {
@@ -121,39 +143,12 @@ summarise.tbl_df <- function(.data, ...) {
       })
     } else {
       # treat as a single output otherwise
-      summaries[[ auto_named_dots[i] ]] <-  result
+      cols[[ auto_named_dots[i] ]] <-  result
 
       # remember
       mask$add(auto_named_dots[i], chunks)
     }
-
   }
 
-  out <- group_keys(.data)
-  if (!identical(.size, 1L)) {
-    out <- vec_slice(out, rep(seq2(1L, nrow(out)), .size))
-  }
-
-  for (i in seq_along(summaries)) {
-    out[[names(summaries)[i]]] <- summaries[[i]]
-  }
-
-  if (is_grouped_df(.data) && length(group_vars(.data)) > 1) {
-    out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))
-  }
-
-  # copy back attributes
-  # TODO: challenge that with some vctrs theory
-  atts <- attributes(.data)
-  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
-  for(name in names(atts)) {
-    attr(out, name) <- atts[[name]]
-  }
-
-  out
-}
-
-#' @export
-summarise.data.frame <- function(.data, ...) {
-  as.data.frame(summarise(as_tibble(.data), ...))
+  list(new = cols, size = .size)
 }

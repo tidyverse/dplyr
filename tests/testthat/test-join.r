@@ -672,21 +672,6 @@ test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
             expect_equal(left_join(df1, df2, by = "x"), df)
             expect_equal(right_join(df1, df2, by = "x"), df)
             expect_equal(full_join(df1, df2, by = "x"), df)
-
-            factor_ <- if (factor1 && factor2) {
-              function(x) factor(x = x, levels = special)
-            } else identity
-
-            expect_equal(
-              semi_join(df1, df2, by = "x"),
-              tibble(x = factor_(special), y = 1)
-            )
-
-            expect_equal(
-              anti_join(df1, df2, by = "x"),
-              tibble(x = factor_(character()), y = numeric())
-            )
-
           }
         }
       }
@@ -831,6 +816,26 @@ test_that("nest_join handles multiple matches in x (#3642)", {
     pull()
 
   expect_identical(tbls[[1]], tbls[[2]])
+})
+
+test_that("joins reject data frames with duplicate columns (#3243)", {
+  df1 <- tibble(x = 1:3, x = 1:3, y = 1:3, .name_repair = "minimal")
+  df2 <- data.frame(x = 2:4, y = 2:4)
+
+  verify_output(test_path("test-join-error-duplicate.txt"), {
+    left_join(df1, df2, by = c("x", "y"))
+    left_join(df2, df1, by = c("x", "y"))
+    right_join(df1, df2, by = c("x", "y"))
+    right_join(df2, df1, by = c("x", "y"))
+    inner_join(df1, df2, by = c("x", "y"))
+    inner_join(df2, df1, by = c("x", "y"))
+    full_join(df1, df2, by = c("x", "y"))
+    full_join(df2, df1, by = c("x", "y"))
+    semi_join(df1, df2, by = c("x", "y"))
+    semi_join(df2, df1, by = c("x", "y"))
+    anti_join(df1, df2, by = c("x", "y"))
+    anti_join(df2, df1, by = c("x", "y"))
+  })
 })
 
 test_that("left_join() respects original row orders of x (#4639)", {

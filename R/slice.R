@@ -39,12 +39,25 @@ slice <- function(.data, ..., .preserve = FALSE) {
   UseMethod("slice")
 }
 
+#' @export
+slice.data.frame <- function(.data, ..., .preserve = FALSE) {
+  idx <- slice_indices(.data, ...)
+  .data[idx$data, , drop = FALSE]
+}
 
 #' @export
-slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
-  rows <- group_rows(.data)
-  mask <- DataMask$new(.data, caller_env(), rows)
+slice.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.data)) {
+  idx <- slice_indices(.data, ...)
+  data <- as.data.frame(.data)[idx$data, , drop = FALSE]
 
+  groups <- group_data(.data)
+  groups$.rows <- new_list_of(idx$groups, ptype = integer())
+  groups <- group_data_trim(groups, .preserve)
+
+  new_grouped_df(data, groups)
+}
+
+slice_indices <- function(.data, ...) {
   dots <- enquos(...)
   if (is_empty(dots)) {
     return(.data)
@@ -94,26 +107,11 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
     new_rows[[group]] <- seq2(k, new_k - 1L)
     k <- new_k
   }
-  all_slice_indices <- vec_c(!!!slice_indices, .ptype = integer())
 
-  out <- vec_slice(.data, all_slice_indices)
-
-  if (is_grouped_df(.data)) {
-    new_groups <- group_data(.data)
-    new_groups$.rows <- new_list_of(new_rows, ptype = integer())
-    attr(out, "groups") <- new_groups
-
-    if (!.preserve) {
-      out <- regroup(out)
-    }
-  }
-
-  out
-}
-
-#' @export
-slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  as.data.frame(slice(as_tibble(.data), ..., .preserve = .preserve))
+  list(
+    data = vec_c(!!!slice_indices, .ptype = integer()),
+    groups = new_rows
+  )
 }
 
 # Slice helpers -----------------------------------------------------------

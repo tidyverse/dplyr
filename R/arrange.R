@@ -31,7 +31,7 @@
 #' by_cyl %>% arrange(desc(wt))
 #' # Unless you specifically ask:
 #' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
-arrange <- function(.data, ...) {
+arrange <- function(.data, ..., .by_group = FALSE) {
   UseMethod("arrange")
 }
 
@@ -39,23 +39,29 @@ arrange <- function(.data, ...) {
 #'   grouped data frames only.
 #' @rdname arrange
 #' @export
-arrange.tbl_df <- function(.data, ..., .by_group = FALSE) {
-  arrange_data_frame(.data, ..., .by_group = .by_group)
-}
+arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
+  if (missing(...)) {
+    return(.data)
+  }
 
+  idx <- arrange_indices(.data, ...)
+  .data[idx, , drop = FALSE]
+}
 
 #' @export
-arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
-  as.data.frame(arrange(as_tibble(.data), ..., .by_group = .by_group))
-}
+arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
+  if (missing(...)) {
+    return(.data)
+  }
 
+  # TODO: figure out how to update group_indices more efficiently
+  idx <- arrange_indices(.data, ..., .by_group = .by_group)
+  .data[idx, , drop = FALSE]
+}
 
 # Helpers -----------------------------------------------------------------
 
-arrange_data_frame <- function(.data, ..., .by_group = FALSE) {
-  if (dots_n(...) == 0L) {
-    return(.data)
-  }
+arrange_indices <- function(.data, ..., .by_group = FALSE) {
 
   if (.by_group) {
     dots <- c(quos(!!!groups(.data)), enquos(...))
@@ -87,7 +93,7 @@ arrange_data_frame <- function(.data, ..., .by_group = FALSE) {
   #
   #       revisit when we have something like mutate_one() to
   #       evaluate one quosure in the data mask
-  data <- transmute(as_tibble(.data), !!!quosures)
+  data <- transmute(ungroup(.data), !!!quosures)
 
   # we can't just use vec_compare_proxy(data) because we need to apply
   # direction for each column, so we get a list of proxies instead
@@ -108,12 +114,5 @@ arrange_data_frame <- function(.data, ..., .by_group = FALSE) {
     proxy
   })
 
-  orders <- exec("order", !!!proxies, decreasing = FALSE, na.last = TRUE)
-
-  out <- vec_slice(as_tibble(.data), orders)
-  if (is_grouped_df(.data)) {
-    out <- grouped_df(out, vars = group_vars(.data), drop = group_by_drop_default(.data))
-  }
-  out
+  exec("order", !!!proxies, decreasing = FALSE, na.last = TRUE)
 }
-

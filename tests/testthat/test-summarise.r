@@ -999,6 +999,21 @@ test_that("summarise() packs named tibble results (#2326)", {
   expect_equal(nrow(res$out), 3L)
 })
 
+test_that("summarise() keeps class, but not attributes", {
+  df <- structure(
+    data.frame(x = 1:10, g1 = rep(1:2, each = 5), g2 = rep(1:5, 2)),
+    meta = "this is important"
+  )
+
+  out <- df %>% summarise(n = n())
+  expect_s3_class(out, "data.frame", exact = TRUE)
+  expect_equal(attr(out, "res"), NULL)
+
+  out <- df %>% group_by(g1) %>% summarise(n = n())
+  # expect_s3_class(out, "data.frame", exact = TRUE)
+  expect_equal(attr(out, "res"), NULL)
+})
+
 test_that("summarise() give meaningful errors", {
   verify_output(test_path("test-summarise-errors.txt"), {
     "# unsupported type"

@@ -32,8 +32,10 @@ group_data <- function(.data) {
 
 #' @export
 group_data.data.frame <- function(.data) {
-  rows <- list_of(seq_len(nrow(.data)), .ptype = integer())
-  tibble(".rows" := rows)
+  out <- vec_init(.data[0], 1)
+  rownames(out) <- NULL
+  out$.rows <- list_of(seq_len(nrow(.data)), .ptype = integer())
+  out
 }
 
 #' @export

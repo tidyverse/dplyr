@@ -78,7 +78,7 @@ test_that("grouped arrange ignores group (#491 -> #1206)", {
 test_that("arrange keeps the grouping structure (#605)", {
   dat <- tibble(g = c(2, 2, 1, 1), x = c(1, 3, 2, 4))
   res <- dat %>% group_by(g) %>% arrange()
-  expect_is(res, "grouped_df")
+  expect_s3_class(res, "grouped_df")
   expect_equal(res$x, dat$x)
 
   res <- dat %>% group_by(g) %>% arrange(x)
@@ -130,6 +130,20 @@ test_that("arrange respects locale (#1280)", {
 
   res <- df2 %>% arrange(desc(words))
   expect_equal(res$words, sort(df2$words, decreasing = TRUE))
+})
+
+test_that("duplicated column name is explicit about which column (#996)", {
+  df <- data.frame(x = 1:10, x = 1:10)
+  names(df) <- c("x", "x")
+
+  # Error message created by tibble
+  expect_error(df %>% arrange(x))
+
+  df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
+  names(df) <- c("x", "x", "y", "y")
+
+  # Error message created by tibble
+  expect_error(df %>% arrange(x))
 })
 
 test_that("arrange handles list columns (#1489)", {
@@ -222,10 +236,10 @@ test_that("arrange() gives meaningful errors", {
     "# duplicated column name"
     df <- data.frame(x = 1:10, x = 1:10)
     names(df) <- c("x", "x")
-    df %>% arrange()
+    df %>% arrange(x)
 
     df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
     names(df) <- c("x", "x", "y", "y")
-    df %>% arrange()
+    df %>% arrange(x)
   })
 })
