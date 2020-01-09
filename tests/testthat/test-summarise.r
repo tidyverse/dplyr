@@ -58,59 +58,6 @@ test_that("summarise can modify grouping variables", {
   expect_equal(out$a, c(2, 3))
 })
 
-test_that("summarise gives proper errors (#153)", {
-  df <- tibble(
-    x = 1,
-    y = c(1, 2, 2),
-    z = runif(3)
-  )
-  # expect_error(
-  #   summarise(df, null = identity(NULL)),
-  #   "Column `identity(NULL)` is of unsupported type NULL",
-  #   fixed = TRUE
-  # )
-  # expect_error(
-  #   summarise(df, z = log(z)),
-  #   "Column `log(z)` must be length 1 (a summary value), not 3",
-  #   fixed = TRUE
-  # )
-  # expect_error(
-  #   summarise(df, y = y[1:2]),
-  #   "Column `y[1:2]` must be length 1 (a summary value), not 2",
-  #   fixed = TRUE
-  # )
-  expect_error(
-    summarise(df, a = env(a = 1)),
-    "Unsupported type"
-  )
-
-  gdf <- group_by(df, x, y)
-  expect_error(
-    summarise(gdf, null = identity(NULL)),
-    "Unsupported type"
-  )
-  # expect_error(
-  #   summarise(gdf, a = z),
-  #   "Column `z` must be length 1 (a summary value), not 2",
-  #   fixed = TRUE
-  # )
-  # expect_error(
-  #   summarise(gdf, a = log(z)),
-  #   "Column `log(z)` must be length 1 (a summary value), not 2",
-  #   fixed = TRUE
-  # )
-  # expect_error(
-  #   summarise(gdf, a = y[1:2]),
-  #   "Column `y[1:2]` must be length 1 (a summary value), not 2",
-  #   fixed = TRUE
-  # )
-  expect_error(
-    summarise(gdf, b = env(a = 1)),
-    "Unsupported type",
-    fixed = TRUE
-  )
-})
-
 test_that("summarise handles constants (#153)", {
   df <- data.frame(a = 1:4)
   today <- Sys.Date()
@@ -1079,5 +1026,4 @@ test_that("summarise() give meaningful errors", {
     summarise(group_by(mtcars, cyl), a = mean(not_there))
   })
 })
-
 

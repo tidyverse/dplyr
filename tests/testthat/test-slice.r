@@ -221,15 +221,6 @@ test_that("arguments to sample are passed along", {
   expect_equal(df %>% slice_sample(n = 2, weight_by = wt, replace = TRUE) %>% pull(x), c(1, 1))
 })
 
-test_that("n and prop are carefully validated", {
-  expect_error(check_slice_size(), "exactly one")
-  expect_error(check_slice_size(n = 1, prop = 1), "exactly one")
-  expect_error(check_slice_size(n = "a"), "single number")
-  expect_error(check_slice_size(prop = "a"), "single number")
-  expect_error(check_slice_size(n = -1), "positive number")
-  expect_error(check_slice_size(prop = -1), "positive number")
-})
-
 # Errors ------------------------------------------------------------------
 
 test_that("rename errors with invalid grouped data frame (#640)", {
@@ -243,5 +234,13 @@ test_that("rename errors with invalid grouped data frame (#640)", {
     "# Mix of positive and negative integers"
     mtcars %>% slice(c(-1, 2))
     mtcars %>% slice(c(2:3, -1))
+
+    "# n and prop are carefully validated"
+    check_slice_size()
+    check_slice_size(n = 1, prop = 1)
+    check_slice_size(n = "a")
+    check_slice_size(prop = "a")
+    check_slice_size(n = -1)
+    check_slice_size(prop = -1)
   })
 })
