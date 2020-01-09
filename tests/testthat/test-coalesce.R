@@ -13,10 +13,8 @@ test_that("finds non-missing values in multiple positions", {
   expect_equal(coalesce(x1, x2, x3), 1:3)
 })
 
-test_that("error if invalid length", {
-  expect_error(
-    coalesce(1:2, 1:3),
-    "Argument 2 must be length 2 (length of `x`) or one, not 3",
-    fixed = TRUE
-  )
+test_that("coalesce() gives meaningful error messages", {
+  verify_output(test_path("test-coalesce-errors.txt"), {
+    coalesce(1:2, 1:3)
+  })
 })

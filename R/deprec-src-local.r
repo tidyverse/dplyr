@@ -21,7 +21,7 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
     env <- getNamespaceInfo(pkg, "lazydata")
     name <- paste0("<package: ", pkg, ">")
   } else {
-    stopifnot(is.environment(env))
+    abort_if_not(is.environment(env))
     name <- utils::capture.output(print(env))
   }
 

@@ -14,10 +14,9 @@ test_that("any_exprs() creates union", {
   expect_identical(any_exprs(cyl == 2, am == 1), quo)
 })
 
-test_that("all_exprs() without expression returns an error", {
-  expect_error(
-    all_exprs(),
-    "At least one expression must be given",
-    fixed = TRUE
-  )
+test_that("all_exprs() gives meaningful error messages", {
+  verify_output(test_path("test-funs-predicates-errors.txt"), {
+    all_exprs()
+    any_exprs()
+  })
 })

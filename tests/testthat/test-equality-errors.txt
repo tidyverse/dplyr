@@ -1,0 +1,9 @@
+> union(tibble(a = 1), tibble(a = "1"))
+Error: not compatible: 
+- Incompatible types for column `a`: double vs character
+
+> union(tibble(a = 1, b = 2), tibble(a = "1", b = "2"))
+Error: not compatible: 
+- Incompatible types for column `a`: double vs character
+- Incompatible types for column `b`: double vs character
+

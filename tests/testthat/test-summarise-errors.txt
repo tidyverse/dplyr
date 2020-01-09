@@ -1,0 +1,33 @@
+
+unsupported type
+================
+
+> tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = env(a = 1))
+Error: Unsupported type for result `a`
+
+> tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = env(
++   a = 1))
+Error: Unsupported type for result `a`
+
+> tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = NULL)
+Error: Unsupported type for result `a`
+
+> tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = NULL)
+Error: Unsupported type for result `a`
+
+> tibble(id = 1:2, a = list(1, "2")) %>% group_by(id) %>% summarise(a = a[[1]])
+Error: No common type for `..1` <double> and `..2` <character>.
+
+> tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[1]])
+Error: No common type for `..1` <double> and `..2` <character>.
+
+
+Missing variable
+================
+
+> summarise(mtcars, a = mean(not_there))
+Error in mean(not_there): object 'not_there' not found
+
+> summarise(group_by(mtcars, cyl), a = mean(not_there))
+Error in mean(not_there): object 'not_there' not found
+

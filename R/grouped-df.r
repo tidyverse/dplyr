@@ -139,11 +139,18 @@ grouped_df <- function(data, vars, drop = FALSE) {
 #' @keywords internal
 #' @export
 new_grouped_df <- function(x, groups, ..., class = character()) {
-  stopifnot(
-    is.data.frame(x),
-    is.data.frame(groups),
-    tail(names(groups), 1L) == ".rows"
-  )
+  if (!is.data.frame(x)) {
+    abort(c(
+      "`new_grouped_df()` incompatible argument",
+      "`x` is not a data frame")
+    )
+  }
+  if (!is.data.frame(groups) || tail(names(groups), 1L) != ".rows") {
+    abort(c(
+      "`new_grouped_df()` incompatible argument",
+      "`groups` should be a data frame, and its last column be called `.rows`"
+    ))
+  }
   new_tibble(
     x,
     groups = groups,

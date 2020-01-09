@@ -1,0 +1,22 @@
+> alfa <- tibble(land = c("Sverige", "Norway", "Danmark", "Island", "GB"), data = rnorm(
++   length(land)))
+> beta <- tibble(land = c("Norge", "Danmark", "Island", "Storbritannien"), data2 = rnorm(
++   length(land)))
+> intersect(alfa, beta)
+Error: not compatible: 
+not compatible: 
+- Cols in y but not x: `data2`.
+- Cols in x but not y: `data`.
+
+> union(alfa, beta)
+Error: not compatible: 
+not compatible: 
+- Cols in y but not x: `data2`.
+- Cols in x but not y: `data`.
+
+> setdiff(alfa, beta)
+Error: not compatible: 
+not compatible: 
+- Cols in y but not x: `data2`.
+- Cols in x but not y: `data`.
+

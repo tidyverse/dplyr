@@ -58,59 +58,6 @@ test_that("summarise can modify grouping variables", {
   expect_equal(out$a, c(2, 3))
 })
 
-test_that("summarise gives proper errors (#153)", {
-  df <- tibble(
-    x = 1,
-    y = c(1, 2, 2),
-    z = runif(3)
-  )
-  # expect_error(
-  #   summarise(df, null = identity(NULL)),
-  #   "Column `identity(NULL)` is of unsupported type NULL",
-  #   fixed = TRUE
-  # )
-  # expect_error(
-  #   summarise(df, z = log(z)),
-  #   "Column `log(z)` must be length 1 (a summary value), not 3",
-  #   fixed = TRUE
-  # )
-  # expect_error(
-  #   summarise(df, y = y[1:2]),
-  #   "Column `y[1:2]` must be length 1 (a summary value), not 2",
-  #   fixed = TRUE
-  # )
-  expect_error(
-    summarise(df, a = env(a = 1)),
-    "Unsupported type"
-  )
-
-  gdf <- group_by(df, x, y)
-  expect_error(
-    summarise(gdf, null = identity(NULL)),
-    "Unsupported type"
-  )
-  # expect_error(
-  #   summarise(gdf, a = z),
-  #   "Column `z` must be length 1 (a summary value), not 2",
-  #   fixed = TRUE
-  # )
-  # expect_error(
-  #   summarise(gdf, a = log(z)),
-  #   "Column `log(z)` must be length 1 (a summary value), not 2",
-  #   fixed = TRUE
-  # )
-  # expect_error(
-  #   summarise(gdf, a = y[1:2]),
-  #   "Column `y[1:2]` must be length 1 (a summary value), not 2",
-  #   fixed = TRUE
-  # )
-  expect_error(
-    summarise(gdf, b = env(a = 1)),
-    "Unsupported type",
-    fixed = TRUE
-  )
-})
-
 test_that("summarise handles constants (#153)", {
   df <- data.frame(a = 1:4)
   today <- Sys.Date()
@@ -223,22 +170,6 @@ test_that("summarise allows names (#2675)", {
   expect_equal(res$b, c("50%" = 1, "50%" = 2, "50%" = 3))
 })
 
-test_that("summarise fails on missing variables", {
-  # error messages from rlang
-  expect_error(summarise(mtcars, a = mean(notthear)))
-})
-
-test_that("summarise fails on missing variables when grouping (#2223)", {
-  # error messages from rlang
-  expect_error(summarise(group_by(mtcars, cyl), a = mean(notthear)))
-})
-
-test_that("n() does not accept arguments", {
-  expect_error(
-    summarise(group_by(mtcars, cyl), n(hp))
-  )
-})
-
 test_that("hybrid nests correctly", {
   res <- group_by(mtcars, cyl) %>%
     summarise(a = if (n() > 10) 1 else 2)
@@ -297,19 +228,6 @@ test_that("integer overflow (#304)", {
     summarise(sum_integer = sum(X1), sum_numeric = sum(X2))
   expect_equal(res$sum_numeric, rep(3e9, 2L))
 })
-
-# test_that("summarise checks outputs (#300)", {
-#   expect_error(
-#     summarise(mtcars, mpg, cyl),
-#     "Column `mpg` must be length 1 (a summary value), not 32",
-#     fixed = TRUE
-#   )
-#   expect_error(
-#     summarise(mtcars, mpg + cyl),
-#     "Column `mpg + cyl` must be length 1 (a summary value), not 32",
-#     fixed = TRUE
-#   )
-# })
 
 test_that("comment attribute is allowed (#346)", {
   test <- data.frame(A = c(1, 1, 0, 0), B = c(2, 2, 3, 3))
@@ -383,12 +301,6 @@ test_that("summarise hybrid functions can use summarized variables", {
   expect_identical(res$var, rep(NA_real_, 2))
 })
 
-test_that("LazySubset is not confused about input data size (#452)", {
-  res <- data.frame(a = c(10, 100)) %>% summarise(b = sum(a), c = sum(a) * 2)
-  expect_equal(res$b, 110)
-  expect_equal(res$c, 220)
-})
-
 test_that("nth, first, last promote dates and times (#509)", {
   data <- tibble(
     ID = rep(letters[1:4], each = 5),
@@ -412,8 +324,6 @@ test_that("nth, first, last promote dates and times (#509)", {
   expect_is(res$time2, "POSIXct")
   expect_is(res$first_time, "POSIXct")
   expect_is(res$last_time, "POSIXct")
-  # error messages from rlang
-  expect_error(data %>% group_by(ID) %>% summarise(time2 = nth(times, 2)))
 })
 
 test_that("nth, first, last preserves factor data (#509)", {
@@ -455,12 +365,6 @@ test_that("nth handle negative value (#1584) ", {
   expect_equal(res$x4[2], 9)
   expect_equal(res$x5, c(99, 6))
   expect_equal(res$x6, c(99, 9))
-})
-
-test_that("LazyGroupSubsets is robust about columns not from the data (#600)", {
-  foo <- tibble(x = 1:10, y = 1:10)
-  # error messages from rlang
-  expect_error(foo %>% group_by(x) %>% summarise(first_y = first(z)))
 })
 
 test_that("can summarise first(x[-1]) (#1980)", {
@@ -862,15 +766,6 @@ test_that("typing and NAs for grouped summarise (#1839)", {
     c(NA, "yes")
   )
 
-  expect_error(
-    tibble(id = 1:2, a = list(1, "2")) %>%
-      group_by(id) %>%
-      summarise(a = a[[1]]) %>%
-      .$a,
-    "No common type",
-    class = "vctrs_error_incompatible_type"
-  )
-
   expect_identical(
     tibble(id = 1:2, a = list(1, "2")) %>%
       group_by(id) %>%
@@ -904,24 +799,6 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       summarise(a = ifelse(all(a < 2), NA, "yes")) %>%
       .$a,
     c(NA, "yes")
-  )
-
-  expect_error(
-    tibble(id = 1:2, a = list(1, "2")) %>%
-      rowwise() %>%
-      summarise(a = a[[1]]) %>%
-      .$a,
-    "No common type",
-    class = "vctrs_error_incompatible_type"
-  )
-
-  expect_error(
-    tibble(id = 1:2, a = list(1, "2")) %>%
-      rowwise() %>%
-      summarise(a = a[1]) %>%
-      .$a,
-    "No common type",
-    class = "vctrs_error_incompatible_type"
   )
 })
 
@@ -1002,14 +879,12 @@ test_that("summarise() supports unquoted values", {
   expect_identical(summarise(df, out = !!1), tibble(out = 1))
   expect_identical(summarise(df, out = !!quote(identity(1))), tibble(out = 1))
   expect_equal(summarise(df, out = !!(1:2)), tibble(out = 1:2))
-  expect_error(summarise(df, out = !!env(a = 1)), "Unsupported type")
 
   gdf <- group_by(df, g)
   expect_identical(summarise(gdf, out = !!1), summarise(gdf, out = 1))
   expect_identical(summarise(gdf, out = !!(1:2)), tibble(g = c(1, 1, 2, 2), out = c(1:2, 1:2)))
   expect_identical(summarise(gdf, out = !!quote(identity(1))), summarise(gdf, out = 1))
   expect_equal(summarise(gdf, out = !!(1:5)) %>% nrow(), 10L)
-  expect_error(summarise(gdf, out = !!env(a = 1)), "Unsupported type")
 })
 
 test_that("hybrid sum handles NA correctly (#3528)",{
@@ -1138,3 +1013,32 @@ test_that("summarise() keeps class, but not attributes", {
   # expect_s3_class(out, "data.frame", exact = TRUE)
   expect_equal(attr(out, "res"), NULL)
 })
+
+test_that("summarise() give meaningful errors", {
+  verify_output(test_path("test-summarise-errors.txt"), {
+    "# unsupported type"
+    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+      summarise(a = env(a = 1))
+    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+      group_by(x, y) %>%
+      summarise(a = env(a = 1))
+
+    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+      summarise(a = NULL)
+    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+      group_by(x, y) %>%
+      summarise(a = NULL)
+
+    tibble(id = 1:2, a = list(1, "2")) %>%
+      group_by(id) %>%
+      summarise(a = a[[1]])
+    tibble(id = 1:2, a = list(1, "2")) %>%
+      rowwise() %>%
+      summarise(a = a[[1]])
+
+    "# Missing variable"
+    summarise(mtcars, a = mean(not_there))
+    summarise(group_by(mtcars, cyl), a = mean(not_there))
+  })
+})
+

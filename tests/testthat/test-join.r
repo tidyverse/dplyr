@@ -175,51 +175,6 @@ test_that("can handle empty string in suffix argument, right side (#2228, #2182,
   expect_named(j4, c("x", "z1", "z"))
 })
 
-test_that("disallow empty string in both sides of suffix argument (#2228)", {
-  expect_error(
-    inner_join(e, f, "x", suffix = c("", "")),
-    "`suffix` can't be empty string for both `x` and `y` suffixes",
-    fixed = TRUE
-  )
-  expect_error(
-    left_join(e, f, "x", suffix = c("", "")),
-    "`suffix` can't be empty string for both `x` and `y` suffixes",
-    fixed = TRUE
-  )
-  expect_error(
-    right_join(e, f, "x", suffix = c("", "")),
-    "`suffix` can't be empty string for both `x` and `y` suffixes",
-    fixed = TRUE
-  )
-  expect_error(
-    full_join(e, f, "x", suffix = c("", "")),
-    "`suffix` can't be empty string for both `x` and `y` suffixes",
-    fixed = TRUE
-  )
-})
-
-test_that("disallow NA in any side of suffix argument", {
-  expect_error(
-    inner_join(e, f, "x", suffix = c(".x", NA)),
-    "`suffix` can't be NA",
-    fixed = TRUE
-  )
-  expect_error(
-    left_join(e, f, "x", suffix = c(NA, ".y")),
-    "`suffix` can't be NA",
-    fixed = TRUE
-  )
-  expect_error(
-    right_join(e, f, "x", suffix = c(NA_character_, NA)),
-    "`suffix` can't be NA",
-    fixed = TRUE
-  )
-  expect_error(
-    full_join(e, f, "x", suffix = c("x", NA)),
-    "`suffix` can't be NA",
-    fixed = TRUE
-  )
-})
 
 test_that("doesn't add suffix to by columns in x (#3307)", {
   j1 <- inner_join(e, f, by = c("x" = "z"))
@@ -259,25 +214,6 @@ test_that("can handle 'by' columns with suffix, reverse (#3266)", {
   expect_named(j3, c("B", "A.x", "A.x.x", "A.y"))
   expect_named(j4, c("B", "A.x", "A.x.x", "A.y"))
 })
-
-test_that("check suffix input", {
-  expect_error(
-    inner_join(e, f, "x", suffix = letters[1:3]),
-    "`suffix` must be a character vector of length 2, not a character vector of length 3",
-    fixed = TRUE
-  )
-  expect_error(
-    inner_join(e, f, "x", suffix = letters[1]),
-    "`suffix` must be a character vector of length 2, not a character vector of length 1",
-    fixed = TRUE
-  )
-  expect_error(
-    inner_join(e, f, "x", suffix = 1:2),
-    "`suffix` must be a character vector of length 2, not an integer vector of length 2",
-    fixed = TRUE
-  )
-})
-
 
 # Misc --------------------------------------------------------------------
 
@@ -320,30 +256,6 @@ test_that("indices don't get mixed up when nrow(x) > nrow(y). #365", {
   expect_equal(res$V1, c(0, 1))
   expect_equal(res$V2, c("a", "b"))
   expect_equal(res$V3, c("n", "m"))
-})
-
-test_that("join functions error on column not found #371", {
-  expect_error(
-    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "x"),
-    "`by` can't contain join column `x` which is missing from RHS",
-    fixed = TRUE
-  )
-  expect_error(
-    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "y"),
-    "`by` can't contain join column `y` which is missing from LHS",
-    fixed = TRUE
-  )
-  expect_error(
-    left_join(data.frame(x = 1:5), data.frame(y = 1:5)),
-    "`by` required, because the data sources have no common variables",
-    fixed = TRUE
-  )
-
-  expect_error(
-    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = 1:3),
-    "`by` must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), not an integer vector",
-    fixed = TRUE
-  )
 })
 
 test_that("inner_join is symmetric (even when joining on character & factor)", {
@@ -643,35 +555,6 @@ test_that("joins avoid name repetition (#1460)", {
   expect_equal(names(d), c("id", "foo.x", "foo.y", "foo.x.x", "foo.y.y"))
 })
 
-test_that("join functions are protected against empty by (#1496)", {
-  x <- data.frame()
-  y <- data.frame(a = 1)
-  expect_error(
-    left_join(x, y, by = names(x)),
-    class = "dplyr_join_empty_by"
-  )
-  expect_error(
-    right_join(x, y, by = names(x)),
-    class = "dplyr_join_empty_by"
-  )
-  expect_error(
-    semi_join(x, y, by = names(x)),
-    class = "dplyr_join_empty_by"
-  )
-  expect_error(
-    full_join(x, y, by = names(x)),
-    class = "dplyr_join_empty_by"
-  )
-  expect_error(
-    anti_join(x, y, by = names(x)),
-    class = "dplyr_join_empty_by"
-  )
-  expect_error(
-    inner_join(x, y, by = names(x)),
-    class = "dplyr_join_empty_by"
-  )
-})
-
 test_that("joins takes care of duplicates in by (#1192)", {
   data2 <- tibble(a = 1:3)
   data1 <- tibble(a = 1:3, c = 3:5)
@@ -955,112 +838,6 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
   })
 })
 
-test_that("joins reject data frames with NA columns (#3417)", {
-  df_a <- tibble(B = c("a", "b", "c"), AA = 1:3)
-  df_b <- tibble(AA = 2:4, C = c("aa", "bb", "cc"))
-
-  df_aa <- df_a
-  attr(df_aa, "names") <- c(NA, "AA")
-  df_ba <- df_b
-  attr(df_ba, "names") <- c("AA", NA)
-
-  expect_error(
-    left_join(df_aa, df_b),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    left_join(df_aa, df_ba),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    left_join(df_a, df_ba),
-    "Column `2` cannot have NA as name",
-    fixed = TRUE
-  )
-
-  expect_error(
-    right_join(df_aa, df_b),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    right_join(df_aa, df_ba),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    right_join(df_a, df_ba),
-    "Column `2` cannot have NA as name",
-    fixed = TRUE
-  )
-
-  expect_error(
-    inner_join(df_aa, df_b),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    inner_join(df_aa, df_ba),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    inner_join(df_a, df_ba),
-    "Column `2` cannot have NA as name",
-    fixed = TRUE
-  )
-
-  expect_error(
-    full_join(df_aa, df_b),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    full_join(df_aa, df_ba),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    full_join(df_a, df_ba),
-    "Column `2` cannot have NA as name",
-    fixed = TRUE
-  )
-
-  expect_error(
-    semi_join(df_aa, df_b),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    semi_join(df_aa, df_ba),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    semi_join(df_a, df_ba),
-    "Column `2` cannot have NA as name",
-    fixed = TRUE
-  )
-
-  expect_error(
-    anti_join(df_aa, df_b),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    anti_join(df_aa, df_ba),
-    "Column `1` cannot have NA as name",
-    fixed = TRUE
-  )
-  expect_error(
-    anti_join(df_a, df_ba),
-    "Column `2` cannot have NA as name",
-    fixed = TRUE
-  )
-})
-
 test_that("left_join() respects original row orders of x (#4639)", {
   d1 <- tibble(a = c(1:3, 3:1))
   d2 <- tibble(a = 3:1, b = 1:3)
@@ -1103,4 +880,89 @@ test_that("full_join() correctly binds the by part", {
     full_join(df1, df2, by = c("x" = "y")),
     tibble(x = c("x", "y"), a = c(1, NA), b = c(NA, 1))
   )
+})
+
+# Errors ------------------------------------------------------------------
+
+test_that("*_join() give meaningful errors", {
+  verify_output(test_path("test-joins-errors.txt"), {
+    "# empty strings in both sides of suffix argument"
+    inner_join(e, f, "x", suffix = c("", ""))
+    left_join(e, f, "x", suffix = c("", ""))
+    right_join(e, f, "x", suffix = c("", ""))
+    full_join(e, f, "x", suffix = c("", ""))
+
+    "# NA in any side of suffix argument"
+    inner_join(e, f, "x", suffix = c(".x", NA))
+    left_join(e, f, "x", suffix = c(NA, ".y"))
+    right_join(e, f, "x", suffix = as.character(c(NA, NA)))
+    full_join(e, f, "x", suffix = c("x", NA))
+
+    "# check suffix input"
+    inner_join(e, f, "x", suffix = letters[1:3])
+    inner_join(e, f, "x", suffix = letters[1])
+    inner_join(e, f, "x", suffix = 1:2)
+
+    "# column not found"
+    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "x")
+    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "y")
+    left_join(data.frame(x = 1:5), data.frame(y = 1:5))
+    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = 1:3)
+
+    "# empty by"
+    x <- data.frame()
+    y <- data.frame(a = 1)
+    left_join(x, y, by = names(x))
+    right_join(x, y, by = names(x))
+    semi_join(x, y, by = names(x))
+    full_join(x, y, by = names(x))
+    anti_join(x, y, by = names(x))
+    inner_join(x, y, by = names(x))
+
+    "# NA columns"
+    df_a <- tibble(B = c("a", "b", "c"), AA = 1:3)
+    df_b <- tibble(AA = 2:4, C = c("aa", "bb", "cc"))
+
+    df_aa <- df_a
+    attr(df_aa, "names") <- c(NA, "AA")
+    df_ba <- df_b
+    attr(df_ba, "names") <- c("AA", NA)
+
+    left_join(df_aa, df_b)
+    left_join(df_aa, df_ba)
+    left_join(df_a, df_ba)
+    right_join(df_aa, df_b)
+    right_join(df_aa, df_ba)
+    right_join(df_a, df_ba)
+    inner_join(df_aa, df_b)
+    inner_join(df_aa, df_ba)
+    inner_join(df_a, df_ba)
+    full_join(df_aa, df_b)
+    full_join(df_aa, df_ba)
+    full_join(df_a, df_ba)
+    semi_join(df_aa, df_b)
+    semi_join(df_aa, df_ba)
+    semi_join(df_a, df_ba)
+    anti_join(df_aa, df_b)
+    anti_join(df_aa, df_ba)
+    anti_join(df_a, df_ba)
+
+    "# duplicate column"
+    df1 <- data.frame(x1 = 1:3, x2 = 1:3, y = 1:3)
+    names(df1)[1:2] <- "x"
+    df2 <- data.frame(x = 2:4, y = 2:4)
+
+    left_join(df1, df2, by = c("x", "y"))
+    left_join(df2, df1, by = c("x", "y"))
+    right_join(df1, df2, by = c("x", "y"))
+    right_join(df2, df1, by = c("x", "y"))
+    inner_join(df1, df2, by = c("x", "y"))
+    inner_join(df2, df1, by = c("x", "y"))
+    full_join(df1, df2, by = c("x", "y"))
+    full_join(df2, df1, by = c("x", "y"))
+    semi_join(df1, df2, by = c("x", "y"))
+    semi_join(df2, df1, by = c("x", "y"))
+    anti_join(df1, df2, by = c("x", "y"))
+    anti_join(df2, df1, by = c("x", "y"))
+  })
 })

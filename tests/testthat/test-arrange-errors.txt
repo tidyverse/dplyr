@@ -1,0 +1,14 @@
+
+duplicated column name
+======================
+
+> df <- data.frame(x = 1:10, x = 1:10)
+> names(df) <- c("x", "x")
+> df %>% arrange()
+Error: Column name `x` must not be duplicated.
+
+> df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
+> names(df) <- c("x", "x", "y", "y")
+> df %>% arrange()
+Error: Column names `x`, `y` must not be duplicated.
+

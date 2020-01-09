@@ -150,10 +150,7 @@ test_that("arrange handles list columns (#1489)", {
   df <- expand.grid(group = 1:2, y = 1, x = 1) %>%
     group_by(group) %>%
     do(fit = lm(data = ., y ~ x))
-  expect_error(
-    arrange(df, fit),
-    NA
-  )
+  expect_equivalent(arrange(df, fit), df)
 })
 
 test_that("arrange supports raw columns (#1803)", {
@@ -229,4 +226,20 @@ test_that("can choose to include grouping vars", {
   df2 <- df %>% arrange(g, x)
 
   expect_equal(df1, df2)
+})
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("arrange() gives meaningful errors", {
+  verify_output(test_path("test-arrange-errors.txt"), {
+    "# duplicated column name"
+    df <- data.frame(x = 1:10, x = 1:10)
+    names(df) <- c("x", "x")
+    df %>% arrange()
+
+    df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
+    names(df) <- c("x", "x", "y", "y")
+    df %>% arrange()
+  })
 })

@@ -155,20 +155,6 @@ test_that("returns UTF-8 column names (#2441)", {
   )
 })
 
-test_that("proper message formatting for set operations", {
-  expect_error(
-    union(tibble(a = 1), tibble(a = "1")),
-    "not compatible: \n- Incompatible types for column `a`: double vs character\n",
-    fixed = TRUE
-  )
-
-  expect_error(
-    union(tibble(a = 1, b = 2), tibble(a = "1", b = "2")),
-    "not compatible: \n- Incompatible types for column `a`: double vs character\n- Incompatible types for column `b`: double vs character\n",
-    fixed = TRUE
-  )
-})
-
 test_that("ignore column order", {
   expect_equal(
     all_equal(tibble(a = 1, b = 2), tibble(b = 2, a = 1), ignore_col_order = FALSE),
@@ -184,4 +170,14 @@ test_that("ignore column order", {
 test_that("all.equal() works on nameless tibbles (#4552)", {
   ir <- set_names(iris, NULL)
   expect_true(all_equal(ir, ir))
+})
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("count() give meaningful errors", {
+  verify_output(test_path("test-equality-errors.txt"), {
+    union(tibble(a = 1), tibble(a = "1"))
+    union(tibble(a = 1, b = 2), tibble(a = "1", b = "2"))
+  })
 })

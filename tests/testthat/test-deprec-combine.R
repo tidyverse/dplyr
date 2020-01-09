@@ -11,17 +11,6 @@ test_that("combine handles NULL (#1596, #3365)", {
   expect_equal(combine(NULL, list(NULL, NULL)), list(NULL, NULL))
 })
 
-test_that("combine complains about incompatibilites", {
-  expect_error(
-    combine("a", 1),
-    class = "vctrs_error_incompatible_type"
-  )
-  expect_error(
-    combine(factor("a"), 1L),
-    class = "vctrs_error_incompatible_type"
-  )
-})
-
 test_that("combine works with input that used to fail (#1780)", {
   no <- list(alpha = letters[1:3], omega = letters[24:26])
   expect_equal(combine(no), unlist(no, use.names = FALSE))
@@ -232,5 +221,12 @@ test_that("combine uses tidy dots (#3407)", {
   expect_equal(combine(!!!chunks), c(1,2,3))
 })
 
-# Uses helper-combine.R
-# combine_coercion_types()
+
+# Errors ------------------------------------------------------------------
+
+test_that("combine() gives meaningful error messages", {
+  verify_output(test_path("test-deprec-combine-errors.txt"), {
+    combine("a", 1)
+    combine(factor("a"), 1L)
+  })
+})
