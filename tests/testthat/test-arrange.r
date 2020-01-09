@@ -31,7 +31,7 @@ test_that("arrange() gives meaningful errors", {
   })
 })
 
-# variable types ----------------------------------------------------------
+# column types ----------------------------------------------------------
 
 test_that("arrange handles list columns (#282)", {
   # no intrinsic ordering
@@ -86,7 +86,17 @@ test_that("arrange respects locale (#1280)", {
   expect_equal(res$words, sort(df2$words, decreasing = TRUE))
 })
 
-# grouping ----------------------------------------------------------------
+# data ----------------------------------------------------------------
+
+test_that("arrange preserves input class", {
+  df1 <- data.frame(x = 1:3, y = 3:1)
+  df2 <- tibble(x = 1:3, y = 3:1)
+  df3 <- df1 %>% group_by(x)
+
+  expect_s3_class(arrange(df1, x), "data.frame", exact = TRUE)
+  expect_s3_class(arrange(df2, x), "tbl_df")
+  expect_s3_class(arrange(df3, x), "grouped_df")
+})
 
 test_that("grouped arrange ignores group, unless requested with .by_group", {
   df <- data.frame(g = c(2, 1, 2, 1), x = 4:1)
