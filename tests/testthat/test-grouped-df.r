@@ -6,20 +6,6 @@ test_that("can selectively ungroup", {
   expect_equal(gf %>% ungroup(x) %>% group_vars(), "y")
 })
 
-# Errors ------------------------------------------------------------------
-
-test_that("selective ungroup() give meaningful errors", {
-  verify_output(test_path("test-grouped-df-errors.txt"), {
-    tibble(x = 1, y = 2) %>%
-      group_by(x, y) %>%
-      ungroup(z)
-
-    tibble(x = 1) %>%
-      ungroup(x)
-  })
-})
-
-
 test_that("[ method can remove grouping vars", {
   df <- tibble(x = 1, y = 2, z = 3)
   gf <- group_by(df, x, y)

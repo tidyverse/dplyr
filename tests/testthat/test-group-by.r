@@ -499,16 +499,16 @@ test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {
   )
 })
 
-
-
 # Errors ------------------------------------------------------------------
 
-test_that("group_by() gives meaningful error messages", {
+test_that("group_by() and ungroup() give meaningful error messages", {
   verify_output(test_path("test-group-by-errors.txt"), {
-    m <- mtcars %>% group_by(cyl)
-    attr(m, "groups") <- NULL
-    m %>% do(mpg = mean(.$mpg))
+    df <- tibble(x = 1, y = 2)
 
-    group_by(iris, wrong_name_of_variable)
+    df %>% group_by(unknown)
+
+    df %>% ungroup(x)
+    df %>% group_by(x, y) %>% ungroup(z)
   })
 })
+
