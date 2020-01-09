@@ -236,10 +236,10 @@ test_that("arrange() gives meaningful errors", {
     "# duplicated column name"
     df <- data.frame(x = 1:10, x = 1:10)
     names(df) <- c("x", "x")
-    df %>% arrange()
+    df %>% arrange(x)
 
     df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
     names(df) <- c("x", "x", "y", "y")
-    df %>% arrange()
+    df %>% arrange(x)
   })
 })
