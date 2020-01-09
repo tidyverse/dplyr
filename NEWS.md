@@ -1,5 +1,9 @@
 # dplyr 0.9.0 (in development)
 
+* `groups()` now returns `list()` for ungrouped data; previously it returned
+  `NULL` which was type-unstable (when there are groups it returns a list
+  of symbols).
+
 * `select()` and `rename()` use the latest version of the tidyselect interface.
   Practically, this means that you can now combine selections using Boolean
   logic (i.e. `!`, `&` and `|`), and use predicate functions 

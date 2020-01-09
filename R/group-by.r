@@ -241,12 +241,9 @@ groups <- function(x) {
 }
 
 #' @export
-groups.grouped_df <- function(x) {
+groups.data.frame <- function(x) {
   syms(group_vars(x))
 }
-
-#' @export
-groups.default <- function(x) NULL
 
 #' @rdname groups
 #' @export
@@ -255,24 +252,8 @@ group_vars <- function(x) {
 }
 
 #' @export
-group_vars.grouped_df <- function(x) {
-  groups <- group_data(x)
-  if (is.character(groups)) {
-    # lazy grouped
-    groups
-  } else if (is.data.frame(groups)) {
-    # resolved, extract from the names of the data frame
-    head(names(groups), -1L)
-  } else if (is.list(groups)) {
-    # Need this for compatibility with existing packages that might
-    # use the old list of symbols format
-    map_chr(groups, as_string)
-  }
-}
-
-#' @export
-group_vars.default <- function(x) {
-  deparse_names(groups(x))
+group_vars.data.frame <- function(x) {
+  setdiff(names(group_data(x)), ".rows")
 }
 
 #' Default value for .drop argument of group_by
