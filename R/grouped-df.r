@@ -1,13 +1,31 @@
-utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows", "new_rows_sizes", "needs_recycle", "distinct_vars"))
+#' A grouped data frame.
+#'
+#' The easiest way to create a grouped data frame is to call the `group_by()`
+#' method on a data frame or tbl: this will take care of capturing
+#' the unevaluated expressions for you.
+#'
+#' @keywords internal
+#' @param data a tbl or data frame.
+#' @param vars a character vector or a list of [name()]
+#' @param drop When `.drop = TRUE`, empty groups are dropped.
+#'
+#' @import vctrs
+#' @importFrom zeallot %<-%
+#'
+#' @export
+grouped_df <- function(data, vars, drop = FALSE) {
+  if (!length(vars)) {
+    if (is_grouped_df(data)) {
+      data <- as_tibble(data)
+    }
+    return(data)
+  }
 
-vec_split_id_order <- function(x) {
-  split_id <- vec_group_pos(x)
-  split_id$pos <- new_list_of(split_id$pos, ptype = integer())
-  vec_slice(split_id, vec_order(split_id$key))
-}
-
-expand_groups <- function(old_groups, positions, nr) {
-  .Call(`dplyr_expand_groups`, old_groups, positions, nr)
+  # structure the grouped data
+  new_grouped_df(
+    data,
+    groups = make_grouped_df_groups_attribute(data, vars, drop = drop)
+  )
 }
 
 make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
@@ -82,35 +100,6 @@ make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
   structure(groups, .drop = drop)
 }
 
-#' A grouped data frame.
-#'
-#' The easiest way to create a grouped data frame is to call the `group_by()`
-#' method on a data frame or tbl: this will take care of capturing
-#' the unevaluated expressions for you.
-#'
-#' @keywords internal
-#' @param data a tbl or data frame.
-#' @param vars a character vector or a list of [name()]
-#' @param drop When `.drop = TRUE`, empty groups are dropped.
-#'
-#' @import vctrs
-#' @importFrom zeallot %<-%
-#'
-#' @export
-grouped_df <- function(data, vars, drop = FALSE) {
-  if (!length(vars)) {
-    if (is_grouped_df(data)) {
-      data <- as_tibble(data)
-    }
-    return(data)
-  }
-
-  # structure the grouped data
-  new_grouped_df(
-    data,
-    groups = make_grouped_df_groups_attribute(data, vars, drop = drop)
-  )
-}
 
 #' Low-level construction and validation for the grouped_df class
 #'
@@ -308,7 +297,6 @@ group_cols <- function(vars = peek_vars()) {
   }
 }
 
-
 group_data_trim <- function(group_data, preserve = FALSE) {
   if (preserve) {
     return(group_data)
@@ -317,3 +305,16 @@ group_data_trim <- function(group_data, preserve = FALSE) {
   non_empty <- lengths(group_data$".rows") > 0
   group_data[non_empty, , drop = FALSE]
 }
+
+# Helpers -----------------------------------------------------------------
+
+expand_groups <- function(old_groups, positions, nr) {
+  .Call(`dplyr_expand_groups`, old_groups, positions, nr)
+}
+
+vec_split_id_order <- function(x) {
+  split_id <- vec_group_pos(x)
+  split_id$pos <- new_list_of(split_id$pos, ptype = integer())
+  vec_slice(split_id, vec_order(split_id$key))
+}
+
