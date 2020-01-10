@@ -22,13 +22,14 @@ stop_filter_incompatible_type <- function(index_expression, index_column_name, i
   ))
 }
 
-stop_filter_eval_tidy <- function(e, index_expression) {
+stop_eval_tidy <- function(e, index, quo, fn) {
   data  <- peek_mask()$full_data()
   group <- peek_mask()$get_current_group()
 
   abort(glue_c(
-    "`filter()` argument `..{index_expression}` errored",
+    "`{fn}()` argument `..{index}` errored",
     x = conditionMessage(e),
+    i = "Expression being evaluated : {as_label(quo_get_expr(quo))}",
     i = if(is_grouped_df(data)) "The error occured in group {group}"
   ))
 }
