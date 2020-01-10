@@ -55,7 +55,7 @@ stop_summarise_unsupported_type <- function(result, index, quo) {
   abort(glue_c(
     "`summarise()` argument `..{index}` incompatible",
     x = "Result should be a vector, not a `{typeof(result)}`",
-    i = "Expression being evaluated : {as_label(quo_get_expr(quo))}",
+    i = "..{index} is {as_label(quo_get_expr(quo))}",
     i = if(is_grouped_df(data)) "The error occured in group {group}"
   ))
 
@@ -73,7 +73,7 @@ stop_incompatible_size <- function(size, group, index, expected_sizes, quo) {
   abort(glue_c(
     "`summarise()` argument `..{index}` incompatible",
     x = "Result should be size {expected_sizes[group]}, not {size}",
-    i = "Expression being evaluated : {as_label(quo_get_expr(quo))}",
+    i = "..{index} is {as_label(quo_get_expr(quo))}",
     i = if(is_grouped_df(data)) "The error occured in group {group}",
     i = paste0(
       "This happens when a previous expression gave a result of size {expected_sizes[group]}",
@@ -86,6 +86,6 @@ stop_summarise_combine <- function(msg, index, quo) {
   abort(glue_c(
     "`summarise()` argument `..{index}` returns mixed types",
     x = "Error from vec_c() : {msg}",
-    i = "Expression being evaluated : {as_label(quo_get_expr(quo))}"
+    i = "..{index} is {as_label(quo_get_expr(quo))}"
   ))
 }

@@ -1047,6 +1047,7 @@ test_that("summarise() give meaningful errors", {
       group_by(x, y) %>%
       summarise(a = NULL)
 
+    "# mixed types"
     tibble(id = 1:2, a = list(1, "2")) %>%
       group_by(id) %>%
       summarise(a = a[[1]])

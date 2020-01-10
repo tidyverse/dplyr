@@ -5,36 +5,39 @@ unsupported type
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = env(a = 1))
 Error: `summarise()` argument `..1` incompatible
 x Result should be a vector, not a `environment`
-i Expression being evaluated : env(a = 1)
+i ..1 is env(a = 1)
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = env(
 +   a = 1))
 Error: `summarise()` argument `..1` incompatible
 x Result should be a vector, not a `environment`
-i Expression being evaluated : env(a = 1)
+i ..1 is env(a = 1)
 i The error occured in group 1
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = NULL)
 Error: `summarise()` argument `..1` incompatible
 x Result should be a vector, not a `NULL`
-i Expression being evaluated : NULL
+i ..1 is NULL
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = NULL)
 Error: `summarise()` argument `..1` incompatible
 x Result should be a vector, not a `NULL`
-i Expression being evaluated : NULL
+i ..1 is NULL
 i The error occured in group 1
 
+
+mixed types
+===========
+
 > tibble(id = 1:2, a = list(1, "2")) %>% group_by(id) %>% summarise(a = a[[1]])
-Error: `summarise()` argument `..1` errored
-x No common type for `..1` <double> and `..2` <character>.
-i Expression being evaluated : a[[1]]
-i The error occured in group 2
+Error: `summarise()` argument `..1` returns mixed types
+x Error from vec_c() : No common type for `..1` <double> and `..2` <character>.
+i ..1 is a[[1]]
 
 > tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[1]])
-Error: `summarise()` argument `..1` errored
-x No common type for `..1` <double> and `..2` <character>.
-i Expression being evaluated : a[[1]]
+Error: `summarise()` argument `..1` returns mixed types
+x Error from vec_c() : No common type for `..1` <double> and `..2` <character>.
+i ..1 is a[[1]]
 
 
 incompatible size
@@ -43,13 +46,13 @@ incompatible size
 > mtcars %>% summarise(x = 1:3, y = 1:2)
 Error: `summarise()` argument `..2` incompatible
 x Result should be size 3, not 2
-i Expression being evaluated : 1:2
+i ..2 is 1:2
 i This happens when a previous expression gave a result of size 3
 
 > mtcars %>% group_by(cyl) %>% summarise(x = 1:3, y = 1:2)
 Error: `summarise()` argument `..2` incompatible
 x Result should be size 3, not 2
-i Expression being evaluated : 1:2
+i ..2 is 1:2
 i The error occured in group 1
 i This happens when a previous expression gave a result of size 3 for the group 1
 
