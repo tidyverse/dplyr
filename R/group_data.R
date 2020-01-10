@@ -55,14 +55,19 @@ group_data.grouped_df <- function(.data) {
 #' @rdname group_data
 #' @export
 group_keys <- function(.tbl, ...) {
-  if (!missing(...)) {
-    abort("Use of `...` is deprecated; please `group_by()` first.")
-  }
   UseMethod("group_keys")
 }
 
 #' @export
 group_keys.data.frame <- function(.tbl, ...){
+  if (dots_n(...) > 0) {
+    lifecycle::deprecate_warn(
+      "1.0.0", "group_keys(... = )",
+      details = "Please `group_by()` first"
+    )
+    .tbl <- .tbl %>% group_by(...)
+  }
+
   out <- group_data(.tbl)
   attr(out, ".drop") <- NULL
   out[-length(out)]

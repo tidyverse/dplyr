@@ -55,6 +55,13 @@ test_that("group_keys() works", {
   expect_equal(res, tibble(g = factor(c("a", "b"), levels = c("a", "b", "c"))))
 })
 
+test_that("group_keys(...) is deprecated", {
+  df <- tibble(x = 1, y = 2)
+
+  expect_warning(out <- df %>% group_keys(x), "deprecated")
+  expect_equal(out, tibble(x = 1))
+})
+
 test_that("group_keys.rowwise_df() is a 0 columns data frame of the right number of rows", {
   expect_equal(
     group_keys(rowwise(iris)),
