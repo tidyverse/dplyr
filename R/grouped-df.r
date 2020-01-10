@@ -261,36 +261,6 @@ cbind.grouped_df <- function(...) {
   bind_cols(...)
 }
 
-#' Select grouping variables
-#'
-#' This selection helpers matches grouping variables. It can be used
-#' in [select()] or [vars()][scoped] selections.
-#'
-#' @inheritParams tidyselect::select_helpers
-#' @seealso [groups()] and [group_vars()] for retrieving the grouping
-#'   variables outside selection contexts.
-#'
-#' @examples
-#' gdf <- iris %>% group_by(Species)
-#'
-#' # Select the grouping variables:
-#' gdf %>% select(group_cols())
-#'
-#' # Remove the grouping variables from mutate selections:
-#' gdf %>% mutate_at(vars(-group_cols()), `/`, 100)
-#' @export
-group_cols <- function(vars = peek_vars()) {
-  if (is_sel_vars(vars)) {
-    matches <- match(vars %@% groups, vars)
-    if (anyNA(matches)) {
-      abort("Can't find the grouping variables")
-    }
-    matches
-  } else {
-    int()
-  }
-}
-
 group_data_trim <- function(group_data, preserve = FALSE) {
   if (preserve) {
     return(group_data)
