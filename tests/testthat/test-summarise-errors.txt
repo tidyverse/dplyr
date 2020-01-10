@@ -4,24 +4,24 @@ unsupported type
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = env(a = 1))
 Error: `summarise()` argument `..1` incompatible
-x Result should be a vector, not a `environment`
+x Result should be a vector, not a environment
 i ..1 is env(a = 1)
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = env(
 +   a = 1))
 Error: `summarise()` argument `..1` incompatible
-x Result should be a vector, not a `environment`
+x Result should be a vector, not a environment
 i ..1 is env(a = 1)
 i The error occured in group 1
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = NULL)
 Error: `summarise()` argument `..1` incompatible
-x Result should be a vector, not a `NULL`
+x Result should be a vector, not a NULL
 i ..1 is NULL
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = NULL)
 Error: `summarise()` argument `..1` incompatible
-x Result should be a vector, not a `NULL`
+x Result should be a vector, not a NULL
 i ..1 is NULL
 i The error occured in group 1
 

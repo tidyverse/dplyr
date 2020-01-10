@@ -54,7 +54,7 @@ stop_summarise_unsupported_type <- function(result, index, quo) {
   # called again with context
   abort(glue_c(
     "`summarise()` argument `..{index}` incompatible",
-    x = "Result should be a vector, not a `{typeof(result)}`",
+    x = "Result should be a vector, not a {typeof(result)}",
     i = "..{index} is {as_label(quo_get_expr(quo))}",
     i = if(is_grouped_df(data)) "The error occured in group {group}"
   ))
