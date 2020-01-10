@@ -26,10 +26,15 @@ i Expression being evaluated : NULL
 i The error occured in group 1
 
 > tibble(id = 1:2, a = list(1, "2")) %>% group_by(id) %>% summarise(a = a[[1]])
-Error: No common type for `..1` <double> and `..2` <character>.
+Error: `summarise()` argument `..1` errored
+x No common type for `..1` <double> and `..2` <character>.
+i Expression being evaluated : a[[1]]
+i The error occured in group 2
 
 > tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[1]])
-Error: No common type for `..1` <double> and `..2` <character>.
+Error: `summarise()` argument `..1` errored
+x No common type for `..1` <double> and `..2` <character>.
+i Expression being evaluated : a[[1]]
 
 
 incompatible size
