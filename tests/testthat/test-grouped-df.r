@@ -1,9 +1,18 @@
-test_that("can selectively ungroup", {
-  gf <- tibble(x = 1, y = 2) %>% group_by(x, y)
+test_that("new_grouped_df can create alternative grouping structures (#3837)", {
+  tbl <- new_grouped_df(
+    tibble(x = rnorm(10)),
+    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+  )
+  res <- summarise(tbl, x = mean(x))
+  expect_equal(nrow(res), 5L)
+})
 
-  expect_equal(gf %>% ungroup() %>% group_vars(), character())
-  expect_equal(gf %>% ungroup(everything()) %>% group_vars(), character())
-  expect_equal(gf %>% ungroup(x) %>% group_vars(), "y")
+test_that("new_grouped_df does not have rownames (#4173)", {
+  tbl <- new_grouped_df(
+    tibble(x = rnorm(10)),
+    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+  )
+  expect_false(tibble::has_rownames(tbl))
 })
 
 # Errors ------------------------------------------------------------------

@@ -499,7 +499,13 @@ test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {
   )
 })
 
+test_that("can selectively ungroup", {
+  gf <- tibble(x = 1, y = 2) %>% group_by(x, y)
 
+  expect_equal(gf %>% ungroup() %>% group_vars(), character())
+  expect_equal(gf %>% ungroup(everything()) %>% group_vars(), character())
+  expect_equal(gf %>% ungroup(x) %>% group_vars(), "y")
+})
 
 # Errors ------------------------------------------------------------------
 
