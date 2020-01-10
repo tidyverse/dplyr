@@ -59,12 +59,13 @@ group_data.grouped_df <- function(.data) {
   attr(validate_grouped_df(.data), "groups")
 }
 
+# -------------------------------------------------------------------------
+
 #' @rdname group_data
 #' @export
 group_keys <- function(.tbl, ...) {
   UseMethod("group_keys")
 }
-
 #' @export
 group_keys.data.frame <- function(.tbl, ...) {
   if (dots_n(...) > 0) {
@@ -79,13 +80,11 @@ group_keys.data.frame <- function(.tbl, ...) {
   attr(out, ".drop") <- NULL
   out[-length(out)]
 }
-
 #' @rdname group_data
 #' @export
 group_rows <- function(.data) {
   group_data(.data)[[".rows"]]
 }
-
 
 #' @export
 #' @rdname group_data
@@ -97,7 +96,6 @@ group_indices <- function(.data, ...) {
 
   UseMethod("group_indices")
 }
-
 #' @export
 group_indices.data.frame <- function(.data, ...) {
   if (dots_n(...) > 0) {
@@ -116,7 +114,6 @@ group_indices.data.frame <- function(.data, ...) {
 group_vars <- function(x) {
   UseMethod("group_vars")
 }
-
 #' @export
 group_vars.data.frame <- function(x) {
   setdiff(names(group_data(x)), ".rows")
@@ -127,7 +124,6 @@ group_vars.data.frame <- function(x) {
 groups <- function(x) {
   UseMethod("groups")
 }
-
 #' @export
 groups.data.frame <- function(x) {
   syms(group_vars(x))
@@ -136,7 +132,6 @@ groups.data.frame <- function(x) {
 #' @export
 #' @rdname group_data
 group_size <- function(x) UseMethod("group_size")
-
 #' @export
 group_size.data.frame <- function(x) {
   lengths(group_rows(x))
@@ -145,7 +140,6 @@ group_size.data.frame <- function(x) {
 #' @export
 #' @rdname group_data
 n_groups <- function(x) UseMethod("n_groups")
-
 #' @export
 n_groups.data.frame <- function(x) {
   nrow(group_data(x))
