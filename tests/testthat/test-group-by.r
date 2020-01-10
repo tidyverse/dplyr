@@ -296,12 +296,6 @@ test_that("group_by ignores empty quosures (3780)", {
   expect_equal(group_by(mtcars, cyl), group_by(mtcars, cyl, !!empty))
 })
 
-test_that("group_cols() selects grouping variables", {
-  expect_identical(select(mtcars, group_cols()), select(mtcars))
-  expect_identical(select(group_by(mtcars, cyl, am), group_cols()), group_by_all(select(mtcars, cyl, am)))
-  expect_identical(mutate_at(group_by(iris, Species), vars(-group_cols()), `/`, 100), mutate_all(group_by(iris, Species), `/`, 100))
-})
-
 # Zero groups ---------------------------------------------------
 
 test_that("mutate handles grouped tibble with 0 groups (#3935)", {
