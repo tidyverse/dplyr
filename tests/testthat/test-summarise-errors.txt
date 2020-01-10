@@ -52,11 +52,11 @@ Missing variable
 > summarise(mtcars, a = mean(not_there))
 Error: `summarise()` argument `a` errored
 x object 'not_there' not found
-i Expression being evaluated : mean(not_there)
+i `a` is mean(not_there)
 
 > summarise(group_by(mtcars, cyl), a = mean(not_there))
 Error: `summarise()` argument `a` errored
 x object 'not_there' not found
-i Expression being evaluated : mean(not_there)
+i `a` is mean(not_there)
 i The error occured in group 1
 

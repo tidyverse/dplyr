@@ -57,12 +57,12 @@ evaluation error
 > mtcars %>% filter(`_x`)
 Error: `filter()` argument `..1` errored
 x object '_x' not found
-i Expression being evaluated : _x
+i `..1` is _x
 
 > mtcars %>% group_by(cyl) %>% filter(`_x`)
 Error: `filter()` argument `..1` errored
 x object '_x' not found
-i Expression being evaluated : _x
+i `..1` is _x
 i The error occured in group 1
 
 

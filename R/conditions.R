@@ -32,7 +32,7 @@ stop_eval_tidy <- function(e, index, dots, fn) {
   abort(glue_c(
     "`{fn}()` argument `{name}` errored",
     x = conditionMessage(e),
-    i = "Expression being evaluated : {expr}",
+    i = "`{name}` is {expr}",
     i = if(is_grouped_df(data)) "The error occured in group {group}"
   ))
 }
