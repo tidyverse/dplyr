@@ -23,5 +23,8 @@ is_grouped_df(x)
 The easiest way to create a grouped data frame is to call the \code{group_by()}
 method on a data frame or tbl: this will take care of capturing
 the unevaluated expressions for you.
+
+See \code{\link[=group_data]{group_data()}} for the accessor functions that retrieve various metadata
+from a \code{grouped_df}.
 }
 \keyword{internal}

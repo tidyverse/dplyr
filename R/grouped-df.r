@@ -1,8 +1,12 @@
 #' A grouped data frame.
 #'
+#' @description
 #' The easiest way to create a grouped data frame is to call the `group_by()`
 #' method on a data frame or tbl: this will take care of capturing
 #' the unevaluated expressions for you.
+#'
+#' See [group_data()] for the accessor functions that retrieve various metadata
+#' from a `grouped_df`.
 #'
 #' @keywords internal
 #' @param data a tbl or data frame.

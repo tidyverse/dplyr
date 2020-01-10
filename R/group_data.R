@@ -1,24 +1,21 @@
 #' Grouping metadata
 #'
 #' @description
-#' * `group_data()`: data frame that defines the grouping structure.
-#'   The last column, always called `.rows`, is a list of integer vectors that
-#'   gives the location of the rows in each group.
+#' * `group_data()` returns a data frame that defines the grouping structure.
+#'   The columns give the values of the grouping variables. The last column,
+#'   always called `.rows`, is a list of integer vectors that gives the
+#'   location of the rows in each group. You can retrieve just the grouping
+#'   data with `group_data()`, and just the locations with `group_rows()`.
 #'
-#' * `group_data()`: just the grouping structure from `group_data()`.
+#' * `group_indices()` returns an integer vector the same length as `.data`
+#'   that gives the group that each row belongs to (cf. `group_rows()` which
+#'   returns the rows which each group contains).
 #'
-#' * `group_rows()`: just row locations from `group_data()`
+#' * `group_vars()` gives names of grouping variables as character vector;
+#'   `groups()` gives the names as a list of symbols.
 #'
-#' * `group_indices()`: an integer vector the same length as `.data` that
-#'   gives the group each row belongs to.
-#'
-#' * `group_vars()`: names of grouping variables as character vector
-#'
-#' * `groups()`: names of grouping as list of symbols
-#'
-#' * `group_size()`: vector giving size of each group
-#'
-#' * `n_groups()`: total number of groups
+#' * `group_size()` gives the size of each group, and `n_groups()` gives the
+#'   total number of groups.
 #'
 #' @param .data,.tbl,x A data frame or extension (like a tibble or grouped
 #'   tibble).
