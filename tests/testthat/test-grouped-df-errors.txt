@@ -2,5 +2,5 @@
 Error: `vars` missing from `data`: `y`
 
 > grouped_df(data.frame(x = 1), 1)
-Error in grouped_df(data.frame(x = 1), 1): is.character(vars) is not TRUE
+Error: `vars` must be a character vector
 

@@ -14,8 +14,12 @@
 #'
 #' @export
 grouped_df <- function(data, vars, drop = FALSE) {
-  stopifnot(is.data.frame(data))
-  stopifnot(is.character(vars))
+  if (!is.data.frame(data)) {
+    abort("`data` must be a data frame")
+  }
+  if (!is.character(vars)) {
+    abort("`vars` must be a character vector")
+  }
 
   if (length(vars) == 0) {
     as_tibble(data)
