@@ -4,12 +4,15 @@
 \alias{context}
 \alias{n}
 \alias{current_key}
+\alias{cur_group_id}
 \alias{current_column}
 \title{Context dependent expressions}
 \usage{
 n()
 
 current_key()
+
+cur_group_id()
 
 current_column()
 }
@@ -20,6 +23,7 @@ variable, so only work inside specific contexts
 \item \code{n()} gives the current group size.
 \item \code{current_key()} gives the group keys, a tibble with one row and one column
 for each grouping variable.
+\item \code{cur_group_id()} gives the unique identifier for the current group
 \item \code{current_column()} gives the current column being used in \code{\link[=across]{across()}}.
 }
 }

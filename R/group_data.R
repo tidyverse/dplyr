@@ -9,6 +9,9 @@
 #'
 #' * `group_rows()`: just row locations from `group_data()`
 #'
+#' * `group_indices()`: an integer vector the same length as `.data` that
+#'   gives the group each row belongs to.
+#'
 #' * `group_vars()`: names of grouping variables as character vector
 #'
 #' * `groups()`: names of grouping as list of symbols
@@ -17,7 +20,11 @@
 #'
 #' * `n_groups()`: total number of groups
 #'
-#' @param .data,.tbl,x A data frame or extension (like a tibble or grouped tibble).
+#' @param .data,.tbl,x A data frame or extension (like a tibble or grouped
+#'   tibble).
+#' @param ... Use of `...` is now deprecated; please use `group_by()` first
+#'   instead.
+#' @keywords internal
 #' @examples
 #' df <- tibble(x = c(1,1,2,2))
 #' group_vars(df)
@@ -59,13 +66,13 @@ group_keys <- function(.tbl, ...) {
 }
 
 #' @export
-group_keys.data.frame <- function(.tbl, ...){
+group_keys.data.frame <- function(.tbl, ...) {
   if (dots_n(...) > 0) {
     lifecycle::deprecate_warn(
       "1.0.0", "group_keys(... = )",
       details = "Please `group_by()` first"
     )
-    .tbl <- .tbl %>% group_by(...)
+    .tbl <- group_by(.tbl, ...)
   }
 
   out <- group_data(.tbl)
@@ -77,6 +84,31 @@ group_keys.data.frame <- function(.tbl, ...){
 #' @export
 group_rows <- function(.data) {
   group_data(.data)[[".rows"]]
+}
+
+
+#' @export
+#' @rdname group_data
+group_indices <- function(.data, ...) {
+  if (nargs() == 0) {
+    lifecycle::deprecate_warn("1.0.0", "group_indices()", "cur_group_id()")
+    return(cur_group_id())
+  }
+
+  UseMethod("group_indices")
+}
+
+#' @export
+group_indices.data.frame <- function(.data, ...) {
+  if (dots_n(...) > 0) {
+    lifecycle::deprecate_warn(
+      "1.0.0", "group_keys(... = )",
+      details = "Please `group_by()` first"
+    )
+    .data <- group_by(.data, ...)
+  }
+
+  .Call(`dplyr_group_indices`, group_rows(.data), nrow(.data))
 }
 
 #' @export

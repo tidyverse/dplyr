@@ -4,6 +4,7 @@
 \alias{group_data}
 \alias{group_keys}
 \alias{group_rows}
+\alias{group_indices}
 \alias{group_vars}
 \alias{groups}
 \alias{group_size}
@@ -16,6 +17,8 @@ group_keys(.tbl, ...)
 
 group_rows(.data)
 
+group_indices(.data, ...)
+
 group_vars(x)
 
 groups(x)
@@ -25,7 +28,11 @@ group_size(x)
 n_groups(x)
 }
 \arguments{
-\item{.data, .tbl, x}{A data frame or extension (like a tibble or grouped tibble).}
+\item{.data, .tbl, x}{A data frame or extension (like a tibble or grouped
+tibble).}
+
+\item{...}{Use of \code{...} is now deprecated; please use \code{group_by()} first
+instead.}
 }
 \description{
 \itemize{
@@ -34,6 +41,8 @@ The last column, always called \code{.rows}, is a list of integer vectors that
 gives the location of the rows in each group.
 \item \code{group_data()}: just the grouping structure from \code{group_data()}.
 \item \code{group_rows()}: just row locations from \code{group_data()}
+\item \code{group_indices()}: an integer vector the same length as \code{.data} that
+gives the group each row belongs to.
 \item \code{group_vars()}: names of grouping variables as character vector
 \item \code{groups()}: names of grouping as list of symbols
 \item \code{group_size()}: vector giving size of each group
@@ -51,3 +60,4 @@ group_vars(gf)
 group_rows(gf)
 group_data(gf)
 }
+\keyword{internal}

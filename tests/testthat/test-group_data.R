@@ -68,7 +68,6 @@ test_that("group_keys.rowwise_df() is a 0 columns data frame of the right number
     tibble::new_tibble(list(), nrow = nrow(iris))
   )
 })
-
 test_that("new_grouped_df can create alternative grouping structures (#3837)", {
   tbl <- new_grouped_df(
     tibble(x = rnorm(10)),
@@ -105,6 +104,27 @@ test_that("group_size correct for grouped data", {
   expect_equal(group_size(df), rep(10, 3))
 })
 
+# group_indices -----------------------------------------------------------
+
+test_that("no arg group_indices() is deprecated", {
+  df <- tibble(x = 1)
+  expect_warning(out <- summarise(df, id = group_indices()), "deprecated")
+  expect_equal(out, tibble(id = 1))
+})
+
+test_that("group_indices(...) is deprecated", {
+  df <- tibble(x = 1, y = 2)
+  expect_warning(out <- df %>% group_indices(x), "deprecated")
+  expect_equal(out, 1)
+})
+
+test_that("group_indices() returns expected values", {
+  df <- tibble(x = c("b", "a", "b"))
+  gf <- group_by(df, x)
+
+  expect_equal(group_indices(df), c(1, 1, 1))
+  expect_equal(group_indices(gf), c(2, 1, 2))
+})
 
 # Errors ------------------------------------------------------------------
 

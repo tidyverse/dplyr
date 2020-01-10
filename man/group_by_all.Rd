@@ -86,7 +86,6 @@ group_by_if(iris, is.factor, as.character)
 \seealso{
 Other grouping functions: 
 \code{\link{group_by}()},
-\code{\link{group_indices}()},
 \code{\link{group_map}()},
 \code{\link{group_nest}()},
 \code{\link{group_split}()},

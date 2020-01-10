@@ -351,9 +351,7 @@ SEXP dplyr_group_keys_impl(SEXP data) {
   return keys;
 }
 
-SEXP dplyr_group_indices(SEXP data, SEXP s_nr) {
-  SEXP groups = Rf_getAttrib(data, dplyr::symbols::groups);
-  SEXP rows = VECTOR_ELT(groups, XLENGTH(groups) - 1);
+SEXP dplyr_group_indices(SEXP rows, SEXP s_nr) {
   R_xlen_t nr = INTEGER(s_nr)[0];
   R_xlen_t ng = XLENGTH(rows);
 
