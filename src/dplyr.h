@@ -35,7 +35,7 @@ struct vectors {
 void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t group_index, R_xlen_t nres, R_xlen_t n, SEXP data);
 void stop_filter_incompatible_type(R_xlen_t i, SEXP column_name, R_xlen_t group_index, SEXP result, SEXP data);
 void stop_summarise_unsupported_type(SEXP result);
-void stop_summarise_incompatible_size(int size);
+void stop_summarise_incompatible_size(int size, R_xlen_t index_group);
 
 } // namespace dplyr
 

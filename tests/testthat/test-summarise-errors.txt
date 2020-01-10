@@ -50,8 +50,8 @@ i This happens when a previous expression gave a result of size 3
 Error: `summarise()` argument `..2` incompatible
 x Result should be size 3, not 2
 i Expression being evaluated : 1:2
-i The error occured in group 3
-i This happens when a previous expression gave a result of size 3 for the group 3
+i The error occured in group 1
+i This happens when a previous expression gave a result of size 3 for the group 1
 
 
 Missing variable

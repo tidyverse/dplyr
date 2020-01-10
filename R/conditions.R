@@ -61,15 +61,13 @@ stop_summarise_unsupported_type <- function(result, index, quo) {
 
 }
 
-stop_incompatible_size <- function(size, index, expected_sizes, quo) {
+stop_incompatible_size <- function(size, group, index, expected_sizes, quo) {
   # called from the C++ code
   if(missing(quo)) {
-    abort(class = "dplyr_summarise_incompatible_size", size = size)
+    abort(class = "dplyr_summarise_incompatible_size", size = size, group = group)
   }
 
   data  <- peek_mask()$full_data()
-  group <- peek_mask()$get_current_group()
-
 
   # called again with context
   abort(glue_c(
@@ -81,5 +79,13 @@ stop_incompatible_size <- function(size, index, expected_sizes, quo) {
       "This happens when a previous expression gave a result of size {expected_sizes[group]}",
       if(is_grouped_df(data)) " for the group {group}" else ""
     )
+  ))
+}
+
+stop_summarise_combine <- function(msg, index, quo) {
+  abort(glue_c(
+    "`summarise()` argument `..{index}` returns mixed types",
+    x = "Error from vec_c() : {msg}",
+    i = "Expression being evaluated : {as_label(quo_get_expr(quo))}"
   ))
 }

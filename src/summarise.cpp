@@ -84,7 +84,7 @@ SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks) {
     for (R_xlen_t i = 0; i < nchunks; i++, ++p_size) {
       int size_i = vctrs::short_vec_size(VECTOR_ELT(chunks, i));
       if (size_i != *p_size && size_i != 1) {
-        dplyr::stop_summarise_incompatible_size(size_i);
+        dplyr::stop_summarise_incompatible_size(size_i, i);
       }
     }
     return size;
