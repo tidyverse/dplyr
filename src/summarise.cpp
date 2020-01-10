@@ -89,8 +89,9 @@ SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks) {
     // matches
     int* p_size = INTEGER(size);
     for (R_xlen_t i = 0; i < nchunks; i++, ++p_size) {
-      if (*p_size != vctrs::short_vec_size(VECTOR_ELT(chunks, i))) {
-        Rf_errorcall(R_NilValue, "Result does not respect vec_size() == .size");
+      int new_size = vctrs::short_vec_size(VECTOR_ELT(chunks, i));
+      if (new_size != *p_size && new_size != 1) {
+        Rf_errorcall(R_NilValue, "Result does not respect vec_size() == .size or vec_size() == 1");
       }
     }
     return size;
