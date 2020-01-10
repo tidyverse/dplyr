@@ -64,7 +64,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_cumany", (DL_FUNC)& dplyr_cumany, 1},
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
-  {"dplyr_group_keys_impl", (DL_FUNC)& dplyr_group_keys_impl, 1},
 
   {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 3},
   {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 5},
