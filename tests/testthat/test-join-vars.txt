@@ -1,0 +1,47 @@
+
+common by
+=========
+
+> xy <- c("x", "y")
+> vars <- join_vars2(xy, xy)
+Message: Joining, by = c("x", "y")
+
+
+by errors
+=========
+
+> join_vars2(xy, c("a", "b"))
+Error: `by` required, because the data sources have no common variables
+
+> join_vars2(xy, xy, by = FALSE)
+Error: `by` must be a (named) character vector, list, or NULL, not a logical vector
+
+> join_vars2(xy, xy, by = list(1, 2))
+Error: join columns must be character vectors
+
+> join_vars2(xy, xy, by = c("x", "x"))
+Error: Join columns must be duplicated
+x Problem at position 2
+
+> join_vars2(xy, xy, by = c("x", NA))
+Error: Join columns must be not NA
+x Problem at position 2
+
+> join_vars2(xy, xy, by = c("aaa", "bbb"))
+Error: Join columns must be present in data
+x Problem with `aaa` and `bbb`
+
+
+suffixes
+========
+
+> join_vars2(xy, xy, by = "x", suffix = "x")
+Error: `suffix` must be a character vector of length 2
+i suffix is a character vector of length 1
+
+> join_vars2(xy, xy, by = "x", suffix = c("", NA))
+Error: `suffix` can't be NA
+
+> join_vars2(xy, xy, by = "x", suffix = c("", ""))
+Error: `suffix` can't be the empty string for both suffixes
+
