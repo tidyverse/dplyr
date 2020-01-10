@@ -165,19 +165,19 @@ summarise_new_cols <- function(.data, ...) {
           cols[[ auto_named_dots[i] ]] <-  result
         }
       }
-    },
-    vctrs_error_incompatible_type = function(e) {
-      stop_summarise_combine(conditionMessage(e), index = i, quo = quo)
-    },
-    simpleError = function(e) {
-      stop_eval_tidy(e, index = i, quo = quo, fn = "summarise")
-    },
-    dplyr_summarise_unsupported_type = function(cnd) {
-      stop_summarise_unsupported_type(result = cnd$result, index = i, quo = quo)
-    },
-    dplyr_summarise_incompatible_size = function(cnd) {
-      stop_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, quo = quo)
-    })
+      },
+      vctrs_error_incompatible_type = function(e) {
+        stop_summarise_combine(conditionMessage(e), index = i, dots = dots)
+      },
+      simpleError = function(e) {
+        stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
+      },
+      dplyr_summarise_unsupported_type = function(cnd) {
+        stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
+      },
+      dplyr_summarise_incompatible_size = function(cnd) {
+        stop_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
+      })
   }
 
   list(new = cols, size = .size)

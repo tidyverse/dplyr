@@ -140,11 +140,7 @@ filter_indices <- function(.data, ...) {
   tryCatch(
     mask$eval_all_filter(dots, env_filter),
     simpleError = function(e) {
-      stop_eval_tidy(e,
-        index = env_filter$current_expression,
-        quo = dots[[env_filter$current_expression]],
-        fn = "filter"
-      )
+      stop_eval_tidy(e, index = env_filter$current_expression, dots = dots, fn = "filter")
     }
   )
 }
