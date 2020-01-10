@@ -18,14 +18,7 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private, SEXP env_context,
 
     SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
     if (!vctrs::vec_is_vector(result_i)) {
-      if (!Rf_isNull(dots_names)) {
-        SEXP name = STRING_ELT(dots_names, i);
-        if (XLENGTH(name) > 0) {
-          Rf_errorcall(R_NilValue, "Unsupported type for result `%s`", CHAR(name));
-        }
-      }
-      int i = INTEGER(sexp_i)[0];
-      Rf_errorcall(R_NilValue, "Unsupported type at index %d", i);
+      dplyr::stop_summarise_unsupported_type(result_i);
     }
 
     SET_VECTOR_ELT(chunks, i, result_i);
@@ -91,7 +84,7 @@ SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks) {
     for (R_xlen_t i = 0; i < nchunks; i++, ++p_size) {
       int size_i = vctrs::short_vec_size(VECTOR_ELT(chunks, i));
       if (size_i != *p_size && size_i != 1) {
-        Rf_errorcall(R_NilValue, "Result does not respect vec_size() == .size or vec_size() == 1");
+        dplyr::stop_summarise_incompatible_size(size_i);
       }
     }
     return size;

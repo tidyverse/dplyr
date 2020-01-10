@@ -122,21 +122,31 @@ summarise_new_cols <- function(.data, ...) {
   chunks <- vector("list", length(dots))
 
   for (i in seq_along(dots)) {
-    # a list in which each element is the result of
-    # evaluating the quosure in the "sliced data mask"
-    #
-    # TODO: reinject hybrid evaluation at the R level
     quo <- dots[[i]]
-    chunks[[i]] <- tryCatch(
-      mask$eval_all_summarise(quo, dots_names, i),
+
+    tryCatch({
+
+      # a list in which each element is the result of
+      # evaluating the quosure in the "sliced data mask"
+      #
+      # TODO: reinject hybrid evaluation at the R level
+      chunks[[i]] <- mask$eval_all_summarise(quo, dots_names, i)
+
+      # check that vec_size() of chunks is compatible with .size
+      # and maybe update .size
+      .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks[[i]])
+
+      },
       simpleError = function(e) {
         stop_eval_tidy(e, index = i, quo = quo, fn = "summarise")
+      },
+      dplyr_summarise_unsupported_type = function(cnd) {
+        stop_summarise_unsupported_type(result = cnd$result, index = i, quo = quo)
+      },
+      dplyr_summarise_incompatible_size = function(cnd) {
+        stop_incompatible_size(size = cnd$size, index = i, expected_sizes = .size, quo = quo)
       }
     )
-
-    # check that vec_size() of chunks is compatible with .size
-    # and maybe update .size
-    .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks[[i]])
 
     result_type <- vec_ptype_common(!!!chunks[[i]])
 

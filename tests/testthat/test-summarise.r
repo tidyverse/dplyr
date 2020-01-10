@@ -1054,6 +1054,13 @@ test_that("summarise() give meaningful errors", {
       rowwise() %>%
       summarise(a = a[[1]])
 
+    "# incompatible size"
+    mtcars %>%
+      summarise(x = 1:3, y = 1:2)
+    mtcars %>%
+      group_by(cyl) %>%
+      summarise(x = 1:3, y = 1:2)
+
     "# Missing variable"
     summarise(mtcars, a = mean(not_there))
     summarise(group_by(mtcars, cyl), a = mean(not_there))

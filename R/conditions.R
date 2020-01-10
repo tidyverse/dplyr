@@ -41,3 +41,45 @@ stop_filter_named <- function(index, expr, name) {
     i = "Did you mean `{name} == {as_label(expr)}` ?"
   ))
 }
+
+stop_summarise_unsupported_type <- function(result, index, quo) {
+  # called from the C++ code
+  if(missing(quo)) {
+    abort(class = "dplyr_summarise_unsupported_type", result = result)
+  }
+
+  data  <- peek_mask()$full_data()
+  group <- peek_mask()$get_current_group()
+
+  # called again with context
+  abort(glue_c(
+    "`summarise()` argument `..{index}` incompatible",
+    x = "Result should be a vector, not a `{typeof(result)}`",
+    i = "Expression being evaluated : {as_label(quo_get_expr(quo))}",
+    i = if(is_grouped_df(data)) "The error occured in group {group}"
+  ))
+
+}
+
+stop_incompatible_size <- function(size, index, expected_sizes, quo) {
+  # called from the C++ code
+  if(missing(quo)) {
+    abort(class = "dplyr_summarise_incompatible_size", size = size)
+  }
+
+  data  <- peek_mask()$full_data()
+  group <- peek_mask()$get_current_group()
+
+
+  # called again with context
+  abort(glue_c(
+    "`summarise()` argument `..{index}` incompatible",
+    x = "Result should be size {expected_sizes[group]}, not {size}",
+    i = "Expression being evaluated : {as_label(quo_get_expr(quo))}",
+    i = if(is_grouped_df(data)) "The error occured in group {group}",
+    i = paste0(
+      "This happens when a previous expression gave a result of size {expected_sizes[group]}",
+      if(is_grouped_df(data)) " for the group {group}" else ""
+    )
+  ))
+}

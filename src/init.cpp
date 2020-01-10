@@ -40,9 +40,6 @@ SEXP symbols::dot_dot_group_number = Rf_install("..group_number");
 SEXP symbols::mask = Rf_install("mask");
 SEXP symbols::caller = Rf_install("caller");
 
-SEXP symbols::stop_filter_incompatible_size = Rf_install("stop_filter_incompatible_size");
-SEXP symbols::stop_filter_incompatible_type = Rf_install("stop_filter_incompatible_type");
-
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
