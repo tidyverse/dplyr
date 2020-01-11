@@ -91,7 +91,7 @@ stop_incompatible_size <- function(size, group, index, expected_sizes, dots) {
     i = "`{name}` is {expr}",
     i = if(is_grouped_df(data)) "The error occured in group {group}",
     i = paste0(
-      "This happens when a previous expression gave a result of size {expected_sizes[group]}",
+      "An earlier column had size {expected_sizes[group]}",
       if(is_grouped_df(data)) " for the group {group}" else ""
     )
   ))

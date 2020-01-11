@@ -36,14 +36,14 @@ incompatible size
 Error: `summarise()` argument `y` incompatible
 x Result should be size 3, not 2
 i `y` is 1:2
-i This happens when a previous expression gave a result of size 3
+i An earlier column had size 3
 
 > mtcars %>% group_by(cyl) %>% summarise(x = 1:3, y = 1:2)
 Error: `summarise()` argument `y` incompatible
 x Result should be size 3, not 2
 i `y` is 1:2
 i The error occured in group 1
-i This happens when a previous expression gave a result of size 3 for the group 1
+i An earlier column had size 3 for the group 1
 
 
 Missing variable
