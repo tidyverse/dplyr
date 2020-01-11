@@ -11,7 +11,8 @@ by errors
 =========
 
 > join_vars2(xy, c("a", "b"))
-Error: `by` required, because the data sources have no common variables
+Error: `by` must be supplied when `x` and `y` have no common variables
+i use by = character()` to perform a cross-join
 
 > join_vars2(xy, xy, by = FALSE)
 Error: `by` must be a (named) character vector, list, or NULL, not a logical vector

@@ -2,7 +2,7 @@ glue_c <- function(..., .envir = caller_env()) {
   map_chr(c(...), glue, .envir = .envir)
 }
 
-vars <- function(x) {
+err_vars <- function(x) {
   if (is.logical(x)) {
     x <- which(x)
   }

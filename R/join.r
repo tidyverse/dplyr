@@ -218,56 +218,33 @@ check_valid_names <- function(names, warn_only = FALSE) {
 
 #' @export
 #' @rdname join.tbl_df
-inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-  by <- common_by(by, x, y)
-  suffix <- check_suffix(suffix)
+
+  vars <- join_vars2(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
+  y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
 
-  y <- auto_copy(x, y, copy = copy)
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-
-  by_y <- vars$idx$y$by
-  aux_x <- vars$idx$x$aux
-  aux_y <- vars$idx$y$aux
-  by_names <- vars$alias[seq_len(length(by_y))]
-
-  y_split <- vec_group_pos(set_names(y[, by_y, drop = FALSE], by_names))
-
-  matches <- vec_match(
-    set_names(x[, by_x, drop = FALSE], by_names),
-    y_split$key
-  )
+  y_split <- vec_group_pos(y_key)
+  matches <- vec_match(x_key, y_split$key)
 
   # expand indices
-  x_indices <- seq_len(nrow(x))[!is.na(matches)]
-  y_indices <- y_split$pos[matches[!is.na(matches)]]
-  x_indices <- rep(x_indices, lengths(y_indices))
-  y_indices <- vec_c(!!!y_indices, .pytype = integer())
+  x_loc <- seq_len(nrow(x))[!is.na(matches)]
+  y_loc <- y_split$pos[matches[!is.na(matches)]]
+  x_loc <- rep(x_loc, lengths(y_loc))
+  y_loc <- vec_c(!!!y_loc, .pytype = integer())
 
-  x_slice <- vec_slice(x, x_indices)
-  y_slice <- vec_slice(y, y_indices)
+  x_out <- set_names(x[vars$x$out], names(vars$x$out))
+  y_out <- set_names(y[vars$y$out], names(vars$y$out))
 
-  # joined columns, cast to their common types
-  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
-
-  # join columns, perhaps with casting,
-  # x columns stay in same position
-  join_ptype <- vec_ptype2(x[, by_x, drop = FALSE], set_names(y[, by_y, drop = FALSE], names(x)[by_x]))
-  out[by_x] <- vec_cast(x_slice[, by_x, drop = FALSE], to = join_ptype)
-
-  # other columns from x
-  out[aux_x] <- x_slice[, aux_x, drop = FALSE]
-
-  # then columns from y
-  out[ncol(x) + seq_along(aux_y)] <- y_slice[, aux_y, drop = FALSE]
-
-  reconstruct_join(as_tibble(out), x, vars)
+  out <- vec_slice(x_out, x_loc)
+  out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+  out[names(y_out)] <- vec_slice(y_out, y_loc)
+  out
 }
 
 #' @importFrom tibble add_column
@@ -647,4 +624,3 @@ check_suffix <- function(x) {
 
   list(x = x[[1]], y = x[[2]])
 }
-

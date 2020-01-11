@@ -3,7 +3,7 @@ empty strings in both sides of suffix argument
 ==============================================
 
 > inner_join(e, f, "x", suffix = c("", ""))
-Error: `suffix` can't be empty string for both `x` and `y` suffixes
+Error: `suffix` can't be the empty string for both suffixes
 
 > left_join(e, f, "x", suffix = c("", ""))
 Error: `suffix` can't be empty string for both `x` and `y` suffixes
@@ -35,13 +35,16 @@ check suffix input
 ==================
 
 > inner_join(e, f, "x", suffix = letters[1:3])
-Error: `suffix` must be a character vector of length 2, not a character vector of length 3
+Error: `suffix` must be a character vector of length 2
+i suffix is a character vector of length 3
 
 > inner_join(e, f, "x", suffix = letters[1])
-Error: `suffix` must be a character vector of length 2, not a character vector of length 1
+Error: `suffix` must be a character vector of length 2
+i suffix is a character vector of length 1
 
 > inner_join(e, f, "x", suffix = 1:2)
-Error: `suffix` must be a character vector of length 2, not an integer vector of length 2
+Error: `suffix` must be a character vector of length 2
+i suffix is an integer vector of length 2
 
 
 column not found
@@ -60,120 +63,31 @@ Error: `by` required, because the data sources have no common variables
 Error: `by` must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), not an integer vector
 
 
-empty by
-========
-
-> x <- data.frame()
-> y <- data.frame(a = 1)
-> left_join(x, y, by = names(x))
-Error: `by` must specify variables to join by
-
-> right_join(x, y, by = names(x))
-Error: `by` must specify variables to join by
-
-> semi_join(x, y, by = names(x))
-Error: `by` must specify variables to join by
-
-> full_join(x, y, by = names(x))
-Error: `by` must specify variables to join by
-
-> anti_join(x, y, by = names(x))
-Error: `by` must specify variables to join by
-
-> inner_join(x, y, by = names(x))
-Error: `by` must specify variables to join by
-
-
-NA columns
-==========
-
-> df_a <- tibble(B = c("a", "b", "c"), AA = 1:3)
-> df_b <- tibble(AA = 2:4, C = c("aa", "bb", "cc"))
-> df_aa <- df_a
-> attr(df_aa, "names") <- c(NA, "AA")
-> df_ba <- df_b
-> attr(df_ba, "names") <- c("AA", NA)
-> left_join(df_aa, df_b)
-Error: Column `1` cannot have NA as name
-
-> left_join(df_aa, df_ba)
-Error: Column `1` cannot have NA as name
-
-> left_join(df_a, df_ba)
-Error: Column `2` cannot have NA as name
-
-> right_join(df_aa, df_b)
-Error: Column `1` cannot have NA as name
-
-> right_join(df_aa, df_ba)
-Error: Column `1` cannot have NA as name
-
-> right_join(df_a, df_ba)
-Error: Column `2` cannot have NA as name
-
-> inner_join(df_aa, df_b)
-Error: Column `1` cannot have NA as name
-
-> inner_join(df_aa, df_ba)
-Error: Column `1` cannot have NA as name
-
-> inner_join(df_a, df_ba)
-Error: Column `2` cannot have NA as name
-
-> full_join(df_aa, df_b)
-Error: Column `1` cannot have NA as name
-
-> full_join(df_aa, df_ba)
-Error: Column `1` cannot have NA as name
-
-> full_join(df_a, df_ba)
-Error: Column `2` cannot have NA as name
-
-> semi_join(df_aa, df_b)
-Error: Column `1` cannot have NA as name
-
-> semi_join(df_aa, df_ba)
-Error: Column `1` cannot have NA as name
-
-> semi_join(df_a, df_ba)
-Error: Column `2` cannot have NA as name
-
-> anti_join(df_aa, df_b)
-Error: Column `1` cannot have NA as name
-
-> anti_join(df_aa, df_ba)
-Error: Column `1` cannot have NA as name
-
-> anti_join(df_a, df_ba)
-Error: Column `2` cannot have NA as name
-
-
 duplicate column
 ================
 
-> df1 <- data.frame(x1 = 1:3, x2 = 1:3, y = 1:3)
-> names(df1)[1:2] <- "x"
-> df2 <- data.frame(x = 2:4, y = 2:4)
+> df1 <- tibble(x = 1:3, x = 1:3, y = 1:3, .name_repair = "minimal")
+> df2 <- tibble(x = 2:4, y = 2:4)
 > left_join(df1, df2, by = c("x", "y"))
-Error: Column name `x` must not be duplicated.
+Error: Column `x` must have a unique name
 
 > left_join(df2, df1, by = c("x", "y"))
 Error: Column `x` must have a unique name
 
 > right_join(df1, df2, by = c("x", "y"))
-Error: Column name `x` must not be duplicated.
+Error: Column `x` must have a unique name
 
 > right_join(df2, df1, by = c("x", "y"))
 Error: Column `x` must have a unique name
 
 > inner_join(df1, df2, by = c("x", "y"))
-Error: Column name `x` must not be duplicated.
+Error: `nm` must be `NULL` or a character vector the same length as `x`
 
 > inner_join(df2, df1, by = c("x", "y"))
-Error: Column `x` must have a unique name
+Error: `nm` must be `NULL` or a character vector the same length as `x`
 
 > full_join(df1, df2, by = c("x", "y"))
-Error: Column name `x` must not be duplicated.
+Error: Column `x` must have a unique name
 
 > full_join(df2, df1, by = c("x", "y"))
 Error: Column `x` must have a unique name

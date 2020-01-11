@@ -11,10 +11,10 @@ Error: Column `x` must have a unique name
 Error: Column `x` must have a unique name
 
 > inner_join(df1, df2, by = c("x", "y"))
-Error: Column `x` must have a unique name
+Error: `nm` must be `NULL` or a character vector the same length as `x`
 
 > inner_join(df2, df1, by = c("x", "y"))
-Error: Column `x` must have a unique name
+Error: `nm` must be `NULL` or a character vector the same length as `x`
 
 > full_join(df1, df2, by = c("x", "y"))
 Error: Column `x` must have a unique name

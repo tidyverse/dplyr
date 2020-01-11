@@ -46,20 +46,3 @@ get_by_aux <- function(names, by) {
 
   list(by = by, aux = aux)
 }
-
-add_suffixes <- function(x, y, suffix) {
-  if (identical(suffix, "")) {
-    return(x)
-  }
-
-  out <- rep_along(x, na_chr)
-  for (i in seq_along(x)) {
-    nm <- x[[i]]
-    while (nm %in% y || nm %in% out) {
-      nm <- paste0(nm, suffix)
-    }
-
-    out[[i]] <- nm
-  }
-  out
-}

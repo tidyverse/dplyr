@@ -2,24 +2,27 @@ join_vars2 <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y")) {
   by <- standardise_join_by(by, x_names = x_names, y_names = y_names)
   suffix <- standardise_join_suffix(suffix)
 
-  x_by <- setNames(seq_along(x_names), x_names)
-  x_by <- x_by[x_names %in% by$x]
+  x_by <- set_names(which(x_names %in% by$x), by$x)
+  y_by <- set_names(which(y_names %in% by$y), by$x)
 
+  # In x_out, key variables from need to keep the same name; aux variables
+  # need suffixes for duplicates that appear in y_out
   x_loc <- seq_along(x_names)
   y_aux <- setdiff(y_names, c(by$x, by$y))
-  names(x_loc) <- add_suffixes(x_names, y_aux, suffix$x)
+  x_is_aux <- !x_names %in% by$x
+  names(x_loc) <- x_names
+  names(x_loc)[x_is_aux] <- add_suffixes(x_names[x_is_aux], c(by$x, y_aux), suffix$x)
 
   y_loc <- seq_along(y_names)
   names(y_loc) <- add_suffixes(y_names, x_names, suffix$y)
-
-  # remove join keys from y
+  # join keys always come from x
   y_loc <- y_loc[!y_names %in% by$y]
 
   # key = named location to use for matching
   # out = named locations to use in output
   list(
     x = list(key = x_by, out = x_loc),
-    y = list(out = y_loc) # key = y_by,
+    y = list(key = y_by, out = y_loc)
   )
 }
 
@@ -27,7 +30,10 @@ standardise_join_by <- function(by, x_names, y_names) {
   if (is.null(by)) {
     by <- intersect(x_names, y_names)
     if (length(by) == 0) {
-      bad_args("by", "required, because the data sources have no common variables")
+      abort(c(
+        "`by` must be supplied when `x` and `y` have no common variables",
+        i = "use by = character()` to perform a cross-join"
+      ))
     }
     by_quoted <- encodeString(by, quote = '"')
     if (length(by_quoted) == 1L) {
@@ -47,6 +53,7 @@ standardise_join_by <- function(by, x_names, y_names) {
 
     by <- list(x = by_x, y = by_y)
   } else if (is.list(by)) {
+    # TODO: check lengths
     by <- by[c("x", "y")]
   } else {
     bad_args("by", "must be a (named) character vector, list, or NULL, not {friendly_type_of(by)}")
@@ -67,7 +74,7 @@ check_join_vars <- function(vars, names) {
   if (any(na)) {
     abort(glue_c(
       "Join columns must be not NA",
-      x = "Problem at position {vars(na)}"
+      x = "Problem at position {err_vars(na)}"
     ))
   }
 
@@ -75,7 +82,7 @@ check_join_vars <- function(vars, names) {
   if (any(dup)) {
     abort(glue_c(
       "Join columns must be duplicated",
-      x = "Problem at position {vars(dup)}"
+      x = "Problem at position {err_vars(dup)}"
     ))
   }
 
@@ -83,7 +90,7 @@ check_join_vars <- function(vars, names) {
   if (length(missing) > 0) {
     abort(glue_c(
       "Join columns must be present in data",
-      x = "Problem with {vars(missing)}"
+      x = "Problem with {err_vars(missing)}"
     ))
   }
 
@@ -107,4 +114,21 @@ standardise_join_suffix <- function(x) {
   }
 
   list(x = x[[1]], y = x[[2]])
+}
+
+add_suffixes <- function(x, y, suffix) {
+  if (identical(suffix, "")) {
+    return(x)
+  }
+
+  out <- rep_along(x, na_chr)
+  for (i in seq_along(x)) {
+    nm <- x[[i]]
+    while (nm %in% y || nm %in% out[seq_len(i - 1)]) {
+      nm <- paste0(nm, suffix)
+    }
+
+    out[[i]] <- nm
+  }
+  out
 }

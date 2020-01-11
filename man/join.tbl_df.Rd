@@ -2,7 +2,7 @@
 % Please edit documentation in R/join.r
 \name{join.tbl_df}
 \alias{join.tbl_df}
-\alias{inner_join.tbl_df}
+\alias{inner_join.data.frame}
 \alias{nest_join.tbl_df}
 \alias{left_join.tbl_df}
 \alias{right_join.tbl_df}
@@ -12,7 +12,7 @@
 \alias{nest_join.data.frame}
 \title{Join data frame tbls}
 \usage{
-\method{inner_join}{tbl_df}(
+\method{inner_join}{data.frame}(
   x,
   y,
   by = NULL,

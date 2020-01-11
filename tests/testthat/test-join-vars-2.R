@@ -1,12 +1,41 @@
 test_that("automatically finds common variables", {
-  expect_message(vars <- join_vars2(c("x", "y"), c("x", "z"))$x$key)
-  expect_named(vars, "x")
+  expect_message(vars <- join_vars2(c("x", "y"), c("x", "z")))
+  expect_named(vars$x$key, "x")
+  expect_named(vars$y$key, "x")
+})
+
+test_that("key vars are found", {
+  vars <- join_vars2(c("x", "y"), c("x", "z"), by = "x")
+  expect_equal(vars$x$key, c(x = 1L))
+  expect_equal(vars$y$key, c(x = 1L))
+
+  vars <- join_vars2(c("a", "x", "b"), c("x", "a"), by = "x")
+  expect_equal(vars$x$key, c(x = 2L))
+  expect_equal(vars$y$key, c(x = 1L))
+
+  vars <- join_vars2(c("x", "y"), c("a", "x", "z"), by = c("y" = "z"))
+  expect_equal(vars$x$key, c(y = 2L))
+  expect_equal(vars$y$key, c(y = 3L))
 })
 
 test_that("duplicate column names are given suffixes", {
   vars <- join_vars2(c("x", "y"), c("x", "y"), by = "x")
   expect_equal(vars$x$out, c("x" = 1, "y.x" = 2))
   expect_equal(vars$y$out, c("y.y" = 2))
+
+  # but not when they're the join vars
+  vars <- join_vars2(c("A", "A.x"), c("B", "A.x", "A"), by = "A.x")
+  expect_named(vars$x$out, c("A.x.x", "A.x"))
+  expect_named(vars$y$out, c("B", "A.y"))
+})
+
+test_that("NA names are preserved", {
+  vars <- join_vars2(c("x", NA), c("x", "z"), by = "x")
+  expect_named(vars$x$out, c("x", NA))
+
+  vars <- join_vars2(c("x", NA), c("x", NA), by = "x")
+  expect_named(vars$x$out, c("x", "NA.x"))
+  expect_named(vars$y$out, "NA.y")
 })
 
 test_that("by columns ommited from y" , {

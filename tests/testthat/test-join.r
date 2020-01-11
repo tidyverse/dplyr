@@ -909,48 +909,9 @@ test_that("*_join() give meaningful errors", {
     left_join(data.frame(x = 1:5), data.frame(y = 1:5))
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = 1:3)
 
-    "# empty by"
-    x <- data.frame()
-    y <- data.frame(a = 1)
-    left_join(x, y, by = names(x))
-    right_join(x, y, by = names(x))
-    semi_join(x, y, by = names(x))
-    full_join(x, y, by = names(x))
-    anti_join(x, y, by = names(x))
-    inner_join(x, y, by = names(x))
-
-    "# NA columns"
-    df_a <- tibble(B = c("a", "b", "c"), AA = 1:3)
-    df_b <- tibble(AA = 2:4, C = c("aa", "bb", "cc"))
-
-    df_aa <- df_a
-    attr(df_aa, "names") <- c(NA, "AA")
-    df_ba <- df_b
-    attr(df_ba, "names") <- c("AA", NA)
-
-    left_join(df_aa, df_b)
-    left_join(df_aa, df_ba)
-    left_join(df_a, df_ba)
-    right_join(df_aa, df_b)
-    right_join(df_aa, df_ba)
-    right_join(df_a, df_ba)
-    inner_join(df_aa, df_b)
-    inner_join(df_aa, df_ba)
-    inner_join(df_a, df_ba)
-    full_join(df_aa, df_b)
-    full_join(df_aa, df_ba)
-    full_join(df_a, df_ba)
-    semi_join(df_aa, df_b)
-    semi_join(df_aa, df_ba)
-    semi_join(df_a, df_ba)
-    anti_join(df_aa, df_b)
-    anti_join(df_aa, df_ba)
-    anti_join(df_a, df_ba)
-
     "# duplicate column"
-    df1 <- data.frame(x1 = 1:3, x2 = 1:3, y = 1:3)
-    names(df1)[1:2] <- "x"
-    df2 <- data.frame(x = 2:4, y = 2:4)
+    df1 <- tibble(x = 1:3, x = 1:3, y = 1:3, .name_repair = "minimal")
+    df2 <- tibble(x = 2:4, y = 2:4)
 
     left_join(df1, df2, by = c("x", "y"))
     left_join(df2, df1, by = c("x", "y"))
