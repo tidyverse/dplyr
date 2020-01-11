@@ -529,20 +529,14 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))
 
-  by <- common_by(by, x, y)
-  by_x <- check_by_x(by$x)
-  suffix <- check_suffix(c(".x", ".y"))
+  vars <- join_vars2(tbl_vars(x), tbl_vars(y), by = by)
+  y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
 
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-  by_y <- vars$idx$y$by
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  y <- auto_copy(x, y, copy = copy)
-  y_split <- vec_group_pos(
-    set_names(y[, by_y, drop = FALSE], names(x)[by_x])
-  )
-  indx <- which(!is.na(vec_match(x[, by_x, drop = FALSE], y_split$key)))
+  indx <- which(vec_in(x_key, y_key))
   x[indx, , drop = FALSE]
 }
 
@@ -553,20 +547,14 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))
 
-  by <- common_by(by, x, y)
-  by_x <- check_by_x(by$x)
-  suffix <- check_suffix(c(".x", ".y"))
+  vars <- join_vars2(tbl_vars(x), tbl_vars(y), by = by)
+  y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
 
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-  by_y <- vars$idx$y$by
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  y <- auto_copy(x, y, copy = copy)
-  y_split <- vec_group_pos(
-    set_names(y[, by_y, drop = FALSE], names(x)[by_x])
-  )
-  indx <- which(is.na(vec_match(x[, by_x, drop = FALSE], y_split$key)))
+  indx <- which(!vec_in(x_key, y_key))
   x[indx, , drop = FALSE]
 }
 
