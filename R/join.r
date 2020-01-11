@@ -580,11 +580,6 @@ reconstruct_join <- function(out, x, vars) {
 }
 
 #' @export
-inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(inner_join(as_tibble(x), y, by = by, copy = copy, ...))
-}
-
-#' @export
 left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
   as.data.frame(left_join(as_tibble(x), y, by = by, copy = copy, ...))
 }
