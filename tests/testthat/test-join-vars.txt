@@ -21,7 +21,7 @@ Error: `by` must be a (named) character vector, list, or NULL, not a logical vec
 Error: join columns must be character vectors
 
 > join_vars2(xy, xy, by = c("x", "x"))
-Error: Join columns must be duplicated
+Error: Join columns must be unique
 x Problem at position 2
 
 > join_vars2(xy, xy, by = c("x", NA))

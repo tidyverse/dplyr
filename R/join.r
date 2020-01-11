@@ -526,9 +526,6 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 #' @rdname join.tbl_df
 semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-
   vars <- join_vars2(tbl_vars(x), tbl_vars(y), by = by)
   y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
@@ -544,9 +541,6 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 #' @rdname join.tbl_df
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-
   vars <- join_vars2(tbl_vars(x), tbl_vars(y), by = by)
   y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
