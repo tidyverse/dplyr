@@ -66,7 +66,7 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
 
   # called again with context
   abort(glue_c(
-    "`summarise()` argument `{name}` incompatible",
+    "`summarise()` argument `{name}` must be a vector",
     x = "Result should be a vector, not a {typeof(result)}",
     i = "`{name}` is {expr}",
     i = if(is_grouped_df(data)) "The error occured in group {group}"
@@ -86,7 +86,7 @@ stop_incompatible_size <- function(size, group, index, expected_sizes, dots) {
 
   # called again with context
   abort(glue_c(
-    "`summarise()` argument `{name}` incompatible",
+    "`summarise()` argument `{name}` must be recyclable",
     x = "Result should be size {expected_sizes[group]}, not {size}",
     i = "`{name}` is {expr}",
     i = if(is_grouped_df(data)) "The error occured in group {group}",
@@ -102,7 +102,7 @@ stop_summarise_combine <- function(msg, index, dots) {
   expr <- as_label(quo_get_expr(dots[[index]]))
 
   abort(glue_c(
-    "`summarise()` argument `{name}` returns mixed types",
+    "`summarise()` argument `{name}` must return compatible vectors across groups",
     x = "Error from vec_c() : {msg}",
     i = "`{name}` is {expr}"
   ))
