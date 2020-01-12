@@ -191,10 +191,14 @@ nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, 
 #' @name join.tbl_df
 NULL
 
-check_na_matches <- function(na_matches) {
-  na_matches <- match.arg(na_matches, choices = c("na", "never"))
-  accept_na_match <- (na_matches == "na")
-  accept_na_match
+check_na_matches <- function(na_matches = c("na", "never")) {
+  na_matches <- arg_match(na_matches)
+
+  if (na_matches == "never") {
+    warn("`na_matches = 'never' currently unsupported")
+  }
+
+  (na_matches == "na")
 }
 
 #' @export
@@ -205,7 +209,7 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches)
+  na_matches <- check_na_matches(na_matches %||% "na")
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
@@ -228,7 +232,7 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches)
+  na_matches <- check_na_matches(na_matches %||% "na")
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
@@ -251,7 +255,7 @@ right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches)
+  na_matches <- check_na_matches(na_matches %||% "na")
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
@@ -274,10 +278,11 @@ right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 #' @rdname join.tbl_df
 full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
+                             keep = FALSE,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep_y = keep)
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches)
+  na_matches <- check_na_matches(na_matches %||% "na")
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
@@ -302,7 +307,7 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches)
+  na_matches <- check_na_matches(na_matches %||% "na")
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
@@ -317,7 +322,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches)
+  na_matches <- check_na_matches(na_matches %||% "na")
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
@@ -330,7 +335,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 #' @rdname join.tbl_df
 nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
   name_var <- name %||% as_label(enexpr(y))
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""))
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""), keep_y = keep)
   y <- auto_copy(x, y, copy = copy)
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
