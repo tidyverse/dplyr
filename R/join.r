@@ -144,14 +144,14 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @rdname join
 #' @export
-nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
-  UseMethod("nest_join")
+anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("anti_join")
 }
 
 #' @rdname join
 #' @export
-anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
-  UseMethod("anti_join")
+nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
+  UseMethod("nest_join")
 }
 
 
@@ -218,28 +218,6 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
   out <- vec_slice(x_out, rows$x)
   out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
   out[names(y_out)] <- vec_slice(y_out, rows$y)
-  out
-}
-
-#' @export
-#' @rdname join.tbl_df
-nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
-  name_var <- name %||% as_label(enexpr(y))
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c(".x", ".y"))
-  y <- auto_copy(x, y, copy = copy)
-
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
-
-  y_split <- vec_group_pos(y_key)
-  matches <- vec_match(x_key, y_split$key)
-  y_loc <- y_split$pos[matches]
-
-  out <- set_names(x[vars$x$out], names(vars$x$out))
-  out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
-
-  y_out <- set_names(y[vars$y$out], names(vars$y$out))
-  out[[name_var]] <- map(y_loc, vec_slice, x = y_out)
   out
 }
 
@@ -346,4 +324,26 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 
   indx <- which(!vec_in(x_key, y_key))
   x[indx, , drop = FALSE]
+}
+
+#' @export
+#' @rdname join.tbl_df
+nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
+  name_var <- name %||% as_label(enexpr(y))
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c(".x", ".y"))
+  y <- auto_copy(x, y, copy = copy)
+
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
+
+  y_split <- vec_group_pos(y_key)
+  matches <- vec_match(x_key, y_split$key)
+  y_loc <- y_split$pos[matches]
+
+  out <- set_names(x[vars$x$out], names(vars$x$out))
+  out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+
+  y_out <- set_names(y[vars$y$out], names(vars$y$out))
+  out[[name_var]] <- map(y_loc, vec_slice, x = y_out)
+  out
 }

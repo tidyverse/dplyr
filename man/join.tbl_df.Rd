@@ -3,12 +3,12 @@
 \name{join.tbl_df}
 \alias{join.tbl_df}
 \alias{inner_join.data.frame}
-\alias{nest_join.data.frame}
 \alias{left_join.data.frame}
 \alias{right_join.data.frame}
 \alias{full_join.data.frame}
 \alias{semi_join.data.frame}
 \alias{anti_join.data.frame}
+\alias{nest_join.data.frame}
 \title{Join data frame tbls}
 \usage{
 \method{inner_join}{data.frame}(
@@ -20,8 +20,6 @@
   ...,
   na_matches = pkgconfig::get_config("dplyr::na_matches")
 )
-
-\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 
 \method{left_join}{data.frame}(
   x,
@@ -70,6 +68,8 @@
   ...,
   na_matches = pkgconfig::get_config("dplyr::na_matches")
 )
+
+\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 }
 \arguments{
 \item{x}{tbls to join}
