@@ -15,7 +15,7 @@
 #' @export
 grouped_df <- function(data, vars, drop = FALSE) {
   if (length(vars) == 0) {
-    as_tibble(data)
+    `attr<-`(as_tibble(data), "groups", NULL)
   } else {
     groups <- compute_groups(data, vars, drop = drop)
     new_grouped_df(data, groups)
