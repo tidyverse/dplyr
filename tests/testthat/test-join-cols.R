@@ -27,6 +27,11 @@ test_that("duplicate column names are given suffixes", {
   vars <- join_cols(c("A", "A.x"), c("B", "A.x", "A"), by = "A.x")
   expect_named(vars$x$out, c("A.x.x", "A.x"))
   expect_named(vars$y$out, c("B", "A.y"))
+
+  # or when no suffix is requested
+  vars <- join_cols(c("x", "y"), c("x", "y"), by = "x", suffix = c("", ".y"))
+  expect_equal(vars$x$out, c("x" = 1, "y" = 2))
+  expect_equal(vars$y$out, c("y.y" = 2))
 })
 
 test_that("NA names are preserved", {
