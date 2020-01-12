@@ -121,10 +121,6 @@ standardise_join_suffix <- function(x) {
     bad_args("suffix", "can't be NA")
   }
 
-  if (all(x == "")) {
-    bad_args("suffix", "can't be the empty string for both suffixes")
-  }
-
   list(x = x[[1]], y = x[[2]])
 }
 

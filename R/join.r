@@ -330,7 +330,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 #' @rdname join.tbl_df
 nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
   name_var <- name %||% as_label(enexpr(y))
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c(".x", ".y"))
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""))
   y <- auto_copy(x, y, copy = copy)
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))

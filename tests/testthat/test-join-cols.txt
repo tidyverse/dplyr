@@ -55,6 +55,3 @@ i suffix is a character vector of length 1
 > join_cols(xy, xy, by = "x", suffix = c("", NA))
 Error: `suffix` can't be NA
 
-> join_cols(xy, xy, by = "x", suffix = c("", ""))
-Error: `suffix` can't be the empty string for both suffixes
-

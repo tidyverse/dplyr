@@ -76,6 +76,5 @@ test_that("emits useful messages", {
     "# suffixes"
     join_cols(xy, xy, by = "x", suffix = "x")
     join_cols(xy, xy, by = "x", suffix = c("", NA))
-    join_cols(xy, xy, by = "x", suffix = c("", ""))
   })
 })
