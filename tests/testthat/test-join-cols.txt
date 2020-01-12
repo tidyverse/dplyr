@@ -3,32 +3,32 @@ common by
 =========
 
 > xy <- c("x", "y")
-> vars <- join_vars2(xy, xy)
+> vars <- join_cols(xy, xy)
 Message: Joining, by = c("x", "y")
 
 
 by errors
 =========
 
-> join_vars2(xy, c("a", "b"))
+> join_cols(xy, c("a", "b"))
 Error: `by` must be supplied when `x` and `y` have no common variables
 i use by = character()` to perform a cross-join
 
-> join_vars2(xy, xy, by = FALSE)
+> join_cols(xy, xy, by = FALSE)
 Error: `by` must be a (named) character vector, list, or NULL, not a logical vector
 
-> join_vars2(xy, xy, by = list(1, 2))
+> join_cols(xy, xy, by = list(1, 2))
 Error: join columns must be character vectors
 
-> join_vars2(xy, xy, by = c("x", "x"))
+> join_cols(xy, xy, by = c("x", "x"))
 Error: Join columns must be unique
 x Problem at position 2
 
-> join_vars2(xy, xy, by = c("x", NA))
+> join_cols(xy, xy, by = c("x", NA))
 Error: Join columns must be not NA
 x Problem at position 2
 
-> join_vars2(xy, xy, by = c("aaa", "bbb"))
+> join_cols(xy, xy, by = c("aaa", "bbb"))
 Error: Join columns must be present in data
 x Problem with `aaa` and `bbb`
 
@@ -36,13 +36,13 @@ x Problem with `aaa` and `bbb`
 suffixes
 ========
 
-> join_vars2(xy, xy, by = "x", suffix = "x")
+> join_cols(xy, xy, by = "x", suffix = "x")
 Error: `suffix` must be a character vector of length 2
 i suffix is a character vector of length 1
 
-> join_vars2(xy, xy, by = "x", suffix = c("", NA))
+> join_cols(xy, xy, by = "x", suffix = c("", NA))
 Error: `suffix` can't be NA
 
-> join_vars2(xy, xy, by = "x", suffix = c("", ""))
+> join_cols(xy, xy, by = "x", suffix = c("", ""))
 Error: `suffix` can't be the empty string for both suffixes
 

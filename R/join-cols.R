@@ -1,4 +1,4 @@
-join_vars2 <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y")) {
+join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y")) {
   check_duplicate_vars(x_names)
   check_duplicate_vars(y_names)
 

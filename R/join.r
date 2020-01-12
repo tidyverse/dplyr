@@ -222,7 +222,7 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
 
-  vars <- join_vars2(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
   y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
 
@@ -315,7 +315,7 @@ check_by_x <- function(by_x) {
 left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  vars <- join_vars2(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
   y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
 
@@ -479,7 +479,7 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 #' @rdname join.tbl_df
 semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  vars <- join_vars2(tbl_vars(x), tbl_vars(y), by = by)
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
   y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
 
@@ -494,7 +494,7 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 #' @rdname join.tbl_df
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  vars <- join_vars2(tbl_vars(x), tbl_vars(y), by = by)
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
   y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
 
