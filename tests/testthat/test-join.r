@@ -139,82 +139,6 @@ test_that("univariate left join has all columns, all rows", {
   expect_equal(j2$z.y, c(1, 2, 3, 3, NA))
 })
 
-test_that("can control suffixes with suffix argument", {
-  j1 <- inner_join(e, f, "x", suffix = c("1", "2"))
-  j2 <- left_join(e, f, "x", suffix = c("1", "2"))
-  j3 <- right_join(e, f, "x", suffix = c("1", "2"))
-  j4 <- full_join(e, f, "x", suffix = c("1", "2"))
-
-  expect_named(j1, c("x", "z1", "z2"))
-  expect_named(j2, c("x", "z1", "z2"))
-  expect_named(j3, c("x", "z1", "z2"))
-  expect_named(j4, c("x", "z1", "z2"))
-})
-
-test_that("can handle empty string in suffix argument, left side (#2228, #2182, #2007)", {
-  j1 <- inner_join(e, f, "x", suffix = c("", "2"))
-  j2 <- left_join(e, f, "x", suffix = c("", "2"))
-  j3 <- right_join(e, f, "x", suffix = c("", "2"))
-  j4 <- full_join(e, f, "x", suffix = c("", "2"))
-
-  expect_named(j1, c("x", "z", "z2"))
-  expect_named(j2, c("x", "z", "z2"))
-  expect_named(j3, c("x", "z", "z2"))
-  expect_named(j4, c("x", "z", "z2"))
-})
-
-test_that("can handle empty string in suffix argument, right side (#2228, #2182, #2007)", {
-  j1 <- inner_join(e, f, "x", suffix = c("1", ""))
-  j2 <- left_join(e, f, "x", suffix = c("1", ""))
-  j3 <- right_join(e, f, "x", suffix = c("1", ""))
-  j4 <- full_join(e, f, "x", suffix = c("1", ""))
-
-  expect_named(j1, c("x", "z1", "z"))
-  expect_named(j2, c("x", "z1", "z"))
-  expect_named(j3, c("x", "z1", "z"))
-  expect_named(j4, c("x", "z1", "z"))
-})
-
-
-test_that("doesn't add suffix to by columns in x (#3307)", {
-  j1 <- inner_join(e, f, by = c("x" = "z"))
-  j2 <- left_join(e, f, by = c("x" = "z"))
-  j3 <- right_join(e, f, by = c("x" = "z"))
-  j4 <- full_join(e, f, by = c("x" = "z"))
-
-  expect_named(j1, c("x", "z", "x.y"))
-  expect_named(j2, c("x", "z", "x.y"))
-  expect_named(j3, c("x", "z", "x.y"))
-  expect_named(j4, c("x", "z", "x.y"))
-})
-
-g <- data.frame(A = 1, A.x = 2)
-h <- data.frame(B = 3, A.x = 4, A = 5)
-
-test_that("can handle 'by' columns with suffix (#3266)", {
-  j1 <- inner_join(g, h, "A.x")
-  j2 <- left_join(g, h, "A.x")
-  j3 <- right_join(g, h, "A.x")
-  j4 <- full_join(g, h, "A.x")
-
-  expect_named(j1, c("A.x.x", "A.x", "B", "A.y"))
-  expect_named(j2, c("A.x.x", "A.x", "B", "A.y"))
-  expect_named(j3, c("A.x.x", "A.x", "B", "A.y"))
-  expect_named(j4, c("A.x.x", "A.x", "B", "A.y"))
-})
-
-test_that("can handle 'by' columns with suffix, reverse (#3266)", {
-  j1 <- inner_join(h, g, "A.x")
-  j2 <- left_join(h, g, "A.x")
-  j3 <- right_join(h, g, "A.x")
-  j4 <- full_join(h, g, "A.x")
-
-  expect_named(j1, c("B", "A.x", "A.x.x", "A.y"))
-  expect_named(j2, c("B", "A.x", "A.x.x", "A.y"))
-  expect_named(j3, c("B", "A.x", "A.x.x", "A.y"))
-  expect_named(j4, c("B", "A.x", "A.x.x", "A.y"))
-})
-
 # Misc --------------------------------------------------------------------
 
 test_that("joins don't reorder columns #328", {
@@ -256,18 +180,6 @@ test_that("left_join by different variable names (#617)", {
   expect_equal(names(res), c("x1", "y2"))
   expect_equal(res$x1, c(1, 3, 2))
   expect_equal(res$y2, c("foo", "bar", "foo"))
-})
-
-test_that("joins suffix variable names (#655)", {
-  a <- data.frame(x = 1:10, y = 2:11)
-  b <- data.frame(z = 5:14, x = 3:12) # x from this gets suffixed by .y
-  res <- left_join(a, b, by = c("x" = "z"))
-  expect_equal(names(res), c("x", "y", "x.y"))
-
-  a <- data.frame(x = 1:10, z = 2:11)
-  b <- data.frame(z = 5:14, x = 3:12) # x from this gets suffixed by .y
-  res <- left_join(a, b, by = c("x" = "z"))
-  expect_equal(names(res), c("x", "z", "x.y"))
 })
 
 test_that("right_join gets the column in the right order #96", {
@@ -318,16 +230,6 @@ test_that("group column names are null when joined data frames are not grouped (
 
 # Guessing variables in x and y ------------------------------------------------
 
-test_that("unnamed vars are the same in both tables", {
-  by1 <- common_by_from_vector(c("x", "y", "z"))
-  expect_equal(by1$x, c("x", "y", "z"))
-  expect_equal(by1$y, c("x", "y", "z"))
-
-  by2 <- common_by_from_vector(c("x" = "a", "y", "z"))
-  expect_equal(by2$x, c("x", "y", "z"))
-  expect_equal(by2$y, c("a", "y", "z"))
-})
-
 test_that("join columns are not moved to the left (#802)", {
   df1 <- data.frame(x = 1, y = 1:5)
   df2 <- data.frame(y = 1:5, z = 2)
@@ -377,17 +279,6 @@ test_that("joins matches NA in character vector by default (#892, #2033)", {
   res <- left_join(x, y, by = "id")
   expect_true(all(is.na(res$id)))
   expect_equal(res$LETTER, rep(rep(c("A", "B"), each = 2), 2))
-})
-
-test_that("joins avoid name repetition (#1460)", {
-  d1 <- data.frame(id = 1:5, foo = rnorm(5))
-  d2 <- data.frame(id = 1:5, foo = rnorm(5))
-  d3 <- data.frame(id = 1:5, foo = rnorm(5))
-  d <- d1 %>%
-    left_join(d1, by = "id") %>%
-    left_join(d2, by = "id") %>%
-    left_join(d3, by = "id")
-  expect_equal(names(d), c("id", "foo.x", "foo.y", "foo.x.x", "foo.y.y"))
 })
 
 # Joined columns result in correct type ----------------------------------------
@@ -456,29 +347,6 @@ test_that("joins regroups (#1597, #3566)", {
   expect_grouped(full_join(df1, df2))
   expect_grouped(anti_join(df1, df2))
   expect_grouped(semi_join(df1, df2))
-})
-
-
-test_that("common_by() message", {
-  df <- tibble(!!!set_names(letters, letters))
-
-  expect_message(
-    left_join(df, df %>% select(1)),
-    'Joining, by = "a"',
-    fixed = TRUE
-  )
-
-  expect_message(
-    left_join(df, df %>% select(1:3)),
-    'Joining, by = c("a", "b", "c")',
-    fixed = TRUE
-  )
-
-  expect_message(
-    left_join(df, df),
-    paste0("Joining, by = c(", paste0('"', letters, '"', collapse = ", "), ")"),
-    fixed = TRUE
-  )
 })
 
 test_that("semi- and anti-joins preserve order (#2964)", {
