@@ -1,8 +1,10 @@
 > left_join(df1, df2, by = c("x", "y"))
-Error: Column `x` must have a unique name
+Error: Input columns must be unique
+x Problem at position 2
 
 > left_join(df2, df1, by = c("x", "y"))
-Error: Column `x` must have a unique name
+Error: Input columns must be unique
+x Problem at position 2
 
 > right_join(df1, df2, by = c("x", "y"))
 Error: Column `x` must have a unique name
@@ -11,11 +13,11 @@ Error: Column `x` must have a unique name
 Error: Column `x` must have a unique name
 
 > inner_join(df1, df2, by = c("x", "y"))
-Error: Input columns must be duplicated
+Error: Input columns must be unique
 x Problem at position 2
 
 > inner_join(df2, df1, by = c("x", "y"))
-Error: Input columns must be duplicated
+Error: Input columns must be unique
 x Problem at position 2
 
 > full_join(df1, df2, by = c("x", "y"))
@@ -25,18 +27,18 @@ Error: Column `x` must have a unique name
 Error: Column `x` must have a unique name
 
 > semi_join(df1, df2, by = c("x", "y"))
-Error: Input columns must be duplicated
+Error: Input columns must be unique
 x Problem at position 2
 
 > semi_join(df2, df1, by = c("x", "y"))
-Error: Input columns must be duplicated
+Error: Input columns must be unique
 x Problem at position 2
 
 > anti_join(df1, df2, by = c("x", "y"))
-Error: Input columns must be duplicated
+Error: Input columns must be unique
 x Problem at position 2
 
 > anti_join(df2, df1, by = c("x", "y"))
-Error: Input columns must be duplicated
+Error: Input columns must be unique
 x Problem at position 2
 

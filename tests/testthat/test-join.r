@@ -471,8 +471,8 @@ test_that("join can handle multiple encodings (#769)", {
 })
 
 test_that("join creates correctly named results (#855)", {
-  x <- data.frame(q = c("a", "b", "c"), r = c("d", "e", "f"), s = c("1", "2", "3"))
-  y <- data.frame(q = c("a", "b", "c"), r = c("d", "e", "f"), t = c("xxx", "xxx", "xxx"))
+  x <- tibble(q = c("a", "b", "c"), r = c("d", "e", "f"), s = c("1", "2", "3"))
+  y <- tibble(q = c("a", "b", "c"), r = c("d", "e", "f"), t = c("xxx", "xxx", "xxx"))
   res <- left_join(x, y, by = c("r", "q"))
   expect_equal(names(res), c("q", "r", "s", "t"))
   expect_equal(res$q, x$q)
@@ -553,15 +553,6 @@ test_that("joins avoid name repetition (#1460)", {
     left_join(d2, by = "id") %>%
     left_join(d3, by = "id")
   expect_equal(names(d), c("id", "foo.x", "foo.y", "foo.x.x", "foo.y.y"))
-})
-
-test_that("joins takes care of duplicates in by (#1192)", {
-  data2 <- tibble(a = 1:3)
-  data1 <- tibble(a = 1:3, c = 3:5)
-
-  res1 <- left_join(data1, data2, by = c("a", "a"))
-  res2 <- left_join(data1, data2, by = c("a" = "a"))
-  expect_equal(res1, res2)
 })
 
 # Joined columns result in correct type ----------------------------------------

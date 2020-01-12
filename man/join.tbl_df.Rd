@@ -4,7 +4,7 @@
 \alias{join.tbl_df}
 \alias{inner_join.data.frame}
 \alias{nest_join.tbl_df}
-\alias{left_join.tbl_df}
+\alias{left_join.data.frame}
 \alias{right_join.tbl_df}
 \alias{full_join.tbl_df}
 \alias{semi_join.data.frame}
@@ -24,7 +24,7 @@
 
 \method{nest_join}{tbl_df}(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 
-\method{left_join}{tbl_df}(
+\method{left_join}{data.frame}(
   x,
   y,
   by = NULL,
