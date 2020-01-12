@@ -220,86 +220,86 @@ frames</p>
     <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `location()` is deprecated as of dplyr 1.0.0.</span>
 #&gt; <span class='warning'>Please use `lobst::ref()` instead.</span>
 #&gt; <span class='warning'>This warning is displayed once per session.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; &lt;0x7392e58&gt;
+#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; &lt;0x6f26098&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x6ab1dc0&gt;
-#&gt;  * cyl:       &lt;0x65e3f70&gt;
-#&gt;  * disp:      &lt;0x20767a0&gt;
-#&gt;  * hp:        &lt;0x5ad1d40&gt;
-#&gt;  * drat:      &lt;0x6745430&gt;
-#&gt;  * wt:        &lt;0x6e2a1d0&gt;
-#&gt;  * qsec:      &lt;0x6b27a20&gt;
-#&gt;  * vs:        &lt;0x65d5e50&gt;
-#&gt;  * am:        &lt;0x662c5e0&gt;
-#&gt;  * gear:      &lt;0x6c1a690&gt;
-#&gt;  * carb:      &lt;0x70dbd00&gt;
+#&gt;  * mpg:       &lt;0x77ea1b0&gt;
+#&gt;  * cyl:       &lt;0x7aa93d0&gt;
+#&gt;  * disp:      &lt;0x7992e50&gt;
+#&gt;  * hp:        &lt;0x22e9f30&gt;
+#&gt;  * drat:      &lt;0x6d243b0&gt;
+#&gt;  * wt:        &lt;0x6cdd500&gt;
+#&gt;  * qsec:      &lt;0x737bc50&gt;
+#&gt;  * vs:        &lt;0x6f7e600&gt;
+#&gt;  * am:        &lt;0x7b61e20&gt;
+#&gt;  * gear:      &lt;0x761f360&gt;
+#&gt;  * carb:      &lt;0x6f3efb0&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x7392da8&gt;
-#&gt;  * row.names: &lt;0x6ceefd0&gt;
-#&gt;  * class:     &lt;0x4b16980&gt;</div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw pkg'>lobstr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lobstr/man/ref.html'>ref</a></span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; █ [1:0x7392e58] &lt;df[,11]&gt; 
-#&gt; ├─mpg = [2:0x6ab1dc0] &lt;dbl&gt; 
-#&gt; ├─cyl = [3:0x65e3f70] &lt;dbl&gt; 
-#&gt; ├─disp = [4:0x20767a0] &lt;dbl&gt; 
-#&gt; ├─hp = [5:0x5ad1d40] &lt;dbl&gt; 
-#&gt; ├─drat = [6:0x6745430] &lt;dbl&gt; 
-#&gt; ├─wt = [7:0x6e2a1d0] &lt;dbl&gt; 
-#&gt; ├─qsec = [8:0x6b27a20] &lt;dbl&gt; 
-#&gt; ├─vs = [9:0x65d5e50] &lt;dbl&gt; 
-#&gt; ├─am = [10:0x662c5e0] &lt;dbl&gt; 
-#&gt; ├─gear = [11:0x6c1a690] &lt;dbl&gt; 
-#&gt; └─carb = [12:0x70dbd00] &lt;dbl&gt; </div><div class='input'>
+#&gt;  * names:     &lt;0x6f25fe8&gt;
+#&gt;  * row.names: &lt;0x46b66d0&gt;
+#&gt;  * class:     &lt;0x52781e8&gt;</div><div class='input'><span class='co'># -&gt;</span>
+<span class='kw pkg'>lobstr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lobstr/man/ref.html'>ref</a></span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; █ [1:0x6f26098] &lt;df[,11]&gt; 
+#&gt; ├─mpg = [2:0x77ea1b0] &lt;dbl&gt; 
+#&gt; ├─cyl = [3:0x7aa93d0] &lt;dbl&gt; 
+#&gt; ├─disp = [4:0x7992e50] &lt;dbl&gt; 
+#&gt; ├─hp = [5:0x22e9f30] &lt;dbl&gt; 
+#&gt; ├─drat = [6:0x6d243b0] &lt;dbl&gt; 
+#&gt; ├─wt = [7:0x6cdd500] &lt;dbl&gt; 
+#&gt; ├─qsec = [8:0x737bc50] &lt;dbl&gt; 
+#&gt; ├─vs = [9:0x6f7e600] &lt;dbl&gt; 
+#&gt; ├─am = [10:0x7b61e20] &lt;dbl&gt; 
+#&gt; ├─gear = [11:0x761f360] &lt;dbl&gt; 
+#&gt; └─carb = [12:0x6f3efb0] &lt;dbl&gt; </div><div class='input'>
 <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
 <span class='co'># -&gt;</span>
-<span class='kw pkg'>lobstr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lobstr/man/ref.html'>ref</a></span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; █ [1:0x10fb5338] &lt;df[,12]&gt; 
-#&gt; ├─mpg = [2:0x6ab1dc0] &lt;dbl&gt; 
-#&gt; ├─cyl = [3:0x65e3f70] &lt;dbl&gt; 
-#&gt; ├─disp = [4:0x20767a0] &lt;dbl&gt; 
-#&gt; ├─hp = [5:0x5ad1d40] &lt;dbl&gt; 
-#&gt; ├─drat = [6:0x6745430] &lt;dbl&gt; 
-#&gt; ├─wt = [7:0x6e2a1d0] &lt;dbl&gt; 
-#&gt; ├─qsec = [8:0x6b27a20] &lt;dbl&gt; 
-#&gt; ├─vs = [9:0x65d5e50] &lt;dbl&gt; 
-#&gt; ├─am = [10:0x662c5e0] &lt;dbl&gt; 
-#&gt; ├─gear = [11:0x6c1a690] &lt;dbl&gt; 
-#&gt; ├─carb = [12:0x70dbd00] &lt;dbl&gt; 
-#&gt; └─cyl2 = [13:0x9992980] &lt;dbl&gt; </div><div class='input'>
+<span class='kw pkg'>lobstr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lobstr/man/ref.html'>ref</a></span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; █ [1:0xf6e47f8] &lt;df[,12]&gt; 
+#&gt; ├─mpg = [2:0x77ea1b0] &lt;dbl&gt; 
+#&gt; ├─cyl = [3:0x7aa93d0] &lt;dbl&gt; 
+#&gt; ├─disp = [4:0x7992e50] &lt;dbl&gt; 
+#&gt; ├─hp = [5:0x22e9f30] &lt;dbl&gt; 
+#&gt; ├─drat = [6:0x6d243b0] &lt;dbl&gt; 
+#&gt; ├─wt = [7:0x6cdd500] &lt;dbl&gt; 
+#&gt; ├─qsec = [8:0x737bc50] &lt;dbl&gt; 
+#&gt; ├─vs = [9:0x6f7e600] &lt;dbl&gt; 
+#&gt; ├─am = [10:0x7b61e20] &lt;dbl&gt; 
+#&gt; ├─gear = [11:0x761f360] &lt;dbl&gt; 
+#&gt; ├─carb = [12:0x6f3efb0] &lt;dbl&gt; 
+#&gt; └─cyl2 = [13:0x71f3c30] &lt;dbl&gt; </div><div class='input'>
 <span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `changes()` is deprecated as of dplyr 1.0.0.</span>
 #&gt; <span class='warning'>Please use `lobstr::ref()` instead.</span>
 #&gt; <span class='warning'>This warning is displayed once per session.</span>
 #&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; Changed variables:
 #&gt;       old     new      
-#&gt; cyl2  &lt;added&gt; 0x9992980
+#&gt; cyl2  &lt;added&gt; 0x71f3c30
 #&gt; 
 #&gt; Changed attributes:
-#&gt;       old       new       
-#&gt; names 0x7392da8 0x10fb53e8</div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw pkg'>lobstr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lobstr/man/ref.html'>ref</a></span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; █ [1:0x7392e58] &lt;df[,11]&gt; 
-#&gt; ├─mpg = [2:0x6ab1dc0] &lt;dbl&gt; 
-#&gt; ├─cyl = [3:0x65e3f70] &lt;dbl&gt; 
-#&gt; ├─disp = [4:0x20767a0] &lt;dbl&gt; 
-#&gt; ├─hp = [5:0x5ad1d40] &lt;dbl&gt; 
-#&gt; ├─drat = [6:0x6745430] &lt;dbl&gt; 
-#&gt; ├─wt = [7:0x6e2a1d0] &lt;dbl&gt; 
-#&gt; ├─qsec = [8:0x6b27a20] &lt;dbl&gt; 
-#&gt; ├─vs = [9:0x65d5e50] &lt;dbl&gt; 
-#&gt; ├─am = [10:0x662c5e0] &lt;dbl&gt; 
-#&gt; ├─gear = [11:0x6c1a690] &lt;dbl&gt; 
-#&gt; └─carb = [12:0x70dbd00] &lt;dbl&gt; 
+#&gt;       old       new      
+#&gt; names 0x6f25fe8 0xf6e48a8</div><div class='input'><span class='co'># -&gt;</span>
+<span class='kw pkg'>lobstr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lobstr/man/ref.html'>ref</a></span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; █ [1:0x6f26098] &lt;df[,11]&gt; 
+#&gt; ├─mpg = [2:0x77ea1b0] &lt;dbl&gt; 
+#&gt; ├─cyl = [3:0x7aa93d0] &lt;dbl&gt; 
+#&gt; ├─disp = [4:0x7992e50] &lt;dbl&gt; 
+#&gt; ├─hp = [5:0x22e9f30] &lt;dbl&gt; 
+#&gt; ├─drat = [6:0x6d243b0] &lt;dbl&gt; 
+#&gt; ├─wt = [7:0x6cdd500] &lt;dbl&gt; 
+#&gt; ├─qsec = [8:0x737bc50] &lt;dbl&gt; 
+#&gt; ├─vs = [9:0x6f7e600] &lt;dbl&gt; 
+#&gt; ├─am = [10:0x7b61e20] &lt;dbl&gt; 
+#&gt; ├─gear = [11:0x761f360] &lt;dbl&gt; 
+#&gt; └─carb = [12:0x6f3efb0] &lt;dbl&gt; 
 #&gt;  
-#&gt; █ [13:0x10fb5338] &lt;df[,12]&gt; 
-#&gt; ├─mpg = [2:0x6ab1dc0] 
-#&gt; ├─cyl = [3:0x65e3f70] 
-#&gt; ├─disp = [4:0x20767a0] 
-#&gt; ├─hp = [5:0x5ad1d40] 
-#&gt; ├─drat = [6:0x6745430] 
-#&gt; ├─wt = [7:0x6e2a1d0] 
-#&gt; ├─qsec = [8:0x6b27a20] 
-#&gt; ├─vs = [9:0x65d5e50] 
-#&gt; ├─am = [10:0x662c5e0] 
-#&gt; ├─gear = [11:0x6c1a690] 
-#&gt; ├─carb = [12:0x70dbd00] 
-#&gt; └─cyl2 = [14:0x9992980] &lt;dbl&gt; </div></pre>
+#&gt; █ [13:0xf6e47f8] &lt;df[,12]&gt; 
+#&gt; ├─mpg = [2:0x77ea1b0] 
+#&gt; ├─cyl = [3:0x7aa93d0] 
+#&gt; ├─disp = [4:0x7992e50] 
+#&gt; ├─hp = [5:0x22e9f30] 
+#&gt; ├─drat = [6:0x6d243b0] 
+#&gt; ├─wt = [7:0x6cdd500] 
+#&gt; ├─qsec = [8:0x737bc50] 
+#&gt; ├─vs = [9:0x6f7e600] 
+#&gt; ├─am = [10:0x7b61e20] 
+#&gt; ├─gear = [11:0x761f360] 
+#&gt; ├─carb = [12:0x6f3efb0] 
+#&gt; └─cyl2 = [14:0x71f3c30] &lt;dbl&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
