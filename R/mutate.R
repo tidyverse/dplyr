@@ -229,9 +229,11 @@ mutate_new_columns <- function(.data, ...) {
     c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]], dots_names, i)
 
     if (is.null(chunks)) {
-      if (!is.null(dots_names) && dots_names[i] != "" && dots_names[[i]] %in% c(names(.data), names(new_columns))) {
+      if (!is.null(dots_names) && dots_names[i] != "") {
         new_columns[[dots_names[i]]] <- zap()
-        mask$remove(dots_names[i])
+
+        # we might get a warning if dots_names[i] does not exist
+        suppressWarnings(mask$remove(dots_names[i]))
       }
       next
     }
