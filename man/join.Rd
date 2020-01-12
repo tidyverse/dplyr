@@ -9,7 +9,7 @@
 \alias{semi_join}
 \alias{anti_join}
 \alias{nest_join}
-\title{Join two tbls together}
+\title{Join two data frames together}
 \usage{
 inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
@@ -26,9 +26,9 @@ anti_join(x, y, by = NULL, copy = FALSE, ...)
 nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 }
 \arguments{
-\item{x, y}{tbls to join}
+\item{x, y}{Data frames}
 
-\item{by}{a character vector of variables to join by.  If \code{NULL}, the
+\item{by}{A character vector of variables to join by.  If \code{NULL}, the
 default, \verb{*_join()} will do a natural join, using all variables with
 common names across the two tables. A message lists the variables so
 that you can check they're right (to suppress the message, simply
@@ -47,12 +47,15 @@ it is a potentially expensive operation so you must opt into it.}
 \code{y}, these suffixes will be added to the output to disambiguate them.
 Should be a character vector of length 2.}
 
-\item{...}{other parameters passed onto methods, for instance, \code{na_matches}
-to control how \code{NA} values are matched.  See \link{join.tbl_df} for more.}
+\item{...}{Other parameters passed onto methods.
+
+For example, \code{na_matches} controls how \code{NA} values are handled when
+joining data frames. See \link{join.data.frame} for details.}
 
 \item{keep}{If \code{TRUE} the by columns are kept in the nesting joins.}
 
-\item{name}{the name of the list column nesting joins create. If \code{NULL} the name of \code{y} is used.}
+\item{name}{The name of the list column nesting joins create.
+If \code{NULL} the name of \code{y} is used.}
 }
 \description{
 These are generic functions that dispatch to individual tbl methods - see the

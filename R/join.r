@@ -1,4 +1,4 @@
-#' Join two tbls together
+#' Join two data frames together
 #'
 #' These are generic functions that dispatch to individual tbl methods - see the
 #' method documentation for details of individual data sources. `x` and
@@ -67,8 +67,8 @@
 #' Groups are ignored for the purpose of joining, but the result preserves
 #' the grouping of `x`.
 #'
-#' @param x,y tbls to join
-#' @param by a character vector of variables to join by.  If `NULL`, the
+#' @param x,y Data frames
+#' @param by A character vector of variables to join by.  If `NULL`, the
 #'   default, `*_join()` will do a natural join, using all variables with
 #'   common names across the two tables. A message lists the variables so
 #'   that you can check they're right (to suppress the message, simply
@@ -84,10 +84,13 @@
 #' @param suffix If there are non-joined duplicate variables in `x` and
 #'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
-#' @param name the name of the list column nesting joins create. If `NULL` the name of `y` is used.
+#' @param name The name of the list column nesting joins create.
+#'   If `NULL` the name of `y` is used.
 #' @param keep If `TRUE` the by columns are kept in the nesting joins.
-#' @param ... other parameters passed onto methods, for instance, `na_matches`
-#'   to control how `NA` values are matched.  See \link{join.tbl_df} for more.
+#' @param ... Other parameters passed onto methods.
+#'
+#'   For example, `na_matches` controls how `NA` values are handled when
+#'   joining data frames. See [join.data.frame] for details.
 #' @name join
 #' @examples
 #' # "Mutating" joins combine variables from the LHS and RHS
@@ -155,40 +158,40 @@ nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, 
 }
 
 
-#' Join data frame tbls
+#' Join methods for data frames
 #'
-#' See [join] for a description of the general purpose of the
-#' functions.
+#' @description
+#' This page describes the details of the [join] generics when applied to
+#' data frames and tibbles.
+#'
+#' All methods treat the `x` input as primary: the return value will be the
+#' same type as `x` and the rows will in be the same order (duplicated where
+#' necessary, and where needed missing rows from `y` will be added to the end.)
 #'
 #' @inheritParams inner_join
-#' @param ... included for compatibility with the generic; otherwise ignored.
-#' @param na_matches
-#'   Use `"never"` to always treat two `NA` or `NaN` values as
-#'   different, like joins for database sources, similarly to
-#'   `merge(incomparables = FALSE)`.
-#'   The default, `"na"`, always treats two `NA` or `NaN` values as equal, like [merge()].
+#' @param x,y Data frames
+#' @param ... Included for compatibility with the generic; otherwise ignored.
+#' @param na_matches Should `NA` and `NaN` values match one another?
+#'
+#'   Use `"never"` to always treat two `NA` or `NaN` values as different, like
+#'   joins for database sources, similarly to `merge(incomparables = FALSE)`.
+#'   The default, `"na"`, always treats two `NA` or `NaN` values as equal,
+#'   like `%in%`, [match()], [merge()].
+#'
 #'   Users and package authors can change the default behavior by calling
 #'   `pkgconfig::set_config("dplyr::na_matches" = "never")`.
 #' @examples
-#' if (require("Lahman")) {
-#' batting_df <- as_tibble(Batting)
-#' person_df <- as_tibble(Master)
+#' df1 <- data.frame(x = c(1, NA), y = 2)
+#' df2 <- data.frame(x = c(1, NA), z = 3)
 #'
-#' uperson_df <- as_tibble(Master[!duplicated(Master$playerID), ])
+#' # By default, NAs match other NAs so that there are two
+#' # rows in the output:
+#' left_join(df1, df2)
 #'
-#' # Inner join: match batting and person data
-#' inner_join(batting_df, person_df)
-#' inner_join(batting_df, uperson_df)
-#'
-#' # Left join: match, but preserve batting data
-#' left_join(batting_df, uperson_df)
-#'
-#' # Anti join: find batters without person data
-#' anti_join(batting_df, person_df)
-#' # or people who didn't bat
-#' anti_join(person_df, batting_df)
-#' }
-#' @name join.tbl_df
+#' # You can optionally request that NAs don't match, giving a
+#' # a result that more closely resembles SQL joins
+#' left_join(df1, df2, na_matches = "never")
+#' @name join.data.frame
 NULL
 
 check_na_matches <- function(na_matches = c("na", "never")) {
@@ -202,7 +205,7 @@ check_na_matches <- function(na_matches = c("na", "never")) {
 }
 
 #' @export
-#' @rdname join.tbl_df
+#' @rdname join.data.frame
 inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
@@ -226,7 +229,7 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 }
 
 #' @export
-#' @rdname join.tbl_df
+#' @rdname join.data.frame
 left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
@@ -249,7 +252,7 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 }
 
 #' @export
-#' @rdname join.tbl_df
+#' @rdname join.data.frame
 right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
@@ -275,7 +278,7 @@ right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 }
 
 #' @export
-#' @rdname join.tbl_df
+#' @rdname join.data.frame
 full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              keep = FALSE,
@@ -302,7 +305,7 @@ full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 }
 
 #' @export
-#' @rdname join.tbl_df
+#' @rdname join.data.frame
 semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
@@ -317,7 +320,7 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 }
 
 #' @export
-#' @rdname join.tbl_df
+#' @rdname join.data.frame
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
@@ -332,7 +335,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 }
 
 #' @export
-#' @rdname join.tbl_df
+#' @rdname join.data.frame
 nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
   name_var <- name %||% as_label(enexpr(y))
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""), keep_y = keep)
