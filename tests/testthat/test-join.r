@@ -217,36 +217,11 @@ test_that("can handle 'by' columns with suffix, reverse (#3266)", {
 
 # Misc --------------------------------------------------------------------
 
-test_that("inner_join handles on NA in factors (#306)", {
-  a <- data.frame(x = c("p", "q", NA), y = c(1, 2, 3), stringsAsFactors = TRUE)
-  b <- data.frame(x = c("p", "q", "r"), z = c(4, 5, 6), stringsAsFactors = TRUE)
-  res <- inner_join(a, b, "x")
-  expect_equal(nrow(res), 2L)
-})
-
 test_that("joins don't reorder columns #328", {
   a <- data.frame(a = 1:3)
   b <- data.frame(a = 1:3, b = 1, c = 2, d = 3, e = 4, f = 5)
   res <- left_join(a, b, "a")
   expect_equal(names(res), names(b))
-})
-
-test_that("join handles type promotions #123", {
-  df <- data.frame(
-    V1 = c(rep("a", 5), rep("b", 5)),
-    V2 = rep(c(1:5), 2),
-    V3 = c(101:110),
-    stringsAsFactors = FALSE
-  )
-
-  match <- data.frame(
-    V1 = c("a", "b"),
-    V2 = c(3.0, 4.0),
-    stringsAsFactors = FALSE
-  )
-  res <- semi_join(df, match, c("V1", "V2"))
-  expect_equal(res$V2, 3:4)
-  expect_equal(res$V3, c(103L, 109L))
 })
 
 test_that("indices don't get mixed up when nrow(x) > nrow(y). #365", {
@@ -274,19 +249,6 @@ test_that("inner_join is symmetric (even when joining on character & factor)", {
   expect_equal(tmp1, tmp2[names(tmp1)])
 })
 
-test_that("inner_join is symmetric, even when type of join var is different (#450)", {
-  foo <- tibble(id = 1:10, var1 = "foo")
-  bar <- tibble(id = as.numeric(rep(1:10, 5)), var2 = "bar")
-
-  tmp1 <- inner_join(foo, bar, by = "id")
-  tmp2 <- inner_join(bar, foo, by = "id")
-
-  expect_equal(names(tmp1), c("id", "var1", "var2"))
-  expect_equal(names(tmp2), c("id", "var2", "var1"))
-
-  expect_equal(tmp1, tmp2 %>% select(!!names(tmp1)) %>% arrange(id))
-})
-
 test_that("left_join by different variable names (#617)", {
   x <- tibble(x1 = c(1, 3, 2))
   y <- tibble(y1 = c(1, 2, 3), y2 = c("foo", "foo", "bar"))
@@ -294,16 +256,6 @@ test_that("left_join by different variable names (#617)", {
   expect_equal(names(res), c("x1", "y2"))
   expect_equal(res$x1, c(1, 3, 2))
   expect_equal(res$y2, c("foo", "bar", "foo"))
-})
-
-test_that("joins support complex vectors", {
-  a <- data.frame(x = c(1, 1, 2, 3) * 1i, y = 1:4)
-  b <- data.frame(x = c(1, 2, 2, 4) * 1i, z = 1:4)
-  j <- inner_join(a, b, "x")
-
-  expect_equal(names(j), c("x", "y", "z"))
-  expect_equal(j$y, c(1, 2, 3, 3))
-  expect_equal(j$z, c(1, 1, 2, 3))
 })
 
 test_that("joins suffix variable names (#655)", {
@@ -342,69 +294,11 @@ test_that("full_join #96", {
   expect_equal(res$z[3:5], 3:5)
 })
 
-test_that("joining strings and factors handle NA #688", {
-  x <- data.frame(Greek = c("Alpha", "Beta", NA), numbers = 1:3)
-  y <- data.frame(
-    Greek = c("Alpha", "Beta", "Gamma"),
-    Letters = c("C", "B", "C"),
-    stringsAsFactors = F
-  )
-
-  res <- left_join(x, y, by = "Greek")
-  expect_true(is.na(res$Greek[3]))
-  expect_true(is.na(res$Letters[3]))
-  expect_equal(res$numbers, 1:3)
-
-  res <- left_join(y, x, by = "Greek")
-  expect_equal(res$Greek, y$Greek)
-  expect_equal(res$Letters, y$Letters)
-  expect_equal(res$numbers[1:2], 1:2)
-  expect_true(is.na(res$numbers[3]))
-})
-
-
-test_that("JoinFactorFactorVisitor_SameLevels preserve levels order (#675)", {
-  input <- data.frame(g1 = factor(c("A", "B", "C"), levels = c("B", "A", "C")))
-  output <- data.frame(
-    g1 = factor(c("A", "B", "C"), levels = c("B", "A", "C")),
-    g2 = factor(c("A", "B", "C"), levels = c("B", "A", "C"))
-  )
-
-  res <- inner_join(group_by(input, g1), group_by(output, g1))
-  expect_equal(levels(res$g1), levels(input$g1))
-  expect_equal(levels(res$g2), levels(output$g2))
-})
-
 test_that("inner_join does not reorder (#684)", {
   test <- tibble(Greek = c("Alpha", "Beta", "Gamma"), Letters = LETTERS[1:3])
   lookup <- tibble(Letters = c("C", "B", "C"))
   res <- inner_join(lookup, test)
   expect_equal(res$Letters, c("C", "B", "C"))
-})
-
-test_that("joins coerce factors with different levels to factor (#684)", {
-  d1 <- tibble(a = factor(c("a", "b", "c")))
-  d2 <- tibble(a = factor(c("a", "e")))
-  res <- inner_join(d1, d2)
-  expect_is(res$a, "factor")
-  expect_equal(levels(res$a), c("a", "b", "c", "e"))
-
-  # different orders
-  d2 <- d1
-  attr(d2$a, "levels") <- c("c", "b", "a")
-  res <- inner_join(d1, d2)
-  expect_is(res$a, "factor")
-  expect_equal(levels(res$a), c("a", "b", "c"))
-})
-
-test_that("joins between factor and character coerces to character with a warning (#684)", {
-  d1 <- tibble(a = factor(c("a", "b", "c")))
-  d2 <- tibble(a = c("a", "e"))
-  res <- inner_join(d1, d2)
-  expect_is(res$a, "character")
-
-  res <- inner_join(d2, d1)
-  expect_is(res$a, "character")
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
@@ -442,34 +336,6 @@ test_that("join columns are not moved to the left (#802)", {
   expect_equal(names(out), c("x", "y", "z"))
 })
 
-test_that("join can handle multiple encodings (#769)", {
-  text <- c("\xC9lise", "Pierre", "Fran\xE7ois")
-  Encoding(text) <- "latin1"
-  x <- tibble(name = text, score = c(5, 7, 6))
-  y <- tibble(name = text, attendance = c(8, 10, 9))
-  res <- left_join(x, y, by = "name")
-  expect_equal(nrow(res), 3L)
-  expect_equal(res$name, x$name)
-
-  x <- tibble(name = factor(text), score = c(5, 7, 6))
-  y <- tibble(name = text, attendance = c(8, 10, 9))
-  res <- left_join(x, y, by = "name")
-  expect_equal(nrow(res), 3L)
-  expect_equal(as.character(res$name), y$name)
-
-  x <- tibble(name = text, score = c(5, 7, 6))
-  y <- tibble(name = factor(text), attendance = c(8, 10, 9))
-  res <- left_join(x, y, by = "name")
-  expect_equal(nrow(res), 3L)
-  expect_equal(res$name, x$name)
-
-  x <- tibble(name = factor(text), score = c(5, 7, 6))
-  y <- tibble(name = factor(text), attendance = c(8, 10, 9))
-  res <- left_join(x, y, by = "name")
-  expect_equal(nrow(res), 3L)
-  expect_equal(res$name, x$name)
-})
-
 test_that("join creates correctly named results (#855)", {
   x <- tibble(q = c("a", "b", "c"), r = c("d", "e", "f"), s = c("1", "2", "3"))
   y <- tibble(q = c("a", "b", "c"), r = c("d", "e", "f"), t = c("xxx", "xxx", "xxx"))
@@ -494,37 +360,6 @@ test_that("inner join gives same result as merge by default (#1281)", {
   ij <- inner_join(x, y, by = c("cat1", "cat2"))
   me <- merge(x, y, by = c("cat1", "cat2"))
   expect_true(equal_data_frame(ij, me))
-})
-
-test_that("join handles matrices #1230", {
-  df1 <- tibble(x = 1:10, text = letters[1:10])
-  df2 <- tibble(x = 1:5, text = "")
-  df2$text <- matrix(LETTERS[1:10], nrow = 5)
-
-  res <- left_join(df1, df2, by = c("x" = "x")) %>% filter(x > 5)
-  text.y <- res$text.y
-  expect_true(is.matrix(text.y))
-  expect_equal(dim(text.y), c(5, 2))
-  expect_true(all(is.na(text.y)))
-})
-
-test_that("ordering of strings is not confused by R's collate order (#1315)", {
-  a <- data.frame(character = c("\u0663"), set = c("arabic_the_language"), stringsAsFactors = F)
-  b <- data.frame(character = c("3"), set = c("arabic_the_numeral_set"), stringsAsFactors = F)
-  res <- b %>% inner_join(a, by = c("character"))
-  expect_equal(nrow(res), 0L)
-  res <- a %>% inner_join(b, by = c("character"))
-  expect_equal(nrow(res), 0L)
-})
-
-test_that("joins handle tzone differences (#819)", {
-  date1 <- structure(-1735660800, tzone = "America/Chicago", class = c("POSIXct", "POSIXt"))
-  date2 <- structure(-1735660800, tzone = "UTC", class = c("POSIXct", "POSIXt"))
-
-  df1 <- data.frame(date = date1)
-  df2 <- data.frame(date = date2)
-
-  expect_equal(attr(left_join(df1, df1)$date, "tzone"), "America/Chicago")
 })
 
 test_that("joins matches NA in character vector by default (#892, #2033)", {
@@ -557,58 +392,6 @@ test_that("joins avoid name repetition (#1460)", {
 
 # Joined columns result in correct type ----------------------------------------
 
-test_that("result of joining POSIXct is POSIXct (#1578)", {
-  data1 <- tibble(
-    t = seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"),
-    x = 1:2
-  )
-  data2 <- inner_join(data1, data1, by = "t")
-  res1 <- class(data2$t)
-  expected <- c("POSIXct", "POSIXt")
-  expect_identical(res1, expected)
-})
-
-test_that("joins allows extra attributes if they are identical (#1636)", {
-  tbl_left <- tibble(
-    i = rep(c(1, 2, 3), each = 2),
-    x1 = letters[1:6]
-  )
-  tbl_right <- tibble(
-    i = c(1, 2, 3),
-    x2 = letters[1:3]
-  )
-
-  attr(tbl_left$i, "label") <- "iterator"
-  attr(tbl_right$i, "label") <- "iterator"
-
-  res <- left_join(tbl_left, tbl_right, by = "i")
-  expect_equal(attr(res$i, "label"), "iterator")
-
-  attr(tbl_left$i, "foo") <- "bar"
-  attributes(tbl_right$i) <- NULL
-  attr(tbl_right$i, "foo") <- "bar"
-  attr(tbl_right$i, "label") <- "iterator"
-
-  res <- left_join(tbl_left, tbl_right, by = "i")
-  expect_equal(attr(res$i, "label"), "iterator")
-  expect_equal(attr(res$i, "foo"), "bar")
-})
-
-test_that("joins work with factors of different levels (#1712)", {
-  d1 <- iris[, c("Species", "Sepal.Length")]
-  d2 <- iris[, c("Species", "Sepal.Width")]
-  d2$Species <- factor(as.character(d2$Species), levels = rev(levels(d1$Species)))
-  res1 <- left_join(d1, d2, by = "Species")
-
-  d1$Species <- as.character(d1$Species)
-  d2$Species <- as.character(d2$Species)
-  res2 <- left_join(d1, d2, by = "Species")
-  expect_equal(res1$Sepal.Length, res2$Sepal.Length)
-  expect_equal(res1$Sepal.Width, res2$Sepal.Width)
-  expect_equal(as.character(res1$Species), res2$Species)
-  expect_equal(levels(res1$Species), levels(iris$Species))
-})
-
 test_that("anti and semi joins give correct result when by variable is a factor (#1571)", {
   big <- data.frame(letter = rep(c("a", "b"), each = 2), number = 1:2)
   small <- data.frame(letter = "b")
@@ -622,30 +405,6 @@ test_that("anti and semi joins give correct result when by variable is a factor 
 })
 
 # Encoding ----------------------------------------------------------------
-
-test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
-  with_non_utf8_encoding({
-    special <- get_native_lang_string()
-
-    for (factor1 in c(FALSE, TRUE)) {
-      for (factor2 in c(FALSE, TRUE)) {
-        for (encoder1 in c(enc2native, enc2utf8)) {
-          for (encoder2 in c(enc2native, enc2utf8)) {
-
-            df1 <- as_tibble(data.frame(x = encoder1(special), y = 1, stringsAsFactors = factor1))
-            df2 <- as_tibble(data.frame(x = encoder2(special), z = 2, stringsAsFactors = factor2))
-            df <- as_tibble(data.frame(x = special, y = 1, z = 2, stringsAsFactors = factor1 && factor2))
-
-            expect_equal(inner_join(df1, df2, by = "x"), df)
-            expect_equal(left_join(df1, df2, by = "x"), df)
-            expect_equal(right_join(df1, df2, by = "x"), df)
-            expect_equal(full_join(df1, df2, by = "x"), df)
-          }
-        }
-      }
-    }
-  })
-})
 
 test_that("left_join handles mix of encodings in column names (#1571)", {
   with_non_utf8_encoding({
@@ -700,14 +459,6 @@ test_that("joins regroups (#1597, #3566)", {
 })
 
 
-test_that("join accepts tz attributes (#2643)", {
-  # It's the same time:
-  df1 <- tibble(a = as.POSIXct("2009-01-01 10:00:00", tz = "Europe/London"))
-  df2 <- tibble(a = as.POSIXct("2009-01-01 11:00:00", tz = "Europe/Paris"))
-  result <- inner_join(df1, df2, by = "a")
-  expect_equal(nrow(result), 1)
-})
-
 test_that("common_by() message", {
   df <- tibble(!!!set_names(letters, letters))
 
@@ -738,31 +489,6 @@ test_that("semi- and anti-joins preserve order (#2964)", {
   expect_identical(
     tibble(a = 3:1) %>% anti_join(tibble(a = 4:6)),
     tibble(a = 3:1)
-  )
-})
-
-test_that("join handles raw vectors", {
-  df1 <- tibble(r = as.raw(1:4), x = 1:4)
-  df2 <- tibble(r = as.raw(3:6), y = 3:6)
-
-  expect_identical(
-    left_join(df1, df2, by = "r"),
-    tibble(r = as.raw(1:4), x = 1:4, y = c(NA, NA, 3:4))
-  )
-
-  expect_identical(
-    right_join(df1, df2, by = "r"),
-    tibble(r = as.raw(3:6), x = c(3:4, NA, NA), y = c(3:6))
-  )
-
-  expect_identical(
-    full_join(df1, df2, by = "r"),
-    tibble(r = as.raw(1:6), x = c(1:4, NA, NA), y = c(NA, NA, 3:6))
-  )
-
-  expect_identical(
-    inner_join(df1, df2, by = "r"),
-    tibble(r = as.raw(3:4), x = c(3:4), y = c(3:4))
   )
 })
 
