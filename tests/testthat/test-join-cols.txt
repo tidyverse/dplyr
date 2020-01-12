@@ -1,4 +1,16 @@
 
+names
+=====
+
+> join_cols(c("x", "y"), c("y", "y"))
+Error: Input columns in `y` must be unique
+x Problem with `y`
+
+> join_cols(c("y", "y"), c("x", "y"))
+Error: Input columns in `x` must be unique
+x Problem with `y`
+
+
 common by
 =========
 

@@ -1,6 +1,6 @@
 join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep_y = FALSE) {
-  check_duplicate_vars(x_names)
-  check_duplicate_vars(y_names)
+  check_duplicate_vars(x_names, "x")
+  check_duplicate_vars(y_names, "y")
 
   by <- standardise_join_by(by, x_names = x_names, y_names = y_names)
   suffix <- standardise_join_suffix(suffix)
@@ -99,12 +99,12 @@ check_join_vars <- function(vars, names) {
   }
 }
 
-check_duplicate_vars <- function(vars) {
+check_duplicate_vars <- function(vars, input) {
   dup <- duplicated(vars)
   if (any(dup)) {
     abort(glue_c(
-      "Input columns must be unique",
-      x = "Problem at position {err_vars(dup)}"
+      "Input columns in `{input}` must be unique",
+      x = "Problem with {err_vars(vars[dup])}"
     ))
   }
 }

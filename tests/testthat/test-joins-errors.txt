@@ -72,12 +72,12 @@ duplicate column
 > df1 <- tibble(x = 1:3, x = 1:3, y = 1:3, .name_repair = "minimal")
 > df2 <- tibble(x = 2:4, y = 2:4)
 > left_join(df1, df2, by = c("x", "y"))
-Error: Input columns must be unique
-x Problem at position 2
+Error: Input columns in `x` must be unique
+x Problem with `x`
 
 > left_join(df2, df1, by = c("x", "y"))
-Error: Input columns must be unique
-x Problem at position 2
+Error: Input columns in `y` must be unique
+x Problem with `x`
 
 > right_join(df1, df2, by = c("x", "y"))
 Error: Column `x` must have a unique name
@@ -86,12 +86,12 @@ Error: Column `x` must have a unique name
 Error: Column `x` must have a unique name
 
 > inner_join(df1, df2, by = c("x", "y"))
-Error: Input columns must be unique
-x Problem at position 2
+Error: Input columns in `x` must be unique
+x Problem with `x`
 
 > inner_join(df2, df1, by = c("x", "y"))
-Error: Input columns must be unique
-x Problem at position 2
+Error: Input columns in `y` must be unique
+x Problem with `x`
 
 > full_join(df1, df2, by = c("x", "y"))
 Error: Column `x` must have a unique name
@@ -100,18 +100,18 @@ Error: Column `x` must have a unique name
 Error: Column `x` must have a unique name
 
 > semi_join(df1, df2, by = c("x", "y"))
-Error: Input columns must be unique
-x Problem at position 2
+Error: Input columns in `x` must be unique
+x Problem with `x`
 
 > semi_join(df2, df1, by = c("x", "y"))
-Error: Input columns must be unique
-x Problem at position 2
+Error: Input columns in `y` must be unique
+x Problem with `x`
 
 > anti_join(df1, df2, by = c("x", "y"))
-Error: Input columns must be unique
-x Problem at position 2
+Error: Input columns in `x` must be unique
+x Problem with `x`
 
 > anti_join(df2, df1, by = c("x", "y"))
-Error: Input columns must be unique
-x Problem at position 2
+Error: Input columns in `y` must be unique
+x Problem with `x`
 

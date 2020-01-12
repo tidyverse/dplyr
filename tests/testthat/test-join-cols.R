@@ -56,6 +56,10 @@ test_that("by columns omited from y" , {
 
 test_that("emits useful messages", {
   verify_output(test_path("test-join-cols.txt"), {
+    "# names"
+    join_cols(c("x", "y"), c("y", "y"))
+    join_cols(c("y", "y"), c("x", "y"))
+
     "# common by"
     xy <- c("x", "y")
     vars <- join_cols(xy, xy)
