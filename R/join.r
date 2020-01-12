@@ -229,7 +229,7 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  rows <- join_rows(x_key, y_key, join = "inner")
+  rows <- join_rows(x_key, y_key, type = "inner")
 
   x_out <- set_names(x[vars$x$out], names(vars$x$out))
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
@@ -322,7 +322,7 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  rows <- join_rows(x_key, y_key, join = "left")
+  rows <- join_rows(x_key, y_key, type = "left")
 
   x_out <- set_names(x[vars$x$out], names(vars$x$out))
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
@@ -335,144 +335,54 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 
 #' @export
 #' @rdname join.tbl_df
-right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-  by <- common_by(by, x, y)
-  suffix <- check_suffix(suffix)
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
+  y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
 
-  y <- auto_copy(x, y, copy = copy)
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-  by_y <- vars$idx$y$by
-  aux_x <- vars$idx$x$aux
-  aux_y <- vars$idx$y$aux
-  alias <- vars$alias
+  rows <- join_rows(x_key, y_key, type = "right")
 
-  # unique values and where they are in each
-  x_split <- vec_group_pos(x[, by_x, drop = FALSE])
+  x_out <- set_names(x[vars$x$out], names(vars$x$out))
+  y_out <- set_names(y[vars$y$out], names(vars$y$out))
 
-  # matching uniques in x with uniques in y
-  matches <- vec_match(
-    y[, by_y, drop = FALSE],
-    set_names(x_split$key, names(y)[by_y])
+  out <- vec_slice(x_out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
+  out[names(x_key)] <- vec_rbind(
+    vec_slice(x_key, rows$x),
+    vec_slice(y_key, rows$y_extra)
   )
-
-  # for each unique value in y, expand the ids according to the number
-  # of matches in x
-  y_indices <- vec_c(!!!map2(matches, seq_along(matches), function(match, id, lhs_id) {
-    if (is.na(match)) {
-      id
-    } else {
-      vec_repeat(id, each = length(lhs_id[[match]]))
-    }
-  }, lhs_id = x_split$pos), .ptype = integer())
-
-  # same for ids of x
-  x_indices <- vec_c(!!!map2(matches, seq_along(matches), function(match, id, lhs_id) {
-    if (is.na(match)) {
-      NA_integer_
-    } else {
-      vec_repeat(lhs_id[[match]], times = length(id))
-    }
-  }, lhs_id = x_split$pos), .ptype = integer())
-
-  x_slice <- vec_slice(x, x_indices)
-  y_slice <- vec_slice(y, y_indices)
-
-  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
-
-  # the joined columns (taken from `y`) and then cast to common type
-  join_ptype <- vec_ptype2(x[, by_x, drop = FALSE], set_names(y[, by_y, drop = FALSE], names(x)[by_x]))
-  out[by_x] <- vec_cast(set_names(y_slice[, by_y, drop = FALSE], names(x)[by_x]), to = join_ptype)
-
-  # other colums from x
-  out[aux_x] <- x_slice[, aux_x, drop = FALSE]
-
-  # then columns from y
-  out[ncol(x) + seq_along(aux_y)] <- y_slice[, aux_y, drop = FALSE]
-
-  reconstruct_join(as_tibble(out), x, vars)
+  out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
+  out
 }
 
 #' @export
 #' @rdname join.tbl_df
-full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-  by <- common_by(by, x, y)
-  suffix <- check_suffix(suffix)
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
+  y <- auto_copy(x, y, copy = copy)
   na_matches <- check_na_matches(na_matches)
 
-  y <- auto_copy(x, y, copy = copy)
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-  by_y <- vars$idx$y$by
-  aux_x <- vars$idx$x$aux
-  aux_y <- vars$idx$y$aux
-  by_names <- vars$alias[seq_len(length(by_x))]
+  rows <- join_rows(x_key, y_key, type = "full")
 
-  # unique values and where they are in each
-  x_split <- vec_group_pos(set_names(x[, by_x, drop = FALSE], by_names))
-  y_split <- vec_group_pos(set_names(y[, by_y, drop = FALSE], by_names))
+  x_out <- set_names(x[vars$x$out], names(vars$x$out))
+  y_out <- set_names(y[vars$y$out], names(vars$y$out))
 
-  # matching uniques in x with uniques in y and vice versa
-  x_matches <- vec_match(x_split$key, y_split$key)
-  y_matches <- vec_match(y_split$key, x_split$key)
-
-  # expand x indices from x matches
-  x_indices_one <- vec_c(
-    !!!map2(x_matches, x_split$pos, function(match, ids, rhs_id) {
-      if (is.na(match)) {
-        ids
-      } else {
-        vec_repeat(ids, each = length(rhs_id[[match]]))
-      }
-    }, rhs_id = y_split$pos),
-    .ptype = integer()
+  out <- vec_slice(x_out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
+  out[names(x_key)] <- vec_rbind(
+    vec_slice(x_key, rows$x),
+    vec_slice(y_key, rows$y_extra)
   )
-
-  x_indices_two <- rep(NA_integer_,
-    sum(lengths(y_split$pos[is.na(y_matches)]))
-  )
-
-  # rows in x
-  y_indices_one <- vec_c(
-    !!!map2(x_matches, x_split$pos, function(match, ids, rhs_id) {
-      if (is.na(match)) {
-        vec_repeat(NA_integer_, length(ids))
-      } else {
-        vec_repeat(rhs_id[[match]], times = length(ids))
-      }
-    }, rhs_id = y_split$pos),
-
-    .ptype = integer()
-  )
-
-  # rows in y and not in x
-  y_indices_two <- vec_c(!!!y_split$pos[is.na(y_matches)], .ptype = integer())
-
-  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
-
-  out[by_x] <- vec_rbind(
-    vec_slice(x[, by_x, drop = FALSE], x_indices_one),
-    set_names(vec_slice(y[, by_y, drop = FALSE], y_indices_two), names(x)[by_x])
-  )
-
-  # other colums from x
-  out[aux_x] <- vec_slice(x[, aux_x, drop = FALSE], c(x_indices_one, x_indices_two))
-
-  # columns from y
-  out[ncol(x) + seq_along(aux_y)] <- vec_slice(y[, aux_y, drop = FALSE], c(y_indices_one, y_indices_two))
-
-  reconstruct_join(as_tibble(out), x, vars)
+  out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
+  out
 }
 
 #' @export
@@ -518,34 +428,4 @@ reconstruct_join <- function(out, x, vars) {
 #' @rdname join.tbl_df
 nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ... ) {
   as.data.frame(nest_join(as_tibble(x), y, by = by, copy = copy, ..., keep = keep, name = name))
-}
-
-#' @export
-right_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(right_join(as_tibble(x), y, by = by, copy = copy, ...))
-}
-
-#' @export
-full_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(full_join(as_tibble(x), y, by = by, copy = copy, ...))
-}
-
-# Helpers -----------------------------------------------------------------
-
-check_suffix <- function(x) {
-  if (!is.character(x) || length(x) != 2) {
-    bad_args("suffix", "must be a character vector of length 2, ",
-      "not {friendly_type_of(x)} of length {length(x)}"
-    )
-  }
-
-  if (any(is.na(x))) {
-    bad_args("suffix", "can't be NA")
-  }
-
-  if (all(x == "")) {
-    bad_args("suffix", "can't be empty string for both `x` and `y` suffixes")
-  }
-
-  list(x = x[[1]], y = x[[2]])
 }

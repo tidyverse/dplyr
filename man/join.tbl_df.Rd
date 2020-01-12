@@ -5,8 +5,8 @@
 \alias{inner_join.data.frame}
 \alias{nest_join.tbl_df}
 \alias{left_join.data.frame}
-\alias{right_join.tbl_df}
-\alias{full_join.tbl_df}
+\alias{right_join.data.frame}
+\alias{full_join.data.frame}
 \alias{semi_join.data.frame}
 \alias{anti_join.data.frame}
 \alias{nest_join.data.frame}
@@ -34,7 +34,7 @@
   na_matches = pkgconfig::get_config("dplyr::na_matches")
 )
 
-\method{right_join}{tbl_df}(
+\method{right_join}{data.frame}(
   x,
   y,
   by = NULL,
@@ -44,7 +44,7 @@
   na_matches = pkgconfig::get_config("dplyr::na_matches")
 )
 
-\method{full_join}{tbl_df}(
+\method{full_join}{data.frame}(
   x,
   y,
   by = NULL,

@@ -802,13 +802,12 @@ test_that("left_join() respects original row orders of x (#4639)", {
   expect_equal(res$b, c(3:4, 2:1, 1:2, 3:4))
 })
 
-test_that("right_join() respects original row orders of y (#4639)", {
+test_that("right_join() respects original row orders of x (#4639)", {
   d1 <- tibble(a = c(3:1))
   d2 <- tibble(a = c(1:3, 3:1), b = 1:6)
 
   res <- right_join(d1, d2)
-  expect_equal(res$a, d2$a)
-  expect_equal(res$b, 1:6)
+  expect_equal(res$a, rep(d1$a, each = 2))
 })
 
 test_that("full_join() and right_join() correctly restores columns (#4649)", {
