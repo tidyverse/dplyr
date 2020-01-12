@@ -31,6 +31,16 @@ rowwise <- function(data) {
 setOldClass(c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 
 #' @export
+`[<-.rowwise_df` <- function(x, i, j, ..., value) {
+  rowwise(NextMethod())
+}
+
+#' @export
+`[[<-.rowwise_df` <- function(x, ..., value) {
+  rowwise(NextMethod())
+}
+
+#' @export
 print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("Groups: <by row>\n")
