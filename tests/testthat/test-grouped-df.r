@@ -49,11 +49,12 @@ test_that("$<-, [[<-, and [<- update grouping data if needed", {
   df <- tibble(x = 1, y = 2)
   gf <- group_by(df, x)
 
-  expect_equal(group_data(`$<-`(gf, "x", 2))$x, 2)
-  expect_equal(group_data(`$<-`(gf, "y", 2))$x, 1)
+  # value has to be past the ellipsis in $<-()
+  expect_equal(group_data(`$<-`(gf, "x", value = 2))$x, 2)
+  expect_equal(group_data(`$<-`(gf, "y", value = 2))$x, 1)
 
   expect_equal(group_data({gf2 <- gf; gf2[[1]] <- 3; gf2})$x, 3)
-  expect_equal(group_data(`[<-`(gf, 1, "x", 4))$x, 4)
+  expect_equal(group_data(`[<-`(gf, 1, "x", value = 4))$x, 4)
 })
 
 test_that("can remove grouping cols with subset assignment", {
