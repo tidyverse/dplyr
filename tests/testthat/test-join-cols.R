@@ -38,10 +38,15 @@ test_that("NA names are preserved", {
   expect_named(vars$y$out, "NA.y")
 })
 
-test_that("by columns ommited from y" , {
+test_that("by columns omited from y" , {
   vars <- join_cols(c("x", "y"), c("x", "y"), by = c("x" = "y"))
   expect_equal(vars$x$out, c("x" = 1, "y" = 2))
   expect_equal(vars$y$out, c("x.y" = 1))
+
+  # unless specifically requested
+  vars <- join_cols(c("x", "y"), c("x", "y"), by = c("x" = "y"), keep_y = TRUE)
+  expect_equal(vars$x$out, c("x" = 1, "y.x" = 2))
+  expect_equal(vars$y$out, c("x.y" = 1, "y.y" = 2))
 })
 
 test_that("emits useful messages", {
