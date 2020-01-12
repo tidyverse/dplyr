@@ -142,6 +142,13 @@ mutate.data.frame <- function(.data, ...) {
 }
 
 #' @export
+mutate.rowwise_df <- function(.data, ...) {
+  out <- NextMethod()
+  class(out) <- class(.data)
+  out
+}
+
+#' @export
 mutate.grouped_df <- function(.data, ...) {
   cols <- mutate_new_columns(.data, ...)
   if (is.null(cols)) {

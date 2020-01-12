@@ -195,6 +195,7 @@ as_tibble.grouped_df <- function(x, ...) {
 #' @export
 `[.grouped_df` <- function(x, i, j, drop = FALSE) {
   out <- NextMethod()
+  class(out) <- class(x)
 
   if (!is.data.frame(out)) {
     return(out)
@@ -215,6 +216,7 @@ as_tibble.grouped_df <- function(x, ...) {
 #' @export
 `$<-.grouped_df` <- function(x, name, ..., value) {
   out <- NextMethod()
+  class(out) <- class(x)
   if (name %in% group_vars(x)) {
     grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
   } else {
@@ -225,12 +227,14 @@ as_tibble.grouped_df <- function(x, ...) {
 #' @export
 `[<-.grouped_df` <- function(x, i, j, ..., value) {
   out <- NextMethod()
+  class(out) <- class(x)
   grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
 }
 
 #' @export
 `[[<-.grouped_df` <- function(x, ..., value) {
   out <- NextMethod()
+  class(out) <- class(x)
   grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
 }
 
