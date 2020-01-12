@@ -1,5 +1,5 @@
-join_rows <- function(x_key, y_key, join = c("inner", "left", "right", "outer")) {
-  join <- arg_match(join)
+join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "outer")) {
+  type <- arg_match(type)
 
   y_split <- vec_group_pos(y_key)
   matches <- vec_match(x_key, y_split$key)
@@ -8,7 +8,7 @@ join_rows <- function(x_key, y_key, join = c("inner", "left", "right", "outer"))
   # expand indices
   x_loc <- seq_len(vec_size(x_key))
   y_loc <- y_split$pos[matches]
-  if (join == "left") {
+  if (type == "left") {
     y_loc <- map(y_loc, function(x) if (is.null(x)) NA_integer_ else x)
   }
 
