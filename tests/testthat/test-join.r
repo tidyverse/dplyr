@@ -809,26 +809,6 @@ test_that("nest_join handles multiple matches in x (#3642)", {
   expect_identical(tbls[[1]], tbls[[2]])
 })
 
-test_that("joins reject data frames with duplicate columns (#3243)", {
-  df1 <- tibble(x = 1:3, x = 1:3, y = 1:3, .name_repair = "minimal")
-  df2 <- data.frame(x = 2:4, y = 2:4)
-
-  verify_output(test_path("test-join-error-duplicate.txt"), {
-    left_join(df1, df2, by = c("x", "y"))
-    left_join(df2, df1, by = c("x", "y"))
-    right_join(df1, df2, by = c("x", "y"))
-    right_join(df2, df1, by = c("x", "y"))
-    inner_join(df1, df2, by = c("x", "y"))
-    inner_join(df2, df1, by = c("x", "y"))
-    full_join(df1, df2, by = c("x", "y"))
-    full_join(df2, df1, by = c("x", "y"))
-    semi_join(df1, df2, by = c("x", "y"))
-    semi_join(df2, df1, by = c("x", "y"))
-    anti_join(df1, df2, by = c("x", "y"))
-    anti_join(df2, df1, by = c("x", "y"))
-  })
-})
-
 test_that("left_join() respects original row orders of x (#4639)", {
   d1 <- tibble(a = c(1:3, 3:1))
   d2 <- tibble(a = 3:1, b = 1:3)
@@ -871,50 +851,4 @@ test_that("full_join() correctly binds the by part", {
     full_join(df1, df2, by = c("x" = "y")),
     tibble(x = c("x", "y"), a = c(1, NA), b = c(NA, 1))
   )
-})
-
-# Errors ------------------------------------------------------------------
-
-test_that("*_join() give meaningful errors", {
-  verify_output(test_path("test-joins-errors.txt"), {
-    "# empty strings in both sides of suffix argument"
-    inner_join(e, f, "x", suffix = c("", ""))
-    left_join(e, f, "x", suffix = c("", ""))
-    right_join(e, f, "x", suffix = c("", ""))
-    full_join(e, f, "x", suffix = c("", ""))
-
-    "# NA in any side of suffix argument"
-    inner_join(e, f, "x", suffix = c(".x", NA))
-    left_join(e, f, "x", suffix = c(NA, ".y"))
-    right_join(e, f, "x", suffix = as.character(c(NA, NA)))
-    full_join(e, f, "x", suffix = c("x", NA))
-
-    "# check suffix input"
-    inner_join(e, f, "x", suffix = letters[1:3])
-    inner_join(e, f, "x", suffix = letters[1])
-    inner_join(e, f, "x", suffix = 1:2)
-
-    "# column not found"
-    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "x")
-    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "y")
-    left_join(data.frame(x = 1:5), data.frame(y = 1:5))
-    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = 1:3)
-
-    "# duplicate column"
-    df1 <- tibble(x = 1:3, x = 1:3, y = 1:3, .name_repair = "minimal")
-    df2 <- tibble(x = 2:4, y = 2:4)
-
-    left_join(df1, df2, by = c("x", "y"))
-    left_join(df2, df1, by = c("x", "y"))
-    right_join(df1, df2, by = c("x", "y"))
-    right_join(df2, df1, by = c("x", "y"))
-    inner_join(df1, df2, by = c("x", "y"))
-    inner_join(df2, df1, by = c("x", "y"))
-    full_join(df1, df2, by = c("x", "y"))
-    full_join(df2, df1, by = c("x", "y"))
-    semi_join(df1, df2, by = c("x", "y"))
-    semi_join(df2, df1, by = c("x", "y"))
-    anti_join(df1, df2, by = c("x", "y"))
-    anti_join(df2, df1, by = c("x", "y"))
-  })
 })
