@@ -51,6 +51,7 @@ test_that("$<-, [[<-, and [<- update grouping data if needed", {
 
   expect_equal(group_data(`$<-`(gf, "x", 2))$x, 2)
   expect_equal(group_data(`$<-`(gf, "y", 2))$x, 1)
+  expect_equal(group_data(`$<-`(gf, "z", 2))$x, 1)
 
   expect_equal(group_data({gf2 <- gf; gf2[[1]] <- 3; gf2})$x, 3)
   expect_equal(group_data(`[<-`(gf, 1, "x", 4))$x, 4)

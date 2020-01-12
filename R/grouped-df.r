@@ -218,7 +218,7 @@ as_tibble.grouped_df <- function(x, ...) {
   if (name %in% group_vars(x)) {
     grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
   } else {
-    out
+    new_grouped_df(out, groups = attr(x, "groups"))
   }
 }
 
