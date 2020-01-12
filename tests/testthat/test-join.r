@@ -621,29 +621,6 @@ test_that("anti and semi joins give correct result when by variable is a factor 
   expect_equal(sj_result$letter, factor(c("b", "b"), levels = c("a", "b")))
 })
 
-test_that("inner join not crashing (#1559)", {
-  df3 <- tibble(
-    id = c(102, 102, 102, 121),
-    name = c("qwer", "qwer", "qwer", "asdf"),
-    k = factor(c("one", "two", "total", "one"), levels = c("one", "two", "total")),
-    total = factor(c("tot", "tot", "tot", "tot"), levels = c("tot", "plan", "fact")),
-    v = c(NA_real_, NA_real_, NA_real_, NA_real_),
-    btm = c(25654.957609, 29375.7547216667, 55030.7123306667, 10469.3523273333),
-    top = c(22238.368946, 30341.516924, 52579.88587, 9541.893144)
-  )
-  df4 <- tibble(
-    id = c(102, 102, 102, 121),
-    name = c("qwer", "qwer", "qwer", "asdf"),
-    k = factor(c("one", "two", "total", "one"), levels = c("one", "two", "total")),
-    type = factor(c("fact", "fact", "fact", "fact"), levels = c("tot", "plan", "fact")),
-    perc = c(0.15363485835208, -0.0318297270618471, 0.0466114830816894, 0.0971986553754823)
-  )
-  # all we want here is to test that this does not crash
-  expect_message(res <- replicate(100, df3 %>% inner_join(df4)))
-  for (i in 2:100) expect_equal(res[, 1], res[, i])
-})
-
-
 # Encoding ----------------------------------------------------------------
 
 test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
