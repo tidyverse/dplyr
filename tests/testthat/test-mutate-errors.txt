@@ -19,13 +19,13 @@ incompatible column type
 ========================
 
 > mutate(tibble(x = 1), y = mean)
-Error: `mutate()` argument `y` errored
-x Unsupported type for result `y`
+Error: `mutate()` argument `y` must be a vector
 i `y` is mean
+x Result should be a vector, not a closure
 
 > mutate(tibble(x = 1), y = quote(a))
 Error: `mutate()` argument `y` errored
-x Unsupported type for result `y`
+x object 'a' not found
 i `y` is quote(a)
 
 
@@ -34,14 +34,14 @@ Unsupported type
 
 > df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
 > mutate(df, out = !!env(a = 1))
-Error: `mutate()` argument `out` errored
-x Unsupported type for result `out`
+Error: `mutate()` argument `out` must be a vector
 i `out` is <env>
+x Result should be a vector, not a environment
 
 > mutate(group_by(df, g), out = !!env(a = 1))
-Error: `mutate()` argument `out` errored
-x Unsupported type for result `out`
+Error: `mutate()` argument `out` must be a vector
 i `out` is <env>
+x Result should be a vector, not a environment
 i The error occured in group 1
 
 

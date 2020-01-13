@@ -115,6 +115,9 @@ stop_summarise_combine <- function(msg, index, dots) {
   ))
 }
 
+
+# mutate() ----------------------------------------------------------------
+
 stop_mutate_mixed_NULL <- function(index, dots) {
   # called from the C++ code
   if(missing(dots)) {
@@ -128,5 +131,25 @@ stop_mutate_mixed_NULL <- function(index, dots) {
     "`mutate()` argument `{name}` must be ??? consistent",
     i = "`{name}` is {expr}",
     x = "Cannot combine NULL and non NULL results"
+  ))
+}
+
+
+stop_mutate_not_vector <- function(result, index, dots) {
+  # called from the C++ code
+  if(missing(dots)) {
+    abort(class = "dplyr_mutate_not_vector", result = result)
+  }
+
+  name <- arg_name(dots, index)
+  expr <- as_label(quo_get_expr(dots[[index]]))
+  data <- peek_mask()$full_data()
+  group <- peek_mask()$get_current_group()
+
+  abort(glue_c(
+    "`mutate()` argument `{name}` must be a vector",
+    i = "`{name}` is {expr}",
+    x = "Result should be a vector, not a {typeof(result)}",
+    i = if(is_grouped_df(data)) "The error occured in group {group}"
   ))
 }

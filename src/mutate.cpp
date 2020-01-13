@@ -6,6 +6,12 @@ void stop_mutate_mixed_NULL() {
   SEXP call = Rf_lang1(sym_stop_mutate_mixed_NULL);
   Rf_eval(call, dplyr::envs::ns_dplyr);
 }
+
+void stop_mutate_not_vector(SEXP result) {
+  SEXP sym_stop_mutate_not_vector = Rf_install("stop_mutate_not_vector");
+  SEXP call = Rf_lang2(sym_stop_mutate_not_vector, result);
+  Rf_eval(call, dplyr::envs::ns_dplyr);
+}
 }
 
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i) {
@@ -46,14 +52,7 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
     }
 
     if (!vctrs::vec_is_vector(result_i)) {
-      if (!Rf_isNull(dots_names)) {
-        SEXP name = STRING_ELT(dots_names, i);
-        if (XLENGTH(name) > 0) {
-          Rf_errorcall(R_NilValue, "Unsupported type for result `%s`", CHAR(name));
-        }
-      }
-      int i = INTEGER(sexp_i)[0];
-      Rf_errorcall(R_NilValue, "Unsupported type at index %d", i);
+      dplyr::stop_mutate_not_vector(result_i);
     }
 
     if (!needs_recycle && vctrs::short_vec_size(result_i) != n_i) {
