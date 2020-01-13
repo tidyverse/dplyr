@@ -41,13 +41,13 @@ slice <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  idx <- slice_indices(.data, ...)
+  idx <- slice_rows(.data, ...)
   .data[idx$data, , drop = FALSE]
 }
 
 #' @export
 slice.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.data)) {
-  idx <- slice_indices(.data, ...)
+  idx <- slice_rows(.data, ...)
   data <- as.data.frame(.data)[idx$data, , drop = FALSE]
 
   groups <- group_data(.data)
@@ -57,7 +57,7 @@ slice.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.dat
   new_grouped_df(data, groups)
 }
 
-slice_indices <- function(.data, ...) {
+slice_rows <- function(.data, ...) {
   dots <- enquos(...)
   if (is_empty(dots)) {
     return(.data)

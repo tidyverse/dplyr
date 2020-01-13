@@ -105,7 +105,7 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
     return(.data)
   }
 
-  idx <- filter_indices(.data, ...)
+  idx <- filter_rows(.data, ...)
   .data[idx[[1]], , drop = FALSE]
 }
 
@@ -115,7 +115,7 @@ filter.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.da
     return(.data)
   }
 
-  idx <- filter_indices(.data, ...)
+  idx <- filter_rows(.data, ...)
   data <- as.data.frame(.data)[idx[[1]], , drop = FALSE]
 
   groups <- group_data(.data)
@@ -125,7 +125,7 @@ filter.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.da
   new_grouped_df(data, groups)
 }
 
-filter_indices <- function(.data, ...) {
+filter_rows <- function(.data, ...) {
   dots <- enquos(...)
   check_filter(dots)
 

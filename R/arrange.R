@@ -44,7 +44,7 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
     return(.data)
   }
 
-  idx <- arrange_indices(.data, ...)
+  idx <- arrange_rows(.data, ...)
   .data[idx, , drop = FALSE]
 }
 
@@ -55,13 +55,13 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
   }
 
   # TODO: figure out how to update group_indices more efficiently
-  idx <- arrange_indices(.data, ..., .by_group = .by_group)
+  idx <- arrange_rows(.data, ..., .by_group = .by_group)
   .data[idx, , drop = FALSE]
 }
 
 # Helpers -----------------------------------------------------------------
 
-arrange_indices <- function(.data, ..., .by_group = FALSE) {
+arrange_rows <- function(.data, ..., .by_group = FALSE) {
 
   if (.by_group) {
     dots <- c(quos(!!!groups(.data)), enquos(...))

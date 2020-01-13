@@ -81,7 +81,7 @@ summarize <- summarise
 
 #' @export
 summarise.data.frame <- function(.data, ...) {
-  cols <- summarise_new_cols(.data, ...)
+  cols <- summarise_cols(.data, ...)
 
   out <- group_keys(.data)
   if (!identical(cols$size, 1L)) {
@@ -103,7 +103,7 @@ summarise.grouped_df <- function(.data, ...) {
   out
 }
 
-summarise_new_cols <- function(.data, ...) {
+summarise_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {

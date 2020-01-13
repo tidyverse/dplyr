@@ -130,7 +130,7 @@ mutate <- function(.data, ...) {
 
 #' @export
 mutate.data.frame <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
+  cols <- mutate_cols(.data, ...)
   if (is.null(cols)) {
     return(.data)
   }
@@ -143,7 +143,7 @@ mutate.data.frame <- function(.data, ...) {
 
 #' @export
 mutate.grouped_df <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
+  cols <- mutate_cols(.data, ...)
   if (is.null(cols)) {
     return(.data)
   }
@@ -168,7 +168,7 @@ transmute <- function(.data, ...) {
 
 #' @export
 transmute.data.frame <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
+  cols <- mutate_cols(.data, ...)
   if (is.null(cols)) {
     return(.data[integer()])
   }
@@ -181,7 +181,7 @@ transmute.data.frame <- function(.data, ...) {
 
 #' @export
 transmute.grouped_df <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
+  cols <- mutate_cols(.data, ...)
   if (is.null(cols)) {
     return(.data[group_vars(.data)])
   }
@@ -200,7 +200,7 @@ transmute.grouped_df <- function(.data, ...) {
 
 # Helpers -----------------------------------------------------------------
 
-mutate_new_columns <- function(.data, ...) {
+mutate_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
