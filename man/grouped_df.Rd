@@ -15,7 +15,7 @@ is_grouped_df(x)
 \arguments{
 \item{data}{a tbl or data frame.}
 
-\item{vars}{a character vector or a list of \code{\link[=name]{name()}}}
+\item{vars}{A character vector.}
 
 \item{drop}{When \code{.drop = TRUE}, empty groups are dropped.}
 }
@@ -23,5 +23,8 @@ is_grouped_df(x)
 The easiest way to create a grouped data frame is to call the \code{group_by()}
 method on a data frame or tbl: this will take care of capturing
 the unevaluated expressions for you.
+
+See \code{\link[=group_data]{group_data()}} for the accessor functions that retrieve various metadata
+from a \code{grouped_df}.
 }
 \keyword{internal}

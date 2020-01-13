@@ -1,12 +1,16 @@
 #' A grouped data frame.
 #'
+#' @description
 #' The easiest way to create a grouped data frame is to call the `group_by()`
 #' method on a data frame or tbl: this will take care of capturing
 #' the unevaluated expressions for you.
 #'
+#' See [group_data()] for the accessor functions that retrieve various metadata
+#' from a `grouped_df`.
+#'
 #' @keywords internal
 #' @param data a tbl or data frame.
-#' @param vars a character vector or a list of [name()]
+#' @param vars A character vector.
 #' @param drop When `.drop = TRUE`, empty groups are dropped.
 #'
 #' @import vctrs
@@ -14,6 +18,13 @@
 #'
 #' @export
 grouped_df <- function(data, vars, drop = FALSE) {
+  if (!is.data.frame(data)) {
+    abort("`data` must be a data frame")
+  }
+  if (!is.character(vars)) {
+    abort("`vars` must be a character vector")
+  }
+
   if (length(vars) == 0) {
     as_tibble(data)
   } else {
@@ -23,28 +34,22 @@ grouped_df <- function(data, vars, drop = FALSE) {
 }
 
 compute_groups <- function(data, vars, drop = FALSE) {
-  data <- as_tibble(data)
-
-  is_symbol_list <- (is.list(vars) && all(sapply(vars, is.name)))
-  if(!is_symbol_list && !is.character(vars)) {
-    abort("incompatible `vars`, should be a list of symbols or a character vector")
-  }
-  if (is.list(vars)) {
-    vars <- deparse_names(vars)
+  unknown <- setdiff(vars, names(data))
+  if (length(unknown) > 0) {
+    vars <- paste0(encodeString(vars, quote = "`"), collapse = ", ")
+    abort(glue("`vars` missing from `data`: {vars}"))
   }
 
-  unknown <- setdiff(vars, tbl_vars(data))
-  if (n_unknown <- length(unknown)) {
-    if(n_unknown == 1) {
-      abort(glue("Column `{unknown}` is unknown"))
-    } else {
-      abort(glue("Column `{unknown}` are unknown", unknown = glue_collapse(unknown, sep  = ", ")))
+  for (var in vars) {
+    x <- data[[var]]
+    if (is.factor(x) && anyNA(x)) {
+      warn(glue("Factor `{var}` contains implicit NA, consider using `forcats::fct_explicit_na()`"))
     }
   }
 
   # Only train the dictionary based on selected columns
-  grouping_variables <- select(ungroup(data), one_of(vars))
-  c(old_keys, old_rows) %<-% vec_split_id_order(grouping_variables)
+  group_vars <- as_tibble(data)[vars]
+  c(old_keys, old_rows) %<-% vec_split_id_order(group_vars)
 
   map2(old_keys, names(old_keys), function(x, n) {
     if (is.factor(x) && anyNA(x)) {
@@ -86,7 +91,7 @@ compute_groups <- function(data, vars, drop = FALSE) {
         vec_slice(unique, index)
       }
     })
-    names(new_keys) <- names(grouping_variables)
+    names(new_keys) <- vars
 
     groups <- tibble(!!!new_keys, .rows := new_rows)
   }
