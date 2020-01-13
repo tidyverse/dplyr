@@ -9,7 +9,12 @@ i `a` is env(a = 1)
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = env(
 +   a = 1))
-Error: `nm` must be `NULL` or a character vector the same length as `x`
+Error: `summarise()` argument `a` must be a vector
+x Result should be a vector, not a environment
+i `a` is env(a = 1)
+x The error occured in group 1
+i group keys: x = 1
+i group keys: y = 1
 
 
 mixed types
