@@ -85,9 +85,16 @@ stop_incompatible_size <- function(size, group, index, expected_sizes, dots) {
   expr <- as_label(quo_get_expr(dots[[index]]))
 
   # called again with context
+
+  should_be <- if(expected_sizes[group] == 1L) {
+    "1"
+  } else {
+    glue("{expected_sizes[group]} or 1")
+  }
+
   abort(glue_c(
     "`summarise()` argument `{name}` must be recyclable",
-    x = "Result should be size {expected_sizes[group]}, not {size}",
+    x = "Result should be size {should_be}, not {size}",
     i = "`{name}` is {expr}",
     i = if(is_grouped_df(data)) "The error occured in group {group}",
     i = paste0(
