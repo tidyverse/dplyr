@@ -68,15 +68,17 @@
 #' the grouping of `x`.
 #'
 #' @param x,y Data frames
-#' @param by A character vector of variables to join by.  If `NULL`, the
-#'   default, `*_join()` will do a natural join, using all variables with
-#'   common names across the two tables. A message lists the variables so
-#'   that you can check they're right (to suppress the message, simply
-#'   explicitly list the variables that you want to join).
+#' @param by A character vector of variables to join by.
 #'
-#'   To join by different variables on x and y use a named vector.
-#'   For example, `by = c("a" = "b")` will match `x.a` to
-#'   `y.b`.
+#'   If `NULL`, the default, `*_join()` will perofrm a natural join, using all
+#'   variables in across `x` and `y`. A message lists the variables so that you
+#'   can check they're correct; suppress the message by supply `by` explicitly.
+#'
+#'   To join by different variables on `x` and `y` use a named vector.
+#'   For example, `by = c("a" = "b")` will match `x$a` to `y$b`.
+#'
+#'   To perform a cross-join, generating all combinations of `x` and `y`,
+#'   use `by = character()`.
 #' @param copy If `x` and `y` are not from the same data source,
 #'   and `copy` is `TRUE`, then `y` will be copied into the
 #'   same src as `x`.  This allows you to join tables across srcs, but

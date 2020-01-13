@@ -28,15 +28,17 @@ nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 \arguments{
 \item{x, y}{Data frames}
 
-\item{by}{A character vector of variables to join by.  If \code{NULL}, the
-default, \verb{*_join()} will do a natural join, using all variables with
-common names across the two tables. A message lists the variables so
-that you can check they're right (to suppress the message, simply
-explicitly list the variables that you want to join).
+\item{by}{A character vector of variables to join by.
 
-To join by different variables on x and y use a named vector.
-For example, \code{by = c("a" = "b")} will match \code{x.a} to
-\code{y.b}.}
+If \code{NULL}, the default, \verb{*_join()} will perofrm a natural join, using all
+variables in across \code{x} and \code{y}. A message lists the variables so that you
+can check they're correct; suppress the message by supply \code{by} explicitly.
+
+To join by different variables on \code{x} and \code{y} use a named vector.
+For example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
+
+To perform a cross-join, generating all combinations of \code{x} and \code{y},
+use \code{by = character()}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the

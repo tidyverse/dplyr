@@ -29,6 +29,15 @@ test_that("even when column names change", {
   expect_named(out, c("x", "z.x", "a", "z.y", "b"))
 })
 
+test_that("by = character() generates cross (#4206)", {
+  df1 <- tibble(x = 1:2)
+  df2 <- tibble(y = 1:2)
+  out <- left_join(df1, df2, by = character())
+
+  expect_equal(out$x, rep(1:2, each = 2))
+  expect_equal(out$y, rep(1:2, 2))
+})
+
 test_that("filtering joins preserve row and column order of x (#2964)", {
   df1 <- data.frame(a = 4:1, b = 1)
   df2 <- data.frame(b = 1, c = 2, a = 2:3)

@@ -1,5 +1,8 @@
 # dplyr 0.9.0 (in development)
 
+* Join functions can now perform a cross-join by specifying `by = character()`
+  (#4206.)
+
 * The `.dots` argument to `group_by()`/`group_by_prepare()` is deprecated; 
   please use `!!!` instead (#4734).
 
