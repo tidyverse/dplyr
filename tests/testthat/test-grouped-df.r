@@ -1,24 +1,19 @@
-test_that("can selectively ungroup", {
-  gf <- tibble(x = 1, y = 2) %>% group_by(x, y)
-
-  expect_equal(gf %>% ungroup() %>% group_vars(), character())
-  expect_equal(gf %>% ungroup(everything()) %>% group_vars(), character())
-  expect_equal(gf %>% ungroup(x) %>% group_vars(), "y")
+test_that("new_grouped_df can create alternative grouping structures (#3837)", {
+  tbl <- new_grouped_df(
+    tibble(x = rnorm(10)),
+    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+  )
+  res <- summarise(tbl, x = mean(x))
+  expect_equal(nrow(res), 5L)
 })
 
-# Errors ------------------------------------------------------------------
-
-test_that("selective ungroup() give meaningful errors", {
-  verify_output(test_path("test-grouped-df-errors.txt"), {
-    tibble(x = 1, y = 2) %>%
-      group_by(x, y) %>%
-      ungroup(z)
-
-    tibble(x = 1) %>%
-      ungroup(x)
-  })
+test_that("new_grouped_df does not have rownames (#4173)", {
+  tbl <- new_grouped_df(
+    tibble(x = rnorm(10)),
+    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+  )
+  expect_false(tibble::has_rownames(tbl))
 })
-
 
 test_that("[ method can remove grouping vars", {
   df <- tibble(x = 1, y = 2, z = 3)
@@ -88,4 +83,20 @@ test_that("names<- doesn't modify group data if not necessary", {
 
   names(gf1) <- c("x", "Y")
   expect_reference(group_data(gf1), group_data(gf2))
+})
+
+
+# compute_group ----------------------------------------------------------
+
+test_that("helper gives meaningful error messages", {
+  verify_output(test_path("test-grouped-df-errors.txt"), {
+    grouped_df(data.frame(x = 1), "y", FALSE)
+    grouped_df(data.frame(x = 1), 1)
+  })
+})
+
+test_that("compute_group warns about implicit missing values", {
+  df <- tibble(x = 1:3, f = factor(c("a", "b", NA)))
+  expect_warning(g <- compute_groups(df, "f"), "Factor `f` contains implicit NA")
+  expect_equal(g$.rows, list_of(1L, 2L, 3L))
 })

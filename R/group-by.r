@@ -164,6 +164,14 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   }
   group_names <- unique(group_names)
 
+  unknown <- setdiff(group_names, tbl_vars(.data))
+  if (length(unknown) > 0) {
+    abort(c(
+      "Must group by variables found in `.data`",
+      glue("Column `{unknown}` is not found")
+    ))
+  }
+
   list(
     data = .data,
     groups = syms(group_names),
@@ -222,59 +230,6 @@ add_computed_columns <- function(.data, vars) {
   list(data = .data, added_names = column_names)
 }
 
-#' Return grouping variables
-#'
-#' `group_vars()` returns a character vector; `groups()` returns a list of
-#' symbols.
-#'
-#' @family grouping functions
-#' @param x A [tbl()]
-#'
-#' @seealso [group_cols()] for matching grouping variables in
-#'   [selection contexts][select].
-#' @export
-#' @examples
-#' df <- tibble(x = 1, y = 2) %>% group_by(x, y)
-#' group_vars(df)
-#' groups(df)
-groups <- function(x) {
-  UseMethod("groups")
-}
-
-#' @export
-groups.grouped_df <- function(x) {
-  syms(group_vars(x))
-}
-
-#' @export
-groups.default <- function(x) NULL
-
-#' @rdname groups
-#' @export
-group_vars <- function(x) {
-  UseMethod("group_vars")
-}
-
-#' @export
-group_vars.grouped_df <- function(x) {
-  groups <- group_data(x)
-  if (is.character(groups)) {
-    # lazy grouped
-    groups
-  } else if (is.data.frame(groups)) {
-    # resolved, extract from the names of the data frame
-    head(names(groups), -1L)
-  } else if (is.list(groups)) {
-    # Need this for compatibility with existing packages that might
-    # use the old list of symbols format
-    map_chr(groups, as_string)
-  }
-}
-
-#' @export
-group_vars.default <- function(x) {
-  deparse_names(groups(x))
-}
 
 #' Default value for .drop argument of group_by
 #'
