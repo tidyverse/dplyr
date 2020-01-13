@@ -8,7 +8,7 @@ group_info <- function(data, group) {
     details <- map2_chr(keys, names(keys), function(x, name) {
       glue("group keys: {name} = {value}", value = tibble:::format_v(x))
     })
-    c(x = glue("The error occured in group {group}"), set_names(details, "i"))
+    c(x = glue("The error occured in group {group}"), set_names(details, rep_len("i", length(details))))
   }
 }
 
