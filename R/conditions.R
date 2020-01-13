@@ -5,10 +5,10 @@ glue_c <- function(..., .envir = caller_env()) {
 group_info <- function(data, group) {
   if (is_grouped_df(data)) {
     keys <- group_keys(data)[group, ]
-    details <- map2_chr(keys, names(keys), function(x, name) {
-      glue("- group keys: {name} = {value}", value = tibble:::format_v(x))
-    })
-    c(i = glue("The error occured in group {group}"), set_names(details, rep_len("x", length(details))))
+    details <- glue_collapse(map2_chr(keys, names(keys), function(x, name) {
+      glue("{name} = {value}", value = tibble:::format_v(x))
+    }), ", ")
+    c(i = glue("The error occured in group {group}: {details}"))
   }
 }
 
