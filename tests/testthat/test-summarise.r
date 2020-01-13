@@ -1014,6 +1014,24 @@ test_that("summarise() keeps class, but not attributes", {
   expect_equal(attr(out, "res"), NULL)
 })
 
+test_that("summarise() recycles", {
+  expect_equal(
+    tibble() %>% summarise(x = 1, y = 1:3, z = 1),
+    tibble(x = 1, y = 1:3, z = 1)
+  )
+
+  expect_equal(
+    tibble(a = 1:2) %>% group_by(a) %>% summarise(x = 1, y = 1:3, z = 1),
+    tibble(a = rep(1:2, each = 3), x = 1, y = c(1:3, 1:3), z = 1)
+  )
+  expect_equal(
+    tibble(a = 1:2) %>%
+      group_by(a) %>%
+      summarise(x = seq_len(a), y = 1),
+    tibble(a = c(1L, 2L, 2L), x = c(1L, 1L, 2L), y = 1)
+  )
+})
+
 test_that("summarise() give meaningful errors", {
   verify_output(test_path("test-summarise-errors.txt"), {
     "# unsupported type"

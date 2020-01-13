@@ -8,6 +8,8 @@
 * `groups()` now returns `list()` for ungrouped data; previously it returned
   `NULL` which was type-unstable (when there are groups it returns a list
   of symbols).
+* The `.dots` argument to `group_by()`/`group_by_prepare()` is deprecated; 
+  please use `!!!` instead (#4734).
 
 * `select()` and `rename()` use the latest version of the tidyselect interface.
   Practically, this means that you can now combine selections using Boolean

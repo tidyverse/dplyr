@@ -119,6 +119,7 @@ summarise_new_cols <- function(.data, ...) {
   cols <- list()
 
   .size <- 1L
+  chunks <- vector("list", length(dots))
 
   for (i in seq_along(dots)) {
     # a list in which each element is the result of
@@ -126,27 +127,40 @@ summarise_new_cols <- function(.data, ...) {
     #
     # TODO: reinject hybrid evaluation at the R level
     quo <- dots[[i]]
-    chunks <- mask$eval_all_summarise(quo, dots_names, i)
+    chunks[[i]] <- mask$eval_all_summarise(quo, dots_names, i)
 
     # check that vec_size() of chunks is compatible with .size
     # and maybe update .size
-    .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks)
+    .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks[[i]])
 
-    result <- vec_c(!!!chunks)
+    result_type <- vec_ptype_common(!!!chunks[[i]])
+
+    if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
+      # remember each result separately
+      map2(seq_along(result_type), names(result_type), function(j, nm) {
+        mask$add(nm, pluck(chunks[[i]], j))
+      })
+    } else {
+      # remember
+      mask$add(auto_named_dots[i], chunks[[i]])
+    }
+  }
+
+  # materialize columns
+  for (i in seq_along(dots)) {
+    if (!identical(.size, 1L)) {
+      sizes <- .Call(`dplyr_vec_sizes`, chunks[[i]])
+      if (!identical(sizes, .size)) {
+        chunks[[i]] <- map2(chunks[[i]], .size, vec_recycle, x_arg = glue("..{i}"))
+      }
+    }
+
+    result <- vec_c(!!!chunks[[i]])
 
     if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
       cols[names(result)] <- result
-
-      # remember each result separately
-      map2(seq_along(result), names(result), function(i, nm) {
-        mask$add(nm, pluck(chunks, i))
-      })
     } else {
-      # treat as a single output otherwise
       cols[[ auto_named_dots[i] ]] <-  result
-
-      # remember
-      mask$add(auto_named_dots[i], chunks)
     }
   }
 

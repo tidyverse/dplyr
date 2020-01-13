@@ -40,6 +40,11 @@ test_that("grouping by constant adds column (#410)", {
   expect_equal(nrow(grouped), 1L)
 })
 
+test_that(".dots is soft deprecated", {
+  df <- tibble(x = 1, y = 1)
+  expect_warning(gf <- group_by(df, .dots = "x"), "deprecated")
+})
+
 # Test full range of variable types --------------------------------------------
 
 
