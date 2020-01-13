@@ -289,10 +289,12 @@ test_that("left_join handles mix of encodings in column names (#1571)", {
 # Misc --------------------------------------------------------------------
 
 test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
-  skip("until https://github.com/r-lib/vctrs/issues/718")
-
   df1 <- tibble(a = NA)
   df2 <- tibble(a = NA, b = 1:3)
+  expect_warning(left_join(df1, df2, by = "a", na_matches = "never"))
+
+  skip("until https://github.com/r-lib/vctrs/issues/718")
+
   for (na_matches in c("na", "never")) {
     accept_na_match <- (na_matches == "na")
     expect_equal(inner_join(df1, df2, na_matches = na_matches) %>% nrow(), 0 + 3 * accept_na_match)
