@@ -41,5 +41,6 @@ void stop_summarise_incompatible_size(int size, R_xlen_t index_group) {
   SEXP call = Rf_lang3(sym_stop_incompatible_size, s_size, s_index_group);
   Rf_eval(call, dplyr::envs::ns_dplyr);
 }
+
 }
 

@@ -269,6 +269,9 @@ mutate_new_columns <- function(.data, ...) {
   },
     simpleError = function(e) {
       stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
+    },
+    dplyr_mutate_mixed_NULL = function(e) {
+      stop_mutate_mixed_NULL(i, dots)
     }
   )
 

@@ -1,5 +1,13 @@
 #include "dplyr.h"
 
+namespace dplyr {
+void stop_mutate_mixed_NULL() {
+  SEXP sym_stop_mutate_mixed_NULL = Rf_install("stop_mutate_mixed_NULL");
+  SEXP call = Rf_lang1(sym_stop_mutate_mixed_NULL);
+  Rf_eval(call, dplyr::envs::ns_dplyr);
+}
+}
+
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i) {
   SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
   R_xlen_t ngroups = XLENGTH(rows);
@@ -11,6 +19,7 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
   SEXP chunks = PROTECT(Rf_allocVector(VECSXP, ngroups));
   bool seen_vec = false;
   bool needs_recycle = false;
+  bool seen_null = false;
 
   for (R_xlen_t i = 0; i < ngroups; i++) {
     SEXP rows_i = VECTOR_ELT(rows, i);
@@ -22,16 +31,18 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
 
     SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
     if (Rf_isNull(result_i)) {
-      if (seen_vec) {
-        // the current chunk is NULL but there were some non NULL
-        // chunks, so this is an error
-        Rf_errorcall(R_NilValue, "incompatible results for mutate(), some results are NULL");
-      } else {
-        UNPROTECT(2);
-        continue;
-      }
+      seen_null = true;
     } else {
       seen_vec = true;
+    }
+
+    if (seen_null && seen_vec) {
+      dplyr::stop_mutate_mixed_NULL();
+    }
+
+    if (Rf_isNull(result_i)) {
+      UNPROTECT(2);
+      continue;
     }
 
     if (!vctrs::vec_is_vector(result_i)) {

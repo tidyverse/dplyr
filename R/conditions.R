@@ -114,3 +114,19 @@ stop_summarise_combine <- function(msg, index, dots) {
     i = "`{name}` is {expr}"
   ))
 }
+
+stop_mutate_mixed_NULL <- function(index, dots) {
+  # called from the C++ code
+  if(missing(dots)) {
+    abort(class = "dplyr_mutate_mixed_NULL")
+  }
+
+  name <- arg_name(dots, index)
+  expr <- as_label(quo_get_expr(dots[[index]]))
+
+  abort(glue_c(
+    "`mutate()` argument `{name}` must be ??? consistent",
+    i = "`{name}` is {expr}",
+    x = "Cannot combine NULL and non NULL results"
+  ))
+}
