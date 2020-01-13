@@ -46,7 +46,7 @@
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 #' @export
-across <- function(cols, fns = NULL) {
+across <- function(cols = everything(), fns = NULL) {
   mask <- peek_mask()
   data <- mask$full_data()
 

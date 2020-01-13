@@ -4,7 +4,7 @@
 \alias{across}
 \title{Apply a function (or a set of functions) to a set of columns}
 \usage{
-across(cols, fns = NULL)
+across(cols = everything(), fns = NULL)
 }
 \arguments{
 \item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
