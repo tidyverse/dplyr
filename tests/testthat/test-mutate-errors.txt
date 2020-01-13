@@ -87,8 +87,13 @@ x It must be size 2 or 1, not 5.
 =============
 
 > mutate(tibble(a = 1), c = .data$b)
-Error: Column `b` not found in `.data`
+Error: `mutate()` argument `c` errored
+x Column `b` not found in `.data`
+i `c` is b
 
 > mutate(group_by(tibble(a = 1:3), a), c = .data$b)
-Error: Column `b` not found in `.data`
+Error: `mutate()` argument `c` errored
+x Column `b` not found in `.data`
+i `c` is b
+i The error occured in group 1
 
