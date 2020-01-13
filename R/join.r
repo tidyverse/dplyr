@@ -194,16 +194,6 @@ nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, 
 #' @name join.data.frame
 NULL
 
-check_na_matches <- function(na_matches = c("na", "never")) {
-  na_matches <- arg_match(na_matches)
-
-  if (na_matches == "never") {
-    warn("`na_matches = 'never' currently unsupported")
-  }
-
-  (na_matches == "na")
-}
-
 #' @export
 #' @rdname join.data.frame
 inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
@@ -283,7 +273,6 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
   out
 }
 
-
 # helpers -----------------------------------------------------------------
 
 join_mutate <- function(x, y, by, type,
@@ -328,4 +317,14 @@ join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
     anti = which(!vec_in(x_key, y_key))
   )
   x[indx, , drop = FALSE]
+}
+
+check_na_matches <- function(na_matches = c("na", "never")) {
+  na_matches <- arg_match(na_matches)
+
+  if (na_matches == "never") {
+    warn("`na_matches = 'never' currently unsupported")
+  }
+
+  (na_matches == "na")
 }
