@@ -6,9 +6,9 @@ group_info <- function(data, group) {
   if (is_grouped_df(data)) {
     keys <- group_keys(data)[group, ]
     details <- map2_chr(keys, names(keys), function(x, name) {
-      glue("group keys: {name} = {value}", value = tibble:::format_v(x))
+      glue("- group keys: {name} = {value}", value = tibble:::format_v(x))
     })
-    c(x = glue("The error occured in group {group}"), set_names(details, rep_len("i", length(details))))
+    c(i = glue("The error occured in group {group}"), set_names(details, rep_len("x", length(details))))
   }
 }
 

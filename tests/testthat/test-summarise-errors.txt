@@ -12,9 +12,9 @@ i `a` is env(a = 1)
 Error: `summarise()` argument `a` must be a vector
 x Result should be a vector, not a environment
 i `a` is env(a = 1)
-x The error occured in group 1
-i group keys: x = 1
-i group keys: y = 1
+i The error occured in group 1
+x - group keys: x = 1
+x - group keys: y = 1
 
 
 mixed types
@@ -45,16 +45,16 @@ Error: `summarise()` argument `y` must be recyclable
 i `y` is 1:2
 x Result should be size 3 or 1, not 2
 i An earlier column had size 3
-x The error occured in group 1
-i group keys: z = 1
+i The error occured in group 1
+x - group keys: z = 1
 
 > tibble(z = 2:1) %>% group_by(z) %>% summarise(x = seq_len(z), y = 1:2)
 Error: `summarise()` argument `y` must be recyclable
 i `y` is 1:2
 x Result should be size 1, not 2
 i An earlier column had size 1
-x The error occured in group 1
-i group keys: z = 1
+i The error occured in group 1
+x - group keys: z = 1
 
 
 Missing variable
@@ -69,6 +69,6 @@ i `a` is mean(not_there)
 Error: `summarise()` argument `a` errored
 x object 'not_there' not found
 i `a` is mean(not_there)
-x The error occured in group 1
-i group keys: cyl = 4
+i The error occured in group 1
+x - group keys: cyl = 4
 
