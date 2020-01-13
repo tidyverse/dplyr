@@ -49,10 +49,7 @@
 
 <meta property="og:title" content="Join methods for data frames — join.data.frame" />
 <meta property="og:description" content="This page describes the details of the join generics when applied to
-data frames and tibbles.
-All methods treat the x input as primary: the return value will be the
-same type as x and the rows will in be the same order (duplicated where
-necessary, and where needed missing rows from y will be added to the end.)" />
+data frames and tibbles." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -197,9 +194,6 @@ necessary, and where needed missing rows from y will be added to the end.)" />
     <div class="ref-description">
     <p>This page describes the details of the <a href='join.html'>join</a> generics when applied to
 data frames and tibbles.</p>
-<p>All methods treat the <code>x</code> input as primary: the return value will be the
-same type as <code>x</code> and the rows will in be the same order (duplicated where
-necessary, and where needed missing rows from <code>y</code> will be added to the end.)</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for data.frame</span>
@@ -327,6 +321,20 @@ If <code>NULL</code> the name of <code>y</code> is used.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An object of the same type as <code>x</code>. The order of the rows and columns will
+preserved as much as possible.</p>
+<p>In mutating joins, rows may need to be duplicated, and for right/full joins,
+extra rows from <code>y</code> are be added to the bottom of <code>x</code>. Where the join keys
+are different in <code>x</code> and <code>y</code>, only keys from <code>x</code> will be included, unless
+<code>keep = TRUE</code>. The key columns in the output will be coerced to a common
+type. For example, if you're joining a integer vector with a numeric
+variable, the output will be a numeric vector, regardless of which is seen
+first.</p>
+<p>We interpret filtering joins exactly if you created the equivalent call to
+<code><a href='filter.html'>filter()</a></code>: the row order, the column order, and the column types are all
+preserved.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>)
@@ -347,6 +355,7 @@ If <code>NULL</code> the name of <code>y</code> is used.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

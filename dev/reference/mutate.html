@@ -49,8 +49,7 @@
 
 <meta property="og:title" content="Create or transform variables — mutate" />
 <meta property="og:description" content="mutate() adds new variables and preserves existing ones;
-transmute() adds new variables and drops existing ones.  Both
-functions preserve the number of rows of the input.
+transmute() adds new variables and drops existing ones.
 New variables overwrite existing variables of the same name." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -195,8 +194,7 @@ New variables overwrite existing variables of the same name." />
 
     <div class="ref-description">
     <p><code>mutate()</code> adds new variables and preserves existing ones;
-<code>transmute()</code> adds new variables and drops existing ones.  Both
-functions preserve the number of rows of the input.
+<code>transmute()</code> adds new variables and drops existing ones.
 New variables overwrite existing variables of the same name.</p>
     </div>
 
@@ -226,7 +224,9 @@ of the same name.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same class as <code>.data</code>.</p>
+    <p>An object of the same type as <code>.data</code>. The rows will be left as; only
+the columns will be changed. <code>mutate()</code> preserves order of existing columns,
+adding new columns to the right. <code>transmute()</code> drops existing columns.</p>
     <h2 class="hasAnchor" id="useful-functions-available-in-calculations-of-variables"><a class="anchor" href="#useful-functions-available-in-calculations-of-variables"></a>Useful functions available in calculations of variables</h2>
 
     
