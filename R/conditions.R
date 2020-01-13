@@ -2,6 +2,18 @@ glue_c <- function(..., .envir = caller_env()) {
   map_chr(c(...), glue, .envir = .envir)
 }
 
+err_vars <- function(x) {
+  if (is.logical(x)) {
+    x <- which(x)
+  }
+  if (is.character(x)) {
+    x <- encodeString(x, quote = "`")
+  }
+
+  glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ")
+}
+
+
 stop_filter_incompatible_size <- function(index_expression, index_group, size, expected_size, data) {
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect",
