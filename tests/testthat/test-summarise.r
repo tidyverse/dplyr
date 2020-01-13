@@ -1041,18 +1041,23 @@ test_that("summarise() give meaningful errors", {
       group_by(x, y) %>%
       summarise(a = env(a = 1))
 
-    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-      summarise(a = NULL)
-    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-      group_by(x, y) %>%
-      summarise(a = NULL)
-
+    "# mixed types"
     tibble(id = 1:2, a = list(1, "2")) %>%
       group_by(id) %>%
       summarise(a = a[[1]])
     tibble(id = 1:2, a = list(1, "2")) %>%
       rowwise() %>%
       summarise(a = a[[1]])
+
+    "# incompatible size"
+    tibble(z = 1) %>%
+      summarise(x = 1:3, y = 1:2)
+    tibble(z = 1:2) %>%
+      group_by(z) %>%
+      summarise(x = 1:3, y = 1:2)
+    tibble(z = 2:1) %>%
+      group_by(z) %>%
+      summarise(x = seq_len(z), y = 1:2)
 
     "# Missing variable"
     summarise(mtcars, a = mean(not_there))

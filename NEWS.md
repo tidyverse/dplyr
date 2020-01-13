@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* `filter()` and `summarise()` give better error messages. 
+
 * Zero-arg `group_indices()` is deprecated; instead use `cur_group_id()`.
 
 * Experimental `df %>% group_keys(x)` is deprecated, instead do grouping first
