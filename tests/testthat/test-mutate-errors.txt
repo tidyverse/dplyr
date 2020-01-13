@@ -4,20 +4,29 @@ setting column to NULL makes it unavailable
 ===========================================
 
 > mutate(tbl, y = NULL, a = sum(y))
-Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'y' not found
+Error: `mutate()` argument `a` errored
+x object 'y' not found
+i `a` is sum(y)
 
 > mutate(group_by(tbl, x), y = NULL, a = sum(y))
-Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'y' not found
+Error: `mutate()` argument `a` errored
+x object 'y' not found
+i `a` is sum(y)
+i The error occured in group 1
 
 
 incompatible column type
 ========================
 
 > mutate(tibble(x = 1), y = mean)
-Error: Unsupported type for result `y`
+Error: `mutate()` argument `y` errored
+x Unsupported type for result `y`
+i `y` is mean
 
 > mutate(tibble(x = 1), y = quote(a))
-Error: Unsupported type for result `y`
+Error: `mutate()` argument `y` errored
+x Unsupported type for result `y`
+i `y` is quote(a)
 
 
 Unsupported type
@@ -25,10 +34,15 @@ Unsupported type
 
 > df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
 > mutate(df, out = !!env(a = 1))
-Error: Unsupported type for result `out`
+Error: `mutate()` argument `out` errored
+x Unsupported type for result `out`
+i `out` is <env>
 
 > mutate(group_by(df, g), out = !!env(a = 1))
-Error: Unsupported type for result `out`
+Error: `mutate()` argument `out` errored
+x Unsupported type for result `out`
+i `out` is <env>
+i The error occured in group 1
 
 
 result is sometimes NULL

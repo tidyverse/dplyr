@@ -21,8 +21,12 @@ improper additional arguments
 =============================
 
 > mutate_all(mtcars, round, 0, 0)
-Error in mask$eval_all_mutate(dots[[i]], dots_names, i): 3 arguments passed to 'round'which requires 1 or 2 arguments
+Error: `mutate()` argument `mpg` errored
+x 3 arguments passed to 'round'which requires 1 or 2 arguments
+i `mpg` is .Primitive("round")(mpg, 0, 0)
 
 > mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
-Error in mean.default(mpg, na.rm = TRUE, na.rm = TRUE): formal argument "na.rm" matched by multiple actual arguments
+Error: `mutate()` argument `mpg` errored
+x formal argument "na.rm" matched by multiple actual arguments
+i `mpg` is (function (x, ...) ...
 
