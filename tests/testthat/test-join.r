@@ -68,24 +68,31 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
 
 # nest_join ---------------------------------------------------------------
 
-test_that("nest_join works (#3570)",{
+test_that("nest_join returns list of tibbles (#3570)",{
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
-  res <- nest_join(df1, df2, by = "x")
-  expect_equal(names(res), c(names(df1), "df2"))
-  expect_identical(res$df2[[1]], select(df2, z))
-  expect_identical(res$df2[[2]], tibble(z = double()))
+  out <- nest_join(df1, df2, by = "x")
+
+  expect_type(out$df2, "list")
+  expect_s3_class(out$df2[[1]], "tbl_df")
 })
 
 test_that("nest_join handles multiple matches in x (#3642)", {
   df1 <- tibble(x = c(1, 1))
   df2 <- tibble(x = 1, y = 1:2)
 
-  tbls <- df1 %>%
-    nest_join(df2) %>%
-    pull()
+  out <- nest_join(df1, df2, by = "x")
+  expect_equal(out$df2[[1]], out$df2[[2]])
+})
 
-  expect_identical(tbls[[1]], tbls[[2]])
+test_that("y keys dropped by default", {
+  df1 <- tibble(x = c(1, 2), y = c(2, 3))
+  df2 <- tibble(x = c(1, 1), z = c(2, 3))
+  out <- nest_join(df1, df2, by = "x")
+  expect_named(out$df2[[1]], "z")
+
+  out <- nest_join(df1, df2, by = "x", keep = TRUE)
+  expect_named(out$df2[[1]], c("x", "z"))
 })
 
 # output type ---------------------------------------------------------------
