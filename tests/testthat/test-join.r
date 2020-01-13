@@ -157,20 +157,12 @@ test_that("indices don't get mixed up when nrow(x) > nrow(y). #365", {
   expect_equal(res$V3, c("n", "m"))
 })
 
-test_that("inner_join is symmetric (even when joining on character & factor)", {
+test_that("keys are coerced to symmetric type", {
   foo <- tibble(id = factor(c("a", "b")), var1 = "foo")
   bar <- tibble(id = c("a", "b"), var2 = "bar")
 
-  tmp1 <- inner_join(foo, bar, by = "id")
-  tmp2 <- inner_join(bar, foo, by = "id")
-
-  expect_is(tmp1$id, "character")
-  expect_is(tmp2$id, "character")
-
-  expect_equal(names(tmp1), c("id", "var1", "var2"))
-  expect_equal(names(tmp2), c("id", "var2", "var1"))
-
-  expect_equal(tmp1, tmp2[names(tmp1)])
+  expect_type(inner_join(foo, bar, by = "id")$id, "character")
+  expect_type(inner_join(bar, foo, by = "id")$id, "character")
 })
 
 test_that("left_join by different variable names (#617)", {
