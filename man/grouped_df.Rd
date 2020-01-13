@@ -15,7 +15,7 @@ is_grouped_df(x)
 \arguments{
 \item{data}{a tbl or data frame.}
 
-\item{vars}{a character vector or a list of \code{\link[=name]{name()}}}
+\item{vars}{A character vector.}
 
 \item{drop}{When \code{.drop = TRUE}, empty groups are dropped.}
 }
