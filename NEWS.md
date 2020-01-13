@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* `filter()` and `summarise()` give better error messages. 
+
 * The `.dots` argument to `group_by()`/`group_by_prepare()` is deprecated; 
   please use `!!!` instead (#4734).
 
