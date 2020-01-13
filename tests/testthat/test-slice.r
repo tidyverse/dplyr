@@ -1,5 +1,10 @@
 context("slice")
 
+test_that("empty slice returns input", {
+  df <- tibble(x = 1:3)
+  expect_equal(slice(df), df)
+})
+
 test_that("slice handles numeric input (#226)", {
   g <- mtcars %>% arrange(cyl) %>% group_by(cyl)
   res <- g %>% slice(1)

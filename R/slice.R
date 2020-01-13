@@ -48,14 +48,13 @@ slice.data.frame <- function(.data, ..., .preserve = FALSE) {
 slice_rows <- function(.data, ...) {
   dots <- enquos(...)
   if (is_empty(dots)) {
-    return(.data)
+    return(TRUE)
   }
 
   rows <- group_rows(.data)
   mask <- DataMask$new(.data, caller_env(), rows)
 
   quo <- quo(c(!!!dots))
-
   chunks <- mask$eval_all(quo)
 
   slice_indices <- new_list(length(rows))
