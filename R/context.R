@@ -7,6 +7,7 @@
 #' * `n()` gives the current group size.
 #' * `current_key()` gives the group keys, a tibble with one row and one column
 #'   for each grouping variable.
+#' * `cur_group_id()` gives the unique identifier for the current group
 #' * `current_column()` gives the current column being used in [across()].
 #'
 #' @examples
@@ -32,6 +33,12 @@ n <- function() {
 #' @export
 current_key <- function() {
   peek_mask()$current_key()
+}
+
+#' @rdname context
+#' @export
+cur_group_id <- function() {
+  from_context("..group_number")
 }
 
 #' @rdname context
