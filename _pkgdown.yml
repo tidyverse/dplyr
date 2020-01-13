@@ -53,7 +53,6 @@ reference:
   - group_map
   - group_modify
   - group_trim
-  - group_rows
   - group_split
 
 - title: Remote tables
@@ -66,10 +65,6 @@ reference:
   - tbl
   - src_dbi
   - sql
-
-- title: Metadata
-  contents:
-  - groups
 
 - title: Vector functions
   contents:

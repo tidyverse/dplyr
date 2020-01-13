@@ -1,6 +1,6 @@
 expect_groups <- function(df, groups, info = NULL) {
   if (length(groups) == 0L) {
-    expect_null(groups(df), info = info)
+    expect_equal(groups(df), list(), info = info)
     expect_identical(group_vars(df), character(), info = info)
   } else {
     expect_identical(groups(df), lapply(enc2native(groups), as.name), info = info)
@@ -9,5 +9,5 @@ expect_groups <- function(df, groups, info = NULL) {
 }
 
 expect_no_groups <- function(df) {
-  expect_groups(df, NULL)
+  expect_groups(df, character())
 }

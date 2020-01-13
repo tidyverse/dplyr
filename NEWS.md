@@ -1,5 +1,16 @@
 # dplyr 0.9.0 (in development)
 
+* `filter()` and `summarise()` give better error messages. 
+
+* Zero-arg `group_indices()` is deprecated; instead use `cur_group_id()`.
+
+* Experimental `df %>% group_keys(x)` is deprecated, instead do grouping first
+  yourself. `df %>% group_indices(x)` is also deprecated similarly.
+
+* `groups()` now returns `list()` for ungrouped data; previously it returned
+  `NULL` which was type-unstable (when there are groups it returns a list
+  of symbols).
+
 * The `.dots` argument to `group_by()`/`group_by_prepare()` is deprecated; 
   please use `!!!` instead (#4734).
 

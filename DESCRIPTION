@@ -26,7 +26,7 @@ Imports:
     pkgconfig,
     R6,
     rlang (>= 0.4.2.9000),
-    tibble (>= 2.1.3.9000),
+    tibble (>= 2.99.99.9014),
     tidyselect (>= 0.2.5),
     utils,
     vctrs (>= 0.2.0.9007),
@@ -63,7 +63,7 @@ LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 7.0.2
 Remotes:
-    tidyverse/tibble@b06d86c420837315a863100d78dba3f90a06580f,
+    tidyverse/tibble,
     r-lib/pillar,
     r-lib/vctrs, 
     r-lib/tidyselect,

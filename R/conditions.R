@@ -61,7 +61,6 @@ stop_filter_incompatible_type <- function(index_expression, index_column_name, i
   ))
 }
 
-
 stop_filter_named <- function(index, expr, name) {
   abort(glue_c(
     "`filter()` argument `..{index}` is named",
@@ -79,20 +78,6 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
   if(missing(dots)) {
     abort(class = "dplyr_summarise_unsupported_type", result = result)
   }
-
-  data  <- peek_mask()$full_data()
-  group <- peek_mask()$get_current_group()
-  expr  <- as_label(quo_get_expr(dots[[index]]))
-  name  <- arg_name(dots, index)
-
-  # called again with context
-  abort(glue_c(
-    "`summarise()` argument `{name}` must be a vector",
-    x = "Result should be a vector, not a {typeof(result)}",
-    i = "`{name}` is {expr}",
-    i = if(is_grouped_df(data)) "The error occured in group {group}"
-  ))
-
 }
 
 stop_incompatible_size <- function(size, group, index, expected_sizes, dots) {
@@ -174,5 +159,75 @@ stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
     i = "`{name}` is {expr}",
     x = conditionMessage(cnd),
     i = if(is_grouped_df(data)) "The error occured in group {group}"
+  ))
+}
+
+arg_name <- function(quos, index) {
+  name  <- names(quos)[index]
+  if (name == "") {
+    name <- glue("..{index}")
+  }
+  name
+}
+
+stop_summarise_unsupported_type <- function(result, index, dots) {
+  # called from the C++ code
+  if(missing(dots)) {
+    abort(class = "dplyr_summarise_unsupported_type", result = result)
+  }
+
+  data  <- peek_mask()$full_data()
+  group <- peek_mask()$get_current_group()
+  expr  <- as_label(quo_get_expr(dots[[index]]))
+  name  <- arg_name(dots, index)
+
+  # called again with context
+  abort(glue_c(
+    "`summarise()` argument `{name}` must be a vector",
+    x = "Result should be a vector, not a {typeof(result)}",
+    i = "`{name}` is {expr}",
+    i = if(is_grouped_df(data)) "The error occured in group {group}"
+  ))
+
+}
+
+stop_incompatible_size <- function(size, group, index, expected_sizes, dots) {
+  # called from the C++ code
+  if(missing(dots)) {
+    abort(class = "dplyr_summarise_incompatible_size", size = size, group = group)
+  }
+
+  data <- peek_mask()$full_data()
+  name <- arg_name(dots, index)
+  expr <- as_label(quo_get_expr(dots[[index]]))
+
+  # called again with context
+
+  should_be <- if(expected_sizes[group] == 1L) {
+    "1"
+  } else {
+    glue("{expected_sizes[group]} or 1")
+  }
+
+  abort(glue_c(
+    "`summarise()` argument `{name}` must be recyclable",
+    x = "Result should be size {should_be}, not {size}",
+    i = "`{name}` is {expr}",
+    i = if(is_grouped_df(data)) "The error occured in group {group}",
+    i = paste0(
+      "An earlier column had size {expected_sizes[group]}",
+      if(is_grouped_df(data)) " for the group {group}" else ""
+    )
+  ))
+}
+
+stop_summarise_combine <- function(msg, index, dots) {
+  name <- arg_name(dots, index)
+  expr <- as_label(quo_get_expr(dots[[index]]))
+
+  abort(glue_c(
+    "`summarise()` argument `{name}` must return compatible vectors across groups",
+    x = "Error from vec_c() : {msg}",
+    i = "`{name}` is {expr}"
   ))
 }
