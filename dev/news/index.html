@@ -193,6 +193,7 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> give better error messages.</p></li>
 <li><p>Zero-arg <code><a href="../reference/group_data.html">group_indices()</a></code> is deprecated; instead use <code><a href="../reference/context.html">cur_group_id()</a></code>.</p></li>
 <li><p>Experimental <code>df %&gt;% group_keys(x)</code> is deprecated, instead do grouping first yourself. <code>df %&gt;% group_indices(x)</code> is also deprecated similarly.</p></li>
 <li><p><code><a href="../reference/group_data.html">groups()</a></code> now returns <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> for ungrouped data; previously it returned <code>NULL</code> which was type-unstable (when there are groups it returns a list of symbols).</p></li>
