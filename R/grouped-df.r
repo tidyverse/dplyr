@@ -51,12 +51,6 @@ compute_groups <- function(data, vars, drop = FALSE) {
   group_vars <- as_tibble(data)[vars]
   c(old_keys, old_rows) %<-% vec_split_id_order(group_vars)
 
-  map2(old_keys, names(old_keys), function(x, n) {
-    if (is.factor(x) && anyNA(x)) {
-      warn(glue("Factor `{n}` contains implicit NA, consider using `forcats::fct_explicit_na`"))
-    }
-  })
-
   groups <- tibble(!!!old_keys, .rows := old_rows)
 
   if (!isTRUE(drop) && any(map_lgl(old_keys, is.factor))) {
