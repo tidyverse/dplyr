@@ -1,22 +1,18 @@
-> m <- mtcars %>% group_by(cyl)
-> attr(m, "groups") <- NULL
-> m %>% do(mpg = mean(.$mpg))
-Error: The `groups` attribute is not a data frame with its last column called `.rows`
+> df <- tibble(x = 1, y = 2)
+> df %>% group_by(unknown)
+Error: Must `group_by()` variables found in `.data`
+* Column `unknown` is not found
 
+> df %>% ungroup(x)
+Error: `...` is not empty.
 
-unknown column
-==============
+We detected these problematic arguments:
+* `..1`
 
-> group_by(iris, wrong_name_of_variable)
-Error: Column `wrong_name_of_variable` is unknown
+These dots only exist to allow future extensions and should be empty.
+Did you misspecify an argument?
 
-> grouped_df(data.frame(x = 1), list(quote(y)), FALSE)
-Error: Column `y` is unknown
-
-
-incompatible type
-=================
-
-> grouped_df(data.frame(x = 1), list("x"))
-Error: incompatible `vars`, should be a list of symbols or a character vector
+> df %>% group_by(x, y) %>% ungroup(z)
+Error: Must select existing columns.
+x Can't subset element with unknown name `z`.
 
