@@ -162,3 +162,17 @@ stop_mutate_not_vector <- function(result, index, dots) {
     i = if(is_grouped_df(data)) "The error occured in group {group}"
   ))
 }
+
+stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
+  name <- arg_name(dots, index)
+  expr <- as_label(quo_get_expr(dots[[index]]))
+  data <- peek_mask()$full_data()
+  group <- peek_mask()$get_current_group()
+
+  abort(glue_c(
+    "`mutate()` argument `{name}` must be recyclable",
+    i = "`{name}` is {expr}",
+    x = conditionMessage(cnd),
+    i = if(is_grouped_df(data)) "The error occured in group {group}"
+  ))
+}

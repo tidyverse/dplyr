@@ -23,24 +23,19 @@ Error: `mutate()` argument `y` must be a vector
 i `y` is mean
 x Result should be a vector, not a closure
 
-> mutate(tibble(x = 1), y = quote(a))
-Error: `mutate()` argument `y` errored
-x object 'a' not found
-i `y` is quote(a)
-
 
 Unsupported type
 ================
 
 > df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
-> mutate(df, out = !!env(a = 1))
+> mutate(df, out = env(a = 1))
 Error: `mutate()` argument `out` must be a vector
-i `out` is <env>
+i `out` is env(a = 1)
 x Result should be a vector, not a environment
 
-> mutate(group_by(df, g), out = !!env(a = 1))
+> mutate(group_by(df, g), out = env(a = 1))
 Error: `mutate()` argument `out` must be a vector
-i `out` is <env>
+i `out` is env(a = 1)
 x Result should be a vector, not a environment
 i The error occured in group 1
 
@@ -54,8 +49,8 @@ i `..1` is if (a == 1) NULL else "foo"
 x Cannot combine NULL and non NULL results
 
 
-incompatible types
-==================
+incompatible types across groups
+================================
 
 > mutate(group_by(data.frame(x = rep(1:5, each = 3)), x), val = ifelse(x < 3,
 +   "foo", 2))
@@ -67,22 +62,18 @@ i `val` is ifelse(x < 3, "foo", 2)
 incompatible size
 =================
 
-> int <- 1:6
-> mutate(data.frame(x = c(2, 2, 3, 3)), int = int)
-Error: `x` can't be recycled to size 4.
-x It must be size 4 or 1, not 6.
-
 > mutate(data.frame(x = c(2, 2, 3, 3)), int = 1:5)
-Error: `x` can't be recycled to size 4.
+Error: `mutate()` argument `int` must be recyclable
+i `int` is 1:5
+x `x` can't be recycled to size 4.
 x It must be size 4 or 1, not 5.
 
-> mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = int)
-Error: `x` can't be recycled to size 2.
-x It must be size 2 or 1, not 6.
-
 > mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = 1:5)
-Error: `x` can't be recycled to size 2.
+Error: `mutate()` argument `int` must be recyclable
+i `int` is 1:5
+x `x` can't be recycled to size 2.
 x It must be size 2 or 1, not 5.
+i The error occured in group 2
 
 
 .data pronoun

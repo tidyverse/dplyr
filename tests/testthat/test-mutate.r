@@ -264,25 +264,20 @@ test_that("mutate() give meaningful errors", {
 
     "# incompatible column type"
     mutate(tibble(x = 1), y = mean)
-    mutate(tibble(x = 1), y = quote(a))
 
     "# Unsupported type"
     df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
-    mutate(df, out = !!env(a = 1))
-    mutate(group_by(df, g), out = !!env(a = 1))
+    mutate(df, out = env(a = 1))
+    mutate(group_by(df, g), out = env(a = 1))
 
     "# result is sometimes NULL"
     mutate(group_by(tibble(a = 1:3, b=4:6), a), if(a==1) NULL else "foo")
 
-    "# incompatible types"
+    "# incompatible types across groups"
     mutate(group_by(data.frame(x = rep(1:5, each = 3)), x), val = ifelse(x < 3, "foo", 2))
 
     "# incompatible size"
-    int <- 1:6
-    mutate(data.frame(x = c(2, 2, 3, 3)), int = int)
     mutate(data.frame(x = c(2, 2, 3, 3)), int = 1:5)
-
-    mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = int)
     mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = 1:5)
 
     "# .data pronoun"

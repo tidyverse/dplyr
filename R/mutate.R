@@ -267,11 +267,8 @@ mutate_new_columns <- function(.data, ...) {
     }
 
   },
-    simpleError = function(e) {
-      stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
-    },
-    rlang_error_data_pronoun_not_found = function(e) {
-      stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
+    vctrs_error_recycle_incompatible_size = function(e) {
+      stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
     },
     dplyr_mutate_mixed_NULL = function(e) {
       stop_mutate_mixed_NULL(index = i, dots = dots)
@@ -281,6 +278,12 @@ mutate_new_columns <- function(.data, ...) {
     },
     vctrs_error_incompatible_type = function(e) {
       stop_combine(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+    },
+    rlang_error_data_pronoun_not_found = function(e) {
+      stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
+    },
+    simpleError = function(e) {
+      stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
     }
   )
 
