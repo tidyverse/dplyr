@@ -164,6 +164,14 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   }
   group_names <- unique(group_names)
 
+  unknown <- setdiff(group_names, tbl_vars(.data))
+  if (length(unknown) > 0) {
+    abort(c(
+      "Must group by variables found in `.data`",
+      glue("Column `{unknown}` is not found")
+    ))
+  }
+
   list(
     data = .data,
     groups = syms(group_names),

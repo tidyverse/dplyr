@@ -15,20 +15,6 @@ test_that("new_grouped_df does not have rownames (#4173)", {
   expect_false(tibble::has_rownames(tbl))
 })
 
-# Errors ------------------------------------------------------------------
-
-test_that("selective ungroup() give meaningful errors", {
-  verify_output(test_path("test-grouped-df-errors.txt"), {
-    tibble(x = 1, y = 2) %>%
-      group_by(x, y) %>%
-      ungroup(z)
-
-    tibble(x = 1) %>%
-      ungroup(x)
-  })
-})
-
-
 test_that("[ method can remove grouping vars", {
   df <- tibble(x = 1, y = 2, z = 3)
   gf <- group_by(df, x, y)
@@ -97,4 +83,20 @@ test_that("names<- doesn't modify group data if not necessary", {
 
   names(gf1) <- c("x", "Y")
   expect_reference(group_data(gf1), group_data(gf2))
+})
+
+
+# compute_group ----------------------------------------------------------
+
+test_that("helper gives meaningful error messages", {
+  verify_output(test_path("test-grouped-df-errors.txt"), {
+    grouped_df(data.frame(x = 1), "y", FALSE)
+    grouped_df(data.frame(x = 1), 1)
+  })
+})
+
+test_that("compute_group warns about implicit missing values", {
+  df <- tibble(x = 1:3, f = factor(c("a", "b", NA)))
+  expect_warning(g <- compute_groups(df, "f"), "Factor `f` contains implicit NA")
+  expect_equal(g$.rows, list_of(1L, 2L, 3L))
 })
