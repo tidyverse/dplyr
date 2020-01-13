@@ -18,6 +18,12 @@ test_that("key vars are found", {
   expect_equal(vars$y$key, c(y = 3L))
 })
 
+test_that("y key matches order and names of x key", {
+  vars <- join_cols(c("x", "y", "z"), c("c", "b", "a"), by = c("x" = "a", "y" = "b"))
+  expect_equal(vars$x$key, c(x = 1L, y = 2L))
+  expect_equal(vars$y$key, c(x = 3L, y = 2L))
+})
+
 test_that("duplicate column names are given suffixes", {
   vars <- join_cols(c("x", "y"), c("x", "y"), by = "x")
   expect_equal(vars$x$out, c("x" = 1, "y.x" = 2))

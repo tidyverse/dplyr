@@ -5,8 +5,8 @@ join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep_
   by <- standardise_join_by(by, x_names = x_names, y_names = y_names)
   suffix <- standardise_join_suffix(suffix)
 
-  x_by <- set_names(which(x_names %in% by$x), by$x)
-  y_by <- set_names(which(y_names %in% by$y), by$x)
+  x_by <- set_names(match(by$x, x_names), by$x)
+  y_by <- set_names(match(by$y, y_names), by$x)
 
   # In x_out, key variables from need to keep the same name; aux variables
   # need suffixes for duplicates that appear in y_out
