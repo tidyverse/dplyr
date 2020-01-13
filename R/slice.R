@@ -41,7 +41,7 @@ slice <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  loc <- slice_rows(.data, ...)[[1]]
+  loc <- slice_rows(.data, ...)
   row_slice(.data, loc, preserve = .preserve)
 }
 
@@ -59,8 +59,6 @@ slice_rows <- function(.data, ...) {
   chunks <- mask$eval_all(quo)
 
   slice_indices <- new_list(length(rows))
-  new_rows <- new_list(length(rows))
-  k <- 1L
 
   for (group in seq_along(rows)) {
     current_rows <- rows[[group]]
@@ -79,7 +77,7 @@ slice_rows <- function(.data, ...) {
 
     if (length(res) == 0L) {
       # nothing to do
-    } else if(all(res >= 0, na.rm = TRUE)) {
+    } else if (all(res >= 0, na.rm = TRUE)) {
       res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
     } else if (all(res <= 0, na.rm = TRUE)) {
       res <- setdiff(seq_along(current_rows), -res)
@@ -91,15 +89,9 @@ slice_rows <- function(.data, ...) {
     }
 
     slice_indices[[group]] <- current_rows[res]
-    new_k <- k + length(res)
-    new_rows[[group]] <- seq2(k, new_k - 1L)
-    k <- new_k
   }
 
-  list(
-    data = vec_c(!!!slice_indices, .ptype = integer()),
-    groups = new_rows
-  )
+  vec_c(!!!slice_indices, .ptype = integer())
 }
 
 # Slice helpers -----------------------------------------------------------
