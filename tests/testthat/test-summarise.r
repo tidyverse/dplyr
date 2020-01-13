@@ -1040,12 +1040,6 @@ test_that("summarise() give meaningful errors", {
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       group_by(x, y) %>%
       summarise(a = env(a = 1))
-    tibble(date = seq(as.Date("2020-01-13"), as.Date("2020-01-15"), by = "day")) %>%
-      group_by(date) %>%
-      summarise(a = mean)
-    tibble(x = list(list(1, 2), list(3,4), list(1, 2))) %>%
-      group_by(x) %>%
-      summarise(a = mean)
 
     "# mixed types"
     tibble(id = 1:2, a = list(1, "2")) %>%
