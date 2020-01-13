@@ -193,6 +193,8 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/join.html">full_join()</a></code> gains keep argument so that you can optionally choose to keep both sets of join keys (<a href='https://github.com/tidyverse/dplyr/issues/4589'>#4589</a>). This is useful when you want to figure out which rows were missing from either side.</p></li>
+<li><p>Join functions can now perform a cross-join by specifying <code>by = character()</code> (<a href='https://github.com/tidyverse/dplyr/issues/4206'>#4206</a>.)</p></li>
 <li><p><code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> give better error messages.</p></li>
 <li><p>Zero-arg <code><a href="../reference/group_data.html">group_indices()</a></code> is deprecated; instead use <code><a href="../reference/context.html">cur_group_id()</a></code>.</p></li>
 <li><p>Experimental <code>df %&gt;% group_keys(x)</code> is deprecated, instead do grouping first yourself. <code>df %&gt;% group_indices(x)</code> is also deprecated similarly.</p></li>

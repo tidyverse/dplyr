@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Join two tbls together — join • dplyr</title>
+<title>Join two data frames together — join • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,7 +47,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Join two tbls together — join" />
+<meta property="og:title" content="Join two data frames together — join" />
 <meta property="og:description" content="These are generic functions that dispatch to individual tbl methods - see the
 method documentation for details of individual data sources. x and
 y should usually be from the same data source, but if copy is
@@ -188,7 +188,7 @@ TRUE, y will automatically be copied to the same source as x." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Join two tbls together</h1>
+    <h1>Join two data frames together</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/join.r'><code>R/join.r</code></a></small>
     <div class="hidden name"><code>join.Rd</code></div>
     </div>
@@ -210,27 +210,27 @@ method documentation for details of individual data sources. <code>x</code> and
 
 <span class='fu'>semi_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
-<span class='fu'>nest_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>anti_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
-<span class='fu'>anti_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>nest_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x, y</th>
-      <td><p>tbls to join</p></td>
+      <td><p>Data frames</p></td>
     </tr>
     <tr>
       <th>by</th>
-      <td><p>a character vector of variables to join by.  If <code>NULL</code>, the
-default, <code>*_join()</code> will do a natural join, using all variables with
-common names across the two tables. A message lists the variables so
-that you can check they're right (to suppress the message, simply
-explicitly list the variables that you want to join).</p>
-<p>To join by different variables on x and y use a named vector.
-For example, <code>by = c("a" = "b")</code> will match <code>x.a</code> to
-<code>y.b</code>.</p></td>
+      <td><p>A character vector of variables to join by.</p>
+<p>If <code>NULL</code>, the default, <code>*_join()</code> will perofrm a natural join, using all
+variables in across <code>x</code> and <code>y</code>. A message lists the variables so that you
+can check they're correct; suppress the message by supply <code>by</code> explicitly.</p>
+<p>To join by different variables on <code>x</code> and <code>y</code> use a named vector.
+For example, <code>by = c("a" = "b")</code> will match <code>x$a</code> to <code>y$b</code>.</p>
+<p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>,
+use <code>by = character()</code>.</p></td>
     </tr>
     <tr>
       <th>copy</th>
@@ -247,16 +247,19 @@ Should be a character vector of length 2.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other parameters passed onto methods, for instance, <code>na_matches</code>
-to control how <code>NA</code> values are matched.  See <a href='join.tbl_df.html'>join.tbl_df</a> for more.</p></td>
+      <td><p>Other parameters passed onto methods.</p>
+<p>For example, <code>na_matches</code> controls how <code>NA</code> values are handled when
+joining data frames. See <a href='join.data.frame.html'>join.data.frame</a> for details.</p></td>
     </tr>
     <tr>
       <th>keep</th>
-      <td><p>If <code>TRUE</code> the by columns are kept in the nesting joins.</p></td>
+      <td><p>Should the join keys from <code>y</code> be preserved in the output?
+Only applies to <code>nest_join()</code> and <code>full_join()</code>.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>the name of the list column nesting joins create. If <code>NULL</code> the name of <code>y</code> is used.</p></td>
+      <td><p>The name of the list column nesting joins create.
+If <code>NULL</code> the name of <code>y</code> is used.</p></td>
     </tr>
     </table>
 

@@ -229,13 +229,11 @@ show a progress bar? Default: <code>TRUE</code></p></dd>
     
 
 <p>These can be set on a package-by-package basis, or for the global environment.
-See <code><a href='https://rdrr.io/pkg/pkgconfig/man/set_config.html'>pkgconfig::set_config()</a></code> for usage.</p><dl class='dl-horizontal'>
-<dt><code>dplyr::na_matches</code></dt><dd><p>Should <code>NA</code> values be matched in data frame joins
-by default? Default: <code>"na"</code> (for compatibility with dplyr v0.5.0 and earlier,
-subject to change), alternative value: <code>"never"</code> (the default
-for database backends, see <code><a href='join.tbl_df.html'>join.tbl_df()</a></code>).</p></dd>
-
-</dl>
+See <code><a href='https://rdrr.io/pkg/pkgconfig/man/set_config.html'>pkgconfig::set_config()</a></code> for usage.</p><ul>
+<li><p><code>dplyr::na_matches</code>: Should <code>NA</code> values be matched in data frame joins
+by default? Default: <code>"na"</code>. Alternative value: <code>"never"</code>.
+See <a href='join.data.frame.html'>join.data.frame</a> for details.</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
