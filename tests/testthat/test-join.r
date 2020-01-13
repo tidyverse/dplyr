@@ -141,12 +141,38 @@ test_that("univariate left join has all columns, all rows", {
 
 # Misc --------------------------------------------------------------------
 
-test_that("joins don't reorder columns #328", {
-  a <- data.frame(a = 1:3)
-  b <- data.frame(a = 1:3, b = 1, c = 2, d = 3, e = 4, f = 5)
-  res <- left_join(a, b, "a")
-  expect_equal(names(res), names(b))
+test_that("mutating joins preserve row and column order of x", {
+  df1 <- data.frame(a = 1:3)
+  df2 <- data.frame(b = 1, c = 2, a = 4:1)
+
+  out <- inner_join(df1, df2, by = "a")
+  expect_named(out, c("a", "b", "c"))
+  expect_equal(out$a, 1:3)
+
+  out <- left_join(df1, df2, by = "a")
+  expect_named(out, c("a", "b", "c"))
+  expect_equal(out$a, 1:3)
+
+  out <- right_join(df1, df2, by = "a")
+  expect_named(out, c("a", "b", "c"))
+  expect_equal(out$a, 1:4)
+
+  out <- full_join(df1, df2, by = "a")
+  expect_named(out, c("a", "b", "c"))
+  expect_equal(out$a, 1:4)
 })
+
+test_that("filtering joins preserve row order of x (#2964)", {
+  expect_identical(
+    tibble(a = 3:1) %>% semi_join(tibble(a = 1:3)),
+    tibble(a = 3:1)
+  )
+  expect_identical(
+    tibble(a = 3:1) %>% anti_join(tibble(a = 4:6)),
+    tibble(a = 3:1)
+  )
+})
+
 
 test_that("indices don't get mixed up when nrow(x) > nrow(y). #365", {
   a <- data.frame(V1 = c(0, 1, 2), V2 = c("a", "b", "c"), stringsAsFactors = FALSE)
@@ -174,37 +200,6 @@ test_that("left_join by different variable names (#617)", {
   expect_equal(res$y2, c("foo", "bar", "foo"))
 })
 
-test_that("right_join gets the column in the right order #96", {
-  a <- data.frame(x = 1:10, y = 2:11)
-  b <- data.frame(x = 5:14, z = 3:12)
-  res <- right_join(a, b)
-  expect_equal(names(res), c("x", "y", "z"))
-
-  a <- data.frame(x = 1:10, y = 2:11)
-  b <- data.frame(z = 5:14, a = 3:12)
-  res <- right_join(a, b, by = c("x" = "z"))
-  expect_equal(names(res), c("x", "y", "a"))
-})
-
-test_that("full_join #96", {
-  a <- data.frame(x = 1:3, y = 2:4)
-  b <- data.frame(x = 3:5, z = 3:5)
-  res <- full_join(a, b, "x")
-  expect_equal(res$x, 1:5)
-  expect_equal(res$y[1:3], 2:4)
-  expect_true(all(is.na(res$y[4:5])))
-
-  expect_true(all(is.na(res$z[1:2])))
-  expect_equal(res$z[3:5], 3:5)
-})
-
-test_that("inner_join does not reorder (#684)", {
-  test <- tibble(Greek = c("Alpha", "Beta", "Gamma"), Letters = LETTERS[1:3])
-  lookup <- tibble(Letters = c("C", "B", "C"))
-  res <- inner_join(lookup, test)
-  expect_equal(res$Letters, c("C", "B", "C"))
-})
-
 test_that("group column names reflect renamed duplicate columns (#2330)", {
   d1 <- tibble(x = 1:5, y = 1:5) %>% group_by(x, y)
   d2 <- tibble(x = 1:5, y = 1:5)
@@ -222,22 +217,6 @@ test_that("group column names are null when joined data frames are not grouped (
 
 # Guessing variables in x and y ------------------------------------------------
 
-test_that("join columns are not moved to the left (#802)", {
-  df1 <- data.frame(x = 1, y = 1:5)
-  df2 <- data.frame(y = 1:5, z = 2)
-
-  out <- left_join(df1, df2)
-  expect_equal(names(out), c("x", "y", "z"))
-})
-
-test_that("join creates correctly named results (#855)", {
-  x <- tibble(q = c("a", "b", "c"), r = c("d", "e", "f"), s = c("1", "2", "3"))
-  y <- tibble(q = c("a", "b", "c"), r = c("d", "e", "f"), t = c("xxx", "xxx", "xxx"))
-  res <- left_join(x, y, by = c("r", "q"))
-  expect_equal(names(res), c("q", "r", "s", "t"))
-  expect_equal(res$q, x$q)
-  expect_equal(res$r, x$r)
-})
 
 test_that("inner join gives same result as merge by default (#1281)", {
   set.seed(75)
@@ -341,17 +320,6 @@ test_that("joins regroups (#1597, #3566)", {
   expect_grouped(semi_join(df1, df2))
 })
 
-test_that("semi- and anti-joins preserve order (#2964)", {
-  expect_identical(
-    tibble(a = 3:1) %>% semi_join(tibble(a = 1:3)),
-    tibble(a = 3:1)
-  )
-  expect_identical(
-    tibble(a = 3:1) %>% anti_join(tibble(a = 4:6)),
-    tibble(a = 3:1)
-  )
-})
-
 test_that("nest_join works (#3570)",{
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
@@ -386,23 +354,6 @@ test_that("left_join() respects original row orders of x (#4639)", {
   res <- left_join(d1, d2, by = "a")
   expect_equal(res$a, c(1, 1:3, 3:1, 1))
   expect_equal(res$b, c(3:4, 2:1, 1:2, 3:4))
-})
-
-test_that("right_join() respects original row orders of x (#4639)", {
-  d1 <- tibble(a = c(3:1))
-  d2 <- tibble(a = c(1:3, 3:1), b = 1:6)
-
-  res <- right_join(d1, d2)
-  expect_equal(res$a, rep(d1$a, each = 2))
-})
-
-test_that("full_join() and right_join() correctly restores columns (#4649)", {
-  df1 <- tibble(x = "x", by = 1)
-  df2 <- tibble(y = "y", by = 1)
-  res <- tibble(x = "x", by = 1, y = "y")
-
-  expect_equal(res, full_join(df1, df2, by = "by"))
-  expect_equal(res, right_join(df1, df2, by ="by"))
 })
 
 test_that("full_join() correctly binds the by part", {
