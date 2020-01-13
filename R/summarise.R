@@ -169,6 +169,9 @@ summarise_new_cols <- function(.data, ...) {
     }
 
   },
+  rlang_error_data_pronoun_not_found = function(e) {
+    stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
+  },
   vctrs_error_incompatible_type = function(e) {
     stop_combine(conditionMessage(e), index = i, dots = dots, fn = "summarise")
   },

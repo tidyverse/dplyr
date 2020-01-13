@@ -67,3 +67,17 @@ x object 'not_there' not found
 i `a` is mean(not_there)
 i The error occured in group 1
 
+
+.data pronoun
+=============
+
+> summarise(tibble(a = 1), c = .data$b)
+Error: `summarise()` argument `c` must return compatible vectors across groups
+x Column `b` not found in `.data`
+i `c` is .data$b
+
+> summarise(group_by(tibble(a = 1:3), a), c = .data$b)
+Error: `summarise()` argument `c` must return compatible vectors across groups
+x Column `b` not found in `.data`
+i `c` is .data$b
+

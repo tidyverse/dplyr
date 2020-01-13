@@ -39,6 +39,17 @@ stop_combine <- function(msg, index, dots, fn = "summarise") {
   ))
 }
 
+stop_error_data_pronoun_not_found <- function(msg, index, dots, fn = "summarise") {
+  name <- arg_name(dots, index)
+  expr <- deparse(quo_get_expr(dots[[index]]))
+
+  abort(glue_c(
+    "`{fn}()` argument `{name}` must return compatible vectors across groups",
+    x = msg,
+    i = "`{name}` is {expr}"
+  ))
+}
+
 # filter() ----------------------------------------------------------------
 
 stop_filter_incompatible_size <- function(index_expression, index_group, size, expected_size, data) {

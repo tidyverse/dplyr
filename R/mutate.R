@@ -267,6 +267,9 @@ mutate_new_columns <- function(.data, ...) {
     }
 
   },
+    rlang_error_data_pronoun_not_found = function(e) {
+      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+    },
     vctrs_error_recycle_incompatible_size = function(e) {
       stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
     },
