@@ -59,6 +59,14 @@ test_that("keys are coerced to symmetric type", {
   expect_type(inner_join(bar, foo, by = "id")$id, "character")
 })
 
+test_that("when keep = TRUE, full_join() preserves both sets of keys", {
+  df1 <- tibble(a = c(2, 3), b = c(1, 2))
+  df2 <- tibble(x = c(3, 4), y = c(3, 4))
+  out <- full_join(df1, df2, by = c("a" = "x"), keep = TRUE)
+  expect_equal(out$a, c(2, 3, NA))
+  expect_equal(out$x, c(NA, 3, 4))
+})
+
 test_that("joins matches NAs by default (#892, #2033)", {
   df1 <- tibble(x = c(NA_character_, 1))
   df2 <- tibble(x = c(NA_character_, 2))

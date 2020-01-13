@@ -108,7 +108,8 @@ like \code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}
 Users and package authors can change the default behavior by calling
 \code{pkgconfig::set_config("dplyr::na_matches" = "never")}.}
 
-\item{keep}{If \code{TRUE} the by columns are kept in the nesting joins.}
+\item{keep}{Should the join keys from \code{y} be preserved in the output?
+Only applies to \code{nest_join()} and \code{full_join()}.}
 
 \item{name}{The name of the list column nesting joins create.
 If \code{NULL} the name of \code{y} is used.}

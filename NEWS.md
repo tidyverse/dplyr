@@ -1,7 +1,12 @@
 # dplyr 0.9.0 (in development)
 
+* `full_join()` gains keep argument so that you can optionally choose to 
+  keep both sets of join keys (#4589). This is useful when you want to
+  figure out which rows were missing from either side.
+
 * Join functions can now perform a cross-join by specifying `by = character()`
   (#4206.)
+
 * `filter()` and `summarise()` give better error messages. 
 
 * Zero-arg `group_indices()` is deprecated; instead use `cur_group_id()`.

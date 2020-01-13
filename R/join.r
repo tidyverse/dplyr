@@ -88,7 +88,8 @@
 #'   Should be a character vector of length 2.
 #' @param name The name of the list column nesting joins create.
 #'   If `NULL` the name of `y` is used.
-#' @param keep If `TRUE` the by columns are kept in the nesting joins.
+#' @param keep Should the join keys from `y` be preserved in the output?
+#'    Only applies to `nest_join()` and `full_join()`.
 #' @param ... Other parameters passed onto methods.
 #'
 #'   For example, `na_matches` controls how `NA` values are handled when
@@ -232,7 +233,7 @@ full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
 
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches)
+  join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches, keep = keep)
 }
 
 #' @export
@@ -292,18 +293,16 @@ join_mutate <- function(x, y, by, type,
   x_out <- set_names(x[vars$x$out], names(vars$x$out))
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
 
-  if (length(rows$y_extra) == 0) {
-    out <- vec_slice(x_out, rows$x)
-    out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
-    out[names(y_out)] <- vec_slice(y_out, rows$y)
-  } else {
-    out <- vec_slice(x_out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
-    out[names(x_key)] <- vec_rbind(
-      vec_slice(x_key, rows$x),
-      vec_slice(y_key, rows$y_extra)
-    )
-    out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
+  out <- vec_slice(x_out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
+  out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+
+  # If we're not keeping all y keys, need to copy over for the new rows
+  if (!keep) {
+    new_rows <- length(rows$x) + seq_along(rows$y_extra)
+    out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
   }
+
+  out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
   out
 }
 

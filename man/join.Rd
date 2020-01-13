@@ -54,7 +54,8 @@ Should be a character vector of length 2.}
 For example, \code{na_matches} controls how \code{NA} values are handled when
 joining data frames. See \link{join.data.frame} for details.}
 
-\item{keep}{If \code{TRUE} the by columns are kept in the nesting joins.}
+\item{keep}{Should the join keys from \code{y} be preserved in the output?
+Only applies to \code{nest_join()} and \code{full_join()}.}
 
 \item{name}{The name of the list column nesting joins create.
 If \code{NULL} the name of \code{y} is used.}
