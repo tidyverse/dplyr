@@ -170,7 +170,7 @@ summarise_new_cols <- function(.data, ...) {
 
   },
   vctrs_error_incompatible_type = function(e) {
-    stop_summarise_combine(conditionMessage(e), index = i, dots = dots)
+    stop_combine(conditionMessage(e), index = i, dots = dots, fn = "summarise")
   },
   simpleError = function(e) {
     stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")

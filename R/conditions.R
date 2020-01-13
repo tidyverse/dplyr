@@ -2,6 +2,45 @@ glue_c <- function(..., .envir = caller_env()) {
   map_chr(c(...), glue, .envir = .envir)
 }
 
+arg_name <- function(quos, index) {
+  name  <- names(quos)[index]
+  if (name == "") {
+    name <- glue("..{index}")
+  }
+  name
+}
+
+# Common ------------------------------------------------------------------
+
+stop_eval_tidy <- function(e, index, dots, fn) {
+  data  <- peek_mask()$full_data()
+  group <- peek_mask()$get_current_group()
+
+  expr  <- as_label(quo_get_expr(dots[[index]]))
+  name  <- arg_name(dots, index)
+
+  abort(glue_c(
+    "`{fn}()` argument `{name}` errored",
+    x = conditionMessage(e),
+    i = "`{name}` is {expr}",
+    i = if(is_grouped_df(data)) "The error occured in group {group}"
+  ))
+}
+
+
+stop_combine <- function(msg, index, dots, fn = "summarise") {
+  name <- arg_name(dots, index)
+  expr <- as_label(quo_get_expr(dots[[index]]))
+
+  abort(glue_c(
+    "`{fn}()` argument `{name}` must return compatible vectors across groups",
+    x = "Error from vec_c() : {msg}",
+    i = "`{name}` is {expr}"
+  ))
+}
+
+# filter() ----------------------------------------------------------------
+
 stop_filter_incompatible_size <- function(index_expression, index_group, size, expected_size, data) {
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect",
@@ -22,20 +61,6 @@ stop_filter_incompatible_type <- function(index_expression, index_column_name, i
   ))
 }
 
-stop_eval_tidy <- function(e, index, dots, fn) {
-  data  <- peek_mask()$full_data()
-  group <- peek_mask()$get_current_group()
-
-  expr  <- as_label(quo_get_expr(dots[[index]]))
-  name  <- arg_name(dots, index)
-
-  abort(glue_c(
-    "`{fn}()` argument `{name}` errored",
-    x = conditionMessage(e),
-    i = "`{name}` is {expr}",
-    i = if(is_grouped_df(data)) "The error occured in group {group}"
-  ))
-}
 
 stop_filter_named <- function(index, expr, name) {
   abort(glue_c(
@@ -45,13 +70,9 @@ stop_filter_named <- function(index, expr, name) {
   ))
 }
 
-arg_name <- function(quos, index) {
-  name  <- names(quos)[index]
-  if (name == "") {
-    name <- glue("..{index}")
-  }
-  name
-}
+
+# summarise() -------------------------------------------------------------
+
 
 stop_summarise_unsupported_type <- function(result, index, dots) {
   # called from the C++ code
@@ -103,18 +124,6 @@ stop_incompatible_size <- function(size, group, index, expected_sizes, dots) {
     )
   ))
 }
-
-stop_summarise_combine <- function(msg, index, dots) {
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
-
-  abort(glue_c(
-    "`summarise()` argument `{name}` must return compatible vectors across groups",
-    x = "Error from vec_c() : {msg}",
-    i = "`{name}` is {expr}"
-  ))
-}
-
 
 # mutate() ----------------------------------------------------------------
 

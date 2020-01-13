@@ -278,6 +278,9 @@ mutate_new_columns <- function(.data, ...) {
     },
     dplyr_mutate_not_vector = function(e) {
       stop_mutate_not_vector(index = i, dots = dots, result = e$result)
+    },
+    vctrs_error_incompatible_type = function(e) {
+      stop_combine(conditionMessage(e), index = i, dots = dots, fn = "mutate")
     }
   )
 
