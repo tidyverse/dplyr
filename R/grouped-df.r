@@ -51,6 +51,8 @@ compute_groups <- function(data, vars, drop = FALSE) {
   group_vars <- as_tibble(data)[vars]
   c(old_keys, old_rows) %<-% vec_split_id_order(group_vars)
 
+  signal("", class = "dplyr_regroup")
+
   groups <- tibble(!!!old_keys, .rows := old_rows)
 
   if (!isTRUE(drop) && any(map_lgl(old_keys, is.factor))) {
@@ -91,6 +93,14 @@ compute_groups <- function(data, vars, drop = FALSE) {
   }
 
   structure(groups, .drop = drop)
+}
+
+count_regroups <- function(code) {
+  i <- 0
+  withCallingHandlers(code, dplyr_regroup = function(cnd) {
+    i <<- i + 1
+  })
+  i
 }
 
 
