@@ -239,7 +239,7 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
 
   y <- auto_copy(x, y, copy = copy)
-  join_filter(x, y, by = by, type = "semi", na_match = na_matches)
+  join_filter(x, y, by = by, type = "semi", na_matches = na_matches)
 }
 
 #' @export
@@ -248,7 +248,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
 
   y <- auto_copy(x, y, copy = copy)
-  join_filter(x, y, by = by, type = "anti", na_match = na_matches)
+  join_filter(x, y, by = by, type = "anti", na_matches = na_matches)
 }
 
 #' @export
