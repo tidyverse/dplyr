@@ -1,12 +1,22 @@
 glue_c <- function(..., .envir = caller_env()) {
-  map_chr(c(...), glue, .envir = .envir)
+  map_chr(vec_c(...), glue, .envir = .envir)
+}
+
+group_info <- function(data, group) {
+  if (is_grouped_df(data)) {
+    keys <- group_keys(data)[group, ]
+    details <- map2_chr(keys, names(keys), function(x, name) {
+      glue("group keys: {name} = {value}", value = tibble:::format_v(x))
+    })
+    c(x = glue("The error occured in group {group}"), set_names(details, "i"))
+  }
 }
 
 stop_filter_incompatible_size <- function(index_expression, index_group, size, expected_size, data) {
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect",
     x = "It must be of size {expected_size} or 1, not size {size}",
-    i = if(is_grouped_df(data)) "The error occured in group {index_group}"
+    group_info(data, index_group)
   ))
 }
 
@@ -18,7 +28,7 @@ stop_filter_incompatible_type <- function(index_expression, index_column_name, i
       "`filter()` argument `..{index_expression}` is incorrect"
     },
     x = "It must be a logical vector, not a {vec_ptype_full(result)}",
-    i = if(is_grouped_df(data)) "The error occured in group {index_group}"
+    group_info(data, index_group)
   ))
 }
 
@@ -33,7 +43,7 @@ stop_eval_tidy <- function(e, index, dots, fn) {
     "`{fn}()` argument `{name}` errored",
     x = conditionMessage(e),
     i = "`{name}` is {expr}",
-    i = if(is_grouped_df(data)) "The error occured in group {group}"
+    group_info(data, group)
   ))
 }
 
@@ -69,7 +79,7 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
     "`summarise()` argument `{name}` must be a vector",
     x = "Result should be a vector, not a {typeof(result)}",
     i = "`{name}` is {expr}",
-    i = if(is_grouped_df(data)) "The error occured in group {group}"
+    group_info(data, group)
   ))
 
 }
@@ -94,13 +104,10 @@ stop_incompatible_size <- function(size, group, index, expected_sizes, dots) {
 
   abort(glue_c(
     "`summarise()` argument `{name}` must be recyclable",
-    x = "Result should be size {should_be}, not {size}",
     i = "`{name}` is {expr}",
-    i = if(is_grouped_df(data)) "The error occured in group {group}",
-    i = paste0(
-      "An earlier column had size {expected_sizes[group]}",
-      if(is_grouped_df(data)) " for the group {group}" else ""
-    )
+    x = "Result should be size {should_be}, not {size}",
+    i = "An earlier column had size {expected_sizes[group]}",
+    group_info(data, group)
   ))
 }
 
