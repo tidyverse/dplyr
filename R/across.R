@@ -17,7 +17,7 @@
 #'   - A named list of functions/lambdas, e.g.
 #'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`
 #'
-#'   Within these functions you can use [current_column()] and [current_key()]
+#'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
 #' @returns A tibble.
 #'
