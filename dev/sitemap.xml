@@ -124,16 +124,10 @@
     <loc>https://dplyr.tidyverse.org/reference/group_data.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_indices.html</loc>
-  </url>
-  <url>
     <loc>https://dplyr.tidyverse.org/reference/group_map.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/group_nest.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_size.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/group_split.html</loc>
@@ -143,9 +137,6 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/grouped_df.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/groups.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/ident.html</loc>

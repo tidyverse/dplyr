@@ -267,14 +267,10 @@ variables.</p>
 
     <div class='dont-index'><p>Other grouping functions: 
 <code><a href='group_by_all.html'>group_by_all</a>()</code>,
-<code><a href='group_indices.html'>group_indices</a>()</code>,
-<code><a href='group_split.html'>group_keys</a>()</code>,
 <code><a href='group_map.html'>group_map</a>()</code>,
 <code><a href='group_nest.html'>group_nest</a>()</code>,
-<code><a href='group_data.html'>group_rows</a>()</code>,
-<code><a href='group_size.html'>group_size</a>()</code>,
-<code><a href='group_trim.html'>group_trim</a>()</code>,
-<code><a href='groups.html'>groups</a>()</code></p></div>
+<code><a href='group_split.html'>group_split</a>()</code>,
+<code><a href='group_trim.html'>group_trim</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='no'>cyl</span>)
@@ -354,11 +350,11 @@ variables.</p>
 <span class='co'># By default, group_by() overrides existing grouping</span>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='groups.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "vs" "am"</div><div class='input'>
+  <span class='fu'><a href='group_data.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "vs" "am"</div><div class='input'>
 <span class='co'># Use add = TRUE to instead append</span>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>, <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='groups.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl" "vs"  "am" </div><div class='input'>
+  <span class='fu'><a href='group_data.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl" "vs"  "am" </div><div class='input'>
 
 <span class='co'># when factors are involved, groups can be empty</span>
 <span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(

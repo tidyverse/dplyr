@@ -333,7 +333,7 @@ act like <code>ldply()</code>.</p>
 <span class='co'># You can use it to do any arbitrary computation, like fitting a linear</span>
 <span class='co'># model. Let's explore how carrier departure delays vary over the time</span>
 <span class='no'>carriers</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>flights</span>, <span class='no'>carrier</span>)
-<span class='fu'><a href='group_size.html'>group_size</a></span>(<span class='no'>carriers</span>)
+<span class='fu'><a href='group_data.html'>group_size</a></span>(<span class='no'>carriers</span>)
 
 <span class='no'>mods</span> <span class='kw'>&lt;-</span> <span class='fu'>do</span>(<span class='no'>carriers</span>, <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>arr_delay</span> ~ <span class='no'>dep_time</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
 <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>.</span>$<span class='no'>mod</span>)))

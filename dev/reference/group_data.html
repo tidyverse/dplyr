@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Grouping data — group_rows • dplyr</title>
+<title>Grouping metadata — group_data • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,8 +47,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Grouping data — group_rows" />
-<meta property="og:description" content="Grouping data" />
+<meta property="og:title" content="Grouping metadata — group_data" />
+<meta property="og:description" content="
+
+group_data() returns a data frame that defines the grouping structure.
+The columns give the values of the grouping variables. The last column,
+always called .rows, is a list of integer vectors that gives the
+location of the rows in each group. You can retrieve just the grouping
+data with group_data(), and just the locations with group_rows().
+group_indices() returns an integer vector the same length as .data
+that gives the group that each row belongs to (cf. group_rows() which
+returns the rows which each group contains).
+group_vars() gives names of grouping variables as character vector;
+groups() gives the names as a list of symbols.
+group_size() gives the size of each group, and n_groups() gives the
+total number of groups.
+
+" />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -185,78 +200,88 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Grouping data</h1>
+    <h1>Grouping metadata</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/group_data.R'><code>R/group_data.R</code></a></small>
     <div class="hidden name"><code>group_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Grouping data</p>
+    
+<ul>
+<li><p><code>group_data()</code> returns a data frame that defines the grouping structure.
+The columns give the values of the grouping variables. The last column,
+always called <code>.rows</code>, is a list of integer vectors that gives the
+location of the rows in each group. You can retrieve just the grouping
+data with <code>group_data()</code>, and just the locations with <code>group_rows()</code>.</p></li>
+<li><p><code>group_indices()</code> returns an integer vector the same length as <code>.data</code>
+that gives the group that each row belongs to (cf. <code>group_rows()</code> which
+returns the rows which each group contains).</p></li>
+<li><p><code>group_vars()</code> gives names of grouping variables as character vector;
+<code>groups()</code> gives the names as a list of symbols.</p></li>
+<li><p><code>group_size()</code> gives the size of each group, and <code>n_groups()</code> gives the
+total number of groups.</p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>group_rows</span>(<span class='no'>.data</span>)
+    <pre class="usage"><span class='fu'>group_data</span>(<span class='no'>.data</span>)
 
-<span class='fu'>group_data</span>(<span class='no'>.data</span>)</pre>
+<span class='fu'>group_keys</span>(<span class='no'>.tbl</span>, <span class='no'>...</span>)
+
+<span class='fu'>group_rows</span>(<span class='no'>.data</span>)
+
+<span class='fu'>group_indices</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
+
+<span class='fu'>group_vars</span>(<span class='no'>x</span>)
+
+<span class='fu'>groups</span>(<span class='no'>x</span>)
+
+<span class='fu'>group_size</span>(<span class='no'>x</span>)
+
+<span class='fu'>n_groups</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.data</th>
-      <td><p>a tibble</p></td>
+      <th>.data, .tbl, x</th>
+      <td><p>A data frame or extension (like a tibble or grouped
+tibble).</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Use of <code>...</code> is now deprecated; please use <code><a href='group_by.html'>group_by()</a></code> first
+instead.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p><code>group_data()</code> return a tibble with one row per group. The last column, always called <code>.rows</code>
-is a list of integer vectors indicating the rows for each group.
-If <code>.data</code> is a grouped data frame the first columns are the grouping variables.
-<code>group_rows()</code> just returns the list of indices.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other grouping functions: 
-<code><a href='group_by_all.html'>group_by_all</a>()</code>,
-<code><a href='group_by.html'>group_by</a>()</code>,
-<code><a href='group_indices.html'>group_indices</a>()</code>,
-<code><a href='group_split.html'>group_keys</a>()</code>,
-<code><a href='group_map.html'>group_map</a>()</code>,
-<code><a href='group_nest.html'>group_nest</a>()</code>,
-<code><a href='group_size.html'>group_size</a>()</code>,
-<code><a href='group_trim.html'>group_trim</a>()</code>,
-<code><a href='groups.html'>groups</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>))
-
-<span class='co'># one row</span>
-<span class='fu'>group_data</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 1
-#&gt;         .rows
-#&gt;   &lt;list&lt;int&gt;&gt;
-#&gt; 1         [4]</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[1]&gt;
+<span class='fu'>group_vars</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; character(0)</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[1]&gt;
 #&gt; [[1]]
 #&gt; [1] 1 2 3 4
-#&gt; </div><div class='input'>
-<span class='co'># 2 rows, one for each group</span>
-<span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>,<span class='no'>x</span>) <span class='kw'>%&gt;%</span> <span class='fu'>group_data</span>()</div><div class='output co'>#&gt; # A tibble: 2 x 2
-#&gt;       x       .rows
-#&gt; * &lt;dbl&gt; &lt;list&lt;int&gt;&gt;
-#&gt; 1     1         [2]
-#&gt; 2     2         [2]</div><div class='input'><span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>,<span class='no'>x</span>) <span class='kw'>%&gt;%</span> <span class='fu'>group_rows</span>()</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[2]&gt;
+#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 1
+#&gt;         .rows
+#&gt;   &lt;list&lt;int&gt;&gt;
+#&gt; 1         [4]</div><div class='input'>
+<span class='no'>gf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>, <span class='no'>x</span>)
+<span class='fu'>group_vars</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; [1] "x"</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[2]&gt;
 #&gt; [[1]]
 #&gt; [1] 1 2
 #&gt; 
 #&gt; [[2]]
 #&gt; [1] 3 4
-#&gt; </div><div class='input'>
-</div></pre>
+#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;       x       .rows
+#&gt; * &lt;dbl&gt; &lt;list&lt;int&gt;&gt;
+#&gt; 1     1         [2]
+#&gt; 2     2         [2]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -50,7 +50,9 @@
 <meta property="og:title" content="A grouped data frame. — grouped_df" />
 <meta property="og:description" content="The easiest way to create a grouped data frame is to call the group_by()
 method on a data frame or tbl: this will take care of capturing
-the unevaluated expressions for you." />
+the unevaluated expressions for you.
+See group_data() for the accessor functions that retrieve various metadata
+from a grouped_df." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -196,6 +198,8 @@ the unevaluated expressions for you." />
     <p>The easiest way to create a grouped data frame is to call the <code><a href='group_by.html'>group_by()</a></code>
 method on a data frame or tbl: this will take care of capturing
 the unevaluated expressions for you.</p>
+<p>See <code><a href='group_data.html'>group_data()</a></code> for the accessor functions that retrieve various metadata
+from a <code>grouped_df</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>grouped_df</span>(<span class='no'>data</span>, <span class='no'>vars</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
@@ -213,7 +217,7 @@ the unevaluated expressions for you.</p>
     </tr>
     <tr>
       <th>vars</th>
-      <td><p>a character vector or a list of <code><a href='https://rdrr.io/r/base/name.html'>name()</a></code></p></td>
+      <td><p>A character vector.</p></td>
     </tr>
     <tr>
       <th>drop</th>

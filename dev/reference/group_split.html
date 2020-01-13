@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Split data frame by groups — group_keys • dplyr</title>
+<title>Split data frame by groups — group_split • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,7 +47,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Split data frame by groups — group_keys" />
+<meta property="og:title" content="Split data frame by groups — group_split" />
 <meta property="og:description" content="Split data frame by groups" />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -186,7 +186,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Split data frame by groups</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/group_keys.R'><code>R/group_keys.R</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/group_split.R'><code>R/group_split.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/group_split.R'><code>R/group_split.R</code></a></small>
     <div class="hidden name"><code>group_split.Rd</code></div>
     </div>
 
@@ -194,9 +194,7 @@
     <p>Split data frame by groups</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_keys</span>(<span class='no'>.tbl</span>, <span class='no'>...</span>)
-
-<span class='fu'>group_split</span>(<span class='no'>.tbl</span>, <span class='no'>...</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>group_split</span>(<span class='no'>.tbl</span>, <span class='no'>...</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -221,7 +219,7 @@
 <ul>
 <li><p><code>group_split()</code> returns a list of tibbles. Each tibble contains the rows of <code>.tbl</code> for the associated group and
 all the columns, including the grouping variables.</p></li>
-<li><p><code>group_keys()</code> returns a tibble with one row per group, and one column per grouping variable</p></li>
+<li><p><code><a href='group_data.html'>group_keys()</a></code> returns a tibble with one row per group, and one column per grouping variable</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -233,7 +231,7 @@ all the columns, including the grouping variables.</p></li>
 loses information and is confusing.</p></li>
 </ul>
 
-<p><code>group_keys()</code> explains the grouping structure, by returning a data frame that has one row
+<p><code><a href='group_data.html'>group_keys()</a></code> explains the grouping structure, by returning a data frame that has one row
 per group and one column per grouping variable.</p>
     <h2 class="hasAnchor" id="grouped-data-frames"><a class="anchor" href="#grouped-data-frames"></a>Grouped data frames</h2>
 
@@ -243,14 +241,14 @@ per group and one column per grouping variable.</p>
 <p>The primary use case for <code>group_split()</code> is with already grouped data frames,
 typically a result of <code><a href='group_by.html'>group_by()</a></code>. In this case <code>group_split()</code> only uses
 the first argument, the grouped tibble, and warns when <code>...</code> is used.</p>
-<p>Because some of these groups may be empty, it is best paried with <code>group_keys()</code>
+<p>Because some of these groups may be empty, it is best paried with <code><a href='group_data.html'>group_keys()</a></code>
 which identifies the representatives of each grouping variable for the group.</p>
     <h2 class="hasAnchor" id="ungrouped-data-frames"><a class="anchor" href="#ungrouped-data-frames"></a>Ungrouped data frames</h2>
 
     
 
 
-<p>When used on ungrouped data frames, <code>group_split()</code> and <code>group_keys()</code> forwards the <code>...</code> to
+<p>When used on ungrouped data frames, <code>group_split()</code> and <code><a href='group_data.html'>group_keys()</a></code> forwards the <code>...</code> to
 <code><a href='group_by.html'>group_by()</a></code> before the split, therefore the <code>...</code> are subject to the data mask.</p>
 <p>Using these functions on an ungrouped data frame only makes sense if you need only one or the
 other, because otherwise the grouping algorithm is performed each time.</p>
@@ -265,13 +263,9 @@ other, because otherwise the grouping algorithm is performed each time.</p>
     <div class='dont-index'><p>Other grouping functions: 
 <code><a href='group_by_all.html'>group_by_all</a>()</code>,
 <code><a href='group_by.html'>group_by</a>()</code>,
-<code><a href='group_indices.html'>group_indices</a>()</code>,
 <code><a href='group_map.html'>group_map</a>()</code>,
 <code><a href='group_nest.html'>group_nest</a>()</code>,
-<code><a href='group_data.html'>group_rows</a>()</code>,
-<code><a href='group_size.html'>group_size</a>()</code>,
-<code><a href='group_trim.html'>group_trim</a>()</code>,
-<code><a href='groups.html'>groups</a>()</code></p></div>
+<code><a href='group_trim.html'>group_trim</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -335,7 +329,7 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 #&gt;  9          6.7         2.5          5.8         1.8 virginica
 #&gt; 10          7.2         3.6          6.1         2.5 virginica
 #&gt; # … with 40 more rows
-#&gt; </div><div class='input'><span class='fu'>group_keys</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
+#&gt; </div><div class='input'><span class='fu'><a href='group_data.html'>group_keys</a></span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;   Species   
 #&gt;   &lt;fct&gt;     
 #&gt; 1 setosa    
@@ -402,7 +396,7 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 #&gt;  9          6.9         3.2          5.7         2.3 virginica
 #&gt; 10          7.7         2.8          6.7         2   virginica
 #&gt; # … with 12 more rows
-#&gt; </div><div class='input'><span class='fu'>group_keys</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
+#&gt; </div><div class='input'><span class='fu'><a href='group_data.html'>group_keys</a></span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;   Species   
 #&gt;   &lt;fct&gt;     
 #&gt; 1 setosa    
@@ -471,7 +465,10 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 #&gt; # … with 40 more rows
 #&gt; </div><div class='input'>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_keys</span>(<span class='no'>Species</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
+  <span class='fu'><a href='group_data.html'>group_keys</a></span>(<span class='no'>Species</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The `...` argument of `group_keys()` is deprecated as of dplyr 1.0.0.</span>
+#&gt; <span class='warning'>Please `group_by()` first</span>
+#&gt; <span class='warning'>This warning is displayed once per session.</span>
+#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;   Species   
 #&gt;   &lt;fct&gt;     
 #&gt; 1 setosa    

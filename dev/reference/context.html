@@ -53,6 +53,7 @@ variable, so only work inside specific contexts
 n() gives the current group size.
 current_key() gives the group keys, a tibble with one row and one column
 for each grouping variable.
+cur_group_id() gives the unique identifier for the current group
 current_column() gives the current column being used in across().
 
 " />
@@ -203,6 +204,7 @@ variable, so only work inside specific contexts</p><ul>
 <li><p><code>n()</code> gives the current group size.</p></li>
 <li><p><code>current_key()</code> gives the group keys, a tibble with one row and one column
 for each grouping variable.</p></li>
+<li><p><code>cur_group_id()</code> gives the unique identifier for the current group</p></li>
 <li><p><code>current_column()</code> gives the current column being used in <code><a href='across.html'>across()</a></code>.</p></li>
 </ul>
 
@@ -211,6 +213,8 @@ for each grouping variable.</p></li>
     <pre class="usage"><span class='fu'>n</span>()
 
 <span class='fu'>current_key</span>()
+
+<span class='fu'>cur_group_id</span>()
 
 <span class='fu'>current_column</span>()</pre>
 
