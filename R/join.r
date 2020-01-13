@@ -210,22 +210,8 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
 
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches %||% "na")
-
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
-
-  rows <- join_rows(x_key, y_key, type = "inner")
-
-  x_out <- set_names(x[vars$x$out], names(vars$x$out))
-  y_out <- set_names(y[vars$y$out], names(vars$y$out))
-
-  out <- vec_slice(x_out, rows$x)
-  out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
-  out[names(y_out)] <- vec_slice(y_out, rows$y)
-  out
+  join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches)
 }
 
 #' @export
@@ -233,22 +219,8 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches %||% "na")
-
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
-
-  rows <- join_rows(x_key, y_key, type = "left")
-
-  x_out <- set_names(x[vars$x$out], names(vars$x$out))
-  y_out <- set_names(y[vars$y$out], names(vars$y$out))
-
-  out <- vec_slice(x_out, rows$x)
-  out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
-  out[names(y_out)] <- vec_slice(y_out, rows$y)
-  out
+  join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches)
 }
 
 #' @export
@@ -256,25 +228,8 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix)
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches %||% "na")
-
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
-
-  rows <- join_rows(x_key, y_key, type = "right")
-
-  x_out <- set_names(x[vars$x$out], names(vars$x$out))
-  y_out <- set_names(y[vars$y$out], names(vars$y$out))
-
-  out <- vec_slice(x_out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
-  out[names(x_key)] <- vec_rbind(
-    vec_slice(x_key, rows$x),
-    vec_slice(y_key, rows$y_extra)
-  )
-  out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
-  out
+  join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches)
 }
 
 #' @export
@@ -283,55 +238,27 @@ full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              keep = FALSE,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep_y = keep)
+
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches %||% "na")
-
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
-
-  rows <- join_rows(x_key, y_key, type = "full")
-
-  x_out <- set_names(x[vars$x$out], names(vars$x$out))
-  y_out <- set_names(y[vars$y$out], names(vars$y$out))
-
-  out <- vec_slice(x_out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
-  out[names(x_key)] <- vec_rbind(
-    vec_slice(x_key, rows$x),
-    vec_slice(y_key, rows$y_extra)
-  )
-  out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
-  out
+  join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches)
 }
 
 #' @export
 #' @rdname join.data.frame
 semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
+
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches %||% "na")
-
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
-
-  indx <- which(vec_in(x_key, y_key))
-  x[indx, , drop = FALSE]
+  join_filter(x, y, by = by, type = "semi", na_match = na_matches)
 }
 
 #' @export
 #' @rdname join.data.frame
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
+
   y <- auto_copy(x, y, copy = copy)
-  na_matches <- check_na_matches(na_matches %||% "na")
-
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
-
-  indx <- which(!vec_in(x_key, y_key))
-  x[indx, , drop = FALSE]
+  join_filter(x, y, by = by, type = "anti", na_match = na_matches)
 }
 
 #' @export
@@ -354,4 +281,51 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
   out[[name_var]] <- map(y_loc, vec_slice, x = y_out)
   out
+}
+
+
+# helpers -----------------------------------------------------------------
+
+join_mutate <- function(x, y, by, type,
+                        suffix = c(".x", ".y"),
+                        na_matches = "na",
+                        keep = FALSE
+                        ) {
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep_y = keep)
+  na_matches <- check_na_matches(na_matches %||% "na")
+
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
+  rows <- join_rows(x_key, y_key, type = type)
+
+  x_out <- set_names(x[vars$x$out], names(vars$x$out))
+  y_out <- set_names(y[vars$y$out], names(vars$y$out))
+
+  if (length(rows$y_extra) == 0) {
+    out <- vec_slice(x_out, rows$x)
+    out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+    out[names(y_out)] <- vec_slice(y_out, rows$y)
+  } else {
+    out <- vec_slice(x_out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
+    out[names(x_key)] <- vec_rbind(
+      vec_slice(x_key, rows$x),
+      vec_slice(y_key, rows$y_extra)
+    )
+    out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
+  }
+  out
+}
+
+join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
+  na_matches <- check_na_matches(na_matches %||% "na")
+
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
+
+  indx <- switch(type,
+    semi = which(vec_in(x_key, y_key)),
+    anti = which(!vec_in(x_key, y_key))
+  )
+  x[indx, , drop = FALSE]
 }
