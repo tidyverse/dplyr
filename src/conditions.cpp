@@ -42,3 +42,4 @@ void stop_summarise_incompatible_size(int size, R_xlen_t index_group) {
   Rf_eval(call, dplyr::envs::ns_dplyr);
 }
 }
+
