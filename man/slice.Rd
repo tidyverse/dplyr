@@ -17,6 +17,10 @@ Indices beyond the number of rows in the input are silently ignored.}
 \item{.preserve}{when \code{FALSE} (the default), the grouping structure
 is recalculated based on the resulting data, otherwise it is kept as is.}
 }
+\value{
+An object of the same type as \code{.data}. The columns will be left as is;
+the rows will be in different order.
+}
 \description{
 Choose rows by their ordinal position in the tbl.  Grouped tbls use
 the ordinal position within the group.

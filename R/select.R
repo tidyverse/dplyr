@@ -54,7 +54,9 @@
 #'
 #'   Use named arguments, e.g. `new_name = old_name`, to rename selected
 #'   variables.
-#' @return An object of the same class as `.data`.
+#' @return
+#' An object of the same type as `.data`. The rows will be left as; only
+#' the columns (position and/or name) will be changed.
 #' @family single table verbs
 #' @export
 #' @examples

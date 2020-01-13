@@ -59,7 +59,7 @@
 #'   condition evaluates to `TRUE` are kept.
 #' @param .preserve when `FALSE` (the default), the grouping structure
 #'   is recalculated based on the resulting data, otherwise it is kept as is.
-#' @return An object of the same class as `.data`.
+#' @inherit arrange return
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples

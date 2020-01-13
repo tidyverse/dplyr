@@ -114,13 +114,25 @@ Only applies to \code{nest_join()} and \code{full_join()}.}
 \item{name}{The name of the list column nesting joins create.
 If \code{NULL} the name of \code{y} is used.}
 }
+\value{
+An object of the same type as \code{x}. The order of the rows and columns will
+preserved as much as possible.
+
+In mutating joins, rows may need to be duplicated, and for right/full joins,
+extra rows from \code{y} are be added to the bottom of \code{x}. Where the join keys
+are different in \code{x} and \code{y}, only keys from \code{x} will be included, unless
+\code{keep = TRUE}. The key columns in the output will be coerced to a common
+type. For example, if you're joining a integer vector with a numeric
+variable, the output will be a numeric vector, regardless of which is seen
+first.
+
+We interpret filtering joins exactly if you created the equivalent call to
+\code{filter()}: the row order, the column order, and the column types are all
+preserved.
+}
 \description{
 This page describes the details of the \link{join} generics when applied to
 data frames and tibbles.
-
-All methods treat the \code{x} input as primary: the return value will be the
-same type as \code{x} and the rows will in be the same order (duplicated where
-necessary, and where needed missing rows from \code{y} will be added to the end.)
 }
 \examples{
 df1 <- data.frame(x = c(1, NA), y = 2)

@@ -39,11 +39,14 @@
 #'   The value should be an expression that returns a single value like
 #'   `min(x)`, `n()`, or `sum(is.na(y))`.
 #' @family single table verbs
-#' @return An object of the same class as `.data`.
+#' @return
+#' An object of the same class as `.data`. It will contain one column for
+#' each grouping variable and each expression you supply. It will have
+#' one row for each combination of the grouping variables.
 #'
-#'   If `.data` is grouped, then the last group will be dropped,
-#'   e.g.`df %>% group_by(x, y) %>% summarise(n())` will be grouped by
-#'   `x`. This happens because each group now occupies only a single row.
+#' If `.data` is grouped, then the last group will be dropped,
+#' e.g.`df %>% group_by(x, y) %>% summarise(n())` will be grouped by
+#' `x`. This happens because each group now occupies only a single row.
 #' @examples
 #' # A summary applied to ungrouped tbl returns a single row
 #' mtcars %>%

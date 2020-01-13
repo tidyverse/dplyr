@@ -167,10 +167,21 @@ nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, 
 #' This page describes the details of the [join] generics when applied to
 #' data frames and tibbles.
 #'
-#' All methods treat the `x` input as primary: the return value will be the
-#' same type as `x` and the rows will in be the same order (duplicated where
-#' necessary, and where needed missing rows from `y` will be added to the end.)
+#' @return
+#' An object of the same type as `x`. The order of the rows and columns will
+#' preserved as much as possible.
 #'
+#' In mutating joins, rows may need to be duplicated, and for right/full joins,
+#' extra rows from `y` are be added to the bottom of `x`. Where the join keys
+#' are different in `x` and `y`, only keys from `x` will be included, unless
+#' `keep = TRUE`. The key columns in the output will be coerced to a common
+#' type. For example, if you're joining a integer vector with a numeric
+#' variable, the output will be a numeric vector, regardless of which is seen
+#' first.
+#'
+#' We interpret filtering joins exactly if you created the equivalent call to
+#' `filter()`: the row order, the column order, and the column types are all
+#' preserved.
 #' @inheritParams inner_join
 #' @param x,y Data frames
 #' @param ... Included for compatibility with the generic; otherwise ignored.
