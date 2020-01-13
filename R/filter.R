@@ -105,24 +105,8 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
     return(.data)
   }
 
-  idx <- filter_rows(.data, ...)
-  .data[idx[[1]], , drop = FALSE]
-}
-
-#' @export
-filter.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.data)) {
-  if (missing(...)) {
-    return(.data)
-  }
-
-  idx <- filter_rows(.data, ...)
-  data <- as.data.frame(.data)[idx[[1]], , drop = FALSE]
-
-  groups <- group_data(.data)
-  groups$.rows <- filter_update_rows(nrow(.data), idx[[3]], idx[[1]], idx[[2]])
-  groups <- group_data_trim(groups, .preserve)
-
-  new_grouped_df(data, groups)
+  loc <- filter_rows(.data, ...)[[1]]
+  row_slice(.data, loc, preserve = .preserve)
 }
 
 filter_rows <- function(.data, ...) {
@@ -159,9 +143,4 @@ check_filter <- function(dots) {
     }
 
   }
-}
-
-
-filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
-  .Call(`dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
 }

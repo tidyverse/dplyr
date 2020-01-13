@@ -44,19 +44,8 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
     return(.data)
   }
 
-  idx <- arrange_rows(.data, ...)
-  .data[idx, , drop = FALSE]
-}
-
-#' @export
-arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
-  if (missing(...)) {
-    return(.data)
-  }
-
-  # TODO: figure out how to update group_indices more efficiently
-  idx <- arrange_rows(.data, ..., .by_group = .by_group)
-  .data[idx, , drop = FALSE]
+  loc <- arrange_rows(.data, ..., .by_group = .by_group)
+  row_slice(.data, loc)
 }
 
 # Helpers -----------------------------------------------------------------

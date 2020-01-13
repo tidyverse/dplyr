@@ -313,11 +313,11 @@ join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  indx <- switch(type,
-    semi = which(vec_in(x_key, y_key)),
-    anti = which(!vec_in(x_key, y_key))
+  idx <- switch(type,
+    semi = vec_in(x_key, y_key),
+    anti = !vec_in(x_key, y_key)
   )
-  x[indx, , drop = FALSE]
+  row_slice(x, idx)
 }
 
 check_na_matches <- function(na_matches = c("na", "never")) {

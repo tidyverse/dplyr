@@ -151,7 +151,7 @@ test_that("slice does not evaluate the expression in empty groups (#1438)", {
     slice(1:2)
   expect_equal(nrow(res), 2L)
 
-  expect_condition(
+  expect_error(
     res <- mtcars %>% group_by(cyl) %>% filter(cyl==6) %>% sample_n(size=3),
     NA
   )

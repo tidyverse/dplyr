@@ -41,20 +41,8 @@ slice <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  idx <- slice_rows(.data, ...)
-  .data[idx$data, , drop = FALSE]
-}
-
-#' @export
-slice.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.data)) {
-  idx <- slice_rows(.data, ...)
-  data <- as.data.frame(.data)[idx$data, , drop = FALSE]
-
-  groups <- group_data(.data)
-  groups$.rows <- new_list_of(idx$groups, ptype = integer())
-  groups <- group_data_trim(groups, .preserve)
-
-  new_grouped_df(data, groups)
+  loc <- slice_rows(.data, ...)[[1]]
+  row_slice(.data, loc, preserve = .preserve)
 }
 
 slice_rows <- function(.data, ...) {
