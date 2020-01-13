@@ -121,10 +121,11 @@ summarise_new_cols <- function(.data, ...) {
   .size <- 1L
   chunks <- vector("list", length(dots))
 
-  for (i in seq_along(dots)) {
-    quo <- dots[[i]]
+  tryCatch({
 
-    tryCatch({
+    # generate all chunks and monitor the sizes
+    for (i in seq_along(dots)) {
+      quo <- dots[[i]]
 
       # a list in which each element is the result of
       # evaluating the quosure in the "sliced data mask"
@@ -147,38 +148,39 @@ summarise_new_cols <- function(.data, ...) {
         # remember
         mask$add(auto_named_dots[i], chunks[[i]])
       }
+    }
 
-      # materialize columns
-      for (i in seq_along(dots)) {
-        if (!identical(.size, 1L)) {
-          sizes <- .Call(`dplyr_vec_sizes`, chunks[[i]])
-          if (!identical(sizes, .size)) {
-            chunks[[i]] <- map2(chunks[[i]], .size, vec_recycle, x_arg = glue("..{i}"))
-          }
-        }
-
-        result <- vec_c(!!!chunks[[i]])
-
-        if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
-          cols[names(result)] <- result
-        } else {
-          cols[[ auto_named_dots[i] ]] <-  result
+    # materialize columns
+    for (i in seq_along(dots)) {
+      if (!identical(.size, 1L)) {
+        sizes <- .Call(`dplyr_vec_sizes`, chunks[[i]])
+        if (!identical(sizes, .size)) {
+          chunks[[i]] <- map2(chunks[[i]], .size, vec_recycle, x_arg = glue("..{i}"))
         }
       }
-      },
-      vctrs_error_incompatible_type = function(e) {
-        stop_summarise_combine(conditionMessage(e), index = i, dots = dots)
-      },
-      simpleError = function(e) {
-        stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
-      },
-      dplyr_summarise_unsupported_type = function(cnd) {
-        stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
-      },
-      dplyr_summarise_incompatible_size = function(cnd) {
-        stop_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
-      })
-  }
+
+      result <- vec_c(!!!chunks[[i]])
+
+      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
+        cols[names(result)] <- result
+      } else {
+        cols[[ auto_named_dots[i] ]] <-  result
+      }
+    }
+
+  },
+  vctrs_error_incompatible_type = function(e) {
+    stop_summarise_combine(conditionMessage(e), index = i, dots = dots)
+  },
+  simpleError = function(e) {
+    stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
+  },
+  dplyr_summarise_unsupported_type = function(cnd) {
+    stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
+  },
+  dplyr_summarise_incompatible_size = function(cnd) {
+    stop_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
+  })
 
   list(new = cols, size = .size)
 }
