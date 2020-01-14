@@ -87,8 +87,8 @@ summarise.data.frame <- function(.data, ...) {
   if (!identical(cols$size, 1L)) {
     out <- vec_slice(out, rep(1:nrow(out), cols$size))
   }
-  out[names(cols$new)] <- cols$new
-  out
+
+  col_modify(out, cols$new)
 }
 
 #' @export
@@ -96,8 +96,9 @@ summarise.grouped_df <- function(.data, ...) {
   out <- NextMethod()
 
   group_vars <- group_vars(.data)
-  if (length(group_vars) > 1) {
-    out <- grouped_df(out, group_vars[-length(group_vars)], group_by_drop_default(.data))
+  n <- length(group_vars)
+  if (n > 1) {
+    out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
   }
 
   out

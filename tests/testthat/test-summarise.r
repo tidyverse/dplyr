@@ -52,10 +52,11 @@ test_that("summarise can refer to factor variables that were just created (#2217
 
 test_that("summarise can modify grouping variables", {
   df <- tibble(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2))
-  gf <- group_by(df, a)
+  gf <- group_by(df, a, b)
 
-  out <- summarise(gf, a = min(a) + 1)
-  expect_equal(out$a, c(2, 3))
+  i <- count_regroups(out <- summarise(gf, a = a + 1))
+  expect_equal(i, 1)
+  expect_equal(out$a, c(2, 2, 3, 3))
 })
 
 test_that("summarise handles constants (#153)", {
