@@ -266,6 +266,8 @@ mutate_new_columns <- function(.data, ...) {
       }
 
     },
+
+    # custom errors
     rlang_error_data_pronoun_not_found = function(e) {
       stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
     },
@@ -286,7 +288,24 @@ mutate_new_columns <- function(.data, ...) {
     },
     simpleError = function(e) {
       stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
-    })
+    },
+
+    # alternative grouping specs
+    alternative_grouping_by_row = function(cnd) {
+      tmp <- rowwise(.data)
+
+      rowwise_quos <- quos(!!!node_cdr(quo_get_expr(dots[[i]])))
+      rowwise_result <- mutate_new_columns(tmp, !!!rowwise_quos)
+
+      # oversimplified for now
+      new_columns[rowwise_result$change] <<- rowwise_result$add
+      if (length(rowwise_result$delete)) {
+        new_columns[rowwise_result$delete] <<- rep(list(rlang::zap()), length(rowwise_result$delete))
+      }
+
+    }
+
+    )
   }
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
@@ -297,3 +316,13 @@ mutate_new_columns <- function(.data, ...) {
     change = names(new_columns)
   )
 }
+
+#' local rowwise
+#'
+#' @param ... quosures
+#'
+#' @export
+local_rowwise <- function(...) {
+  abort(class = "alternative_grouping_by_row")
+}
+
