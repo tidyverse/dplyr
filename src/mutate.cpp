@@ -36,6 +36,12 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
     Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
 
     SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
+    if (Rf_inherits(result_i, "locally")) {
+      SET_VECTOR_ELT(res, 0, result_i);
+      UNPROTECT(7);
+      return res;
+    }
+
     if (Rf_isNull(result_i)) {
       seen_null = true;
     } else {

@@ -238,32 +238,48 @@ mutate_new_columns <- function(.data, ...) {
           suppressWarnings(mask$remove(dots_names[i]))
         }
         next
-      }
+      } else if (inherits(chunks, "locally")) {
+        # alternative local grouping
+        local_data <- eval_tidy(chunks[[1L]])
 
-      if (needs_recycle) {
-        chunks <- map2(chunks, rows_lengths, function(chunk, n) {
-          vec_recycle(chunk, n)
-        })
-      }
-      result <- vec_slice(vec_c(!!!chunks), o_rows)
+        local_quos <- chunks[-1]
+        local_result <- mutate_new_columns(local_data, !!!local_quos)
 
-      not_named <- (is.null(dots_names) || dots_names[i] == "")
-      if (not_named && is.data.frame(result)) {
-        new_columns[names(result)] <- result
+        new_columns[local_result$change] <- local_result$add
+        if (length(local_result$delete)) {
+          new_columns[local_result$delete] <- rep(list(rlang::zap()), length(local_result$delete))
+        }
 
-        # remember each result separately
-        map2(seq_along(result), names(result), function(i, nm) {
-          mask$add(nm, pluck(chunks, i))
-        })
       } else {
-        name <- if (not_named) auto_named_dots[i] else dots_names[i]
+        # normal path
 
-        # treat as a single output otherwise
-        new_columns[[name]] <- result
+        if (needs_recycle) {
+          chunks <- map2(chunks, rows_lengths, function(chunk, n) {
+            vec_recycle(chunk, n)
+          })
+        }
+        result <- vec_slice(vec_c(!!!chunks), o_rows)
 
-        # remember
-        mask$add(name, chunks)
+        not_named <- (is.null(dots_names) || dots_names[i] == "")
+        if (not_named && is.data.frame(result)) {
+          new_columns[names(result)] <- result
+
+          # remember each result separately
+          map2(seq_along(result), names(result), function(i, nm) {
+            mask$add(nm, pluck(chunks, i))
+          })
+        } else {
+          name <- if (not_named) auto_named_dots[i] else dots_names[i]
+
+          # treat as a single output otherwise
+          new_columns[[name]] <- result
+
+          # remember
+          mask$add(name, chunks)
+        }
       }
+
+
 
     },
 
@@ -288,37 +304,6 @@ mutate_new_columns <- function(.data, ...) {
     },
     simpleError = function(e) {
       stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
-    },
-
-    # alternative grouping specs
-    alternative_grouping_by_row = function(cnd) {
-      tmp <- rowwise(.data)
-
-      rowwise_quos <- quos(!!!node_cdr(quo_get_expr(dots[[i]])))
-      rowwise_result <- mutate_new_columns(tmp, !!!rowwise_quos)
-
-      new_columns[rowwise_result$change] <<- rowwise_result$add
-      if (length(rowwise_result$delete)) {
-        new_columns[rowwise_result$delete] <<- rep(list(rlang::zap()), length(rowwise_result$delete))
-      }
-
-    },
-
-    alternative_grouping_by_groups = function(cnd) {
-      env <- quo_get_env(dots[[i]])
-      group_spec <- new_quosure(
-        node_cadr(quo_get_expr(dots[[i]])),
-        env = env
-      )
-      tmp <- group_by(ungroup(.data), !!group_spec)
-
-      group_quos <- quos(!!!node_cddr(quo_get_expr(dots[[i]])))
-      group_result <- mutate_new_columns(tmp, !!!group_quos)
-
-      new_columns[group_result$change] <<- group_result$add
-      if (length(group_result$delete)) {
-        new_columns[group_result$delete] <<- rep(list(rlang::zap()), length(group_result$delete))
-      }
     }
   )}
 
@@ -331,20 +316,9 @@ mutate_new_columns <- function(.data, ...) {
   )
 }
 
-#' local rowwise
-#'
-#' @param ... quosures
-#'
+#' locally
 #' @export
-local_rowwise <- function(...) {
-  abort(class = "alternative_grouping_by_row")
-}
-
-#' local rowwise
-#'
-#' @param ... quosures
-#'
-#' @export
-local_group_by <- function(...) {
-  abort(class = "alternative_grouping_by_groups")
+locally <- function(...) {
+  quos <- enquos(...)
+  structure(quos, class = "locally")
 }
