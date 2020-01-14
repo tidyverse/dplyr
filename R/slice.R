@@ -14,6 +14,7 @@
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.
 #' @inheritParams filter
+#' @inherit arrange return
 #' @export
 #' @examples
 #' slice(mtcars, 1L)

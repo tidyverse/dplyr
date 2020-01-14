@@ -22,12 +22,13 @@ to drop a variable.  New variables overwrite existing variables
 of the same name.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same type as \code{.data}. The rows will be left as; only
+the columns will be changed. \code{mutate()} preserves order of existing columns,
+adding new columns to the right. \code{transmute()} drops existing columns.
 }
 \description{
 \code{mutate()} adds new variables and preserves existing ones;
-\code{transmute()} adds new variables and drops existing ones.  Both
-functions preserve the number of rows of the input.
+\code{transmute()} adds new variables and drops existing ones.
 New variables overwrite existing variables of the same name.
 }
 \section{Useful functions available in calculations of variables}{

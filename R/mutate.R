@@ -1,8 +1,7 @@
 #' Create or transform variables
 #'
 #' `mutate()` adds new variables and preserves existing ones;
-#' `transmute()` adds new variables and drops existing ones.  Both
-#' functions preserve the number of rows of the input.
+#' `transmute()` adds new variables and drops existing ones.
 #' New variables overwrite existing variables of the same name.
 #'
 #' @section Useful functions available in calculations of variables:
@@ -65,7 +64,10 @@
 #'   to drop a variable.  New variables overwrite existing variables
 #'   of the same name.
 #' @family single table verbs
-#' @return An object of the same class as `.data`.
+#' @return
+#' An object of the same type as `.data`. The rows will be left as; only
+#' the columns will be changed. `mutate()` preserves order of existing columns,
+#' adding new columns to the right. `transmute()` drops existing columns.
 #' @examples
 #' # Newly created variables are available immediately
 #' mtcars %>% as_tibble() %>% mutate(

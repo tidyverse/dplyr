@@ -19,7 +19,8 @@ condition evaluates to \code{TRUE} are kept.}
 is recalculated based on the resulting data, otherwise it is kept as is.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same type as \code{.data}. The columns will be left as is;
+the rows will be in different order.
 }
 \description{
 Use \code{filter()} to choose rows/cases where conditions are true. Unlike

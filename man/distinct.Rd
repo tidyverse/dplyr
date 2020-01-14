@@ -18,6 +18,12 @@ variables.}
 If a combination of \code{...} is not distinct, this keeps the
 first row of values.}
 }
+\value{
+An object the same type as \code{.data}. If \code{...} is empty or \code{.keep_all} is
+\code{TRUE}, the columns will be unchanged. Otherwise, it will first perform a
+\code{mutate()}. The rows will be in the same order as the input, but only
+distinct elements will be preserved.
+}
 \description{
 Select only unique/distinct rows from a data frame. This is similar
 to \code{\link[=unique.data.frame]{unique.data.frame()}}, but considerably faster.

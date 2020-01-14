@@ -22,7 +22,8 @@ Use named arguments, e.g. \code{new_name = old_name}, to rename selected
 variables.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same type as \code{.data}. The rows will be left as; only
+the columns (position and/or name) will be changed.
 }
 \description{
 Select or rename variables in a data frame, using a concise mini-language

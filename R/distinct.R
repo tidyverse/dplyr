@@ -11,6 +11,11 @@
 #' @param .keep_all If `TRUE`, keep all variables in `.data`.
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
+#' @return
+#' An object the same type as `.data`. If `...` is empty or `.keep_all` is
+#' `TRUE`, the columns will be unchanged. Otherwise, it will first perform a
+#' `mutate()`. The rows will be in the same order as the input, but only
+#' distinct elements will be preserved.
 #' @export
 #' @examples
 #' df <- tibble(

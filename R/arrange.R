@@ -15,12 +15,14 @@
 #' * always sorted to the end for local data, even when wrapped with `desc()`.
 #' * treated differently for remote data, depending on the backend.
 #'
+#' @return
+#' An object of the same type as `.data`. The columns will be left as is;
+#' the rows will be in different order.
 #' @export
 #' @inheritParams filter
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or
 #'   variables. Use [desc()] to sort a variable in descending order.
 #' @family single table verbs
-#' @return An object of the same class as `.data`.
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
