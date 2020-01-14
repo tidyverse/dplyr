@@ -7,7 +7,11 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private, SEXP env_context,
   SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
   SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));
 
+  SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
   SEXP chunks = PROTECT(Rf_allocVector(VECSXP, ngroups));
+  SET_VECTOR_ELT(res, 0, chunks);
+
+  bool scalar_list = false;
   for (R_xlen_t i = 0; i < ngroups; i++) {
     SEXP rows_i = VECTOR_ELT(rows, i);
     R_xlen_t n_i = XLENGTH(rows_i);
@@ -17,17 +21,17 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private, SEXP env_context,
     Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
 
     SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
-    if (!vctrs::vec_is_vector(result_i)) {
-      dplyr::stop_summarise_unsupported_type(result_i);
+    if (!vctrs::vec_is_vector(result_i) || vctrs::short_vec_size(result_i) != 1) {
+      scalar_list = true;
     }
-
     SET_VECTOR_ELT(chunks, i, result_i);
 
     UNPROTECT(2);
   }
 
-  UNPROTECT(4);
-  return chunks;
+  UNPROTECT(5);
+  SET_VECTOR_ELT(res, 1, Rf_ScalarLogical(scalar_list));
+  return res;
 }
 
 SEXP dplyr_vec_sizes(SEXP chunks) {

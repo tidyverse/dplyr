@@ -731,13 +731,15 @@ test_that("summarise handles raw columns (#1803)", {
 test_that("summarise supports matrix columns", {
   df <- data.frame(a = 1:3, b = 1:3)
 
-  df_regular <- summarise(df, b = scale(b))
   df_grouped <- summarise(group_by(df, a), b = scale(b))
   df_rowwise <- summarise(rowwise(df), b = scale(b))
 
-  expect_equal(dim(df_regular$b), c(3, 1))
   expect_equal(dim(df_grouped$b), c(3, 1))
   expect_equal(dim(df_rowwise$b), c(3, 1))
+
+  skip("size > 1 auto enlist")
+  df_regular <- summarise(df, b = scale(b))
+  expect_equal(dim(df_regular$b), c(3, 1))
 })
 
 test_that("typing and NAs for grouped summarise (#1839)", {
@@ -878,12 +880,14 @@ test_that("summarise() supports unquoted values", {
   df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
   expect_identical(summarise(df, out = !!1), tibble(out = 1))
   expect_identical(summarise(df, out = !!quote(identity(1))), tibble(out = 1))
-  expect_equal(summarise(df, out = !!(1:2)), tibble(out = 1:2))
 
   gdf <- group_by(df, g)
   expect_identical(summarise(gdf, out = !!1), summarise(gdf, out = 1))
-  expect_identical(summarise(gdf, out = !!(1:2)), tibble(g = c(1, 1, 2, 2), out = c(1:2, 1:2)))
   expect_identical(summarise(gdf, out = !!quote(identity(1))), summarise(gdf, out = 1))
+
+  skip("size > 1 auto enlist")
+  expect_equal(summarise(df, out = !!(1:2)), tibble(out = 1:2))
+  expect_identical(summarise(gdf, out = !!(1:2)), tibble(g = c(1, 1, 2, 2), out = c(1:2, 1:2)))
   expect_equal(summarise(gdf, out = !!(1:5)) %>% nrow(), 10L)
 })
 
@@ -1015,6 +1019,7 @@ test_that("summarise() keeps class, but not attributes", {
 })
 
 test_that("summarise() recycles", {
+  skip("size > 1 auto enlist")
   expect_equal(
     tibble() %>% summarise(x = 1, y = 1:3, z = 1),
     tibble(x = 1, y = 1:3, z = 1)
@@ -1034,13 +1039,6 @@ test_that("summarise() recycles", {
 
 test_that("summarise() give meaningful errors", {
   verify_output(test_path("test-summarise-errors.txt"), {
-    "# unsupported type"
-    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-      summarise(a = env(a = 1))
-    tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-      group_by(x, y) %>%
-      summarise(a = env(a = 1))
-
     "# mixed types"
     tibble(id = 1:2, a = list(1, "2")) %>%
       group_by(id) %>%
@@ -1048,16 +1046,6 @@ test_that("summarise() give meaningful errors", {
     tibble(id = 1:2, a = list(1, "2")) %>%
       rowwise() %>%
       summarise(a = a[[1]])
-
-    "# incompatible size"
-    tibble(z = 1) %>%
-      summarise(x = 1:3, y = 1:2)
-    tibble(z = 1:2) %>%
-      group_by(z) %>%
-      summarise(x = 1:3, y = 1:2)
-    tibble(z = 2:1) %>%
-      group_by(z) %>%
-      summarise(x = seq_len(z), y = 1:2)
 
     "# Missing variable"
     summarise(mtcars, a = mean(not_there))

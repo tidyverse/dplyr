@@ -122,7 +122,7 @@ summarise_cols <- function(.data, ...) {
   cols <- list()
 
   .size <- 1L
-  chunks <- vector("list", length(dots))
+  # chunks <- vector("list", length(dots))
 
   tryCatch({
 
@@ -134,41 +134,27 @@ summarise_cols <- function(.data, ...) {
       # evaluating the quosure in the "sliced data mask"
       #
       # TODO: reinject hybrid evaluation at the R level
-      chunks[[i]] <- mask$eval_all_summarise(quo, dots_names, i)
+      c(chunks_i, scalar_list) %<-% mask$eval_all_summarise(quo, dots_names, i)
 
-      # check that vec_size() of chunks is compatible with .size
-      # and maybe update .size
-      .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks[[i]])
-
-      result_type <- vec_ptype_common(!!!chunks[[i]])
-
-      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
-        # remember each result separately
-        map2(seq_along(result_type), names(result_type), function(j, nm) {
-          mask$add(nm, pluck(chunks[[i]], j))
-        })
+      if (scalar_list) {
+        mask$add(auto_named_dots[i], chunks_i)
+        cols[[ auto_named_dots[i] ]] <- chunks_i
       } else {
-        # remember
-        mask$add(auto_named_dots[i], chunks[[i]])
-      }
-    }
+        result <- vec_c(!!!chunks_i)
 
-    # materialize columns
-    for (i in seq_along(dots)) {
-      if (!identical(.size, 1L)) {
-        sizes <- .Call(`dplyr_vec_sizes`, chunks[[i]])
-        if (!identical(sizes, .size)) {
-          chunks[[i]] <- map2(chunks[[i]], .size, vec_recycle, x_arg = glue("..{i}"))
+        if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
+          # remember each result separately
+          map2(seq_along(result), names(result), function(j, nm) {
+            mask$add(nm, pluck(chunks_i, j))
+          })
+          cols[names(result)] <- result
+        } else {
+          # remember
+          mask$add(auto_named_dots[i], chunks_i)
+          cols[[ auto_named_dots[i] ]] <-  result
         }
       }
 
-      result <- vec_c(!!!chunks[[i]])
-
-      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
-        cols[names(result)] <- result
-      } else {
-        cols[[ auto_named_dots[i] ]] <-  result
-      }
     }
 
   },
@@ -177,12 +163,6 @@ summarise_cols <- function(.data, ...) {
   },
   simpleError = function(e) {
     stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
-  },
-  dplyr_summarise_unsupported_type = function(cnd) {
-    stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
-  },
-  dplyr_summarise_incompatible_size = function(cnd) {
-    stop_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
   })
 
   list(new = cols, size = .size)
