@@ -293,7 +293,8 @@ join_mutate <- function(x, y, by, type,
   x_out <- set_names(x[vars$x$out], names(vars$x$out))
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
 
-  out <- vec_slice(x_out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
+  out <- as_tibble(x_out)
+  out <- vec_slice(out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
   out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
 
   # If we're not keeping all y keys, need to copy over for the new rows
@@ -303,7 +304,7 @@ join_mutate <- function(x, y, by, type,
   }
 
   out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
-  out
+  df_restore(x_out, out)
 }
 
 join_filter <- function(x, y, by = NULL, type, na_matches = "na") {

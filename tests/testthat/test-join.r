@@ -122,14 +122,16 @@ test_that("joins x preserve type of x", {
   expect_s3_class(inner_join(df2, df1, by = "x"), "tbl_df")
 })
 
-test_that("joins regroup (#1597, #3566)", {
+test_that("joins preserve groups", {
   gf1 <- tibble(a = 1:3) %>% group_by(a)
   gf2 <- tibble(a = rep(1:4, 2), b = 1) %>% group_by(b)
 
-  out <- inner_join(gf1, gf2, by = "a")
+  i <- count_regroups(out <- inner_join(gf1, gf2, by = "a"))
+  expect_equal(i, 1L)
   expect_equal(group_vars(out), "a")
 
-  out <- semi_join(gf1, gf2, by = "a")
+  i <- count_regroups(out <- semi_join(gf1, gf2, by = "a"))
+  expect_equal(i, 0L)
   expect_equal(group_vars(out), "a")
 })
 
