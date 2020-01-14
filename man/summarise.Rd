@@ -28,7 +28,8 @@ expressions that you provide.
 \link{grouped_df} with the right-most group removed.
 \item If \code{x} is grouped by one variable, or is not grouped, the output will
 be a \link{tibble}.
-\item Data frame attributes are \strong{not} preserved.
+\item Data frame attributes are \strong{not} preserved, because \code{summarise()}
+fundamentally creates a new data frame.
 }
 }
 \description{
