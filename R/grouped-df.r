@@ -249,7 +249,7 @@ as_tibble.grouped_df <- function(x, ...) {
   names(data) <- value
 
   groups <- group_data(x)
-  group_loc <- match(intersect(names(x), names(groups)), names(groups))
+  group_loc <- match(intersect(names(x), names(groups)), names(x))
   group_names <- c(value[group_loc], ".rows")
   if (!identical(group_names, names(groups))) {
     names(groups) <- c(value[group_loc], ".rows")
