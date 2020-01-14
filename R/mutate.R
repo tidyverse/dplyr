@@ -297,16 +297,30 @@ mutate_new_columns <- function(.data, ...) {
       rowwise_quos <- quos(!!!node_cdr(quo_get_expr(dots[[i]])))
       rowwise_result <- mutate_new_columns(tmp, !!!rowwise_quos)
 
-      # oversimplified for now
       new_columns[rowwise_result$change] <<- rowwise_result$add
       if (length(rowwise_result$delete)) {
         new_columns[rowwise_result$delete] <<- rep(list(rlang::zap()), length(rowwise_result$delete))
       }
 
-    }
+    },
 
-    )
-  }
+    alternative_grouping_by_groups = function(cnd) {
+      env <- quo_get_env(dots[[i]])
+      group_spec <- new_quosure(
+        node_cadr(quo_get_expr(dots[[i]])),
+        env = env
+      )
+      tmp <- group_by(ungroup(.data), !!group_spec)
+
+      group_quos <- quos(!!!node_cddr(quo_get_expr(dots[[i]])))
+      group_result <- mutate_new_columns(tmp, !!!group_quos)
+
+      new_columns[group_result$change] <<- group_result$add
+      if (length(group_result$delete)) {
+        new_columns[group_result$delete] <<- rep(list(rlang::zap()), length(group_result$delete))
+      }
+    }
+  )}
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
 
@@ -326,3 +340,11 @@ local_rowwise <- function(...) {
   abort(class = "alternative_grouping_by_row")
 }
 
+#' local rowwise
+#'
+#' @param ... quosures
+#'
+#' @export
+local_group_by <- function(...) {
+  abort(class = "alternative_grouping_by_groups")
+}
