@@ -34,11 +34,13 @@ col_modify <- function(df, cols) {
   UseMethod("col_modify")
 }
 
+#' @export
 col_modify.data.frame <- function(df, cols) {
   df[names(cols)] <- cols
   df
 }
 
+#' @export
 col_modify.grouped_df <- function(df, cols) {
   data <- as_tibble(df)
   data <- col_modify(data, cols)
@@ -57,6 +59,7 @@ df_restore <- function(old, new) {
   UseMethod("df_restore")
 }
 
+#' @export
 df_restore.data.frame <- function(old, new) {
   attr_old <- attributes(old)
   attr_new <- attributes(new)
@@ -68,6 +71,7 @@ df_restore.data.frame <- function(old, new) {
   new
 }
 
+#' @export
 df_restore.grouped_df <- function(old, new) {
   group_vars <- intersect(group_vars(old), names(new))
   grouped_df(new, group_vars, drop = group_by_drop_default(old))
