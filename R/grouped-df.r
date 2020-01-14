@@ -103,6 +103,11 @@ count_regroups <- function(code) {
   i
 }
 
+show_regroups <- function(code) {
+  withCallingHandlers(code, dplyr_regroup = function(cnd) {
+    cat("Regrouping...\n")
+  })
+}
 
 #' Low-level construction and validation for the grouped_df class
 #'

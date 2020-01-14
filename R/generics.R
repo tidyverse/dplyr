@@ -3,11 +3,18 @@
 #' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
-#' These three functions, along with `names<-` and 1d `[`, provide a minimal
-#' interface for extending dplyr to work with a new subclass of data frame. They
-#' are experimental, and a stop-gap measure until more general tools become
-#' available in vctrs, but may still be useful in the short-term if you have a
-#' data frame class that you want to work with dplyr.
+#' These three functions, along with `names<-` and 1d numeric `[`
+#' (i.e. `x[loc]`), provide a minimal interface for extending dplyr to work
+#' with a new subclass of data frame. `dplyr_rows_slice()` and
+#' `dplyr_cols_modify()` represented specialised uses of `[`; their focus
+#' makes them much easier to implement. `dplyr_reconstruct()` is a fall-back
+#' for verbs that can't be implemented in terms of simpler row/col operation.
+#'
+#' These functions are experimental and are stop-gap measure until more general
+#' tools become available in vctrs, but may still be useful in the short-term
+#' if you have a data frame class that you want to work with dplyr.
+#'
+#' # Current usage
 #'
 #' * `arrange()`, `filter()`, `slice()`, `semi_join()`, and `anti_join()`
 #'   work by generating a vector of column indices, and then subsetting
@@ -24,21 +31,28 @@
 #'   `rename()` just uses `names<-`.
 #'
 #' * `inner_join()`, `left_join()`, `right_join()`, and `full_join()`
-#'   coerces `x` to a tibble, modify the rows, then use `dplyr_df_restore()`
+#'   coerces `x` to a tibble, modify the rows, then uses `dplyr_reconstruct()`
 #'   to convert back to the same type as `x`.
+#'
+#' * `nest_join()` uses `dplyr_col_modify()` to cast the key variables to
+#'   common type and add the nested-df that `y` becomes.
 #'
 #' * `distinct()` does a `mutate()` if any expressions are present, then
 #'   uses 1d `[` to select variables to keep, then `dplyr_row_slice()` to
 #'   select distinct rows.
 #'
-#' Note that `group_by()` and `ungroup()` don't use any of these tools and
+#' Note that `group_by()` and `ungroup()` don't use any these generics and
 #' you'll need to provide methods directly.
 #'
+#' @keywords internal
+#' @param data A tibble. We use tibbles because they avoid some inconsistent
+#'    subset-assignment use cases
 #' @name dplyr_extending
 NULL
 
 #' @export
 #' @rdname dplyr_extending
+#' @param i A numeric or logical vector that indexes the rows of `.data`.
 dplyr_row_slice <- function(data, i, ...) {
   if (!is.numeric(i) && !is.logical(i)) {
     abort("`i` must be an numeric or logical vector")
@@ -73,6 +87,8 @@ dplyr_row_slice.grouped_df <- function(data, i, ..., preserve = FALSE) {
 
 #' @export
 #' @rdname dplyr_extending
+#' @param cols A named list used modify columns. A `NULL` value should remove
+#'   an existing column.
 dplyr_col_modify <- function(data, cols) {
   UseMethod("dplyr_col_modify")
 }
@@ -95,19 +111,20 @@ dplyr_col_modify.grouped_df <- function(data, cols) {
   }
 }
 
+#' @param template Template to use for restoring attributes
 #' @export
 #' @rdname dplyr_extending
-dplyr_df_restore <- function(data, old) {
+dplyr_reconstruct <- function(data, template) {
   if (!is_tibble(data)) {
     abort("`new` must be a tibble")
   }
 
-  UseMethod("dplyr_df_restore", old)
+  UseMethod("dplyr_reconstruct", template)
 }
 
 #' @export
-dplyr_df_restore.data.frame <- function(data, old) {
-  attr_old <- attributes(old)
+dplyr_reconstruct.data.frame <- function(data, template) {
+  attr_old <- attributes(template)
   attr_new <- attributes(data)
 
   to_copy <- setdiff(names(attr_old), c("row.names", "names", ".drop"))
@@ -118,7 +135,7 @@ dplyr_df_restore.data.frame <- function(data, old) {
 }
 
 #' @export
-dplyr_df_restore.grouped_df <- function(data, old) {
-  group_vars <- intersect(group_vars(old), names(data))
-  grouped_df(data, group_vars, drop = group_by_drop_default(old))
+dplyr_reconstruct.grouped_df <- function(data, template) {
+  group_vars <- intersect(group_vars(template), names(data))
+  grouped_df(data, group_vars, drop = group_by_drop_default(template))
 }

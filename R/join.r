@@ -310,7 +310,7 @@ join_mutate <- function(x, y, by, type,
   }
 
   out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
-  dplyr_df_restore(out, x_out)
+  dplyr_reconstruct(out, x_out)
 }
 
 join_filter <- function(x, y, by = NULL, type, na_matches = "na") {

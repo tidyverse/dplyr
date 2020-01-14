@@ -4,23 +4,42 @@
 \alias{dplyr_extending}
 \alias{dplyr_row_slice}
 \alias{dplyr_col_modify}
-\alias{dplyr_df_restore}
+\alias{dplyr_reconstruct}
 \title{Extending dplyr}
 \usage{
 dplyr_row_slice(data, i, ...)
 
 dplyr_col_modify(data, cols)
 
-dplyr_df_restore(data, old)
+dplyr_reconstruct(data, template)
+}
+\arguments{
+\item{data}{A tibble. We use tibbles because they avoid some inconsistent
+subset-assignment use cases}
+
+\item{i}{A numeric or logical vector that indexes the rows of \code{.data}.}
+
+\item{cols}{A named list used modify columns. A \code{NULL} value should remove
+an existing column.}
+
+\item{template}{Template to use for restoring attributes}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 
-These three functions, along with \verb{names<-} and 1d \code{[}, provide a minimal
-interface for extending dplyr to work with a new subclass of data frame. They
-are experimental, and a stop-gap measure until more general tools become
-available in vctrs, but may still be useful in the short-term if you have a
-data frame class that you want to work with dplyr.
+These three functions, along with \verb{names<-} and 1d numeric \code{[}
+(i.e. \code{x[loc]}), provide a minimal interface for extending dplyr to work
+with a new subclass of data frame. \code{dplyr_rows_slice()} and
+\code{dplyr_cols_modify()} represented specialised uses of \code{[}; their focus
+makes them much easier to implement. \code{dplyr_reconstruct()} is a fall-back
+for verbs that can't be implemented in terms of simpler row/col operation.
+
+These functions are experimental and are stop-gap measure until more general
+tools become available in vctrs, but may still be useful in the short-term
+if you have a data frame class that you want to work with dplyr.
+}
+\keyword{internal}
+\section{Current usage}{
 \itemize{
 \item \code{arrange()}, \code{filter()}, \code{slice()}, \code{semi_join()}, and \code{anti_join()}
 work by generating a vector of column indices, and then subsetting
@@ -33,13 +52,15 @@ when columns should be deleted), then passes that to \code{dplyr_col_modify()}.
 \item \code{select()} uses 1d \code{[} to select columns, then \verb{names<-} to rename them.
 \code{rename()} just uses \verb{names<-}.
 \item \code{inner_join()}, \code{left_join()}, \code{right_join()}, and \code{full_join()}
-coerces \code{x} to a tibble, modify the rows, then use \code{dplyr_df_restore()}
+coerces \code{x} to a tibble, modify the rows, then uses \code{dplyr_reconstruct()}
 to convert back to the same type as \code{x}.
+\item \code{nest_join()} uses \code{dplyr_col_modify()} to cast the key variables to
+common type and add the nested-df that \code{y} becomes.
 \item \code{distinct()} does a \code{mutate()} if any expressions are present, then
 uses 1d \code{[} to select variables to keep, then \code{dplyr_row_slice()} to
 select distinct rows.
 }
 
-Note that \code{group_by()} and \code{ungroup()} don't use any of these tools and
+Note that \code{group_by()} and \code{ungroup()} don't use any these generics and
 you'll need to provide methods directly.
 }

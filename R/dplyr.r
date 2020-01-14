@@ -43,4 +43,4 @@
 #' @importFrom lifecycle deprecated
 "_PACKAGE"
 
-utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows", "new_rows_sizes", "needs_recycle", "distinct_vars"))
+utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows", "new_rows_sizes", "needs_recycle", "distinct_vars", "old"))
