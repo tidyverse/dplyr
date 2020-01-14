@@ -36,7 +36,8 @@ when columns should be deleted), then passes that to \code{dplyr_col_modify()}.
 coerces \code{x} to a tibble, modify the rows, then use \code{dplyr_df_restore()}
 to convert back to the same type as \code{x}.
 \item \code{distinct()} does a \code{mutate()} if any expressions are present, then
-use 1d\code{[}
+uses 1d \code{[} to select variables to keep, then \code{dplyr_row_slice()} to
+select distinct rows.
 }
 
 Note that \code{group_by()} and \code{ungroup()} don't use any of these tools and

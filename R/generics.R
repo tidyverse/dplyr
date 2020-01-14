@@ -28,7 +28,8 @@
 #'   to convert back to the same type as `x`.
 #'
 #' * `distinct()` does a `mutate()` if any expressions are present, then
-#'   use 1d`[`
+#'   uses 1d `[` to select variables to keep, then `dplyr_row_slice()` to
+#'   select distinct rows.
 #'
 #' Note that `group_by()` and `ungroup()` don't use any of these tools and
 #' you'll need to provide methods directly.
