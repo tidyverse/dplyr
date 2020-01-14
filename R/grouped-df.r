@@ -190,9 +190,7 @@ tbl_sum.grouped_df <- function(x) {
 #' @export
 as.data.frame.grouped_df <- function(x, row.names = NULL,
                                      optional = FALSE, ...) {
-  x <- ungroup(x)
-  class(x) <- "data.frame"
-  x
+  new_data_frame(vec_data(x), n = nrow(x))
 }
 
 #' @export
