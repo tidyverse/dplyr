@@ -133,6 +133,10 @@ test_that("joins preserve groups", {
   i <- count_regroups(out <- semi_join(gf1, gf2, by = "a"))
   expect_equal(i, 0L)
   expect_equal(group_vars(out), "a")
+
+  i <- count_regroups(out <- nest_join(gf1, gf2, by = "a"))
+  expect_equal(i, 0L)
+  expect_equal(group_vars(out), "a")
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
