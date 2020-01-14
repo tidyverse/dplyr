@@ -44,7 +44,7 @@ incompatible types
 ==================
 
 > mutate(group_by(data.frame(x = rep(1:5, each = 3)), x), val = ifelse(x < 3,
-+   "foo", 2))
++ "foo", 2))
 Error: No common type for `..1` <character> and `..3` <double>.
 
 
