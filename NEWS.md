@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* Row names are now preserved when working with data frames.
+
 * `count()` and `add_count()` now preserve the type of the input (#4086).
 
 * `add_count(drop = )` is deprecated because it didn't actually affect

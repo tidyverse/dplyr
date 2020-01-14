@@ -76,12 +76,6 @@ The three \link{scoped} variants of \code{mutate()} (\code{\link[=mutate_all]{mu
 selection of variables.
 }
 
-\section{Tidy data}{
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
-}
-
 \examples{
 # Newly created variables are available immediately
 mtcars \%>\% as_tibble() \%>\% mutate(

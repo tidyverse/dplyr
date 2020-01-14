@@ -26,12 +26,6 @@ Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
 operation, use \code{\link[=filter]{filter()}} and \code{\link[=row_number]{row_number()}}.
 }
-\section{Tidy data}{
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
-}
-
 \examples{
 slice(mtcars, 1L)
 # Similar to tail(mtcars, 1):

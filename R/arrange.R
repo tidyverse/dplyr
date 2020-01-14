@@ -17,7 +17,6 @@
 #'
 #' @export
 #' @inheritParams filter
-#' @inheritSection filter Tidy data
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or
 #'   variables. Use [desc()] to sort a variable in descending order.
 #' @family single table verbs

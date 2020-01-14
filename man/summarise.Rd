@@ -61,12 +61,6 @@ results, consider using new names for your summary variables, especially when
 creating multiple summaries.
 }
 
-\section{Tidy data}{
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
-}
-
 \examples{
 # A summary applied to ungrouped tbl returns a single row
 mtcars \%>\%

@@ -63,12 +63,6 @@ When applied on a grouped tibble, \code{filter()} automatically \link[=arrange]{
 the tibble by groups for performance reasons.
 }
 
-\section{Tidy data}{
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
-}
-
 \section{Scoped filtering}{
 
 The three \link{scoped} variants (\code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and

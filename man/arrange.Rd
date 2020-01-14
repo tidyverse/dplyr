@@ -44,12 +44,6 @@ Unlike base sorting with \code{sort()}, \code{NA} are:
 }
 }
 
-\section{Tidy data}{
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
-}
-
 \examples{
 arrange(mtcars, cyl, disp)
 arrange(mtcars, desc(disp))

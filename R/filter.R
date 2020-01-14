@@ -41,10 +41,6 @@
 #' When applied on a grouped tibble, `filter()` automatically [rearranges][arrange]
 #' the tibble by groups for performance reasons.
 #'
-#' @section Tidy data:
-#' When applied to a data frame, row names are silently dropped. To preserve,
-#' convert to an explicit variable with [tibble::rownames_to_column()].
-#'
 #' @section Scoped filtering:
 #' The three [scoped] variants ([filter_all()], [filter_if()] and
 #' [filter_at()]) make it easy to apply a filtering condition to a

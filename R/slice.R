@@ -14,7 +14,6 @@
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.
 #' @inheritParams filter
-#' @inheritSection filter Tidy data
 #' @export
 #' @examples
 #' slice(mtcars, 1L)
