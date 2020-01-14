@@ -30,6 +30,27 @@ row_slice.grouped_df <- function(x, i, ..., preserve = FALSE) {
 }
 
 
+col_modify <- function(df, cols) {
+  UseMethod("col_modify")
+}
+
+col_modify.data.frame <- function(df, cols) {
+  df[names(cols)] <- cols
+  df
+}
+
+col_modify.grouped_df <- function(df, cols) {
+  data <- as_tibble(df)
+  data <- col_modify(data, cols)
+
+  if (all(names(cols) %in% group_vars(df))) {
+    grouped_df(data, group_vars(df), drop = group_by_drop_default(df))
+  } else {
+    groups <- group_data(df)
+    new_grouped_df(data, groups)
+  }
+}
+
 # new should be a tibble?
 # TODO: test that's true
 df_restore <- function(old, new) {

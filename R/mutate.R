@@ -131,33 +131,7 @@ mutate <- function(.data, ...) {
 #' @export
 mutate.data.frame <- function(.data, ...) {
   cols <- mutate_cols(.data, ...)
-  if (is.null(cols)) {
-    return(.data)
-  }
-
-  .data <- .data[setdiff(names(.data), cols$delete)]
-  .data[names(cols$add)] <- cols$add
-
-  .data
-}
-
-#' @export
-mutate.grouped_df <- function(.data, ...) {
-  cols <- mutate_cols(.data, ...)
-  if (is.null(cols)) {
-    return(.data)
-  }
-
-  data <- as_tibble(.data)
-  data <- data[setdiff(names(.data), cols$delete)]
-  data[names(cols$add)] <- cols$add
-
-  groups <- group_data(.data)
-  if (any(cols$change %in% names(groups))) {
-    grouped_df(data, group_vars(.data), group_by_drop_default(.data))
-  } else {
-    new_grouped_df(data, groups)
-  }
+  col_modify(.data, cols)
 }
 
 #' @rdname mutate
@@ -169,33 +143,16 @@ transmute <- function(.data, ...) {
 #' @export
 transmute.data.frame <- function(.data, ...) {
   cols <- mutate_cols(.data, ...)
-  if (is.null(cols)) {
-    return(.data[integer()])
-  }
+  .data <- col_modify(.data, cols)
 
-  .data <- .data[integer()]
-  .data[names(cols$add)] <- cols$add
+  out_cols <- c(
+    # ensure group vars present
+    setdiff(group_vars(.data), names(cols)),
+    # cols might contain NULLs
+    intersect(names(cols), names(.data))
+  )
 
-  .data
-}
-
-#' @export
-transmute.grouped_df <- function(.data, ...) {
-  cols <- mutate_cols(.data, ...)
-  if (is.null(cols)) {
-    return(.data[group_vars(.data)])
-  }
-
-  data <- as_tibble(.data)
-  data <- data[setdiff(group_vars(.data), names(cols$add))]
-  data[names(cols$add)] <- cols$add
-
-  groups <- group_data(.data)
-  if (any(cols$change %in% names(groups))) {
-    grouped_df(data, group_vars(.data), group_by_drop_default(.data))
-  } else {
-    new_grouped_df(data, groups)
-  }
+  .data[out_cols]
 }
 
 # Helpers -----------------------------------------------------------------
@@ -266,10 +223,6 @@ mutate_cols <- function(.data, ...) {
   }
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
-
-  list(
-    add = new_columns[!is_zap],
-    delete = names(new_columns)[is_zap],
-    change = names(new_columns)
-  )
+  new_columns[is_zap] <- rep(list(NULL), sum(is_zap))
+  new_columns
 }
