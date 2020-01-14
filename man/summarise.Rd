@@ -19,13 +19,17 @@ The value should be an expression that returns a single value like
 \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.}
 }
 \value{
-An object of the same class as \code{.data}. It will contain one column for
-each grouping variable and each expression you supply. It will have
-one row for each combination of the grouping variables.
-
-If \code{.data} is grouped, then the last group will be dropped,
-e.g.\code{df \%>\% group_by(x, y) \%>\% summarise(n())} will be grouped by
-\code{x}. This happens because each group now occupies only a single row.
+An object \emph{usually} of the same type as \code{.data}.
+\itemize{
+\item The rows come from the underlying \code{group_keys()}.
+\item The columns are a combination of the grouping keys and the summary
+expressions that you provide.
+\item If \code{x} is grouped by more than one variable, the output will be another
+\link{grouped_df} with the right-most group removed.
+\item If \code{x} is grouped by one variable, or is not grouped, the output will
+be a \link{tibble}.
+\item Data frame attributes are \strong{not} preserved.
+}
 }
 \description{
 \code{summarise()} creates a new data frame. It will have one row for each

@@ -16,8 +16,12 @@
 #' * treated differently for remote data, depending on the backend.
 #'
 #' @return
-#' An object of the same type as `.data`. The columns will be left as is;
-#' the rows will be in different order.
+#' An object of the same type as `.data`.
+#'
+#' * All rows appear in the output, but (usually) in a different place.
+#' * Columns are not modified.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
 #' @export
 #' @inheritParams filter
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or

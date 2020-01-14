@@ -39,13 +39,17 @@
 #'   `min(x)`, `n()`, or `sum(is.na(y))`.
 #' @family single table verbs
 #' @return
-#' An object of the same class as `.data`. It will contain one column for
-#' each grouping variable and each expression you supply. It will have
-#' one row for each combination of the grouping variables.
+#' An object _usually_ of the same type as `.data`.
 #'
-#' If `.data` is grouped, then the last group will be dropped,
-#' e.g.`df %>% group_by(x, y) %>% summarise(n())` will be grouped by
-#' `x`. This happens because each group now occupies only a single row.
+#' * The rows come from the underlying `group_keys()`.
+#' * The columns are a combination of the grouping keys and the summary
+#'   expressions that you provide.
+#' * If `x` is grouped by more than one variable, the output will be another
+#'   [grouped_df] with the right-most group removed.
+#' * If `x` is grouped by one variable, or is not grouped, the output will
+#'   be a [tibble].
+#' * Data frame attributes are **not** preserved, because `summarise()`
+#'   fundamentally creates a new data frame.
 #' @examples
 #' # A summary applied to ungrouped tbl returns a single row
 #' mtcars %>%

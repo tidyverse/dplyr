@@ -12,10 +12,13 @@
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
 #' @return
-#' An object the same type as `.data`. If `...` is empty or `.keep_all` is
-#' `TRUE`, the columns will be unchanged. Otherwise, it will first perform a
-#' `mutate()`. The rows will be in the same order as the input, but only
-#' distinct elements will be preserved.
+#' An object of the same type as `.data`.
+#'
+#' * Rows are a subset of the input, but appear in the same order.
+#' * Columns are not modified if `...` is empty or `.keep_all` is `TRUE`.
+#'   Otherwise, `distinct()` first calls `mutate()` to create new columns.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
 #' @export
 #' @examples
 #' df <- tibble(

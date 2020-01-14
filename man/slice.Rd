@@ -18,8 +18,13 @@ Indices beyond the number of rows in the input are silently ignored.}
 is recalculated based on the resulting data, otherwise it is kept as is.}
 }
 \value{
-An object of the same type as \code{.data}. The columns will be left as is;
-the rows will be in different order.
+An object of the same type as \code{.data}.
+\itemize{
+\item Each row may appear 0, 1, or many times in the output.
+\item Columns are not modified.
+\item Groups are not modified.
+\item Data frame attributes are preserved.
+}
 }
 \description{
 Choose rows by their ordinal position in the tbl.  Grouped tbls use

@@ -22,9 +22,27 @@ to drop a variable.  New variables overwrite existing variables
 of the same name.}
 }
 \value{
-An object of the same type as \code{.data}. The rows will be left as; only
-the columns will be changed. \code{mutate()} preserves order of existing columns,
-adding new columns to the right. \code{transmute()} drops existing columns.
+An object of the same type as \code{.data}.
+
+For \code{mutate()}:
+\itemize{
+\item Rows are not affected.
+\item Existing columns will be preserved unless explicitly modified.
+\item New columns will be added to the right of existing columns.
+\item Columns given value \code{NULL} will be removed
+\item Groups will be updated if a grouping variable is mutated.
+\item Data frame attributes are preserved.
+}
+
+For \code{transmute()}:
+\itemize{
+\item Rows are not affected.
+\item Apart from grouping variables, existing columns will be remove unless
+explicitly kept.
+\item Column order matches order of expressions.
+\item Groups will be updated if a grouping variable is mutated.
+\item Data frame attributes are preserved.
+}
 }
 \description{
 \code{mutate()} adds new variables and preserves existing ones;

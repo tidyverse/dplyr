@@ -55,7 +55,13 @@
 #'   condition evaluates to `TRUE` are kept.
 #' @param .preserve when `FALSE` (the default), the grouping structure
 #'   is recalculated based on the resulting data, otherwise it is kept as is.
-#' @inherit arrange return
+#' @return
+#' An object of the same type as `.data`.
+#'
+#' * Rows are a subset of the input, but appear in the same order.
+#' * Columns are not modified.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples

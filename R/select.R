@@ -55,8 +55,22 @@
 #'   Use named arguments, e.g. `new_name = old_name`, to rename selected
 #'   variables.
 #' @return
-#' An object of the same type as `.data`. The rows will be left as; only
-#' the columns (position and/or name) will be changed.
+#' An object of the same type as `.data`.
+#'
+#' For `select()`:
+#'
+#' * Rows are not affected.
+#' * Output columns are a subset of input columns, potentially with a different
+#'   order. Columns will be renamed if `new_name = old_name` form is used.
+#' * Data frame attributes are preserved.
+#' * Groups are maintained; you can not select off grouping variables.
+#'
+#' For `rename()`:
+#'
+#' * Rows are not affected.
+#' * Column names are changed; column order is preserved
+#' * Data frame attributes are preserved.
+#' * Groups are updated to reflect new names.
 #' @family single table verbs
 #' @export
 #' @examples

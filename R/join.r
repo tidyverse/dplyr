@@ -168,20 +168,30 @@ nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, 
 #' data frames and tibbles.
 #'
 #' @return
-#' An object of the same type as `x`. The order of the rows and columns will
+#' An object of the same type as `x`. The order of the rows and columns is
 #' preserved as much as possible.
 #'
-#' In mutating joins, rows may need to be duplicated, and for right/full joins,
-#' extra rows from `y` are be added to the bottom of `x`. Where the join keys
-#' are different in `x` and `y`, only keys from `x` will be included, unless
-#' `keep = TRUE`. The key columns in the output will be coerced to a common
-#' type. For example, if you're joining a integer vector with a numeric
-#' variable, the output will be a numeric vector, regardless of which is seen
-#' first.
+#' For the mutating joins:
 #'
-#' We interpret filtering joins exactly if you created the equivalent call to
-#' `filter()`: the row order, the column order, and the column types are all
-#' preserved.
+#' * For `inner_join()`, a subset of the `x` rows`
+#'   For `left_join()`, all `x` rows.
+#'   For `right_join()`, a subset of `x` rows, followed by unmatch `y` rows.
+#'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
+#' * For all joins, rows will be duplicated if one row in `x` rows match
+#'   multiple rows in `y`.
+#' * Output columns include all `x` columns and all `y` columns. If the
+#'   columns have the same name (and aren't included `y`), `suffix`es are
+#'   added to disambiguate.
+#' * Output columns columns included `by` are coerced to common type across
+#'   `x` and `y`.
+#' * Groups are taken from `x`.
+#'
+#' For the filtering joins:
+#'
+#' * Rows are a subset of the input, but appear in the same order.
+#' * Columns are not modified.
+#' * Data frame attributes are preserved.
+#' * Groups are taken from `x`.
 #' @inheritParams inner_join
 #' @param x,y Data frames
 #' @param ... Included for compatibility with the generic; otherwise ignored.

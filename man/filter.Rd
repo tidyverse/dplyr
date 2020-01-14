@@ -19,8 +19,13 @@ condition evaluates to \code{TRUE} are kept.}
 is recalculated based on the resulting data, otherwise it is kept as is.}
 }
 \value{
-An object of the same type as \code{.data}. The columns will be left as is;
-the rows will be in different order.
+An object of the same type as \code{.data}.
+\itemize{
+\item Rows are a subset of the input, but appear in the same order.
+\item Columns are not modified.
+\item Groups are not modified.
+\item Data frame attributes are preserved.
+}
 }
 \description{
 Use \code{filter()} to choose rows/cases where conditions are true. Unlike

@@ -65,9 +65,25 @@
 #'   of the same name.
 #' @family single table verbs
 #' @return
-#' An object of the same type as `.data`. The rows will be left as; only
-#' the columns will be changed. `mutate()` preserves order of existing columns,
-#' adding new columns to the right. `transmute()` drops existing columns.
+#' An object of the same type as `.data`.
+#'
+#' For `mutate()`:
+#'
+#' * Rows are not affected.
+#' * Existing columns will be preserved unless explicitly modified.
+#' * New columns will be added to the right of existing columns.
+#' * Columns given value `NULL` will be removed
+#' * Groups will be updated if a grouping variable is mutated.
+#' * Data frame attributes are preserved.
+#'
+#' For `transmute()`:
+#'
+#' * Rows are not affected.
+#' * Apart from grouping variables, existing columns will be remove unless
+#'   explicitly kept.
+#' * Column order matches order of expressions.
+#' * Groups will be updated if a grouping variable is mutated.
+#' * Data frame attributes are preserved.
 #' @examples
 #' # Newly created variables are available immediately
 #' mtcars %>% as_tibble() %>% mutate(

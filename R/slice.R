@@ -14,7 +14,13 @@
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.
 #' @inheritParams filter
-#' @inherit arrange return
+#' @return
+#' An object of the same type as `.data`.
+#'
+#' * Each row may appear 0, 1, or many times in the output.
+#' * Columns are not modified.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
 #' @export
 #' @examples
 #' slice(mtcars, 1L)

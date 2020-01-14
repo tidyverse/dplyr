@@ -115,20 +115,29 @@ Only applies to \code{nest_join()} and \code{full_join()}.}
 If \code{NULL} the name of \code{y} is used.}
 }
 \value{
-An object of the same type as \code{x}. The order of the rows and columns will
+An object of the same type as \code{x}. The order of the rows and columns is
 preserved as much as possible.
 
-In mutating joins, rows may need to be duplicated, and for right/full joins,
-extra rows from \code{y} are be added to the bottom of \code{x}. Where the join keys
-are different in \code{x} and \code{y}, only keys from \code{x} will be included, unless
-\code{keep = TRUE}. The key columns in the output will be coerced to a common
-type. For example, if you're joining a integer vector with a numeric
-variable, the output will be a numeric vector, regardless of which is seen
-first.
+For the mutating joins:
+\itemize{
+\item For \code{inner_join()}, a subset of the \code{x} rows\code{For}left_join()\verb{, all }x\verb{rows. For}right_join()\verb{, a subset of }x\verb{rows, followed by unmatch}y\verb{rows. For}full_join()\verb{, all }x\verb{rows, followed by unmatched}y` rows.
+\item For all joins, rows will be duplicated if one row in \code{x} rows match
+multiple rows in \code{y}.
+\item Output columns include all \code{x} columns and all \code{y} columns. If the
+columns have the same name (and aren't included \code{y}), \code{suffix}es are
+added to disambiguate.
+\item Output columns columns included \code{by} are coerced to common type across
+\code{x} and \code{y}.
+\item Groups are taken from \code{x}.
+}
 
-We interpret filtering joins exactly if you created the equivalent call to
-\code{filter()}: the row order, the column order, and the column types are all
-preserved.
+For the filtering joins:
+\itemize{
+\item Rows are a subset of the input, but appear in the same order.
+\item Columns are not modified.
+\item Data frame attributes are preserved.
+\item Groups are taken from \code{x}.
+}
 }
 \description{
 This page describes the details of the \link{join} generics when applied to

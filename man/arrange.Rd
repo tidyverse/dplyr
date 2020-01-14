@@ -20,8 +20,13 @@ variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending orde
 grouped data frames only.}
 }
 \value{
-An object of the same type as \code{.data}. The columns will be left as is;
-the rows will be in different order.
+An object of the same type as \code{.data}.
+\itemize{
+\item All rows appear in the output, but (usually) in a different place.
+\item Columns are not modified.
+\item Groups are not modified.
+\item Data frame attributes are preserved.
+}
 }
 \description{
 Order data frame rows by the values of selected variables.
