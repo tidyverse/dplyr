@@ -1,5 +1,10 @@
 # dplyr 0.9.0 (in development)
 
+* `count()` and `add_count()` now preserve the type of the input (#4086).
+
+* `add_count(drop = )` is deprecated because it didn't actually affect
+  the output.
+
 * `full_join()` gains keep argument so that you can optionally choose to 
   keep both sets of join keys (#4589). This is useful when you want to
   figure out which rows were missing from either side.

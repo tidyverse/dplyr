@@ -20,14 +20,7 @@ count(
   .drop = group_by_drop_default(x)
 )
 
-add_count(
-  x,
-  ...,
-  wt = NULL,
-  sort = FALSE,
-  name = NULL,
-  .drop = group_by_drop_default(x)
-)
+add_count(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated())
 }
 \arguments{
 \item{x}{A \code{\link[=tbl]{tbl()}} to tally/count.}
@@ -49,10 +42,13 @@ it will error, and require you to specify the name.}
 
 \item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Variables to group by.}
 
-\item{.drop}{see \code{\link[=group_by]{group_by()}}}
+\item{.drop}{For \code{count()}: if \code{FALSE} will include counts for empty groups
+(i.e. for levels of factors that don't exist in the data). Deprecated for
+\code{add_count()} since it didn't actually affect the output.}
 }
 \value{
-A tbl, grouped the same way as the input.
+An object of the same type as \code{.data}. \code{count()} and \code{add_count()}
+group transiently, so the output has the same groups as the input.
 }
 \description{
 \code{count()} lets you quickly count the unique values of a variable, or

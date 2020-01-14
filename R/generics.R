@@ -28,3 +28,26 @@ row_slice.grouped_df <- function(x, i, ..., preserve = FALSE) {
 
   new_grouped_df(data, groups)
 }
+
+
+# new should be a tibble?
+# TODO: test that's true
+df_restore <- function(old, new) {
+  UseMethod("df_restore")
+}
+
+df_restore.data.frame <- function(old, new) {
+  attr_old <- attributes(old)
+  attr_new <- attributes(new)
+
+  to_copy <- setdiff(names(attr_old), c("row.names", "names", ".drop"))
+  attr_new[to_copy] <- attr_old[to_copy]
+
+  attributes(new) <- attr_new
+  new
+}
+
+df_restore.grouped_df <- function(old, new) {
+  group_vars <- intersect(group_vars(old), names(new))
+  grouped_df(new, group_vars, drop = group_by_drop_default(old))
+}
