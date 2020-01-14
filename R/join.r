@@ -285,9 +285,9 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  y_split <- vec_group_pos(y_key)
+  y_split <- vec_group_loc(y_key)
   matches <- vec_match(x_key, y_split$key)
-  y_loc <- y_split$pos[matches]
+  y_loc <- y_split$loc[matches]
 
   out <- set_names(x[vars$x$out], names(vars$x$out))
 
