@@ -1,5 +1,15 @@
 # dplyr 0.9.0 (in development)
 
+* dplyr now has a rudimentary, experimental, and stop-gap, extension mechanism
+  documented in `?dplyr_extending`
+
+* The implementation of all verbs has been carefully thought through. This 
+  mostly makes implementation simpler but should hopefully increase consistency,
+  and also makes it easier to adapt to dplyr to new data structures in the 
+  new future. Pragmatically, the biggest difference for most people will be
+  that each verb documents its return value in terms of rows, columns, groups,
+  and data frame attributes.
+  
 * Row names are now preserved when working with data frames.
 
 * `count()` and `add_count()` now preserve the type of the input (#4086).
