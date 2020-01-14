@@ -112,9 +112,7 @@ ungroup <- function(x, ...) {
 #' @export
 ungroup.grouped_df <- function(x, ...) {
   if (missing(...)) {
-    attr(x, "groups") <- NULL
-    attr(x, "class") <- c("tbl_df", "tbl", "data.frame")
-    x
+    as_tibble(x)
   } else {
     old_groups <- group_vars(x)
     to_remove <- tidyselect::vars_select(names(x), ...)

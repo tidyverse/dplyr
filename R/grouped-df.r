@@ -197,7 +197,7 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
 
 #' @export
 as_tibble.grouped_df <- function(x, ...) {
-  ungroup(x)
+  new_tibble(vec_data(x), nrow = nrow(x))
 }
 
 #' @importFrom tibble is_tibble
