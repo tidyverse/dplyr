@@ -42,7 +42,7 @@ slice <- function(.data, ..., .preserve = FALSE) {
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
   loc <- slice_rows(.data, ...)
-  row_slice(.data, loc, preserve = .preserve)
+  dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
 slice_rows <- function(.data, ...) {

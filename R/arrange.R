@@ -45,7 +45,7 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
   }
 
   loc <- arrange_rows(.data, ..., .by_group = .by_group)
-  row_slice(.data, loc)
+  dplyr_row_slice(.data, loc)
 }
 
 # Helpers -----------------------------------------------------------------

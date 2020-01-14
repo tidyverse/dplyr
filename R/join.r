@@ -304,7 +304,7 @@ join_mutate <- function(x, y, by, type,
   }
 
   out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
-  df_restore(x_out, out)
+  dplyr_df_restore(out, x_out)
 }
 
 join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
@@ -318,7 +318,7 @@ join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
     semi = vec_in(x_key, y_key),
     anti = !vec_in(x_key, y_key)
   )
-  row_slice(x, idx)
+  dplyr_row_slice(x, idx)
 }
 
 check_na_matches <- function(na_matches = c("na", "never")) {

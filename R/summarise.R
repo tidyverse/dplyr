@@ -88,7 +88,7 @@ summarise.data.frame <- function(.data, ...) {
     out <- vec_slice(out, rep(1:nrow(out), cols$size))
   }
 
-  col_modify(out, cols$new)
+  dplyr_col_modify(out, cols$new)
 }
 
 #' @export

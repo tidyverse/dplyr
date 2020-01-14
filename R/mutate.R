@@ -131,7 +131,7 @@ mutate <- function(.data, ...) {
 #' @export
 mutate.data.frame <- function(.data, ...) {
   cols <- mutate_cols(.data, ...)
-  col_modify(.data, cols)
+  dplyr_col_modify(.data, cols)
 }
 
 #' @rdname mutate
@@ -143,7 +143,7 @@ transmute <- function(.data, ...) {
 #' @export
 transmute.data.frame <- function(.data, ...) {
   cols <- mutate_cols(.data, ...)
-  .data <- col_modify(.data, cols)
+  .data <- dplyr_col_modify(.data, cols)
 
   out_cols <- c(
     # ensure group vars present

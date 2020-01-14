@@ -106,7 +106,7 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
   }
 
   loc <- filter_rows(.data, ...)[[1]]
-  row_slice(.data, loc, preserve = .preserve)
+  dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
 filter_rows <- function(.data, ...) {

@@ -96,7 +96,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by
   }
 
   out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
-  df_restore(x, out)
+  dplyr_df_restore(out, x)
 }
 
 #' @rdname tally
