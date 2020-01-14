@@ -220,8 +220,9 @@ mutate_new_columns <- function(.data, ...) {
 
   new_columns <- list()
 
-  tryCatch({
-    for (i in seq_along(dots)) {
+  for (i in seq_along(dots)) {
+    tryCatch({
+
       # a list in which each element is the result of
       # evaluating the quosure in the "sliced data mask"
       # recycling it appropriately to match the group size
@@ -264,9 +265,7 @@ mutate_new_columns <- function(.data, ...) {
         mask$add(name, chunks)
       }
 
-    }
-
-  },
+    },
     rlang_error_data_pronoun_not_found = function(e) {
       stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
     },
@@ -287,8 +286,8 @@ mutate_new_columns <- function(.data, ...) {
     },
     simpleError = function(e) {
       stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
-    }
-  )
+    })
+  }
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
 
