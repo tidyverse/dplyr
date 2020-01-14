@@ -1,5 +1,8 @@
 # dplyr 0.9.0 (in development)
 
+* New, experimental, `with_groups()` makes it easy to temporarily group or
+  ungroup (#4711).
+
 * dplyr now has a rudimentary, experimental, and stop-gap, extension mechanism
   documented in `?dplyr_extending`
 
