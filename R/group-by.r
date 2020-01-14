@@ -141,7 +141,7 @@ ungroup.data.frame <- function(x, ...) {
 #'   \item{groups}{Modified groups}
 #' @export
 #' @keywords internal
-group_by_prepare <- function(.data, ..., .dots = "DEFUNCT", .add = FALSE, add = deprecated()) {
+group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add = deprecated()) {
 
   if (!missing(add)) {
     lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )")
@@ -151,7 +151,8 @@ group_by_prepare <- function(.data, ..., .dots = "DEFUNCT", .add = FALSE, add = 
   new_groups <- enquos(...)
   if (!missing(.dots)) {
     # Used by dbplyr 1.4.2 so can't aggressively deprecate
-    new_groups <- c(new_groups, compat_lazy_dots(.dots))
+    lifecycle::deprecate_soft("1.0.0", "group_by(.dots = )")
+    new_groups <- c(new_groups, compat_lazy_dots(.dots, env = caller_env()))
   }
   new_groups <- new_groups[!map_lgl(new_groups, quo_is_missing)]
 
@@ -162,6 +163,14 @@ group_by_prepare <- function(.data, ..., .dots = "DEFUNCT", .add = FALSE, add = 
     group_names <- c(group_vars(.data), group_names)
   }
   group_names <- unique(group_names)
+
+  unknown <- setdiff(group_names, tbl_vars(.data))
+  if (length(unknown) > 0) {
+    abort(c(
+      "Must group by variables found in `.data`",
+      glue("Column `{unknown}` is not found")
+    ))
+  }
 
   list(
     data = .data,
@@ -210,9 +219,9 @@ add_computed_columns <- function(.data, vars) {
 
   if (length(mutate_vars) > 0L) {
     for (i in seq_along(mutate_vars)) {
-      new_columns <- mutate_new_columns(.data, !!!mutate_vars[i])
-      column_names[[which_need_update[i]]] <- names(new_columns)
-      .data <- mutate_finish(.data, new_columns)
+      cols <- mutate_cols(.data, !!!mutate_vars[i])
+      column_names[[which_need_update[i]]] <- names(cols$add)
+      .data[names(cols$add)] <- cols$add
     }
   }
 
@@ -221,59 +230,6 @@ add_computed_columns <- function(.data, vars) {
   list(data = .data, added_names = column_names)
 }
 
-#' Return grouping variables
-#'
-#' `group_vars()` returns a character vector; `groups()` returns a list of
-#' symbols.
-#'
-#' @family grouping functions
-#' @param x A [tbl()]
-#'
-#' @seealso [group_cols()] for matching grouping variables in
-#'   [selection contexts][select].
-#' @export
-#' @examples
-#' df <- tibble(x = 1, y = 2) %>% group_by(x, y)
-#' group_vars(df)
-#' groups(df)
-groups <- function(x) {
-  UseMethod("groups")
-}
-
-#' @export
-groups.grouped_df <- function(x) {
-  syms(group_vars(x))
-}
-
-#' @export
-groups.default <- function(x) NULL
-
-#' @rdname groups
-#' @export
-group_vars <- function(x) {
-  UseMethod("group_vars")
-}
-
-#' @export
-group_vars.grouped_df <- function(x) {
-  groups <- group_data(x)
-  if (is.character(groups)) {
-    # lazy grouped
-    groups
-  } else if (is.data.frame(groups)) {
-    # resolved, extract from the names of the data frame
-    head(names(groups), -1L)
-  } else if (is.list(groups)) {
-    # Need this for compatibility with existing packages that might
-    # use the old list of symbols format
-    map_chr(groups, as_string)
-  }
-}
-
-#' @export
-group_vars.default <- function(x) {
-  deparse_names(groups(x))
-}
 
 #' Default value for .drop argument of group_by
 #'

@@ -1,8 +1,7 @@
 #' Create or transform variables
 #'
 #' `mutate()` adds new variables and preserves existing ones;
-#' `transmute()` adds new variables and drops existing ones.  Both
-#' functions preserve the number of rows of the input.
+#' `transmute()` adds new variables and drops existing ones.
 #' New variables overwrite existing variables of the same name.
 #'
 #' @section Useful functions available in calculations of variables:
@@ -66,7 +65,10 @@
 #'   to drop a variable.  New variables overwrite existing variables
 #'   of the same name.
 #' @family single table verbs
-#' @return An object of the same class as `.data`.
+#' @return
+#' An object of the same type as `.data`. The rows will be left as; only
+#' the columns will be changed. `mutate()` preserves order of existing columns,
+#' adding new columns to the right. `transmute()` drops existing columns.
 #' @examples
 #' # Newly created variables are available immediately
 #' mtcars %>% as_tibble() %>% mutate(
@@ -128,6 +130,38 @@ mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
 
+#' @export
+mutate.data.frame <- function(.data, ...) {
+  cols <- mutate_cols(.data, ...)
+  if (is.null(cols)) {
+    return(.data)
+  }
+
+  .data <- .data[setdiff(names(.data), cols$delete)]
+  .data[names(cols$add)] <- cols$add
+
+  .data
+}
+
+#' @export
+mutate.grouped_df <- function(.data, ...) {
+  cols <- mutate_cols(.data, ...)
+  if (is.null(cols)) {
+    return(.data)
+  }
+
+  data <- as_tibble(.data)
+  data <- data[setdiff(names(.data), cols$delete)]
+  data[names(cols$add)] <- cols$add
+
+  groups <- group_data(.data)
+  if (any(cols$change %in% names(groups))) {
+    grouped_df(data, group_vars(.data), group_by_drop_default(.data))
+  } else {
+    new_grouped_df(data, groups)
+  }
+}
+
 #' @rdname mutate
 #' @export
 transmute <- function(.data, ...) {
@@ -135,51 +169,40 @@ transmute <- function(.data, ...) {
 }
 
 #' @export
-mutate.tbl_df <- function(.data, ...) {
-  new_columns <- mutate_new_columns(.data, ...)
-  mutate_finish(.data, new_columns)
-}
-
-#' @export
-mutate.data.frame <- function(.data, ...) {
-  as.data.frame(mutate(as_tibble(.data), ...))
-}
-
-
-#' @export
-transmute.tbl_df <- function(.data, ...) {
-  new_columns <- mutate_new_columns(.data, ...)
-
-  out <- .data[, group_vars(.data), drop = FALSE]
-  new_column_names <- names(new_columns)
-  for (i in seq_along(new_columns)) {
-    if (!inherits(new_columns[[i]], "rlang_zap")) {
-      out[[new_column_names[i]]] <-  new_columns[[i]]
-    }
-  }
-
-  # Preserve order of existing variables
-  out <- out[union(intersect(names(.data), names(out)), names(out))]
-
-  # copy back attributes
-  # TODO: challenge that with some vctrs theory
-  atts <- attributes(.data)
-  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
-  for(name in names(atts)) {
-    attr(out, name) <- atts[[name]]
-  }
-
-  out
-}
-
-#' @export
 transmute.data.frame <- function(.data, ...) {
-  as.data.frame(transmute(as_tibble(.data), ...))
+  cols <- mutate_cols(.data, ...)
+  if (is.null(cols)) {
+    return(.data[integer()])
+  }
+
+  .data <- .data[integer()]
+  .data[names(cols$add)] <- cols$add
+
+  .data
+}
+
+#' @export
+transmute.grouped_df <- function(.data, ...) {
+  cols <- mutate_cols(.data, ...)
+  if (is.null(cols)) {
+    return(.data[group_vars(.data)])
+  }
+
+  data <- as_tibble(.data)
+  data <- data[setdiff(group_vars(.data), names(cols$add))]
+  data[names(cols$add)] <- cols$add
+
+  groups <- group_data(.data)
+  if (any(cols$change %in% names(groups))) {
+    grouped_df(data, group_vars(.data), group_by_drop_default(.data))
+  } else {
+    new_grouped_df(data, groups)
+  }
 }
 
 # Helpers -----------------------------------------------------------------
 
-mutate_new_columns <- function(.data, ...) {
+mutate_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -194,7 +217,7 @@ mutate_new_columns <- function(.data, ...) {
   dots_names <- names(dots)
   auto_named_dots <- names(enquos(..., .named = TRUE))
   if (length(dots) == 0L) {
-    return(list())
+    return(NULL)
   }
 
   new_columns <- list()
@@ -208,9 +231,11 @@ mutate_new_columns <- function(.data, ...) {
     c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]], dots_names, i)
 
     if (is.null(chunks)) {
-      if (!is.null(dots_names) && dots_names[i] != "" && dots_names[[i]] %in% c(names(.data), names(new_columns))) {
+      if (!is.null(dots_names) && dots_names[i] != "") {
         new_columns[[dots_names[i]]] <- zap()
-        mask$remove(dots_names[i])
+
+        # we might get a warning if dots_names[i] does not exist
+        suppressWarnings(mask$remove(dots_names[i]))
       }
       next
     }
@@ -242,33 +267,11 @@ mutate_new_columns <- function(.data, ...) {
 
   }
 
-  new_columns
-}
+  is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
 
-mutate_finish <- function(.data, new_columns) {
-  if (!length(new_columns)) {
-    return(.data)
-  }
-
-  out <- .data
-  new_column_names <- names(new_columns)
-  for (i in seq_along(new_columns)) {
-    out[[new_column_names[i]]] <- if (!inherits(new_columns[[i]], "rlang_zap")) new_columns[[i]]
-  }
-
-  # Re-group if needed
-  groups <- group_vars(.data)
-  if (any(groups %in% names(new_columns))) {
-    out <- grouped_df(out, intersect(groups, names(.data)))
-  }
-
-  # copy back attributes
-  # TODO: challenge that with some vctrs theory
-  atts <- attributes(.data)
-  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
-  for(name in names(atts)) {
-    attr(out, name) <- atts[[name]]
-  }
-
-  out
+  list(
+    add = new_columns[!is_zap],
+    delete = names(new_columns)[is_zap],
+    change = names(new_columns)
+  )
 }

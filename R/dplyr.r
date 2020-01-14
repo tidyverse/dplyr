@@ -27,12 +27,10 @@
 #' @section Package configurations:
 #' These can be set on a package-by-package basis, or for the global environment.
 #' See [pkgconfig::set_config()] for usage.
-#' \describe{
-#' \item{`dplyr::na_matches`}{Should `NA` values be matched in data frame joins
-#'   by default? Default: `"na"` (for compatibility with dplyr v0.5.0 and earlier,
-#'   subject to change), alternative value: `"never"` (the default
-#'   for database backends, see [join.tbl_df()]).}
-#' }
+#'
+#' * `dplyr::na_matches`: Should `NA` values be matched in data frame joins
+#'   by default? Default: `"na"`. Alternative value: `"never"`.
+#'   See [join.data.frame] for details.
 #'
 #' @useDynLib dplyr, .registration = TRUE
 #' @keywords internal
@@ -44,3 +42,5 @@
 #' @importFrom pkgconfig get_config
 #' @importFrom lifecycle deprecated
 "_PACKAGE"
+
+utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows", "new_rows_sizes", "needs_recycle", "distinct_vars"))

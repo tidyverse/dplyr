@@ -39,11 +39,14 @@
 #'   The value should be an expression that returns a single value like
 #'   `min(x)`, `n()`, or `sum(is.na(y))`.
 #' @family single table verbs
-#' @return An object of the same class as `.data`.
+#' @return
+#' An object of the same class as `.data`. It will contain one column for
+#' each grouping variable and each expression you supply. It will have
+#' one row for each combination of the grouping variables.
 #'
-#'   If `.data` is grouped, then the last group will be dropped,
-#'   e.g.`df %>% group_by(x, y) %>% summarise(n())` will be grouped by
-#'   `x`. This happens because each group now occupies only a single row.
+#' If `.data` is grouped, then the last group will be dropped,
+#' e.g.`df %>% group_by(x, y) %>% summarise(n())` will be grouped by
+#' `x`. This happens because each group now occupies only a single row.
 #' @examples
 #' # A summary applied to ungrouped tbl returns a single row
 #' mtcars %>%
@@ -79,9 +82,31 @@ summarise <- function(.data, ...) {
 #' @export
 summarize <- summarise
 
-#' @importFrom tibble add_column
 #' @export
-summarise.tbl_df <- function(.data, ...) {
+summarise.data.frame <- function(.data, ...) {
+  cols <- summarise_cols(.data, ...)
+
+  out <- group_keys(.data)
+  if (!identical(cols$size, 1L)) {
+    out <- vec_slice(out, rep(1:nrow(out), cols$size))
+  }
+  out[names(cols$new)] <- cols$new
+  out
+}
+
+#' @export
+summarise.grouped_df <- function(.data, ...) {
+  out <- NextMethod()
+
+  group_vars <- group_vars(.data)
+  if (length(group_vars) > 1) {
+    out <- grouped_df(out, group_vars[-length(group_vars)], group_by_drop_default(.data))
+  }
+
+  out
+}
+
+summarise_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -94,66 +119,71 @@ summarise.tbl_df <- function(.data, ...) {
   dots_names <- names(dots)
   auto_named_dots <- names(enquos(..., .named = TRUE))
 
-  summaries <- list()
+  cols <- list()
 
   .size <- 1L
+  chunks <- vector("list", length(dots))
 
-  for (i in seq_along(dots)) {
-    # a list in which each element is the result of
-    # evaluating the quosure in the "sliced data mask"
-    #
-    # TODO: reinject hybrid evaluation at the R level
-    quo <- dots[[i]]
-    chunks <- mask$eval_all_summarise(quo, dots_names, i)
+  tryCatch({
 
-    # check that vec_size() of chunks is compatible with .size
-    # and maybe update .size
-    .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks)
+    # generate all chunks and monitor the sizes
+    for (i in seq_along(dots)) {
+      quo <- dots[[i]]
 
-    result <- vec_c(!!!chunks)
+      # a list in which each element is the result of
+      # evaluating the quosure in the "sliced data mask"
+      #
+      # TODO: reinject hybrid evaluation at the R level
+      chunks[[i]] <- mask$eval_all_summarise(quo, dots_names, i)
 
-    if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
-      summaries[names(result)] <- result
+      # check that vec_size() of chunks is compatible with .size
+      # and maybe update .size
+      .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks[[i]])
 
-      # remember each result separately
-      map2(seq_along(result), names(result), function(i, nm) {
-        mask$add(nm, pluck(chunks, i))
-      })
-    } else {
-      # treat as a single output otherwise
-      summaries[[ auto_named_dots[i] ]] <-  result
+      result_type <- vec_ptype_common(!!!chunks[[i]])
 
-      # remember
-      mask$add(auto_named_dots[i], chunks)
+      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
+        # remember each result separately
+        map2(seq_along(result_type), names(result_type), function(j, nm) {
+          mask$add(nm, pluck(chunks[[i]], j))
+        })
+      } else {
+        # remember
+        mask$add(auto_named_dots[i], chunks[[i]])
+      }
     }
 
-  }
+    # materialize columns
+    for (i in seq_along(dots)) {
+      if (!identical(.size, 1L)) {
+        sizes <- .Call(`dplyr_vec_sizes`, chunks[[i]])
+        if (!identical(sizes, .size)) {
+          chunks[[i]] <- map2(chunks[[i]], .size, vec_recycle, x_arg = glue("..{i}"))
+        }
+      }
 
-  out <- group_keys(.data)
-  if (!identical(.size, 1L)) {
-    out <- vec_slice(out, rep(seq2(1L, nrow(out)), .size))
-  }
+      result <- vec_c(!!!chunks[[i]])
 
-  for (i in seq_along(summaries)) {
-    out[[names(summaries)[i]]] <- summaries[[i]]
-  }
+      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
+        cols[names(result)] <- result
+      } else {
+        cols[[ auto_named_dots[i] ]] <-  result
+      }
+    }
 
-  if (is_grouped_df(.data) && length(group_vars(.data)) > 1) {
-    out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))
-  }
+  },
+  vctrs_error_incompatible_type = function(e) {
+    stop_summarise_combine(conditionMessage(e), index = i, dots = dots)
+  },
+  simpleError = function(e) {
+    stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
+  },
+  dplyr_summarise_unsupported_type = function(cnd) {
+    stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
+  },
+  dplyr_summarise_incompatible_size = function(cnd) {
+    stop_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
+  })
 
-  # copy back attributes
-  # TODO: challenge that with some vctrs theory
-  atts <- attributes(.data)
-  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
-  for(name in names(atts)) {
-    attr(out, name) <- atts[[name]]
-  }
-
-  out
-}
-
-#' @export
-summarise.data.frame <- function(.data, ...) {
-  as.data.frame(summarise(as_tibble(.data), ...))
+  list(new = cols, size = .size)
 }

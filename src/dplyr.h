@@ -24,9 +24,6 @@ struct symbols {
   static SEXP dot_dot_group_number;
   static SEXP mask;
   static SEXP caller;
-
-  static SEXP stop_filter_incompatible_size;
-  static SEXP stop_filter_incompatible_type;
 };
 
 struct vectors {
@@ -37,6 +34,8 @@ struct vectors {
 
 void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t group_index, R_xlen_t nres, R_xlen_t n, SEXP data);
 void stop_filter_incompatible_type(R_xlen_t i, SEXP column_name, R_xlen_t group_index, SEXP result, SEXP data);
+void stop_summarise_unsupported_type(SEXP result);
+void stop_summarise_incompatible_size(int size, R_xlen_t index_group);
 
 } // namespace dplyr
 
@@ -56,7 +55,6 @@ SEXP dplyr_cumall(SEXP x);
 SEXP dplyr_cumany(SEXP x);
 SEXP dplyr_cummean(SEXP x);
 SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_nr_df, SEXP s_check_bounds);
-SEXP dplyr_group_keys_impl(SEXP data);
 SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private, SEXP env_context);
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i);

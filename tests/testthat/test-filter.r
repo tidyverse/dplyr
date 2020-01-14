@@ -206,15 +206,6 @@ test_that("filter, slice and arrange preserves attributes (#1064)", {
 
   res <- df %>% arrange(x) %>% attr("meta")
   expect_equal(res, "this is important")
-
-  res <- df %>% summarise(n = n()) %>% attr("meta")
-  expect_equal(res, "this is important")
-
-  res <- df %>% group_by(g1) %>% summarise(n = n()) %>% attr("meta")
-  expect_equal(res, "this is important")
-
-  res <- df %>% group_by(g1, g2) %>% summarise(n = n()) %>% attr("meta")
-  expect_equal(res, "this is important")
 })
 
 test_that("filter works with rowwise data (#1099)", {
@@ -313,18 +304,18 @@ test_that("hybrid function row_number does not trigger warning in filter (#3750)
 })
 
 test_that("filter() preserve order across groups (#3989)", {
-  tb <- tibble(g = c(1, 2, 1, 2, 1), time = 5:1, x = 5:1)
-  res1 <- tb %>%
+  df <- tibble(g = c(1, 2, 1, 2, 1), time = 5:1, x = 5:1)
+  res1 <- df %>%
     group_by(g) %>%
     filter(x <= 4) %>%
     arrange(time)
 
-  res2 <- tb %>%
+  res2 <- df %>%
     group_by(g) %>%
     arrange(time) %>%
     filter(x <= 4)
 
-  res3 <- tb %>%
+  res3 <- df %>%
     filter(x <= 4) %>%
     arrange(time) %>%
     group_by(g)
@@ -409,7 +400,7 @@ test_that("filter() allows named constants that resolve to logical vectors (#461
 })
 
 test_that("filter() gives useful error messages", {
-  verify_output(test_path("test-filter-error.txt"), {
+  verify_output(test_path("test-filter-errors.txt"), {
     "# wrong type"
     iris %>%
       group_by(Species) %>%
@@ -449,5 +440,8 @@ test_that("filter() gives useful error messages", {
     filter(mtcars, x = 1)
     filter(mtcars, y > 2, z = 3)
     filter(mtcars, TRUE, x = 1)
+
+    "# ts "
+    filter(ts(1:10))
   })
 })

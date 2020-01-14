@@ -40,6 +40,11 @@ test_that("grouping by constant adds column (#410)", {
   expect_equal(nrow(grouped), 1L)
 })
 
+test_that(".dots is soft deprecated", {
+  df <- tibble(x = 1, y = 1)
+  expect_warning(gf <- group_by(df, .dots = "x"), "deprecated")
+})
+
 # Test full range of variable types --------------------------------------------
 
 
@@ -81,23 +86,6 @@ test_that("group_by uses shallow copy", {
   )
 })
 
-test_that("group_by handles NA in factors #341", {
-  d <- tibble(x = 1:3, f = factor(c("a", "b", NA)))
-  expect_warning(g <- group_by(d, f), "Factor `f` contains implicit NA")
-  expect_equal(group_size(g), rep(1L, 3L))
-
-  d <- tibble(
-    f1 = factor(c(1,1,2,2)),
-    f2 = factor(c(1,2,1,NA)),
-    x  = 1:4
-  )
-  expect_warning(g <- group_by(d, f1, f2))
-  expect_equal(group_size(g), c(1L,1L,1L,1L))
-
-  expect_warning(g <- group_by(d, f1, f2, .drop = FALSE))
-  expect_equal(group_size(g), c(1L,1L,1L,0L,1L))
-})
-
 test_that("group_by orders by groups. #242", {
   df <- data.frame(a = sample(1:10, 3000, replace = TRUE)) %>% group_by(a)
   expect_equal(group_data(df)$a, 1:10)
@@ -127,20 +115,6 @@ test_that("group_by() handles list as grouping variables", {
 test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
   res <- mtcars %>% group_by(vs) %>% select(mpg)
   expect_equal(names(res), c("vs", "mpg"))
-})
-
-test_that("grouped_df errors on NULL labels (#398)", {
-  m <- mtcars %>% group_by(cyl)
-  attr(m, "groups") <- NULL
-  expect_error(m %>% do(mpg = mean(.$mpg)))
-})
-
-test_that("grouped_df errors on non-existent var (#2330)", {
-  df <- data.frame(x = 1:5)
-  expect_error(
-    grouped_df(df, list(quote(y)), FALSE),
-    "Column `y` is unknown"
-  )
 })
 
 test_that("group_by only creates one group for NA (#401)", {
@@ -189,20 +163,6 @@ test_that("group_by works with zero-row data frames (#486)", {
   expect_equal(dim(x), c(0, 2))
   expect_groups(x, "g")
   expect_equal(group_size(x), integer(0))
-})
-
-test_that("grouped_df requires a list of symbols (#665)", {
-  features <- list("feat1", "feat2", "feat3")
-  # error message by assertthat
-  expect_error(grouped_df(data.frame(feat1 = 1, feat2 = 2, feat3 = 3), features))
-})
-
-test_that("group_by gives meaningful message with unknow column (#716)", {
-  expect_error(
-    group_by(iris, wrong_name_of_variable),
-    "Column `wrong_name_of_variable` is unknown",
-    fixed = TRUE
-  )
 })
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
@@ -526,3 +486,17 @@ test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {
     iris %>% group_by(Species, across(starts_with("Sepal"), round))
   )
 })
+
+# Errors ------------------------------------------------------------------
+
+test_that("group_by() and ungroup() give meaningful error messages", {
+  verify_output(test_path("test-group-by-errors.txt"), {
+    df <- tibble(x = 1, y = 2)
+
+    df %>% group_by(unknown)
+
+    df %>% ungroup(x)
+    df %>% group_by(x, y) %>% ungroup(z)
+  })
+})
+

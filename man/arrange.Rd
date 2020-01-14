@@ -2,12 +2,12 @@
 % Please edit documentation in R/arrange.R
 \name{arrange}
 \alias{arrange}
-\alias{arrange.tbl_df}
+\alias{arrange.data.frame}
 \title{Arrange rows by variables}
 \usage{
-arrange(.data, ...)
+arrange(.data, ..., .by_group = FALSE)
 
-\method{arrange}{tbl_df}(.data, ..., .by_group = FALSE)
+\method{arrange}{data.frame}(.data, ..., .by_group = FALSE)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -20,7 +20,8 @@ variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending orde
 grouped data frames only.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same type as \code{.data}. The columns will be left as is;
+the rows will be in different order.
 }
 \description{
 Order data frame rows by the values of selected variables.

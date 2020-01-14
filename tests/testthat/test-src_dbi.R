@@ -1,9 +1,7 @@
-test_that("src_sqlite() errs if path does not exist", {
+test_that("src_sqlite() gives meaningful error messages", {
   skip_if_not_installed("dbplyr")
 
-  expect_error(
-    src_sqlite(":memory:"),
-    "`path` must already exist, unless `create` = TRUE",
-    fixed = TRUE
-  )
+  verify_output(test_path("test-src_dbi-errors.txt"), {
+    src_sqlite(":memory:")
+  })
 })

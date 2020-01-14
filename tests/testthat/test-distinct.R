@@ -67,16 +67,6 @@ test_that("empty grouped distinct equivalent to empty ungrouped", {
   expect_equal(df1, df2)
 })
 
-test_that("distinct gives a warning when selecting an unknown column (#3140)", {
-  df <- tibble(g = c(1, 2), x = c(1, 2))
-
-  verify_output(test_path("test-distinct-error.txt"), {
-    df %>% distinct(aa, x)
-    df %>% distinct(aa, bb)
-    df %>% distinct(.data$aa)
-  })
-})
-
 test_that("distinct on a new, mutated variable is equivalent to mutate followed by distinct", {
   df <- tibble(g = c(1, 2), x = c(1, 2))
 
@@ -150,4 +140,18 @@ test_that("distinct() handles auto splicing", {
     iris %>% mutate(across(starts_with("Sepal"), round)) %>% distinct(Sepal.Length, Sepal.Width),
     iris %>% distinct(across(starts_with("Sepal"), round))
   )
+})
+
+
+# Errors ------------------------------------------------------------------
+
+
+test_that("distinct gives a warning when selecting an unknown column (#3140)", {
+  df <- tibble(g = c(1, 2), x = c(1, 2))
+
+  verify_output(test_path("test-distinct-errors.txt"), {
+    df %>% distinct(aa, x)
+    df %>% distinct(aa, bb)
+    df %>% distinct(.data$aa)
+  })
 })

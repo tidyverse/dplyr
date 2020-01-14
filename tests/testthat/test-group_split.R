@@ -74,7 +74,7 @@ test_that("group_split(keep=FALSE) does not try to remove virtual grouping colum
 })
 
 test_that("group_split() respects .drop", {
-  keys <- tibble(f = factor("b", levels = c("a", "b", "c"))) %>%
-    group_keys(f, .drop = TRUE)
-  expect_equal(nrow(keys), 1L)
+  chunks <- tibble(f = factor("b", levels = c("a", "b", "c"))) %>%
+    group_split(f, .drop = TRUE)
+  expect_equal(length(chunks), 1L)
 })

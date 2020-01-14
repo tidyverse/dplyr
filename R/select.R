@@ -1,27 +1,38 @@
 #' Select/rename variables by name
 #'
-#' Choose or rename variables from a tbl.
-#' `select()` keeps only the variables you mention; `rename()`
-#' keeps all variables.
-#'
-#' These functions work by column index, not value; thus, an expression
-#' like `select(data.frame(x = 1:5, y = 10), z = x+1)` does not create a variable
-#' with values `2:6`. (In the current implementation, the expression `z = x+1`
-#' wouldn't do anything useful.)  To calculate using column values, see
-#' [mutate()]/[transmute()].
+#' Select or rename variables in a data frame, using a concise mini-language
+#' that makes it easy to refer to variables based on their name (e.g.
+#' `a:f` selects all columns between `a` on the left to `f` on the right).
+#' You can also use predicate functions like [is.numeric] to select variables
+#' based on their properties.
 #'
 #' @section Useful functions:
 #' As well as using existing functions like `:` and `c()`, there are
 #' a number of special functions that only work inside `select()`:
 #'
-#' * [starts_with()], [ends_with()], [contains()]
-#' * [matches()]
-#' * [num_range()]
-#' * [one_of()]
-#' * [everything()]
-#' * [group_cols()]
+#' * [any_of()], [all_of()].
+#' * [starts_with()], [ends_with()], [contains()], [matches()].
+#' * [num_range()].
+#' * [group_cols()], [last_col()].
+#' * [everything()].
 #'
-#' To drop variables, use `-`.
+#' You can also use predicate functions (functions that return a single `TRUE`
+#' or `FALSE`) like `is.numeric`, `is.character`, and `is.factor`
+#' to select variables with specific types.
+#'
+#' Selections can be combined using Boolean algebra like:
+#'
+#' * `starts_with("a") & ends_with("x")`: start with "a" and end with "x"
+#' * `starts_with("a") | starts_with("b")`: start with "a" or "b"
+#' * `!starts_with("a")`: doesn't start with "a"
+#'
+#' To remove variables from a selection, use `-`:
+#'
+#' * `starts_with("a") - ends_width("x")`: start with "a" and doesn't end with "x"
+#' * `is.numeric - c(a, b, c)`: numeric variables except for `a`, `b`, `c`.
+#'
+#' See [select helpers][tidyselect::select_helpers] for more details and
+#' examples.
 #'
 #' Note that except for `:`, `-` and `c()`, all complex expressions
 #' are evaluated outside the data frame context. This is to prevent
@@ -36,45 +47,41 @@
 #' easy to apply a renaming function to a selection of variables.
 #'
 #' @inheritParams filter
-#' @inheritSection filter Tidy data
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
 #'   expressions separated by commas. You can treat variable names like they
 #'   are positions, so you can use expressions like `x:y` to select ranges of
 #'   variables.
 #'
-#'   Positive values select variables; negative values drop variables.
-#'   If the first expression is negative, `select()` will automatically
-#'   start with all variables.
-#'
-#'   Use named arguments, e.g. `new_name = old_name`, to rename selected variables.
-#'   See [select helpers][tidyselect::select_helpers] for more details and
-#'   examples about tidyselect helpers such as `starts_with()`, `everything()`, ...
-#' @return An object of the same class as `.data`.
+#'   Use named arguments, e.g. `new_name = old_name`, to rename selected
+#'   variables.
+#' @return
+#' An object of the same type as `.data`. The rows will be left as; only
+#' the columns (position and/or name) will be changed.
 #' @family single table verbs
 #' @export
 #' @examples
 #' iris <- as_tibble(iris) # so it prints a little nicer
 #' select(iris, starts_with("Petal"))
 #' select(iris, ends_with("Width"))
-#'
-#' # Move Species variable to the front
-#' select(iris, Species, everything())
-#'
-#' # Move Sepal.Length variable to back
-#' # first select all variables except Sepal.Length, then re select Sepal.Length
-#' select(iris, -Sepal.Length, Sepal.Length)
+#' select(iris, !starts_with("Petal"))
+#' select(iris, starts_with("Petal") & ends_with("Width"))
+#' select(iris, is.numeric)
 #'
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
 #' df <- as_tibble(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 #' select(df, V4:V6)
 #' select(df, num_range("V", 4:6))
 #'
-#' # Drop variables with -
-#' select(iris, -starts_with("Petal"))
-#'
 #' # Select the grouping variables:
 #' starwars %>% group_by(gender) %>% select(group_cols())
 #'
+#' # Moving variables around --------------------------
+#' # Move `Species` to the front
+#' select(iris, Species, everything())
+#'
+#' # Move `Sepal.Length` to the back: first select everything except
+#' # `Sepal.Length`, then select `Sepal.Length`
+#' select(iris, !Sepal.Length, Sepal.Length)
 #'
 #' # Renaming -----------------------------------------
 #' # * select() keeps only the variables you specify
@@ -99,77 +106,72 @@ rename <- function(.data, ...) {
   UseMethod("rename")
 }
 
+#' @export
+select.data.frame <- function(.data, ...) {
+  loc <- tidyselect::eval_select(expr(c(...)), .data)
+  set_names(.data[loc], names(loc))
+}
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
-  vars <- ensure_group_vars(vars, .data, notify = TRUE)
-  select_impl(.data, vars)
-}
+  loc <- tidyselect::eval_select(expr(c(...)), .data)
+  loc <- ensure_group_vars(loc, .data, notify = TRUE)
+  group_loc <- group_loc(.data, loc)
 
-#' @export
-select.data.frame <- function(.data, ...) {
-  # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
-  select_impl(.data, vars)
-}
+  data <- as.data.frame(.data)
+  groups <- group_data(.data)
+  group_loc <- c(group_loc, .rows = ncol(groups))
 
+  data <- set_names(data[loc], names(loc))
+  groups <- set_names(groups[group_loc], names(group_loc))
 
-#' @export
-rename.grouped_df <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data), ...)
-  select_impl(.data, vars)
+  new_grouped_df(data, groups)
 }
 
 #' @export
 rename.data.frame <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data), !!!enquos(...))
-  select_impl(.data, vars)
+  loc <- tidyselect::eval_rename(expr(c(...)), .data)
+  names(.data)[loc] <- names(loc)
+
+  .data
 }
 
+#' @export
+rename.grouped_df <- function(.data, ...) {
+  loc <- tidyselect::eval_rename(expr(c(...)), .data)
+  group_loc <- group_loc(.data, loc)
+
+  data <- as.data.frame(.data)
+  groups <- group_data(.data)
+
+  names(data)[loc] <- names(loc)
+  names(groups)[group_loc] <- names(group_loc)
+
+  new_grouped_df(data, groups)
+}
 
 # Helpers -----------------------------------------------------------------
 
-select_impl <- function(.data, vars) {
-  positions <- match(vars, names(.data))
-  if (any(test <- is.na(positions))) {
-    wrong <- which(test)[1L]
-    abort(
-      glue(
-        "invalid column index : {wrong} for variable: '{new}' = '{old}'",
-        new = names(vars)[wrong], vars[wrong]
-      ),
-      .subclass = "dplyr_select_wrong_selection"
-    )
-  }
-
-  out <- set_names(.data[, positions, drop = FALSE], names(vars))
-
-  if (is_grouped_df(.data)) {
-    # we might have to alter the names of the groups metadata
-    groups <- attr(.data, "groups")
-    group_vars <- c(vars[vars %in% names(groups)], .rows = ".rows")
-    groups <- select_impl(groups, group_vars)
-
-    out <- new_grouped_df(out, groups)
-  }
-
-  out
+group_loc <- function(data, loc, force_group = FALSE) {
+  vars <- set_names(names(data)[loc], names(loc))
+  group_vars <- vars[vars %in% group_vars(data)]
+  set_names(match(group_vars, group_vars(data)), names(group_vars))
 }
 
-ensure_group_vars <- function(vars, data, notify = TRUE) {
-  group_names <- group_vars(data)
-  missing <- setdiff(group_names, vars)
+ensure_group_vars <- function(loc, data, notify = TRUE) {
+  group_loc <- match(group_vars(data), names(data))
+  missing <- setdiff(group_loc, loc)
 
   if (length(missing) > 0) {
+    vars <- names(data)[missing]
     if (notify) {
       inform(glue(
         "Adding missing grouping variables: ",
-        paste0("`", missing, "`", collapse = ", ")
+        paste0("`", names(data)[missing], "`", collapse = ", ")
       ))
     }
-    vars <- c(set_names(missing, missing), vars)
+    loc <- c(set_names(missing, vars), loc)
   }
 
-  vars
+  loc
 }

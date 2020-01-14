@@ -67,12 +67,6 @@ test_that("empty selection does not select everything (#2009, #1989)", {
   )
 })
 
-test_that("error is thrown with improper additional arguments", {
-  # error messages by base R, not checked
-  expect_error(mutate_all(mtcars, round, 0, 0))
-  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE))
-})
-
 test_that("predicate can be quoted", {
   expected <- mutate_if(mtcars, is_integerish, mean)
   expect_identical(mutate_if(mtcars, "is_integerish", mean), expected)
@@ -119,15 +113,6 @@ test_that("mutate and transmute variants does not mutate grouping variable (#335
 
   expect_identical(transmute_at(tbl, vars(-group_cols()), sqrt), res)
   expect_identical(mutate_at(tbl, vars(-group_cols()), sqrt), res)
-})
-
-test_that("summarise_at refuses to treat grouping variables (#3351, #3480)", {
-  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
-    group_by(gr1)
-
-  expect_error(
-    summarise_at(tbl, vars(gr1), mean)
-  )
 })
 
 test_that("summarise variants does not summarise grouping variable (#3351, #3480)", {
@@ -301,12 +286,6 @@ test_that("colwise mutate handles formulas with constants (#4374)", {
   )
 })
 
-test_that("colwise mutate gives correct error message if column not found (#4374)", {
-  expect_error(
-    mutate_at(tibble(), "test", ~ 1)
-  )
-})
-
 test_that("colwise mutate handle named chr vectors", {
   res <- tibble(x = 1:10) %>%
     mutate_at(c(y = "x"), mean)
@@ -316,9 +295,51 @@ test_that("colwise mutate handle named chr vectors", {
 test_that("colwise verbs soft deprecate quosures (#4330)", {
   expect_warning(mutate_at(mtcars, vars(mpg), quo(mean(.))), "quosure")
   expect_warning(summarise_at(mtcars, vars(mpg), quo(mean(.))), "quosure")
+})
 
-  expect_equal(
-    transmute_at(mtcars, vars(mpg), ~. > mean(.)),
-    transmute_at(mtcars, vars(mpg), quo(. > mean(.)))
-  )
+
+test_that("rlang lambda inherit from the data mask (#3843)", {
+  res <- iris %>%
+    mutate_at(
+      vars(starts_with("Petal")),
+      ~ ifelse(Species == "setosa" & . < 1.5, NA, .)
+    )
+  expected <- iris %>%
+    mutate(
+      Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
+      Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
+    )
+  expect_identical(res, expected)
+
+  res <- iris %>%
+    group_by(Species) %>%
+    mutate_at(
+      vars(starts_with("Petal")),
+      ~ ifelse(Species == "setosa" & . < 1.5, NA, .)
+    )
+  expected <- iris %>%
+    group_by(Species) %>%
+    mutate(
+      Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
+      Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
+    )
+  expect_identical(res, expected)
+})
+
+# Errors --------------------------------------------
+
+test_that("colwise mutate gives meaningful error messages", {
+  verify_output(test_path("test-colwise-mutate-errors.txt"), {
+    "# column not found"
+    mutate_at(tibble(), "test", ~ 1)
+
+    "# not summarising grouping variables"
+    tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8)
+    tbl <- group_by(tbl, gr1)
+    summarise_at(tbl, vars(gr1), mean)
+
+    "# improper additional arguments"
+    mutate_all(mtcars, round, 0, 0)
+    mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
+  })
 })

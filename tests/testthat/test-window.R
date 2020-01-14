@@ -108,6 +108,8 @@ test_that("order_by() works in arbitrary envs (#2297)", {
   )
 })
 
-test_that("order_by() fails when not supplied a call (#3065)", {
-  expect_error(order_by(NULL, !!1L), "`call` must be a function call, not an integer vector")
+test_that("order_by() give meaningful errors", {
+  verify_output(test_path("test-window-errors.txt"), {
+    order_by(NULL, !!1L)
+  })
 })

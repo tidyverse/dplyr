@@ -1,0 +1,17 @@
+> if_else(1:10, 1, 2)
+Error: `condition` must be a logical vector, not an integer vector
+
+> if_else(1:3 < 2, 1:2, 1:3)
+Error: `true` must be length 3 (length of `condition`) or one, not 2
+
+> if_else(1:3 < 2, 1:3, 1:2)
+Error: `false` must be length 3 (length of `condition`) or one, not 2
+
+> if_else(1:3 < 2, 1, 1L)
+Error: `false` must be a double vector, not an integer vector
+
+> x <- factor("x")
+> y <- ordered("x")
+> if_else(1:3 < 2, x, y)
+Error: `false` must have class `factor`, not class `ordered/factor`
+

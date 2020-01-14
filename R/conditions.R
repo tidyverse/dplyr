@@ -1,112 +1,128 @@
-stop_dplyr <- function(message = NULL, .subclass = NULL, ...) {
-  abort(message, .subclass = c(.subclass, "dplyr_error"), ...)
+glue_c <- function(..., .envir = caller_env()) {
+  map_chr(c(...), glue, .envir = .envir)
 }
 
-#' @export
-cnd_header.dplyr_error_filter_size <- function(cnd) {
-  glue_data(cnd, "`filter()` argument `..{index_expression}` is incorrect")
-}
-
-#' @export
-cnd_body.dplyr_error_filter_size <- function(cnd) {
-  bullets <- c(
-    x = glue_data(cnd, "It must be of size {expected_size} or 1, not size {size}")
-  )
-  if (is_grouped_df(cnd$data)) {
-    bullets <- c(bullets,
-      i = glue_data(cnd, "The error occured in group {index_group}")
-    )
+err_vars <- function(x) {
+  if (is.logical(x)) {
+    x <- which(x)
   }
-  format_error_bullets(bullets)
+  if (is.character(x)) {
+    x <- encodeString(x, quote = "`")
+  }
+
+  glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ")
 }
+
 
 stop_filter_incompatible_size <- function(index_expression, index_group, size, expected_size, data) {
-  stop_dplyr(.subclass = "dplyr_error_filter_size",
-    index_expression = index_expression,
-    index_group = index_group,
-    size = size,
-    expected_size = expected_size,
-    data = data
-  )
-}
-
-
-#' @export
-cnd_header.dplyr_error_filter_type <- function(cnd) {
-  if (!is.null(cnd$index_column_name)) {
-    glue_data(cnd, "`filter()` argument `..{index_expression}${index_column_name}` is incorrect")
-  } else {
-    glue_data(cnd, "`filter()` argument `..{index_expression}` is incorrect")
-  }
-
-}
-
-#' @export
-cnd_body.dplyr_error_filter_type <- function(cnd) {
-  bullets <- c(
-    x = glue_data(cnd, "It must be a logical vector, not a {vec_ptype_full(result)}")
-  )
-  if (is_grouped_df(cnd$data)) {
-    bullets <- c(bullets,
-      i = glue_data(cnd, "The error occured in group {index_group}")
-    )
-  }
-  format_error_bullets(bullets)
+  abort(glue_c(
+    "`filter()` argument `..{index_expression}` is incorrect",
+    x = "It must be of size {expected_size} or 1, not size {size}",
+    i = if(is_grouped_df(data)) "The error occured in group {index_group}"
+  ))
 }
 
 stop_filter_incompatible_type <- function(index_expression, index_column_name, index_group, result, data) {
-  stop_dplyr(.subclass = "dplyr_error_filter_type",
-    index_expression = index_expression,
-    index_column_name = index_column_name,
-    index_group = index_group,
-    result = result,
-    data = data
-  )
+  abort(glue_c(
+    if (!is.null(index_column_name)) {
+      "`filter()` argument `..{index_expression}${index_column_name}` is incorrect"
+    } else {
+      "`filter()` argument `..{index_expression}` is incorrect"
+    },
+    x = "It must be a logical vector, not a {vec_ptype_full(result)}",
+    i = if(is_grouped_df(data)) "The error occured in group {index_group}"
+  ))
 }
 
-#' @export
-cnd_header.dplyr_error_filter_eval <- function(cnd) {
-  glue_data(cnd, "`filter()` argument `..{index_expression}` errored")
-}
+stop_eval_tidy <- function(e, index, dots, fn) {
+  data  <- peek_mask()$full_data()
+  group <- peek_mask()$get_current_group()
 
-#' @export
-cnd_body.dplyr_error_filter_eval <- function(cnd) {
-  bullets <- c(x = cnd$message)
-  if(is_grouped_df(cnd$data)){
-    bullets <- c(bullets, c(i = glue_data(cnd, "The error occured in group {group}")))
-  }
-  format_error_bullets(bullets)
-}
+  expr  <- as_label(quo_get_expr(dots[[index]]))
+  name  <- arg_name(dots, index)
 
-stop_filter_eval_tidy <- function(e, index_expression) {
-  stop_dplyr(
-    conditionMessage(e),
-    "dplyr_error_filter_eval",
-    index_expression = index_expression,
-    data = peek_mask()$full_data(),
-    group = peek_mask()$get_current_group()
-  )
-}
-
-#' @export
-cnd_header.dplyr_error_filter_named <- function(cnd) {
-  glue_data(cnd, "`filter()` argument `..{index}` is named")
-}
-
-#' @export
-cnd_body.dplyr_error_filter_named <- function(cnd) {
-  bullets <- c(
-    i = "This usually means that you've used `=` instead of `==`",
-    i = glue_data(cnd, "Did you mean `{name} == {as_label(expr)}` ?")
-  )
-  format_error_bullets(bullets)
+  abort(glue_c(
+    "`{fn}()` argument `{name}` errored",
+    x = conditionMessage(e),
+    i = "`{name}` is {expr}",
+    i = if(is_grouped_df(data)) "The error occured in group {group}"
+  ))
 }
 
 stop_filter_named <- function(index, expr, name) {
-  stop_dplyr(
-    .subclass = "dplyr_error_filter_named",
-    index = index,
-    expr = expr,
-    name = name
-  )
+  abort(glue_c(
+    "`filter()` argument `..{index}` is named",
+    i = "This usually means that you've used `=` instead of `==`",
+    i = "Did you mean `{name} == {as_label(expr)}` ?"
+  ))
+}
+
+arg_name <- function(quos, index) {
+  name  <- names(quos)[index]
+  if (name == "") {
+    name <- glue("..{index}")
+  }
+  name
+}
+
+stop_summarise_unsupported_type <- function(result, index, dots) {
+  # called from the C++ code
+  if(missing(dots)) {
+    abort(class = "dplyr_summarise_unsupported_type", result = result)
+  }
+
+  data  <- peek_mask()$full_data()
+  group <- peek_mask()$get_current_group()
+  expr  <- as_label(quo_get_expr(dots[[index]]))
+  name  <- arg_name(dots, index)
+
+  # called again with context
+  abort(glue_c(
+    "`summarise()` argument `{name}` must be a vector",
+    x = "Result should be a vector, not a {typeof(result)}",
+    i = "`{name}` is {expr}",
+    i = if(is_grouped_df(data)) "The error occured in group {group}"
+  ))
+
+}
+
+stop_incompatible_size <- function(size, group, index, expected_sizes, dots) {
+  # called from the C++ code
+  if(missing(dots)) {
+    abort(class = "dplyr_summarise_incompatible_size", size = size, group = group)
+  }
+
+  data <- peek_mask()$full_data()
+  name <- arg_name(dots, index)
+  expr <- as_label(quo_get_expr(dots[[index]]))
+
+  # called again with context
+
+  should_be <- if(expected_sizes[group] == 1L) {
+    "1"
+  } else {
+    glue("{expected_sizes[group]} or 1")
+  }
+
+  abort(glue_c(
+    "`summarise()` argument `{name}` must be recyclable",
+    x = "Result should be size {should_be}, not {size}",
+    i = "`{name}` is {expr}",
+    i = if(is_grouped_df(data)) "The error occured in group {group}",
+    i = paste0(
+      "An earlier column had size {expected_sizes[group]}",
+      if(is_grouped_df(data)) " for the group {group}" else ""
+    )
+  ))
+}
+
+stop_summarise_combine <- function(msg, index, dots) {
+  name <- arg_name(dots, index)
+  expr <- as_label(quo_get_expr(dots[[index]]))
+
+  abort(glue_c(
+    "`summarise()` argument `{name}` must return compatible vectors across groups",
+    x = "Error from vec_c() : {msg}",
+    i = "`{name}` is {expr}"
+  ))
 }

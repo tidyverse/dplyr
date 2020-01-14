@@ -18,43 +18,51 @@ expressions separated by commas. You can treat variable names like they
 are positions, so you can use expressions like \code{x:y} to select ranges of
 variables.
 
-Positive values select variables; negative values drop variables.
-If the first expression is negative, \code{select()} will automatically
-start with all variables.
-
-Use named arguments, e.g. \code{new_name = old_name}, to rename selected variables.
-See \link[tidyselect:select_helpers]{select helpers} for more details and
-examples about tidyselect helpers such as \code{starts_with()}, \code{everything()}, ...}
+Use named arguments, e.g. \code{new_name = old_name}, to rename selected
+variables.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same type as \code{.data}. The rows will be left as; only
+the columns (position and/or name) will be changed.
 }
 \description{
-Choose or rename variables from a tbl.
-\code{select()} keeps only the variables you mention; \code{rename()}
-keeps all variables.
-}
-\details{
-These functions work by column index, not value; thus, an expression
-like \code{select(data.frame(x = 1:5, y = 10), z = x+1)} does not create a variable
-with values \code{2:6}. (In the current implementation, the expression \code{z = x+1}
-wouldn't do anything useful.)  To calculate using column values, see
-\code{\link[=mutate]{mutate()}}/\code{\link[=transmute]{transmute()}}.
+Select or rename variables in a data frame, using a concise mini-language
+that makes it easy to refer to variables based on their name (e.g.
+\code{a:f} selects all columns between \code{a} on the left to \code{f} on the right).
+You can also use predicate functions like \link{is.numeric} to select variables
+based on their properties.
 }
 \section{Useful functions}{
 
 As well as using existing functions like \code{:} and \code{c()}, there are
 a number of special functions that only work inside \code{select()}:
 \itemize{
-\item \code{\link[=starts_with]{starts_with()}}, \code{\link[=ends_with]{ends_with()}}, \code{\link[=contains]{contains()}}
-\item \code{\link[=matches]{matches()}}
-\item \code{\link[=num_range]{num_range()}}
-\item \code{\link[=one_of]{one_of()}}
-\item \code{\link[=everything]{everything()}}
-\item \code{\link[=group_cols]{group_cols()}}
+\item \code{\link[=any_of]{any_of()}}, \code{\link[=all_of]{all_of()}}.
+\item \code{\link[=starts_with]{starts_with()}}, \code{\link[=ends_with]{ends_with()}}, \code{\link[=contains]{contains()}}, \code{\link[=matches]{matches()}}.
+\item \code{\link[=num_range]{num_range()}}.
+\item \code{\link[=group_cols]{group_cols()}}, \code{\link[=last_col]{last_col()}}.
+\item \code{\link[=everything]{everything()}}.
 }
 
-To drop variables, use \code{-}.
+You can also use predicate functions (functions that return a single \code{TRUE}
+or \code{FALSE}) like \code{is.numeric}, \code{is.character}, and \code{is.factor}
+to select variables with specific types.
+
+Selections can be combined using Boolean algebra like:
+\itemize{
+\item \code{starts_with("a") & ends_with("x")}: start with "a" and end with "x"
+\item \code{starts_with("a") | starts_with("b")}: start with "a" or "b"
+\item \code{!starts_with("a")}: doesn't start with "a"
+}
+
+To remove variables from a selection, use \code{-}:
+\itemize{
+\item \code{starts_with("a") - ends_width("x")}: start with "a" and doesn't end with "x"
+\item \code{is.numeric - c(a, b, c)}: numeric variables except for \code{a}, \code{b}, \code{c}.
+}
+
+See \link[tidyselect:select_helpers]{select helpers} for more details and
+examples.
 
 Note that except for \code{:}, \code{-} and \code{c()}, all complex expressions
 are evaluated outside the data frame context. This is to prevent
@@ -71,35 +79,29 @@ The three \link{scoped} variants of \code{select()} (\code{\link[=select_all]{se
 easy to apply a renaming function to a selection of variables.
 }
 
-\section{Tidy data}{
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
-}
-
 \examples{
 iris <- as_tibble(iris) # so it prints a little nicer
 select(iris, starts_with("Petal"))
 select(iris, ends_with("Width"))
-
-# Move Species variable to the front
-select(iris, Species, everything())
-
-# Move Sepal.Length variable to back
-# first select all variables except Sepal.Length, then re select Sepal.Length
-select(iris, -Sepal.Length, Sepal.Length)
+select(iris, !starts_with("Petal"))
+select(iris, starts_with("Petal") & ends_with("Width"))
+select(iris, is.numeric)
 
 df <- as.data.frame(matrix(runif(100), nrow = 10))
 df <- as_tibble(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 select(df, V4:V6)
 select(df, num_range("V", 4:6))
 
-# Drop variables with -
-select(iris, -starts_with("Petal"))
-
 # Select the grouping variables:
 starwars \%>\% group_by(gender) \%>\% select(group_cols())
 
+# Moving variables around --------------------------
+# Move `Species` to the front
+select(iris, Species, everything())
+
+# Move `Sepal.Length` to the back: first select everything except
+# `Sepal.Length`, then select `Sepal.Length`
+select(iris, !Sepal.Length, Sepal.Length)
 
 # Renaming -----------------------------------------
 # * select() keeps only the variables you specify

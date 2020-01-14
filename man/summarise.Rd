@@ -19,7 +19,9 @@ The value should be an expression that returns a single value like
 \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same class as \code{.data}. It will contain one column for
+each grouping variable and each expression you supply. It will have
+one row for each combination of the grouping variables.
 
 If \code{.data} is grouped, then the last group will be dropped,
 e.g.\code{df \%>\% group_by(x, y) \%>\% summarise(n())} will be grouped by

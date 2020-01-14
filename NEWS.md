@@ -1,5 +1,34 @@
 # dplyr 0.9.0 (in development)
 
+* `full_join()` gains keep argument so that you can optionally choose to 
+  keep both sets of join keys (#4589). This is useful when you want to
+  figure out which rows were missing from either side.
+
+* Join functions can now perform a cross-join by specifying `by = character()`
+  (#4206.)
+
+* `filter()` and `summarise()` give better error messages. 
+
+* Zero-arg `group_indices()` is deprecated; instead use `cur_group_id()`.
+
+* Experimental `df %>% group_keys(x)` is deprecated, instead do grouping first
+  yourself. `df %>% group_indices(x)` is also deprecated similarly.
+
+* `groups()` now returns `list()` for ungrouped data; previously it returned
+  `NULL` which was type-unstable (when there are groups it returns a list
+  of symbols).
+
+* The `.dots` argument to `group_by()`/`group_by_prepare()` is deprecated; 
+  please use `!!!` instead (#4734).
+
+* `select()` and `rename()` use the latest version of the tidyselect interface.
+  Practically, this means that you can now combine selections using Boolean
+  logic (i.e. `!`, `&` and `|`), and use predicate functions 
+  (e.g. `is.character`) to select variables by type (#4680). It also makes
+  it possible to use `select()` and `rename()` to repair data frames with
+  duplicated names (#4615) and prevents you from accidentally introducing
+  duplicate names (#4643).
+
 * `mutate()` and `summarise()` can now modify grouping variables (#4709).
 
 * Grouped data frames now have `names<-`, `[[<-`, `[<-` and `$<-` methods that

@@ -4,11 +4,9 @@ context("count-tally")
 
 test_that("must manually supply name when n column already present", {
   df <- data.frame(n = c(1, 1, 2, 2, 2))
-  expect_error(count(df, n), "already present")
   expect_named(count(df, n, name = "nn"), c("n", "nn"))
 
   df <- data.frame(g = c(1, 2, 2, 2), n = c(1:4))
-  expect_error(count(df, g), "already present")
   expect_named(count(df, g, name = "n"), c("g", "n"))
 })
 
@@ -95,7 +93,6 @@ test_that("add_count() respects .drop",  {
 
 test_that("must manually supply name when n column already present", {
   df <- data.frame(n = c(1, 1, 2, 2, 2))
-  expect_error(add_count(df, n), "already present")
   expect_named(add_count(df, n, name = "nn"), c("n", "nn"))
 })
 
@@ -171,4 +168,20 @@ test_that("add_tally can be given a weighting variable", {
 test_that("can override output column", {
   df <- data.frame(g = c(1, 1, 2, 2, 2), x = c(3, 2, 5, 5, 5))
   expect_named(add_tally(df, name = "xxx"), c("g", "x", "xxx"))
+})
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("count() give meaningful errors", {
+  verify_output(test_path("test-count-tally-errors.txt"), {
+    df <- data.frame(n = c(1, 1, 2, 2, 2))
+    add_count(df, n)
+
+    df <- data.frame(g = c(1, 2, 2, 2), n = c(1:4))
+    count(df, g)
+
+    df <- data.frame(n = c(1, 1, 2, 2, 2))
+    count(df, n)
+  })
 })

@@ -1,0 +1,14 @@
+
+duplicated column name
+======================
+
+> df <- data.frame(x = 1:10, x = 1:10)
+> names(df) <- c("x", "x")
+> df %>% arrange(x)
+Error: Can't bind data because some arguments have the same name
+
+> df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
+> names(df) <- c("x", "x", "y", "y")
+> df %>% arrange(x)
+Error: Can't bind data because some arguments have the same name
+

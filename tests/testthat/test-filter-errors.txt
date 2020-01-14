@@ -57,10 +57,12 @@ evaluation error
 > mtcars %>% filter(`_x`)
 Error: `filter()` argument `..1` errored
 x object '_x' not found
+i `..1` is _x
 
 > mtcars %>% group_by(cyl) %>% filter(`_x`)
 Error: `filter()` argument `..1` errored
 x object '_x' not found
+i `..1` is _x
 i The error occured in group 1
 
 
@@ -81,4 +83,11 @@ i Did you mean `z == 3` ?
 Error: `filter()` argument `..2` is named
 i This usually means that you've used `=` instead of `==`
 i Did you mean `x == 1` ?
+
+
+ts 
+===
+
+> filter(ts(1:10))
+Error: `.data` must be a data source, not a ts object, do you want `stats::filter()`?
 
