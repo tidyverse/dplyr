@@ -27,7 +27,7 @@ library(dplyr)
 
 ### The two meanings of "variable"
 
-The key of data masking which blurs the line between two meanings of "variable":
+The key idea that makes data masking is that it blurs the line between the two different ways we use "variable":
 
 * __env-variables__ are "programming" variables that live in an environment.
   They are usually created with `<-`. 
@@ -70,10 +70,12 @@ I think this blurring of the meaning of variable is a really nice feature for in
 
 ### The two forms of indirection
 
-The main challenge of data masking arises when you introduce some indirection, i.e. instead of directly typing the name of a variable you want the user to supply it in a function argument or character vector.
+The main challenge of data masking arises when you introduce some indirection, i.e. instead of you directly typing the name of a data-variable you want to get it from an env-variable.
 
-*   If you want the user to supply the variable (or function of variables)
-    in an argument to your function, **embrace** the argument by surrounding
+There are two main cases:
+
+*   When you have the data-variable in an env-variable that is a functon
+    argument[^promise], you need to **embrace** the argument by surrounding 
     it in doubled parentheses, e.g. `filter(df, {{ var }})`.
 
     ```{r, results = FALSE}
@@ -86,8 +88,8 @@ The main challenge of data masking arises when you introduce some indirection, i
       dist_summary(mpg)
     ```
 
-*   If you have the column name as a character vector, index into 
-    the `.data` pronoun with `[[`, e.g. 
+*   When you have an env-variable that contains a character vector, you
+    need to index into the `.data` pronoun with `[[`, e.g.  
     `summarise(df, mean = mean(.data[[var]]))`.
 
     ```{r, results = FALSE}
@@ -96,26 +98,38 @@ The main challenge of data masking arises when you introduce some indirection, i
     }
     ```
 
-### Action vs selection
+    The verbs `across()`, `select()`, `rename()`, and `pull()` use a
+    further more restricted form of tidy evaluation called **tidy selection**.
+    Rather than data-masking, they provide a specialised domain specific
+    language for selecting variables based on their names. Because they don't
+    use data-masking they don't provide a `.data` pronoun, so instead you
+    need to use the `all_of()` or `any_of()` selectors which take a 
+    character vector of variable names:
+    
+    ```{r}
+    for (var in names(mtcars)) {
+      mtcars %>% select(all_of(var)) %>% print()
+    }
+    
+    ```
+
+[^promise]: Or technically, a promise, which is what you should search for if you want to learn more. One place to start is <https://adv-r.hadley.nz/functions.html#lazy-evaluation>
 
 ### The theory
 
-This document is refrains from discussing the underlying theory of tidy evalauation. Thanks to recent improvements in the syntax (particularly the introduction of `{{ }}`), there are very few places that the theory helps you in day-to-day data science problems. However, if would like to go into the details, the best place are the Metaprogramming chapters in [_Advanced R_](https://adv-r.hadley.nz).
+This document refrains from discussing the underlying theory of tidy evaluation. Thanks to recent improvements in the syntax (particularly the introduction of `{{ }}`), there are very few places that the theory helps you solve day-to-day data science problems. I still believe the theory is beautiful and elegant, but you only need to learn about it if you'll be programming with it extensively. If you'd like to learn more, the best place is the Metaprogramming part of [_Advanced R_](https://adv-r.hadley.nz).
 
 ## How tos
-
-Now that you have the key ideas of tidy evaluation under your belt, the remainder of this article focusses on how you can solve specific problems that you might encounter.
 
 The examples here are somewhat inauthentic because we've reduced them down to very simple components to make them easier to understand. They're so simple that you might wonder why we bother writing a function at all. But it's a good idea to learn the ideas on simple examples, so that you're better prepared to apply them to the more complex situations you'll see in your own code.
 
 ### How to tell if a function uses tidy evaluation
 
-To be more precise, tidy evaluation is a property that applies not to an entire function, but to arguments of a function. For example, the `.data` argument always uses standard evaluation, but the arguments in `...` usually use tidy evaluation. You can tell if an argument uses special evaluation because it will have special a label, `<tidy-eval>`, which links a shorter form of this vignette.
+Tidy evaluation is a property that applies not to an entire function, but to specific arguments of a function. You can tell if an argument uses special evaluation because its documentation will have special a label that looks like `<tidy-eval>`.
 
 ### Function with user-supplied data
 
-You already know how to write functions that work with the first argument of
-dplyr verbs: the data. For example, if you saw repeated code like this:
+If you read the documentation for the dplyr verbs, you'll see that they don't use tidy evaluation for the `.data` argument. This makes it simple to reduce duplication when repeated code only varies the data:
 
 ```{r, eval = FALSE}
 mutate(df1, y = a + x)
@@ -123,8 +137,6 @@ mutate(df2, y = a + x)
 mutate(df3, y = a + x)
 mutate(df4, y = a + x)
 ```
-
-You could already write a function to capture that duplication:
 
 ```{r}
 mutate_y <- function(df) {
@@ -134,47 +146,28 @@ mutate_y <- function(df) {
 
 ### Function with a user-supplied expression
 
+What about when a repeated code varies over an argument that uses tidy evaluation?
+
 ```{r}
-df <- tibble(
-  g1 = c(1, 1, 2, 2, 2),
-  g2 = c(1, 2, 1, 2, 1),
-  a = sample(5),
-  b = sample(5)
-)
+starwars %>%
+  group_by(species) %>%
+  summarise(mean = mean(mass, na.rm = TRUE))
 
-df %>%
-  group_by(g1) %>%
-  summarise(a = mean(a))
-
-df %>%
-  group_by(g2) %>%
-  summarise(a = mean(a))
+starwars %>%
+  group_by(homeworld) %>%
+  summarise(mean = mean(mass, na.rm = TRUE))
 ```
 
-You might hope that this will work:
-
-```{r, error = TRUE}
-my_summarise <- function(df, group_var) {
-  df %>%
-    group_by(group_var) %>%
-    summarise(a = mean(a))
-}
-
-my_summarise(df, g1)
-```
-
-But it doesn't because `group_by()` expects its inputs to be data-variables, and here you've given it an env-variable that contains a data-variable supplied by the user[^promise]. To make this function work, we need to tell `group_by()` that, but using `{{`:
-
-[^promise]: Technically, this env-variable is a promise.
+You'll need to embrace that argument with `{{ }}`
 
 ```{r}
 my_summarise <- function(df, group_var) {
   df %>%
     group_by({{ group_var }}) %>%
-    summarise(a = mean(a))
+    summarise(mean = mean(mass))
 }
 
-my_summarise(df, g1)
+my_summarise(starwars, species)
 ```
 
 This generalises in a straightforward way if you want to use one user supplied expression in multiple places. For example, if you wanted to write a function to reduce the duplication here:
@@ -202,16 +195,17 @@ df %>% my_summarise2(a * b)
 
 ### Function with multiple user-supplied expressions
 
-If you just want to pass expressions along without transforming them, you can use `...`:
+If you just want to pass expressions along without transforming them, you can use `...`. This is most often useful when you want to give the user full control over a single part of the pipeline, like a `group_by()` or a `mutate()`.
 
 ```{r}
+
 my_summarise <- function(df, ...) {
   df %>%
     group_by(...) %>%
     summarise(a = mean(a))
 }
 
-my_summarise(df, g1, g2)
+my_summarise(starwars, , g2)
 ```
   
 ### Function with multiple user-supplied variables
