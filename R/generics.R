@@ -17,7 +17,7 @@
 #' # Current usage
 #'
 #' * `arrange()`, `filter()`, `slice()`, `semi_join()`, and `anti_join()`
-#'   work by generating a vector of column indices, and then subsetting
+#'   work by generating a vector of row indices, and then subsetting
 #'   with `dplyr_row_slice()`.
 #'
 #' * `mutate()` generates a list of new column value (using `NULL` to indicate
