@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Choose rows by position — slice • dplyr</title>
+<title>Subset rows using their positions — slice • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,9 +47,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Choose rows by position — slice" />
-<meta property="og:description" content="Choose rows by their ordinal position in the tbl.  Grouped tbls use
-the ordinal position within the group." />
+<meta property="og:title" content="Subset rows using their positions — slice" />
+<meta property="og:description" content="slice() lets you index rows by their (integer) locations. It allows you
+to select, remove, and duplicate rows." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -186,14 +186,14 @@ the ordinal position within the group." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Choose rows by position</h1>
+    <h1>Subset rows using their positions</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/slice.R'><code>R/slice.R</code></a></small>
     <div class="hidden name"><code>slice.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Choose rows by their ordinal position in the tbl.  Grouped tbls use
-the ordinal position within the group.</p>
+    <p><code>slice()</code> lets you index rows by their (integer) locations. It allows you
+to select, remove, and duplicate rows.</p>
     </div>
 
     <pre class="usage"><span class='fu'>slice</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>

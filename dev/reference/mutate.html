@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create or transform variables — mutate • dplyr</title>
+<title>Create, modify, and delete columns — mutate • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +47,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Create or transform variables — mutate" />
+<meta property="og:title" content="Create, modify, and delete columns — mutate" />
 <meta property="og:description" content="mutate() adds new variables and preserves existing ones;
 transmute() adds new variables and drops existing ones.
-New variables overwrite existing variables of the same name." />
+New variables overwrite existing variables of the same name.
+Variables can be removed by setting their value to NULL." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -187,7 +188,7 @@ New variables overwrite existing variables of the same name." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create or transform variables</h1>
+    <h1>Create, modify, and delete columns</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/mutate.R'><code>R/mutate.R</code></a></small>
     <div class="hidden name"><code>mutate.Rd</code></div>
     </div>
@@ -195,7 +196,8 @@ New variables overwrite existing variables of the same name." />
     <div class="ref-description">
     <p><code>mutate()</code> adds new variables and preserves existing ones;
 <code>transmute()</code> adds new variables and drops existing ones.
-New variables overwrite existing variables of the same name.</p>
+New variables overwrite existing variables of the same name.
+Variables can be removed by setting their value to <code>NULL</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>mutate</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
@@ -243,7 +245,7 @@ explicitly kept.</p></li>
 <li><p>Data frame attributes are preserved.</p></li>
 </ul>
 
-    <h2 class="hasAnchor" id="useful-functions-available-in-calculations-of-variables"><a class="anchor" href="#useful-functions-available-in-calculations-of-variables"></a>Useful functions available in calculations of variables</h2>
+    <h2 class="hasAnchor" id="useful-mutate-functions"><a class="anchor" href="#useful-mutate-functions"></a>Useful mutate functions</h2>
 
     
 
@@ -278,7 +280,6 @@ involved. Compare this ungrouped mutate:</p><pre>starwars %&gt;%
 
 <p>The former normalises <code>mass</code> by the global average whereas the
 latter normalises by the averages within gender levels.</p>
-<p><code>mutate()</code> does not evaluate the expressions when the group is empty.</p>
     <h2 class="hasAnchor" id="scoped-mutation-and-transmutation"><a class="anchor" href="#scoped-mutation-and-transmutation"></a>Scoped mutation and transmutation</h2>
 
     
@@ -578,7 +579,7 @@ selection of variables.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#useful-functions-available-in-calculations-of-variables">Useful functions available in calculations of variables</a></li>
+      <li><a href="#useful-mutate-functions">Useful mutate functions</a></li>
       <li><a href="#grouped-tibbles">Grouped tibbles</a></li>
       <li><a href="#scoped-mutation-and-transmutation">Scoped mutation and transmutation</a></li>
       <li><a href="#see-also">See also</a></li>

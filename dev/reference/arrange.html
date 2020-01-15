@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Arrange rows by variables — arrange • dplyr</title>
+<title>Arrange rows by column values — arrange • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,8 +47,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Arrange rows by variables — arrange" />
-<meta property="og:description" content="Order data frame rows by the values of selected variables.
+<meta property="og:title" content="Arrange rows by column values — arrange" />
+<meta property="og:description" content="arrange() order the rows of a data frame rows by the values of selected
+columns.
 Unlike other dplyr verbs, arrange() largely ignores grouping; you
 need to explicit mention grouping variables (or use  by_group = TRUE)
 in order to group by them, and functions of variables are evaluated
@@ -189,14 +190,15 @@ once per data frame, not once per group." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Arrange rows by variables</h1>
+    <h1>Arrange rows by column values</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/arrange.R'><code>R/arrange.R</code></a></small>
     <div class="hidden name"><code>arrange.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Order data frame rows by the values of selected variables.
-Unlike other dplyr verbs, <code>arrange()</code> largely ignores grouping; you
+    <p><code>arrange()</code> order the rows of a data frame rows by the values of selected
+columns.</p>
+<p>Unlike other dplyr verbs, <code>arrange()</code> largely ignores grouping; you
 need to explicit mention grouping variables (or use  <code>by_group = TRUE</code>)
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.</p>
@@ -236,20 +238,23 @@ grouped data frames only.</p></td>
 <li><p>Data frame attributes are preserved.</p></li>
 </ul>
 
-    <h2 class="hasAnchor" id="locales"><a class="anchor" href="#locales"></a>Locales</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
+<h3>Locales</h3>
+
 
 <p>The sort order for character vectors will depend on the collating sequence
 of the locale in use: see <code><a href='https://rdrr.io/r/base/locales.html'>locales()</a></code>.</p>
-    <h2 class="hasAnchor" id="missing-values"><a class="anchor" href="#missing-values"></a>Missing values</h2>
 
-    
+<h3>Missing values</h3>
+
 
 <p>Unlike base sorting with <code><a href='https://rdrr.io/r/base/sort.html'>sort()</a></code>, <code>NA</code> are:</p><ul>
 <li><p>always sorted to the end for local data, even when wrapped with <code><a href='desc.html'>desc()</a></code>.</p></li>
 <li><p>treated differently for remote data, depending on the backend.</p></li>
 </ul>
+
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -365,8 +370,7 @@ of the locale in use: see <code><a href='https://rdrr.io/r/base/locales.html'>lo
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#locales">Locales</a></li>
-      <li><a href="#missing-values">Missing values</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

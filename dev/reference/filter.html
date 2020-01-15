@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Return rows with matching conditions — filter • dplyr</title>
+<title>Subset rows using column values — filter • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +47,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Return rows with matching conditions — filter" />
-<meta property="og:description" content="Use filter() to choose rows/cases where conditions are true. Unlike
-base subsetting with [, rows where the condition evaluates to NA are
-dropped." />
+<meta property="og:title" content="Subset rows using column values — filter" />
+<meta property="og:description" content="filter() retains the rows where the conditions you provide a TRUE. Note
+that, unlike base subsetting with [, rows where the condition evaluates
+to NA are dropped." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -187,15 +187,15 @@ dropped." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Return rows with matching conditions</h1>
+    <h1>Subset rows using column values</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/filter.R'><code>R/filter.R</code></a></small>
     <div class="hidden name"><code>filter.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Use <code>filter()</code> to choose rows/cases where conditions are true. Unlike
-base subsetting with <code>[</code>, rows where the condition evaluates to <code>NA</code> are
-dropped.</p>
+    <p><code>filter()</code> retains the rows where the conditions you provide a <code>TRUE</code>. Note
+that, unlike base subsetting with <code>[</code>, rows where the condition evaluates
+to <code>NA</code> are dropped.</p>
     </div>
 
     <pre class="usage"><span class='fu'>filter</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
@@ -233,7 +233,7 @@ is recalculated based on the resulting data, otherwise it is kept as is.</p></td
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that dplyr is not yet smart enough to optimise filtering optimisation
+    <p>dplyr is not yet smart enough to optimise filtering optimisation
 on grouped datasets that don't need grouped calculations. For this reason,
 filtering is often considerably faster on <code><a href='group_by.html'>ungroup()</a></code>ed data.</p>
     <h2 class="hasAnchor" id="useful-filter-functions"><a class="anchor" href="#useful-filter-functions"></a>Useful filter functions</h2>
@@ -262,11 +262,8 @@ involved. Compare this ungrouped filtering:</p><pre>starwars %&gt;% filter(mass 
 </pre>
 
 <p>The former keeps rows with <code>mass</code> greater than the global average
-whereas the latter keeps rows with <code>mass</code> greater than the gender
-average.</p>
-<p>It is valid to use grouping variables in filter expressions.</p>
-<p>When applied on a grouped tibble, <code>filter()</code> automatically <a href='arrange.html'>rearranges</a>
-the tibble by groups for performance reasons.</p>
+whereas the latter keeps rows with <code>mass</code> greater than the gender</p>
+<p>average.</p>
     <h2 class="hasAnchor" id="scoped-filtering"><a class="anchor" href="#scoped-filtering"></a>Scoped filtering</h2>
 
     
