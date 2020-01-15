@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Select/rename variables by name — select • dplyr</title>
+<title>Select variables — select • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,12 +47,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Select/rename variables by name — select" />
-<meta property="og:description" content="Select or rename variables in a data frame, using a concise mini-language
-that makes it easy to refer to variables based on their name (e.g.
-a:f selects all columns between a on the left to f on the right).
-You can also use predicate functions like is.numeric to select variables
-based on their properties." />
+<meta property="og:title" content="Select variables — select" />
+<meta property="og:description" content="Select (and optionally rename) variables in a data frame, using a concise
+mini-language that makes it easy to refer to variables based on their name
+(e.g. a:f selects all columns between a on the left to f on the
+right). You can also use predicate functions like is.numeric to select
+variables based on their properties." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -189,22 +189,20 @@ based on their properties." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Select/rename variables by name</h1>
+    <h1>Select variables</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/select.R'><code>R/select.R</code></a></small>
     <div class="hidden name"><code>select.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Select or rename variables in a data frame, using a concise mini-language
-that makes it easy to refer to variables based on their name (e.g.
-<code>a:f</code> selects all columns between <code>a</code> on the left to <code>f</code> on the right).
-You can also use predicate functions like <a href='https://rdrr.io/r/base/numeric.html'>is.numeric</a> to select variables
-based on their properties.</p>
+    <p>Select (and optionally rename) variables in a data frame, using a concise
+mini-language that makes it easy to refer to variables based on their name
+(e.g. <code>a:f</code> selects all columns between <code>a</code> on the left to <code>f</code> on the
+right). You can also use predicate functions like <a href='https://rdrr.io/r/base/numeric.html'>is.numeric</a> to select
+variables based on their properties.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
-
-<span class='fu'>rename</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>select</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -219,28 +217,18 @@ for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://rdrr
       <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; One or more unquoted
 expressions separated by commas. You can treat variable names like they
 are positions, so you can use expressions like <code>x:y</code> to select ranges of
-variables.</p>
-<p>Use named arguments, e.g. <code>new_name = old_name</code>, to rename selected
 variables.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same type as <code>.data</code>.</p>
-<p>For <code>select()</code>:</p><ul>
+    <p>An object of the same type as <code>.data</code>.</p><ul>
 <li><p>Rows are not affected.</p></li>
 <li><p>Output columns are a subset of input columns, potentially with a different
 order. Columns will be renamed if <code>new_name = old_name</code> form is used.</p></li>
 <li><p>Data frame attributes are preserved.</p></li>
 <li><p>Groups are maintained; you can not select off grouping variables.</p></li>
-</ul>
-
-<p>For <code>rename()</code>:</p><ul>
-<li><p>Rows are not affected.</p></li>
-<li><p>Column names are changed; column order is preserved</p></li>
-<li><p>Data frame attributes are preserved.</p></li>
-<li><p>Groups are updated to reflect new names.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="useful-functions"><a class="anchor" href="#useful-functions"></a>Useful functions</h2>
@@ -276,21 +264,13 @@ examples.</p>
 are evaluated outside the data frame context. This is to prevent
 accidental matching of data frame variables when you refer to
 variables from the calling context.</p>
-    <h2 class="hasAnchor" id="scoped-selection-and-renaming"><a class="anchor" href="#scoped-selection-and-renaming"></a>Scoped selection and renaming</h2>
-
-    
-
-
-<p>The three <a href='scoped.html'>scoped</a> variants of <code>select()</code> (<code><a href='select_all.html'>select_all()</a></code>,
-<code><a href='select_all.html'>select_if()</a></code> and <code><a href='select_all.html'>select_at()</a></code>) and the three variants of
-<code>rename()</code> (<code><a href='select_all.html'>rename_all()</a></code>, <code><a href='select_all.html'>rename_if()</a></code>, <code><a href='select_all.html'>rename_at()</a></code>) make it
-easy to apply a renaming function to a selection of variables.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
 <code><a href='arrange.html'>arrange</a>()</code>,
 <code><a href='filter.html'>filter</a>()</code>,
 <code><a href='mutate.html'>mutate</a>()</code>,
+<code><a href='rename.html'>rename</a>()</code>,
 <code><a href='slice.html'>slice</a>()</code>,
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
@@ -361,6 +341,21 @@ easy to apply a renaming function to a selection of variables.</p>
 #&gt;  8          5           3.4          1.5         0.2
 #&gt;  9          4.4         2.9          1.4         0.2
 #&gt; 10          4.9         3.1          1.5         0.1
+#&gt; # … with 140 more rows</div><div class='input'>
+<span class='co'># If desired, you can rename individual variables as you select them</span>
+<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='no'>Species</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='no'>Petal.Width</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 3
+#&gt;    species width length
+#&gt;    &lt;fct&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;  1 setosa    0.2    1.4
+#&gt;  2 setosa    0.2    1.4
+#&gt;  3 setosa    0.2    1.3
+#&gt;  4 setosa    0.2    1.5
+#&gt;  5 setosa    0.2    1.4
+#&gt;  6 setosa    0.4    1.7
+#&gt;  7 setosa    0.3    1.4
+#&gt;  8 setosa    0.2    1.5
+#&gt;  9 setosa    0.2    1.4
+#&gt; 10 setosa    0.1    1.5
 #&gt; # … with 140 more rows</div><div class='input'>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>10</span>))
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>df</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>1</span>, <span class='fl'>9</span>, <span class='fl'>8</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>6</span>, <span class='fl'>10</span>)])
@@ -436,52 +431,6 @@ easy to apply a renaming function to a selection of variables.</p>
 #&gt;  8         3.4          1.5         0.2 setosa           5  
 #&gt;  9         2.9          1.4         0.2 setosa           4.4
 #&gt; 10         3.1          1.5         0.1 setosa           4.9
-#&gt; # … with 140 more rows</div><div class='input'>
-<span class='co'># Renaming -----------------------------------------</span>
-<span class='co'># * select() keeps only the variables you specify</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 1
-#&gt;    petal_length
-#&gt;           &lt;dbl&gt;
-#&gt;  1          1.4
-#&gt;  2          1.4
-#&gt;  3          1.3
-#&gt;  4          1.5
-#&gt;  5          1.4
-#&gt;  6          1.7
-#&gt;  7          1.4
-#&gt;  8          1.5
-#&gt;  9          1.4
-#&gt; 10          1.5
-#&gt; # … with 140 more rows</div><div class='input'>
-<span class='co'># * rename() keeps all variables</span>
-<span class='fu'>rename</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
-#&gt;    Sepal.Length Sepal.Width petal_length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-#&gt;  1          5.1         3.5          1.4         0.2 setosa 
-#&gt;  2          4.9         3            1.4         0.2 setosa 
-#&gt;  3          4.7         3.2          1.3         0.2 setosa 
-#&gt;  4          4.6         3.1          1.5         0.2 setosa 
-#&gt;  5          5           3.6          1.4         0.2 setosa 
-#&gt;  6          5.4         3.9          1.7         0.4 setosa 
-#&gt;  7          4.6         3.4          1.4         0.3 setosa 
-#&gt;  8          5           3.4          1.5         0.2 setosa 
-#&gt;  9          4.4         2.9          1.4         0.2 setosa 
-#&gt; 10          4.9         3.1          1.5         0.1 setosa 
-#&gt; # … with 140 more rows</div><div class='input'>
-<span class='co'># * select() can rename variables in a group</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='kw'>obs</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>'S'</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 3
-#&gt;     obs1  obs2 obs3  
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; 
-#&gt;  1   5.1   3.5 setosa
-#&gt;  2   4.9   3   setosa
-#&gt;  3   4.7   3.2 setosa
-#&gt;  4   4.6   3.1 setosa
-#&gt;  5   5     3.6 setosa
-#&gt;  6   5.4   3.9 setosa
-#&gt;  7   4.6   3.4 setosa
-#&gt;  8   5     3.4 setosa
-#&gt;  9   4.4   2.9 setosa
-#&gt; 10   4.9   3.1 setosa
 #&gt; # … with 140 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -490,7 +439,6 @@ easy to apply a renaming function to a selection of variables.</p>
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#useful-functions">Useful functions</a></li>
-      <li><a href="#scoped-selection-and-renaming">Scoped selection and renaming</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

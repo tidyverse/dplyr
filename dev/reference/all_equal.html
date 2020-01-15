@@ -48,8 +48,11 @@
 
 
 <meta property="og:title" content="Flexible equality comparison for data frames — all_equal" />
-<meta property="og:description" content="You can use all_equal() with any data frame, and dplyr also provides
-tbl_df methods for all.equal()." />
+<meta property="og:description" content="
+
+all_equal() allows you to compare data frames, optionally ignoring
+row and column names. It is questioning as of dplyr 1.0.0, because it
+seems to solve a problem that no longer seems that important." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -192,8 +195,11 @@ tbl_df methods for all.equal()." />
     </div>
 
     <div class="ref-description">
-    <p>You can use <code>all_equal()</code> with any data frame, and dplyr also provides
-<code>tbl_df</code> methods for <code><a href='https://rdrr.io/r/base/all.equal.html'>all.equal()</a></code>.</p>
+    <p><a href='https://www.tidyverse.org/lifecycle/#questioning'><img src='figures/lifecycle-questioning.svg' alt='Questioning lifecycle'></a>
+
+<code>all_equal()</code> allows you to compare data frames, optionally ignoring
+row and column names. It is questioning as of dplyr 1.0.0, because it
+seems to solve a problem that no longer seems that important.</p>
     </div>
 
     <pre class="usage"><span class='fu'>all_equal</span>(

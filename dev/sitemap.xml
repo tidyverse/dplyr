@@ -100,6 +100,9 @@
     <loc>https://dplyr.tidyverse.org/reference/explain.html</loc>
   </url>
   <url>
+    <loc>https://dplyr.tidyverse.org/reference/filter-joins.html</loc>
+  </url>
+  <url>
     <loc>https://dplyr.tidyverse.org/reference/filter.html</loc>
   </url>
   <url>
@@ -148,9 +151,6 @@
     <loc>https://dplyr.tidyverse.org/reference/if_else.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/reference/join.html</loc>
-  </url>
-  <url>
     <loc>https://dplyr.tidyverse.org/reference/join.data.frame.html</loc>
   </url>
   <url>
@@ -161,6 +161,9 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/make_tbl.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/reference/mutate-joins.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/mutate.html</loc>
@@ -176,6 +179,9 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/near.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/reference/nest_join.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/new_grouped_df.html</loc>
@@ -200,6 +206,9 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/reexports.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/reference/rename.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/rowwise.html</loc>

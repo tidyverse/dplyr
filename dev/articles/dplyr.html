@@ -196,7 +196,7 @@
 <li>
 <code><a href="../reference/arrange.html">arrange()</a></code> to reorder the cases.</li>
 <li>
-<code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/select.html">rename()</a></code> to select variables based on their names.</li>
+<code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/rename.html">rename()</a></code> to select variables based on their names.</li>
 <li>
 <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/mutate.html">transmute()</a></code> to add new variables that are functions of existing variables.</li>
 <li>
@@ -301,8 +301,8 @@
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 3 N619AA  </span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 4 N804JB  </span></a>
 <a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>But because <code><a href="../reference/select.html">select()</a></code> drops all the variables not explicitly mentioned, it’s not that useful. Instead, use <code><a href="../reference/select.html">rename()</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/select.html">rename</a></span>(flights, <span class="dt">tail_num =</span> tailnum)</a>
+<p>But because <code><a href="../reference/select.html">select()</a></code> drops all the variables not explicitly mentioned, it’s not that useful. Instead, use <code><a href="../reference/rename.html">rename()</a></code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/rename.html">rename</a></span>(flights, <span class="dt">tail_num =</span> tailnum)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>

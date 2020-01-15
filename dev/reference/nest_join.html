@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extending dplyr — dplyr_extending • dplyr</title>
+<title>Nest join — nest_join • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,17 +47,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Extending dplyr — dplyr_extending" />
-<meta property="og:description" content="
-These three functions, along with names&amp;lt;- and 1d numeric [
-(i.e. x[loc]), provide a minimal interface for extending dplyr to work
-with a new subclass of data frame. dplyr_rows_slice() and
-dplyr_cols_modify() represented specialised uses of [; their focus
-makes them much easier to implement. dplyr_reconstruct() is a fall-back
-for verbs that can't be implemented in terms of simpler row/col operation.
-These functions are experimental and are stop-gap measure until more general
-tools become available in vctrs, but may still be useful in the short-term
-if you have a data frame class that you want to work with dplyr." />
+<meta property="og:title" content="Nest join — nest_join" />
+<meta property="og:description" content="nest_join() returns all rows and columns x with a new nested-df column
+that contains all matches from y. When there is no match, the list column
+is a 0-row tibble." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -194,86 +187,95 @@ if you have a data frame class that you want to work with dplyr." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extending dplyr</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/generics.R'><code>R/generics.R</code></a></small>
-    <div class="hidden name"><code>dplyr_extending.Rd</code></div>
+    <h1>Nest join</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/join.r'><code>R/join.r</code></a></small>
+    <div class="hidden name"><code>nest_join.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
-<p>These three functions, along with <code>names&lt;-</code> and 1d numeric <code>[</code>
-(i.e. <code>x[loc]</code>), provide a minimal interface for extending dplyr to work
-with a new subclass of data frame. <code>dplyr_rows_slice()</code> and
-<code>dplyr_cols_modify()</code> represented specialised uses of <code>[</code>; their focus
-makes them much easier to implement. <code>dplyr_reconstruct()</code> is a fall-back
-for verbs that can't be implemented in terms of simpler row/col operation.</p>
-<p>These functions are experimental and are stop-gap measure until more general
-tools become available in vctrs, but may still be useful in the short-term
-if you have a data frame class that you want to work with dplyr.</p>
+    <p><code>nest_join()</code> returns all rows and columns <code>x</code> with a new nested-df column
+that contains all matches from <code>y</code>. When there is no match, the list column
+is a 0-row tibble.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dplyr_row_slice</span>(<span class='no'>data</span>, <span class='no'>i</span>, <span class='no'>...</span>)
-
-<span class='fu'>dplyr_col_modify</span>(<span class='no'>data</span>, <span class='no'>cols</span>)
-
-<span class='fu'>dplyr_reconstruct</span>(<span class='no'>data</span>, <span class='no'>template</span>)</pre>
+    <pre class="usage"><span class='fu'>nest_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>A tibble. We use tibbles because they avoid some inconsistent
-subset-assignment use cases</p></td>
+      <th>x, y</th>
+      <td><p>Data frames</p></td>
     </tr>
     <tr>
-      <th>i</th>
-      <td><p>A numeric or logical vector that indexes the rows of <code>.data</code>.</p></td>
+      <th>by</th>
+      <td><p>A character vector of variables to join by.</p>
+<p>If <code>NULL</code>, the default, <code>*_join()</code> will perofrm a natural join, using all
+variables in across <code>x</code> and <code>y</code>. A message lists the variables so that you
+can check they're correct; suppress the message by supply <code>by</code> explicitly.</p>
+<p>To join by different variables on <code>x</code> and <code>y</code> use a named vector.
+For example, <code>by = c("a" = "b")</code> will match <code>x$a</code> to <code>y$b</code>.</p>
+<p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>,
+use <code>by = character()</code>.</p></td>
     </tr>
     <tr>
-      <th>cols</th>
-      <td><p>A named list used modify columns. A <code>NULL</code> value should remove
-an existing column.</p></td>
+      <th>copy</th>
+      <td><p>If <code>x</code> and <code>y</code> are not from the same data source,
+and <code>copy</code> is <code>TRUE</code>, then <code>y</code> will be copied into the
+same src as <code>x</code>.  This allows you to join tables across srcs, but
+it is a potentially expensive operation so you must opt into it.</p></td>
     </tr>
     <tr>
-      <th>template</th>
-      <td><p>Template to use for restoring attributes</p></td>
+      <th>keep</th>
+      <td><p>Should the join keys from <code>y</code> be preserved in the output?
+Only applies to <code>nest_join()</code> and <code><a href='mutate-joins.html'>full_join()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>The name of the list column nesting joins create.
+If <code>NULL</code> the name of <code>y</code> is used.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other parameters passed onto methods.</p>
+<p>For example, <code>na_matches</code> controls how <code>NA</code> values are handled when
+joining data frames. See <a href='join.data.frame.html'>join.data.frame</a> for details.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="current-usage"><a class="anchor" href="#current-usage"></a>Current usage</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    
-<ul>
-<li><p><code><a href='arrange.html'>arrange()</a></code>, <code><a href='filter.html'>filter()</a></code>, <code><a href='slice.html'>slice()</a></code>, <code><a href='filter-joins.html'>semi_join()</a></code>, and <code><a href='filter-joins.html'>anti_join()</a></code>
-work by generating a vector of row indices, and then subsetting
-with <code>dplyr_row_slice()</code>.</p></li>
-<li><p><code><a href='mutate.html'>mutate()</a></code> generates a list of new column value (using <code>NULL</code> to indicate
-when columns should be deleted), then passes that to <code>dplyr_col_modify()</code>.
-<code><a href='mutate.html'>transmute()</a></code> does the same then uses 1d <code>[</code> to select the columns.</p></li>
-<li><p><code><a href='summarise.html'>summarise()</a></code> works similarly to <code><a href='mutate.html'>mutate()</a></code> but the data modified by
-<code>dplyr_col_modify()</code> comes from <code><a href='group_data.html'>group_data()</a></code>.</p></li>
-<li><p><code><a href='select.html'>select()</a></code> uses 1d <code>[</code> to select columns, then <code>names&lt;-</code> to rename them.
-<code><a href='rename.html'>rename()</a></code> just uses <code>names&lt;-</code>.</p></li>
-<li><p><code><a href='mutate-joins.html'>inner_join()</a></code>, <code><a href='mutate-joins.html'>left_join()</a></code>, <code><a href='mutate-joins.html'>right_join()</a></code>, and <code><a href='mutate-joins.html'>full_join()</a></code>
-coerces <code>x</code> to a tibble, modify the rows, then uses <code>dplyr_reconstruct()</code>
-to convert back to the same type as <code>x</code>.</p></li>
-<li><p><code><a href='nest_join.html'>nest_join()</a></code> uses <code>dplyr_col_modify()</code> to cast the key variables to
-common type and add the nested-df that <code>y</code> becomes.</p></li>
-<li><p><code><a href='distinct.html'>distinct()</a></code> does a <code><a href='mutate.html'>mutate()</a></code> if any expressions are present, then
-uses 1d <code>[</code> to select variables to keep, then <code>dplyr_row_slice()</code> to
-select distinct rows.</p></li>
+    <p>In some sense, a <code>nest_join()</code> is the most fundamental join since you can
+recreate the other joins from it:</p><ul>
+<li><p><code><a href='mutate-joins.html'>inner_join()</a></code> is a <code>nest_join()</code> plus <code><a href='https://tidyr.tidyverse.org/reference/nest.html'>tidyr::unnest()</a></code></p></li>
+<li><p><code><a href='mutate-joins.html'>left_join()</a></code> <code>nest_join()</code> plus <code>unnest(.drop = FALSE)</code>.</p></li>
+<li><p><code><a href='filter-joins.html'>semi_join()</a></code> is a <code>nest_join()</code> plus a <code><a href='filter.html'>filter()</a></code> where you check
+that every element of data has at least one row,</p></li>
+<li><p><code><a href='filter-joins.html'>anti_join()</a></code> is a <code>nest_join()</code> plus a <code><a href='filter.html'>filter()</a></code> where you check every
+element has zero rows.</p></li>
 </ul>
 
-<p>Note that <code><a href='group_by.html'>group_by()</a></code> and <code><a href='group_by.html'>ungroup()</a></code> don't use any these generics and
-you'll need to provide methods directly.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p>Other joins: 
+<code><a href='filter-joins.html'>filter-joins</a></code>,
+<code><a href='mutate-joins.html'>mutate-joins</a></code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 x 4
+#&gt;   name  band    `c("Mick", "John", "Paul")` band_instruments
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                       &lt;list&gt;          
+#&gt; 1 Mick  Stones  Mick                        &lt;tibble [0 × 1]&gt;
+#&gt; 2 John  Beatles John                        &lt;tibble [1 × 1]&gt;
+#&gt; 3 Paul  Beatles Paul                        &lt;tibble [1 × 1]&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#current-usage">Current usage</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
