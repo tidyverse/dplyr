@@ -1,5 +1,8 @@
 # dplyr 0.9.0 (in development)
 
+* `all_equal()` is questioning; it solves a problem that no longer seems 
+  important.
+
 * New, experimental, `with_groups()` makes it easy to temporarily group or
   ungroup (#4711).
 

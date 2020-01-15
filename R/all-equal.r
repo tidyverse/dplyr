@@ -1,7 +1,10 @@
 #' Flexible equality comparison for data frames
 #'
-#' You can use `all_equal()` with any data frame, and dplyr also provides
-#' `tbl_df` methods for [all.equal()].
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
+#' `all_equal()` allows you to compare data frames, optionally ignoring
+#' row and column names. It is questioning as of dplyr 1.0.0, because it
+#' seems to solve a problem that no longer seems that important.
 #'
 #' @param target,current Two data frames to compare.
 #' @param ignore_col_order Should order of columns be ignored?
@@ -13,6 +16,7 @@
 #'   the reasons why they're not equal. Use [isTRUE()] if using the
 #'   result in an `if` expression.
 #' @export
+#' @keywords internal
 #' @examples
 #' scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
 #'

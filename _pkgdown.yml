@@ -31,7 +31,6 @@ reference:
 
 - title: Two-table verbs
   contents:
-  - all_equal
   - bind
   - intersect
   - ends_with("join")
@@ -88,6 +87,7 @@ reference:
 
 - title: Questioning/retired
   contents:
+  - all_equal
   - do
   - rowwise
   - sample_frac
