@@ -64,6 +64,7 @@
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
+#'
 #' The following methods are currently available in loaded packages:
 #' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("filter")}.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
