@@ -1,4 +1,4 @@
-#' Rename variables
+#' Rename columns
 #'
 #' Rename individual variables using `new_name = old_name` syntax.
 #'

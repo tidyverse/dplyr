@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter.R
 \name{filter}
 \alias{filter}
-\title{Return rows with matching conditions}
+\title{Subset rows using column values}
 \usage{
 filter(.data, ..., .preserve = FALSE)
 }
@@ -29,12 +29,12 @@ An object of the same type as \code{.data}.
 }
 }
 \description{
-Use \code{filter()} to choose rows/cases where conditions are true. Unlike
-base subsetting with \code{[}, rows where the condition evaluates to \code{NA} are
-dropped.
+\code{filter()} retains the rows where the conditions you provide a \code{TRUE}. Note
+that, unlike base subsetting with \code{[}, rows where the condition evaluates
+to \code{NA} are dropped.
 }
 \details{
-Note that dplyr is not yet smart enough to optimise filtering optimisation
+dplyr is not yet smart enough to optimise filtering optimisation
 on grouped datasets that don't need grouped calculations. For this reason,
 filtering is often considerably faster on \code{\link[=ungroup]{ungroup()}}ed data.
 }
@@ -62,12 +62,8 @@ With the grouped equivalent:\preformatted{starwars \%>\% group_by(gender) \%>\% 
 
 The former keeps rows with \code{mass} greater than the global average
 whereas the latter keeps rows with \code{mass} greater than the gender
+
 average.
-
-It is valid to use grouping variables in filter expressions.
-
-When applied on a grouped tibble, \code{filter()} automatically \link[=arrange]{rearranges}
-the tibble by groups for performance reasons.
 }
 
 \section{Scoped filtering}{

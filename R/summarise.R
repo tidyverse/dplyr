@@ -1,8 +1,8 @@
-#' Reduce multiple values down to a single value
+#' Summarise each group down to one row
 #'
 #' @description
 #' `summarise()` creates a new data frame. It will have one row for each
-#' combination of grouping variable; if there are no grouping variables, the
+#' combination of grouping variables; if there are no grouping variables, the
 #' output will have a single row summarising all observations in the input.
 #' It will contain one column for each grouping variable and one column
 #' for each of the summary statistics that you have specified.

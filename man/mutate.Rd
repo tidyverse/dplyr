@@ -3,7 +3,7 @@
 \name{mutate}
 \alias{mutate}
 \alias{transmute}
-\title{Create or transform variables}
+\title{Create, modify, and delete columns}
 \usage{
 mutate(.data, ...)
 
@@ -49,8 +49,9 @@ explicitly kept.
 \code{mutate()} adds new variables and preserves existing ones;
 \code{transmute()} adds new variables and drops existing ones.
 New variables overwrite existing variables of the same name.
+Variables can be removed by setting their value to \code{NULL}.
 }
-\section{Useful functions available in calculations of variables}{
+\section{Useful mutate functions}{
 
 \itemize{
 \item \code{\link{+}}, \code{\link{-}}, \code{\link[=log]{log()}}, etc., for their usual mathematical meanings
@@ -82,8 +83,6 @@ With the grouped equivalent:\preformatted{starwars \%>\%
 
 The former normalises \code{mass} by the global average whereas the
 latter normalises by the averages within gender levels.
-
-\code{mutate()} does not evaluate the expressions when the group is empty.
 }
 
 \section{Scoped mutation and transmutation}{

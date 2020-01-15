@@ -1,10 +1,11 @@
-#' Create or transform variables
+#' Create, modify, and delete columns
 #'
 #' `mutate()` adds new variables and preserves existing ones;
 #' `transmute()` adds new variables and drops existing ones.
 #' New variables overwrite existing variables of the same name.
+#' Variables can be removed by setting their value to `NULL`.
 #'
-#' @section Useful functions available in calculations of variables:
+#' @section Useful mutate functions:
 #'
 #' * [`+`], [`-`], [log()], etc., for their usual mathematical meanings
 #'
@@ -43,8 +44,6 @@
 #'
 #' The former normalises `mass` by the global average whereas the
 #' latter normalises by the averages within gender levels.
-#'
-#' `mutate()` does not evaluate the expressions when the group is empty.
 #'
 #' @section Scoped mutation and transmutation:
 #'

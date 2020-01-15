@@ -2,7 +2,7 @@
 % Please edit documentation in R/rename.R
 \name{rename}
 \alias{rename}
-\title{Rename variables}
+\title{Rename columns}
 \usage{
 rename(.data, ...)
 }

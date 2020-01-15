@@ -1,4 +1,4 @@
-#' Select variables
+#' Subset columns using their names and types
 #'
 #' Select (and optionally rename) variables in a data frame, using a concise
 #' mini-language that makes it easy to refer to variables based on their name

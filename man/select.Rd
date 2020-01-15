@@ -2,7 +2,7 @@
 % Please edit documentation in R/select.R
 \name{select}
 \alias{select}
-\title{Select variables}
+\title{Subset columns using their names and types}
 \usage{
 select(.data, ...)
 }
