@@ -8,7 +8,7 @@ group_info <- function(data, group) {
     details <- glue_collapse(map2_chr(keys, names(keys), function(x, name) {
       glue("{name} = {value}", value = tibble:::format_v(x))
     }), ", ")
-    c(i = glue("The error occured in group {group}: {details}"))
+    c(i = glue("The error occured in group {group}: {details}."))
   }
 }
 
@@ -33,7 +33,7 @@ stop_eval_tidy <- function(e, index, dots, fn) {
     "`{fn}()` argument `{name}` errored.",
     i = "`{name}` is {expr}",
     x = conditionMessage(e),
-    i = if(is_grouped_df(data)) "The error occured in group {group}."
+    group_info(data, group)
   ))
 }
 
@@ -121,7 +121,6 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
     "`summarise()` argument `{name}` must be a vector.",
     i = "`{name}` is {expr}",
     group_info(data, group),
-    i = if(is_grouped_df(data)) "The error occured in group {group}.",
     x = "Result should be a vector, not {as_friendly_type(typeof(result))}."
   ))
 
@@ -161,7 +160,7 @@ stop_mutate_not_vector <- function(result, index, dots) {
     "`mutate()` argument `{name}` must be a vector.",
     i = "`{name}` is {expr}.",
     x = "Result should be a vector, not {as_friendly_type(typeof(result))}.",
-    i = if(is_grouped_df(data)) "The error occured in group {group}."
+    group_info(data, group)
   ))
 }
 
@@ -175,7 +174,7 @@ stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
     "`mutate()` argument `{name}` must be recyclable.",
     i = "`{name}` is {expr}",
     x = conditionMessage(cnd),
-    i = if(is_grouped_df(data)) "The error occured in group {group}."
+    group_info(data, group)
   ))
 }
 

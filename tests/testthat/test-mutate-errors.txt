@@ -12,7 +12,7 @@ x object 'y' not found
 Error: `mutate()` argument `a` errored.
 i `a` is sum(y)
 x object 'y' not found
-i The error occured in group 1.
+i The error occured in group 1: x = 1.
 
 
 incompatible column type
@@ -37,7 +37,7 @@ x Result should be a vector, not an environment.
 Error: `mutate()` argument `out` must be a vector.
 i `out` is env(a = 1).
 x Result should be a vector, not an environment.
-i The error occured in group 1.
+i The error occured in group 1: g = 1.
 
 
 incompatible types across groups
@@ -69,7 +69,7 @@ Error: `mutate()` argument `int` must be recyclable.
 i `int` is 1:5
 x `x` can't be recycled to size 2.
 x It must be size 2 or 1, not 5.
-i The error occured in group 2.
+i The error occured in group 2: x = 3.
 
 
 .data pronoun

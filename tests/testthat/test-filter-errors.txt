@@ -3,15 +3,9 @@ wrong type
 ==========
 
 > iris %>% group_by(Species) %>% filter(1:n())
-<<<<<<< HEAD
-Error: `filter()` argument `..1` is incorrect
-x It must be a logical vector, not a integer
-i The error occured in group 1: Species = setosa
-=======
 Error: `filter()` argument `..1` is incorrect.
 x It must be a logical vector, not a integer.
-i The error occured in group 1.
->>>>>>> master
+i The error occured in group 1: Species = setosa.
 
 > iris %>% filter(1:n())
 Error: `filter()` argument `..1` is incorrect.
@@ -22,15 +16,9 @@ wrong size
 ==========
 
 > iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))
-<<<<<<< HEAD
-Error: `filter()` argument `..1` is incorrect
-x It must be of size 50 or 1, not size 2
-i The error occured in group 1: Species = setosa
-=======
 Error: `filter()` argument `..1` is incorrect.
 x It must be of size 50 or 1, not size 2.
-i The error occured in group 1.
->>>>>>> master
+i The error occured in group 1: Species = setosa.
 
 > iris %>% filter(c(TRUE, FALSE))
 Error: `filter()` argument `..1` is incorrect.
@@ -41,15 +29,9 @@ wrong size in column
 ====================
 
 > iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE)))
-<<<<<<< HEAD
-Error: `filter()` argument `..1` is incorrect
-x It must be of size 50 or 1, not size 2
-i The error occured in group 1: Species = setosa
-=======
 Error: `filter()` argument `..1` is incorrect.
 x It must be of size 50 or 1, not size 2.
-i The error occured in group 1.
->>>>>>> master
+i The error occured in group 1: Species = setosa.
 
 > iris %>% filter(data.frame(c(TRUE, FALSE)))
 Error: `filter()` argument `..1` is incorrect.
@@ -60,15 +42,9 @@ wrong type in column
 ====================
 
 > iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, 1:n()))
-<<<<<<< HEAD
-Error: `filter()` argument `..1$X1.n..` is incorrect
-x It must be a logical vector, not a integer
-i The error occured in group 1: Species = setosa
-=======
 Error: `filter()` argument `..1$X1.n..` is incorrect.
 x It must be a logical vector, not a integer.
-i The error occured in group 1.
->>>>>>> master
+i The error occured in group 1: Species = setosa.
 
 > iris %>% filter(data.frame(Sepal.Length > 3, 1:n()))
 Error: `filter()` argument `..1$X1.n..` is incorrect.
@@ -86,12 +62,8 @@ x object '_x' not found
 > mtcars %>% group_by(cyl) %>% filter(`_x`)
 Error: `filter()` argument `..1` errored.
 i `..1` is _x
-<<<<<<< HEAD
-i The error occured in group 1: cyl = 4
-=======
 x object '_x' not found
-i The error occured in group 1.
->>>>>>> master
+i The error occured in group 1: cyl = 4.
 
 
 named inputs
