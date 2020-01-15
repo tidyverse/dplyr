@@ -15,7 +15,7 @@ home:
     href: http://r4ds.had.co.nz/transform.html
 
 reference:
-- title: Single-table verbs
+- title: One table verbs
   contents:
   - arrange
   - count
@@ -29,7 +29,7 @@ reference:
   - slice
   - slice_head
 
-- title: Two-table verbs
+- title: Two table verbs
   contents:
   - bind
   - intersect
