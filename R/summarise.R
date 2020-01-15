@@ -145,7 +145,7 @@ summarise_cols <- function(.data, ...) {
       # evaluating the quosure in the "sliced data mask"
       #
       # TODO: reinject hybrid evaluation at the R level
-      chunks[[i]] <- mask$eval_all_summarise(quo, dots_names, i)
+      chunks[[i]] <- mask$eval_all_summarise(quo)
 
       # check that vec_size() of chunks is compatible with .size
       # and maybe update .size

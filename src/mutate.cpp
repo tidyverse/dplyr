@@ -14,7 +14,7 @@ void stop_mutate_not_vector(SEXP result) {
 }
 }
 
-SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i) {
+SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context) {
   DPLYR_MASK_INIT();
 
   SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
