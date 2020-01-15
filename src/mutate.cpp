@@ -65,6 +65,13 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
     int i = 0;
     for (int i = 0; i < ngroups; i++) {
       if (Rf_isNull(VECTOR_ELT(chunks, i))) {
+        SEXP rows_i = VECTOR_ELT(rows, i);
+        R_xlen_t n_i = XLENGTH(rows_i);
+        SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));
+        Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);
+        Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
+        Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
+
         dplyr::stop_mutate_mixed_NULL();
       }
     }
