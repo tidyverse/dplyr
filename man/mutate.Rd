@@ -157,6 +157,7 @@ mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{filter}()},
+\code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()},
 \code{\link{summarise}()}

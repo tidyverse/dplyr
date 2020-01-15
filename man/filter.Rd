@@ -116,6 +116,7 @@ starwars \%>\%
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{mutate}()},
+\code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()},
 \code{\link{summarise}()}

@@ -1,17 +1,7 @@
-context("Select")
-
 test_that("select preserves grouping", {
   gf <- group_by(tibble(g = 1:3, x = 3:1), g)
 
   i <- count_regroups(out <- select(gf, h = g))
-  expect_equal(i, 0)
-  expect_equal(group_vars(out), "h")
-})
-
-test_that("rename preserves grouping", {
-  gf <- group_by(tibble(g = 1:3, x = 3:1), g)
-
-  i <- count_regroups(out <- rename(gf, h = g))
   expect_equal(i, 0)
   expect_equal(group_vars(out), "h")
 })
@@ -58,12 +48,11 @@ test_that("negating empty match returns everything", {
   expect_equal(select(df, -starts_with("xyz")), df)
 })
 
-test_that("can work with duplicate columns", {
+test_that("can select with duplicate columns", {
   df <- tibble(x = 1, x = 2, y = 1, .name_repair = "minimal")
 
   # can extract duplicate cols by position
   expect_named(df %>% select(1, 3), c("x", "y"))
-  expect_named(df %>% rename(x2 = 2), c("x", "x2", "y"))
 
   # can select out non-duplicated columns
   expect_named(df %>% select(y), "y")
@@ -84,9 +73,6 @@ test_that("select can be before group_by (#309)", {
   expect_equal(names(dfagg), c("id", "year", "var1"))
 })
 
-test_that("rename() handles data pronoun", {
-  expect_identical(rename(tibble(x = 1), y = .data$x), tibble(y = 1))
-})
 
 test_that("select succeeds in presence of raw columns (#1803)", {
   df <- tibble(a = 1:3, b = as.raw(1:3))
@@ -105,14 +91,6 @@ test_that("arguments to select() don't match vars_select() arguments", {
   expect_identical(select(group_by(df, a), include = a), group_by(tibble(include = 1), include))
 })
 
-test_that("arguments to rename() don't match vars_rename() arguments (#2861)", {
-  df <- tibble(a = 1)
-  expect_identical(rename(df, var = a), tibble(var = 1))
-  expect_identical(rename(group_by(df, a), var = a), group_by(tibble(var = 1), var))
-  expect_identical(rename(df, strict = a), tibble(strict = 1))
-  expect_identical(rename(group_by(df, a), strict = a), group_by(tibble(strict = 1), strict))
-})
-
 test_that("can select() with .data pronoun (#2715)", {
   expect_identical(select(mtcars, .data$cyl), select(mtcars, cyl))
 })
@@ -121,23 +99,15 @@ test_that("can select() with character vectors", {
   expect_identical(select(mtcars, "cyl", !!"disp", c("cyl", "am", "drat")), mtcars[c("cyl", "disp", "am", "drat")])
 })
 
-test_that("rename() to UTF-8 column names", {
-  df <- tibble(a = 1) %>% rename("\u5e78" := a)
-  expect_equal(colnames(df), "\u5e78")
-})
-
 test_that("select() treats NULL inputs as empty", {
   expect_identical(select(mtcars, cyl), select(mtcars, NULL, cyl, NULL))
 })
 
-test_that("can select() or rename() with strings and character vectors", {
+test_that("can select() with strings and character vectors", {
   vars <- c(foo = "cyl", bar = "am")
 
   expect_identical(select(mtcars, !!!vars), select(mtcars, foo = cyl, bar = am))
   expect_identical(select(mtcars, !!vars), select(mtcars, foo = cyl, bar = am))
-
-  expect_identical(rename(mtcars, !!!vars), rename(mtcars, foo = cyl, bar = am))
-  expect_identical(rename(mtcars, !!vars), rename(mtcars, foo = cyl, bar = am))
 })
 
 test_that("select works on empty names (#3601)", {

@@ -64,6 +64,7 @@ by_cyl \%>\% arrange(desc(wt), .by_group = TRUE)
 Other single table verbs: 
 \code{\link{filter}()},
 \code{\link{mutate}()},
+\code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()},
 \code{\link{summarise}()}

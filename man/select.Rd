@@ -2,12 +2,9 @@
 % Please edit documentation in R/select.R
 \name{select}
 \alias{select}
-\alias{rename}
-\title{Select/rename variables by name}
+\title{Select variables}
 \usage{
 select(.data, ...)
-
-rename(.data, ...)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -16,15 +13,10 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 \item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> One or more unquoted
 expressions separated by commas. You can treat variable names like they
 are positions, so you can use expressions like \code{x:y} to select ranges of
-variables.
-
-Use named arguments, e.g. \code{new_name = old_name}, to rename selected
 variables.}
 }
 \value{
 An object of the same type as \code{.data}.
-
-For \code{select()}:
 \itemize{
 \item Rows are not affected.
 \item Output columns are a subset of input columns, potentially with a different
@@ -32,21 +24,13 @@ order. Columns will be renamed if \code{new_name = old_name} form is used.
 \item Data frame attributes are preserved.
 \item Groups are maintained; you can not select off grouping variables.
 }
-
-For \code{rename()}:
-\itemize{
-\item Rows are not affected.
-\item Column names are changed; column order is preserved
-\item Data frame attributes are preserved.
-\item Groups are updated to reflect new names.
-}
 }
 \description{
-Select or rename variables in a data frame, using a concise mini-language
-that makes it easy to refer to variables based on their name (e.g.
-\code{a:f} selects all columns between \code{a} on the left to \code{f} on the right).
-You can also use predicate functions like \link{is.numeric} to select variables
-based on their properties.
+Select (and optionally rename) variables in a data frame, using a concise
+mini-language that makes it easy to refer to variables based on their name
+(e.g. \code{a:f} selects all columns between \code{a} on the left to \code{f} on the
+right). You can also use predicate functions like \link{is.numeric} to select
+variables based on their properties.
 }
 \section{Useful functions}{
 
@@ -86,15 +70,6 @@ accidental matching of data frame variables when you refer to
 variables from the calling context.
 }
 
-\section{Scoped selection and renaming}{
-
-
-The three \link{scoped} variants of \code{select()} (\code{\link[=select_all]{select_all()}},
-\code{\link[=select_if]{select_if()}} and \code{\link[=select_at]{select_at()}}) and the three variants of
-\code{rename()} (\code{\link[=rename_all]{rename_all()}}, \code{\link[=rename_if]{rename_if()}}, \code{\link[=rename_at]{rename_at()}}) make it
-easy to apply a renaming function to a selection of variables.
-}
-
 \examples{
 iris <- as_tibble(iris) # so it prints a little nicer
 select(iris, starts_with("Petal"))
@@ -102,6 +77,9 @@ select(iris, ends_with("Width"))
 select(iris, !starts_with("Petal"))
 select(iris, starts_with("Petal") & ends_with("Width"))
 select(iris, is.numeric)
+
+# If desired, you can rename individual variables as you select them
+select(iris, species = Species, width = Petal.Width, length = Petal.Length)
 
 df <- as.data.frame(matrix(runif(100), nrow = 10))
 df <- as_tibble(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
@@ -118,22 +96,13 @@ select(iris, Species, everything())
 # Move `Sepal.Length` to the back: first select everything except
 # `Sepal.Length`, then select `Sepal.Length`
 select(iris, !Sepal.Length, Sepal.Length)
-
-# Renaming -----------------------------------------
-# * select() keeps only the variables you specify
-select(iris, petal_length = Petal.Length)
-
-# * rename() keeps all variables
-rename(iris, petal_length = Petal.Length)
-
-# * select() can rename variables in a group
-select(iris, obs = starts_with('S'))
 }
 \seealso{
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{filter}()},
 \code{\link{mutate}()},
+\code{\link{rename}()},
 \code{\link{slice}()},
 \code{\link{summarise}()}
 }

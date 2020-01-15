@@ -1,10 +1,10 @@
-#' Select/rename variables by name
+#' Select variables
 #'
-#' Select or rename variables in a data frame, using a concise mini-language
-#' that makes it easy to refer to variables based on their name (e.g.
-#' `a:f` selects all columns between `a` on the left to `f` on the right).
-#' You can also use predicate functions like [is.numeric] to select variables
-#' based on their properties.
+#' Select (and optionally rename) variables in a data frame, using a concise
+#' mini-language that makes it easy to refer to variables based on their name
+#' (e.g. `a:f` selects all columns between `a` on the left to `f` on the
+#' right). You can also use predicate functions like [is.numeric] to select
+#' variables based on their properties.
 #'
 #' @section Useful functions:
 #' As well as using existing functions like `:` and `c()`, there are
@@ -38,39 +38,18 @@
 #' are evaluated outside the data frame context. This is to prevent
 #' accidental matching of data frame variables when you refer to
 #' variables from the calling context.
-#'
-#' @section Scoped selection and renaming:
-#'
-#' The three [scoped] variants of `select()` ([select_all()],
-#' [select_if()] and [select_at()]) and the three variants of
-#' `rename()` ([rename_all()], [rename_if()], [rename_at()]) make it
-#' easy to apply a renaming function to a selection of variables.
-#'
 #' @inheritParams filter
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
 #'   expressions separated by commas. You can treat variable names like they
 #'   are positions, so you can use expressions like `x:y` to select ranges of
 #'   variables.
-#'
-#'   Use named arguments, e.g. `new_name = old_name`, to rename selected
-#'   variables.
 #' @return
 #' An object of the same type as `.data`.
-#'
-#' For `select()`:
-#'
 #' * Rows are not affected.
 #' * Output columns are a subset of input columns, potentially with a different
 #'   order. Columns will be renamed if `new_name = old_name` form is used.
 #' * Data frame attributes are preserved.
 #' * Groups are maintained; you can not select off grouping variables.
-#'
-#' For `rename()`:
-#'
-#' * Rows are not affected.
-#' * Column names are changed; column order is preserved
-#' * Data frame attributes are preserved.
-#' * Groups are updated to reflect new names.
 #' @family single table verbs
 #' @export
 #' @examples
@@ -80,6 +59,9 @@
 #' select(iris, !starts_with("Petal"))
 #' select(iris, starts_with("Petal") & ends_with("Width"))
 #' select(iris, is.numeric)
+#'
+#' # If desired, you can rename individual variables as you select them
+#' select(iris, species = Species, width = Petal.Width, length = Petal.Length)
 #'
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
 #' df <- as_tibble(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
@@ -96,16 +78,6 @@
 #' # Move `Sepal.Length` to the back: first select everything except
 #' # `Sepal.Length`, then select `Sepal.Length`
 #' select(iris, !Sepal.Length, Sepal.Length)
-#'
-#' # Renaming -----------------------------------------
-#' # * select() keeps only the variables you specify
-#' select(iris, petal_length = Petal.Length)
-#'
-#' # * rename() keeps all variables
-#' rename(iris, petal_length = Petal.Length)
-#'
-#' # * select() can rename variables in a group
-#' select(iris, obs = starts_with('S'))
 select <- function(.data, ...) {
   UseMethod("select")
 }
@@ -122,21 +94,6 @@ select.data.frame <- function(.data, ...) {
   set_names(.data[loc], names(loc))
 }
 
-#' @rdname select
-#' @export
-rename <- function(.data, ...) {
-  UseMethod("rename")
-}
-
-#' @export
-rename.data.frame <- function(.data, ...) {
-  loc <- tidyselect::eval_rename(expr(c(...)), .data)
-  # eval_rename() only returns changes
-  names <- names(.data)
-  names[loc] <- names(loc)
-
-  set_names(.data, names)
-}
 
 # Helpers -----------------------------------------------------------------
 

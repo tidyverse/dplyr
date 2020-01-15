@@ -23,6 +23,7 @@ reference:
   - filter
   - mutate
   - pull
+  - rename
   - select
   - summarise
   - slice
