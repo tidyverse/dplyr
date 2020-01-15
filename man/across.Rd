@@ -4,7 +4,7 @@
 \alias{across}
 \title{Apply a function (or a set of functions) to a set of columns}
 \usage{
-across(cols, fns = NULL)
+across(cols = everything(), fns = NULL)
 }
 \arguments{
 \item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
@@ -21,7 +21,7 @@ Possible values are:
 \verb{list(mean = mean, n_miss = ~ sum(is.na(.x))}
 }
 
-Within these functions you can use \code{\link[=current_column]{current_column()}} and \code{\link[=current_key]{current_key()}}
+Within these functions you can use \code{\link[=cur_column]{cur_column()}} and \code{\link[=cur_group]{cur_group()}}
 to access the current column and grouping keys respectively.}
 }
 \value{

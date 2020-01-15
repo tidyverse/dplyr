@@ -20,7 +20,13 @@ variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending orde
 grouped data frames only.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same type as \code{.data}.
+\itemize{
+\item All rows appear in the output, but (usually) in a different place.
+\item Columns are not modified.
+\item Groups are not modified.
+\item Data frame attributes are preserved.
+}
 }
 \description{
 Order data frame rows by the values of selected variables.
@@ -44,12 +50,6 @@ Unlike base sorting with \code{sort()}, \code{NA} are:
 }
 }
 
-\section{Tidy data}{
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
-}
-
 \examples{
 arrange(mtcars, cyl, disp)
 arrange(mtcars, desc(disp))
@@ -64,6 +64,7 @@ by_cyl \%>\% arrange(desc(wt), .by_group = TRUE)
 Other single table verbs: 
 \code{\link{filter}()},
 \code{\link{mutate}()},
+\code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()},
 \code{\link{summarise}()}

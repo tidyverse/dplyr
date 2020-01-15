@@ -26,6 +26,9 @@ names and column locations).}
 \item{name}{An optional parameter that specifies the column to be used
 as names for a named vector. Specified in a similar manner as \code{var}.}
 }
+\value{
+A vector the same size as \code{.data}.
+}
 \description{
 This works like \code{[[} for local data frames, and automatically collects
 before indexing for remote data tables.

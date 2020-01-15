@@ -66,14 +66,14 @@ test_that("can remove grouping cols with subset assignment", {
 })
 
 test_that("names<- updates grouping data", {
-  df <- tibble(x = 1, y = 2)
-  gf <- group_by(df, x)
+  df <- tibble(x = 1, y = 2, z = 3)
+  gf <- group_by(df, x, y)
 
-  names(gf) <- c("z1", "z2")
-  expect_named(group_data(gf), c("z1", ".rows"))
+  names(gf) <- c("z1", "z2", "z3")
+  expect_named(group_data(gf), c("z1", "z2", ".rows"))
 
   names(gf)[1] <- c("Z1")
-  expect_named(group_data(gf), c("Z1", ".rows"))
+  expect_named(group_data(gf), c("Z1", "z2", ".rows"))
 })
 
 test_that("names<- doesn't modify group data if not necessary", {

@@ -1,8 +1,7 @@
 #' Create or transform variables
 #'
 #' `mutate()` adds new variables and preserves existing ones;
-#' `transmute()` adds new variables and drops existing ones.  Both
-#' functions preserve the number of rows of the input.
+#' `transmute()` adds new variables and drops existing ones.
 #' New variables overwrite existing variables of the same name.
 #'
 #' @section Useful functions available in calculations of variables:
@@ -57,7 +56,6 @@
 #'
 #' @export
 #' @inheritParams filter
-#' @inheritSection filter Tidy data
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of expressions,
 #'   each with length 1 or the same length as the number of rows in the group
 #'   (if using [group_by()]) or in the entire input (if not using groups).
@@ -66,7 +64,26 @@
 #'   to drop a variable.  New variables overwrite existing variables
 #'   of the same name.
 #' @family single table verbs
-#' @return An object of the same class as `.data`.
+#' @return
+#' An object of the same type as `.data`.
+#'
+#' For `mutate()`:
+#'
+#' * Rows are not affected.
+#' * Existing columns will be preserved unless explicitly modified.
+#' * New columns will be added to the right of existing columns.
+#' * Columns given value `NULL` will be removed
+#' * Groups will be recomputed if a grouping variable is mutated.
+#' * Data frame attributes are preserved.
+#'
+#' For `transmute()`:
+#'
+#' * Rows are not affected.
+#' * Apart from grouping variables, existing columns will be remove unless
+#'   explicitly kept.
+#' * Column order matches order of expressions.
+#' * Groups will be recomputed if a grouping variable is mutated.
+#' * Data frame attributes are preserved.
 #' @examples
 #' # Newly created variables are available immediately
 #' mtcars %>% as_tibble() %>% mutate(
@@ -130,34 +147,8 @@ mutate <- function(.data, ...) {
 
 #' @export
 mutate.data.frame <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
-  if (is.null(cols)) {
-    return(.data)
-  }
-
-  .data <- .data[setdiff(names(.data), cols$delete)]
-  .data[names(cols$add)] <- cols$add
-
-  .data
-}
-
-#' @export
-mutate.grouped_df <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
-  if (is.null(cols)) {
-    return(.data)
-  }
-
-  data <- as_tibble(.data)
-  data <- data[setdiff(names(.data), cols$delete)]
-  data[names(cols$add)] <- cols$add
-
-  groups <- group_data(.data)
-  if (any(cols$change %in% names(groups))) {
-    grouped_df(data, group_vars(.data), group_by_drop_default(.data))
-  } else {
-    new_grouped_df(data, groups)
-  }
+  cols <- mutate_cols(.data, ...)
+  dplyr_col_modify(.data, cols)
 }
 
 #' @rdname mutate
@@ -168,39 +159,22 @@ transmute <- function(.data, ...) {
 
 #' @export
 transmute.data.frame <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
-  if (is.null(cols)) {
-    return(.data[integer()])
-  }
+  cols <- mutate_cols(.data, ...)
+  .data <- dplyr_col_modify(.data, cols)
 
-  .data <- .data[integer()]
-  .data[names(cols$add)] <- cols$add
+  out_cols <- c(
+    # ensure group vars present
+    setdiff(group_vars(.data), names(cols)),
+    # cols might contain NULLs
+    intersect(names(cols), names(.data))
+  )
 
-  .data
-}
-
-#' @export
-transmute.grouped_df <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
-  if (is.null(cols)) {
-    return(.data[group_vars(.data)])
-  }
-
-  data <- as_tibble(.data)
-  data <- data[setdiff(group_vars(.data), names(cols$add))]
-  data[names(cols$add)] <- cols$add
-
-  groups <- group_data(.data)
-  if (any(cols$change %in% names(groups))) {
-    grouped_df(data, group_vars(.data), group_by_drop_default(.data))
-  } else {
-    new_grouped_df(data, groups)
-  }
+  .data[out_cols]
 }
 
 # Helpers -----------------------------------------------------------------
 
-mutate_new_columns <- function(.data, ...) {
+mutate_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -288,10 +262,6 @@ mutate_new_columns <- function(.data, ...) {
   )
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
-
-  list(
-    add = new_columns[!is_zap],
-    delete = names(new_columns)[is_zap],
-    change = names(new_columns)
-  )
+  new_columns[is_zap] <- rep(list(NULL), sum(is_zap))
+  new_columns
 }

@@ -112,9 +112,7 @@ ungroup <- function(x, ...) {
 #' @export
 ungroup.grouped_df <- function(x, ...) {
   if (missing(...)) {
-    attr(x, "groups") <- NULL
-    attr(x, "class") <- c("tbl_df", "tbl", "data.frame")
-    x
+    as_tibble(x)
   } else {
     old_groups <- group_vars(x)
     to_remove <- tidyselect::vars_select(names(x), ...)
@@ -157,14 +155,13 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   new_groups <- new_groups[!map_lgl(new_groups, quo_is_missing)]
 
   # If any calls, use mutate to add new columns, then group by those
-  c(.data, group_names) %<-% add_computed_columns(.data, new_groups)
+  c(out, group_names) %<-% add_computed_columns(.data, new_groups)
 
   if (.add) {
-    group_names <- c(group_vars(.data), group_names)
+    group_names <- union(group_vars(.data), group_names)
   }
-  group_names <- unique(group_names)
 
-  unknown <- setdiff(group_names, tbl_vars(.data))
+  unknown <- setdiff(group_names, tbl_vars(out))
   if (length(unknown) > 0) {
     abort(c(
       "Must group by variables found in `.data`",
@@ -173,10 +170,36 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   }
 
   list(
-    data = .data,
+    data = out,
     groups = syms(group_names),
     group_names = group_names
   )
+}
+
+add_computed_columns <- function(.data, vars) {
+  is_symbol <- map_lgl(vars, quo_is_variable_reference)
+  needs_mutate <- have_name(vars) | !is_symbol
+
+  if (any(needs_mutate)) {
+    col_names <- as.list(names(exprs_auto_name(vars)))
+
+    out_cols <- list()
+    # Process sequentially so we can keep the group names in order
+    # TODO: re-write so works with dbplyr too
+    for (i in which(needs_mutate)) {
+      cols <- mutate_cols(.data, !!!vars[i])
+      out_cols[names(cols)] <- cols
+      col_names[[i]] <- names(cols)
+    }
+
+    out <- dplyr_col_modify(.data, out_cols)
+    col_names <- unique(unlist(col_names))
+  } else {
+    out <- .data
+    col_names <- names(exprs_auto_name(vars))
+  }
+
+  list(data = out, added_names = col_names)
 }
 
 quo_is_variable_reference <- function(quo) {
@@ -203,33 +226,6 @@ quo_is_variable_reference <- function(quo) {
 
   FALSE
 }
-
-add_computed_columns <- function(.data, vars) {
-  is_symbol <- map_lgl(vars, quo_is_variable_reference)
-  named <- have_name(vars)
-
-  needs_mutate <- named | !is_symbol
-
-  # Shortcut necessary, otherwise all columns are analyzed in mutate(),
-  # this can change behavior
-  mutate_vars <- vars[needs_mutate]
-  which_need_update <- which(needs_mutate)
-
-  column_names <- as.list(names(exprs_auto_name(vars)))
-
-  if (length(mutate_vars) > 0L) {
-    for (i in seq_along(mutate_vars)) {
-      cols <- mutate_new_columns(.data, !!!mutate_vars[i])
-      column_names[[which_need_update[i]]] <- names(cols$add)
-      .data[names(cols$add)] <- cols$add
-    }
-  }
-
-  column_names <- rev(unique(rev(vec_c(!!!column_names, .ptype = chr()))))
-
-  list(data = .data, added_names = column_names)
-}
-
 
 #' Default value for .drop argument of group_by
 #'

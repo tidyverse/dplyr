@@ -51,6 +51,17 @@ stop_error_data_pronoun_not_found <- function(msg, index, dots, fn = "summarise"
   ))
 }
 
+err_vars <- function(x) {
+  if (is.logical(x)) {
+    x <- which(x)
+  }
+  if (is.character(x)) {
+    x <- encodeString(x, quote = "`")
+  }
+
+  glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ")
+}
+
 # filter() ----------------------------------------------------------------
 
 stop_filter_incompatible_size <- function(index_expression, index_group, size, expected_size, data) {
@@ -154,14 +165,6 @@ stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
     x = conditionMessage(cnd),
     i = if(is_grouped_df(data)) "The error occured in group {group}"
   ))
-}
-
-arg_name <- function(quos, index) {
-  name  <- names(quos)[index]
-  if (name == "") {
-    name <- glue("..{index}")
-  }
-  name
 }
 
 stop_summarise_incompatible_size <- function(size, group, index, expected_sizes, dots) {

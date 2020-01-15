@@ -51,11 +51,7 @@ compute_groups <- function(data, vars, drop = FALSE) {
   group_vars <- as_tibble(data)[vars]
   c(old_keys, old_rows) %<-% vec_split_id_order(group_vars)
 
-  map2(old_keys, names(old_keys), function(x, n) {
-    if (is.factor(x) && anyNA(x)) {
-      warn(glue("Factor `{n}` contains implicit NA, consider using `forcats::fct_explicit_na`"))
-    }
-  })
+  signal("", class = "dplyr_regroup")
 
   groups <- tibble(!!!old_keys, .rows := old_rows)
 
@@ -99,6 +95,19 @@ compute_groups <- function(data, vars, drop = FALSE) {
   structure(groups, .drop = drop)
 }
 
+count_regroups <- function(code) {
+  i <- 0
+  withCallingHandlers(code, dplyr_regroup = function(cnd) {
+    i <<- i + 1
+  })
+  i
+}
+
+show_regroups <- function(code) {
+  withCallingHandlers(code, dplyr_regroup = function(cnd) {
+    cat("Regrouping...\n")
+  })
+}
 
 #' Low-level construction and validation for the grouped_df class
 #'
@@ -186,14 +195,12 @@ tbl_sum.grouped_df <- function(x) {
 #' @export
 as.data.frame.grouped_df <- function(x, row.names = NULL,
                                      optional = FALSE, ...) {
-  x <- ungroup(x)
-  class(x) <- "data.frame"
-  x
+  new_data_frame(vec_data(x), n = nrow(x))
 }
 
 #' @export
 as_tibble.grouped_df <- function(x, ...) {
-  ungroup(x)
+  new_tibble(vec_data(x), nrow = nrow(x))
 }
 
 #' @importFrom tibble is_tibble
@@ -245,7 +252,7 @@ as_tibble.grouped_df <- function(x, ...) {
   names(data) <- value
 
   groups <- group_data(x)
-  group_loc <- match(intersect(names(x), names(groups)), names(groups))
+  group_loc <- match(intersect(names(x), names(groups)), names(x))
   group_names <- c(value[group_loc], ".rows")
   if (!identical(group_names, names(groups))) {
     names(groups) <- c(value[group_loc], ".rows")
@@ -312,8 +319,8 @@ expand_groups <- function(old_groups, positions, nr) {
 }
 
 vec_split_id_order <- function(x) {
-  split_id <- vec_group_pos(x)
-  split_id$pos <- new_list_of(split_id$pos, ptype = integer())
+  split_id <- vec_group_loc(x)
+  split_id$loc <- new_list_of(split_id$loc, ptype = integer())
   vec_slice(split_id, vec_order(split_id$key))
 }
 

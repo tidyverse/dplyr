@@ -41,10 +41,6 @@
 #' When applied on a grouped tibble, `filter()` automatically [rearranges][arrange]
 #' the tibble by groups for performance reasons.
 #'
-#' @section Tidy data:
-#' When applied to a data frame, row names are silently dropped. To preserve,
-#' convert to an explicit variable with [tibble::rownames_to_column()].
-#'
 #' @section Scoped filtering:
 #' The three [scoped] variants ([filter_all()], [filter_if()] and
 #' [filter_at()]) make it easy to apply a filtering condition to a
@@ -59,7 +55,13 @@
 #'   condition evaluates to `TRUE` are kept.
 #' @param .preserve when `FALSE` (the default), the grouping structure
 #'   is recalculated based on the resulting data, otherwise it is kept as is.
-#' @return An object of the same class as `.data`.
+#' @return
+#' An object of the same type as `.data`.
+#'
+#' * Rows are a subset of the input, but appear in the same order.
+#' * Columns are not modified.
+#' * The number of groups may be reduced (if `.preserve` is not `TRUE`).
+#' * Data frame attributes are preserved.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples
@@ -105,27 +107,11 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
     return(.data)
   }
 
-  idx <- filter_indices(.data, ...)
-  .data[idx[[1]], , drop = FALSE]
+  loc <- filter_rows(.data, ...)[[1]]
+  dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
-#' @export
-filter.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.data)) {
-  if (missing(...)) {
-    return(.data)
-  }
-
-  idx <- filter_indices(.data, ...)
-  data <- as.data.frame(.data)[idx[[1]], , drop = FALSE]
-
-  groups <- group_data(.data)
-  groups$.rows <- filter_update_rows(nrow(.data), idx[[3]], idx[[1]], idx[[2]])
-  groups <- group_data_trim(groups, .preserve)
-
-  new_grouped_df(data, groups)
-}
-
-filter_indices <- function(.data, ...) {
+filter_rows <- function(.data, ...) {
   dots <- enquos(...)
   check_filter(dots)
 
@@ -159,9 +145,4 @@ check_filter <- function(dots) {
     }
 
   }
-}
-
-
-filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
-  .Call(`dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
 }

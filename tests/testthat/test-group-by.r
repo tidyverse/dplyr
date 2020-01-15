@@ -6,8 +6,8 @@ test_that("group_by with .add = TRUE adds groups", {
   add_groups1 <- function(tbl) group_by(tbl, x, y, .add = TRUE)
   add_groups2 <- function(tbl) group_by(group_by(tbl, x, .add = TRUE), y, .add = TRUE)
 
-  expect_groups(add_groups1(df), c("x", "y"))
-  expect_groups(add_groups2(df), c("x", "y"))
+  expect_equal(group_vars(add_groups1(df)), c("x", "y"))
+  expect_equal(group_vars(add_groups2(df)), c("x", "y"))
 })
 
 test_that("add = TRUE is deprecated", {
@@ -23,15 +23,15 @@ test_that("add = TRUE is deprecated", {
 test_that("joins preserve grouping", {
   g <- group_by(df, x)
 
-  expect_groups(inner_join(g, g, by = c("x", "y")), "x")
-  expect_groups(left_join(g, g, by = c("x", "y")), "x")
-  expect_groups(semi_join(g, g, by = c("x", "y")), "x")
-  expect_groups(anti_join(g, g, by = c("x", "y")), "x")
+  expect_equal(group_vars(inner_join(g, g, by = c("x", "y"))), "x")
+  expect_equal(group_vars(left_join(g, g, by = c("x", "y"))), "x")
+  expect_equal(group_vars(semi_join(g, g, by = c("x", "y"))), "x")
+  expect_equal(group_vars(anti_join(g, g, by = c("x", "y"))), "x")
 })
 
 test_that("constructors drops groups", {
   df <- data.frame(x = 1:3) %>% group_by(x)
-  expect_no_groups(as_tibble(df))
+  expect_equal(group_vars(as_tibble(df)), character())
 })
 
 test_that("grouping by constant adds column (#410)", {
@@ -78,7 +78,7 @@ test_that("mutate does not loose variables (#144)", {
 
 test_that("group_by uses shallow copy", {
   m1 <- group_by(mtcars, cyl)
-  expect_no_groups(mtcars)
+  expect_equal(group_vars(mtcars), character())
 
   expect_equal(
     lobstr::obj_addrs(mtcars),
@@ -137,31 +137,31 @@ test_that("group_by works with zero-row data frames (#486)", {
   df <- data.frame(a = numeric(0), b = numeric(0), g = character(0))
   dfg <- group_by(df, g, .drop = FALSE)
   expect_equal(dim(dfg), c(0, 3))
-  expect_groups(dfg, "g")
+  expect_equal(group_vars(dfg), "g")
   expect_equal(group_size(dfg), integer(0))
 
   x <- summarise(dfg, n = n())
   expect_equal(dim(x), c(0, 2))
-  expect_no_groups(x)
+  expect_equal(group_vars(x), character())
 
   x <- mutate(dfg, c = b + 1)
   expect_equal(dim(x), c(0, 4))
-  expect_groups(x, "g")
+  expect_equal(group_vars(x), "g")
   expect_equal(group_size(x), integer(0))
 
   x <- filter(dfg, a == 100)
   expect_equal(dim(x), c(0, 3))
-  expect_groups(x, "g")
+  expect_equal(group_vars(x), "g")
   expect_equal(group_size(x), integer(0))
 
   x <- arrange(dfg, a, g)
   expect_equal(dim(x), c(0, 3))
-  expect_groups(x, "g")
+  expect_equal(group_vars(x), "g")
   expect_equal(group_size(x), integer(0))
 
   x <- select(dfg, a) # Only select 'a' column; should result in 'g' and 'a'
   expect_equal(dim(x), c(0, 2))
-  expect_groups(x, "g")
+  expect_equal(group_vars(x), "g")
   expect_equal(group_size(x), integer(0))
 })
 
@@ -179,7 +179,7 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
   by_cyl <- mtcars %>% group_by(cyl)
   no_cyl <- by_cyl %>% `[`(c(1, 3))
 
-  expect_no_groups(no_cyl)
+  expect_equal(group_vars(no_cyl), character())
   expect_is(no_cyl, "tbl_df")
 })
 
@@ -215,7 +215,7 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
         names(df) <- names_converter(c(special, "Eng"))
         res <- group_by(df, !!!syms(dots_converter(special)))
         expect_equal(names(res), names(df))
-        expect_groups(res, special)
+        expect_equal(group_vars(res), special)
       }
     }
 
