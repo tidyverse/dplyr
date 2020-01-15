@@ -41,10 +41,11 @@ stop_combine <- function(msg, index, dots, fn = "summarise") {
 
 stop_error_data_pronoun_not_found <- function(msg, index, dots, fn = "summarise") {
   name <- arg_name(dots, index)
+  # this instead of as_label() because it eats the ".data$"
   expr <- deparse(quo_get_expr(dots[[index]]))
 
   abort(glue_c(
-    "`{fn}()` argument `{name}` must return compatible vectors across groups",
+    "`{fn}()` argument `{name}` errored",
     x = msg,
     i = "`{name}` is {expr}"
   ))

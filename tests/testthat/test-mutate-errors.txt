@@ -80,12 +80,12 @@ i The error occured in group 2
 =============
 
 > mutate(tibble(a = 1), c = .data$b)
-Error: `mutate()` argument `c` must return compatible vectors across groups
+Error: `mutate()` argument `c` errored
 x Column `b` not found in `.data`
 i `c` is .data$b
 
 > mutate(group_by(tibble(a = 1:3), a), c = .data$b)
-Error: `mutate()` argument `c` must return compatible vectors across groups
+Error: `mutate()` argument `c` errored
 x Column `b` not found in `.data`
 i `c` is .data$b
 

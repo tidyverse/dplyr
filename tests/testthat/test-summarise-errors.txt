@@ -72,12 +72,12 @@ i The error occured in group 1
 =============
 
 > summarise(tibble(a = 1), c = .data$b)
-Error: `summarise()` argument `c` must return compatible vectors across groups
+Error: `summarise()` argument `c` errored
 x Column `b` not found in `.data`
 i `c` is .data$b
 
 > summarise(group_by(tibble(a = 1:3), a), c = .data$b)
-Error: `summarise()` argument `c` must return compatible vectors across groups
+Error: `summarise()` argument `c` errored
 x Column `b` not found in `.data`
 i `c` is .data$b
 
