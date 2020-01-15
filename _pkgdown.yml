@@ -27,7 +27,6 @@ reference:
   - select
   - summarise
   - slice
-  - slice_head
 
 - title: Two table verbs
   contents:

@@ -2,22 +2,58 @@
 % Please edit documentation in R/slice.R
 \name{slice}
 \alias{slice}
+\alias{slice_head}
+\alias{slice_tail}
+\alias{slice_min}
+\alias{slice_max}
+\alias{slice_sample}
 \title{Subset rows using their positions}
 \usage{
 slice(.data, ..., .preserve = FALSE)
+
+slice_head(.data, ..., n, prop)
+
+slice_tail(.data, ..., n, prop)
+
+slice_min(.data, order_by, ..., n, prop, with_ties = TRUE)
+
+slice_max(.data, order_by, ..., n, prop, with_ties = TRUE)
+
+slice_sample(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Integer row values.
+\item{...}{For \code{slice()}: <\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Integer row values.
 Provide either positive values to keep, or negative values to drop.
 The values provided must be either all positive or all negative.
-Indices beyond the number of rows in the input are silently ignored.}
+Indices beyond the number of rows in the input are silently ignored.
+
+For \code{slice_helpers()}, these arguments are passed on to methods.}
 
 \item{.preserve}{when \code{FALSE} (the default), the grouping structure
 is recalculated based on the resulting data, otherwise it is kept as is.}
+
+\item{n, prop}{Provide either \code{n}, the number of rows, or \code{prop}, the
+proportion of rows to select. If \code{n} is greater than the number of
+rows in the group (or \code{prop > 1}), it will be silently truncated to the
+group size. If the \code{prop}ortion of a group size is not an integer, it will
+be rounded down.}
+
+\item{order_by}{Variable or function of variables to order by.}
+
+\item{with_ties}{Should ties be kept together? The default, \code{TRUE},
+may return more rows than you request. Use \code{FALSE} to ignore ties,
+and return the first \code{n} rows.}
+
+\item{weight_by}{Sampling weights. This must evaluate to a vector of
+non-negative numbers the same length as the input. Weights are
+automatically standardised to sum to 1.}
+
+\item{replace}{Should sampling be performed with (\code{TRUE}) or without
+(\code{FALSE}, the default) replacement.}
 }
 \value{
 An object of the same type as \code{.data}.
@@ -30,7 +66,18 @@ An object of the same type as \code{.data}.
 }
 \description{
 \code{slice()} lets you index rows by their (integer) locations. It allows you
-to select, remove, and duplicate rows.
+to select, remove, and duplicate rows. It is accompanied by a number of
+helpers for common use cases:
+\itemize{
+\item \code{slice_head()} and \code{slice_tail()} select the first or last rows.
+\item \code{slice_sample()} randomly selects rows.
+\item \code{slice_min()} and \code{slice_max()} select rows with highest or lowest values
+of a variable.
+}
+
+If \code{.data} is a \link{grouped_df}, the operation will be performed on each group,
+so that (e.g.) \code{slice_head(df, n = 5)} will select the first five rows in
+each group.
 }
 \details{
 Slice does not work with relational databases because they have no
@@ -39,30 +86,69 @@ operation, use \code{\link[=filter]{filter()}} and \code{\link[=row_number]{row_
 }
 \section{Methods}{
 
-This function is a \strong{generic}, which means that packages can provide
+These function are \strong{generic}s, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
-The following methods are currently available in loaded packages:
-\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice")}.
+Methods available in currently loaded packages:
+\itemize{
+\item \code{slice()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice")}.
+\item \code{slice_head()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_head")}.
+\item \code{slice_tail()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_tail")}.
+\item \code{slice_min()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_min")}.
+\item \code{slice_max()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_max")}.
+\item \code{slice_sample()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_sample")}.
+}
 }
 
 \examples{
-slice(mtcars, 1L)
+mtcars \%>\% slice(1L)
 # Similar to tail(mtcars, 1):
-slice(mtcars, n())
-slice(mtcars, 5:n())
+mtcars \%>\% slice(n())
+mtcars \%>\% slice(5:n())
 # Rows can be dropped with negative indices:
-slice(mtcars, -5:-n())
-# In this case, the result will be equivalent to:
-slice(mtcars, 1:4)
+slice(mtcars, -(1:4))
 
-by_cyl <- group_by(mtcars, cyl)
-slice(by_cyl, 1:2)
+# First and last rows based on existing order
+mtcars \%>\% slice_head(n = 5)
+mtcars \%>\% slice_tail(n = 5)
 
-# Equivalent code using filter that will also work with databases,
-# but won't be as fast for in-memory data. For many databases, you'll
-# need to supply an explicit variable to use to compute the row number.
+# Rows with minimum and maximum values of a variable
+mtcars \%>\% slice_min(mpg, n = 5)
+mtcars \%>\% slice_max(mpg, n = 5)
+
+# slice_min() and slice_max() may return more rows than requested
+# in the presence of ties. Use with_ties = FALSE to suppress
+mtcars \%>\% slice_min(cyl, n = 1)
+mtcars \%>\% slice_min(cyl, n = 1, with_ties = FALSE)
+
+# slice_sample() allows you to random select with or without replacement
+mtcars \%>\% slice_sample(n = 5)
+mtcars \%>\% slice_sample(n = 5, replace = TRUE)
+
+# you can optionally weight by a variable - this code weights by the
+# physical weight of the cars, so heavy cars are more likely to get
+# selected
+mtcars \%>\% slice_sample(weight_by = wt, n = 5)
+
+# Group wise operation ----------------------------------------
+df <- tibble(
+  group = rep(c("a", "b", "c"), c(1, 2, 4)),
+  x = runif(7)
+)
+
+# All slice helpers operate per group, silently truncating to the group
+# size, so the following code works without error
+df \%>\% group_by(group) \%>\% slice_head(n = 2)
+
+# When specifying the proportion of rows to include non-integer sizes
+# are rounded down, so group a gets 0 rows
+df \%>\% group_by(group) \%>\% slice_head(prop = 0.5)
+
+# Filter equivalents --------------------------------------------
+# slice() expressions can often be written to use `filter()` and
+# `row_number()`, which can also be translated to SQL. For many databases,
+#you'll need to supply an explicit variable to use to compute the row number.
 filter(mtcars, row_number() == 1L)
 filter(mtcars, row_number() == n())
 filter(mtcars, between(row_number(), 5, n()))
