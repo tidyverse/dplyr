@@ -1,72 +1,33 @@
-#' Join two data frames together
+#' Mutating joins
 #'
-#' These are generic functions that dispatch to individual tbl methods - see the
-#' method documentation for details of individual data sources. `x` and
-#' `y` should usually be from the same data source, but if `copy` is
-#' `TRUE`, `y` will automatically be copied to the same source as `x`.
+#' @description
+#' The mutating joins add columns from `y` to `x`, matching rows based on the
+#' keys:
 #'
-#' @section Join types:
+#' * `inner_join()`: includes all rows in `x` and `y`.
+#' * `left_join()`: includes all rows in `x`.
+#' * `right_join()`: includes all rows in `y`.
+#' * `full_join()`: includes all rows in `x` or `y`.
 #'
-#' Currently dplyr supports four types of mutating joins, two types of filtering joins, and
-#' a nesting join.
+#' If there are multiple matches between `x` and `y`, all combination of the
+#' matches are returned.
 #'
-#' \strong{Mutating joins} combine variables from the two data.frames:
+#' @return
+#' An object of the same type as `x`. The order of the rows and columns of `x`
+#' is preserved as much as possible.
 #'
-#' \describe{
-#'    \item{`inner_join()`}{return all rows from `x` where there are matching
-#'    values in `y`, and all columns from `x` and `y`. If there are multiple matches
-#'    between `x` and `y`, all combination of the matches are returned.}
-#'
-#'    \item{`left_join()`}{return all rows from `x`, and all columns from `x`
-#'    and `y`. Rows in `x` with no match in `y` will have `NA` values in the new
-#'    columns. If there are multiple matches between `x` and `y`, all combinations
-#'    of the matches are returned.}
-#'
-#'   \item{`right_join()`}{return all rows from `y`, and all columns from `x`
-#'    and y. Rows in `y` with no match in `x` will have `NA` values in the new
-#'    columns. If there are multiple matches between `x` and `y`, all combinations
-#'    of the matches are returned.}
-#'
-#'    \item{`full_join()`}{return all rows and all columns from both `x` and `y`.
-#'    Where there are not matching values, returns `NA` for the one missing.}
-#' }
-#'
-#'
-#' \strong{Filtering joins} keep cases from the left-hand data.frame:
-#'
-#' \describe{
-#'    \item{`semi_join()`}{return all rows from `x` where there are matching
-#'    values in `y`, keeping just columns from `x`.
-#'
-#'    A semi join differs from an inner join because an inner join will return
-#'    one row of `x` for each matching row  of `y`, where a semi
-#'    join will never duplicate rows of `x`.}
-#'
-#'    \item{`anti_join()`}{return all rows from `x` where there are not
-#'    matching values in `y`, keeping just columns from `x`.}
-#' }
-#'
-#' \strong{Nesting joins} create a list column of data.frames:
-#'
-#' \describe{
-#'    \item{`nest_join()`}{return all rows and all columns from `x`. Adds a
-#'    list column of tibbles. Each tibble contains all the rows from `y`
-#'    that match that row of `x`. When there is no match, the list column is
-#'    a 0-row tibble with the same column names and types as `y`.
-#'
-#'    `nest_join()` is the most fundamental join since you can recreate the other joins from it.
-#'    An `inner_join()` is a `nest_join()` plus an [tidyr::unnest()], and `left_join()` is a
-#'    `nest_join()` plus an `unnest(.drop = FALSE)`.
-#'    A `semi_join()` is a `nest_join()` plus a `filter()` where you check that every element of data has
-#'    at least one row, and an `anti_join()` is a `nest_join()` plus a `filter()` where you check every element has zero rows.
-#'    }
-#' }
-#'
-#' @section Grouping:
-#'
-#' Groups are ignored for the purpose of joining, but the result preserves
-#' the grouping of `x`.
-#'
+#' * For `inner_join()`, a subset of the `x` rows.
+#'   For `left_join()`, all `x` rows.
+#'   For `right_join()`, a subset of `x` rows, followed by unmatched `y` rows.
+#'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
+#' * For all joins, rows will be duplicated if one row in `x` rows match
+#'   multiple rows in `y`.
+#' * Output columns include all `x` columns and all `y` columns. If the
+#'   columns have the same name (and aren't included `y`), `suffix`es are
+#'   added to disambiguate.
+#' * Output columns columns included `by` are coerced to common type across
+#'   `x` and `y`.
+#' * Groups are taken from `x`.
 #' @param x,y Data frames
 #' @param by A character vector of variables to join by.
 #'
@@ -86,113 +47,140 @@
 #' @param suffix If there are non-joined duplicate variables in `x` and
 #'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
-#' @param name The name of the list column nesting joins create.
-#'   If `NULL` the name of `y` is used.
 #' @param keep Should the join keys from `y` be preserved in the output?
 #'    Only applies to `nest_join()` and `full_join()`.
 #' @param ... Other parameters passed onto methods.
 #'
 #'   For example, `na_matches` controls how `NA` values are handled when
 #'   joining data frames. See [join.data.frame] for details.
-#' @name join
+#' @family joins
 #' @examples
-#' # "Mutating" joins combine variables from the LHS and RHS
 #' band_members %>% inner_join(band_instruments)
 #' band_members %>% left_join(band_instruments)
 #' band_members %>% right_join(band_instruments)
 #' band_members %>% full_join(band_instruments)
 #'
-#' # "Filtering" joins keep cases from the LHS
-#' band_members %>% semi_join(band_instruments)
-#' band_members %>% anti_join(band_instruments)
-#'
-#' # "Nesting" joins keep cases from the LHS and nests the RHS
-#' band_members %>% nest_join(band_instruments)
-#'
-#' # To suppress the message, supply by
+#' # To suppress the message about joining variables, supply `by`
 #' band_members %>% inner_join(band_instruments, by = "name")
 #' # This is good practice in production code
 #'
 #' # Use a named `by` if the join variables have different names
 #' band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
-#' # Note that only the key from the LHS is kept
+#' # By default only the join keys from `x` are kept; use `keep = TRUE`
+#' # to keep both
+#' band_members %>%
+#'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
+#'
+#' # Note that if a row in `x` matches multiple rows in `y`, all rows
+#' # will be returned
+#' df1 <- tibble(x = 1:3)
+#' df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
+#' df1 %>% left_join(df2)
+#' @aliases join
+#' @name mutate-joins
 NULL
 
-#' @rdname join
+#' @rdname mutate-joins
 #' @export
 inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("inner_join")
 }
 
-#' @rdname join
+#' @rdname mutate-joins
 #' @export
 left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("left_join")
 }
 
-#' @rdname join
+#' @rdname mutate-joins
 #' @export
 right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("right_join")
 }
 
-#' @rdname join
+#' @rdname mutate-joins
 #' @export
-full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
   UseMethod("full_join")
 }
 
-#' @rdname join
-#' @export
-semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
-  UseMethod("semi_join")
-}
-
-#' @rdname join
-#' @export
-anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
-  UseMethod("anti_join")
-}
-
-#' @rdname join
-#' @export
-nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
-  UseMethod("nest_join")
-}
-
-
-#' Join methods for data frames
+#' Filtering joins
 #'
 #' @description
-#' This page describes the details of the [join] generics when applied to
-#' data frames and tibbles.
+#' Filtering joins filter rows from `x` based on the presence or absence
+#' of matches in `y`:
 #'
+#' * `semi_join()` return all rows from `x` with a match in `y`.
+#' * `anti_join()` return all rows from `x` with**out** a match in `y`.
+#'
+#' @param x,y Data frames
+#' @inheritParams left_join
 #' @return
-#' An object of the same type as `x`. The order of the rows and columns is
-#' preserved as much as possible.
-#'
-#' For the mutating joins:
-#'
-#' * For `inner_join()`, a subset of the `x` rows`
-#'   For `left_join()`, all `x` rows.
-#'   For `right_join()`, a subset of `x` rows, followed by unmatch `y` rows.
-#'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
-#' * For all joins, rows will be duplicated if one row in `x` rows match
-#'   multiple rows in `y`.
-#' * Output columns include all `x` columns and all `y` columns. If the
-#'   columns have the same name (and aren't included `y`), `suffix`es are
-#'   added to disambiguate.
-#' * Output columns columns included `by` are coerced to common type across
-#'   `x` and `y`.
-#' * Groups are taken from `x`.
-#'
-#' For the filtering joins:
+#' An object of the same type as `x`.
 #'
 #' * Rows are a subset of the input, but appear in the same order.
 #' * Columns are not modified.
 #' * Data frame attributes are preserved.
 #' * Groups are taken from `x`. The number of groups may be reduced.
+#' @family joins
+#' @examples
+#' # "Filtering" joins keep cases from the LHS
+#' band_members %>% semi_join(band_instruments)
+#' band_members %>% anti_join(band_instruments)
+#'
+#' # To suppress the message about joining variables, supply `by`
+#' band_members %>% semi_join(band_instruments, by = "name")
+#' # This is good practice in production code
+#' @name filter-joins
+NULL
+
+#' @rdname filter-joins
+#' @export
+semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("semi_join")
+}
+
+#' @rdname filter-joins
+#' @export
+anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("anti_join")
+}
+
+#' Nest join
+#'
+#' `nest_join()` returns all rows and columns `x` with a new nested-df column
+#' that contains all matches from `y`. When there is no match, the list column
+#' is a 0-row tibble.
+#'
+#' In some sense, a `nest_join()` is the most fundamental join since you can
+#' recreate the other joins from it:
+#'
+#' * `inner_join()` is a `nest_join()` plus [tidyr::unnest()]
+#' * `left_join()` `nest_join()` plus `unnest(.drop = FALSE)`.
+#' * `semi_join()` is a `nest_join()` plus a `filter()` where you check
+#'   that every element of data has at least one row,
+#' * `anti_join()` is a `nest_join()` plus a `filter()` where you check every
+#'   element has zero rows.
+#'
+#' @param x,y Data frames
+#' @param name The name of the list column nesting joins create.
+#'   If `NULL` the name of `y` is used.
+#' @inheritParams left_join
+#' @family joins
+#' @export
+#' @examples
+#' band_members %>% nest_join(band_instruments)
+nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
+  UseMethod("nest_join")
+}
+
+#' Join methods for data frames
+#'
+#' This page describes the details of the \link{join} generics when applied to
+#' data frames and tibbles.
+#'
 #' @inheritParams inner_join
+#' @inheritParams nest_join
 #' @param x,y Data frames
 #' @param ... Included for compatibility with the generic; otherwise ignored.
 #' @param na_matches Should `NA` and `NaN` values match one another?
