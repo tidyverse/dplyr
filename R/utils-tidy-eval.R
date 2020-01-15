@@ -1,60 +1,29 @@
-#' Tidy eval helpers
-#'
-#' @description
-#'
-#' * \code{\link[rlang]{sym}()} creates a symbol from a string and
-#'   \code{\link[rlang]{syms}()} creates a list of symbols from a
-#'   character vector.
-#'
-#' * \code{\link[rlang]{enquo}()} and \code{\link[rlang]{enquos}()}
-#'   delay the execution of one or several function arguments.
-#'   \code{enquo()} returns a single quoted expression, which is like
-#'   a blueprint for the delayed computation. \code{enquos()} returns
-#'   a list of such quoted expressions.
-#'
-#' * \code{\link[rlang]{expr}()} quotes a new expression _locally_. It
-#'   is mostly useful to build new expressions around arguments
-#'   captured with [enquo()] or [enquos()]:
-#'   \code{expr(mean(!!enquo(arg), na.rm = TRUE))}.
-#'
-#' * \code{\link[rlang]{as_name}()} transforms a quoted variable name
-#'   into a string. Supplying something else than a quoted variable
-#'   name is an error.
-#'
-#'   That's unlike \code{\link[rlang]{as_label}()} which also returns
-#'   a single string but supports any kind of R object as input,
-#'   including quoted function calls and vectors. Its purpose is to
-#'   summarise that object into a single label. That label is often
-#'   suitable as a default name.
-#'
-#'   If you don't know what a quoted expression contains (for instance
-#'   expressions captured with \code{enquo()} could be a variable
-#'   name, a call to a function, or an unquoted constant), then use
-#'   \code{as_label()}. If you know you have quoted a simple variable
-#'   name, or would like to enforce this, use \code{as_name()}.
-#'
-#' To learn more about tidy eval and how to use these tools, visit
-#' \url{http://tidyeval.tidyverse.org} and the
-#' \href{https://adv-r.hadley.nz/metaprogramming.html}{Metaprogramming
-#' section} of \href{https://adv-r.hadley.nz}{Advanced R}.
-#'
-#' @md
-#' @name tidyeval
-#' @keywords internal
-#' @importFrom rlang expr enquo enquos sym syms .data := as_name as_label
-#' @aliases expr enquo enquos sym syms .data as_label
-#' @export expr enquo enquos sym syms .data as_label
-NULL
-
-
 #' Other tidy eval tools
 #'
-#' These tidy eval tools are no longer recommended for normal usage,
-#' but are still exported for compatibility. See [`?tidyeval`][tidyeval]
-#' for the recommended tools.
+#' @description
+#' These tidy eval functions are no longer for normal usage, but are still
+#' exported from dplyr for backward compatibility.
+#' See [`?dplyr_tidy_eval`][dplyr_tidy_eval] and `vignette("programming")` for
+#' latest recommendations.
+#'
+#' * [expr()][rlang::expr]
+#' * [enquo()][rlang::enquo]
+#' * [enquos()][rlang::enquos]
+#' * [sym()][rlang::sym]
+#' * [syms()][rlang::syms]
+#' * [as_label()][rlang::as_label]
+#' * [quo()][rlang::quo]
+#' * [quos()][rlang::quos]
+#' * [quo_name()][rlang::quo_name]
+#' * [ensym()][rlang::ensym]
+#' * [ensyms()][rlang::ensyms]
+#' * [enexpr()][rlang::enexpr]
+#' * [enexprs()][rlang::enexprs]
 #'
 #' @keywords internal
 #' @name tidyeval-compat
+#' @aliases expr enquo enquos sym syms as_label
+#' @export expr enquo enquos sym syms as_label .data
 #' @aliases quo quos quo_name ensym ensyms enexpr enexprs
 #' @export quo quos quo_name ensym ensyms enexpr enexprs
 NULL

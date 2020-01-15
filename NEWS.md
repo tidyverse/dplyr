@@ -1,5 +1,35 @@
 # dplyr 0.9.0 (in development)
 
+* `all_equal()` is questioning; it solves a problem that no longer seems 
+  important.
+
+* New, experimental, `with_groups()` makes it easy to temporarily group or
+  ungroup (#4711).
+
+* dplyr now has a rudimentary, experimental, and stop-gap, extension mechanism
+  documented in `?dplyr_extending`
+
+* The implementation of all verbs has been carefully thought through. This 
+  mostly makes implementation simpler but should hopefully increase consistency,
+  and also makes it easier to adapt to dplyr to new data structures in the 
+  new future. Pragmatically, the biggest difference for most people will be
+  that each verb documents its return value in terms of rows, columns, groups,
+  and data frame attributes.
+  
+* Row names are now preserved when working with data frames.
+
+* `count()` and `add_count()` now preserve the type of the input (#4086).
+
+* `add_count(drop = )` is deprecated because it didn't actually affect
+  the output.
+
+* `full_join()` gains keep argument so that you can optionally choose to 
+  keep both sets of join keys (#4589). This is useful when you want to
+  figure out which rows were missing from either side.
+
+* Join functions can now perform a cross-join by specifying `by = character()`
+  (#4206.)
+
 * `filter()` and `summarise()` give better error messages. 
 
 * Zero-arg `group_indices()` is deprecated; instead use `cur_group_id()`.

@@ -1,27 +1,45 @@
-#' Arrange rows by variables
+#' Arrange rows by column values
 #'
-#' Order data frame rows by the values of selected variables.
+#' @description
+#' `arrange()` order the rows of a data frame rows by the values of selected
+#' columns.
+#'
 #' Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
 #' need to explicit mention grouping variables (or use  `by_group = TRUE`)
 #' in order to group by them, and functions of variables are evaluated
 #' once per data frame, not once per group.
 #'
-#' @section Locales:
+#' @details
+#' ## Locales
 #' The sort order for character vectors will depend on the collating sequence
 #' of the locale in use: see [locales()].
 #'
-#' @section Missing values:
+#' ## Missing values
 #' Unlike base sorting with `sort()`, `NA` are:
 #' * always sorted to the end for local data, even when wrapped with `desc()`.
 #' * treated differently for remote data, depending on the backend.
 #'
+#' @return
+#' An object of the same type as `.data`.
+#'
+#' * All rows appear in the output, but (usually) in a different place.
+#' * Columns are not modified.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("arrange")}.
 #' @export
-#' @inheritParams filter
-#' @inheritSection filter Tidy data
+#' @param .data A data frame, data frame extension (e.g. a tibble), or a
+#'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
+#'   more details.
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or
 #'   variables. Use [desc()] to sort a variable in descending order.
 #' @family single table verbs
-#' @return An object of the same class as `.data`.
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
@@ -44,24 +62,13 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
     return(.data)
   }
 
-  idx <- arrange_indices(.data, ...)
-  .data[idx, , drop = FALSE]
-}
-
-#' @export
-arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
-  if (missing(...)) {
-    return(.data)
-  }
-
-  # TODO: figure out how to update group_indices more efficiently
-  idx <- arrange_indices(.data, ..., .by_group = .by_group)
-  .data[idx, , drop = FALSE]
+  loc <- arrange_rows(.data, ..., .by_group = .by_group)
+  dplyr_row_slice(.data, loc)
 }
 
 # Helpers -----------------------------------------------------------------
 
-arrange_indices <- function(.data, ..., .by_group = FALSE) {
+arrange_rows <- function(.data, ..., .by_group = FALSE) {
 
   if (.by_group) {
     dots <- c(quos(!!!groups(.data)), enquos(...))

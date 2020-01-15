@@ -1,8 +1,8 @@
-#' Reduce multiple values down to a single value
+#' Summarise each group down to one row
 #'
 #' @description
 #' `summarise()` creates a new data frame. It will have one row for each
-#' combination of grouping variable; if there are no grouping variables, the
+#' combination of grouping variables; if there are no grouping variables, the
 #' output will have a single row summarising all observations in the input.
 #' It will contain one column for each grouping variable and one column
 #' for each of the summary statistics that you have specified.
@@ -32,18 +32,31 @@
 #' creating multiple summaries.
 #'
 #' @export
-#' @inheritParams filter
-#' @inheritSection filter Tidy data
+#' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of summary
 #'   functions. The name will be the name of the variable in the result.
 #'   The value should be an expression that returns a single value like
 #'   `min(x)`, `n()`, or `sum(is.na(y))`.
 #' @family single table verbs
-#' @return An object of the same class as `.data`.
+#' @return
+#' An object _usually_ of the same type as `.data`.
 #'
-#'   If `.data` is grouped, then the last group will be dropped,
-#'   e.g.`df %>% group_by(x, y) %>% summarise(n())` will be grouped by
-#'   `x`. This happens because each group now occupies only a single row.
+#' * The rows come from the underlying `group_keys()`.
+#' * The columns are a combination of the grouping keys and the summary
+#'   expressions that you provide.
+#' * If `x` is grouped by more than one variable, the output will be another
+#'   [grouped_df] with the right-most group removed.
+#' * If `x` is grouped by one variable, or is not grouped, the output will
+#'   be a [tibble].
+#' * Data frame attributes are **not** preserved, because `summarise()`
+#'   fundamentally creates a new data frame.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("summarise")}.
 #' @examples
 #' # A summary applied to ungrouped tbl returns a single row
 #' mtcars %>%
@@ -81,14 +94,14 @@ summarize <- summarise
 
 #' @export
 summarise.data.frame <- function(.data, ...) {
-  cols <- summarise_new_cols(.data, ...)
+  cols <- summarise_cols(.data, ...)
 
   out <- group_keys(.data)
   if (!identical(cols$size, 1L)) {
     out <- vec_slice(out, rep(1:nrow(out), cols$size))
   }
-  out[names(cols$new)] <- cols$new
-  out
+
+  dplyr_col_modify(out, cols$new)
 }
 
 #' @export
@@ -96,14 +109,15 @@ summarise.grouped_df <- function(.data, ...) {
   out <- NextMethod()
 
   group_vars <- group_vars(.data)
-  if (length(group_vars) > 1) {
-    out <- grouped_df(out, group_vars[-length(group_vars)], group_by_drop_default(.data))
+  n <- length(group_vars)
+  if (n > 1) {
+    out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
   }
 
   out
 }
 
-summarise_new_cols <- function(.data, ...) {
+summarise_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -169,8 +183,11 @@ summarise_new_cols <- function(.data, ...) {
     }
 
   },
+  rlang_error_data_pronoun_not_found = function(e) {
+    stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
+  },
   vctrs_error_incompatible_type = function(e) {
-    stop_summarise_combine(conditionMessage(e), index = i, dots = dots)
+    stop_combine(conditionMessage(e), index = i, dots = dots, fn = "summarise")
   },
   simpleError = function(e) {
     stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
@@ -179,7 +196,7 @@ summarise_new_cols <- function(.data, ...) {
     stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
   },
   dplyr_summarise_incompatible_size = function(cnd) {
-    stop_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
+    stop_summarise_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
   })
 
   list(new = cols, size = .size)

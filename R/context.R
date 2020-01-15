@@ -2,51 +2,56 @@
 #'
 #' @description
 #' These functions return information about the "current" group or "current"
-#' variable, so only work inside specific contexts
+#' variable, so only work inside specific contexts like `summarise()` and
+#' `mutate()`
 #'
 #' * `n()` gives the current group size.
-#' * `current_key()` gives the group keys, a tibble with one row and one column
+#' * `cur_group()` gives the group keys, a tibble with one row and one column
 #'   for each grouping variable.
-#' * `cur_group_id()` gives the unique identifier for the current group
-#' * `current_column()` gives the current column being used in [across()].
+#' * `cur_group_id()` gives a unique numeric identifier for the current group.
+#' * `cur_column()` gives the current column (in [across()] only).
 #'
 #' @examples
-#' df <- data.frame(g = rep(1:3, 1:3), x = runif(6), y = runif(6))
+#' df <- tibble(
+#'   g = rep(letters[1:3], 1:3),
+#'   x = runif(6),
+#'   y = runif(6)
+#' )
+#' gf <- df %>% group_by(g)
 #'
-#' df %>%
-#'   group_by(g) %>%
-#'   summarise(n = n())
+#' gf %>% summarise(n = n())
 #'
-#' df %>%
-#'   group_by(g) %>%
-#'   mutate(across(everything(), ~ paste(current_column(), round(.x, 2))))
+#' gf %>% mutate(id = cur_group_id())
+#' gf %>% mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))
 #' @name context
 NULL
 
 #' @rdname context
 #' @export
 n <- function() {
-  from_context("..group_size")
+  context_get("..group_size")
 }
 
 #' @rdname context
 #' @export
-current_key <- function() {
+cur_group <- function() {
   peek_mask()$current_key()
 }
 
 #' @rdname context
 #' @export
 cur_group_id <- function() {
-  from_context("..group_number")
+  context_get("..group_number")
 }
 
 #' @rdname context
 #' @export
-current_column <- function() {
+cur_column <- function() {
   context_env[["..current_column_name"]] %||%
-    abort("No current column name registered, current_column() only makes sense inside across()")
+    abort("cur_column() can only be used inside across()")
 }
+
+# context accessors -------------------------------------------------------
 
 set_current_column <- function(name) {
   context_env[["..current_column_name"]] <- name
@@ -60,6 +65,11 @@ poke_current_column <- function(name) {
 
 context_env <- new_environment()
 
-from_context <- function(what){
-  context_env[[what]] %||% abort(glue("{expr} should only be called in a data context", expr = deparse(sys.call(-1))))
+context_get <- function(key) {
+  out <- env_get(context_env, key)
+  if (is.null(out)) {
+    expr <- deparse(sys.call(-1))
+    abort(glue("{expr} should only be called inside a dplyr verb"))
+  }
+  out
 }

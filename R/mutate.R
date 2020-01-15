@@ -1,11 +1,11 @@
-#' Create or transform variables
+#' Create, modify, and delete columns
 #'
 #' `mutate()` adds new variables and preserves existing ones;
-#' `transmute()` adds new variables and drops existing ones.  Both
-#' functions preserve the number of rows of the input.
+#' `transmute()` adds new variables and drops existing ones.
 #' New variables overwrite existing variables of the same name.
+#' Variables can be removed by setting their value to `NULL`.
 #'
-#' @section Useful functions available in calculations of variables:
+#' @section Useful mutate functions:
 #'
 #' * [`+`], [`-`], [log()], etc., for their usual mathematical meanings
 #'
@@ -45,8 +45,6 @@
 #' The former normalises `mass` by the global average whereas the
 #' latter normalises by the averages within gender levels.
 #'
-#' `mutate()` does not evaluate the expressions when the group is empty.
-#'
 #' @section Scoped mutation and transmutation:
 #'
 #' The three [scoped] variants of `mutate()` ([mutate_all()],
@@ -56,8 +54,7 @@
 #' selection of variables.
 #'
 #' @export
-#' @inheritParams filter
-#' @inheritSection filter Tidy data
+#' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of expressions,
 #'   each with length 1 or the same length as the number of rows in the group
 #'   (if using [group_by()]) or in the entire input (if not using groups).
@@ -66,7 +63,35 @@
 #'   to drop a variable.  New variables overwrite existing variables
 #'   of the same name.
 #' @family single table verbs
-#' @return An object of the same class as `.data`.
+#' @return
+#' An object of the same type as `.data`.
+#'
+#' For `mutate()`:
+#'
+#' * Rows are not affected.
+#' * Existing columns will be preserved unless explicitly modified.
+#' * New columns will be added to the right of existing columns.
+#' * Columns given value `NULL` will be removed
+#' * Groups will be recomputed if a grouping variable is mutated.
+#' * Data frame attributes are preserved.
+#'
+#' For `transmute()`:
+#'
+#' * Rows are not affected.
+#' * Apart from grouping variables, existing columns will be remove unless
+#'   explicitly kept.
+#' * Column order matches order of expressions.
+#' * Groups will be recomputed if a grouping variable is mutated.
+#' * Data frame attributes are preserved.
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' Methods available in currently loaded packages:
+#'
+#' * `mutate()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("mutate")}.
+#' * `transmute()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("transmute")}.
 #' @examples
 #' # Newly created variables are available immediately
 #' mtcars %>% as_tibble() %>% mutate(
@@ -130,34 +155,8 @@ mutate <- function(.data, ...) {
 
 #' @export
 mutate.data.frame <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
-  if (is.null(cols)) {
-    return(.data)
-  }
-
-  .data <- .data[setdiff(names(.data), cols$delete)]
-  .data[names(cols$add)] <- cols$add
-
-  .data
-}
-
-#' @export
-mutate.grouped_df <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
-  if (is.null(cols)) {
-    return(.data)
-  }
-
-  data <- as_tibble(.data)
-  data <- data[setdiff(names(.data), cols$delete)]
-  data[names(cols$add)] <- cols$add
-
-  groups <- group_data(.data)
-  if (any(cols$change %in% names(groups))) {
-    grouped_df(data, group_vars(.data), group_by_drop_default(.data))
-  } else {
-    new_grouped_df(data, groups)
-  }
+  cols <- mutate_cols(.data, ...)
+  dplyr_col_modify(.data, cols)
 }
 
 #' @rdname mutate
@@ -168,39 +167,22 @@ transmute <- function(.data, ...) {
 
 #' @export
 transmute.data.frame <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
-  if (is.null(cols)) {
-    return(.data[integer()])
-  }
+  cols <- mutate_cols(.data, ...)
+  .data <- dplyr_col_modify(.data, cols)
 
-  .data <- .data[integer()]
-  .data[names(cols$add)] <- cols$add
+  out_cols <- c(
+    # ensure group vars present
+    setdiff(group_vars(.data), names(cols)),
+    # cols might contain NULLs
+    intersect(names(cols), names(.data))
+  )
 
-  .data
-}
-
-#' @export
-transmute.grouped_df <- function(.data, ...) {
-  cols <- mutate_new_columns(.data, ...)
-  if (is.null(cols)) {
-    return(.data[group_vars(.data)])
-  }
-
-  data <- as_tibble(.data)
-  data <- data[setdiff(group_vars(.data), names(cols$add))]
-  data[names(cols$add)] <- cols$add
-
-  groups <- group_data(.data)
-  if (any(cols$change %in% names(groups))) {
-    grouped_df(data, group_vars(.data), group_by_drop_default(.data))
-  } else {
-    new_grouped_df(data, groups)
-  }
+  .data[out_cols]
 }
 
 # Helpers -----------------------------------------------------------------
 
-mutate_new_columns <- function(.data, ...) {
+mutate_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -220,56 +202,74 @@ mutate_new_columns <- function(.data, ...) {
 
   new_columns <- list()
 
-  for (i in seq_along(dots)) {
-    # a list in which each element is the result of
-    # evaluating the quosure in the "sliced data mask"
-    # recycling it appropriately to match the group size
-    #
-    # TODO: reinject hybrid evaluation at the R level
-    c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]], dots_names, i)
+  tryCatch({
+    for (i in seq_along(dots)) {
+      # a list in which each element is the result of
+      # evaluating the quosure in the "sliced data mask"
+      # recycling it appropriately to match the group size
+      #
+      # TODO: reinject hybrid evaluation at the R level
+      c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]], dots_names, i)
 
-    if (is.null(chunks)) {
-      if (!is.null(dots_names) && dots_names[i] != "") {
-        new_columns[[dots_names[i]]] <- zap()
+      if (is.null(chunks)) {
+        if (!is.null(dots_names) && dots_names[i] != "") {
+          new_columns[[dots_names[i]]] <- zap()
 
-        # we might get a warning if dots_names[i] does not exist
-        suppressWarnings(mask$remove(dots_names[i]))
+          # we might get a warning if dots_names[i] does not exist
+          suppressWarnings(mask$remove(dots_names[i]))
+        }
+        next
       }
-      next
+
+      if (needs_recycle) {
+        chunks <- map2(chunks, rows_lengths, function(chunk, n) {
+          vec_recycle(chunk, n)
+        })
+      }
+      result <- vec_slice(vec_c(!!!chunks), o_rows)
+
+      not_named <- (is.null(dots_names) || dots_names[i] == "")
+      if (not_named && is.data.frame(result)) {
+        new_columns[names(result)] <- result
+
+        # remember each result separately
+        map2(seq_along(result), names(result), function(i, nm) {
+          mask$add(nm, pluck(chunks, i))
+        })
+      } else {
+        name <- if (not_named) auto_named_dots[i] else dots_names[i]
+
+        # treat as a single output otherwise
+        new_columns[[name]] <- result
+
+        # remember
+        mask$add(name, chunks)
+      }
+
     }
 
-    if (needs_recycle) {
-      chunks <- map2(chunks, rows_lengths, function(chunk, n) {
-        vec_recycle(chunk, n)
-      })
+  },
+    rlang_error_data_pronoun_not_found = function(e) {
+      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+    },
+    vctrs_error_recycle_incompatible_size = function(e) {
+      stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
+    },
+    dplyr_mutate_mixed_NULL = function(e) {
+      stop_mutate_mixed_NULL(index = i, dots = dots)
+    },
+    dplyr_mutate_not_vector = function(e) {
+      stop_mutate_not_vector(index = i, dots = dots, result = e$result)
+    },
+    vctrs_error_incompatible_type = function(e) {
+      stop_combine(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+    },
+    simpleError = function(e) {
+      stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
     }
-    result <- vec_slice(vec_c(!!!chunks), o_rows)
-
-    not_named <- (is.null(dots_names) || dots_names[i] == "")
-    if (not_named && is.data.frame(result)) {
-      new_columns[names(result)] <- result
-
-      # remember each result separately
-      map2(seq_along(result), names(result), function(i, nm) {
-        mask$add(nm, pluck(chunks, i))
-      })
-    } else {
-      name <- if (not_named) auto_named_dots[i] else dots_names[i]
-
-      # treat as a single output otherwise
-      new_columns[[name]] <- result
-
-      # remember
-      mask$add(name, chunks)
-    }
-
-  }
+  )
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
-
-  list(
-    add = new_columns[!is_zap],
-    delete = names(new_columns)[is_zap],
-    change = names(new_columns)
-  )
+  new_columns[is_zap] <- rep(list(NULL), sum(is_zap))
+  new_columns
 }

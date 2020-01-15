@@ -3,15 +3,16 @@
 \name{arrange}
 \alias{arrange}
 \alias{arrange.data.frame}
-\title{Arrange rows by variables}
+\title{Arrange rows by column values}
 \usage{
 arrange(.data, ..., .by_group = FALSE)
 
 \method{arrange}{data.frame}(.data, ..., .by_group = FALSE)
 }
 \arguments{
-\item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Variables, or functions or
 variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending order.}
@@ -20,22 +21,31 @@ variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending orde
 grouped data frames only.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same type as \code{.data}.
+\itemize{
+\item All rows appear in the output, but (usually) in a different place.
+\item Columns are not modified.
+\item Groups are not modified.
+\item Data frame attributes are preserved.
+}
 }
 \description{
-Order data frame rows by the values of selected variables.
+\code{arrange()} order the rows of a data frame rows by the values of selected
+columns.
+
 Unlike other dplyr verbs, \code{arrange()} largely ignores grouping; you
 need to explicit mention grouping variables (or use  \code{by_group = TRUE})
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.
 }
-\section{Locales}{
+\details{
+\subsection{Locales}{
 
 The sort order for character vectors will depend on the collating sequence
 of the locale in use: see \code{\link[=locales]{locales()}}.
 }
 
-\section{Missing values}{
+\subsection{Missing values}{
 
 Unlike base sorting with \code{sort()}, \code{NA} are:
 \itemize{
@@ -43,11 +53,15 @@ Unlike base sorting with \code{sort()}, \code{NA} are:
 \item treated differently for remote data, depending on the backend.
 }
 }
+}
+\section{Methods}{
 
-\section{Tidy data}{
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
 
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("arrange")}.
 }
 
 \examples{
@@ -64,6 +78,7 @@ by_cyl \%>\% arrange(desc(wt), .by_group = TRUE)
 Other single table verbs: 
 \code{\link{filter}()},
 \code{\link{mutate}()},
+\code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()},
 \code{\link{summarise}()}

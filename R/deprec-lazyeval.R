@@ -325,7 +325,7 @@ select_.data.frame <- function(.data, ..., .dots = list()) {
 #' @export
 select_.grouped_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  select.grouped_df(.data, !!!dots)
+  select(.data, !!!dots)
 }
 
 

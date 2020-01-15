@@ -2,13 +2,14 @@
 % Please edit documentation in R/filter.R
 \name{filter}
 \alias{filter}
-\title{Return rows with matching conditions}
+\title{Subset rows using column values}
 \usage{
 filter(.data, ..., .preserve = FALSE)
 }
 \arguments{
-\item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Logical predicates defined in
 terms of the variables in \code{.data}.
@@ -19,15 +20,21 @@ condition evaluates to \code{TRUE} are kept.}
 is recalculated based on the resulting data, otherwise it is kept as is.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same type as \code{.data}.
+\itemize{
+\item Rows are a subset of the input, but appear in the same order.
+\item Columns are not modified.
+\item The number of groups may be reduced (if \code{.preserve} is not \code{TRUE}).
+\item Data frame attributes are preserved.
+}
 }
 \description{
-Use \code{filter()} to choose rows/cases where conditions are true. Unlike
-base subsetting with \code{[}, rows where the condition evaluates to \code{NA} are
-dropped.
+\code{filter()} retains the rows where the conditions you provide a \code{TRUE}. Note
+that, unlike base subsetting with \code{[}, rows where the condition evaluates
+to \code{NA} are dropped.
 }
 \details{
-Note that dplyr is not yet smart enough to optimise filtering optimisation
+dplyr is not yet smart enough to optimise filtering optimisation
 on grouped datasets that don't need grouped calculations. For this reason,
 filtering is often considerably faster on \code{\link[=ungroup]{ungroup()}}ed data.
 }
@@ -55,18 +62,8 @@ With the grouped equivalent:\preformatted{starwars \%>\% group_by(gender) \%>\% 
 
 The former keeps rows with \code{mass} greater than the global average
 whereas the latter keeps rows with \code{mass} greater than the gender
+
 average.
-
-It is valid to use grouping variables in filter expressions.
-
-When applied on a grouped tibble, \code{filter()} automatically \link[=arrange]{rearranges}
-the tibble by groups for performance reasons.
-}
-
-\section{Tidy data}{
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
 }
 
 \section{Scoped filtering}{
@@ -74,6 +71,16 @@ convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibb
 The three \link{scoped} variants (\code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and
 \code{\link[=filter_at]{filter_at()}}) make it easy to apply a filtering condition to a
 selection of variables.
+}
+
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("filter")}.
 }
 
 \examples{
@@ -116,6 +123,7 @@ starwars \%>\%
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{mutate}()},
+\code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()},
 \code{\link{summarise}()}

@@ -3,15 +3,16 @@
 \name{summarise}
 \alias{summarise}
 \alias{summarize}
-\title{Reduce multiple values down to a single value}
+\title{Summarise each group down to one row}
 \usage{
 summarise(.data, ...)
 
 summarize(.data, ...)
 }
 \arguments{
-\item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of summary
 functions. The name will be the name of the variable in the result.
@@ -19,15 +20,22 @@ The value should be an expression that returns a single value like
 \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.}
 }
 \value{
-An object of the same class as \code{.data}.
-
-If \code{.data} is grouped, then the last group will be dropped,
-e.g.\code{df \%>\% group_by(x, y) \%>\% summarise(n())} will be grouped by
-\code{x}. This happens because each group now occupies only a single row.
+An object \emph{usually} of the same type as \code{.data}.
+\itemize{
+\item The rows come from the underlying \code{group_keys()}.
+\item The columns are a combination of the grouping keys and the summary
+expressions that you provide.
+\item If \code{x} is grouped by more than one variable, the output will be another
+\link{grouped_df} with the right-most group removed.
+\item If \code{x} is grouped by one variable, or is not grouped, the output will
+be a \link{tibble}.
+\item Data frame attributes are \strong{not} preserved, because \code{summarise()}
+fundamentally creates a new data frame.
+}
 }
 \description{
 \code{summarise()} creates a new data frame. It will have one row for each
-combination of grouping variable; if there are no grouping variables, the
+combination of grouping variables; if there are no grouping variables, the
 output will have a single row summarising all observations in the input.
 It will contain one column for each grouping variable and one column
 for each of the summary statistics that you have specified.
@@ -61,10 +69,14 @@ results, consider using new names for your summary variables, especially when
 creating multiple summaries.
 }
 
-\section{Tidy data}{
+\section{Methods}{
 
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("summarise")}.
 }
 
 \examples{
@@ -101,6 +113,7 @@ Other single table verbs:
 \code{\link{arrange}()},
 \code{\link{filter}()},
 \code{\link{mutate}()},
+\code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()}
 }

@@ -1,20 +1,33 @@
-#' Choose rows by position
+#' Subset rows using their positions
 #'
-#' Choose rows by their ordinal position in the tbl.  Grouped tbls use
-#' the ordinal position within the group.
+#' `slice()` lets you index rows by their (integer) locations. It allows you
+#' to select, remove, and duplicate rows.
 #'
 #' Slice does not work with relational databases because they have no
 #' intrinsic notion of row order. If you want to perform the equivalent
 #' operation, use [filter()] and [row_number()].
 #'
 #' @family single table verbs
-#' @param .data A tbl.
+#' @inheritParams arrange
+#' @inheritParams filter
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Integer row values.
 #'   Provide either positive values to keep, or negative values to drop.
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.
-#' @inheritParams filter
-#' @inheritSection filter Tidy data
+#' @return
+#' An object of the same type as `.data`.
+#'
+#' * Each row may appear 0, 1, or many times in the output.
+#' * Columns are not modified.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice")}.
 #' @export
 #' @examples
 #' slice(mtcars, 1L)
@@ -41,38 +54,23 @@ slice <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  idx <- slice_indices(.data, ...)
-  .data[idx$data, , drop = FALSE]
+  loc <- slice_rows(.data, ...)
+  dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
-#' @export
-slice.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.data)) {
-  idx <- slice_indices(.data, ...)
-  data <- as.data.frame(.data)[idx$data, , drop = FALSE]
-
-  groups <- group_data(.data)
-  groups$.rows <- new_list_of(idx$groups, ptype = integer())
-  groups <- group_data_trim(groups, .preserve)
-
-  new_grouped_df(data, groups)
-}
-
-slice_indices <- function(.data, ...) {
+slice_rows <- function(.data, ...) {
   dots <- enquos(...)
   if (is_empty(dots)) {
-    return(.data)
+    return(TRUE)
   }
 
   rows <- group_rows(.data)
   mask <- DataMask$new(.data, caller_env(), rows)
 
   quo <- quo(c(!!!dots))
-
   chunks <- mask$eval_all(quo)
 
   slice_indices <- new_list(length(rows))
-  new_rows <- new_list(length(rows))
-  k <- 1L
 
   for (group in seq_along(rows)) {
     current_rows <- rows[[group]]
@@ -91,7 +89,7 @@ slice_indices <- function(.data, ...) {
 
     if (length(res) == 0L) {
       # nothing to do
-    } else if(all(res >= 0, na.rm = TRUE)) {
+    } else if (all(res >= 0, na.rm = TRUE)) {
       res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
     } else if (all(res <= 0, na.rm = TRUE)) {
       res <- setdiff(seq_along(current_rows), -res)
@@ -103,15 +101,9 @@ slice_indices <- function(.data, ...) {
     }
 
     slice_indices[[group]] <- current_rows[res]
-    new_k <- k + length(res)
-    new_rows[[group]] <- seq2(k, new_k - 1L)
-    k <- new_k
   }
 
-  list(
-    data = vec_c(!!!slice_indices, .ptype = integer()),
-    groups = new_rows
-  )
+  vec_c(!!!slice_indices, .ptype = integer())
 }
 
 # Slice helpers -----------------------------------------------------------
@@ -130,13 +122,25 @@ slice_indices <- function(.data, ...) {
 #' so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
 #' each group.
 #'
-#' @param .data A data frame or extension.
+#' @inheritParams arrange
 #' @param ... Additional arguments passed on to methods.
 #' @param n,prop Provide either `n`, the number of rows, or `prop`, the
 #'   proportion of rows to select. If `n` is greater than the number of
 #'   rows in the group (or `prop > 1`), it will be silently truncated to the
 #'   group size. If the `prop`ortion of a group size is not an integer, it will
 #'   be rounded down.
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' Methods available in currently loaded packages:
+#'
+#' * `slice_head()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_head")}.
+#' * `slice_tail()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_tail")}.
+#' * `slice_min()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_min")}.
+#' * `slice_max()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_max")}.
+#' * `slice_sample()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_sample")}.
 #' @export
 #' @examples
 #' # First and last rows based on existing order
