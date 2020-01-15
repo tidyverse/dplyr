@@ -33,8 +33,9 @@ reference:
   contents:
   - bind
   - intersect
-  - ends_with("join")
-  - join.data.frame
+  - left_join
+  - nest_join
+  - semi_join
 
 - title: Grouping
   contents:

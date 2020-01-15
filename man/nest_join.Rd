@@ -2,9 +2,12 @@
 % Please edit documentation in R/join.r
 \name{nest_join}
 \alias{nest_join}
+\alias{nest_join.data.frame}
 \title{Nest join}
 \usage{
 nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
+
+\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
@@ -34,10 +37,7 @@ Only applies to \code{nest_join()} and \code{full_join()}.}
 \item{name}{The name of the list column nesting joins create.
 If \code{NULL} the name of \code{y} is used.}
 
-\item{...}{Other parameters passed onto methods.
-
-For example, \code{na_matches} controls how \code{NA} values are handled when
-joining data frames. See \link{join.data.frame} for details.}
+\item{...}{Other parameters passed onto methods.}
 }
 \description{
 \code{nest_join()} returns all rows and columns \code{x} with a new nested-df column
