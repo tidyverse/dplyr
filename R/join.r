@@ -69,9 +69,6 @@
 #'   joins for database sources, similarly to `merge(incomparables = FALSE)`.
 #'   The default, `"na"`, always treats two `NA` or `NaN` values as equal,
 #'   like `%in%`, [match()], [merge()].
-#'
-#'   Users and package authors can change the default behavior by calling
-#'   `pkgconfig::set_config("dplyr::na_matches" = "never")`.
 #' @family joins
 #' @examples
 #' band_members %>% inner_join(band_instruments)
@@ -119,7 +116,7 @@ inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..
 #' @rdname mutate-joins
 inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
-                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+                              na_matches = NULL) {
 
   y <- auto_copy(x, y, copy = copy)
   join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches)
@@ -135,7 +132,7 @@ left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...
 #' @rdname mutate-joins
 left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+                             na_matches = NULL) {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches)
 }
@@ -150,7 +147,7 @@ right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..
 #' @rdname mutate-joins
 right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
-                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+                              na_matches = NULL) {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches)
 }
@@ -166,7 +163,7 @@ full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...
 full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              keep = FALSE,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+                             na_matches = NULL) {
 
   y <- auto_copy(x, y, copy = copy)
   join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches, keep = keep)
@@ -222,7 +219,7 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @export
 #' @rdname filter-joins
 semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+                             na_matches = NULL) {
 
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "semi", na_matches = na_matches)
@@ -237,7 +234,7 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @export
 #' @rdname filter-joins
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+                             na_matches = NULL) {
 
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "anti", na_matches = na_matches)
@@ -354,6 +351,9 @@ join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
 }
 
 check_na_matches <- function(na_matches = c("na", "never")) {
+  if (is.null(na_matches)) {
+    na_matches <- pkgconfig::get_config("dplyr::na_matches")
+  }
   na_matches <- arg_match(na_matches)
 
   if (na_matches == "never") {

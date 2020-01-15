@@ -23,7 +23,7 @@ inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches")
+  na_matches = NULL
 )
 
 left_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
@@ -35,7 +35,7 @@ left_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches")
+  na_matches = NULL
 )
 
 right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
@@ -47,7 +47,7 @@ right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches")
+  na_matches = NULL
 )
 
 full_join(
@@ -68,7 +68,7 @@ full_join(
   suffix = c(".x", ".y"),
   ...,
   keep = FALSE,
-  na_matches = pkgconfig::get_config("dplyr::na_matches")
+  na_matches = NULL
 )
 }
 \arguments{
@@ -104,10 +104,7 @@ Should be a character vector of length 2.}
 Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as different, like
 joins for database sources, similarly to \code{merge(incomparables = FALSE)}.
 The default, \code{"na"}, always treats two \code{NA} or \code{NaN} values as equal,
-like \code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.
-
-Users and package authors can change the default behavior by calling
-\code{pkgconfig::set_config("dplyr::na_matches" = "never")}.}
+like \code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.}
 
 \item{keep}{Should the join keys from \code{y} be preserved in the output?
 Only applies to \code{nest_join()} and \code{full_join()}.}

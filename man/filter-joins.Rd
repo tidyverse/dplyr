@@ -10,25 +10,11 @@
 \usage{
 semi_join(x, y, by = NULL, copy = FALSE, ...)
 
-\method{semi_join}{data.frame}(
-  x,
-  y,
-  by = NULL,
-  copy = FALSE,
-  ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches")
-)
+\method{semi_join}{data.frame}(x, y, by = NULL, copy = FALSE, ..., na_matches = NULL)
 
 anti_join(x, y, by = NULL, copy = FALSE, ...)
 
-\method{anti_join}{data.frame}(
-  x,
-  y,
-  by = NULL,
-  copy = FALSE,
-  ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches")
-)
+\method{anti_join}{data.frame}(x, y, by = NULL, copy = FALSE, ..., na_matches = NULL)
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
@@ -59,10 +45,7 @@ it is a potentially expensive operation so you must opt into it.}
 Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as different, like
 joins for database sources, similarly to \code{merge(incomparables = FALSE)}.
 The default, \code{"na"}, always treats two \code{NA} or \code{NaN} values as equal,
-like \code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.
-
-Users and package authors can change the default behavior by calling
-\code{pkgconfig::set_config("dplyr::na_matches" = "never")}.}
+like \code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.}
 }
 \value{
 An object of the same type as \code{x}.
