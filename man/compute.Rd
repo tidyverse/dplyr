@@ -13,7 +13,9 @@ collect(x, ...)
 collapse(x, ...)
 }
 \arguments{
-\item{x}{A tbl}
+\item{x}{A data frame, data frame extension (e.g. a tibble), or a lazy
+data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for more
+details.}
 
 \item{name}{Name of temporary table on database.}
 
@@ -25,10 +27,23 @@ collapse(x, ...)
 \code{collapse()} is slightly different: it doesn't force computation, but
 instead forces generation of the SQL query. This is sometimes needed to work
 around bugs in dplyr's SQL generation.
-}
-\details{
+
 All functions preserve grouping and ordering.
 }
+\section{Methods}{
+
+These functions are \strong{generics}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\itemize{
+\item \code{compute()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("compute")}
+\item \code{collect()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("collect")}
+\item \code{collapse()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("collapse")}
+}
+}
+
 \examples{
 if (require(dbplyr)) {
   mtcars2 <- src_memdb() \%>\%

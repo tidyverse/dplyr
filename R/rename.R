@@ -7,7 +7,7 @@
 #' Use the three scoped variants ([rename_all()], [rename_if()], [rename_at()])
 #' to renaming a set of variables with a function.
 #'
-#' @inheritParams filter
+#' @inheritParams arrange
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> Use `new_name = old_name`
 #'   to rename selected variables.
 #' @return
@@ -16,6 +16,13 @@
 #' * Column names are changed; column order is preserved
 #' * Data frame attributes are preserved.
 #' * Groups are updated to reflect new names.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("rename")}.
 #' @family single table verbs
 #' @export
 #' @examples

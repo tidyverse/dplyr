@@ -42,8 +42,7 @@
 #' selection of variables.
 #'
 #' @family single table verbs
-#' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for [tbl_df()], [dtplyr::tbl_dt()] and [dbplyr::tbl_dbi()].
+#' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Logical predicates defined in
 #'   terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
@@ -57,6 +56,13 @@
 #' * Columns are not modified.
 #' * The number of groups may be reduced (if `.preserve` is not `TRUE`).
 #' * Data frame attributes are preserved.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("filter")}.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples

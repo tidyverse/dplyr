@@ -26,7 +26,9 @@ full_join(
 )
 }
 \arguments{
-\item{x, y}{Data frames}
+\item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
+lazy data frames (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{by}{A character vector of variables to join by.
 
@@ -88,6 +90,21 @@ keys:
 If there are multiple matches between \code{x} and \code{y}, all combination of the
 matches are returned.
 }
+\section{Methods}{
+
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\itemize{
+\item \code{inner_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("inner_join")}.
+\item \code{left_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("left_join")}.
+\item \code{right_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("right_join")}.
+\item \code{full_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("full_join")}.
+}
+}
+
 \examples{
 band_members \%>\% inner_join(band_instruments)
 band_members \%>\% left_join(band_instruments)

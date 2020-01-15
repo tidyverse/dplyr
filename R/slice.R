@@ -8,12 +8,12 @@
 #' operation, use [filter()] and [row_number()].
 #'
 #' @family single table verbs
-#' @param .data A tbl.
+#' @inheritParams arrange
+#' @inheritParams filter
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Integer row values.
 #'   Provide either positive values to keep, or negative values to drop.
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.
-#' @inheritParams filter
 #' @return
 #' An object of the same type as `.data`.
 #'
@@ -21,6 +21,13 @@
 #' * Columns are not modified.
 #' * Groups are not modified.
 #' * Data frame attributes are preserved.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice")}.
 #' @export
 #' @examples
 #' slice(mtcars, 1L)
@@ -115,13 +122,25 @@ slice_rows <- function(.data, ...) {
 #' so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
 #' each group.
 #'
-#' @param .data A data frame or extension.
+#' @inheritParams arrange
 #' @param ... Additional arguments passed on to methods.
 #' @param n,prop Provide either `n`, the number of rows, or `prop`, the
 #'   proportion of rows to select. If `n` is greater than the number of
 #'   rows in the group (or `prop > 1`), it will be silently truncated to the
 #'   group size. If the `prop`ortion of a group size is not an integer, it will
 #'   be rounded down.
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' Methods available in currently loaded packages:
+#'
+#' * `slice_head()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_head")}.
+#' * `slice_tail()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_tail")}.
+#' * `slice_min()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_min")}.
+#' * `slice_max()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_max")}.
+#' * `slice_sample()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_sample")}.
 #' @export
 #' @examples
 #' # First and last rows based on existing order

@@ -5,20 +5,6 @@
 #' `group_by()` takes an existing tbl and converts it into a grouped tbl
 #' where operations are performed "by group". `ungroup()` removes grouping.
 #'
-#' @section Tbl types:
-#'
-#' `group_by()` is an S3 generic with methods for the three built-in
-#' tbls. See the help for the corresponding classes and their manip
-#' methods for more details:
-#'
-#' \itemize{
-#'   \item data.frame: [grouped_df]
-#'   \item data.table: [dtplyr::grouped_dt]
-#'   \item SQLite: [src_sqlite()]
-#'   \item PostgreSQL: [src_postgres()]
-#'   \item MySQL: [src_mysql()]
-#' }
-#'
 #' @section Scoped grouping:
 #'
 #' The three [scoped] variants ([group_by_all()], [group_by_if()] and
@@ -26,7 +12,7 @@
 #' variables.
 #'
 #' @family grouping functions
-#' @param .data a tbl
+#' @inheritParams arrange
 #' @param ... In `group_by()`, variables or computations to group by.
 #'   In `ungroup()`, variables to remove from the grouping.
 #' @param .add When `FALSE`, the default, `group_by()` will
@@ -41,7 +27,15 @@
 #' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
 #'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
 #'   otherwise.
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
 #'
+#' Methods available in currently loaded packages:
+#'
+#' * `group_by()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("group_by")}.
+#' * `ungroup()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("ungroup")}.
 #' @export
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)

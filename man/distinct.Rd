@@ -7,7 +7,9 @@
 distinct(.data, ..., .keep_all = FALSE)
 }
 \arguments{
-\item{.data}{a tbl}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Optional variables to use when
 determining uniqueness. If there are multiple rows for a given combination
@@ -32,6 +34,16 @@ Otherwise, \code{distinct()} first calls \code{mutate()} to create new columns.
 Select only unique/distinct rows from a data frame. This is similar
 to \code{\link[=unique.data.frame]{unique.data.frame()}}, but considerably faster.
 }
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("distinct")}.
+}
+
 \examples{
 df <- tibble(
   x = sample(10, 100, rep = TRUE),

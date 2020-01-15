@@ -11,7 +11,9 @@ semi_join(x, y, by = NULL, copy = FALSE, ...)
 anti_join(x, y, by = NULL, copy = FALSE, ...)
 }
 \arguments{
-\item{x, y}{Data frames}
+\item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
+lazy data frames (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{by}{A character vector of variables to join by.
 
@@ -52,6 +54,19 @@ of matches in \code{y}:
 \item \code{anti_join()} return all rows from \code{x} with\strong{out} a match in \code{y}.
 }
 }
+\section{Methods}{
+
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\itemize{
+\item \code{semi_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("semi_join")}.
+\item \code{anti_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("anti_join")}.
+}
+}
+
 \examples{
 # "Filtering" joins keep cases from the LHS
 band_members \%>\% semi_join(band_instruments)

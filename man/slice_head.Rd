@@ -19,7 +19,9 @@ slice_max(.data, order_by, ..., n, prop, with_ties = TRUE)
 slice_sample(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 }
 \arguments{
-\item{.data}{A data frame or extension.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{Additional arguments passed on to methods.}
 
@@ -55,6 +57,22 @@ If \code{.data} is a \link{grouped_df}, the operation will be performed on each 
 so that (e.g.) \code{slice_head(df, n = 5)} will select the first five rows in
 each group.
 }
+\section{Methods}{
+
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\itemize{
+\item \code{slice_head()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_head")}.
+\item \code{slice_tail()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_tail")}.
+\item \code{slice_min()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_min")}.
+\item \code{slice_max()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_max")}.
+\item \code{slice_sample()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_sample")}.
+}
+}
+
 \examples{
 # First and last rows based on existing order
 mtcars \%>\% slice_head(n = 5)

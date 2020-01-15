@@ -10,8 +10,9 @@ mutate(.data, ...)
 transmute(.data, ...)
 }
 \arguments{
-\item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of expressions,
 each with length 1 or the same length as the number of rows in the group
@@ -92,6 +93,19 @@ The three \link{scoped} variants of \code{mutate()} (\code{\link[=mutate_all]{mu
 \code{transmute()} (\code{\link[=transmute_all]{transmute_all()}}, \code{\link[=transmute_if]{transmute_if()}},
 \code{\link[=transmute_at]{transmute_at()}}) make it easy to apply a transformation to a
 selection of variables.
+}
+
+\section{Methods}{
+
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\itemize{
+\item \code{mutate()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("mutate")}.
+\item \code{transmute()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("transmute")}.
+}
 }
 
 \examples{

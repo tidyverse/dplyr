@@ -7,8 +7,9 @@
 select(.data, ...)
 }
 \arguments{
-\item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> One or more unquoted
 expressions separated by commas. You can treat variable names like they
@@ -68,6 +69,16 @@ Note that except for \code{:}, \code{-} and \code{c()}, all complex expressions
 are evaluated outside the data frame context. This is to prevent
 accidental matching of data frame variables when you refer to
 variables from the calling context.
+}
+
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("select")}.
 }
 
 \examples{
