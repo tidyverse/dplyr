@@ -136,7 +136,7 @@ For the filtering joins:
 \item Rows are a subset of the input, but appear in the same order.
 \item Columns are not modified.
 \item Data frame attributes are preserved.
-\item Groups are taken from \code{x}.
+\item Groups are taken from \code{x}. The number of groups may be reduced.
 }
 }
 \description{

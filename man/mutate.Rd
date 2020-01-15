@@ -30,7 +30,7 @@ For \code{mutate()}:
 \item Existing columns will be preserved unless explicitly modified.
 \item New columns will be added to the right of existing columns.
 \item Columns given value \code{NULL} will be removed
-\item Groups will be updated if a grouping variable is mutated.
+\item Groups will be recomputed if a grouping variable is mutated.
 \item Data frame attributes are preserved.
 }
 
@@ -40,7 +40,7 @@ For \code{transmute()}:
 \item Apart from grouping variables, existing columns will be remove unless
 explicitly kept.
 \item Column order matches order of expressions.
-\item Groups will be updated if a grouping variable is mutated.
+\item Groups will be recomputed if a grouping variable is mutated.
 \item Data frame attributes are preserved.
 }
 }

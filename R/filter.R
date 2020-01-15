@@ -60,7 +60,7 @@
 #'
 #' * Rows are a subset of the input, but appear in the same order.
 #' * Columns are not modified.
-#' * Groups are not modified.
+#' * The number of groups may be reduced (if `.preserve` is not `TRUE`).
 #' * Data frame attributes are preserved.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export

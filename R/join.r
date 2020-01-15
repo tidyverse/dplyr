@@ -191,7 +191,7 @@ nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, 
 #' * Rows are a subset of the input, but appear in the same order.
 #' * Columns are not modified.
 #' * Data frame attributes are preserved.
-#' * Groups are taken from `x`.
+#' * Groups are taken from `x`. The number of groups may be reduced.
 #' @inheritParams inner_join
 #' @param x,y Data frames
 #' @param ... Included for compatibility with the generic; otherwise ignored.

@@ -73,7 +73,7 @@
 #' * Existing columns will be preserved unless explicitly modified.
 #' * New columns will be added to the right of existing columns.
 #' * Columns given value `NULL` will be removed
-#' * Groups will be updated if a grouping variable is mutated.
+#' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
 #'
 #' For `transmute()`:
@@ -82,7 +82,7 @@
 #' * Apart from grouping variables, existing columns will be remove unless
 #'   explicitly kept.
 #' * Column order matches order of expressions.
-#' * Groups will be updated if a grouping variable is mutated.
+#' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
 #' @examples
 #' # Newly created variables are available immediately

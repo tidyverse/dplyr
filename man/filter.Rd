@@ -23,7 +23,7 @@ An object of the same type as \code{.data}.
 \itemize{
 \item Rows are a subset of the input, but appear in the same order.
 \item Columns are not modified.
-\item Groups are not modified.
+\item The number of groups may be reduced (if \code{.preserve} is not \code{TRUE}).
 \item Data frame attributes are preserved.
 }
 }
