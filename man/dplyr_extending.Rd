@@ -42,7 +42,7 @@ if you have a data frame class that you want to work with dplyr.
 \section{Current usage}{
 \itemize{
 \item \code{arrange()}, \code{filter()}, \code{slice()}, \code{semi_join()}, and \code{anti_join()}
-work by generating a vector of column indices, and then subsetting
+work by generating a vector of row indices, and then subsetting
 with \code{dplyr_row_slice()}.
 \item \code{mutate()} generates a list of new column value (using \code{NULL} to indicate
 when columns should be deleted), then passes that to \code{dplyr_col_modify()}.
