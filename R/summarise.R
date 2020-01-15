@@ -32,7 +32,7 @@
 #' creating multiple summaries.
 #'
 #' @export
-#' @inheritParams filter
+#' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of summary
 #'   functions. The name will be the name of the variable in the result.
 #'   The value should be an expression that returns a single value like

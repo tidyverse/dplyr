@@ -38,7 +38,7 @@
 #' are evaluated outside the data frame context. This is to prevent
 #' accidental matching of data frame variables when you refer to
 #' variables from the calling context.
-#' @inheritParams filter
+#' @inheritParams arrange
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
 #'   expressions separated by commas. You can treat variable names like they
 #'   are positions, so you can use expressions like `x:y` to select ranges of

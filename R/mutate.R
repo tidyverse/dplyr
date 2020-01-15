@@ -55,7 +55,7 @@
 #' selection of variables.
 #'
 #' @export
-#' @inheritParams filter
+#' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of expressions,
 #'   each with length 1 or the same length as the number of rows in the group
 #'   (if using [group_by()]) or in the entire input (if not using groups).

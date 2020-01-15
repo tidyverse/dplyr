@@ -7,10 +7,6 @@
 filter(.data, ..., .preserve = FALSE)
 }
 \arguments{
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
-lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
-more details.}
-
 \item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Logical predicates defined in
 terms of the variables in \code{.data}.
 Multiple conditions are combined with \code{&}. Only rows where the

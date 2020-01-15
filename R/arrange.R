@@ -22,8 +22,16 @@
 #' * Columns are not modified.
 #' * Groups are not modified.
 #' * Data frame attributes are preserved.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("arrange")}.
 #' @export
-#' @inheritParams filter
+#' @param .data A data frame, data frame extension (e.g. a tibble), or a
+#'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
+#'   more details.
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or
 #'   variables. Use [desc()] to sort a variable in descending order.
 #' @family single table verbs
