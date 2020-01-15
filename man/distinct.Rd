@@ -19,10 +19,14 @@ If a combination of \code{...} is not distinct, this keeps the
 first row of values.}
 }
 \value{
-An object the same type as \code{.data}. If \code{...} is empty or \code{.keep_all} is
-\code{TRUE}, the columns will be unchanged. Otherwise, it will first perform a
-\code{mutate()}. The rows will be in the same order as the input, but only
-distinct elements will be preserved.
+An object of the same type as \code{.data}.
+\itemize{
+\item Rows are a subset of the input, but appear in the same order.
+\item Columns are not modified if \code{...} is empty or \code{.keep_all} is \code{TRUE}.
+Otherwise, \code{distinct()} first calls \code{mutate()} to create new columns.
+\item Groups are not modified.
+\item Data frame attributes are preserved.
+}
 }
 \description{
 Select only unique/distinct rows from a data frame. This is similar

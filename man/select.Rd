@@ -22,8 +22,24 @@ Use named arguments, e.g. \code{new_name = old_name}, to rename selected
 variables.}
 }
 \value{
-An object of the same type as \code{.data}. The rows will be left as; only
-the columns (position and/or name) will be changed.
+An object of the same type as \code{.data}.
+
+For \code{select()}:
+\itemize{
+\item Rows are not affected.
+\item Output columns are a subset of input columns, potentially with a different
+order. Columns will be renamed if \code{new_name = old_name} form is used.
+\item Data frame attributes are preserved.
+\item Groups are maintained; you can not select off grouping variables.
+}
+
+For \code{rename()}:
+\itemize{
+\item Rows are not affected.
+\item Column names are changed; column order is preserved
+\item Data frame attributes are preserved.
+\item Groups are updated to reflect new names.
+}
 }
 \description{
 Select or rename variables in a data frame, using a concise mini-language

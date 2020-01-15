@@ -19,8 +19,13 @@ condition evaluates to \code{TRUE} are kept.}
 is recalculated based on the resulting data, otherwise it is kept as is.}
 }
 \value{
-An object of the same type as \code{.data}. The columns will be left as is;
-the rows will be in different order.
+An object of the same type as \code{.data}.
+\itemize{
+\item Rows are a subset of the input, but appear in the same order.
+\item Columns are not modified.
+\item The number of groups may be reduced (if \code{.preserve} is not \code{TRUE}).
+\item Data frame attributes are preserved.
+}
 }
 \description{
 Use \code{filter()} to choose rows/cases where conditions are true. Unlike
@@ -62,12 +67,6 @@ It is valid to use grouping variables in filter expressions.
 
 When applied on a grouped tibble, \code{filter()} automatically \link[=arrange]{rearranges}
 the tibble by groups for performance reasons.
-}
-
-\section{Tidy data}{
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
 }
 
 \section{Scoped filtering}{

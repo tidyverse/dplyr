@@ -4,8 +4,8 @@ test_that("empty mutate returns input", {
   df <- tibble(x = 1)
   gf <- group_by(df, x)
 
-  expect_reference(mutate(df), df)
-  expect_reference(mutate(gf), gf)
+  expect_equal(mutate(df), df)
+  expect_equal(mutate(gf), gf)
 })
 
 test_that("mutations applied progressively", {
@@ -17,7 +17,7 @@ test_that("mutations applied progressively", {
 test_that("length-1 vectors are recycled (#152)", {
   df <- tibble(x = 1:4)
   expect_equal(mutate(df, y = 1)$y, rep(1, 4))
-  expect_error(mutate(df, y = 1:2), "recycle")
+  expect_error(mutate(df, y = 1:2), class = "vctrs_error_recycle_incompatible_size")
 })
 
 test_that("can remove variables with NULL (#462)", {
@@ -106,13 +106,17 @@ test_that("named data frames are packed (#2326, #3630)", {
 
 # output types ------------------------------------------------------------
 
-test_that("mutate regroups after modifying grouping vars", {
-  df <- tibble(x = 1:2, y = 2)
-  gf <- group_by(df, x)
+test_that("mutate preserves grouping", {
+  gf <- group_by(tibble(x = 1:2, y = 2), x)
 
-  out <- gf %>% mutate(x = 1)
-  expect_equal(out$x, c(1, 1))
+  i <- count_regroups(out <- mutate(gf, x = 1))
+  expect_equal(i, 1L)
+  expect_equal(group_vars(out), "x")
   expect_equal(nrow(group_data(out)), 1)
+
+  i <- count_regroups(out <- mutate(gf, z = 1))
+  expect_equal(i, 0)
+  expect_equal(group_data(out), group_data(gf))
 })
 
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {

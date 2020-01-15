@@ -16,11 +16,14 @@
 #' * treated differently for remote data, depending on the backend.
 #'
 #' @return
-#' An object of the same type as `.data`. The columns will be left as is;
-#' the rows will be in different order.
+#' An object of the same type as `.data`.
+#'
+#' * All rows appear in the output, but (usually) in a different place.
+#' * Columns are not modified.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
 #' @export
 #' @inheritParams filter
-#' @inheritSection filter Tidy data
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or
 #'   variables. Use [desc()] to sort a variable in descending order.
 #' @family single table verbs
@@ -46,19 +49,8 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
     return(.data)
   }
 
-  idx <- arrange_rows(.data, ...)
-  .data[idx, , drop = FALSE]
-}
-
-#' @export
-arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
-  if (missing(...)) {
-    return(.data)
-  }
-
-  # TODO: figure out how to update group_indices more efficiently
-  idx <- arrange_rows(.data, ..., .by_group = .by_group)
-  .data[idx, , drop = FALSE]
+  loc <- arrange_rows(.data, ..., .by_group = .by_group)
+  dplyr_row_slice(.data, loc)
 }
 
 # Helpers -----------------------------------------------------------------

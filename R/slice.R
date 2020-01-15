@@ -14,8 +14,13 @@
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.
 #' @inheritParams filter
-#' @inherit arrange return
-#' @inheritSection filter Tidy data
+#' @return
+#' An object of the same type as `.data`.
+#'
+#' * Each row may appear 0, 1, or many times in the output.
+#' * Columns are not modified.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
 #' @export
 #' @examples
 #' slice(mtcars, 1L)
@@ -42,38 +47,23 @@ slice <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  idx <- slice_rows(.data, ...)
-  .data[idx$data, , drop = FALSE]
-}
-
-#' @export
-slice.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.data)) {
-  idx <- slice_rows(.data, ...)
-  data <- as.data.frame(.data)[idx$data, , drop = FALSE]
-
-  groups <- group_data(.data)
-  groups$.rows <- new_list_of(idx$groups, ptype = integer())
-  groups <- group_data_trim(groups, .preserve)
-
-  new_grouped_df(data, groups)
+  loc <- slice_rows(.data, ...)
+  dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
 slice_rows <- function(.data, ...) {
   dots <- enquos(...)
   if (is_empty(dots)) {
-    return(.data)
+    return(TRUE)
   }
 
   rows <- group_rows(.data)
   mask <- DataMask$new(.data, caller_env(), rows)
 
   quo <- quo(c(!!!dots))
-
   chunks <- mask$eval_all(quo)
 
   slice_indices <- new_list(length(rows))
-  new_rows <- new_list(length(rows))
-  k <- 1L
 
   for (group in seq_along(rows)) {
     current_rows <- rows[[group]]
@@ -92,7 +82,7 @@ slice_rows <- function(.data, ...) {
 
     if (length(res) == 0L) {
       # nothing to do
-    } else if(all(res >= 0, na.rm = TRUE)) {
+    } else if (all(res >= 0, na.rm = TRUE)) {
       res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
     } else if (all(res <= 0, na.rm = TRUE)) {
       res <- setdiff(seq_along(current_rows), -res)
@@ -104,15 +94,9 @@ slice_rows <- function(.data, ...) {
     }
 
     slice_indices[[group]] <- current_rows[res]
-    new_k <- k + length(res)
-    new_rows[[group]] <- seq2(k, new_k - 1L)
-    k <- new_k
   }
 
-  list(
-    data = vec_c(!!!slice_indices, .ptype = integer()),
-    groups = new_rows
-  )
+  vec_c(!!!slice_indices, .ptype = integer())
 }
 
 # Slice helpers -----------------------------------------------------------

@@ -168,20 +168,30 @@ nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, 
 #' data frames and tibbles.
 #'
 #' @return
-#' An object of the same type as `x`. The order of the rows and columns will
+#' An object of the same type as `x`. The order of the rows and columns is
 #' preserved as much as possible.
 #'
-#' In mutating joins, rows may need to be duplicated, and for right/full joins,
-#' extra rows from `y` are be added to the bottom of `x`. Where the join keys
-#' are different in `x` and `y`, only keys from `x` will be included, unless
-#' `keep = TRUE`. The key columns in the output will be coerced to a common
-#' type. For example, if you're joining a integer vector with a numeric
-#' variable, the output will be a numeric vector, regardless of which is seen
-#' first.
+#' For the mutating joins:
 #'
-#' We interpret filtering joins exactly if you created the equivalent call to
-#' `filter()`: the row order, the column order, and the column types are all
-#' preserved.
+#' * For `inner_join()`, a subset of the `x` rows`
+#'   For `left_join()`, all `x` rows.
+#'   For `right_join()`, a subset of `x` rows, followed by unmatch `y` rows.
+#'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
+#' * For all joins, rows will be duplicated if one row in `x` rows match
+#'   multiple rows in `y`.
+#' * Output columns include all `x` columns and all `y` columns. If the
+#'   columns have the same name (and aren't included `y`), `suffix`es are
+#'   added to disambiguate.
+#' * Output columns columns included `by` are coerced to common type across
+#'   `x` and `y`.
+#' * Groups are taken from `x`.
+#'
+#' For the filtering joins:
+#'
+#' * Rows are a subset of the input, but appear in the same order.
+#' * Columns are not modified.
+#' * Data frame attributes are preserved.
+#' * Groups are taken from `x`. The number of groups may be reduced.
 #' @inheritParams inner_join
 #' @param x,y Data frames
 #' @param ... Included for compatibility with the generic; otherwise ignored.
@@ -275,16 +285,22 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  y_split <- vec_group_pos(y_key)
+  y_split <- vec_group_loc(y_key)
   matches <- vec_match(x_key, y_split$key)
-  y_loc <- y_split$pos[matches]
+  y_loc <- y_split$loc[matches]
 
   out <- set_names(x[vars$x$out], names(vars$x$out))
-  out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+
+  # Modify all columns in one step so that we only need to re-group once
+  # Currently, this regroups too often, because it looks like we're always
+  # changing the key vars because of the cast
+  new_cols <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+  names(new_cols) <- x_key
 
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
-  out[[name_var]] <- map(y_loc, vec_slice, x = y_out)
-  out
+  new_cols[[name_var]] <- map(y_loc, vec_slice, x = y_out)
+
+  dplyr_col_modify(out, new_cols)
 }
 
 # helpers -----------------------------------------------------------------
@@ -304,7 +320,8 @@ join_mutate <- function(x, y, by, type,
   x_out <- set_names(x[vars$x$out], names(vars$x$out))
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
 
-  out <- vec_slice(x_out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
+  out <- as_tibble(x_out)
+  out <- vec_slice(out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
   out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
 
   # If we're not keeping all y keys, need to copy over for the new rows
@@ -314,7 +331,7 @@ join_mutate <- function(x, y, by, type,
   }
 
   out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
-  out
+  dplyr_reconstruct(out, x_out)
 }
 
 join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
@@ -324,11 +341,11 @@ join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
-  indx <- switch(type,
-    semi = which(vec_in(x_key, y_key)),
-    anti = which(!vec_in(x_key, y_key))
+  idx <- switch(type,
+    semi = vec_in(x_key, y_key),
+    anti = !vec_in(x_key, y_key)
   )
-  x[indx, , drop = FALSE]
+  dplyr_row_slice(x, idx)
 }
 
 check_na_matches <- function(na_matches = c("na", "never")) {

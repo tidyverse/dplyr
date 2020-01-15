@@ -1,5 +1,10 @@
 context("slice")
 
+test_that("empty slice returns input", {
+  df <- tibble(x = 1:3)
+  expect_equal(slice(df), df)
+})
+
 test_that("slice handles numeric input (#226)", {
   g <- mtcars %>% arrange(cyl) %>% group_by(cyl)
   res <- g %>% slice(1)
@@ -151,7 +156,7 @@ test_that("slice does not evaluate the expression in empty groups (#1438)", {
     slice(1:2)
   expect_equal(nrow(res), 2L)
 
-  expect_condition(
+  expect_error(
     res <- mtcars %>% group_by(cyl) %>% filter(cyl==6) %>% sample_n(size=3),
     NA
   )

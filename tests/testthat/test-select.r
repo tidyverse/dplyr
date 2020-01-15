@@ -1,10 +1,19 @@
 context("Select")
 
-test_that("select does not lose grouping (#147)", {
-  df <- tibble(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8))
-  grouped <- df %>% group_by(a) %>% select(a, b, x)
+test_that("select preserves grouping", {
+  gf <- group_by(tibble(g = 1:3, x = 3:1), g)
 
-  expect_groups(grouped, "a")
+  i <- count_regroups(out <- select(gf, h = g))
+  expect_equal(i, 0)
+  expect_equal(group_vars(out), "h")
+})
+
+test_that("rename preserves grouping", {
+  gf <- group_by(tibble(g = 1:3, x = 3:1), g)
+
+  i <- count_regroups(out <- rename(gf, h = g))
+  expect_equal(i, 0)
+  expect_equal(group_vars(out), "h")
 })
 
 test_that("grouping variables preserved with a message (#1511)", {

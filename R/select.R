@@ -55,8 +55,22 @@
 #'   Use named arguments, e.g. `new_name = old_name`, to rename selected
 #'   variables.
 #' @return
-#' An object of the same type as `.data`. The rows will be left as; only
-#' the columns (position and/or name) will be changed.
+#' An object of the same type as `.data`.
+#'
+#' For `select()`:
+#'
+#' * Rows are not affected.
+#' * Output columns are a subset of input columns, potentially with a different
+#'   order. Columns will be renamed if `new_name = old_name` form is used.
+#' * Data frame attributes are preserved.
+#' * Groups are maintained; you can not select off grouping variables.
+#'
+#' For `rename()`:
+#'
+#' * Rows are not affected.
+#' * Column names are changed; column order is preserved
+#' * Data frame attributes are preserved.
+#' * Groups are updated to reflect new names.
 #' @family single table verbs
 #' @export
 #' @examples
@@ -100,6 +114,14 @@ select.list <- function(.data, ...) {
   abort("`select()` doesn't handle lists.")
 }
 
+#' @export
+select.data.frame <- function(.data, ...) {
+  loc <- tidyselect::eval_select(expr(c(...)), .data)
+  loc <- ensure_group_vars(loc, .data, notify = TRUE)
+
+  set_names(.data[loc], names(loc))
+}
+
 #' @rdname select
 #' @export
 rename <- function(.data, ...) {
@@ -107,56 +129,16 @@ rename <- function(.data, ...) {
 }
 
 #' @export
-select.data.frame <- function(.data, ...) {
-  loc <- tidyselect::eval_select(expr(c(...)), .data)
-  set_names(.data[loc], names(loc))
-}
-
-#' @export
-select.grouped_df <- function(.data, ...) {
-  loc <- tidyselect::eval_select(expr(c(...)), .data)
-  loc <- ensure_group_vars(loc, .data, notify = TRUE)
-  group_loc <- group_loc(.data, loc)
-
-  data <- as.data.frame(.data)
-  groups <- group_data(.data)
-  group_loc <- c(group_loc, .rows = ncol(groups))
-
-  data <- set_names(data[loc], names(loc))
-  groups <- set_names(groups[group_loc], names(group_loc))
-
-  new_grouped_df(data, groups)
-}
-
-#' @export
 rename.data.frame <- function(.data, ...) {
   loc <- tidyselect::eval_rename(expr(c(...)), .data)
-  names(.data)[loc] <- names(loc)
+  # eval_rename() only returns changes
+  names <- names(.data)
+  names[loc] <- names(loc)
 
-  .data
-}
-
-#' @export
-rename.grouped_df <- function(.data, ...) {
-  loc <- tidyselect::eval_rename(expr(c(...)), .data)
-  group_loc <- group_loc(.data, loc)
-
-  data <- as.data.frame(.data)
-  groups <- group_data(.data)
-
-  names(data)[loc] <- names(loc)
-  names(groups)[group_loc] <- names(group_loc)
-
-  new_grouped_df(data, groups)
+  set_names(.data, names)
 }
 
 # Helpers -----------------------------------------------------------------
-
-group_loc <- function(data, loc, force_group = FALSE) {
-  vars <- set_names(names(data)[loc], names(loc))
-  group_vars <- vars[vars %in% group_vars(data)]
-  set_names(match(group_vars, group_vars(data)), names(group_vars))
-}
 
 ensure_group_vars <- function(loc, data, notify = TRUE) {
   group_loc <- match(group_vars(data), names(data))

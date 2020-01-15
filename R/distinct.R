@@ -12,10 +12,13 @@
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
 #' @return
-#' An object the same type as `.data`. If `...` is empty or `.keep_all` is
-#' `TRUE`, the columns will be unchanged. Otherwise, it will first perform a
-#' `mutate()`. The rows will be in the same order as the input, but only
-#' distinct elements will be preserved.
+#' An object of the same type as `.data`.
+#'
+#' * Rows are a subset of the input, but appear in the same order.
+#' * Columns are not modified if `...` is empty or `.keep_all` is `TRUE`.
+#'   Otherwise, `distinct()` first calls `mutate()` to create new columns.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
 #' @export
 #' @examples
 #' df <- tibble(
@@ -91,24 +94,17 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
-  prep <- distinct_prepare(.data, enquos(...), .keep_all = .keep_all)
-
-  idx <- vec_unique_loc(prep$data[, prep$vars, drop = FALSE])
-  prep$data[idx, prep$keep, drop = FALSE]
-}
-
-#' @export
-distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
-  prep <- distinct_prepare(
-    .data,
+  prep <- distinct_prepare(.data,
     vars = enquos(...),
     group_vars = group_vars(.data),
     .keep_all = .keep_all
   )
 
-  # TODO: figure out how to update group indices more efficiently
-  idx <- vec_unique_loc(prep$data[, prep$vars, drop = FALSE])
-  prep$data[idx, prep$keep, drop = FALSE]
+  # out <- as_tibble(prep$data)
+  out <- prep$data
+  loc <- vec_unique_loc(as_tibble(out)[prep$vars])
+
+  dplyr_row_slice(out[prep$keep], loc)
 }
 
 
