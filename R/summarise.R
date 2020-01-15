@@ -183,8 +183,11 @@ summarise_cols <- function(.data, ...) {
     }
 
   },
+  rlang_error_data_pronoun_not_found = function(e) {
+    stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
+  },
   vctrs_error_incompatible_type = function(e) {
-    stop_summarise_combine(conditionMessage(e), index = i, dots = dots)
+    stop_combine(conditionMessage(e), index = i, dots = dots, fn = "summarise")
   },
   simpleError = function(e) {
     stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
@@ -193,7 +196,7 @@ summarise_cols <- function(.data, ...) {
     stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
   },
   dplyr_summarise_incompatible_size = function(cnd) {
-    stop_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
+    stop_summarise_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
   })
 
   list(new = cols, size = .size)

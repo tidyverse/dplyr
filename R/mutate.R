@@ -202,50 +202,72 @@ mutate_cols <- function(.data, ...) {
 
   new_columns <- list()
 
-  for (i in seq_along(dots)) {
-    # a list in which each element is the result of
-    # evaluating the quosure in the "sliced data mask"
-    # recycling it appropriately to match the group size
-    #
-    # TODO: reinject hybrid evaluation at the R level
-    c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]], dots_names, i)
+  tryCatch({
+    for (i in seq_along(dots)) {
+      # a list in which each element is the result of
+      # evaluating the quosure in the "sliced data mask"
+      # recycling it appropriately to match the group size
+      #
+      # TODO: reinject hybrid evaluation at the R level
+      c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]], dots_names, i)
 
-    if (is.null(chunks)) {
-      if (!is.null(dots_names) && dots_names[i] != "") {
-        new_columns[[dots_names[i]]] <- zap()
+      if (is.null(chunks)) {
+        if (!is.null(dots_names) && dots_names[i] != "") {
+          new_columns[[dots_names[i]]] <- zap()
 
-        # we might get a warning if dots_names[i] does not exist
-        suppressWarnings(mask$remove(dots_names[i]))
+          # we might get a warning if dots_names[i] does not exist
+          suppressWarnings(mask$remove(dots_names[i]))
+        }
+        next
       }
-      next
+
+      if (needs_recycle) {
+        chunks <- map2(chunks, rows_lengths, function(chunk, n) {
+          vec_recycle(chunk, n)
+        })
+      }
+      result <- vec_slice(vec_c(!!!chunks), o_rows)
+
+      not_named <- (is.null(dots_names) || dots_names[i] == "")
+      if (not_named && is.data.frame(result)) {
+        new_columns[names(result)] <- result
+
+        # remember each result separately
+        map2(seq_along(result), names(result), function(i, nm) {
+          mask$add(nm, pluck(chunks, i))
+        })
+      } else {
+        name <- if (not_named) auto_named_dots[i] else dots_names[i]
+
+        # treat as a single output otherwise
+        new_columns[[name]] <- result
+
+        # remember
+        mask$add(name, chunks)
+      }
+
     }
 
-    if (needs_recycle) {
-      chunks <- map2(chunks, rows_lengths, function(chunk, n) {
-        vec_recycle(chunk, n)
-      })
+  },
+    rlang_error_data_pronoun_not_found = function(e) {
+      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+    },
+    vctrs_error_recycle_incompatible_size = function(e) {
+      stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
+    },
+    dplyr_mutate_mixed_NULL = function(e) {
+      stop_mutate_mixed_NULL(index = i, dots = dots)
+    },
+    dplyr_mutate_not_vector = function(e) {
+      stop_mutate_not_vector(index = i, dots = dots, result = e$result)
+    },
+    vctrs_error_incompatible_type = function(e) {
+      stop_combine(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+    },
+    simpleError = function(e) {
+      stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
     }
-    result <- vec_slice(vec_c(!!!chunks), o_rows)
-
-    not_named <- (is.null(dots_names) || dots_names[i] == "")
-    if (not_named && is.data.frame(result)) {
-      new_columns[names(result)] <- result
-
-      # remember each result separately
-      map2(seq_along(result), names(result), function(i, nm) {
-        mask$add(nm, pluck(chunks, i))
-      })
-    } else {
-      name <- if (not_named) auto_named_dots[i] else dots_names[i]
-
-      # treat as a single output otherwise
-      new_columns[[name]] <- result
-
-      # remember
-      mask$add(name, chunks)
-    }
-
-  }
+  )
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
   new_columns[is_zap] <- rep(list(NULL), sum(is_zap))

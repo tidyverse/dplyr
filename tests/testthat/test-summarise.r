@@ -1063,6 +1063,10 @@ test_that("summarise() give meaningful errors", {
     "# Missing variable"
     summarise(mtcars, a = mean(not_there))
     summarise(group_by(mtcars, cyl), a = mean(not_there))
+
+    "# .data pronoun"
+    summarise(tibble(a = 1), c = .data$b)
+    summarise(group_by(tibble(a = 1:3), a), c = .data$b)
   })
 })
 
