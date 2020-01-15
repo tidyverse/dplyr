@@ -1,22 +1,19 @@
-#' Create a list of functions calls.
-#'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("soft-deprecated")}
+#' Create a list of function calls
 #'
 #' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 #'
-#' `funs()` provides a flexible way to generate a named list of
-#' functions for input to other functions like [summarise_at()].
+#' `funs()` is deprecated; please use `list()` instead. We deprecated this
+#' function because it provided a unique way of specifying anonymous functions,
+#' rather than adopting the conventions used by purrr and other packages
+#' in the tidyverse.
 #'
-#' @param ... A list of functions specified by:
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> A list of functions specified by:
 #'
 #'  - Their name, `"mean"`
 #'  - The function itself, `mean`
 #'  - A call to the function with `.` as a dummy argument,
 #'    `mean(., na.rm = TRUE)`
-#'
-#'  These arguments are automatically [quoted][rlang::quo]. They
-#'  support [unquoting][rlang::quasiquotation] and splicing. See
-#'  `vignette("programming")` for an introduction to these concepts.
 #'
 #'  The following notations are **not** supported, see examples:
 #'
@@ -28,20 +25,15 @@
 #'   supply arguments: `...` argument in [scoped verbs][summarise_at()] or make
 #'   own functions with [purrr::partial()].
 #' @export
+#' @keywords internal
 #' @examples
-#' funs(mean, "mean", mean(., na.rm = TRUE))
+#' funs("mean", mean(., na.rm = TRUE))
+#' # ->
+#' list(mean = mean, mean = ~ mean(.x, na.rm = TRUE))
 #'
-#' # Override default names
 #' funs(m1 = mean, m2 = "mean", m3 = mean(., na.rm = TRUE))
-#'
-#' # If you have function names in a vector, use funs_
-#' fs <- c("min", "max")
-#' funs_(fs)
-#'
-#' # Not supported
-#' \dontrun{
-#' funs(function(x) mean(x, na.rm = TRUE))
-#' funs(~mean(x, na.rm = TRUE))}
+#' # ->
+#' list(m1 = mean, m2 = "mean", m3 = ~ mean(.x, na.rm = TRUE))
 funs <- function(..., .args = list()) {
   lifecycle::deprecate_warn("1.0.0", "funs()", details = paste_line(
     "Please use a list of either functions or lambdas: ",

@@ -22,7 +22,7 @@ then recalculates the grouping structure.
 to select a subset of groups.
 }
 \details{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 }
 \examples{
 iris \%>\%
@@ -35,12 +35,8 @@ iris \%>\%
 Other grouping functions: 
 \code{\link{group_by_all}()},
 \code{\link{group_by}()},
-\code{\link{group_indices}()},
-\code{\link{group_keys}()},
 \code{\link{group_map}()},
 \code{\link{group_nest}()},
-\code{\link{group_rows}()},
-\code{\link{group_size}()},
-\code{\link{groups}()}
+\code{\link{group_split}()}
 }
 \concept{grouping functions}

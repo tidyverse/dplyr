@@ -1,0 +1,80 @@
+> tbl <- tibble(x = 1:2, y = 1:2)
+
+setting column to NULL makes it unavailable
+===========================================
+
+> mutate(tbl, y = NULL, a = sum(y))
+Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'y' not found
+
+> mutate(group_by(tbl, x), y = NULL, a = sum(y))
+Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'y' not found
+
+
+incompatible column type
+========================
+
+> mutate(tibble(x = 1), y = mean)
+Error: Unsupported type for result `y`
+
+> mutate(tibble(x = 1), y = quote(a))
+Error: Unsupported type for result `y`
+
+
+Unsupported type
+================
+
+> df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
+> mutate(df, out = !!env(a = 1))
+Error: Unsupported type for result `out`
+
+> mutate(group_by(df, g), out = !!env(a = 1))
+Error: Unsupported type for result `out`
+
+
+result is sometimes NULL
+========================
+
+> mutate(group_by(tibble(a = 1:3, b = 4:6), a), if (a == 1) NULL else "foo")
+Error: Must index existing elements.
+x Can't subset location 3.
+i There are only 2 elements.
+
+
+incompatible types
+==================
+
+> mutate(group_by(data.frame(x = rep(1:5, each = 3)), x), val = ifelse(x < 3,
++ "foo", 2))
+Error: No common type for `..1` <character> and `..3` <double>.
+
+
+incompatible size
+=================
+
+> int <- 1:6
+> mutate(data.frame(x = c(2, 2, 3, 3)), int = int)
+Error: `x` can't be recycled to size 4.
+x It must be size 4 or 1, not 6.
+
+> mutate(data.frame(x = c(2, 2, 3, 3)), int = 1:5)
+Error: `x` can't be recycled to size 4.
+x It must be size 4 or 1, not 5.
+
+> mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = int)
+Error: `x` can't be recycled to size 2.
+x It must be size 2 or 1, not 6.
+
+> mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = 1:5)
+Error: `x` can't be recycled to size 2.
+x It must be size 2 or 1, not 5.
+
+
+.data pronoun
+=============
+
+> mutate(tibble(a = 1), c = .data$b)
+Error: Column `b` not found in `.data`
+
+> mutate(group_by(tibble(a = 1:3), a), c = .data$b)
+Error: Column `b` not found in `.data`
+

@@ -9,26 +9,28 @@ distinct(.data, ..., .keep_all = FALSE)
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Optional variables to use when determining uniqueness. If there
-are multiple rows for a given combination of inputs, only the first
-row will be preserved. If omitted, will use all variables.}
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Optional variables to use when
+determining uniqueness. If there are multiple rows for a given combination
+of inputs, only the first row will be preserved. If omitted, will use all
+variables.}
 
 \item{.keep_all}{If \code{TRUE}, keep all variables in \code{.data}.
 If a combination of \code{...} is not distinct, this keeps the
 first row of values.}
 }
-\description{
-Retain only unique/distinct rows from an input tbl. This is similar
-to \code{\link[=unique.data.frame]{unique.data.frame()}}, but considerably faster.
+\value{
+An object of the same type as \code{.data}.
+\itemize{
+\item Rows are a subset of the input, but appear in the same order.
+\item Columns are not modified if \code{...} is empty or \code{.keep_all} is \code{TRUE}.
+Otherwise, \code{distinct()} first calls \code{mutate()} to create new columns.
+\item Groups are not modified.
+\item Data frame attributes are preserved.
 }
-\details{
-Comparing list columns is not fully supported.
-Elements in list columns are compared by reference.
-A warning will be given when trying to include list columns in the
-computation.
-This behavior is kept for compatibility reasons and may change in a future
-version.
-See examples.
+}
+\description{
+Select only unique/distinct rows from a data frame. This is similar
+to \code{\link[=unique.data.frame]{unique.data.frame()}}, but considerably faster.
 }
 \examples{
 df <- tibble(
@@ -57,9 +59,4 @@ df <- tibble(
 ) \%>\% group_by(g)
 df \%>\% distinct()
 df \%>\% distinct(x)
-
-# Values in list columns are compared by reference, this can lead to
-# surprising results
-tibble(a = as.list(c(1, 1, 2))) \%>\% glimpse() \%>\% distinct()
-tibble(a = as.list(1:2)[c(1, 1, 2)]) \%>\% glimpse() \%>\% distinct()
 }

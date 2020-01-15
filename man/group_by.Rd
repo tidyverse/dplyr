@@ -5,7 +5,7 @@
 \alias{ungroup}
 \title{Group by one or more variables}
 \usage{
-group_by(.data, ..., add = FALSE, .drop = group_by_drop_default(.data))
+group_by(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
 
 ungroup(x, ...)
 }
@@ -15,9 +15,13 @@ ungroup(x, ...)
 \item{...}{In \code{group_by()}, variables or computations to group by.
 In \code{ungroup()}, variables to remove from the grouping.}
 
-\item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
+\item{.add}{When \code{FALSE}, the default, \code{group_by()} will
 override existing groups. To add to the existing groups, use
-\code{add = TRUE}.}
+\code{.add = TRUE}.
+
+This argument was previously called \code{add}, but that prevented
+creating a new grouping variable called \code{add}, and conflicts with
+our naming conventions.}
 
 \item{.drop}{When \code{.drop = TRUE}, empty groups are dropped. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for
 what the default value is for this argument.}
@@ -94,7 +98,7 @@ by_cyl \%>\%
 
 # Use add = TRUE to instead append
 by_cyl \%>\%
-  group_by(vs, am, add = TRUE) \%>\%
+  group_by(vs, am, .add = TRUE) \%>\%
   group_vars()
 
 
@@ -111,13 +115,9 @@ tbl \%>\%
 \seealso{
 Other grouping functions: 
 \code{\link{group_by_all}()},
-\code{\link{group_indices}()},
-\code{\link{group_keys}()},
 \code{\link{group_map}()},
 \code{\link{group_nest}()},
-\code{\link{group_rows}()},
-\code{\link{group_size}()},
-\code{\link{group_trim}()},
-\code{\link{groups}()}
+\code{\link{group_split}()},
+\code{\link{group_trim}()}
 }
 \concept{grouping functions}

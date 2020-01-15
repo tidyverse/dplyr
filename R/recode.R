@@ -13,7 +13,7 @@
 #' package for more tools for working with factors and their levels.
 #'
 #' @param .x A vector to modify
-#' @param ... Replacements. For character and factor `.x`, these should be named
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Replacements. For character and factor `.x`, these should be named
 #'   and replacement is based only on their name. For numeric `.x`, these can be
 #'   named or not. If not named, the replacement is done based on position i.e.
 #'   `.x` represents positions to look for in replacements. See examples.
@@ -23,8 +23,6 @@
 #'
 #'   All replacements must be the same type, and must have either
 #'   length one or the same length as `.x`.
-#'
-#'   These dots support [tidy dots][rlang::tidy-dots] features.
 #' @param .default If supplied, all values not otherwise matched will
 #'   be given this value. If not supplied and if the replacements are
 #'   the same type as the original values in `.x`, unmatched

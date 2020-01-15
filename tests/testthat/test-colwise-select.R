@@ -4,11 +4,6 @@ df <- tibble(x = 0L, y = 0.5, z = 1)
 
 test_that("can select/rename all variables", {
   expect_identical(select_all(df), df)
-  expect_error(
-    rename_all(df),
-    "`.funs` must specify a renaming function",
-    fixed = TRUE
-  )
 
   expect_identical(select_all(df, toupper), set_names(df, c("X", "Y", "Z")))
   expect_identical(select_all(df, toupper), rename_all(df, toupper))
@@ -16,12 +11,6 @@ test_that("can select/rename all variables", {
 
 test_that("can select/rename with predicate", {
   expect_identical(select_if(df, is_integerish), select(df, x, z))
-  expect_error(
-    rename_if(df, is_integerish),
-    "`.funs` must specify a renaming function",
-    fixed = TRUE
-  )
-
   expect_identical(select_if(df, is_integerish, toupper), set_names(df[c("x", "z")], c("X", "Z")))
   expect_identical(rename_if(df, is_integerish, toupper), set_names(df, c("X", "y", "Z")))
 })
@@ -36,27 +25,10 @@ test_that("can take list, but only containing single function", {
     rename_if(df, list(~ is_integerish(.)), list(~ toupper(.))),
     set_names(df, c("X", "y", "Z"))
   )
-
-  expect_error(
-    select_all(df, list(tolower, toupper)),
-    "`.funs` must contain one renaming function, not 2",
-    fixed = TRUE
-  )
-  expect_error(
-    rename_all(df, list(tolower, toupper)),
-    "`.funs` must contain one renaming function, not 2",
-    fixed = TRUE
-  )
 })
 
 test_that("can select/rename with vars()", {
   expect_identical(select_at(df, vars(x:y)), df[-3])
-  expect_error(
-    rename_at(df, vars(x:y)),
-    "`.funs` must specify a renaming function",
-    fixed = TRUE
-  )
-
   expect_identical(select_at(df, vars(x:y), toupper), set_names(df[-3], c("X", "Y")))
   expect_identical(rename_at(df, vars(x:y), toupper), set_names(df, c("X", "Y", "z")))
 })
@@ -80,8 +52,6 @@ test_that("select variants can use grouping variables (#3351, #3480)", {
 })
 
 test_that("select_if keeps grouping cols", {
-  skip_if(getRversion() < "3.5.0")
-
   by_species <- iris %>% group_by(Species)
   expect_silent(df <- by_species %>% select_if(is.numeric))
   expect_equal(df, by_species[c(5, 1:4)])
@@ -141,13 +111,13 @@ test_that("rename variants can rename a grouping variable (#3351)", {
 })
 
 test_that("select_all does not change the order of columns (#3351)", {
-  tbl <- group_by(tibble(x = 1:4, y = 1:4), y)
+  tbl <- group_by(tibble(x = 1:4, y = 4:1), y)
   expect_identical(select_all(tbl), tbl)
 
-  tbl <- group_by(tibble(x = 1:4, y = 1:4), x)
+  tbl <- group_by(tibble(x = 1:4, y = 4:1), x)
   expect_identical(select_all(tbl), tbl)
 
-  tbl <- group_by(tibble(x = 1:4, y = 1:4, z = 1:4), y)
+  tbl <- group_by(tibble(x = 1:4, y = 4:1, z = 1:4), y)
   expect_identical(select_all(tbl), tbl)
 })
 
@@ -198,4 +168,21 @@ test_that("select_if() discards the column when predicate gives NA (#4486)", {
     out,
     tibble::new_tibble(list(), nrow = 3L)
   )
+})
+
+# Errors ------------------------------------------------------------------
+
+test_that("colwise select() / rename() give meaningful errors", {
+  verify_output(test_path("test-colwise-select-errors.txt"), {
+    df <- tibble(x = 0L, y = 0.5, z = 1)
+
+    "# colwise rename()"
+    df %>% rename_all()
+    df %>% rename_if(is_integerish)
+    df %>% rename_at(vars(x:y))
+    df %>% rename_all(list(tolower, toupper))
+
+    "# colwise select() "
+    df %>% select_all(list(tolower, toupper))
+  })
 })

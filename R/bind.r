@@ -17,7 +17,7 @@
 #'
 #'   When column-binding, rows are matched by position, so all data
 #'   frames must have the same number of rows. To match by value, not
-#'   position, see [join].
+#'   position, see [mutate-joins].
 #' @param .id Data frame identifier.
 #'
 #'   When `.id` is supplied, a new column of identifiers is
@@ -181,51 +181,4 @@ bind_cols <- function(...) {
     }
   }
   res
-}
-
-#' Combine vectors
-#'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
-#'
-#' @description
-#' `combine()` acts like [c()] or
-#' [unlist()] but uses consistent dplyr coercion rules.
-#'
-#' If `combine()` it is called with exactly one list argument, the list is
-#' simplified (similarly to `unlist(recursive = FALSE)`). `NULL` arguments are
-#' ignored. If the result is empty, `logical()` is returned.
-#' Use [vctrs::vec_c()] if you never want to unlist.
-#'
-#' @param ... Vectors to combine.
-#'
-#' @seealso
-#' `bind_rows()` and `bind_cols()` in [bind].
-#'
-#' @export
-#' @examples
-#' # combine applies the same coercion rules as bind_rows()
-#' f1 <- factor("a")
-#' f2 <- factor("b")
-#' c(f1, f2)
-#' unlist(list(f1, f2))
-#'
-#' combine(f1, f2)
-#' combine(list(f1, f2))
-combine <- function(...) {
-  signal_soft_deprecated(paste_line(
-    "combine() is deprecated. ",
-    "Please use vctrs::vec_c() instead"
-  ))
-
-  args <- list2(...)
-  if (length(args) == 1 && is.list(args[[1]])) {
-    args <- args[[1]]
-  }
-  args <- keep(args, function(.x) !is.null(.x))
-  names(args) <- NULL
-  if (length(args) == 0) {
-    logical()
-  } else {
-    vec_c(!!!args)
-  }
 }

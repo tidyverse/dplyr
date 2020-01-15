@@ -51,23 +51,6 @@ test_that("bind_rows respects ordered factors (#1112)", {
   expect_equal(levels(df$id), levels(res$id))
 })
 
-test_that("bind_rows can handle lists (#1104)", {
-  skip("to be discussed")
-  my_list <- list(list(x = 1, y = "a"), list(x = 2, y = "b"))
-  res <- bind_rows(my_list)
-  expect_equal(nrow(res), 2L)
-  expect_is(res$x, "numeric")
-  expect_is(res$y, "character")
-})
-
-test_that("bind_rows can handle lists (#1104)", {
-  skip("to be discussed")
-  res <- bind_rows(list(x = 1, y = "a"), list(x = 2, y = "b"))
-  expect_equal(nrow(res), 2L)
-  expect_is(res$x, "numeric")
-  expect_is(res$y, "character")
-})
-
 test_that("bind handles POSIXct of different tz ", {
   date1 <- structure(-1735660800, tzone = "America/Chicago", class = c("POSIXct", "POSIXt"))
   date2 <- structure(-1735660800, tzone = "UTC", class = c("POSIXct", "POSIXt"))
@@ -115,7 +98,6 @@ test_that("empty data frame are handled (#1346)", {
 })
 
 test_that("bind_rows handles POSIXct stored as integer (#1402)", {
-  skip("vctrs issues on old R versions")
   now <- Sys.time()
 
   df1 <- data.frame(time = now)

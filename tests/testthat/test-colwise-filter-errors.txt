@@ -1,0 +1,6 @@
+> filter_if(mtcars, is_character, all_vars(. > 0))
+Error: `.predicate` has no matching columns
+
+> filter_all(mtcars, list(~. > 0))
+Error: `.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not a list
+

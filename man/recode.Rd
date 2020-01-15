@@ -12,7 +12,7 @@ recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE)
 \arguments{
 \item{.x}{A vector to modify}
 
-\item{...}{Replacements. For character and factor \code{.x}, these should be named
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Replacements. For character and factor \code{.x}, these should be named
 and replacement is based only on their name. For numeric \code{.x}, these can be
 named or not. If not named, the replacement is done based on position i.e.
 \code{.x} represents positions to look for in replacements. See examples.
@@ -21,9 +21,7 @@ When named, the argument names should be the current values to be replaced, and 
 argument values should be the new (replacement) values.
 
 All replacements must be the same type, and must have either
-length one or the same length as \code{.x}.
-
-These dots support \link[rlang:tidy-dots]{tidy dots} features.}
+length one or the same length as \code{.x}.}
 
 \item{.default}{If supplied, all values not otherwise matched will
 be given this value. If not supplied and if the replacements are

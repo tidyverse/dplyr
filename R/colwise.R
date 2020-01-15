@@ -87,14 +87,9 @@ NULL
 #' Note that verbs accepting a `vars()` specification also accept a
 #' numeric vector of positions or a character vector of column names.
 #'
-#' @param ... Variables to include/exclude in mutate/summarise. You
-#'   can use same specifications as in [select()]. If missing,
-#'   defaults to all non-grouping variables.
-#'
-#'   These arguments are automatically [quoted][rlang::quo] and later
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. They support [unquoting][rlang::quasiquotation]. See
-#'   `vignette("programming")` for an introduction to these concepts.
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> Variables to include/exclude
+#'   in mutate/summarise. You can use same specifications as in [select()].
+#'   If missing, defaults to all non-grouping variables.
 #' @seealso [all_vars()] and [any_vars()] for other quoting
 #'   functions that you can use with scoped verbs.
 #' @export
@@ -110,14 +105,8 @@ vars <- function(...) {
 #' variant takes the intersection of the predicate expressions with
 #' `&` while the `any_vars()` variant takes the union with `|`.
 #'
-#' @param expr A predicate expression. This variable supports
-#'   [unquoting][rlang::quasiquotation] and will be evaluated in the
-#'   context of the data frame. It should return a logical vector.
-#'
-#'   This argument is automatically [quoted][rlang::quo] and later
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. It supports [unquoting][rlang::quasiquotation]. See
-#'   `vignette("programming")` for an introduction to these concepts.
+#' @param expr <[`tidy-eval`][dplyr_tidy_eval]> An expression that
+#'   returns a logical vector, using `.` to refer to the "current" variable.
 #' @seealso [vars()] for other quoting functions that you
 #'   can use with scoped verbs.
 #' @export
@@ -179,7 +168,14 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   }
 
   if (is_logical(.p)) {
-    stopifnot(length(.p) == length(tibble_vars))
+    if (length(.p) != length(tibble_vars)) {
+      abort(c(
+        "`.p` is invalid",
+        x = "`.p` should have the same size as the number of variables in the tibble",
+        i = glue("`.p` is size {length(.p)}"),
+        i = glue("The tibble has {length(tibble_vars}) columns, {including} the grouping variables", including = if (.include_group_vars) "including" else "non including")
+      ))
+    }
     return(syms(tibble_vars[.p]))
   }
 

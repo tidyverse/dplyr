@@ -29,9 +29,13 @@
 #' @param .data a tbl
 #' @param ... In `group_by()`, variables or computations to group by.
 #'   In `ungroup()`, variables to remove from the grouping.
-#' @param add When `add = FALSE`, the default, `group_by()` will
+#' @param .add When `FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
-#'   `add = TRUE`.
+#'   `.add = TRUE`.
+#'
+#'   This argument was previously called `add`, but that prevented
+#'   creating a new grouping variable called `add`, and conflicts with
+#'   our naming conventions.
 #' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
 #'   what the default value is for this argument.
 #' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
@@ -75,7 +79,7 @@
 #'
 #' # Use add = TRUE to instead append
 #' by_cyl %>%
-#'   group_by(vs, am, add = TRUE) %>%
+#'   group_by(vs, am, .add = TRUE) %>%
 #'   group_vars()
 #'
 #'
@@ -88,8 +92,14 @@
 #'   group_by(y) %>%
 #'   group_rows()
 #'
-group_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
+group_by <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
   UseMethod("group_by")
+}
+
+#' @export
+group_by.data.frame <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
+  groups <- group_by_prepare(.data, ..., .add = .add)
+  grouped_df(groups$data, groups$group_names, .drop)
 }
 
 #' @rdname group_by
@@ -97,6 +107,25 @@ group_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.dat
 #' @param x A [tbl()]
 ungroup <- function(x, ...) {
   UseMethod("ungroup")
+}
+
+#' @export
+ungroup.grouped_df <- function(x, ...) {
+  if (missing(...)) {
+    as_tibble(x)
+  } else {
+    old_groups <- group_vars(x)
+    to_remove <- tidyselect::vars_select(names(x), ...)
+
+    new_groups <- setdiff(old_groups, to_remove)
+    group_by(x, !!!syms(new_groups))
+  }
+}
+
+#' @export
+ungroup.data.frame <- function(x, ...) {
+  ellipsis::check_dots_empty()
+  x
 }
 
 #' Prepare for grouping.
@@ -110,27 +139,67 @@ ungroup <- function(x, ...) {
 #'   \item{groups}{Modified groups}
 #' @export
 #' @keywords internal
-group_by_prepare <- function(.data, ..., .dots = "DEFUNCT", add = FALSE) {
+group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add = deprecated()) {
+
+  if (!missing(add)) {
+    lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )")
+    .add <- add
+  }
+
   new_groups <- enquos(...)
   if (!missing(.dots)) {
     # Used by dbplyr 1.4.2 so can't aggressively deprecate
-    new_groups <- c(new_groups, compat_lazy_dots(.dots))
+    lifecycle::deprecate_soft("1.0.0", "group_by(.dots = )")
+    new_groups <- c(new_groups, compat_lazy_dots(.dots, env = caller_env()))
   }
   new_groups <- new_groups[!map_lgl(new_groups, quo_is_missing)]
 
   # If any calls, use mutate to add new columns, then group by those
-  c(.data, group_names) %<-% add_computed_columns(.data, new_groups)
+  c(out, group_names) %<-% add_computed_columns(.data, new_groups)
 
-  if (add) {
-    group_names <- c(group_vars(.data), group_names)
+  if (.add) {
+    group_names <- union(group_vars(.data), group_names)
   }
-  group_names <- unique(group_names)
+
+  unknown <- setdiff(group_names, tbl_vars(out))
+  if (length(unknown) > 0) {
+    abort(c(
+      "Must group by variables found in `.data`",
+      glue("Column `{unknown}` is not found")
+    ))
+  }
 
   list(
-    data = .data,
+    data = out,
     groups = syms(group_names),
     group_names = group_names
   )
+}
+
+add_computed_columns <- function(.data, vars) {
+  is_symbol <- map_lgl(vars, quo_is_variable_reference)
+  needs_mutate <- have_name(vars) | !is_symbol
+
+  if (any(needs_mutate)) {
+    col_names <- as.list(names(exprs_auto_name(vars)))
+
+    out_cols <- list()
+    # Process sequentially so we can keep the group names in order
+    # TODO: re-write so works with dbplyr too
+    for (i in which(needs_mutate)) {
+      cols <- mutate_cols(.data, !!!vars[i])
+      out_cols[names(cols)] <- cols
+      col_names[[i]] <- names(cols)
+    }
+
+    out <- dplyr_col_modify(.data, out_cols)
+    col_names <- unique(unlist(col_names))
+  } else {
+    out <- .data
+    col_names <- names(exprs_auto_name(vars))
+  }
+
+  list(data = out, added_names = col_names)
 }
 
 quo_is_variable_reference <- function(quo) {
@@ -156,65 +225,6 @@ quo_is_variable_reference <- function(quo) {
   }
 
   FALSE
-}
-
-add_computed_columns <- function(.data, vars) {
-  is_symbol <- map_lgl(vars, quo_is_variable_reference)
-  named <- have_name(vars)
-
-  needs_mutate <- named | !is_symbol
-
-  # Shortcut necessary, otherwise all columns are analyzed in mutate(),
-  # this can change behavior
-  mutate_vars <- vars[needs_mutate]
-  which_need_update <- which(needs_mutate)
-
-  column_names <- as.list(names(exprs_auto_name(vars)))
-
-  if (length(mutate_vars) > 0L) {
-    for (i in seq_along(mutate_vars)) {
-      new_columns <- mutate_new_columns(.data, !!!mutate_vars[i])
-      column_names[[which_need_update[i]]] <- names(new_columns)
-      .data <- mutate_finish(.data, new_columns)
-    }
-  }
-
-  column_names <- rev(unique(rev(vec_c(!!!column_names, .ptype = chr()))))
-
-  list(data = .data, added_names = column_names)
-}
-
-#' Return grouping variables
-#'
-#' `group_vars()` returns a character vector; `groups()` returns a list of
-#' symbols.
-#'
-#' @family grouping functions
-#' @param x A [tbl()]
-#'
-#' @seealso [group_cols()] for matching grouping variables in
-#'   [selection contexts][select].
-#' @export
-#' @examples
-#' df <- tibble(x = 1, y = 2) %>% group_by(x, y)
-#' group_vars(df)
-#' groups(df)
-groups <- function(x) {
-  UseMethod("groups")
-}
-
-#' @export
-groups.default <- function(x) NULL
-
-#' @rdname groups
-#' @export
-group_vars <- function(x) {
-  UseMethod("group_vars")
-}
-
-#' @export
-group_vars.default <- function(x) {
-  deparse_names(groups(x))
 }
 
 #' Default value for .drop argument of group_by

@@ -1,0 +1,13 @@
+> df %>% distinct(aa, x)
+Error: distinct() must use existing variables
+* `aa` not found in `.data`
+
+> df %>% distinct(aa, bb)
+Error: distinct() must use existing variables
+* `aa` not found in `.data`
+* `bb` not found in `.data`
+
+> df %>% distinct(.data$aa)
+Error: distinct() must use existing variables
+* `aa` not found in `.data`
+

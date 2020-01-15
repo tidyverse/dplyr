@@ -25,18 +25,6 @@ test_that("group_map() can return arbitrary objects", {
   )
 })
 
-test_that("group_map() wants functions with at least 2 arguments, or ... (#3996)", {
-  head1 <- function(d) head(d, 1)
-
-  g <- iris %>%
-    group_by(Species)
-
-  expect_error(group_map(g, head1), "The function must accept at least two arguments")
-
-  head1 <- function(d, ...) head(d, 1)
-  expect_equal(length(group_map(g, head1)), 3L)
-})
-
 test_that("group_map() works on ungrouped data frames (#4067)", {
   expect_identical(
     group_map(mtcars, ~ head(.x, 2L)),
@@ -66,28 +54,12 @@ test_that("group_modify() makes a grouped_df", {
   expect_equal(group_rows(res), list_of(1L, 2L, 3L))
 })
 
-test_that("group_modify() rejects non data frames", {
-  expect_error(
-    group_by(mtcars, cyl) %>% group_modify(~ 10)
-  )
-})
-
-test_that("group_modify() rejects data frames that contain the grouping variable", {
-  expect_error(
-    group_by(mtcars, cyl) %>% group_modify(~ data.frame(cyl = 19))
-  )
-})
-
-test_that("group_modify() wants functions with at least 2 arguments, or ... (#3996)", {
-  head1 <- function(d) head(d, 1)
-
-  g <- iris %>%
-    group_by(Species)
-
-  expect_error(group_modify(g, head1), "The function must accept at least two arguments")
-
+test_that("group_modify() and group_map() want functions with at least 2 arguments, or ... (#3996)", {
   head1 <- function(d, ...) head(d, 1)
+
+  g <- iris %>% group_by(Species)
   expect_equal(nrow(group_modify(g, head1)), 3L)
+  expect_equal(length(group_map(g, head1)), 3L)
 })
 
 test_that("group_modify() works on ungrouped data frames (#4067)", {
@@ -135,4 +107,17 @@ test_that("group_modify() works with additional arguments (#4509)", {
     group_modify(.data = srcdata, .f = myfun, foo = "bar"),
     targetdata
   )
+})
+test_that("group_map() give meaningful errors", {
+  head1 <- function(d) head(d, 1)
+
+  verify_output(test_path("test-group_map-errors.txt"), {
+    "# group_modify()"
+    mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19))
+    mtcars %>% group_by(cyl) %>% group_modify(~ 10)
+    iris %>% group_by(Species) %>% group_modify(head1)
+
+    "# group_map()"
+    iris %>% group_by(Species) %>% group_map(head1)
+  })
 })

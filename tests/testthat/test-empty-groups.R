@@ -19,7 +19,7 @@ test_that("filtering and slicing retains labels for zero length groups", {
     tibble(
       e = 1,
       f = factor(1:3),
-      g = c(1, NA, NA),
+      g = c(1, 2, NA),
       n = c(2L, 0L, 0L)
     )
   )

@@ -107,7 +107,13 @@ strip_pos <- function(name) {
 }
 
 describe_repair <- function(orig_name, name) {
-  stopifnot(length(orig_name) == length(name))
+  if(length(orig_name) != length(name)) {
+    abort(c(
+      "`orig_name` and `name` have different sizes",
+      i = glue("`orig_name` is of size {length(orig_name)}"),
+      i = glue("`name`      is of size {length(name)}")
+    ))
+  }
 
   new_names <- name != minimal_names(orig_name)
   if (any(new_names)) {
@@ -126,8 +132,12 @@ describe_repair <- function(orig_name, name) {
 
 ## from rematch2, except we don't add tbl_df or tbl classes to the return value
 re_match <- function(text, pattern, perl = TRUE, ...) {
-
-  stopifnot(is.character(pattern), length(pattern) == 1, !is.na(pattern))
+  if (!is.character(pattern) || length(pattern) != 1L || is.na(pattern)) {
+    abort(c(
+      "incompatible `pattern`",
+      i = "`pattern` should be a scalar string"
+    ))
+  }
   text <- as.character(text)
 
   match <- regexpr(pattern, text, perl = perl, ...)

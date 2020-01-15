@@ -2,22 +2,18 @@
 % Please edit documentation in R/deprec-funs.R
 \name{funs}
 \alias{funs}
-\title{Create a list of functions calls.}
+\title{Create a list of function calls}
 \usage{
 funs(..., .args = list())
 }
 \arguments{
-\item{...}{A list of functions specified by:
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> A list of functions specified by:
 \itemize{
 \item Their name, \code{"mean"}
 \item The function itself, \code{mean}
 \item A call to the function with \code{.} as a dummy argument,
 \code{mean(., na.rm = TRUE)}
 }
-
-These arguments are automatically \link[rlang:quo]{quoted}. They
-support \link[rlang:quasiquotation]{unquoting} and splicing. See
-\code{vignette("programming")} for an introduction to these concepts.
 
 The following notations are \strong{not} supported, see examples:
 \itemize{
@@ -31,24 +27,20 @@ supply arguments: \code{...} argument in \link[=summarise_at]{scoped verbs} or m
 own functions with \code{\link[purrr:partial]{purrr::partial()}}.}
 }
 \description{
-\code{funs()} provides a flexible way to generate a named list of
-functions for input to other functions like \code{\link[=summarise_at]{summarise_at()}}.
-}
-\details{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("soft-deprecated")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+
+\code{funs()} is deprecated; please use \code{list()} instead. We deprecated this
+function because it provided a unique way of specifying anonymous functions,
+rather than adopting the conventions used by purrr and other packages
+in the tidyverse.
 }
 \examples{
-funs(mean, "mean", mean(., na.rm = TRUE))
+funs("mean", mean(., na.rm = TRUE))
+# ->
+list(mean = mean, mean = ~ mean(.x, na.rm = TRUE))
 
-# Override default names
 funs(m1 = mean, m2 = "mean", m3 = mean(., na.rm = TRUE))
-
-# If you have function names in a vector, use funs_
-fs <- c("min", "max")
-funs_(fs)
-
-# Not supported
-\dontrun{
-funs(function(x) mean(x, na.rm = TRUE))
-funs(~mean(x, na.rm = TRUE))}
+# ->
+list(m1 = mean, m2 = "mean", m3 = ~ mean(.x, na.rm = TRUE))
 }
+\keyword{internal}

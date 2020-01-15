@@ -1,52 +1,5 @@
 context("case_when")
 
-test_that("zero inputs throws an error", {
-  expect_error(
-    case_when(),
-    "No cases provided",
-    fixed = TRUE
-  )
-})
-
-test_that("error messages", {
-  expect_error(
-    case_when(
-      paste(50)
-    ),
-    "Case 1 (`paste(50)`) must be a two-sided formula, not a character vector",
-    fixed = TRUE
-  )
-
-  expect_error(
-    case_when(
-      50 ~ 1:3
-    ),
-    "LHS of case 1 (`50`) must be a logical vector, not a double vector",
-    fixed = TRUE
-  )
-})
-
-test_that("cases must yield compatible lengths", {
-  expect_error(
-    case_when(
-      c(TRUE, FALSE) ~ 1,
-      c(FALSE, TRUE, FALSE) ~ 2,
-      c(FALSE, TRUE, FALSE, NA) ~ 3
-    ),
-    "`c(FALSE, TRUE, FALSE) ~ 2`, `c(FALSE, TRUE, FALSE, NA) ~ 3` must be length 2 or one, not 3, 4",
-    fixed = TRUE
-  )
-
-  expect_error(
-    case_when(
-      c(TRUE, FALSE) ~ 1:3,
-      c(FALSE, TRUE) ~ 1:2
-    ),
-    "`c(TRUE, FALSE) ~ 1:3` must be length 2 or one, not 3",
-    fixed = TRUE
-  )
-})
-
 test_that("matches values in order", {
   x <- 1:3
   expect_equal(
@@ -223,4 +176,27 @@ test_that("NULL inputs are compacted", {
     TRUE             ~ FALSE
   )
   expect_identical(out, c(FALSE, TRUE, NA))
+})
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("case_when() give meaningful errors", {
+  verify_output(test_path("test-case-when-errors.txt"), {
+    case_when(
+      c(TRUE, FALSE) ~ 1:3,
+      c(FALSE, TRUE) ~ 1:2
+    )
+
+    case_when(
+      c(TRUE, FALSE) ~ 1,
+      c(FALSE, TRUE, FALSE) ~ 2,
+      c(FALSE, TRUE, FALSE, NA) ~ 3
+    )
+
+    case_when(50 ~ 1:3)
+    case_when(paste(50))
+
+    case_when()
+  })
 })

@@ -1,44 +1,57 @@
-utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows", "new_rows_sizes", "needs_recycle"))
+#' A grouped data frame.
+#'
+#' @description
+#' The easiest way to create a grouped data frame is to call the `group_by()`
+#' method on a data frame or tbl: this will take care of capturing
+#' the unevaluated expressions for you.
+#'
+#' See [group_data()] for the accessor functions that retrieve various metadata
+#' from a `grouped_df`.
+#'
+#' @keywords internal
+#' @param data a tbl or data frame.
+#' @param vars A character vector.
+#' @param drop When `.drop = TRUE`, empty groups are dropped.
+#'
+#' @import vctrs
+#' @importFrom zeallot %<-%
+#'
+#' @export
+grouped_df <- function(data, vars, drop = FALSE) {
+  if (!is.data.frame(data)) {
+    abort("`data` must be a data frame")
+  }
+  if (!is.character(vars)) {
+    abort("`vars` must be a character vector")
+  }
 
-vec_split_id_order <- function(x) {
-  split_id <- vec_group_pos(x)
-  split_id$pos <- new_list_of(split_id$pos, ptype = integer())
-  vec_slice(split_id, vec_order(split_id$key))
+  if (length(vars) == 0) {
+    as_tibble(data)
+  } else {
+    groups <- compute_groups(data, vars, drop = drop)
+    new_grouped_df(data, groups)
+  }
 }
 
-expand_groups <- function(old_groups, positions, nr) {
-  .Call(`dplyr_expand_groups`, old_groups, positions, nr)
-}
-
-make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
-  data <- as_tibble(data)
-
-  is_symbol_list <- (is.list(vars) && all(sapply(vars, is.name)))
-  if(!is_symbol_list && !is.character(vars)) {
-    abort("incompatible `vars`, should be a list of symbols or a character vector")
-  }
-  if (is.list(vars)) {
-    vars <- deparse_names(vars)
+compute_groups <- function(data, vars, drop = FALSE) {
+  unknown <- setdiff(vars, names(data))
+  if (length(unknown) > 0) {
+    vars <- paste0(encodeString(vars, quote = "`"), collapse = ", ")
+    abort(glue("`vars` missing from `data`: {vars}"))
   }
 
-  unknown <- setdiff(vars, tbl_vars(data))
-  if (n_unknown <- length(unknown)) {
-    if(n_unknown == 1) {
-      abort(glue("Column `{unknown}` is unknown"))
-    } else {
-      abort(glue("Column `{unknown}` are unknown", unknown = glue_collapse(unknown, sep  = ", ")))
+  for (var in vars) {
+    x <- data[[var]]
+    if (is.factor(x) && anyNA(x)) {
+      warn(glue("Factor `{var}` contains implicit NA, consider using `forcats::fct_explicit_na()`"))
     }
   }
 
   # Only train the dictionary based on selected columns
-  grouping_variables <- select(ungroup(data), one_of(vars))
-  c(old_keys, old_rows) %<-% vec_split_id_order(grouping_variables)
+  group_vars <- as_tibble(data)[vars]
+  c(old_keys, old_rows) %<-% vec_split_id_order(group_vars)
 
-  map2(old_keys, names(old_keys), function(x, n) {
-    if (is.factor(x) && anyNA(x)) {
-      warn(glue("Factor `{n}` contains implicit NA, consider using `forcats::fct_explicit_na`"))
-    }
-  })
+  signal("", class = "dplyr_regroup")
 
   groups <- tibble(!!!old_keys, .rows := old_rows)
 
@@ -74,7 +87,7 @@ make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
         vec_slice(unique, index)
       }
     })
-    names(new_keys) <- names(grouping_variables)
+    names(new_keys) <- vars
 
     groups <- tibble(!!!new_keys, .rows := new_rows)
   }
@@ -82,31 +95,18 @@ make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
   structure(groups, .drop = drop)
 }
 
-#' A grouped data frame.
-#'
-#' The easiest way to create a grouped data frame is to call the `group_by()`
-#' method on a data frame or tbl: this will take care of capturing
-#' the unevaluated expressions for you.
-#'
-#' @keywords internal
-#' @param data a tbl or data frame.
-#' @param vars a character vector or a list of [name()]
-#' @param drop When `.drop = TRUE`, empty groups are dropped.
-#'
-#' @import vctrs
-#' @importFrom zeallot %<-%
-#'
-#' @export
-grouped_df <- function(data, vars, drop = FALSE) {
-  if (!length(vars)) {
-    return(as_tibble(data))
-  }
+count_regroups <- function(code) {
+  i <- 0
+  withCallingHandlers(code, dplyr_regroup = function(cnd) {
+    i <<- i + 1
+  })
+  i
+}
 
-  # structure the grouped data
-  new_grouped_df(
-    data,
-    groups = make_grouped_df_groups_attribute(data, vars, drop = drop)
-  )
+show_regroups <- function(code) {
+  withCallingHandlers(code, dplyr_regroup = function(cnd) {
+    cat("Regrouping...\n")
+  })
 }
 
 #' Low-level construction and validation for the grouped_df class
@@ -136,11 +136,18 @@ grouped_df <- function(data, vars, drop = FALSE) {
 #' @keywords internal
 #' @export
 new_grouped_df <- function(x, groups, ..., class = character()) {
-  stopifnot(
-    is.data.frame(x),
-    is.data.frame(groups),
-    tail(names(groups), 1L) == ".rows"
-  )
+  if (!is.data.frame(x)) {
+    abort(c(
+      "`new_grouped_df()` incompatible argument",
+      "`x` is not a data frame")
+    )
+  }
+  if (!is.data.frame(groups) || tail(names(groups), 1L) != ".rows") {
+    abort(c(
+      "`new_grouped_df()` incompatible argument",
+      "`groups` should be a data frame, and its last column be called `.rows`"
+    ))
+  }
   new_tibble(
     x,
     groups = groups,
@@ -162,7 +169,6 @@ validate_grouped_df <- function(x, check_bounds = FALSE) {
   }
   x
 }
-
 
 setOldClass(c("grouped_df", "tbl_df", "tbl", "data.frame"))
 
@@ -187,79 +193,72 @@ tbl_sum.grouped_df <- function(x) {
 }
 
 #' @export
-group_size.grouped_df <- function(x) {
-  lengths(group_rows(x))
-}
-
-#' @export
-n_groups.grouped_df <- function(x) {
-  nrow(group_data(x))
-}
-
-#' @export
-groups.grouped_df <- function(x) {
-  syms(group_vars(x))
-}
-
-#' @export
-group_vars.grouped_df <- function(x) {
-  groups <- group_data(x)
-  if (is.character(groups)) {
-    # lazy grouped
-    groups
-  } else if (is.data.frame(groups)) {
-    # resolved, extract from the names of the data frame
-    head(names(groups), -1L)
-  } else if (is.list(groups)) {
-    # Need this for compatibility with existing packages that might
-    # use the old list of symbols format
-    map_chr(groups, as_string)
-  }
-}
-
-#' @export
 as.data.frame.grouped_df <- function(x, row.names = NULL,
                                      optional = FALSE, ...) {
-  x <- ungroup(x)
-  class(x) <- "data.frame"
-  x
+  new_data_frame(vec_data(x), n = nrow(x))
 }
 
 #' @export
 as_tibble.grouped_df <- function(x, ...) {
-  ungroup(x)
-}
-
-#' @export
-ungroup.grouped_df <- function(x, ...) {
-  if (missing(...)) {
-    attr(x, "groups") <- NULL
-    attr(x, "class") <- c("tbl_df", "tbl", "data.frame")
-    x
-  } else {
-    old_groups <- group_vars(x)
-    to_remove <- tidyselect::vars_select(names(x), ...)
-
-    new_groups <- setdiff(old_groups, to_remove)
-    group_by(x, !!!syms(new_groups))
-  }
+  new_tibble(vec_data(x), nrow = nrow(x))
 }
 
 #' @importFrom tibble is_tibble
 #' @export
 `[.grouped_df` <- function(x, i, j, drop = FALSE) {
-  y <- NextMethod()
+  out <- NextMethod()
 
-  if (isTRUE(drop) && !is_tibble(y)) {
-    return(y)
+  if (!is.data.frame(out)) {
+    return(out)
   }
 
-  group_names <- group_vars(x)
-  if (!all(group_names %in% names(y))) {
-    tbl_df(y)
+  if (drop) {
+    as_tibble(out)
   } else {
-    grouped_df(y, group_names, group_by_drop_default(x))
+    groups <- intersect(names(out), group_vars(x))
+    if ((missing(i) || nargs() == 2) && identical(groups, group_vars(x))) {
+      new_grouped_df(out, group_data(x))
+    } else {
+      grouped_df(out, groups, group_by_drop_default(x))
+    }
   }
+}
+
+#' @export
+`$<-.grouped_df` <- function(x, name, ..., value) {
+  out <- NextMethod()
+  if (name %in% group_vars(x)) {
+    grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
+  } else {
+    out
+  }
+}
+
+#' @export
+`[<-.grouped_df` <- function(x, i, j, ..., value) {
+  out <- NextMethod()
+  grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
+}
+
+#' @export
+`[[<-.grouped_df` <- function(x, ..., value) {
+  out <- NextMethod()
+  grouped_df(out, intersect(names(out), group_vars(x)), group_by_drop_default(x))
+}
+
+#' @export
+`names<-.grouped_df` <- function(x, value) {
+  data <- as.data.frame(x)
+  names(data) <- value
+
+  groups <- group_data(x)
+  group_loc <- match(intersect(names(x), names(groups)), names(x))
+  group_names <- c(value[group_loc], ".rows")
+  if (!identical(group_names, names(groups))) {
+    names(groups) <- c(value[group_loc], ".rows")
+  }
+
+  new_grouped_df(data, groups)
 }
 
 #' @method rbind grouped_df
@@ -304,158 +303,24 @@ group_cols <- function(vars = peek_vars()) {
   }
 }
 
-# One-table verbs --------------------------------------------------------------
-
-# see arrange.r for arrange.grouped_df
-
-select_impl <- function(.data, vars) {
-  positions <- match(vars, names(.data))
-  if (any(test <- is.na(positions))) {
-    wrong <- which(test)[1L]
-    abort(
-      glue(
-        "invalid column index : {wrong} for variable: '{new}' = '{old}'",
-        new = names(vars)[wrong], vars[wrong]
-      ),
-      .subclass = "dplyr_select_wrong_selection"
-    )
+group_data_trim <- function(group_data, preserve = FALSE) {
+  if (preserve) {
+    return(group_data)
   }
 
-  out <- set_names(.data[, positions, drop = FALSE], names(vars))
-
-  if (is_grouped_df(.data)) {
-    # we might have to alter the names of the groups metadata
-    groups <- attr(.data, "groups")
-
-    # check grouped metadata
-    group_names <- names(groups)[seq_len(ncol(groups) - 1L)]
-    if (any(test <- ! group_names %in% vars)) {
-      abort(
-        glue("{col} not found in groups metadata. Probably a corrupt grouped_df object.", col = group_names[test[1L]]),
-        "dplyr_select_corrupt_grouped_df"
-      )
-    }
-
-    group_vars <- c(vars[vars %in% names(groups)], .rows = ".rows")
-    groups <- select_impl(groups, group_vars)
-
-    out <- new_grouped_df(out, groups)
-  }
-
-  out
+  non_empty <- lengths(group_data$".rows") > 0
+  group_data[non_empty, , drop = FALSE]
 }
 
+# Helpers -----------------------------------------------------------------
 
-
-#' @export
-select.grouped_df <- function(.data, ...) {
-  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
-  vars <- ensure_group_vars(vars, .data, notify = TRUE)
-  select_impl(.data, vars)
+expand_groups <- function(old_groups, positions, nr) {
+  .Call(`dplyr_expand_groups`, old_groups, positions, nr)
 }
 
-ensure_group_vars <- function(vars, data, notify = TRUE) {
-  group_names <- group_vars(data)
-  missing <- setdiff(group_names, vars)
-
-  if (length(missing) > 0) {
-    if (notify) {
-      inform(glue(
-        "Adding missing grouping variables: ",
-        paste0("`", missing, "`", collapse = ", ")
-      ))
-    }
-    vars <- c(set_names(missing, missing), vars)
-  }
-
-  vars
+vec_split_id_order <- function(x) {
+  split_id <- vec_group_loc(x)
+  split_id$loc <- new_list_of(split_id$loc, ptype = integer())
+  vec_slice(split_id, vec_order(split_id$key))
 }
 
-#' @export
-rename.grouped_df <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data), ...)
-  select_impl(.data, vars)
-}
-
-# Do ---------------------------------------------------------------------------
-
-#' @export
-do.grouped_df <- function(.data, ...) {
-  index <- group_rows(.data)
-  labels <- select(group_data(.data), -last_col())
-  attr(labels, ".drop") <- NULL
-
-  # Create ungroup version of data frame suitable for subsetting
-  group_data <- ungroup(.data)
-
-  args <- enquos(...)
-  named <- named_args(args)
-  mask <- new_data_mask(new_environment())
-
-  n <- length(index)
-  m <- length(args)
-
-  # Special case for zero-group/zero-row input
-  if (n == 0) {
-    if (named) {
-      out <- rep_len(list(list()), length(args))
-      out <- set_names(out, names(args))
-      out <- label_output_list(labels, out, groups(.data))
-    } else {
-      env_bind_do_pronouns(mask, group_data)
-      out <- eval_tidy(args[[1]], mask)
-      out <- out[0, , drop = FALSE]
-      out <- label_output_dataframe(labels, list(list(out)), groups(.data), group_by_drop_default(.data))
-    }
-    return(out)
-  }
-
-  # Add pronouns with active bindings that resolve to the current
-  # subset. `_i` is found in environment of this function because of
-  # usual scoping rules.
-  group_slice <- function(value) {
-    if (missing(value)) {
-      group_data[index[[`_i`]], , drop = FALSE]
-    } else {
-      group_data[index[[`_i`]], ] <<- value
-    }
-  }
-  env_bind_do_pronouns(mask, group_slice)
-
-  out <- replicate(m, vector("list", n), simplify = FALSE)
-  names(out) <- names(args)
-  p <- progress_estimated(n * m, min_time = 2)
-
-  for (`_i` in seq_len(n)) {
-    for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(eval_tidy(args[[j]], mask))
-      p$tick()$print()
-    }
-  }
-
-  if (!named) {
-    label_output_dataframe(labels, out, groups(.data), group_by_drop_default(.data))
-  } else {
-    label_output_list(labels, out, groups(.data))
-  }
-}
-
-# Set operations ---------------------------------------------------------------
-
-#' @export
-distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_prepare(
-    .data,
-    vars = enquos(...),
-    group_vars = group_vars(.data),
-    .keep_all = .keep_all
-  )
-  grouped_df(
-    vec_slice(
-      .data[, dist$keep, drop = FALSE],
-      vec_unique_loc(.data[, dist$vars, drop = FALSE])
-    ),
-    groups(.data),
-    group_by_drop_default(.data)
-  )
-}

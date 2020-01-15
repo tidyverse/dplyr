@@ -4,7 +4,7 @@
 #' statements. It is an R equivalent of the SQL `CASE WHEN` statement.
 #' If no cases match, `NA` is returned.
 #'
-#' @param ... A sequence of two-sided formulas. The left hand side (LHS)
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> A sequence of two-sided formulas. The left hand side (LHS)
 #'   determines which values match this case. The right hand side (RHS)
 #'   provides the replacement value.
 #'
@@ -16,10 +16,6 @@
 #'   `n == 0` is treated as a variant of `n != 1`.
 #'
 #'   `NULL` inputs are ignored.
-#'
-#'   These dots support [tidy dots][rlang::list2] features. In
-#'   particular, if your patterns are stored in a list, you can
-#'   splice that in with `!!!`.
 #' @export
 #' @return A vector of length 1 or `n`, matching the length of the logical
 #'   input or output vectors, with the type (and attributes) of the first

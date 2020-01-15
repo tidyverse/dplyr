@@ -1,38 +1,5 @@
 context("Filter")
 
-test_that("filter fails if inputs incorrect length (#156)", {
-  expect_error(
-    filter(tbl_df(mtcars), c(FALSE, TRUE)),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
-  )
-  expect_error(
-    filter(group_by(mtcars, am), c(FALSE, TRUE)),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
-  )
-})
-
-test_that("filter gives useful error message when given incorrect input", {
-  # error message by rlang
-  expect_error(filter(tbl_df(mtcars), `_x`),
-    "_x",
-    fixed = TRUE
-  )
-})
-
-test_that("filter complains if inputs are named", {
-  expect_known_output(
-    file =   test_path("test-filter-named-inputs.txt"),
-    {
-      capture_error_msg(filter(mtcars, x = 1))
-      capture_error_msg(filter(mtcars, x = "A"))
-      capture_error_msg(filter(mtcars, x = 1 & y > 2))
-      capture_error_msg(filter(mtcars, x = 1, y > 2, z = 3))
-    }
-  )
-})
-
 test_that("filter handles passing ...", {
   df <- data.frame(x = 1:4)
 
@@ -95,19 +62,6 @@ test_that("filter propagates attributes", {
   expect_equal(test$Date[1:4], test2$Date)
 })
 
-test_that("filter fails on integer indices", {
-  expect_error(
-    filter(mtcars, 1:2),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
-  )
-  expect_error(
-    filter(group_by(mtcars, cyl), 1:2),
-    "filter() expressions should return logical vectors of the same size as the group",
-    fixed = TRUE
-  )
-})
-
 test_that("filter discards NA", {
   temp <- data.frame(
     i = 1:5,
@@ -131,11 +85,10 @@ test_that("date class remains on filter (#273)", {
 })
 
 test_that("filter handles $ correctly (#278)", {
-  d1 <- tbl_df(data.frame(
+  d1 <- tibble(
     num1 = as.character(sample(1:10, 1000, T)),
     var1 = runif(1000),
-    stringsAsFactors = FALSE
-  ))
+  )
   d2 <- data.frame(num1 = as.character(1:3), stringsAsFactors = FALSE)
 
   res1 <- d1 %>% filter(num1 %in% c("1", "2", "3"))
@@ -153,7 +106,7 @@ test_that("$ does not end call traversing. #502", {
 
   # Generate some dummy data
   d <- expand.grid(Subject = 1:3, TrialNo = 1:2, Time = 1:3) %>%
-    tbl_df() %>%
+    as_tibble() %>%
     arrange(Subject, TrialNo, Time) %>%
     mutate(Outcome = (1:18 %% c(5, 7, 11)) / 10)
 
@@ -253,15 +206,6 @@ test_that("filter, slice and arrange preserves attributes (#1064)", {
 
   res <- df %>% arrange(x) %>% attr("meta")
   expect_equal(res, "this is important")
-
-  res <- df %>% summarise(n = n()) %>% attr("meta")
-  expect_equal(res, "this is important")
-
-  res <- df %>% group_by(g1) %>% summarise(n = n()) %>% attr("meta")
-  expect_equal(res, "this is important")
-
-  res <- df %>% group_by(g1, g2) %>% summarise(n = n()) %>% attr("meta")
-  expect_equal(res, "this is important")
 })
 
 test_that("filter works with rowwise data (#1099)", {
@@ -360,18 +304,18 @@ test_that("hybrid function row_number does not trigger warning in filter (#3750)
 })
 
 test_that("filter() preserve order across groups (#3989)", {
-  tb <- tibble(g = c(1, 2, 1, 2, 1), time = 5:1, x = 5:1)
-  res1 <- tb %>%
+  df <- tibble(g = c(1, 2, 1, 2, 1), time = 5:1, x = 5:1)
+  res1 <- df %>%
     group_by(g) %>%
     filter(x <= 4) %>%
     arrange(time)
 
-  res2 <- tb %>%
+  res2 <- df %>%
     group_by(g) %>%
     arrange(time) %>%
     filter(x <= 4)
 
-  res3 <- tb %>%
+  res3 <- df %>%
     filter(x <= 4) %>%
     arrange(time) %>%
     group_by(g)
@@ -416,7 +360,102 @@ test_that("filter() handles matrix and data frame columns (#3630)", {
   expect_equal(filter(gdf, z$A == 1), gdf[1, ])
 })
 
-test_that("filter() handles logical (#4638)", {
+test_that("filter() handles named logical (#4638)", {
   tbl <- tibble(a = c(a = TRUE))
   expect_equal(filter(tbl, a), tbl)
+})
+
+test_that("filter() reduce&() data frame results (#4678)", {
+  expect_identical(
+    iris %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3)),
+    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3)
+  )
+  expect_identical(
+    iris %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3), Petal.Length < 3),
+    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
+  )
+
+
+  expect_identical(
+    iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3)),
+    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3)
+  )
+  expect_identical(
+    iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3), Petal.Length < 3),
+    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
+  )
+})
+
+test_that("filter() allows named constants that resolve to logical vectors (#4612)", {
+  filters <- mtcars %>%
+    transmute(
+      cyl %in% 6:8,
+      hp / drat > 50
+    )
+
+  expect_identical(
+    mtcars %>% filter(!!!filters),
+    mtcars %>% filter(!!!unname(filters))
+  )
+})
+
+test_that("filter() gives useful error messages", {
+  verify_output(test_path("test-filter-errors.txt"), {
+    "# wrong type"
+    iris %>%
+      group_by(Species) %>%
+      filter(1:n())
+    iris %>%
+      filter(1:n())
+
+    "# wrong size"
+    iris %>%
+      group_by(Species) %>%
+      filter(c(TRUE, FALSE))
+    iris %>%
+      filter(c(TRUE, FALSE))
+
+    "# wrong size in column"
+    iris %>%
+      group_by(Species) %>%
+      filter(data.frame(c(TRUE, FALSE)))
+    iris %>%
+      filter(data.frame(c(TRUE, FALSE)))
+
+    "# wrong type in column"
+    iris %>%
+      group_by(Species) %>%
+      filter(data.frame(Sepal.Length > 3, 1:n()))
+    iris %>%
+      filter(data.frame(Sepal.Length > 3, 1:n()))
+
+    "# evaluation error"
+    mtcars %>%
+      filter(`_x`)
+    mtcars %>%
+      group_by(cyl) %>%
+      filter(`_x`)
+
+    "# named inputs"
+    filter(mtcars, x = 1)
+    filter(mtcars, y > 2, z = 3)
+    filter(mtcars, TRUE, x = 1)
+
+    "# ts "
+    filter(ts(1:10))
+  })
+})
+
+test_that("filter preserves grouping", {
+  gf <- group_by(tibble(g = c(1, 1, 1, 2, 2), x = 1:5), g)
+
+  i <- count_regroups(out <- filter(gf, x %in% c(3,4)))
+  expect_equal(i, 0L)
+  expect_equal(group_vars(gf), "g")
+  expect_equal(group_rows(out), list_of(1L, 2L))
+
+  i <- count_regroups(out <- filter(gf, x < 3))
+  expect_equal(i, 0L)
+  expect_equal(group_vars(gf), "g")
+  expect_equal(group_rows(out), list_of(c(1L, 2L)))
 })

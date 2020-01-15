@@ -1,0 +1,7 @@
+> dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz")
+Error: The `__foobarbaz__` package is required to foobar a baz.
+Please install it with `install.packages("`__foobarbaz__`")`
+
+> dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz", install = FALSE)
+Error: The `__foobarbaz__` package is required to foobar a baz.
+

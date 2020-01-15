@@ -1,16 +1,13 @@
-
 setup(options(lifecycle_verbosity = "quiet"))
 teardown(options(lifecycle_verbosity = NULL))
 
 test_that("fun_list is merged with new args", {
-  scoped_lifecycle_silence()
   funs <- funs(fn = bar)
   funs <- as_fun_list(funs, env(), baz = "baz")
   expect_identical(funs$fn, quo(bar(., baz = "baz")))
 })
 
 test_that("funs() works with namespaced calls", {
-  scoped_lifecycle_silence()
   expect_identical(summarise_all(mtcars, funs(base::mean(.))), summarise_all(mtcars, funs(mean(.))))
   expect_identical(summarise_all(mtcars, funs(base::mean)), summarise_all(mtcars, funs(mean(.))))
 })
@@ -24,44 +21,22 @@ test_that("funs() found in local environment", {
 })
 
 test_that("funs() accepts quoted functions", {
-  scoped_lifecycle_silence()
   expect_identical(funs(mean), funs("mean"))
 })
 
 test_that("funs() accepts unquoted functions", {
-  scoped_lifecycle_silence()
   funs <- funs(fn = !!mean)
   expect_identical(funs$fn, new_quosure(call2(base::mean, quote(.))))
 })
 
 test_that("funs() accepts quoted calls", {
-  scoped_lifecycle_silence()
   expect_identical(funs(mean), funs(mean(.)))
 })
 
-test_that("funs() gives a clear error message (#3368)", {
-  scoped_lifecycle_silence()
-  expect_error(
-    funs(function(si) { mp[si] }),
-    glue("`function(si) {{
-             mp[si]
-         }}` must be a function name (quoted or unquoted) or an unquoted call, not `function`"),
-    fixed = TRUE
-  )
-
-  expect_error(
-    funs(~mp[.]),
-    "`~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`",
-    fixed = TRUE
-  )
-})
-
 test_that("funs() can be merged with new arguments", {
-  scoped_lifecycle_silence()
   fns <- funs(foo(.))
   expect_identical(as_fun_list(fns, current_env(), foo = 1L), funs(foo(., foo = 1L)))
 })
-
 
 enfun <- function(.funs, ...) {
   as_fun_list(.funs, caller_env(), ...)
@@ -80,7 +55,6 @@ test_that("can enfun() named functions by expression", {
 })
 
 test_that("local objects are not treated as symbols", {
-  scoped_lifecycle_silence()
   mean <- funs(my_mean(.))
   expect_identical(enfun(mean), mean)
 })
@@ -100,7 +74,6 @@ test_that("can enfun() purrr-style lambdas", {
 })
 
 test_that("funs_ works", {
-  scoped_lifecycle_silence()
   expect_equal(
     funs(mean),
     funs_(list(~ mean))
@@ -122,4 +95,14 @@ test_that("as_fun_list() auto names chr vectors (4307)", {
     data.frame(x = 1:10) %>% summarise_at("x", c("mean", "sum")),
     data.frame(x = 1:10) %>% summarise(mean = mean(x), sum = sum(x))
   )
+})
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("funs() give meaningful error messages", {
+  verify_output(test_path("test-deprec-funs-errors.txt"), {
+    funs(function(si) { mp[si] })
+    funs(~mp[.])
+  })
 })

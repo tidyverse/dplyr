@@ -1,6 +1,6 @@
 #' Group input by rows
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
 #'
 #' See [this repository](https://github.com/jennybc/row-oriented-workflows)
 #' for alternative ways to perform row-wise operations.
@@ -23,7 +23,7 @@
 #' df_done
 #' df_done %>% summarise(n = length(i))
 rowwise <- function(data) {
-  stopifnot(is.data.frame(data))
+  abort_if_not(is.data.frame(data))
 
   structure(data, class = c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 }

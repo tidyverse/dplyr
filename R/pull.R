@@ -7,6 +7,7 @@
 #' @inheritParams tidyselect::vars_pull
 #' @param name An optional parameter that specifies the column to be used
 #'   as names for a named vector. Specified in a similar manner as \code{var}.
+#' @return A vector the same size as `.data`.
 #' @export
 #' @examples
 #' mtcars %>% pull(-1)

@@ -24,7 +24,7 @@ with matching rows of the remaining columns.
 Nest a tibble using a grouping specification
 }
 \details{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 }
 \section{Grouped data frames}{
 
@@ -65,13 +65,9 @@ starwars \%>\%
 Other grouping functions: 
 \code{\link{group_by_all}()},
 \code{\link{group_by}()},
-\code{\link{group_indices}()},
-\code{\link{group_keys}()},
 \code{\link{group_map}()},
-\code{\link{group_rows}()},
-\code{\link{group_size}()},
-\code{\link{group_trim}()},
-\code{\link{groups}()}
+\code{\link{group_split}()},
+\code{\link{group_trim}()}
 }
 \concept{grouping functions}
 \keyword{internal}
