@@ -227,12 +227,18 @@ The value should be an expression that returns a single value like
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same class as <code>.data</code>. It will contain one column for
-each grouping variable and each expression you supply. It will have
-one row for each combination of the grouping variables.</p>
-<p>If <code>.data</code> is grouped, then the last group will be dropped,
-e.g.<code>df %&gt;% group_by(x, y) %&gt;% summarise(n())</code> will be grouped by
-<code>x</code>. This happens because each group now occupies only a single row.</p>
+    <p>An object <em>usually</em> of the same type as <code>.data</code>.</p><ul>
+<li><p>The rows come from the underlying <code><a href='group_data.html'>group_keys()</a></code>.</p></li>
+<li><p>The columns are a combination of the grouping keys and the summary
+expressions that you provide.</p></li>
+<li><p>If <code>x</code> is grouped by more than one variable, the output will be another
+<a href='grouped_df.html'>grouped_df</a> with the right-most group removed.</p></li>
+<li><p>If <code>x</code> is grouped by one variable, or is not grouped, the output will
+be a <a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a>.</p></li>
+<li><p>Data frame attributes are <strong>not</strong> preserved, because <code>summarise()</code>
+fundamentally creates a new data frame.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="useful-functions"><a class="anchor" href="#useful-functions"></a>Useful functions</h2>
 
     
@@ -260,12 +266,6 @@ variables.</p>
 <p>This behaviour may not be supported in other backends. To avoid unexpected
 results, consider using new names for your summary variables, especially when
 creating multiple summaries.</p>
-    <h2 class="hasAnchor" id="tidy-data"><a class="anchor" href="#tidy-data"></a>Tidy data</h2>
-
-    
-
-<p>When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
@@ -321,7 +321,6 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
       <li><a href="#value">Value</a></li>
       <li><a href="#useful-functions">Useful functions</a></li>
       <li><a href="#backend-variations">Backend variations</a></li>
-      <li><a href="#tidy-data">Tidy data</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

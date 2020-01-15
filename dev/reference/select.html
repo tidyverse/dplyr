@@ -227,8 +227,22 @@ variables.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same type as <code>.data</code>. The rows will be left as; only
-the columns (position and/or name) will be changed.</p>
+    <p>An object of the same type as <code>.data</code>.</p>
+<p>For <code>select()</code>:</p><ul>
+<li><p>Rows are not affected.</p></li>
+<li><p>Output columns are a subset of input columns, potentially with a different
+order. Columns will be renamed if <code>new_name = old_name</code> form is used.</p></li>
+<li><p>Data frame attributes are preserved.</p></li>
+<li><p>Groups are maintained; you can not select off grouping variables.</p></li>
+</ul>
+
+<p>For <code>rename()</code>:</p><ul>
+<li><p>Rows are not affected.</p></li>
+<li><p>Column names are changed; column order is preserved</p></li>
+<li><p>Data frame attributes are preserved.</p></li>
+<li><p>Groups are updated to reflect new names.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="useful-functions"><a class="anchor" href="#useful-functions"></a>Useful functions</h2>
 
     

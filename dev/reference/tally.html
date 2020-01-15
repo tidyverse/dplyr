@@ -221,14 +221,7 @@ counts.</p>
   <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>x</span>)
 )
 
-<span class='fu'>add_count</span>(
-  <span class='no'>x</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>x</span>)
-)</pre>
+<span class='fu'>add_count</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -262,20 +255,23 @@ it will error, and require you to specify the name.</p></td>
     </tr>
     <tr>
       <th>.drop</th>
-      <td><p>see <code><a href='group_by.html'>group_by()</a></code></p></td>
+      <td><p>For <code>count()</code>: if <code>FALSE</code> will include counts for empty groups
+(i.e. for levels of factors that don't exist in the data). Deprecated for
+<code>add_count()</code> since it didn't actually affect the output.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tbl, grouped the same way as the input.</p>
+    <p>An object of the same type as <code>.data</code>. <code>count()</code> and <code>add_count()</code>
+group transiently, so the output has the same groups as the input.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># count() is a convenient way to get a sense of the distribution of</span>
 <span class='co'># values in a dataset</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
 #&gt;    species       n
-#&gt;    &lt;chr&gt;     &lt;int&gt;
+#&gt;  * &lt;chr&gt;     &lt;int&gt;
 #&gt;  1 Aleena        1
 #&gt;  2 Besalisk      1
 #&gt;  3 Cerean        1
@@ -288,7 +284,7 @@ it will error, and require you to specify the name.</p></td>
 #&gt; 10 Gungan        3
 #&gt; # … with 28 more rows</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
 #&gt;    species      n
-#&gt;    &lt;chr&gt;    &lt;int&gt;
+#&gt;  * &lt;chr&gt;    &lt;int&gt;
 #&gt;  1 Human       35
 #&gt;  2 Droid        6
 #&gt;  3 &lt;NA&gt;         4
@@ -311,12 +307,12 @@ it will error, and require you to specify the name.</p></td>
 <span class='co'># counts rows:</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;   gender     n
-#&gt;   &lt;chr&gt;  &lt;int&gt;
+#&gt; * &lt;chr&gt;  &lt;int&gt;
 #&gt; 1 female     2
 #&gt; 2 male       1</div><div class='input'><span class='co'># counts runs:</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;   gender     n
-#&gt;   &lt;chr&gt;  &lt;dbl&gt;
+#&gt; * &lt;chr&gt;  &lt;dbl&gt;
 #&gt; 1 female     5
 #&gt; 2 male      10</div><div class='input'>
 <span class='co'># tally() is a lower-level function that assumes you've done the grouping</span>

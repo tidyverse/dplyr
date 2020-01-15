@@ -224,9 +224,25 @@ of the same name.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same type as <code>.data</code>. The rows will be left as; only
-the columns will be changed. <code>mutate()</code> preserves order of existing columns,
-adding new columns to the right. <code>transmute()</code> drops existing columns.</p>
+    <p>An object of the same type as <code>.data</code>.</p>
+<p>For <code>mutate()</code>:</p><ul>
+<li><p>Rows are not affected.</p></li>
+<li><p>Existing columns will be preserved unless explicitly modified.</p></li>
+<li><p>New columns will be added to the right of existing columns.</p></li>
+<li><p>Columns given value <code>NULL</code> will be removed</p></li>
+<li><p>Groups will be recomputed if a grouping variable is mutated.</p></li>
+<li><p>Data frame attributes are preserved.</p></li>
+</ul>
+
+<p>For <code>transmute()</code>:</p><ul>
+<li><p>Rows are not affected.</p></li>
+<li><p>Apart from grouping variables, existing columns will be remove unless
+explicitly kept.</p></li>
+<li><p>Column order matches order of expressions.</p></li>
+<li><p>Groups will be recomputed if a grouping variable is mutated.</p></li>
+<li><p>Data frame attributes are preserved.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="useful-functions-available-in-calculations-of-variables"><a class="anchor" href="#useful-functions-available-in-calculations-of-variables"></a>Useful functions available in calculations of variables</h2>
 
     
@@ -273,12 +289,6 @@ latter normalises by the averages within gender levels.</p>
 <code>transmute()</code> (<code><a href='mutate_all.html'>transmute_all()</a></code>, <code><a href='mutate_all.html'>transmute_if()</a></code>,
 <code><a href='mutate_all.html'>transmute_at()</a></code>) make it easy to apply a transformation to a
 selection of variables.</p>
-    <h2 class="hasAnchor" id="tidy-data"><a class="anchor" href="#tidy-data"></a>Tidy data</h2>
-
-    
-
-<p>When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
@@ -570,7 +580,6 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
       <li><a href="#useful-functions-available-in-calculations-of-variables">Useful functions available in calculations of variables</a></li>
       <li><a href="#grouped-tibbles">Grouped tibbles</a></li>
       <li><a href="#scoped-mutation-and-transmutation">Scoped mutation and transmutation</a></li>
-      <li><a href="#tidy-data">Tidy data</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

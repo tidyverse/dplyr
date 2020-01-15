@@ -193,6 +193,12 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>New, experimental, <code><a href="../reference/with_groups.html">with_groups()</a></code> makes it easy to temporarily group or ungroup (<a href='https://github.com/tidyverse/dplyr/issues/4711'>#4711</a>).</p></li>
+<li><p>dplyr now has a rudimentary, experimental, and stop-gap, extension mechanism documented in <code><a href="../reference/dplyr_extending.html">?dplyr_extending</a></code></p></li>
+<li><p>The implementation of all verbs has been carefully thought through. This mostly makes implementation simpler but should hopefully increase consistency, and also makes it easier to adapt to dplyr to new data structures in the new future. Pragmatically, the biggest difference for most people will be that each verb documents its return value in terms of rows, columns, groups, and data frame attributes.</p></li>
+<li><p>Row names are now preserved when working with data frames.</p></li>
+<li><p><code><a href="../reference/tally.html">count()</a></code> and <code><a href="../reference/tally.html">add_count()</a></code> now preserve the type of the input (<a href='https://github.com/tidyverse/dplyr/issues/4086'>#4086</a>).</p></li>
+<li><p><code><a href="../reference/tally.html">add_count(drop = )</a></code> is deprecated because it didn’t actually affect the output.</p></li>
 <li><p><code><a href="../reference/join.html">full_join()</a></code> gains keep argument so that you can optionally choose to keep both sets of join keys (<a href='https://github.com/tidyverse/dplyr/issues/4589'>#4589</a>). This is useful when you want to figure out which rows were missing from either side.</p></li>
 <li><p>Join functions can now perform a cross-join by specifying <code>by = character()</code> (<a href='https://github.com/tidyverse/dplyr/issues/4206'>#4206</a>.)</p></li>
 <li><p><code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> give better error messages.</p></li>

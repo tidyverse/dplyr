@@ -323,18 +323,27 @@ If <code>NULL</code> the name of <code>y</code> is used.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same type as <code>x</code>. The order of the rows and columns will
+    <p>An object of the same type as <code>x</code>. The order of the rows and columns is
 preserved as much as possible.</p>
-<p>In mutating joins, rows may need to be duplicated, and for right/full joins,
-extra rows from <code>y</code> are be added to the bottom of <code>x</code>. Where the join keys
-are different in <code>x</code> and <code>y</code>, only keys from <code>x</code> will be included, unless
-<code>keep = TRUE</code>. The key columns in the output will be coerced to a common
-type. For example, if you're joining a integer vector with a numeric
-variable, the output will be a numeric vector, regardless of which is seen
-first.</p>
-<p>We interpret filtering joins exactly if you created the equivalent call to
-<code><a href='filter.html'>filter()</a></code>: the row order, the column order, and the column types are all
-preserved.</p>
+<p>For the mutating joins:</p><ul>
+<li><p>For <code><a href='join.html'>inner_join()</a></code>, a subset of the <code>x</code> rows<code>For</code>left_join()<code>, all </code>x<code>rows. For</code>right_join()<code>, a subset of </code>x<code>rows, followed by unmatch</code>y<code>rows. For</code>full_join()<code>, all </code>x<code>rows, followed by unmatched</code>y` rows.</p></li>
+<li><p>For all joins, rows will be duplicated if one row in <code>x</code> rows match
+multiple rows in <code>y</code>.</p></li>
+<li><p>Output columns include all <code>x</code> columns and all <code>y</code> columns. If the
+columns have the same name (and aren't included <code>y</code>), <code>suffix</code>es are
+added to disambiguate.</p></li>
+<li><p>Output columns columns included <code>by</code> are coerced to common type across
+<code>x</code> and <code>y</code>.</p></li>
+<li><p>Groups are taken from <code>x</code>.</p></li>
+</ul>
+
+<p>For the filtering joins:</p><ul>
+<li><p>Rows are a subset of the input, but appear in the same order.</p></li>
+<li><p>Columns are not modified.</p></li>
+<li><p>Data frame attributes are preserved.</p></li>
+<li><p>Groups are taken from <code>x</code>. The number of groups may be reduced.</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>)

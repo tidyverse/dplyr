@@ -222,10 +222,14 @@ first row of values.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object the same type as <code>.data</code>. If <code>...</code> is empty or <code>.keep_all</code> is
-<code>TRUE</code>, the columns will be unchanged. Otherwise, it will first perform a
-<code><a href='mutate.html'>mutate()</a></code>. The rows will be in the same order as the input, but only
-distinct elements will be preserved.</p>
+    <p>An object of the same type as <code>.data</code>.</p><ul>
+<li><p>Rows are a subset of the input, but appear in the same order.</p></li>
+<li><p>Columns are not modified if <code>...</code> is empty or <code>.keep_all</code> is <code>TRUE</code>.
+Otherwise, <code>distinct()</code> first calls <code><a href='mutate.html'>mutate()</a></code> to create new columns.</p></li>
+<li><p>Groups are not modified.</p></li>
+<li><p>Data frame attributes are preserved.</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(

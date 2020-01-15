@@ -229,8 +229,13 @@ grouped data frames only.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same type as <code>.data</code>. The columns will be left as is;
-the rows will be in different order.</p>
+    <p>An object of the same type as <code>.data</code>.</p><ul>
+<li><p>All rows appear in the output, but (usually) in a different place.</p></li>
+<li><p>Columns are not modified.</p></li>
+<li><p>Groups are not modified.</p></li>
+<li><p>Data frame attributes are preserved.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="locales"><a class="anchor" href="#locales"></a>Locales</h2>
 
     
@@ -246,12 +251,6 @@ of the locale in use: see <code><a href='https://rdrr.io/r/base/locales.html'>lo
 <li><p>treated differently for remote data, depending on the backend.</p></li>
 </ul>
 
-    <h2 class="hasAnchor" id="tidy-data"><a class="anchor" href="#tidy-data"></a>Tidy data</h2>
-
-    
-
-<p>When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
@@ -367,7 +366,6 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
       <li><a href="#value">Value</a></li>
       <li><a href="#locales">Locales</a></li>
       <li><a href="#missing-values">Missing values</a></li>
-      <li><a href="#tidy-data">Tidy data</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

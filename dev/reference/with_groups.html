@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a list of function calls — funs • dplyr</title>
+<title>Perform an operation with temporary groups — with_groups • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,12 +47,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Create a list of function calls — funs" />
+<meta property="og:title" content="Perform an operation with temporary groups — with_groups" />
 <meta property="og:description" content="
-funs() is deprecated; please use list() instead. We deprecated this
-function because it provided a unique way of specifying anonymous functions,
-rather than adopting the conventions used by purrr and other packages
-in the tidyverse." />
+This is an experimental new function that allows you to modify the grouping
+variables for a single operation." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -189,91 +187,87 @@ in the tidyverse." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a list of function calls</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-funs.R'><code>R/deprec-funs.R</code></a></small>
-    <div class="hidden name"><code>funs.Rd</code></div>
+    <h1>Perform an operation with temporary groups</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/groups-with.R'><code>R/groups-with.R</code></a></small>
+    <div class="hidden name"><code>with_groups.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
-<p><code>funs()</code> is deprecated; please use <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code> instead. We deprecated this
-function because it provided a unique way of specifying anonymous functions,
-rather than adopting the conventions used by purrr and other packages
-in the tidyverse.</p>
+    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
+<p>This is an experimental new function that allows you to modify the grouping
+variables for a single operation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>funs</span>(<span class='no'>...</span>, <span class='kw'>.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
+    <pre class="usage"><span class='fu'>with_groups</span>(<span class='no'>.data</span>, <span class='no'>.groups</span>, <span class='no'>.f</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; A list of functions specified by:</p><ul>
-<li><p>Their name, <code>"mean"</code></p></li>
-<li><p>The function itself, <code>mean</code></p></li>
-<li><p>A call to the function with <code>.</code> as a dummy argument,
-<code><a href='https://rdrr.io/r/base/mean.html'>mean(., na.rm = TRUE)</a></code></p></li>
-</ul>
-
-<p>The following notations are <strong>not</strong> supported, see examples:</p><ul>
-<li><p>An anonymous function, <code>function(x) mean(x, na.rm = TRUE)</code></p></li>
-<li><p>An anonymous function in <span class="pkg">purrr</span> notation, <code>~mean(., na.rm = TRUE)</code></p></li>
-</ul></td>
+      <th>.data</th>
+      <td><p>A data frame</p></td>
     </tr>
     <tr>
-      <th>.args, args</th>
-      <td><p>A named list of additional arguments to be added to all
-function calls. As <code>funs()</code> is being deprecated, use other methods to
-supply arguments: <code>...</code> argument in <a href='summarise_all.html'>scoped verbs</a> or make
-own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.html'>purrr::partial()</a></code>.</p></td>
+      <th>.groups</th>
+      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; One or more variables
+to group by. Unlike <code><a href='group_by.html'>group_by()</a></code>, you can only group by existing variables,
+and you can use tidy-select syntax like <code><a href='https://rdrr.io/r/base/c.html'>c(x, y, z)</a></code> to select multiple
+variables.</p>
+<p>Use <code>NULL</code> to temporarily <strong>un</strong>group.</p></td>
+    </tr>
+    <tr>
+      <th>.f</th>
+      <td><p>Function to apply to regrouped data.
+Supports purrr-style <code>~</code> syntax</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed on to <code>...</code>.</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>funs</span>(<span class='st'>"mean"</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `funs()` is deprecated as of dplyr 1.0.0.</span>
-#&gt; <span class='warning'>Please use a list of either functions or lambdas: </span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Simple named list: </span>
-#&gt; <span class='warning'>  list(mean = mean, median = median)</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Auto named with `tibble::lst()`: </span>
-#&gt; <span class='warning'>  tibble::lst(mean, median)</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Using lambdas</span>
-#&gt; <span class='warning'>  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ mean: mean(.)
-#&gt; $ mean: mean(., na.rm = TRUE)</div><div class='input'><span class='co'># -&gt;</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>mean</span> <span class='kw'>=</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; $mean
-#&gt; function (x, ...) 
-#&gt; UseMethod("mean")
-#&gt; &lt;bytecode: 0x414dd38&gt;
-#&gt; &lt;environment: namespace:base&gt;
-#&gt; 
-#&gt; $mean
-#&gt; ~mean(.x, na.rm = TRUE)
-#&gt; &lt;environment: 0x864ba70&gt;
-#&gt; </div><div class='input'>
-<span class='fu'>funs</span>(<span class='kw'>m1</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>m2</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>m3</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ m1: mean(.)
-#&gt; $ m2: mean(.)
-#&gt; $ m3: mean(., na.rm = TRUE)</div><div class='input'><span class='co'># -&gt;</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>m1</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>m2</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>m3</span> <span class='kw'>=</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; $m1
-#&gt; function (x, ...) 
-#&gt; UseMethod("mean")
-#&gt; &lt;bytecode: 0x414dd38&gt;
-#&gt; &lt;environment: namespace:base&gt;
-#&gt; 
-#&gt; $m2
-#&gt; [1] "mean"
-#&gt; 
-#&gt; $m3
-#&gt; ~mean(.x, na.rm = TRUE)
-#&gt; &lt;environment: 0x864ba70&gt;
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>3</span>), <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>5</span>))
+<span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>with_groups</span>(<span class='no'>g</span>, <span class='no'>mutate</span>, <span class='kw'>x_mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; # A tibble: 5 x 3
+#&gt;       g      x x_mean
+#&gt; * &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1     1 0.121  0.386 
+#&gt; 2     1 0.652  0.386 
+#&gt; 3     2 0.362  0.377 
+#&gt; 4     2 0.393  0.377 
+#&gt; 5     3 0.0233 0.0233</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>with_groups</span>(<span class='no'>g</span>, ~ <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>.x</span>, <span class='kw'>x1</span> <span class='kw'>=</span> <span class='fu'><a href='nth.html'>first</a></span>(<span class='no'>x</span>)))</div><div class='output co'>#&gt; # A tibble: 5 x 3
+#&gt;       g      x     x1
+#&gt; * &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1     1 0.121  0.121 
+#&gt; 2     1 0.652  0.121 
+#&gt; 3     2 0.362  0.362 
+#&gt; 4     2 0.393  0.362 
+#&gt; 5     3 0.0233 0.0233</div><div class='input'>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>with_groups</span>(<span class='kw'>NULL</span>, <span class='no'>mutate</span>, <span class='kw'>x_mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; # A tibble: 5 x 3
+#&gt; # Groups:   g [3]
+#&gt;       g      x x_mean
+#&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1     1 0.121   0.310
+#&gt; 2     1 0.652   0.310
+#&gt; 3     2 0.362   0.310
+#&gt; 4     2 0.393   0.310
+#&gt; 5     3 0.0233  0.310</div><div class='input'>
+<span class='co'># NB: grouping can't be restored if you remove the grouping variables</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>with_groups</span>(<span class='kw'>NULL</span>, <span class='no'>mutate</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; # A tibble: 5 x 1
+#&gt;        x
+#&gt;    &lt;dbl&gt;
+#&gt; 1 0.121 
+#&gt; 2 0.652 
+#&gt; 3 0.362 
+#&gt; 4 0.393 
+#&gt; 5 0.0233</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

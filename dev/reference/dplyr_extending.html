@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a list of function calls — funs • dplyr</title>
+<title>Extending dplyr — dplyr_extending • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,12 +47,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Create a list of function calls — funs" />
+<meta property="og:title" content="Extending dplyr — dplyr_extending" />
 <meta property="og:description" content="
-funs() is deprecated; please use list() instead. We deprecated this
-function because it provided a unique way of specifying anonymous functions,
-rather than adopting the conventions used by purrr and other packages
-in the tidyverse." />
+These three functions, along with names&amp;lt;- and 1d numeric [
+(i.e. x[loc]), provide a minimal interface for extending dplyr to work
+with a new subclass of data frame. dplyr_rows_slice() and
+dplyr_cols_modify() represented specialised uses of [; their focus
+makes them much easier to implement. dplyr_reconstruct() is a fall-back
+for verbs that can't be implemented in terms of simpler row/col operation.
+These functions are experimental and are stop-gap measure until more general
+tools become available in vctrs, but may still be useful in the short-term
+if you have a data frame class that you want to work with dplyr." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -189,97 +194,86 @@ in the tidyverse." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a list of function calls</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-funs.R'><code>R/deprec-funs.R</code></a></small>
-    <div class="hidden name"><code>funs.Rd</code></div>
+    <h1>Extending dplyr</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/generics.R'><code>R/generics.R</code></a></small>
+    <div class="hidden name"><code>dplyr_extending.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
-<p><code>funs()</code> is deprecated; please use <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code> instead. We deprecated this
-function because it provided a unique way of specifying anonymous functions,
-rather than adopting the conventions used by purrr and other packages
-in the tidyverse.</p>
+    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
+<p>These three functions, along with <code>names&lt;-</code> and 1d numeric <code>[</code>
+(i.e. <code>x[loc]</code>), provide a minimal interface for extending dplyr to work
+with a new subclass of data frame. <code>dplyr_rows_slice()</code> and
+<code>dplyr_cols_modify()</code> represented specialised uses of <code>[</code>; their focus
+makes them much easier to implement. <code>dplyr_reconstruct()</code> is a fall-back
+for verbs that can't be implemented in terms of simpler row/col operation.</p>
+<p>These functions are experimental and are stop-gap measure until more general
+tools become available in vctrs, but may still be useful in the short-term
+if you have a data frame class that you want to work with dplyr.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>funs</span>(<span class='no'>...</span>, <span class='kw'>.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
+    <pre class="usage"><span class='fu'>dplyr_row_slice</span>(<span class='no'>data</span>, <span class='no'>i</span>, <span class='no'>...</span>)
+
+<span class='fu'>dplyr_col_modify</span>(<span class='no'>data</span>, <span class='no'>cols</span>)
+
+<span class='fu'>dplyr_reconstruct</span>(<span class='no'>data</span>, <span class='no'>template</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; A list of functions specified by:</p><ul>
-<li><p>Their name, <code>"mean"</code></p></li>
-<li><p>The function itself, <code>mean</code></p></li>
-<li><p>A call to the function with <code>.</code> as a dummy argument,
-<code><a href='https://rdrr.io/r/base/mean.html'>mean(., na.rm = TRUE)</a></code></p></li>
-</ul>
-
-<p>The following notations are <strong>not</strong> supported, see examples:</p><ul>
-<li><p>An anonymous function, <code>function(x) mean(x, na.rm = TRUE)</code></p></li>
-<li><p>An anonymous function in <span class="pkg">purrr</span> notation, <code>~mean(., na.rm = TRUE)</code></p></li>
-</ul></td>
+      <th>data</th>
+      <td><p>A tibble. We use tibbles because they avoid some inconsistent
+subset-assignment use cases</p></td>
     </tr>
     <tr>
-      <th>.args, args</th>
-      <td><p>A named list of additional arguments to be added to all
-function calls. As <code>funs()</code> is being deprecated, use other methods to
-supply arguments: <code>...</code> argument in <a href='summarise_all.html'>scoped verbs</a> or make
-own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.html'>purrr::partial()</a></code>.</p></td>
+      <th>i</th>
+      <td><p>A numeric or logical vector that indexes the rows of <code>.data</code>.</p></td>
+    </tr>
+    <tr>
+      <th>cols</th>
+      <td><p>A named list used modify columns. A <code>NULL</code> value should remove
+an existing column.</p></td>
+    </tr>
+    <tr>
+      <th>template</th>
+      <td><p>Template to use for restoring attributes</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="current-usage"><a class="anchor" href="#current-usage"></a>Current usage</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>funs</span>(<span class='st'>"mean"</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `funs()` is deprecated as of dplyr 1.0.0.</span>
-#&gt; <span class='warning'>Please use a list of either functions or lambdas: </span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Simple named list: </span>
-#&gt; <span class='warning'>  list(mean = mean, median = median)</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Auto named with `tibble::lst()`: </span>
-#&gt; <span class='warning'>  tibble::lst(mean, median)</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Using lambdas</span>
-#&gt; <span class='warning'>  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ mean: mean(.)
-#&gt; $ mean: mean(., na.rm = TRUE)</div><div class='input'><span class='co'># -&gt;</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>mean</span> <span class='kw'>=</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; $mean
-#&gt; function (x, ...) 
-#&gt; UseMethod("mean")
-#&gt; &lt;bytecode: 0x414dd38&gt;
-#&gt; &lt;environment: namespace:base&gt;
-#&gt; 
-#&gt; $mean
-#&gt; ~mean(.x, na.rm = TRUE)
-#&gt; &lt;environment: 0x864ba70&gt;
-#&gt; </div><div class='input'>
-<span class='fu'>funs</span>(<span class='kw'>m1</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>m2</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>m3</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ m1: mean(.)
-#&gt; $ m2: mean(.)
-#&gt; $ m3: mean(., na.rm = TRUE)</div><div class='input'><span class='co'># -&gt;</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>m1</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>m2</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>m3</span> <span class='kw'>=</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; $m1
-#&gt; function (x, ...) 
-#&gt; UseMethod("mean")
-#&gt; &lt;bytecode: 0x414dd38&gt;
-#&gt; &lt;environment: namespace:base&gt;
-#&gt; 
-#&gt; $m2
-#&gt; [1] "mean"
-#&gt; 
-#&gt; $m3
-#&gt; ~mean(.x, na.rm = TRUE)
-#&gt; &lt;environment: 0x864ba70&gt;
-#&gt; </div></pre>
+    
+<ul>
+<li><p><code><a href='arrange.html'>arrange()</a></code>, <code><a href='filter.html'>filter()</a></code>, <code><a href='slice.html'>slice()</a></code>, <code><a href='join.html'>semi_join()</a></code>, and <code><a href='join.html'>anti_join()</a></code>
+work by generating a vector of column indices, and then subsetting
+with <code>dplyr_row_slice()</code>.</p></li>
+<li><p><code><a href='mutate.html'>mutate()</a></code> generates a list of new column value (using <code>NULL</code> to indicate
+when columns should be deleted), then passes that to <code>dplyr_col_modify()</code>.
+<code><a href='mutate.html'>transmute()</a></code> does the same then uses 1d <code>[</code> to select the columns.</p></li>
+<li><p><code><a href='summarise.html'>summarise()</a></code> works similarly to <code><a href='mutate.html'>mutate()</a></code> but the data modified by
+<code>dplyr_col_modify()</code> comes from <code><a href='group_data.html'>group_data()</a></code>.</p></li>
+<li><p><code><a href='select.html'>select()</a></code> uses 1d <code>[</code> to select columns, then <code>names&lt;-</code> to rename them.
+<code><a href='select.html'>rename()</a></code> just uses <code>names&lt;-</code>.</p></li>
+<li><p><code><a href='join.html'>inner_join()</a></code>, <code><a href='join.html'>left_join()</a></code>, <code><a href='join.html'>right_join()</a></code>, and <code><a href='join.html'>full_join()</a></code>
+coerces <code>x</code> to a tibble, modify the rows, then uses <code>dplyr_reconstruct()</code>
+to convert back to the same type as <code>x</code>.</p></li>
+<li><p><code><a href='join.html'>nest_join()</a></code> uses <code>dplyr_col_modify()</code> to cast the key variables to
+common type and add the nested-df that <code>y</code> becomes.</p></li>
+<li><p><code><a href='distinct.html'>distinct()</a></code> does a <code><a href='mutate.html'>mutate()</a></code> if any expressions are present, then
+uses 1d <code>[</code> to select variables to keep, then <code>dplyr_row_slice()</code> to
+select distinct rows.</p></li>
+</ul>
+
+<p>Note that <code><a href='group_by.html'>group_by()</a></code> and <code><a href='group_by.html'>ungroup()</a></code> don't use any these generics and
+you'll need to provide methods directly.</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#current-usage">Current usage</a></li>
     </ul>
 
   </div>

@@ -224,8 +224,13 @@ is recalculated based on the resulting data, otherwise it is kept as is.</p></td
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same type as <code>.data</code>. The columns will be left as is;
-the rows will be in different order.</p>
+    <p>An object of the same type as <code>.data</code>.</p><ul>
+<li><p>Rows are a subset of the input, but appear in the same order.</p></li>
+<li><p>Columns are not modified.</p></li>
+<li><p>The number of groups may be reduced (if <code>.preserve</code> is not <code>TRUE</code>).</p></li>
+<li><p>Data frame attributes are preserved.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Note that dplyr is not yet smart enough to optimise filtering optimisation
@@ -262,12 +267,6 @@ average.</p>
 <p>It is valid to use grouping variables in filter expressions.</p>
 <p>When applied on a grouped tibble, <code>filter()</code> automatically <a href='arrange.html'>rearranges</a>
 the tibble by groups for performance reasons.</p>
-    <h2 class="hasAnchor" id="tidy-data"><a class="anchor" href="#tidy-data"></a>Tidy data</h2>
-
-    
-
-<p>When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code>.</p>
     <h2 class="hasAnchor" id="scoped-filtering"><a class="anchor" href="#scoped-filtering"></a>Scoped filtering</h2>
 
     
@@ -426,7 +425,6 @@ selection of variables.</p>
       <li><a href="#details">Details</a></li>
       <li><a href="#useful-filter-functions">Useful filter functions</a></li>
       <li><a href="#grouped-tibbles">Grouped tibbles</a></li>
-      <li><a href="#tidy-data">Tidy data</a></li>
       <li><a href="#scoped-filtering">Scoped filtering</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
