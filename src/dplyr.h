@@ -63,4 +63,23 @@ SEXP dplyr_vec_sizes(SEXP chunks);
 SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
 
+#define DPLYR_MASK_INIT()                                                  \
+SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows)); \
+R_xlen_t ngroups = XLENGTH(rows);                                          \
+SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask)); \
+SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller))
+
+#define DPLYR_MASK_FINALISE() UNPROTECT(3);
+
+#define DPLYR_MASK_SET_GROUP(INDEX)                                                  \
+SEXP rows_i = VECTOR_ELT(rows, i);                                                   \
+R_xlen_t n_i = XLENGTH(rows_i);                                                      \
+SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));                               \
+Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);             \
+Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);\
+Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context) ;     \
+UNPROTECT(1)
+
+#define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
+
 #endif

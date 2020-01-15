@@ -15,11 +15,7 @@ void stop_mutate_not_vector(SEXP result) {
 }
 
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i) {
-  SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
-  R_xlen_t ngroups = XLENGTH(rows);
-
-  SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
-  SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));
+  DPLYR_MASK_INIT();
 
   SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
   SEXP chunks = PROTECT(Rf_allocVector(VECSXP, ngroups));
@@ -28,14 +24,9 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
   bool seen_null = false;
 
   for (R_xlen_t i = 0; i < ngroups; i++) {
-    SEXP rows_i = VECTOR_ELT(rows, i);
-    R_xlen_t n_i = XLENGTH(rows_i);
-    SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));
-    Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);
-    Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
-    Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
+    DPLYR_MASK_SET_GROUP(i);
 
-    SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
+    SEXP result_i = PROTECT(DPLYR_MASK_EVAL(quo));
     SET_VECTOR_ELT(chunks, i, result_i);
 
     if (Rf_isNull(result_i)) {
@@ -56,22 +47,15 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
       dplyr::stop_mutate_not_vector(result_i);
     }
 
-    UNPROTECT(2);
+    UNPROTECT(1);
   }
 
   if (seen_null && seen_vec) {
     // find out the first time the group was NULL so that the error will
     // be associated with this group
-    int i = 0;
     for (int i = 0; i < ngroups; i++) {
       if (Rf_isNull(VECTOR_ELT(chunks, i))) {
-        SEXP rows_i = VECTOR_ELT(rows, i);
-        R_xlen_t n_i = XLENGTH(rows_i);
-        SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));
-        Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);
-        Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
-        Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
-
+        DPLYR_MASK_SET_GROUP(i);
         dplyr::stop_mutate_mixed_NULL();
       }
     }
@@ -84,7 +68,8 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
   SET_VECTOR_ELT(res, 0, chunks);
   SET_VECTOR_ELT(res, 1, Rf_ScalarLogical(needs_recycle));
 
-  UNPROTECT(5);
+  UNPROTECT(2);
+  DPLYR_MASK_FINALISE();
 
   return res;
 }
