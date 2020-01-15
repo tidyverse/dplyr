@@ -75,12 +75,12 @@ DataMask <- R6Class("DataMask",
       .Call(`dplyr_mask_eval_all`, quo, private, context_env)
     },
 
-    eval_all_summarise = function(quo, dots_names, i) {
-      .Call(`dplyr_mask_eval_all_summarise`, quo, private, context_env, dots_names, i)
+    eval_all_summarise = function(quo) {
+      .Call(`dplyr_mask_eval_all_summarise`, quo, private, context_env)
     },
 
-    eval_all_mutate = function(quo, dots_names, i) {
-      .Call(`dplyr_mask_eval_all_mutate`, quo, private, context_env, dots_names, i)
+    eval_all_mutate = function(quo) {
+      .Call(`dplyr_mask_eval_all_mutate`, quo, private, context_env)
     },
 
     eval_all_filter = function(quos, env_filter) {

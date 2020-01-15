@@ -92,12 +92,8 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
 }
 
 SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, SEXP s_n, SEXP full_data, SEXP env_filter) {
+  DPLYR_MASK_INIT();
   R_xlen_t nquos = XLENGTH(quos);
-  SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
-  R_xlen_t ngroups = XLENGTH(rows);
-
-  SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
-  SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));
 
   R_xlen_t n = Rf_asInteger(s_n);
   SEXP keep = PROTECT(Rf_allocVector(LGLSXP, n));
@@ -115,12 +111,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, S
   SET_VECTOR_ELT(res, 2, group_indices);
 
   for (R_xlen_t i = 0; i < ngroups; i++) {
-    SEXP rows_i = VECTOR_ELT(rows, i);
-    R_xlen_t n_i = XLENGTH(rows_i);
-    SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));
-    Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);
-    Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
-    Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
+    DPLYR_MASK_SET_GROUP(i);
 
     SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, nquos, n_i, i, full_data, env_filter));
 
@@ -135,10 +126,11 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, S
     }
     p_new_group_sizes[i] = nkeep;
 
-    UNPROTECT(2);
+    UNPROTECT(1);
   }
 
-  UNPROTECT(7);
+  UNPROTECT(4);
+  DPLYR_MASK_FINALISE();
 
   return res;
 }

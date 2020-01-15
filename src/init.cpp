@@ -62,8 +62,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
 
   {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 3},
-  {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 5},
-  {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 5},
+  {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 3},
+  {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 3},
   {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 6},
 
   {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
