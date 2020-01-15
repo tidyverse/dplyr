@@ -21,6 +21,8 @@
 #' df <- tibble(g = c(1, 1, 2, 2, 3), x = runif(5))
 #' df %>%
 #'   with_groups(g, mutate, x_mean = mean(x))
+#' df %>%
+#'   with_groups(g, ~ mutate(.x, x1 = first(x)))
 #'
 #' df %>%
 #'   group_by(g) %>%
