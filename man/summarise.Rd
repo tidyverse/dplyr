@@ -69,6 +69,16 @@ results, consider using new names for your summary variables, especially when
 creating multiple summaries.
 }
 
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("summarise")}.
+}
+
 \examples{
 # A summary applied to ungrouped tbl returns a single row
 mtcars \%>\%

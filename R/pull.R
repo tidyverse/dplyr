@@ -3,11 +3,18 @@
 #' This works like `[[` for local data frames, and automatically collects
 #' before indexing for remote data tables.
 #'
-#' @param .data A table of data
+#' @inheritParams arrange
 #' @inheritParams tidyselect::vars_pull
 #' @param name An optional parameter that specifies the column to be used
 #'   as names for a named vector. Specified in a similar manner as \code{var}.
 #' @return A vector the same size as `.data`.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("pull")}.
 #' @export
 #' @examples
 #' mtcars %>% pull(-1)

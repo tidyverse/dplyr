@@ -47,6 +47,7 @@
 #' selection of variables.
 #'
 #' @family single table verbs
+#' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Logical predicates defined in
 #'   terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the

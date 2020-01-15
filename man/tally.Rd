@@ -23,7 +23,8 @@ count(
 add_count(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated())
 }
 \arguments{
-\item{x}{A \code{\link[=tbl]{tbl()}} to tally/count.}
+\item{x}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr).}
 
 \item{wt}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> If omitted, will count the number of rows.
 If specified, will perform a "weighted" tally by summing the (non-missing)

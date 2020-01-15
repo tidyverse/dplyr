@@ -28,7 +28,20 @@
 #' * Output columns columns included `by` are coerced to common type across
 #'   `x` and `y`.
 #' * Groups are taken from `x`.
-#' @param x,y Data frames
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' Methods available in currently loaded packages:
+#'
+#' * `inner_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("inner_join")}.
+#' * `left_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("left_join")}.
+#' * `right_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("right_join")}.
+#' * `full_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("full_join")}.
+#' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
+#'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
+#'   more details.
 #' @param by A character vector of variables to join by.
 #'
 #'   If `NULL`, the default, `*_join()` will perofrm a natural join, using all
@@ -113,7 +126,9 @@ full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...
 #' * `semi_join()` return all rows from `x` with a match in `y`.
 #' * `anti_join()` return all rows from `x` with**out** a match in `y`.
 #'
-#' @param x,y Data frames
+#' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
+#'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
+#'   more details.
 #' @inheritParams left_join
 #' @return
 #' An object of the same type as `x`.
@@ -122,6 +137,15 @@ full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...
 #' * Columns are not modified.
 #' * Data frame attributes are preserved.
 #' * Groups are taken from `x`. The number of groups may be reduced.
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' Methods available in currently loaded packages:
+#'
+#' * `semi_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("semi_join")}.
+#' * `anti_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("anti_join")}.
 #' @family joins
 #' @examples
 #' # "Filtering" joins keep cases from the LHS
@@ -162,9 +186,18 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' * `anti_join()` is a `nest_join()` plus a `filter()` where you check every
 #'   element has zero rows.
 #'
-#' @param x,y Data frames
+#' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
+#'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
+#'   more details.
 #' @param name The name of the list column nesting joins create.
 #'   If `NULL` the name of `y` is used.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("nest_join")}.
 #' @inheritParams left_join
 #' @family joins
 #' @export

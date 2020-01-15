@@ -96,6 +96,19 @@ The three \link{scoped} variants of \code{mutate()} (\code{\link[=mutate_all]{mu
 selection of variables.
 }
 
+\section{Methods}{
+
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\itemize{
+\item \code{mutate()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("mutate")}.
+\item \code{transmute()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("transmute")}.
+}
+}
+
 \examples{
 # Newly created variables are available immediately
 mtcars \%>\% as_tibble() \%>\% mutate(

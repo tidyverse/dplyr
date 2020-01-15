@@ -71,6 +71,16 @@ accidental matching of data frame variables when you refer to
 variables from the calling context.
 }
 
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("select")}.
+}
+
 \examples{
 iris <- as_tibble(iris) # so it prints a little nicer
 select(iris, starts_with("Petal"))

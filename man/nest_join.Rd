@@ -7,7 +7,9 @@
 nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 }
 \arguments{
-\item{x, y}{Data frames}
+\item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
+lazy data frames (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{by}{A character vector of variables to join by.
 
@@ -54,6 +56,16 @@ that every element of data has at least one row,
 element has zero rows.
 }
 }
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("nest_join")}.
+}
+
 \examples{
 band_members \%>\% nest_join(band_instruments)
 }

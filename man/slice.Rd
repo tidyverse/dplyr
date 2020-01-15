@@ -7,12 +7,17 @@
 slice(.data, ..., .preserve = FALSE)
 }
 \arguments{
-\item{.data}{A tbl.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Integer row values.
 Provide either positive values to keep, or negative values to drop.
 The values provided must be either all positive or all negative.
 Indices beyond the number of rows in the input are silently ignored.}
+
+\item{.preserve}{when \code{FALSE} (the default), the grouping structure
+is recalculated based on the resulting data, otherwise it is kept as is.}
 }
 \value{
 An object of the same type as \code{.data}.
@@ -32,6 +37,16 @@ Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
 operation, use \code{\link[=filter]{filter()}} and \code{\link[=row_number]{row_number()}}.
 }
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice")}.
+}
+
 \examples{
 slice(mtcars, 1L)
 # Similar to tail(mtcars, 1):

@@ -3,7 +3,7 @@
 #' Select only unique/distinct rows from a data frame. This is similar
 #' to [unique.data.frame()], but considerably faster.
 #'
-#' @param .data a tbl
+#' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Optional variables to use when
 #'   determining uniqueness. If there are multiple rows for a given combination
 #'   of inputs, only the first row will be preserved. If omitted, will use all
@@ -19,6 +19,13 @@
 #'   Otherwise, `distinct()` first calls `mutate()` to create new columns.
 #' * Groups are not modified.
 #' * Data frame attributes are preserved.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("distinct")}.
 #' @export
 #' @examples
 #' df <- tibble(

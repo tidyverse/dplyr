@@ -7,7 +7,9 @@
 pull(.data, var = -1, name = NULL)
 }
 \arguments{
-\item{.data}{A table of data}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{var}{A variable specified as:
 \itemize{
@@ -33,6 +35,16 @@ A vector the same size as \code{.data}.
 This works like \code{[[} for local data frames, and automatically collects
 before indexing for remote data tables.
 }
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("pull")}.
+}
+
 \examples{
 mtcars \%>\% pull(-1)
 mtcars \%>\% pull(1)

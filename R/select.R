@@ -50,6 +50,13 @@
 #'   order. Columns will be renamed if `new_name = old_name` form is used.
 #' * Data frame attributes are preserved.
 #' * Groups are maintained; you can not select off grouping variables.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("select")}.
 #' @family single table verbs
 #' @export
 #' @examples

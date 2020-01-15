@@ -84,6 +84,15 @@
 #' * Column order matches order of expressions.
 #' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' Methods available in currently loaded packages:
+#'
+#' * `mutate()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("mutate")}.
+#' * `transmute()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("transmute")}.
 #' @examples
 #' # Newly created variables are available immediately
 #' mtcars %>% as_tibble() %>% mutate(
