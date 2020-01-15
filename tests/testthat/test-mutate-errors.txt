@@ -21,7 +21,7 @@ incompatible column type
 > mutate(tibble(x = 1), y = mean)
 Error: `mutate()` argument `y` must be a vector
 i `y` is mean
-x Result should be a vector, not a closure
+x Result should be a vector, not a function
 
 
 Unsupported type
@@ -31,12 +31,12 @@ Unsupported type
 > mutate(df, out = env(a = 1))
 Error: `mutate()` argument `out` must be a vector
 i `out` is env(a = 1)
-x Result should be a vector, not a environment
+x Result should be a vector, not an environment
 
 > mutate(group_by(df, g), out = env(a = 1))
 Error: `mutate()` argument `out` must be a vector
 i `out` is env(a = 1)
-x Result should be a vector, not a environment
+x Result should be a vector, not an environment
 i The error occured in group 1
 
 
@@ -44,9 +44,9 @@ result is sometimes NULL
 ========================
 
 > mutate(group_by(tibble(a = 1:3, b = 4:6), a), if (a == 1) NULL else "foo")
-Error: `mutate()` argument `..1` must be ??? consistent
+Error: `mutate()` argument `..1` must return compatible vectors across groups
 i `..1` is if (a == 1) NULL else "foo"
-x Cannot combine NULL and non NULL results
+i Cannot combine NULL and non NULL results
 
 
 incompatible types across groups

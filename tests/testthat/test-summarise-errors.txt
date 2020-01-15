@@ -4,13 +4,13 @@ unsupported type
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = env(a = 1))
 Error: `summarise()` argument `a` must be a vector
-x Result should be a vector, not a environment
+x Result should be a vector, not an environment
 i `a` is env(a = 1)
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = env(
 +   a = 1))
 Error: `summarise()` argument `a` must be a vector
-x Result should be a vector, not a environment
+x Result should be a vector, not an environment
 i `a` is env(a = 1)
 i The error occured in group 1
 

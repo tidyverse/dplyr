@@ -36,34 +36,39 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SE
     Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
 
     SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
+    SET_VECTOR_ELT(chunks, i, result_i);
+
     if (Rf_isNull(result_i)) {
       seen_null = true;
-    } else {
+
+      if (seen_vec) {
+        dplyr::stop_mutate_mixed_NULL();
+      }
+
+    } else if (vctrs::vec_is_vector(result_i)) {
       seen_vec = true;
-    }
 
-    if (seen_null && seen_vec) {
-      dplyr::stop_mutate_mixed_NULL();
-    }
+      if (vctrs::short_vec_size(result_i) != n_i) {
+        needs_recycle = true;
+      }
 
-    if (Rf_isNull(result_i)) {
-      UNPROTECT(2);
-      continue;
-    }
-
-    if (!vctrs::vec_is_vector(result_i)) {
+    } else {
       dplyr::stop_mutate_not_vector(result_i);
     }
-
-    if (!needs_recycle && vctrs::short_vec_size(result_i) != n_i) {
-      needs_recycle = true;
-    }
-
-    SET_VECTOR_ELT(chunks, i, result_i);
 
     UNPROTECT(2);
   }
 
+  if (seen_null && seen_vec) {
+    // find out the first time the group was NULL so that the error will
+    // be associated with this group
+    int i = 0;
+    for (int i = 0; i < ngroups; i++) {
+      if (Rf_isNull(VECTOR_ELT(chunks, i))) {
+        dplyr::stop_mutate_mixed_NULL();
+      }
+    }
+  }
 
   // there was only NULL results
   if (ngroups > 0 && !seen_vec) {
