@@ -182,7 +182,7 @@ summarise_new_cols <- function(.data, ...) {
     stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
   },
   dplyr_summarise_incompatible_size = function(cnd) {
-    stop_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
+    stop_summarise_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
   })
 
   list(new = cols, size = .size)

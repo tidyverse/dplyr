@@ -164,7 +164,7 @@ arg_name <- function(quos, index) {
   name
 }
 
-stop_incompatible_size <- function(size, group, index, expected_sizes, dots) {
+stop_summarise_incompatible_size <- function(size, group, index, expected_sizes, dots) {
   # called from the C++ code
   if(missing(dots)) {
     abort(class = "dplyr_summarise_incompatible_size", size = size, group = group)
