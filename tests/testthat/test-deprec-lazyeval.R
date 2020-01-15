@@ -429,7 +429,7 @@ test_that("group_by_ backwards compatibility with add = TRUE adds groups", {
     group_by.default(grouped, y, add = TRUE)
   }
 
-  expect_groups(add_groups_extendedclass(df), c("x", "y"))
+  expect_equal(group_vars(add_groups_extendedclass(df)), c("x", "y"))
 })
 
 test_that("_each() and _all() families agree", {

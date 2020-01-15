@@ -115,11 +115,11 @@ test_that("add_tally respects and preserves existing groups", {
   df <- data.frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   res <- df %>% group_by(val) %>% add_tally()
   expect_equal(res$n, c(3, 3, 3, 1))
-  expect_groups(res, "val")
+  expect_equal(group_vars(res), "val")
 
   res <- df %>% group_by(g, val) %>% add_tally()
   expect_equal(res$n, c(1, 2, 2, 1))
-  expect_groups(res, c("g", "val"))
+  expect_equal(group_vars(res), c("g", "val"))
 })
 
 test_that("add_tally can be given a weighting variable", {
