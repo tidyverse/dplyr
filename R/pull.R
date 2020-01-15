@@ -1,7 +1,8 @@
-#' Pull out a single variable
+#' Extract a single column
 #'
-#' This works like `[[` for local data frames, and automatically collects
-#' before indexing for remote data tables.
+#' `pull()` is similar to `$`. It's mostly useful because it looks a little
+#' nicer in pipes, it also works with remote data frames, and it can optionally
+#' name the output.
 #'
 #' @param .data A table of data
 #' @inheritParams tidyselect::vars_pull
@@ -24,7 +25,6 @@
 #'
 #' # Pull a named vector
 #' starwars %>% pull(height, name)
-#'
 pull <- function(.data, var = -1, name = NULL) {
   UseMethod("pull")
 }

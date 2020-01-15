@@ -1,4 +1,4 @@
-#' Select distinct/unique rows
+#' Subset distinct/unique rows
 #'
 #' Select only unique/distinct rows from a data frame. This is similar
 #' to [unique.data.frame()], but considerably faster.

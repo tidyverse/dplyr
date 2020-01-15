@@ -1,7 +1,7 @@
-#' Choose rows by position
+#' Subset rows using their positions
 #'
-#' Choose rows by their ordinal position in the tbl.  Grouped tbls use
-#' the ordinal position within the group.
+#' `slice()` lets you index rows by their (integer) locations. It allows you
+#' to select, remove, and duplicate rows.
 #'
 #' Slice does not work with relational databases because they have no
 #' intrinsic notion of row order. If you want to perform the equivalent

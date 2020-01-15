@@ -1,4 +1,4 @@
-#' Count/tally observations by group
+#' Count observations by group
 #'
 #' @description
 #' `count()` lets you quickly count the unique values of a variable, or

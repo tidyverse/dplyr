@@ -1,10 +1,10 @@
-#' Return rows with matching conditions
+#' Subset rows using column values
 #'
-#' Use `filter()` to choose rows/cases where conditions are true. Unlike
-#' base subsetting with `[`, rows where the condition evaluates to `NA` are
-#' dropped.
+#' `filter()` retains the rows where the conditions you provide a `TRUE`. Note
+#' that, unlike base subsetting with `[`, rows where the condition evaluates
+#' to `NA` are dropped.
 #'
-#' Note that dplyr is not yet smart enough to optimise filtering optimisation
+#' dplyr is not yet smart enough to optimise filtering optimisation
 #' on grouped datasets that don't need grouped calculations. For this reason,
 #' filtering is often considerably faster on [ungroup()]ed data.
 #'
@@ -34,13 +34,8 @@
 #'
 #' The former keeps rows with `mass` greater than the global average
 #' whereas the latter keeps rows with `mass` greater than the gender
+#'
 #' average.
-#'
-#' It is valid to use grouping variables in filter expressions.
-#'
-#' When applied on a grouped tibble, `filter()` automatically [rearranges][arrange]
-#' the tibble by groups for performance reasons.
-#'
 #' @section Scoped filtering:
 #' The three [scoped] variants ([filter_all()], [filter_if()] and
 #' [filter_at()]) make it easy to apply a filtering condition to a

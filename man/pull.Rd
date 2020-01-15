@@ -2,7 +2,7 @@
 % Please edit documentation in R/pull.R
 \name{pull}
 \alias{pull}
-\title{Pull out a single variable}
+\title{Extract a single column}
 \usage{
 pull(.data, var = -1, name = NULL)
 }
@@ -30,8 +30,9 @@ as names for a named vector. Specified in a similar manner as \code{var}.}
 A vector the same size as \code{.data}.
 }
 \description{
-This works like \code{[[} for local data frames, and automatically collects
-before indexing for remote data tables.
+\code{pull()} is similar to \code{$}. It's mostly useful because it looks a little
+nicer in pipes, it also works with remote data frames, and it can optionally
+name the output.
 }
 \examples{
 mtcars \%>\% pull(-1)
@@ -48,5 +49,4 @@ df \%>\%
 
 # Pull a named vector
 starwars \%>\% pull(height, name)
-
 }

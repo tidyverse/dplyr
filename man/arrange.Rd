@@ -3,7 +3,7 @@
 \name{arrange}
 \alias{arrange}
 \alias{arrange.data.frame}
-\title{Arrange rows by variables}
+\title{Arrange rows by column values}
 \usage{
 arrange(.data, ..., .by_group = FALSE)
 
@@ -29,19 +29,22 @@ An object of the same type as \code{.data}.
 }
 }
 \description{
-Order data frame rows by the values of selected variables.
+\code{arrange()} order the rows of a data frame rows by the values of selected
+columns.
+
 Unlike other dplyr verbs, \code{arrange()} largely ignores grouping; you
 need to explicit mention grouping variables (or use  \code{by_group = TRUE})
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.
 }
-\section{Locales}{
+\details{
+\subsection{Locales}{
 
 The sort order for character vectors will depend on the collating sequence
 of the locale in use: see \code{\link[=locales]{locales()}}.
 }
 
-\section{Missing values}{
+\subsection{Missing values}{
 
 Unlike base sorting with \code{sort()}, \code{NA} are:
 \itemize{
@@ -49,7 +52,7 @@ Unlike base sorting with \code{sort()}, \code{NA} are:
 \item treated differently for remote data, depending on the backend.
 }
 }
-
+}
 \examples{
 arrange(mtcars, cyl, disp)
 arrange(mtcars, desc(disp))

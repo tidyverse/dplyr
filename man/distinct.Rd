@@ -2,7 +2,7 @@
 % Please edit documentation in R/distinct.R
 \name{distinct}
 \alias{distinct}
-\title{Select distinct/unique rows}
+\title{Subset distinct/unique rows}
 \usage{
 distinct(.data, ..., .keep_all = FALSE)
 }

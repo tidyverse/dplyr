@@ -1,16 +1,20 @@
-#' Arrange rows by variables
+#' Arrange rows by column values
 #'
-#' Order data frame rows by the values of selected variables.
+#' @description
+#' `arrange()` order the rows of a data frame rows by the values of selected
+#' columns.
+#'
 #' Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
 #' need to explicit mention grouping variables (or use  `by_group = TRUE`)
 #' in order to group by them, and functions of variables are evaluated
 #' once per data frame, not once per group.
 #'
-#' @section Locales:
+#' @details
+#' ## Locales
 #' The sort order for character vectors will depend on the collating sequence
 #' of the locale in use: see [locales()].
 #'
-#' @section Missing values:
+#' ## Missing values
 #' Unlike base sorting with `sort()`, `NA` are:
 #' * always sorted to the end for local data, even when wrapped with `desc()`.
 #' * treated differently for remote data, depending on the backend.

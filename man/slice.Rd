@@ -2,7 +2,7 @@
 % Please edit documentation in R/slice.R
 \name{slice}
 \alias{slice}
-\title{Choose rows by position}
+\title{Subset rows using their positions}
 \usage{
 slice(.data, ..., .preserve = FALSE)
 }
@@ -27,8 +27,8 @@ An object of the same type as \code{.data}.
 }
 }
 \description{
-Choose rows by their ordinal position in the tbl.  Grouped tbls use
-the ordinal position within the group.
+\code{slice()} lets you index rows by their (integer) locations. It allows you
+to select, remove, and duplicate rows.
 }
 \details{
 Slice does not work with relational databases because they have no
