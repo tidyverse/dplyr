@@ -1,7 +1,9 @@
 # Adapted from sloop
 methods_generic <- function(x) {
-  # Return early if generic not defined in global environment
-  # This happens when the documentation is read before the package is attached.
+  # Return early if generic not defined in global environment. This happens
+  # when the documentation is read before the package is attached, or when
+  # previewing development documentation from RStudio, since it renders the
+  # files in a separate session.
   if (!"package:dplyr" %in% search()) {
     return(data.frame())
   }
