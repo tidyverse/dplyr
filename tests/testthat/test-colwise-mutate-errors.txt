@@ -21,12 +21,12 @@ improper additional arguments
 =============================
 
 > mutate_all(mtcars, round, 0, 0)
-Error: `mutate()` argument `mpg` errored
-x 3 arguments passed to 'round'which requires 1 or 2 arguments
+Error: `mutate()` argument `mpg` errored.
 i `mpg` is .Primitive("round")(mpg, 0, 0)
+x 3 arguments passed to 'round'which requires 1 or 2 arguments
 
 > mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
-Error: `mutate()` argument `mpg` errored
-x formal argument "na.rm" matched by multiple actual arguments
+Error: `mutate()` argument `mpg` errored.
 i `mpg` is (function (x, ...) ...
+x formal argument "na.rm" matched by multiple actual arguments
 
