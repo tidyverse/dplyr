@@ -28,6 +28,8 @@ methods_generic <- function(x) {
 
   # Find help topic, if it exists
   info$topic <- help_topic(info$method, info$package)
+  # Don't link to self
+  info$topic[info$topic == x] <- NA
 
   info[c("generic", "class", "package", "topic", "visible", "source", "isS4")]
 }
