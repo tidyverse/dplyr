@@ -1,0 +1,12 @@
+> rf <- rowwise(tibble(x = 1:5), "x")
+> rf
+# A tibble: 5 x 1
+# Rowwise:  x
+      x
+  <int>
+1     1
+2     2
+3     3
+4     4
+5     5
+

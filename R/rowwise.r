@@ -91,12 +91,8 @@ tbl_sum.rowwise_df <- function(x) {
     return(out)
   }
 
-  if (drop) {
-    as_tibble(out)
-  } else {
-    group_vars <- intersect(names(out), group_vars(x))
-    rowwise_df(out, group_vars)
-  }
+  group_vars <- intersect(names(out), group_vars(x))
+  rowwise_df(out, group_vars)
 }
 
 #' @export
