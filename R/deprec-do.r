@@ -23,7 +23,7 @@
 #' by_cyl %>% do(head(., 2))
 #' # ->
 #' by_cyl %>% summarise(head(across(), 2))
-#' by_cyl %>% slice_head(2)
+#' by_cyl %>% slice_head(n = 2)
 #'
 #' # Can refer to variables directly
 #' by_cyl %>% do(mean = mean(.$vs))
