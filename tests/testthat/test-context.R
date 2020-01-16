@@ -3,22 +3,14 @@ test_that("cur_group() works", {
   gf <- group_by(df, g)
 
   expect_equal(
-    df %>% summarise(cur_group()),
-    group_keys(df)
+    df %>% summarise(key = list(cur_group())) %>% pull(key),
+    list(tibble(.rows = 1L))
   )
   expect_equal(
-    gf %>% summarise(cur_group()),
-    group_keys(gf)
+    gf %>% summarise(key = list(cur_group())) %>% pull(key),
+    list(tibble(g = 1))
   )
 
-  expect_equal(
-    df %>% mutate(key = cur_group()) %>% pull(key),
-    group_keys(df)
-  )
-  expect_equal(
-    gf %>% mutate(key = cur_group()) %>% pull(key),
-    group_keys(gf)
-  )
 })
 
 test_that("cur_group_idx() gives unique id", {
