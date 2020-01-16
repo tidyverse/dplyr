@@ -60,8 +60,12 @@
 #' }
 do <- function(.data, ...) {
   if (dots_n(...) == 1 && !dots_named(...)) {
+    dots <- enquos(...)
+    for (i in seq_along(dots)) {
+      dots[[i]] <- quo_set_expr(dots[[i]], redo(quo_get_expr(dots[[i]])))
+    }
     # TODO: lifecycle::deprecate_warn() + translation
-    abort("You need to use summarise() instead")
+    return(summarise(.data, !!!dots))
   }
 
   UseMethod("do")
@@ -69,7 +73,7 @@ do <- function(.data, ...) {
 
 #' @export
 do.data.frame <- function(.data, ...) {
-  cols <- sketch_cols(.data, ...)
+  cols <- do_cols(.data, ...)
 
   res <- group_keys(.data)
   res[names(cols)] <- cols
@@ -82,7 +86,7 @@ do.grouped_df <- function(.data, ...) {
   rowwise(out, group_vars(.data))
 }
 
-sketch_cols <- function(.data, ...) {
+do_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -105,7 +109,7 @@ sketch_cols <- function(.data, ...) {
 
   },
   simpleError = function(e) {
-    stop_eval_tidy(e, index = i, dots = dots, fn = "sketch")
+    stop_eval_tidy(e, index = i, dots = dots, fn = "do")
   })
 
   set_names(chunks, dots_names)
@@ -116,4 +120,28 @@ sketch_cols <- function(.data, ...) {
 dots_named <- function(...) {
   names <- names(substitute(alist(...)))
   any(names != "")
+}
+
+redo <- function(expr) {
+  if (is_symbol(expr, ".")) {
+    quote(across())
+  } else if (is_call(expr, "$")) {
+    if (is_symbol(expr[[2]], ".")) {
+      expr[[3]]
+    } else {
+      expr
+    }
+  } else if (is_call(expr, "[[")) {
+    if (is_symbol(expr[[2]], ".")) {
+      call2("[[", quote(.data), expr[[3]])
+    } else {
+      expr
+    }
+  } else if (is_call(expr)) {
+    expr[-1] <- map(expr[-1], redo)
+    expr
+  } else {
+    expr
+  }
+
 }
