@@ -92,7 +92,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_key = function() {
-      vec_slice(keys, private$current_group)
+      vec_slice(private$keys, private$current_group)
     },
 
     get_current_group = function() {
