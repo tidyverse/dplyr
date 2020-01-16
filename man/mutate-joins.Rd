@@ -26,7 +26,15 @@ inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
   na_matches = NULL
 )
 
-left_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
+left_join(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = FALSE
+)
 
 \method{left_join}{data.frame}(
   x,
@@ -35,10 +43,19 @@ left_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
+  keep = FALSE,
   na_matches = NULL
 )
 
-right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
+right_join(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = FALSE
+)
 
 \method{right_join}{data.frame}(
   x,
@@ -47,6 +64,7 @@ right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
+  keep = FALSE,
   na_matches = NULL
 )
 
@@ -106,8 +124,9 @@ joins for database sources, similarly to \code{merge(incomparables = FALSE)}.
 The default, \code{"na"}, always treats two \code{NA} or \code{NaN} values as equal,
 like \code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.}
 
-\item{keep}{Should the join keys from \code{y} be preserved in the output?
-Only applies to \code{nest_join()} and \code{full_join()}.}
+\item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
+output? Only applies to \code{nest_join()}, \code{left_join()}, \code{right_join()}, and
+\code{full_join()}.}
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}
@@ -167,8 +186,8 @@ band_members \%>\% inner_join(band_instruments, by = "name")
 
 # Use a named `by` if the join variables have different names
 band_members \%>\% full_join(band_instruments2, by = c("name" = "artist"))
-# By default only the join keys from `x` are kept; use `keep = TRUE`
-# to keep both
+# By default, the join keys from `x` and `y` are coalesced in the output; use
+# `keep = TRUE` # to keep the join keys from both `x` and `y`
 band_members \%>\%
   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 

@@ -31,8 +31,9 @@ and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
 same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
-\item{keep}{Should the join keys from \code{y} be preserved in the output?
-Only applies to \code{nest_join()} and \code{full_join()}.}
+\item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
+output? Only applies to \code{nest_join()}, \code{left_join()}, \code{right_join()}, and
+\code{full_join()}.}
 
 \item{name}{The name of the list column nesting joins create.
 If \code{NULL} the name of \code{y} is used.}

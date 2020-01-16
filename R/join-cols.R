@@ -1,4 +1,4 @@
-join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep_y = FALSE) {
+join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep = FALSE) {
   check_duplicate_vars(x_names, "x")
   check_duplicate_vars(y_names, "y")
 
@@ -11,14 +11,18 @@ join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep_
   # In x_out, key variables from need to keep the same name; aux variables
   # need suffixes for duplicates that appear in y_out
   x_loc <- seq_along(x_names)
-  y_aux <- setdiff(y_names, c(by$x, if (!keep_y) by$y))
-  x_is_aux <- !x_names %in% by$x
   names(x_loc) <- x_names
-  names(x_loc)[x_is_aux] <- add_suffixes(x_names[x_is_aux], c(by$x, y_aux), suffix$x)
+  if (!keep) {
+    y_aux <- setdiff(y_names, c(by$x, if (!keep) by$y))
+    x_is_aux <- !x_names %in% by$x
+    names(x_loc)[x_is_aux] <- add_suffixes(x_names[x_is_aux], c(by$x, y_aux), suffix$x)
+  } else {
+    names(x_loc) <- add_suffixes(x_names, y_names, suffix$x)
+  }
 
   y_loc <- seq_along(y_names)
   names(y_loc) <- add_suffixes(y_names, x_names, suffix$y)
-  if (!keep_y) {
+  if (!keep) {
     y_loc <- y_loc[!y_names %in% by$y]
   }
 

@@ -60,8 +60,9 @@
 #' @param suffix If there are non-joined duplicate variables in `x` and
 #'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
-#' @param keep Should the join keys from `y` be preserved in the output?
-#'    Only applies to `nest_join()` and `full_join()`.
+#' @param keep Should the join keys from both `x` and `y` be preserved in the
+#'   output? Only applies to `nest_join()`, `left_join()`, `right_join()`, and
+#'   `full_join()`.
 #' @param ... Other parameters passed onto methods.
 #' @param na_matches Should `NA` and `NaN` values match one another?
 #'
@@ -82,8 +83,8 @@
 #'
 #' # Use a named `by` if the join variables have different names
 #' band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
-#' # By default only the join keys from `x` are kept; use `keep = TRUE`
-#' # to keep both
+#' # By default, the join keys from `x` and `y` are coalesced in the output; use
+#' # `keep = TRUE` # to keep the join keys from both `x` and `y`
 #' band_members %>%
 #'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 #'
@@ -124,7 +125,7 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 
 #' @export
 #' @rdname mutate-joins
-left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
   UseMethod("left_join")
 }
 
@@ -132,14 +133,15 @@ left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...
 #' @rdname mutate-joins
 left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
+                             keep = FALSE,
                              na_matches = NULL) {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches)
+  join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches, keep = keep)
 }
 
 #' @export
 #' @rdname mutate-joins
-right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
   UseMethod("right_join")
 }
 
@@ -147,9 +149,10 @@ right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..
 #' @rdname mutate-joins
 right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
+                              keep = FALSE,
                               na_matches = NULL) {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches)
+  join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches, keep = keep)
 }
 
 #' @export
@@ -281,7 +284,7 @@ nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, 
 #' @rdname nest_join
 nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
   name_var <- name %||% as_label(enexpr(y))
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""), keep_y = keep)
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""), keep = keep)
   y <- auto_copy(x, y, copy = copy)
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
@@ -312,7 +315,7 @@ join_mutate <- function(x, y, by, type,
                         na_matches = "na",
                         keep = FALSE
                         ) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep_y = keep)
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
   na_matches <- check_na_matches(na_matches %||% "na")
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
@@ -324,10 +327,9 @@ join_mutate <- function(x, y, by, type,
 
   out <- as_tibble(x_out)
   out <- vec_slice(out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
-  out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
 
-  # If we're not keeping all y keys, need to copy over for the new rows
   if (!keep) {
+    out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
     new_rows <- length(rows$x) + seq_along(rows$y_extra)
     out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
   }
