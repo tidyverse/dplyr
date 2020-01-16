@@ -245,3 +245,40 @@ named_args <- function(args) {
 
   named != 0
 }
+
+
+#' @export
+do.rowwise_df <- function(.data, ...) {
+  # Create ungroup version of data frame suitable for subsetting
+  group_data <- ungroup(.data)
+
+  args <- enquos(...)
+  named <- named_args(args)
+
+  # Create new environment, inheriting from parent, with an active binding
+  # for . that resolves to the current subset. `_i` is found in environment
+  # of this function because of usual scoping rules.
+  mask <- new_data_mask(new_environment())
+  current_row <- function() lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
+  env_bind_do_pronouns(mask, current_row)
+
+  n <- nrow(.data)
+  m <- length(args)
+
+  out <- replicate(m, vector("list", n), simplify = FALSE)
+  names(out) <- names(args)
+  p <- progress_estimated(n * m, min_time = 2)
+
+  for (`_i` in seq_len(n)) {
+    for (j in seq_len(m)) {
+      out[[j]][`_i`] <- list(eval_tidy(args[[j]], mask))
+      p$tick()$print()
+    }
+  }
+
+  if (!named) {
+    label_output_dataframe(NULL, out, groups(.data), group_by_drop_default(.data))
+  } else {
+    label_output_list(NULL, out, groups(.data))
+  }
+}
