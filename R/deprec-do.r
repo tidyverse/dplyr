@@ -42,7 +42,9 @@
 #'   coef(summary(.$mod)))
 #' )
 #' # ->
-#' # models %>% summarise(broom::tidy(mod)))
+#' if (requireNamespace("broom")) {
+#'   models %>% summarise(broom::tidy(mod))
+#' }
 do <- function(.data, ...) {
   lifecycle::deprecate_warn("1.0.0", "do()",
     details = "Use condense() or summarise()"

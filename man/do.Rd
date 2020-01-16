@@ -49,6 +49,8 @@ models \%>\% do(data.frame(
   coef(summary(.$mod)))
 )
 # ->
-# models \%>\% summarise(broom::tidy(mod)))
+if (requireNamespace("broom")) {
+  models \%>\% summarise(broom::tidy(mod))
+}
 }
 \keyword{internal}
