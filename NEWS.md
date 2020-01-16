@@ -4,9 +4,9 @@
   when you don't have vectorised code. It now also allows you to preserve 
   additional columns when summarising (#4723).
 
-* New `condense()` makes it easy to create and use list-columns; it returns
-  a `rowwise` tibble so you can work with list-columns without having to
-  manually vectorise your code with purrr map functions (#4723).
+* New experimental `condense()` makes it easy to create and use list-columns; 
+  it returns a `rowwise` tibble so you can work with list-columns without 
+  having to manually vectorise your code with purrr map functions (#4723).
 
 * `do()` is deprecated in favour of either `condense()` or `summarise()`
   depending on whether you were using the named or unnamed form.

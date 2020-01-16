@@ -1,9 +1,11 @@
 #' Condense values into list-columns
 #'
 #' @description
-#' `condense()` is a variant of [summarise()] designed to make it as easy as
-#' possible to work with list-columns.  It is particularly powerful when
-#' working with models: you can fit models per group with `do()` and then
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#'
+#' `condense()` is an experimental variant of [summarise()] designed to make it
+#' as easy as possible to work with list-columns. It is particularly powerful when
+#' working with models: you can fit models per group with `condense()` and then
 #' flexibly extract components with `summarise()`.
 #'
 #' It has three special properties:

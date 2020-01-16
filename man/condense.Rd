@@ -15,9 +15,11 @@ suitable for functions that that return non-vectors (e.g. linear models)
 or vectors of length greater than one.}
 }
 \description{
-\code{condense()} is a variant of \code{\link[=summarise]{summarise()}} designed to make it as easy as
-possible to work with list-columns.  It is particularly powerful when
-working with models: you can fit models per group with \code{do()} and then
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+
+\code{condense()} is an experimental variant of \code{\link[=summarise]{summarise()}} designed to make it
+as easy as possible to work with list-columns. It is particularly powerful when
+working with models: you can fit models per group with \code{condense()} and then
 flexibly extract components with \code{summarise()}.
 
 It has three special properties:
