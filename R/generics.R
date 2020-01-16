@@ -88,7 +88,7 @@ dplyr_row_slice.grouped_df <- function(data, i, ..., preserve = FALSE) {
 #' @export
 dplyr_row_slice.rowwise_df <- function(data, i, ..., preserve = FALSE) {
   out <- vec_slice(data, i)
-  group_data <- vec_slice(group_data(data), i)
+  group_data <- vec_slice(group_keys(data), i)
   new_rowwise_df(out, group_data)
 }
 
