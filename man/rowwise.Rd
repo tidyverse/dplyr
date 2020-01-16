@@ -4,31 +4,60 @@
 \alias{rowwise}
 \title{Group input by rows}
 \usage{
-rowwise(data)
+rowwise(data, ...)
 }
 \arguments{
 \item{data}{Input data frame.}
+
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Variables to be preserved
+when calling \code{\link[=summarise]{summarise()}}. This is typically a set of variables whose
+combination uniquely identify each row.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
+\code{rowwise()} allows you to compute on a data frame a row-at-a-time.
+This is most useful when a vectorised function doesn't exist.
 }
-\details{
-See \href{https://github.com/jennybc/row-oriented-workflows}{this repository}
-for alternative ways to perform row-wise operations.
+\section{List-columns}{
 
-\code{rowwise()} is used for the results of \code{\link[=do]{do()}} when you
-create list-variables. It is also useful to support arbitrary
-complex operations that need to be applied to each row.
-
-Currently, rowwise grouping only works with data frames. Its
-main impact is to allow you to work with list-variables in
-\code{\link[=summarise]{summarise()}} and \code{\link[=mutate]{mutate()}} without having to
-use \code{[[1]]}. This makes \code{summarise()} on a rowwise tbl
-effectively equivalent to \code{\link[plyr:ldply]{plyr::ldply()}}.
+Because a rowwise has exactly one row per group it offers a small
+convenience for working with list-columns. Normally, \code{summarise()} and
+\code{mutate()} extract a groups worth of data with \code{[}. But when you index
+a list in this way, you get back another list. When you're working with
+a \code{rowwise} tibble, then dplyr will use \code{[[} instead of \code{[} to make your
+life a little easier.
 }
+
 \examples{
-df <- expand.grid(x = 1:3, y = 3:1)
-df_done <- df \%>\% rowwise() \%>\% do(i = seq(.$x, .$y))
-df_done
-df_done \%>\% summarise(n = length(i))
+df <- tibble(x = runif(6), y = runif(6))
+# Compute the mean of x and y in each row
+df \%>\% rowwise() \%>\% mutate(z = mean(c(x, y)))
+
+# Compute the min or x and y in each row
+df \%>\% rowwise() \%>\% mutate(z = min(c(x, y)))
+# In this case you can use an existing vectorised function:
+df \%>\% mutate(z = pmin(x, y))
+# Where these functions exist they'll be much faster than rowwise
+# so be on the lookout for them.
+
+# rowwise() + do() is also useful when doing simulations
+params <- tribble(
+ ~sim, ~n, ~mean, ~sd,
+    1,  1,     1,   1,
+    2,  2,     2,   4,
+    3,  3,    -1,   2
+)
+# Here I supply variables to preserve after the summary
+params \%>\%
+  rowwise(sim) \%>\%
+  summarise(z = rnorm(n, mean, sd))
+
+# If you want one row per simulation, put the results in a list()
+params \%>\%
+  rowwise(sim) \%>\%
+  summarise(z = list(rnorm(n, mean, sd)))
+
+# Or use do() which do this automatically:
+params \%>\%
+  rowwise(sim) \%>\%
+  do(z = rnorm(n, mean, sd))
 }

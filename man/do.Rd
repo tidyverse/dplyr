@@ -2,99 +2,71 @@
 % Please edit documentation in R/do.r
 \name{do}
 \alias{do}
-\title{Do anything}
+\title{Do arbitrary computations}
 \usage{
 do(.data, ...)
 }
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Expressions to apply to each group. If named, results will be
-stored in a new column. If unnamed, should return a data frame. You can
-use \code{.} to refer to the current group. You can not mix named and
-unnamed arguments.}
-}
-\value{
-\code{do()} always returns a data frame. The first columns in the data frame
-will be the labels, the others will be computed from \code{...}. Named
-arguments become list-columns, with one element for each group; unnamed
-elements must be data frames and labels will be duplicated accordingly.
-
-Groups are preserved for a single unnamed input. This is different to
-\code{\link[=summarise]{summarise()}} because \code{do()} generally does not reduce the
-complexity of the data, it just expresses it in a special way. For
-multiple named inputs, the output is grouped by row with
-\code{\link[=rowwise]{rowwise()}}. This allows other verbs to work in an intuitive
-way.
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of functions.
+Allow outputs will be automatically wrapped in lists, making it most
+suitable for functions that that return non-vectors (e.g. linear models)
+or vectors of length greater than one.}
 }
 \description{
-This is a general purpose complement to the specialised
-manipulation functions \code{\link[=filter]{filter()}}, \code{\link[=select]{select()}}, \code{\link[=mutate]{mutate()}},
-\code{\link[=summarise]{summarise()}} and \code{\link[=arrange]{arrange()}}. You can use \code{do()}
-to perform arbitrary computation, returning either a data frame or
-arbitrary objects which will be stored in a list. This is particularly
-useful when working with models: you can fit models per group with
-\code{do()} and then flexibly extract components with either another
-\code{do()} or \code{summarise()}.
+\code{do()} is a variant of \code{\link[=summarise]{summarise()}} designed to make it as easy as
+possible to work with list-columns.  It is particularly powerful when
+working with models: you can fit models per group with \code{do()} and then
+flexibly extract components with \code{summarise()}.
 
-For an empty data frame, the expressions will be evaluated once, even in the
-presence of a grouping.  This makes sure that the format of the resulting
-data frame is the same for both empty and non-empty input.
+It has three special properties:
+\itemize{
+\item It only ever returns a single row per group.
+\item Each new column is always wrapped in a list.
+\item It returns a \code{\link[=rowwise]{rowwise()}} output.
 }
-\details{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
 
-\code{do()} is marked as questioning as of dplyr 0.8.0, and may be advantageously
-replaced by \code{\link[=group_modify]{group_modify()}}.
+It's hard to explain \code{do()} in isolation, so if you find these ideas
+intriguing we recommending starting with \code{vignette("rowwise")}.
 }
-\section{Connection to plyr}{
+\section{dplyr 1.0.0}{
 
+We questioned the utility of \code{do()} for a long time, because something about
+the way it worked just didn't click with the rest of dplyr. \code{do()} has
+returned to active status in dplyr 1.0.0, although its scope is narrower
+than in the past because two of its main features are now available in
+more places:
+\itemize{
+\item \code{.} in \code{do()} used to be only way to easily compute on the entire
+data frame representing the "curent" group; now you can access that
+data frame in any verb with \code{\link[=across]{across()}}.
+\item You could supply a single unnamed argument that returned a data frame
+that would be unnested into the current group. You can now do this in
+\code{summarise()} since it gained support for multi-row and multi-column
+outputs.
+}
 
-If you're familiar with plyr, \code{do()} with named arguments is basically
-equivalent to \code{\link[plyr:dlply]{plyr::dlply()}}, and \code{do()} with a single unnamed argument
-is basically equivalent to \code{\link[plyr:ldply]{plyr::ldply()}}. However, instead of storing
-labels in a separate attribute, the result is always a data frame. This
-means that \code{summarise()} applied to the result of \code{do()} can
-act like \code{ldply()}.
+This allowed us to focus in the most useful aspect of \code{do()}: its ability
+to easily generate list-columns and to return a \link{rowwise} data frame that
+eliminates the need to manually vectorised functions with purrr's map
+functions. Compared to previous versions, \code{do()} is also more useful because
+it retains existing grouping.
 }
 
 \examples{
-by_cyl <- group_by(mtcars, cyl)
-do(by_cyl, head(., 2))
+# Modelling ------------------------------------------------
+mods <- mtcars \%>\%
+  group_by(cyl) \%>\%
+  do(mod = lm(mpg ~ disp, data = across()))
+mods
 
-models <- by_cyl \%>\% do(mod = lm(mpg ~ disp, data = .))
-models
+mods \%>\%
+  mutate(rsq = summary(mod)$r.squared)
 
-summarise(models, rsq = summary(mod)$r.squared)
-models \%>\% do(data.frame(coef = coef(.$mod)))
-models \%>\% do(data.frame(
-  var = names(coef(.$mod)),
-  coef(summary(.$mod)))
-)
-
-models <- by_cyl \%>\% do(
-  mod_linear = lm(mpg ~ disp, data = .),
-  mod_quad = lm(mpg ~ poly(disp, 2), data = .)
-)
-models
-compare <- models \%>\% do(aov = anova(.$mod_linear, .$mod_quad))
-# compare \%>\% summarise(p.value = aov$`Pr(>F)`)
-
-if (require("nycflights13")) {
-# You can use it to do any arbitrary computation, like fitting a linear
-# model. Let's explore how carrier departure delays vary over the time
-carriers <- group_by(flights, carrier)
-group_size(carriers)
-
-mods <- do(carriers, mod = lm(arr_delay ~ dep_time, data = .))
-mods \%>\% do(as.data.frame(coef(.$mod)))
-mods \%>\% summarise(rsq = summary(mod)$r.squared)
-
-\dontrun{
-# This longer example shows the progress bar in action
-by_dest <- flights \%>\% group_by(dest) \%>\% filter(n() > 100)
-library(mgcv)
-by_dest \%>\% do(smooth = gam(arr_delay ~ s(dep_time) + month, data = .))
-}
+if (requireNamespace("broom")) {
+  mods \%>\% summarise(broom::glance(mod))
+  mods \%>\% summarise(broom::tidy(mod))
+  mods \%>\% summarise(broom::augment(mod))
 }
 }

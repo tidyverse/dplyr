@@ -117,6 +117,12 @@ summarise.grouped_df <- function(.data, ...) {
   out
 }
 
+#' @export
+summarise.rowwise_df <- function(.data, ...) {
+  out <- NextMethod()
+  rowwise_df(out, group_vars(.data))
+}
+
 summarise_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
