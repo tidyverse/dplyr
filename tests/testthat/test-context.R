@@ -1,3 +1,26 @@
+test_that("cur_group() works", {
+  df <- tibble(g = 1, x = 1)
+  gf <- group_by(df, g)
+
+  expect_equal(
+    df %>% summarise(cur_group()),
+    group_keys(df)
+  )
+  expect_equal(
+    gf %>% summarise(cur_group()),
+    group_keys(gf)
+  )
+
+  expect_equal(
+    df %>% mutate(key = cur_group()) %>% pull(key),
+    group_keys(df)
+  )
+  expect_equal(
+    gf %>% mutate(key = cur_group()) %>% pull(key),
+    group_keys(gf)
+  )
+})
+
 test_that("cur_group_idx() gives unique id", {
   df <- tibble(x = c("b", "a", "b"))
   gf <- group_by(df, x)
