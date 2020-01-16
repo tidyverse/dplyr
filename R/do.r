@@ -1,147 +1,247 @@
-#' Do arbitrary computations
+#' Do anything
 #'
-#' @description
-#' `do()` is a variant of [summarise()] designed to make it as easy as
-#' possible to work with list-columns.  It is particularly powerful when
-#' working with models: you can fit models per group with `do()` and then
-#' flexibly extract components with `summarise()`.
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
 #'
-#' It has three special properties:
+#' `do()` is marked as questioning as of dplyr 0.8.0, and may be advantageously
+#' replaced by [group_modify()].
 #'
-#' * It only ever returns a single row per group.
-#' * Each new column is always wrapped in a list.
-#' * It returns a [rowwise()] output.
+#' @description This is a general purpose complement to the specialised
+#' manipulation functions [filter()], [select()], [mutate()],
+#' [summarise()] and [arrange()]. You can use `do()`
+#' to perform arbitrary computation, returning either a data frame or
+#' arbitrary objects which will be stored in a list. This is particularly
+#' useful when working with models: you can fit models per group with
+#' `do()` and then flexibly extract components with either another
+#' `do()` or `summarise()`.
 #'
-#' It's hard to explain `do()` in isolation, so if you find these ideas
-#' intriguing we recommending starting with `vignette("rowwise")`.
+#' For an empty data frame, the expressions will be evaluated once, even in the
+#' presence of a grouping.  This makes sure that the format of the resulting
+#' data frame is the same for both empty and non-empty input.
 #'
-#' @section dplyr 1.0.0:
-#' We questioned the utility of `do()` for a long time, because something about
-#' the way it worked just didn't click with the rest of dplyr. `do()` has
-#' returned to active status in dplyr 1.0.0, although its scope is narrower
-#' than in the past because two of its main features are now available in
-#' more places:
+#' @section Connection to plyr:
 #'
-#' * `.` in `do()` used to be only way to easily compute on the entire
-#'   data frame representing the "curent" group; now you can access that
-#'   data frame in any verb with [across()].
-#'
-#' * You could supply a single unnamed argument that returned a data frame
-#'   that would be unnested into the current group. You can now do this in
-#'   `summarise()` since it gained support for multi-row and multi-column
-#'   outputs.
-#'
-#' This allowed us to focus in the most useful aspect of `do()`: its ability
-#' to easily generate list-columns and to return a [rowwise] data frame that
-#' eliminates the need to manually vectorised functions with purrr's map
-#' functions. Compared to previous versions, `do()` is also more useful because
-#' it retains existing grouping.
+#' If you're familiar with plyr, `do()` with named arguments is basically
+#' equivalent to [plyr::dlply()], and `do()` with a single unnamed argument
+#' is basically equivalent to [plyr::ldply()]. However, instead of storing
+#' labels in a separate attribute, the result is always a data frame. This
+#' means that `summarise()` applied to the result of `do()` can
+#' act like `ldply()`.
 #'
 #' @param .data a tbl
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of functions.
-#'   Allow outputs will be automatically wrapped in lists, making it most
-#'   suitable for functions that that return non-vectors (e.g. linear models)
-#'   or vectors of length greater than one.
+#' @param ... Expressions to apply to each group. If named, results will be
+#'   stored in a new column. If unnamed, should return a data frame. You can
+#'   use `.` to refer to the current group. You can not mix named and
+#'   unnamed arguments.
+#' @return
+#' `do()` always returns a data frame. The first columns in the data frame
+#' will be the labels, the others will be computed from `...`. Named
+#' arguments become list-columns, with one element for each group; unnamed
+#' elements must be data frames and labels will be duplicated accordingly.
+#'
+#' Groups are preserved for a single unnamed input. This is different to
+#' [summarise()] because `do()` generally does not reduce the
+#' complexity of the data, it just expresses it in a special way. For
+#' multiple named inputs, the output is grouped by row with
+#' [rowwise()]. This allows other verbs to work in an intuitive
+#' way.
 #' @export
 #' @examples
-#' # Modelling ------------------------------------------------
-#' mods <- mtcars %>%
-#'   group_by(cyl) %>%
-#'   do(mod = lm(mpg ~ disp, data = across()))
-#' mods
+#' by_cyl <- group_by(mtcars, cyl)
+#' do(by_cyl, head(., 2))
 #'
-#' mods %>%
-#'   mutate(rsq = summary(mod)$r.squared)
+#' models <- by_cyl %>% do(mod = lm(mpg ~ disp, data = .))
+#' models
 #'
-#' if (requireNamespace("broom")) {
-#'   mods %>% summarise(broom::glance(mod))
-#'   mods %>% summarise(broom::tidy(mod))
-#'   mods %>% summarise(broom::augment(mod))
+#' summarise(models, rsq = summary(mod)$r.squared)
+#' models %>% do(data.frame(coef = coef(.$mod)))
+#' models %>% do(data.frame(
+#'   var = names(coef(.$mod)),
+#'   coef(summary(.$mod)))
+#' )
+#'
+#' models <- by_cyl %>% do(
+#'   mod_linear = lm(mpg ~ disp, data = .),
+#'   mod_quad = lm(mpg ~ poly(disp, 2), data = .)
+#' )
+#' models
+#' compare <- models %>% do(aov = anova(.$mod_linear, .$mod_quad))
+#' # compare %>% summarise(p.value = aov$`Pr(>F)`)
+#'
+#' if (require("nycflights13")) {
+#' # You can use it to do any arbitrary computation, like fitting a linear
+#' # model. Let's explore how carrier departure delays vary over the time
+#' carriers <- group_by(flights, carrier)
+#' group_size(carriers)
+#'
+#' mods <- do(carriers, mod = lm(arr_delay ~ dep_time, data = .))
+#' mods %>% do(as.data.frame(coef(.$mod)))
+#' mods %>% summarise(rsq = summary(mod)$r.squared)
+#'
+#' \dontrun{
+#' # This longer example shows the progress bar in action
+#' by_dest <- flights %>% group_by(dest) %>% filter(n() > 100)
+#' library(mgcv)
+#' by_dest %>% do(smooth = gam(arr_delay ~ s(dep_time) + month, data = .))
+#' }
 #' }
 do <- function(.data, ...) {
-  if (dots_n(...) == 1 && !dots_named(...)) {
-    dots <- enquos(...)
-    for (i in seq_along(dots)) {
-      dots[[i]] <- quo_set_expr(dots[[i]], redo(quo_get_expr(dots[[i]])))
-    }
-    # TODO: lifecycle::deprecate_warn() + translation
-    return(summarise(.data, !!!dots))
-  }
-
   UseMethod("do")
 }
 
 #' @export
-do.data.frame <- function(.data, ...) {
-  cols <- do_cols(.data, ...)
-
-  res <- group_keys(.data)
-  res[names(cols)] <- cols
-  res
+do.NULL <- function(.data, ...) {
+  NULL
 }
+
 
 #' @export
 do.grouped_df <- function(.data, ...) {
-  out <- NextMethod()
-  rowwise(out, group_vars(.data))
-}
+  index <- group_rows(.data)
+  labels <- select(group_data(.data), -last_col())
+  attr(labels, ".drop") <- NULL
 
-do_cols <- function(.data, ...) {
-  rows <- group_rows(.data)
-  # workaround when there are 0 groups
-  if (length(rows) == 0L) {
-    rows <- list(integer(0))
+  # Create ungroup version of data frame suitable for subsetting
+  group_data <- ungroup(.data)
+
+  args <- enquos(...)
+  named <- named_args(args)
+  mask <- new_data_mask(new_environment())
+
+  n <- length(index)
+  m <- length(args)
+
+  # Special case for zero-group/zero-row input
+  if (n == 0) {
+    if (named) {
+      out <- rep_len(list(list()), length(args))
+      out <- set_names(out, names(args))
+      out <- label_output_list(labels, out, groups(.data))
+    } else {
+      env_bind_do_pronouns(mask, group_data)
+      out <- eval_tidy(args[[1]], mask)
+      out <- out[0, , drop = FALSE]
+      out <- label_output_dataframe(labels, list(list(out)), group_vars(.data), group_by_drop_default(.data))
+    }
+    return(out)
   }
 
-  # TODO: add binding so that `.` and `.$var` works
-  mask <- DataMask$new(.data, caller_env(), rows)
-
-  dots <- enquos(..., .named = TRUE)
-  dots_names <- names(dots)
-
-  chunks <- vector("list", length(dots))
-
-  tryCatch({
-    for (i in seq_along(dots)) {
-      chunks[[i]] <- mask$eval_all(dots[[i]])
-      mask$add(dots_names[i], chunks[[i]])
-    }
-
-  },
-  simpleError = function(e) {
-    stop_eval_tidy(e, index = i, dots = dots, fn = "do")
-  })
-
-  set_names(chunks, dots_names)
-}
-
-# Helpers -----------------------------------------------------------------
-
-dots_named <- function(...) {
-  names <- names(substitute(alist(...)))
-  any(names != "")
-}
-
-redo <- function(expr) {
-  if (is_symbol(expr, ".")) {
-    quote(across())
-  } else if (is_call(expr, "$")) {
-    if (is_symbol(expr[[2]], ".")) {
-      expr[[3]]
+  # Add pronouns with active bindings that resolve to the current
+  # subset. `_i` is found in environment of this function because of
+  # usual scoping rules.
+  group_slice <- function(value) {
+    if (missing(value)) {
+      group_data[index[[`_i`]], , drop = FALSE]
     } else {
-      expr
+      group_data[index[[`_i`]], ] <<- value
     }
-  } else if (is_call(expr, "[[")) {
-    if (is_symbol(expr[[2]], ".")) {
-      call2("[[", quote(.data), expr[[3]])
-    } else {
-      expr
+  }
+  env_bind_do_pronouns(mask, group_slice)
+
+  out <- replicate(m, vector("list", n), simplify = FALSE)
+  names(out) <- names(args)
+  p <- progress_estimated(n * m, min_time = 2)
+
+  for (`_i` in seq_len(n)) {
+    for (j in seq_len(m)) {
+      out[[j]][`_i`] <- list(eval_tidy(args[[j]], mask))
+      p$tick()$print()
     }
-  } else if (is_call(expr)) {
-    expr[-1] <- map(expr[-1], redo)
-    expr
+  }
+
+  if (!named) {
+    label_output_dataframe(labels, out, group_vars(.data), group_by_drop_default(.data))
   } else {
-    expr
+    label_output_list(labels, out, group_vars(.data))
+  }
+}
+
+#' @export
+do.data.frame <- function(.data, ...) {
+  args <- enquos(...)
+  named <- named_args(args)
+
+  # Create custom data mask with `.` pronoun
+  mask <- new_data_mask(new_environment())
+  env_bind_do_pronouns(mask, .data)
+
+  if (!named) {
+    out <- eval_tidy(args[[1]], mask)
+    if (!inherits(out, "data.frame")) {
+      bad("Result must be a data frame, not {fmt_classes(out)}")
+    }
+  } else {
+    out <- map(args, function(arg) list(eval_tidy(arg, mask)))
+    names(out) <- names(args)
+    out <- tibble::as_tibble(out, validate = FALSE)
   }
 
+  out
+}
+
+# Helper functions -------------------------------------------------------------
+
+env_bind_do_pronouns <- function(env, data) {
+  if (is_function(data)) {
+    bind <- env_bind_active
+  } else {
+    bind <- env_bind
+  }
+
+  # Use `:=` for `.` to avoid partial matching with `.env`
+  bind(env, "." := data, .data = data)
+}
+
+label_output_dataframe <- function(labels, out, groups, .drop) {
+  data_frame <- vapply(out[[1]], is.data.frame, logical(1))
+  if (any(!data_frame)) {
+    bad("Results {bad} must be data frames, not {first_bad_class}",
+      bad = fmt_comma(which(!data_frame)),
+      first_bad_class = fmt_classes(out[[1]][[which.min(data_frame)]])
+    )
+  }
+
+  rows <- vapply(out[[1]], nrow, numeric(1))
+  out <- bind_rows(out[[1]])
+
+  if (!is.null(labels)) {
+    # Remove any common columns from labels
+    labels <- labels[setdiff(names(labels), names(out))]
+
+    # Repeat each row to match data
+    labels <- labels[rep(seq_len(nrow(labels)), rows), , drop = FALSE]
+    rownames(labels) <- NULL
+
+    grouped_df(bind_cols(labels, out), groups, .drop)
+  } else {
+    rowwise(out)
+  }
+}
+
+label_output_list <- function(labels, out, groups) {
+  if (!is.null(labels)) {
+    labels[names(out)] <- out
+    rowwise(labels)
+  } else {
+    class(out) <- "data.frame"
+    attr(out, "row.names") <- .set_row_names(length(out[[1]]))
+    rowwise(out)
+  }
+}
+
+named_args <- function(args) {
+  # Arguments must either be all named or all unnamed.
+  named <- sum(names2(args) != "")
+  if (!(named == 0 || named == length(args))) {
+    abort("Arguments must either be all named or all unnamed")
+  }
+  if (named == 0 && length(args) > 1) {
+    bad("Can only supply one unnamed argument, not {length(args)}")
+  }
+
+  # Check for old syntax
+  if (named == 1 && names(args) == ".f") {
+    abort("do syntax changed in dplyr 0.2. Please see documentation for details")
+  }
+
+  named != 0
 }

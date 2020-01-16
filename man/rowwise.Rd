@@ -39,7 +39,7 @@ df \%>\% mutate(z = pmin(x, y))
 # Where these functions exist they'll be much faster than rowwise
 # so be on the lookout for them.
 
-# rowwise() + do() is also useful when doing simulations
+# rowwise() is also useful when doing simulations
 params <- tribble(
  ~sim, ~n, ~mean, ~sd,
     1,  1,     1,   1,
@@ -59,5 +59,5 @@ params \%>\%
 # Or use do() which do this automatically:
 params \%>\%
   rowwise(sim) \%>\%
-  do(z = rnorm(n, mean, sd))
+  condense(z = rnorm(n, mean, sd))
 }

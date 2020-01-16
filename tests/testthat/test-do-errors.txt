@@ -1,49 +1,24 @@
 > df <- data.frame(g = c(1, 2, 2, 3, 3, 3), x = 1:6, y = 6:1) %>% group_by(g)
 > df %>% do(head, tail)
-# A tibble: 3 x 3
-# Rowwise:  g
-      g head   tail  
-  <dbl> <list> <list>
-1     1 <fn>   <fn>  
-2     2 <fn>   <fn>  
-3     3 <fn>   <fn>  
+Error: Can only supply one unnamed argument, not 2
 
 
 unnamed elements must return data frames
 ========================================
 
 > df %>% ungroup() %>% do(1)
-# A tibble: 1 x 1
-    `1`
-  <dbl>
-1     1
+Error: Result must be a data frame, not numeric
 
 > df %>% do(1)
-# A tibble: 3 x 2
-      g   `1`
-  <dbl> <dbl>
-1     1     1
-2     2     1
-3     3     1
+Error: Results 1, 2, 3 must be data frames, not numeric
 
 > df %>% do("a")
-# A tibble: 3 x 2
-      g `"a"`
-  <dbl> <chr>
-1     1 a    
-2     2 a    
-3     3 a    
+Error: Results 1, 2, 3 must be data frames, not character
 
 
 can't use both named and unnamed args
 =====================================
 
 > df %>% do(x = 1, 2)
-# A tibble: 3 x 3
-# Rowwise:  g
-      g x         `2`      
-  <dbl> <list>    <list>   
-1     1 <dbl [1]> <dbl [1]>
-2     2 <dbl [1]> <dbl [1]>
-3     3 <dbl [1]> <dbl [1]>
+Error: Arguments must either be all named or all unnamed
 
