@@ -28,7 +28,6 @@ sketch_cols <- function(.data, ...) {
   dots <- enquos(..., .named = TRUE)
   dots_names <- names(dots)
 
-  .size <- 1L
   chunks <- vector("list", length(dots))
 
   tryCatch({
