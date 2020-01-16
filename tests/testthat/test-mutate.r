@@ -119,22 +119,6 @@ test_that("mutate preserves grouping", {
   expect_equal(group_data(out), group_data(gf))
 })
 
-test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
-  one_mod <- tibble(grp = "a", x = runif(5, 0, 1)) %>%
-    mutate(y = rnorm(x, x * 2, 1)) %>%
-    group_by(grp) %>%
-    do(mod = lm(y ~ x, data = .))
-
-  out <- one_mod %>%
-    mutate(rsq = summary(mod)$r.squared) %>%
-    mutate(aic = AIC(mod))
-
-  expect_is(out, "rowwise_df")
-  expect_equal(nrow(out), 1L)
-  expect_is(out$mod, "list")
-  expect_is(out$mod[[1L]], "lm")
-})
-
 test_that("mutate works on zero-row grouped data frame (#596)", {
   dat <- data.frame(a = numeric(0), b = character(0))
   res <- dat %>% group_by(b, .drop = FALSE) %>% mutate(a2 = a * 2)

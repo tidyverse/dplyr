@@ -1,90 +1,53 @@
 #' Do anything
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 #'
-#' `do()` is marked as questioning as of dplyr 0.8.0, and may be advantageously
-#' replaced by [group_modify()].
-#'
-#' @description This is a general purpose complement to the specialised
-#' manipulation functions [filter()], [select()], [mutate()],
-#' [summarise()] and [arrange()]. You can use `do()`
-#' to perform arbitrary computation, returning either a data frame or
-#' arbitrary objects which will be stored in a list. This is particularly
-#' useful when working with models: you can fit models per group with
-#' `do()` and then flexibly extract components with either another
-#' `do()` or `summarise()`.
-#'
-#' For an empty data frame, the expressions will be evaluated once, even in the
-#' presence of a grouping.  This makes sure that the format of the resulting
-#' data frame is the same for both empty and non-empty input.
-#'
-#' @section Connection to plyr:
-#'
-#' If you're familiar with plyr, `do()` with named arguments is basically
-#' equivalent to [plyr::dlply()], and `do()` with a single unnamed argument
-#' is basically equivalent to [plyr::ldply()]. However, instead of storing
-#' labels in a separate attribute, the result is always a data frame. This
-#' means that `summarise()` applied to the result of `do()` can
-#' act like `ldply()`.
+#' `do()` is deprecated as of dplyr 1.0.0, because its syntax never really
+#' felt like it belong with the rest of dplyr. It's replaced by a combination
+#' of [summarise()] (which can now produce multiple rows and multiple columns),
+#' [condense()] (which creates a [rowwise] tibble containing list-columns),
+#' and [across()] (which allows you to access the data for the "current" group).
 #'
 #' @param .data a tbl
 #' @param ... Expressions to apply to each group. If named, results will be
 #'   stored in a new column. If unnamed, should return a data frame. You can
 #'   use `.` to refer to the current group. You can not mix named and
 #'   unnamed arguments.
-#' @return
-#' `do()` always returns a data frame. The first columns in the data frame
-#' will be the labels, the others will be computed from `...`. Named
-#' arguments become list-columns, with one element for each group; unnamed
-#' elements must be data frames and labels will be duplicated accordingly.
-#'
-#' Groups are preserved for a single unnamed input. This is different to
-#' [summarise()] because `do()` generally does not reduce the
-#' complexity of the data, it just expresses it in a special way. For
-#' multiple named inputs, the output is grouped by row with
-#' [rowwise()]. This allows other verbs to work in an intuitive
-#' way.
+#' @keywords internal
 #' @export
 #' @examples
-#' by_cyl <- group_by(mtcars, cyl)
-#' do(by_cyl, head(., 2))
+#' # do() with unnamed arguments becomes summarise()
+#' # . becomes across()
+#' by_cyl <- mtcars %>% group_by(cyl)
+#' by_cyl %>% do(head(., 2))
+#' # ->
+#' by_cyl %>% summarise(head(across(), 2))
+#' by_cyl %>% slice_head(2)
 #'
+#' # Can refer to variables directly
+#' by_cyl %>% do(mean = mean(.$vs))
+#' # ->
+#' by_cyl %>% condense(mean = mean(vs))
+#'
+#' # do() with named arguments becomes condense()
 #' models <- by_cyl %>% do(mod = lm(mpg ~ disp, data = .))
-#' models
+#' # ->
+#' models <- by_cyl %>% condense(mod = lm(mpg ~ disp))
+#' models %>% summarise(rsq = summary(mod)$r.squared)
 #'
-#' summarise(models, rsq = summary(mod)$r.squared)
-#' models %>% do(data.frame(coef = coef(.$mod)))
+#' # use broom to turn models into data
 #' models %>% do(data.frame(
 #'   var = names(coef(.$mod)),
 #'   coef(summary(.$mod)))
 #' )
-#'
-#' models <- by_cyl %>% do(
-#'   mod_linear = lm(mpg ~ disp, data = .),
-#'   mod_quad = lm(mpg ~ poly(disp, 2), data = .)
-#' )
-#' models
-#' compare <- models %>% do(aov = anova(.$mod_linear, .$mod_quad))
-#' # compare %>% summarise(p.value = aov$`Pr(>F)`)
-#'
-#' if (require("nycflights13")) {
-#' # You can use it to do any arbitrary computation, like fitting a linear
-#' # model. Let's explore how carrier departure delays vary over the time
-#' carriers <- group_by(flights, carrier)
-#' group_size(carriers)
-#'
-#' mods <- do(carriers, mod = lm(arr_delay ~ dep_time, data = .))
-#' mods %>% do(as.data.frame(coef(.$mod)))
-#' mods %>% summarise(rsq = summary(mod)$r.squared)
-#'
-#' \dontrun{
-#' # This longer example shows the progress bar in action
-#' by_dest <- flights %>% group_by(dest) %>% filter(n() > 100)
-#' library(mgcv)
-#' by_dest %>% do(smooth = gam(arr_delay ~ s(dep_time) + month, data = .))
-#' }
-#' }
+#' # ->
+#' # models %>% summarise(broom::tidy(mod)))
 do <- function(.data, ...) {
+  lifecycle::deprecate_warn("1.0.0", "do()",
+    details = "Use condense() or summarise()"
+  )
+
   UseMethod("do")
 }
 
@@ -92,7 +55,6 @@ do <- function(.data, ...) {
 do.NULL <- function(.data, ...) {
   NULL
 }
-
 
 #' @export
 do.grouped_df <- function(.data, ...) {

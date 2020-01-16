@@ -1,5 +1,8 @@
 # dplyr 0.9.0 (in development)
 
+* `do()` is deprecated in favour of either `condense()` or `summarise()`
+  depending on whether you were using the named or unnamed form.
+
 * `all_equal()` is questioning; it solves a problem that no longer seems 
   important.
 
