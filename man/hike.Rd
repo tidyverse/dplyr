@@ -33,7 +33,7 @@ iris \%>\%
 iris \%>\%
   group_by(Species) \%>\%
   hike(
-    broom::tidy(lm(Petal.Length ~ Sepal.Length))
+    broom::tidy(lm(Petal.Length ~ Sepal.Length, data = across()))
   )
 
 }
