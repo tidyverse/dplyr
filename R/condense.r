@@ -48,13 +48,8 @@ condense.data.frame <- function(.data, ...) {
 
   res <- group_keys(.data)
   res[names(cols)] <- cols
-  res
-}
 
-#' @export
-condense.grouped_df <- function(.data, ...) {
-  out <- NextMethod()
-  rowwise(out, group_vars(.data))
+  rowwise(res, group_vars(.data))
 }
 
 condense_cols <- function(.data, ...) {
