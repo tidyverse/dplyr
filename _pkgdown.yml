@@ -39,6 +39,7 @@ reference:
 - title: Grouping
   contents:
   - group_by
+  - group_cols
   - with_groups
 
 - title: Vector functions
@@ -66,14 +67,6 @@ reference:
   - starwars
   - storms
 
-- title: Computation on groups
-  contents:
-  - group_cols
-  - group_map
-  - group_modify
-  - group_trim
-  - group_split
-
 - title: Remote tables
   contents:
   - auto_copy
@@ -85,19 +78,42 @@ reference:
   - src_dbi
   - sql
 
-- title: Questioning/retired
-  contents:
-  - all_equal
-  - rowwise
-  - sample_frac
-  - top_n
-
 - title: Single-table helpers
   contents:
   - scoped
   - ends_with("_at")
   - all_vars
   - vars
+
+- title: Experimental
+  desc: >
+    Experimental functions are a testing ground for new approaches that we
+    believe to be worthy of greater exposure. There is no guarantee that these
+    functions will stay around in the future, so please reach out if you find
+    them useful.
+  contents:
+  - group_map
+  - group_modify
+  - group_trim
+  - group_split
+
+- title: Questioning
+  desc: >
+    We have our doubts about questioning functions. We're not certain that
+    they're inadequate, or we don't have a good replacement in mind, but
+    these functions are at risk of removal in the future.
+  contents:
+  - all_equal
+
+- title: Superseded
+  desc: >
+    Superseded functions have been replaced by new approaches that we believe
+    to be superior, but we don't want to force you to change until you're
+    ready, so the existing functions will stay around for several years.
+  contents:
+  - rowwise
+  - sample_frac
+  - top_n
 
 navbar:
   type: default
