@@ -17,7 +17,7 @@ combination uniquely identify each row.}
 \code{rowwise()} allows you to compute on a data frame a row-at-a-time.
 This is most useful when a vectorised function doesn't exist.
 
-A row-wise tibble maintains its rowwise status until explicitly removed
+A row-wise tibble maintains its row-wise status until explicitly removed
 by \code{\link[=group_by]{group_by()}}, \code{\link[=ungroup]{ungroup()}}, or \code{\link[=as_tibble]{as_tibble()}}.
 }
 \section{List-columns}{
@@ -35,6 +35,8 @@ df <- tibble(x = runif(6), y = runif(6))
 # Compute the mean of x and y in each row
 df \%>\% rowwise() \%>\% mutate(z = mean(c(x, y)))
 
+# Compute the minimum of x and y in each row
+df \%>\% rowwise() \%>\% mutate(z = mean(c(x, y)))
 # In this case you can use an existing vectorised function:
 df \%>\% mutate(z = pmin(x, y))
 # Where these functions exist they'll be much faster than rowwise
