@@ -5,47 +5,34 @@
 #' @param .data A data frame
 #' @param expr An expression to execute for each group
 #'
-#' @return
-#' - [hike] returns the results in a list
-#' - [march] discards the results and returns `.data` invisibly
-#'
 #' @examples
 #' iris %>%
 #'   group_by(Species) %>%
-#'   march(
-#'     print(head(across(), 2))
-#'   )
-#'
-#' iris %>%
-#'   group_by(Species) %>%
 #'   hike(
-#'     broom::tidy(lm(Petal.Length ~ Sepal.Length, data = across()))
+#'     mod = lm(Petal.Length ~ Sepal.Length, data = across()),
+#'     print(broom::tidy(mod))
 #'   )
 #'
 #' @export
-hike <- function(.data, expr) {
+hike <- function(.data, ...) {
   UseMethod("hike")
 }
 
 #' @export
-hike.data.frame <- function(.data, expr) {
+hike.data.frame <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
     rows <- list(integer(0))
   }
   mask <- DataMask$new(.data, caller_env(), rows)
-  mask$eval_all(enquo(expr))
-}
 
-#' @rdname hike
-#' @export
-march <- function(.data, expr) {
-  UseMethod("march")
-}
+  dots <- enquos(..., .named = TRUE)
+  dots_names <- names(dots)
 
-#' @export
-march.data.frame <- function(.data, expr) {
-  hike(.data, {{expr}})
+  for (i in seq_along(quos)) {
+    mask$add(dots_names[i], mask$eval_all(dots[[i]]))
+  }
+
   invisible(.data)
 }

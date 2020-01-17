@@ -2,23 +2,14 @@
 % Please edit documentation in R/hike.R
 \name{hike}
 \alias{hike}
-\alias{march}
 \title{Run expression in each group}
 \usage{
-hike(.data, expr)
-
-march(.data, expr)
+hike(.data, ...)
 }
 \arguments{
 \item{.data}{A data frame}
 
 \item{expr}{An expression to execute for each group}
-}
-\value{
-\itemize{
-\item \link{hike} returns the results in a list
-\item \link{march} discards the results and returns \code{.data} invisibly
-}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
@@ -26,14 +17,9 @@ march(.data, expr)
 \examples{
 iris \%>\%
   group_by(Species) \%>\%
-  march(
-    print(head(across(), 2))
-  )
-
-iris \%>\%
-  group_by(Species) \%>\%
   hike(
-    broom::tidy(lm(Petal.Length ~ Sepal.Length, data = across()))
+    mod = lm(Petal.Length ~ Sepal.Length, data = across()),
+    print(broom::tidy(mod))
   )
 
 }
