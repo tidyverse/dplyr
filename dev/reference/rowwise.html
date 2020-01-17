@@ -213,7 +213,9 @@ by <code><a href='group_by.html'>group_by()</a></code>, <code><a href='group_by.
       <th>...</th>
       <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Variables to be preserved
 when calling <code><a href='summarise.html'>summarise()</a></code>. This is typically a set of variables whose
-combination uniquely identify each row.</p></td>
+combination uniquely identify each row.</p>
+<p><strong>NB</strong>: unlike <code><a href='group_by.html'>group_by()</a></code> you can not create new variables here but
+instead you can select multiple variables with (e.g.) <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything()</a></code>.</p></td>
     </tr>
     </table>
 
