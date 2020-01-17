@@ -1,5 +1,11 @@
 # dplyr 0.9.0 (in development)
 
+* `mutate()` and `summarise()` create multiple columns from a single expression
+  if you return a data frame (#2326).
+
+* `summarise()` can create summaries of greater than length 1 if you use a
+  summary function that returns multiple values.
+
 * `rowwise()` is no longer questioning; we now understand that it's an
   important tool when you don't have vectorised code. It now also allows you to
   specify additional variables that should be preserved in the output when 
@@ -169,9 +175,6 @@
   column encodes the actual gender identity using other information about
   the Star Wars universe (@MeganBeckett, #4456).
   
-* `mutate()` and `summarise()` automatically unpack unnamed tibble results 
-  (#2326).
-
 * `group_keys.rowwise_df()` gives a 0 column data frame with n() rows. 
 
 * `combine()` is soft deprecated.

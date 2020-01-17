@@ -1,9 +1,9 @@
-#' Summarise each group down to one row
+#' Summarise each group to fewer rows
 #'
 #' @description
-#' `summarise()` creates a new data frame. It will have one row for each
-#' combination of grouping variables; if there are no grouping variables, the
-#' output will have a single row summarising all observations in the input.
+#' `summarise()` creates a new data frame. It will have one (or more) rows for
+#' each combination of grouping variables; if there are no grouping variables,
+#' the output will have a single row summarising all observations in the input.
 #' It will contain one column for each grouping variable and one column
 #' for each of the summary statistics that you have specified.
 #'
@@ -35,8 +35,12 @@
 #' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of summary
 #'   functions. The name will be the name of the variable in the result.
-#'   The value should be an expression that returns a single value like
-#'   `min(x)`, `n()`, or `sum(is.na(y))`.
+#'
+#'   The value can be:
+#'
+#'   * A vector of length 1, e.g. `min(x)`, `n()`, or `sum(is.na(y))`.
+#'   * A vector of length `n`, e.g. `quantile()`.
+#'   * A data frame, to add multiple columns from a single expression.
 #' @family single table verbs
 #' @return
 #' An object _usually_ of the same type as `.data`.
@@ -67,6 +71,20 @@
 #'   group_by(cyl) %>%
 #'   summarise(mean = mean(disp), n = n())
 #'
+#' # dplyr 1.0.0 allows to summarise to more than one value:
+#' mtcars %>%
+#'    group_by(cyl) %>%
+#'    summarise(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
+#'
+#' # You use a data frame to create multiple columns so you can wrap
+#' # this up into a function:
+#' my_quantile <- function(x, probs) {
+#'   tibble(x = quantile(x, probs), probs = probs)
+#' }
+#' mtcars %>%
+#'   group_by(cyl) %>%
+#'   summarise(my_quantile(disp, c(0.25, 0.75)))
+#'
 #' # Each summary call removes one grouping level (since that group
 #' # is now just a single row)
 #' mtcars %>%
@@ -74,7 +92,7 @@
 #'   summarise(cyl_n = n()) %>%
 #'   group_vars()
 #'
-#' # BEWARE: reusing variable names may lead to unexpected results
+#' # BEWARE: reusing variables may lead to unexpected results
 #' mtcars %>%
 #'   group_by(cyl) %>%
 #'   summarise(disp = mean(disp), sd = sd(disp))

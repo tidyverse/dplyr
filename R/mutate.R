@@ -55,13 +55,17 @@
 #'
 #' @export
 #' @inheritParams arrange
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of expressions,
-#'   each with length 1 or the same length as the number of rows in the group
-#'   (if using [group_by()]) or in the entire input (if not using groups).
-#'   The name of each argument will be the name of a new variable, and the
-#'   value will be its corresponding value. Use a `NULL` value in `mutate`
-#'   to drop a variable.  New variables overwrite existing variables
-#'   of the same name.
+#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs.
+#'   The name gives the name of the column in the output.
+#'
+#'   The value can be:
+#'
+#'   * A vector of length 1, which will be recycled to the correct length.
+#'   * A vector the same length as the current group (or the whole data frame
+#'     if ungrouped).
+#'   * `NULL`, to remove the column.
+#'   * A data frame or tibble, to create multiple columns in the output.
+#'
 #' @family single table verbs
 #' @return
 #' An object of the same type as `.data`.

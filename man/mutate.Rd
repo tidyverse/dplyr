@@ -14,13 +14,17 @@ transmute(.data, ...)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of expressions,
-each with length 1 or the same length as the number of rows in the group
-(if using \code{\link[=group_by]{group_by()}}) or in the entire input (if not using groups).
-The name of each argument will be the name of a new variable, and the
-value will be its corresponding value. Use a \code{NULL} value in \code{mutate}
-to drop a variable.  New variables overwrite existing variables
-of the same name.}
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs.
+The name gives the name of the column in the output.
+
+The value can be:
+\itemize{
+\item A vector of length 1, which will be recycled to the correct length.
+\item A vector the same length as the current group (or the whole data frame
+if ungrouped).
+\item \code{NULL}, to remove the column.
+\item A data frame or tibble, to create multiple columns in the output.
+}}
 }
 \value{
 An object of the same type as \code{.data}.
