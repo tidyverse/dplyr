@@ -1,7 +1,11 @@
 #' Group input by rows
 #'
+#' @description
 #' `rowwise()` allows you to compute on a data frame a row-at-a-time.
 #' This is most useful when a vectorised function doesn't exist.
+#'
+#' A row-wise tibble maintains its row-wise status until explicitly removed
+#' by [group_by()], [ungroup()], or [as_tibble()].
 #'
 #' @section List-columns:
 #' Because a rowwise has exactly one row per group it offers a small

@@ -16,6 +16,9 @@ combination uniquely identify each row.}
 \description{
 \code{rowwise()} allows you to compute on a data frame a row-at-a-time.
 This is most useful when a vectorised function doesn't exist.
+
+A row-wise tibble maintains its rowwise status until explicitly removed
+by \code{\link[=group_by]{group_by()}}, \code{\link[=ungroup]{ungroup()}}, or \code{\link[=as_tibble]{as_tibble()}}.
 }
 \section{List-columns}{
 
