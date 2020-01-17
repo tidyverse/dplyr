@@ -1,13 +1,7 @@
 #' Split data frame by groups
 #'
+#' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-#'
-#' @family grouping functions
-#'
-#' @description Split data frame by groups
-#'
-#' @details
-#'
 #' [group_split()] works like [base::split()] but
 #' - it uses the grouping structure from [group_by()] and therefore is subject to the data mask
 #' - it does not name the elements of the list based on the grouping as this typically
@@ -40,16 +34,14 @@
 #' @param .tbl A tbl
 #' @param ... Grouping specification, forwarded to [group_by()]
 #' @param keep Should the grouping columns be kept
-#'
 #' @return
-#'
 #' - [group_split()] returns a list of tibbles. Each tibble contains the rows of `.tbl` for the associated group and
 #'  all the columns, including the grouping variables.
 #'
 #' - [group_keys()] returns a tibble with one row per group, and one column per grouping variable
-#'
+#' @family grouping functions
+#' @export
 #' @examples
-#'
 #' # ----- use case 1 : on an already grouped tibble
 #' ir <- iris %>%
 #'   group_by(Species)
@@ -74,8 +66,6 @@
 #'
 #' iris %>%
 #'   group_keys(Species)
-#'
-#' @export
 group_split <- function(.tbl, ..., keep = TRUE) {
   UseMethod("group_split")
 }

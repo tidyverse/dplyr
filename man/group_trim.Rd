@@ -15,21 +15,18 @@ group_trim(.tbl, .drop = group_by_drop_default(.tbl))
 A \link[=grouped_df]{grouped data frame}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 Drop unused levels of all factors that are used as grouping variables,
 then recalculates the grouping structure.
 
 \code{group_trim()} is particularly useful after a \code{\link[=filter]{filter()}} that is intended
 to select a subset of groups.
 }
-\details{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-}
 \examples{
 iris \%>\%
   group_by(Species) \%>\%
   filter(Species == "setosa", .preserve = TRUE) \%>\%
   group_trim()
-
 }
 \seealso{
 Other grouping functions: 

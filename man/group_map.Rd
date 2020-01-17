@@ -41,12 +41,12 @@ that identifies the group
 }
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+
 \code{group_map()}, \code{group_modify()} and \code{group_walk()} are purrr-style functions that can
 be used to iterate on grouped tibbles.
 }
 \details{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-
 Use \code{group_modify()} when \code{summarize()} is too limited, in terms of what you need
 to do and return for each group. \code{group_modify()} is good for "data frame in, data frame out".
 If that is too limited, you need to use a \link[=group_nest]{nested} or \link[=group_split]{split} workflow.

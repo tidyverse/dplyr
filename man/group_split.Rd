@@ -21,11 +21,7 @@ all the columns, including the grouping variables.
 }
 }
 \description{
-Split data frame by groups
-}
-\details{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-
 \code{\link[=group_split]{group_split()}} works like \code{\link[base:split]{base::split()}} but
 \itemize{
 \item it uses the grouping structure from \code{\link[=group_by]{group_by()}} and therefore is subject to the data mask
@@ -64,7 +60,6 @@ other, because otherwise the grouping algorithm is performed each time.
 }
 
 \examples{
-
 # ----- use case 1 : on an already grouped tibble
 ir <- iris \%>\%
   group_by(Species)
@@ -89,7 +84,6 @@ iris \%>\%
 
 iris \%>\%
   group_keys(Species)
-
 }
 \seealso{
 Other grouping functions: 
