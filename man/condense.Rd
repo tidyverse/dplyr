@@ -10,7 +10,7 @@ condense(.data, ...)
 \item{.data}{a tbl}
 
 \item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of functions.
-Allow outputs will be automatically wrapped in lists, making it most
+All outputs will be automatically wrapped in lists, making it most
 suitable for functions that that return non-vectors (e.g. linear models)
 or vectors of length greater than one.}
 }
