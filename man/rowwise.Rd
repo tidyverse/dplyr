@@ -32,7 +32,7 @@ df <- tibble(x = runif(6), y = runif(6))
 # Compute the mean of x and y in each row
 df \%>\% rowwise() \%>\% mutate(z = mean(c(x, y)))
 
-# Compute the min or x and y in each row
+# Compute the min of x and y in each row
 df \%>\% rowwise() \%>\% mutate(z = min(c(x, y)))
 # In this case you can use an existing vectorised function:
 df \%>\% mutate(z = pmin(x, y))
