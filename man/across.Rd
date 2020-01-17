@@ -37,8 +37,9 @@ for each column in \code{cols}.
 \description{
 \code{across()} makes it easy to apply the same transformation to multiple
 columns, allowing you to use \code{\link[=select]{select()}} semantics inside in \code{\link[=summarise]{summarise()}} and
-\code{\link[=mutate]{mutate()}}. \code{across()} replaces the family of "scoped variants" like
+\code{\link[=mutate]{mutate()}}. \code{across()} supersedes the family of "scoped variants" like
 \code{summarise_at()}, \code{summarise_if()}, and \code{summarise_all()}.
+See \code{vignette("colwise")} for more details.
 }
 \examples{
 # A function

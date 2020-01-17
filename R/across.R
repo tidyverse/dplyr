@@ -4,6 +4,7 @@
 #' columns, allowing you to use [select()] semantics inside in [summarise()] and
 #' [mutate()]. `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
+#' See `vignette("colwise")` for more details.
 #'
 #' @param cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
