@@ -11,7 +11,10 @@ rowwise(data, ...)
 
 \item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Variables to be preserved
 when calling \code{\link[=summarise]{summarise()}}. This is typically a set of variables whose
-combination uniquely identify each row.}
+combination uniquely identify each row.
+
+\strong{NB}: unlike \code{group_by()} you can not create new variables here but
+instead you can select multiple variables with (e.g.) \code{everything()}.}
 }
 \description{
 \code{rowwise()} allows you to compute on a data frame a row-at-a-time.
