@@ -48,7 +48,10 @@
 
 
 <meta property="og:title" content="Arrange rows by a selection of variables — arrange_all" />
-<meta property="og:description" content="These scoped variants of arrange() sort a data frame by a
+<meta property="og:description" content="
+Scoped verbs (_if, _at, _all) have been superseded by the use of
+across() in an existing verb. See vignette(&quot;colwise&quot;) for details.
+These scoped variants of arrange() sort a data frame by a
 selection of variables. Like arrange(), you can modify the
 variables before ordering with the .funs argument." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
@@ -193,7 +196,10 @@ variables before ordering with the .funs argument." />
     </div>
 
     <div class="ref-description">
-    <p>These <a href='scoped.html'>scoped</a> variants of <code><a href='arrange.html'>arrange()</a></code> sort a data frame by a
+    <p><a href='https://www.tidyverse.org/lifecycle/#retired'><img src='figures/lifecycle-retired.svg' alt='Retired lifecycle'></a></p>
+<p>Scoped verbs (<code>_if</code>, <code>_at</code>, <code>_all</code>) have been superseded by the use of
+<code><a href='across.html'>across()</a></code> in an existing verb. See <code>vignette("colwise")</code> for details.</p>
+<p>These <a href='scoped.html'>scoped</a> variants of <code><a href='arrange.html'>arrange()</a></code> sort a data frame by a
 selection of variables. Like <code><a href='arrange.html'>arrange()</a></code>, you can modify the
 variables before ordering with the <code>.funs</code> argument.</p>
     </div>
@@ -251,20 +257,21 @@ in the sorting of the data frame.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>mtcars</span>)
-<span class='no'>df</span></div><div class='output co'>#&gt; # A tibble: 32 x 11
+<span class='fu'>arrange_all</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-#&gt; # … with 22 more rows</div><div class='input'><span class='fu'>arrange_all</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 11
+#&gt;  1  10.4     8  460    215  3     5.42  17.8     0     0     3     4
+#&gt;  2  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
+#&gt;  3  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
+#&gt;  4  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt;  5  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+#&gt;  6  15       8  301    335  3.54  3.57  14.6     0     1     5     8
+#&gt;  7  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
+#&gt;  8  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
+#&gt;  9  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+#&gt; 10  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
+#&gt; # … with 22 more rows</div><div class='input'><span class='co'># -&gt;</span>
+<span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>df</span>, <span class='fu'><a href='across.html'>across</a></span>())</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  10.4     8  460    215  3     5.42  17.8     0     0     3     4
@@ -278,9 +285,6 @@ in the sorting of the data frame.</p>
 #&gt;  9  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
 #&gt; 10  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
 #&gt; # … with 22 more rows</div><div class='input'>
-<span class='co'># You can supply a function that will be applied before taking the</span>
-<span class='co'># ordering of the variables. The variables of the sorted tibble</span>
-<span class='co'># keep their original values.</span>
 <span class='fu'>arrange_all</span>(<span class='no'>df</span>, <span class='no'>desc</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -294,7 +298,8 @@ in the sorting of the data frame.</p>
 #&gt;  8  22.8     4 141.     95  3.92  3.15  22.9     1     0     4     2
 #&gt;  9  22.8     4 108      93  3.85  2.32  18.6     1     1     4     1
 #&gt; 10  21.5     4 120.     97  3.7   2.46  20.0     1     0     3     1
-#&gt; # … with 22 more rows</div><div class='input'><span class='fu'>arrange_all</span>(<span class='no'>df</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(~<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 32 x 11
+#&gt; # … with 22 more rows</div><div class='input'><span class='co'># -&gt;</span>
+<span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>df</span>, <span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='no'>desc</span>))</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1

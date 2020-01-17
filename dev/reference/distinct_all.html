@@ -48,7 +48,10 @@
 
 
 <meta property="og:title" content="Select distinct rows by a selection of variables — distinct_all" />
-<meta property="og:description" content="These scoped variants of distinct() extract distinct rows by a
+<meta property="og:description" content="
+Scoped verbs (_if, _at, _all) have been superseded by the use of
+across() in an existing verb. See vignette(&quot;colwise&quot;) for details.
+These scoped variants of distinct() extract distinct rows by a
 selection of variables. Like distinct(), you can modify the
 variables before ordering with the .funs argument." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
@@ -193,7 +196,10 @@ variables before ordering with the .funs argument." />
     </div>
 
     <div class="ref-description">
-    <p>These <a href='scoped.html'>scoped</a> variants of <code><a href='distinct.html'>distinct()</a></code> extract distinct rows by a
+    <p><a href='https://www.tidyverse.org/lifecycle/#retired'><img src='figures/lifecycle-retired.svg' alt='Retired lifecycle'></a></p>
+<p>Scoped verbs (<code>_if</code>, <code>_at</code>, <code>_all</code>) have been superseded by the use of
+<code><a href='across.html'>across()</a></code> in an existing verb. See <code>vignette("colwise")</code> for details.</p>
+<p>These <a href='scoped.html'>scoped</a> variants of <code><a href='distinct.html'>distinct()</a></code> extract distinct rows by a
 selection of variables. Like <code><a href='distinct.html'>distinct()</a></code>, you can modify the
 variables before ordering with the <code>.funs</code> argument.</p>
     </div>
@@ -252,29 +258,43 @@ into account to determine distinct rows.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>2</span>:<span class='fl'>5</span>, <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>2</span>) / <span class='fl'>2</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>2</span>:<span class='fl'>3</span>, <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>4</span>) / <span class='fl'>2</span>)
-<span class='no'>df</span></div><div class='output co'>#&gt; # A tibble: 8 x 2
-#&gt;       x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1   1     1  
-#&gt; 2   1     1  
-#&gt; 3   1.5   1  
-#&gt; 4   1.5   1  
-#&gt; 5   2     1.5
-#&gt; 6   2     1.5
-#&gt; 7   2.5   1.5
-#&gt; 8   2.5   1.5</div><div class='input'><span class='fu'>distinct_all</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 2
+
+<span class='fu'>distinct_all</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 2
 #&gt;       x     y
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1   1     1  
 #&gt; 2   1.5   1  
 #&gt; 3   2     1.5
-#&gt; 4   2.5   1.5</div><div class='input'><span class='fu'>distinct_at</span>(<span class='no'>df</span>, <span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>x</span>,<span class='no'>y</span>))</div><div class='output co'>#&gt; # A tibble: 4 x 2
+#&gt; 4   2.5   1.5</div><div class='input'><span class='co'># -&gt;</span>
+<span class='fu'><a href='distinct.html'>distinct</a></span>(<span class='no'>df</span>, <span class='fu'><a href='across.html'>across</a></span>())</div><div class='output co'>#&gt; # A tibble: 4 x 2
 #&gt;       x     y
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1   1     1  
 #&gt; 2   1.5   1  
 #&gt; 3   2     1.5
-#&gt; 4   2.5   1.5</div><div class='input'><span class='fu'>distinct_if</span>(<span class='no'>df</span>, <span class='no'>is.numeric</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 2
+#&gt; 4   2.5   1.5</div><div class='input'>
+<span class='fu'>distinct_at</span>(<span class='no'>df</span>, <span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>x</span>,<span class='no'>y</span>))</div><div class='output co'>#&gt; # A tibble: 4 x 2
+#&gt;       x     y
+#&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1   1     1  
+#&gt; 2   1.5   1  
+#&gt; 3   2     1.5
+#&gt; 4   2.5   1.5</div><div class='input'><span class='co'># -&gt;</span>
+<span class='fu'><a href='distinct.html'>distinct</a></span>(<span class='no'>df</span>, <span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>x</span>, <span class='no'>y</span>)))</div><div class='output co'>#&gt; # A tibble: 4 x 2
+#&gt;       x     y
+#&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1   1     1  
+#&gt; 2   1.5   1  
+#&gt; 3   2     1.5
+#&gt; 4   2.5   1.5</div><div class='input'>
+<span class='fu'>distinct_if</span>(<span class='no'>df</span>, <span class='no'>is.numeric</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 2
+#&gt;       x     y
+#&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1   1     1  
+#&gt; 2   1.5   1  
+#&gt; 3   2     1.5
+#&gt; 4   2.5   1.5</div><div class='input'><span class='co'># -&gt;</span>
+<span class='fu'><a href='distinct.html'>distinct</a></span>(<span class='no'>df</span>, <span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.numeric</span>))</div><div class='output co'>#&gt; # A tibble: 4 x 2
 #&gt;       x     y
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1   1     1  
@@ -288,17 +308,13 @@ into account to determine distinct rows.</p>
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     1
 #&gt; 2     2     1
-#&gt; 3     2     2</div><div class='input'><span class='fu'><a href='arrange_all.html'>arrange_all</a></span>(<span class='no'>df</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(~<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 8 x 2
+#&gt; 3     2     2</div><div class='input'><span class='co'># -&gt;</span>
+<span class='fu'><a href='distinct.html'>distinct</a></span>(<span class='no'>df</span>, <span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='no'>round</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt;       x     y
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1   1     1  
-#&gt; 2   1     1  
-#&gt; 3   1.5   1  
-#&gt; 4   1.5   1  
-#&gt; 5   2     1.5
-#&gt; 6   2     1.5
-#&gt; 7   2.5   1.5
-#&gt; 8   2.5   1.5</div></pre>
+#&gt; 1     1     1
+#&gt; 2     2     1
+#&gt; 3     2     2</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

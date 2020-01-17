@@ -48,9 +48,15 @@
 
 
 <meta property="og:title" content="Select variables — vars" />
-<meta property="og:description" content="This helper is intended to provide equivalent semantics to
+<meta property="og:description" content="
+vars() was only needed for the scoped verbs, which have been superseded
+by the use of across() in an existing verb. See vignette(&quot;colwise&quot;) for
+details.
+This helper is intended to provide equivalent semantics to
 select(). It is used for instance in scoped summarising and
-mutating verbs (mutate_at() and summarise_at())." />
+mutating verbs (mutate_at() and summarise_at()).
+Note that verbs accepting a vars() specification also accept a
+numeric vector of positions or a character vector of column names." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -193,9 +199,15 @@ mutating verbs (mutate_at() and summarise_at())." />
     </div>
 
     <div class="ref-description">
-    <p>This helper is intended to provide equivalent semantics to
+    <p><a href='https://www.tidyverse.org/lifecycle/#retired'><img src='figures/lifecycle-retired.svg' alt='Retired lifecycle'></a></p>
+<p><code>vars()</code> was only needed for the scoped verbs, which have been superseded
+by the use of <code><a href='across.html'>across()</a></code> in an existing verb. See <code>vignette("colwise")</code> for
+details.</p>
+<p>This helper is intended to provide equivalent semantics to
 <code><a href='select.html'>select()</a></code>. It is used for instance in scoped summarising and
 mutating verbs (<code><a href='mutate_all.html'>mutate_at()</a></code> and <code><a href='summarise_all.html'>summarise_at()</a></code>).</p>
+<p>Note that verbs accepting a <code>vars()</code> specification also accept a
+numeric vector of positions or a character vector of column names.</p>
     </div>
 
     <pre class="usage"><span class='fu'>vars</span>(<span class='no'>...</span>)</pre>
@@ -211,10 +223,6 @@ If missing, defaults to all non-grouping variables.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Note that verbs accepting a <code>vars()</code> specification also accept a
-numeric vector of positions or a character vector of column names.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='all_vars.html'>all_vars()</a></code> and <code><a href='all_vars.html'>any_vars()</a></code> for other quoting
@@ -225,7 +233,6 @@ functions that you can use with scoped verbs.</p></div>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

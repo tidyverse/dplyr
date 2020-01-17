@@ -48,11 +48,36 @@
 
 
 <meta property="og:title" content="Operate on a selection of variables — scoped" />
-<meta property="og:description" content="The variants suffixed with _if, _at or _all apply an
+<meta property="og:description" content="
+Scoped verbs (_if, _at, _all) have been superseded by the use of
+across() in an existing verb. See vignette(&quot;colwise&quot;) for details.
+The variants suffixed with _if, _at or _all apply an
 expression (sometimes several) to all variables within a specified
 subset. This subset can contain all variables (_all variants), a
 vars() selection (_at variants), or variables selected with a
-predicate (_if variants)." />
+predicate (_if variants).
+The verbs with scoped variants are:
+mutate(), transmute() and summarise(). See summarise_all().
+filter(). See filter_all().
+group_by(). See group_by_all().
+rename() and select(). See select_all().
+arrange(). See arrange_all()
+
+
+There are three kinds of scoped variants. They differ in the scope
+of the variable selection on which operations are applied:
+Verbs suffixed with _all() apply an operation on all variables.
+Verbs suffixed with _at() apply an operation on a subset of
+variables specified with the quoting function vars(). This
+quoting function accepts tidyselect::vars_select() helpers like
+starts_with(). Instead of a vars() selection, you can also
+supply an integerish vector of column
+positions or a character vector of column names.
+Verbs suffixed with _if() apply an operation on the subset of
+variables for which a predicate function returns TRUE. Instead
+of a predicate function, you can also supply a logical vector.
+
+" />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -195,11 +220,36 @@ predicate (_if variants)." />
     </div>
 
     <div class="ref-description">
-    <p>The variants suffixed with <code>_if</code>, <code>_at</code> or <code>_all</code> apply an
+    <p><a href='https://www.tidyverse.org/lifecycle/#retired'><img src='figures/lifecycle-retired.svg' alt='Retired lifecycle'></a></p>
+<p>Scoped verbs (<code>_if</code>, <code>_at</code>, <code>_all</code>) have been superseded by the use of
+<code><a href='across.html'>across()</a></code> in an existing verb. See <code>vignette("colwise")</code> for details.</p>
+<p>The variants suffixed with <code>_if</code>, <code>_at</code> or <code>_all</code> apply an
 expression (sometimes several) to all variables within a specified
 subset. This subset can contain all variables (<code>_all</code> variants), a
 <code><a href='vars.html'>vars()</a></code> selection (<code>_at</code> variants), or variables selected with a
 predicate (<code>_if</code> variants).</p>
+<p>The verbs with scoped variants are:</p><ul>
+<li><p><code><a href='mutate.html'>mutate()</a></code>, <code><a href='mutate.html'>transmute()</a></code> and <code><a href='summarise.html'>summarise()</a></code>. See <code><a href='summarise_all.html'>summarise_all()</a></code>.</p></li>
+<li><p><code><a href='filter.html'>filter()</a></code>. See <code><a href='filter_all.html'>filter_all()</a></code>.</p></li>
+<li><p><code><a href='group_by.html'>group_by()</a></code>. See <code><a href='group_by_all.html'>group_by_all()</a></code>.</p></li>
+<li><p><code><a href='rename.html'>rename()</a></code> and <code><a href='select.html'>select()</a></code>. See <code><a href='select_all.html'>select_all()</a></code>.</p></li>
+<li><p><code><a href='arrange.html'>arrange()</a></code>. See <code><a href='arrange_all.html'>arrange_all()</a></code></p></li>
+</ul>
+
+<p>There are three kinds of scoped variants. They differ in the scope
+of the variable selection on which operations are applied:</p><ul>
+<li><p>Verbs suffixed with <code>_all()</code> apply an operation on all variables.</p></li>
+<li><p>Verbs suffixed with <code>_at()</code> apply an operation on a subset of
+variables specified with the quoting function <code><a href='vars.html'>vars()</a></code>. This
+quoting function accepts <code><a href='https://tidyselect.r-lib.org/reference/vars_select.html'>tidyselect::vars_select()</a></code> helpers like
+<code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with()</a></code>. Instead of a <code><a href='vars.html'>vars()</a></code> selection, you can also
+supply an <a href='https://rlang.r-lib.org/reference/is_integerish.html'>integerish</a> vector of column
+positions or a character vector of column names.</p></li>
+<li><p>Verbs suffixed with <code>_if()</code> apply an operation on the subset of
+variables for which a predicate function returns <code>TRUE</code>. Instead
+of a predicate function, you can also supply a logical vector.</p></li>
+</ul>
+
     </div>
 
 
@@ -234,30 +284,6 @@ functions and strings representing function names.</p></td>
 <code>.funs</code>. These are evaluated only once, with <a href='https://rlang.r-lib.org/reference/dyn-dots.html'>tidy dots</a> support.</p></td>
     </tr>
     </table>
-
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The verbs with scoped variants are:</p><ul>
-<li><p><code><a href='mutate.html'>mutate()</a></code>, <code><a href='mutate.html'>transmute()</a></code> and <code><a href='summarise.html'>summarise()</a></code>. See <code><a href='summarise_all.html'>summarise_all()</a></code>.</p></li>
-<li><p><code><a href='filter.html'>filter()</a></code>. See <code><a href='filter_all.html'>filter_all()</a></code>.</p></li>
-<li><p><code><a href='group_by.html'>group_by()</a></code>. See <code><a href='group_by_all.html'>group_by_all()</a></code>.</p></li>
-<li><p><code><a href='rename.html'>rename()</a></code> and <code><a href='select.html'>select()</a></code>. See <code><a href='select_all.html'>select_all()</a></code>.</p></li>
-<li><p><code><a href='arrange.html'>arrange()</a></code>. See <code><a href='arrange_all.html'>arrange_all()</a></code></p></li>
-</ul>
-
-<p>There are three kinds of scoped variants. They differ in the scope
-of the variable selection on which operations are applied:</p><ul>
-<li><p>Verbs suffixed with <code>_all()</code> apply an operation on all variables.</p></li>
-<li><p>Verbs suffixed with <code>_at()</code> apply an operation on a subset of
-variables specified with the quoting function <code><a href='vars.html'>vars()</a></code>. This
-quoting function accepts <code><a href='https://tidyselect.r-lib.org/reference/vars_select.html'>tidyselect::vars_select()</a></code> helpers like
-<code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with()</a></code>. Instead of a <code><a href='vars.html'>vars()</a></code> selection, you can also
-supply an <a href='https://rlang.r-lib.org/reference/is_integerish.html'>integerish</a> vector of column
-positions or a character vector of column names.</p></li>
-<li><p>Verbs suffixed with <code>_if()</code> apply an operation on the subset of
-variables for which a predicate function returns <code>TRUE</code>. Instead
-of a predicate function, you can also supply a logical vector.</p></li>
-</ul>
 
     <h2 class="hasAnchor" id="grouping-variables"><a class="anchor" href="#grouping-variables"></a>Grouping variables</h2>
 
@@ -296,7 +322,6 @@ indicating which grouping variables are ignored.</p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#grouping-variables">Grouping variables</a></li>
     </ul>
 
