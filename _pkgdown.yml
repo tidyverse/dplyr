@@ -40,7 +40,6 @@ reference:
   contents:
   - group_by
   - group_cols
-  - with_groups
 
 - title: Vector functions
   contents:
@@ -96,6 +95,7 @@ reference:
   - group_modify
   - group_trim
   - group_split
+  - with_groups
 
 - title: Questioning
   desc: >
