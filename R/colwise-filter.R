@@ -1,5 +1,10 @@
 #' Filter within a selection of variables
 #'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
+#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#'
 #' These [scoped] filtering verbs apply a predicate expression to a
 #' selection of variables. The predicate expression should be quoted
 #' with [all_vars()] or [any_vars()] and should mention the pronoun

@@ -1,5 +1,10 @@
 #' Operate on a selection of variables
 #'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
+#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#'
 #' The variants suffixed with `_if`, `_at` or `_all` apply an
 #' expression (sometimes several) to all variables within a specified
 #' subset. This subset can contain all variables (`_all` variants), a
@@ -80,6 +85,12 @@ NULL
 
 #' Select variables
 #'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#' `vars()` was only needed for the scoped verbs, which have been superseded
+#' by the use of [across()] in an existing verb. See `vignette("colwise")` for
+#' details.
+#'
 #' This helper is intended to provide equivalent semantics to
 #' [select()]. It is used for instance in scoped summarising and
 #' mutating verbs ([mutate_at()] and [summarise_at()]).
@@ -98,6 +109,12 @@ vars <- function(...) {
 }
 
 #' Apply predicate to all variables
+#'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#' `all_vars()` and `any_vars()` were only needed for the scoped verbs, which
+#' have been superseded by the use of [across()] in an existing verb. See
+#' `vignette("colwise")` for details.
 #'
 #' These quoting functions signal to scoped filtering verbs
 #' (e.g. [filter_if()] or [filter_all()]) that a predicate expression

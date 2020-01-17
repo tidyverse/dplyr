@@ -1,5 +1,10 @@
 #' Arrange rows by a selection of variables
 #'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
+#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#'
 #' These [scoped] variants of [arrange()] sort a data frame by a
 #' selection of variables. Like [arrange()], you can modify the
 #' variables before ordering with the `.funs` argument.

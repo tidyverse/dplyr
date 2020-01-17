@@ -56,6 +56,10 @@ returns \code{TRUE} are selected. This argument is passed to
 functions and strings representing function names.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
+\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+
 These \link{scoped} variants of \code{\link[=group_by]{group_by()}} group a data frame by a
 selection of variables. Like \code{\link[=group_by]{group_by()}}, they have optional
 \link{mutate} semantics.
@@ -83,12 +87,3 @@ d <- tibble(x=c(1,1,2,2), y=c(1,2,1,2))
 group_by_all(d, as.factor)
 group_by_if(iris, is.factor, as.character)
 }
-\seealso{
-Other grouping functions: 
-\code{\link{group_by}()},
-\code{\link{group_map}()},
-\code{\link{group_nest}()},
-\code{\link{group_split}()},
-\code{\link{group_trim}()}
-}
-\concept{grouping functions}

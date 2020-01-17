@@ -36,6 +36,10 @@ a character vector of column names, a numeric vector of column
 positions, or \code{NULL}.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
+\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+
 These \link{scoped} filtering verbs apply a predicate expression to a
 selection of variables. The predicate expression should be quoted
 with \code{\link[=all_vars]{all_vars()}} or \code{\link[=any_vars]{any_vars()}} and should mention the pronoun

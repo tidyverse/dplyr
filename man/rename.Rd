@@ -26,13 +26,6 @@ An object of the same type as \code{.data}.
 \description{
 Rename individual variables using \code{new_name = old_name} syntax.
 }
-\section{Scoped selection and renaming}{
-
-
-Use the three scoped variants (\code{\link[=rename_all]{rename_all()}}, \code{\link[=rename_if]{rename_if()}}, \code{\link[=rename_at]{rename_at()}})
-to renaming a set of variables with a function.
-}
-
 \section{Methods}{
 
 This function is a \strong{generic}, which means that packages can provide

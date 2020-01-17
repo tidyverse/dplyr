@@ -14,6 +14,11 @@ any_vars(expr)
 returns a logical vector, using \code{.} to refer to the "current" variable.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+\code{all_vars()} and \code{any_vars()} were only needed for the scoped verbs, which
+have been superseded by the use of \code{\link[=across]{across()}} in an existing verb. See
+\code{vignette("colwise")} for details.
+
 These quoting functions signal to scoped filtering verbs
 (e.g. \code{\link[=filter_if]{filter_if()}} or \code{\link[=filter_all]{filter_all()}}) that a predicate expression
 should be applied to all relevant variables. The \code{all_vars()}

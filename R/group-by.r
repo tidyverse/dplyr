@@ -5,12 +5,6 @@
 #' `group_by()` takes an existing tbl and converts it into a grouped tbl
 #' where operations are performed "by group". `ungroup()` removes grouping.
 #'
-#' @section Scoped grouping:
-#'
-#' The three [scoped] variants ([group_by_all()], [group_by_if()] and
-#' [group_by_at()]) make it easy to group a dataset by a selection of
-#' variables.
-#'
 #' @family grouping functions
 #' @inheritParams arrange
 #' @param ... In `group_by()`, variables or computations to group by.

@@ -40,6 +40,10 @@ a character vector of column names, a numeric vector of column
 positions, or \code{NULL}.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
+\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+
 These \link{scoped} variants of \code{\link[=select]{select()}} and \code{\link[=rename]{rename()}} operate on a
 selection of variables. The semantics of these verbs have subtle
 but important differences:

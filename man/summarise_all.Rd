@@ -48,7 +48,9 @@ names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("maturing")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
+\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
 
 The \link{scoped} variants of \code{\link[=summarise]{summarise()}} make it easy to apply the same
 transformation to multiple variables.

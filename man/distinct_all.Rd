@@ -35,6 +35,10 @@ returns \code{TRUE} are selected. This argument is passed to
 functions and strings representing function names.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
+\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+
 These \link{scoped} variants of \code{\link[=distinct]{distinct()}} extract distinct rows by a
 selection of variables. Like \code{distinct()}, you can modify the
 variables before ordering with the \code{.funs} argument.

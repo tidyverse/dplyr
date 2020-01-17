@@ -1,10 +1,14 @@
 #' Group by a selection of variables
 #'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
+#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#'
 #' These [scoped] variants of [group_by()] group a data frame by a
 #' selection of variables. Like [group_by()], they have optional
 #' [mutate] semantics.
 #'
-#' @family grouping functions
 #' @inheritParams scoped
 #' @inheritParams group_by
 #' @param .add See [group_by()]
