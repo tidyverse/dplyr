@@ -52,12 +52,11 @@ in the sorting of the data frame.
 
 \examples{
 df <- as_tibble(mtcars)
-df
 arrange_all(df)
+# ->
+arrange(df, across())
 
-# You can supply a function that will be applied before taking the
-# ordering of the variables. The variables of the sorted tibble
-# keep their original values.
 arrange_all(df, desc)
-arrange_all(df, list(~desc(.)))
+# ->
+arrange(df, across(everything(), desc))
 }

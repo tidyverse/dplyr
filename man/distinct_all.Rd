@@ -53,13 +53,22 @@ into account to determine distinct rows.
 
 \examples{
 df <- tibble(x = rep(2:5, each = 2) / 2, y = rep(2:3, each = 4) / 2)
-df
+
 distinct_all(df)
+# ->
+distinct(df, across())
+
 distinct_at(df, vars(x,y))
+# ->
+distinct(df, across(c(x, y)))
+
 distinct_if(df, is.numeric)
+# ->
+distinct(df, across(is.numeric))
 
 # You can supply a function that will be applied before extracting the distinct values
 # The variables of the sorted tibble keep their original values.
 distinct_all(df, round)
-arrange_all(df, list(~round(.)))
+# ->
+distinct(df, across(everything(), round))
 }
