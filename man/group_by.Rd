@@ -48,8 +48,8 @@ individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 \itemize{
-\item \code{group_by()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("group_by")}.
-\item \code{ungroup()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("ungroup")}.
+\item \code{group_by()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("group_by")}.
+\item \code{ungroup()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("ungroup")}.
 }
 }
 

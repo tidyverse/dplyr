@@ -82,8 +82,8 @@
 #'
 #' Methods available in currently loaded packages:
 #'
-#' * `mutate()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("mutate")}.
-#' * `transmute()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("transmute")}.
+#' * `mutate()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("mutate")}.
+#' * `transmute()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("transmute")}.
 #' @examples
 #' # Newly created variables are available immediately
 #' mtcars %>% as_tibble() %>% mutate(

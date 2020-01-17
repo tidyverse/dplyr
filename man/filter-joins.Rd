@@ -72,8 +72,8 @@ individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 \itemize{
-\item \code{semi_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("semi_join")}.
-\item \code{anti_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("anti_join")}.
+\item \code{semi_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("semi_join")}.
+\item \code{anti_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("anti_join")}.
 }
 }
 

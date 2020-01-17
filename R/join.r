@@ -35,10 +35,10 @@
 #'
 #' Methods available in currently loaded packages:
 #'
-#' * `inner_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("inner_join")}.
-#' * `left_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("left_join")}.
-#' * `right_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("right_join")}.
-#' * `full_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("full_join")}.
+#' * `inner_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("inner_join")}.
+#' * `left_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("left_join")}.
+#' * `right_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("right_join")}.
+#' * `full_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("full_join")}.
 #' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
 #'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
@@ -196,8 +196,8 @@ full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 #'
 #' Methods available in currently loaded packages:
 #'
-#' * `semi_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("semi_join")}.
-#' * `anti_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("anti_join")}.
+#' * `semi_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("semi_join")}.
+#' * `anti_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("anti_join")}.
 #' @family joins
 #' @examples
 #' # "Filtering" joins keep cases from the LHS
@@ -267,7 +267,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("nest_join")}.
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("nest_join")}.
 #' @inheritParams left_join
 #' @family joins
 #' @export

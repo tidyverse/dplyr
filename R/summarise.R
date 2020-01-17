@@ -56,7 +56,7 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("summarise")}.
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("summarise")}.
 #' @examples
 #' # A summary applied to ungrouped tbl returns a single row
 #' mtcars %>%
