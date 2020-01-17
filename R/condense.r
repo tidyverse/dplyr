@@ -15,7 +15,7 @@
 #' * It returns a [rowwise()] output.
 #'
 #' It's hard to explain `condense()` in isolation, so if you find these ideas
-#' intriguing we recommending starting with `vignette("rowwise")`.
+#' intriguing we recommend starting with `vignette("rowwise")`.
 #'
 #' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of functions.

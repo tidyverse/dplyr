@@ -42,7 +42,7 @@ It has three special properties:
 }
 
 It's hard to explain \code{condense()} in isolation, so if you find these ideas
-intriguing we recommending starting with \code{vignette("rowwise")}.
+intriguing we recommend starting with \code{vignette("rowwise")}.
 }
 \section{Methods}{
 
