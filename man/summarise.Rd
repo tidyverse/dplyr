@@ -3,7 +3,7 @@
 \name{summarise}
 \alias{summarise}
 \alias{summarize}
-\title{Summarise each group to a smaller number ofrows}
+\title{Summarise each group to fewer rows}
 \usage{
 summarise(.data, ...)
 
