@@ -170,7 +170,7 @@ transmute.data.frame <- function(.data, ...) {
 
 # Helpers -----------------------------------------------------------------
 
-mutate_cols <- function(.data, ...) {
+mutate_cols <- function(.data, ..., .track_usage = FALSE) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -179,7 +179,7 @@ mutate_cols <- function(.data, ...) {
   rows_lengths <- .Call(`dplyr_vec_sizes`, rows)
 
   o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
-  mask <- DataMask$new(.data, caller_env(), rows)
+  mask <- DataMask$new(.data, caller_env(), rows, track_usage = .track_usage)
 
   dots <- enquos(...)
   dots_names <- names(dots)
@@ -259,5 +259,6 @@ mutate_cols <- function(.data, ...) {
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
   new_columns[is_zap] <- rep(list(NULL), sum(is_zap))
+  attr(new_columns, "usage") <- mask$get_used()
   new_columns
 }
