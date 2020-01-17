@@ -28,12 +28,45 @@ test_that("cur_group_idx() gives unique id", {
 })
 
 
+test_that("cur_data() gives current data without groups", {
+  df <- tibble(x = c("b", "a", "b"), y = 1:3)
+  gf <- group_by(df, x)
+
+  expect_equal(
+    df %>% summarise(x = list(cur_data())) %>% pull(),
+    list(df)
+  )
+
+  expect_equal(
+    gf %>% summarise(x = list(cur_data())) %>% pull(),
+    list(tibble(y = 2L), tibble(y = c(1L, 3L)))
+  )
+})
+
+test_that("cur_group_rows() retrieves row position in original data", {
+  df <- tibble(x = c("b", "a", "b"), y = 1:3)
+  gf <- group_by(df, x)
+
+  expect_equal(
+    df %>% summarise(x = list(cur_group_rows())) %>% pull(),
+    list(1:3)
+  )
+
+  expect_equal(
+    gf %>% summarise(x = list(cur_group_rows())) %>% pull(),
+    list(2L, c(1L, 3L))
+  )
+})
+
 test_that("give useful error messages when not applicable", {
   verify_output(test_path("test-context-error.txt"), {
     n()
 
+    cur_data()
+
     cur_column()
     cur_group()
     cur_group_id()
+    cur_group_rows()
   })
 })

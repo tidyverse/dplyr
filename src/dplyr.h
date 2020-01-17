@@ -20,8 +20,6 @@ struct symbols {
   static SEXP current_group;
   static SEXP current_expression;
   static SEXP rows;
-  static SEXP dot_dot_group_size;
-  static SEXP dot_dot_group_number;
   static SEXP mask;
   static SEXP caller;
 };
@@ -76,8 +74,6 @@ SEXP rows_i = VECTOR_ELT(rows, i);                                              
 R_xlen_t n_i = XLENGTH(rows_i);                                                      \
 SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));                               \
 Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);             \
-Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);\
-Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context) ;     \
 UNPROTECT(1)
 
 #define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)

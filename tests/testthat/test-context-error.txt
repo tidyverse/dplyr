@@ -1,12 +1,18 @@
 > n()
 Error: n() should only be called inside a dplyr verb
 
+> cur_data()
+Error: cur_data() should only be called inside a dplyr verb
+
 > cur_column()
 Error: cur_column() can only be used inside across()
 
 > cur_group()
-Error: No dplyr data mask registered
+Error: cur_group() should only be called inside a dplyr verb
 
 > cur_group_id()
 Error: cur_group_id() should only be called inside a dplyr verb
+
+> cur_group_rows()
+Error: cur_group_rows() should only be called inside a dplyr verb
 

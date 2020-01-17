@@ -35,8 +35,6 @@ SEXP symbols::vars = Rf_install("vars");
 SEXP symbols::current_group = Rf_install("current_group");
 SEXP symbols::current_expression = Rf_install("current_expression");
 SEXP symbols::rows = Rf_install("rows");
-SEXP symbols::dot_dot_group_size = Rf_install("..group_size");
-SEXP symbols::dot_dot_group_number = Rf_install("..group_number");
 SEXP symbols::mask = Rf_install("mask");
 SEXP symbols::caller = Rf_install("caller");
 
