@@ -30,7 +30,7 @@ hike.data.frame <- function(.data, ...) {
   dots <- enquos(..., .named = TRUE)
   dots_names <- names(dots)
 
-  for (i in seq_along(quos)) {
+  for (i in seq_along(dots)) {
     mask$add(dots_names[i], mask$eval_all(dots[[i]]))
   }
 
