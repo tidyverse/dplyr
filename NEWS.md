@@ -1,5 +1,10 @@
 # dplyr 0.9.0 (in development)
 
+* The scoped helpers (all functions ending in `_if`, `_at`, or `_all`) have
+  been superseded by `across()`. This dramatically reduces the API surface for 
+  dplyr, while at the same providing providing a more flexible and less 
+  error-prone interface (#4769).
+
 * `rowwise()` is no longer questioning; we now understand that it's an
   important tool when you don't have vectorised code. It now also allows you to
   specify additional variables that should be preserved in the output when 
