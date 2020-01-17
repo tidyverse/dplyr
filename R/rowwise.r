@@ -21,8 +21,6 @@
 #' # Compute the mean of x and y in each row
 #' df %>% rowwise() %>% mutate(z = mean(c(x, y)))
 #'
-#' # Compute the min of x and y in each row
-#' df %>% rowwise() %>% mutate(z = min(c(x, y)))
 #' # In this case you can use an existing vectorised function:
 #' df %>% mutate(z = pmin(x, y))
 #' # Where these functions exist they'll be much faster than rowwise
