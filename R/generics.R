@@ -28,7 +28,7 @@
 #'   `dplyr_col_modify()` comes from `group_data()`.
 #'
 #' * `select()` uses 1d `[` to select columns, then `names<-` to rename them.
-#'   `rename()` just uses `names<-`.
+#'   `rename()` just uses `names<-`. `relocate()` just uses 1d `[`.
 #'
 #' * `inner_join()`, `left_join()`, `right_join()`, and `full_join()`
 #'   coerces `x` to a tibble, modify the rows, then uses `dplyr_reconstruct()`

@@ -1,5 +1,8 @@
 # dplyr 0.9.0 (in development)
 
+* New `relocate()` verb makes it easy to move columns around within a data 
+  frame (#4598).
+
 * The scoped helpers (all functions ending in `_if`, `_at`, or `_all`) have
   been superseded by `across()`. This dramatically reduces the API surface for 
   dplyr, while at the same providing providing a more flexible and less 
