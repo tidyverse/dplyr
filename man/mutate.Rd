@@ -25,6 +25,10 @@ if ungrouped).
 \item \code{NULL}, to remove the column.
 \item A data frame or tibble, to create multiple columns in the output.
 }}
+
+\item{.before, .after}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally,
+control where new columns should be appear (the default is to add to the
+left hand side).}
 }
 \value{
 An object of the same type as \code{.data}.

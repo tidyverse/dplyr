@@ -57,7 +57,9 @@
 #'     if ungrouped).
 #'   * `NULL`, to remove the column.
 #'   * A data frame or tibble, to create multiple columns in the output.
-#'
+#' @param .before,.after <[`tidy-select`][dplyr_tidy_select]> Optionally,
+#'   control where new columns should be appear (the default is to add to the
+#'   left hand side).
 #' @family single table verbs
 #' @return
 #' An object of the same type as `.data`.
@@ -142,9 +144,18 @@ mutate <- function(.data, ...) {
 }
 
 #' @export
-mutate.data.frame <- function(.data, ...) {
+mutate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   cols <- mutate_cols(.data, ...)
-  dplyr_col_modify(.data, cols)
+  out <- dplyr_col_modify(.data, cols)
+
+  if (!quo_is_null(enquo(.before)) || !quo_is_null(enquo(.after))) {
+    # Only change the order of new columns
+    new <- setdiff(names(cols), names(data))
+    relocate(out, any_of(new), .before = {{ .before }}, .after = {{ .after }})
+  } else {
+    out
+  }
+
 }
 
 #' @rdname mutate

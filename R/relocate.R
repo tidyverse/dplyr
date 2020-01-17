@@ -40,20 +40,23 @@
 #' df2 <- tibble(a = 1, b = "a", c = 1, d = "a")
 #' df2 %>% relocate(is.numeric, .after = is.character)
 #' df2 %>% relocate(is.numeric, .before = is.character)
-relocate <- function(.data, ..., .before, .after) {
+relocate <- function(.data, ..., .before = NULL, .after = NULL) {
   UseMethod("relocate")
 }
 
 #' @export
-relocate.data.frame <- function(.data, ..., .before, .after) {
+relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   to_move <- tidyselect::eval_select(expr(c(...)), .data)
 
-  if (!missing(.before) && !missing(.after)) {
+  has_before <- !quo_is_null(enquo(.before))
+  has_after <- !quo_is_null(enquo(.after))
+
+  if (has_before && has_after) {
     abort("Must supply only one of `.before` and `.after`")
-  } else if (!missing(.before) && missing(.after)) {
+  } else if (has_before) {
     where <- tidyselect::eval_select(enexpr(.before), .data)
     to_move <- c(setdiff(to_move, where), where)
-  } else if (missing(.before) && !missing(.after)) {
+  } else if (has_after) {
     where <- tidyselect::eval_select(enexpr(.after), .data)
     to_move <- c(where, setdiff(to_move, where))
   } else {
