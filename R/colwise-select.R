@@ -1,11 +1,6 @@
 #' Select and rename a selection of variables
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
-#'
-#' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
-#' [across()] in an existing verb. See `vignette("colwise")` for details.
-#'
 #' These [scoped] variants of [select()] and [rename()] operate on a
 #' selection of variables. The semantics of these verbs have subtle
 #' but important differences:
