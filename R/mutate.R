@@ -99,22 +99,18 @@
 #'   cyl4 = cyl2 * 2
 #' )
 #'
-#' # You can also use mutate() to remove variables and
-#' # modify existing variables
+#' # As well as adding new variables, you can use mutate() to
+#' # remove variables and modify existing variables.
 #' mtcars %>% as_tibble() %>% mutate(
 #'   mpg = NULL,
 #'   disp = disp * 0.0163871 # convert to litres
 #' )
-#'
 #'
 #' # window functions are useful for grouped mutates
 #' mtcars %>%
 #'  group_by(cyl) %>%
 #'  mutate(rank = min_rank(desc(mpg)))
 #' # see `vignette("window-functions")` for more details
-#'
-#' # You can drop variables by setting them to NULL
-#' mtcars %>% mutate(cyl = NULL)
 #'
 #' # mutate() vs transmute --------------------------
 #' # mutate() keeps all existing variables
@@ -125,7 +121,7 @@
 #' mtcars %>%
 #'   transmute(displ_l = disp / 61.0237)
 #'
-#'
+#' # Grouping ----------------------------------------
 #' # The mutate operation may yield different results on grouped
 #' # tibbles because the expressions are computed within groups.
 #' # The following normalises `mass` by the global average:
@@ -140,11 +136,7 @@
 #'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
 #'   pull()
 #'
-#' # Note that you can't overwrite grouping variables:
-#' gdf <- mtcars %>% group_by(cyl)
-#' try(mutate(gdf, cyl = cyl * 100))
-#'
-#'
+#' # Indirection ----------------------------------------
 #' # Refer to column names stored as strings with the `.data` pronoun:
 #' vars <- c("mass", "height")
 #' mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
