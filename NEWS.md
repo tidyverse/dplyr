@@ -1,12 +1,16 @@
 # dplyr 0.9.0 (in development)
 
-* `rowwise()` is no longer questioning; it's an important tool that helps out
-  when you don't have vectorised code. It now also allows you to preserve 
-  additional columns when summarising (#4723).
+* `rowwise()` is no longer questioning; we now understand that it's an
+  important tool when you don't have vectorised code. It now also allows you to
+  specify additional variables that should be preserved in the output when 
+  summarising (#4723). The rowwise-ness is preserved by all operations;
+  you need to explicit drop it with `as_tibble()` or `group_by()`.
 
-* New experimental `condense()` makes it easy to create and use list-columns; 
-  it returns a `rowwise` tibble so you can work with list-columns without 
-  having to manually vectorise your code with purrr map functions (#4723).
+* New, experimental, `condense()` makes it easy to create and use list-columns.
+  It is similar to `summarise()` but it always returns a single row per group
+  and it wraps each new column in a list. It returns a `rowwise` tibble so you 
+  can work with list-columns without having to manually vectorise your code 
+  with purrr map functions (#4723).
 
 * `do()` is deprecated in favour of either `condense()` or `summarise()`
   depending on whether you were using the named or unnamed form.
