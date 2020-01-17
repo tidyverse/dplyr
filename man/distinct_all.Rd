@@ -36,6 +36,7 @@ functions and strings representing function names.}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+
 Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
 \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
 

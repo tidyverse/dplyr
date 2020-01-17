@@ -2,6 +2,7 @@
 #'
 #' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
 #' [across()] in an existing verb. See `vignette("colwise")` for details.
 #'
@@ -87,6 +88,7 @@ NULL
 #'
 #' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#'
 #' `vars()` was only needed for the scoped verbs, which have been superseded
 #' by the use of [across()] in an existing verb. See `vignette("colwise")` for
 #' details.
@@ -112,6 +114,7 @@ vars <- function(...) {
 #'
 #' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#'
 #' `all_vars()` and `any_vars()` were only needed for the scoped verbs, which
 #' have been superseded by the use of [across()] in an existing verb. See
 #' `vignette("colwise")` for details.

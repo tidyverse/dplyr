@@ -2,6 +2,7 @@
 #'
 #' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
 #' [across()] in an existing verb. See `vignette("colwise")` for details.
 #'
@@ -151,6 +152,7 @@ summarize_at <- summarise_at
 #'
 #' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
 #' [across()] in an existing verb. See `vignette("colwise")` for details.
 #'
