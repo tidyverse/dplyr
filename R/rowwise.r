@@ -1,109 +1,120 @@
 #' Group input by rows
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
+#' @description
+#' `rowwise()` allows you to compute on a data frame a row-at-a-time.
+#' This is most useful when a vectorised function doesn't exist.
 #'
-#' See [this repository](https://github.com/jennybc/row-oriented-workflows)
-#' for alternative ways to perform row-wise operations.
+#' A row-wise tibble maintains its row-wise status until explicitly removed
+#' by [group_by()], [ungroup()], or [as_tibble()].
 #'
-#' `rowwise()` is used for the results of [do()] when you
-#' create list-variables. It is also useful to support arbitrary
-#' complex operations that need to be applied to each row.
-#'
-#' Currently, rowwise grouping only works with data frames. Its
-#' main impact is to allow you to work with list-variables in
-#' [summarise()] and [mutate()] without having to
-#' use \code{[[1]]}. This makes `summarise()` on a rowwise tbl
-#' effectively equivalent to [plyr::ldply()].
+#' @section List-columns:
+#' Because a rowwise has exactly one row per group it offers a small
+#' convenience for working with list-columns. Normally, `summarise()` and
+#' `mutate()` extract a groups worth of data with `[`. But when you index
+#' a list in this way, you get back another list. When you're working with
+#' a `rowwise` tibble, then dplyr will use `[[` instead of `[` to make your
+#' life a little easier.
 #'
 #' @param data Input data frame.
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> Variables to be preserved
+#'   when calling [summarise()]. This is typically a set of variables whose
+#'   combination uniquely identify each row.
 #' @export
 #' @examples
-#' df <- expand.grid(x = 1:3, y = 3:1)
-#' df_done <- df %>% rowwise() %>% do(i = seq(.$x, .$y))
-#' df_done
-#' df_done %>% summarise(n = length(i))
-rowwise <- function(data) {
-  abort_if_not(is.data.frame(data))
-
-  structure(data, class = c("rowwise_df", "tbl_df", "tbl", "data.frame"))
+#' df <- tibble(x = runif(6), y = runif(6))
+#' # Compute the mean of x and y in each row
+#' df %>% rowwise() %>% mutate(z = mean(c(x, y)))
+#'
+#' # Compute the minimum of x and y in each row
+#' df %>% rowwise() %>% mutate(z = min(c(x, y)))
+#' # In this case you can use an existing vectorised function:
+#' df %>% mutate(z = pmin(x, y))
+#' # Where these functions exist they'll be much faster than rowwise
+#' # so be on the lookout for them.
+#'
+#' # rowwise() is also useful when doing simulations
+#' params <- tribble(
+#'  ~sim, ~n, ~mean, ~sd,
+#'     1,  1,     1,   1,
+#'     2,  2,     2,   4,
+#'     3,  3,    -1,   2
+#' )
+#' # Here I supply variables to preserve after the summary
+#' params %>%
+#'   rowwise(sim) %>%
+#'   summarise(z = rnorm(n, mean, sd))
+#'
+#' # If you want one row per simulation, put the results in a list()
+#' params %>%
+#'   rowwise(sim) %>%
+#'   summarise(z = list(rnorm(n, mean, sd)))
+#'
+#' # Or use do() which do this automatically:
+#' params %>%
+#'   rowwise(sim) %>%
+#'   condense(z = rnorm(n, mean, sd))
+rowwise <- function(data, ...) {
+  vars <- tidyselect::eval_select(expr(c(...)), data, include = group_vars(data))
+  rowwise_df(data, vars)
 }
 
+# Constructor + helper ----------------------------------------------------
+
+rowwise_df <- function(data, group_vars) {
+  group_data <- as_tibble(data)[group_vars]
+  new_rowwise_df(data, group_data)
+}
+
+new_rowwise_df <- function(data, group_data) {
+  if (!is_tibble(group_data) || has_name(group_data, ".rows")) {
+    abort("`group_data` must be a tibble without a `.rows` column")
+  }
+
+  group_data <- new_tibble(vec_data(group_data), nrow = nrow(group_data)) # strip attributes
+  group_data$.rows <- new_list_of(as.list(seq_len(nrow(data))), ptype = integer())
+  new_tibble(data, groups = group_data, class = "rowwise_df")
+}
 setOldClass(c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 
+# methods -----------------------------------------------------------------
+
 #' @export
-print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
-  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
-  cat("Groups: <by row>\n")
-  cat("\n")
-  print(trunc_mat(x, n = n, width = width))
-  invisible(x)
+tbl_sum.rowwise_df <- function(x) {
+  c(
+    NextMethod(),
+    "Rowwise" = commas(group_vars(x))
+  )
 }
 
 #' @export
-ungroup.rowwise_df <- function(x, ...) {
-  ellipsis::check_dots_empty()
-  class(x) <- c("tbl_df", "tbl", "data.frame")
-  x
-}
-#' @export
-as.data.frame.rowwise_df <- function(x, row.names, optional, ...) {
-  class(x) <- "data.frame"
-  x
+as_tibble.rowwise_df <- function(x, ...) {
+  new_tibble(vec_data(x), nrow = nrow(x))
 }
 
+#' @importFrom tibble is_tibble
 #' @export
-group_size.rowwise_df <- function(x) {
-  rep.int(1L, nrow(x))
-}
+`[.rowwise_df` <- function(x, i, j, drop = FALSE) {
+  out <- NextMethod()
 
-#' @export
-n_groups.rowwise_df <- function(x) {
-  nrow(x)
-}
-
-#' @export
-group_by.rowwise_df <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
-  warn("Grouping rowwise data frame strips rowwise nature")
-  .data <- ungroup(.data)
-
-  groups <- group_by_prepare(.data, ..., add = add)
-  grouped_df(groups$data, groups$group_names, .drop)
-}
-
-# Do ---------------------------------------------------------------------------
-
-#' @export
-do.rowwise_df <- function(.data, ...) {
-  # Create ungroup version of data frame suitable for subsetting
-  group_data <- ungroup(.data)
-
-  args <- enquos(...)
-  named <- named_args(args)
-
-  # Create new environment, inheriting from parent, with an active binding
-  # for . that resolves to the current subset. `_i` is found in environment
-  # of this function because of usual scoping rules.
-  mask <- new_data_mask(new_environment())
-  current_row <- function() lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
-  env_bind_do_pronouns(mask, current_row)
-
-  n <- nrow(.data)
-  m <- length(args)
-
-  out <- replicate(m, vector("list", n), simplify = FALSE)
-  names(out) <- names(args)
-  p <- progress_estimated(n * m, min_time = 2)
-
-  for (`_i` in seq_len(n)) {
-    for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(eval_tidy(args[[j]], mask))
-      p$tick()$print()
-    }
+  if (!is.data.frame(out)) {
+    return(out)
   }
 
-  if (!named) {
-    label_output_dataframe(NULL, out, groups(.data), group_by_drop_default(.data))
-  } else {
-    label_output_list(NULL, out, groups(.data))
-  }
+  group_vars <- intersect(names(out), group_vars(x))
+  rowwise_df(out, group_vars)
+}
+
+#' @export
+`[<-.rowwise_df` <- function(x, i, j, ..., value) {
+  out <- NextMethod()
+  group_vars <- intersect(names(out), group_vars(x))
+  rowwise_df(out, group_vars)
+}
+
+#' @export
+`names<-.rowwise_df` <- function(x, value) {
+  data <- NextMethod()
+  group_vars <- value[match(group_vars(x), names(x))]
+
+  rowwise_df(data, group_vars)
 }

@@ -264,7 +264,7 @@ test_that("bind_rows respects ordered factors (#1112)", {
   expect_is(res$id, "ordered")
   expect_equal(levels(df$id), levels(res$id))
 
-  res <- group_by(df, id) %>% do(na.omit(.))
+  res <- group_by(df, id) %>% filter(complete.cases(across()))
   expect_is(res$id, "ordered")
   expect_equal(levels(df$id), levels(res$id))
 })
