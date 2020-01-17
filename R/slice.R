@@ -48,12 +48,12 @@
 #'
 #' Methods available in currently loaded packages:
 #'
-#' * `slice()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice")}.
-#' * `slice_head()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_head")}.
-#' * `slice_tail()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_tail")}.
-#' * `slice_min()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_min")}.
-#' * `slice_max()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_max")}.
-#' * `slice_sample()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_sample")}.
+#' * `slice()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
+#' * `slice_head()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
+#' * `slice_tail()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
+#' * `slice_min()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
+#' * `slice_max()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
+#' * `slice_sample()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
 #' @export
 #' @examples
 #' mtcars %>% slice(1L)

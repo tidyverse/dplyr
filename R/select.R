@@ -56,7 +56,7 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("select")}.
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 #' @family single table verbs
 #' @export
 #' @examples

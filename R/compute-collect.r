@@ -15,9 +15,9 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' Methods available in currently loaded packages:
-#' * `compute()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("compute")}
-#' * `collect()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("collect")}
-#' * `collapse()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("collapse")}
+#' * `compute()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("compute")}
+#' * `collect()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("collect")}
+#' * `collapse()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("collapse")}
 #'
 #' @param x A data frame, data frame extension (e.g. a tibble), or a lazy
 #'   data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for more

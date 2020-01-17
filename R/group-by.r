@@ -34,8 +34,8 @@
 #'
 #' Methods available in currently loaded packages:
 #'
-#' * `group_by()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("group_by")}.
-#' * `ungroup()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("ungroup")}.
+#' * `group_by()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("group_by")}.
+#' * `ungroup()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("ungroup")}.
 #' @export
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)

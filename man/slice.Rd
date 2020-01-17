@@ -92,12 +92,12 @@ individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 \itemize{
-\item \code{slice()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice")}.
-\item \code{slice_head()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_head")}.
-\item \code{slice_tail()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_tail")}.
-\item \code{slice_min()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_min")}.
-\item \code{slice_max()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_max")}.
-\item \code{slice_sample()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_sample")}.
+\item \code{slice()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
+\item \code{slice_head()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
+\item \code{slice_tail()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
+\item \code{slice_min()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
+\item \code{slice_max()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
+\item \code{slice_sample()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
 }
 }
 

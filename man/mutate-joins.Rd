@@ -148,10 +148,10 @@ individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 \itemize{
-\item \code{inner_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("inner_join")}.
-\item \code{left_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("left_join")}.
-\item \code{right_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("right_join")}.
-\item \code{full_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("full_join")}.
+\item \code{inner_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("inner_join")}.
+\item \code{left_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("left_join")}.
+\item \code{right_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("right_join")}.
+\item \code{full_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("full_join")}.
 }
 }
 
