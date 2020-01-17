@@ -7,12 +7,24 @@
 condense(.data, ...)
 }
 \arguments{
-\item{.data}{a tbl}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of functions.
 All outputs will be automatically wrapped in lists, making it most
 suitable for functions that that return non-vectors (e.g. linear models)
 or vectors of length greater than one.}
+}
+\value{
+A \link{rowwise} object.
+\itemize{
+\item The rows and initial columns come from \code{group_data(.data)}.
+\item Each additional column that you provide will be wrapped in a list column.
+\item Output is grouped by row.
+\item Data frame attributes are \strong{not} preserved, because \code{condense()}
+fundamentally creates a new data frame.
+}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
@@ -32,6 +44,16 @@ It has three special properties:
 It's hard to explain \code{condense()} in isolation, so if you find these ideas
 intriguing we recommending starting with \code{vignette("rowwise")}.
 }
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("condense")}.
+}
+
 \examples{
 # Modelling ------------------------------------------------
 mods <- mtcars \%>\%

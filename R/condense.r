@@ -17,11 +17,26 @@
 #' It's hard to explain `condense()` in isolation, so if you find these ideas
 #' intriguing we recommending starting with `vignette("rowwise")`.
 #'
-#' @param .data a tbl
+#' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of functions.
 #'   All outputs will be automatically wrapped in lists, making it most
 #'   suitable for functions that that return non-vectors (e.g. linear models)
 #'   or vectors of length greater than one.
+#' @return
+#' A [rowwise] object.
+#'
+#' * The rows and initial columns come from `group_data(.data)`.
+#' * Each additional column that you provide will be wrapped in a list column.
+#' * Output is grouped by row.
+#' * Data frame attributes are **not** preserved, because `condense()`
+#'   fundamentally creates a new data frame.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("condense")}.
 #' @export
 #' @examples
 #' # Modelling ------------------------------------------------
