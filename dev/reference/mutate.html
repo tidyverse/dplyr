@@ -215,13 +215,15 @@ more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; Name-value pairs of expressions,
-each with length 1 or the same length as the number of rows in the group
-(if using <code><a href='group_by.html'>group_by()</a></code>) or in the entire input (if not using groups).
-The name of each argument will be the name of a new variable, and the
-value will be its corresponding value. Use a <code>NULL</code> value in <code>mutate</code>
-to drop a variable.  New variables overwrite existing variables
-of the same name.</p></td>
+      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; Name-value pairs.
+The name gives the name of the column in the output.</p>
+<p>The value can be:</p><ul>
+<li><p>A vector of length 1, which will be recycled to the correct length.</p></li>
+<li><p>A vector the same length as the current group (or the whole data frame
+if ungrouped).</p></li>
+<li><p><code>NULL</code>, to remove the column.</p></li>
+<li><p>A data frame or tibble, to create multiple columns in the output.</p></li>
+</ul></td>
     </tr>
     </table>
 

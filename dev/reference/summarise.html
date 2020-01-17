@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise each group down to one row — summarise • dplyr</title>
+<title>Summarise each group to a smaller number ofrows — summarise • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +47,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Summarise each group down to one row — summarise" />
-<meta property="og:description" content="summarise() creates a new data frame. It will have one row for each
-combination of grouping variables; if there are no grouping variables, the
-output will have a single row summarising all observations in the input.
+<meta property="og:title" content="Summarise each group to a smaller number ofrows — summarise" />
+<meta property="og:description" content="summarise() creates a new data frame. It will have one (or more) rows for
+each combination of grouping variables; if there are no grouping variables,
+the output will have a single row summarising all observations in the input.
 It will contain one column for each grouping variable and one column
 for each of the summary statistics that you have specified.
 summarise() and summarize() are synonyms." />
@@ -190,15 +190,15 @@ summarise() and summarize() are synonyms." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarise each group down to one row</h1>
+    <h1>Summarise each group to a smaller number ofrows</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/summarise.R'><code>R/summarise.R</code></a></small>
     <div class="hidden name"><code>summarise.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>summarise()</code> creates a new data frame. It will have one row for each
-combination of grouping variables; if there are no grouping variables, the
-output will have a single row summarising all observations in the input.
+    <p><code>summarise()</code> creates a new data frame. It will have one (or more) rows for
+each combination of grouping variables; if there are no grouping variables,
+the output will have a single row summarising all observations in the input.
 It will contain one column for each grouping variable and one column
 for each of the summary statistics that you have specified.</p>
 <p><code>summarise()</code> and <code>summarize()</code> are synonyms.</p>
@@ -220,9 +220,12 @@ more details.</p></td>
     <tr>
       <th>...</th>
       <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; Name-value pairs of summary
-functions. The name will be the name of the variable in the result.
-The value should be an expression that returns a single value like
-<code><a href='https://rdrr.io/r/base/Extremes.html'>min(x)</a></code>, <code><a href='context.html'>n()</a></code>, or <code><a href='https://rdrr.io/r/base/sum.html'>sum(is.na(y))</a></code>.</p></td>
+functions. The name will be the name of the variable in the result.</p>
+<p>The value can be:</p><ul>
+<li><p>A vector of length 1, e.g. <code><a href='https://rdrr.io/r/base/Extremes.html'>min(x)</a></code>, <code><a href='context.html'>n()</a></code>, or <code><a href='https://rdrr.io/r/base/sum.html'>sum(is.na(y))</a></code>.</p></li>
+<li><p>A vector of length <code>n</code>, e.g. <code><a href='https://rdrr.io/r/stats/quantile.html'>quantile()</a></code>.</p></li>
+<li><p>A data frame, to add multiple columns from a single expression.</p></li>
+</ul></td>
     </tr>
     </table>
 
@@ -301,13 +304,41 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; 1     4  105.    11
 #&gt; 2     6  183.     7
 #&gt; 3     8  353.    14</div><div class='input'>
+<span class='co'># dplyr 1.0.0 allows to summarise to more than one value:</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
+   <span class='fu'>summarise</span>(<span class='kw'>qs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>disp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>)), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 3
+#&gt;     cyl    qs  prob
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1     4  78.8  0.25
+#&gt; 2     4 121.   0.75
+#&gt; 3     6 160    0.25
+#&gt; 4     6 196.   0.75
+#&gt; 5     8 302.   0.25
+#&gt; 6     8 390    0.75</div><div class='input'>
+<span class='co'># You use a data frame to create multiple columns so you can wrap</span>
+<span class='co'># this up into a function:</span>
+<span class='no'>my_quantile</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>probs</span>) {
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>x</span>, <span class='no'>probs</span>), <span class='kw'>probs</span> <span class='kw'>=</span> <span class='no'>probs</span>)
+}
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>summarise</span>(<span class='fu'>my_quantile</span>(<span class='no'>disp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>)))</div><div class='output co'>#&gt; # A tibble: 6 x 3
+#&gt;     cyl     x probs
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1     4  78.8  0.25
+#&gt; 2     4 121.   0.75
+#&gt; 3     6 160    0.25
+#&gt; 4     6 196.   0.75
+#&gt; 5     8 302.   0.25
+#&gt; 6     8 390    0.75</div><div class='input'>
 <span class='co'># Each summary call removes one grouping level (since that group</span>
 <span class='co'># is now just a single row)</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>, <span class='no'>vs</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise</span>(<span class='kw'>cyl_n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_data.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl"</div><div class='input'>
-<span class='co'># BEWARE: reusing variable names may lead to unexpected results</span>
+<span class='co'># BEWARE: reusing variables may lead to unexpected results</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
