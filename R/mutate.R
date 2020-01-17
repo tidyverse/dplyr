@@ -45,14 +45,6 @@
 #' The former normalises `mass` by the global average whereas the
 #' latter normalises by the averages within gender levels.
 #'
-#' @section Scoped mutation and transmutation:
-#'
-#' The three [scoped] variants of `mutate()` ([mutate_all()],
-#' [mutate_if()] and [mutate_at()]) and the three variants of
-#' `transmute()` ([transmute_all()], [transmute_if()],
-#' [transmute_at()]) make it easy to apply a transformation to a
-#' selection of variables.
-#'
 #' @export
 #' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs.

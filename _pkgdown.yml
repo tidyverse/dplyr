@@ -79,13 +79,6 @@ reference:
   - src_dbi
   - sql
 
-- title: Single-table helpers
-  contents:
-  - scoped
-  - ends_with("_at")
-  - all_vars
-  - vars
-
 - title: Experimental
   desc: >
     Experimental functions are a testing ground for new approaches that we
@@ -115,6 +108,10 @@ reference:
   contents:
   - sample_frac
   - top_n
+  - scoped
+  - ends_with("_at")
+  - all_vars
+  - vars
 
 navbar:
   type: default

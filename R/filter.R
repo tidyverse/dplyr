@@ -36,11 +36,6 @@
 #' whereas the latter keeps rows with `mass` greater than the gender
 #'
 #' average.
-#' @section Scoped filtering:
-#' The three [scoped] variants ([filter_all()], [filter_if()] and
-#' [filter_at()]) make it easy to apply a filtering condition to a
-#' selection of variables.
-#'
 #' @family single table verbs
 #' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Logical predicates defined in

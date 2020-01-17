@@ -1,5 +1,10 @@
 # dplyr 0.9.0 (in development)
 
+* The scoped helpers (all functions ending in `_if`, `_at`, or `_all`) have
+  been superseded by `across()`. This dramatically reduces the API surface for 
+  dplyr, while at the same providing providing a more flexible and less 
+  error-prone interface (#4769).
+
 * `mutate()` and `summarise()` create multiple columns from a single expression
   if you return a data frame (#2326).
 

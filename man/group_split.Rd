@@ -87,7 +87,6 @@ iris \%>\%
 }
 \seealso{
 Other grouping functions: 
-\code{\link{group_by_all}()},
 \code{\link{group_by}()},
 \code{\link{group_map}()},
 \code{\link{group_nest}()},
