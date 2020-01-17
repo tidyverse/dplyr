@@ -142,9 +142,26 @@ mutate <- function(.data, ...) {
 }
 
 #' @export
-mutate.data.frame <- function(.data, ...) {
-  cols <- mutate_cols(.data, ...)
-  dplyr_col_modify(.data, cols)
+mutate.data.frame <- function(.data, ..., .keep = c("all", "groups", "unused")) {
+  .keep <- arg_match(.keep)
+
+  cols <- mutate_cols(.data, ..., .track_usage = .keep == "unused")
+  out <- dplyr_col_modify(.data, cols)
+
+  if (.keep == "all") {
+    out
+  } else if (.keep == "groups") {
+    out_cols <- c(
+      # ensure group vars present
+      setdiff(group_vars(.data), names(cols)),
+      # cols might contain NULLs
+      intersect(names(cols), names(.data))
+    )
+    out[out_cols]
+  } else if (.keep == "unused") {
+    used <- setdiff(names(out), names(.data)[attr(cols, "usage")])
+    out[used]
+  }
 }
 
 #' @rdname mutate
@@ -155,15 +172,11 @@ transmute <- function(.data, ...) {
 
 #' @export
 transmute.data.frame <- function(.data, ...) {
+  mutate(.data, ..., .keep = "groups")
+
   cols <- mutate_cols(.data, ...)
   .data <- dplyr_col_modify(.data, cols)
 
-  out_cols <- c(
-    # ensure group vars present
-    setdiff(group_vars(.data), names(cols)),
-    # cols might contain NULLs
-    intersect(names(cols), names(.data))
-  )
 
   .data[out_cols]
 }
