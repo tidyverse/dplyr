@@ -96,12 +96,10 @@ mtcars \%>\%
   summarise(cyl_n = n()) \%>\%
   group_vars()
 
-
 # BEWARE: reusing variable names may lead to unexpected results
 mtcars \%>\%
   group_by(cyl) \%>\%
   summarise(disp = mean(disp), sd = sd(disp))
-
 
 # Refer to column names stored as strings with the `.data` pronoun:
 var <- "mass"
