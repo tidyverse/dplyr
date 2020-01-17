@@ -207,7 +207,9 @@ where operations are performed "by group". <code>ungroup()</code> removes groupi
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>a tbl</p></td>
+      <td><p>A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
+more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -239,22 +241,6 @@ what the default value is for this argument.</p></td>
     <p>A <a href='grouped_df.html'>grouped data frame</a>, unless the combination of <code>...</code> and <code>add</code>
 yields a non empty set of grouping columns, a regular (ungrouped) data frame
 otherwise.</p>
-    <h2 class="hasAnchor" id="tbl-types"><a class="anchor" href="#tbl-types"></a>Tbl types</h2>
-
-    
-
-
-<p><code>group_by()</code> is an S3 generic with methods for the three built-in
-tbls. See the help for the corresponding classes and their manip
-methods for more details:</p>
-<ul>
-<li><p>data.frame: <a href='grouped_df.html'>grouped_df</a></p></li>
-<li><p>data.table: <a href='https://rdrr.io/pkg/dtplyr/man/lazy_dt.html'>dtplyr::grouped_dt</a></p></li>
-<li><p>SQLite: <code><a href='src_dbi.html'>src_sqlite()</a></code></p></li>
-<li><p>PostgreSQL: <code><a href='src_dbi.html'>src_postgres()</a></code></p></li>
-<li><p>MySQL: <code><a href='src_dbi.html'>src_mysql()</a></code></p></li>
-</ul>
-
     <h2 class="hasAnchor" id="scoped-grouping"><a class="anchor" href="#scoped-grouping"></a>Scoped grouping</h2>
 
     
@@ -263,6 +249,20 @@ methods for more details:</p>
 <p>The three <a href='scoped.html'>scoped</a> variants (<code><a href='group_by_all.html'>group_by_all()</a></code>, <code><a href='group_by_all.html'>group_by_if()</a></code> and
 <code><a href='group_by_all.html'>group_by_at()</a></code>) make it easy to group a dataset by a selection of
 variables.</p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<p>These function are <strong>generic</strong>s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.</p>
+<p>Methods available in currently loaded packages:</p><ul>
+<li><p><code>group_by()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>)
+.</p></li>
+<li><p><code>ungroup()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>grouped_df</code>, <code>rowwise_df</code>)
+.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other grouping functions: 
@@ -377,8 +377,8 @@ variables.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#tbl-types">Tbl types</a></li>
       <li><a href="#scoped-grouping">Scoped grouping</a></li>
+      <li><a href="#methods">Methods</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

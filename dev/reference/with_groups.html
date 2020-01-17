@@ -233,41 +233,41 @@ Supports purrr-style <code>~</code> syntax</p></td>
   <span class='fu'>with_groups</span>(<span class='no'>g</span>, <span class='no'>mutate</span>, <span class='kw'>x_mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; # A tibble: 5 x 3
 #&gt;       g      x x_mean
 #&gt; * &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1     1 0.121  0.386 
-#&gt; 2     1 0.652  0.386 
-#&gt; 3     2 0.362  0.377 
-#&gt; 4     2 0.393  0.377 
-#&gt; 5     3 0.0233 0.0233</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span>
+#&gt; 1     1 0.0633  0.467
+#&gt; 2     1 0.870   0.467
+#&gt; 3     2 0.359   0.630
+#&gt; 4     2 0.901   0.630
+#&gt; 5     3 0.998   0.998</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>with_groups</span>(<span class='no'>g</span>, ~ <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>.x</span>, <span class='kw'>x1</span> <span class='kw'>=</span> <span class='fu'><a href='nth.html'>first</a></span>(<span class='no'>x</span>)))</div><div class='output co'>#&gt; # A tibble: 5 x 3
 #&gt;       g      x     x1
 #&gt; * &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1     1 0.121  0.121 
-#&gt; 2     1 0.652  0.121 
-#&gt; 3     2 0.362  0.362 
-#&gt; 4     2 0.393  0.362 
-#&gt; 5     3 0.0233 0.0233</div><div class='input'>
+#&gt; 1     1 0.0633 0.0633
+#&gt; 2     1 0.870  0.0633
+#&gt; 3     2 0.359  0.359 
+#&gt; 4     2 0.901  0.359 
+#&gt; 5     3 0.998  0.998 </div><div class='input'>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>with_groups</span>(<span class='kw'>NULL</span>, <span class='no'>mutate</span>, <span class='kw'>x_mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; # A tibble: 5 x 3
 #&gt; # Groups:   g [3]
 #&gt;       g      x x_mean
 #&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1     1 0.121   0.310
-#&gt; 2     1 0.652   0.310
-#&gt; 3     2 0.362   0.310
-#&gt; 4     2 0.393   0.310
-#&gt; 5     3 0.0233  0.310</div><div class='input'>
+#&gt; 1     1 0.0633  0.638
+#&gt; 2     1 0.870   0.638
+#&gt; 3     2 0.359   0.638
+#&gt; 4     2 0.901   0.638
+#&gt; 5     3 0.998   0.638</div><div class='input'>
 <span class='co'># NB: grouping can't be restored if you remove the grouping variables</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>with_groups</span>(<span class='kw'>NULL</span>, <span class='no'>mutate</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; # A tibble: 5 x 1
 #&gt;        x
 #&gt;    &lt;dbl&gt;
-#&gt; 1 0.121 
-#&gt; 2 0.652 
-#&gt; 3 0.362 
-#&gt; 4 0.393 
-#&gt; 5 0.0233</div></pre>
+#&gt; 1 0.0633
+#&gt; 2 0.870 
+#&gt; 3 0.359 
+#&gt; 4 0.901 
+#&gt; 5 0.998 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

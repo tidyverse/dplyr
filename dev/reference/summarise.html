@@ -213,8 +213,9 @@ for each of the summary statistics that you have specified.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>A tbl. All main verbs are S3 generics and provide methods
-for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://rdrr.io/pkg/dtplyr/man/lazy_dt.html'>dtplyr::tbl_dt()</a></code> and <code><a href='https://dbplyr.tidyverse.org/reference/src_dbi.html'>dbplyr::tbl_dbi()</a></code>.</p></td>
+      <td><p>A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
+more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -266,6 +267,16 @@ variables.</p>
 <p>This behaviour may not be supported in other backends. To avoid unexpected
 results, consider using new names for your summary variables, especially when
 creating multiple summaries.</p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<p>This function is a <strong>generic</strong>, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.</p>
+<p>The following methods are currently available in loaded packages:
+dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>, <code>grouped_df</code>, <code>rowwise_df</code>)
+.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
@@ -296,7 +307,6 @@ creating multiple summaries.</p>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>, <span class='no'>vs</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise</span>(<span class='kw'>cyl_n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_data.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl"</div><div class='input'>
-
 <span class='co'># BEWARE: reusing variable names may lead to unexpected results</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
@@ -306,7 +316,6 @@ creating multiple summaries.</p>
 #&gt; 1     4  105.    NA
 #&gt; 2     6  183.    NA
 #&gt; 3     8  353.    NA</div><div class='input'>
-
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
 <span class='no'>var</span> <span class='kw'>&lt;-</span> <span class='st'>"mass"</span>
 <span class='fu'>summarise</span>(<span class='no'>starwars</span>, <span class='kw'>avg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.data</span><span class='kw'>[[</span><span class='no'>var</span>]], <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
@@ -322,6 +331,7 @@ creating multiple summaries.</p>
       <li><a href="#value">Value</a></li>
       <li><a href="#useful-functions">Useful functions</a></li>
       <li><a href="#backend-variations">Backend variations</a></li>
+      <li><a href="#methods">Methods</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

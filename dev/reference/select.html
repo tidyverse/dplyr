@@ -209,8 +209,9 @@ variables based on their properties.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>A tbl. All main verbs are S3 generics and provide methods
-for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://rdrr.io/pkg/dtplyr/man/lazy_dt.html'>dtplyr::tbl_dt()</a></code> and <code><a href='https://dbplyr.tidyverse.org/reference/src_dbi.html'>dbplyr::tbl_dbi()</a></code>.</p></td>
+      <td><p>A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
+more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -264,6 +265,16 @@ examples.</p>
 are evaluated outside the data frame context. This is to prevent
 accidental matching of data frame variables when you refer to
 variables from the calling context.</p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<p>This function is a <strong>generic</strong>, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.</p>
+<p>The following methods are currently available in loaded packages:
+dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>), utils (<code><a href='https://rdrr.io/r/utils/select.list.html'>list</a></code>)
+.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
@@ -360,30 +371,30 @@ variables from the calling context.</p>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>10</span>))
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>df</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>1</span>, <span class='fl'>9</span>, <span class='fl'>8</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>6</span>, <span class='fl'>10</span>)])
 <span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 8
-#&gt;         V4    V7    V1    V9    V8     V5     V2     V6
-#&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-#&gt;  1 0.568   0.753 0.932 0.890 0.623 0.0512 0.577  0.410 
-#&gt;  2 0.614   0.222 0.197 0.412 0.214 0.727  0.249  0.493 
-#&gt;  3 0.00233 0.262 0.181 0.578 0.175 0.226  0.692  0.251 
-#&gt;  4 0.129   0.698 0.564 0.382 0.772 0.427  0.330  0.603 
-#&gt;  5 0.261   0.649 0.685 0.841 0.882 0.0613 0.241  0.465 
-#&gt;  6 0.971   0.671 0.475 0.774 0.612 0.515  0.602  0.876 
-#&gt;  7 0.665   0.997 0.677 0.947 0.441 0.713  0.0220 0.987 
-#&gt;  8 0.874   0.973 0.849 0.285 0.759 0.673  0.426  0.540 
-#&gt;  9 0.149   0.387 0.432 0.141 0.178 0.152  0.104  0.0661
-#&gt; 10 0.536   0.636 0.389 0.665 0.297 0.288  0.378  0.614 </div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 3
-#&gt;         V4     V5     V6
-#&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-#&gt;  1 0.568   0.0512 0.410 
-#&gt;  2 0.614   0.727  0.493 
-#&gt;  3 0.00233 0.226  0.251 
-#&gt;  4 0.129   0.427  0.603 
-#&gt;  5 0.261   0.0613 0.465 
-#&gt;  6 0.971   0.515  0.876 
-#&gt;  7 0.665   0.713  0.987 
-#&gt;  8 0.874   0.673  0.540 
-#&gt;  9 0.149   0.152  0.0661
-#&gt; 10 0.536   0.288  0.614 </div><div class='input'>
+#&gt;       V4     V7    V1      V9    V8     V5    V2    V6
+#&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 0.915 0.898  0.753 0.446   0.592 0.184  0.623 0.947
+#&gt;  2 0.106 0.896  0.222 0.903   0.907 0.862  0.214 0.185
+#&gt;  3 0.231 0.766  0.262 0.00488 0.575 0.824  0.175 0.319
+#&gt;  4 0.537 0.121  0.698 0.0569  0.402 0.673  0.772 0.757
+#&gt;  5 0.189 0.652  0.649 0.197   0.906 0.0750 0.882 0.716
+#&gt;  6 0.777 0.362  0.671 0.797   0.832 0.616  0.612 0.701
+#&gt;  7 0.841 0.393  0.997 0.0117  0.466 0.120  0.441 0.661
+#&gt;  8 0.543 0.0233 0.973 0.304   0.819 0.412  0.759 0.535
+#&gt;  9 0.406 0.258  0.387 0.566   0.834 0.137  0.178 0.158
+#&gt; 10 0.247 0.983  0.636 0.615   0.167 0.908  0.297 0.665</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 3
+#&gt;       V4     V5    V6
+#&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 0.915 0.184  0.947
+#&gt;  2 0.106 0.862  0.185
+#&gt;  3 0.231 0.824  0.319
+#&gt;  4 0.537 0.673  0.757
+#&gt;  5 0.189 0.0750 0.716
+#&gt;  6 0.777 0.616  0.701
+#&gt;  7 0.841 0.120  0.661
+#&gt;  8 0.543 0.412  0.535
+#&gt;  9 0.406 0.137  0.158
+#&gt; 10 0.247 0.908  0.665</div><div class='input'>
 <span class='co'># Select the grouping variables:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='group_cols.html'>group_cols</a></span>())</div><div class='output co'>#&gt; <span class='message'>Adding missing grouping variables: `gender`</span></div><div class='output co'>#&gt; # A tibble: 87 x 1
 #&gt; # Groups:   gender [3]
@@ -439,6 +450,7 @@ variables from the calling context.</p>
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#useful-functions">Useful functions</a></li>
+      <li><a href="#methods">Methods</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

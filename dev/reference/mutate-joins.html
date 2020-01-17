@@ -214,9 +214,42 @@ matches are returned.</p>
 
     <pre class="usage"><span class='fu'>inner_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='no'>...</span>)
 
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>inner_join</span>(
+  <span class='no'>x</span>,
+  <span class='no'>y</span>,
+  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='no'>...</span>,
+  <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)
+
 <span class='fu'>left_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='no'>...</span>)
 
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>left_join</span>(
+  <span class='no'>x</span>,
+  <span class='no'>y</span>,
+  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='no'>...</span>,
+  <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)
+
 <span class='fu'>right_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>right_join</span>(
+  <span class='no'>x</span>,
+  <span class='no'>y</span>,
+  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='no'>...</span>,
+  <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)
 
 <span class='fu'>full_join</span>(
   <span class='no'>x</span>,
@@ -226,6 +259,18 @@ matches are returned.</p>
   <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
   <span class='no'>...</span>,
   <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>full_join</span>(
+  <span class='no'>x</span>,
+  <span class='no'>y</span>,
+  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='no'>...</span>,
+  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -233,7 +278,9 @@ matches are returned.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x, y</th>
-      <td><p>Data frames</p></td>
+      <td><p>A pair of data frames, data frame extensions (e.g. a tibble), or
+lazy data frames (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
+more details.</p></td>
     </tr>
     <tr>
       <th>by</th>
@@ -261,9 +308,15 @@ Should be a character vector of length 2.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Other parameters passed onto methods.</p>
-<p>For example, <code>na_matches</code> controls how <code>NA</code> values are handled when
-joining data frames. See <a href='join.data.frame.html'>join.data.frame</a> for details.</p></td>
+      <td><p>Other parameters passed onto methods.</p></td>
+    </tr>
+    <tr>
+      <th>na_matches</th>
+      <td><p>Should <code>NA</code> and <code>NaN</code> values match one another?</p>
+<p>Use <code>"never"</code> to always treat two <code>NA</code> or <code>NaN</code> values as different, like
+joins for database sources, similarly to <code><a href='https://rdrr.io/r/base/merge.html'>merge(incomparables = FALSE)</a></code>.
+The default, <code>"na"</code>, always treats two <code>NA</code> or <code>NaN</code> values as equal,
+like <code>%in%</code>, <code><a href='https://rdrr.io/r/base/match.html'>match()</a></code>, <code><a href='https://rdrr.io/r/base/merge.html'>merge()</a></code>.</p></td>
     </tr>
     <tr>
       <th>keep</th>
@@ -288,6 +341,24 @@ added to disambiguate.</p></li>
 <li><p>Output columns columns included <code>by</code> are coerced to common type across
 <code>x</code> and <code>y</code>.</p></li>
 <li><p>Groups are taken from <code>x</code>.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<p>These function are <strong>generic</strong>s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.</p>
+<p>Methods available in currently loaded packages:</p><ul>
+<li><p><code>inner_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+.</p></li>
+<li><p><code>left_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+.</p></li>
+<li><p><code>right_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+.</p></li>
+<li><p><code>full_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -342,7 +413,7 @@ added to disambiguate.</p></li>
 #&gt; 2 John  Beatles John   guitar
 #&gt; 3 Paul  Beatles Paul   bass  
 #&gt; 4 &lt;NA&gt;  &lt;NA&gt;    Keith  guitar</div><div class='input'>
-<span class='co'># Note that if a row in `x` matches multiple rows in `y`, all rows</span>
+<span class='co'># If a row in `x` matches multiple rows in `y`, all rows</span>
 <span class='co'># will be returned</span>
 <span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)
 <span class='no'>df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"first"</span>, <span class='st'>"second"</span>, <span class='st'>"third"</span>))
@@ -352,13 +423,26 @@ added to disambiguate.</p></li>
 #&gt; 1     1 first 
 #&gt; 2     1 second
 #&gt; 3     2 third 
-#&gt; 4     3 &lt;NA&gt;  </div></pre>
+#&gt; 4     3 &lt;NA&gt;  </div><div class='input'>
+<span class='co'># By default, NAs match other NAs so that there are two</span>
+<span class='co'># rows in the output:</span>
+<span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='no'>df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>), <span class='kw'>z</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='fu'>left_join</span>(<span class='no'>df1</span>, <span class='no'>df2</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt;    x y z
+#&gt; 1  1 2 3
+#&gt; 2 NA 2 3</div><div class='input'>
+<span class='co'># You can optionally request that NAs don't match, giving a</span>
+<span class='co'># a result that more closely resembles SQL joins</span>
+<span class='fu'>left_join</span>(<span class='no'>df1</span>, <span class='no'>df2</span>, <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='st'>"never"</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `na_matches = 'never' currently unsupported</span></div><div class='output co'>#&gt;    x y z
+#&gt; 1  1 2 3
+#&gt; 2 NA 2 3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#methods">Methods</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

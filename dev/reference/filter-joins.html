@@ -206,14 +206,22 @@ of matches in <code>y</code>:</p><ul>
 
     <pre class="usage"><span class='fu'>semi_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
-<span class='fu'>anti_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>semi_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>, <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>anti_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>anti_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>, <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x, y</th>
-      <td><p>Data frames</p></td>
+      <td><p>A pair of data frames, data frame extensions (e.g. a tibble), or
+lazy data frames (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
+more details.</p></td>
     </tr>
     <tr>
       <th>by</th>
@@ -235,9 +243,15 @@ it is a potentially expensive operation so you must opt into it.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Other parameters passed onto methods.</p>
-<p>For example, <code>na_matches</code> controls how <code>NA</code> values are handled when
-joining data frames. See <a href='join.data.frame.html'>join.data.frame</a> for details.</p></td>
+      <td><p>Other parameters passed onto methods.</p></td>
+    </tr>
+    <tr>
+      <th>na_matches</th>
+      <td><p>Should <code>NA</code> and <code>NaN</code> values match one another?</p>
+<p>Use <code>"never"</code> to always treat two <code>NA</code> or <code>NaN</code> values as different, like
+joins for database sources, similarly to <code><a href='https://rdrr.io/r/base/merge.html'>merge(incomparables = FALSE)</a></code>.
+The default, <code>"na"</code>, always treats two <code>NA</code> or <code>NaN</code> values as equal,
+like <code>%in%</code>, <code><a href='https://rdrr.io/r/base/match.html'>match()</a></code>, <code><a href='https://rdrr.io/r/base/merge.html'>merge()</a></code>.</p></td>
     </tr>
     </table>
 
@@ -248,6 +262,20 @@ joining data frames. See <a href='join.data.frame.html'>join.data.frame</a> for 
 <li><p>Columns are not modified.</p></li>
 <li><p>Data frame attributes are preserved.</p></li>
 <li><p>Groups are taken from <code>x</code>. The number of groups may be reduced.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<p>These function are <strong>generic</strong>s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.</p>
+<p>Methods available in currently loaded packages:</p><ul>
+<li><p><code>semi_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+.</p></li>
+<li><p><code>anti_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -279,6 +307,7 @@ joining data frames. See <a href='join.data.frame.html'>join.data.frame</a> for 
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#methods">Methods</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

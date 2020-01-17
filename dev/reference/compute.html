@@ -52,7 +52,8 @@
 collect() retrieves data into a local tibble.
 collapse() is slightly different: it doesn't force computation, but
 instead forces generation of the SQL query. This is sometimes needed to work
-around bugs in dplyr's SQL generation." />
+around bugs in dplyr's SQL generation.
+All functions preserve grouping and ordering." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -200,6 +201,7 @@ around bugs in dplyr's SQL generation." />
 <code>collapse()</code> is slightly different: it doesn't force computation, but
 instead forces generation of the SQL query. This is sometimes needed to work
 around bugs in dplyr's SQL generation.</p>
+<p>All functions preserve grouping and ordering.</p>
     </div>
 
     <pre class="usage"><span class='fu'>compute</span>(<span class='no'>x</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>random_table_name</span>(), <span class='no'>...</span>)
@@ -213,7 +215,9 @@ around bugs in dplyr's SQL generation.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A tbl</p></td>
+      <td><p>A data frame, data frame extension (e.g. a tibble), or a lazy
+data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for more
+details.</p></td>
     </tr>
     <tr>
       <th>name</th>
@@ -225,9 +229,19 @@ around bugs in dplyr's SQL generation.</p>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p>All functions preserve grouping and ordering.</p>
+    
+
+<p>These functions are <strong>generics</strong>, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.</p>
+<p>Methods available in currently loaded packages:</p><ul>
+<li><p><code>compute()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
+<li><p><code>collect()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
+<li><p><code>collapse()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='copy_to.html'>copy_to()</a></code>, the opposite of <code>collect()</code>: it takes a local data
@@ -273,7 +287,7 @@ frame and uploads it to the remote source.</p></div>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
+      <li><a href="#methods">Methods</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

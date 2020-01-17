@@ -48,7 +48,8 @@
 
 
 <meta property="og:title" content="Apply a function to each group — group_map" />
-<meta property="og:description" content="group_map(), group_modify() and group_walk() are purrr-style functions that can
+<meta property="og:description" content="
+group_map(), group_modify() and group_walk() are purrr-style functions that can
 be used to iterate on grouped tibbles." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -192,7 +193,8 @@ be used to iterate on grouped tibbles." />
     </div>
 
     <div class="ref-description">
-    <p><code>group_map()</code>, <code>group_modify()</code> and <code>group_walk()</code> are purrr-style functions that can
+    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
+<p><code>group_map()</code>, <code>group_modify()</code> and <code>group_walk()</code> are purrr-style functions that can
 be used to iterate on grouped tibbles.</p>
     </div>
 
@@ -242,8 +244,7 @@ that identifies the group</p></li>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
-<p>Use <code>group_modify()</code> when <code><a href='summarise.html'>summarize()</a></code> is too limited, in terms of what you need
+    <p>Use <code>group_modify()</code> when <code><a href='summarise.html'>summarize()</a></code> is too limited, in terms of what you need
 to do and return for each group. <code>group_modify()</code> is good for "data frame in, data frame out".
 If that is too limited, you need to use a <a href='group_nest.html'>nested</a> or <a href='group_split.html'>split</a> workflow.
 <code>group_modify()</code> is an evolution of <code><a href='do.html'>do()</a></code>, if you have used that before.</p>

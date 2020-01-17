@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract a single column — pull • dplyr</title>
+<title>Condense values into list-columns — condense • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +47,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Extract a single column — pull" />
-<meta property="og:description" content="pull() is similar to $. It's mostly useful because it looks a little
-nicer in pipes, it also works with remote data frames, and it can optionally
-name the output." />
+<meta property="og:title" content="Condense values into list-columns — condense" />
+<meta property="og:description" content="
+condense() is an experimental variant of summarise() designed to make it
+as easy as possible to work with list-columns. It is particularly powerful when
+working with models: you can fit models per group with condense() and then
+flexibly extract components with summarise().
+It has three special properties:
+It only ever returns a single row per group.
+Each new column is always wrapped in a list.
+It returns a rowwise() output.
+
+
+It's hard to explain condense() in isolation, so if you find these ideas
+intriguing we recommend starting with vignette(&quot;rowwise&quot;)." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -187,18 +197,28 @@ name the output." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract a single column</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/pull.R'><code>R/pull.R</code></a></small>
-    <div class="hidden name"><code>pull.Rd</code></div>
+    <h1>Condense values into list-columns</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/condense.r'><code>R/condense.r</code></a></small>
+    <div class="hidden name"><code>condense.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>pull()</code> is similar to <code>$</code>. It's mostly useful because it looks a little
-nicer in pipes, it also works with remote data frames, and it can optionally
-name the output.</p>
+    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
+<p><code>condense()</code> is an experimental variant of <code><a href='summarise.html'>summarise()</a></code> designed to make it
+as easy as possible to work with list-columns. It is particularly powerful when
+working with models: you can fit models per group with <code>condense()</code> and then
+flexibly extract components with <code><a href='summarise.html'>summarise()</a></code>.</p>
+<p>It has three special properties:</p><ul>
+<li><p>It only ever returns a single row per group.</p></li>
+<li><p>Each new column is always wrapped in a list.</p></li>
+<li><p>It returns a <code><a href='rowwise.html'>rowwise()</a></code> output.</p></li>
+</ul>
+
+<p>It's hard to explain <code>condense()</code> in isolation, so if you find these ideas
+intriguing we recommend starting with <code>vignette("rowwise")</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pull</span>(<span class='no'>.data</span>, <span class='kw'>var</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>condense</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -210,29 +230,24 @@ lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
 more details.</p></td>
     </tr>
     <tr>
-      <th>var</th>
-      <td><p>A variable specified as:</p><ul>
-<li><p>a literal variable name</p></li>
-<li><p>a positive integer, giving the position counting from the left</p></li>
-<li><p>a negative integer, giving the position counting from the right.</p></li>
-</ul>
-
-<p>The default returns the last column (on the assumption that's the
-column you've created most recently).</p>
-<p>This argument is taken by expression and supports
-<a href='https://rlang.r-lib.org/reference/nse-force.html'>quasiquotation</a> (you can unquote column
-names and column locations).</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>An optional parameter that specifies the column to be used
-as names for a named vector. Specified in a similar manner as <code>var</code>.</p></td>
+      <th>...</th>
+      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; Name-value pairs of functions.
+All outputs will be automatically wrapped in lists, making it most
+suitable for functions that that return non-vectors (e.g. linear models)
+or vectors of length greater than one.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A vector the same size as <code>.data</code>.</p>
+    <p>A <a href='rowwise.html'>rowwise</a> object.</p><ul>
+<li><p>The rows and initial columns come from <code><a href='group_data.html'>group_data(.data)</a></code>.</p></li>
+<li><p>Each additional column that you provide will be wrapped in a list column.</p></li>
+<li><p>Output is grouped by row.</p></li>
+<li><p>Data frame attributes are <strong>not</strong> preserved, because <code>condense()</code>
+fundamentally creates a new data frame.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -241,79 +256,48 @@ as names for a named vector. Specified in a similar manner as <code>var</code>.<
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>The following methods are currently available in loaded packages:
-dbplyr (<code>tbl_sql</code>), dplyr (<code>data.frame</code>)
+dplyr (<code>data.frame</code>)
 .</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(-<span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1] 4 4 1 1 2 1 4 2 2 4 4 3 3 3 4 4 4 1 2 1 1 2 2 4 2 1 2 2 4 6 8 2</div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2 10.4
-#&gt; [16] 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4 15.8 19.7
-#&gt; [31] 15.0 21.4</div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt;  [1] 6 6 4 6 8 6 8 4 4 6 6 8 8 8 8 8 8 4 4 4 4 8 8 8 8 4 4 4 8 6 8 4</div><div class='input'>
-<span class='co'># Also works for remote sources</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"dbplyr"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dbplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>memdb_frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>10</span>:<span class='fl'>1</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='st'>"pull-ex"</span>)
-<span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> * <span class='no'>y</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pull</span>()
-}</div><div class='output co'>#&gt;  [1] 10 18 24 28 30 30 28 24 18 10</div><div class='input'>
-<span class='co'># Pull a named vector</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(<span class='no'>height</span>, <span class='no'>name</span>)</div><div class='output co'>#&gt;        Luke Skywalker                 C-3PO                 R2-D2 
-#&gt;                   172                   167                    96 
-#&gt;           Darth Vader           Leia Organa             Owen Lars 
-#&gt;                   202                   150                   178 
-#&gt;    Beru Whitesun lars                 R5-D4     Biggs Darklighter 
-#&gt;                   165                    97                   183 
-#&gt;        Obi-Wan Kenobi      Anakin Skywalker        Wilhuff Tarkin 
-#&gt;                   182                   188                   180 
-#&gt;             Chewbacca              Han Solo                Greedo 
-#&gt;                   228                   180                   173 
-#&gt; Jabba Desilijic Tiure        Wedge Antilles      Jek Tono Porkins 
-#&gt;                   175                   170                   180 
-#&gt;                  Yoda             Palpatine             Boba Fett 
-#&gt;                    66                   170                   183 
-#&gt;                 IG-88                 Bossk      Lando Calrissian 
-#&gt;                   200                   190                   177 
-#&gt;                 Lobot                Ackbar            Mon Mothma 
-#&gt;                   175                   180                   150 
-#&gt;          Arvel Crynyd Wicket Systri Warrick             Nien Nunb 
-#&gt;                    NA                    88                   160 
-#&gt;          Qui-Gon Jinn           Nute Gunray         Finis Valorum 
-#&gt;                   193                   191                   170 
-#&gt;         Jar Jar Binks          Roos Tarpals            Rugor Nass 
-#&gt;                   196                   224                   206 
-#&gt;              Ric Olié                 Watto               Sebulba 
-#&gt;                   183                   137                   112 
-#&gt;         Quarsh Panaka        Shmi Skywalker            Darth Maul 
-#&gt;                   183                   163                   175 
-#&gt;           Bib Fortuna           Ayla Secura              Dud Bolt 
-#&gt;                   180                   178                    94 
-#&gt;               Gasgano        Ben Quadinaros            Mace Windu 
-#&gt;                   122                   163                   188 
-#&gt;          Ki-Adi-Mundi             Kit Fisto             Eeth Koth 
-#&gt;                   198                   196                   171 
-#&gt;            Adi Gallia           Saesee Tiin           Yarael Poof 
-#&gt;                   184                   188                   264 
-#&gt;              Plo Koon            Mas Amedda          Gregar Typho 
-#&gt;                   188                   196                   185 
-#&gt;                 Cordé           Cliegg Lars     Poggle the Lesser 
-#&gt;                   157                   183                   183 
-#&gt;       Luminara Unduli         Barriss Offee                 Dormé 
-#&gt;                   170                   166                   165 
-#&gt;                 Dooku   Bail Prestor Organa            Jango Fett 
-#&gt;                   193                   191                   183 
-#&gt;            Zam Wesell       Dexter Jettster               Lama Su 
-#&gt;                   168                   198                   229 
-#&gt;               Taun We            Jocasta Nu         Ratts Tyerell 
-#&gt;                   213                   167                    79 
-#&gt;                R4-P17            Wat Tambor              San Hill 
-#&gt;                    96                   193                   191 
-#&gt;              Shaak Ti              Grievous               Tarfful 
-#&gt;                   178                   216                   234 
-#&gt;       Raymus Antilles             Sly Moore            Tion Medon 
-#&gt;                   188                   178                   206 
-#&gt;                  Finn                   Rey           Poe Dameron 
-#&gt;                    NA                    NA                    NA 
-#&gt;                   BB8        Captain Phasma         Padmé Amidala 
-#&gt;                    NA                    NA                   165 </div></pre>
+    <pre class="examples"><div class='input'><span class='co'># Modelling ------------------------------------------------</span>
+<span class='no'>mods</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>condense</span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='across.html'>across</a></span>()))
+<span class='no'>mods</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt; # Rowwise:  cyl
+#&gt;     cyl mod   
+#&gt;   &lt;dbl&gt; &lt;list&gt;
+#&gt; 1     4 &lt;lm&gt;  
+#&gt; 2     6 &lt;lm&gt;  
+#&gt; 3     8 &lt;lm&gt;  </div><div class='input'>
+<span class='no'>mods</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt; # Rowwise:  cyl
+#&gt;     cyl mod       rsq
+#&gt;   &lt;dbl&gt; &lt;list&gt;  &lt;dbl&gt;
+#&gt; 1     4 &lt;lm&gt;   0.648 
+#&gt; 2     6 &lt;lm&gt;   0.0106
+#&gt; 3     8 &lt;lm&gt;   0.270 </div><div class='input'>
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"broom"</span>)) {
+  <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>glance</a></span>(<span class='no'>mod</span>))
+  <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>tidy</a></span>(<span class='no'>mod</span>))
+  <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>augment</a></span>(<span class='no'>mod</span>))
+}</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: broom</span></div><div class='output co'>#&gt; # A tibble: 32 x 10
+#&gt; # Rowwise:  cyl
+#&gt;      cyl   mpg  disp .fitted .se.fit .resid   .hat .sigma .cooksd .std.resid
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+#&gt;  1     4  22.8 108      26.3   0.855 -3.48  0.0920   2.70 0.0849     -1.29  
+#&gt;  2     4  24.4 147.     21.0   1.62   3.35  0.330    2.62 0.521       1.45  
+#&gt;  3     4  22.8 141.     21.8   1.46   0.956 0.267    2.96 0.0286      0.396 
+#&gt;  4     4  32.4  78.7    30.2   1.22   2.16  0.188    2.87 0.0838      0.852 
+#&gt;  5     4  30.4  75.7    30.6   1.29  -0.242 0.211    2.99 0.00125    -0.0965
+#&gt;  6     4  33.9  71.1    31.3   1.41   2.64  0.251    2.79 0.196       1.08  
+#&gt;  7     4  21.5 120.     24.6   0.984 -3.14  0.122    2.74 0.0982     -1.19  
+#&gt;  8     4  27.3  79      30.2   1.21  -2.90  0.186    2.77 0.148      -1.14  
+#&gt;  9     4  26   120.     24.6   0.988  1.39  0.123    2.94 0.0193      0.525 
+#&gt; 10     4  30.4  95.1    28.0   0.913  2.38  0.105    2.85 0.0466      0.892 
+#&gt; # … with 22 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

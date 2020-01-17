@@ -48,7 +48,16 @@
 
 
 <meta property="og:title" content="Split data frame by groups — group_split" />
-<meta property="og:description" content="Split data frame by groups" />
+<meta property="og:description" content="
+
+group_split() works like base::split() but
+it uses the grouping structure from group_by() and therefore is subject to the data mask
+it does not name the elements of the list based on the grouping as this typically
+loses information and is confusing.
+
+
+group_keys() explains the grouping structure, by returning a data frame that has one row
+per group and one column per grouping variable." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -191,7 +200,16 @@
     </div>
 
     <div class="ref-description">
-    <p>Split data frame by groups</p>
+    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a>
+
+<code>group_split()</code> works like <code><a href='https://rdrr.io/r/base/split.html'>base::split()</a></code> but</p><ul>
+<li><p>it uses the grouping structure from <code><a href='group_by.html'>group_by()</a></code> and therefore is subject to the data mask</p></li>
+<li><p>it does not name the elements of the list based on the grouping as this typically
+loses information and is confusing.</p></li>
+</ul>
+
+<p><code><a href='group_data.html'>group_keys()</a></code> explains the grouping structure, by returning a data frame that has one row
+per group and one column per grouping variable.</p>
     </div>
 
     <pre class="usage"><span class='fu'>group_split</span>(<span class='no'>.tbl</span>, <span class='no'>...</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
@@ -222,17 +240,6 @@ all the columns, including the grouping variables.</p></li>
 <li><p><code><a href='group_data.html'>group_keys()</a></code> returns a tibble with one row per group, and one column per grouping variable</p></li>
 </ul>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
-<p><code>group_split()</code> works like <code><a href='https://rdrr.io/r/base/split.html'>base::split()</a></code> but</p><ul>
-<li><p>it uses the grouping structure from <code><a href='group_by.html'>group_by()</a></code> and therefore is subject to the data mask</p></li>
-<li><p>it does not name the elements of the list based on the grouping as this typically
-loses information and is confusing.</p></li>
-</ul>
-
-<p><code><a href='group_data.html'>group_keys()</a></code> explains the grouping structure, by returning a data frame that has one row
-per group and one column per grouping variable.</p>
     <h2 class="hasAnchor" id="grouped-data-frames"><a class="anchor" href="#grouped-data-frames"></a>Grouped data frames</h2>
 
     
@@ -268,8 +275,7 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 <code><a href='group_trim.html'>group_trim</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># ----- use case 1 : on an already grouped tibble</span>
+    <pre class="examples"><div class='input'><span class='co'># ----- use case 1 : on an already grouped tibble</span>
 <span class='no'>ir</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>)
 
@@ -473,15 +479,13 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 #&gt;   &lt;fct&gt;     
 #&gt; 1 setosa    
 #&gt; 2 versicolor
-#&gt; 3 virginica </div><div class='input'>
-</div></pre>
+#&gt; 3 virginica </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#grouped-data-frames">Grouped data frames</a></li>
       <li><a href="#ungrouped-data-frames">Ungrouped data frames</a></li>
       <li><a href="#rowwise-data-frames">Rowwise data frames</a></li>

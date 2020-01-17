@@ -204,7 +204,7 @@ existing code, so we created a new alternative." />
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#retired'><img src='figures/lifecycle-retired.svg' alt='Retired lifecycle'></a>
 
-<code>top_n()</code> has been retired in favour of <code><a href='slice_head.html'>slice_min()</a></code>/<code><a href='slice_head.html'>slice_max()</a></code>.
+<code>top_n()</code> has been retired in favour of <code><a href='slice.html'>slice_min()</a></code>/<code><a href='slice.html'>slice_max()</a></code>.
 While it will not be deprecated in the near future, retirement means
 that we will only perform critical bug fixes, so we recommend moving to the
 newer alternatives.</p>
@@ -252,9 +252,9 @@ specified, defaults to the last variable in the tbl.</p></td>
 #&gt; 1 1
 #&gt; 2 1
 #&gt; 3 1</div><div class='input'><span class='co'># now use</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice_head.html'>slice_max</a></span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;    x
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_max</a></span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;    x
 #&gt; 1 10
-#&gt; 2  6</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice_head.html'>slice_min</a></span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;   x
+#&gt; 2  6</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_min</a></span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;   x
 #&gt; 1 1
 #&gt; 2 1
 #&gt; 3 1</div><div class='input'>
@@ -263,7 +263,7 @@ specified, defaults to the last variable in the tbl.</p></td>
 #&gt; 1  6
 #&gt; 2  4
 #&gt; 3 10</div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice_head.html'>slice_max</a></span>(<span class='no'>x</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;    x
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_max</a></span>(<span class='no'>x</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;    x
 #&gt; 1 10
 #&gt; 2  6
 #&gt; 3  4</div></pre>

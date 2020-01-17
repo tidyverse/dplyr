@@ -48,7 +48,8 @@
 
 
 <meta property="og:title" content="Nest a tibble using a grouping specification — group_nest" />
-<meta property="og:description" content="Nest a tibble using a grouping specification" />
+<meta property="og:description" content="
+Nest a tibble using a grouping specification" />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -191,7 +192,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Nest a tibble using a grouping specification</p>
+    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
+<p>Nest a tibble using a grouping specification</p>
     </div>
 
     <pre class="usage"><span class='fu'>group_nest</span>(<span class='no'>.tbl</span>, <span class='no'>...</span>, <span class='kw'>.key</span> <span class='kw'>=</span> <span class='st'>"data"</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
@@ -222,9 +224,6 @@
     <p>A tbl with one row per unique combination of the grouping variables.
 The first columns are the grouping variables, followed by a list column of tibbles
 with matching rows of the remaining columns.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
     <h2 class="hasAnchor" id="grouped-data-frames"><a class="anchor" href="#grouped-data-frames"></a>Grouped data frames</h2>
 
     
@@ -286,16 +285,13 @@ the first argument, the grouped tibble, and warns when <code>...</code> is used.
 #&gt;  8 Droid    &lt;NA&gt;               [3 × 12]
 #&gt;  9 Dug      Malastare          [1 × 12]
 #&gt; 10 Ewok     Endor              [1 × 12]
-#&gt; # … with 48 more rows</div><div class='input'>
-
-</div></pre>
+#&gt; # … with 48 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#grouped-data-frames">Grouped data frames</a></li>
       <li><a href="#ungrouped-data-frames">Ungrouped data frames</a></li>
       <li><a href="#see-also">See also</a></li>

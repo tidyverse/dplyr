@@ -198,7 +198,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-single-table-verbs" class="hasAnchor"><a href="#section-single-table-verbs" class="anchor"></a>Single-table verbs</h2>
+          <h2 id="section-one-table-verbs" class="hasAnchor"><a href="#section-one-table-verbs" class="anchor"></a>One table verbs</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -259,20 +259,14 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="slice.html">slice()</a></code> </p>
+          <p><code><a href="slice.html">slice()</a></code> <code><a href="slice.html">slice_head()</a></code> <code><a href="slice.html">slice_tail()</a></code> <code><a href="slice.html">slice_min()</a></code> <code><a href="slice.html">slice_max()</a></code> <code><a href="slice.html">slice_sample()</a></code> </p>
         </td>
         <td><p>Subset rows using their positions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="slice_head.html">slice_head()</a></code> <code><a href="slice_head.html">slice_tail()</a></code> <code><a href="slice_head.html">slice_min()</a></code> <code><a href="slice_head.html">slice_max()</a></code> <code><a href="slice_head.html">slice_sample()</a></code> </p>
-        </td>
-        <td><p>Slice helpers</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-two-table-verbs" class="hasAnchor"><a href="#section-two-table-verbs" class="anchor"></a>Two-table verbs</h2>
+          <h2 id="section-two-table-verbs" class="hasAnchor"><a href="#section-two-table-verbs" class="anchor"></a>Two table verbs</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -291,12 +285,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="filter-joins.html">semi_join()</a></code> <code><a href="filter-joins.html">anti_join()</a></code> </p>
-        </td>
-        <td><p>Filtering joins</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="mutate-joins.html">inner_join()</a></code> <code><a href="mutate-joins.html">left_join()</a></code> <code><a href="mutate-joins.html">right_join()</a></code> <code><a href="mutate-joins.html">full_join()</a></code> </p>
         </td>
         <td><p>Mutating joins</p></td>
@@ -309,9 +297,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="join.data.frame.html">inner_join(<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="join.data.frame.html">left_join(<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="join.data.frame.html">right_join(<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="join.data.frame.html">full_join(<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="join.data.frame.html">semi_join(<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="join.data.frame.html">anti_join(<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="join.data.frame.html">nest_join(<i>&lt;data.frame&gt;</i>)</a></code> </p>
+          <p><code><a href="filter-joins.html">semi_join()</a></code> <code><a href="filter-joins.html">anti_join()</a></code> </p>
         </td>
-        <td><p>Join methods for data frames</p></td>
+        <td><p>Filtering joins</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -329,9 +317,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="with_groups.html">with_groups()</a></code> </p>
+          <p><code><a href="group_cols.html">group_cols()</a></code> </p>
         </td>
-        <td><p>Perform an operation with temporary groups</p></td>
+        <td><p>Select grouping variables</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -466,38 +454,6 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-computation-on-groups" class="hasAnchor"><a href="#section-computation-on-groups" class="anchor"></a>Computation on groups</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="group_cols.html">group_cols()</a></code> </p>
-        </td>
-        <td><p>Select grouping variables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="group_map.html">group_map()</a></code> <code><a href="group_map.html">group_modify()</a></code> <code><a href="group_map.html">group_walk()</a></code> </p>
-        </td>
-        <td><p>Apply a function to each group</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="group_trim.html">group_trim()</a></code> </p>
-        </td>
-        <td><p>Trim grouping structure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="group_split.html">group_split()</a></code> </p>
-        </td>
-        <td><p>Split data frame by groups</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
           <h2 id="section-remote-tables" class="hasAnchor"><a href="#section-remote-tables" class="anchor"></a>Remote tables</h2>
           <p class="section-desc"></p>
         </th>
@@ -550,44 +506,6 @@
           <p><code><a href="sql.html">sql()</a></code> </p>
         </td>
         <td><p>SQL escaping.</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-questioning-retired" class="hasAnchor"><a href="#section-questioning-retired" class="anchor"></a>Questioning/retired</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="all_equal.html">all_equal()</a></code> </p>
-        </td>
-        <td><p>Flexible equality comparison for data frames</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="do.html">do()</a></code> </p>
-        </td>
-        <td><p>Do anything</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rowwise.html">rowwise()</a></code> </p>
-        </td>
-        <td><p>Group input by rows</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sample_n.html">sample_n()</a></code> <code><a href="sample_n.html">sample_frac()</a></code> </p>
-        </td>
-        <td><p>Sample n rows from a table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="top_n.html">top_n()</a></code> <code><a href="top_n.html">top_frac()</a></code> </p>
-        </td>
-        <td><p>Select top (or bottom) n rows (by value)</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -657,6 +575,78 @@
         </td>
         <td><p>Select variables</p></td>
       </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-experimental" class="hasAnchor"><a href="#section-experimental" class="anchor"></a>Experimental</h2>
+          <p class="section-desc"><p>Experimental functions are a testing ground for new approaches that we believe to be worthy of greater exposure. There is no guarantee that these functions will stay around in the future, so please reach out if you find them useful.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="group_map.html">group_map()</a></code> <code><a href="group_map.html">group_modify()</a></code> <code><a href="group_map.html">group_walk()</a></code> </p>
+        </td>
+        <td><p>Apply a function to each group</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="group_trim.html">group_trim()</a></code> </p>
+        </td>
+        <td><p>Trim grouping structure</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="group_split.html">group_split()</a></code> </p>
+        </td>
+        <td><p>Split data frame by groups</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="with_groups.html">with_groups()</a></code> </p>
+        </td>
+        <td><p>Perform an operation with temporary groups</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-questioning" class="hasAnchor"><a href="#section-questioning" class="anchor"></a>Questioning</h2>
+          <p class="section-desc"><p>We have our doubts about questioning functions. We’re not certain that they’re inadequate, or we don’t have a good replacement in mind, but these functions are at risk of removal in the future.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="all_equal.html">all_equal()</a></code> </p>
+        </td>
+        <td><p>Flexible equality comparison for data frames</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-superseded" class="hasAnchor"><a href="#section-superseded" class="anchor"></a>Superseded</h2>
+          <p class="section-desc"><p>Superseded functions have been replaced by new approaches that we believe to be superior, but we don’t want to force you to change until you’re ready, so the existing functions will stay around for several years.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="rowwise.html">rowwise()</a></code> </p>
+        </td>
+        <td><p>Group input by rows</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sample_n.html">sample_n()</a></code> <code><a href="sample_n.html">sample_frac()</a></code> </p>
+        </td>
+        <td><p>Sample n rows from a table</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="top_n.html">top_n()</a></code> <code><a href="top_n.html">top_frac()</a></code> </p>
+        </td>
+        <td><p>Select top (or bottom) n rows (by value)</p></td>
+      </tr>
     </tbody>
     </table>
   </div>
@@ -664,15 +654,16 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-single-table-verbs">Single-table verbs</a></li>
-      <li><a href="#section-two-table-verbs">Two-table verbs</a></li>
+      <li><a href="#section-one-table-verbs">One table verbs</a></li>
+      <li><a href="#section-two-table-verbs">Two table verbs</a></li>
       <li><a href="#section-grouping">Grouping</a></li>
       <li><a href="#section-vector-functions">Vector functions</a></li>
       <li><a href="#section-data">Data</a></li>
-      <li><a href="#section-computation-on-groups">Computation on groups</a></li>
       <li><a href="#section-remote-tables">Remote tables</a></li>
-      <li><a href="#section-questioning-retired">Questioning/retired</a></li>
       <li><a href="#section-single-table-helpers">Single-table helpers</a></li>
+      <li><a href="#section-experimental">Experimental</a></li>
+      <li><a href="#section-questioning">Questioning</a></li>
+      <li><a href="#section-superseded">Superseded</a></li>
     </ul>
   </div>
 </div>

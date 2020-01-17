@@ -48,7 +48,9 @@
 
 
 <meta property="og:title" content="Trim grouping structure — group_trim" />
-<meta property="og:description" content="Drop unused levels of all factors that are used as grouping variables,
+<meta property="og:description" content="
+
+Drop unused levels of all factors that are used as grouping variables,
 then recalculates the grouping structure.
 group_trim() is particularly useful after a filter() that is intended
 to select a subset of groups." />
@@ -194,7 +196,9 @@ to select a subset of groups." />
     </div>
 
     <div class="ref-description">
-    <p>Drop unused levels of all factors that are used as grouping variables,
+    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a>
+
+Drop unused levels of all factors that are used as grouping variables,
 then recalculates the grouping structure.</p>
 <p><code>group_trim()</code> is particularly useful after a <code><a href='filter.html'>filter()</a></code> that is intended
 to select a subset of groups.</p>
@@ -218,9 +222,6 @@ to select a subset of groups.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <a href='grouped_df.html'>grouped data frame</a></p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other grouping functions: 
@@ -248,15 +249,13 @@ to select a subset of groups.</p>
 #&gt;  8          5           3.4          1.5         0.2 setosa 
 #&gt;  9          4.4         2.9          1.4         0.2 setosa 
 #&gt; 10          4.9         3.1          1.5         0.1 setosa 
-#&gt; # … with 40 more rows</div><div class='input'>
-</div></pre>
+#&gt; # … with 40 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
