@@ -137,8 +137,8 @@ Underneath all functions that use tidy selection is the [tidyselect](http://tidy
 As with, data masking there are two forms of indirection. 
 
 *   When you have the data-variable in an env-variable that is a functon
-    argument[^promise], you use the same technique as data masking: you 
-    **embrace** the argument by surrounding it in doubled parentheses.
+    argument, you use the same technique as data masking: you **embrace** the
+    argument by surrounding it in doubled parentheses.
     
     The following function summarises a data frame by computing
     the mean of all variables selected by the user.
