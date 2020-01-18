@@ -26,6 +26,8 @@ Most dplyr verbs use **tidy evaluation** in some way. Tidy evaluation is a speci
   **tidy selection** so you can easily choose variabe based on their position, 
   name, or type (e.g. `starts_with("x")` or `is.numeric`).
 
+To determine whether a function argument uses data masking or tidy selection, look at the documentation: in the arguments list you'll see `<tidy-eval>` or `<tidy-select>`.
+
 Data masking and tidy selection make interactive data exploration fast and fluid, but add some new challenges when you attempt to use them indirectly, as in a for loop or function. This vignette shows you how to overcome those challenges. We'll first go over the basics of data masking and tidy selection, talk about how to use them indirectly, and then show you a number of recipes to solve common problems.
 
 This vignette will give you the minimum knowledge you need to be an effective programmer with tidy evaluation. If you'd like to learn more about the underlying theory, or how precisely its different from non-standard evaluation, we recommend that you read the Metaprogramming chapters in [_Advanced R_](https://adv-r.hadley.nz).
@@ -44,7 +46,7 @@ starwars[starwars$homeworld == "Naboo" & starwars$species == "Human", ,]
 
 [^subset]: dplyr's `filter()` is inspired by base R's `subset()`. `subset()` provides data masking, but not with tidy evaluation, so the techniques described in this chapter don't apply to it.
 
-The dplyr equivalent of this code is more concise because you only need to write `starwars` once:
+The dplyr equivalent of this code is more concise because data masking allows you to need to type `starwars` once:
 
 ```{r, results = FALSE}
 starwars %>% filter(homeworld == "Naboo", species == "Human")
@@ -87,8 +89,8 @@ The main challenge of programming with function that use data masking arises whe
     as well as the number of observations that were summarised.
 
     ```{r, results = FALSE}
-    var_summary <- function(df, var) {
-      df %>%
+    var_summary <- function(data, var) {
+      data %>%
         summarise(n = n(), min = min({{ var }}), max = max({{ var }}))
     }
     mtcars %>% 
@@ -120,8 +122,8 @@ Data masking makes it easy to compute on values within a dataset. Tidy selection
 
 Underneath all functions that use tidy selection is the [tidyselect](http://tidyselect.r-lib.org/) package. It provides a miniature domain specific language that makes it easy to select columns by name, position, or type. For example:
 
-* `select(df, 1)` selects the first column; `select(1, last_col())` selects
-  the last column.
+* `select(df, 1)` selects the first column; 
+  `select(1, last_col())` selects the last column.
   
 * `select(df, c(a, b, c))` selects columns `a`, `b`, and `c`.
 
@@ -130,11 +132,11 @@ Underneath all functions that use tidy selection is the [tidyselect](http://tidy
   
 * `select(df, is.numeric)` selects all numeric columns.
 
-(See more details in `?dplyr_tidy_select`).
+You can see more details in `?dplyr_tidy_select`.
 
-### Indirection selection
+### Indirection
 
-As with, data masking there are two forms of indirection. 
+As with data masking, tidy selection makes a common task easier, and at the cost of making a less common task harder. When you want to use tidy select indirectly, with the column specification stored in an intermediate variable, you'll need to learn some new tools. Again, there are there are two forms of indirection:
 
 *   When you have the data-variable in an env-variable that is a functon
     argument, you use the same technique as data masking: you **embrace** the
@@ -144,8 +146,8 @@ As with, data masking there are two forms of indirection.
     the mean of all variables selected by the user.
 
     ```{r, results = FALSE}
-    summarise_mean <- function(df, vars) {
-      df %>% summarise(n = n(), across({{ vars }}, mean))
+    summarise_mean <- function(data, vars) {
+      data %>% summarise(n = n(), across({{ vars }}, mean))
     }
     mtcars %>% 
       group_by(cyl) %>% 
@@ -168,102 +170,118 @@ As with, data masking there are two forms of indirection.
 
 ## How tos
 
-The examples here are somewhat inauthentic because we've reduced them down to very simple components to make them easier to understand. They're so simple that you might wonder why we bother writing a function at all. But it's a good idea to learn the ideas on simple examples, so that you're better prepared to apply them to the more complex situations you'll see in your own code.
+The following examples solve a grab bag of common problems. We show you the minimum amount of code so that you can get the basic idea; most real problems will require more code, or combining multiple techniques.
 
-### How to tell if a function uses tidy evaluation
+### User-supplied data
 
-Tidy evaluation is a property that applies not to an entire function, but to specific arguments of a function. You can tell if an argument uses special evaluation because its documentation will have special a label that looks like `<tidy-eval>`.
-
-### Function with user-supplied data
-
-If you read the documentation for the dplyr verbs, you'll see that they don't use tidy evaluation for the `.data` argument. This makes it simple to reduce duplication when repeated code only varies the data:
-
-```{r, eval = FALSE}
-mutate(df1, y = a + x)
-mutate(df2, y = a + x)
-mutate(df3, y = a + x)
-mutate(df4, y = a + x)
-```
+If you check the documentation, you'll see that `.data` never uses data masking or tidy select. That means you don't need to do anything special in your function:
 
 ```{r}
-mutate_y <- function(df) {
-  mutate(df, y = a + x)
+mutate_y <- function(data) {
+  mutate(data, y = a + x)
 }
 ```
 
-### Function with a user-supplied expression
+### Eliminating `R CMD check` `NOTE`s
 
-What about when a repeated code varies over an argument that uses tidy evaluation?
+If you're writing a package, and you have a function that uses data-variables:
 
 ```{r}
-starwars %>%
-  group_by(species) %>%
-  summarise(mean = mean(mass, na.rm = TRUE))
-
-starwars %>%
-  group_by(homeworld) %>%
-  summarise(mean = mean(mass, na.rm = TRUE))
+my_summary_function <- function(data) {
+  data %>% 
+    filter(x > 0) %>% 
+    group_by(grp) %>% 
+    summarise(y = mean(y), n = n())
+}
 ```
 
-You'll need to embrace that argument with `{{ }}`
+You'll get an `R CMD CHECK` `NOTE`:
+
+```
+N  checking R code for possible problems
+   my_summary_function: no visible binding for global variable ‘x’, ‘grp’, ‘y’
+   Undefined global functions or variables:
+     x grp y
+```
+
+You can eliminate this by using `.data$var`, and importing `.data` from its source in the rlang package (the underlying package that implements tidy evaluation):
 
 ```{r}
-my_summarise <- function(df, group_var) {
-  df %>%
+#' @importFrom rlang .data
+my_summary_function <- function(data) {
+  data %>% 
+    filter(.data$x > 0) %>% 
+    group_by(.data$grp) %>% 
+    summarise(y = mean(.data$y), n = n())
+}
+```
+
+### One user-supplied expression
+
+If you want the user the to supply an expression that's passed on to an argument that uses data masking or tidy select, embrace the argument:
+
+```{r}
+my_summarise <- function(data, group_var) {
+  data %>%
     group_by({{ group_var }}) %>%
     summarise(mean = mean(mass))
 }
 
-my_summarise(starwars, species)
+my_summarise <- function(data, vars) {
+  data %>%
+    summarise(
+      across({{ vars }}, ~ mean(x, na.rm = TRUE))
+    )
+}
 ```
 
-This generalises in a straightforward way if you want to use one user supplied expression in multiple places. For example, if you wanted to write a function to reduce the duplication here:
+This generalises in a straightforward way if you want to use one user supplied expression in multiple places:
 
 ```{r}
-df <- tibble(a = 1:10, b = runif(10))
-
-df %>% summarise(mean = mean(a), sum = sum(a), n = n())
-df %>% summarise(mean = mean(a * b), sum = sum(a * b), n = n())
-```
-
-You'd just use:
-
-```{r}
-my_summarise2 <- function(df, expr) {
-  expr <- enquo(expr)
-
-  df %>% summarise(
+my_summarise2 <- function(data, expr) {
+  data %>% summarise(
     mean = mean({{ expr }}),
     sum = sum({{ expr }}),
     n = n()
   )
 }
-df %>% my_summarise2(a)
-df %>% my_summarise2(a * b)
 ```
 
-### Function with multiple user-supplied expressions
+### Multiple user-supplied expressions
 
-If you just want to pass expressions along without transforming them, you can use `...`. This is most often useful when you want to give the user full control over a single part of the pipeline, like a `group_by()` or a `mutate()`.
+If you want the user to provide multiple expressions, embrace each of them:
 
 ```{r}
+my_summarise <- function(data, mean_var, sd_var) {
+  data %>% 
+    summarise(mean = mean({{ mean_var }}), sd = mean({{ sd_var }}))
+}
+```
 
-my_summarise <- function(df, ...) {
-  df %>%
+### Any number of user-supplied expressions
+
+If you want to take an arbitrary number of user supplied expressions, use `...`. This is most often useful when you want to give the user full control over a single part of the pipeline, like a `group_by()` or a `mutate()`.
+
+```{r}
+my_summarise <- function(.data, ...) {
+  .data %>%
     group_by(...) %>%
     summarise(mass = mean(mass, na.rm = TRUE), height = mean(height, na.rm = TRUE))
 }
 
-my_summarise(starwars, homeworld)
+starwars %>% my_summarise(homeworld)
+starwars %>% my_summarise(sex, gender)
 ```
   
-### Function with multiple user-supplied variables
+When you use `...` in this way, make sure that any other arguments start with `.` to reduce the chances of argument clashes; see <https://design.tidyverse.org/dots-prefix.html> for more details.
+  
+### Transforming user-supplied variables
 
 If you want the user to provide a set of variables that are then transformed, use `across()`:
 
 ```{r}
-my_summarise <- function(df, summary_vars) {
-  df %>%
+my_summarise <- function(data, summary_vars) {
+  data %>%
     summarise(across({{ summary_vars }}, ~ mean(., na.rm = TRUE)))
 }
 starwars %>% 
@@ -274,8 +292,8 @@ starwars %>%
 You can use this same idea for multiple sets of input variables:
 
 ```{r}
-my_summarise <- function(df, group_by, summarise_by) {
-  df %>%
+my_summarise <- function(data, group_by, summarise_by) {
+  data %>%
     group_by(across({{ group_by }})) %>% 
     summarise(across({{ summarise_by }}, mean))
 }
@@ -283,12 +301,20 @@ my_summarise <- function(df, group_by, summarise_by) {
 
 ### Loop over multiple variables
 
-If you want to loop over variables you need a slightly different approach, because precisely storing expressions in a vector requires greater knowledge of the underlying theory. A simpler approach is to put the variable names in a character vector and use the special `.data` pronoun:
+Index into the special `.data` pronoun:
 
-```{r, eval = FALSE}
+```{r, results = FALSE}
 for (var in names(mtcars)) {
   mtcars %>% count(.data[[var]]) %>% print()
 }
+```
+
+This same technique works with the base R `apply()` family and the purrr `map()` family:
+
+```{r, results = FALSE}
+mtcars %>% 
+  names() %>% 
+  purrr::map(~ mtcars %>% count(.data[[.x]]))
 ```
 
 (Note that `.data` is not a data frame; it's a special construct that allows you to access the current variables either directly, with `.data$x` or indirectly with `.data[[var]]`. Don't expect other functions to work with it.)
@@ -310,31 +336,3 @@ server <- function(input, output, session) {
 ```
 
 See <https://mastering-shiny.org/action-tidy.html> for more details and case studies.
-
-### Eliminating the `R CMD check` `NOTE`
-
-```{r}
-my_summary_function <- function(data) {
-  data %>% 
-    filter(x > 0) %>% 
-    group_by(grp) %>% 
-    summarise(y = mean(y), n = n())
-}
-```
-
-```
-N  checking R code for possible problems
-   my_summary_function: no visible binding for global variable ‘x’, ‘grp’, ‘y’
-   Undefined global functions or variables:
-     x grp y
-```
-
-```{r}
-#' @importFrom rlang .data
-my_summary_function <- function(data) {
-  data %>% 
-    filter(.data$x > 0) %>% 
-    group_by(.data$grp) %>% 
-    summarise(y = mean(.data$y), n = n())
-}
-```
