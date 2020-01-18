@@ -13,11 +13,17 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(1014)
 ```
 
-The dplyr verbs `arrange()`, `filter()`, `group_by()`, `mutate()`, `slice()`, and `summarise()` all use **tidy evaluation**. Tidy evaluation is a speical type of non-standard evaluation used throughout the tidyverse. One of the benefits of tidy evaluation is that it provides **data masking** which blurs the lines between variables in the environment and variables in the dataset. 
+Most dplyr verbs use **tidy evaluation** in some way. Tidy evaluation is a special type of non-standard evaluation used throughout the tidyverse. There are two basic forms found in dplyr:
 
-(`across()`, `select()`, `rename()`, and `pull()` use **tidy selection**, which we'll come back to later.)
+* `arrange()`, `filter()`, `group_by()`, `mutate()`, and `summarise()` use 
+  **data masking** so that you can use data variables as if they were variables 
+  in the environment (i.e. you write `my_variable` not `df$myvariable`). 
 
-Data masking allows your data manipulation code to be more succinct because you don't need to repeat the name of the data frame. For example, you can write `filter(df, x == 1, y == 2, z == 3)` instead of `df[df$x == 1 & df$y ==2 & df$z == 3, ]`. Unfortunately this benefit does not come for free. It's harder to use  indirection: how do you store the "name" of variable inside another variable so you can write a function or for loop? Fortunately, dplyr provides tools to overcome these short comings, which you'll learn in this vignette. We'll start with some important vocab, and then dive into a bunch of applications.
+* `across()`, `relocate()`, `rename()`, `select()`, and `pull()` use 
+  **tidy selection** so you can easily choose variabe based on their position, 
+  name, or type (e.g. `starts_with("x")` or `is.numeric`).
+
+Data masking and tidy selection make interactive data exploration fast and fluid, but add some new challenges when you attempt to use them indirectly, as in a for loop or function. This vignette shows you how to overcome those challenges.
 
 ```{r, message = FALSE}
 library(dplyr)
@@ -25,7 +31,9 @@ library(dplyr)
 
 ## Key ideas
 
-### The two meanings of "variable"
+### Data masking and the two meanings of "variable"
+
+Data masking allows your data manipulation code to be more succinct because you don't need to repeat the name of the data frame. For example, you can write `filter(df, x == 1, y == 2, z == 3)` instead of `df[df$x == 1 & df$y ==2 & df$z == 3, ]`. Unfortunately this benefit does not come for free. It's harder to use  indirection: how do you store the "name" of variable inside another variable so you can write a function or for loop? 
 
 The key idea that makes data masking is that it blurs the line between the two different ways we use "variable":
 
