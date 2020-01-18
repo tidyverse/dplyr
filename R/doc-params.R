@@ -6,6 +6,9 @@
 #' This is a special type of non-standard evaluation used throughout the
 #' tidyverse.
 #'
+#' If you've never head of tidy evaluation before, start with
+#' `vignette("programming")`.
+#'
 #' # Key terms
 #'
 #' The primary motivation for tidy evaluation in dplyr is that it provides
