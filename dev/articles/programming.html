@@ -153,562 +153,271 @@
 
     
     
-<p>Most dplyr functions use non-standard evaluation (NSE). This is a catch-all term that means they don’t follow the usual R rules of evaluation. Instead, they capture the expression that you typed and evaluate it in a custom way. This has two main benefits for dplyr code:</p>
-<ul>
-<li><p>Operations on data frames can be expressed succinctly because you don’t need to repeat the name of the data frame. For example, you can write <code><a href="../reference/filter.html">filter(df, x == 1, y == 2, z == 3)</a></code> instead of <code>df[df$x == 1 &amp; df$y ==2 &amp; df$z == 3, ]</code>.</p></li>
-<li><p>dplyr can choose to compute results in a different way to base R. This is important for database backends because dplyr itself doesn’t do any work, but instead generates the SQL that tells the database what to do.</p></li>
-</ul>
-<p>Unfortunately these benefits do not come for free. There are two main drawbacks:</p>
-<ul>
-<li>
-<p>Most dplyr arguments are not <strong>referentially transparent</strong>. That means you can’t replace a value with a seemingly equivalent object that you’ve defined elsewhere. In other words, this code:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">y =</span> <span class="dv">3</span><span class="op">:</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../reference/filter.html">filter</a></span>(df, x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;       x     y</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; 1     1     3</span></a></code></pre></div>
-<p>Is not equivalent to this code:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">my_var &lt;-<span class="st"> </span>x</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Error in eval(expr, envir, enclos): object 'x' not found</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="../reference/filter.html">filter</a></span>(df, my_var <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Error: `filter()` argument `..1` errored.</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; ℹ `..1` is my_var == 1</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; ✖ object 'my_var' not found</span></a></code></pre></div>
-<p>nor to this code:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">my_var &lt;-<span class="st"> "x"</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../reference/filter.html">filter</a></span>(df, my_var <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; # A tibble: 0 x 2</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; # … with 2 variables: x &lt;int&gt;, y &lt;int&gt;</span></a></code></pre></div>
-<p>This makes it hard to create functions with arguments that change how dplyr verbs are computed.</p>
-</li>
-<li>
-<p>dplyr code is ambiguous. Depending on what variables are defined where, <code><a href="../reference/filter.html">filter(df, x == y)</a></code> could be equivalent to any of:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">df[df<span class="op">$</span>x <span class="op">==</span><span class="st"> </span>df<span class="op">$</span>y, ]</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">df[df<span class="op">$</span>x <span class="op">==</span><span class="st"> </span>y, ]</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">df[x <span class="op">==</span><span class="st"> </span>df<span class="op">$</span>y, ]</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">df[x <span class="op">==</span><span class="st"> </span>y, ]</a></code></pre></div>
-<p>This is useful when working interactively (because it saves typing and you quickly spot problems) but makes functions more unpredictable than you might desire.</p>
-</li>
-</ul>
-<p>Fortunately, dplyr provides tools to overcome these challenges. They require a little more typing, but a small amount of upfront work is worth it because they help you save time in the long run.</p>
-<p>This vignette has two goals:</p>
-<ul>
-<li><p>Show you how to use dplyr’s <strong>pronouns</strong> and <strong>quasiquotation</strong> to write reliable functions that reduce duplication in your data analysis code.</p></li>
-<li><p>To teach you the underlying theory including <strong>quosures</strong>, the data structure that stores both an expression and an environment, and <strong>tidyeval</strong>, the underlying toolkit.</p></li>
-</ul>
-<p>We’ll start with a warmup, tying this problem to something you’re more familiar with, then move on to some practical tools, then dive into the deeper theory.</p>
-<div id="warm-up" class="section level2">
+<div id="introduction" class="section level2">
 <h2 class="hasAnchor">
-<a href="#warm-up" class="anchor"></a>Warm up</h2>
-<p>You might not have realised it, but you’re already accomplished at solving this type of problem in another domain: strings. It’s obvious that this function doesn’t do what you want:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">greet &lt;-<span class="st"> </span><span class="cf">function</span>(name) {</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="st">"How do you do, name?"</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw">greet</span>(<span class="st">"Hadley"</span>)</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; [1] "How do you do, name?"</span></a></code></pre></div>
-<p>That’s because <code>"</code> “quotes” its input: it doesn’t interpret what you’ve typed, it just stores it in a string. One way to make the function do what you want is to use <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> to build up the string piece by piece:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">greet &lt;-<span class="st"> </span><span class="cf">function</span>(name) {</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"How do you do, "</span>, name, <span class="st">"?"</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw">greet</span>(<span class="st">"Hadley"</span>)</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; [1] "How do you do, Hadley?"</span></a></code></pre></div>
-<p>Another approach is exemplified by the <strong>glue</strong> package: it allows you to “unquote” components of a string, replacing the string with the value of the R expression. This allows an elegant implementation of our function because <code>{name}</code> is replaced with the value of the <code>name</code> argument.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">greet &lt;-<span class="st"> </span><span class="cf">function</span>(name) {</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">  glue<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span>(<span class="st">"How do you do, {name}?"</span>)</a>
+<a href="#introduction" class="anchor"></a>Introduction</h2>
+<p>Most dplyr verbs use <strong>tidy evaluation</strong> in some way. Tidy evaluation is a special type of non-standard evaluation used throughout the tidyverse. There are two basic forms found in dplyr:</p>
+<ul>
+<li><p><code><a href="../reference/arrange.html">arrange()</a></code>, <code><a href="../reference/tally.html">count()</a></code>, <code><a href="../reference/filter.html">filter()</a></code>, <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/mutate.html">mutate()</a></code>, and <code><a href="../reference/summarise.html">summarise()</a></code> use <strong>data masking</strong> so that you can use data variables as if they were variables in the environment (i.e. you write <code>my_variable</code> not <code>df$myvariable</code>).</p></li>
+<li><p><code><a href="../reference/across.html">across()</a></code>, <code><a href="../reference/relocate.html">relocate()</a></code>, <code><a href="../reference/rename.html">rename()</a></code>, <code><a href="../reference/select.html">select()</a></code>, and <code><a href="../reference/pull.html">pull()</a></code> use <strong>tidy selection</strong> so you can easily choose variabe based on their position, name, or type (e.g. <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with("x")</a></code> or <code>is.numeric</code>).</p></li>
+</ul>
+<p>To determine whether a function argument uses data masking or tidy selection, look at the documentation: in the arguments list you’ll see <code>&lt;tidy-eval&gt;</code> or <code>&lt;tidy-select&gt;</code>.</p>
+<p>Data masking and tidy selection make interactive data exploration fast and fluid, but add some new challenges when you attempt to use them indirectly, as in a for loop or function. This vignette shows you how to overcome those challenges. We’ll first go over the basics of data masking and tidy selection, talk about how to use them indirectly, and then show you a number of recipes to solve common problems.</p>
+<p>This vignette will give you the minimum knowledge you need to be an effective programmer with tidy evaluation. If you’d like to learn more about the underlying theory, or how precisely its different from non-standard evaluation, we recommend that you read the Metaprogramming chapters in <a href="https://adv-r.hadley.nz"><em>Advanced R</em></a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a></code></pre></div>
+</div>
+<div id="data-masking" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-masking" class="anchor"></a>Data masking</h2>
+<p>Data masking makes data manipulation faster because it requires less typing. In most (but not all<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>) base R functions you need to refer to variables with <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>, leading to code that repeats the name of the data frame many times:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">starwars[starwars<span class="op">$</span>homeworld <span class="op">==</span><span class="st"> "Naboo"</span> <span class="op">&amp;</span><span class="st"> </span>starwars<span class="op">$</span>species <span class="op">==</span><span class="st"> "Human"</span>, ,]</a></code></pre></div>
+<p>The dplyr equivalent of this code is more concise because data masking allows you to need to type <code>starwars</code> once:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(homeworld <span class="op">==</span><span class="st"> "Naboo"</span>, species <span class="op">==</span><span class="st"> "Human"</span>)</a></code></pre></div>
+<div id="data--and-env-variables" class="section level3">
+<h3 class="hasAnchor">
+<a href="#data--and-env-variables" class="anchor"></a>Data- and env-variables</h3>
+<p>The key idea behind data masking is that it blurs the line between the two different meanings of the word “variable”:</p>
+<ul>
+<li><p><strong>env-variables</strong> are “programming” variables that live in an environment. They are usually created with <code>&lt;-</code>.</p></li>
+<li><p><strong>data-variables</strong> are “statistical” variables that live in a data frame. They usually come from data files (e.g. <code>.csv</code>, <code>.xls</code>), or are created manipulating existing variables.</p></li>
+</ul>
+<p>To make those definitions a little more concrete, take this piece of code:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">3</span>), <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">df<span class="op">$</span>x</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; [1] 0.08075014 0.83433304 0.60076089</span></a></code></pre></div>
+<p>It creates a env-variable, <code>df</code>, that contains two data-variables, <code>x</code> and <code>y</code>. Then it extracts the data-variable <code>x</code> out of the env-variable <code>df</code> using <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>.</p>
+<p>I think this blurring of the meaning of variable is a really nice feature for interactive data analysis, because it allows you to refer to data-vars as is, without any prefix. And this seems to be fairly intuitive, since many newer R users will attempt to write <code>diamonds[x == 0 | y == 0, ]</code>.</p>
+<p>Unfortunately this benefit does not come for free. When you start to program with these tools, you’re going to have to grapple with the distinction. And this will be hard because you’ve never had to think about it before, so it’ll take a while for your brain to learn these new concepts and categories. However, once you’ve teased apart the idea of “variable” in data-variable and env-variable, I think you’ll find it fairly straightforward to use.</p>
+</div>
+<div id="indirection" class="section level3">
+<h3 class="hasAnchor">
+<a href="#indirection" class="anchor"></a>Indirection</h3>
+<p>The main challenge of programming with function that use data masking arises when you introduce some indirection, i.e. instead of you directly typing the name of a data-variable you want to get it from an env-variable. There are two main cases:</p>
+<ul>
+<li>
+<p>When you have the data-variable in a function argument (i.e. an env-variable that holds a promise<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>), you need to <strong>embrace</strong> the argument by surrounding it in doubled parentheses, like <code><a href="../reference/filter.html">filter(df, {{ var }})</a></code>.</p>
+<p>The following function uses embracing to create a wrapper around <code><a href="../reference/summarise.html">summarise()</a></code> that computes the minimum and maximum values of a variable, as well as the number of observations that were summarised.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">var_summary &lt;-<span class="st"> </span><span class="cf">function</span>(data, var) {</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), <span class="dt">min =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>({{ var }}), <span class="dt">max =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>({{ var }}))</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span><span class="kw">var_summary</span>(mpg)</a></code></pre></div>
+</li>
+<li>
+<p>When you have an env-variable that is a character vector, you need to index into the <code>.data</code> pronoun with <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code>, like <code><a href="../reference/summarise.html">summarise(df, mean = mean(.data[[var]]))</a></code>.</p>
+<p>The following example uses <code>.data</code> to count the number of unique values in each variable of <code>mtcars</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">for</span> (var <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(mtcars)) {</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/tally.html">count</a></span>(.data[[var]]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>()</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">}</a></code></pre></div>
+</li>
+</ul>
+</div>
+</div>
+<div id="tidy-selection" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tidy-selection" class="anchor"></a>Tidy selection</h2>
+<p>Data masking makes it easy to compute on values within a dataset. Tidy selection is a complementary tool that makes it easy to work with the columns of a dataset.</p>
+<div id="the-tidyselect-dsl" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-tidyselect-dsl" class="anchor"></a>The tidyselect DSL</h3>
+<p>Underneath all functions that use tidy selection is the <a href="http://tidyselect.r-lib.org/">tidyselect</a> package. It provides a miniature domain specific language that makes it easy to select columns by name, position, or type. For example:</p>
+<ul>
+<li><p><code><a href="../reference/select.html">select(df, 1)</a></code> selects the first column; <code><a href="../reference/select.html">select(1, last_col())</a></code> selects the last column.</p></li>
+<li><p><code><a href="../reference/select.html">select(df, c(a, b, c))</a></code> selects columns <code>a</code>, <code>b</code>, and <code>c</code>.</p></li>
+<li><p><code><a href="../reference/select.html">select(df, starts_with("a"))</a></code> selects all columns whose name starts with “a”; <code><a href="../reference/select.html">select(df, ends_with("a"))</a></code> selects all columns whose name ends with “z”.</p></li>
+<li><p><code><a href="../reference/select.html">select(df, is.numeric)</a></code> selects all numeric columns.</p></li>
+</ul>
+<p>You can see more details in <code><a href="../reference/dplyr_tidy_select.html">?dplyr_tidy_select</a></code>.</p>
+</div>
+<div id="indirection-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#indirection-1" class="anchor"></a>Indirection</h3>
+<p>As with data masking, tidy selection makes a common task easier, and at the cost of making a less common task harder. When you want to use tidy select indirectly, with the column specification stored in an intermediate variable, you’ll need to learn some new tools. Again, there are there are two forms of indirection:</p>
+<ul>
+<li>
+<p>When you have the data-variable in an env-variable that is a functon argument, you use the same technique as data masking: you <strong>embrace</strong> the argument by surrounding it in doubled parentheses.</p>
+<p>The following function summarises a data frame by computing the mean of all variables selected by the user.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">summarise_mean &lt;-<span class="st"> </span><span class="cf">function</span>(data, vars) {</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), <span class="kw"><a href="../reference/across.html">across</a></span>({{ vars }}, mean))</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">greet</span>(<span class="st">"Hadley"</span>)</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; How do you do, Hadley?</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-4" data-line-number="4">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise_mean</span>(is.numeric)</a></code></pre></div>
+</li>
+<li>
+<p>When you have an env-variable that is a character vector, you need to use <code>all_of()</code> or <code>any_of()</code> depending on whether or not you want the function to error if a variable is not found.</p>
+<p>The following code uses <code>all_of()</code> to select all of the variables found in a character vector; then <code>!</code> plus <code>all_of()</code> to select all of the variables <em>not</em> found in a character vector.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mpg"</span>, <span class="st">"vs"</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="kw">all_of</span>(vars))</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="op">!</span><span class="kw">all_of</span>(vars))</a></code></pre></div>
+</li>
+</ul>
 </div>
-<div id="programming-recipes" class="section level2">
+</div>
+<div id="how-tos" class="section level2">
 <h2 class="hasAnchor">
-<a href="#programming-recipes" class="anchor"></a>Programming recipes</h2>
-<p>The following recipes walk you through the basics of tidyeval, with the nominal goal of reducing duplication in dplyr code. The examples here are somewhat inauthentic because we’ve reduced them down to very simple components to make them easier to understand. They’re so simple that you might wonder why we bother writing a function at all. But it’s a good idea to learn the ideas on simple examples, so that you’re better prepared to apply them to the more complex situations you’ll see in your own code.</p>
-<div id="different-data-sets" class="section level3">
+<a href="#how-tos" class="anchor"></a>How tos</h2>
+<p>The following examples solve a grab bag of common problems. We show you the minimum amount of code so that you can get the basic idea; most real problems will require more code, or combining multiple techniques.</p>
+<div id="user-supplied-data" class="section level3">
 <h3 class="hasAnchor">
-<a href="#different-data-sets" class="anchor"></a>Different data sets</h3>
-<p>You already know how to write functions that work with the first argument of dplyr verbs: the data. That’s because dplyr doesn’t do anything special with that argument, so it’s referentially transparent. For example, if you saw repeated code like this:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df1, <span class="dt">y =</span> a <span class="op">+</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df2, <span class="dt">y =</span> a <span class="op">+</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df3, <span class="dt">y =</span> a <span class="op">+</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df4, <span class="dt">y =</span> a <span class="op">+</span><span class="st"> </span>x)</a></code></pre></div>
-<p>You could already write a function to capture that duplication:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">mutate_y &lt;-<span class="st"> </span><span class="cf">function</span>(df) {</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">y =</span> a <span class="op">+</span><span class="st"> </span>x)</a>
+<a href="#user-supplied-data" class="anchor"></a>User-supplied data</h3>
+<p>If you check the documentation, you’ll see that <code>.data</code> never uses data masking or tidy select. That means you don’t need to do anything special in your function:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">mutate_y &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="kw"><a href="../reference/mutate.html">mutate</a></span>(data, <span class="dt">y =</span> a <span class="op">+</span><span class="st"> </span>x)</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">}</a></code></pre></div>
-<p>Unfortunately, there’s a drawback to this simple approach: it can fail silently if one of the variables isn’t present in the data frame, but is present in the global environment.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">a &lt;-<span class="st"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">mutate_y</span>(df1)</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;       x     y</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 1     1    11</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 2     2    12</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 3     3    13</span></a></code></pre></div>
-<p>We can fix that ambiguity by being more explicit and using the <code>.data</code> pronoun. This will throw an informative error if the variable doesn’t exist:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">mutate_y &lt;-<span class="st"> </span><span class="cf">function</span>(df) {</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">y =</span> .data<span class="op">$</span>a <span class="op">+</span><span class="st"> </span>.data<span class="op">$</span>x)</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw">mutate_y</span>(df1)</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; Error: `mutate()` argument `y` errored.</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; ℹ `y` is .data$a + .data$x</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; ✖ Column `a` not found in `.data`</span></a></code></pre></div>
-<p>If this function is in a package, using <code>.data</code> also prevents <code>R CMD check</code> from giving a NOTE about undefined global variables (provided that you’ve also imported <code><a href="https://rlang.r-lib.org/reference/tidyeval-data.html">rlang::.data</a></code> with <code>@importFrom rlang .data</code>).</p>
 </div>
-<div id="different-expressions" class="section level3">
+<div id="eliminating-r-cmd-check-notes" class="section level3">
 <h3 class="hasAnchor">
-<a href="#different-expressions" class="anchor"></a>Different expressions</h3>
-<p>Writing a function is hard if you want one of the arguments to be a variable name (like <code>x</code>) or an expression (like <code>x + y</code>). That’s because dplyr automatically “quotes” those inputs, so they are not referentially transparent. Let’s start with a simple case: you want to vary the grouping variable for a data summarization.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">g1 =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">g2 =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="dt">a =</span> <span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dv">5</span>),</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">  <span class="dt">b =</span> <span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(g1) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">a =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a))</a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt;      g1     a</span></a>
-<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">#&gt; 1     1  4   </span></a>
-<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">#&gt; 2     2  2.33</span></a>
-<a class="sourceLine" id="cb12-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb12-17" data-line-number="17">df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(g2) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">a =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a))</a>
-<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb12-21" data-line-number="21"><span class="co">#&gt;      g2     a</span></a>
-<a class="sourceLine" id="cb12-22" data-line-number="22"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb12-23" data-line-number="23"><span class="co">#&gt; 1     1  3.67</span></a>
-<a class="sourceLine" id="cb12-24" data-line-number="24"><span class="co">#&gt; 2     2  2</span></a></code></pre></div>
-<p>You might hope that this will work:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(df, group_var) {</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">  df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(group_var) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">a =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a))</a>
+<a href="#eliminating-r-cmd-check-notes" class="anchor"></a>Eliminating <code>R CMD check</code> <code>NOTE</code>s</h3>
+<p>If you’re writing a package, and you have a function that uses data-variables:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">my_summary_function &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(grp) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(y), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">}</a></code></pre></div>
+<p>You’ll get an <code>R CMD CHECK</code> <code>NOTE</code>:</p>
+<pre><code>N  checking R code for possible problems
+   my_summary_function: no visible binding for global variable ‘x’, ‘grp’, ‘y’
+   Undefined global functions or variables:
+     x grp y</code></pre>
+<p>You can eliminate this by using <code>.data$var</code>, and importing <code>.data</code> from its source in the rlang package (the underlying package that implements tidy evaluation):</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">#' @importFrom rlang .data</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">my_summary_function &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">  data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(.data<span class="op">$</span>x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(.data<span class="op">$</span>grp) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(.data<span class="op">$</span>y), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">}</a></code></pre></div>
+</div>
+<div id="one-user-supplied-expression" class="section level3">
+<h3 class="hasAnchor">
+<a href="#one-user-supplied-expression" class="anchor"></a>One user-supplied expression</h3>
+<p>If you want the user the to supply an expression that’s passed on to an argument that uses data masking or tidy select, embrace the argument:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_var) {</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>({{ group_var }}) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass))</a>
 <a class="sourceLine" id="cb13-5" data-line-number="5">}</a>
 <a class="sourceLine" id="cb13-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="kw">my_summarise</span>(df, g1)</a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; Error: Must group by variables found in `.data`</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; * Column `group_var` is not found</span></a></code></pre></div>
-<p>But it doesn’t.</p>
-<p>Maybe providing the variable name as a string will fix things?</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">my_summarise</span>(df, <span class="st">"g2"</span>)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt; Error: Must group by variables found in `.data`</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt; * Column `group_var` is not found</span></a></code></pre></div>
-<p>Nope.</p>
-<p>If you look carefully at the error message, you’ll see that it’s the same in both cases. <code><a href="../reference/group_by.html">group_by()</a></code> works like <code>"</code>: it doesn’t evaluate its input; it quotes it.</p>
-<p>To make this function work, we need to do two things. We need to quote the input ourselves (so <code>my_summarise()</code> can take a bare variable name like <code><a href="../reference/group_by.html">group_by()</a></code>), and then we need to tell <code><a href="../reference/group_by.html">group_by()</a></code> not to quote its input (because we’ve done the quoting).</p>
-<p>How do we quote the input? We can’t use <code>""</code> to quote the input, because that gives us a string. Instead we need a function that captures the expression and its environment (we’ll come back to why this is important later on). There are two possible options we could use in base R, the function <code><a href="https://rdrr.io/r/base/substitute.html">quote()</a></code> and the operator <code>~</code>. Neither of these work quite the way we want, so we need a new function: <code><a href="../reference/tidyeval-compat.html">quo()</a></code>.</p>
-<p><code><a href="../reference/tidyeval-compat.html">quo()</a></code> works like <code>"</code>: it quotes its input rather than evaluating it.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(g1)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; expr: ^g1</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; env:  global</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(a <span class="op">+</span><span class="st"> </span>b <span class="op">+</span><span class="st"> </span>c)</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; expr: ^a + b + c</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; env:  global</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="st">"a"</span>)</a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co">#&gt; expr: ^"a"</span></a>
-<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt; env:  empty</span></a></code></pre></div>
-<p><code><a href="../reference/tidyeval-compat.html">quo()</a></code> returns a <strong>quosure</strong>, which is a special type of formula. You’ll learn more about quosures later on.</p>
-<p>Now that we’ve captured this expression, how do we use it with <code><a href="../reference/group_by.html">group_by()</a></code>? It doesn’t work if we just shove it into our naive approach:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">my_summarise</span>(df, <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(g1))</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; Error: Must group by variables found in `.data`</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; * Column `group_var` is not found</span></a></code></pre></div>
-<p>We get the same error as before, because we haven’t yet told <code><a href="../reference/group_by.html">group_by()</a></code> that we’re taking care of the quoting. In other words, we need to tell <code><a href="../reference/group_by.html">group_by()</a></code> not to quote its input, because it has been pre-quoted by <code>my_summarise()</code>. Yet another way of saying the same thing is that we want to <strong>unquote</strong> <code>group_var</code>.</p>
-<p>In dplyr (and in tidyeval in general) you use <code>!!</code> to say that you want to unquote an input so that it’s evaluated, not quoted. This gives us a function that actually does what we want.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(df, group_var) {</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">  df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="op">!!</span><span class="st"> </span>group_var) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">a =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a))</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="kw">my_summarise</span>(df, <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(g1))</a>
-<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&gt;      g1     a</span></a>
-<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co">#&gt; 1     1  4   </span></a>
-<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="co">#&gt; 2     2  2.33</span></a></code></pre></div>
-<p>Huzzah!</p>
-<p>There’s just one step left: we want to call this function like we call <code><a href="../reference/group_by.html">group_by()</a></code>:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">my_summarise</span>(df, g1)</a></code></pre></div>
-<p>This doesn’t work because there’s no object called <code>g1</code>. We need to capture what the user of the function typed and quote it for them. You might try using <code><a href="../reference/tidyeval-compat.html">quo()</a></code> to do that:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(df, group_var) {</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">  quo_group_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(group_var)</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(quo_group_var)</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">  df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="op">!!</span><span class="st"> </span>quo_group_var) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">a =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a))</a>
-<a class="sourceLine" id="cb19-8" data-line-number="8">}</a>
-<a class="sourceLine" id="cb19-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="kw">my_summarise</span>(df, g1)</a>
-<a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&gt; expr: ^group_var</span></a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; env:  0x5cea4d8</span></a>
-<a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; Error: Must group by variables found in `.data`</span></a>
-<a class="sourceLine" id="cb19-15" data-line-number="15"><span class="co">#&gt; * Column `group_var` is not found</span></a></code></pre></div>
-<p>I’ve added a <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> call to make it obvious what’s going wrong here: <code><a href="../reference/tidyeval-compat.html">quo(group_var)</a></code> always returns <code>~group_var</code>. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return <code>~g1</code>.</p>
-<p>By analogy to strings, we don’t want <code>""</code>, instead we want some function that turns an argument into a string. That’s the job of <code><a href="../reference/tidyeval-compat.html">enquo()</a></code>. <code><a href="../reference/tidyeval-compat.html">enquo()</a></code> uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a <strong>promise</strong>.)</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(df, group_var) {</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">  group_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval-compat.html">enquo</a></span>(group_var)</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(group_var)</a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb20-5" data-line-number="5">  df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="op">!!</span><span class="st"> </span>group_var) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">a =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a))</a>
-<a class="sourceLine" id="cb20-8" data-line-number="8">}</a>
-<a class="sourceLine" id="cb20-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="kw">my_summarise</span>(df, g1)</a>
-<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb20-12" data-line-number="12"><span class="co">#&gt; expr: ^g1</span></a>
-<a class="sourceLine" id="cb20-13" data-line-number="13"><span class="co">#&gt; env:  global</span></a>
-<a class="sourceLine" id="cb20-14" data-line-number="14"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb20-15" data-line-number="15"><span class="co">#&gt;      g1     a</span></a>
-<a class="sourceLine" id="cb20-16" data-line-number="16"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb20-17" data-line-number="17"><span class="co">#&gt; 1     1  4   </span></a>
-<a class="sourceLine" id="cb20-18" data-line-number="18"><span class="co">#&gt; 2     2  2.33</span></a></code></pre></div>
-<p>(If you’re familiar with <code><a href="https://rdrr.io/r/base/substitute.html">quote()</a></code> and <code><a href="https://rdrr.io/r/base/substitute.html">substitute()</a></code> in base R, <code><a href="../reference/tidyeval-compat.html">quo()</a></code> is equivalent to <code><a href="https://rdrr.io/r/base/substitute.html">quote()</a></code> and <code><a href="../reference/tidyeval-compat.html">enquo()</a></code> is equivalent to <code><a href="https://rdrr.io/r/base/substitute.html">substitute()</a></code>.)</p>
-<p>You might wonder how to extend this to handle multiple grouping variables: we’ll come back to that a little later.</p>
+<a class="sourceLine" id="cb13-7" data-line-number="7">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, vars) {</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">  data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
+<a class="sourceLine" id="cb13-10" data-line-number="10">      <span class="kw"><a href="../reference/across.html">across</a></span>({{ vars }}, <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb13-11" data-line-number="11">    )</a>
+<a class="sourceLine" id="cb13-12" data-line-number="12">}</a></code></pre></div>
+<p>This generalises in a straightforward way if you want to use one user supplied expression in multiple places:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">my_summarise2 &lt;-<span class="st"> </span><span class="cf">function</span>(data, expr) {</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">    <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ expr }}),</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">    <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>({{ expr }}),</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">    <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">}</a></code></pre></div>
 </div>
-<div id="different-input-variable" class="section level3">
+<div id="multiple-user-supplied-expressions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#different-input-variable" class="anchor"></a>Different input variable</h3>
-<p>Now let’s tackle something a bit more complicated. The code below shows a duplicate <code><a href="../reference/summarise.html">summarise()</a></code> statement where we compute three summaries, varying the input variable.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a), <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(a), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt;    mean   sum     n</span></a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&gt; 1     3    15     5</span></a>
-<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a <span class="op">*</span><span class="st"> </span>b), <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(a <span class="op">*</span><span class="st"> </span>b), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</a>
-<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
-<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&gt;    mean   sum     n</span></a>
-<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt; 1   8.6    43     5</span></a></code></pre></div>
-<p>To turn this into a function, we start by testing the basic approach interactively: we quote the variable with <code><a href="../reference/tidyeval-compat.html">quo()</a></code>, then unquoting it in the dplyr call with <code>!!</code>. Notice that we can unquote anywhere inside a complicated expression.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">my_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(a)</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="op">!!</span><span class="st"> </span>my_var), <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="op">!!</span><span class="st"> </span>my_var), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#&gt;    mean   sum     n</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="co">#&gt; 1     3    15     5</span></a></code></pre></div>
-<p>You can also wrap <code><a href="../reference/tidyeval-compat.html">quo()</a></code> around the dplyr call to see what will happen from dplyr’s perspective. This is a very useful tool for debugging.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df,</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">  <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="op">!!</span><span class="st"> </span>my_var),</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3">  <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="op">!!</span><span class="st"> </span>my_var),</a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">  <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()</a>
-<a class="sourceLine" id="cb23-5" data-line-number="5">))</a>
-<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb23-7" data-line-number="7"><span class="co">#&gt; expr: ^summarise(df, mean = mean(^a), sum = sum(^a), n = n())</span></a>
-<a class="sourceLine" id="cb23-8" data-line-number="8"><span class="co">#&gt; env:  global</span></a></code></pre></div>
-<p>Now we can turn our code into a function (remembering to replace <code><a href="../reference/tidyeval-compat.html">quo()</a></code> with <code><a href="../reference/tidyeval-compat.html">enquo()</a></code>), and check that it works:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">my_summarise2 &lt;-<span class="st"> </span><span class="cf">function</span>(df, expr) {</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">  expr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval-compat.html">enquo</a></span>(expr)</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb24-4" data-line-number="4">  <span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df,</a>
-<a class="sourceLine" id="cb24-5" data-line-number="5">    <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="op">!!</span><span class="st"> </span>expr),</a>
-<a class="sourceLine" id="cb24-6" data-line-number="6">    <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="op">!!</span><span class="st"> </span>expr),</a>
-<a class="sourceLine" id="cb24-7" data-line-number="7">    <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()</a>
-<a class="sourceLine" id="cb24-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb24-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb24-10" data-line-number="10"><span class="kw">my_summarise2</span>(df, a)</a>
-<a class="sourceLine" id="cb24-11" data-line-number="11"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
-<a class="sourceLine" id="cb24-12" data-line-number="12"><span class="co">#&gt;    mean   sum     n</span></a>
-<a class="sourceLine" id="cb24-13" data-line-number="13"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb24-14" data-line-number="14"><span class="co">#&gt; 1     3    15     5</span></a>
-<a class="sourceLine" id="cb24-15" data-line-number="15"><span class="kw">my_summarise2</span>(df, a <span class="op">*</span><span class="st"> </span>b)</a>
-<a class="sourceLine" id="cb24-16" data-line-number="16"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
-<a class="sourceLine" id="cb24-17" data-line-number="17"><span class="co">#&gt;    mean   sum     n</span></a>
-<a class="sourceLine" id="cb24-18" data-line-number="18"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb24-19" data-line-number="19"><span class="co">#&gt; 1   8.6    43     5</span></a></code></pre></div>
+<a href="#multiple-user-supplied-expressions" class="anchor"></a>Multiple user-supplied expressions</h3>
+<p>If you want the user to provide multiple expressions, embrace each of them:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, mean_var, sd_var) {</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ mean_var }}), <span class="dt">sd =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ sd_var }}))</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">}</a></code></pre></div>
 </div>
-<div id="different-input-and-output-variable" class="section level3">
+<div id="any-number-of-user-supplied-expressions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#different-input-and-output-variable" class="anchor"></a>Different input and output variable</h3>
-<p>The next challenge is to vary the name of the output variables:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">mean_a =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a), <span class="dt">sum_a =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(a))</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 6</span></a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co">#&gt;      g1    g2     a     b mean_a sum_a</span></a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#&gt; 1     1     1     5     4      3    15</span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#&gt; 2     1     2     3     2      3    15</span></a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; 3     2     1     4     1      3    15</span></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; 4     2     2     1     3      3    15</span></a>
-<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="co">#&gt; # … with 1 more row</span></a>
-<a class="sourceLine" id="cb25-10" data-line-number="10"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">mean_b =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(b), <span class="dt">sum_b =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(b))</a>
-<a class="sourceLine" id="cb25-11" data-line-number="11"><span class="co">#&gt; # A tibble: 5 x 6</span></a>
-<a class="sourceLine" id="cb25-12" data-line-number="12"><span class="co">#&gt;      g1    g2     a     b mean_b sum_b</span></a>
-<a class="sourceLine" id="cb25-13" data-line-number="13"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb25-14" data-line-number="14"><span class="co">#&gt; 1     1     1     5     4      3    15</span></a>
-<a class="sourceLine" id="cb25-15" data-line-number="15"><span class="co">#&gt; 2     1     2     3     2      3    15</span></a>
-<a class="sourceLine" id="cb25-16" data-line-number="16"><span class="co">#&gt; 3     2     1     4     1      3    15</span></a>
-<a class="sourceLine" id="cb25-17" data-line-number="17"><span class="co">#&gt; 4     2     2     1     3      3    15</span></a>
-<a class="sourceLine" id="cb25-18" data-line-number="18"><span class="co">#&gt; # … with 1 more row</span></a></code></pre></div>
-<p>This code is similar to the previous example, but there are two new wrinkles:</p>
-<ul>
-<li><p>We create the new names by pasting together strings, so we need <code><a href="../reference/tidyeval-compat.html">quo_name()</a></code> to convert the input expression to a string.</p></li>
-<li><p><code>!! mean_name = mean(!! expr)</code> isn’t valid R code, so we need to use the <code>:=</code> helper provided by rlang.</p></li>
-</ul>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">my_mutate &lt;-<span class="st"> </span><span class="cf">function</span>(df, expr) {</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">  expr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval-compat.html">enquo</a></span>(expr)</a>
-<a class="sourceLine" id="cb26-3" data-line-number="3">  mean_name &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"mean_"</span>, <span class="kw"><a href="../reference/tidyeval-compat.html">quo_name</a></span>(expr))</a>
-<a class="sourceLine" id="cb26-4" data-line-number="4">  sum_name &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"sum_"</span>, <span class="kw"><a href="../reference/tidyeval-compat.html">quo_name</a></span>(expr))</a>
-<a class="sourceLine" id="cb26-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb26-6" data-line-number="6">  <span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df,</a>
-<a class="sourceLine" id="cb26-7" data-line-number="7">    <span class="op">!!</span><span class="st"> </span>mean_name <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="op">!!</span><span class="st"> </span>expr),</a>
-<a class="sourceLine" id="cb26-8" data-line-number="8">    <span class="op">!!</span><span class="st"> </span>sum_name <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="op">!!</span><span class="st"> </span>expr)</a>
-<a class="sourceLine" id="cb26-9" data-line-number="9">  )</a>
-<a class="sourceLine" id="cb26-10" data-line-number="10">}</a>
-<a class="sourceLine" id="cb26-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb26-12" data-line-number="12"><span class="kw">my_mutate</span>(df, a)</a>
-<a class="sourceLine" id="cb26-13" data-line-number="13"><span class="co">#&gt; # A tibble: 5 x 6</span></a>
-<a class="sourceLine" id="cb26-14" data-line-number="14"><span class="co">#&gt;      g1    g2     a     b mean_a sum_a</span></a>
-<a class="sourceLine" id="cb26-15" data-line-number="15"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb26-16" data-line-number="16"><span class="co">#&gt; 1     1     1     5     4      3    15</span></a>
-<a class="sourceLine" id="cb26-17" data-line-number="17"><span class="co">#&gt; 2     1     2     3     2      3    15</span></a>
-<a class="sourceLine" id="cb26-18" data-line-number="18"><span class="co">#&gt; 3     2     1     4     1      3    15</span></a>
-<a class="sourceLine" id="cb26-19" data-line-number="19"><span class="co">#&gt; 4     2     2     1     3      3    15</span></a>
-<a class="sourceLine" id="cb26-20" data-line-number="20"><span class="co">#&gt; # … with 1 more row</span></a></code></pre></div>
+<a href="#any-number-of-user-supplied-expressions" class="anchor"></a>Any number of user-supplied expressions</h3>
+<p>If you want to take an arbitrary number of user supplied expressions, use <code>...</code>. This is most often useful when you want to give the user full control over a single part of the pipeline, like a <code><a href="../reference/group_by.html">group_by()</a></code> or a <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(.data, ...) {</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">  .data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(...) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mass =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">my_summarise</span>(homeworld)</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; # A tibble: 49 x 3</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt;   homeworld    mass height</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; 1 Alderaan       64   176.</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; 2 Aleen Minor    15    79 </span></a>
+<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt; 3 Bespin         79   175 </span></a>
+<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt; 4 Bestine IV    110   180 </span></a>
+<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt; # … with 45 more rows</span></a>
+<a class="sourceLine" id="cb16-16" data-line-number="16">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">my_summarise</span>(sex, gender)</a>
+<a class="sourceLine" id="cb16-17" data-line-number="17"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
+<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="co">#&gt; # Groups:   sex [5]</span></a>
+<a class="sourceLine" id="cb16-19" data-line-number="19"><span class="co">#&gt;   sex            gender      mass height</span></a>
+<a class="sourceLine" id="cb16-20" data-line-number="20"><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb16-21" data-line-number="21"><span class="co">#&gt; 1 female         feminine    54.7   169.</span></a>
+<a class="sourceLine" id="cb16-22" data-line-number="22"><span class="co">#&gt; 2 hermaphroditic masculine 1358     175 </span></a>
+<a class="sourceLine" id="cb16-23" data-line-number="23"><span class="co">#&gt; 3 male           masculine   81.0   179.</span></a>
+<a class="sourceLine" id="cb16-24" data-line-number="24"><span class="co">#&gt; 4 none           feminine   NaN      96 </span></a>
+<a class="sourceLine" id="cb16-25" data-line-number="25"><span class="co">#&gt; # … with 2 more rows</span></a></code></pre></div>
+<p>When you use <code>...</code> in this way, make sure that any other arguments start with <code>.</code> to reduce the chances of argument clashes; see <a href="https://design.tidyverse.org/dots-prefix.html" class="uri">https://design.tidyverse.org/dots-prefix.html</a> for more details.</p>
 </div>
-<div id="capturing-multiple-variables" class="section level3">
+<div id="transforming-user-supplied-variables" class="section level3">
 <h3 class="hasAnchor">
-<a href="#capturing-multiple-variables" class="anchor"></a>Capturing multiple variables</h3>
-<p>It would be nice to extend <code>my_summarise()</code> to accept any number of grouping variables. We need to make three changes:</p>
-<ul>
-<li><p>Use <code>...</code> in the function definition so our function can accept any number of arguments.</p></li>
-<li><p>Use <code><a href="../reference/tidyeval-compat.html">enquos()</a></code> to capture all the <code>...</code> as a list of formulas.</p></li>
-<li><p>Use <code>!!!</code> instead of <code>!!</code> to <strong>splice</strong> the arguments into <code><a href="../reference/group_by.html">group_by()</a></code>.</p></li>
-</ul>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(df, ...) {</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">  group_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval-compat.html">enquos</a></span>(...)</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb27-4" data-line-number="4">  df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="op">!!!</span><span class="st"> </span>group_var) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">a =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a))</a>
-<a class="sourceLine" id="cb27-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb27-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="kw">my_summarise</span>(df, g1, g2)</a>
-<a class="sourceLine" id="cb27-10" data-line-number="10"><span class="co">#&gt; # A tibble: 4 x 3</span></a>
-<a class="sourceLine" id="cb27-11" data-line-number="11"><span class="co">#&gt; # Groups:   g1 [2]</span></a>
-<a class="sourceLine" id="cb27-12" data-line-number="12"><span class="co">#&gt;      g1    g2     a</span></a>
-<a class="sourceLine" id="cb27-13" data-line-number="13"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb27-14" data-line-number="14"><span class="co">#&gt; 1     1     1     5</span></a>
-<a class="sourceLine" id="cb27-15" data-line-number="15"><span class="co">#&gt; 2     1     2     3</span></a>
-<a class="sourceLine" id="cb27-16" data-line-number="16"><span class="co">#&gt; 3     2     1     3</span></a>
-<a class="sourceLine" id="cb27-17" data-line-number="17"><span class="co">#&gt; 4     2     2     1</span></a></code></pre></div>
-<p><code>!!!</code> takes a list of elements and splices them into to the current call. Look at the bottom of the <code>!!!</code> and think <code>...</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">args &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">na.rm =</span> <span class="ot">TRUE</span>, <span class="dt">trim =</span> <span class="fl">0.25</span>)</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(x, <span class="op">!!!</span><span class="st"> </span>args))</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co">#&gt; expr: ^mean(x, na.rm = TRUE, trim = 0.25)</span></a>
-<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co">#&gt; env:  global</span></a>
-<a class="sourceLine" id="cb28-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb28-7" data-line-number="7">args &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(x), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>, <span class="dt">trim =</span> <span class="fl">0.25</span>)</a>
-<a class="sourceLine" id="cb28-8" data-line-number="8"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="op">!!!</span><span class="st"> </span>args))</a>
-<a class="sourceLine" id="cb28-9" data-line-number="9"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb28-10" data-line-number="10"><span class="co">#&gt; expr: ^mean(^x, na.rm = TRUE, trim = 0.25)</span></a>
-<a class="sourceLine" id="cb28-11" data-line-number="11"><span class="co">#&gt; env:  global</span></a></code></pre></div>
-<p>Now that you’ve learned the basics of tidyeval through some practical examples, we’ll dive into the theory. This will help you generalise what you’ve learned here to new situations.</p>
+<a href="#transforming-user-supplied-variables" class="anchor"></a>Transforming user-supplied variables</h3>
+<p>If you want the user to provide a set of variables that are then transformed, use <code><a href="../reference/across.html">across()</a></code>:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, summary_vars) {</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summary_vars }}, <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(., <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5">starwars <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(species) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="st">  </span><span class="kw">my_summarise</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(mass, height))</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&gt; # A tibble: 38 x 3</span></a>
+<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&gt;   species   mass height</span></a>
+<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co">#&gt; 1 Aleena      15     79</span></a>
+<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="co">#&gt; 2 Besalisk   102    198</span></a>
+<a class="sourceLine" id="cb17-13" data-line-number="13"><span class="co">#&gt; 3 Cerean      82    198</span></a>
+<a class="sourceLine" id="cb17-14" data-line-number="14"><span class="co">#&gt; 4 Chagrian   NaN    196</span></a>
+<a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co">#&gt; # … with 34 more rows</span></a></code></pre></div>
+<p>You can use this same idea for multiple sets of input variables:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_by, summarise_by) {</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_by }})) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summarise_by }}, mean))</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">}</a></code></pre></div>
 </div>
-</div>
-<div id="quoting" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quoting" class="anchor"></a>Quoting</h2>
-<p>Quoting is the action of capturing an expression instead of evaluating it. All expression-based functions quote their arguments and get the R code as an expression rather than the result of evaluating that code. If you are an R user, you probably quote expressions on a regular basis. One of the most important quoting operators in R is the <em>formula</em>. It is famously used for the specification of statistical models:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">disp <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>drat</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="co">#&gt; disp ~ cyl + drat</span></a></code></pre></div>
-<p>The other quoting operator in base R is <code><a href="https://rdrr.io/r/base/substitute.html">quote()</a></code>. It returns a raw expression rather than a formula:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="co"># Computing the value of the expression:</span></a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="co">#&gt; [1] "A" "B" "C" "D" "E"</span></a>
-<a class="sourceLine" id="cb30-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="co"># Capturing the expression:</span></a>
-<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]))</a>
-<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="co">#&gt; toupper(letters[1:5])</span></a></code></pre></div>
-<p>(Note that despite being called the double quote, <code>"</code> is not a quoting operator in this context, because it generates a string, not an expression.)</p>
-<p>In practice, the formula is the better of the two options because it captures the code and its execution <strong>environment</strong>. This is important because even simple expression can yield different values in different environments. For example, the <code>x</code> in the following two expressions refers to different values:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">f &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb31-2" data-line-number="2">  <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(x)</a>
-<a class="sourceLine" id="cb31-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb31-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb31-5" data-line-number="5">x1 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb31-6" data-line-number="6">x2 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">100</span>)</a></code></pre></div>
-<p>It might look like the expressions are the same if you print them out.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">x1</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co">#&gt; expr: ^x</span></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; env:  0x58adfd0</span></a>
-<a class="sourceLine" id="cb32-5" data-line-number="5">x2</a>
-<a class="sourceLine" id="cb32-6" data-line-number="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt; expr: ^x</span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; env:  0x591d550</span></a></code></pre></div>
-<p>But if you inspect the environments using <code><a href="https://rlang.r-lib.org/reference/get_env.html">rlang::get_env()</a></code> — they’re different.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rlang)</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw"><a href="https://rlang.r-lib.org/reference/get_env.html">get_env</a></span>(x1)</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; &lt;environment: 0x58adfd0&gt;</span></a>
-<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="kw"><a href="https://rlang.r-lib.org/reference/get_env.html">get_env</a></span>(x2)</a>
-<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; &lt;environment: 0x591d550&gt;</span></a></code></pre></div>
-<p>Further, when we evaluate those formulas using <code><a href="https://rlang.r-lib.org/reference/eval_tidy.html">rlang::eval_tidy()</a></code>, we see that they yield different values:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="https://rlang.r-lib.org/reference/eval_tidy.html">eval_tidy</a></span>(x1)</a>
-<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#&gt; [1] 10</span></a>
-<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="kw"><a href="https://rlang.r-lib.org/reference/eval_tidy.html">eval_tidy</a></span>(x2)</a>
-<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="co">#&gt; [1] 100</span></a></code></pre></div>
-<p>This is a key property of R: one name can refer to different values in different environments. This is also important for dplyr, because it allows you to combine variables and objects in a call:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">user_var &lt;-<span class="st"> </span><span class="dv">1000</span></a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">cyl =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(cyl) <span class="op">*</span><span class="st"> </span>user_var)</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="co">#&gt;      cyl</span></a>
-<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="co">#&gt; 1 6187.5</span></a></code></pre></div>
-<p>When an object keeps track of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>(mean)</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="co">#&gt; [1] "closure"</span></a></code></pre></div>
-<p>For this reason we use a special name to refer to one-sided formulas: <strong>quosures</strong>. One-sided formulas are quotes (they carry an expression) with an environment.</p>
-<p>Quosures are regular R objects. They can be stored in a variable and inspected:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">var &lt;-<span class="st"> </span><span class="er">~</span><span class="kw"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb37-2" data-line-number="2">var</a>
-<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="co">#&gt; ~toupper(letters[1:5])</span></a>
-<a class="sourceLine" id="cb37-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="co"># You can extract its expression:</span></a>
-<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="kw"><a href="https://rlang.r-lib.org/reference/set_expr.html">get_expr</a></span>(var)</a>
-<a class="sourceLine" id="cb37-7" data-line-number="7"><span class="co">#&gt; toupper(letters[1:5])</span></a>
-<a class="sourceLine" id="cb37-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb37-9" data-line-number="9"><span class="co"># Or inspect its enclosure:</span></a>
-<a class="sourceLine" id="cb37-10" data-line-number="10"><span class="kw"><a href="https://rlang.r-lib.org/reference/get_env.html">get_env</a></span>(var)</a>
-<a class="sourceLine" id="cb37-11" data-line-number="11"><span class="co">#&gt; &lt;environment: R_GlobalEnv&gt;</span></a></code></pre></div>
-</div>
-<div id="quasiquotation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quasiquotation" class="anchor"></a>Quasiquotation</h2>
-<blockquote>
-<p>Put simply, quasi-quotation enables one to introduce symbols that stand for a linguistic expression in a given instance and are used as that linguistic expression in a different instance. — <a href="https://en.wikipedia.org/wiki/Quasi-quotation">Willard van Orman Quine</a></p>
-</blockquote>
-<p>Automatic quoting makes dplyr very convenient for interactive use. But if you want to program with dplyr, you need some way to refer to variables indirectly. The solution to this problem is <strong>quasiquotation</strong>, which allows you to evaluate directly inside an expression that is otherwise quoted.</p>
-<p>Quasiquotation was coined by Willard van Orman Quine in the 1940s, and was adopted for programming by the LISP community in the 1970s. All expression-based functions in the tidyeval framework support quasiquotation. Unquoting cancels quotation of parts of an expression. There are three types of unquoting:</p>
-<ul>
-<li>basic</li>
-<li>unquote splicing</li>
-<li>unquoting names</li>
-</ul>
-<div id="unquoting" class="section level3">
+<div id="loop-over-multiple-variables" class="section level3">
 <h3 class="hasAnchor">
-<a href="#unquoting" class="anchor"></a>Unquoting</h3>
-<p>The first important operation is the basic unquote, which comes in a functional form, <code><a href="https://rlang.r-lib.org/reference/nse-force.html">UQ()</a></code>, and as syntactic-sugar, <code>!!</code>.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co"># Here we capture `letters[1:5]` as an expression:</span></a>
-<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]))</a>
-<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="co">#&gt; expr: ^toupper(letters[1:5])</span></a>
-<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="co">#&gt; env:  global</span></a>
-<a class="sourceLine" id="cb38-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co"># Here we capture the value of `letters[1:5]`</span></a>
-<a class="sourceLine" id="cb38-8" data-line-number="8"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span>(<span class="op">!!</span><span class="st"> </span>letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]))</a>
-<a class="sourceLine" id="cb38-9" data-line-number="9"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb38-10" data-line-number="10"><span class="co">#&gt; expr: ^toupper(&lt;chr: "a", "b", "c", "d", "e"&gt;)</span></a>
-<a class="sourceLine" id="cb38-11" data-line-number="11"><span class="co">#&gt; env:  global</span></a>
-<a class="sourceLine" id="cb38-12" data-line-number="12"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span>(<span class="kw"><a href="https://rlang.r-lib.org/reference/nse-force.html">UQ</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])))</a>
-<a class="sourceLine" id="cb38-13" data-line-number="13"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb38-14" data-line-number="14"><span class="co">#&gt; expr: ^toupper(&lt;chr: "a", "b", "c", "d", "e"&gt;)</span></a>
-<a class="sourceLine" id="cb38-15" data-line-number="15"><span class="co">#&gt; env:  global</span></a></code></pre></div>
-<p>It is also possible to unquote other quoted expressions. Unquoting such symbolic objects provides a powerful way of manipulating expressions.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">var1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span>(<span class="op">!!</span><span class="st"> </span>var1))</a>
-<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="co">#&gt; expr: ^toupper(^letters[1:5])</span></a>
-<a class="sourceLine" id="cb39-5" data-line-number="5"><span class="co">#&gt; env:  global</span></a></code></pre></div>
-<p>You can safely unquote quosures because they track their environments, and tidyeval functions know how to evaluate them. This allows any depth of quoting and unquoting.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">my_mutate &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb40-2" data-line-number="2">  mtcars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/select.html">select</a></span>(cyl) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/slice.html">slice</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb40-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">cyl2 =</span> cyl <span class="op">+</span><span class="st"> </span>(<span class="op">!!</span><span class="st"> </span>x))</a>
-<a class="sourceLine" id="cb40-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb40-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb40-8" data-line-number="8">f &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(x)</a>
-<a class="sourceLine" id="cb40-9" data-line-number="9">expr1 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb40-10" data-line-number="10">expr2 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb40-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb40-12" data-line-number="12"><span class="kw">my_mutate</span>(expr1)</a>
-<a class="sourceLine" id="cb40-13" data-line-number="13"><span class="co">#&gt;                cyl cyl2</span></a>
-<a class="sourceLine" id="cb40-14" data-line-number="14"><span class="co">#&gt; Mazda RX4        6  106</span></a>
-<a class="sourceLine" id="cb40-15" data-line-number="15"><span class="co">#&gt; Mazda RX4 Wag    6  106</span></a>
-<a class="sourceLine" id="cb40-16" data-line-number="16"><span class="co">#&gt; Datsun 710       4  104</span></a>
-<a class="sourceLine" id="cb40-17" data-line-number="17"><span class="co">#&gt; Hornet 4 Drive   6  106</span></a>
-<a class="sourceLine" id="cb40-18" data-line-number="18"><span class="kw">my_mutate</span>(expr2)</a>
-<a class="sourceLine" id="cb40-19" data-line-number="19"><span class="co">#&gt;                cyl cyl2</span></a>
-<a class="sourceLine" id="cb40-20" data-line-number="20"><span class="co">#&gt; Mazda RX4        6   16</span></a>
-<a class="sourceLine" id="cb40-21" data-line-number="21"><span class="co">#&gt; Mazda RX4 Wag    6   16</span></a>
-<a class="sourceLine" id="cb40-22" data-line-number="22"><span class="co">#&gt; Datsun 710       4   14</span></a>
-<a class="sourceLine" id="cb40-23" data-line-number="23"><span class="co">#&gt; Hornet 4 Drive   6   16</span></a></code></pre></div>
-<p>The functional form is useful in cases where the precedence of <code>!</code> causes problems:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">my_fun &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(fun)</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="op">!!</span><span class="st"> </span><span class="kw">my_fun</span>(x, y, z))</a>
-<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="co">#&gt; Error in my_fun(x, y, z): could not find function "my_fun"</span></a>
-<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rlang.r-lib.org/reference/nse-force.html">UQ</a></span>(my_fun)(x, y, z))</a>
-<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb41-6" data-line-number="6"><span class="co">#&gt; expr: ^`~`(fun)(x, y, z)</span></a>
-<a class="sourceLine" id="cb41-7" data-line-number="7"><span class="co">#&gt; env:  global</span></a>
-<a class="sourceLine" id="cb41-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb41-9" data-line-number="9">my_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(x)</a>
-<a class="sourceLine" id="cb41-10" data-line-number="10"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="../reference/filter.html">filter</a></span>(df, <span class="op">!!</span><span class="st"> </span>my_var <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb41-11" data-line-number="11"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb41-12" data-line-number="12"><span class="co">#&gt; expr: ^filter(df, (^x) == 1)</span></a>
-<a class="sourceLine" id="cb41-13" data-line-number="13"><span class="co">#&gt; env:  global</span></a>
-<a class="sourceLine" id="cb41-14" data-line-number="14"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="../reference/filter.html">filter</a></span>(df, <span class="kw"><a href="https://rlang.r-lib.org/reference/nse-force.html">UQ</a></span>(my_var) <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb41-15" data-line-number="15"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb41-16" data-line-number="16"><span class="co">#&gt; expr: ^filter(df, (^x) == 1)</span></a>
-<a class="sourceLine" id="cb41-17" data-line-number="17"><span class="co">#&gt; env:  global</span></a></code></pre></div>
+<a href="#loop-over-multiple-variables" class="anchor"></a>Loop over multiple variables</h3>
+<p>Index into the special <code>.data</code> pronoun:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="cf">for</span> (var <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(mtcars)) {</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">  mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/tally.html">count</a></span>(.data[[var]]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>()</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">}</a></code></pre></div>
+<p>This same technique works with the base R <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> family and the purrr <code>map()</code> family:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="op">~</span><span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/tally.html">count</a></span>(.data[[.x]]))</a></code></pre></div>
+<p>(Note that <code>.data</code> is not a data frame; it’s a special construct that allows you to access the current variables either directly, with <code>.data$x</code> or indirectly with <code>.data[[var]]</code>. Don’t expect other functions to work with it.)</p>
 </div>
-<div id="unquote-splicing" class="section level3">
+<div id="use-a-variable-from-an-shiny-input" class="section level3">
 <h3 class="hasAnchor">
-<a href="#unquote-splicing" class="anchor"></a>Unquote-splicing</h3>
-<p>The second unquote operation is unquote-splicing. Its functional form is <code><a href="https://rlang.r-lib.org/reference/nse-force.html">UQS()</a></code> and the syntactic shortcut is <code>!!!</code>. It takes a vector and inserts each element of the vector in the surrounding function call:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="op">!!!</span><span class="st"> </span>letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]))</a>
-<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb42-3" data-line-number="3"><span class="co">#&gt; expr: ^list("a", "b", "c", "d", "e")</span></a>
-<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="co">#&gt; env:  global</span></a></code></pre></div>
-<p>A very useful feature of unquote-splicing is that the vector names become argument names:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">foo =</span> 1L, <span class="dt">bar =</span> <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(baz))</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="op">!!!</span><span class="st"> </span>x))</a>
-<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb43-4" data-line-number="4"><span class="co">#&gt; expr: ^list(foo = 1L, bar = ^baz)</span></a>
-<a class="sourceLine" id="cb43-5" data-line-number="5"><span class="co">#&gt; env:  global</span></a></code></pre></div>
-<p>This makes it easy to program with dplyr verbs that take named dots:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">args &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(cyl)), <span class="dt">count =</span> <span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="kw"><a href="../reference/context.html">n</a></span>()))</a>
-<a class="sourceLine" id="cb44-2" data-line-number="2">mtcars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb44-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(am) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb44-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="op">!!!</span><span class="st"> </span>args)</a>
-<a class="sourceLine" id="cb44-5" data-line-number="5"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb44-6" data-line-number="6"><span class="co">#&gt;      am  mean count</span></a>
-<a class="sourceLine" id="cb44-7" data-line-number="7"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb44-8" data-line-number="8"><span class="co">#&gt; 1     0  6.95    19</span></a>
-<a class="sourceLine" id="cb44-9" data-line-number="9"><span class="co">#&gt; 2     1  5.08    13</span></a></code></pre></div>
+<a href="#use-a-variable-from-an-shiny-input" class="anchor"></a>Use a variable from an Shiny input</h3>
+<p>Many Shiny input controls return character vectors, so you can use the same approach as above: <code>.data[[input$var]]</code>.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">  <span class="kw">selectInput</span>(<span class="st">"var"</span>, <span class="st">"Variable"</span>, <span class="dt">choices =</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(diamonds)),</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">  <span class="kw">tableOutput</span>(<span class="st">"output"</span>)</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb21-7" data-line-number="7">  data &lt;-<span class="st"> </span><span class="kw">reactive</span>(<span class="kw"><a href="../reference/filter.html">filter</a></span>(diamonds, .data[[input<span class="op">$</span>var]] <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb21-8" data-line-number="8">  output<span class="op">$</span>output &lt;-<span class="st"> </span><span class="kw">renderTable</span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>()))</a>
+<a class="sourceLine" id="cb21-9" data-line-number="9">}</a></code></pre></div>
+<p>See <a href="https://mastering-shiny.org/action-tidy.html" class="uri">https://mastering-shiny.org/action-tidy.html</a> for more details and case studies.</p>
 </div>
-<div id="setting-variable-names" class="section level3">
-<h3 class="hasAnchor">
-<a href="#setting-variable-names" class="anchor"></a>Setting variable names</h3>
-<p>The final unquote operation is setting argument names. You’ve seen one way to do that above, but you can also use the definition operator <code>:=</code> instead of <code>=</code>. <code>:=</code> supports unquoting on both the LHS and the RHS.</p>
-<p>The rules on the LHS are slightly different: the unquoted operand should evaluate to a string or a symbol.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">mean_nm &lt;-<span class="st"> "mean"</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">count_nm &lt;-<span class="st"> "count"</span></a>
-<a class="sourceLine" id="cb45-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb45-4" data-line-number="4">mtcars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb45-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(am) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb45-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
-<a class="sourceLine" id="cb45-7" data-line-number="7">    <span class="op">!!</span><span class="st"> </span>mean_nm <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(cyl),</a>
-<a class="sourceLine" id="cb45-8" data-line-number="8">    <span class="op">!!</span><span class="st"> </span>count_nm <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="../reference/context.html">n</a></span>()</a>
-<a class="sourceLine" id="cb45-9" data-line-number="9">  )</a>
-<a class="sourceLine" id="cb45-10" data-line-number="10"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb45-11" data-line-number="11"><span class="co">#&gt;      am  mean count</span></a>
-<a class="sourceLine" id="cb45-12" data-line-number="12"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb45-13" data-line-number="13"><span class="co">#&gt; 1     0  6.95    19</span></a>
-<a class="sourceLine" id="cb45-14" data-line-number="14"><span class="co">#&gt; 2     1  5.08    13</span></a></code></pre></div>
 </div>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p>dplyr’s <code><a href="../reference/filter.html">filter()</a></code> is inspired by base R’s <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code>. <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code> provides data masking, but not with tidy evaluation, so the techniques described in this chapter don’t apply to it.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>In R, arguments are lazily evaluated which means that until you attempt to use, they don’t hold a value, just a <strong>promise</strong> that describes how to compute the value. You can learn more at <a href="https://adv-r.hadley.nz/functions.html#lazy-evaluation" class="uri">https://adv-r.hadley.nz/functions.html#lazy-evaluation</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
 </div>
   </div>
 
@@ -718,10 +427,10 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#warm-up">Warm up</a></li>
-      <li><a href="#programming-recipes">Programming recipes</a></li>
-      <li><a href="#quoting">Quoting</a></li>
-      <li><a href="#quasiquotation">Quasiquotation</a></li>
+<li><a href="#introduction">Introduction</a></li>
+      <li><a href="#data-masking">Data masking</a></li>
+      <li><a href="#tidy-selection">Tidy selection</a></li>
+      <li><a href="#how-tos">How tos</a></li>
       </ul>
 </div>
       </div>
