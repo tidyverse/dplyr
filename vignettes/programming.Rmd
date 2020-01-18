@@ -220,6 +220,8 @@ my_summarise(starwars, species)
 This generalises in a straightforward way if you want to use one user supplied expression in multiple places. For example, if you wanted to write a function to reduce the duplication here:
 
 ```{r}
+df <- tibble(a = 1:10, b = runif(10))
+
 df %>% summarise(mean = mean(a), sum = sum(a), n = n())
 df %>% summarise(mean = mean(a * b), sum = sum(a * b), n = n())
 ```
@@ -249,10 +251,10 @@ If you just want to pass expressions along without transforming them, you can us
 my_summarise <- function(df, ...) {
   df %>%
     group_by(...) %>%
-    summarise(a = mean(a))
+    summarise(mass = mean(mass, na.rm = TRUE), height = mean(height, na.rm = TRUE))
 }
 
-my_summarise(starwars, , g2)
+my_summarise(starwars, homeworld)
 ```
   
 ### Function with multiple user-supplied variables
@@ -262,10 +264,11 @@ If you want the user to provide a set of variables that are then transformed, us
 ```{r}
 my_summarise <- function(df, summary_vars) {
   df %>%
-    summarise(across({{ summary_vars }}, mean))
+    summarise(across({{ summary_vars }}, ~ mean(., na.rm = TRUE)))
 }
-
-my_summarise(df, c(g1, g2))
+starwars %>% 
+  group_by(species) %>% 
+  my_summarise(c(mass, height))
 ```
 
 You can use this same idea for multiple sets of input variables:
