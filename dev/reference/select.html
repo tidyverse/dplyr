@@ -412,8 +412,8 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; 10 masculine
 #&gt; # … with 77 more rows</div><div class='input'>
 <span class='co'># Moving variables around --------------------------</span>
-<span class='co'># Move `Species` to the front</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='no'>Species</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>())</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='co'># As of dplyr 1.0.0, use relocate(), not select():</span>
+<span class='fu'><a href='relocate.html'>relocate</a></span>(<span class='no'>iris</span>, <span class='no'>Species</span>, <span class='kw'>.before</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Species Sepal.Length Sepal.Width Petal.Length Petal.Width
 #&gt;    &lt;fct&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
 #&gt;  1 setosa           5.1         3.5          1.4         0.2
@@ -426,10 +426,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt;  8 setosa           5           3.4          1.5         0.2
 #&gt;  9 setosa           4.4         2.9          1.4         0.2
 #&gt; 10 setosa           4.9         3.1          1.5         0.1
-#&gt; # … with 140 more rows</div><div class='input'>
-<span class='co'># Move `Sepal.Length` to the back: first select everything except</span>
-<span class='co'># `Sepal.Length`, then select `Sepal.Length`</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, !<span class='no'>Sepal.Length</span>, <span class='no'>Sepal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
+#&gt; # … with 140 more rows</div><div class='input'><span class='fu'><a href='relocate.html'>relocate</a></span>(<span class='no'>iris</span>, <span class='no'>Sepal.Length</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>last_col</a></span>())</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Sepal.Width Petal.Length Petal.Width Species Sepal.Length
 #&gt;          &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;          &lt;dbl&gt;
 #&gt;  1         3.5          1.4         0.2 setosa           5.1

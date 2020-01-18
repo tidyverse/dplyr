@@ -193,6 +193,7 @@
 <a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>New <code><a href="../reference/relocate.html">relocate()</a></code> verb makes it easy to move columns around within a data frame (<a href='https://github.com/tidyverse/dplyr/issues/4598'>#4598</a>).</p></li>
 <li><p>The scoped helpers (all functions ending in <code>_if</code>, <code>_at</code>, or <code>_all</code>) have been superseded by <code><a href="../reference/across.html">across()</a></code>. This dramatically reduces the API surface for dplyr, while at the same providing providing a more flexible and less error-prone interface (<a href='https://github.com/tidyverse/dplyr/issues/4769'>#4769</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> create multiple columns from a single expression if you return a data frame (<a href='https://github.com/tidyverse/dplyr/issues/2326'>#2326</a>).</p></li>
 <li><p><code><a href="../reference/summarise.html">summarise()</a></code> can create summaries of greater than length 1 if you use a summary function that returns multiple values.</p></li>
