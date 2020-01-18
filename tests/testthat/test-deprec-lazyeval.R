@@ -185,46 +185,6 @@ test_that("group_by_ works", {
     group_by_(df, .dots = list(~ -a)),
     group_by(df, -a)
   )
-
-  expect_warning(
-    expect_equal(
-      group_by_(df %>% rowwise(), ~ a),
-      group_by(df %>% rowwise(), a)
-    ),
-    "rowwise"
-  )
-
-  expect_warning(
-    expect_equal(
-      group_by_(df %>% rowwise(), ~ -a),
-      group_by(df %>% rowwise(), -a)
-    ),
-    "rowwise"
-  )
-
-  expect_warning(
-    expect_equal(
-      group_by_(df %>% rowwise(), .dots = "a"),
-      group_by(df %>% rowwise(), a)
-    ),
-    "rowwise"
-  )
-
-  expect_warning(
-    expect_equal(
-      group_by_(df %>% rowwise(), .dots = list(quote(-a))),
-      group_by(df %>% rowwise(), -a)
-    ),
-    "rowwise"
-  )
-
-  expect_warning(
-    expect_equal(
-      group_by_(df %>% rowwise(), .dots = list(~ -a)),
-      group_by(df %>% rowwise(), -a)
-    ),
-    "rowwise"
-  )
 })
 
 test_that("mutate_ works", {
@@ -429,7 +389,7 @@ test_that("group_by_ backwards compatibility with add = TRUE adds groups", {
     group_by.default(grouped, y, add = TRUE)
   }
 
-  expect_groups(add_groups_extendedclass(df), c("x", "y"))
+  expect_equal(group_vars(add_groups_extendedclass(df)), c("x", "y"))
 })
 
 test_that("_each() and _all() families agree", {

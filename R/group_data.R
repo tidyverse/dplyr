@@ -47,8 +47,7 @@ group_data.data.frame <- function(.data) {
 
 #' @export
 group_data.rowwise_df <- function(.data) {
-  rows <- new_list_of(as.list(seq_len(nrow(.data))), ptype = integer())
-  tibble(".rows" := rows)
+  attr(.data, "groups")
 }
 
 #' @export

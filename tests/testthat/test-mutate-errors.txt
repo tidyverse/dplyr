@@ -3,78 +3,85 @@
 setting column to NULL makes it unavailable
 ===========================================
 
-> mutate(tbl, y = NULL, a = sum(y))
-Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'y' not found
+> tbl %>% mutate(y = NULL, a = sum(y))
+Error: `mutate()` argument `a` errored.
+i `a` is sum(y)
+x object 'y' not found
 
-> mutate(group_by(tbl, x), y = NULL, a = sum(y))
-Error in mask$eval_all_mutate(dots[[i]], dots_names, i): object 'y' not found
+> tbl %>% group_by(x) %>% mutate(y = NULL, a = sum(y))
+Error: `mutate()` argument `a` errored.
+i `a` is sum(y)
+x object 'y' not found
+i The error occured in group 1.
 
 
 incompatible column type
 ========================
 
-> mutate(tibble(x = 1), y = mean)
-Error: Unsupported type for result `y`
-
-> mutate(tibble(x = 1), y = quote(a))
-Error: Unsupported type for result `y`
+> tibble(x = 1) %>% mutate(y = mean)
+Error: `mutate()` argument `y` must be a vector.
+i `y` is mean.
+x Result should be a vector, not a function.
 
 
 Unsupported type
 ================
 
 > df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
-> mutate(df, out = !!env(a = 1))
-Error: Unsupported type for result `out`
+> df %>% mutate(out = env(a = 1))
+Error: `mutate()` argument `out` must be a vector.
+i `out` is env(a = 1).
+x Result should be a vector, not an environment.
 
-> mutate(group_by(df, g), out = !!env(a = 1))
-Error: Unsupported type for result `out`
-
-
-result is sometimes NULL
-========================
-
-> mutate(group_by(tibble(a = 1:3, b = 4:6), a), if (a == 1) NULL else "foo")
-Error: Must index existing elements.
-x Can't subset position 3.
-i There are only 2 elements.
+> df %>% group_by(g) %>% mutate(out = env(a = 1))
+Error: `mutate()` argument `out` must be a vector.
+i `out` is env(a = 1).
+x Result should be a vector, not an environment.
+i The error occured in group 1.
 
 
-incompatible types
-==================
+incompatible types across groups
+================================
 
-> mutate(group_by(data.frame(x = rep(1:5, each = 3)), x), val = ifelse(x < 3,
-+   "foo", 2))
-Error: No common type for `..1` <character> and `..3` <double>.
+> data.frame(x = rep(1:5, each = 3)) %>% group_by(x) %>% mutate(val = ifelse(x <
++ 3, "foo", 2))
+Error: `mutate()` argument `val` must return compatible vectors across groups.
+i `val` is ifelse(x < 3, "foo", 2)
+x Error from vec_c() : No common type for `..1` <character> and `..3` <double>..
+
+> tibble(a = 1:3, b = 4:6) %>% group_by(a) %>% mutate(if (a == 1) NULL else "foo")
+Error: `mutate()` argument `..1` must return compatible vectors across groups.
+i `..1` is if (a == 1) NULL else "foo"
+i Cannot combine NULL and non NULL results.
 
 
 incompatible size
 =================
 
-> int <- 1:6
-> mutate(data.frame(x = c(2, 2, 3, 3)), int = int)
-Error: `x` can't be recycled to size 4.
-x It must be size 4 or 1, not 6.
-
-> mutate(data.frame(x = c(2, 2, 3, 3)), int = 1:5)
-Error: `x` can't be recycled to size 4.
+> data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)
+Error: `mutate()` argument `int` must be recyclable.
+i `int` is 1:5
+x `x` can't be recycled to size 4.
 x It must be size 4 or 1, not 5.
 
-> mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = int)
-Error: `x` can't be recycled to size 2.
-x It must be size 2 or 1, not 6.
-
-> mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = 1:5)
-Error: `x` can't be recycled to size 2.
+> data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)
+Error: `mutate()` argument `int` must be recyclable.
+i `int` is 1:5
+x `x` can't be recycled to size 2.
 x It must be size 2 or 1, not 5.
+i The error occured in group 2.
 
 
 .data pronoun
 =============
 
-> mutate(tibble(a = 1), c = .data$b)
-Error: Column `b` not found in `.data`
+> tibble(a = 1) %>% mutate(c = .data$b)
+Error: `mutate()` argument `c` errored.
+i `c` is .data$b
+x Column `b` not found in `.data`
 
-> mutate(group_by(tibble(a = 1:3), a), c = .data$b)
-Error: Column `b` not found in `.data`
+> tibble(a = 1:3) %>% group_by(a) %>% mutate(c = .data$b)
+Error: `mutate()` argument `c` errored.
+i `c` is .data$b
+x Column `b` not found in `.data`
 

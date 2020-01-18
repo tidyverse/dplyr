@@ -72,7 +72,7 @@ test_that("arrange handles S4 classes #1105", {
   setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
   on.exit(removeClass("TestS4"))
 
-  df <- data.frame(x = 1:3, y = TestS4(3:1))
+  df <- tibble(x = 1:3, y = TestS4(3:1))
   expect_equal(arrange(df, y), df[3:1, ])
 })
 

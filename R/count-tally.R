@@ -1,4 +1,4 @@
-#' Count/tally observations by group
+#' Count observations by group
 #'
 #' @description
 #' `count()` lets you quickly count the unique values of a variable, or
@@ -11,7 +11,8 @@
 #' instead of `summarise()` so that they add a new column with group-wise
 #' counts.
 #'
-#' @param x A [tbl()] to tally/count.
+#' @param x A data frame, data frame extension (e.g. a tibble), or a
+#'   lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables to group by.
 #' @param wt <[`tidy-eval`][dplyr_tidy_eval]> If omitted, will count the number of rows.
 #'   If specified, will perform a "weighted" tally by summing the (non-missing)
@@ -25,8 +26,12 @@
 #'
 #'   If omitted, it will default to `n`. If there's already a column called `n`,
 #'   it will error, and require you to specify the name.
-#' @param .drop see [group_by()]
-#' @return A tbl, grouped the same way as the input.
+#' @param .drop For `count()`: if `FALSE` will include counts for empty groups
+#'   (i.e. for levels of factors that don't exist in the data). Deprecated for
+#'   `add_count()` since it didn't actually affect the output.
+#' @return
+#' An object of the same type as `.data`. `count()` and `add_count()`
+#' group transiently, so the output has the same groups as the input.
 #' @export
 #' @examples
 #' # count() is a convenient way to get a sense of the distribution of
@@ -84,26 +89,33 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 #' @export
 #' @rdname tally
 count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-  groups <- group_vars(x)
+
   if (!missing(...)) {
-    x <- .group_by_static_drop(x, ..., .add = TRUE, .drop = .drop)
+    out <- group_by(x, ..., .add = TRUE, .drop = .drop)
+  } else {
+    out <- x
   }
 
-  x <- tally(x, wt = !!enquo(wt), sort = sort, name = name)
-  x <- .group_by_static_drop(x, !!!syms(groups), .add = FALSE, .drop = .drop)
-  x
+  out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
+  dplyr_reconstruct(out, x)
 }
 
 #' @rdname tally
 #' @export
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-  groups <- group_vars(x)
-  if (!missing(...)) {
-    x <- .group_by_static_drop(x, ..., .add = TRUE, .drop = .drop)
+add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+  if (!missing(.drop)) {
+    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
   }
 
-  x <- add_tally(x, wt = !!enquo(wt), sort = sort, name = name)
-  x <- .group_by_static_drop(x, !!!syms(groups), .add = FALSE, .drop = .drop)
+  if (!missing(...)) {
+    out <- group_by(x, ..., .add = TRUE)
+  } else {
+    out <- x
+  }
+  out <- add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
+
+  name <- check_name(x, name)
+  x[[name]] <- out[[name]]
   x
 }
 

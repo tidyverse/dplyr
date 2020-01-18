@@ -55,7 +55,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 1},
 
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
-  {"dplyr_filter_update_rows", (DL_FUNC)& dplyr_filter_update_rows, 4},
   {"dplyr_between", (DL_FUNC)& dplyr_between, 3},
   {"dplyr_cumall", (DL_FUNC)& dplyr_cumall, 1},
   {"dplyr_cumany", (DL_FUNC)& dplyr_cumany, 1},
@@ -63,8 +62,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
 
   {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 3},
-  {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 5},
-  {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 5},
+  {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 3},
+  {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 3},
   {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 6},
 
   {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},

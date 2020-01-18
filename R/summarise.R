@@ -1,9 +1,9 @@
-#' Reduce multiple values down to a single value
+#' Summarise each group to fewer rows
 #'
 #' @description
-#' `summarise()` creates a new data frame. It will have one row for each
-#' combination of grouping variable; if there are no grouping variables, the
-#' output will have a single row summarising all observations in the input.
+#' `summarise()` creates a new data frame. It will have one (or more) rows for
+#' each combination of grouping variables; if there are no grouping variables,
+#' the output will have a single row summarising all observations in the input.
 #' It will contain one column for each grouping variable and one column
 #' for each of the summary statistics that you have specified.
 #'
@@ -32,21 +32,35 @@
 #' creating multiple summaries.
 #'
 #' @export
-#' @inheritParams filter
-#' @inheritSection filter Tidy data
+#' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of summary
 #'   functions. The name will be the name of the variable in the result.
-#'   The value should be an expression that returns a single value like
-#'   `min(x)`, `n()`, or `sum(is.na(y))`.
+#'
+#'   The value can be:
+#'
+#'   * A vector of length 1, e.g. `min(x)`, `n()`, or `sum(is.na(y))`.
+#'   * A vector of length `n`, e.g. `quantile()`.
+#'   * A data frame, to add multiple columns from a single expression.
 #' @family single table verbs
 #' @return
-#' An object of the same class as `.data`. It will contain one column for
-#' each grouping variable and each expression you supply. It will have
-#' one row for each combination of the grouping variables.
+#' An object _usually_ of the same type as `.data`.
 #'
-#' If `.data` is grouped, then the last group will be dropped,
-#' e.g.`df %>% group_by(x, y) %>% summarise(n())` will be grouped by
-#' `x`. This happens because each group now occupies only a single row.
+#' * The rows come from the underlying `group_keys()`.
+#' * The columns are a combination of the grouping keys and the summary
+#'   expressions that you provide.
+#' * If `x` is grouped by more than one variable, the output will be another
+#'   [grouped_df] with the right-most group removed.
+#' * If `x` is grouped by one variable, or is not grouped, the output will
+#'   be a [tibble].
+#' * Data frame attributes are **not** preserved, because `summarise()`
+#'   fundamentally creates a new data frame.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("summarise")}.
 #' @examples
 #' # A summary applied to ungrouped tbl returns a single row
 #' mtcars %>%
@@ -57,6 +71,20 @@
 #'   group_by(cyl) %>%
 #'   summarise(mean = mean(disp), n = n())
 #'
+#' # dplyr 1.0.0 allows to summarise to more than one value:
+#' mtcars %>%
+#'    group_by(cyl) %>%
+#'    summarise(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
+#'
+#' # You use a data frame to create multiple columns so you can wrap
+#' # this up into a function:
+#' my_quantile <- function(x, probs) {
+#'   tibble(x = quantile(x, probs), probs = probs)
+#' }
+#' mtcars %>%
+#'   group_by(cyl) %>%
+#'   summarise(my_quantile(disp, c(0.25, 0.75)))
+#'
 #' # Each summary call removes one grouping level (since that group
 #' # is now just a single row)
 #' mtcars %>%
@@ -64,12 +92,10 @@
 #'   summarise(cyl_n = n()) %>%
 #'   group_vars()
 #'
-#'
-#' # BEWARE: reusing variable names may lead to unexpected results
+#' # BEWARE: reusing variables may lead to unexpected results
 #' mtcars %>%
 #'   group_by(cyl) %>%
 #'   summarise(disp = mean(disp), sd = sd(disp))
-#'
 #'
 #' # Refer to column names stored as strings with the `.data` pronoun:
 #' var <- "mass"
@@ -90,8 +116,8 @@ summarise.data.frame <- function(.data, ...) {
   if (!identical(cols$size, 1L)) {
     out <- vec_slice(out, rep(1:nrow(out), cols$size))
   }
-  out[names(cols$new)] <- cols$new
-  out
+
+  dplyr_col_modify(out, cols$new)
 }
 
 #' @export
@@ -99,11 +125,18 @@ summarise.grouped_df <- function(.data, ...) {
   out <- NextMethod()
 
   group_vars <- group_vars(.data)
-  if (length(group_vars) > 1) {
-    out <- grouped_df(out, group_vars[-length(group_vars)], group_by_drop_default(.data))
+  n <- length(group_vars)
+  if (n > 1) {
+    out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
   }
 
   out
+}
+
+#' @export
+summarise.rowwise_df <- function(.data, ...) {
+  out <- NextMethod()
+  rowwise_df(out, group_vars(.data))
 }
 
 summarise_cols <- function(.data, ...) {
@@ -134,7 +167,7 @@ summarise_cols <- function(.data, ...) {
       # evaluating the quosure in the "sliced data mask"
       #
       # TODO: reinject hybrid evaluation at the R level
-      chunks[[i]] <- mask$eval_all_summarise(quo, dots_names, i)
+      chunks[[i]] <- mask$eval_all_summarise(quo)
 
       # check that vec_size() of chunks is compatible with .size
       # and maybe update .size
@@ -172,8 +205,11 @@ summarise_cols <- function(.data, ...) {
     }
 
   },
+  rlang_error_data_pronoun_not_found = function(e) {
+    stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
+  },
   vctrs_error_incompatible_type = function(e) {
-    stop_summarise_combine(conditionMessage(e), index = i, dots = dots)
+    stop_combine(conditionMessage(e), index = i, dots = dots, fn = "summarise")
   },
   simpleError = function(e) {
     stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
@@ -182,7 +218,7 @@ summarise_cols <- function(.data, ...) {
     stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
   },
   dplyr_summarise_incompatible_size = function(cnd) {
-    stop_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
+    stop_summarise_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
   })
 
   list(new = cols, size = .size)

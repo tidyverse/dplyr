@@ -15,59 +15,38 @@ home:
     href: http://r4ds.had.co.nz/transform.html
 
 reference:
-- title: Basic single-table verbs
+- title: One table verbs
   contents:
-  - filter
   - arrange
-  - select
-  - pull
-  - mutate
-  - summarise
-  - group_by
-
-- title: Other single-table verbs
-  contents:
+  - condense
+  - count
   - distinct
-  - do
+  - filter
+  - mutate
+  - pull
+  - relocate
+  - rename
+  - select
+  - summarise
   - slice
 
-- title: Single-table helpers
+- title: Two table verbs
   contents:
-  - count
-  - scoped
-  - ends_with("_at")
-  - all_vars
-  - vars
-
-- title: Two-table verbs
-  contents:
-  - all_equal
   - bind
   - intersect
-  - ends_with("join")
-  - join.tbl_df
+  - left_join
+  - nest_join
+  - semi_join
 
-- title: Computation on groups
+- title: Grouping
   contents:
+  - group_by
   - group_cols
-  - group_map
-  - group_modify
-  - group_trim
-  - group_split
-
-- title: Remote tables
-  contents:
-  - auto_copy
-  - compute
-  - copy_to
-  - ident
-  - explain
-  - tbl
-  - src_dbi
-  - sql
+  - rowwise
 
 - title: Vector functions
   contents:
+  - across
   - between
   - case_when
   - coalesce
@@ -87,16 +66,53 @@ reference:
 - title: Data
   contents:
   - band_members
-  - nasa
   - starwars
   - storms
 
-- title: Other backends
+- title: Remote tables
   contents:
-  - tbl_cube
-  - as.table.tbl_cube
-  - as.tbl_cube
-  - rowwise
+  - auto_copy
+  - compute
+  - copy_to
+  - ident
+  - explain
+  - tbl
+  - src_dbi
+  - sql
+
+- title: Experimental
+  desc: >
+    Experimental functions are a testing ground for new approaches that we
+    believe to be worthy of greater exposure. There is no guarantee that these
+    functions will stay around in the future, so please reach out if you find
+    them useful.
+  contents:
+  - group_map
+  - group_modify
+  - group_trim
+  - group_split
+  - with_groups
+
+- title: Questioning
+  desc: >
+    We have our doubts about questioning functions. We're not certain that
+    they're inadequate, or we don't have a good replacement in mind, but
+    these functions are at risk of removal in the future.
+  contents:
+  - all_equal
+
+- title: Superseded
+  desc: >
+    Superseded functions have been replaced by new approaches that we believe
+    to be superior, but we don't want to force you to change until you're
+    ready, so the existing functions will stay around for several years.
+  contents:
+  - sample_frac
+  - top_n
+  - scoped
+  - ends_with("_at")
+  - all_vars
+  - vars
 
 navbar:
   type: default
