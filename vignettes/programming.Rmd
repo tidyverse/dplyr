@@ -13,92 +13,95 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(1014)
 ```
 
+## Introduction
+
 Most dplyr verbs use **tidy evaluation** in some way. Tidy evaluation is a special type of non-standard evaluation used throughout the tidyverse. There are two basic forms found in dplyr:
 
-* `arrange()`, `filter()`, `group_by()`, `mutate()`, and `summarise()` use 
-  **data masking** so that you can use data variables as if they were variables 
-  in the environment (i.e. you write `my_variable` not `df$myvariable`). 
+* `arrange()`, `count()`, `filter()`, `group_by()`, `mutate()`, and 
+  `summarise()` use **data masking** so that you can use data variables as if 
+  they were variables in the environment (i.e. you write `my_variable` not
+  `df$myvariable`). 
 
 * `across()`, `relocate()`, `rename()`, `select()`, and `pull()` use 
   **tidy selection** so you can easily choose variabe based on their position, 
   name, or type (e.g. `starts_with("x")` or `is.numeric`).
 
-Data masking and tidy selection make interactive data exploration fast and fluid, but add some new challenges when you attempt to use them indirectly, as in a for loop or function. This vignette shows you how to overcome those challenges.
+Data masking and tidy selection make interactive data exploration fast and fluid, but add some new challenges when you attempt to use them indirectly, as in a for loop or function. This vignette shows you how to overcome those challenges. We'll first go over the basics of data masking and tidy selection, talk about how to use them indirectly, and then show you a number of recipes to solve common problems.
+
+This vignette will give you the minimum knowledge you need to be an effective programmer with tidy evaluation. If you'd like to learn more about the underlying theory, or how precisely its different from non-standard evaluation, we recommend that you read the Metaprogramming chapters in [_Advanced R_](https://adv-r.hadley.nz).
 
 ```{r, message = FALSE}
 library(dplyr)
 ```
 
-## Key ideas
+## Data masking
 
-### Data masking and the two meanings of "variable"
+Data masking makes data manipulation faster because it requires less typing. In most (but not all[^subset]) base R functions you need to refer to variables with `$`, leading to code that repeats the name of the data frame many times:
 
-Data masking allows your data manipulation code to be more succinct because you don't need to repeat the name of the data frame. For example, you can write `filter(df, x == 1, y == 2, z == 3)` instead of `df[df$x == 1 & df$y ==2 & df$z == 3, ]`. Unfortunately this benefit does not come for free. It's harder to use  indirection: how do you store the "name" of variable inside another variable so you can write a function or for loop? 
+```{r, results = FALSE}
+starwars[starwars$homeworld == "Naboo" & starwars$species == "Human", ,]
+```
 
-The key idea that makes data masking is that it blurs the line between the two different ways we use "variable":
+[^subset]: dplyr's `filter()` is inspired by base R's `subset()`. `subset()` provides data masking, but not with tidy evaluation, so the techniques described in this chapter don't apply to it.
 
-* __env-variables__ are "programming" variables that live in an environment.
+The dplyr equivalent of this code is more concise because you only need to write `starwars` once:
+
+```{r, results = FALSE}
+starwars %>% filter(homeworld == "Naboo", species == "Human")
+```
+
+### Data- and env-variables 
+
+The key idea behind data masking is that it blurs the line between the two different meanings of the word "variable":
+
+* **env-variables** are "programming" variables that live in an environment.
   They are usually created with `<-`. 
 
-* __data-variables__ are "statistical" variables that live in a data frame.
+* **data-variables** are "statistical" variables that live in a data frame.
   They usually come from data files (e.g. `.csv`, `.xls`), or are created 
   manipulating existing variables. 
   
-Take this piece of code:
+To make those definitions a little more concrete, take this piece of code:
 
 ```{r}
 df <- data.frame(x = runif(3), y = runif(3))
 df$x
 ```
 
-It creates a env-variable called `df`, that contains two data-variables, `x` and `y`. Then it extracts the data-variable `x` out of the data frame `df` using `$`.
+It creates a env-variable, `df`, that contains two data-variables, `x` and `y`. Then it extracts the data-variable `x` out of the env-variable `df` using `$`.
 
-Tidy evaluation makes it easier to write data analysis code because it blurs the distinction between the two types of variables, allowing you to refer to data-variables without any additional syntax. In most (but not all) base R functions you need to refer to a data-variable with `$`, leading to code that repeats the name of the data frame many times:
+I think this blurring of the meaning of variable is a really nice feature for interactive data analysis, because it allows you to refer to data-vars as is, without any prefix. And this seems to be fairly intuitive, since many newer R users will attempt to write `diamonds[x == 0 | y == 0, ]`. 
 
-```{r, results = FALSE}
-starwars[starwars$homeworld == "Naboo" & starwars$species == "Human", ,]
-```
+Unfortunately this benefit does not come for free. When you start to program with these tools, you're going to have to grapple with the distinction. And this will be hard because you've never had to think about it before, so it'll take a while for your brain to learn these new concepts and categories. However, once you've teased apart the idea of "variable" in data-variable and env-variable, I think you'll find it fairly straightforward to use.
 
-The dplyr equivalent of this code is more concise because you can refer to data-variables as if they were env-variables:
+### Indirection
 
-```{r, results = FALSE}
-starwars %>% filter(homeworld == "Naboo", species == "Human")
-```
+The main challenge of programming with function that use data masking arises when you introduce some indirection, i.e. instead of you directly typing the name of a data-variable you want to get it from an env-variable. There are two main cases:
 
-(dplyr's `filter()` is inspired by base R's `subset()`. `subset()` provides data masking, but not with tidy evaluation, so unfortunately the same techniques don't apply to it.)
-
-You usually use dplyr verbs purely with data-vars, but they work equally well with env-vars:
-
-```{r, results = FALSE}
-planet <- "Naboo"
-starwars %>% filter(homeworld == planet)
-```
-
-I think this blurring of the meaning of variable is a really nice feature for interactive data analysis, because it allows you to refer to data-vars as is, without any prefix. And this seems to be fairly intuitive, since many newer R users will attempt to write `diamonds[x == 0 | y == 0, ]`. But when you start to program with these tools, you're going to have to grapple with the distinction. And this will be hard because you've never had to think about it before, so it'll take a while for your brain to learn these new concepts and categories. However, once you've teased apart the idea of "variable" in data-variable and env-variable, I think you'll find it fairly straightforward to use.
-
-### The two forms of indirection
-
-The main challenge of data masking arises when you introduce some indirection, i.e. instead of you directly typing the name of a data-variable you want to get it from an env-variable.
-
-There are two main cases:
-
-*   When you have the data-variable in an env-variable that is a functon
-    argument[^promise], you need to **embrace** the argument by surrounding 
-    it in doubled parentheses, e.g. `filter(df, {{ var }})`.
+*   When you have the data-variable in a function argument (i.e. an env-variable
+    that holds a promise[^promise]), you need to **embrace** the argument by
+    surrounding it in doubled parentheses, like `filter(df, {{ var }})`.
+    
+    The following function uses embracing to create a wrapper around 
+    `summarise()` that computes the minimum and maximum values of a variable,
+    as well as the number of observations that were summarised.
 
     ```{r, results = FALSE}
-    dist_summary <- function(df, var) {
+    var_summary <- function(df, var) {
       df %>%
         summarise(n = n(), min = min({{ var }}), max = max({{ var }}))
     }
     mtcars %>% 
       group_by(cyl) %>% 
-      dist_summary(mpg)
+      var_summary(mpg)
     ```
 
-*   When you have an env-variable that contains a character vector, you
-    need to index into the `.data` pronoun with `[[`, e.g.  
+*   When you have an env-variable that is a character vector, you need to index 
+    into the `.data` pronoun with `[[`, like 
     `summarise(df, mean = mean(.data[[var]]))`.
+    
+    The following example uses `.data` to count the number of unique values in
+    each variable of `mtcars`:
 
     ```{r, results = FALSE}
     for (var in names(mtcars)) {
@@ -106,26 +109,62 @@ There are two main cases:
     }
     ```
 
-    The verbs `across()`, `select()`, `rename()`, and `pull()` use a
-    further more restricted form of tidy evaluation called **tidy selection**.
-    Rather than data-masking, they provide a specialised domain specific
-    language for selecting variables based on their names. Because they don't
-    use data-masking they don't provide a `.data` pronoun, so instead you
-    need to use the `all_of()` or `any_of()` selectors which take a 
-    character vector of variable names:
+
+[^promise]: In R, arguments are lazily evaluated which means that until you attempt to use, they don't hold a value, just a __promise__ that describes how to compute the value. You can learn more at <https://adv-r.hadley.nz/functions.html#lazy-evaluation>
+
+## Tidy selection
+
+Data masking makes it easy to compute on values within a dataset. Tidy selection is a complementary tool that makes it easy to work with the columns of a dataset.
+
+### The tidyselect DSL
+
+Underneath all functions that use tidy selection is the [tidyselect](http://tidyselect.r-lib.org/) package. It provides a miniature domain specific language that makes it easy to select columns by name, position, or type. For example:
+
+* `select(df, 1)` selects the first column; `select(1, last_col())` selects
+  the last column.
+  
+* `select(df, c(a, b, c))` selects columns `a`, `b`, and `c`.
+
+* `select(df, starts_with("a"))` selects all columns whose name starts with "a";
+  `select(df, ends_with("a"))` selects all columns whose name ends with "z".
+  
+* `select(df, is.numeric)` selects all numeric columns.
+
+(See more details in `?dplyr_tidy_select`).
+
+### Indirection selection
+
+As with, data masking there are two forms of indirection. 
+
+*   When you have the data-variable in an env-variable that is a functon
+    argument[^promise], you use the same technique as data masking: you 
+    **embrace** the argument by surrounding it in doubled parentheses.
     
-    ```{r}
-    for (var in names(mtcars)) {
-      mtcars %>% select(all_of(var)) %>% print()
+    The following function summarises a data frame by computing
+    the mean of all variables selected by the user.
+
+    ```{r, results = FALSE}
+    summarise_mean <- function(df, vars) {
+      df %>% summarise(n = n(), across({{ vars }}, mean))
     }
-    
+    mtcars %>% 
+      group_by(cyl) %>% 
+      summarise_mean(is.numeric)
     ```
 
-[^promise]: Or technically, a promise, which is what you should search for if you want to learn more. One place to start is <https://adv-r.hadley.nz/functions.html#lazy-evaluation>
+*   When you have an env-variable that is a character vector, you need to use
+    `all_of()` or `any_of()` depending on whether or not you want the
+    function to error if a variable is not found. 
+    
+    The following code uses `all_of()` to select all of the variables found
+    in a character vector; then `!` plus `all_of()` to select all of the 
+    variables *not* found in a character vector.
 
-### The theory
-
-This document refrains from discussing the underlying theory of tidy evaluation. Thanks to recent improvements in the syntax (particularly the introduction of `{{ }}`), there are very few places that the theory helps you solve day-to-day data science problems. I still believe the theory is beautiful and elegant, but you only need to learn about it if you'll be programming with it extensively. If you'd like to learn more, the best place is the Metaprogramming part of [_Advanced R_](https://adv-r.hadley.nz).
+    ```{r, results = FALSE}
+    vars <- c("mpg", "vs")
+    mtcars %>% select(all_of(vars))
+    mtcars %>% select(!all_of(vars))
+    ```
 
 ## How tos
 
