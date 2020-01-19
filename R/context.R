@@ -78,28 +78,31 @@ cur_group_rows <- function() {
 #' @rdname context
 #' @export
 cur_column <- function() {
-  context_env[["..current_column_name"]] %||%
-    abort("cur_column() must only be used inside across()")
+  peek_column()
 }
 
 # context accessors -------------------------------------------------------
 
-set_current_column <- function(name) {
-  context_env[["..current_column_name"]] <- name
-}
-
-poke_current_column <- function(name) {
-  old <- context_env[["..current_column_name"]]
-  set_current_column(name)
-  old
-}
-
 context_env <- new_environment()
 
-# Mask context ------------------------------------------------------------
+poke_column <- function(name) {
+  old <- context_env[["column"]]
+  context_env[["column"]] <- name
+  old
+}
+peek_column <- function() {
+  context_env[["column"]] %||%
+    abort("cur_column() must only be used inside across()")
+}
+local_column <- function(x, frame = caller_env()) {
+  old <- poke_column(x)
+  expr <- expr(on.exit(poke_column(!!old), add = TRUE))
+  eval_bare(expr, frame)
+}
+
 
 peek_mask <- function() {
-  out <- env_get(context_env, "..mask")
+  out <- env_get(context_env, "mask")
 
   if (is.null(out)) {
     expr <- deparse(sys.call(-1))
@@ -108,15 +111,13 @@ peek_mask <- function() {
 
   out
 }
-
 poke_mask <- function(mask) {
-  old <- context_env[["..mask"]]
-  context_env[["..mask"]] <- mask
+  old <- context_env[["mask"]]
+  context_env[["mask"]] <- mask
   old
 }
-
-local_mask <- function(mask, frame = caller_env()) {
-  old_mask <- poke_mask(mask)
-  expr <- expr(on.exit(poke_mask(!!old_mask), add = TRUE))
+local_mask <- function(x, frame = caller_env()) {
+  old <- poke_mask(x)
+  expr <- expr(on.exit(poke_mask(!!old), add = TRUE))
   eval_bare(expr, frame)
 }
