@@ -46,13 +46,13 @@ NULL
 #' @rdname context
 #' @export
 n <- function() {
-  length(peek_mask()$current_rows())
+  length(peek_mask("n()")$current_rows())
 }
 
 #' @rdname context
 #' @export
 cur_data <- function() {
-  mask <- peek_mask()
+  mask <- peek_mask("cur_data()")
   data <- mask$full_data()
   mask$pick(setdiff(names(data), group_vars(data)))
 }
@@ -60,19 +60,19 @@ cur_data <- function() {
 #' @rdname context
 #' @export
 cur_group <- function() {
-  peek_mask()$current_key()
+  peek_mask("cur_group()")$current_key()
 }
 
 #' @rdname context
 #' @export
 cur_group_id <- function() {
-  peek_mask()$get_current_group()
+  peek_mask("cur_group_id()")$get_current_group()
 }
 
 #' @rdname context
 #' @export
 cur_group_rows <- function() {
-  peek_mask()$current_rows()
+  peek_mask("cur_group_rows()")$current_rows()
 }
 
 #' @rdname context
@@ -84,40 +84,31 @@ cur_column <- function() {
 # context accessors -------------------------------------------------------
 
 context_env <- new_environment()
-
-poke_column <- function(name) {
-  old <- context_env[["column"]]
-  context_env[["column"]] <- name
+context_poke <- function(name, value) {
+  old <- context_env[[name]]
+  context_env[[name]] <- value
   old
 }
+context_peek <- function(name, fun, location = "dplyr verbs") {
+  context_env[[name]] %||%
+    abort(glue("{fun} must only be used inside {location}"))
+}
+context_local <- function(name, value, frame = caller_env()) {
+  old <- context_poke(name, value)
+  expr <- expr(on.exit(context_poke(!!name, !!old), add = TRUE))
+  eval_bare(expr, frame)
+}
+
 peek_column <- function() {
-  context_env[["column"]] %||%
-    abort("cur_column() must only be used inside across()")
+  context_peek("column", "cur_column()", "across()")
 }
 local_column <- function(x, frame = caller_env()) {
-  old <- poke_column(x)
-  expr <- expr(on.exit(poke_column(!!old), add = TRUE))
-  eval_bare(expr, frame)
+  context_local("column", x, frame = frame)
 }
 
-
-peek_mask <- function() {
-  out <- env_get(context_env, "mask")
-
-  if (is.null(out)) {
-    expr <- deparse(sys.call(-1))
-    abort(glue("{expr} must only be used inside dplyr verbs"))
-  }
-
-  out
-}
-poke_mask <- function(mask) {
-  old <- context_env[["mask"]]
-  context_env[["mask"]] <- mask
-  old
+peek_mask <- function(fun = "peek_mask()") {
+  context_peek("mask", fun)
 }
 local_mask <- function(x, frame = caller_env()) {
-  old <- poke_mask(x)
-  expr <- expr(on.exit(poke_mask(!!old), add = TRUE))
-  eval_bare(expr, frame)
+  context_local("mask", x, frame = frame)
 }
