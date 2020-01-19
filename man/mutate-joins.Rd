@@ -3,17 +3,52 @@
 \name{mutate-joins}
 \alias{mutate-joins}
 \alias{join}
+\alias{join.data.frame}
 \alias{inner_join}
+\alias{inner_join.data.frame}
 \alias{left_join}
+\alias{left_join.data.frame}
 \alias{right_join}
+\alias{right_join.data.frame}
 \alias{full_join}
+\alias{full_join.data.frame}
 \title{Mutating joins}
 \usage{
 inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
+\method{inner_join}{data.frame}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  na_matches = NULL
+)
+
 left_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
+\method{left_join}{data.frame}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  na_matches = NULL
+)
+
 right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
+
+\method{right_join}{data.frame}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  na_matches = NULL
+)
 
 full_join(
   x,
@@ -23,6 +58,17 @@ full_join(
   suffix = c(".x", ".y"),
   ...,
   keep = FALSE
+)
+
+\method{full_join}{data.frame}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = FALSE,
+  na_matches = NULL
 )
 }
 \arguments{
@@ -51,10 +97,14 @@ it is a potentially expensive operation so you must opt into it.}
 \code{y}, these suffixes will be added to the output to disambiguate them.
 Should be a character vector of length 2.}
 
-\item{...}{Other parameters passed onto methods.
+\item{...}{Other parameters passed onto methods.}
 
-For example, \code{na_matches} controls how \code{NA} values are handled when
-joining data frames. See \link{join.data.frame} for details.}
+\item{na_matches}{Should \code{NA} and \code{NaN} values match one another?
+
+Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as different, like
+joins for database sources, similarly to \code{merge(incomparables = FALSE)}.
+The default, \code{"na"}, always treats two \code{NA} or \code{NaN} values as equal,
+like \code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.}
 
 \item{keep}{Should the join keys from \code{y} be preserved in the output?
 Only applies to \code{nest_join()} and \code{full_join()}.}
@@ -98,10 +148,10 @@ individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 \itemize{
-\item \code{inner_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("inner_join")}.
-\item \code{left_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("left_join")}.
-\item \code{right_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("right_join")}.
-\item \code{full_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("full_join")}.
+\item \code{inner_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("inner_join")}.
+\item \code{left_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("left_join")}.
+\item \code{right_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("right_join")}.
+\item \code{full_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("full_join")}.
 }
 }
 
@@ -122,11 +172,21 @@ band_members \%>\% full_join(band_instruments2, by = c("name" = "artist"))
 band_members \%>\%
   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 
-# Note that if a row in `x` matches multiple rows in `y`, all rows
+# If a row in `x` matches multiple rows in `y`, all rows
 # will be returned
 df1 <- tibble(x = 1:3)
 df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 df1 \%>\% left_join(df2)
+
+# By default, NAs match other NAs so that there are two
+# rows in the output:
+df1 <- data.frame(x = c(1, NA), y = 2)
+df2 <- data.frame(x = c(1, NA), z = 3)
+left_join(df1, df2)
+
+# You can optionally request that NAs don't match, giving a
+# a result that more closely resembles SQL joins
+left_join(df1, df2, na_matches = "never")
 }
 \seealso{
 Other joins: 

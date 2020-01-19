@@ -50,7 +50,7 @@ when columns should be deleted), then passes that to \code{dplyr_col_modify()}.
 \item \code{summarise()} works similarly to \code{mutate()} but the data modified by
 \code{dplyr_col_modify()} comes from \code{group_data()}.
 \item \code{select()} uses 1d \code{[} to select columns, then \verb{names<-} to rename them.
-\code{rename()} just uses \verb{names<-}.
+\code{rename()} just uses \verb{names<-}. \code{relocate()} just uses 1d \code{[}.
 \item \code{inner_join()}, \code{left_join()}, \code{right_join()}, and \code{full_join()}
 coerces \code{x} to a tibble, modify the rows, then uses \code{dplyr_reconstruct()}
 to convert back to the same type as \code{x}.

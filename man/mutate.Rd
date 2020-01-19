@@ -14,13 +14,17 @@ transmute(.data, ...)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of expressions,
-each with length 1 or the same length as the number of rows in the group
-(if using \code{\link[=group_by]{group_by()}}) or in the entire input (if not using groups).
-The name of each argument will be the name of a new variable, and the
-value will be its corresponding value. Use a \code{NULL} value in \code{mutate}
-to drop a variable.  New variables overwrite existing variables
-of the same name.}
+\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs.
+The name gives the name of the column in the output.
+
+The value can be:
+\itemize{
+\item A vector of length 1, which will be recycled to the correct length.
+\item A vector the same length as the current group (or the whole data frame
+if ungrouped).
+\item \code{NULL}, to remove the column.
+\item A data frame or tibble, to create multiple columns in the output.
+}}
 }
 \value{
 An object of the same type as \code{.data}.
@@ -85,16 +89,6 @@ The former normalises \code{mass} by the global average whereas the
 latter normalises by the averages within gender levels.
 }
 
-\section{Scoped mutation and transmutation}{
-
-
-The three \link{scoped} variants of \code{mutate()} (\code{\link[=mutate_all]{mutate_all()}},
-\code{\link[=mutate_if]{mutate_if()}} and \code{\link[=mutate_at]{mutate_at()}}) and the three variants of
-\code{transmute()} (\code{\link[=transmute_all]{transmute_all()}}, \code{\link[=transmute_if]{transmute_if()}},
-\code{\link[=transmute_at]{transmute_at()}}) make it easy to apply a transformation to a
-selection of variables.
-}
-
 \section{Methods}{
 
 These function are \strong{generic}s, which means that packages can provide
@@ -103,8 +97,8 @@ individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 \itemize{
-\item \code{mutate()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("mutate")}.
-\item \code{transmute()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("transmute")}.
+\item \code{mutate()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("mutate")}.
+\item \code{transmute()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("transmute")}.
 }
 }
 
@@ -115,22 +109,18 @@ mtcars \%>\% as_tibble() \%>\% mutate(
   cyl4 = cyl2 * 2
 )
 
-# You can also use mutate() to remove variables and
-# modify existing variables
+# As well as adding new variables, you can use mutate() to
+# remove variables and modify existing variables.
 mtcars \%>\% as_tibble() \%>\% mutate(
   mpg = NULL,
   disp = disp * 0.0163871 # convert to litres
 )
-
 
 # window functions are useful for grouped mutates
 mtcars \%>\%
  group_by(cyl) \%>\%
  mutate(rank = min_rank(desc(mpg)))
 # see `vignette("window-functions")` for more details
-
-# You can drop variables by setting them to NULL
-mtcars \%>\% mutate(cyl = NULL)
 
 # mutate() vs transmute --------------------------
 # mutate() keeps all existing variables
@@ -141,7 +131,7 @@ mtcars \%>\%
 mtcars \%>\%
   transmute(displ_l = disp / 61.0237)
 
-
+# Grouping ----------------------------------------
 # The mutate operation may yield different results on grouped
 # tibbles because the expressions are computed within groups.
 # The following normalises `mass` by the global average:
@@ -156,11 +146,7 @@ starwars \%>\%
   mutate(mass / mean(mass, na.rm = TRUE)) \%>\%
   pull()
 
-# Note that you can't overwrite grouping variables:
-gdf <- mtcars \%>\% group_by(cyl)
-try(mutate(gdf, cyl = cyl * 100))
-
-
+# Indirection ----------------------------------------
 # Refer to column names stored as strings with the `.data` pronoun:
 vars <- c("mass", "height")
 mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])

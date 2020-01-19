@@ -3,16 +3,22 @@
 \name{context}
 \alias{context}
 \alias{n}
+\alias{cur_data}
 \alias{cur_group}
 \alias{cur_group_id}
+\alias{cur_group_rows}
 \alias{cur_column}
 \title{Context dependent expressions}
 \usage{
 n()
 
+cur_data()
+
 cur_group()
 
 cur_group_id()
+
+cur_group_rows()
 
 cur_column()
 }
@@ -22,15 +28,31 @@ variable, so only work inside specific contexts like \code{summarise()} and
 \code{mutate()}
 \itemize{
 \item \code{n()} gives the current group size.
+\item \code{cur_data()} gives the current data for the current group (exclusing
+grouping variables)
 \item \code{cur_group()} gives the group keys, a tibble with one row and one column
 for each grouping variable.
 \item \code{cur_group_id()} gives a unique numeric identifier for the current group.
 \item \code{cur_column()} gives the current column (in \code{\link[=across]{across()}} only).
 }
+
+See \code{\link[=group_data]{group_data()}} for equivalent functions that return values for all
+groups.
 }
+\section{data.table}{
+
+If you're familiar with data.table:
+\itemize{
+\item \code{cur_data()} <-> \code{.SD}
+\item \code{cur_group_id()} <-> \code{.GRP}
+\item \code{cur_group()} <-> \code{.BY}
+\item \code{cur_group_rows()} <-> \code{.I}
+}
+}
+
 \examples{
 df <- tibble(
-  g = rep(letters[1:3], 1:3),
+  g = sample(rep(letters[1:3], 1:3)),
   x = runif(6),
   y = runif(6)
 )
@@ -39,5 +61,9 @@ gf <- df \%>\% group_by(g)
 gf \%>\% summarise(n = n())
 
 gf \%>\% mutate(id = cur_group_id())
+gf \%>\% summarise(row = cur_group_rows())
+gf \%>\% summarise(data = list(cur_group()))
+gf \%>\% summarise(data = list(cur_data()))
+
 gf \%>\% mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))
 }

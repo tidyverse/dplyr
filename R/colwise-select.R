@@ -1,7 +1,6 @@
 #' Select and rename a selection of variables
 #'
 #' @description
-#'
 #' These [scoped] variants of [select()] and [rename()] operate on a
 #' selection of variables. The semantics of these verbs have subtle
 #' but important differences:

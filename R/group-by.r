@@ -5,12 +5,6 @@
 #' `group_by()` takes an existing tbl and converts it into a grouped tbl
 #' where operations are performed "by group". `ungroup()` removes grouping.
 #'
-#' @section Scoped grouping:
-#'
-#' The three [scoped] variants ([group_by_all()], [group_by_if()] and
-#' [group_by_at()]) make it easy to group a dataset by a selection of
-#' variables.
-#'
 #' @family grouping functions
 #' @inheritParams arrange
 #' @param ... In `group_by()`, variables or computations to group by.
@@ -34,8 +28,8 @@
 #'
 #' Methods available in currently loaded packages:
 #'
-#' * `group_by()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("group_by")}.
-#' * `ungroup()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("ungroup")}.
+#' * `group_by()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("group_by")}.
+#' * `ungroup()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("ungroup")}.
 #' @export
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)
@@ -114,6 +108,12 @@ ungroup.grouped_df <- function(x, ...) {
     new_groups <- setdiff(old_groups, to_remove)
     group_by(x, !!!syms(new_groups))
   }
+}
+
+#' @export
+ungroup.rowwise_df <- function(x, ...) {
+  ellipsis::check_dots_empty()
+  as_tibble(x)
 }
 
 #' @export

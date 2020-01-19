@@ -1,4 +1,5 @@
-context("Do")
+setup(options(lifecycle_verbosity = "quiet"))
+teardown(options(lifecycle_verbosity = NULL))
 
 # Grouped data frames ----------------------------------------------------------
 

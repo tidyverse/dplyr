@@ -28,7 +28,7 @@
 #'   `dplyr_col_modify()` comes from `group_data()`.
 #'
 #' * `select()` uses 1d `[` to select columns, then `names<-` to rename them.
-#'   `rename()` just uses `names<-`.
+#'   `rename()` just uses `names<-`. `relocate()` just uses 1d `[`.
 #'
 #' * `inner_join()`, `left_join()`, `right_join()`, and `full_join()`
 #'   coerces `x` to a tibble, modify the rows, then uses `dplyr_reconstruct()`
@@ -86,6 +86,13 @@ dplyr_row_slice.grouped_df <- function(data, i, ..., preserve = FALSE) {
 }
 
 #' @export
+dplyr_row_slice.rowwise_df <- function(data, i, ..., preserve = FALSE) {
+  out <- vec_slice(data, i)
+  group_data <- vec_slice(group_keys(data), i)
+  new_rowwise_df(out, group_data)
+}
+
+#' @export
 #' @rdname dplyr_extending
 #' @param cols A named list used modify columns. A `NULL` value should remove
 #'   an existing column.
@@ -109,6 +116,12 @@ dplyr_col_modify.grouped_df <- function(data, cols) {
   } else {
     new_grouped_df(out, group_data(data))
   }
+}
+
+#' @export
+dplyr_col_modify.rowwise_df <- function(data, cols) {
+  out <- dplyr_col_modify(as_tibble(data), cols)
+  rowwise_df(out, group_vars(data))
 }
 
 #' @param template Template to use for restoring attributes
@@ -138,4 +151,10 @@ dplyr_reconstruct.data.frame <- function(data, template) {
 dplyr_reconstruct.grouped_df <- function(data, template) {
   group_vars <- intersect(group_vars(template), names(data))
   grouped_df(data, group_vars, drop = group_by_drop_default(template))
+}
+
+#' @export
+dplyr_reconstruct.rowwise <- function(data, template) {
+  group_vars <- intersect(group_vars(template), names(data))
+  rowwise(grouped_df(data, group_vars))
 }

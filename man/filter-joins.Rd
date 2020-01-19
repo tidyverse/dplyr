@@ -3,12 +3,18 @@
 \name{filter-joins}
 \alias{filter-joins}
 \alias{semi_join}
+\alias{semi_join.data.frame}
 \alias{anti_join}
+\alias{anti_join.data.frame}
 \title{Filtering joins}
 \usage{
 semi_join(x, y, by = NULL, copy = FALSE, ...)
 
+\method{semi_join}{data.frame}(x, y, by = NULL, copy = FALSE, ..., na_matches = NULL)
+
 anti_join(x, y, by = NULL, copy = FALSE, ...)
+
+\method{anti_join}{data.frame}(x, y, by = NULL, copy = FALSE, ..., na_matches = NULL)
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
@@ -32,10 +38,14 @@ and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
 same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
-\item{...}{Other parameters passed onto methods.
+\item{...}{Other parameters passed onto methods.}
 
-For example, \code{na_matches} controls how \code{NA} values are handled when
-joining data frames. See \link{join.data.frame} for details.}
+\item{na_matches}{Should \code{NA} and \code{NaN} values match one another?
+
+Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as different, like
+joins for database sources, similarly to \code{merge(incomparables = FALSE)}.
+The default, \code{"na"}, always treats two \code{NA} or \code{NaN} values as equal,
+like \code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.}
 }
 \value{
 An object of the same type as \code{x}.
@@ -62,8 +72,8 @@ individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 \itemize{
-\item \code{semi_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("semi_join")}.
-\item \code{anti_join()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("anti_join")}.
+\item \code{semi_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("semi_join")}.
+\item \code{anti_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("anti_join")}.
 }
 }
 

@@ -15,31 +15,34 @@ home:
     href: http://r4ds.had.co.nz/transform.html
 
 reference:
-- title: Single-table verbs
+- title: One table verbs
   contents:
   - arrange
+  - condense
   - count
   - distinct
   - filter
   - mutate
   - pull
+  - relocate
   - rename
   - select
   - summarise
   - slice
-  - slice_head
 
-- title: Two-table verbs
+- title: Two table verbs
   contents:
   - bind
   - intersect
-  - ends_with("join")
-  - join.data.frame
+  - left_join
+  - nest_join
+  - semi_join
 
 - title: Grouping
   contents:
   - group_by
-  - with_groups
+  - group_cols
+  - rowwise
 
 - title: Vector functions
   contents:
@@ -66,14 +69,6 @@ reference:
   - starwars
   - storms
 
-- title: Computation on groups
-  contents:
-  - group_cols
-  - group_map
-  - group_modify
-  - group_trim
-  - group_split
-
 - title: Remote tables
   contents:
   - auto_copy
@@ -85,16 +80,35 @@ reference:
   - src_dbi
   - sql
 
-- title: Questioning/retired
+- title: Experimental
+  desc: >
+    Experimental functions are a testing ground for new approaches that we
+    believe to be worthy of greater exposure. There is no guarantee that these
+    functions will stay around in the future, so please reach out if you find
+    them useful.
+  contents:
+  - group_map
+  - group_modify
+  - group_trim
+  - group_split
+  - with_groups
+
+- title: Questioning
+  desc: >
+    We have our doubts about questioning functions. We're not certain that
+    they're inadequate, or we don't have a good replacement in mind, but
+    these functions are at risk of removal in the future.
   contents:
   - all_equal
-  - do
-  - rowwise
+
+- title: Superseded
+  desc: >
+    Superseded functions have been replaced by new approaches that we believe
+    to be superior, but we don't want to force you to change until you're
+    ready, so the existing functions will stay around for several years.
+  contents:
   - sample_frac
   - top_n
-
-- title: Single-table helpers
-  contents:
   - scoped
   - ends_with("_at")
   - all_vars

@@ -1,8 +1,20 @@
 #' Subset rows using their positions
 #'
+#' @description
 #' `slice()` lets you index rows by their (integer) locations. It allows you
-#' to select, remove, and duplicate rows.
+#' to select, remove, and duplicate rows. It is accompanied by a number of
+#' helpers for common use cases:
 #'
+#' * `slice_head()` and `slice_tail()` select the first or last rows.
+#' * `slice_sample()` randomly selects rows.
+#' * `slice_min()` and `slice_max()` select rows with highest or lowest values
+#'   of a variable.
+#'
+#' If `.data` is a [grouped_df], the operation will be performed on each group,
+#' so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
+#' each group.
+#'
+#' @details
 #' Slice does not work with relational databases because they have no
 #' intrinsic notion of row order. If you want to perform the equivalent
 #' operation, use [filter()] and [row_number()].
@@ -10,10 +22,18 @@
 #' @family single table verbs
 #' @inheritParams arrange
 #' @inheritParams filter
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Integer row values.
+#' @param ... For `slice()`: <[`tidy-eval`][dplyr_tidy_eval]> Integer row values.
 #'   Provide either positive values to keep, or negative values to drop.
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.
+#'
+#'   For `slice_helpers()`, these arguments are passed on to methods.
+#'
+#' @param n,prop Provide either `n`, the number of rows, or `prop`, the
+#'   proportion of rows to select. If `n` is greater than the number of
+#'   rows in the group (or `prop > 1`), it will be silently truncated to the
+#'   group size. If the `prop`ortion of a group size is not an integer, it will
+#'   be rounded down.
 #' @return
 #' An object of the same type as `.data`.
 #'
@@ -22,29 +42,67 @@
 #' * Groups are not modified.
 #' * Data frame attributes are preserved.
 #' @section Methods:
-#' This function is a **generic**, which means that packages can provide
+#' These function are **generic**s, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
 #'
-#' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice")}.
+#' Methods available in currently loaded packages:
+#'
+#' * `slice()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
+#' * `slice_head()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
+#' * `slice_tail()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
+#' * `slice_min()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
+#' * `slice_max()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
+#' * `slice_sample()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
 #' @export
 #' @examples
-#' slice(mtcars, 1L)
+#' mtcars %>% slice(1L)
 #' # Similar to tail(mtcars, 1):
-#' slice(mtcars, n())
-#' slice(mtcars, 5:n())
+#' mtcars %>% slice(n())
+#' mtcars %>% slice(5:n())
 #' # Rows can be dropped with negative indices:
-#' slice(mtcars, -5:-n())
-#' # In this case, the result will be equivalent to:
-#' slice(mtcars, 1:4)
+#' slice(mtcars, -(1:4))
 #'
-#' by_cyl <- group_by(mtcars, cyl)
-#' slice(by_cyl, 1:2)
+#' # First and last rows based on existing order
+#' mtcars %>% slice_head(n = 5)
+#' mtcars %>% slice_tail(n = 5)
 #'
-#' # Equivalent code using filter that will also work with databases,
-#' # but won't be as fast for in-memory data. For many databases, you'll
-#' # need to supply an explicit variable to use to compute the row number.
+#' # Rows with minimum and maximum values of a variable
+#' mtcars %>% slice_min(mpg, n = 5)
+#' mtcars %>% slice_max(mpg, n = 5)
+#'
+#' # slice_min() and slice_max() may return more rows than requested
+#' # in the presence of ties. Use with_ties = FALSE to suppress
+#' mtcars %>% slice_min(cyl, n = 1)
+#' mtcars %>% slice_min(cyl, n = 1, with_ties = FALSE)
+#'
+#' # slice_sample() allows you to random select with or without replacement
+#' mtcars %>% slice_sample(n = 5)
+#' mtcars %>% slice_sample(n = 5, replace = TRUE)
+#'
+#' # you can optionally weight by a variable - this code weights by the
+#' # physical weight of the cars, so heavy cars are more likely to get
+#' # selected
+#' mtcars %>% slice_sample(weight_by = wt, n = 5)
+#'
+#' # Group wise operation ----------------------------------------
+#' df <- tibble(
+#'   group = rep(c("a", "b", "c"), c(1, 2, 4)),
+#'   x = runif(7)
+#' )
+#'
+#' # All slice helpers operate per group, silently truncating to the group
+#' # size, so the following code works without error
+#' df %>% group_by(group) %>% slice_head(n = 2)
+#'
+#' # When specifying the proportion of rows to include non-integer sizes
+#' # are rounded down, so group a gets 0 rows
+#' df %>% group_by(group) %>% slice_head(prop = 0.5)
+#'
+#' # Filter equivalents --------------------------------------------
+#' # slice() expressions can often be written to use `filter()` and
+#' # `row_number()`, which can also be translated to SQL. For many databases,
+#' #you'll need to supply an explicit variable to use to compute the row number.
 #' filter(mtcars, row_number() == 1L)
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
@@ -57,6 +115,123 @@ slice.data.frame <- function(.data, ..., .preserve = FALSE) {
   loc <- slice_rows(.data, ...)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
+
+#' @export
+#' @rdname slice
+slice_head <- function(.data, ..., n, prop) {
+  UseMethod("slice_head")
+}
+
+#' @export
+slice_head.data.frame <- function(.data, ..., n, prop) {
+  size <- check_slice_size(n, prop)
+  idx <- switch(size$type,
+    n =    function(n) seq2(1, min(size$n, n)),
+    prop = function(n) seq2(1, min(size$prop * n, n))
+  )
+
+  slice(.data, idx(dplyr::n()))
+}
+
+#' @export
+#' @rdname slice
+slice_tail <- function(.data, ..., n, prop) {
+  UseMethod("slice_tail")
+}
+
+#' @export
+slice_tail.data.frame <- function(.data, ..., n, prop) {
+  size <- check_slice_size(n, prop)
+  idx <- switch(size$type,
+    n =    function(n) seq2(max(n - size$n + 1, 1), n),
+    prop = function(n) seq2(max(n - size$prop * n + 1, 1), n)
+  )
+  slice(.data, idx(dplyr::n()))
+}
+
+#' @export
+#' @rdname slice
+#' @param order_by Variable or function of variables to order by.
+#' @param with_ties Should ties be kept together? The default, `TRUE`,
+#'   may return more rows than you request. Use `FALSE` to ignore ties,
+#'   and return the first `n` rows.
+slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+  UseMethod("slice_min")
+}
+
+#' @export
+slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+  if (missing(order_by)) {
+    abort("argument `order_by` is missing, with no default")
+  }
+
+  size <- check_slice_size(n, prop)
+  if (with_ties) {
+    idx <- switch(size$type,
+      n =    function(x, n) head(order(x), sum(min_rank(x) <= size$n)),
+      prop = function(x, n) head(order(x), sum(min_rank(x) <= size$prop * n)),
+    )
+  } else {
+    idx <- switch(size$type,
+      n =    function(x, n) head(order(x), size$n),
+      prop = function(x, n) head(order(x), size$prop * n)
+    )
+  }
+  slice(.data, idx({{ order_by }}, dplyr::n()))
+}
+
+#' @export
+#' @rdname slice
+slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+  UseMethod("slice_max")
+}
+
+#' @export
+slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+  if (missing(order_by)) {
+    abort("argument `order_by` is missing, with no default")
+  }
+
+  size <- check_slice_size(n, prop)
+  if (with_ties) {
+    idx <- switch(size$type,
+      n =    function(x, n) head(order(x, decreasing = TRUE), sum(min_rank(desc(x)) <= size$n)),
+      prop = function(x, n) head(order(x, decreasing = TRUE), sum(min_rank(desc(x)) <= size$prop * n))
+    )
+  } else {
+    idx <- switch(size$type,
+      n =    function(x, n) head(order(x, decreasing = TRUE), size$n),
+      prop = function(x, n) head(order(x, decreasing = TRUE), size$prop * n)
+    )
+  }
+
+  slice(.data, idx({{ order_by }}, dplyr::n()))
+}
+
+#' @export
+#' @rdname slice
+#' @param replace Should sampling be performed with (`TRUE`) or without
+#'   (`FALSE`, the default) replacement.
+#' @param weight_by Sampling weights. This must evaluate to a vector of
+#'   non-negative numbers the same length as the input. Weights are
+#'   automatically standardised to sum to 1.
+slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
+  UseMethod("slice_sample")
+}
+
+#' @export
+slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
+  size <- check_slice_size(n, prop)
+  idx <- switch(size$type,
+    n =    function(x, n) sample_int(n, size$n, replace = replace, wt = x),
+    prop = function(x, n) sample_int(n, size$prop * n, replace = replace, wt = x),
+  )
+
+  slice(.data, idx({{ weight_by }}, dplyr::n()))
+}
+
+# helpers -----------------------------------------------------------------
+
 
 slice_rows <- function(.data, ...) {
   dots <- enquos(...)
@@ -106,192 +281,6 @@ slice_rows <- function(.data, ...) {
   vec_c(!!!slice_indices, .ptype = integer())
 }
 
-# Slice helpers -----------------------------------------------------------
-
-#' Slice helpers
-#'
-#' @description
-#' These functions provide useful tools for selecting rows, using [slice()]:
-#'
-#' * `slice_head()` and `slice_tail()` select the first or last rows.
-#' * `slice_sample()` randomly selects rows.
-#' * `slice_min()` and `slice_max()` select rows with highest or lowest values
-#'   of a variable.
-#'
-#' If `.data` is a [grouped_df], the operation will be performed on each group,
-#' so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
-#' each group.
-#'
-#' @inheritParams arrange
-#' @param ... Additional arguments passed on to methods.
-#' @param n,prop Provide either `n`, the number of rows, or `prop`, the
-#'   proportion of rows to select. If `n` is greater than the number of
-#'   rows in the group (or `prop > 1`), it will be silently truncated to the
-#'   group size. If the `prop`ortion of a group size is not an integer, it will
-#'   be rounded down.
-#' @section Methods:
-#' These function are **generic**s, which means that packages can provide
-#' implementations (methods) for other classes. See the documentation of
-#' individual methods for extra arguments and differences in behaviour.
-#'
-#' Methods available in currently loaded packages:
-#'
-#' * `slice_head()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_head")}.
-#' * `slice_tail()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_tail")}.
-#' * `slice_min()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_min")}.
-#' * `slice_max()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_max")}.
-#' * `slice_sample()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("slice_sample")}.
-#' @export
-#' @examples
-#' # First and last rows based on existing order
-#' mtcars %>% slice_head(n = 5)
-#' mtcars %>% slice_tail(n = 5)
-#'
-#' # Rows with minimum and maximum values of a variable
-#' mtcars %>% slice_min(mpg, n = 5)
-#' mtcars %>% slice_max(mpg, n = 5)
-#'
-#' # slice_min() and slice_max() may return more rows than requested
-#' # in the presence of ties. Use with_ties = FALSE to suppress
-#' mtcars %>% slice_min(cyl, n = 1)
-#' mtcars %>% slice_min(cyl, n = 1, with_ties = FALSE)
-#'
-#' # slice_sample() allows you to random select with or without replacement
-#' mtcars %>% slice_sample(n = 5)
-#' mtcars %>% slice_sample(n = 5, replace = TRUE)
-#'
-#' # you can optionally weight by a variable - this code weights by the
-#' # physical weight of the cars, so heavy cars are more likely to get
-#' # selected
-#' mtcars %>% slice_sample(weight_by = wt, n = 5)
-#'
-#' # Group wise operation ----------------------------------------
-#' df <- tibble(
-#'   group = rep(c("a", "b", "c"), c(1, 2, 4)),
-#'   x = runif(7)
-#' )
-#'
-#' # All slice helpers operate per group, silently truncating to the group
-#' # size, so the following code works without error
-#' df %>% group_by(group) %>% slice_head(n = 2)
-#'
-#' # When specifying the proportion of rows to include non-integer sizes
-#' # are rounded down, so group a gets 0 rows
-#' df %>% group_by(group) %>% slice_head(prop = 0.5)
-slice_head <- function(.data, ..., n, prop) {
-  UseMethod("slice_head")
-}
-
-#' @export
-slice_head.data.frame <- function(.data, ..., n, prop) {
-  size <- check_slice_size(n, prop)
-  idx <- switch(size$type,
-    n =    function(n) seq2(1, min(size$n, n)),
-    prop = function(n) seq2(1, min(size$prop * n, n))
-  )
-
-  slice(.data, idx(dplyr::n()))
-}
-
-#' @export
-#' @rdname slice_head
-slice_tail <- function(.data, ..., n, prop) {
-  UseMethod("slice_tail")
-}
-
-#' @export
-slice_tail.data.frame <- function(.data, ..., n, prop) {
-  size <- check_slice_size(n, prop)
-  idx <- switch(size$type,
-    n =    function(n) seq2(max(n - size$n + 1, 1), n),
-    prop = function(n) seq2(max(n - size$prop * n + 1, 1), n)
-  )
-  slice(.data, idx(dplyr::n()))
-}
-
-#' @export
-#' @rdname slice_head
-#' @param order_by Variable or function of variables to order by.
-#' @param with_ties Should ties be kept together? The default, `TRUE`,
-#'   may return more rows than you request. Use `FALSE` to ignore ties,
-#'   and return the first `n` rows.
-slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
-  UseMethod("slice_min")
-}
-
-#' @export
-slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
-  if (missing(order_by)) {
-    abort("argument `order_by` is missing, with no default")
-  }
-
-  size <- check_slice_size(n, prop)
-  if (with_ties) {
-    idx <- switch(size$type,
-      n =    function(x, n) head(order(x), sum(min_rank(x) <= size$n)),
-      prop = function(x, n) head(order(x), sum(min_rank(x) <= size$prop * n)),
-    )
-  } else {
-    idx <- switch(size$type,
-      n =    function(x, n) head(order(x), size$n),
-      prop = function(x, n) head(order(x), size$prop * n)
-    )
-  }
-  slice(.data, idx({{ order_by }}, dplyr::n()))
-}
-
-#' @export
-#' @rdname slice_head
-slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
-  UseMethod("slice_max")
-}
-
-#' @export
-slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
-  if (missing(order_by)) {
-    abort("argument `order_by` is missing, with no default")
-  }
-
-  size <- check_slice_size(n, prop)
-  if (with_ties) {
-    idx <- switch(size$type,
-      n =    function(x, n) head(order(x, decreasing = TRUE), sum(min_rank(desc(x)) <= size$n)),
-      prop = function(x, n) head(order(x, decreasing = TRUE), sum(min_rank(desc(x)) <= size$prop * n))
-    )
-  } else {
-    idx <- switch(size$type,
-      n =    function(x, n) head(order(x, decreasing = TRUE), size$n),
-      prop = function(x, n) head(order(x, decreasing = TRUE), size$prop * n)
-    )
-  }
-
-  slice(.data, idx({{ order_by }}, dplyr::n()))
-}
-
-#' @export
-#' @rdname slice_head
-#' @param replace Should sampling be performed with (`TRUE`) or without
-#'   (`FALSE`, the default) replacement.
-#' @param weight_by Sampling weights. This must evaluate to a vector of
-#'   non-negative numbers the same length as the input. Weights are
-#'   automatically standardised to sum to 1.
-slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  UseMethod("slice_sample")
-}
-
-#' @export
-slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  size <- check_slice_size(n, prop)
-  idx <- switch(size$type,
-    n =    function(x, n) sample_int(n, size$n, replace = replace, wt = x),
-    prop = function(x, n) sample_int(n, size$prop * n, replace = replace, wt = x),
-  )
-
-  slice(.data, idx({{ weight_by }}, dplyr::n()))
-}
-
-# helpers -----------------------------------------------------------------
-
 check_slice_size <- function(n, prop) {
   if (!missing(n) && missing(prop)) {
     if (!is.numeric(n) || length(n) != 1) {
@@ -322,3 +311,4 @@ sample_int <- function(n, size, replace = FALSE, wt = NULL) {
     sample.int(n, min(size, n), prob = wt)
   }
 }
+

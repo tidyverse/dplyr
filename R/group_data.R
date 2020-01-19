@@ -17,6 +17,8 @@
 #' * `group_size()` gives the size of each group, and `n_groups()` gives the
 #'   total number of groups.
 #'
+#' See [context] for equivalent functions that return values for the _current_
+#' group.
 #' @param .data,.tbl,x A data frame or extension (like a tibble or grouped
 #'   tibble).
 #' @param ... Use of `...` is now deprecated; please use `group_by()` first
@@ -47,8 +49,7 @@ group_data.data.frame <- function(.data) {
 
 #' @export
 group_data.rowwise_df <- function(.data) {
-  rows <- new_list_of(as.list(seq_len(nrow(.data))), ptype = integer())
-  tibble(".rows" := rows)
+  attr(.data, "groups")
 }
 
 #' @export

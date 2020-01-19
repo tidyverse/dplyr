@@ -35,10 +35,10 @@
 #'
 #' Methods available in currently loaded packages:
 #'
-#' * `inner_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("inner_join")}.
-#' * `left_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("left_join")}.
-#' * `right_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("right_join")}.
-#' * `full_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("full_join")}.
+#' * `inner_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("inner_join")}.
+#' * `left_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("left_join")}.
+#' * `right_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("right_join")}.
+#' * `full_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("full_join")}.
 #' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
 #'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
@@ -63,9 +63,12 @@
 #' @param keep Should the join keys from `y` be preserved in the output?
 #'    Only applies to `nest_join()` and `full_join()`.
 #' @param ... Other parameters passed onto methods.
+#' @param na_matches Should `NA` and `NaN` values match one another?
 #'
-#'   For example, `na_matches` controls how `NA` values are handled when
-#'   joining data frames. See [join.data.frame] for details.
+#'   Use `"never"` to always treat two `NA` or `NaN` values as different, like
+#'   joins for database sources, similarly to `merge(incomparables = FALSE)`.
+#'   The default, `"na"`, always treats two `NA` or `NaN` values as equal,
+#'   like `%in%`, [match()], [merge()].
 #' @family joins
 #' @examples
 #' band_members %>% inner_join(band_instruments)
@@ -84,37 +87,86 @@
 #' band_members %>%
 #'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 #'
-#' # Note that if a row in `x` matches multiple rows in `y`, all rows
+#' # If a row in `x` matches multiple rows in `y`, all rows
 #' # will be returned
 #' df1 <- tibble(x = 1:3)
 #' df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 #' df1 %>% left_join(df2)
-#' @aliases join
+#'
+#' # By default, NAs match other NAs so that there are two
+#' # rows in the output:
+#' df1 <- data.frame(x = c(1, NA), y = 2)
+#' df2 <- data.frame(x = c(1, NA), z = 3)
+#' left_join(df1, df2)
+#'
+#' # You can optionally request that NAs don't match, giving a
+#' # a result that more closely resembles SQL joins
+#' left_join(df1, df2, na_matches = "never")
+#' @aliases join join.data.frame
 #' @name mutate-joins
 NULL
 
-#' @rdname mutate-joins
 #' @export
+#' @rdname mutate-joins
 inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("inner_join")
 }
 
-#' @rdname mutate-joins
 #' @export
+#' @rdname mutate-joins
+inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"), ...,
+                              na_matches = NULL) {
+
+  y <- auto_copy(x, y, copy = copy)
+  join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches)
+}
+
+#' @export
+#' @rdname mutate-joins
 left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("left_join")
 }
 
-#' @rdname mutate-joins
 #' @export
+#' @rdname mutate-joins
+left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
+                             suffix = c(".x", ".y"), ...,
+                             na_matches = NULL) {
+  y <- auto_copy(x, y, copy = copy)
+  join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches)
+}
+
+#' @export
+#' @rdname mutate-joins
 right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("right_join")
 }
 
-#' @rdname mutate-joins
 #' @export
+#' @rdname mutate-joins
+right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"), ...,
+                              na_matches = NULL) {
+  y <- auto_copy(x, y, copy = copy)
+  join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches)
+}
+
+#' @export
+#' @rdname mutate-joins
 full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
   UseMethod("full_join")
+}
+
+#' @export
+#' @rdname mutate-joins
+full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
+                             suffix = c(".x", ".y"), ...,
+                             keep = FALSE,
+                             na_matches = NULL) {
+
+  y <- auto_copy(x, y, copy = copy)
+  join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches, keep = keep)
 }
 
 #' Filtering joins
@@ -144,8 +196,8 @@ full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...
 #'
 #' Methods available in currently loaded packages:
 #'
-#' * `semi_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("semi_join")}.
-#' * `anti_join()`: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("anti_join")}.
+#' * `semi_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("semi_join")}.
+#' * `anti_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("anti_join")}.
 #' @family joins
 #' @examples
 #' # "Filtering" joins keep cases from the LHS
@@ -158,16 +210,34 @@ full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...
 #' @name filter-joins
 NULL
 
-#' @rdname filter-joins
 #' @export
+#' @rdname filter-joins
 semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("semi_join")
 }
 
-#' @rdname filter-joins
 #' @export
+#' @rdname filter-joins
+semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
+                             na_matches = NULL) {
+
+  y <- auto_copy(x, y, copy = copy)
+  join_filter(x, y, by = by, type = "semi", na_matches = na_matches)
+}
+
+#' @export
+#' @rdname filter-joins
 anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("anti_join")
+}
+
+#' @export
+#' @rdname filter-joins
+anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
+                             na_matches = NULL) {
+
+  y <- auto_copy(x, y, copy = copy)
+  join_filter(x, y, by = by, type = "anti", na_matches = na_matches)
 }
 
 #' Nest join
@@ -197,7 +267,7 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("nest_join")}.
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("nest_join")}.
 #' @inheritParams left_join
 #' @family joins
 #' @export
@@ -207,97 +277,8 @@ nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, 
   UseMethod("nest_join")
 }
 
-#' Join methods for data frames
-#'
-#' This page describes the details of the \link{join} generics when applied to
-#' data frames and tibbles.
-#'
-#' @inheritParams inner_join
-#' @inheritParams nest_join
-#' @param x,y Data frames
-#' @param ... Included for compatibility with the generic; otherwise ignored.
-#' @param na_matches Should `NA` and `NaN` values match one another?
-#'
-#'   Use `"never"` to always treat two `NA` or `NaN` values as different, like
-#'   joins for database sources, similarly to `merge(incomparables = FALSE)`.
-#'   The default, `"na"`, always treats two `NA` or `NaN` values as equal,
-#'   like `%in%`, [match()], [merge()].
-#'
-#'   Users and package authors can change the default behavior by calling
-#'   `pkgconfig::set_config("dplyr::na_matches" = "never")`.
-#' @examples
-#' df1 <- data.frame(x = c(1, NA), y = 2)
-#' df2 <- data.frame(x = c(1, NA), z = 3)
-#'
-#' # By default, NAs match other NAs so that there are two
-#' # rows in the output:
-#' left_join(df1, df2)
-#'
-#' # You can optionally request that NAs don't match, giving a
-#' # a result that more closely resembles SQL joins
-#' left_join(df1, df2, na_matches = "never")
-#' @name join.data.frame
-NULL
-
 #' @export
-#' @rdname join.data.frame
-inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...,
-                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-
-  y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches)
-}
-
-#' @export
-#' @rdname join.data.frame
-left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches)
-}
-
-#' @export
-#' @rdname join.data.frame
-right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...,
-                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches)
-}
-
-#' @export
-#' @rdname join.data.frame
-full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...,
-                             keep = FALSE,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-
-  y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches, keep = keep)
-}
-
-#' @export
-#' @rdname join.data.frame
-semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-
-  y <- auto_copy(x, y, copy = copy)
-  join_filter(x, y, by = by, type = "semi", na_matches = na_matches)
-}
-
-#' @export
-#' @rdname join.data.frame
-anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-
-  y <- auto_copy(x, y, copy = copy)
-  join_filter(x, y, by = by, type = "anti", na_matches = na_matches)
-}
-
-#' @export
-#' @rdname join.data.frame
+#' @rdname nest_join
 nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
   name_var <- name %||% as_label(enexpr(y))
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""), keep_y = keep)
@@ -370,6 +351,9 @@ join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
 }
 
 check_na_matches <- function(na_matches = c("na", "never")) {
+  if (is.null(na_matches)) {
+    na_matches <- pkgconfig::get_config("dplyr::na_matches")
+  }
   na_matches <- arg_match(na_matches)
 
   if (na_matches == "never") {

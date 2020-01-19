@@ -2,11 +2,6 @@
 #'
 #' Rename individual variables using `new_name = old_name` syntax.
 #'
-#' @section Scoped selection and renaming:
-#'
-#' Use the three scoped variants ([rename_all()], [rename_if()], [rename_at()])
-#' to renaming a set of variables with a function.
-#'
 #' @inheritParams arrange
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> Use `new_name = old_name`
 #'   to rename selected variables.
@@ -22,7 +17,7 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("rename")}.
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rename")}.
 #' @family single table verbs
 #' @export
 #' @examples

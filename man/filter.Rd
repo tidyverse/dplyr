@@ -66,13 +66,6 @@ whereas the latter keeps rows with \code{mass} greater than the gender
 average.
 }
 
-\section{Scoped filtering}{
-
-The three \link{scoped} variants (\code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and
-\code{\link[=filter_at]{filter_at()}}) make it easy to apply a filtering condition to a
-selection of variables.
-}
-
 \section{Methods}{
 
 This function is a \strong{generic}, which means that packages can provide
@@ -80,7 +73,7 @@ implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
 The following methods are currently available in loaded packages:
-\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("filter")}.
+\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("filter")}.
 }
 
 \examples{

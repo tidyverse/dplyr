@@ -32,7 +32,7 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("arrange")}.
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("arrange")}.
 #' @export
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for

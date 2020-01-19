@@ -36,11 +36,6 @@
 #' whereas the latter keeps rows with `mass` greater than the gender
 #'
 #' average.
-#' @section Scoped filtering:
-#' The three [scoped] variants ([filter_all()], [filter_if()] and
-#' [filter_at()]) make it easy to apply a filtering condition to a
-#' selection of variables.
-#'
 #' @family single table verbs
 #' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Logical predicates defined in
@@ -62,7 +57,7 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("filter")}.
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("filter")}.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples
@@ -108,7 +103,7 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
     return(.data)
   }
 
-  loc <- filter_rows(.data, ...)[[1]]
+  loc <- filter_rows(.data, ...)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 

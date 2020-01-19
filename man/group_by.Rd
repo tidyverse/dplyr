@@ -40,14 +40,6 @@ Most data operations are done on groups defined by variables.
 \code{group_by()} takes an existing tbl and converts it into a grouped tbl
 where operations are performed "by group". \code{ungroup()} removes grouping.
 }
-\section{Scoped grouping}{
-
-
-The three \link{scoped} variants (\code{\link[=group_by_all]{group_by_all()}}, \code{\link[=group_by_if]{group_by_if()}} and
-\code{\link[=group_by_at]{group_by_at()}}) make it easy to group a dataset by a selection of
-variables.
-}
-
 \section{Methods}{
 
 These function are \strong{generic}s, which means that packages can provide
@@ -56,8 +48,8 @@ individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 \itemize{
-\item \code{group_by()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("group_by")}.
-\item \code{ungroup()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("ungroup")}.
+\item \code{group_by()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("group_by")}.
+\item \code{ungroup()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("ungroup")}.
 }
 }
 
@@ -113,7 +105,6 @@ tbl \%>\%
 }
 \seealso{
 Other grouping functions: 
-\code{\link{group_by_all}()},
 \code{\link{group_map}()},
 \code{\link{group_nest}()},
 \code{\link{group_split}()},

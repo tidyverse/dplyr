@@ -56,7 +56,7 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("select")}.
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 #' @family single table verbs
 #' @export
 #' @examples
@@ -79,12 +79,9 @@
 #' starwars %>% group_by(gender) %>% select(group_cols())
 #'
 #' # Moving variables around --------------------------
-#' # Move `Species` to the front
-#' select(iris, Species, everything())
-#'
-#' # Move `Sepal.Length` to the back: first select everything except
-#' # `Sepal.Length`, then select `Sepal.Length`
-#' select(iris, !Sepal.Length, Sepal.Length)
+#' # As of dplyr 1.0.0, use relocate(), not select():
+#' relocate(iris, Species, .before = 1)
+#' relocate(iris, Sepal.Length, .after = last_col())
 select <- function(.data, ...) {
   UseMethod("select")
 }

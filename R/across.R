@@ -2,8 +2,9 @@
 #'
 #' `across()` makes it easy to apply the same transformation to multiple
 #' columns, allowing you to use [select()] semantics inside in [summarise()] and
-#' [mutate()]. `across()` replaces the family of "scoped variants" like
+#' [mutate()]. `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
+#' See `vignette("colwise")` for more details.
 #'
 #' @param cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
@@ -62,8 +63,7 @@ across <- function(cols = everything(), fns = NULL) {
     fns <- as_function(fns)
 
     as_tibble(imap(data, function(.x, .y) {
-      old <- poke_current_column(.y)
-      on.exit(set_current_column(old))
+      local_column(.y)
       fns(.x)
     }))
   } else if (is.list(fns) && is_named(fns)) {
@@ -71,8 +71,7 @@ across <- function(cols = everything(), fns = NULL) {
 
     as_tibble(map(fns, function(f) {
       as_tibble(imap(data, function(.x, .y) {
-        old <- poke_current_column(.y)
-        on.exit(set_current_column(old))
+        local_column(.y)
         f(.x)
       }))
     }))

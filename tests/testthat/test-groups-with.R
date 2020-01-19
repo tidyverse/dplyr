@@ -11,3 +11,11 @@ test_that(".groups = NULL ungroups", {
   out <- gf %>% with_groups(NULL, mutate, y = mean(x))
   expect_equal(out$y, c(1.5, 1.5))
 })
+
+test_that(".groups is defused with context", {
+  local_fn <- identity
+  expect_identical(
+    with_groups(mtcars, local_fn(2), mutate, disp = disp / sd(disp)),
+    with_groups(mtcars, 2, mutate, disp = disp / sd(disp))
+  )
+})

@@ -26,13 +26,6 @@ An object of the same type as \code{.data}.
 \description{
 Rename individual variables using \code{new_name = old_name} syntax.
 }
-\section{Scoped selection and renaming}{
-
-
-Use the three scoped variants (\code{\link[=rename_all]{rename_all()}}, \code{\link[=rename_if]{rename_if()}}, \code{\link[=rename_at]{rename_at()}})
-to renaming a set of variables with a function.
-}
-
 \section{Methods}{
 
 This function is a \strong{generic}, which means that packages can provide
@@ -40,7 +33,7 @@ implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
 The following methods are currently available in loaded packages:
-\Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("rename")}.
+\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rename")}.
 }
 
 \examples{

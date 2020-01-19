@@ -9,15 +9,13 @@ as_group_map_function <- function(.f) {
 
 #' Apply a function to each group
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-#'
 #' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
 #' `group_map()`, `group_modify()` and `group_walk()` are purrr-style functions that can
 #' be used to iterate on grouped tibbles.
 #'
 #' @details
-#'
 #' Use `group_modify()` when `summarize()` is too limited, in terms of what you need
 #'   to do and return for each group. `group_modify()` is good for "data frame in, data frame out".
 #'   If that is too limited, you need to use a [nested][group_nest()] or [split][group_split()] workflow.

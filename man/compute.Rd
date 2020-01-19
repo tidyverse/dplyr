@@ -38,9 +38,9 @@ individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 \itemize{
-\item \code{compute()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("compute")}
-\item \code{collect()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("collect")}
-\item \code{collapse()}: \Sexpr[stage=render,results=Rd]{dplyr:::methods_rd("collapse")}
+\item \code{compute()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("compute")}
+\item \code{collect()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("collect")}
+\item \code{collapse()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("collapse")}
 }
 }
 
