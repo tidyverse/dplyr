@@ -49,6 +49,9 @@ returns the rows which each group contains).
 \item \code{group_size()} gives the size of each group, and \code{n_groups()} gives the
 total number of groups.
 }
+
+See \link{context} for equivalent functions that return values for the \emph{current}
+group.
 }
 \examples{
 df <- tibble(x = c(1,1,2,2))

@@ -33,7 +33,7 @@
 #'   group_by(g) %>%
 #'   with_groups(NULL, mutate, g = NULL)
 with_groups <- function(.data, .groups, .f, ...) {
-  loc <- tidyselect::eval_select(enexpr(.groups), data = tbl_ptype(.data))
+  loc <- tidyselect::eval_select(enquo(.groups), data = tbl_ptype(.data))
   val <- syms(names(.data)[loc])
   out <- group_by(.data, !!!val)
 

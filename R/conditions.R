@@ -14,8 +14,6 @@ arg_name <- function(quos, index) {
 
 stop_eval_tidy <- function(e, index, dots, fn) {
   data  <- peek_mask()$full_data()
-  group <- peek_mask()$get_current_group()
-
   expr  <- as_label(quo_get_expr(dots[[index]]))
   name  <- arg_name(dots, index)
 
@@ -23,7 +21,7 @@ stop_eval_tidy <- function(e, index, dots, fn) {
     "`{fn}()` argument `{name}` errored.",
     i = "`{name}` is {expr}",
     x = conditionMessage(e),
-    i = if(is_grouped_df(data)) "The error occured in group {group}."
+    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
   ))
 }
 
@@ -64,15 +62,19 @@ err_vars <- function(x) {
 
 # filter() ----------------------------------------------------------------
 
-stop_filter_incompatible_size <- function(index_expression, index_group, size, expected_size, data) {
+stop_filter_incompatible_size <- function(index_expression, size, expected_size) {
+  data <- peek_mask()$full_data()
+
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect.",
     x = "It must be of size {expected_size} or 1, not size {size}.",
-    i = if(is_grouped_df(data)) "The error occured in group {index_group}."
+    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
   ))
 }
 
-stop_filter_incompatible_type <- function(index_expression, index_column_name, index_group, result, data) {
+stop_filter_incompatible_type <- function(index_expression, index_column_name, result) {
+  data <- peek_mask()$full_data()
+
   abort(glue_c(
     if (!is.null(index_column_name)) {
       "`filter()` argument `..{index_expression}${index_column_name}` is incorrect."
@@ -80,7 +82,7 @@ stop_filter_incompatible_type <- function(index_expression, index_column_name, i
       "`filter()` argument `..{index_expression}` is incorrect."
     },
     x = "It must be a logical vector, not a {vec_ptype_full(result)}.",
-    i = if(is_grouped_df(data)) "The error occured in group {index_group}."
+    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
   ))
 }
 
@@ -101,7 +103,6 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
   }
 
   data  <- peek_mask()$full_data()
-  group <- peek_mask()$get_current_group()
   expr  <- as_label(quo_get_expr(dots[[index]]))
   name  <- arg_name(dots, index)
 
@@ -109,7 +110,7 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
   abort(glue_c(
     "`summarise()` argument `{name}` must be a vector.",
     i = "`{name}` is {expr}",
-    i = if(is_grouped_df(data)) "The error occured in group {group}.",
+    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}.",
     x = "Result should be a vector, not {as_friendly_type(typeof(result))}."
   ))
 
@@ -143,13 +144,12 @@ stop_mutate_not_vector <- function(result, index, dots) {
   name <- arg_name(dots, index)
   expr <- as_label(quo_get_expr(dots[[index]]))
   data <- peek_mask()$full_data()
-  group <- peek_mask()$get_current_group()
 
   abort(glue_c(
     "`mutate()` argument `{name}` must be a vector.",
     i = "`{name}` is {expr}.",
     x = "Result should be a vector, not {as_friendly_type(typeof(result))}.",
-    i = if(is_grouped_df(data)) "The error occured in group {group}."
+    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
   ))
 }
 
@@ -157,13 +157,12 @@ stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
   name <- arg_name(dots, index)
   expr <- as_label(quo_get_expr(dots[[index]]))
   data <- peek_mask()$full_data()
-  group <- peek_mask()$get_current_group()
 
   abort(glue_c(
     "`mutate()` argument `{name}` must be recyclable.",
     i = "`{name}` is {expr}",
     x = conditionMessage(cnd),
-    i = if(is_grouped_df(data)) "The error occured in group {group}."
+    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
   ))
 }
 

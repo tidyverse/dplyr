@@ -226,7 +226,7 @@ test_that("mutate() evaluates expression for empty groups", {
   gf <- group_by(df, f, .drop = FALSE)
 
   count <- 0
-  mutate(gf, {count <<- count + 1})
+  mutate(gf, x = {count <<- count + 1})
   expect_equal(count, 3L)
 })e
 

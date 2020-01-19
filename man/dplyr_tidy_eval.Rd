@@ -8,6 +8,9 @@ This page the describes the \verb{<tidy-eval>} argument modifier which indicates
 that the argument uses \strong{tidy evaluation} with \strong{data masking}.
 This is a special type of non-standard evaluation used throughout the
 tidyverse.
+
+If you've never head of tidy evaluation before, start with
+\code{vignette("programming")}.
 }
 \keyword{internal}
 \section{Key terms}{

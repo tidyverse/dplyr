@@ -1,5 +1,9 @@
 # dplyr 0.9.0 (in development)
 
+* There's now a full set of functions that let you access information about
+  the "current" group (`cur_data()`, `cur_group()`, `cur_group_id()`, 
+  `cur_group_rows()`) inspired by data.table's `.SD`, `.GRP`, `.BY`, and `.I`.
+  
 * New `relocate()` verb makes it easy to move columns around within a data 
   frame (#4598).
 
