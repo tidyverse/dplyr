@@ -2,16 +2,25 @@ glue_c <- function(..., .envir = caller_env()) {
   map_chr(vec_c(...), glue, .envir = .envir)
 }
 
-group_info <- function() {
-  data <- peek_mask()$full_data()
-  if (is_grouped_df(data)) {
-    group <- cur_group_id()
-    keys <- cur_group()
-    details <- glue_collapse(map2_chr(keys, names(keys), function(x, name) {
-      glue("{name} = {value}", value = format_v(x))
-    }), ", ")
-    c(i = glue("The error occured in group {group}: {details}."))
-  }
+cur_group_label <- function(data) {
+  UseMethod("cur_group_label")
+}
+
+cur_group_label.data.frame <- function(data) {
+  NULL
+}
+
+cur_group_label.grouped_df <- function(data) {
+  group <- cur_group_id()
+  keys <- cur_group()
+  details <- glue_collapse(map2_chr(keys, names(keys), function(x, name) {
+    glue("{name} = {value}", value = format_v(x))
+  }), ", ")
+  c(i = glue("The error occured in group {group}: {details}."))
+}
+
+cnd_bullet_cur_group_label <- function() {
+  cur_group_label(peek_mask()$full_data())
 }
 
 arg_name <- function(quos, index) {
@@ -32,7 +41,7 @@ stop_eval_tidy <- function(e, index, dots, fn) {
     "`{fn}()` argument `{name}` errored.",
     i = "`{name}` is {expr}",
     x = conditionMessage(e),
-    group_info()
+    cnd_bullet_cur_group_label()
   ))
 }
 
@@ -44,7 +53,7 @@ stop_combine <- function(msg, index, dots, fn = "summarise") {
   abort(glue_c(
     "`{fn}()` argument `{name}` must return compatible vectors across groups.",
     i = "`{name}` is {expr}",
-    group_info(),
+    cnd_bullet_cur_group_label(),
     x = "Error from vec_c() : {msg}."
   ))
 }
@@ -57,7 +66,7 @@ stop_error_data_pronoun_not_found <- function(msg, index, dots, fn = "summarise"
   abort(glue_c(
     "`{fn}()` argument `{name}` errored.",
     i = "`{name}` is {expr}",
-    group_info(),
+    cnd_bullet_cur_group_label(),
     x = msg
   ))
 }
@@ -79,7 +88,7 @@ stop_filter_incompatible_size <- function(index_expression, size, expected_size)
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect.",
     x = "It must be of size {expected_size} or 1, not size {size}.",
-    group_info()
+    cnd_bullet_cur_group_label()
   ))
 }
 
@@ -91,7 +100,7 @@ stop_filter_incompatible_type <- function(index_expression, index_column_name, r
       "`filter()` argument `..{index_expression}` is incorrect."
     },
     x = "It must be a logical vector, not a {vec_ptype_full(result)}.",
-    group_info()
+    cnd_bullet_cur_group_label()
   ))
 }
 
@@ -118,7 +127,7 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
   abort(glue_c(
     "`summarise()` argument `{name}` must be a vector.",
     i = "`{name}` is {expr}",
-    group_info(),
+    cnd_bullet_cur_group_label(),
     x = "Result should be a vector, not {as_friendly_type(typeof(result))}."
   ))
 
@@ -156,7 +165,7 @@ stop_mutate_not_vector <- function(result, index, dots) {
     "`mutate()` argument `{name}` must be a vector.",
     i = "`{name}` is {expr}.",
     x = "Result should be a vector, not {as_friendly_type(typeof(result))}.",
-    group_info()
+    cnd_bullet_cur_group_label()
   ))
 }
 
@@ -168,7 +177,7 @@ stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
     "`mutate()` argument `{name}` must be recyclable.",
     i = "`{name}` is {expr}",
     x = conditionMessage(cnd),
-    group_info()
+    cnd_bullet_cur_group_label()
   ))
 }
 
@@ -194,6 +203,6 @@ stop_summarise_incompatible_size <- function(size, group, index, expected_sizes,
     i = "`{name}` is {expr}",
     x = "Result should be size {should_be}, not {size}.",
     i = "An earlier column had size {expected_sizes[group]}.",
-    group_info()
+    cnd_bullet_cur_group_label()
   ))
 }
