@@ -8,15 +8,17 @@ join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep 
   x_by <- set_names(match(by$x, x_names), by$x)
   y_by <- set_names(match(by$y, y_names), by$x)
 
-  # In x_out, key variables from need to keep the same name; aux variables
-  # need suffixes for duplicates that appear in y_out
   x_loc <- seq_along(x_names)
   names(x_loc) <- x_names
   if (!keep) {
+    # in x_out, key variables need to keep the same name, and aux
+    # variables need suffixes for duplicates that appear in y_out
     y_aux <- setdiff(y_names, c(by$x, if (!keep) by$y))
     x_is_aux <- !x_names %in% by$x
     names(x_loc)[x_is_aux] <- add_suffixes(x_names[x_is_aux], c(by$x, y_aux), suffix$x)
   } else {
+    # in x_out, key variables and aux variables need suffixes
+    # for duplicates that appear in y_out
     names(x_loc) <- add_suffixes(x_names, y_names, suffix$x)
   }
 
