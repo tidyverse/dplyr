@@ -24,6 +24,7 @@ reference:
   - filter
   - mutate
   - pull
+  - relocate
   - rename
   - select
   - summarise

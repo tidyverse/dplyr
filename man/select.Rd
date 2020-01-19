@@ -101,12 +101,9 @@ select(df, num_range("V", 4:6))
 starwars \%>\% group_by(gender) \%>\% select(group_cols())
 
 # Moving variables around --------------------------
-# Move `Species` to the front
-select(iris, Species, everything())
-
-# Move `Sepal.Length` to the back: first select everything except
-# `Sepal.Length`, then select `Sepal.Length`
-select(iris, !Sepal.Length, Sepal.Length)
+# As of dplyr 1.0.0, use relocate(), not select():
+relocate(iris, Species, .before = 1)
+relocate(iris, Sepal.Length, .after = last_col())
 }
 \seealso{
 Other single table verbs: 
