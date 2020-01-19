@@ -21,7 +21,6 @@ mixed types
 > tibble(id = 1:2, a = list(1, "2")) %>% group_by(id) %>% summarise(a = a[[1]])
 Error: `summarise()` argument `a` must return compatible vectors across groups.
 i `a` is a[[1]]
-i The error occured in group 2: id = 2.
 x Error from vec_c() : No common type for `..1` <double> and `..2` <character>..
 
 > tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[1]])

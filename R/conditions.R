@@ -53,7 +53,6 @@ stop_combine <- function(msg, index, dots, fn = "summarise") {
   abort(glue_c(
     "`{fn}()` argument `{name}` must return compatible vectors across groups.",
     i = "`{name}` is {expr}",
-    cnd_bullet_cur_group_label(),
     x = "Error from vec_c() : {msg}."
   ))
 }
