@@ -52,12 +52,16 @@
 variable, so only work inside specific contexts like summarise() and
 mutate()
 n() gives the current group size.
+cur_data() gives the current data for the current group (exclusing
+grouping variables)
 cur_group() gives the group keys, a tibble with one row and one column
 for each grouping variable.
 cur_group_id() gives a unique numeric identifier for the current group.
 cur_column() gives the current column (in across() only).
 
-" />
+
+See group_data() for equivalent functions that return values for all
+groups." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -204,27 +208,46 @@ cur_column() gives the current column (in across() only).
 variable, so only work inside specific contexts like <code><a href='summarise.html'>summarise()</a></code> and
 <code><a href='mutate.html'>mutate()</a></code></p><ul>
 <li><p><code>n()</code> gives the current group size.</p></li>
+<li><p><code>cur_data()</code> gives the current data for the current group (exclusing
+grouping variables)</p></li>
 <li><p><code>cur_group()</code> gives the group keys, a tibble with one row and one column
 for each grouping variable.</p></li>
 <li><p><code>cur_group_id()</code> gives a unique numeric identifier for the current group.</p></li>
 <li><p><code>cur_column()</code> gives the current column (in <code><a href='across.html'>across()</a></code> only).</p></li>
 </ul>
 
+<p>See <code><a href='group_data.html'>group_data()</a></code> for equivalent functions that return values for all
+groups.</p>
     </div>
 
     <pre class="usage"><span class='fu'>n</span>()
+
+<span class='fu'>cur_data</span>()
 
 <span class='fu'>cur_group</span>()
 
 <span class='fu'>cur_group_id</span>()
 
+<span class='fu'>cur_group_rows</span>()
+
 <span class='fu'>cur_column</span>()</pre>
 
+
+    <h2 class="hasAnchor" id="data-table"><a class="anchor" href="#data-table"></a>data.table</h2>
+
+    
+
+<p>If you're familiar with data.table:</p><ul>
+<li><p><code>cur_data()</code> &lt;-&gt; <code>.SD</code></p></li>
+<li><p><code>cur_group_id()</code> &lt;-&gt; <code>.GRP</code></p></li>
+<li><p><code>cur_group()</code> &lt;-&gt; <code>.BY</code></p></li>
+<li><p><code>cur_group_rows()</code> &lt;-&gt; <code>.I</code></p></li>
+</ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
-  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='fl'>1</span>:<span class='fl'>3</span>),
+  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='fl'>1</span>:<span class='fl'>3</span>)),
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>),
   <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>)
 )
@@ -238,27 +261,47 @@ for each grouping variable.</p></li>
 #&gt; 3 c         3</div><div class='input'>
 <span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'>cur_group_id</span>())</div><div class='output co'>#&gt; # A tibble: 6 x 4
 #&gt; # Groups:   g [3]
-#&gt;   g            x       y    id
-#&gt;   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;
-#&gt; 1 a     0.857    0.881       1
-#&gt; 2 b     0.346    0.961       2
-#&gt; 3 b     0.000104 0.00402     2
-#&gt; 4 c     0.205    0.553       3
-#&gt; 5 c     0.945    0.219       3
-#&gt; 6 c     0.281    0.647       3</div><div class='input'><span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), ~ <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'>cur_column</span>(), <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>.x</span>, <span class='fl'>2</span>))))</div><div class='output co'>#&gt; # A tibble: 6 x 3
+#&gt;   g         x      y    id
+#&gt;   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;
+#&gt; 1 c     0.553 0.893      3
+#&gt; 2 b     0.219 0.844      2
+#&gt; 3 c     0.647 0.730      3
+#&gt; 4 a     0.728 0.0384     1
+#&gt; 5 c     0.873 0.334      3
+#&gt; 6 b     0.382 0.749      2</div><div class='input'><span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>row</span> <span class='kw'>=</span> <span class='fu'>cur_group_rows</span>())</div><div class='output co'>#&gt; # A tibble: 6 x 2
+#&gt;   g       row
+#&gt;   &lt;chr&gt; &lt;int&gt;
+#&gt; 1 a         4
+#&gt; 2 b         2
+#&gt; 3 b         6
+#&gt; 4 c         1
+#&gt; 5 c         3
+#&gt; 6 c         5</div><div class='input'><span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'>cur_group</span>()))</div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt;   g     data            
+#&gt;   &lt;chr&gt; &lt;list&gt;          
+#&gt; 1 a     &lt;tibble [1 × 1]&gt;
+#&gt; 2 b     &lt;tibble [1 × 1]&gt;
+#&gt; 3 c     &lt;tibble [1 × 1]&gt;</div><div class='input'><span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'>cur_data</span>()))</div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt;   g     data            
+#&gt;   &lt;chr&gt; &lt;list&gt;          
+#&gt; 1 a     &lt;tibble [1 × 2]&gt;
+#&gt; 2 b     &lt;tibble [2 × 2]&gt;
+#&gt; 3 c     &lt;tibble [3 × 2]&gt;</div><div class='input'>
+<span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), ~ <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'>cur_column</span>(), <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>.x</span>, <span class='fl'>2</span>))))</div><div class='output co'>#&gt; # A tibble: 6 x 3
 #&gt; # Groups:   g [3]
 #&gt;   g     x      y     
 #&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 a     x 0.86 y 0.88
-#&gt; 2 b     x 0.35 y 0.96
-#&gt; 3 b     x 0    y 0   
-#&gt; 4 c     x 0.21 y 0.55
-#&gt; 5 c     x 0.95 y 0.22
-#&gt; 6 c     x 0.28 y 0.65</div></pre>
+#&gt; 1 c     x 0.55 y 0.89
+#&gt; 2 b     x 0.22 y 0.84
+#&gt; 3 c     x 0.65 y 0.73
+#&gt; 4 a     x 0.73 y 0.04
+#&gt; 5 c     x 0.87 y 0.33
+#&gt; 6 b     x 0.38 y 0.75</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#data-table">data.table</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

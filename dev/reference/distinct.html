@@ -252,52 +252,52 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>x</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 1
 #&gt;        x
 #&gt;    &lt;int&gt;
-#&gt;  1     2
-#&gt;  2    10
-#&gt;  3     8
-#&gt;  4     6
-#&gt;  5     1
-#&gt;  6     5
-#&gt;  7     9
-#&gt;  8     4
-#&gt;  9     7
+#&gt;  1     5
+#&gt;  2     6
+#&gt;  3     9
+#&gt;  4     1
+#&gt;  5     4
+#&gt;  6     2
+#&gt;  7     8
+#&gt;  8     7
+#&gt;  9    10
 #&gt; 10     3</div><div class='input'><span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 1
 #&gt;        y
 #&gt;    &lt;int&gt;
-#&gt;  1     6
-#&gt;  2    10
+#&gt;  1     9
+#&gt;  2     4
 #&gt;  3     3
-#&gt;  4     1
-#&gt;  5     8
-#&gt;  6     5
-#&gt;  7     9
-#&gt;  8     4
+#&gt;  4    10
+#&gt;  5     1
+#&gt;  6     8
+#&gt;  7     6
+#&gt;  8     5
 #&gt;  9     2
 #&gt; 10     7</div><div class='input'>
 <span class='co'># Can choose to keep all other variables as well</span>
 <span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>x</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 2
 #&gt;        x     y
 #&gt;    &lt;int&gt; &lt;int&gt;
-#&gt;  1     2     6
-#&gt;  2    10    10
-#&gt;  3     8     3
-#&gt;  4     6     1
-#&gt;  5     1     5
-#&gt;  6     5     9
-#&gt;  7     9     9
-#&gt;  8     4     8
-#&gt;  9     7     6
+#&gt;  1     5     9
+#&gt;  2     6     3
+#&gt;  3     9     9
+#&gt;  4     1    10
+#&gt;  5     4     8
+#&gt;  6     2     6
+#&gt;  7     8    10
+#&gt;  8     7     6
+#&gt;  9    10     3
 #&gt; 10     3     6</div><div class='input'><span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>y</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 2
 #&gt;        x     y
 #&gt;    &lt;int&gt; &lt;int&gt;
-#&gt;  1     2     6
-#&gt;  2    10    10
-#&gt;  3     8     3
-#&gt;  4     6     1
-#&gt;  5     6     8
-#&gt;  6     1     5
-#&gt;  7     5     9
-#&gt;  8     5     4
+#&gt;  1     5     9
+#&gt;  2     5     4
+#&gt;  3     6     3
+#&gt;  4     1    10
+#&gt;  5     9     1
+#&gt;  6     4     8
+#&gt;  7     2     6
+#&gt;  8     7     5
 #&gt;  9     7     2
 #&gt; 10     9     7</div><div class='input'>
 <span class='co'># You can also use distinct on computed variables</span>
@@ -305,15 +305,15 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt;     diff
 #&gt;    &lt;int&gt;
 #&gt;  1     4
-#&gt;  2     0
-#&gt;  3     5
-#&gt;  4     1
-#&gt;  5     2
-#&gt;  6     3
-#&gt;  7     9
-#&gt;  8     8
-#&gt;  9     7
-#&gt; 10     6</div><div class='input'>
+#&gt;  2     1
+#&gt;  3     3
+#&gt;  4     0
+#&gt;  5     9
+#&gt;  6     8
+#&gt;  7     2
+#&gt;  8     7
+#&gt;  9     6
+#&gt; 10     5</div><div class='input'>
 <span class='co'># The same behaviour applies for grouped data frames</span>
 <span class='co'># except that the grouping variables are always included</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(

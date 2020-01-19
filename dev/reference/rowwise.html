@@ -237,32 +237,32 @@ life a little easier.</p>
 #&gt; # Rowwise: 
 #&gt;       x     y     z
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1 0.144 0.831 0.487
-#&gt; 2 0.109 0.676 0.392
-#&gt; 3 0.212 0.127 0.169
-#&gt; 4 0.267 0.337 0.302
-#&gt; 5 0.372 0.453 0.413
-#&gt; 6 0.722 0.438 0.580</div><div class='input'>
+#&gt; 1 0.109 0.676 0.392
+#&gt; 2 0.212 0.127 0.169
+#&gt; 3 0.267 0.337 0.302
+#&gt; 4 0.372 0.453 0.413
+#&gt; 5 0.722 0.438 0.580
+#&gt; 6 0.831 0.565 0.698</div><div class='input'>
 <span class='co'># Compute the minimum of x and y in each row</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>rowwise</span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>x</span>, <span class='no'>y</span>)))</div><div class='output co'>#&gt; # A tibble: 6 x 3
 #&gt; # Rowwise: 
 #&gt;       x     y     z
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1 0.144 0.831 0.144
-#&gt; 2 0.109 0.676 0.109
-#&gt; 3 0.212 0.127 0.127
-#&gt; 4 0.267 0.337 0.267
-#&gt; 5 0.372 0.453 0.372
-#&gt; 6 0.722 0.438 0.438</div><div class='input'><span class='co'># In this case you can use an existing vectorised function:</span>
+#&gt; 1 0.109 0.676 0.109
+#&gt; 2 0.212 0.127 0.127
+#&gt; 3 0.267 0.337 0.267
+#&gt; 4 0.372 0.453 0.372
+#&gt; 5 0.722 0.438 0.438
+#&gt; 6 0.831 0.565 0.565</div><div class='input'><span class='co'># In this case you can use an existing vectorised function:</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>pmin</a></span>(<span class='no'>x</span>, <span class='no'>y</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 3
 #&gt;       x     y     z
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1 0.144 0.831 0.144
-#&gt; 2 0.109 0.676 0.109
-#&gt; 3 0.212 0.127 0.127
-#&gt; 4 0.267 0.337 0.267
-#&gt; 5 0.372 0.453 0.372
-#&gt; 6 0.722 0.438 0.438</div><div class='input'><span class='co'># Where these functions exist they'll be much faster than rowwise</span>
+#&gt; 1 0.109 0.676 0.109
+#&gt; 2 0.212 0.127 0.127
+#&gt; 3 0.267 0.337 0.267
+#&gt; 4 0.372 0.453 0.372
+#&gt; 5 0.722 0.438 0.438
+#&gt; 6 0.831 0.565 0.565</div><div class='input'><span class='co'># Where these functions exist they'll be much faster than rowwise</span>
 <span class='co'># so be on the lookout for them.</span>
 
 <span class='co'># rowwise() is also useful when doing simulations</span>
@@ -277,14 +277,14 @@ life a little easier.</p>
   <span class='fu'>rowwise</span>(<span class='no'>sim</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>, <span class='no'>mean</span>, <span class='no'>sd</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 2
 #&gt; # Rowwise:  sim
-#&gt;     sim       z
-#&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-#&gt; 1     1  1.16  
-#&gt; 2     2  1.46  
-#&gt; 3     2  7.03  
-#&gt; 4     3 -0.828 
-#&gt; 5     3 -3.72  
-#&gt; 6     3 -0.0810</div><div class='input'>
+#&gt;     sim      z
+#&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1     1  2.12 
+#&gt; 2     2  6.15 
+#&gt; 3     2 -0.211
+#&gt; 4     3 -2.90 
+#&gt; 5     3  1.04 
+#&gt; 6     3 -1.09 </div><div class='input'>
 <span class='co'># If you want one row per simulation, put the results in a list()</span>
 <span class='no'>params</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>rowwise</span>(<span class='no'>sim</span>) <span class='kw'>%&gt;%</span>

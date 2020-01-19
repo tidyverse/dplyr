@@ -231,24 +231,24 @@ lead or lag by</p></td>
     <pre class="examples"><div class='input'><span class='fu'>lead</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1]  2  3  4  5  6  7  8  9 10 NA</div><div class='input'><span class='fu'>lead</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>2</span>)</div><div class='output co'>#&gt;  [1]  3  4  5  6  7  8  9 10 NA NA</div><div class='input'>
 <span class='fu'>lag</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1] NA  1  2  3  4  5  6  7  8  9</div><div class='input'><span class='fu'>lead</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1]  2  3  4  5  6  7  8  9 10 NA</div><div class='input'>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>5</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='kw'>ahead</span> <span class='kw'>=</span> <span class='fu'>lead</span>(<span class='no'>x</span>), <span class='no'>x</span>, <span class='kw'>behind</span> <span class='kw'>=</span> <span class='fu'>lag</span>(<span class='no'>x</span>))</div><div class='output co'>#&gt;          ahead         x    behind
-#&gt; [1,] 0.7919077 0.1300244        NA
-#&gt; [2,] 0.3559015 0.7919077 0.1300244
-#&gt; [3,] 0.9643438 0.3559015 0.7919077
-#&gt; [4,] 0.1186832 0.9643438 0.3559015
-#&gt; [5,]        NA 0.1186832 0.9643438</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='kw'>ahead</span> <span class='kw'>=</span> <span class='fu'>lead</span>(<span class='no'>x</span>), <span class='no'>x</span>, <span class='kw'>behind</span> <span class='kw'>=</span> <span class='fu'>lag</span>(<span class='no'>x</span>))</div><div class='output co'>#&gt;           ahead          x     behind
+#&gt; [1,] 0.83706173 0.52365044         NA
+#&gt; [2,] 0.03350404 0.83706173 0.52365044
+#&gt; [3,] 0.04332844 0.03350404 0.83706173
+#&gt; [4,] 0.79210294 0.04332844 0.03350404
+#&gt; [5,]         NA 0.79210294 0.04332844</div><div class='input'>
 <span class='co'># Use order_by if data not already ordered</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2000</span>:<span class='fl'>2005</span>, <span class='kw'>value</span> <span class='kw'>=</span> (<span class='fl'>0</span>:<span class='fl'>5</span>) ^ <span class='fl'>2</span>)
 <span class='no'>scrambled</span> <span class='kw'>&lt;-</span> <span class='no'>df</span>[<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>)), ]
 
 <span class='no'>wrong</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>scrambled</span>, <span class='kw'>prev</span> <span class='kw'>=</span> <span class='fu'>lag</span>(<span class='no'>value</span>))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>wrong</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt;   year value prev
-#&gt; 1 2000     0    9
+#&gt; 1 2000     0   25
 #&gt; 2 2001     1    4
-#&gt; 3 2002     4   NA
-#&gt; 4 2003     9    1
-#&gt; 5 2004    16   25
-#&gt; 6 2005    25    0</div><div class='input'>
+#&gt; 3 2002     4    9
+#&gt; 4 2003     9    0
+#&gt; 5 2004    16   NA
+#&gt; 6 2005    25   16</div><div class='input'>
 <span class='no'>right</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>scrambled</span>, <span class='kw'>prev</span> <span class='kw'>=</span> <span class='fu'>lag</span>(<span class='no'>value</span>, <span class='kw'>order_by</span> <span class='kw'>=</span> <span class='no'>year</span>))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>right</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt;   year value prev
 #&gt; 1 2000     0   NA

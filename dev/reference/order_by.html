@@ -230,10 +230,10 @@ is the vector being operated on</p></td>
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>wrong</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt;   year value running
 #&gt; 1 2000     0      46
 #&gt; 2 2001     1       1
-#&gt; 3 2002     4      30
+#&gt; 3 2002     4       5
 #&gt; 4 2003     9      55
 #&gt; 5 2004    16      46
-#&gt; 6 2005    25      26</div><div class='input'>
+#&gt; 6 2005    25      30</div><div class='input'>
 <span class='no'>right</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>scrambled</span>, <span class='kw'>running</span> <span class='kw'>=</span> <span class='fu'>order_by</span>(<span class='no'>year</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='no'>value</span>)))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>right</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt;   year value running
 #&gt; 1 2000     0       0
