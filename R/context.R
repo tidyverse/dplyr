@@ -46,13 +46,13 @@ NULL
 #' @rdname context
 #' @export
 n <- function() {
-  length(context_get("..mask")$current_rows())
+  length(get_mask()$current_rows())
 }
 
 #' @rdname context
 #' @export
 cur_data <- function() {
-  mask <- context_get("..mask")
+  mask <- get_mask()
   data <- mask$full_data()
   mask$pick(setdiff(names(data), group_vars(data)))
 }
@@ -60,19 +60,19 @@ cur_data <- function() {
 #' @rdname context
 #' @export
 cur_group <- function() {
-  context_get("..mask")$current_key()
+  get_mask()$current_key()
 }
 
 #' @rdname context
 #' @export
 cur_group_id <- function() {
-  context_get("..mask")$get_current_group()
+  get_mask()$get_current_group()
 }
 
 #' @rdname context
 #' @export
 cur_group_rows <- function() {
-  context_get("..mask")$current_rows()
+  get_mask()$current_rows()
 }
 
 #' @rdname context
@@ -96,11 +96,27 @@ poke_current_column <- function(name) {
 
 context_env <- new_environment()
 
-context_get <- function(key) {
-  out <- env_get(context_env, key)
+# Mask context ------------------------------------------------------------
+
+get_mask <- function() {
+  out <- env_get(context_env, "..mask")
+
   if (is.null(out)) {
     expr <- deparse(sys.call(-1))
     abort(glue("{expr} should only be called inside a dplyr verb"))
   }
+
   out
+}
+
+poke_mask <- function(mask) {
+  old <- context_env[["..mask"]]
+  context_env[["..mask"]] <- mask
+  old
+}
+
+local_mask <- function(mask, frame = caller_env()) {
+  old_mask <- poke_mask(mask)
+  expr <- expr(on.exit(poke_mask(!!old_mask), add = TRUE))
+  eval_bare(expr, frame)
 }

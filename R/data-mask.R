@@ -1,23 +1,8 @@
-poke_mask <- function(mask) {
-  old <- context_env[["..mask"]]
-  context_env[["..mask"]] <- mask
-  old
-}
-
-
-scoped_mask <- function(mask, frame = caller_env()) {
-  old_mask <- poke_mask(mask)
-  expr <- call2(on.exit, expr({
-    poke_mask(!!old_mask)
-  }), add = TRUE)
-  eval_bare(expr, frame)
-}
-
 DataMask <- R6Class("DataMask",
   public = list(
     initialize = function(data, caller, rows = group_rows(data)) {
       frame <- caller_env(n = 2)
-      scoped_mask(self, frame)
+      local_mask(self, frame)
 
       private$rows <- rows
       private$data <- data
