@@ -29,12 +29,12 @@ if ungrouped).
 \item A data frame or tibble, to create multiple columns in the output.
 }}
 
-\item{.remove}{\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-This is an experiment argument that allows you to automatically remove
-columns from the output. The default, \code{"none"} leaves them as is, \code{"used"}
-will remove any variables that have been used in the computation of new
-variables, and \code{"all"} will remove all existing variables except for
-grouping keys (like \code{\link[=transmute]{transmute()}}).}
+\item{.remove}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
+This is an experimental argument that allows you to automatically remove
+columns from the output. The default, \code{"none"}, does not remove any
+variables. \code{"used"} will remove any variables that have been used in the
+computation of new variables, and \code{"all"} will remove all existing
+variables except for grouping keys (like \code{\link[=transmute]{transmute()}}).}
 }
 \value{
 An object of the same type as \code{.data}.
@@ -141,8 +141,8 @@ mtcars \%>\%
 mtcars \%>\%
   transmute(displ_l = disp / 61.0237)
 
-# The .remove = "used" (experimental) allows you to remove variables
-# used when computing new variables:
+# Experimental .remove = "used" allows you to remove variables
+# that are used "up" when computing new variables:
 mtcars \%>\%
   mutate(displ_l = disp / 61.0237, .remove = "used")
 

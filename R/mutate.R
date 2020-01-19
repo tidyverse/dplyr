@@ -147,12 +147,12 @@ mutate <- function(.data, ...) {
 }
 
 #' @rdname mutate
-#' @param .remove \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-#'   This is an experiment argument that allows you to automatically remove
-#'   columns from the output. The default, `"none"` leaves them as is, `"used"`
-#'   will remove any variables that have been used in the computation of new
-#'   variables, and `"all"` will remove all existing variables except for
-#'   grouping keys (like [transmute()]).
+#' @param .remove \Sexpr[results=rd]{lifecycle::badge("experimental")}
+#'   This is an experimental argument that allows you to automatically remove
+#'   columns from the output. The default, `"none"`, does not remove any
+#'   variables. `"used"` will remove any variables that have been used in the
+#'   computation of new variables, and `"all"` will remove all existing
+#'   variables except for grouping keys (like [transmute()]).
 #' @export
 mutate.data.frame <- function(.data, ..., .remove = c("none", "used", "all")) {
   remove <- arg_match(.remove)
