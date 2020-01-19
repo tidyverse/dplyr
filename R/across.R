@@ -48,7 +48,7 @@
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 #' @export
 across <- function(cols = everything(), fns = NULL) {
-  mask <- get_mask()
+  mask <- peek_mask()
   data <- mask$full_data()
 
   vars <- tidyselect::eval_select(

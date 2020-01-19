@@ -46,13 +46,13 @@ NULL
 #' @rdname context
 #' @export
 n <- function() {
-  length(get_mask()$current_rows())
+  length(peek_mask()$current_rows())
 }
 
 #' @rdname context
 #' @export
 cur_data <- function() {
-  mask <- get_mask()
+  mask <- peek_mask()
   data <- mask$full_data()
   mask$pick(setdiff(names(data), group_vars(data)))
 }
@@ -60,19 +60,19 @@ cur_data <- function() {
 #' @rdname context
 #' @export
 cur_group <- function() {
-  get_mask()$current_key()
+  peek_mask()$current_key()
 }
 
 #' @rdname context
 #' @export
 cur_group_id <- function() {
-  get_mask()$get_current_group()
+  peek_mask()$get_current_group()
 }
 
 #' @rdname context
 #' @export
 cur_group_rows <- function() {
-  get_mask()$current_rows()
+  peek_mask()$current_rows()
 }
 
 #' @rdname context
@@ -98,7 +98,7 @@ context_env <- new_environment()
 
 # Mask context ------------------------------------------------------------
 
-get_mask <- function() {
+peek_mask <- function() {
   out <- env_get(context_env, "..mask")
 
   if (is.null(out)) {

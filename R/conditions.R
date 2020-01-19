@@ -13,7 +13,7 @@ arg_name <- function(quos, index) {
 # Common ------------------------------------------------------------------
 
 stop_eval_tidy <- function(e, index, dots, fn) {
-  data  <- get_mask()$full_data()
+  data  <- peek_mask()$full_data()
   expr  <- as_label(quo_get_expr(dots[[index]]))
   name  <- arg_name(dots, index)
 
@@ -98,7 +98,7 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
     abort(class = "dplyr_summarise_unsupported_type", result = result)
   }
 
-  data  <- get_mask()$full_data()
+  data  <- peek_mask()$full_data()
   expr  <- as_label(quo_get_expr(dots[[index]]))
   name  <- arg_name(dots, index)
 
@@ -139,7 +139,7 @@ stop_mutate_not_vector <- function(result, index, dots) {
 
   name <- arg_name(dots, index)
   expr <- as_label(quo_get_expr(dots[[index]]))
-  data <- get_mask()$full_data()
+  data <- peek_mask()$full_data()
 
   abort(glue_c(
     "`mutate()` argument `{name}` must be a vector.",
@@ -152,7 +152,7 @@ stop_mutate_not_vector <- function(result, index, dots) {
 stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
   name <- arg_name(dots, index)
   expr <- as_label(quo_get_expr(dots[[index]]))
-  data <- get_mask()$full_data()
+  data <- peek_mask()$full_data()
 
   abort(glue_c(
     "`mutate()` argument `{name}` must be recyclable.",
@@ -168,7 +168,7 @@ stop_summarise_incompatible_size <- function(size, group, index, expected_sizes,
     abort(class = "dplyr_summarise_incompatible_size", size = size, group = group)
   }
 
-  data <- get_mask()$full_data()
+  data <- peek_mask()$full_data()
   name <- arg_name(dots, index)
   expr <- as_label(quo_get_expr(dots[[index]]))
 
