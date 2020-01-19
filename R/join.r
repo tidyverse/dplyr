@@ -84,7 +84,7 @@
 #' # Use a named `by` if the join variables have different names
 #' band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
 #' # By default, the join keys from `x` and `y` are coalesced in the output; use
-#' # `keep = TRUE` # to keep the join keys from both `x` and `y`
+#' # `keep = TRUE` to keep the join keys from both `x` and `y`
 #' band_members %>%
 #'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 #'
