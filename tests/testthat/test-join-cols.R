@@ -60,7 +60,6 @@ test_that("by columns omited from y" , {
   expect_equal(vars$y$out, c("x.y" = 1))
 
   # unless specifically requested
-  # TBD: fix this test!
   vars <- join_cols(c("x", "y"), c("x", "y"), by = c("x" = "y"), keep = TRUE)
   expect_equal(vars$x$out, c("x.x" = 1, "y.x" = 2))
   expect_equal(vars$y$out, c("x.y" = 1, "y.y" = 2))
