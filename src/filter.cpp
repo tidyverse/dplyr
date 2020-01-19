@@ -27,14 +27,14 @@ void reduce_lgl(SEXP reduced, SEXP x, int n) {
   }
 }
 
-void filter_check_size(SEXP res, int i, R_xlen_t n, R_xlen_t group_index, SEXP data) {
+void filter_check_size(SEXP res, int i, R_xlen_t n) {
   R_xlen_t nres = vctrs::short_vec_size(res);
   if (nres != n && nres != 1) {
-    dplyr::stop_filter_incompatible_size(i, group_index, nres, n, data);
+    dplyr::stop_filter_incompatible_size(i, nres, n);
   }
 }
 
-void filter_check_type(SEXP res, R_xlen_t i, R_xlen_t group_index, SEXP data) {
+void filter_check_type(SEXP res, R_xlen_t i) {
   if (TYPEOF(res) == LGLSXP) return;
 
   if (Rf_inherits(res, "data.frame")) {
@@ -47,15 +47,15 @@ void filter_check_type(SEXP res, R_xlen_t i, R_xlen_t group_index, SEXP data) {
         SEXP colnames = PROTECT(Rf_getAttrib(res, R_NamesSymbol));
         SEXP colnames_j = PROTECT(Rf_allocVector(STRSXP, 1));
         SET_STRING_ELT(colnames_j, 0, STRING_ELT(colnames, j));
-        dplyr::stop_filter_incompatible_type(i, colnames_j, group_index, res_j, data);
+        dplyr::stop_filter_incompatible_type(i, colnames_j, res_j);
       }
     }
   } else {
-    dplyr::stop_filter_incompatible_type(i, R_NilValue, group_index, res, data);
+    dplyr::stop_filter_incompatible_type(i, R_NilValue, res);
   }
 }
 
-SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, R_xlen_t group_index, SEXP full_data, SEXP env_filter) {
+SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, SEXP env_filter) {
   // then reduce to a single logical vector of size n
   SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
 
@@ -73,8 +73,8 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, R_xlen_t gro
 
     SEXP res = PROTECT(rlang::eval_tidy(VECTOR_ELT(quos, i), mask, caller));
 
-    filter_check_size(res, i, n, group_index, full_data);
-    filter_check_type(res, i, group_index, full_data);
+    filter_check_size(res, i, n);
+    filter_check_type(res, i);
 
     if (TYPEOF(res) == LGLSXP) {
       reduce_lgl(reduced, res, n);
@@ -92,7 +92,7 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, R_xlen_t gro
   return reduced;
 }
 
-SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP full_data, SEXP env_filter) {
+SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_filter) {
   DPLYR_MASK_INIT();
 
   R_xlen_t n = Rf_asInteger(s_n);
@@ -102,7 +102,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP full
   for (R_xlen_t i = 0; i < ngroups; i++) {
     DPLYR_MASK_SET_GROUP(i);
 
-    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, n_i, i, full_data, env_filter));
+    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, n_i, env_filter));
 
     int* p_rows_i = INTEGER(rows_i);
     int* p_result_i = LOGICAL(result_i);

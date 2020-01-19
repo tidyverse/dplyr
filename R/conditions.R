@@ -62,15 +62,19 @@ err_vars <- function(x) {
 
 # filter() ----------------------------------------------------------------
 
-stop_filter_incompatible_size <- function(index_expression, index_group, size, expected_size, data) {
+stop_filter_incompatible_size <- function(index_expression, size, expected_size) {
+  data <- peek_mask()$full_data()
+
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect.",
     x = "It must be of size {expected_size} or 1, not size {size}.",
-    i = if(is_grouped_df(data)) "The error occured in group {index_group}."
+    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
   ))
 }
 
-stop_filter_incompatible_type <- function(index_expression, index_column_name, index_group, result, data) {
+stop_filter_incompatible_type <- function(index_expression, index_column_name, result) {
+  data <- peek_mask()$full_data()
+
   abort(glue_c(
     if (!is.null(index_column_name)) {
       "`filter()` argument `..{index_expression}${index_column_name}` is incorrect."
@@ -78,7 +82,7 @@ stop_filter_incompatible_type <- function(index_expression, index_column_name, i
       "`filter()` argument `..{index_expression}` is incorrect."
     },
     x = "It must be a logical vector, not a {vec_ptype_full(result)}.",
-    i = if(is_grouped_df(data)) "The error occured in group {index_group}."
+    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
   ))
 }
 
