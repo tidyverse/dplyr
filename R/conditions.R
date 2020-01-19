@@ -2,7 +2,8 @@ glue_c <- function(..., .envir = caller_env()) {
   map_chr(vec_c(...), glue, .envir = .envir)
 }
 
-group_info <- function(data) {
+group_info <- function() {
+  data <- peek_mask()$full_data()
   if (is_grouped_df(data)) {
     group <- cur_group_id()
     keys <- cur_group()
@@ -24,7 +25,6 @@ arg_name <- function(quos, index) {
 # Common ------------------------------------------------------------------
 
 stop_eval_tidy <- function(e, index, dots, fn) {
-  data  <- peek_mask()$full_data()
   expr  <- as_label(quo_get_expr(dots[[index]]))
   name  <- arg_name(dots, index)
 
@@ -32,7 +32,7 @@ stop_eval_tidy <- function(e, index, dots, fn) {
     "`{fn}()` argument `{name}` errored.",
     i = "`{name}` is {expr}",
     x = conditionMessage(e),
-    group_info(data)
+    group_info()
   ))
 }
 
@@ -44,7 +44,7 @@ stop_combine <- function(msg, index, dots, fn = "summarise") {
   abort(glue_c(
     "`{fn}()` argument `{name}` must return compatible vectors across groups.",
     i = "`{name}` is {expr}",
-    group_info(data),
+    group_info(),
     x = "Error from vec_c() : {msg}."
   ))
 }
@@ -57,6 +57,7 @@ stop_error_data_pronoun_not_found <- function(msg, index, dots, fn = "summarise"
   abort(glue_c(
     "`{fn}()` argument `{name}` errored.",
     i = "`{name}` is {expr}",
+    group_info(),
     x = msg
   ))
 }
@@ -75,18 +76,14 @@ err_vars <- function(x) {
 # filter() ----------------------------------------------------------------
 
 stop_filter_incompatible_size <- function(index_expression, size, expected_size) {
-  data <- peek_mask()$full_data()
-
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect.",
     x = "It must be of size {expected_size} or 1, not size {size}.",
-    group_info(data)
+    group_info()
   ))
 }
 
 stop_filter_incompatible_type <- function(index_expression, index_column_name, result) {
-  data <- peek_mask()$full_data()
-
   abort(glue_c(
     if (!is.null(index_column_name)) {
       "`filter()` argument `..{index_expression}${index_column_name}` is incorrect."
@@ -94,7 +91,7 @@ stop_filter_incompatible_type <- function(index_expression, index_column_name, r
       "`filter()` argument `..{index_expression}` is incorrect."
     },
     x = "It must be a logical vector, not a {vec_ptype_full(result)}.",
-    group_info(data)
+    group_info()
   ))
 }
 
@@ -114,7 +111,6 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
     abort(class = "dplyr_summarise_unsupported_type", result = result)
   }
 
-  data  <- peek_mask()$full_data()
   expr  <- as_label(quo_get_expr(dots[[index]]))
   name  <- arg_name(dots, index)
 
@@ -122,7 +118,7 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
   abort(glue_c(
     "`summarise()` argument `{name}` must be a vector.",
     i = "`{name}` is {expr}",
-    group_info(data),
+    group_info(),
     x = "Result should be a vector, not {as_friendly_type(typeof(result))}."
   ))
 
@@ -155,26 +151,24 @@ stop_mutate_not_vector <- function(result, index, dots) {
 
   name <- arg_name(dots, index)
   expr <- as_label(quo_get_expr(dots[[index]]))
-  data <- peek_mask()$full_data()
 
   abort(glue_c(
     "`mutate()` argument `{name}` must be a vector.",
     i = "`{name}` is {expr}.",
     x = "Result should be a vector, not {as_friendly_type(typeof(result))}.",
-    group_info(data)
+    group_info()
   ))
 }
 
 stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
   name <- arg_name(dots, index)
   expr <- as_label(quo_get_expr(dots[[index]]))
-  data <- peek_mask()$full_data()
 
   abort(glue_c(
     "`mutate()` argument `{name}` must be recyclable.",
     i = "`{name}` is {expr}",
     x = conditionMessage(cnd),
-    group_info(data)
+    group_info()
   ))
 }
 
@@ -184,7 +178,6 @@ stop_summarise_incompatible_size <- function(size, group, index, expected_sizes,
     abort(class = "dplyr_summarise_incompatible_size", size = size, group = group)
   }
 
-  data <- peek_mask()$full_data()
   name <- arg_name(dots, index)
   expr <- as_label(quo_get_expr(dots[[index]]))
 
@@ -201,6 +194,6 @@ stop_summarise_incompatible_size <- function(size, group, index, expected_sizes,
     i = "`{name}` is {expr}",
     x = "Result should be size {should_be}, not {size}.",
     i = "An earlier column had size {expected_sizes[group]}.",
-    group_info(data)
+    group_info()
   ))
 }
