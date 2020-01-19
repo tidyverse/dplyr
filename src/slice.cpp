@@ -1,6 +1,6 @@
 #include "dplyr.h"
 
-SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private, SEXP env_context) {
+SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private) {
   DPLYR_MASK_INIT();
 
   SEXP chunks = PROTECT(Rf_allocVector(VECSXP, ngroups));

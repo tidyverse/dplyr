@@ -59,10 +59,10 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
 
-  {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 3},
-  {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 3},
-  {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 3},
-  {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 6},
+  {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 2},
+  {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 2},
+  {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 2},
+  {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 5},
 
   {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
   {"dplyr_validate_summarise_sizes", (DL_FUNC)& dplyr_validate_summarise_sizes, 2},

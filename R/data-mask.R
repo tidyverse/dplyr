@@ -48,19 +48,19 @@ DataMask <- R6Class("DataMask",
     },
 
     eval_all = function(quo) {
-      .Call(`dplyr_mask_eval_all`, quo, private, context_env)
+      .Call(`dplyr_mask_eval_all`, quo, private)
     },
 
     eval_all_summarise = function(quo) {
-      .Call(`dplyr_mask_eval_all_summarise`, quo, private, context_env)
+      .Call(`dplyr_mask_eval_all_summarise`, quo, private)
     },
 
     eval_all_mutate = function(quo) {
-      .Call(`dplyr_mask_eval_all_mutate`, quo, private, context_env)
+      .Call(`dplyr_mask_eval_all_mutate`, quo, private)
     },
 
     eval_all_filter = function(quos, env_filter) {
-      .Call(`dplyr_mask_eval_all_filter`, quos, private, context_env, nrow(private$data), private$data, env_filter)
+      .Call(`dplyr_mask_eval_all_filter`, quos, private, nrow(private$data), private$data, env_filter)
     },
 
     pick = function(vars) {
