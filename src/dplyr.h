@@ -72,9 +72,7 @@ SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller))
 #define DPLYR_MASK_SET_GROUP(INDEX)                                                  \
 SEXP rows_i = VECTOR_ELT(rows, i);                                                   \
 R_xlen_t n_i = XLENGTH(rows_i);                                                      \
-SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));                               \
-Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);             \
-UNPROTECT(1)
+Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(i + 1), env_private);
 
 #define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
 
