@@ -8,7 +8,7 @@ group_info <- function() {
     group <- cur_group_id()
     keys <- cur_group()
     details <- glue_collapse(map2_chr(keys, names(keys), function(x, name) {
-      glue("{name} = {value}", value = tibble:::format_v(x))
+      glue("{name} = {value}", value = format_v(x))
     }), ", ")
     c(i = glue("The error occured in group {group}: {details}."))
   }
