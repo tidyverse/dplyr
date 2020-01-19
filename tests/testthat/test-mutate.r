@@ -228,7 +228,7 @@ test_that("mutate() evaluates expression for empty groups", {
   count <- 0
   mutate(gf, x = {count <<- count + 1})
   expect_equal(count, 3L)
-})e
+})
 
 test_that("DataMask$add() forces chunks (#4677)", {
   df <- tibble(bf10 = 0.244) %>%
@@ -259,11 +259,12 @@ test_that(".remove = 'used' not affected by across()", {
   expect_named(out, names(df))
 })
 
-test_that(".remove = 'used' not affected by cur_data()", {
-  df <- tibble(x = 1, y = 2, z = 3, a = "a", b = "b", c = "c")
+test_that(".remove = 'all' only keeps grouping variables", {
+  df <- tibble(x = 1, y = 2)
+  gf <- group_by(df, x)
 
-  out <- mutate(df, n = nrow(cur_data()), .remove = "used")
-  expect_named(out, c(names(df), "n"))
+  expect_named(mutate(df, z = 1, .remove = "all"), "z")
+  expect_named(mutate(gf, z = 1, .remove = "all"), c("x", "z"))
 })
 
 # Error messages ----------------------------------------------------------

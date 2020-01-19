@@ -171,7 +171,7 @@ mutate.data.frame <- function(.data, ..., .remove = c("none", "used", "all")) {
       # ensure group vars present
       setdiff(group_vars(.data), names(cols)),
       # cols might contain NULLs
-      intersect(names(cols), names(.data))
+      intersect(names(cols), names(out))
     )
     out[keep]
   }
