@@ -197,6 +197,9 @@ stop_summarise_incompatible_size <- function(size, group, index, expected_sizes,
     glue("{expected_sizes[group]} or 1")
   }
 
+  # so that cnd_bullet_cur_group_label() correctly reports the faulty group
+  peek_mask()$set_current_group(group)
+
   abort(glue_c(
     "`summarise()` argument `{name}` must be recyclable.",
     i = "`{name}` is {expr}",

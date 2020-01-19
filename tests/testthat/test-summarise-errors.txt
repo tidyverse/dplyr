@@ -43,14 +43,14 @@ Error: `summarise()` argument `y` must be recyclable.
 i `y` is 1:2
 x Result should be size 3 or 1, not 2.
 i An earlier column had size 3.
-i The error occured in group 2: z = 2.
+i The error occured in group 1: z = 1.
 
 > tibble(z = 2:1) %>% group_by(z) %>% summarise(x = seq_len(z), y = 1:2)
 Error: `summarise()` argument `y` must be recyclable.
 i `y` is 1:2
 x Result should be size 1, not 2.
 i An earlier column had size 1.
-i The error occured in group 2: z = 2.
+i The error occured in group 1: z = 1.
 
 
 Missing variable

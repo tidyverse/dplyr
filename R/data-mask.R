@@ -79,6 +79,10 @@ DataMask <- R6Class("DataMask",
       private$current_group
     },
 
+    set_current_group = function(group) {
+      private$current_group <- group
+    },
+
     full_data = function() {
       private$data
     }
