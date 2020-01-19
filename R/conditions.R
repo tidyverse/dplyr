@@ -4,7 +4,7 @@ glue_c <- function(..., .envir = caller_env()) {
 
 group_info <- function(data) {
   if (is_grouped_df(data)) {
-    id <- cur_group_id()
+    group <- cur_group_id()
     keys <- cur_group()
     details <- glue_collapse(map2_chr(keys, names(keys), function(x, name) {
       glue("{name} = {value}", value = tibble:::format_v(x))
@@ -44,7 +44,7 @@ stop_combine <- function(msg, index, dots, fn = "summarise") {
   abort(glue_c(
     "`{fn}()` argument `{name}` must return compatible vectors across groups.",
     i = "`{name}` is {expr}",
-    group_info(data, group),
+    group_info(data),
     x = "Error from vec_c() : {msg}."
   ))
 }
@@ -201,6 +201,6 @@ stop_summarise_incompatible_size <- function(size, group, index, expected_sizes,
     i = "`{name}` is {expr}",
     x = "Result should be size {should_be}, not {size}.",
     i = "An earlier column had size {expected_sizes[group]}.",
-    group_info(data, group)
+    group_info(data)
   ))
 }
