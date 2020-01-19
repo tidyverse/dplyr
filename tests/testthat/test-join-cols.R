@@ -29,6 +29,11 @@ test_that("duplicate column names are given suffixes", {
   expect_equal(vars$x$out, c("x" = 1, "y.x" = 2))
   expect_equal(vars$y$out, c("y.y" = 2))
 
+  # including join vars when keep = TRUE
+  vars <- join_cols(c("x", "y"), c("x", "y"), by = "x", keep = TRUE)
+  expect_equal(vars$x$out, c("x.x" = 1, "y.x" = 2))
+  expect_equal(vars$y$out, c("x.y" = 1, "y.y" = 2))
+
   # suffixes don't create duplicates
   vars <- join_cols(c("x", "y", "y.x"), c("x", "y"), by = "x")
   expect_equal(vars$x$out, c("x" = 1, "y.x" = 2, "y.x.x" = 3))
