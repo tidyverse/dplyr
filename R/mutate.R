@@ -117,6 +117,11 @@
 #' mtcars %>%
 #'   transmute(displ_l = disp / 61.0237)
 #'
+#' # Experimental .remove = "used" allows you to remove variables
+#' # that are used "up" when computing new variables:
+#' mtcars %>%
+#'   mutate(displ_l = disp / 61.0237, .remove = "used")
+#'
 #' # Grouping ----------------------------------------
 #' # The mutate operation may yield different results on grouped
 #' # tibbles because the expressions are computed within groups.
@@ -141,26 +146,34 @@ mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
 
+#' @rdname mutate
+#' @param .remove \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#'   This is an experiment argument that allows you to automatically remove
+#'   columns from the output. The default, `"none"` leaves them as is, `"used"`
+#'   will remove any variables that have been used in the computation of new
+#'   variables, and `"all"` will remove all existing variables except for
+#'   grouping keys (like [transmute()]).
 #' @export
-mutate.data.frame <- function(.data, ..., .keep = c("all", "groups", "unused")) {
-  .keep <- arg_match(.keep)
+mutate.data.frame <- function(.data, ..., .remove = c("none", "used", "all")) {
+  remove <- arg_match(.remove)
 
-  cols <- mutate_cols(.data, ..., .track_usage = .keep == "unused")
+  cols <- mutate_cols(.data, ..., .track_usage = remove == "used")
   out <- dplyr_col_modify(.data, cols)
 
-  if (.keep == "all") {
+  if (remove == "none") {
     out
-  } else if (.keep == "groups") {
-    out_cols <- c(
+  } else if (remove == "used") {
+    used <- names(.data)[attr(cols, "used")]
+    keep <- setdiff(names(out), setdiff(used, names(cols)))
+    out[keep]
+  } else if (remove == "all") {
+    keep <- c(
       # ensure group vars present
       setdiff(group_vars(.data), names(cols)),
       # cols might contain NULLs
       intersect(names(cols), names(.data))
     )
-    out[out_cols]
-  } else if (.keep == "unused") {
-    used <- setdiff(names(out), names(.data)[attr(cols, "usage")])
-    out[used]
+    out[keep]
   }
 }
 
@@ -172,13 +185,7 @@ transmute <- function(.data, ...) {
 
 #' @export
 transmute.data.frame <- function(.data, ...) {
-  mutate(.data, ..., .keep = "groups")
-
-  cols <- mutate_cols(.data, ...)
-  .data <- dplyr_col_modify(.data, cols)
-
-
-  .data[out_cols]
+  mutate(.data, ..., .remove = "all")
 }
 
 # Helpers -----------------------------------------------------------------
@@ -272,6 +279,6 @@ mutate_cols <- function(.data, ..., .track_usage = FALSE) {
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
   new_columns[is_zap] <- rep(list(NULL), sum(is_zap))
-  attr(new_columns, "usage") <- mask$get_used()
+  attr(new_columns, "used") <- mask$get_used()
   new_columns
 }

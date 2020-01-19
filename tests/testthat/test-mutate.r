@@ -228,7 +228,7 @@ test_that("mutate() evaluates expression for empty groups", {
   count <- 0
   mutate(gf, {count <<- count + 1})
   expect_equal(count, 3L)
-})
+})e
 
 test_that("DataMask$add() forces chunks (#4677)", {
   df <- tibble(bf10 = 0.244) %>%
@@ -238,6 +238,32 @@ test_that("DataMask$add() forces chunks (#4677)", {
       log_e_bf01 = log(bf01)
     )
   expect_equal(df$log_e_bf01, log(1 / 0.244))
+})
+
+
+# .remove -----------------------------------------------------------------
+
+test_that(".remove = 'used' keeps variables explicitly mentioned", {
+  df <- tibble(x = 1, y = 2)
+  out <- mutate(df, x1 = x + 1, y = y, .remove = "used")
+  expect_named(out, c("y", "x1"))
+})
+
+test_that(".remove = 'used' not affected by across()", {
+  df <- tibble(x = 1, y = 2, z = 3, a = "a", b = "b", c = "c")
+
+  # This must evaluate every column in order to figure out if should
+  # be included in the set or not, but that shouldn't be counted for
+  # the purposes of "used" variables
+  out <- mutate(df, across(is.numeric, identity), .remove = "used")
+  expect_named(out, names(df))
+})
+
+test_that(".remove = 'used' not affected by cur_data()", {
+  df <- tibble(x = 1, y = 2, z = 3, a = "a", b = "b", c = "c")
+
+  out <- mutate(df, n = nrow(cur_data()), .remove = "used")
+  expect_named(out, c(names(df), "n"))
 })
 
 # Error messages ----------------------------------------------------------
