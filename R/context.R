@@ -79,7 +79,7 @@ cur_group_rows <- function() {
 #' @export
 cur_column <- function() {
   context_env[["..current_column_name"]] %||%
-    abort("cur_column() can only be used inside across()")
+    abort("cur_column() must only be used inside across()")
 }
 
 # context accessors -------------------------------------------------------
@@ -103,7 +103,7 @@ peek_mask <- function() {
 
   if (is.null(out)) {
     expr <- deparse(sys.call(-1))
-    abort(glue("{expr} should only be called inside a dplyr verb"))
+    abort(glue("{expr} must only be used inside dplyr verbs"))
   }
 
   out
