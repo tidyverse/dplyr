@@ -91,7 +91,7 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
   return reduced;
 }
 
-SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, SEXP s_n, SEXP full_data, SEXP env_filter) {
+SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP full_data, SEXP env_filter) {
   DPLYR_MASK_INIT();
   R_xlen_t nquos = XLENGTH(quos);
 

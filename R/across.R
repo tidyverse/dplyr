@@ -63,8 +63,7 @@ across <- function(cols = everything(), fns = NULL) {
     fns <- as_function(fns)
 
     as_tibble(imap(data, function(.x, .y) {
-      old <- poke_current_column(.y)
-      on.exit(set_current_column(old))
+      local_column(.y)
       fns(.x)
     }))
   } else if (is.list(fns) && is_named(fns)) {
@@ -72,8 +71,7 @@ across <- function(cols = everything(), fns = NULL) {
 
     as_tibble(map(fns, function(f) {
       as_tibble(imap(data, function(.x, .y) {
-        old <- poke_current_column(.y)
-        on.exit(set_current_column(old))
+        local_column(.y)
         f(.x)
       }))
     }))
