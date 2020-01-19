@@ -55,7 +55,7 @@ void filter_check_type(SEXP res, R_xlen_t i, R_xlen_t group_index, SEXP data) {
   }
 }
 
-SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t n, R_xlen_t group_index, SEXP full_data, SEXP env_filter) {
+SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, R_xlen_t group_index, SEXP full_data, SEXP env_filter) {
   // then reduce to a single logical vector of size n
   SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
 
@@ -66,6 +66,7 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
   }
 
   // reduce
+  R_xlen_t nquos = XLENGTH(quos);
   for (R_xlen_t i=0; i < nquos; i++) {
     SEXP current_expression = PROTECT(Rf_ScalarInteger(i+1));
     Rf_defineVar(dplyr::symbols::current_expression, current_expression, env_filter);
@@ -93,44 +94,27 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t nquos, R_xlen_t
 
 SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP full_data, SEXP env_filter) {
   DPLYR_MASK_INIT();
-  R_xlen_t nquos = XLENGTH(quos);
 
   R_xlen_t n = Rf_asInteger(s_n);
   SEXP keep = PROTECT(Rf_allocVector(LGLSXP, n));
   int* p_keep = LOGICAL(keep);
-  SEXP new_group_sizes = PROTECT(Rf_allocVector(INTSXP, ngroups));
-  int* p_new_group_sizes = INTEGER(new_group_sizes);
-
-  SEXP group_indices = PROTECT(Rf_allocVector(INTSXP, n));
-  int* p_group_indices = INTEGER(group_indices);
-
-  // TODO: set names
-  SEXP res = PROTECT(Rf_allocVector(VECSXP, 3));
-  SET_VECTOR_ELT(res, 0, keep);
-  SET_VECTOR_ELT(res, 1, new_group_sizes);
-  SET_VECTOR_ELT(res, 2, group_indices);
 
   for (R_xlen_t i = 0; i < ngroups; i++) {
     DPLYR_MASK_SET_GROUP(i);
 
-    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, nquos, n_i, i, full_data, env_filter));
+    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, n_i, i, full_data, env_filter));
 
-    // sprinkle back to overall logical vector
     int* p_rows_i = INTEGER(rows_i);
     int* p_result_i = LOGICAL(result_i);
-    int nkeep = 0;
     for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i, ++p_result_i) {
       p_keep[*p_rows_i - 1] = *p_result_i == TRUE;
-      p_group_indices[*p_rows_i - 1] = i + 1;
-      nkeep += (*p_result_i == TRUE);
     }
-    p_new_group_sizes[i] = nkeep;
 
     UNPROTECT(1);
   }
 
-  UNPROTECT(4);
+  UNPROTECT(1);
   DPLYR_MASK_FINALISE();
 
-  return res;
+  return keep;
 }
