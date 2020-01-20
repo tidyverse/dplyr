@@ -347,7 +347,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='co'># -&gt;</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>))</div><div class='output co'>#&gt; <span class='error'>Error: `mutate()` argument `..1` errored.</span>
-#&gt; <span class='error'>ℹ `..1` is across(c("height", "mass"), scale2)</span>
+#&gt; <span class='error'>ℹ `..1` is `across(c("height", "mass"), scale2)`.</span>
 #&gt; <span class='error'>✖ object 'scale2' not found</span></div><div class='input'>
 <span class='co'># You can pass additional arguments to the function:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 14
@@ -380,7 +380,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='co'># -&gt;</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), ~ <span class='fu'>scale2</span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; <span class='error'>Error: `mutate()` argument `..1` errored.</span>
-#&gt; <span class='error'>ℹ `..1` is across(c("height", "mass"), ~scale2(.x, na.rm = TRUE))</span>
+#&gt; <span class='error'>ℹ `..1` is `across(c("height", "mass"), ~scale2(.x, na.rm = TRUE))`.</span>
 #&gt; <span class='error'>✖ could not find function "scale2"</span></div><div class='input'>
 <span class='co'># You can also supply selection helpers to _at() functions but you have</span>
 <span class='co'># to quote them with vars():</span>
@@ -429,7 +429,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; 10 Obi-…  0.220  -0.120  auburn, w… fair       blue-gray     -0.198 male  mascu…
 #&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.numeric</span>, ~ <span class='fu'>scale2</span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; <span class='error'>Error: `mutate()` argument `..1` errored.</span>
-#&gt; <span class='error'>ℹ `..1` is across(is.numeric, ~scale2(.x, na.rm = TRUE))</span>
+#&gt; <span class='error'>ℹ `..1` is `across(is.numeric, ~scale2(.x, na.rm = TRUE))`.</span>
 #&gt; <span class='error'>✖ could not find function "scale2"</span></div><div class='input'>
 <span class='co'># mutate_if() is particularly useful for transforming variables from</span>
 <span class='co'># one type to another</span>
@@ -542,7 +542,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='no'>log</span>)))</div><div class='output co'>#&gt; <span class='error'>Error: `mutate()` argument `..1` errored.</span>
-#&gt; <span class='error'>ℹ `..1` is across(is.numeric, list(scale = scale2, log = log))</span>
+#&gt; <span class='error'>ℹ `..1` is `across(is.numeric, list(scale = scale2, log = log))`.</span>
 #&gt; <span class='error'>✖ object 'scale2' not found</span></div><div class='input'>
 <span class='co'># When there's only one function in the list, it modifies existing</span>
 <span class='co'># variables in place. Give it a name to instead create new variables:</span>
