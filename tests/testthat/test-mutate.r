@@ -259,6 +259,12 @@ test_that(".remove = 'used' not affected by across()", {
   expect_named(out, names(df))
 })
 
+test_that(".remove = 'unused' keeps variables used in expressions", {
+  df <- tibble(a = 1, b = 2, c = 3, x = 1, y = 2)
+  out <- mutate(df, xy = x + y, .remove = "unused")
+  expect_named(out, c("x", "y", "xy"))
+})
+
 test_that(".remove = 'all' only keeps grouping variables", {
   df <- tibble(x = 1, y = 2)
   gf <- group_by(df, x)

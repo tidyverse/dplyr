@@ -4,7 +4,9 @@
   `.remove`. `.remove = "none"` is the default; it leaves all variable as is.
   `.remove = "all"` drops all existing variables (apart from grouping keys), 
   so behaves like `transmute()`. `.remove = "used"` removes variables used
-  in the computation of new columns (#3721).
+  in the computation of new columns. `.remove = "unusued"` keeps only the 
+  variables used in the computation; it's useful for double checking your
+  work (#3721).
   
 * There's now a full set of functions that let you access information about
   the "current" group (`cur_data()`, `cur_group()`, `cur_group_id()`, 

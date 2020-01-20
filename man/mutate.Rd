@@ -8,7 +8,7 @@
 \usage{
 mutate(.data, ...)
 
-\method{mutate}{data.frame}(.data, ..., .remove = c("none", "used", "all"))
+\method{mutate}{data.frame}(.data, ..., .remove = c("none", "used", "unused", "all"))
 
 transmute(.data, ...)
 }
@@ -31,10 +31,16 @@ if ungrouped).
 
 \item{.remove}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
 This is an experimental argument that allows you to automatically remove
-columns from the output. The default, \code{"none"}, does not remove any
-variables. \code{"used"} will remove any variables that have been used in the
-computation of new variables, and \code{"all"} will remove all existing
-variables except for grouping keys (like \code{\link[=transmute]{transmute()}}).}
+columns from the output.
+\itemize{
+\item \code{"none"}, the default, does not remove any variables.
+\item \code{"used"} will remove any variables that have been used in the
+computation of new variables.
+\item \code{"unused"} will remove all variables not used in the computation;
+it's useful for checking your work.
+\item \code{"all"} will remove all existing variables, except for grouping keys
+(like \code{\link[=transmute]{transmute()}}).
+}}
 }
 \value{
 An object of the same type as \code{.data}.

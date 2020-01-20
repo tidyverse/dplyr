@@ -149,15 +149,20 @@ mutate <- function(.data, ...) {
 #' @rdname mutate
 #' @param .remove \Sexpr[results=rd]{lifecycle::badge("experimental")}
 #'   This is an experimental argument that allows you to automatically remove
-#'   columns from the output. The default, `"none"`, does not remove any
-#'   variables. `"used"` will remove any variables that have been used in the
-#'   computation of new variables, and `"all"` will remove all existing
-#'   variables except for grouping keys (like [transmute()]).
+#'   columns from the output.
+#'
+#'   * `"none"`, the default, does not remove any variables.
+#'   * `"used"` will remove any variables that have been used in the
+#'     computation of new variables.
+#'   * `"unused"` will remove all variables not used in the computation;
+#'     it's useful for checking your work.
+#'   * `"all"` will remove all existing variables, except for grouping keys
+#'     (like [transmute()]).
 #' @export
-mutate.data.frame <- function(.data, ..., .remove = c("none", "used", "all")) {
+mutate.data.frame <- function(.data, ..., .remove = c("none", "used", "unused", "all")) {
   remove <- arg_match(.remove)
 
-  cols <- mutate_cols(.data, ..., .track_usage = remove == "used")
+  cols <- mutate_cols(.data, ..., .track_usage = remove %in% c("used", "unused"))
   out <- dplyr_col_modify(.data, cols)
 
   if (remove == "none") {
@@ -165,6 +170,10 @@ mutate.data.frame <- function(.data, ..., .remove = c("none", "used", "all")) {
   } else if (remove == "used") {
     used <- names(.data)[attr(cols, "used")]
     keep <- setdiff(names(out), setdiff(used, names(cols)))
+    out[keep]
+  } else if (remove == "unused") {
+    used <- names(.data)[attr(cols, "used")]
+    keep <- union(used, names(cols))
     out[keep]
   } else if (remove == "all") {
     keep <- c(
