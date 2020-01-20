@@ -20,7 +20,7 @@
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param names How to name the result columns. This can use `{col}` to stand for
+#' @param names A glue specification that describes how to name the output columns. This can use `{col}` to stand for
 #'   the selected column name, and `{fn}` to stand for the name of the function
 #'   being applied. The default (`NULL`) is equivalent to `"{col}"` for the single
 #'   function case and `"{col}_{fn}"` for the case where a list is used for `fns`.
