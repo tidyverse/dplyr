@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Condense values into list-columns — condense • dplyr</title>
+<title>Argument type: data-masking — dplyr_data_masking • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,20 +47,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Condense values into list-columns — condense" />
-<meta property="og:description" content="
-condense() is an experimental variant of summarise() designed to make it
-as easy as possible to work with list-columns. It is particularly powerful when
-working with models: you can fit models per group with condense() and then
-flexibly extract components with summarise().
-It has three special properties:
-It only ever returns a single row per group.
-Each new column is always wrapped in a list.
-It returns a rowwise() output.
-
-
-It's hard to explain condense() in isolation, so if you find these ideas
-intriguing we recommend starting with vignette(&quot;rowwise&quot;)." />
+<meta property="og:title" content="Argument type: data-masking — dplyr_data_masking" />
+<meta property="og:description" content="This page the describes the &amp;lt;data-masking&amp;gt; argument modifier which
+indicates that the argument uses tidy evaluation with data masking.
+If you've never head of tidy evaluation before, start with
+vignette(&quot;programming&quot;)." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -197,115 +188,96 @@ intriguing we recommend starting with vignette(&quot;rowwise&quot;)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Condense values into list-columns</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/condense.r'><code>R/condense.r</code></a></small>
-    <div class="hidden name"><code>condense.Rd</code></div>
+    <h1>Argument type: data-masking</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/doc-params.R'><code>R/doc-params.R</code></a></small>
+    <div class="hidden name"><code>dplyr_data_masking.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
-<p><code>condense()</code> is an experimental variant of <code><a href='summarise.html'>summarise()</a></code> designed to make it
-as easy as possible to work with list-columns. It is particularly powerful when
-working with models: you can fit models per group with <code>condense()</code> and then
-flexibly extract components with <code><a href='summarise.html'>summarise()</a></code>.</p>
-<p>It has three special properties:</p><ul>
-<li><p>It only ever returns a single row per group.</p></li>
-<li><p>Each new column is always wrapped in a list.</p></li>
-<li><p>It returns a <code><a href='rowwise.html'>rowwise()</a></code> output.</p></li>
-</ul>
-
-<p>It's hard to explain <code>condense()</code> in isolation, so if you find these ideas
-intriguing we recommend starting with <code>vignette("rowwise")</code>.</p>
+    <p>This page the describes the <code>&lt;data-masking&gt;</code> argument modifier which
+indicates that the argument uses tidy evaluation with <strong>data masking</strong>.
+If you've never head of tidy evaluation before, start with
+<code><a href='../articles/programming.html'>vignette("programming")</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>condense</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>.data</th>
-      <td><p>A data frame, data frame extension (e.g. a tibble), or a
-lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
-more details.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Name-value pairs of
-functions. All outputs will be automatically wrapped in lists, making it
-most suitable for functions that that return non-vectors (e.g. linear
-models) or vectors of length greater than one.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A <a href='rowwise.html'>rowwise</a> object.</p><ul>
-<li><p>The rows and initial columns come from <code><a href='group_data.html'>group_data(.data)</a></code>.</p></li>
-<li><p>Each additional column that you provide will be wrapped in a list column.</p></li>
-<li><p>Output is grouped by row.</p></li>
-<li><p>Data frame attributes are <strong>not</strong> preserved, because <code>condense()</code>
-fundamentally creates a new data frame.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+    <h2 class="hasAnchor" id="key-terms"><a class="anchor" href="#key-terms"></a>Key terms</h2>
 
     
 
-<p>This function is a <strong>generic</strong>, which means that packages can provide
-implementations (methods) for other classes. See the documentation of
-individual methods for extra arguments and differences in behaviour.</p>
-<p>The following methods are currently available in loaded packages:
-dplyr (<code>data.frame</code>)
-.</p>
+<p>The primary motivation for tidy evaluation in dplyr is that it provides
+<strong>data masking</strong>, which blurs the distinction between two types of variables:</p><ul>
+<li><p><strong>env-variables</strong> are "programming" variables and live in an environment.
+They are usually created with <code>&lt;-</code>. Env-variables can be any type of R
+object.</p></li>
+<li><p><strong>data-variables</strong> are "statistical" variables and live in a data frame.
+They usually come from data files (e.g. <code>.csv</code>, <code>.xls</code>), or are created by
+manipulating existing variables. Data-variables live inside data frames,
+so must be vectors.</p></li>
+</ul>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Modelling ------------------------------------------------</span>
-<span class='no'>mods</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>condense</span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='across.html'>across</a></span>()))
-<span class='no'>mods</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt; # Rowwise:  cyl
-#&gt;     cyl mod   
-#&gt;   &lt;dbl&gt; &lt;list&gt;
-#&gt; 1     4 &lt;lm&gt;  
-#&gt; 2     6 &lt;lm&gt;  
-#&gt; 3     8 &lt;lm&gt;  </div><div class='input'>
-<span class='no'>mods</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt; # Rowwise:  cyl
-#&gt;     cyl mod       rsq
-#&gt;   &lt;dbl&gt; &lt;list&gt;  &lt;dbl&gt;
-#&gt; 1     4 &lt;lm&gt;   0.648 
-#&gt; 2     6 &lt;lm&gt;   0.0106
-#&gt; 3     8 &lt;lm&gt;   0.270 </div><div class='input'>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"broom"</span>)) {
-  <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>glance</a></span>(<span class='no'>mod</span>))
-  <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>tidy</a></span>(<span class='no'>mod</span>))
-  <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>augment</a></span>(<span class='no'>mod</span>))
-}</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: broom</span></div><div class='output co'>#&gt; # A tibble: 32 x 10
-#&gt; # Rowwise:  cyl
-#&gt;      cyl   mpg  disp .fitted .se.fit .resid   .hat .sigma .cooksd .std.resid
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
-#&gt;  1     4  22.8 108      26.3   0.855 -3.48  0.0920   2.70 0.0849     -1.29  
-#&gt;  2     4  24.4 147.     21.0   1.62   3.35  0.330    2.62 0.521       1.45  
-#&gt;  3     4  22.8 141.     21.8   1.46   0.956 0.267    2.96 0.0286      0.396 
-#&gt;  4     4  32.4  78.7    30.2   1.22   2.16  0.188    2.87 0.0838      0.852 
-#&gt;  5     4  30.4  75.7    30.6   1.29  -0.242 0.211    2.99 0.00125    -0.0965
-#&gt;  6     4  33.9  71.1    31.3   1.41   2.64  0.251    2.79 0.196       1.08  
-#&gt;  7     4  21.5 120.     24.6   0.984 -3.14  0.122    2.74 0.0982     -1.19  
-#&gt;  8     4  27.3  79      30.2   1.21  -2.90  0.186    2.77 0.148      -1.14  
-#&gt;  9     4  26   120.     24.6   0.988  1.39  0.123    2.94 0.0193      0.525 
-#&gt; 10     4  30.4  95.1    28.0   0.913  2.38  0.105    2.85 0.0466      0.892 
-#&gt; # … with 22 more rows</div></pre>
+    <h2 class="hasAnchor" id="general-usage"><a class="anchor" href="#general-usage"></a>General usage</h2>
+
+    
+
+<p>Data masking allows you to refer to variables in the "current" data frame
+(usually supplied in the <code>.data</code> argument), without any other prefix.
+It's what allows you to type (e.g.) <code>filter(diamonds, x == 0 &amp; y == 0 &amp; z == 0)</code>
+instead of <code>diamonds[diamonds$x == 0 &amp; diamonds$y == 0 &amp; diamonds$z == 0, ]</code>.</p>
+    <h2 class="hasAnchor" id="indirection"><a class="anchor" href="#indirection"></a>Indirection</h2>
+
+    
+
+<p>The main challenge of data masking arises when you introduce some
+indirection, i.e. instead of directly typing the name of a variable you
+want to supply it in a function argument or character vector.</p>
+<p>There are two main cases:</p><ul>
+<li><p>If you want the user to supply the variable (or function of variables)
+in a function argument, embrace the argument, e.g. <code><a href='filter.html'>filter(df, {{ var }})</a></code>.</p><pre>dist_summary &lt;- function(df, var) {
+  df %&gt;%
+    summarise(n = n(), min = min({{ var }}), max = max({{ var }}))
+}
+mtcars %&gt;% dist_summary(mpg)
+mtcars %&gt;% group_by(cyl) %&gt;% dist_summary(mpg)
+</pre></li>
+<li><p>If you have the column name as a character vector, use the <code>.data</code>
+pronoun, e.g. <code><a href='summarise.html'>summarise(df, mean = mean(.data[[var]]))</a></code>.</p><pre>for (var in names(mtcars)) {
+  mtcars %&gt;% count(.data[[var]]) %&gt;% print()
+}
+
+lapply(names(mtcars), function(var) mtcars %&gt;% count(.data[[var]]))
+</pre></li>
+</ul>
+
+    <h2 class="hasAnchor" id="dot-dot-dot-"><a class="anchor" href="#dot-dot-dot-"></a>Dot-dot-dot (...)</h2>
+
+    
+
+<p>When this modifier is applied to <code>...</code>, there is one other useful technique
+which solves the problem of creating a new variable with a name supplied
+by the user. Use <code>!!var := expression</code>. (Note the use of <code>:=</code> instead of
+<code>=</code>).</p><pre>var_name &lt;- "l100km"
+mtcars %&gt;% mutate(!!var_name := 235 / mpg)
+</pre>
+
+<p>Note that <code>...</code> automatically provides indirection, so you can use it as is
+(i.e. without embracing) inside a function:</p><pre>grouped_mean &lt;- function(df, var, ...) {
+  df %&gt;%
+    group_by(...) %&gt;%
+    summarise(mean = mean({{ var }}))
+}
+</pre>
+
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#key-terms">Key terms</a></li>
+      <li><a href="#general-usage">General usage</a></li>
+      <li><a href="#indirection">Indirection</a></li>
+      <li><a href="#dot-dot-dot-">Dot-dot-dot (...)</a></li>
     </ul>
 
   </div>

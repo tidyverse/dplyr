@@ -219,7 +219,7 @@ more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;<code><a href='dplyr_tidy_eval.html'>tidy-eval</a></code>&gt; Name-value pairs of summary
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Name-value pairs of summary
 functions. The name will be the name of the variable in the result.</p>
 <p>The value can be:</p><ul>
 <li><p>A vector of length 1, e.g. <code><a href='https://rdrr.io/r/base/Extremes.html'>min(x)</a></code>, <code><a href='context.html'>n()</a></code>, or <code><a href='https://rdrr.io/r/base/sum.html'>sum(is.na(y))</a></code>.</p></li>
@@ -352,7 +352,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <span class='fu'>summarise</span>(<span class='no'>starwars</span>, <span class='kw'>avg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.data</span><span class='kw'>[[</span><span class='no'>var</span>]], <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;     avg
 #&gt;   &lt;dbl&gt;
-#&gt; 1  97.3</div><div class='input'># Learn more in ?dplyr_tidy_eval
+#&gt; 1  97.3</div><div class='input'># Learn more in ?dplyr_data_masking
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

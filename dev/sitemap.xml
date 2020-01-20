@@ -91,10 +91,10 @@
     <loc>https://dplyr.tidyverse.org/reference/dplyr-package.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/reference/dplyr_extending.html</loc>
+    <loc>https://dplyr.tidyverse.org/reference/dplyr_data_masking.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/reference/dplyr_tidy_eval.html</loc>
+    <loc>https://dplyr.tidyverse.org/reference/dplyr_extending.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html</loc>
