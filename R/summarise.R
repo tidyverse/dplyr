@@ -209,7 +209,7 @@ summarise_cols <- function(.data, ...) {
     stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
   },
   vctrs_error_incompatible_type = function(e) {
-    stop_combine(conditionMessage(e), index = i, dots = dots, fn = "summarise")
+    stop_combine(e, index = i, dots = dots, fn = "summarise")
   },
   simpleError = function(e) {
     stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")

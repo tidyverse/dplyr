@@ -250,7 +250,7 @@ mutate_cols <- function(.data, ...) {
       stop_mutate_not_vector(index = i, dots = dots, result = e$result)
     },
     vctrs_error_incompatible_type = function(e) {
-      stop_combine(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+      stop_combine(e, index = i, dots = dots, fn = "mutate")
     },
     simpleError = function(e) {
       stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")

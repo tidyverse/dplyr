@@ -10,12 +10,15 @@ cur_group_label.data.frame <- function(data) {
   NULL
 }
 
-cur_group_label.grouped_df <- function(data) {
-  group <- cur_group_id()
-  keys <- cur_group()
-  details <- glue_collapse(map2_chr(keys, names(keys), function(x, name) {
+cur_group_labels_details <- function(keys) {
+  glue_collapse(map2_chr(keys, names(keys), function(x, name) {
     glue("{name} = {value}", value = format_v(x))
   }), ", ")
+}
+
+cur_group_label.grouped_df <- function(data) {
+  group <- cur_group_id()
+  details <- cur_group_labels_details(cur_group())
   c(i = glue("The error occured in group {group}: {details}."))
 }
 
@@ -45,15 +48,23 @@ stop_eval_tidy <- function(e, index, dots, fn) {
   ))
 }
 
+combine_details <- function(x, arg) {
+  group <- as.integer(sub("^..", "", arg))
+  keys <- group_keys(peek_mask()$full_data())[group, ]
+  details <- cur_group_labels_details(keys)
+  c(i = glue("Result type for group {group} ({details}) : <{vec_ptype_full(x)}>."))
+}
 
-stop_combine <- function(msg, index, dots, fn = "summarise") {
+stop_combine <- function(cnd, index, dots, fn = "summarise") {
+  msg <- conditionMessage(cnd)
   name <- arg_name(dots, index)
   expr <- as_label(quo_get_expr(dots[[index]]))
 
   abort(glue_c(
     "`{fn}()` argument `{name}` must return compatible vectors across groups.",
     i = "`{name}` is {expr}",
-    x = "Error from vec_c() : {msg}."
+    combine_details(cnd$x, cnd$x_arg),
+    combine_details(cnd$y, cnd$y_arg)
   ))
 }
 
