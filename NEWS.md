@@ -56,9 +56,9 @@
 * `add_count(drop = )` is deprecated because it didn't actually affect
   the output.
 
-* `full_join()` gains keep argument so that you can optionally choose to 
-  keep both sets of join keys (#4589). This is useful when you want to
-  figure out which rows were missing from either side.
+* `left_join()`, `right_join()`, and `full_join()` gain a `keep` argument so
+  that you can optionally choose to keep both sets of join keys (#4589). This is
+  useful when you want to figure out which rows were missing from either side.
 
 * Join functions can now perform a cross-join by specifying `by = character()`
   (#4206.)
