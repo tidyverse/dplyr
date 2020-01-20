@@ -46,7 +46,7 @@ cnd_bullet_current_expression <- function() {
 }
 
 or_1 <- function(x) {
-  should_be <- if(x == 1L) {
+  if(x == 1L) {
     "1"
   } else {
     glue("{x} or 1")
@@ -125,7 +125,7 @@ stop_filter_incompatible_size <- function(index_expression, size, expected_size)
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect.",
     cnd_bullet_cur_group_label(),
-    x = "It must be of size {expected_size} or 1, not size {size}."
+    x = "It must be of size {or_1(expected_size)}, not size {size}."
   ))
 }
 
@@ -158,7 +158,7 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
   }
 
   stop_dplyr(index, dots, "summarise", "must be a vector",
-    x = "Result should be a vector, not {as_friendly_type(typeof(result))}."
+    x = "`{error_name}` must be a vector, not {as_friendly_type(typeof(result))}."
   )
 }
 
@@ -184,7 +184,7 @@ stop_mutate_not_vector <- function(result, index, dots) {
   }
 
   stop_dplyr(index, dots, "mutate", "must be a vector",
-    x = "Result should be a vector, not {as_friendly_type(typeof(result))}."
+    x = "`{error_name}` must be a vector, not {as_friendly_type(typeof(result))}."
   )
 }
 
@@ -192,8 +192,8 @@ stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
   peek_mask()$set_current_group(as.numeric(sub("^[.][.]", "", cnd$x_arg)))
 
   stop_dplyr(index, dots, "mutate", "must be recyclable",
-    x = "`{error_name}` is size {cnd$x_size}, it can't be recycled to size {cnd$size}",
-    i = "`{error_name}` should be size {or_1(cnd$size)}"
+    x = "`{error_name}` can't be recycled to size {cnd$size}.",
+    i = "`{error_name}` must be size {or_1(cnd$size)}, not {cnd$x_size}."
   )
 }
 
@@ -207,7 +207,7 @@ stop_summarise_incompatible_size <- function(size, group, index, expected_sizes,
   peek_mask()$set_current_group(group)
 
   stop_dplyr(index, dots, "summarise", "must be recyclable",
-    x = "Result should be size {or_1(expected_sizes[group])}, not {size}.",
+    x = "`{error_name}` must be size {or_1(expected_sizes[group])}, not {size}.",
     i = "An earlier column had size {expected_sizes[group]}."
   )
 

@@ -21,7 +21,7 @@ incompatible column type
 > tibble(x = 1) %>% mutate(y = mean)
 Error: `mutate()` argument `y` must be a vector.
 i `y` is `mean`.
-x Result should be a vector, not a function.
+x `y` must be a vector, not a function.
 
 
 Unsupported type
@@ -31,13 +31,13 @@ Unsupported type
 > df %>% mutate(out = env(a = 1))
 Error: `mutate()` argument `out` must be a vector.
 i `out` is `env(a = 1)`.
-x Result should be a vector, not an environment.
+x `out` must be a vector, not an environment.
 
 > df %>% group_by(g) %>% mutate(out = env(a = 1))
 Error: `mutate()` argument `out` must be a vector.
 i `out` is `env(a = 1)`.
 i The error occured in group 1: g = 1.
-x Result should be a vector, not an environment.
+x `out` must be a vector, not an environment.
 
 
 incompatible types across groups
@@ -62,15 +62,15 @@ incompatible size
 > data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)
 Error: `mutate()` argument `int` must be recyclable.
 i `int` is `1:5`.
-x `int` is size 5, it can't be recycled to size 4
-i `int` should be size 4 or 1
+x `int` can't be recycled to size 4.
+i `int` must be size 4 or 1, not 5.
 
 > data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)
 Error: `mutate()` argument `int` must be recyclable.
 i `int` is `1:5`.
-i The error occured in group 2: x = 3.
-x `int` is size 5, it can't be recycled to size 2
-i `int` should be size 2 or 1
+i The error occured in group 1: x = 2.
+x `int` can't be recycled to size 2.
+i `int` must be size 2 or 1, not 5.
 
 
 .data pronoun
