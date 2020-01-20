@@ -211,7 +211,10 @@ mutate_cols <- function(.data, ...) {
 
       if (needs_recycle) {
         chunks <- pmap(list(seq_along(chunks), chunks, rows_lengths), function(i, chunk, n) {
-          vec_recycle(chunk, n, x_arg = paste0("..", i))
+          # set the group so that stop_mutate_recycle_incompatible_size() correctly
+          # identifies it, otherwise it would always report the last group
+          mask$set_current_group(i)
+          vec_recycle(chunk, n)
         })
       }
       result <- vec_slice(vec_c(!!!chunks), o_rows)

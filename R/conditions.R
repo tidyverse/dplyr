@@ -170,8 +170,6 @@ stop_mutate_not_vector <- function(result, index, dots) {
 }
 
 stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
-  peek_mask()$set_current_group(as.numeric(sub("^[.][.]", "", cnd$x_arg)))
-
   stop_dplyr(index, dots, "mutate", "must be recyclable",
     x = "`{error_name}` can't be recycled to size {cnd$size}.",
     i = "`{error_name}` must be size {or_1(cnd$size)}, not {cnd$x_size}."
