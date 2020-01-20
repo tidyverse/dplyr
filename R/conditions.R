@@ -42,7 +42,7 @@ cnd_problem <- function(fn, what) {
 }
 
 cnd_bullet_current_expression <- function() {
-  c(i = glue("`{error_name}` is {error_expression}", .envir = context_env))
+  c(i = glue("`{error_name}` is `{error_expression}`.", .envir = context_env))
 }
 
 or_1 <- function(x) {

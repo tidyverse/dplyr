@@ -4,13 +4,13 @@ unsupported type
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = env(a = 1))
 Error: `summarise()` argument `a` must be a vector.
-i `a` is env(a = 1)
+i `a` is `env(a = 1)`.
 x Result should be a vector, not an environment.
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = env(
 +   a = 1))
 Error: `summarise()` argument `a` must be a vector.
-i `a` is env(a = 1)
+i `a` is `env(a = 1)`.
 i The error occured in group 1: x = 1, y = 1.
 x Result should be a vector, not an environment.
 
@@ -20,13 +20,13 @@ mixed types
 
 > tibble(id = 1:2, a = list(1, "2")) %>% group_by(id) %>% summarise(a = a[[1]])
 Error: `summarise()` argument `a` must return compatible vectors across groups.
-i `a` is a[[1]]
+i `a` is `a[[1]]`.
 i Result type for group 1 (id = 1) : <double>.
 i Result type for group 2 (id = 2) : <character>.
 
 > tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[1]])
 Error: `summarise()` argument `a` must return compatible vectors across groups.
-i `a` is a[[1]]
+i `a` is `a[[1]]`.
 
 
 incompatible size
@@ -34,20 +34,20 @@ incompatible size
 
 > tibble(z = 1) %>% summarise(x = 1:3, y = 1:2)
 Error: `summarise()` argument `y` must be recyclable.
-i `y` is 1:2
+i `y` is `1:2`.
 x Result should be size 3 or 1, not 2.
 i An earlier column had size 3.
 
 > tibble(z = 1:2) %>% group_by(z) %>% summarise(x = 1:3, y = 1:2)
 Error: `summarise()` argument `y` must be recyclable.
-i `y` is 1:2
+i `y` is `1:2`.
 i The error occured in group 1: z = 1.
 x Result should be size 3 or 1, not 2.
 i An earlier column had size 3.
 
 > tibble(z = 2:1) %>% group_by(z) %>% summarise(x = seq_len(z), y = 1:2)
 Error: `summarise()` argument `y` must be recyclable.
-i `y` is 1:2
+i `y` is `1:2`.
 i The error occured in group 1: z = 1.
 x Result should be size 1, not 2.
 i An earlier column had size 1.
@@ -58,12 +58,12 @@ Missing variable
 
 > summarise(mtcars, a = mean(not_there))
 Error: `summarise()` argument `a` errored.
-i `a` is mean(not_there)
+i `a` is `mean(not_there)`.
 x object 'not_there' not found
 
 > summarise(group_by(mtcars, cyl), a = mean(not_there))
 Error: `summarise()` argument `a` errored.
-i `a` is mean(not_there)
+i `a` is `mean(not_there)`.
 i The error occured in group 1: cyl = 4.
 x object 'not_there' not found
 
@@ -73,12 +73,12 @@ x object 'not_there' not found
 
 > summarise(tibble(a = 1), c = .data$b)
 Error: `summarise()` argument `c` errored.
-i `c` is .data$b
+i `c` is `.data$b`.
 x Column `b` not found in `.data`
 
 > summarise(group_by(tibble(a = 1:3), a), c = .data$b)
 Error: `summarise()` argument `c` errored.
-i `c` is .data$b
+i `c` is `.data$b`.
 i The error occured in group 1: a = 1.
 x Column `b` not found in `.data`
 
