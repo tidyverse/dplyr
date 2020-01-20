@@ -68,13 +68,18 @@ set_error_context <- function(index, dots, .dot_data = FALSE) {
 
 stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE) {
   set_error_context(.index, dots, .dot_data = .dot_data)
+  envir <- env(
+    error_name = context_peek("error_name"), error_expression = context_peek("error_expression"),
+    caller_env()
+  )
+
   abort(glue_c(
     cnd_problem(fn, problem),
     cnd_bullet_current_expression(),
     if(.show_group_details) cnd_bullet_cur_group_label(),
     ...,
 
-    .envir = caller_env()
+    .envir = envir
   ))
 }
 
@@ -184,8 +189,11 @@ stop_mutate_not_vector <- function(result, index, dots) {
 }
 
 stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
+  peek_mask()$set_current_group(as.numeric(sub("^[.][.]", "", cnd$x_arg)))
+
   stop_dplyr(index, dots, "mutate", "must be recyclable",
-    x = conditionMessage(cnd)
+    x = "`{error_name}` is size {cnd$x_size}, it can't be recycled to size {cnd$size}",
+    i = "`{error_name}` should be size {or_1(cnd$size)}"
   )
 }
 

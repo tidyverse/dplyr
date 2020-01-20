@@ -210,8 +210,8 @@ mutate_cols <- function(.data, ...) {
       }
 
       if (needs_recycle) {
-        chunks <- map2(chunks, rows_lengths, function(chunk, n) {
-          vec_recycle(chunk, n)
+        chunks <- pmap(list(seq_along(chunks), chunks, rows_lengths), function(i, chunk, n) {
+          vec_recycle(chunk, n, x_arg = paste0("..", i))
         })
       }
       result <- vec_slice(vec_c(!!!chunks), o_rows)
