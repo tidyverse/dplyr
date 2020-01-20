@@ -36,8 +36,8 @@ x Result should be a vector, not an environment.
 > df %>% group_by(g) %>% mutate(out = env(a = 1))
 Error: `mutate()` argument `out` must be a vector.
 i `out` is env(a = 1)
-x Result should be a vector, not an environment.
 i The error occured in group 1: g = 1.
+x Result should be a vector, not an environment.
 
 
 incompatible types across groups
@@ -68,9 +68,9 @@ x It must be size 4 or 1, not 5.
 > data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)
 Error: `mutate()` argument `int` must be recyclable.
 i `int` is 1:5
+i The error occured in group 2: x = 3.
 x `x` can't be recycled to size 2.
 x It must be size 2 or 1, not 5.
-i The error occured in group 2: x = 3.
 
 
 .data pronoun
