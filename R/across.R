@@ -73,50 +73,49 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
   data <- mask$pick(names(vars))
 
   if (is.null(fns)) {
-    data
-  } else if (is.function(fns) || is_formula(fns)) {
-    fns <- as_function(fns)
-    cols <- imap(data, function(.x, .y) {
-      local_column(.y)
-      fns(.x)
-    })
-    if (!is.null(names)) {
-      names(cols) <- glue(names, col = names(data),
-        fn = abort("{fn} cannot be used in the single function case", class = "dplyr_error_across")
-      )
-    }
-    as_tibble(cols)
-  } else if (is.list(fns)) {
-    # make sure fns has names, use number to replace unnamed
-    if (is.null(names(fns))) {
-      names_fns <- seq_along(fns)
-    } else {
-      names_fns <- names(fns)
-      empties <- which(names_fns == "")
-      if (length(empties)) {
-        names_fns[empties] <- empties
-      }
-    }
-    fns <- map(fns, as_function)
+    return(data)
+  }
 
+  if (is.function(fns) || is_formula(fns)) {
     if (is.null(names)) {
-      names <- "{col}_{fn}"
+      names <- "{col}"
     }
+    fns <- list("1" = fns)
+  }
 
-    cols <- list()
-    names_cols <- names(data)
-    for (i in seq_along(data)) {
-      data_i <- data[[i]]
-      name_i <- names_cols[i]
-      res <- map(fns, function(f) {
-        local_column(name_i)
-        f(data_i)
-      })
-      names(res) <- glue(names, col = names_cols[i], fn = names_fns)
-      cols <- append(cols, res)
-    }
-    as_tibble(cols)
-  } else {
+  if (!is.list(fns)) {
     abort("`fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
   }
+
+  # make sure fns has names, use number to replace unnamed
+  if (is.null(names(fns))) {
+    names_fns <- seq_along(fns)
+  } else {
+    names_fns <- names(fns)
+    empties <- which(names_fns == "")
+    if (length(empties)) {
+      names_fns[empties] <- empties
+    }
+  }
+  fns <- map(fns, as_function)
+
+  # set default for names if still NULL
+  if (is.null(names)) {
+    names <- "{col}_{fn}"
+  }
+
+  # main loop
+  cols <- list()
+  names_cols <- names(data)
+  for (i in seq_along(data)) {
+    data_i <- data[[i]]
+    name_i <- names_cols[i]
+    res <- map(fns, function(f) {
+      local_column(name_i)
+      f(data_i)
+    })
+    names(res) <- glue(names, col = names_cols[i], fn = names_fns)
+    cols <- append(cols, res)
+  }
+  as_tibble(cols)
 }
