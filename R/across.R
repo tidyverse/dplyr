@@ -50,7 +50,7 @@
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 #'
-#' # Using the names argument to control how the output columns are named
+#' # Use the names argument to control the output names
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), mean, names = "mean_{col}"))
