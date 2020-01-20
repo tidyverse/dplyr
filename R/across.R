@@ -54,7 +54,7 @@
 #'   summarise(across(starts_with("Sepal"), mean, names = "mean_{col}"))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), names = "{col}.{fn}")
+#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), names = "{col}.{fn}"))
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
