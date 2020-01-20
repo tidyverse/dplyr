@@ -27,9 +27,5 @@ format_v.character <- function(x) encodeString(x, quote = '"')
 
 #' @export
 format_v.factor <- function(x) {
-  if (any(grepl(",", x, fixed = TRUE))) {
-    encodeString(as.character(x), quote = '"')
-  } else {
-    format(x, trim = TRUE, justify = "none")
-  }
+  format_v(as.character(x))
 }

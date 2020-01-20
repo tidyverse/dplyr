@@ -4,7 +4,7 @@ wrong type
 
 > iris %>% group_by(Species) %>% filter(1:n())
 Error: `filter()` argument `..1` is incorrect.
-i The error occured in group 1: Species = setosa.
+i The error occured in group 1: Species = "setosa".
 x `..1` must be a logical vector, not a integer.
 
 > iris %>% filter(1:n())
@@ -17,7 +17,7 @@ wrong size
 
 > iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))
 Error: `filter()` argument `..1` is incorrect.
-i The error occured in group 1: Species = setosa.
+i The error occured in group 1: Species = "setosa".
 x It must be of size 50 or 1, not size 2.
 
 > iris %>% filter(c(TRUE, FALSE))
@@ -30,7 +30,7 @@ wrong size in column
 
 > iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE)))
 Error: `filter()` argument `..1` is incorrect.
-i The error occured in group 1: Species = setosa.
+i The error occured in group 1: Species = "setosa".
 x It must be of size 50 or 1, not size 2.
 
 > iris %>% filter(data.frame(c(TRUE, FALSE)))
@@ -43,7 +43,7 @@ wrong type in column
 
 > iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, 1:n()))
 Error: `filter()` argument `..1$X1.n..` is incorrect.
-i The error occured in group 1: Species = setosa.
+i The error occured in group 1: Species = "setosa".
 x `..1$X1.n..` must be a logical vector, not a integer.
 
 > iris %>% filter(data.frame(Sepal.Length > 3, 1:n()))
