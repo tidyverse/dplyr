@@ -1,5 +1,8 @@
 glue_c <- function(..., .envir = caller_env()) {
-  map_chr(vec_c(...), glue, .envir = .envir)
+  dots <- list2(...)
+  dots <- dots[!map_lgl(dots, is.null)]
+  dots <- map(dots, function(txt) set_names(as.character(glue(txt, .envir = .envir)), names(txt)))
+  vec_c(!!!dots)
 }
 
 cur_group_label <- function(data) {
@@ -34,17 +37,42 @@ arg_name <- function(quos, index) {
   name
 }
 
+cnd_problem <- function(fn, what) {
+  glue("`{fn}()` argument `{name}` {what}.", name = context_peek("error_name"))
+}
+
+cnd_bullet_current_expression <- function() {
+  c(i = glue("`{error_name}` is {error_expression}", .envir = context_env))
+}
+
+or_1 <- function(x) {
+  should_be <- if(x == 1L) {
+    "1"
+  } else {
+    glue("{x} or 1")
+  }
+}
+
+set_error_context <- function(index, dots, .dot_data = FALSE) {
+  expr  <- if (.dot_data) {
+    deparse(quo_get_expr(dots[[index]]))
+  } else{
+    as_label(quo_get_expr(dots[[index]]))
+  }
+  name  <- arg_name(dots, index)
+  context_poke("error_name", name)
+  context_poke("error_expression", expr)
+}
+
 # Common ------------------------------------------------------------------
 
 stop_eval_tidy <- function(e, index, dots, fn) {
-  expr  <- as_label(quo_get_expr(dots[[index]]))
-  name  <- arg_name(dots, index)
-
+  set_error_context(index, dots)
   abort(glue_c(
-    "`{fn}()` argument `{name}` errored.",
-    i = "`{name}` is {expr}",
-    x = conditionMessage(e),
-    cnd_bullet_cur_group_label()
+    cnd_problem(fn, "errored"),
+    cnd_bullet_current_expression(),
+    cnd_bullet_cur_group_label(),
+    x = conditionMessage(e)
   ))
 }
 
@@ -56,26 +84,20 @@ combine_details <- function(x, arg) {
 }
 
 stop_combine <- function(cnd, index, dots, fn = "summarise") {
-  msg <- conditionMessage(cnd)
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
-
+  set_error_context(index, dots)
   abort(glue_c(
-    "`{fn}()` argument `{name}` must return compatible vectors across groups.",
-    i = "`{name}` is {expr}",
+    cnd_problem(fn, "must return compatible vectors across groups"),
+    cnd_bullet_current_expression(),
     combine_details(cnd$x, cnd$x_arg),
     combine_details(cnd$y, cnd$y_arg)
   ))
 }
 
 stop_error_data_pronoun_not_found <- function(msg, index, dots, fn = "summarise") {
-  name <- arg_name(dots, index)
-  # this instead of as_label() because it eats the ".data$"
-  expr <- deparse(quo_get_expr(dots[[index]]))
-
+  set_error_context(index, dots, .dot_data = TRUE)
   abort(glue_c(
-    "`{fn}()` argument `{name}` errored.",
-    i = "`{name}` is {expr}",
+    cnd_problem(fn, "errored"),
+    cnd_bullet_current_expression(),
     cnd_bullet_cur_group_label(),
     x = msg
   ))
@@ -97,8 +119,8 @@ err_vars <- function(x) {
 stop_filter_incompatible_size <- function(index_expression, size, expected_size) {
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect.",
-    x = "It must be of size {expected_size} or 1, not size {size}.",
-    cnd_bullet_cur_group_label()
+    cnd_bullet_cur_group_label(),
+    x = "It must be of size {expected_size} or 1, not size {size}."
   ))
 }
 
@@ -130,13 +152,11 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
     abort(class = "dplyr_summarise_unsupported_type", result = result)
   }
 
-  expr  <- as_label(quo_get_expr(dots[[index]]))
-  name  <- arg_name(dots, index)
-
   # called again with context
+  set_error_context(index, dots)
   abort(glue_c(
-    "`summarise()` argument `{name}` must be a vector.",
-    i = "`{name}` is {expr}",
+    cnd_problem("summarise", "must be a vector"),
+    cnd_bullet_current_expression(),
     cnd_bullet_cur_group_label(),
     x = "Result should be a vector, not {as_friendly_type(typeof(result))}."
   ))
@@ -151,12 +171,10 @@ stop_mutate_mixed_NULL <- function(index, dots) {
     abort(class = "dplyr_mutate_mixed_NULL")
   }
 
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
-
+  set_error_context(index, dots)
   abort(glue_c(
-    "`mutate()` argument `{name}` must return compatible vectors across groups.",
-    i = "`{name}` is {expr}",
+    cnd_problem("mutate", "must return compatible vectors across groups"),
+    cnd_bullet_current_expression(),
     i = "Cannot combine NULL and non NULL results."
   ))
 }
@@ -168,24 +186,20 @@ stop_mutate_not_vector <- function(result, index, dots) {
     abort(class = "dplyr_mutate_not_vector", result = result)
   }
 
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
-
+  set_error_context(index, dots)
   abort(glue_c(
-    "`mutate()` argument `{name}` must be a vector.",
-    i = "`{name}` is {expr}.",
+    cnd_problem("mutate", "must be a vector"),
+    cnd_bullet_current_expression(),
     x = "Result should be a vector, not {as_friendly_type(typeof(result))}.",
     cnd_bullet_cur_group_label()
   ))
 }
 
 stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
-
+  set_error_context(index, dots)
   abort(glue_c(
-    "`mutate()` argument `{name}` must be recyclable.",
-    i = "`{name}` is {expr}",
+    cnd_problem("mutate", "must be recyclable"),
+    cnd_bullet_current_expression(),
     x = conditionMessage(cnd),
     cnd_bullet_cur_group_label()
   ))
@@ -197,24 +211,15 @@ stop_summarise_incompatible_size <- function(size, group, index, expected_sizes,
     abort(class = "dplyr_summarise_incompatible_size", size = size, group = group)
   }
 
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
-
   # called again with context
-
-  should_be <- if(expected_sizes[group] == 1L) {
-    "1"
-  } else {
-    glue("{expected_sizes[group]} or 1")
-  }
+  set_error_context(index, dots)
 
   # so that cnd_bullet_cur_group_label() correctly reports the faulty group
   peek_mask()$set_current_group(group)
-
   abort(glue_c(
-    "`summarise()` argument `{name}` must be recyclable.",
-    i = "`{name}` is {expr}",
-    x = "Result should be size {should_be}, not {size}.",
+    cnd_problem("summarise", "must be recyclable"),
+    cnd_bullet_current_expression(),
+    x = "Result should be size {or_1(expected_sizes[group])}, not {size}.",
     i = "An earlier column had size {expected_sizes[group]}.",
     cnd_bullet_cur_group_label()
   ))

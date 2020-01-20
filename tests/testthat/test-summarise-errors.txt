@@ -64,8 +64,8 @@ x object 'not_there' not found
 > summarise(group_by(mtcars, cyl), a = mean(not_there))
 Error: `summarise()` argument `a` errored.
 i `a` is mean(not_there)
-x object 'not_there' not found
 i The error occured in group 1: cyl = 4.
+x object 'not_there' not found
 
 
 .data pronoun

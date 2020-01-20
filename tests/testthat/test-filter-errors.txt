@@ -17,8 +17,8 @@ wrong size
 
 > iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))
 Error: `filter()` argument `..1` is incorrect.
-x It must be of size 50 or 1, not size 2.
 i The error occured in group 1: Species = setosa.
+x It must be of size 50 or 1, not size 2.
 
 > iris %>% filter(c(TRUE, FALSE))
 Error: `filter()` argument `..1` is incorrect.
@@ -30,8 +30,8 @@ wrong size in column
 
 > iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE)))
 Error: `filter()` argument `..1` is incorrect.
-x It must be of size 50 or 1, not size 2.
 i The error occured in group 1: Species = setosa.
+x It must be of size 50 or 1, not size 2.
 
 > iris %>% filter(data.frame(c(TRUE, FALSE)))
 Error: `filter()` argument `..1` is incorrect.
@@ -62,8 +62,8 @@ x object '_x' not found
 > mtcars %>% group_by(cyl) %>% filter(`_x`)
 Error: `filter()` argument `..1` errored.
 i `..1` is _x
-x object '_x' not found
 i The error occured in group 1: cyl = 4.
+x object '_x' not found
 
 
 named inputs

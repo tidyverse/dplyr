@@ -11,8 +11,8 @@ x object 'y' not found
 > tbl %>% group_by(x) %>% mutate(y = NULL, a = sum(y))
 Error: `mutate()` argument `a` errored.
 i `a` is sum(y)
-x object 'y' not found
 i The error occured in group 1: x = 1.
+x object 'y' not found
 
 
 incompatible column type
@@ -20,7 +20,7 @@ incompatible column type
 
 > tibble(x = 1) %>% mutate(y = mean)
 Error: `mutate()` argument `y` must be a vector.
-i `y` is mean.
+i `y` is mean
 x Result should be a vector, not a function.
 
 
@@ -30,12 +30,12 @@ Unsupported type
 > df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
 > df %>% mutate(out = env(a = 1))
 Error: `mutate()` argument `out` must be a vector.
-i `out` is env(a = 1).
+i `out` is env(a = 1)
 x Result should be a vector, not an environment.
 
 > df %>% group_by(g) %>% mutate(out = env(a = 1))
 Error: `mutate()` argument `out` must be a vector.
-i `out` is env(a = 1).
+i `out` is env(a = 1)
 x Result should be a vector, not an environment.
 i The error occured in group 1: g = 1.
 
