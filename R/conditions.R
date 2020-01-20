@@ -2,30 +2,6 @@ glue_c <- function(..., .envir = caller_env()) {
   map_chr(vec_c(..., .ptype = character()), glue, .envir = .envir)
 }
 
-cur_group_label <- function(data) {
-  UseMethod("cur_group_label")
-}
-
-cur_group_label.data.frame <- function(data) {
-  NULL
-}
-
-cur_group_labels_details <- function(keys) {
-  glue_collapse(map2_chr(keys, names(keys), function(x, name) {
-    glue("{name} = {value}", value = format_v(x))
-  }), ", ")
-}
-
-cur_group_label.grouped_df <- function(data) {
-  group <- cur_group_id()
-  details <- cur_group_labels_details(cur_group())
-  c(i = glue("The error occured in group {group}: {details}."))
-}
-
-cnd_bullet_cur_group_label <- function() {
-  cur_group_label(peek_mask()$full_data())
-}
-
 arg_name <- function(quos, index) {
   name  <- names(quos)[index]
   if (name == "") {
@@ -40,6 +16,13 @@ cnd_problem <- function(fn, what) {
 
 cnd_bullet_current_expression <- function() {
   c(i = glue("`{error_name}` is `{error_expression}`.", .envir = context_env))
+}
+
+cnd_bullet_cur_group_label <- function() {
+  label <- cur_group_label()
+  if (label != "") {
+    c(i = glue("The error occured in {label}."))
+  }
 }
 
 or_1 <- function(x) {
@@ -89,7 +72,7 @@ stop_eval_tidy <- function(e, index, dots, fn) {
 combine_details <- function(x, arg) {
   group <- as.integer(sub("^..", "", arg))
   keys <- group_keys(peek_mask()$full_data())[group, ]
-  details <- cur_group_labels_details(keys)
+  details <- group_labels_details(keys)
   c(i = glue("Result type for group {group} ({details}) : <{vec_ptype_full(x)}>."))
 }
 
@@ -127,14 +110,15 @@ stop_filter_incompatible_size <- function(index_expression, size, expected_size)
 }
 
 stop_filter_incompatible_type <- function(index_expression, index_column_name, result) {
+  arg_name <- if (!is.null(index_column_name)) {
+    glue("..{index_expression}${index_column_name}")
+  } else {
+    glue("..{index_expression}")
+  }
   abort(glue_c(
-    if (!is.null(index_column_name)) {
-      "`filter()` argument `..{index_expression}${index_column_name}` is incorrect."
-    } else {
-      "`filter()` argument `..{index_expression}` is incorrect."
-    },
-    x = "It must be a logical vector, not a {vec_ptype_full(result)}.",
-    cnd_bullet_cur_group_label()
+    "`filter()` argument `{arg_name}` is incorrect.",
+    cnd_bullet_cur_group_label(),
+    x = "`{arg_name}` must be a logical vector, not a {vec_ptype_full(result)}."
   ))
 }
 
