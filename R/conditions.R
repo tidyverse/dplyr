@@ -170,9 +170,13 @@ stop_mutate_not_vector <- function(result, index, dots) {
 }
 
 stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
+  data <- peek_mask()$full_data()
   stop_dplyr(index, dots, "mutate", "must be recyclable",
     x = "`{error_name}` can't be recycled to size {cnd$size}.",
-    i = "`{error_name}` must be size {or_1(cnd$size)}, not {cnd$x_size}."
+    i = "`{error_name}` must be size {or_1(cnd$size)}, not {cnd$x_size}.",
+    if (inherits(data, "rowwise_df")) {
+      c(i = "Did you mean: `{error_name} = list({error_expression})` ?")
+    }
   )
 }
 

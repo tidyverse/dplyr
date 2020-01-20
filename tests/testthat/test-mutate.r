@@ -283,6 +283,9 @@ test_that("mutate() give meaningful errors", {
     data.frame(x = c(2, 3, 3)) %>%
       group_by(x) %>%
       mutate(int = 1:5)
+    data.frame(x = c(2, 2, 3, 3)) %>%
+      rowwise() %>%
+      mutate(int = 1:5)
 
     "# .data pronoun"
     tibble(a = 1) %>%
