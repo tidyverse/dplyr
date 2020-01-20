@@ -105,7 +105,7 @@ stop_filter_incompatible_size <- function(index_expression, size, expected_size)
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect.",
     cnd_bullet_cur_group_label(),
-    x = "It must be of size {or_1(expected_size)}, not size {size}."
+    x = "`..{index_expression}` must be of size {or_1(expected_size)}, not size {size}."
   ))
 }
 

@@ -18,11 +18,16 @@ wrong size
 > iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))
 Error: `filter()` argument `..1` is incorrect.
 i The error occured in group 1: Species = "setosa".
-x It must be of size 50 or 1, not size 2.
+x `..1` must be of size 50 or 1, not size 2.
+
+> iris %>% rowwise(Species) %>% filter(c(TRUE, FALSE))
+Error: `filter()` argument `..1` is incorrect.
+i The error occured in row 1.
+x `..1` must be of size 1, not size 2.
 
 > iris %>% filter(c(TRUE, FALSE))
 Error: `filter()` argument `..1` is incorrect.
-x It must be of size 150 or 1, not size 2.
+x `..1` must be of size 150 or 1, not size 2.
 
 
 wrong size in column
@@ -31,15 +36,20 @@ wrong size in column
 > iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE)))
 Error: `filter()` argument `..1` is incorrect.
 i The error occured in group 1: Species = "setosa".
-x It must be of size 50 or 1, not size 2.
+x `..1` must be of size 50 or 1, not size 2.
+
+> iris %>% rowwise() %>% filter(data.frame(c(TRUE, FALSE)))
+Error: `filter()` argument `..1` is incorrect.
+i The error occured in row 1.
+x `..1` must be of size 1, not size 2.
 
 > iris %>% filter(data.frame(c(TRUE, FALSE)))
 Error: `filter()` argument `..1` is incorrect.
-x It must be of size 150 or 1, not size 2.
+x `..1` must be of size 150 or 1, not size 2.
 
 > tibble(x = 1) %>% filter(c(TRUE, TRUE))
 Error: `filter()` argument `..1` is incorrect.
-x It must be of size 1, not size 2.
+x `..1` must be of size 1, not size 2.
 
 
 wrong type in column

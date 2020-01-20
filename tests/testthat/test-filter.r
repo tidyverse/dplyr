@@ -413,11 +413,17 @@ test_that("filter() gives useful error messages", {
       group_by(Species) %>%
       filter(c(TRUE, FALSE))
     iris %>%
+      rowwise(Species) %>%
+      filter(c(TRUE, FALSE))
+    iris %>%
       filter(c(TRUE, FALSE))
 
     "# wrong size in column"
     iris %>%
       group_by(Species) %>%
+      filter(data.frame(c(TRUE, FALSE)))
+    iris %>%
+      rowwise() %>%
       filter(data.frame(c(TRUE, FALSE)))
     iris %>%
       filter(data.frame(c(TRUE, FALSE)))
