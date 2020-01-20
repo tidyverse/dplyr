@@ -225,7 +225,15 @@ matches are returned.</p>
   <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )
 
-<span class='fu'>left_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='no'>...</span>)
+<span class='fu'>left_join</span>(
+  <span class='no'>x</span>,
+  <span class='no'>y</span>,
+  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='no'>...</span>,
+  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>left_join</span>(
@@ -235,10 +243,19 @@ matches are returned.</p>
   <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
   <span class='no'>...</span>,
+  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )
 
-<span class='fu'>right_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='no'>...</span>)
+<span class='fu'>right_join</span>(
+  <span class='no'>x</span>,
+  <span class='no'>y</span>,
+  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='no'>...</span>,
+  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>right_join</span>(
@@ -248,6 +265,7 @@ matches are returned.</p>
   <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
   <span class='no'>...</span>,
+  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )
 
@@ -320,8 +338,9 @@ like <code>%in%</code>, <code><a href='https://rdrr.io/r/base/match.html'>match(
     </tr>
     <tr>
       <th>keep</th>
-      <td><p>Should the join keys from <code>y</code> be preserved in the output?
-Only applies to <code><a href='nest_join.html'>nest_join()</a></code> and <code>full_join()</code>.</p></td>
+      <td><p>Should the join keys from both <code>x</code> and <code>y</code> be preserved in the
+output? Only applies to <code><a href='nest_join.html'>nest_join()</a></code>, <code>left_join()</code>, <code>right_join()</code>, and
+<code>full_join()</code>.</p></td>
     </tr>
     </table>
 
@@ -403,8 +422,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; 1 Mick  Stones  &lt;NA&gt;  
 #&gt; 2 John  Beatles guitar
 #&gt; 3 Paul  Beatles bass  
-#&gt; 4 Keith &lt;NA&gt;    guitar</div><div class='input'><span class='co'># By default only the join keys from `x` are kept; use `keep = TRUE`</span>
-<span class='co'># to keep both</span>
+#&gt; 4 Keith &lt;NA&gt;    guitar</div><div class='input'><span class='co'># By default, the join keys from `x` and `y` are coalesced in the output; use</span>
+<span class='co'># `keep = TRUE` # to keep the join keys from both `x` and `y`</span>
 <span class='no'>band_members</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>), <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 4
 #&gt;   name  band    artist plays 
