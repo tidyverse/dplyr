@@ -15,20 +15,22 @@
 #'   - `NULL`, to returns the columns untransformed.
 #'   - A function, e.g. `mean`.
 #'   - A purrr-style lambda, e.g. `~ mean(.x, na.rm = TRUE)`
-#'   - A named list of functions/lambdas, e.g.
+#'   - A list of functions/lambdas, e.g.
 #'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param names How to name the result columns.
+#' @param names How to name the result columns. This can use `{col}` to stand for
+#'   the selected column name, and `{fn}` to stand for the name of the function
+#'   being applied. The default (`NULL`) is equivalent to `"{col}"` for the single
+#'   function case and `"{col}_{fn}"` for the case where a list is used for `fns`.
 #' @returns A tibble.
 #'
 #'   When `fns` is a single function, it will have one column for each
 #'   column in `cols`.
 #'
-#'   When `fns` is a named list, it will have one column for each element
-#'   of `fns`. Each column will be a df-column that contains one column
-#'   for each column in `cols`.
+#'   When `fns` is a list, it will have one column for each combination of
+#'   column in `cols` and function in `fns`.
 #' @examples
 #' # A function
 #' iris %>%
@@ -48,7 +50,7 @@
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 #'
-#' # using custom names
+#' # Using the names argument to control how the output columns are named
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), mean, names = "mean_{col}"))
@@ -79,7 +81,9 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
       fns(.x)
     })
     if (!is.null(names)) {
-      names(cols) <- glue(names, col = names(data), fn = abort("{fn} cannot be used in the single function case"))
+      names(cols) <- glue(names, col = names(data),
+        fn = abort("{fn} cannot be used in the single function case", class = "dplyr_error_across")
+      )
     }
     as_tibble(cols)
   } else if (is.list(fns)) {
@@ -113,6 +117,6 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
     }
     as_tibble(cols)
   } else {
-    abort("`fns` must be NULL, a function, a formula, or a list of functions/formulas")
+    abort("`fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
   }
 }

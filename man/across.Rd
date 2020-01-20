@@ -17,14 +17,17 @@ Possible values are:
 \item \code{NULL}, to returns the columns untransformed.
 \item A function, e.g. \code{mean}.
 \item A purrr-style lambda, e.g. \code{~ mean(.x, na.rm = TRUE)}
-\item A named list of functions/lambdas, e.g.
+\item A list of functions/lambdas, e.g.
 \verb{list(mean = mean, n_miss = ~ sum(is.na(.x))}
 }
 
 Within these functions you can use \code{\link[=cur_column]{cur_column()}} and \code{\link[=cur_group]{cur_group()}}
 to access the current column and grouping keys respectively.}
 
-\item{names}{How to name the result columns.}
+\item{names}{How to name the result columns. This can use \code{{col}} to stand for
+the selected column name, and \code{{fn}} to stand for the name of the function
+being applied. The default (\code{NULL}) is equivalent to \code{"{col}"} for the single
+function case and \code{"{col}_{fn}"} for the case where a list is used for \code{fns}.}
 }
 \value{
 A tibble.
@@ -32,9 +35,8 @@ A tibble.
 When \code{fns} is a single function, it will have one column for each
 column in \code{cols}.
 
-When \code{fns} is a named list, it will have one column for each element
-of \code{fns}. Each column will be a df-column that contains one column
-for each column in \code{cols}.
+When \code{fns} is a list, it will have one column for each combination of
+column in \code{cols} and function in \code{fns}.
 }
 \description{
 \code{across()} makes it easy to apply the same transformation to multiple
@@ -62,7 +64,7 @@ iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 
-# using custom names
+# Using the names argument to control how the output columns are named
 iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), mean, names = "mean_{col}"))
