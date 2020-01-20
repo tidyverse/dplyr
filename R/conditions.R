@@ -1,8 +1,5 @@
 glue_c <- function(..., .envir = caller_env()) {
-  dots <- list2(...)
-  dots <- dots[!map_lgl(dots, is.null)]
-  dots <- map(dots, function(txt) set_names(as.character(glue(txt, .envir = .envir)), names(txt)))
-  vec_c(!!!dots)
+  map_chr(vec_c(..., .ptype = character()), glue, .envir = .envir)
 }
 
 cur_group_label <- function(data) {
