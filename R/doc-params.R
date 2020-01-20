@@ -1,11 +1,8 @@
-#' Argument type: tidy-eval
+#' Argument type: data-masking
 #'
 #' @description
-#' This page the describes the `<tidy-eval>` argument modifier which indicates
-#' that the argument uses **tidy evaluation** with **data masking**.
-#' This is a special type of non-standard evaluation used throughout the
-#' tidyverse.
-#'
+#' This page the describes the `<data-masking>` argument modifier which
+#' indicates that the argument uses tidy evaluation with **data masking**.
 #' If you've never head of tidy evaluation before, start with
 #' `vignette("programming")`.
 #'
@@ -85,7 +82,7 @@
 #' ```
 #'
 #' @keywords internal
-#' @name dplyr_tidy_eval
+#' @name dplyr_data_masking
 NULL
 
 
@@ -93,9 +90,10 @@ NULL
 #'
 #' @description
 #' This page the describes the `<tidy-select>` argument modifier which indicates
-#' that the tidyselect syntax which provides a concise DSL for selecting
-#' variables based on their names. This is a special type of non-standard
-#' evaluation used throughout the tidyverse when selecting multiple variables.
+#' the argument uses tidy evaluation with **tidy selection**. Tidy selection
+#' provides a concise DSL for selecting variables based on their names.
+#' If you've never head of tidy evaluation before, start with
+#' `vignette("programming")`.
 #'
 #' # General usage
 #'

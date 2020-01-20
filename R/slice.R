@@ -22,7 +22,9 @@
 #' @family single table verbs
 #' @inheritParams arrange
 #' @inheritParams filter
-#' @param ... For `slice()`: <[`tidy-eval`][dplyr_tidy_eval]> Integer row values.
+#' @param ... For `slice()`: <[`data-masking`][dplyr_data_masking]> Integer row
+#'   values.
+#'
 #'   Provide either positive values to keep, or negative values to drop.
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.

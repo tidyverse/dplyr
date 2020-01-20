@@ -11,8 +11,8 @@ filter(.data, ..., .preserve = FALSE)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Logical predicates defined in
-terms of the variables in \code{.data}.
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Logical predicates defined
+in terms of the variables in \code{.data}.
 Multiple conditions are combined with \code{&}. Only rows where the
 condition evaluates to \code{TRUE} are kept.}
 
@@ -108,7 +108,7 @@ starwars \%>\%
     .data[[vars[[1]]]] > cond[[1]],
     .data[[vars[[2]]]] > cond[[2]]
   )
-# Learn more in ?dplyr_tidy_eval
+# Learn more in ?dplyr_data_masking
 }
 \seealso{
 \code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and \code{\link[=filter_at]{filter_at()}}.

@@ -11,10 +11,10 @@ condense(.data, ...)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of functions.
-All outputs will be automatically wrapped in lists, making it most
-suitable for functions that that return non-vectors (e.g. linear models)
-or vectors of length greater than one.}
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name-value pairs of
+functions. All outputs will be automatically wrapped in lists, making it
+most suitable for functions that that return non-vectors (e.g. linear
+models) or vectors of length greater than one.}
 }
 \value{
 A \link{rowwise} object.

@@ -7,7 +7,8 @@
 funs(..., .args = list())
 }
 \arguments{
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> A list of functions specified by:
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> A list of functions
+specified by:
 \itemize{
 \item Their name, \code{"mean"}
 \item The function itself, \code{mean}

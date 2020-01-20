@@ -14,7 +14,7 @@ summarize(.data, ...)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of summary
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name-value pairs of summary
 functions. The name will be the name of the variable in the result.
 
 The value can be:
@@ -123,7 +123,7 @@ mtcars \%>\%
 # Refer to column names stored as strings with the `.data` pronoun:
 var <- "mass"
 summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
-# Learn more in ?dplyr_tidy_eval
+# Learn more in ?dplyr_data_masking
 }
 \seealso{
 Other single table verbs: 

@@ -5,9 +5,10 @@
 \title{Argument type: tidy-select}
 \description{
 This page the describes the \verb{<tidy-select>} argument modifier which indicates
-that the tidyselect syntax which provides a concise DSL for selecting
-variables based on their names. This is a special type of non-standard
-evaluation used throughout the tidyverse when selecting multiple variables.
+the argument uses tidy evaluation with \strong{tidy selection}. Tidy selection
+provides a concise DSL for selecting variables based on their names.
+If you've never head of tidy evaluation before, start with
+\code{vignette("programming")}.
 }
 \keyword{internal}
 \section{General usage}{

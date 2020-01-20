@@ -33,7 +33,7 @@
 #'
 #' @export
 #' @inheritParams arrange
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of summary
+#' @param ... <[`data-masking`][dplyr_data_masking]> Name-value pairs of summary
 #'   functions. The name will be the name of the variable in the result.
 #'
 #'   The value can be:
@@ -100,7 +100,7 @@
 #' # Refer to column names stored as strings with the `.data` pronoun:
 #' var <- "mass"
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
-#' # Learn more in ?dplyr_tidy_eval
+#' # Learn more in ?dplyr_data_masking
 summarise <- function(.data, ...) {
   UseMethod("summarise")
 }

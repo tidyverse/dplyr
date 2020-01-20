@@ -47,7 +47,7 @@
 #'
 #' @export
 #' @inheritParams arrange
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs.
+#' @param ... <[`data-masking`][dplyr_data_masking]> Name-value pairs.
 #'   The name gives the name of the column in the output.
 #'
 #'   The value can be:
@@ -136,7 +136,7 @@
 #' # Refer to column names stored as strings with the `.data` pronoun:
 #' vars <- c("mass", "height")
 #' mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
-#' # Learn more in ?dplyr_tidy_eval
+#' # Learn more in ?dplyr_data_masking
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
