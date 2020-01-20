@@ -4,7 +4,7 @@
 \alias{across}
 \title{Apply a function (or a set of functions) to a set of columns}
 \usage{
-across(cols = everything(), fns = NULL)
+across(cols = everything(), fns = NULL, names = NULL)
 }
 \arguments{
 \item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
@@ -23,12 +23,14 @@ Possible values are:
 
 Within these functions you can use \code{\link[=cur_column]{cur_column()}} and \code{\link[=cur_group]{cur_group()}}
 to access the current column and grouping keys respectively.}
+
+\item{names}{How to name the result columns.}
 }
 \value{
 A tibble.
 
 When \code{fns} is a single function, it will have one column for each
-column in \code{cols}
+column in \code{cols}.
 
 When \code{fns} is a named list, it will have one column for each element
 of \code{fns}. Each column will be a df-column that contains one column
@@ -59,4 +61,16 @@ iris \%>\%
 iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
+
+# using custom names
+iris \%>\%
+  group_by(Species) \%>\%
+  summarise(across(starts_with("Sepal"), mean), names = "mean_{col}")
+iris \%>\%
+  group_by(Species) \%>\%
+  summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), names = "{col}.{fn}")
+iris \%>\%
+  group_by(Species) \%>\%
+  summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
+
 }

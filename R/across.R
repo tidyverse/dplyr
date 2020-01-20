@@ -20,10 +20,11 @@
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
+#' @param names How to name the result columns.
 #' @returns A tibble.
 #'
 #'   When `fns` is a single function, it will have one column for each
-#'   column in `cols`
+#'   column in `cols`.
 #'
 #'   When `fns` is a named list, it will have one column for each element
 #'   of `fns`. Each column will be a df-column that contains one column
@@ -46,8 +47,20 @@
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
+#'
+#' # using custom names
+#' iris %>%
+#'   group_by(Species) %>%
+#'   summarise(across(starts_with("Sepal"), mean), names = "mean_{col}")
+#' iris %>%
+#'   group_by(Species) %>%
+#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), names = "{col}.{fn}")
+#' iris %>%
+#'   group_by(Species) %>%
+#'   summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
+#'
 #' @export
-across <- function(cols = everything(), fns = NULL) {
+across <- function(cols = everything(), fns = NULL, names = NULL) {
   mask <- peek_mask()
   data <- mask$full_data()
 
@@ -61,21 +74,45 @@ across <- function(cols = everything(), fns = NULL) {
     data
   } else if (is.function(fns) || is_formula(fns)) {
     fns <- as_function(fns)
-
-    as_tibble(imap(data, function(.x, .y) {
+    cols <- imap(data, function(.x, .y) {
       local_column(.y)
       fns(.x)
-    }))
-  } else if (is.list(fns) && is_named(fns)) {
+    })
+    if (!is.null(names)) {
+      names(cols) <- glue(names, col = names(data), fn = abort("{fn} cannot be used in the single function case"))
+    }
+    as_tibble(cols)
+  } else if (is.list(fns)) {
+    # make sure fns has names, use number to replace unnamed
+    if (is.null(names(fns))) {
+      names_fns <- seq_along(fns)
+    } else {
+      names_fns <- names(fns)
+      empties <- which(names_fns == "")
+      if (length(empties)) {
+        names_fns[empties] <- empties
+      }
+    }
     fns <- map(fns, as_function)
 
-    as_tibble(map(fns, function(f) {
-      as_tibble(imap(data, function(.x, .y) {
-        local_column(.y)
-        f(.x)
-      }))
-    }))
+    if (is.null(names)) {
+      names <- "{col}_{fn}"
+    }
+
+    cols <- list()
+    names_cols <- names(data)
+    for (i in seq_along(data)) {
+      data_i <- data[[i]]
+      name_i <- names_cols[i]
+      res <- map(fns, function(f) {
+        local_column(name_i)
+        f(data_i)
+      })
+      names(res) <- glue(names, col = names_cols[i], fn = names_fns)
+      cols <- append(cols, res)
+    }
+    as_tibble(cols)
   } else {
-    abort("`fns` must be NULL, a function, a formula, or a named list of functions/formulas")
+    abort("`fns` must be NULL, a function, a formula, or a list of functions/formulas")
   }
 }
