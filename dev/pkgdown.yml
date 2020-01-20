@@ -4,7 +4,6 @@ pkgdown_sha: ~
 articles:
   compatibility: compatibility.html
   dplyr: dplyr.html
-  dplyr_0.8.0: future/dplyr_0.8.0.html
   programming: programming.html
   two-table: two-table.html
   window-functions: window-functions.html
