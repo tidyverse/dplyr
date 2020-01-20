@@ -24,19 +24,13 @@ Possible values are:
 Within these functions you can use \code{\link[=cur_column]{cur_column()}} and \code{\link[=cur_group]{cur_group()}}
 to access the current column and grouping keys respectively.}
 
-\item{names}{How to name the result columns. This can use \code{{col}} to stand for
+\item{names}{A glue specification that describes how to name the output columns. This can use \code{{col}} to stand for
 the selected column name, and \code{{fn}} to stand for the name of the function
 being applied. The default (\code{NULL}) is equivalent to \code{"{col}"} for the single
 function case and \code{"{col}_{fn}"} for the case where a list is used for \code{fns}.}
 }
 \value{
-A tibble.
-
-When \code{fns} is a single function, it will have one column for each
-column in \code{cols}.
-
-When \code{fns} is a list, it will have one column for each combination of
-column in \code{cols} and function in \code{fns}.
+A tibble with one column for each column in \code{cols} and each function in \code{fns}.
 }
 \description{
 \code{across()} makes it easy to apply the same transformation to multiple
@@ -64,7 +58,7 @@ iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 
-# Using the names argument to control how the output columns are named
+# Use the names argument to control the output names
 iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), mean, names = "mean_{col}"))

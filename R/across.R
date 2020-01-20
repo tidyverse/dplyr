@@ -24,13 +24,8 @@
 #'   the selected column name, and `{fn}` to stand for the name of the function
 #'   being applied. The default (`NULL`) is equivalent to `"{col}"` for the single
 #'   function case and `"{col}_{fn}"` for the case where a list is used for `fns`.
-#' @returns A tibble.
+#' @returns A tibble with one column for each column in `cols` and each function in `fns`.
 #'
-#'   When `fns` is a single function, it will have one column for each
-#'   column in `cols`.
-#'
-#'   When `fns` is a list, it will have one column for each combination of
-#'   column in `cols` and function in `fns`.
 #' @examples
 #' # A function
 #' iris %>%
