@@ -138,8 +138,12 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
     abort(class = "dplyr_summarise_unsupported_type", result = result)
   }
 
+  data <- peek_mask()$full_data()
   stop_dplyr(index, dots, "summarise", "must be a vector",
-    x = "`{error_name}` must be a vector, not {as_friendly_type(typeof(result))}."
+    x = "`{error_name}` must be a vector, not {as_friendly_type(typeof(result))}.",
+    if (inherits(data, "rowwise_df")) {
+      c(i = "Did you mean: `{error_name} = list({error_expression})` ?")
+    }
   )
 }
 
