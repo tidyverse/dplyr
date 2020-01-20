@@ -421,6 +421,8 @@ test_that("filter() gives useful error messages", {
       filter(data.frame(c(TRUE, FALSE)))
     iris %>%
       filter(data.frame(c(TRUE, FALSE)))
+    tibble(x = 1) %>%
+      filter(c(TRUE, TRUE))
 
     "# wrong type in column"
     iris %>%

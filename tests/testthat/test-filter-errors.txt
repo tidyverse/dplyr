@@ -37,6 +37,10 @@ x It must be of size 50 or 1, not size 2.
 Error: `filter()` argument `..1` is incorrect.
 x It must be of size 150 or 1, not size 2.
 
+> tibble(x = 1) %>% filter(c(TRUE, TRUE))
+Error: `filter()` argument `..1` is incorrect.
+x It must be of size 1, not size 2.
+
 
 wrong type in column
 ====================
