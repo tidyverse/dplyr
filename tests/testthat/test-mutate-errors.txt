@@ -39,6 +39,13 @@ i `out` is `env(a = 1)`.
 i The error occured in group 1: g = 1.
 x `out` must be a vector, not an environment.
 
+> df %>% rowwise() %>% mutate(out = rnorm)
+Error: `mutate()` argument `out` must be a vector.
+i `out` is `rnorm`.
+i The error occured in row 1.
+x `out` must be a vector, not a function.
+i Did you mean: `out = list(rnorm)` ?
+
 
 incompatible types across groups
 ================================
@@ -78,6 +85,14 @@ i `int` is `1:5`.
 i The error occured in group 1: x = 2.
 x `int` can't be recycled to size 1.
 i `int` must be size 1, not 5.
+
+> data.frame(x = c(2, 2, 3, 3)) %>% rowwise() %>% mutate(int = 1:5)
+Error: `mutate()` argument `int` must be recyclable.
+i `int` is `1:5`.
+i The error occured in row 1.
+x `int` can't be recycled to size 1.
+i `int` must be size 1, not 5.
+i Did you mean: `int = list(1:5)` ?
 
 
 .data pronoun

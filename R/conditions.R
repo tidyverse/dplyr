@@ -25,6 +25,13 @@ cnd_bullet_cur_group_label <- function() {
   }
 }
 
+cnd_bullet_rowwise_unlist <- function() {
+  data <- peek_mask()$full_data()
+  if (inherits(data, "rowwise_df")) {
+    c(i = "Did you mean: `{error_name} = list({error_expression})` ?")
+  }
+}
+
 or_1 <- function(x) {
   if(x == 1L) {
     "1"
@@ -105,7 +112,7 @@ stop_filter_incompatible_size <- function(index_expression, size, expected_size)
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect.",
     cnd_bullet_cur_group_label(),
-    x = "It must be of size {or_1(expected_size)}, not size {size}."
+    x = "`..{index_expression}` must be of size {or_1(expected_size)}, not size {size}."
   ))
 }
 
@@ -139,7 +146,8 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
   }
 
   stop_dplyr(index, dots, "summarise", "must be a vector",
-    x = "`{error_name}` must be a vector, not {as_friendly_type(typeof(result))}."
+    x = "`{error_name}` must be a vector, not {friendly_type_of(result)}.",
+    cnd_bullet_rowwise_unlist()
   )
 }
 
@@ -153,7 +161,8 @@ stop_mutate_mixed_NULL <- function(index, dots) {
 
   stop_dplyr(index, dots, "mutate", "must return compatible vectors across groups",
     i = "Cannot combine NULL and non NULL results.",
-    .show_group_details = FALSE
+    .show_group_details = FALSE,
+    cnd_bullet_rowwise_unlist()
   )
 }
 
@@ -165,14 +174,16 @@ stop_mutate_not_vector <- function(result, index, dots) {
   }
 
   stop_dplyr(index, dots, "mutate", "must be a vector",
-    x = "`{error_name}` must be a vector, not {as_friendly_type(typeof(result))}."
+    x = "`{error_name}` must be a vector, not {friendly_type_of(result)}.",
+    cnd_bullet_rowwise_unlist()
   )
 }
 
 stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
   stop_dplyr(index, dots, "mutate", "must be recyclable",
     x = "`{error_name}` can't be recycled to size {cnd$size}.",
-    i = "`{error_name}` must be size {or_1(cnd$size)}, not {cnd$x_size}."
+    i = "`{error_name}` must be size {or_1(cnd$size)}, not {cnd$x_size}.",
+    cnd_bullet_rowwise_unlist()
   )
 }
 

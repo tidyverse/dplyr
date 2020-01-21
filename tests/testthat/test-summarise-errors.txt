@@ -14,6 +14,14 @@ i `a` is `env(a = 1)`.
 i The error occured in group 1: x = 1, y = 1.
 x `a` must be a vector, not an environment.
 
+> tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% rowwise() %>% summarise(a = lm(
++   y ~ x))
+Error: `summarise()` argument `a` must be a vector.
+i `a` is `lm(y ~ x)`.
+i The error occured in row 1.
+x `a` must be a vector, not a `lm` object.
+i Did you mean: `a = list(lm(y ~ x))` ?
+
 
 mixed types
 ===========
