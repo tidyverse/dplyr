@@ -241,36 +241,36 @@ test_that("DataMask$add() forces chunks (#4677)", {
 })
 
 
-# .remove -----------------------------------------------------------------
+# .keep -----------------------------------------------------------------
 
-test_that(".remove = 'used' keeps variables explicitly mentioned", {
+test_that(".keep = 'unused' keeps variables explicitly mentioned", {
   df <- tibble(x = 1, y = 2)
-  out <- mutate(df, x1 = x + 1, y = y, .remove = "used")
+  out <- mutate(df, x1 = x + 1, y = y, .keep = "unused")
   expect_named(out, c("y", "x1"))
 })
 
-test_that(".remove = 'used' not affected by across()", {
+test_that(".keep = 'used' not affected by across()", {
   df <- tibble(x = 1, y = 2, z = 3, a = "a", b = "b", c = "c")
 
   # This must evaluate every column in order to figure out if should
   # be included in the set or not, but that shouldn't be counted for
   # the purposes of "used" variables
-  out <- mutate(df, across(is.numeric, identity), .remove = "used")
+  out <- mutate(df, across(is.numeric, identity), .keep = "unused")
   expect_named(out, names(df))
 })
 
-test_that(".remove = 'unused' keeps variables used in expressions", {
+test_that(".keep = 'used' keeps variables used in expressions", {
   df <- tibble(a = 1, b = 2, c = 3, x = 1, y = 2)
-  out <- mutate(df, xy = x + y, .remove = "unused")
+  out <- mutate(df, xy = x + y, .keep = "used")
   expect_named(out, c("x", "y", "xy"))
 })
 
-test_that(".remove = 'all' only keeps grouping variables", {
+test_that(".keep = 'none' only keeps grouping variables", {
   df <- tibble(x = 1, y = 2)
   gf <- group_by(df, x)
 
-  expect_named(mutate(df, z = 1, .remove = "all"), "z")
-  expect_named(mutate(gf, z = 1, .remove = "all"), c("x", "z"))
+  expect_named(mutate(df, z = 1, .keep = "none"), "z")
+  expect_named(mutate(gf, z = 1, .keep = "none"), c("x", "z"))
 })
 
 # Error messages ----------------------------------------------------------

@@ -1,12 +1,12 @@
 # dplyr 0.9.0 (in development)
 
-* `mutate()` (for data frames only), gains an experimental new argument called
-  `.remove`. `.remove = "none"` is the default; it leaves all variable as is.
-  `.remove = "all"` drops all existing variables (apart from grouping keys), 
-  so behaves like `transmute()`. `.remove = "used"` removes variables used
-  in the computation of new columns. `.remove = "unusued"` keeps only the 
-  variables used in the computation; it's useful for double checking your
-  work (#3721).
+* `mutate()` (for data frames only), gains an experimental new argument 
+  called `.keep` that allows you to control which variables are kept from
+  the input `.data`. `.keep = "all"` is the default; it keeps all variables.
+  `.keep = "none"` retains no input variables (except for grouping keys), 
+  so behaves like `transmute()`. `.keep = "unused"` keeps only variables 
+  not used to make new columns. `.keep = "used"` keeps only the input variables
+  used to create new columns; it's useful for double checking your work (#3721).
   
 * There's now a full set of functions that let you access information about
   the "current" group (`cur_data()`, `cur_group()`, `cur_group_id()`, 

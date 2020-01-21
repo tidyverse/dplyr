@@ -147,35 +147,34 @@ mutate <- function(.data, ...) {
 }
 
 #' @rdname mutate
-#' @param .remove \Sexpr[results=rd]{lifecycle::badge("experimental")}
-#'   This is an experimental argument that allows you to automatically remove
-#'   columns from the output.
+#' @param .keep \Sexpr[results=rd]{lifecycle::badge("experimental")}
+#'   This is an experimental argument that allows you to control which columns
+#'   from `.data` are retained in the output:
 #'
-#'   * `"none"`, the default, does not remove any variables.
-#'   * `"used"` will remove any variables that have been used in the
-#'     computation of new variables.
-#'   * `"unused"` will remove all variables not used in the computation;
-#'     it's useful for checking your work.
-#'   * `"all"` will remove all existing variables, except for grouping keys
-#'     (like [transmute()]).
+#'   * `"all"`, the default, retains all variables.
+#'   * `"used"` keeps any variables used to make new variables; it's useful
+#'     for checking your work as it displays inputs and outputs side-by-side.
+#'   * `"unused"` keeps only existing variables **not** used to make new
+#'     variables.
+#'   * `"none"`, only keeps grouping keys (like [transmute()]).
 #' @export
-mutate.data.frame <- function(.data, ..., .remove = c("none", "used", "unused", "all")) {
-  remove <- arg_match(.remove)
+mutate.data.frame <- function(.data, ..., .keep = c("all", "used", "unused", "none")) {
+  keep <- arg_match(.keep)
 
-  cols <- mutate_cols(.data, ..., .track_usage = remove %in% c("used", "unused"))
+  cols <- mutate_cols(.data, ..., .track_usage = keep %in% c("used", "unused"))
   out <- dplyr_col_modify(.data, cols)
 
-  if (remove == "none") {
+  if (keep == "all") {
     out
-  } else if (remove == "used") {
+  } else if (keep == "unused") {
     used <- names(.data)[attr(cols, "used")]
     keep <- setdiff(names(out), setdiff(used, names(cols)))
     out[keep]
-  } else if (remove == "unused") {
+  } else if (keep == "used") {
     used <- names(.data)[attr(cols, "used")]
     keep <- union(used, names(cols))
     out[keep]
-  } else if (remove == "all") {
+  } else if (keep == "none") {
     keep <- c(
       # ensure group vars present
       setdiff(group_vars(.data), names(cols)),
@@ -194,7 +193,7 @@ transmute <- function(.data, ...) {
 
 #' @export
 transmute.data.frame <- function(.data, ...) {
-  mutate(.data, ..., .remove = "all")
+  mutate(.data, ..., .keep = "none")
 }
 
 # Helpers -----------------------------------------------------------------
