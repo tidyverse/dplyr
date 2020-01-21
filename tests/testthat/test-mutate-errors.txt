@@ -39,6 +39,13 @@ i `out` is `env(a = 1)`.
 i The error occured in group 1: g = 1.
 x `out` must be a vector, not an environment.
 
+> df %>% rowwise() %>% mutate(out = rnorm)
+Error: `mutate()` argument `out` must be a vector.
+i `out` is `rnorm`.
+i The error occured in row 1.
+x `out` must be a vector, not a function.
+i Did you mean: `out = list(rnorm)` ?
+
 
 incompatible types across groups
 ================================

@@ -264,6 +264,9 @@ test_that("mutate() give meaningful errors", {
     df %>%
       group_by(g) %>%
       mutate(out = env(a = 1))
+    df %>%
+      rowwise() %>%
+      mutate(out = rnorm)
 
     "# incompatible types across groups"
     data.frame(x = rep(1:5, each = 3)) %>%
