@@ -68,12 +68,19 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
   data <- mask$pick(names(vars))
 
   if (is.null(fns)) {
-    return(data)
+    if (is.null(names)) {
+      return(data)
+    } else {
+      return(set_names(data, glue(names, col = names(data), fn = "1")))
+    }
   }
 
+  # apply `names` smart default
   if (is.function(fns) || is_formula(fns)) {
     names <- names %||% "{col}"
     fns <- list("1" = fns)
+  } else {
+    names <- names %||% "{col}_{fn}"
   }
 
   if (!is.list(fns)) {
@@ -90,25 +97,22 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
       names_fns[empties] <- empties
     }
   }
+  names_data <- names(data)
+
+  # promote formulas
   fns <- map(fns, as_function)
 
-  # set default for names if still NULL
-  if (is.null(names)) {
-    names <- "{col}_{fn}"
-  }
-
   # main loop
-  cols <- list()
-  names_cols <- names(data)
-  for (i in seq_along(data)) {
-    data_i <- data[[i]]
-    name_i <- names_cols[i]
-    res <- map(fns, function(f) {
-      local_column(name_i)
-      f(data_i)
-    })
-    names(res) <- glue(names, col = names_cols[i], fn = names_fns)
-    cols <- append(cols, res)
-  }
+  cols <- pmap(
+    expand.grid(i = seq_along(data), fn = fns),
+    function(i, fn) {
+      local_column(names_data[i])
+      fn(data[[i]])
+    }
+  )
+  names(cols) <- glue(names,
+    col = rep(names_data, each = length(fns)),
+    fn  = rep(names_fns, ncol(data))
+  )
   as_tibble(cols)
 }
