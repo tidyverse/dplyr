@@ -72,9 +72,7 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
   }
 
   if (is.function(fns) || is_formula(fns)) {
-    if (is.null(names)) {
-      names <- "{col}"
-    }
+    names <- names %||% "{col}"
     fns <- list("1" = fns)
   }
 
