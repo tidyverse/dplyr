@@ -128,7 +128,7 @@ Underneath all functions that use tidy selection is the [tidyselect](http://tidy
 * `select(df, c(a, b, c))` selects columns `a`, `b`, and `c`.
 
 * `select(df, starts_with("a"))` selects all columns whose name starts with "a";
-  `select(df, ends_with("a"))` selects all columns whose name ends with "z".
+  `select(df, ends_with("z"))` selects all columns whose name ends with "z".
   
 * `select(df, is.numeric)` selects all numeric columns.
 
