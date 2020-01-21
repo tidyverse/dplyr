@@ -112,3 +112,23 @@ test_that("arrange updates the grouping structure (#605)", {
   expect_s3_class(res, "grouped_df")
   expect_equal(group_rows(res), list_of(c(2L, 4L), c(1L, 3L)))
 })
+
+test_that("arrange() supports across() (#4679)", {
+  df <- tibble(x = c(1, 3, 2, 1), y = c(4, 3, 2, 1))
+  expect_identical(
+    df %>% arrange(across()),
+    df %>% arrange(x, y)
+  )
+  expect_identical(
+    df %>% arrange(across(fns = desc)),
+    df %>% arrange(desc(x), desc(y))
+  )
+  expect_identical(
+    df %>% arrange(across(x)),
+    df %>% arrange(x)
+  )
+  expect_identical(
+    df %>% arrange(across(y)),
+    df %>% arrange(y)
+  )
+})
