@@ -8,7 +8,7 @@
 \usage{
 mutate(.data, ...)
 
-\method{mutate}{data.frame}(.data, ..., .remove = c("none", "used", "unused", "all"))
+\method{mutate}{data.frame}(.data, ..., .keep = c("all", "used", "unused", "none"))
 
 transmute(.data, ...)
 }
@@ -29,17 +29,16 @@ if ungrouped).
 \item A data frame or tibble, to create multiple columns in the output.
 }}
 
-\item{.remove}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
-This is an experimental argument that allows you to automatically remove
-columns from the output.
+\item{.keep}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
+This is an experimental argument that allows you to control which columns
+from \code{.data} are retained in the output:
 \itemize{
-\item \code{"none"}, the default, does not remove any variables.
-\item \code{"used"} will remove any variables that have been used in the
-computation of new variables.
-\item \code{"unused"} will remove all variables not used in the computation;
-it's useful for checking your work.
-\item \code{"all"} will remove all existing variables, except for grouping keys
-(like \code{\link[=transmute]{transmute()}}).
+\item \code{"all"}, the default, retains all variables.
+\item \code{"used"} keeps any variables used to make new variables; it's useful
+for checking your work as it displays inputs and outputs side-by-side.
+\item \code{"unused"} keeps only existing variables \strong{not} used to make new
+variables.
+\item \code{"none"}, only keeps grouping keys (like \code{\link[=transmute]{transmute()}}).
 }}
 }
 \value{
