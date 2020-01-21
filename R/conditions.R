@@ -146,7 +146,7 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
   }
 
   stop_dplyr(index, dots, "summarise", "must be a vector",
-    x = "`{error_name}` must be a vector, not {as_friendly_type(typeof(result))}.",
+    x = "`{error_name}` must be a vector, not {friendly_type_of(result)}.",
     cnd_bullet_rowwise_unlist()
   )
 }
@@ -174,7 +174,7 @@ stop_mutate_not_vector <- function(result, index, dots) {
   }
 
   stop_dplyr(index, dots, "mutate", "must be a vector",
-    x = "`{error_name}` must be a vector, not {as_friendly_type(typeof(result))}.",
+    x = "`{error_name}` must be a vector, not {friendly_type_of(result)}.",
     cnd_bullet_rowwise_unlist()
   )
 }

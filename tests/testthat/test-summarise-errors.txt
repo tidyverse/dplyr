@@ -19,7 +19,7 @@ x `a` must be a vector, not an environment.
 Error: `summarise()` argument `a` must be a vector.
 i `a` is `lm(y ~ x)`.
 i The error occured in row 1.
-x `a` must be a vector, not a list.
+x `a` must be a vector, not a `lm` object.
 i Did you mean: `a = list(lm(y ~ x))` ?
 
 
