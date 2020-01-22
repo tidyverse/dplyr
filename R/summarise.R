@@ -122,15 +122,38 @@ summarise.data.frame <- function(.data, ...) {
 
 #' @export
 summarise.grouped_df <- function(.data, ...) {
-  out <- NextMethod()
+  cols <- summarise_cols(.data, ...)
+
+  out <- group_keys(.data)
+  if (!identical(cols$size, 1L)) {
+    out <- vec_slice(out, rep(1:nrow(out), cols$size))
+  }
+  out <- dplyr_col_modify(out, cols$new)
 
   group_vars <- group_vars(.data)
   n <- length(group_vars)
-  if (n > 1) {
-    out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
+  if (n == 1) {
+    return(out)
   }
 
-  out
+  # Figure out rows of old groups
+  if (identical(cols$size, 1)) {
+    rows <- as.list(1:nrow(out))
+  } else {
+    breaks <- cumsum(c(1L, cols$size))
+    start <- breaks[-length(breaks)]
+    end <- breaks[-1] - 1L
+    rows <- map2(start, end, `:`)
+  }
+  # If needed, collapse old groups into new groups
+  groups <- group_keys(.data)
+  groups <- groups[setdiff(names(groups), group_vars[[n]])]
+  loc <- vec_group_loc(groups)
+
+  out_groups <- loc$key
+  out_groups$.rows <- as_list_of(lapply(loc$loc, function(i) unlist(rows[i])) %||% integer(), .ptype = integer())
+
+  new_grouped_df(out, out_groups)
 }
 
 #' @export
