@@ -188,10 +188,12 @@ mutate.data.frame <- function(.data, ...,
     out <- out[keep]
   }
 
-  if (!quo_is_null(enquo(.before)) || !quo_is_null(enquo(.after))) {
+  .before <- enquo(.before)
+  .after <- enquo(.after)
+  if (!quo_is_null(.before) || !quo_is_null(.after)) {
     # Only change the order of new columns
     new <- setdiff(names(cols), names(data))
-    relocate(out, any_of(new), .before = {{ .before }}, .after = {{ .after }})
+    relocate(out, any_of(new), .before = !!.before, .after = !!.after)
   } else {
     out
   }
