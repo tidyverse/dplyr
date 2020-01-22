@@ -57,9 +57,6 @@
 #'     if ungrouped).
 #'   * `NULL`, to remove the column.
 #'   * A data frame or tibble, to create multiple columns in the output.
-#' @param .before,.after <[`tidy-select`][dplyr_tidy_select]> Optionally,
-#'   control where new columns should be appear (the default is to add to the
-#'   left hand side).
 #' @family single table verbs
 #' @return
 #' An object of the same type as `.data`.
@@ -159,6 +156,9 @@ mutate <- function(.data, ...) {
 #'   * `"unused"` keeps only existing variables **not** used to make new
 #'     variables.
 #'   * `"none"`, only keeps grouping keys (like [transmute()]).
+#' @param .before,.after <[`tidy-select`][dplyr_tidy_select]> Optionally,
+#'   control where new columns should be appear (the default is to add to the
+#'   left hand side).
 #' @export
 mutate.data.frame <- function(.data, ...,
                               .keep = c("all", "used", "unused", "none"),
