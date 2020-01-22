@@ -5,15 +5,6 @@ test_that("non-syntactic grouping variable is preserved (#1138)", {
   expect_named(df, "a b")
 })
 
-test_that("transmute preserves variable of output", {
-  df <- tibble(x = 1, y = 2)
-  expect_named(df %>% transmute(y = 1, x = 2), c("y", "x"))
-
-  # even when grouped
-  gf <- group_by(df, x)
-  expect_named(gf %>% transmute(y = 1, x = 2), c("y", "x"))
-})
-
 test_that("transmute preserves grouping", {
   gf <- group_by(tibble(x = 1:2, y = 2), x)
 

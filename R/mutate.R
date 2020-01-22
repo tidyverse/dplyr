@@ -168,16 +168,24 @@ mutate.data.frame <- function(.data, ...,
   cols <- mutate_cols(.data, ..., .track_usage = keep %in% c("used", "unused"))
   out <- dplyr_col_modify(.data, cols)
 
+  .before <- enquo(.before)
+  .after <- enquo(.after)
+  if (!quo_is_null(.before) || !quo_is_null(.after)) {
+    # Only change the order of new columns
+    new <- setdiff(names(cols), names(data))
+    out <- relocate(out, any_of(new), .before = !!.before, .after = !!.after)
+  }
+
   if (keep == "all") {
     out
   } else if (keep == "unused") {
-    used <- names(.data)[attr(cols, "used")]
-    keep <- setdiff(names(out), setdiff(used, names(cols)))
-    out <- out[keep]
+    unused <- c(names(.data)[!attr(cols, "used")])
+    keep <- intersect(names(out), c(unused, names(cols)))
+    out[keep]
   } else if (keep == "used") {
     used <- names(.data)[attr(cols, "used")]
-    keep <- union(used, names(cols))
-    out <- out[keep]
+    keep <- intersect(names(out), c(used, names(cols)))
+    out[keep]
   } else if (keep == "none") {
     keep <- c(
       # ensure group vars present
@@ -185,17 +193,7 @@ mutate.data.frame <- function(.data, ...,
       # cols might contain NULLs
       intersect(names(cols), names(out))
     )
-    out <- out[keep]
-  }
-
-  .before <- enquo(.before)
-  .after <- enquo(.after)
-  if (!quo_is_null(.before) || !quo_is_null(.after)) {
-    # Only change the order of new columns
-    new <- setdiff(names(cols), names(data))
-    relocate(out, any_of(new), .before = !!.before, .after = !!.after)
-  } else {
-    out
+    out[keep]
   }
 }
 
