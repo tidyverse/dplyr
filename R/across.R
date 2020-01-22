@@ -15,19 +15,17 @@
 #'   - `NULL`, to returns the columns untransformed.
 #'   - A function, e.g. `mean`.
 #'   - A purrr-style lambda, e.g. `~ mean(.x, na.rm = TRUE)`
-#'   - A named list of functions/lambdas, e.g.
+#'   - A list of functions/lambdas, e.g.
 #'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @returns A tibble.
+#' @param names A glue specification that describes how to name the output columns. This can use `{col}` to stand for
+#'   the selected column name, and `{fn}` to stand for the name of the function
+#'   being applied. The default (`NULL`) is equivalent to `"{col}"` for the single
+#'   function case and `"{col}_{fn}"` for the case where a list is used for `fns`.
+#' @returns A tibble with one column for each column in `cols` and each function in `fns`.
 #'
-#'   When `fns` is a single function, it will have one column for each
-#'   column in `cols`
-#'
-#'   When `fns` is a named list, it will have one column for each element
-#'   of `fns`. Each column will be a df-column that contains one column
-#'   for each column in `cols`.
 #' @examples
 #' # A function
 #' iris %>%
@@ -46,8 +44,20 @@
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
+#'
+#' # Use the names argument to control the output names
+#' iris %>%
+#'   group_by(Species) %>%
+#'   summarise(across(starts_with("Sepal"), mean, names = "mean_{col}"))
+#' iris %>%
+#'   group_by(Species) %>%
+#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), names = "{col}.{fn}"))
+#' iris %>%
+#'   group_by(Species) %>%
+#'   summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
+#'
 #' @export
-across <- function(cols = everything(), fns = NULL) {
+across <- function(cols = everything(), fns = NULL, names = NULL) {
   mask <- peek_mask()
   data <- mask$full_data()
 
@@ -58,24 +68,51 @@ across <- function(cols = everything(), fns = NULL) {
   data <- mask$pick(names(vars))
 
   if (is.null(fns)) {
-    data
-  } else if (is.function(fns) || is_formula(fns)) {
-    fns <- as_function(fns)
-
-    as_tibble(imap(data, function(.x, .y) {
-      local_column(.y)
-      fns(.x)
-    }))
-  } else if (is.list(fns) && is_named(fns)) {
-    fns <- map(fns, as_function)
-
-    as_tibble(map(fns, function(f) {
-      as_tibble(imap(data, function(.x, .y) {
-        local_column(.y)
-        f(.x)
-      }))
-    }))
-  } else {
-    abort("`fns` must be NULL, a function, a formula, or a named list of functions/formulas")
+    if (is.null(names)) {
+      return(data)
+    } else {
+      return(set_names(data, glue(names, col = names(data), fn = "1")))
+    }
   }
+
+  # apply `names` smart default
+  if (is.function(fns) || is_formula(fns)) {
+    names <- names %||% "{col}"
+    fns <- list("1" = fns)
+  } else {
+    names <- names %||% "{col}_{fn}"
+  }
+
+  if (!is.list(fns)) {
+    abort("`fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
+  }
+
+  # make sure fns has names, use number to replace unnamed
+  if (is.null(names(fns))) {
+    names_fns <- seq_along(fns)
+  } else {
+    names_fns <- names(fns)
+    empties <- which(names_fns == "")
+    if (length(empties)) {
+      names_fns[empties] <- empties
+    }
+  }
+  names_data <- names(data)
+
+  # promote formulas
+  fns <- map(fns, as_function)
+
+  # main loop
+  cols <- pmap(
+    expand.grid(i = seq_along(data), fn = fns),
+    function(i, fn) {
+      local_column(names_data[i])
+      fn(data[[i]])
+    }
+  )
+  names(cols) <- glue(names,
+    col = rep(names_data, each = length(fns)),
+    fn  = rep(names_fns, ncol(data))
+  )
+  as_tibble(cols)
 }

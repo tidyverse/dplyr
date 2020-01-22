@@ -17,7 +17,7 @@ transmute(.data, ...)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs.
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name-value pairs.
 The name gives the name of the column in the output.
 
 The value can be:
@@ -170,7 +170,7 @@ starwars \%>\%
 # Refer to column names stored as strings with the `.data` pronoun:
 vars <- c("mass", "height")
 mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
-# Learn more in ?dplyr_tidy_eval
+# Learn more in ?dplyr_data_masking
 }
 \seealso{
 Other single table verbs: 

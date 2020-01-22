@@ -47,7 +47,7 @@
 #'
 #' @export
 #' @inheritParams arrange
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs.
+#' @param ... <[`data-masking`][dplyr_data_masking]> Name-value pairs.
 #'   The name gives the name of the column in the output.
 #'
 #'   The value can be:
@@ -141,7 +141,7 @@
 #' # Refer to column names stored as strings with the `.data` pronoun:
 #' vars <- c("mass", "height")
 #' mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
-#' # Learn more in ?dplyr_tidy_eval
+#' # Learn more in ?dplyr_data_masking
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
@@ -238,7 +238,10 @@ mutate_cols <- function(.data, ..., .track_usage = FALSE) {
       }
 
       if (needs_recycle) {
-        chunks <- map2(chunks, rows_lengths, function(chunk, n) {
+        chunks <- pmap(list(seq_along(chunks), chunks, rows_lengths), function(i, chunk, n) {
+          # set the group so that stop_mutate_recycle_incompatible_size() correctly
+          # identifies it, otherwise it would always report the last group
+          mask$set_current_group(i)
           vec_recycle(chunk, n)
         })
       }
@@ -278,7 +281,7 @@ mutate_cols <- function(.data, ..., .track_usage = FALSE) {
       stop_mutate_not_vector(index = i, dots = dots, result = e$result)
     },
     vctrs_error_incompatible_type = function(e) {
-      stop_combine(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+      stop_combine(e, index = i, dots = dots, fn = "mutate")
     },
     simpleError = function(e) {
       stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")

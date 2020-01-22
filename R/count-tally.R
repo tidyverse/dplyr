@@ -13,10 +13,10 @@
 #'
 #' @param x A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr).
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables to group by.
-#' @param wt <[`tidy-eval`][dplyr_tidy_eval]> If omitted, will count the number of rows.
-#'   If specified, will perform a "weighted" tally by summing the (non-missing)
-#'   values of variable `wt`.
+#' @param ... <[`data-masking`][dplyr_data_masking]> Variables to group by.
+#' @param wt <[`data-masking`][dplyr_data_masking]> If omitted, will count the
+#'   number of rows. If specified, will perform a "weighted" tally by summing
+#'   the (non-missing) values of variable `wt`.
 #'
 #'   If omitted, and column `n` exists, it will automatically be used as a
 #'   weighting variable, although you will have to specify `name` to provide

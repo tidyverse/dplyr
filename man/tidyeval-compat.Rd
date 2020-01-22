@@ -19,8 +19,8 @@
 \description{
 These tidy eval functions are no longer for normal usage, but are still
 exported from dplyr for backward compatibility.
-See \code{\link[=dplyr_tidy_eval]{?dplyr_tidy_eval}} and \code{vignette("programming")} for
-latest recommendations.
+See \code{\link[=dplyr_data_masking]{?dplyr_data_masking}} and \code{vignette("programming")}
+for the latest recommendations.
 \itemize{
 \item \link[rlang:expr]{expr()}
 \item \link[rlang:enquo]{enquo()}

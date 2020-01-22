@@ -27,7 +27,7 @@ NULL
 
 lazy_deprec <- function(fun, hint = TRUE) {
   lifecycle::deprecate_warn("0.7.0", paste0(fun, "_()"), paste0(fun, "()"),
-    details = if (hint) "See ?dplyr_tidy_eval for more help"
+    details = if (hint) "See vignette('programming') for more help"
   )
 }
 

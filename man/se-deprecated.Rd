@@ -69,9 +69,9 @@ summarize_(.data, ..., .dots = list())
 
 \item{vars}{Various meanings depending on the verb.}
 
-\item{wt}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> If omitted, will count the number of rows.
-If specified, will perform a "weighted" tally by summing the (non-missing)
-values of variable \code{wt}.
+\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> If omitted, will count the
+number of rows. If specified, will perform a "weighted" tally by summing
+the (non-missing) values of variable \code{wt}.
 
 If omitted, and column \code{n} exists, it will automatically be used as a
 weighting variable, although you will have to specify \code{name} to provide

@@ -125,7 +125,7 @@ vars <- function(...) {
 #' variant takes the intersection of the predicate expressions with
 #' `&` while the `any_vars()` variant takes the union with `|`.
 #'
-#' @param expr <[`tidy-eval`][dplyr_tidy_eval]> An expression that
+#' @param expr <[`data-masking`][dplyr_data_masking]> An expression that
 #'   returns a logical vector, using `.` to refer to the "current" variable.
 #' @seealso [vars()] for other quoting functions that you
 #'   can use with scoped verbs.

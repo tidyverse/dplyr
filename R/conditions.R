@@ -10,43 +10,89 @@ arg_name <- function(quos, index) {
   name
 }
 
+cnd_problem <- function(fn, what) {
+  glue("`{fn}()` argument `{name}` {what}.", name = context_peek("error_name"))
+}
+
+cnd_bullet_current_expression <- function() {
+  c(i = glue("`{error_name}` is `{error_expression}`.", .envir = context_env))
+}
+
+cnd_bullet_cur_group_label <- function() {
+  label <- cur_group_label()
+  if (label != "") {
+    c(i = glue("The error occured in {label}."))
+  }
+}
+
+cnd_bullet_rowwise_unlist <- function() {
+  data <- peek_mask()$full_data()
+  if (inherits(data, "rowwise_df")) {
+    c(i = "Did you mean: `{error_name} = list({error_expression})` ?")
+  }
+}
+
+or_1 <- function(x) {
+  if(x == 1L) {
+    "1"
+  } else {
+    glue("{x} or 1")
+  }
+}
+
+set_error_context <- function(index, dots, .dot_data = FALSE) {
+  expr  <- if (.dot_data) {
+    deparse(quo_get_expr(dots[[index]]))
+  } else{
+    as_label(quo_get_expr(dots[[index]]))
+  }
+  name  <- arg_name(dots, index)
+  context_poke("error_name", name)
+  context_poke("error_expression", expr)
+}
+
 # Common ------------------------------------------------------------------
 
-stop_eval_tidy <- function(e, index, dots, fn) {
-  data  <- peek_mask()$full_data()
-  expr  <- as_label(quo_get_expr(dots[[index]]))
-  name  <- arg_name(dots, index)
+stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE) {
+  set_error_context(.index, dots, .dot_data = .dot_data)
+  envir <- env(
+    error_name = context_peek("error_name"), error_expression = context_peek("error_expression"),
+    caller_env()
+  )
 
   abort(glue_c(
-    "`{fn}()` argument `{name}` errored.",
-    i = "`{name}` is {expr}",
-    x = conditionMessage(e),
-    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
+    cnd_problem(fn, problem),
+    cnd_bullet_current_expression(),
+    if(.show_group_details) cnd_bullet_cur_group_label(),
+    ...,
+
+    .envir = envir
   ))
 }
 
+stop_eval_tidy <- function(e, index, dots, fn) {
+  stop_dplyr(index, dots, fn, "errored",
+    x = conditionMessage(e)
+  )
+}
 
-stop_combine <- function(msg, index, dots, fn = "summarise") {
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
+combine_details <- function(x, arg) {
+  group <- as.integer(sub("^..", "", arg))
+  keys <- group_keys(peek_mask()$full_data())[group, ]
+  details <- group_labels_details(keys)
+  c(i = glue("Result type for group {group} ({details}) : <{vec_ptype_full(x)}>."))
+}
 
-  abort(glue_c(
-    "`{fn}()` argument `{name}` must return compatible vectors across groups.",
-    i = "`{name}` is {expr}",
-    x = "Error from vec_c() : {msg}."
-  ))
+stop_combine <- function(cnd, index, dots, fn = "summarise") {
+  stop_dplyr(index, dots, fn, "must return compatible vectors across groups",
+    combine_details(cnd$x, cnd$x_arg),
+    combine_details(cnd$y, cnd$y_arg),
+    .show_group_details = FALSE
+  )
 }
 
 stop_error_data_pronoun_not_found <- function(msg, index, dots, fn = "summarise") {
-  name <- arg_name(dots, index)
-  # this instead of as_label() because it eats the ".data$"
-  expr <- deparse(quo_get_expr(dots[[index]]))
-
-  abort(glue_c(
-    "`{fn}()` argument `{name}` errored.",
-    i = "`{name}` is {expr}",
-    x = msg
-  ))
+  stop_dplyr(index, dots, fn, "errored", .dot_data = TRUE, x = msg)
 }
 
 err_vars <- function(x) {
@@ -63,26 +109,23 @@ err_vars <- function(x) {
 # filter() ----------------------------------------------------------------
 
 stop_filter_incompatible_size <- function(index_expression, size, expected_size) {
-  data <- peek_mask()$full_data()
-
   abort(glue_c(
     "`filter()` argument `..{index_expression}` is incorrect.",
-    x = "It must be of size {expected_size} or 1, not size {size}.",
-    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
+    cnd_bullet_cur_group_label(),
+    x = "`..{index_expression}` must be of size {or_1(expected_size)}, not size {size}."
   ))
 }
 
 stop_filter_incompatible_type <- function(index_expression, index_column_name, result) {
-  data <- peek_mask()$full_data()
-
+  arg_name <- if (!is.null(index_column_name)) {
+    glue("..{index_expression}${index_column_name}")
+  } else {
+    glue("..{index_expression}")
+  }
   abort(glue_c(
-    if (!is.null(index_column_name)) {
-      "`filter()` argument `..{index_expression}${index_column_name}` is incorrect."
-    } else {
-      "`filter()` argument `..{index_expression}` is incorrect."
-    },
-    x = "It must be a logical vector, not a {vec_ptype_full(result)}.",
-    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
+    "`filter()` argument `{arg_name}` is incorrect.",
+    cnd_bullet_cur_group_label(),
+    x = "`{arg_name}` must be a logical vector, not a {vec_ptype_full(result)}."
   ))
 }
 
@@ -102,18 +145,10 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
     abort(class = "dplyr_summarise_unsupported_type", result = result)
   }
 
-  data  <- peek_mask()$full_data()
-  expr  <- as_label(quo_get_expr(dots[[index]]))
-  name  <- arg_name(dots, index)
-
-  # called again with context
-  abort(glue_c(
-    "`summarise()` argument `{name}` must be a vector.",
-    i = "`{name}` is {expr}",
-    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}.",
-    x = "Result should be a vector, not {as_friendly_type(typeof(result))}."
-  ))
-
+  stop_dplyr(index, dots, "summarise", "must be a vector",
+    x = "`{error_name}` must be a vector, not {friendly_type_of(result)}.",
+    cnd_bullet_rowwise_unlist()
+  )
 }
 
 # mutate() ----------------------------------------------------------------
@@ -124,14 +159,11 @@ stop_mutate_mixed_NULL <- function(index, dots) {
     abort(class = "dplyr_mutate_mixed_NULL")
   }
 
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
-
-  abort(glue_c(
-    "`mutate()` argument `{name}` must return compatible vectors across groups.",
-    i = "`{name}` is {expr}",
-    i = "Cannot combine NULL and non NULL results."
-  ))
+  stop_dplyr(index, dots, "mutate", "must return compatible vectors across groups",
+    i = "Cannot combine NULL and non NULL results.",
+    .show_group_details = FALSE,
+    cnd_bullet_rowwise_unlist()
+  )
 }
 
 
@@ -141,29 +173,18 @@ stop_mutate_not_vector <- function(result, index, dots) {
     abort(class = "dplyr_mutate_not_vector", result = result)
   }
 
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
-  data <- peek_mask()$full_data()
-
-  abort(glue_c(
-    "`mutate()` argument `{name}` must be a vector.",
-    i = "`{name}` is {expr}.",
-    x = "Result should be a vector, not {as_friendly_type(typeof(result))}.",
-    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
-  ))
+  stop_dplyr(index, dots, "mutate", "must be a vector",
+    x = "`{error_name}` must be a vector, not {friendly_type_of(result)}.",
+    cnd_bullet_rowwise_unlist()
+  )
 }
 
 stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
-  data <- peek_mask()$full_data()
-
-  abort(glue_c(
-    "`mutate()` argument `{name}` must be recyclable.",
-    i = "`{name}` is {expr}",
-    x = conditionMessage(cnd),
-    i = if(is_grouped_df(data)) "The error occured in group {cur_group_id()}."
-  ))
+  stop_dplyr(index, dots, "mutate", "must be recyclable",
+    x = "`{error_name}` can't be recycled to size {cnd$size}.",
+    i = "`{error_name}` must be size {or_1(cnd$size)}, not {cnd$x_size}.",
+    cnd_bullet_rowwise_unlist()
+  )
 }
 
 stop_summarise_incompatible_size <- function(size, group, index, expected_sizes, dots) {
@@ -172,27 +193,12 @@ stop_summarise_incompatible_size <- function(size, group, index, expected_sizes,
     abort(class = "dplyr_summarise_incompatible_size", size = size, group = group)
   }
 
-  data <- peek_mask()$full_data()
-  name <- arg_name(dots, index)
-  expr <- as_label(quo_get_expr(dots[[index]]))
+  # so that cnd_bullet_cur_group_label() correctly reports the faulty group
+  peek_mask()$set_current_group(group)
 
-  # called again with context
+  stop_dplyr(index, dots, "summarise", "must be recyclable",
+    x = "`{error_name}` must be size {or_1(expected_sizes[group])}, not {size}.",
+    i = "An earlier column had size {expected_sizes[group]}."
+  )
 
-  should_be <- if(expected_sizes[group] == 1L) {
-    "1"
-  } else {
-    glue("{expected_sizes[group]} or 1")
-  }
-
-  abort(glue_c(
-    "`summarise()` argument `{name}` must be recyclable.",
-    i = "`{name}` is {expr}",
-    x = "Result should be size {should_be}, not {size}.",
-    i = if(is_grouped_df(data)) "The error occured in group {group}.",
-    i = paste0(
-      "An earlier column had size {expected_sizes[group]}",
-      if(is_grouped_df(data)) " for the group {group}" else "",
-      "."
-    )
-  ))
 }

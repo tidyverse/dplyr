@@ -26,7 +26,7 @@ Most dplyr verbs use **tidy evaluation** in some way. Tidy evaluation is a speci
   **tidy selection** so you can easily choose variabe based on their position, 
   name, or type (e.g. `starts_with("x")` or `is.numeric`).
 
-To determine whether a function argument uses data masking or tidy selection, look at the documentation: in the arguments list you'll see `<tidy-eval>` or `<tidy-select>`.
+To determine whether a function argument uses data masking or tidy selection, look at the documentation: in the arguments list you'll see `<data-masking>` or `<tidy-select>`.
 
 Data masking and tidy selection make interactive data exploration fast and fluid, but add some new challenges when you attempt to use them indirectly, as in a for loop or function. This vignette shows you how to overcome those challenges. We'll first go over the basics of data masking and tidy selection, talk about how to use them indirectly, and then show you a number of recipes to solve common problems.
 
@@ -128,7 +128,7 @@ Underneath all functions that use tidy selection is the [tidyselect](http://tidy
 * `select(df, c(a, b, c))` selects columns `a`, `b`, and `c`.
 
 * `select(df, starts_with("a"))` selects all columns whose name starts with "a";
-  `select(df, ends_with("a"))` selects all columns whose name ends with "z".
+  `select(df, ends_with("z"))` selects all columns whose name ends with "z".
   
 * `select(df, is.numeric)` selects all numeric columns.
 

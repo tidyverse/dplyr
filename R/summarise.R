@@ -33,7 +33,7 @@
 #'
 #' @export
 #' @inheritParams arrange
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of summary
+#' @param ... <[`data-masking`][dplyr_data_masking]> Name-value pairs of summary
 #'   functions. The name will be the name of the variable in the result.
 #'
 #'   The value can be:
@@ -100,7 +100,7 @@
 #' # Refer to column names stored as strings with the `.data` pronoun:
 #' var <- "mass"
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
-#' # Learn more in ?dplyr_tidy_eval
+#' # Learn more in ?dplyr_data_masking
 summarise <- function(.data, ...) {
   UseMethod("summarise")
 }
@@ -209,16 +209,16 @@ summarise_cols <- function(.data, ...) {
     stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
   },
   vctrs_error_incompatible_type = function(e) {
-    stop_combine(conditionMessage(e), index = i, dots = dots, fn = "summarise")
-  },
-  simpleError = function(e) {
-    stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
+    stop_combine(e, index = i, dots = dots, fn = "summarise")
   },
   dplyr_summarise_unsupported_type = function(cnd) {
     stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
   },
   dplyr_summarise_incompatible_size = function(cnd) {
     stop_summarise_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
+  },
+  simpleError = function(e) {
+    stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
   })
 
   list(new = cols, size = .size)

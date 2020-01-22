@@ -297,6 +297,9 @@ test_that("mutate() give meaningful errors", {
     df %>%
       group_by(g) %>%
       mutate(out = env(a = 1))
+    df %>%
+      rowwise() %>%
+      mutate(out = rnorm)
 
     "# incompatible types across groups"
     data.frame(x = rep(1:5, each = 3)) %>%
@@ -312,6 +315,12 @@ test_that("mutate() give meaningful errors", {
       mutate(int = 1:5)
     data.frame(x = c(2, 2, 3, 3)) %>%
       group_by(x) %>%
+      mutate(int = 1:5)
+    data.frame(x = c(2, 3, 3)) %>%
+      group_by(x) %>%
+      mutate(int = 1:5)
+    data.frame(x = c(2, 2, 3, 3)) %>%
+      rowwise() %>%
       mutate(int = 1:5)
 
     "# .data pronoun"

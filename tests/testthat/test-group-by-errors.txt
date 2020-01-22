@@ -13,6 +13,6 @@ These dots only exist to allow future extensions and should be empty.
 Did you misspecify an argument?
 
 > df %>% group_by(x, y) %>% ungroup(z)
-Error: Must select existing columns.
-x Can't subset element with unknown name `z`.
+Error: Can't subset columns that don't exist.
+x The column `z` doesn't exist.
 

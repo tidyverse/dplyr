@@ -75,6 +75,24 @@ cur_group_rows <- function() {
   peek_mask("cur_group_rows()")$current_rows()
 }
 
+group_labels_details <- function(keys) {
+  glue_collapse(map2_chr(keys, names(keys), function(x, name) {
+    glue("{name} = {value}", value = format_v(x))
+  }), ", ")
+}
+
+cur_group_label <- function() {
+  mask <- peek_mask("cur_group_label()")
+  data <- mask$full_data()
+  if (is_grouped_df(data)) {
+    paste0("group ", cur_group_id(), ": ", group_labels_details(cur_group()))
+  } else if (inherits(data, "rowwise_df")) {
+    paste0("row ", cur_group_id())
+  } else {
+    ""
+  }
+}
+
 #' @rdname context
 #' @export
 cur_column <- function() {

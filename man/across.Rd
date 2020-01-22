@@ -4,7 +4,7 @@
 \alias{across}
 \title{Apply a function (or a set of functions) to a set of columns}
 \usage{
-across(cols = everything(), fns = NULL)
+across(cols = everything(), fns = NULL, names = NULL)
 }
 \arguments{
 \item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
@@ -17,22 +17,20 @@ Possible values are:
 \item \code{NULL}, to returns the columns untransformed.
 \item A function, e.g. \code{mean}.
 \item A purrr-style lambda, e.g. \code{~ mean(.x, na.rm = TRUE)}
-\item A named list of functions/lambdas, e.g.
+\item A list of functions/lambdas, e.g.
 \verb{list(mean = mean, n_miss = ~ sum(is.na(.x))}
 }
 
 Within these functions you can use \code{\link[=cur_column]{cur_column()}} and \code{\link[=cur_group]{cur_group()}}
 to access the current column and grouping keys respectively.}
+
+\item{names}{A glue specification that describes how to name the output columns. This can use \code{{col}} to stand for
+the selected column name, and \code{{fn}} to stand for the name of the function
+being applied. The default (\code{NULL}) is equivalent to \code{"{col}"} for the single
+function case and \code{"{col}_{fn}"} for the case where a list is used for \code{fns}.}
 }
 \value{
-A tibble.
-
-When \code{fns} is a single function, it will have one column for each
-column in \code{cols}
-
-When \code{fns} is a named list, it will have one column for each element
-of \code{fns}. Each column will be a df-column that contains one column
-for each column in \code{cols}.
+A tibble with one column for each column in \code{cols} and each function in \code{fns}.
 }
 \description{
 \code{across()} makes it easy to apply the same transformation to multiple
@@ -59,4 +57,16 @@ iris \%>\%
 iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
+
+# Use the names argument to control the output names
+iris \%>\%
+  group_by(Species) \%>\%
+  summarise(across(starts_with("Sepal"), mean, names = "mean_{col}"))
+iris \%>\%
+  group_by(Species) \%>\%
+  summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), names = "{col}.{fn}"))
+iris \%>\%
+  group_by(Species) \%>\%
+  summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
+
 }
