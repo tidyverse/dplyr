@@ -49,7 +49,7 @@ variables.
 
 \item{.before, .after}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally,
 control where new columns should be appear (the default is to add to the
-left hand side).}
+right hand side).}
 }
 \value{
 An object of the same type as \code{.data}.

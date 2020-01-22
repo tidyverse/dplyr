@@ -158,7 +158,7 @@ mutate <- function(.data, ...) {
 #'   * `"none"`, only keeps grouping keys (like [transmute()]).
 #' @param .before,.after <[`tidy-select`][dplyr_tidy_select]> Optionally,
 #'   control where new columns should be appear (the default is to add to the
-#'   left hand side).
+#'   right hand side).
 #' @export
 mutate.data.frame <- function(.data, ...,
                               .keep = c("all", "used", "unused", "none"),
