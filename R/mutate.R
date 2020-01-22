@@ -173,8 +173,8 @@ mutate.data.frame <- function(.data, ...,
   .after <- enquo(.after)
   if (!quo_is_null(.before) || !quo_is_null(.after)) {
     # Only change the order of new columns
-    new <- setdiff(names(cols), names(data))
-    out <- relocate(out, any_of(new), .before = !!.before, .after = !!.after)
+    new <- setdiff(names(cols), names(.data))
+    out <- relocate(out, !!new, .before = !!.before, .after = !!.after)
   }
 
   if (keep == "all") {
