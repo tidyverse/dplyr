@@ -379,14 +379,14 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; # … with 4 more variables: Sepal.Length_fn2 &lt;dbl&gt;, Sepal.Width_fn2 &lt;dbl&gt;,
 #&gt; #   Petal.Length_fn2 &lt;dbl&gt;, Petal.Width_fn2 &lt;dbl&gt;</div><div class='input'><span class='co'># -&gt;</span>
 <span class='no'>by_species</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='no'>min</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='no'>max</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   Species min$Sepal.Length $Sepal.Width $Petal.Length $Petal.Width
-#&gt;   &lt;fct&gt;              &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-#&gt; 1 setosa               4.3          2.3           1            0.1
-#&gt; 2 versic…              4.9          2             3            1  
-#&gt; 3 virgin…              4.9          2.2           4.5          1.4
-#&gt; # … with 4 more variables: max$Sepal.Length &lt;dbl&gt;, $Sepal.Width &lt;dbl&gt;,
-#&gt; #   $Petal.Length &lt;dbl&gt;, $Petal.Width &lt;dbl&gt;</div></pre>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='no'>min</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='no'>max</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 9
+#&gt;   Species Sepal.Length_min Sepal.Length_max Sepal.Width_min Sepal.Width_max
+#&gt;   &lt;fct&gt;              &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;
+#&gt; 1 setosa               4.3              2.3             1               0.1
+#&gt; 2 versic…              4.9              2               3               1  
+#&gt; 3 virgin…              4.9              2.2             4.5             1.4
+#&gt; # … with 4 more variables: Petal.Length_min &lt;dbl&gt;, Petal.Length_max &lt;dbl&gt;,
+#&gt; #   Petal.Width_min &lt;dbl&gt;, Petal.Width_max &lt;dbl&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

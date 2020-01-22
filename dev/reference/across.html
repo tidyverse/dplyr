@@ -202,7 +202,7 @@ columns, allowing you to use <code><a href='select.html'>select()</a></code> sem
 See <code>vignette("colwise")</code> for more details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>across</span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='kw'>fns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>across</span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='kw'>fns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,23 +220,25 @@ Possible values are:</p><ul>
 <li><p><code>NULL</code>, to returns the columns untransformed.</p></li>
 <li><p>A function, e.g. <code>mean</code>.</p></li>
 <li><p>A purrr-style lambda, e.g. <code>~ mean(.x, na.rm = TRUE)</code></p></li>
-<li><p>A named list of functions/lambdas, e.g.
+<li><p>A list of functions/lambdas, e.g.
 <code>list(mean = mean, n_miss = ~ sum(is.na(.x))</code></p></li>
 </ul>
 
 <p>Within these functions you can use <code><a href='context.html'>cur_column()</a></code> and <code><a href='context.html'>cur_group()</a></code>
 to access the current column and grouping keys respectively.</p></td>
     </tr>
+    <tr>
+      <th>names</th>
+      <td><p>A glue specification that describes how to name the output columns. This can use <code>{col}</code> to stand for
+the selected column name, and <code>{fn}</code> to stand for the name of the function
+being applied. The default (<code>NULL</code>) is equivalent to <code>"{col}"</code> for the single
+function case and <code>"{col}_{fn}"</code> for the case where a list is used for <code>fns</code>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble.</p>
-<p>When <code>fns</code> is a single function, it will have one column for each
-column in <code>cols</code></p>
-<p>When <code>fns</code> is a named list, it will have one column for each element
-of <code>fns</code>. Each column will be a df-column that contains one column
-for each column in <code>cols</code>.</p>
+    <p>A tibble with one column for each column in <code>cols</code> and each function in <code>fns</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># A function</span>
@@ -275,12 +277,36 @@ for each column in <code>cols</code>.</p>
 <span class='co'># A named list of functions</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='no'>sd</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   Species    mean$Sepal.Length $Sepal.Width sd$Sepal.Length $Sepal.Width
-#&gt;   &lt;fct&gt;                  &lt;dbl&gt;        &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;
-#&gt; 1 setosa                  5.01         3.43           0.352        0.379
-#&gt; 2 versicolor              5.94         2.77           0.516        0.314
-#&gt; 3 virginica               6.59         2.97           0.636        0.322</div></pre>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='no'>sd</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 5
+#&gt;   Species    Sepal.Length_mean Sepal.Length_sd Sepal.Width_mean Sepal.Width_sd
+#&gt;   &lt;fct&gt;                  &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;
+#&gt; 1 setosa                  5.01            3.43            0.352          0.379
+#&gt; 2 versicolor              5.94            2.77            0.516          0.314
+#&gt; 3 virginica               6.59            2.97            0.636          0.322</div><div class='input'>
+<span class='co'># Use the names argument to control the output names</span>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='no'>mean</span>, <span class='kw'>names</span> <span class='kw'>=</span> <span class='st'>"mean_{col}"</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt;   Species    mean_Sepal.Length mean_Sepal.Width
+#&gt;   &lt;fct&gt;                  &lt;dbl&gt;            &lt;dbl&gt;
+#&gt; 1 setosa                  5.01             3.43
+#&gt; 2 versicolor              5.94             2.77
+#&gt; 3 virginica               6.59             2.97</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='no'>sd</span>), <span class='kw'>names</span> <span class='kw'>=</span> <span class='st'>"{col}.{fn}"</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 5
+#&gt;   Species    Sepal.Length.mean Sepal.Length.sd Sepal.Width.mean Sepal.Width.sd
+#&gt;   &lt;fct&gt;                  &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;
+#&gt; 1 setosa                  5.01            3.43            0.352          0.379
+#&gt; 2 versicolor              5.94            2.77            0.516          0.314
+#&gt; 3 virginica               6.59            2.97            0.636          0.322</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>mean</span>, <span class='no'>sd</span>), <span class='kw'>names</span> <span class='kw'>=</span> <span class='st'>"{col}.fn{fn}"</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 5
+#&gt;   Species    Sepal.Length.fn1 Sepal.Length.fn2 Sepal.Width.fn1 Sepal.Width.fn2
+#&gt;   &lt;fct&gt;                 &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;
+#&gt; 1 setosa                 5.01             3.43           0.352           0.379
+#&gt; 2 versicolor             5.94             2.77           0.516           0.314
+#&gt; 3 virginica              6.59             2.97           0.636           0.322</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

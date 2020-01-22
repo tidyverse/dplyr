@@ -398,20 +398,28 @@
 <a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt; 2     2     2</span></a></code></pre></div>
 <p>The four possibilities are:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/setops.html">intersect</a></span>(df1, df2)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt;   x y</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt; 1 1 1</span></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co"># Note that we get 3 rows, not 4</span></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="kw"><a href="../reference/setops.html">union</a></span>(df1, df2)</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt;   x y</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; 1 1 1</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 2 2 1</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; 3 2 2</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df1, df2)</a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt;   x y</span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; 1 2 1</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df2, df1)</a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt;   x y</span></a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; 1 2 2</span></a></code></pre></div>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt;       x     y</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; 1     1     1</span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co"># Note that we get 3 rows, not 4</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="kw"><a href="../reference/setops.html">union</a></span>(df1, df2)</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt;       x     y</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt; 1     1     1</span></a>
+<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; 2     2     1</span></a>
+<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt; 3     2     2</span></a>
+<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df1, df2)</a>
+<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt;       x     y</span></a>
+<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt; 1     2     1</span></a>
+<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df2, df1)</a>
+<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb14-21" data-line-number="21"><span class="co">#&gt;       x     y</span></a>
+<a class="sourceLine" id="cb14-22" data-line-number="22"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb14-23" data-line-number="23"><span class="co">#&gt; 1     2     2</span></a></code></pre></div>
 </div>
 <div id="coercion-rules" class="section level2">
 <h2 class="hasAnchor">
