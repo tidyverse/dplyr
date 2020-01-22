@@ -68,6 +68,7 @@ test_that("arrange supports bit64::integer64 (#4366)", {
 })
 
 test_that("arrange handles S4 classes #1105", {
+  skip("TODO: https://github.com/r-lib/vctrs/issues/776")
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
   setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
   on.exit(removeClass("TestS4"))
