@@ -4,10 +4,10 @@
 #' to [unique.data.frame()], but considerably faster.
 #'
 #' @inheritParams arrange
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Optional variables to use when
-#'   determining uniqueness. If there are multiple rows for a given combination
-#'   of inputs, only the first row will be preserved. If omitted, will use all
-#'   variables.
+#' @param ... <[`data-masking`][dplyr_data_masking]> Optional variables to use
+#'   when determining uniqueness. If there are multiple rows for a given
+#'   combination of inputs, only the first row will be preserved. If omitted,
+#'   will use all variables.
 #' @param .keep_all If `TRUE`, keep all variables in `.data`.
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.

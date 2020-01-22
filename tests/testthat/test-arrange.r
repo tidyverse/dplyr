@@ -68,6 +68,7 @@ test_that("arrange supports bit64::integer64 (#4366)", {
 })
 
 test_that("arrange handles S4 classes #1105", {
+  skip("TODO: https://github.com/r-lib/vctrs/issues/776")
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
   setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
   on.exit(removeClass("TestS4"))
@@ -111,4 +112,24 @@ test_that("arrange updates the grouping structure (#605)", {
   res <- df %>% group_by(g) %>% arrange(x)
   expect_s3_class(res, "grouped_df")
   expect_equal(group_rows(res), list_of(c(2L, 4L), c(1L, 3L)))
+})
+
+test_that("arrange() supports across() (#4679)", {
+  df <- tibble(x = c(1, 3, 2, 1), y = c(4, 3, 2, 1))
+  expect_identical(
+    df %>% arrange(across()),
+    df %>% arrange(x, y)
+  )
+  expect_identical(
+    df %>% arrange(across(fns = desc)),
+    df %>% arrange(desc(x), desc(y))
+  )
+  expect_identical(
+    df %>% arrange(across(x)),
+    df %>% arrange(x)
+  )
+  expect_identical(
+    df %>% arrange(across(y)),
+    df %>% arrange(y)
+  )
 })

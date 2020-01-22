@@ -2,10 +2,19 @@
 % Please edit documentation in R/mutate.R
 \name{mutate}
 \alias{mutate}
+\alias{mutate.data.frame}
 \alias{transmute}
 \title{Create, modify, and delete columns}
 \usage{
 mutate(.data, ...)
+
+\method{mutate}{data.frame}(
+  .data,
+  ...,
+  .keep = c("all", "used", "unused", "none"),
+  .before = NULL,
+  .after = NULL
+)
 
 transmute(.data, ...)
 }
@@ -14,7 +23,7 @@ transmute(.data, ...)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs.
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name-value pairs.
 The name gives the name of the column in the output.
 
 The value can be:
@@ -24,6 +33,18 @@ The value can be:
 if ungrouped).
 \item \code{NULL}, to remove the column.
 \item A data frame or tibble, to create multiple columns in the output.
+}}
+
+\item{.keep}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
+This is an experimental argument that allows you to control which columns
+from \code{.data} are retained in the output:
+\itemize{
+\item \code{"all"}, the default, retains all variables.
+\item \code{"used"} keeps any variables used to make new variables; it's useful
+for checking your work as it displays inputs and outputs side-by-side.
+\item \code{"unused"} keeps only existing variables \strong{not} used to make new
+variables.
+\item \code{"none"}, only keeps grouping keys (like \code{\link[=transmute]{transmute()}}).
 }}
 
 \item{.before, .after}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally,
@@ -135,6 +156,11 @@ mtcars \%>\%
 mtcars \%>\%
   transmute(displ_l = disp / 61.0237)
 
+# Experimental .remove = "used" allows you to remove variables
+# that are used "up" when computing new variables:
+mtcars \%>\%
+  mutate(displ_l = disp / 61.0237, .remove = "used")
+
 # Grouping ----------------------------------------
 # The mutate operation may yield different results on grouped
 # tibbles because the expressions are computed within groups.
@@ -154,7 +180,7 @@ starwars \%>\%
 # Refer to column names stored as strings with the `.data` pronoun:
 vars <- c("mass", "height")
 mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
-# Learn more in ?dplyr_tidy_eval
+# Learn more in ?dplyr_data_masking
 }
 \seealso{
 Other single table verbs: 

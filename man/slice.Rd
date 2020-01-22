@@ -26,7 +26,9 @@ slice_sample(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{For \code{slice()}: <\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Integer row values.
+\item{...}{For \code{slice()}: <\code{\link[=dplyr_data_masking]{data-masking}}> Integer row
+values.
+
 Provide either positive values to keep, or negative values to drop.
 The values provided must be either all positive or all negative.
 Indices beyond the number of rows in the input are silently ignored.

@@ -38,8 +38,8 @@
 #' average.
 #' @family single table verbs
 #' @inheritParams arrange
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Logical predicates defined in
-#'   terms of the variables in `.data`.
+#' @param ... <[`data-masking`][dplyr_data_masking]> Logical predicates defined
+#'   in terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   condition evaluates to `TRUE` are kept.
 #' @param .preserve when `FALSE` (the default), the grouping structure
@@ -92,7 +92,7 @@
 #'     .data[[vars[[1]]]] > cond[[1]],
 #'     .data[[vars[[2]]]] > cond[[2]]
 #'   )
-#' # Learn more in ?dplyr_tidy_eval
+#' # Learn more in ?dplyr_data_masking
 filter <- function(.data, ..., .preserve = FALSE) {
   UseMethod("filter")
 }
@@ -103,7 +103,7 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
     return(.data)
   }
 
-  loc <- filter_rows(.data, ...)[[1]]
+  loc <- filter_rows(.data, ...)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 

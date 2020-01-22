@@ -226,7 +226,7 @@ test_that("mutate() evaluates expression for empty groups", {
   gf <- group_by(df, f, .drop = FALSE)
 
   count <- 0
-  mutate(gf, {count <<- count + 1})
+  mutate(gf, x = {count <<- count + 1})
   expect_equal(count, 3L)
 })
 
@@ -238,6 +238,39 @@ test_that("DataMask$add() forces chunks (#4677)", {
       log_e_bf01 = log(bf01)
     )
   expect_equal(df$log_e_bf01, log(1 / 0.244))
+})
+
+
+# .keep -----------------------------------------------------------------
+
+test_that(".keep = 'unused' keeps variables explicitly mentioned", {
+  df <- tibble(x = 1, y = 2)
+  out <- mutate(df, x1 = x + 1, y = y, .keep = "unused")
+  expect_named(out, c("y", "x1"))
+})
+
+test_that(".keep = 'used' not affected by across()", {
+  df <- tibble(x = 1, y = 2, z = 3, a = "a", b = "b", c = "c")
+
+  # This must evaluate every column in order to figure out if should
+  # be included in the set or not, but that shouldn't be counted for
+  # the purposes of "used" variables
+  out <- mutate(df, across(is.numeric, identity), .keep = "unused")
+  expect_named(out, names(df))
+})
+
+test_that(".keep = 'used' keeps variables used in expressions", {
+  df <- tibble(a = 1, b = 2, c = 3, x = 1, y = 2)
+  out <- mutate(df, xy = x + y, .keep = "used")
+  expect_named(out, c("x", "y", "xy"))
+})
+
+test_that(".keep = 'none' only keeps grouping variables", {
+  df <- tibble(x = 1, y = 2)
+  gf <- group_by(df, x)
+
+  expect_named(mutate(df, z = 1, .keep = "none"), "z")
+  expect_named(mutate(gf, z = 1, .keep = "none"), c("x", "z"))
 })
 
 # Error messages ----------------------------------------------------------
@@ -264,6 +297,9 @@ test_that("mutate() give meaningful errors", {
     df %>%
       group_by(g) %>%
       mutate(out = env(a = 1))
+    df %>%
+      rowwise() %>%
+      mutate(out = rnorm)
 
     "# incompatible types across groups"
     data.frame(x = rep(1:5, each = 3)) %>%
@@ -279,6 +315,12 @@ test_that("mutate() give meaningful errors", {
       mutate(int = 1:5)
     data.frame(x = c(2, 2, 3, 3)) %>%
       group_by(x) %>%
+      mutate(int = 1:5)
+    data.frame(x = c(2, 3, 3)) %>%
+      group_by(x) %>%
+      mutate(int = 1:5)
+    data.frame(x = c(2, 2, 3, 3)) %>%
+      rowwise() %>%
       mutate(int = 1:5)
 
     "# .data pronoun"

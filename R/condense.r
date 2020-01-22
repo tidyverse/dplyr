@@ -18,10 +18,10 @@
 #' intriguing we recommend starting with `vignette("rowwise")`.
 #'
 #' @inheritParams arrange
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of functions.
-#'   All outputs will be automatically wrapped in lists, making it most
-#'   suitable for functions that that return non-vectors (e.g. linear models)
-#'   or vectors of length greater than one.
+#' @param ... <[`data-masking`][dplyr_data_masking]> Name-value pairs of
+#'   functions. All outputs will be automatically wrapped in lists, making it
+#'   most suitable for functions that that return non-vectors (e.g. linear
+#'   models) or vectors of length greater than one.
 #' @return
 #' A [rowwise] object.
 #'

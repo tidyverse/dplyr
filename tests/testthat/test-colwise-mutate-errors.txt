@@ -3,8 +3,8 @@ column not found
 ================
 
 > mutate_at(tibble(), "test", ~1)
-Error: Must select existing columns.
-x Can't subset element with unknown name `test`.
+Error: Can't subset columns that don't exist.
+x The column `test` doesn't exist.
 
 
 not summarising grouping variables
@@ -13,8 +13,8 @@ not summarising grouping variables
 > tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8)
 > tbl <- group_by(tbl, gr1)
 > summarise_at(tbl, vars(gr1), mean)
-Error: Must select existing columns.
-x Can't subset element with unknown name `gr1`.
+Error: Can't subset columns that don't exist.
+x The column `gr1` doesn't exist.
 
 
 improper additional arguments
@@ -22,11 +22,11 @@ improper additional arguments
 
 > mutate_all(mtcars, round, 0, 0)
 Error: `mutate()` argument `mpg` errored.
-i `mpg` is .Primitive("round")(mpg, 0, 0)
+i `mpg` is `.Primitive("round")(mpg, 0, 0)`.
 x 3 arguments passed to 'round'which requires 1 or 2 arguments
 
 > mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
 Error: `mutate()` argument `mpg` errored.
-i `mpg` is (function (x, ...) ...
+i `mpg` is `(function (x, ...) ...`.
 x formal argument "na.rm" matched by multiple actual arguments
 

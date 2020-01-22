@@ -26,9 +26,9 @@ add_count(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated())
 \item{x}{A data frame, data frame extension (e.g. a tibble), or a
 lazy data frame (e.g. from dbplyr or dtplyr).}
 
-\item{wt}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> If omitted, will count the number of rows.
-If specified, will perform a "weighted" tally by summing the (non-missing)
-values of variable \code{wt}.
+\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> If omitted, will count the
+number of rows. If specified, will perform a "weighted" tally by summing
+the (non-missing) values of variable \code{wt}.
 
 If omitted, and column \code{n} exists, it will automatically be used as a
 weighting variable, although you will have to specify \code{name} to provide
@@ -41,7 +41,7 @@ a new name for the output.}
 If omitted, it will default to \code{n}. If there's already a column called \code{n},
 it will error, and require you to specify the name.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Variables to group by.}
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Variables to group by.}
 
 \item{.drop}{For \code{count()}: if \code{FALSE} will include counts for empty groups
 (i.e. for levels of factors that don't exist in the data). Deprecated for

@@ -54,10 +54,10 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   if (has_before && has_after) {
     abort("Must supply only one of `.before` and `.after`")
   } else if (has_before) {
-    where <- tidyselect::eval_select(enexpr(.before), .data)
+    where <- tidyselect::eval_select(enquo(.before), .data)
     to_move <- c(setdiff(to_move, where), where)
   } else if (has_after) {
-    where <- tidyselect::eval_select(enexpr(.after), .data)
+    where <- tidyselect::eval_select(enquo(.after), .data)
     to_move <- c(where, setdiff(to_move, where))
   } else {
     where <- 1L

@@ -14,7 +14,7 @@ arrange(.data, ..., .by_group = FALSE)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Variables, or functions or
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Variables, or functions or
 variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending order.}
 
 \item{.by_group}{If \code{TRUE}, will sort first by grouping variable. Applies to
