@@ -48,8 +48,8 @@ variables.
 }}
 
 \item{.before, .after}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally,
-control where new columns should be appear (the default is to add to the
-right hand side).}
+control where new columns should appear (the default is to add to the
+right hand side). See \code{\link[=relocate]{relocate()}} for more details.}
 }
 \value{
 An object of the same type as \code{.data}.
