@@ -202,6 +202,9 @@ Variables can be removed by setting their value to <code>NULL</code>.</p>
 
     <pre class="usage"><span class='fu'>mutate</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>mutate</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"used"</span>, <span class='st'>"unused"</span>, <span class='st'>"none"</span>))
+
 <span class='fu'>transmute</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -223,6 +226,20 @@ The name gives the name of the column in the output.</p>
 if ungrouped).</p></li>
 <li><p><code>NULL</code>, to remove the column.</p></li>
 <li><p>A data frame or tibble, to create multiple columns in the output.</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>.keep</th>
+      <td><p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a>
+
+This is an experimental argument that allows you to control which columns
+from <code>.data</code> are retained in the output:</p><ul>
+<li><p><code>"all"</code>, the default, retains all variables.</p></li>
+<li><p><code>"used"</code> keeps any variables used to make new variables; it's useful
+for checking your work as it displays inputs and outputs side-by-side.</p></li>
+<li><p><code>"unused"</code> keeps only existing variables <strong>not</strong> used to make new
+variables.</p></li>
+<li><p><code>"none"</code>, only keeps grouping keys (like <code>transmute()</code>).</p></li>
 </ul></td>
     </tr>
     </table>
@@ -468,6 +485,75 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Ferrari Dino        2.376126
 #&gt; Maserati Bora       4.932510
 #&gt; Volvo 142E          1.982836</div><div class='input'>
+<span class='co'># Experimental .remove = "used" allows you to remove variables</span>
+<span class='co'># that are used "up" when computing new variables:</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>displ_l</span> <span class='kw'>=</span> <span class='no'>disp</span> / <span class='fl'>61.0237</span>, <span class='kw'>.remove</span> <span class='kw'>=</span> <span class='st'>"used"</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+#&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+#&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+#&gt; Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+#&gt;                      displ_l .remove
+#&gt; Mazda RX4           2.621932    used
+#&gt; Mazda RX4 Wag       2.621932    used
+#&gt; Datsun 710          1.769804    used
+#&gt; Hornet 4 Drive      4.227866    used
+#&gt; Hornet Sportabout   5.899347    used
+#&gt; Valiant             3.687092    used
+#&gt; Duster 360          5.899347    used
+#&gt; Merc 240D           2.403984    used
+#&gt; Merc 230            2.307300    used
+#&gt; Merc 280            2.746474    used
+#&gt; Merc 280C           2.746474    used
+#&gt; Merc 450SE          4.519556    used
+#&gt; Merc 450SL          4.519556    used
+#&gt; Merc 450SLC         4.519556    used
+#&gt; Cadillac Fleetwood  7.734700    used
+#&gt; Lincoln Continental 7.538055    used
+#&gt; Chrysler Imperial   7.210313    used
+#&gt; Fiat 128            1.289663    used
+#&gt; Honda Civic         1.240502    used
+#&gt; Toyota Corolla      1.165121    used
+#&gt; Toyota Corona       1.968088    used
+#&gt; Dodge Challenger    5.211090    used
+#&gt; AMC Javelin         4.981671    used
+#&gt; Camaro Z28          5.735477    used
+#&gt; Pontiac Firebird    6.554830    used
+#&gt; Fiat X1-9           1.294579    used
+#&gt; Porsche 914-2       1.971365    used
+#&gt; Lotus Europa        1.558411    used
+#&gt; Ford Pantera L      5.751864    used
+#&gt; Ferrari Dino        2.376126    used
+#&gt; Maserati Bora       4.932510    used
+#&gt; Volvo 142E          1.982836    used</div><div class='input'>
 <span class='co'># Grouping ----------------------------------------</span>
 <span class='co'># The mutate operation may yield different results on grouped</span>
 <span class='co'># tibbles because the expressions are computed within groups.</span>
