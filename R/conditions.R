@@ -1,5 +1,5 @@
 glue_c <- function(..., .envir = caller_env()) {
-  map_chr(vec_c(..., .ptype = character()), glue, .envir = .envir)
+  map_chr(c(...), glue, .envir = .envir)
 }
 
 arg_name <- function(quos, index) {
