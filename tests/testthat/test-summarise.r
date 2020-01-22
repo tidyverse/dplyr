@@ -34,6 +34,19 @@ test_that("works with empty data frames", {
   expect_equal(summarise(df, n = n()), tibble(n = 10))
 })
 
+test_that("works with grouped empty data frames", {
+  df <- tibble(x = integer())
+
+  expect_equal(
+    df %>% group_by(x) %>% summarise(y = 1L),
+    tibble(x = integer(), y = integer())
+  )
+  expect_equal(
+    df %>% rowwise(x) %>% summarise(y = 1L),
+    rowwise(tibble(x = integer(), y = integer()), x)
+  )
+})
+
 test_that("no expressions yields grouping data", {
   df <- tibble(x = 1:2, y = 1:2)
   gf <- group_by(df, x)
