@@ -1,6 +1,6 @@
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller, rows = group_rows(data)) {
+    initialize = function(data, caller, rows = group_rows(data), track_usage = FALSE) {
       frame <- caller_env(n = 2)
       local_mask(self, frame)
 
@@ -24,12 +24,23 @@ DataMask <- R6Class("DataMask",
         function(index) map(rows, vec_slice, x = .subset2(data, index))
       }
 
-      binding_fn <- function(index, chunks = resolve_chunks(index)){
-        # chunks is a promise of the list of all chunks for the column
-        # at this index, so resolve_chunks() is only called when
-        # the active binding is touched
-        function() .subset2(chunks, private$current_group)
+      if (track_usage) {
+        private$used <- rep(FALSE, ncol(data))
+        binding_fn <- function(index, chunks = resolve_chunks(index)) {
+          function() {
+            private$used[[index]] <- TRUE
+            .subset2(chunks, private$current_group)
+          }
+        }
+      } else {
+        binding_fn <- function(index, chunks = resolve_chunks(index)){
+          # chunks is a promise of the list of all chunks for the column
+          # at this index, so resolve_chunks() is only called when
+          # the active binding is touched
+          function() .subset2(chunks, private$current_group)
+        }
       }
+
       env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
 
       private$mask <- new_data_mask(private$bindings)
@@ -85,6 +96,10 @@ DataMask <- R6Class("DataMask",
 
     full_data = function() {
       private$data
+    },
+
+    get_used = function() {
+      private$used
     }
 
   ),
@@ -93,6 +108,7 @@ DataMask <- R6Class("DataMask",
     data = NULL,
     mask = NULL,
     old_vars = character(),
+    used = logical(),
     rows = NULL,
     keys = NULL,
     bindings = NULL,
