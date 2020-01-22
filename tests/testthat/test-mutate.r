@@ -287,6 +287,10 @@ test_that("can use .before and .after to control column position", {
   expect_named(mutate(df, z = 1), c("x", "y", "z"))
   expect_named(mutate(df, z = 1, .before = 1), c("z", "x", "y"))
   expect_named(mutate(df, z = 1, .after = 1), c("x", "z", "y"))
+
+  # but doesn't affect order of existing columns
+  df <- tibble(x = 1, y = 2)
+  expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
 })
 
 # Error messages ----------------------------------------------------------
