@@ -423,7 +423,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; 2 John  Beatles guitar
 #&gt; 3 Paul  Beatles bass  
 #&gt; 4 Keith &lt;NA&gt;    guitar</div><div class='input'><span class='co'># By default, the join keys from `x` and `y` are coalesced in the output; use</span>
-<span class='co'># `keep = TRUE` # to keep the join keys from both `x` and `y`</span>
+<span class='co'># `keep = TRUE` to keep the join keys from both `x` and `y`</span>
 <span class='no'>band_members</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>), <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 4
 #&gt;   name  band    artist plays 
