@@ -1,91 +1,48 @@
-test_that("repeated outputs applied progressively", {
-  df <- data.frame(x = 5)
-
-  out <- summarise(df, x = mean(x), x = x + 1)
-  expect_equal(nrow(out), 1)
-  expect_equal(ncol(out), 1)
-
-  expect_equal(out$x, 6)
-})
-test_that("ungrouped summarise() uses summary variables correctly (#2404)", {
-  df <- tibble(value = seq(1:10))
-
-  out <- df %>% summarise(value = mean(value), sd = sd(value))
-  expect_equal(out$value, 5.5)
-  expect_equal(out$sd, NA_real_)
+test_that("can use freshly create variables (#138)", {
+  df <- tibble(x = 1:10)
+  out <- summarise(df, y = mean(x), z = y + 1)
+  expect_equal(out$y, 5.5)
+  expect_equal(out$z, 6.5)
 })
 
-test_that("summarise can refer to variables that were just created (#138)", {
-  res <- summarise(mtcars, cyl1 = mean(cyl), cyl2 = cyl1 + 1)
-  expect_equal(res$cyl2, mean(mtcars$cyl) + 1)
+test_that("inputs are recycled", {
+  expect_equal(
+    tibble() %>% summarise(x = 1, y = 1:3, z = 1),
+    tibble(x = 1, y = 1:3, z = 1)
+  )
 
-  gmtcars <- group_by(mtcars, am)
-  res <- summarise(gmtcars, cyl1 = mean(cyl), cyl2 = cyl1 + 1)
-  res_direct <- summarise(gmtcars, cyl2 = mean(cyl) + 1)
-  expect_equal(res$cyl2, res_direct$cyl2)
+  gf <- group_by(tibble(a = 1:2), a)
+  expect_equal(
+    gf %>% summarise(x = 1, y = 1:3, z = 1),
+    tibble(a = rep(1:2, each = 3), x = 1, y = c(1:3, 1:3), z = 1)
+  )
+  expect_equal(
+    gf %>% summarise(x = seq_len(a), y = 1),
+    tibble(a = c(1L, 2L, 2L), x = c(1L, 1L, 2L), y = 1)
+  )
 })
 
-test_that("summarise creates an empty data frame with one row when no parameters are used", {
-  res <- summarise(mtcars)
-  expect_equal(nrow(res), 1L)
+test_that("works with empty data frames", {
+  # 0 rows
+  df <- tibble(x = integer())
+  expect_equal(summarise(df), tibble(.rows = 1))
+  expect_equal(summarise(df, n = n(), sum = sum(x)), tibble(n = 0, sum = 0))
+
+  # 0 cols
+  df <- tibble(.rows = 10)
+  expect_equal(summarise(df), tibble(.rows = 1))
+  expect_equal(summarise(df, n = n()), tibble(n = 10))
 })
 
-test_that("summarise works with zero-row data frames", {
-  res <- summarise(mtcars[0, ], n = n(), sum = sum(cyl), mean = mean(mpg), var = var(drat))
-  expect_equal(res, data.frame(n = 0L, sum = 0, mean = NaN, var = NA_real_))
+test_that("no expressions yields grouping data", {
+  df <- tibble(x = 1:2, y = 1:2)
+  gf <- group_by(df, x)
+
+  expect_equal(summarise(df), tibble(.rows = 1))
+  expect_equal(summarise(gf), tibble(x = 1:2))
 })
 
-test_that("summarise works with zero-column data frames (#3071)", {
-  res <- summarise(mtcars[0], n = n())
-  expect_equal(res, data.frame(n = nrow(mtcars)))
-})
-
-test_that("summarise works with empty data frame (#1142)", {
-  df <- data.frame()
-  res <- df %>% summarise()
-  expect_equal(nrow(res), 1L)
-  expect_equal(length(res), 0L)
-})
-
-test_that("summarise handles passing ...", {
-  df <- data.frame(x = 1:4)
-
-  f <- function(...) {
-    x1 <- 1
-    f1 <- function(x) x
-    summarise(df, ..., x1 = f1(x1))
-  }
-  g <- function(...) {
-    x2 <- 2
-    f(x2 = x2, ...)
-  }
-  h <- function(before = "before", ..., after = "after") {
-    g(before = before, ..., after = after)
-  }
-
-  res <- h(x3 = 3)
-  expect_equal(res$x1, 1)
-  expect_equal(res$x2, 2)
-  expect_equal(res$before, "before")
-  expect_equal(res$after, "after")
-
-  df <- as_tibble(df)
-  res <- h(x3 = 3)
-  expect_equal(res$x1, 1)
-  expect_equal(res$x2, 2)
-  expect_equal(res$before, "before")
-  expect_equal(res$after, "after")
-
-  df <- group_by(df, x)
-  res <- h(x3 = 3)
-  expect_equal(res$x1, rep(1, 4))
-  expect_equal(res$x2, rep(2, 4))
-  expect_equal(res$before, rep("before", 4))
-  expect_equal(res$after, rep("after", 4))
-})
-
-
-test_that("summarise() keeps class, but not attributes", {
+test_that("preserved class, but not attributes", {
   df <- structure(
     data.frame(x = 1:10, g1 = rep(1:2, each = 5), g2 = rep(1:5, 2)),
     meta = "this is important"
@@ -100,41 +57,11 @@ test_that("summarise() keeps class, but not attributes", {
   expect_equal(attr(out, "res"), NULL)
 })
 
-test_that("summarise() recycles", {
-  expect_equal(
-    tibble() %>% summarise(x = 1, y = 1:3, z = 1),
-    tibble(x = 1, y = 1:3, z = 1)
-  )
-
-  expect_equal(
-    tibble(a = 1:2) %>% group_by(a) %>% summarise(x = 1, y = 1:3, z = 1),
-    tibble(a = rep(1:2, each = 3), x = 1, y = c(1:3, 1:3), z = 1)
-  )
-  expect_equal(
-    tibble(a = 1:2) %>%
-      group_by(a) %>%
-      summarise(x = seq_len(a), y = 1),
-    tibble(a = c(1L, 2L, 2L), x = c(1L, 1L, 2L), y = 1)
-  )
-})
-
-test_that("summarise() supports unquoted values", {
+test_that("works with  unquoted values", {
   df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
-  expect_identical(summarise(df, out = !!1), tibble(out = 1))
-  expect_identical(summarise(df, out = !!quote(identity(1))), tibble(out = 1))
+  expect_equal(summarise(df, out = !!1), tibble(out = 1))
+  expect_equal(summarise(df, out = !!quo(1)), tibble(out = 1))
   expect_equal(summarise(df, out = !!(1:2)), tibble(out = 1:2))
-
-  gdf <- group_by(df, g)
-  expect_identical(summarise(gdf, out = !!1), summarise(gdf, out = 1))
-  expect_identical(summarise(gdf, out = !!(1:2)), tibble(g = c(1, 1, 2, 2), out = c(1:2, 1:2)))
-  expect_identical(summarise(gdf, out = !!quote(identity(1))), summarise(gdf, out = 1))
-  expect_equal(summarise(gdf, out = !!(1:5)) %>% nrow(), 10L)
-})
-
-test_that("tidy eval does not infloop (#4049)", {
-  df <- data.frame(x = 1:5)
-  call <- expr(length(!!quo(x)))
-  expect_identical(summarise(df, x = eval_tidy(call)), data.frame(x = 5L))
 })
 
 test_that("formulas are evaluated in the right environment (#3019)", {
@@ -145,39 +72,27 @@ test_that("formulas are evaluated in the right environment (#3019)", {
 
 # grouping ----------------------------------------------------------------
 
-test_that("summarise peels off a single layer of grouping", {
+test_that("peels off a single layer of grouping", {
   df <- tibble(x = rep(1:4, each = 4), y = rep(1:2, each = 8), z = runif(16))
-  grouped <- df %>% group_by(x, y, z)
-  expect_equal(group_vars(grouped), c("x", "y", "z"))
-  expect_equal(group_vars(grouped %>% summarise(n = n())), c("x", "y"))
+  gf <- df %>% group_by(x, y)
+  expect_equal(group_vars(summarise(gf)), "x")
+  expect_equal(group_vars(summarise(summarise(gf))), character())
 })
 
-test_that("summarise can modify grouping variables", {
+test_that("correctly reconstructs groups", {
+  d <- tibble(x = 1:4, g1 = rep(1:2, 2), g2 = 1:4) %>%
+    group_by(g1, g2) %>%
+    summarise(x = x + 1)
+  expect_equal(group_rows(d), list_of(1:2, 3:4))
+})
+
+test_that("can modify grouping variables", {
   df <- tibble(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2))
   gf <- group_by(df, a, b)
 
   i <- count_regroups(out <- summarise(gf, a = a + 1))
   expect_equal(i, 1)
   expect_equal(out$a, c(2, 2, 3, 3))
-})
-
-test_that("group_by keeps classes (#1631)", {
-  df <- data.frame(a = 1, b = as.Date(NA)) %>%
-    group_by(a) %>%
-    summarize(c = min(b))
-  expect_equal(class(df$c), "Date")
-
-  df <- data.frame(a = 1, b = as.POSIXct(NA)) %>%
-    group_by(a) %>%
-    summarize(c = min(b))
-  expect_equal(class(df$c), c("POSIXct", "POSIXt"))
-})
-
-test_that("summarise correctly reconstruct group rows", {
-  d <- tibble(x = 1:4, g1 = rep(1:2, 2), g2 = 1:4) %>%
-    group_by(g1, g2) %>%
-    summarise(x = x + 1)
-  expect_equal(group_rows(d), list_of(1:2, 3:4))
 })
 
 # vector types ----------------------------------------------------------
@@ -205,74 +120,39 @@ test_that("summarise handles list output columns (#832)", {
   df <- tibble(x = 1:10, g = rep(1:2, each = 5))
   res <- df %>% group_by(g) %>% summarise(y = list(x))
   expect_equal(res$y[[1]], 1:5)
-  expect_equal(res$y[[2]], 6:10)
 
-  res <- df %>% group_by(g) %>% summarise(y = list(x + 1))
-  expect_equal(res$y[[1]], 1:5 + 1)
-  expect_equal(res$y[[2]], 6:10 + 1)
-
-  df <- tibble(x = 1:10, g = rep(1:2, each = 5))
-  res <- df %>% summarise(y = list(x))
-  expect_equal(res$y[[1]], 1:10)
-  res <- df %>% summarise(y = list(x + 1))
-  expect_equal(res$y[[1]], 1:10 + 1)
-})
-
-test_that("comment attribute is allowed (#346)", {
-  test <- data.frame(A = c(1, 1, 0, 0), B = c(2, 2, 3, 3))
-  comment(test$B) <- "2nd Var"
-  res <- group_by(test, A)
-  expect_equal(comment(res$B), "2nd Var")
-})
-
-test_that("summarise is not polluted by logical NA (#599)", {
-  dat <- data.frame(grp = rep(1:4, each = 2), val = c(NA, 2, 3:8))
-  Mean <- function(x, thresh = 2) {
-    res <- mean(x, na.rm = TRUE)
-    if (res > thresh) res else NA
-  }
-  res <- dat %>% group_by(grp) %>% summarise(val = Mean(val, thresh = 2))
-  expect_is(res$val, "numeric")
-  expect_true(is.na(res$val[1]))
-})
-
-test_that("data.frame columns are supported in summarise (#1425)", {
-  df <- data.frame(x1 = rep(1:3, times = 3), x2 = 1:9)
-  df$x3 <- df %>% mutate(x3 = x2)
-  res <- df %>% group_by(x1) %>% summarise(nr = nrow(x3))
-  expect_true(all(res$nr == 3))
-})
-
-test_that("proper handling of names in summarised list columns (#2231)", {
+  # preserving names
   d <- tibble(x = rep(1:3, 1:3), y = 1:6, names = letters[1:6])
   res <- d %>% group_by(x) %>% summarise(y = list(setNames(y, names)))
   expect_equal(names(res$y[[1]]), letters[[1]])
-  expect_equal(names(res$y[[2]]), letters[2:3])
-  expect_equal(names(res$y[[3]]), letters[4:6])
 })
 
-test_that("summarise() unpacks unnamed tibble results (#2326)", {
-  expect_equal(
-    iris %>% group_by(Species) %>% summarise(
-      tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
-    ),
-    iris %>% group_by(Species) %>% summarise(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
-  )
+test_that("summarise coerces types across groups", {
+  gf <- group_by(tibble(g = 1:2), g)
+
+  out <- summarise(gf, x = if (g == 1) NA else "x")
+  expect_type(out$x, "character")
+
+  out <- summarise(gf, x = if (g == 1L) NA else 2.5)
+  expect_type(out$x, "double")
 })
 
-test_that("summarise() packs named tibble results (#2326)", {
-  res <- iris %>%
-    group_by(Species) %>%
-    summarise(
-      out = tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
-    )
-  expect_is(res$out, "data.frame")
-  expect_equal(nrow(res$out), 3L)
+test_that("unnamed tibbles are unpacked (#2326)", {
+  df <- tibble(x = 1:2)
+  out <- summarise(df, tibble(y = x * 2, z = 3))
+  expect_equal(out$y, c(2L, 4L))
+  expect_equal(out$z, c(3L, 3L))
+})
+
+test_that("named tibbles are packed (#2326)", {
+  df <- tibble(x = 1:2)
+  out <- summarise(df, df = tibble(y = x * 2, z = 3))
+  expect_equal(out$df, tibble(y = c(2L, 4L), z = c(3L, 3L)))
 })
 
 # errors -------------------------------------------------------------------
 
-test_that("summarise() give meaningful errors", {
+test_that("summarise() gives meaningful errors", {
   verify_output(test_path("test-summarise-errors.txt"), {
     "# unsupported type"
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
