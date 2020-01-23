@@ -47,11 +47,10 @@ NULL
 #' @rdname ranking
 row_number <- function(x) {
   if (missing(x)){
-    seq_len(from_context("..group_size"))
+    seq_len(n())
   } else {
     rank(x, ties.method = "first", na.last = "keep")
   }
-
 }
 
 # Definition from

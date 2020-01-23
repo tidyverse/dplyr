@@ -1,32 +1,8 @@
-poke_mask <- function(mask) {
-  old <- context_env[["..mask"]]
-  context_env[["..mask"]] <- mask
-  old
-}
-
-peek_mask <- function() {
-  context_env[["..mask"]] %||% abort("No dplyr data mask registered")
-}
-
-scoped_mask <- function(mask, frame = caller_env()) {
-  old_mask <- poke_mask(mask)
-  old_group_size <- context_env[["..group_size"]]
-  old_group_number <- context_env[["..group_number"]]
-
-  expr <- call2(on.exit, expr({
-    poke_mask(!!old_mask)
-    context_env[["..group_size"]] <- !!old_group_size
-    context_env[["..group_number"]] <- !!old_group_number
-  }), add = TRUE)
-  eval_bare(expr, frame)
-}
-
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller, rows = group_rows(data)) {
+    initialize = function(data, caller, rows = group_rows(data), track_usage = FALSE) {
       frame <- caller_env(n = 2)
-      tidyselect::scoped_vars(tbl_vars(data), frame)
-      scoped_mask(self, frame)
+      local_mask(self, frame)
 
       private$rows <- rows
       private$data <- data
@@ -48,12 +24,23 @@ DataMask <- R6Class("DataMask",
         function(index) map(rows, vec_slice, x = .subset2(data, index))
       }
 
-      binding_fn <- function(index, chunks = resolve_chunks(index)){
-        # chunks is a promise of the list of all chunks for the column
-        # at this index, so resolve_chunks() is only called when
-        # the active binding is touched
-        function() .subset2(chunks, private$current_group)
+      if (track_usage) {
+        private$used <- rep(FALSE, ncol(data))
+        binding_fn <- function(index, chunks = resolve_chunks(index)) {
+          function() {
+            private$used[[index]] <- TRUE
+            .subset2(chunks, private$current_group)
+          }
+        }
+      } else {
+        binding_fn <- function(index, chunks = resolve_chunks(index)){
+          # chunks is a promise of the list of all chunks for the column
+          # at this index, so resolve_chunks() is only called when
+          # the active binding is touched
+          function() .subset2(chunks, private$current_group)
+        }
       }
+
       env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
 
       private$mask <- new_data_mask(private$bindings)
@@ -72,35 +59,47 @@ DataMask <- R6Class("DataMask",
     },
 
     eval_all = function(quo) {
-      .Call(`dplyr_mask_eval_all`, quo, private, context_env)
+      .Call(`dplyr_mask_eval_all`, quo, private)
     },
 
-    eval_all_summarise = function(quo, dots_names, i) {
-      .Call(`dplyr_mask_eval_all_summarise`, quo, private, context_env, dots_names, i)
+    eval_all_summarise = function(quo) {
+      .Call(`dplyr_mask_eval_all_summarise`, quo, private)
     },
 
-    eval_all_mutate = function(quo, dots_names, i) {
-      .Call(`dplyr_mask_eval_all_mutate`, quo, private, context_env, dots_names, i)
+    eval_all_mutate = function(quo) {
+      .Call(`dplyr_mask_eval_all_mutate`, quo, private)
     },
 
     eval_all_filter = function(quos, env_filter) {
-      .Call(`dplyr_mask_eval_all_filter`, quos, private, context_env, nrow(private$data), private$data, env_filter)
+      .Call(`dplyr_mask_eval_all_filter`, quos, private, nrow(private$data), env_filter)
     },
 
     pick = function(vars) {
       eval_tidy(quo(tibble(!!!syms(vars))), private$mask)
     },
 
+    current_rows = function() {
+      private$rows[[private$current_group]]
+    },
+
     current_key = function() {
-      vec_slice(keys, private$current_group)
+      vec_slice(private$keys, private$current_group)
     },
 
     get_current_group = function() {
       private$current_group
     },
 
+    set_current_group = function(group) {
+      private$current_group <- group
+    },
+
     full_data = function() {
       private$data
+    },
+
+    get_used = function() {
+      private$used
     }
 
   ),
@@ -109,6 +108,7 @@ DataMask <- R6Class("DataMask",
     data = NULL,
     mask = NULL,
     old_vars = character(),
+    used = logical(),
     rows = NULL,
     keys = NULL,
     bindings = NULL,

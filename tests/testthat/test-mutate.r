@@ -4,8 +4,8 @@ test_that("empty mutate returns input", {
   df <- tibble(x = 1)
   gf <- group_by(df, x)
 
-  expect_reference(mutate(df), df)
-  expect_reference(mutate(gf), gf)
+  expect_equal(mutate(df), df)
+  expect_equal(mutate(gf), gf)
 })
 
 test_that("mutations applied progressively", {
@@ -17,7 +17,7 @@ test_that("mutations applied progressively", {
 test_that("length-1 vectors are recycled (#152)", {
   df <- tibble(x = 1:4)
   expect_equal(mutate(df, y = 1)$y, rep(1, 4))
-  expect_error(mutate(df, y = 1:2), "recycle")
+  expect_error(mutate(df, y = 1:2), "must be recyclable")
 })
 
 test_that("can remove variables with NULL (#462)", {
@@ -106,29 +106,17 @@ test_that("named data frames are packed (#2326, #3630)", {
 
 # output types ------------------------------------------------------------
 
-test_that("mutate regroups after modifying grouping vars", {
-  df <- tibble(x = 1:2, y = 2)
-  gf <- group_by(df, x)
+test_that("mutate preserves grouping", {
+  gf <- group_by(tibble(x = 1:2, y = 2), x)
 
-  out <- gf %>% mutate(x = 1)
-  expect_equal(out$x, c(1, 1))
+  i <- count_regroups(out <- mutate(gf, x = 1))
+  expect_equal(i, 1L)
+  expect_equal(group_vars(out), "x")
   expect_equal(nrow(group_data(out)), 1)
-})
 
-test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
-  one_mod <- tibble(grp = "a", x = runif(5, 0, 1)) %>%
-    mutate(y = rnorm(x, x * 2, 1)) %>%
-    group_by(grp) %>%
-    do(mod = lm(y ~ x, data = .))
-
-  out <- one_mod %>%
-    mutate(rsq = summary(mod)$r.squared) %>%
-    mutate(aic = AIC(mod))
-
-  expect_is(out, "rowwise_df")
-  expect_equal(nrow(out), 1L)
-  expect_is(out$mod, "list")
-  expect_is(out$mod[[1L]], "lm")
+  i <- count_regroups(out <- mutate(gf, z = 1))
+  expect_equal(i, 0)
+  expect_equal(group_data(out), group_data(gf))
 })
 
 test_that("mutate works on zero-row grouped data frame (#596)", {
@@ -238,7 +226,7 @@ test_that("mutate() evaluates expression for empty groups", {
   gf <- group_by(df, f, .drop = FALSE)
 
   count <- 0
-  mutate(gf, {count <<- count + 1})
+  mutate(gf, x = {count <<- count + 1})
   expect_equal(count, 3L)
 })
 
@@ -252,6 +240,59 @@ test_that("DataMask$add() forces chunks (#4677)", {
   expect_equal(df$log_e_bf01, log(1 / 0.244))
 })
 
+
+# .before, .after, .keep ------------------------------------------------------
+
+test_that(".keep = 'unused' keeps variables explicitly mentioned", {
+  df <- tibble(x = 1, y = 2)
+  out <- mutate(df, x1 = x + 1, y = y, .keep = "unused")
+  expect_named(out, c("y", "x1"))
+})
+
+test_that(".keep = 'used' not affected by across()", {
+  df <- tibble(x = 1, y = 2, z = 3, a = "a", b = "b", c = "c")
+
+  # This must evaluate every column in order to figure out if should
+  # be included in the set or not, but that shouldn't be counted for
+  # the purposes of "used" variables
+  out <- mutate(df, across(is.numeric, identity), .keep = "unused")
+  expect_named(out, names(df))
+})
+
+test_that(".keep = 'used' keeps variables used in expressions", {
+  df <- tibble(a = 1, b = 2, c = 3, x = 1, y = 2)
+  out <- mutate(df, xy = x + y, .keep = "used")
+  expect_named(out, c("x", "y", "xy"))
+})
+
+test_that(".keep = 'none' only keeps grouping variables", {
+  df <- tibble(x = 1, y = 2)
+  gf <- group_by(df, x)
+
+  expect_named(mutate(df, z = 1, .keep = "none"), "z")
+  expect_named(mutate(gf, z = 1, .keep = "none"), c("x", "z"))
+})
+
+test_that(".keep = 'none' prefers new order", {
+  df <- tibble(x = 1, y = 2)
+  expect_named(df %>% mutate(y = 1, x = 2, .keep = "none"), c("y", "x"))
+
+  # even when grouped
+  gf <- group_by(df, x)
+  expect_named(gf %>% mutate(y = 1, x = 2, .keep = "none"), c("y", "x"))
+})
+
+test_that("can use .before and .after to control column position", {
+  df <- tibble(x = 1, y = 2)
+  expect_named(mutate(df, z = 1), c("x", "y", "z"))
+  expect_named(mutate(df, z = 1, .before = 1), c("z", "x", "y"))
+  expect_named(mutate(df, z = 1, .after = 1), c("x", "z", "y"))
+
+  # but doesn't affect order of existing columns
+  df <- tibble(x = 1, y = 2)
+  expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {
@@ -259,34 +300,54 @@ test_that("mutate() give meaningful errors", {
     tbl <- tibble(x = 1:2, y = 1:2)
 
     "# setting column to NULL makes it unavailable"
-    mutate(tbl, y = NULL, a = sum(y))
-    mutate(group_by(tbl, x), y = NULL, a = sum(y))
+    tbl %>%
+      mutate(y = NULL, a = sum(y))
+    tbl %>%
+      group_by(x) %>%
+      mutate(y = NULL, a = sum(y))
 
     "# incompatible column type"
-    mutate(tibble(x = 1), y = mean)
-    mutate(tibble(x = 1), y = quote(a))
+    tibble(x = 1) %>%
+      mutate(y = mean)
 
     "# Unsupported type"
     df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
-    mutate(df, out = !!env(a = 1))
-    mutate(group_by(df, g), out = !!env(a = 1))
+    df %>%
+        mutate(out = env(a = 1))
+    df %>%
+      group_by(g) %>%
+      mutate(out = env(a = 1))
+    df %>%
+      rowwise() %>%
+      mutate(out = rnorm)
 
-    "# result is sometimes NULL"
-    mutate(group_by(tibble(a = 1:3, b=4:6), a), if(a==1) NULL else "foo")
+    "# incompatible types across groups"
+    data.frame(x = rep(1:5, each = 3)) %>%
+      group_by(x) %>%
+      mutate(val = ifelse(x < 3, "foo", 2))
 
-    "# incompatible types"
-    mutate(group_by(data.frame(x = rep(1:5, each = 3)), x), val = ifelse(x < 3, "foo", 2))
+    tibble(a = 1:3, b=4:6) %>%
+      group_by(a) %>%
+      mutate(if(a==1) NULL else "foo")
 
     "# incompatible size"
-    int <- 1:6
-    mutate(data.frame(x = c(2, 2, 3, 3)), int = int)
-    mutate(data.frame(x = c(2, 2, 3, 3)), int = 1:5)
-
-    mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = int)
-    mutate(group_by(data.frame(x = c(2, 2, 3, 3)), x), int = 1:5)
+    data.frame(x = c(2, 2, 3, 3)) %>%
+      mutate(int = 1:5)
+    data.frame(x = c(2, 2, 3, 3)) %>%
+      group_by(x) %>%
+      mutate(int = 1:5)
+    data.frame(x = c(2, 3, 3)) %>%
+      group_by(x) %>%
+      mutate(int = 1:5)
+    data.frame(x = c(2, 2, 3, 3)) %>%
+      rowwise() %>%
+      mutate(int = 1:5)
 
     "# .data pronoun"
-    mutate(tibble(a = 1), c = .data$b)
-    mutate(group_by(tibble(a = 1:3), a), c = .data$b)
+    tibble(a = 1) %>%
+      mutate(c = .data$b)
+    tibble(a = 1:3) %>%
+      group_by(a) %>%
+      mutate(c = .data$b)
   })
 })

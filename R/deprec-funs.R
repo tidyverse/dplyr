@@ -8,7 +8,8 @@
 #' rather than adopting the conventions used by purrr and other packages
 #' in the tidyverse.
 #'
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> A list of functions specified by:
+#' @param ... <[`data-masking`][dplyr_data_masking]> A list of functions
+#'   specified by:
 #'
 #'  - Their name, `"mean"`
 #'  - The function itself, `mean`

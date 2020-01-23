@@ -20,13 +20,8 @@ struct symbols {
   static SEXP current_group;
   static SEXP current_expression;
   static SEXP rows;
-  static SEXP dot_dot_group_size;
-  static SEXP dot_dot_group_number;
   static SEXP mask;
   static SEXP caller;
-
-  static SEXP stop_filter_incompatible_size;
-  static SEXP stop_filter_incompatible_type;
 };
 
 struct vectors {
@@ -35,8 +30,10 @@ struct vectors {
   static SEXP empty_int_vector;
 };
 
-void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t group_index, R_xlen_t nres, R_xlen_t n, SEXP data);
-void stop_filter_incompatible_type(R_xlen_t i, SEXP column_name, R_xlen_t group_index, SEXP result, SEXP data);
+void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t nres, R_xlen_t n);
+void stop_filter_incompatible_type(R_xlen_t i, SEXP column_name, SEXP result);
+void stop_summarise_unsupported_type(SEXP result);
+void stop_summarise_incompatible_size(int size, R_xlen_t index_group);
 
 } // namespace dplyr
 
@@ -56,13 +53,27 @@ SEXP dplyr_cumall(SEXP x);
 SEXP dplyr_cumany(SEXP x);
 SEXP dplyr_cummean(SEXP x);
 SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_nr_df, SEXP s_check_bounds);
-SEXP dplyr_group_keys_impl(SEXP data);
-SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private, SEXP env_context);
-SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i);
-SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i);
-SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP env_context, SEXP s_n, SEXP full_data, SEXP env_filter);
+SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private);
+SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private);
+SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private);
+SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_filter);
 SEXP dplyr_vec_sizes(SEXP chunks);
 SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
+
+#define DPLYR_MASK_INIT()                                                  \
+SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows)); \
+R_xlen_t ngroups = XLENGTH(rows);                                          \
+SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask)); \
+SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller))
+
+#define DPLYR_MASK_FINALISE() UNPROTECT(3);
+
+#define DPLYR_MASK_SET_GROUP(INDEX)                                                  \
+SEXP rows_i = VECTOR_ELT(rows, i);                                                   \
+R_xlen_t n_i = XLENGTH(rows_i);                                                      \
+Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(i + 1), env_private);
+
+#define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
 
 #endif

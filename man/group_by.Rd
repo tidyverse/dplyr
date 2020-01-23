@@ -10,7 +10,9 @@ group_by(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
 ungroup(x, ...)
 }
 \arguments{
-\item{.data}{a tbl}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{In \code{group_by()}, variables or computations to group by.
 In \code{ungroup()}, variables to remove from the grouping.}
@@ -38,28 +40,17 @@ Most data operations are done on groups defined by variables.
 \code{group_by()} takes an existing tbl and converts it into a grouped tbl
 where operations are performed "by group". \code{ungroup()} removes grouping.
 }
-\section{Tbl types}{
+\section{Methods}{
 
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
 
-\code{group_by()} is an S3 generic with methods for the three built-in
-tbls. See the help for the corresponding classes and their manip
-methods for more details:
-
+Methods available in currently loaded packages:
 \itemize{
-\item data.frame: \link{grouped_df}
-\item data.table: \link[dtplyr:grouped_dt]{dtplyr::grouped_dt}
-\item SQLite: \code{\link[=src_sqlite]{src_sqlite()}}
-\item PostgreSQL: \code{\link[=src_postgres]{src_postgres()}}
-\item MySQL: \code{\link[=src_mysql]{src_mysql()}}
+\item \code{group_by()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("group_by")}.
+\item \code{ungroup()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("ungroup")}.
 }
-}
-
-\section{Scoped grouping}{
-
-
-The three \link{scoped} variants (\code{\link[=group_by_all]{group_by_all()}}, \code{\link[=group_by_if]{group_by_if()}} and
-\code{\link[=group_by_at]{group_by_at()}}) make it easy to group a dataset by a selection of
-variables.
 }
 
 \examples{
@@ -114,14 +105,9 @@ tbl \%>\%
 }
 \seealso{
 Other grouping functions: 
-\code{\link{group_by_all}()},
-\code{\link{group_indices}()},
-\code{\link{group_keys}()},
 \code{\link{group_map}()},
 \code{\link{group_nest}()},
-\code{\link{group_rows}()},
-\code{\link{group_size}()},
-\code{\link{group_trim}()},
-\code{\link{groups}()}
+\code{\link{group_split}()},
+\code{\link{group_trim}()}
 }
 \concept{grouping functions}

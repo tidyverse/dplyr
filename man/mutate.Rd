@@ -2,35 +2,85 @@
 % Please edit documentation in R/mutate.R
 \name{mutate}
 \alias{mutate}
+\alias{mutate.data.frame}
 \alias{transmute}
-\title{Create or transform variables}
+\title{Create, modify, and delete columns}
 \usage{
 mutate(.data, ...)
+
+\method{mutate}{data.frame}(
+  .data,
+  ...,
+  .keep = c("all", "used", "unused", "none"),
+  .before = NULL,
+  .after = NULL
+)
 
 transmute(.data, ...)
 }
 \arguments{
-\item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_eval]{tidy-eval}}> Name-value pairs of expressions,
-each with length 1 or the same length as the number of rows in the group
-(if using \code{\link[=group_by]{group_by()}}) or in the entire input (if not using groups).
-The name of each argument will be the name of a new variable, and the
-value will be its corresponding value. Use a \code{NULL} value in \code{mutate}
-to drop a variable.  New variables overwrite existing variables
-of the same name.}
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name-value pairs.
+The name gives the name of the column in the output.
+
+The value can be:
+\itemize{
+\item A vector of length 1, which will be recycled to the correct length.
+\item A vector the same length as the current group (or the whole data frame
+if ungrouped).
+\item \code{NULL}, to remove the column.
+\item A data frame or tibble, to create multiple columns in the output.
+}}
+
+\item{.keep}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
+This is an experimental argument that allows you to control which columns
+from \code{.data} are retained in the output:
+\itemize{
+\item \code{"all"}, the default, retains all variables.
+\item \code{"used"} keeps any variables used to make new variables; it's useful
+for checking your work as it displays inputs and outputs side-by-side.
+\item \code{"unused"} keeps only existing variables \strong{not} used to make new
+variables.
+\item \code{"none"}, only keeps grouping keys (like \code{\link[=transmute]{transmute()}}).
+}}
+
+\item{.before, .after}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally,
+control where new columns should appear (the default is to add to the
+right hand side). See \code{\link[=relocate]{relocate()}} for more details.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same type as \code{.data}.
+
+For \code{mutate()}:
+\itemize{
+\item Rows are not affected.
+\item Existing columns will be preserved unless explicitly modified.
+\item New columns will be added to the right of existing columns.
+\item Columns given value \code{NULL} will be removed
+\item Groups will be recomputed if a grouping variable is mutated.
+\item Data frame attributes are preserved.
+}
+
+For \code{transmute()}:
+\itemize{
+\item Rows are not affected.
+\item Apart from grouping variables, existing columns will be remove unless
+explicitly kept.
+\item Column order matches order of expressions.
+\item Groups will be recomputed if a grouping variable is mutated.
+\item Data frame attributes are preserved.
+}
 }
 \description{
 \code{mutate()} adds new variables and preserves existing ones;
-\code{transmute()} adds new variables and drops existing ones.  Both
-functions preserve the number of rows of the input.
+\code{transmute()} adds new variables and drops existing ones.
 New variables overwrite existing variables of the same name.
+Variables can be removed by setting their value to \code{NULL}.
 }
-\section{Useful functions available in calculations of variables}{
+\section{Useful mutate functions}{
 
 \itemize{
 \item \code{\link{+}}, \code{\link{-}}, \code{\link[=log]{log()}}, etc., for their usual mathematical meanings
@@ -62,24 +112,19 @@ With the grouped equivalent:\preformatted{starwars \%>\%
 
 The former normalises \code{mass} by the global average whereas the
 latter normalises by the averages within gender levels.
-
-\code{mutate()} does not evaluate the expressions when the group is empty.
 }
 
-\section{Scoped mutation and transmutation}{
+\section{Methods}{
 
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
 
-The three \link{scoped} variants of \code{mutate()} (\code{\link[=mutate_all]{mutate_all()}},
-\code{\link[=mutate_if]{mutate_if()}} and \code{\link[=mutate_at]{mutate_at()}}) and the three variants of
-\code{transmute()} (\code{\link[=transmute_all]{transmute_all()}}, \code{\link[=transmute_if]{transmute_if()}},
-\code{\link[=transmute_at]{transmute_at()}}) make it easy to apply a transformation to a
-selection of variables.
+Methods available in currently loaded packages:
+\itemize{
+\item \code{mutate()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("mutate")}.
+\item \code{transmute()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("transmute")}.
 }
-
-\section{Tidy data}{
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
 }
 
 \examples{
@@ -89,13 +134,12 @@ mtcars \%>\% as_tibble() \%>\% mutate(
   cyl4 = cyl2 * 2
 )
 
-# You can also use mutate() to remove variables and
-# modify existing variables
+# As well as adding new variables, you can use mutate() to
+# remove variables and modify existing variables.
 mtcars \%>\% as_tibble() \%>\% mutate(
   mpg = NULL,
   disp = disp * 0.0163871 # convert to litres
 )
-
 
 # window functions are useful for grouped mutates
 mtcars \%>\%
@@ -103,19 +147,22 @@ mtcars \%>\%
  mutate(rank = min_rank(desc(mpg)))
 # see `vignette("window-functions")` for more details
 
-# You can drop variables by setting them to NULL
-mtcars \%>\% mutate(cyl = NULL)
+# By default, new columns are placed on the far right.
+# Experimental: you can override with `.before` or `.after`
+df <- tibble(x = 1, y = 2)
+df \%>\% mutate(z = x + y)
+df \%>\% mutate(z = x + y, .before = 1)
+df \%>\% mutate(z = x + y, .after = x)
 
-# mutate() vs transmute --------------------------
-# mutate() keeps all existing variables
-mtcars \%>\%
-  mutate(displ_l = disp / 61.0237)
+# By default, mutate() keeps all columns from the input data.
+# Experimental: You can override with `.keep`
+df <- tibble(x = 1, y = 2, a = "a", b = "b")
+df \%>\% mutate(z = x + y, .keep = "all") # the default
+df \%>\% mutate(z = x + y, .keep = "used")
+df \%>\% mutate(z = x + y, .keep = "unused")
+df \%>\% mutate(z = x + y, .keep = "none")
 
-# transmute keeps only the variables you create
-mtcars \%>\%
-  transmute(displ_l = disp / 61.0237)
-
-
+# Grouping ----------------------------------------
 # The mutate operation may yield different results on grouped
 # tibbles because the expressions are computed within groups.
 # The following normalises `mass` by the global average:
@@ -130,20 +177,17 @@ starwars \%>\%
   mutate(mass / mean(mass, na.rm = TRUE)) \%>\%
   pull()
 
-# Note that you can't overwrite grouping variables:
-gdf <- mtcars \%>\% group_by(cyl)
-try(mutate(gdf, cyl = cyl * 100))
-
-
+# Indirection ----------------------------------------
 # Refer to column names stored as strings with the `.data` pronoun:
 vars <- c("mass", "height")
 mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
-# Learn more in ?dplyr_tidy_eval
+# Learn more in ?dplyr_data_masking
 }
 \seealso{
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{filter}()},
+\code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()},
 \code{\link{summarise}()}

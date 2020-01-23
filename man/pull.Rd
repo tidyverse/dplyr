@@ -2,12 +2,14 @@
 % Please edit documentation in R/pull.R
 \name{pull}
 \alias{pull}
-\title{Pull out a single variable}
+\title{Extract a single column}
 \usage{
 pull(.data, var = -1, name = NULL)
 }
 \arguments{
-\item{.data}{A table of data}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{var}{A variable specified as:
 \itemize{
@@ -26,10 +28,24 @@ names and column locations).}
 \item{name}{An optional parameter that specifies the column to be used
 as names for a named vector. Specified in a similar manner as \code{var}.}
 }
-\description{
-This works like \code{[[} for local data frames, and automatically collects
-before indexing for remote data tables.
+\value{
+A vector the same size as \code{.data}.
 }
+\description{
+\code{pull()} is similar to \code{$}. It's mostly useful because it looks a little
+nicer in pipes, it also works with remote data frames, and it can optionally
+name the output.
+}
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("pull")}.
+}
+
 \examples{
 mtcars \%>\% pull(-1)
 mtcars \%>\% pull(1)
@@ -45,5 +61,4 @@ df \%>\%
 
 # Pull a named vector
 starwars \%>\% pull(height, name)
-
 }

@@ -22,13 +22,17 @@ functions and strings representing function names.}
 \code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+
+Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
+\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+
 The variants suffixed with \verb{_if}, \verb{_at} or \verb{_all} apply an
 expression (sometimes several) to all variables within a specified
 subset. This subset can contain all variables (\verb{_all} variants), a
 \code{\link[=vars]{vars()}} selection (\verb{_at} variants), or variables selected with a
 predicate (\verb{_if} variants).
-}
-\details{
+
 The verbs with scoped variants are:
 \itemize{
 \item \code{\link[=mutate]{mutate()}}, \code{\link[=transmute]{transmute()}} and \code{\link[=summarise]{summarise()}}. See \code{\link[=summarise_all]{summarise_all()}}.

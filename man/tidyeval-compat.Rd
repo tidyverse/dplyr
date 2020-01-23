@@ -2,6 +2,12 @@
 % Please edit documentation in R/utils-tidy-eval.R
 \name{tidyeval-compat}
 \alias{tidyeval-compat}
+\alias{expr}
+\alias{enquo}
+\alias{enquos}
+\alias{sym}
+\alias{syms}
+\alias{as_label}
 \alias{quo}
 \alias{quos}
 \alias{quo_name}
@@ -11,8 +17,24 @@
 \alias{enexprs}
 \title{Other tidy eval tools}
 \description{
-These tidy eval tools are no longer recommended for normal usage,
-but are still exported for compatibility. See \code{\link[=tidyeval]{?tidyeval}}
-for the recommended tools.
+These tidy eval functions are no longer for normal usage, but are still
+exported from dplyr for backward compatibility.
+See \code{\link[=dplyr_data_masking]{?dplyr_data_masking}} and \code{vignette("programming")}
+for the latest recommendations.
+\itemize{
+\item \link[rlang:expr]{expr()}
+\item \link[rlang:enquo]{enquo()}
+\item \link[rlang:enquos]{enquos()}
+\item \link[rlang:sym]{sym()}
+\item \link[rlang:syms]{syms()}
+\item \link[rlang:as_label]{as_label()}
+\item \link[rlang:quo]{quo()}
+\item \link[rlang:quos]{quos()}
+\item \link[rlang:quo_name]{quo_name()}
+\item \link[rlang:ensym]{ensym()}
+\item \link[rlang:ensyms]{ensyms()}
+\item \link[rlang:enexpr]{enexpr()}
+\item \link[rlang:enexprs]{enexprs()}
+}
 }
 \keyword{internal}

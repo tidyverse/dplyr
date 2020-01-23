@@ -111,13 +111,13 @@ test_that("rename variants can rename a grouping variable (#3351)", {
 })
 
 test_that("select_all does not change the order of columns (#3351)", {
-  tbl <- group_by(tibble(x = 1:4, y = 1:4), y)
+  tbl <- group_by(tibble(x = 1:4, y = 4:1), y)
   expect_identical(select_all(tbl), tbl)
 
-  tbl <- group_by(tibble(x = 1:4, y = 1:4), x)
+  tbl <- group_by(tibble(x = 1:4, y = 4:1), x)
   expect_identical(select_all(tbl), tbl)
 
-  tbl <- group_by(tibble(x = 1:4, y = 1:4, z = 1:4), y)
+  tbl <- group_by(tibble(x = 1:4, y = 4:1, z = 1:4), y)
   expect_identical(select_all(tbl), tbl)
 })
 

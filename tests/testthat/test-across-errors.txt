@@ -1,0 +1,3 @@
+> tibble(x = 1) %>% summarise(res = across(is.numeric, 42))
+Error: `fns` must be NULL, a function, a formula, or a list of functions/formulas
+

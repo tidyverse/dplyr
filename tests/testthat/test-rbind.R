@@ -45,10 +45,6 @@ test_that("bind_rows respects ordered factors (#1112)", {
   res <- bind_rows(df, df)
   expect_is(res$id, "ordered")
   expect_equal(levels(df$id), levels(res$id))
-
-  res <- group_by(df, id) %>% do(na.omit(.))
-  expect_is(res$id, "ordered")
-  expect_equal(levels(df$id), levels(res$id))
 })
 
 test_that("bind handles POSIXct of different tz ", {

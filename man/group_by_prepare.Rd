@@ -11,8 +11,8 @@ distinct_prepare(.data, vars, group_vars = character(), .keep_all = FALSE)
 group_by_prepare(
   .data,
   ...,
-  .dots = "DEFUNCT",
   .add = FALSE,
+  .dots = deprecated(),
   add = deprecated()
 )
 }

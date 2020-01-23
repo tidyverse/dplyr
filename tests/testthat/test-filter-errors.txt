@@ -3,83 +3,99 @@ wrong type
 ==========
 
 > iris %>% group_by(Species) %>% filter(1:n())
-Error: `filter()` argument `..1` is incorrect
-x It must be a logical vector, not a integer
-i The error occured in group 1
+Error: `filter()` argument `..1` is incorrect.
+i The error occured in group 1: Species = "setosa".
+x `..1` must be a logical vector, not a integer.
 
 > iris %>% filter(1:n())
-Error: `filter()` argument `..1` is incorrect
-x It must be a logical vector, not a integer
+Error: `filter()` argument `..1` is incorrect.
+x `..1` must be a logical vector, not a integer.
 
 
 wrong size
 ==========
 
 > iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))
-Error: `filter()` argument `..1` is incorrect
-x It must be of size 50 or 1, not size 2
-i The error occured in group 1
+Error: `filter()` argument `..1` is incorrect.
+i The error occured in group 1: Species = "setosa".
+x `..1` must be of size 50 or 1, not size 2.
+
+> iris %>% rowwise(Species) %>% filter(c(TRUE, FALSE))
+Error: `filter()` argument `..1` is incorrect.
+i The error occured in row 1.
+x `..1` must be of size 1, not size 2.
 
 > iris %>% filter(c(TRUE, FALSE))
-Error: `filter()` argument `..1` is incorrect
-x It must be of size 150 or 1, not size 2
+Error: `filter()` argument `..1` is incorrect.
+x `..1` must be of size 150 or 1, not size 2.
 
 
 wrong size in column
 ====================
 
 > iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE)))
-Error: `filter()` argument `..1` is incorrect
-x It must be of size 50 or 1, not size 2
-i The error occured in group 1
+Error: `filter()` argument `..1` is incorrect.
+i The error occured in group 1: Species = "setosa".
+x `..1` must be of size 50 or 1, not size 2.
+
+> iris %>% rowwise() %>% filter(data.frame(c(TRUE, FALSE)))
+Error: `filter()` argument `..1` is incorrect.
+i The error occured in row 1.
+x `..1` must be of size 1, not size 2.
 
 > iris %>% filter(data.frame(c(TRUE, FALSE)))
-Error: `filter()` argument `..1` is incorrect
-x It must be of size 150 or 1, not size 2
+Error: `filter()` argument `..1` is incorrect.
+x `..1` must be of size 150 or 1, not size 2.
+
+> tibble(x = 1) %>% filter(c(TRUE, TRUE))
+Error: `filter()` argument `..1` is incorrect.
+x `..1` must be of size 1, not size 2.
 
 
 wrong type in column
 ====================
 
 > iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, 1:n()))
-Error: `filter()` argument `..1$X1.n..` is incorrect
-x It must be a logical vector, not a integer
-i The error occured in group 1
+Error: `filter()` argument `..1$X1.n..` is incorrect.
+i The error occured in group 1: Species = "setosa".
+x `..1$X1.n..` must be a logical vector, not a integer.
 
 > iris %>% filter(data.frame(Sepal.Length > 3, 1:n()))
-Error: `filter()` argument `..1$X1.n..` is incorrect
-x It must be a logical vector, not a integer
+Error: `filter()` argument `..1$X1.n..` is incorrect.
+x `..1$X1.n..` must be a logical vector, not a integer.
 
 
 evaluation error
 ================
 
 > mtcars %>% filter(`_x`)
-Error: `filter()` argument `..1` errored
+Error: `filter()` argument `..1` errored.
+i `..1` is `_x`.
 x object '_x' not found
 
 > mtcars %>% group_by(cyl) %>% filter(`_x`)
-Error: `filter()` argument `..1` errored
+Error: `filter()` argument `..1` errored.
+i `..1` is `_x`.
+i The error occured in group 1: cyl = 4.
 x object '_x' not found
-i The error occured in group 1
 
 
 named inputs
 ============
 
 > filter(mtcars, x = 1)
-Error: `filter()` argument `..1` is named
-i This usually means that you've used `=` instead of `==`
+Error: `filter()` argument `..1` is named.
+i This usually means that you've used `=` instead of `==`.
 i Did you mean `x == 1` ?
 
 > filter(mtcars, y > 2, z = 3)
-Error: `filter()` argument `..2` is named
-i This usually means that you've used `=` instead of `==`
+Error: `filter()` argument `..2` is named.
+i This usually means that you've used `=` instead of `==`.
 i Did you mean `z == 3` ?
 
 > filter(mtcars, TRUE, x = 1)
-Error: `filter()` argument `..2` is named
-i This usually means that you've used `=` instead of `==`
+Error: `filter()` argument `..2` is named.
+i This usually means that you've used `=` instead of `==`.
 i Did you mean `x == 1` ?
 
 

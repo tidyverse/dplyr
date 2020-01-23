@@ -1,4 +1,14 @@
-# dplyr 0.9.0 (in development)
+# dplyr 1.0.0 (in development)
+
+## New features
+
+* The `cur_` functions (`cur_data()`, `cur_group()`, `cur_group_id()`, 
+  `cur_group_rows()`) provide a full set of options to you access information 
+  about the "current" group in dplyr verbs. They are inspired by 
+  data.table's `.SD`, `.GRP`, `.BY`, and `.I`.
+
+* `mutate()` and `summarise()` create multiple columns from a single expression
+  if you return a data frame (#2326).
 
 * `select()` and `rename()` use the latest version of the tidyselect interface.
   Practically, this means that you can now combine selections using Boolean
@@ -7,45 +17,6 @@
   it possible to use `select()` and `rename()` to repair data frames with
   duplicated names (#4615) and prevents you from accidentally introducing
   duplicate names (#4643).
-
-* `mutate()` and `summarise()` can now modify grouping variables (#4709).
-
-* Grouped data frames now have `names<-`, `[[<-`, `[<-` and `$<-` methods that
-  re-generate the underlying grouping. Note that modifying grouping variables 
-  in multiple steps (i.e. `df$grp1 <- 1; df$grp2 <- 1`) will be inefficient
-  since the data frame will be regrouped after each modification.
-
-* `[.grouped_df` now regroups to respect any grouping columns that have
-  been removed (#4708).
-
-* `as.tbl()` and `tbl_df()` have been formally deprecated.
-  Please use `as_tibble()` instead.
-  
-* `add_rownames()` has been deprecated. Please use 
-  `tibble::rownames_to_column()` instead.
-* `src_local()` has been deprecated; it was part of an approach to testing
-  dplyr backends that didn't pan out.
-
-* `group_by(..., .add = TRUE)` replaces `group_by(..., add = TRUE)`,
-  with a deprecation message. The old argument name was a mistake because
-  it prevents you from creating a new grouping var called `add` and
-  it violates our naming conventions (#4137).
-
-* All deprecations now use the [lifecycle](https://lifecycle.r-lib.org), 
-  that means by default you'll only see a deprecation warning once per session,
-  and you can control with `options(lifecycle_verbosity = x)` where
-  `x` is one of NULL, "quiet", "warning", and "error".
-
-* `id()`, deprecated in dplyr 0.5.0, is now defunct.
-
-* `failwith()` which was deprecated in 0.7.0 is now defunct.
-
-* `sample_n()` and `sample_frac()` have been retired in favour of new 
-  `slice_sample()`. See `?sample_n` for details about why, and for examples
-  converting from old to new usage.
-
-* `top_n()` has been retired in favour of `slice_min()`/`slice_max()`. See
-  `?top_n` for details about why, and how to convert old to new usage (#4494).
 
 * `slice()` gains a new set of helpers:
 
@@ -57,35 +28,159 @@
   
   * `slice_min()` and `slice_max()` select the rows with the minimum or 
     maximum values of a variable, taking over from the confusing `top_n()`.
-* `transmute()` now preserves order of input variables (#4693).
 
-* `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()` and 
-  `eval_tbls2()` are now deprecated. That were only used in a handful of 
-  packages, and we now believe that you're better off performing comparisons 
-  more directly (#4675).
-* `distinct()` errors if you request it use variables that don't exist
-  (this was previously a warning) (#4656).
+* `summarise()` can create summaries of greater than length 1 if you use a
+  summary function that returns multiple values.
 
-* `tally()` and `count()` now error if the default output `name` (n), already
-  exists in the data frame. You'll now need to specify it yourself; this 
-  replaces the existing ad hoc approach which used `nn`, `nnn` etc.
-  If you supply an explicit `name`, it will override an existing column
-  with that name (#4284).
-
-* `order_by()` gives an informative hint if you accidentally call it instead
-  of `arrange()` #3357.
-
-* `filter()` handles data frame results when all columns are logical vectors
-  by reducing them with `&` (#4678). In particular this means `across()` can be used
-  in `filter()`. `filter()` gains better error messages with more information. 
+* New `relocate()` verb makes it easy to move columns around within a data 
+  frame (#4598).
 
 * `ungroup()` can now selectively remove grouping variables (#3760).
 
 * `pull()` can now return named vectors by specifying an additional column name
   (@ilarischeinin, #4102).
-  
+
+## Experimental features
+
+* `mutate()` (for data frames only), gains experimental new arguments
+  `.before` and `.after` that allow you to control where the new columns are
+  placed (#2047).
+
+* `mutate()` (for data frames only), gains an experimental new argument 
+  called `.keep` that allows you to control which variables are kept from
+  the input `.data`. `.keep = "all"` is the default; it keeps all variables.
+  `.keep = "none"` retains no input variables (except for grouping keys), 
+  so behaves like `transmute()`. `.keep = "unused"` keeps only variables 
+  not used to make new columns. `.keep = "used"` keeps only the input variables
+  used to create new columns; it's useful for double checking your work (#3721).
+
+* New, experimental, `with_groups()` makes it easy to temporarily group or
+  ungroup (#4711).
+
+## across()
+
 * New function `across()` that can be used inside `summarise()` or `mutate()` 
   to apply a function (or a set of functions) to a selection of columns. 
+  
+## rowwise()
+
+* New, experimental, `condense()` makes it easy to create and use list-columns.
+  It is similar to `summarise()` but it always returns a single row per group
+  and it wraps each new column in a list. It returns a `rowwise` tibble so you 
+  can work with list-columns without having to manually vectorise your code 
+  with purrr map functions (#4723).
+
+* `rowwise()` is no longer questioning; we now understand that it's an
+  important tool when you don't have vectorised code. It now also allows you to
+  specify additional variables that should be preserved in the output when 
+  summarising (#4723). The rowwise-ness is preserved by all operations;
+  you need to explicit drop it with `as_tibble()` or `group_by()`.
+
+## vctrs
+
+* The implementation of all dplyr verbs have been changed to use primitives
+  provided by the vctrs package. This makes it easier to add support for 
+  new types of vector, radically simplifies the implementation, and makes
+  all dplyr verbs more consistent.
+  
+* dplyr dropped its two heaviest dependencies: Rcpp and BH. This should make
+  it considerably easier and faster to build from source.
+  
+* The implementation of all verbs has been carefully thought through. This 
+  mostly makes implementation simpler but should hopefully increase consistency,
+  and also makes it easier to adapt to dplyr to new data structures in the 
+  new future. Pragmatically, the biggest difference for most people will be
+  that each verb documents its return value in terms of rows, columns, groups,
+  and data frame attributes.
+
+* Row names are now preserved when working with data frames.
+
+## Grouping
+
+* Grouped data frames now have `names<-`, `[[<-`, `[<-` and `$<-` methods that
+  re-generate the underlying grouping. Note that modifying grouping variables 
+  in multiple steps (i.e. `df$grp1 <- 1; df$grp2 <- 1`) will be inefficient
+  since the data frame will be regrouped after each modification.
+
+* `[.grouped_df` now regroups to respect any grouping columns that have
+  been removed (#4708).
+
+* `mutate()` and `summarise()` can now modify grouping variables (#4709).
+
+## Lifecycle changes
+
+* All deprecations now use the [lifecycle](https://lifecycle.r-lib.org), 
+  that means by default you'll only see a deprecation warning once per session,
+  and you can control with `options(lifecycle_verbosity = x)` where
+  `x` is one of NULL, "quiet", "warning", and "error".
+
+* The scoped helpers (all functions ending in `_if`, `_at`, or `_all`) have
+  been superseded by `across()`. This dramatically reduces the API surface for 
+  dplyr, while at the same providing providing a more flexible and less 
+  error-prone interface (#4769).
+
+* `all_equal()` is questioning; it solves a problem that no longer seems 
+  important.
+
+* In `add_count()`, the `drop` argument has been deprecated because it didn't 
+  actually affect the output.
+
+* `add_rownames()` has been deprecated. Please use 
+  `tibble::rownames_to_column()` instead.
+  
+* `as.tbl()` and `tbl_df()` have been formally deprecated.
+  Please use `as_tibble()` instead.
+
+* `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()` and 
+  `eval_tbls2()` are now deprecated. That were only used in a handful of 
+  packages, and we now believe that you're better off performing comparisons 
+  more directly (#4675).
+
+* `combine()` is soft deprecated. Please use `vectrs::vec_c()` instead.
+
+* `do()` is deprecated in favour of either `condense()` or `summarise()`
+  depending on whether you were using the named or unnamed form.
+
+* `failwith()`, deprecated in dplyr 0.7.0, is now defunct.
+
+* `funs()` is deprecated. Please use `across()` instead.
+
+* `id()`, deprecated in dplyr 0.5.0, is now defunct.
+
+* `group_by()`: the `add` argument has been deprecated; please use `.add`
+  instead.
+
+* `group_by()`/`group_by_prepare()`: the `.dots` argument is deprecated; 
+  please use `!!!` instead (#4734).
+
+* The use of zero-arg `group_indices()` to retrieve the group id for the
+  "current" group is deprecated; instead use `cur_group_id()`.
+
+* Passing arguments to `group_keys()` or `group_indices()` to change the
+  grouping has been deprecated, instead do grouping first yourself.
+
+* `location()` and `changes()` are soft deprecated, please use functions from 
+  the lobstr package. 
+
+* `rowwise()` is no longer questioning.
+
+* `sample_n()` and `sample_frac()` have been superseded by `slice_sample()`. 
+  See `?sample_n` for details about why, and for examples converting from 
+  old to new usage.
+
+* `src_local()` has been deprecated; it was part of an approach to testing
+  dplyr backends that didn't pan out.
+
+* `top_n()` has been superseded by`slice_min()`/`slice_max()`. See `?top_n` 
+  for details about why, and how to convert old to new usage (#4494).
+
+* `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
+  (#4429).
+
+## Minor improvements and bug fixes
+  
+* dplyr now has a rudimentary, experimental, and stop-gap, extension mechanism
+  documented in `?dplyr_extending`
 
 * dplyr no longer provides a `all.equal.tbl_df()` method. It never should have
   done so in the first place because it owns neither the generic nor the class.
@@ -95,10 +190,48 @@
   the whole we believe those failures to either reflect unexpected behaviour
   or tests that need to be strengthened (#2751).
 
-* `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
-  (#4429).
+* `count()` and `add_count()` now preserve the type of the input (#4086).
 
-* `funs()` is deprecated and now issues a warning on first use (#3932).
+* `distinct()` errors if you request it use variables that don't exist
+  (this was previously a warning) (#4656).
+
+* `filter()`, `mutate()` and  `summarise()` get better error messages. 
+
+* `filter()` handles data frame results when all columns are logical vectors
+  by reducing them with `&` (#4678). In particular this means `across()` can 
+  be used in `filter()`. 
+
+* `left_join()`, `right_join()`, and `full_join()` gain a `keep` argument so
+  that you can optionally choose to keep both sets of join keys (#4589). This is
+  useful when you want to figure out which rows were missing from either side.
+
+* Join functions can now perform a cross-join by specifying `by = character()`
+  (#4206.)
+
+* `groups()` now returns `list()` for ungrouped data; previously it returned
+  `NULL` which was type-unstable (when there are groups it returns a list
+  of symbols).
+
+* The first argument of `group_map()`, `group_modify()` and `group_walk()`
+  has been changed to `.data` for consistency with other generics.
+
+* `group_keys.rowwise_df()` gives a 0 column data frame with `n()` rows. 
+
+* `group_map()` is now a generic (#4576).
+
+* `group_by(..., .add = TRUE)` replaces `group_by(..., add = TRUE)`,
+  with a deprecation message. The old argument name was a mistake because
+  it prevents you from creating a new grouping var called `add` and
+  it violates our naming conventions (#4137).
+
+* `order_by()` gives an informative hint if you accidentally call it instead
+  of `arrange()` #3357.
+
+* `tally()` and `count()` now error if the default output `name` (n), already
+  exists in the data frame. You'll now need to specify it yourself; this 
+  replaces the existing ad hoc approach which used `nn`, `nnn` etc.
+  If you supply an explicit `name`, it will override an existing column
+  with that name (#4284).
 
 * `starwars` dataset now does a better job of separating biological sex from
   gender identity. The previous `gender` column has been renamed to `sex`,
@@ -106,21 +239,6 @@
   column encodes the actual gender identity using other information about
   the Star Wars universe (@MeganBeckett, #4456).
   
-* `mutate()` and `summarise()` automatically unpack unnamed tibble results (#2326).
-
-* `group_keys.rowwise_df()` gives a 0 column data frame with n() rows. 
-
-* `combine()` is soft deprecated.
-
-* `location()` and `changes()` are soft deprecated, please use functions from the lobstr package. 
-
-* `group_map()` is now a generic (#4576).
-
-* The first argument of `group_map()`, `group_modify()` and `group_walk()`
-  has been changed to `.data` for consistency with other generics.
-  
-* `group_by()` uses hashing from the `vctrs` package. 
-
 # dplyr 0.8.4 (development version)
 
 * Better performance for extracting slices of factors and ordered factors (#4501).

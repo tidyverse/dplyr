@@ -12,11 +12,16 @@ in mutate/summarise. You can use same specifications as in \code{\link[=select]{
 If missing, defaults to all non-grouping variables.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+
+\code{vars()} was only needed for the scoped verbs, which have been superseded
+by the use of \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for
+details.
+
 This helper is intended to provide equivalent semantics to
 \code{\link[=select]{select()}}. It is used for instance in scoped summarising and
 mutating verbs (\code{\link[=mutate_at]{mutate_at()}} and \code{\link[=summarise_at]{summarise_at()}}).
-}
-\details{
+
 Note that verbs accepting a \code{vars()} specification also accept a
 numeric vector of positions or a character vector of column names.
 }

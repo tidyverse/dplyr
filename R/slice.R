@@ -1,125 +1,9 @@
-#' Choose rows by position
-#'
-#' Choose rows by their ordinal position in the tbl.  Grouped tbls use
-#' the ordinal position within the group.
-#'
-#' Slice does not work with relational databases because they have no
-#' intrinsic notion of row order. If you want to perform the equivalent
-#' operation, use [filter()] and [row_number()].
-#'
-#' @family single table verbs
-#' @param .data A tbl.
-#' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Integer row values.
-#'   Provide either positive values to keep, or negative values to drop.
-#'   The values provided must be either all positive or all negative.
-#'   Indices beyond the number of rows in the input are silently ignored.
-#' @inheritParams filter
-#' @inheritSection filter Tidy data
-#' @export
-#' @examples
-#' slice(mtcars, 1L)
-#' # Similar to tail(mtcars, 1):
-#' slice(mtcars, n())
-#' slice(mtcars, 5:n())
-#' # Rows can be dropped with negative indices:
-#' slice(mtcars, -5:-n())
-#' # In this case, the result will be equivalent to:
-#' slice(mtcars, 1:4)
-#'
-#' by_cyl <- group_by(mtcars, cyl)
-#' slice(by_cyl, 1:2)
-#'
-#' # Equivalent code using filter that will also work with databases,
-#' # but won't be as fast for in-memory data. For many databases, you'll
-#' # need to supply an explicit variable to use to compute the row number.
-#' filter(mtcars, row_number() == 1L)
-#' filter(mtcars, row_number() == n())
-#' filter(mtcars, between(row_number(), 5, n()))
-slice <- function(.data, ..., .preserve = FALSE) {
-  UseMethod("slice")
-}
-
-#' @export
-slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  idx <- slice_indices(.data, ...)
-  .data[idx$data, , drop = FALSE]
-}
-
-#' @export
-slice.grouped_df <- function(.data, ..., .preserve = !group_by_drop_default(.data)) {
-  idx <- slice_indices(.data, ...)
-  data <- as.data.frame(.data)[idx$data, , drop = FALSE]
-
-  groups <- group_data(.data)
-  groups$.rows <- new_list_of(idx$groups, ptype = integer())
-  groups <- group_data_trim(groups, .preserve)
-
-  new_grouped_df(data, groups)
-}
-
-slice_indices <- function(.data, ...) {
-  dots <- enquos(...)
-  if (is_empty(dots)) {
-    return(.data)
-  }
-
-  rows <- group_rows(.data)
-  mask <- DataMask$new(.data, caller_env(), rows)
-
-  quo <- quo(c(!!!dots))
-
-  chunks <- mask$eval_all(quo)
-
-  slice_indices <- new_list(length(rows))
-  new_rows <- new_list(length(rows))
-  k <- 1L
-
-  for (group in seq_along(rows)) {
-    current_rows <- rows[[group]]
-    res <- chunks[[group]]
-
-    if (is.logical(res) && all(is.na(res))) {
-      res <- integer()
-    } else if (is.numeric(res)) {
-      res <- vec_cast(res, integer())
-    } else if (!is.integer(res)) {
-      abort(
-        "slice() expressions should return indices (positive or negative integers)",
-        "dplyr_slice_incompatible"
-      )
-    }
-
-    if (length(res) == 0L) {
-      # nothing to do
-    } else if(all(res >= 0, na.rm = TRUE)) {
-      res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
-    } else if (all(res <= 0, na.rm = TRUE)) {
-      res <- setdiff(seq_along(current_rows), -res)
-    } else {
-      abort(
-        "slice() expressions should return either all positive or all negative",
-        "dplyr_slice_ambiguous"
-      )
-    }
-
-    slice_indices[[group]] <- current_rows[res]
-    new_k <- k + length(res)
-    new_rows[[group]] <- seq2(k, new_k - 1L)
-    k <- new_k
-  }
-
-  list(
-    data = vec_c(!!!slice_indices, .ptype = integer()),
-    groups = new_rows
-  )
-}
-
-# Slice helpers -----------------------------------------------------------
-
-#' Slice helpers
+#' Subset rows using their positions
 #'
 #' @description
-#' These functions provide useful tools for selecting rows, using [slice()]:
+#' `slice()` lets you index rows by their (integer) locations. It allows you
+#' to select, remove, and duplicate rows. It is accompanied by a number of
+#' helpers for common use cases:
 #'
 #' * `slice_head()` and `slice_tail()` select the first or last rows.
 #' * `slice_sample()` randomly selects rows.
@@ -130,15 +14,57 @@ slice_indices <- function(.data, ...) {
 #' so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
 #' each group.
 #'
-#' @param .data A data frame or extension.
-#' @param ... Additional arguments passed on to methods.
+#' @details
+#' Slice does not work with relational databases because they have no
+#' intrinsic notion of row order. If you want to perform the equivalent
+#' operation, use [filter()] and [row_number()].
+#'
+#' @family single table verbs
+#' @inheritParams arrange
+#' @inheritParams filter
+#' @param ... For `slice()`: <[`data-masking`][dplyr_data_masking]> Integer row
+#'   values.
+#'
+#'   Provide either positive values to keep, or negative values to drop.
+#'   The values provided must be either all positive or all negative.
+#'   Indices beyond the number of rows in the input are silently ignored.
+#'
+#'   For `slice_helpers()`, these arguments are passed on to methods.
+#'
 #' @param n,prop Provide either `n`, the number of rows, or `prop`, the
 #'   proportion of rows to select. If `n` is greater than the number of
 #'   rows in the group (or `prop > 1`), it will be silently truncated to the
 #'   group size. If the `prop`ortion of a group size is not an integer, it will
 #'   be rounded down.
+#' @return
+#' An object of the same type as `.data`.
+#'
+#' * Each row may appear 0, 1, or many times in the output.
+#' * Columns are not modified.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' Methods available in currently loaded packages:
+#'
+#' * `slice()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
+#' * `slice_head()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
+#' * `slice_tail()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
+#' * `slice_min()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
+#' * `slice_max()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
+#' * `slice_sample()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
 #' @export
 #' @examples
+#' mtcars %>% slice(1L)
+#' # Similar to tail(mtcars, 1):
+#' mtcars %>% slice(n())
+#' mtcars %>% slice(5:n())
+#' # Rows can be dropped with negative indices:
+#' slice(mtcars, -(1:4))
+#'
 #' # First and last rows based on existing order
 #' mtcars %>% slice_head(n = 5)
 #' mtcars %>% slice_tail(n = 5)
@@ -174,6 +100,26 @@ slice_indices <- function(.data, ...) {
 #' # When specifying the proportion of rows to include non-integer sizes
 #' # are rounded down, so group a gets 0 rows
 #' df %>% group_by(group) %>% slice_head(prop = 0.5)
+#'
+#' # Filter equivalents --------------------------------------------
+#' # slice() expressions can often be written to use `filter()` and
+#' # `row_number()`, which can also be translated to SQL. For many databases,
+#' #you'll need to supply an explicit variable to use to compute the row number.
+#' filter(mtcars, row_number() == 1L)
+#' filter(mtcars, row_number() == n())
+#' filter(mtcars, between(row_number(), 5, n()))
+slice <- function(.data, ..., .preserve = FALSE) {
+  UseMethod("slice")
+}
+
+#' @export
+slice.data.frame <- function(.data, ..., .preserve = FALSE) {
+  loc <- slice_rows(.data, ...)
+  dplyr_row_slice(.data, loc, preserve = .preserve)
+}
+
+#' @export
+#' @rdname slice
 slice_head <- function(.data, ..., n, prop) {
   UseMethod("slice_head")
 }
@@ -190,7 +136,7 @@ slice_head.data.frame <- function(.data, ..., n, prop) {
 }
 
 #' @export
-#' @rdname slice_head
+#' @rdname slice
 slice_tail <- function(.data, ..., n, prop) {
   UseMethod("slice_tail")
 }
@@ -206,7 +152,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 }
 
 #' @export
-#' @rdname slice_head
+#' @rdname slice
 #' @param order_by Variable or function of variables to order by.
 #' @param with_ties Should ties be kept together? The default, `TRUE`,
 #'   may return more rows than you request. Use `FALSE` to ignore ties,
@@ -237,7 +183,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
 }
 
 #' @export
-#' @rdname slice_head
+#' @rdname slice
 slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   UseMethod("slice_max")
 }
@@ -265,7 +211,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
 }
 
 #' @export
-#' @rdname slice_head
+#' @rdname slice
 #' @param replace Should sampling be performed with (`TRUE`) or without
 #'   (`FALSE`, the default) replacement.
 #' @param weight_by Sampling weights. This must evaluate to a vector of
@@ -287,6 +233,55 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
 }
 
 # helpers -----------------------------------------------------------------
+
+
+slice_rows <- function(.data, ...) {
+  dots <- enquos(...)
+  if (is_empty(dots)) {
+    return(TRUE)
+  }
+
+  rows <- group_rows(.data)
+  mask <- DataMask$new(.data, caller_env(), rows)
+
+  quo <- quo(c(!!!dots))
+  chunks <- mask$eval_all(quo)
+
+  slice_indices <- new_list(length(rows))
+
+  for (group in seq_along(rows)) {
+    current_rows <- rows[[group]]
+    res <- chunks[[group]]
+
+    if (is.logical(res) && all(is.na(res))) {
+      res <- integer()
+    } else if (is.numeric(res)) {
+      res <- vec_cast(res, integer())
+    } else if (!is.integer(res)) {
+      abort(
+        "slice() expressions should return indices (positive or negative integers)",
+        "dplyr_slice_incompatible"
+      )
+    }
+
+    if (length(res) == 0L) {
+      # nothing to do
+    } else if (all(res >= 0, na.rm = TRUE)) {
+      res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
+    } else if (all(res <= 0, na.rm = TRUE)) {
+      res <- setdiff(seq_along(current_rows), -res)
+    } else {
+      abort(
+        "slice() expressions should return either all positive or all negative",
+        "dplyr_slice_ambiguous"
+      )
+    }
+
+    slice_indices[[group]] <- current_rows[res]
+  }
+
+  vec_c(!!!slice_indices, .ptype = integer())
+}
 
 check_slice_size <- function(n, prop) {
   if (!missing(n) && missing(prop)) {
@@ -318,3 +313,4 @@ sample_int <- function(n, size, replace = FALSE, wt = NULL) {
     sample.int(n, min(size, n), prob = wt)
   }
 }
+

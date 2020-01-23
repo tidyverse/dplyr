@@ -1,82 +1,58 @@
-#' Join two tbls together
+#' Mutating joins
 #'
-#' These are generic functions that dispatch to individual tbl methods - see the
-#' method documentation for details of individual data sources. `x` and
-#' `y` should usually be from the same data source, but if `copy` is
-#' `TRUE`, `y` will automatically be copied to the same source as `x`.
+#' @description
+#' The mutating joins add columns from `y` to `x`, matching rows based on the
+#' keys:
 #'
-#' @section Join types:
+#' * `inner_join()`: includes all rows in `x` and `y`.
+#' * `left_join()`: includes all rows in `x`.
+#' * `right_join()`: includes all rows in `y`.
+#' * `full_join()`: includes all rows in `x` or `y`.
 #'
-#' Currently dplyr supports four types of mutating joins, two types of filtering joins, and
-#' a nesting join.
+#' If there are multiple matches between `x` and `y`, all combination of the
+#' matches are returned.
 #'
-#' \strong{Mutating joins} combine variables from the two data.frames:
+#' @return
+#' An object of the same type as `x`. The order of the rows and columns of `x`
+#' is preserved as much as possible.
 #'
-#' \describe{
-#'    \item{`inner_join()`}{return all rows from `x` where there are matching
-#'    values in `y`, and all columns from `x` and `y`. If there are multiple matches
-#'    between `x` and `y`, all combination of the matches are returned.}
+#' * For `inner_join()`, a subset of the `x` rows.
+#'   For `left_join()`, all `x` rows.
+#'   For `right_join()`, a subset of `x` rows, followed by unmatched `y` rows.
+#'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
+#' * For all joins, rows will be duplicated if one row in `x` rows match
+#'   multiple rows in `y`.
+#' * Output columns include all `x` columns and all `y` columns. If the
+#'   columns have the same name (and aren't included `y`), `suffix`es are
+#'   added to disambiguate.
+#' * Output columns columns included `by` are coerced to common type across
+#'   `x` and `y`.
+#' * Groups are taken from `x`.
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
 #'
-#'    \item{`left_join()`}{return all rows from `x`, and all columns from `x`
-#'    and `y`. Rows in `x` with no match in `y` will have `NA` values in the new
-#'    columns. If there are multiple matches between `x` and `y`, all combinations
-#'    of the matches are returned.}
+#' Methods available in currently loaded packages:
 #'
-#'   \item{`right_join()`}{return all rows from `y`, and all columns from `x`
-#'    and y. Rows in `y` with no match in `x` will have `NA` values in the new
-#'    columns. If there are multiple matches between `x` and `y`, all combinations
-#'    of the matches are returned.}
+#' * `inner_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("inner_join")}.
+#' * `left_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("left_join")}.
+#' * `right_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("right_join")}.
+#' * `full_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("full_join")}.
+#' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
+#'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
+#'   more details.
+#' @param by A character vector of variables to join by.
 #'
-#'    \item{`full_join()`}{return all rows and all columns from both `x` and `y`.
-#'    Where there are not matching values, returns `NA` for the one missing.}
-#' }
+#'   If `NULL`, the default, `*_join()` will perofrm a natural join, using all
+#'   variables in across `x` and `y`. A message lists the variables so that you
+#'   can check they're correct; suppress the message by supply `by` explicitly.
 #'
+#'   To join by different variables on `x` and `y` use a named vector.
+#'   For example, `by = c("a" = "b")` will match `x$a` to `y$b`.
 #'
-#' \strong{Filtering joins} keep cases from the left-hand data.frame:
-#'
-#' \describe{
-#'    \item{`semi_join()`}{return all rows from `x` where there are matching
-#'    values in `y`, keeping just columns from `x`.
-#'
-#'    A semi join differs from an inner join because an inner join will return
-#'    one row of `x` for each matching row  of `y`, where a semi
-#'    join will never duplicate rows of `x`.}
-#'
-#'    \item{`anti_join()`}{return all rows from `x` where there are not
-#'    matching values in `y`, keeping just columns from `x`.}
-#' }
-#'
-#' \strong{Nesting joins} create a list column of data.frames:
-#'
-#' \describe{
-#'    \item{`nest_join()`}{return all rows and all columns from `x`. Adds a
-#'    list column of tibbles. Each tibble contains all the rows from `y`
-#'    that match that row of `x`. When there is no match, the list column is
-#'    a 0-row tibble with the same column names and types as `y`.
-#'
-#'    `nest_join()` is the most fundamental join since you can recreate the other joins from it.
-#'    An `inner_join()` is a `nest_join()` plus an [tidyr::unnest()], and `left_join()` is a
-#'    `nest_join()` plus an `unnest(.drop = FALSE)`.
-#'    A `semi_join()` is a `nest_join()` plus a `filter()` where you check that every element of data has
-#'    at least one row, and an `anti_join()` is a `nest_join()` plus a `filter()` where you check every element has zero rows.
-#'    }
-#' }
-#'
-#' @section Grouping:
-#'
-#' Groups are ignored for the purpose of joining, but the result preserves
-#' the grouping of `x`.
-#'
-#' @param x,y tbls to join
-#' @param by a character vector of variables to join by.  If `NULL`, the
-#'   default, `*_join()` will do a natural join, using all variables with
-#'   common names across the two tables. A message lists the variables so
-#'   that you can check they're right (to suppress the message, simply
-#'   explicitly list the variables that you want to join).
-#'
-#'   To join by different variables on x and y use a named vector.
-#'   For example, `by = c("a" = "b")` will match `x.a` to
-#'   `y.b`.
+#'   To perform a cross-join, generating all combinations of `x` and `y`,
+#'   use `by = character()`.
 #' @param copy If `x` and `y` are not from the same data source,
 #'   and `copy` is `TRUE`, then `y` will be copied into the
 #'   same src as `x`.  This allows you to join tables across srcs, but
@@ -84,567 +60,307 @@
 #' @param suffix If there are non-joined duplicate variables in `x` and
 #'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
-#' @param name the name of the list column nesting joins create. If `NULL` the name of `y` is used.
-#' @param keep If `TRUE` the by columns are kept in the nesting joins.
-#' @param ... other parameters passed onto methods, for instance, `na_matches`
-#'   to control how `NA` values are matched.  See \link{join.tbl_df} for more.
-#' @name join
+#' @param keep Should the join keys from both `x` and `y` be preserved in the
+#'   output? Only applies to `nest_join()`, `left_join()`, `right_join()`, and
+#'   `full_join()`.
+#' @param ... Other parameters passed onto methods.
+#' @param na_matches Should `NA` and `NaN` values match one another?
+#'
+#'   Use `"never"` to always treat two `NA` or `NaN` values as different, like
+#'   joins for database sources, similarly to `merge(incomparables = FALSE)`.
+#'   The default, `"na"`, always treats two `NA` or `NaN` values as equal,
+#'   like `%in%`, [match()], [merge()].
+#' @family joins
 #' @examples
-#' # "Mutating" joins combine variables from the LHS and RHS
 #' band_members %>% inner_join(band_instruments)
 #' band_members %>% left_join(band_instruments)
 #' band_members %>% right_join(band_instruments)
 #' band_members %>% full_join(band_instruments)
 #'
-#' # "Filtering" joins keep cases from the LHS
-#' band_members %>% semi_join(band_instruments)
-#' band_members %>% anti_join(band_instruments)
-#'
-#' # "Nesting" joins keep cases from the LHS and nests the RHS
-#' band_members %>% nest_join(band_instruments)
-#'
-#' # To suppress the message, supply by
+#' # To suppress the message about joining variables, supply `by`
 #' band_members %>% inner_join(band_instruments, by = "name")
 #' # This is good practice in production code
 #'
 #' # Use a named `by` if the join variables have different names
 #' band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
-#' # Note that only the key from the LHS is kept
+#' # By default, the join keys from `x` and `y` are coalesced in the output; use
+#' # `keep = TRUE` to keep the join keys from both `x` and `y`
+#' band_members %>%
+#'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
+#'
+#' # If a row in `x` matches multiple rows in `y`, all rows
+#' # will be returned
+#' df1 <- tibble(x = 1:3)
+#' df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
+#' df1 %>% left_join(df2)
+#'
+#' # By default, NAs match other NAs so that there are two
+#' # rows in the output:
+#' df1 <- data.frame(x = c(1, NA), y = 2)
+#' df2 <- data.frame(x = c(1, NA), z = 3)
+#' left_join(df1, df2)
+#'
+#' # You can optionally request that NAs don't match, giving a
+#' # a result that more closely resembles SQL joins
+#' left_join(df1, df2, na_matches = "never")
+#' @aliases join join.data.frame
+#' @name mutate-joins
 NULL
 
-#' @rdname join
 #' @export
+#' @rdname mutate-joins
 inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("inner_join")
 }
 
-#' @rdname join
 #' @export
-left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+#' @rdname mutate-joins
+inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"), ...,
+                              na_matches = NULL) {
+
+  y <- auto_copy(x, y, copy = copy)
+  join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches)
+}
+
+#' @export
+#' @rdname mutate-joins
+left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
   UseMethod("left_join")
 }
 
-#' @rdname join
 #' @export
-right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+#' @rdname mutate-joins
+left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
+                             suffix = c(".x", ".y"), ...,
+                             keep = FALSE,
+                             na_matches = NULL) {
+  y <- auto_copy(x, y, copy = copy)
+  join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches, keep = keep)
+}
+
+#' @export
+#' @rdname mutate-joins
+right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
   UseMethod("right_join")
 }
 
-#' @rdname join
 #' @export
-full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+#' @rdname mutate-joins
+right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"), ...,
+                              keep = FALSE,
+                              na_matches = NULL) {
+  y <- auto_copy(x, y, copy = copy)
+  join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches, keep = keep)
+}
+
+#' @export
+#' @rdname mutate-joins
+full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
   UseMethod("full_join")
 }
 
-#' @rdname join
 #' @export
+#' @rdname mutate-joins
+full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
+                             suffix = c(".x", ".y"), ...,
+                             keep = FALSE,
+                             na_matches = NULL) {
+
+  y <- auto_copy(x, y, copy = copy)
+  join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches, keep = keep)
+}
+
+#' Filtering joins
+#'
+#' @description
+#' Filtering joins filter rows from `x` based on the presence or absence
+#' of matches in `y`:
+#'
+#' * `semi_join()` return all rows from `x` with a match in `y`.
+#' * `anti_join()` return all rows from `x` with**out** a match in `y`.
+#'
+#' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
+#'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
+#'   more details.
+#' @inheritParams left_join
+#' @return
+#' An object of the same type as `x`.
+#'
+#' * Rows are a subset of the input, but appear in the same order.
+#' * Columns are not modified.
+#' * Data frame attributes are preserved.
+#' * Groups are taken from `x`. The number of groups may be reduced.
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' Methods available in currently loaded packages:
+#'
+#' * `semi_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("semi_join")}.
+#' * `anti_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("anti_join")}.
+#' @family joins
+#' @examples
+#' # "Filtering" joins keep cases from the LHS
+#' band_members %>% semi_join(band_instruments)
+#' band_members %>% anti_join(band_instruments)
+#'
+#' # To suppress the message about joining variables, supply `by`
+#' band_members %>% semi_join(band_instruments, by = "name")
+#' # This is good practice in production code
+#' @name filter-joins
+NULL
+
+#' @export
+#' @rdname filter-joins
 semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("semi_join")
 }
 
-#' @rdname join
 #' @export
-nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
-  UseMethod("nest_join")
+#' @rdname filter-joins
+semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
+                             na_matches = NULL) {
+
+  y <- auto_copy(x, y, copy = copy)
+  join_filter(x, y, by = by, type = "semi", na_matches = na_matches)
 }
 
-#' @rdname join
 #' @export
+#' @rdname filter-joins
 anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("anti_join")
 }
 
-
-#' Join data frame tbls
-#'
-#' See [join] for a description of the general purpose of the
-#' functions.
-#'
-#' @inheritParams inner_join
-#' @param ... included for compatibility with the generic; otherwise ignored.
-#' @param na_matches
-#'   Use `"never"` to always treat two `NA` or `NaN` values as
-#'   different, like joins for database sources, similarly to
-#'   `merge(incomparables = FALSE)`.
-#'   The default, `"na"`, always treats two `NA` or `NaN` values as equal, like [merge()].
-#'   Users and package authors can change the default behavior by calling
-#'   `pkgconfig::set_config("dplyr::na_matches" = "never")`.
-#' @examples
-#' if (require("Lahman")) {
-#' batting_df <- as_tibble(Batting)
-#' person_df <- as_tibble(Master)
-#'
-#' uperson_df <- as_tibble(Master[!duplicated(Master$playerID), ])
-#'
-#' # Inner join: match batting and person data
-#' inner_join(batting_df, person_df)
-#' inner_join(batting_df, uperson_df)
-#'
-#' # Left join: match, but preserve batting data
-#' left_join(batting_df, uperson_df)
-#'
-#' # Anti join: find batters without person data
-#' anti_join(batting_df, person_df)
-#' # or people who didn't bat
-#' anti_join(person_df, batting_df)
-#' }
-#' @name join.tbl_df
-NULL
-
-check_na_matches <- function(na_matches) {
-  na_matches <- match.arg(na_matches, choices = c("na", "never"))
-  accept_na_match <- (na_matches == "na")
-  accept_na_match
-}
-
-check_valid_names <- function(names, warn_only = FALSE) {
-  which_na <- which(is.na(names))
-  alert <- if (warn_only) warn else abort
-
-  if (length(which_na)) {
-    alert(glue("Column `{cols}` cannot have NA as name",
-      cols = glue_collapse(which_na, sep = ", ")
-    ))
-  }
-
-  if (any(dup <- duplicated(names))){
-    alert(glue("Column `{cols}` must have a unique name",
-      cols = names[dup]
-    ))
-  }
-}
-
-
-
 #' @export
-#' @rdname join.tbl_df
-inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...,
-                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-  by <- common_by(by, x, y)
-  suffix <- check_suffix(suffix)
-  na_matches <- check_na_matches(na_matches)
-
-  y <- auto_copy(x, y, copy = copy)
-
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-
-  by_y <- vars$idx$y$by
-  aux_x <- vars$idx$x$aux
-  aux_y <- vars$idx$y$aux
-  by_names <- vars$alias[seq_len(length(by_y))]
-
-  y_split <- vec_group_pos(set_names(y[, by_y, drop = FALSE], by_names))
-
-  matches <- vec_match(
-    set_names(x[, by_x, drop = FALSE], by_names),
-    y_split$key
-  )
-
-  # expand indices
-  x_indices <- seq_len(nrow(x))[!is.na(matches)]
-  y_indices <- y_split$pos[matches[!is.na(matches)]]
-  x_indices <- rep(x_indices, lengths(y_indices))
-  y_indices <- vec_c(!!!y_indices, .pytype = integer())
-
-  x_slice <- vec_slice(x, x_indices)
-  y_slice <- vec_slice(y, y_indices)
-
-  # joined columns, cast to their common types
-  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
-
-  # join columns, perhaps with casting,
-  # x columns stay in same position
-  join_ptype <- vec_ptype2(x[, by_x, drop = FALSE], set_names(y[, by_y, drop = FALSE], names(x)[by_x]))
-  out[by_x] <- vec_cast(x_slice[, by_x, drop = FALSE], to = join_ptype)
-
-  # other columns from x
-  out[aux_x] <- x_slice[, aux_x, drop = FALSE]
-
-  # then columns from y
-  out[ncol(x) + seq_along(aux_y)] <- y_slice[, aux_y, drop = FALSE]
-
-  reconstruct_join(as_tibble(out), x, vars)
-}
-
-#' @importFrom tibble add_column
-#' @export
-#' @rdname join.tbl_df
-nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
-  name_var <- name %||% as_label(enexpr(y))
-
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-  by <- common_by(by, x, y)
-
-  y <- auto_copy(x, y, copy = copy)
-
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by)
-  by_x <- check_by_x(vars$idx$x$by)
-  by_names <- vars$alias[seq_len(length(by_x))]
-  by_y <- vars$idx$y$by
-  aux_y <- vars$idx$y$aux
-  aux_x <- vars$idx$x$aux
-
-  if (keep) {
-    aux_y <- c(by_y, aux_y)
-  }
-
-  y_split <- vec_group_pos(set_names(y[, by_y, drop = FALSE], by_names))
-
-  matches <- vec_match(
-    set_names(x[, by_x, drop = FALSE], by_names),
-    y_split$key
-  )
-
-  # expand indices
-  y_indices <- y_split$pos
-
-  # joined columns, cast to their common types
-  joined <- x[, by_x, drop = FALSE]
-  joined <- set_names(joined, vars$alias[seq_len(ncol(joined))])
-  joined[] <- map2(joined, y[, by_y, drop = FALSE], function(joined_i, y_i) {
-    vec_cast(joined_i, to = vec_ptype_common(joined_i, y_i))
-  })
-
-  # colums from x (no casting needed)
-  x_result <- set_names(
-    x[, aux_x, drop = FALSE],
-    vars$alias[seq2(ncol(joined) + 1, ncol(x))]
-  )
-
-  # columns from y
-  y_keep <- if (keep) y else y[, aux_y, drop = FALSE]
-  y_result_list <- map(matches, function(idx) {
-    if (identical(idx, NA_integer_)) {
-      vec_slice(y_keep, 0L)
-    } else {
-      vec_slice(y_keep, y_indices[[idx]])
-    }
-  })
-
-  out <- add_column(joined, !!!x_result, !!name_var := y_result_list)
-  reconstruct_join(out, x, vars)
-}
-
-check_by_x <- function(by_x) {
-  if (length(by_x) == 0L) {
-    abort(
-      "`by` must specify variables to join by",
-      "dplyr_join_empty_by"
-    )
-  }
-  by_x
-}
-
-#' @export
-#' @rdname join.tbl_df
-left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-  by <- common_by(by, x, y)
-  suffix <- check_suffix(suffix)
-  na_matches <- check_na_matches(na_matches)
-
-  y <- auto_copy(x, y, copy = copy)
-
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-
-  by_y <- vars$idx$y$by
-  aux_x <- vars$idx$x$aux
-  aux_y <- vars$idx$y$aux
-
-  # unique values and where they are in each
-  y_split <- vec_group_pos(y[, by_y, drop = FALSE])
-
-  # matching uniques in x with uniques in y
-  matches <- vec_match(x[, by_x, drop = FALSE], set_names(y_split$key, names(x)[by_x]))
-
-  # for each unique value in x, expand the ids according to the number
-  # of matches in y
-  x_indices <- vec_c(!!!map2(matches, seq_along(matches), function(match, ids, rhs_id) {
-    if (is.na(match)) {
-      ids
-    } else {
-      vec_repeat(ids, each = length(rhs_id[[match]]))
-    }
-  }, rhs_id = y_split$pos), .ptype = integer())
-  x_slice <- vec_slice(x, x_indices)
-
-  # same for ids of y
-  y_indices <- vec_c(!!!map2(matches, seq_along(matches), function(match, ids, rhs_id) {
-    if (is.na(match)) {
-      NA_integer_
-    } else {
-      rhs_id[[match]]
-    }
-  }, rhs_id = y_split$pos), .ptype = integer())
-  y_slice <- vec_slice(y, y_indices)
-
-  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
-
-  # join columns, perhaps with casting,
-  # x columns stay in same position
-  join_ptype <- vec_ptype2(x[, by_x, drop = FALSE], set_names(y[, by_y, drop = FALSE], names(x)[by_x]))
-  out[by_x] <- vec_cast(x_slice[, by_x, drop = FALSE], to = join_ptype)
-
-  # other columns from x
-  out[aux_x] <- x_slice[, aux_x, drop = FALSE]
-
-  # then columns from y
-  out[ncol(x) + seq_along(aux_y)] <- y_slice[, aux_y, drop = FALSE]
-
-  reconstruct_join(as_tibble(out), x, vars)
-}
-
-#' @export
-#' @rdname join.tbl_df
-right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...,
-                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-  by <- common_by(by, x, y)
-  suffix <- check_suffix(suffix)
-  na_matches <- check_na_matches(na_matches)
-
-  y <- auto_copy(x, y, copy = copy)
-
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-  by_y <- vars$idx$y$by
-  aux_x <- vars$idx$x$aux
-  aux_y <- vars$idx$y$aux
-  alias <- vars$alias
-
-  # unique values and where they are in each
-  x_split <- vec_group_pos(x[, by_x, drop = FALSE])
-
-  # matching uniques in x with uniques in y
-  matches <- vec_match(
-    y[, by_y, drop = FALSE],
-    set_names(x_split$key, names(y)[by_y])
-  )
-
-  # for each unique value in y, expand the ids according to the number
-  # of matches in x
-  y_indices <- vec_c(!!!map2(matches, seq_along(matches), function(match, id, lhs_id) {
-    if (is.na(match)) {
-      id
-    } else {
-      vec_repeat(id, each = length(lhs_id[[match]]))
-    }
-  }, lhs_id = x_split$pos), .ptype = integer())
-
-  # same for ids of x
-  x_indices <- vec_c(!!!map2(matches, seq_along(matches), function(match, id, lhs_id) {
-    if (is.na(match)) {
-      NA_integer_
-    } else {
-      vec_repeat(lhs_id[[match]], times = length(id))
-    }
-  }, lhs_id = x_split$pos), .ptype = integer())
-
-  x_slice <- vec_slice(x, x_indices)
-  y_slice <- vec_slice(y, y_indices)
-
-  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
-
-  # the joined columns (taken from `y`) and then cast to common type
-  join_ptype <- vec_ptype2(x[, by_x, drop = FALSE], set_names(y[, by_y, drop = FALSE], names(x)[by_x]))
-  out[by_x] <- vec_cast(set_names(y_slice[, by_y, drop = FALSE], names(x)[by_x]), to = join_ptype)
-
-  # other colums from x
-  out[aux_x] <- x_slice[, aux_x, drop = FALSE]
-
-  # then columns from y
-  out[ncol(x) + seq_along(aux_y)] <- y_slice[, aux_y, drop = FALSE]
-
-  reconstruct_join(as_tibble(out), x, vars)
-}
-
-#' @export
-#' @rdname join.tbl_df
-full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-  by <- common_by(by, x, y)
-  suffix <- check_suffix(suffix)
-  na_matches <- check_na_matches(na_matches)
-
-  y <- auto_copy(x, y, copy = copy)
-
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-  by_y <- vars$idx$y$by
-  aux_x <- vars$idx$x$aux
-  aux_y <- vars$idx$y$aux
-  by_names <- vars$alias[seq_len(length(by_x))]
-
-  # unique values and where they are in each
-  x_split <- vec_group_pos(set_names(x[, by_x, drop = FALSE], by_names))
-  y_split <- vec_group_pos(set_names(y[, by_y, drop = FALSE], by_names))
-
-  # matching uniques in x with uniques in y and vice versa
-  x_matches <- vec_match(x_split$key, y_split$key)
-  y_matches <- vec_match(y_split$key, x_split$key)
-
-  # expand x indices from x matches
-  x_indices_one <- vec_c(
-    !!!map2(x_matches, x_split$pos, function(match, ids, rhs_id) {
-      if (is.na(match)) {
-        ids
-      } else {
-        vec_repeat(ids, each = length(rhs_id[[match]]))
-      }
-    }, rhs_id = y_split$pos),
-    .ptype = integer()
-  )
-
-  x_indices_two <- rep(NA_integer_,
-    sum(lengths(y_split$pos[is.na(y_matches)]))
-  )
-
-  # rows in x
-  y_indices_one <- vec_c(
-    !!!map2(x_matches, x_split$pos, function(match, ids, rhs_id) {
-      if (is.na(match)) {
-        vec_repeat(NA_integer_, length(ids))
-      } else {
-        vec_repeat(rhs_id[[match]], times = length(ids))
-      }
-    }, rhs_id = y_split$pos),
-
-    .ptype = integer()
-  )
-
-  # rows in y and not in x
-  y_indices_two <- vec_c(!!!y_split$pos[is.na(y_matches)], .ptype = integer())
-
-  out <- new_list(ncol(x) + length(aux_y), names = vars$alias)
-
-  out[by_x] <- vec_rbind(
-    vec_slice(x[, by_x, drop = FALSE], x_indices_one),
-    set_names(vec_slice(y[, by_y, drop = FALSE], y_indices_two), names(x)[by_x])
-  )
-
-  # other colums from x
-  out[aux_x] <- vec_slice(x[, aux_x, drop = FALSE], c(x_indices_one, x_indices_two))
-
-  # columns from y
-  out[ncol(x) + seq_along(aux_y)] <- vec_slice(y[, aux_y, drop = FALSE], c(y_indices_one, y_indices_two))
-
-  reconstruct_join(as_tibble(out), x, vars)
-}
-
-#' @export
-#' @rdname join.tbl_df
-semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-
-  by <- common_by(by, x, y)
-  by_x <- check_by_x(by$x)
-  suffix <- check_suffix(c(".x", ".y"))
-  na_matches <- check_na_matches(na_matches)
-
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-  by_y <- vars$idx$y$by
-
-  y <- auto_copy(x, y, copy = copy)
-  y_split <- vec_group_pos(
-    set_names(y[, by_y, drop = FALSE], names(x)[by_x])
-  )
-  indx <- which(!is.na(vec_match(x[, by_x, drop = FALSE], y_split$key)))
-  x[indx, , drop = FALSE]
-}
-
-#' @export
-#' @rdname join.tbl_df
+#' @rdname filter-joins
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_names(tbl_vars(x))
-  check_valid_names(tbl_vars(y))
-
-  by <- common_by(by, x, y)
-  by_x <- check_by_x(by$x)
-  suffix <- check_suffix(c(".x", ".y"))
-  na_matches <- check_na_matches(na_matches)
-
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- check_by_x(vars$idx$x$by)
-  by_y <- vars$idx$y$by
+                             na_matches = NULL) {
 
   y <- auto_copy(x, y, copy = copy)
-  y_split <- vec_group_pos(
-    set_names(y[, by_y, drop = FALSE], names(x)[by_x])
+  join_filter(x, y, by = by, type = "anti", na_matches = na_matches)
+}
+
+#' Nest join
+#'
+#' `nest_join()` returns all rows and columns `x` with a new nested-df column
+#' that contains all matches from `y`. When there is no match, the list column
+#' is a 0-row tibble.
+#'
+#' In some sense, a `nest_join()` is the most fundamental join since you can
+#' recreate the other joins from it:
+#'
+#' * `inner_join()` is a `nest_join()` plus [tidyr::unnest()]
+#' * `left_join()` `nest_join()` plus `unnest(.drop = FALSE)`.
+#' * `semi_join()` is a `nest_join()` plus a `filter()` where you check
+#'   that every element of data has at least one row,
+#' * `anti_join()` is a `nest_join()` plus a `filter()` where you check every
+#'   element has zero rows.
+#'
+#' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
+#'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
+#'   more details.
+#' @param name The name of the list column nesting joins create.
+#'   If `NULL` the name of `y` is used.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("nest_join")}.
+#' @inheritParams left_join
+#' @family joins
+#' @export
+#' @examples
+#' band_members %>% nest_join(band_instruments)
+nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
+  UseMethod("nest_join")
+}
+
+#' @export
+#' @rdname nest_join
+nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
+  name_var <- name %||% as_label(enexpr(y))
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""), keep = keep)
+  y <- auto_copy(x, y, copy = copy)
+
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
+
+  y_split <- vec_group_loc(y_key)
+  matches <- vec_match(x_key, y_split$key)
+  y_loc <- y_split$loc[matches]
+
+  out <- set_names(x[vars$x$out], names(vars$x$out))
+
+  # Modify all columns in one step so that we only need to re-group once
+  # Currently, this regroups too often, because it looks like we're always
+  # changing the key vars because of the cast
+  new_cols <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+  names(new_cols) <- x_key
+
+  y_out <- set_names(y[vars$y$out], names(vars$y$out))
+  new_cols[[name_var]] <- map(y_loc, vec_slice, x = y_out)
+
+  dplyr_col_modify(out, new_cols)
+}
+
+# helpers -----------------------------------------------------------------
+
+join_mutate <- function(x, y, by, type,
+                        suffix = c(".x", ".y"),
+                        na_matches = "na",
+                        keep = FALSE
+                        ) {
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
+  na_matches <- check_na_matches(na_matches %||% "na")
+
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
+  rows <- join_rows(x_key, y_key, type = type)
+
+  x_out <- set_names(x[vars$x$out], names(vars$x$out))
+  y_out <- set_names(y[vars$y$out], names(vars$y$out))
+
+  out <- as_tibble(x_out)
+  out <- vec_slice(out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
+
+  if (!keep) {
+    out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+    new_rows <- length(rows$x) + seq_along(rows$y_extra)
+    out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
+  }
+
+  out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
+  dplyr_reconstruct(out, x_out)
+}
+
+join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
+  na_matches <- check_na_matches(na_matches %||% "na")
+
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
+
+  idx <- switch(type,
+    semi = vec_in(x_key, y_key),
+    anti = !vec_in(x_key, y_key)
   )
-  indx <- which(is.na(vec_match(x[, by_x, drop = FALSE], y_split$key)))
-  x[indx, , drop = FALSE]
+  dplyr_row_slice(x, idx)
 }
 
-reconstruct_join <- function(out, x, vars) {
-  if (is_grouped_df(x)) {
-    groups_in_old <- match(group_vars(x), tbl_vars(x))
-    groups_in_alias <- match(groups_in_old, vars$x)
-    out <- grouped_df(out, vars$alias[groups_in_alias], group_by_drop_default(x))
+check_na_matches <- function(na_matches = c("na", "never")) {
+  if (is.null(na_matches)) {
+    na_matches <- pkgconfig::get_config("dplyr::na_matches")
   }
-  out
-}
+  na_matches <- arg_match(na_matches)
 
-#' @export
-inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(inner_join(as_tibble(x), y, by = by, copy = copy, ...))
-}
-
-#' @export
-left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(left_join(as_tibble(x), y, by = by, copy = copy, ...))
-}
-
-#' @export
-#' @rdname join.tbl_df
-nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ... ) {
-  as.data.frame(nest_join(as_tibble(x), y, by = by, copy = copy, ..., keep = keep, name = name))
-}
-
-#' @export
-right_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(right_join(as_tibble(x), y, by = by, copy = copy, ...))
-}
-
-#' @export
-full_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(full_join(as_tibble(x), y, by = by, copy = copy, ...))
-}
-
-# Helpers -----------------------------------------------------------------
-
-check_suffix <- function(x) {
-  if (!is.character(x) || length(x) != 2) {
-    bad_args("suffix", "must be a character vector of length 2, ",
-      "not {friendly_type_of(x)} of length {length(x)}"
-    )
+  if (na_matches == "never") {
+    warn("`na_matches = 'never' currently unsupported")
   }
 
-  if (any(is.na(x))) {
-    bad_args("suffix", "can't be NA")
-  }
-
-  if (all(x == "")) {
-    bad_args("suffix", "can't be empty string for both `x` and `y` suffixes")
-  }
-
-  list(x = x[[1]], y = x[[2]])
+  (na_matches == "na")
 }
-

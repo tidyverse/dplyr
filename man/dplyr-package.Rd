@@ -37,11 +37,10 @@ show a progress bar? Default: \code{TRUE}}
 
 These can be set on a package-by-package basis, or for the global environment.
 See \code{\link[pkgconfig:set_config]{pkgconfig::set_config()}} for usage.
-\describe{
-\item{\code{dplyr::na_matches}}{Should \code{NA} values be matched in data frame joins
-by default? Default: \code{"na"} (for compatibility with dplyr v0.5.0 and earlier,
-subject to change), alternative value: \code{"never"} (the default
-for database backends, see \code{\link[=join.tbl_df]{join.tbl_df()}}).}
+\itemize{
+\item \code{dplyr::na_matches}: Should \code{NA} values be matched in data frame joins
+by default? Default: \code{"na"}. Alternative value: \code{"never"}.
+See \link{join.data.frame} for details.
 }
 }
 

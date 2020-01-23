@@ -35,13 +35,8 @@ SEXP symbols::vars = Rf_install("vars");
 SEXP symbols::current_group = Rf_install("current_group");
 SEXP symbols::current_expression = Rf_install("current_expression");
 SEXP symbols::rows = Rf_install("rows");
-SEXP symbols::dot_dot_group_size = Rf_install("..group_size");
-SEXP symbols::dot_dot_group_number = Rf_install("..group_number");
 SEXP symbols::mask = Rf_install("mask");
 SEXP symbols::caller = Rf_install("caller");
-
-SEXP symbols::stop_filter_incompatible_size = Rf_install("stop_filter_incompatible_size");
-SEXP symbols::stop_filter_incompatible_type = Rf_install("stop_filter_incompatible_type");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();
@@ -58,18 +53,16 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 1},
 
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
-  {"dplyr_filter_update_rows", (DL_FUNC)& dplyr_filter_update_rows, 4},
   {"dplyr_between", (DL_FUNC)& dplyr_between, 3},
   {"dplyr_cumall", (DL_FUNC)& dplyr_cumall, 1},
   {"dplyr_cumany", (DL_FUNC)& dplyr_cumany, 1},
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
-  {"dplyr_group_keys_impl", (DL_FUNC)& dplyr_group_keys_impl, 1},
 
-  {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 3},
-  {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 5},
-  {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 5},
-  {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 6},
+  {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 2},
+  {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 2},
+  {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 2},
+  {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
 
   {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
   {"dplyr_validate_summarise_sizes", (DL_FUNC)& dplyr_validate_summarise_sizes, 2},

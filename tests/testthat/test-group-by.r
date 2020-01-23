@@ -6,8 +6,8 @@ test_that("group_by with .add = TRUE adds groups", {
   add_groups1 <- function(tbl) group_by(tbl, x, y, .add = TRUE)
   add_groups2 <- function(tbl) group_by(group_by(tbl, x, .add = TRUE), y, .add = TRUE)
 
-  expect_groups(add_groups1(df), c("x", "y"))
-  expect_groups(add_groups2(df), c("x", "y"))
+  expect_equal(group_vars(add_groups1(df)), c("x", "y"))
+  expect_equal(group_vars(add_groups2(df)), c("x", "y"))
 })
 
 test_that("add = TRUE is deprecated", {
@@ -23,21 +23,26 @@ test_that("add = TRUE is deprecated", {
 test_that("joins preserve grouping", {
   g <- group_by(df, x)
 
-  expect_groups(inner_join(g, g, by = c("x", "y")), "x")
-  expect_groups(left_join(g, g, by = c("x", "y")), "x")
-  expect_groups(semi_join(g, g, by = c("x", "y")), "x")
-  expect_groups(anti_join(g, g, by = c("x", "y")), "x")
+  expect_equal(group_vars(inner_join(g, g, by = c("x", "y"))), "x")
+  expect_equal(group_vars(left_join(g, g, by = c("x", "y"))), "x")
+  expect_equal(group_vars(semi_join(g, g, by = c("x", "y"))), "x")
+  expect_equal(group_vars(anti_join(g, g, by = c("x", "y"))), "x")
 })
 
 test_that("constructors drops groups", {
   df <- data.frame(x = 1:3) %>% group_by(x)
-  expect_no_groups(as_tibble(df))
+  expect_equal(group_vars(as_tibble(df)), character())
 })
 
 test_that("grouping by constant adds column (#410)", {
   grouped <- group_by(mtcars, "cyl") %>% summarise(foo = n())
   expect_equal(names(grouped), c('"cyl"', "foo"))
   expect_equal(nrow(grouped), 1L)
+})
+
+test_that(".dots is soft deprecated", {
+  df <- tibble(x = 1, y = 1)
+  expect_warning(gf <- group_by(df, .dots = "x"), "deprecated")
 })
 
 # Test full range of variable types --------------------------------------------
@@ -73,29 +78,12 @@ test_that("mutate does not loose variables (#144)", {
 
 test_that("group_by uses shallow copy", {
   m1 <- group_by(mtcars, cyl)
-  expect_no_groups(mtcars)
+  expect_equal(group_vars(mtcars), character())
 
   expect_equal(
     lobstr::obj_addrs(mtcars),
     lobstr::obj_addrs(m1)
   )
-})
-
-test_that("group_by handles NA in factors #341", {
-  d <- tibble(x = 1:3, f = factor(c("a", "b", NA)))
-  expect_warning(g <- group_by(d, f), "Factor `f` contains implicit NA")
-  expect_equal(group_size(g), rep(1L, 3L))
-
-  d <- tibble(
-    f1 = factor(c(1,1,2,2)),
-    f2 = factor(c(1,2,1,NA)),
-    x  = 1:4
-  )
-  expect_warning(g <- group_by(d, f1, f2))
-  expect_equal(group_size(g), c(1L,1L,1L,1L))
-
-  expect_warning(g <- group_by(d, f1, f2, .drop = FALSE))
-  expect_equal(group_size(g), c(1L,1L,1L,0L,1L))
 })
 
 test_that("group_by orders by groups. #242", {
@@ -149,31 +137,31 @@ test_that("group_by works with zero-row data frames (#486)", {
   df <- data.frame(a = numeric(0), b = numeric(0), g = character(0))
   dfg <- group_by(df, g, .drop = FALSE)
   expect_equal(dim(dfg), c(0, 3))
-  expect_groups(dfg, "g")
+  expect_equal(group_vars(dfg), "g")
   expect_equal(group_size(dfg), integer(0))
 
   x <- summarise(dfg, n = n())
   expect_equal(dim(x), c(0, 2))
-  expect_no_groups(x)
+  expect_equal(group_vars(x), character())
 
   x <- mutate(dfg, c = b + 1)
   expect_equal(dim(x), c(0, 4))
-  expect_groups(x, "g")
+  expect_equal(group_vars(x), "g")
   expect_equal(group_size(x), integer(0))
 
   x <- filter(dfg, a == 100)
   expect_equal(dim(x), c(0, 3))
-  expect_groups(x, "g")
+  expect_equal(group_vars(x), "g")
   expect_equal(group_size(x), integer(0))
 
   x <- arrange(dfg, a, g)
   expect_equal(dim(x), c(0, 3))
-  expect_groups(x, "g")
+  expect_equal(group_vars(x), "g")
   expect_equal(group_size(x), integer(0))
 
   x <- select(dfg, a) # Only select 'a' column; should result in 'g' and 'a'
   expect_equal(dim(x), c(0, 2))
-  expect_groups(x, "g")
+  expect_equal(group_vars(x), "g")
   expect_equal(group_size(x), integer(0))
 })
 
@@ -191,7 +179,7 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
   by_cyl <- mtcars %>% group_by(cyl)
   no_cyl <- by_cyl %>% `[`(c(1, 3))
 
-  expect_no_groups(no_cyl)
+  expect_equal(group_vars(no_cyl), character())
   expect_is(no_cyl, "tbl_df")
 })
 
@@ -227,7 +215,7 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
         names(df) <- names_converter(c(special, "Eng"))
         res <- group_by(df, !!!syms(dots_converter(special)))
         expect_equal(names(res), names(df))
-        expect_groups(res, special)
+        expect_equal(group_vars(res), special)
       }
     }
 
@@ -493,22 +481,16 @@ test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {
   )
 })
 
-
-
 # Errors ------------------------------------------------------------------
 
-test_that("group_by() gives meaningful error messages", {
+test_that("group_by() and ungroup() give meaningful error messages", {
   verify_output(test_path("test-group-by-errors.txt"), {
-    m <- mtcars %>% group_by(cyl)
-    attr(m, "groups") <- NULL
-    m %>% do(mpg = mean(.$mpg))
+    df <- tibble(x = 1, y = 2)
 
-    "# unknown column"
-    group_by(iris, wrong_name_of_variable)
-    grouped_df(data.frame(x = 1), list(quote(y)), FALSE)
+    df %>% group_by(unknown)
 
-    "# incompatible type"
-    grouped_df(data.frame(x = 1), list("x"))
-
+    df %>% ungroup(x)
+    df %>% group_by(x, y) %>% ungroup(z)
   })
 })
+

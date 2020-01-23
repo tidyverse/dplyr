@@ -31,8 +31,10 @@ the reasons why they're not equal. Use \code{\link[=isTRUE]{isTRUE()}} if using 
 result in an \code{if} expression.
 }
 \description{
-You can use \code{all_equal()} with any data frame, and dplyr also provides
-\code{tbl_df} methods for \code{\link[=all.equal]{all.equal()}}.
+\Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
+\code{all_equal()} allows you to compare data frames, optionally ignoring
+row and column names. It is questioning as of dplyr 1.0.0, because it
+seems to solve a problem that no longer seems that important.
 }
 \examples{
 scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
@@ -51,3 +53,4 @@ all_equal(df1, df2)
 # But you can request dplyr convert similar types
 all_equal(df1, df2, convert = TRUE)
 }
+\keyword{internal}

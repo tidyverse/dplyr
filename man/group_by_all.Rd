@@ -56,6 +56,11 @@ returns \code{TRUE} are selected. This argument is passed to
 functions and strings representing function names.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+
+Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
+\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+
 These \link{scoped} variants of \code{\link[=group_by]{group_by()}} group a data frame by a
 selection of variables. Like \code{\link[=group_by]{group_by()}}, they have optional
 \link{mutate} semantics.
@@ -70,29 +75,27 @@ the selection.
 \examples{
 # Group a data frame by all variables:
 group_by_all(mtcars)
+# ->
+mtcars \%>\% group_by(across())
 
 # Group by variables selected with a predicate:
 group_by_if(iris, is.factor)
+# ->
+iris \%>\% group_by(across(is.factor))
 
 # Group by variables selected by name:
 group_by_at(mtcars, vars(vs, am))
+# ->
+mtcars \%>\% group_by(across(c(vs, am)))
 
 # Like group_by(), the scoped variants have optional mutate
 # semantics. This provide a shortcut for group_by() + mutate():
 d <- tibble(x=c(1,1,2,2), y=c(1,2,1,2))
 group_by_all(d, as.factor)
+# ->
+d \%>\% group_by(across(everything(), as.factor))
+
 group_by_if(iris, is.factor, as.character)
+# ->
+iris \%>\% group_by(across(is.factor, as.character))
 }
-\seealso{
-Other grouping functions: 
-\code{\link{group_by}()},
-\code{\link{group_indices}()},
-\code{\link{group_keys}()},
-\code{\link{group_map}()},
-\code{\link{group_nest}()},
-\code{\link{group_rows}()},
-\code{\link{group_size}()},
-\code{\link{group_trim}()},
-\code{\link{groups}()}
-}
-\concept{grouping functions}

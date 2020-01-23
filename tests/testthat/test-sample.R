@@ -24,7 +24,7 @@ test_that("sample respects weight", {
 test_that("sampling grouped tbl samples each group", {
   sampled <- mtcars %>% group_by(cyl) %>% sample_n(2)
   expect_is(sampled, "grouped_df")
-  expect_groups(sampled, "cyl")
+  expect_equal(group_vars(sampled), "cyl")
   expect_equal(nrow(sampled), 6)
   expect_equal(map_int(group_rows(sampled), length), c(2,2,2))
 })

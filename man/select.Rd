@@ -2,34 +2,36 @@
 % Please edit documentation in R/select.R
 \name{select}
 \alias{select}
-\alias{rename}
-\title{Select/rename variables by name}
+\title{Subset columns using their names and types}
 \usage{
 select(.data, ...)
-
-rename(.data, ...)
 }
 \arguments{
-\item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
+more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> One or more unquoted
 expressions separated by commas. You can treat variable names like they
 are positions, so you can use expressions like \code{x:y} to select ranges of
-variables.
-
-Use named arguments, e.g. \code{new_name = old_name}, to rename selected
 variables.}
 }
 \value{
-An object of the same class as \code{.data}.
+An object of the same type as \code{.data}.
+\itemize{
+\item Rows are not affected.
+\item Output columns are a subset of input columns, potentially with a different
+order. Columns will be renamed if \code{new_name = old_name} form is used.
+\item Data frame attributes are preserved.
+\item Groups are maintained; you can not select off grouping variables.
+}
 }
 \description{
-Select or rename variables in a data frame, using a concise mini-language
-that makes it easy to refer to variables based on their name (e.g.
-\code{a:f} selects all columns between \code{a} on the left to \code{f} on the right).
-You can also use predicate functions like \link{is.numeric} to select variables
-based on their properties.
+Select (and optionally rename) variables in a data frame, using a concise
+mini-language that makes it easy to refer to variables based on their name
+(e.g. \code{a:f} selects all columns between \code{a} on the left to \code{f} on the
+right). You can also use predicate functions like \link{is.numeric} to select
+variables based on their properties.
 }
 \section{Useful functions}{
 
@@ -69,13 +71,14 @@ accidental matching of data frame variables when you refer to
 variables from the calling context.
 }
 
-\section{Scoped selection and renaming}{
+\section{Methods}{
 
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
 
-The three \link{scoped} variants of \code{select()} (\code{\link[=select_all]{select_all()}},
-\code{\link[=select_if]{select_if()}} and \code{\link[=select_at]{select_at()}}) and the three variants of
-\code{rename()} (\code{\link[=rename_all]{rename_all()}}, \code{\link[=rename_if]{rename_if()}}, \code{\link[=rename_at]{rename_at()}}) make it
-easy to apply a renaming function to a selection of variables.
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 }
 
 \examples{
@@ -86,6 +89,9 @@ select(iris, !starts_with("Petal"))
 select(iris, starts_with("Petal") & ends_with("Width"))
 select(iris, is.numeric)
 
+# If desired, you can rename individual variables as you select them
+select(iris, species = Species, width = Petal.Width, length = Petal.Length)
+
 df <- as.data.frame(matrix(runif(100), nrow = 10))
 df <- as_tibble(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 select(df, V4:V6)
@@ -95,28 +101,16 @@ select(df, num_range("V", 4:6))
 starwars \%>\% group_by(gender) \%>\% select(group_cols())
 
 # Moving variables around --------------------------
-# Move `Species` to the front
-select(iris, Species, everything())
-
-# Move `Sepal.Length` to the back: first select everything except
-# `Sepal.Length`, then select `Sepal.Length`
-select(iris, !Sepal.Length, Sepal.Length)
-
-# Renaming -----------------------------------------
-# * select() keeps only the variables you specify
-select(iris, petal_length = Petal.Length)
-
-# * rename() keeps all variables
-rename(iris, petal_length = Petal.Length)
-
-# * select() can rename variables in a group
-select(iris, obs = starts_with('S'))
+# As of dplyr 1.0.0, use relocate(), not select():
+relocate(iris, Species, .before = 1)
+relocate(iris, Sepal.Length, .after = last_col())
 }
 \seealso{
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{filter}()},
 \code{\link{mutate}()},
+\code{\link{rename}()},
 \code{\link{slice}()},
 \code{\link{summarise}()}
 }

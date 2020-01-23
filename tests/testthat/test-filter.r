@@ -413,6 +413,9 @@ test_that("filter() gives useful error messages", {
       group_by(Species) %>%
       filter(c(TRUE, FALSE))
     iris %>%
+      rowwise(Species) %>%
+      filter(c(TRUE, FALSE))
+    iris %>%
       filter(c(TRUE, FALSE))
 
     "# wrong size in column"
@@ -420,7 +423,12 @@ test_that("filter() gives useful error messages", {
       group_by(Species) %>%
       filter(data.frame(c(TRUE, FALSE)))
     iris %>%
+      rowwise() %>%
       filter(data.frame(c(TRUE, FALSE)))
+    iris %>%
+      filter(data.frame(c(TRUE, FALSE)))
+    tibble(x = 1) %>%
+      filter(c(TRUE, TRUE))
 
     "# wrong type in column"
     iris %>%
@@ -444,4 +452,18 @@ test_that("filter() gives useful error messages", {
     "# ts "
     filter(ts(1:10))
   })
+})
+
+test_that("filter preserves grouping", {
+  gf <- group_by(tibble(g = c(1, 1, 1, 2, 2), x = 1:5), g)
+
+  i <- count_regroups(out <- filter(gf, x %in% c(3,4)))
+  expect_equal(i, 0L)
+  expect_equal(group_vars(gf), "g")
+  expect_equal(group_rows(out), list_of(1L, 2L))
+
+  i <- count_regroups(out <- filter(gf, x < 3))
+  expect_equal(i, 0L)
+  expect_equal(group_vars(gf), "g")
+  expect_equal(group_rows(out), list_of(c(1L, 2L)))
 })
