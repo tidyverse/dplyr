@@ -120,7 +120,7 @@
 #' df %>% mutate(z = x + y, .keep = "all") # the default
 #' df %>% mutate(z = x + y, .keep = "used")
 #' df %>% mutate(z = x + y, .keep = "unused")
-#' df %>% mutate(z = x + y, .keep = "none")
+#' df %>% mutate(z = x + y, .keep = "none") # same as transmute()
 #'
 #' # Grouping ----------------------------------------
 #' # The mutate operation may yield different results on grouped
