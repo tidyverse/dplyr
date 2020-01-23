@@ -153,7 +153,7 @@ summarise.grouped_df <- function(.data, ...) {
   out_groups <- loc$key
   out_groups$.rows <- as_list_of(lapply(loc$loc, function(i) unlist(rows[i])) %||% integer(), .ptype = integer())
 
-  new_grouped_df(out, out_groups)
+  new_grouped_df(out, out_groups, drop = group_by_drop_default(.data))
 }
 
 #' @export
