@@ -3,18 +3,20 @@
 #' This selection helpers matches grouping variables. It can be used
 #' in [select()] or [vars()][scoped] selections.
 #'
-#' @inheritParams tidyselect::select_helpers
+#' @param data For advanced use only. The default `NULL` automatically
+#'   finds the "current" data frames.
+#' @param vars Deprecated; please use data instead.
 #' @seealso [groups()] and [group_vars()] for retrieving the grouping
 #'   variables outside selection contexts.
 #'
 #' @examples
 #' gdf <- iris %>% group_by(Species)
-#'
-#' # Select the grouping variables:
 #' gdf %>% select(group_cols())
 #'
 #' # Remove the grouping variables from mutate selections:
 #' gdf %>% mutate_at(vars(-group_cols()), `/`, 100)
+#' # -> No longer necessary with across()
+#' gdf %>% mutate(across(everything(), ~ . / 100))
 #' @export
 group_cols <- function(vars = NULL, data = NULL) {
   # So group_cols() continues to work in _at() helpers.

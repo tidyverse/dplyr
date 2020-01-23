@@ -4,12 +4,13 @@
 \alias{group_cols}
 \title{Select grouping variables}
 \usage{
-group_cols(vars = peek_vars())
+group_cols(vars = NULL, data = NULL)
 }
 \arguments{
-\item{vars}{A character vector of variable names. When called
-from inside selecting functions like \code{\link[dplyr:select]{dplyr::select()}} these are
-automatically set to the names of the table.}
+\item{vars}{Deprecated; please use data instead.}
+
+\item{data}{For advanced use only. The default \code{NULL} automatically
+finds the "current" data frames.}
 }
 \description{
 This selection helpers matches grouping variables. It can be used
@@ -17,12 +18,12 @@ in \code{\link[=select]{select()}} or \link[=scoped]{vars()} selections.
 }
 \examples{
 gdf <- iris \%>\% group_by(Species)
-
-# Select the grouping variables:
 gdf \%>\% select(group_cols())
 
 # Remove the grouping variables from mutate selections:
 gdf \%>\% mutate_at(vars(-group_cols()), `/`, 100)
+# -> No longer necessary with across()
+gdf \%>\% mutate(across(everything(), ~ . / 100))
 }
 \seealso{
 \code{\link[=groups]{groups()}} and \code{\link[=group_vars]{group_vars()}} for retrieving the grouping
