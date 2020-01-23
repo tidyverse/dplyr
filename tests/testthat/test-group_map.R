@@ -51,7 +51,7 @@ test_that("group_modify() makes a grouped_df", {
     filter(Species == "setosa") %>%
     group_modify(~ tally(.x))
   expect_equal(nrow(res), 3L)
-  expect_equal(group_rows(res), list_of(1L, 2L, 3L))
+  expect_equal(as.list(group_rows(res)), list(1L, 2L, 3L))
 })
 
 test_that("group_modify() and group_map() want functions with at least 2 arguments, or ... (#3996)", {
