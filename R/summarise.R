@@ -137,13 +137,13 @@ summarise.grouped_df <- function(.data, ...) {
   }
 
   # Figure out rows of old groups
-  if (identical(cols$size, 1)) {
+  if (identical(cols$size, 1L)) {
     rows <- as.list(1:nrow(out))
   } else {
     breaks <- cumsum(c(1L, cols$size))
     start <- breaks[-length(breaks)]
     end <- breaks[-1] - 1L
-    rows <- map2(start, end, `:`)
+    rows <- map2(start, end, seq2)
   }
   # If needed, collapse old groups into new groups
   groups <- group_keys(.data)

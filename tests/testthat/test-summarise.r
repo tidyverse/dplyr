@@ -93,10 +93,20 @@ test_that("peels off a single layer of grouping", {
 })
 
 test_that("correctly reconstructs groups", {
-  d <- tibble(x = 1:4, g1 = rep(1:2, 2), g2 = 1:4) %>%
-    group_by(g1, g2) %>%
-    summarise(x = x + 1)
-  expect_equal(group_rows(d), list_of(1:2, 3:4))
+  gf <- group_by(tibble(x = 1:4, g1 = rep(1:2, 2), g2 = 1:4), g1, g2)
+  out <- summarise(gf, x = x + 1)
+  expect_equal(group_rows(out), list_of(1:2, 3:4))
+
+  # even when an input group is empty
+  f <- factor(c("a", "a", "b"), levels = letters[1:3])
+  gf <- group_by(tibble(x = f, y = 1), x, y, .drop = FALSE)
+  out <- summarise(gf, z = n())
+  expect_equal(group_rows(out), list_of(1, 2, 3))
+
+  # or when an output creates an empty group
+  gf <- group_by(tibble(x = 0:2, y = 1), x, y)
+  out <- summarise(gf, z = seq_len(x))
+  expect_equal(group_rows(out), list_of(integer(), 1L, 2:3))
 })
 
 test_that("can modify grouping variables", {
@@ -104,7 +114,7 @@ test_that("can modify grouping variables", {
   gf <- group_by(df, a, b)
 
   i <- count_regroups(out <- summarise(gf, a = a + 1))
-  expect_equal(i, 1)
+  expect_equal(i, 0)
   expect_equal(out$a, c(2, 2, 3, 3))
 })
 
