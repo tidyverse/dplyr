@@ -4,7 +4,7 @@
 \alias{relocate}
 \title{Change column order}
 \usage{
-relocate(.data, ..., .before, .after)
+relocate(.data, ..., .before = NULL, .after = NULL)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a

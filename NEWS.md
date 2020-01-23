@@ -1,5 +1,9 @@
 # dplyr 0.9.0 (in development)
 
+* `mutate()` (for data frames only), gains an experimental new arguments
+  `.before` and `.after` that allow you to control where the new columns are
+  placed (#2047).
+
 * `mutate()` (for data frames only), gains an experimental new argument 
   called `.keep` that allows you to control which variables are kept from
   the input `.data`. `.keep = "all"` is the default; it keeps all variables.

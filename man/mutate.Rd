@@ -8,7 +8,13 @@
 \usage{
 mutate(.data, ...)
 
-\method{mutate}{data.frame}(.data, ..., .keep = c("all", "used", "unused", "none"))
+\method{mutate}{data.frame}(
+  .data,
+  ...,
+  .keep = c("all", "used", "unused", "none"),
+  .before = NULL,
+  .after = NULL
+)
 
 transmute(.data, ...)
 }
@@ -40,6 +46,10 @@ for checking your work as it displays inputs and outputs side-by-side.
 variables.
 \item \code{"none"}, only keeps grouping keys (like \code{\link[=transmute]{transmute()}}).
 }}
+
+\item{.before, .after}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally,
+control where new columns should appear (the default is to add to the
+right hand side). See \code{\link[=relocate]{relocate()}} for more details.}
 }
 \value{
 An object of the same type as \code{.data}.
@@ -137,19 +147,20 @@ mtcars \%>\%
  mutate(rank = min_rank(desc(mpg)))
 # see `vignette("window-functions")` for more details
 
-# mutate() vs transmute --------------------------
-# mutate() keeps all existing variables
-mtcars \%>\%
-  mutate(displ_l = disp / 61.0237)
+# By default, new columns are placed on the far right.
+# Experimental: you can override with `.before` or `.after`
+df <- tibble(x = 1, y = 2)
+df \%>\% mutate(z = x + y)
+df \%>\% mutate(z = x + y, .before = 1)
+df \%>\% mutate(z = x + y, .after = x)
 
-# transmute keeps only the variables you create
-mtcars \%>\%
-  transmute(displ_l = disp / 61.0237)
-
-# Experimental .remove = "used" allows you to remove variables
-# that are used "up" when computing new variables:
-mtcars \%>\%
-  mutate(displ_l = disp / 61.0237, .remove = "used")
+# By default, mutate() keeps all columns from the input data.
+# Experimental: You can override with `.keep`
+df <- tibble(x = 1, y = 2, a = "a", b = "b")
+df \%>\% mutate(z = x + y, .keep = "all") # the default
+df \%>\% mutate(z = x + y, .keep = "used")
+df \%>\% mutate(z = x + y, .keep = "unused")
+df \%>\% mutate(z = x + y, .keep = "none")
 
 # Grouping ----------------------------------------
 # The mutate operation may yield different results on grouped

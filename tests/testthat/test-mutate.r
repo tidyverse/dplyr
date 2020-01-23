@@ -241,7 +241,7 @@ test_that("DataMask$add() forces chunks (#4677)", {
 })
 
 
-# .keep -----------------------------------------------------------------
+# .before, .after, .keep ------------------------------------------------------
 
 test_that(".keep = 'unused' keeps variables explicitly mentioned", {
   df <- tibble(x = 1, y = 2)
@@ -271,6 +271,26 @@ test_that(".keep = 'none' only keeps grouping variables", {
 
   expect_named(mutate(df, z = 1, .keep = "none"), "z")
   expect_named(mutate(gf, z = 1, .keep = "none"), c("x", "z"))
+})
+
+test_that(".keep = 'none' prefers new order", {
+  df <- tibble(x = 1, y = 2)
+  expect_named(df %>% mutate(y = 1, x = 2, .keep = "none"), c("y", "x"))
+
+  # even when grouped
+  gf <- group_by(df, x)
+  expect_named(gf %>% mutate(y = 1, x = 2, .keep = "none"), c("y", "x"))
+})
+
+test_that("can use .before and .after to control column position", {
+  df <- tibble(x = 1, y = 2)
+  expect_named(mutate(df, z = 1), c("x", "y", "z"))
+  expect_named(mutate(df, z = 1, .before = 1), c("z", "x", "y"))
+  expect_named(mutate(df, z = 1, .after = 1), c("x", "z", "y"))
+
+  # but doesn't affect order of existing columns
+  df <- tibble(x = 1, y = 2)
+  expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
 })
 
 # Error messages ----------------------------------------------------------

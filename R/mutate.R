@@ -57,7 +57,6 @@
 #'     if ungrouped).
 #'   * `NULL`, to remove the column.
 #'   * A data frame or tibble, to create multiple columns in the output.
-#'
 #' @family single table verbs
 #' @return
 #' An object of the same type as `.data`.
@@ -108,19 +107,20 @@
 #'  mutate(rank = min_rank(desc(mpg)))
 #' # see `vignette("window-functions")` for more details
 #'
-#' # mutate() vs transmute --------------------------
-#' # mutate() keeps all existing variables
-#' mtcars %>%
-#'   mutate(displ_l = disp / 61.0237)
+#' # By default, new columns are placed on the far right.
+#' # Experimental: you can override with `.before` or `.after`
+#' df <- tibble(x = 1, y = 2)
+#' df %>% mutate(z = x + y)
+#' df %>% mutate(z = x + y, .before = 1)
+#' df %>% mutate(z = x + y, .after = x)
 #'
-#' # transmute keeps only the variables you create
-#' mtcars %>%
-#'   transmute(displ_l = disp / 61.0237)
-#'
-#' # Experimental .remove = "used" allows you to remove variables
-#' # that are used "up" when computing new variables:
-#' mtcars %>%
-#'   mutate(displ_l = disp / 61.0237, .remove = "used")
+#' # By default, mutate() keeps all columns from the input data.
+#' # Experimental: You can override with `.keep`
+#' df <- tibble(x = 1, y = 2, a = "a", b = "b")
+#' df %>% mutate(z = x + y, .keep = "all") # the default
+#' df %>% mutate(z = x + y, .keep = "used")
+#' df %>% mutate(z = x + y, .keep = "unused")
+#' df %>% mutate(z = x + y, .keep = "none") # same as transmute()
 #'
 #' # Grouping ----------------------------------------
 #' # The mutate operation may yield different results on grouped
@@ -157,22 +157,35 @@ mutate <- function(.data, ...) {
 #'   * `"unused"` keeps only existing variables **not** used to make new
 #'     variables.
 #'   * `"none"`, only keeps grouping keys (like [transmute()]).
+#' @param .before,.after <[`tidy-select`][dplyr_tidy_select]> Optionally,
+#'   control where new columns should appear (the default is to add to the
+#'   right hand side). See [relocate()] for more details.
 #' @export
-mutate.data.frame <- function(.data, ..., .keep = c("all", "used", "unused", "none")) {
+mutate.data.frame <- function(.data, ...,
+                              .keep = c("all", "used", "unused", "none"),
+                              .before = NULL, .after = NULL) {
   keep <- arg_match(.keep)
 
   cols <- mutate_cols(.data, ..., .track_usage = keep %in% c("used", "unused"))
   out <- dplyr_col_modify(.data, cols)
 
+  .before <- enquo(.before)
+  .after <- enquo(.after)
+  if (!quo_is_null(.before) || !quo_is_null(.after)) {
+    # Only change the order of new columns
+    new <- setdiff(names(cols), names(.data))
+    out <- relocate(out, !!new, .before = !!.before, .after = !!.after)
+  }
+
   if (keep == "all") {
     out
   } else if (keep == "unused") {
-    used <- names(.data)[attr(cols, "used")]
-    keep <- setdiff(names(out), setdiff(used, names(cols)))
+    unused <- c(names(.data)[!attr(cols, "used")])
+    keep <- intersect(names(out), c(unused, names(cols)))
     out[keep]
   } else if (keep == "used") {
     used <- names(.data)[attr(cols, "used")]
-    keep <- union(used, names(cols))
+    keep <- intersect(names(out), c(used, names(cols)))
     out[keep]
   } else if (keep == "none") {
     keep <- c(
