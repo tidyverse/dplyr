@@ -132,7 +132,7 @@ summarise.grouped_df <- function(.data, ...) {
 
   group_vars <- group_vars(.data)
   n <- length(group_vars)
-  if (n == 1) {
+  if (n <= 1) {
     return(out)
   }
 
