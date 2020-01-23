@@ -16,7 +16,26 @@
 #' # Remove the grouping variables from mutate selections:
 #' gdf %>% mutate_at(vars(-group_cols()), `/`, 100)
 #' @export
-group_cols <- function(vars = peek_vars()) {
+group_cols <- function(vars = NULL, data = NULL) {
+  # So group_cols() continues to work in _at() helpers.
+  data <- data %||% tryCatch(tidyselect::peek_data(), error = function(e) NULL)
+
+  if (!is.null(data)) {
+    match(group_vars(data), tbl_vars(data))
+  } else {
+    group_cols_legacy(vars)
+  }
+}
+
+group_cols_legacy <- function(vars = NULL) {
+  if (!is.null(vars)) {
+    lifecycle::deprecate_warn(
+      "1.0.0", "group_cols(vars = )",
+      details = "Use `data` with entire dataframe instead"
+    )
+  }
+
+  vars <- vars %||% tidyselect::peek_vars()
   if (is_sel_vars(vars)) {
     matches <- match(vars %@% groups, vars)
     if (anyNA(matches)) {

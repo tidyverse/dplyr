@@ -9,4 +9,13 @@ test_that("group_cols() selects grouping variables", {
   )
 })
 
+test_that("group_cols(vars) is deprecated", {
+  expect_warning(out <- group_cols("a"), "deprecated")
+  expect_equal(out, integer())
+})
 
+test_that("group_cols() finds groups in scoped helpers", {
+  gf <- group_by(tibble(x = 1, y = 2), x)
+  expect_warning(out <- select_at(gf, vars(group_cols())))
+  expect_named(out, "x")
+})
