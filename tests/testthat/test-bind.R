@@ -487,7 +487,7 @@ test_that("bind_rows() correctly restores (#2457)", {
 # Errors ------------------------------------------------------------------
 
 test_that("*_bind() give meaningful errors", {
-  verify_output(test_path("test-binds-errors.txt"), {
+  verify_output(test_path("test-bind-errors.txt"), {
     "# invalid .id"
     df1 <- tibble(x = 1:3)
     df2 <- tibble(x = 4:6)
