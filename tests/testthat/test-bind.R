@@ -434,10 +434,24 @@ test_that("bind_rows() handles rowwise vectors", {
 })
 
 test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {
-  expect_identical(
-    bind_rows(list(list(a = 1, b = 2))),
-    tibble(a = 1, b = 2)
-  )
+  ll <- list(a = 1, b = 2)
+  df <- tibble(a = 1, b = 2)
+
+  expect_equal(bind_rows(list(ll)), df)
+  expect_equal(bind_rows(list(ll, ll)), df[c(1, 1), ])
+})
+
+test_that("bind_rows can handle lists (#1104)", {
+  my_list <- list(list(x = 1, y = "a"), list(x = 2, y = "b"))
+  res <- bind_rows(my_list)
+  expect_equal(nrow(res), 2L)
+  expect_is(res$x, "numeric")
+  expect_is(res$y, "character")
+
+  res <- bind_rows(list(x = 1, y = "a"), list(x = 2, y = "b"))
+  expect_equal(nrow(res), 2L)
+  expect_is(res$x, "numeric")
+  expect_is(res$y, "character")
 })
 
 test_that("columns that are OBJECT but have NULL class are handled gracefully (#3349)", {

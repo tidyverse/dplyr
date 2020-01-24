@@ -92,10 +92,17 @@ NULL
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
   dots <- list2(...)
-  dots <- squash_if(dots, is_flattenable)
+
+  # bind_rows() has weird legacy squashing behaviour
+  is_flattenable <- function(x) is.list(x) && !is_named(x) && !is.data.frame(x)
+  if (length(dots) == 1 && is_bare_list(dots[[1]])) {
+    dots <- dots[[1]]
+  }
+  dots <- flatten_if(dots, is_flattenable)
   dots <- discard(dots, is.null)
 
   if (is_named(dots) && !all(map_lgl(dots, dataframe_ish))) {
+    # This is hit by map_dfr() so we can't easily deprecate
     return(as_tibble(dots))
   }
 
@@ -134,6 +141,8 @@ bind_rows <- function(..., .id = NULL) {
 #' @rdname bind
 bind_cols <- function(...) {
   dots <- list2(...)
+
+  is_flattenable <- function(x) is.list(x) && !is.data.frame(x)
   dots <- squash_if(dots, is_flattenable)
   dots <- discard(dots, is.null)
 
@@ -149,5 +158,3 @@ bind_cols <- function(...) {
 dataframe_ish <- function(.x) {
   is.data.frame(.x) || (vec_is(.x) && is_named(.x))
 }
-
-is_flattenable <- function(x) is.list(x) && !is.data.frame(x)
