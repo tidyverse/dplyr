@@ -318,7 +318,7 @@ appears in any of the inputs.</p>
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>4</span>)
 )</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;       a     b
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt; * &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     2
 #&gt; 2     3     4</div><div class='input'>
 <span class='co'># You can mix vectors and data frames:</span>
@@ -328,7 +328,7 @@ appears in any of the inputs.</p>
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 )</div><div class='output co'>#&gt; # A tibble: 4 x 2
 #&gt;       a     b
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt; * &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     2
 #&gt; 2     3     5
 #&gt; 3     4     6
@@ -343,13 +343,13 @@ appears in any of the inputs.</p>
 )
 <span class='fu'>bind_rows</span>(<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;       A     B
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt; * &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     2
 #&gt; 2     3     4</div><div class='input'>
 <span class='co'># You can circumvent that behaviour with explicit splicing:</span>
 <span class='fu'>bind_rows</span>(!!!<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;       A     B
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt; * &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     2
 #&gt; 2     3     4</div><div class='input'>
 
