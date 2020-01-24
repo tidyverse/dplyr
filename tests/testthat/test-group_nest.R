@@ -5,8 +5,7 @@ test_that("group_nest() works", {
   gdata <- group_data(grouped)
 
   res <- group_nest(starwars, species, homeworld)
-  expect_is(pull(res), "list")
-  expect_is(pull(res), "vctrs_list_of")
+  expect_type(pull(res), "list")
   expect_equal(attr(pull(res), "ptype"), vec_slice(select(starwars, -species, -homeworld), 0L))
   expect_true(all_equal(
     as_tibble(select(res, -last_col())),
@@ -31,15 +30,14 @@ test_that("group_nest() works on grouped data frames", {
   gdata <- group_data(grouped)
 
   res <- group_nest(grouped)
-  expect_is(pull(res), "list")
+  expect_type(pull(res), "list")
   expect_true(all_equal(
     select(res, -last_col()), select(gdata, -last_col())
   ))
   expect_equal(names(bind_rows(!!!res$data)), setdiff(names(starwars), c("species", "homeworld")))
 
   res <- group_nest(grouped, keep = TRUE)
-  expect_is(pull(res), "list")
-  expect_is(pull(res), "vctrs_list_of")
+  expect_type(pull(res), "list")
   expect_equal(attr(pull(res), "ptype"), vec_slice(starwars, 0L))
 
   expect_true(all_equal(select(res, -last_col()), select(gdata, -last_col())))
