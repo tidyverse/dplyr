@@ -146,6 +146,10 @@ bind_cols <- function(...) {
   dots <- squash_if(dots, is_flattenable)
   dots <- discard(dots, is.null)
 
+  # Strip names off of data frame components so that vec_cbind() unpacks them
+  is_data_frame <- map_lgl(dots, is.data.frame)
+  names(dots)[is_data_frame] <- ""
+
   out <- vec_cbind(!!!dots)
   if (length(dots) && is_tibble(first <- dots[[1L]])) {
     out <- dplyr_reconstruct(out, first)

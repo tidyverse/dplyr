@@ -51,6 +51,17 @@ test_that("bind_cols repairs names", {
   expect_identical(bound, repaired)
 })
 
+test_that("bind_cols unpacks tibbles", {
+  expect_equal(
+    bind_cols(list(y = tibble(x = 1:2))),
+    tibble(x = 1:2)
+  )
+  expect_equal(
+    bind_cols(list(y = tibble(x = 1:2), z = tibble(y = 1:2))),
+    tibble(x = 1:2, y = 1:2)
+  )
+})
+
 
 # rows --------------------------------------------------------------------
 
