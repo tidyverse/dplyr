@@ -41,7 +41,13 @@ DataMask <- R6Class("DataMask",
         }
       }
 
-      env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
+      bindings <- set_names(map(seq_len(ncol(data)), binding_fn), names(data))
+      env_bind_active(private$bindings, !!!bindings)
+
+      different <- which(names(bindings) != env_names(private$bindings))
+      for (i in different) {
+        makeActiveBinding(sym(names(bindings)[i]), bindings[[i]], private$bindings)
+      }
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
@@ -120,13 +126,3 @@ DataMask <- R6Class("DataMask",
   )
 )
 
-#' @export
-ping <- function(.data, expr) {
-  rows <- group_rows(.data)
-
-  # install the bindings, promises etc ...
-  mask <- DataMask$new(.data, caller_env(), rows)
-  mask$set_current_group(1)
-
-  eval_tidy({{expr}}, mask$get_mask_env(), caller_env())
-}
