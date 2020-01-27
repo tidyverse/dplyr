@@ -200,5 +200,30 @@ stop_summarise_incompatible_size <- function(size, group, index, expected_sizes,
     x = "`{error_name}` must be size {or_1(expected_sizes[group])}, not {size}.",
     i = "An earlier column had size {expected_sizes[group]}."
   )
+}
+
+
+# arrange() ---------------------------------------------------------------
+
+stop_arrange_transmute <- function(cnd) {
+  name <- context_env[["error_name"]]
+
+  if (!is.null(name)) {
+    # error caught by mutate_cols()
+    index <- sub("^.*_", "", name)
+    error_expression <- context_env[["error_expression"]]
+
+    bullets <- c(
+      i = glue("Could not create a temporary column with `..{index}`."),
+      i = glue("`..{index}` is `{error_expression}`.")
+    )
+  } else {
+    bullets <- c(x = conditionMessage(cnd))
+  }
+
+  abort(c(
+    "arrange() failed at implicit mutate() step. ",
+    bullets
+  ))
 
 }

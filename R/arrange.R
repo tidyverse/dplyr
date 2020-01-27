@@ -100,7 +100,11 @@ arrange_rows <- function(.data, ..., .by_group = FALSE) {
   #
   #       revisit when we have something like mutate_one() to
   #       evaluate one quosure in the data mask
-  data <- transmute(ungroup(.data), !!!quosures)
+  tryCatch({
+    data <- transmute(ungroup(.data), !!!quosures)
+  }, error = function(cnd) {
+    stop_arrange_transmute(cnd)
+  })
 
   # we can't just use vec_compare_proxy(data) because we need to apply
   # direction for each column, so we get a list of proxies instead
