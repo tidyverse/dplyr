@@ -44,9 +44,12 @@ DataMask <- R6Class("DataMask",
       bindings <- set_names(map(seq_len(ncol(data)), binding_fn), names(data))
       env_bind_active(private$bindings, !!!bindings)
 
-      different <- which(names(bindings) != env_names(private$bindings))
-      for (i in different) {
-        makeActiveBinding(sym(names(bindings)[i]), bindings[[i]], private$bindings)
+      different <- which(chr_unserialise_unicode(names(bindings)) != env_names(private$bindings))
+      if (length(different)) {
+        names <- names(data)
+        for (i in different) {
+          makeActiveBinding(sym(names[i]), bindings[[i]], private$bindings)
+        }
       }
 
       private$mask <- new_data_mask(private$bindings)
