@@ -100,6 +100,9 @@ DataMask <- R6Class("DataMask",
 
     get_used = function() {
       private$used
+    },
+    get_mask_env = function() {
+      private$mask
     }
 
   ),
@@ -116,3 +119,14 @@ DataMask <- R6Class("DataMask",
     caller = NULL
   )
 )
+
+#' @export
+ping <- function(.data, expr) {
+  rows <- group_rows(.data)
+
+  # install the bindings, promises etc ...
+  mask <- DataMask$new(.data, caller_env(), rows)
+  mask$set_current_group(1)
+
+  eval_tidy({{expr}}, mask$get_mask_env(), caller_env())
+}
