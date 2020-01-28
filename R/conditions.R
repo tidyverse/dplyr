@@ -214,7 +214,7 @@ stop_arrange_transmute <- function(cnd) {
     error_expression <- context_env[["error_expression"]]
 
     bullets <- c(
-      i = glue("Could not create a temporary column with `..{index}`."),
+      i = glue("Could not create a temporary column for `..{index}`."),
       i = glue("`..{index}` is `{error_expression}`.")
     )
   } else {
