@@ -20,8 +20,12 @@ DataMask <- R6Class("DataMask",
             map(rows, vec_slice, x = col)
           }
         }
-      } else {
+      } else if (is_grouped_df(data)) {
         function(index) map(rows, vec_slice, x = .subset2(data, index))
+      } else {
+        # for ungrouped data frames, there is only one chunk that
+        # is made of the full column
+        function(index) list(.subset2(data, index))
       }
 
       if (track_usage) {
@@ -33,7 +37,7 @@ DataMask <- R6Class("DataMask",
           }
         }
       } else {
-        binding_fn <- function(index, chunks = resolve_chunks(index)){
+        binding_fn <- function(index, chunks = resolve_chunks(index)) {
           # chunks is a promise of the list of all chunks for the column
           # at this index, so resolve_chunks() is only called when
           # the active binding is touched
