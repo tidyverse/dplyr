@@ -429,7 +429,11 @@ test_that("colwise mutate handles formulas with constants (#4374)", {
 test_that("colwise mutate gives correct error message if column not found (#4374)", {
   expect_error(
     mutate_at(tibble(), "test", ~ 1),
-    "Unknown column `test`"
+    "column.*test"
+    # either: "Unknown column `test`"
+    #     or: "Can't subset columns that don't exist.\n\033[31mx\033[39m The column `test` doesn't exist."
+    #
+    # depending on which tidyselect is installed
   )
 })
 
