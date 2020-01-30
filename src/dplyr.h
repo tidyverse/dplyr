@@ -22,6 +22,8 @@ struct symbols {
   static SEXP rows;
   static SEXP mask;
   static SEXP caller;
+  static SEXP resolved;
+  static SEXP bindings;
 };
 
 struct vectors {
@@ -65,14 +67,24 @@ SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows)); \
 R_xlen_t ngroups = XLENGTH(rows);                                          \
 SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask)); \
-SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller))
+SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));\
+SEXP bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::bindings))
 
-#define DPLYR_MASK_FINALISE() UNPROTECT(3);
+#define DPLYR_MASK_FINALISE() UNPROTECT(4);
 
 #define DPLYR_MASK_SET_GROUP(INDEX)                                                  \
 SEXP rows_i = VECTOR_ELT(rows, i);                                                   \
 R_xlen_t n_i = XLENGTH(rows_i);                                                      \
-Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(i + 1), env_private);
+Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(i + 1), env_private);   \
+SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);            \
+SEXP names_resolved = Rf_getAttrib(resolved, R_NamesSymbol);       \
+R_xlen_t n_resolved = XLENGTH(resolved);                           \
+for (R_xlen_t i_resolved=0; i_resolved<n_resolved; i_resolved++) { \
+  SEXP x_resolved = VECTOR_ELT(resolved, i_resolved);              \
+  if (!Rf_isNull(x_resolved)) {                                \
+    Rf_defineVar(Rf_installChar(STRING_ELT(names_resolved, i_resolved)), VECTOR_ELT(x_resolved, i), bindings); \
+  }                                                            \
+}
 
 #define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
 

@@ -24,37 +24,47 @@ DataMask <- R6Class("DataMask",
         function(index) map(rows, vec_slice, x = .subset2(data, index))
       }
 
-      if (track_usage) {
-        private$used <- rep(FALSE, ncol(data))
-        binding_fn <- function(index, chunks = resolve_chunks(index)) {
-          function() {
-            private$used[[index]] <- TRUE
-            .subset2(chunks, private$current_group)
-          }
-        }
-      } else {
-        binding_fn <- function(index, chunks = resolve_chunks(index)){
-          # chunks is a promise of the list of all chunks for the column
-          # at this index, so resolve_chunks() is only called when
-          # the active binding is touched
-          function() .subset2(chunks, private$current_group)
+      private$used <- rep(FALSE, ncol(data))
+
+      names_bindings <- chr_unserialise_unicode(names(data))
+      private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
+
+      binding_fn <- function(index, chunks = resolve_chunks(index)) {
+        function() {
+          # resolve the chunks and hold the slice for current group
+          res <- .subset2(chunks, private$current_group)
+
+          # track
+          private$used[[index]] <- TRUE
+          private$resolved[[index]] <- chunks
+
+          # active binding only triggered once, auto destroy it
+          rm(list = names_bindings[index], envir = private$bindings)
+
+          # install immediately in case the same variable is used twice in the
+          # same expression
+          private$bindings[[names_bindings[index]]] <- res
+
+          # return result for current slice
+          res
         }
       }
 
-      env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
+      env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names_bindings))
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
     },
 
     add = function(name, chunks) {
-      force(chunks)
-      env_bind_active(private$bindings, !!name := function() {
-        .subset2(chunks, private$current_group)
-      })
+      # destroy the active binding because setting its value will be handled internally
+      suppressWarnings(rm(list = name, envir = private$bindings))
+
+      private$resolved[[name]] <- chunks
     },
 
     remove = function(name) {
+      private$resolved[[name]] <- NULL
       rm(list = name, envir = private$bindings)
     },
 
@@ -109,6 +119,7 @@ DataMask <- R6Class("DataMask",
     mask = NULL,
     old_vars = character(),
     used = logical(),
+    resolved = list(),
     rows = NULL,
     keys = NULL,
     bindings = NULL,
