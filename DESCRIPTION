@@ -67,4 +67,4 @@ Remotes:
     r-lib/pillar,
     r-lib/vctrs, 
     r-lib/tidyselect,
-    r-lib/rlang
+    r-lib/rlang#910

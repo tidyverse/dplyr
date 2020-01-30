@@ -79,7 +79,7 @@ Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(i + 1), env_private
 SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);            \
 SEXP names_resolved = Rf_getAttrib(resolved, R_NamesSymbol);       \
 R_xlen_t n_resolved = XLENGTH(resolved);                           \
-for (R_xlen_t i_resolved=0; i_resolved<n_resolved; i_resolved++) { \
+for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) { \
   SEXP x_resolved = VECTOR_ELT(resolved, i_resolved);              \
   if (!Rf_isNull(x_resolved)) {                                \
     Rf_defineVar(Rf_installChar(STRING_ELT(names_resolved, i_resolved)), VECTOR_ELT(x_resolved, i), bindings); \

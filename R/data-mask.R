@@ -29,8 +29,7 @@ DataMask <- R6Class("DataMask",
       names_bindings <- chr_unserialise_unicode(names(data))
       private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
 
-      binding_fn <- function(index, chunks = resolve_chunks(index)) {
-        function() {
+      promise_fn <- function(index, chunks = resolve_chunks(index)) {
           # resolve the chunks and hold the slice for current group
           res <- .subset2(chunks, private$current_group)
 
@@ -38,28 +37,19 @@ DataMask <- R6Class("DataMask",
           private$used[[index]] <- TRUE
           private$resolved[[index]] <- chunks
 
-          # active binding only triggered once, auto destroy it
-          rm(list = names_bindings[index], envir = private$bindings)
-
-          # install immediately in case the same variable is used twice in the
-          # same expression
-          private$bindings[[names_bindings[index]]] <- res
-
           # return result for current slice
           res
-        }
       }
 
-      env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names_bindings))
+      promises <- map(seq_len(ncol(data)), function(.x) expr(promise_fn(!!.x)))
+
+      env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
     },
 
     add = function(name, chunks) {
-      # destroy the active binding because setting its value will be handled internally
-      suppressWarnings(rm(list = name, envir = private$bindings))
-
       private$resolved[[name]] <- chunks
     },
 
