@@ -20,8 +20,12 @@ DataMask <- R6Class("DataMask",
             map(rows, vec_slice, x = col)
           }
         }
-      } else {
+      } else if (is_grouped_df(data)) {
         function(index) map(rows, vec_slice, x = .subset2(data, index))
+      } else {
+        # for ungrouped data frames, there is only one chunk that
+        # is made of the full column
+        function(index) list(.subset2(data, index))
       }
 
       private$used <- rep(FALSE, ncol(data))
