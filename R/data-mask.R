@@ -36,6 +36,7 @@ DataMask <- R6Class("DataMask",
           # track
           private$used[[index]] <- TRUE
           private$resolved[[index]] <- chunks
+          private$which_used <- c(private$which_used, index)
 
           # return result for current slice
           res
@@ -50,11 +51,19 @@ DataMask <- R6Class("DataMask",
     },
 
     add = function(name, chunks) {
+      pos <- which(names(private$resolved) == name)
+      if (length(pos) == 0L) {
+        pos <- length(private$resolved) + 1L
+        private$used[[pos]] <- TRUE
+        private$which_used <- c(private$which_used, pos)
+      }
       private$resolved[[name]] <- chunks
     },
 
     remove = function(name) {
+      pos <- which(names(private$resolved) == name)
       private$resolved[[name]] <- NULL
+      private$which_used <- setdiff(private$which_used, pos)
       rm(list = name, envir = private$bindings)
     },
 
@@ -110,6 +119,7 @@ DataMask <- R6Class("DataMask",
     old_vars = character(),
     used = logical(),
     resolved = list(),
+    which_used = integer(),
     rows = NULL,
     keys = NULL,
     bindings = NULL,
