@@ -1,6 +1,6 @@
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller, rows = group_rows(data), track_usage = FALSE) {
+    initialize = function(data, caller, rows = group_rows(data)) {
       frame <- caller_env(n = 2)
       local_mask(self, frame)
 
