@@ -29,7 +29,7 @@ An object of the same type as \code{.data}.
 }
 }
 \description{
-The \code{filter()} function is used to create a subset of a tibble or data frame,
+The \code{filter()} function is used to subset a data set,
 retaining all rows that satisfy user-specified conditions.
 To be retained, the row must produce a value of \code{TRUE} for all conditions.
 An important difference between \code{filter()} and base subsetting with \code{[}, any

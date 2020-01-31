@@ -1,6 +1,6 @@
 #' Return all rows that satisfy conditions
 #'
-#' The `filter()` function is used to create a subset of a tibble or data frame,
+#' The `filter()` function is used to subset a data set,
 #' retaining all rows that satisfy user-specified conditions.
 #' To be retained, the row must produce a value of `TRUE` for all conditions.
 #' An important difference between `filter()` and base subsetting with `[`, any
