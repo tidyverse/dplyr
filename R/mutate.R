@@ -89,14 +89,18 @@
 #' * `transmute()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("transmute")}.
 #' @examples
 #' # Newly created variables are available immediately
-#' starwars %>% select(name, mass) %>% mutate(
+#' starwars %>%
+#'  select(name, mass) %>%
+#'  mutate(
 #'   mass2 = mass * 2,
 #'   mass2_squared = mass2 * mass2
 #' )
 #'
 #' # As well as adding new variables, you can use mutate() to
 #' # remove variables and modify existing variables.
-#' starwars %>% select(name, height, mass, homeworld) %>% mutate(
+#' starwars %>%
+#'  select(name, height, mass, homeworld) %>%
+#'  mutate(
 #'   mass = NULL,
 #'   height = height * 0.0328084 # convert to feet
 #' )
