@@ -64,12 +64,7 @@ distinct(df, y, .keep_all = TRUE)
 distinct(df, diff = abs(x - y))
 
 # Using across() to select variables ----------------------
-iris \%>\%
-  distinct(across(starts_with("Sepal")))
-
-# call round() on each selected column first
-iris \%>\%
-  distinct(across(starts_with("Sepal"), round))
+distinct(starwars, across(contains("color")))
 
 # Grouping -------------------------------------------------
 # The same behaviour applies for grouped data frames,
