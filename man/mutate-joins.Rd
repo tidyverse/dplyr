@@ -156,8 +156,8 @@ keys:
 \item \code{full_join()}: includes all rows in \code{x} or \code{y}.
 }
 
-If there are multiple matches between rows in \code{x} and \code{y}, all combinations of the
-matches are returned.
+If a row in \code{x} matches multiple rows in \code{y}, all the rows in \code{y} will be returned
+once for each matching row in \code{x}.
 }
 \section{Methods}{
 
@@ -191,8 +191,8 @@ band_members \%>\% full_join(band_instruments2, by = c("name" = "artist"))
 band_members \%>\%
   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 
-# If a row in `x` matches multiple rows in `y`, all combinations of rows
-# will be returned
+# If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
+# returned once for each matching row in `x`
 df1 <- tibble(x = 1:3)
 df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 df1 \%>\% left_join(df2)

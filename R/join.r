@@ -9,8 +9,8 @@
 #' * `right_join()`: includes all rows in `y`.
 #' * `full_join()`: includes all rows in `x` or `y`.
 #'
-#' If there are multiple matches between rows in `x` and `y`, all combinations of the
-#' matches are returned.
+#' If a row in `x` matches multiple rows in `y`, all the rows in `y` will be returned
+#' once for each matching row in `x`.
 #'
 #' @return
 #' An object of the same type as `x`. The order of the rows and columns of `x`
@@ -88,8 +88,8 @@
 #' band_members %>%
 #'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 #'
-#' # If a row in `x` matches multiple rows in `y`, all combinations of rows
-#' # will be returned
+#' # If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
+#' # returned once for each matching row in `x`
 #' df1 <- tibble(x = 1:3)
 #' df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 #' df1 %>% left_join(df2)
