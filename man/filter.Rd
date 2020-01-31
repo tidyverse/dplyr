@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter.R
 \name{filter}
 \alias{filter}
-\title{Subset rows using column values}
+\title{Return all rows that satisfy conditions}
 \usage{
 filter(.data, ..., .preserve = FALSE)
 }
@@ -29,9 +29,11 @@ An object of the same type as \code{.data}.
 }
 }
 \description{
-\code{filter()} retains the rows where the conditions you provide a \code{TRUE}. Note
-that, unlike base subsetting with \code{[}, rows where the condition evaluates
-to \code{NA} are dropped.
+The \code{filter()} function is used to create a subset of a tibble or data frame,
+retaining all rows that satisfy user-specified conditions.
+To be retained, the row must produce a value of \code{TRUE} for all conditions.
+An important difference between \code{filter()} and base subsetting with \code{[}, any
+row for which a condition evaluates to \code{NA} is dropped.
 }
 \details{
 dplyr is not yet smart enough to optimise filtering optimisation

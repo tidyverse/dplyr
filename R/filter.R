@@ -1,8 +1,10 @@
-#' Subset rows using column values
+#' Return all rows that satisfy conditions
 #'
-#' `filter()` retains the rows where the conditions you provide a `TRUE`. Note
-#' that, unlike base subsetting with `[`, rows where the condition evaluates
-#' to `NA` are dropped.
+#' The `filter()` function is used to create a subset of a tibble or data frame,
+#' retaining all rows that satisfy user-specified conditions.
+#' To be retained, the row must produce a value of `TRUE` for all conditions.
+#' An important difference between `filter()` and base subsetting with `[`, any
+#' row for which a condition evaluates to `NA` is dropped.
 #'
 #' dplyr is not yet smart enough to optimise filtering optimisation
 #' on grouped datasets that don't need grouped calculations. For this reason,
