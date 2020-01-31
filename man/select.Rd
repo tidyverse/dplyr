@@ -82,12 +82,11 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-starwars <- as_tibble(starwars) # Convert to simplify appearance of object when printed
 select(starwars, starts_with("h"))
 select(starwars, ends_with("color"))
-select(starwars, !starts_with("h"))
+select(starwars, !contains("s"))
 select(starwars, starts_with("h") & ends_with("color"))
-select(starwars, is.numeric)
+select(starwars, is.numeric) # This produces an error...
 
 # Optionally, rename individual variables as they are selected, in the format "new_name" = "old_name"
 select(starwars, character_name = name, character_height = height)
@@ -98,20 +97,20 @@ select(df, V4:V6) # Specify variable names explicitly
 select(df, num_range(prefix = "V", range = 4:6)) # Or, specify the prefix used on a numeric range
 
 # Select the existing grouping variables:
-starwars \%>\% group_by(gender) \%>\% select(group_cols())
+starwars \%>\% group_by(gender, eye_color) \%>\% select(group_cols())
 
 # Using select() semantics in across()
-starwars \%>\% summarise(across(height:mass, mean))
+starwars \%>\% summarise(across(height:mass, mean)) # Produces error
 
 # Applying tidy eval to select()
 # See dplyr::tidyeval for more information
-mycol <- "height"
+mycol <- c("height", "mass")
 starwars \%>\% select({{mycol}})
 
 # Modifying the order of variables --------------------------
 # As of dplyr 1.0.0, use relocate(), not select():
-relocate(iris, Species, .before = 1)
-relocate(iris, Sepal.Length, .after = last_col())
+select(starwars, homeworld, .before = 1)
+select(starwars, homeworld, .after = last_col())
 }
 \seealso{
 Other single table verbs: 
