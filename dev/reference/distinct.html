@@ -49,7 +49,7 @@
 
 <meta property="og:title" content="Subset distinct/unique rows — distinct" />
 <meta property="og:description" content="Select only unique/distinct rows from a data frame. This is similar
-to unique.data.frame(), but considerably faster." />
+to unique.data.frame() but considerably faster." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -193,7 +193,7 @@ to unique.data.frame(), but considerably faster." />
 
     <div class="ref-description">
     <p>Select only unique/distinct rows from a data frame. This is similar
-to <code><a href='https://rdrr.io/r/base/unique.html'>unique.data.frame()</a></code>, but considerably faster.</p>
+to <code><a href='https://rdrr.io/r/base/unique.html'>unique.data.frame()</a></code> but considerably faster.</p>
     </div>
 
     <pre class="usage"><span class='fu'>distinct</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
@@ -225,7 +225,7 @@ first row of values.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of the same type as <code>.data</code>.</p><ul>
-<li><p>Rows are a subset of the input, but appear in the same order.</p></li>
+<li><p>Rows are a subset of the input but appear in the same order.</p></li>
 <li><p>Columns are not modified if <code>...</code> is empty or <code>.keep_all</code> is <code>TRUE</code>.
 Otherwise, <code>distinct()</code> first calls <code><a href='mutate.html'>mutate()</a></code> to create new columns.</p></li>
 <li><p>Groups are not modified.</p></li>
@@ -274,7 +274,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt;  8     5
 #&gt;  9     2
 #&gt; 10     7</div><div class='input'>
-<span class='co'># Can choose to keep all other variables as well</span>
+<span class='co'># You can choose to keep all other variables as well</span>
 <span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>x</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 2
 #&gt;        x     y
 #&gt;    &lt;int&gt; &lt;int&gt;
@@ -314,7 +314,23 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt;  8     7
 #&gt;  9     6
 #&gt; 10     5</div><div class='input'>
-<span class='co'># The same behaviour applies for grouped data frames</span>
+<span class='co'># Using across() to select variables ----------------------</span>
+<span class='fu'>distinct</span>(<span class='no'>starwars</span>, <span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"color"</span>)))</div><div class='output co'>#&gt; # A tibble: 67 x 3
+#&gt;    hair_color    skin_color  eye_color
+#&gt;    &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;    
+#&gt;  1 blond         fair        blue     
+#&gt;  2 &lt;NA&gt;          gold        yellow   
+#&gt;  3 &lt;NA&gt;          white, blue red      
+#&gt;  4 none          white       yellow   
+#&gt;  5 brown         light       brown    
+#&gt;  6 brown, grey   light       blue     
+#&gt;  7 brown         light       blue     
+#&gt;  8 &lt;NA&gt;          white, red  red      
+#&gt;  9 black         light       brown    
+#&gt; 10 auburn, white fair        blue-gray
+#&gt; # … with 57 more rows</div><div class='input'>
+<span class='co'># Grouping -------------------------------------------------</span>
+<span class='co'># The same behaviour applies for grouped data frames,</span>
 <span class='co'># except that the grouping variables are always included</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
   <span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
@@ -332,7 +348,8 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     1
 #&gt; 2     2     2
-#&gt; 3     2     1</div></pre>
+#&gt; 3     2     1</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

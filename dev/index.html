@@ -169,11 +169,11 @@
 <div id="backends" class="section level2">
 <h2 class="hasAnchor">
 <a href="#backends" class="anchor"></a>Backends</h2>
-<p>dplyr is designed to abstract over how the data is stored. Out of the box, dplyr works with data frames/tibbles; other packages provide alternative computational backends:</p>
+<p>In addition to data frames/tibbles, dplyr makes working with other computational backends accessible and efficient. Below is a list of alternative backends:</p>
 <ul>
-<li><p>For large, in-memory datasets, try <a href="https://dtplyr.tidyverse.org/">dtplyr</a> to access the excellent performance of <a href="http://r-datatable.com/">data.table</a>.</p></li>
-<li><p>For data in relational databases, <a href="http://dbplyr.tidyverse.org/">dbplyr</a> will automatically translate your dplyr code in to SQL.</p></li>
-<li><p>For very large datasets stored in <a href="https://spark.apache.org">Apache Spark</a>, use <a href="https://spark.rstudio.com">sparklyr</a>.</p></li>
+<li><p><a href="https://dtplyr.tidyverse.org/">dtplyr</a>: for large, in-memory datasets. Translates your dplyr code to high performance <a href="http://r-datatable.com/">data.table</a> code.</p></li>
+<li><p><a href="http://dbplyr.tidyverse.org/">dbplyr</a>: for data stored in a relational database. Translates your dplyr code to SQL.</p></li>
+<li><p><a href="https://spark.rstudio.com">sparklyr</a>: for very large datasets stored in <a href="https://spark.apache.org">Apache Spark</a>.</p></li>
 </ul>
 </div>
 <div id="installation" class="section level2">
@@ -205,15 +205,15 @@
 <a class="sourceLine" id="cb3-3" data-line-number="3">starwars <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/filter.html">filter</a></span>(species <span class="op">==</span><span class="st"> "Droid"</span>)</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; # A tibble: 5 x 13</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 1 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 &lt;NA&gt;  </span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 2 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 &lt;NA&gt;  </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 3 R5-D4     97    32 &lt;NA&gt;       white, red red               NA &lt;NA&gt;  </span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 4 IG-88    200   140 none       metal      red               15 none  </span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 5 BB8       NA    NA none       none       black             NA none  </span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender homeworld</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 1 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 &lt;NA&gt;   Tatooine </span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 2 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 &lt;NA&gt;   Naboo    </span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 3 R5-D4     97    32 &lt;NA&gt;       white, red red               NA &lt;NA&gt;   Tatooine </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 4 IG-88    200   140 none       metal      red               15 none   &lt;NA&gt;     </span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 5 BB8       NA    NA none       none       black             NA none   &lt;NA&gt;     </span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; #   starships &lt;list&gt;</span></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb3-16" data-line-number="16">starwars <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="reference/select.html">select</a></span>(name, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with</a></span>(<span class="st">"color"</span>))</a>
@@ -243,15 +243,15 @@
 <a class="sourceLine" id="cb3-41" data-line-number="41">starwars <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-42" data-line-number="42"><span class="st">  </span><span class="kw"><a href="reference/arrange.html">arrange</a></span>(<span class="kw"><a href="reference/desc.html">desc</a></span>(mass))</a>
 <a class="sourceLine" id="cb3-43" data-line-number="43"><span class="co">#&gt; # A tibble: 87 x 13</span></a>
-<a class="sourceLine" id="cb3-44" data-line-number="44"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span></a>
-<a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span></a>
-<a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herma…</span></a>
-<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; 2 Grie…    216   159 none       brown, wh… green, y…       NA   male  </span></a>
-<a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt; 3 IG-88    200   140 none       metal      red             15   none  </span></a>
-<a class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  </span></a>
-<a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt; 5 Tarf…    234   136 brown      brown      blue            NA   male  </span></a>
-<a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt; # … with 82 more rows, and 5 more variables: homeworld &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a>
+<a class="sourceLine" id="cb3-44" data-line-number="44"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender homeworld</span></a>
+<a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herma… Nal Hutta</span></a>
+<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; 2 Grie…    216   159 none       brown, wh… green, y…       NA   male   Kalee    </span></a>
+<a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt; 3 IG-88    200   140 none       metal      red             15   none   &lt;NA&gt;     </span></a>
+<a class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male   Tatooine </span></a>
+<a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt; 5 Tarf…    234   136 brown      brown      blue            NA   male   Kashyyyk </span></a>
+<a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt; # … with 82 more rows, and 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></a>
+<a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></a>
 <a class="sourceLine" id="cb3-53" data-line-number="53"></a>
 <a class="sourceLine" id="cb3-54" data-line-number="54">starwars <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-55" data-line-number="55"><span class="st">  </span><span class="kw"><a href="reference/group_by.html">group_by</a></span>(species) <span class="op">%&gt;%</span></a>

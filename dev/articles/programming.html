@@ -159,11 +159,11 @@
 <p>Most dplyr verbs use <strong>tidy evaluation</strong> in some way. Tidy evaluation is a special type of non-standard evaluation used throughout the tidyverse. There are two basic forms found in dplyr:</p>
 <ul>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code>, <code><a href="../reference/tally.html">count()</a></code>, <code><a href="../reference/filter.html">filter()</a></code>, <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/mutate.html">mutate()</a></code>, and <code><a href="../reference/summarise.html">summarise()</a></code> use <strong>data masking</strong> so that you can use data variables as if they were variables in the environment (i.e. you write <code>my_variable</code> not <code>df$myvariable</code>).</p></li>
-<li><p><code><a href="../reference/across.html">across()</a></code>, <code><a href="../reference/relocate.html">relocate()</a></code>, <code><a href="../reference/rename.html">rename()</a></code>, <code><a href="../reference/select.html">select()</a></code>, and <code><a href="../reference/pull.html">pull()</a></code> use <strong>tidy selection</strong> so you can easily choose variabe based on their position, name, or type (e.g. <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with("x")</a></code> or <code>is.numeric</code>).</p></li>
+<li><p><code><a href="../reference/across.html">across()</a></code>, <code><a href="../reference/relocate.html">relocate()</a></code>, <code><a href="../reference/rename.html">rename()</a></code>, <code><a href="../reference/select.html">select()</a></code>, and <code><a href="../reference/pull.html">pull()</a></code> use <strong>tidy selection</strong> so you can easily choose variables based on their position, name, or type (e.g. <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with("x")</a></code> or <code>is.numeric</code>).</p></li>
 </ul>
-<p>To determine whether a function argument uses data masking or tidy selection, look at the documentation: in the arguments list you’ll see <code>&lt;data-masking&gt;</code> or <code>&lt;tidy-select&gt;</code>.</p>
-<p>Data masking and tidy selection make interactive data exploration fast and fluid, but add some new challenges when you attempt to use them indirectly, as in a for loop or function. This vignette shows you how to overcome those challenges. We’ll first go over the basics of data masking and tidy selection, talk about how to use them indirectly, and then show you a number of recipes to solve common problems.</p>
-<p>This vignette will give you the minimum knowledge you need to be an effective programmer with tidy evaluation. If you’d like to learn more about the underlying theory, or how precisely its different from non-standard evaluation, we recommend that you read the Metaprogramming chapters in <a href="https://adv-r.hadley.nz"><em>Advanced R</em></a>.</p>
+<p>To determine whether a function argument uses data masking or tidy selection, look at the documentation: in the arguments list, you’ll see <code>&lt;data-masking&gt;</code> or <code>&lt;tidy-select&gt;</code>.</p>
+<p>Data masking and tidy selection make interactive data exploration fast and fluid, but they add some new challenges when you attempt to use them indirectly such as in a for loop or a function. This vignette shows you how to overcome those challenges. We’ll first go over the basics of data masking and tidy selection, talk about how to use them indirectly, and then show you a number of recipes to solve common problems.</p>
+<p>This vignette will give you the minimum knowledge you need to be an effective programmer with tidy evaluation. If you’d like to learn more about the underlying theory, or precisely how it’s different from non-standard evaluation, we recommend that you read the Metaprogramming chapters in <a href="https://adv-r.hadley.nz"><em>Advanced R</em></a>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a></code></pre></div>
 </div>
 <div id="data-masking" class="section level2">
@@ -186,17 +186,17 @@
 <a class="sourceLine" id="cb4-2" data-line-number="2">df<span class="op">$</span>x</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; [1] 0.08075014 0.83433304 0.60076089</span></a></code></pre></div>
 <p>It creates a env-variable, <code>df</code>, that contains two data-variables, <code>x</code> and <code>y</code>. Then it extracts the data-variable <code>x</code> out of the env-variable <code>df</code> using <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>.</p>
-<p>I think this blurring of the meaning of variable is a really nice feature for interactive data analysis, because it allows you to refer to data-vars as is, without any prefix. And this seems to be fairly intuitive, since many newer R users will attempt to write <code>diamonds[x == 0 | y == 0, ]</code>.</p>
-<p>Unfortunately this benefit does not come for free. When you start to program with these tools, you’re going to have to grapple with the distinction. And this will be hard because you’ve never had to think about it before, so it’ll take a while for your brain to learn these new concepts and categories. However, once you’ve teased apart the idea of “variable” in data-variable and env-variable, I think you’ll find it fairly straightforward to use.</p>
+<p>I think this blurring of the meaning of “variable” is a really nice feature for interactive data analysis because it allows you to refer to data-vars as is, without any prefix. And this seems to be fairly intuitive since many newer R users will attempt to write <code>diamonds[x == 0 | y == 0, ]</code>.</p>
+<p>Unfortunately, this benefit does not come for free. When you start to program with these tools, you’re going to have to grapple with the distinction. This will be hard because you’ve never had to think about it before, so it’ll take a while for your brain to learn these new concepts and categories. However, once you’ve teased apart the idea of “variable” into data-variable and env-variable, I think you’ll find it fairly straightforward to use.</p>
 </div>
 <div id="indirection" class="section level3">
 <h3 class="hasAnchor">
 <a href="#indirection" class="anchor"></a>Indirection</h3>
-<p>The main challenge of programming with function that use data masking arises when you introduce some indirection, i.e. instead of you directly typing the name of a data-variable you want to get it from an env-variable. There are two main cases:</p>
+<p>The main challenge of programming with functions that use data masking arises when you introduce some indirection, i.e. when you want to get the data-variable from an env-variable instead of directly typing the data-variable’s name. There are two main cases:</p>
 <ul>
 <li>
-<p>When you have the data-variable in a function argument (i.e. an env-variable that holds a promise<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>), you need to <strong>embrace</strong> the argument by surrounding it in doubled parentheses, like <code><a href="../reference/filter.html">filter(df, {{ var }})</a></code>.</p>
-<p>The following function uses embracing to create a wrapper around <code><a href="../reference/summarise.html">summarise()</a></code> that computes the minimum and maximum values of a variable, as well as the number of observations that were summarised.</p>
+<p>When you have the data-variable in a function argument (i.e. an env-variable that holds a promise<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>), you need to <strong>embrace</strong> the argument by surrounding it in doubled braces, like <code><a href="../reference/filter.html">filter(df, {{ var }})</a></code>.</p>
+<p>The following function uses embracing to create a wrapper around <code><a href="../reference/summarise.html">summarise()</a></code> that computes the minimum and maximum values of a variable, as well as the number of observations that were summarised:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">var_summary &lt;-<span class="st"> </span><span class="cf">function</span>(data, var) {</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), <span class="dt">min =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>({{ var }}), <span class="dt">max =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>({{ var }}))</a>
@@ -211,6 +211,7 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">for</span> (var <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(mtcars)) {</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">  mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/tally.html">count</a></span>(.data[[var]]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>()</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">}</a></code></pre></div>
+<p>Note that <code>.data</code> is not a data frame; it’s a special construct, a pronoun, that allows you to access the current variables either directly, with <code>.data$x</code> or indirectly with <code>.data[[var]]</code>. Don’t expect other functions to work with it.</p>
 </li>
 </ul>
 </div>
@@ -234,11 +235,11 @@
 <div id="indirection-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#indirection-1" class="anchor"></a>Indirection</h3>
-<p>As with data masking, tidy selection makes a common task easier, and at the cost of making a less common task harder. When you want to use tidy select indirectly, with the column specification stored in an intermediate variable, you’ll need to learn some new tools. Again, there are there are two forms of indirection:</p>
+<p>As with data masking, tidy selection makes a common task easier at the cost of making a less common task harder. When you want to use tidy select indirectly with the column specification stored in an intermediate variable, you’ll need to learn some new tools. Again, there are two forms of indirection:</p>
 <ul>
 <li>
-<p>When you have the data-variable in an env-variable that is a functon argument, you use the same technique as data masking: you <strong>embrace</strong> the argument by surrounding it in doubled parentheses.</p>
-<p>The following function summarises a data frame by computing the mean of all variables selected by the user.</p>
+<p>When you have the data-variable in an env-variable that is a function argument, you use the same technique as data masking: you <strong>embrace</strong> the argument by surrounding it in doubled braces.</p>
+<p>The following function summarises a data frame by computing the mean of all variables selected by the user:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">summarise_mean &lt;-<span class="st"> </span><span class="cf">function</span>(data, vars) {</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), <span class="kw"><a href="../reference/across.html">across</a></span>({{ vars }}, mean))</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">}</a>
@@ -247,8 +248,8 @@
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise_mean</span>(is.numeric)</a></code></pre></div>
 </li>
 <li>
-<p>When you have an env-variable that is a character vector, you need to use <code>all_of()</code> or <code>any_of()</code> depending on whether or not you want the function to error if a variable is not found.</p>
-<p>The following code uses <code>all_of()</code> to select all of the variables found in a character vector; then <code>!</code> plus <code>all_of()</code> to select all of the variables <em>not</em> found in a character vector.</p>
+<p>When you have an env-variable that is a character vector, you need to use <code>all_of()</code> or <code>any_of()</code> depending on whether you want the function to error if a variable is not found.</p>
+<p>The following code uses <code>all_of()</code> to select all of the variables found in a character vector; then <code>!</code> plus <code>all_of()</code> to select all of the variables <em>not</em> found in a character vector:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mpg"</span>, <span class="st">"vs"</span>)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="kw">all_of</span>(vars))</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="op">!</span><span class="kw">all_of</span>(vars))</a></code></pre></div>
@@ -259,7 +260,7 @@
 <div id="how-tos" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-tos" class="anchor"></a>How tos</h2>
-<p>The following examples solve a grab bag of common problems. We show you the minimum amount of code so that you can get the basic idea; most real problems will require more code, or combining multiple techniques.</p>
+<p>The following examples solve a grab bag of common problems. We show you the minimum amount of code so that you can get the basic idea; most real problems will require more code or combining multiple techniques.</p>
 <div id="user-supplied-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#user-supplied-data" class="anchor"></a>User-supplied data</h3>
@@ -271,7 +272,7 @@
 <div id="eliminating-r-cmd-check-notes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#eliminating-r-cmd-check-notes" class="anchor"></a>Eliminating <code>R CMD check</code> <code>NOTE</code>s</h3>
-<p>If you’re writing a package, and you have a function that uses data-variables:</p>
+<p>If you’re writing a package and you have a function that uses data-variables:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">my_summary_function &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -283,7 +284,7 @@
    my_summary_function: no visible binding for global variable ‘x’, ‘grp’, ‘y’
    Undefined global functions or variables:
      x grp y</code></pre>
-<p>You can eliminate this by using <code>.data$var</code>, and importing <code>.data</code> from its source in the rlang package (the underlying package that implements tidy evaluation):</p>
+<p>You can eliminate this by using <code>.data$var</code> and importing <code>.data</code> from its source in the <a href="https://rlang.r-lib.org/">rlang</a> package (the underlying package that implements tidy evaluation):</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">#' @importFrom rlang .data</span></a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">my_summary_function &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3">  data <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -295,7 +296,7 @@
 <div id="one-user-supplied-expression" class="section level3">
 <h3 class="hasAnchor">
 <a href="#one-user-supplied-expression" class="anchor"></a>One user-supplied expression</h3>
-<p>If you want the user the to supply an expression that’s passed on to an argument that uses data masking or tidy select, embrace the argument:</p>
+<p>If you want the user to supply an expression that’s passed onto an argument which uses data masking or tidy select, embrace the argument:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_var) {</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>({{ group_var }}) <span class="op">%&gt;%</span></a>
@@ -308,7 +309,7 @@
 <a class="sourceLine" id="cb13-10" data-line-number="10">      <span class="kw"><a href="../reference/across.html">across</a></span>({{ vars }}, <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb13-11" data-line-number="11">    )</a>
 <a class="sourceLine" id="cb13-12" data-line-number="12">}</a></code></pre></div>
-<p>This generalises in a straightforward way if you want to use one user supplied expression in multiple places:</p>
+<p>This generalises in a straightforward way if you want to use one user-supplied expression in multiple places:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">my_summarise2 &lt;-<span class="st"> </span><span class="cf">function</span>(data, expr) {</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
 <a class="sourceLine" id="cb14-3" data-line-number="3">    <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ expr }}),</a>
@@ -360,7 +361,7 @@
 <div id="transforming-user-supplied-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#transforming-user-supplied-variables" class="anchor"></a>Transforming user-supplied variables</h3>
-<p>If you want the user to provide a set of variables that are then transformed, use <code><a href="../reference/across.html">across()</a></code>:</p>
+<p>If you want the user to provide a set of data-variables that are then transformed, use <code><a href="../reference/across.html">across()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, summary_vars) {</a>
 <a class="sourceLine" id="cb17-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summary_vars }}, <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(., <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))</a>
@@ -376,7 +377,7 @@
 <a class="sourceLine" id="cb17-13" data-line-number="13"><span class="co">#&gt; 3 Cerean      82    198</span></a>
 <a class="sourceLine" id="cb17-14" data-line-number="14"><span class="co">#&gt; 4 Chagrian   NaN    196</span></a>
 <a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co">#&gt; # … with 34 more rows</span></a></code></pre></div>
-<p>You can use this same idea for multiple sets of input variables:</p>
+<p>You can use this same idea for multiple sets of input data-variables:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_by, summarise_by) {</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_by }})) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -394,7 +395,6 @@
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="op">~</span><span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/tally.html">count</a></span>(.data[[.x]]))</a></code></pre></div>
-<p>(Note that <code>.data</code> is not a data frame; it’s a special construct that allows you to access the current variables either directly, with <code>.data$x</code> or indirectly with <code>.data[[var]]</code>. Don’t expect other functions to work with it.)</p>
 </div>
 <div id="use-a-variable-from-an-shiny-input" class="section level3">
 <h3 class="hasAnchor">
