@@ -18,31 +18,31 @@ lead or lag by}
 
 \item{default}{value used for non-existent rows. Defaults to \code{NA}.}
 
-\item{order_by}{override the default ordering to use another vector}
+\item{order_by}{override the default ordering to use another vector or column}
 
 \item{...}{Needed for compatibility with lag generic.}
 }
 \description{
-Find the "next" or "previous" values in a vector. Useful for comparing values
+Find the "next" (lead) or "previous" (lag) values in a vector. Useful for comparing values
 ahead of or behind the current values.
 }
 \examples{
 lead(1:10, 1)
 lead(1:10, 2)
 
-lag(1:10, 1)
 lead(1:10, 1)
+lag(1:10, 1)
 
 x <- runif(5)
 cbind(ahead = lead(x), x, behind = lag(x))
 
-# Use order_by if data not already ordered
+# If data are not already ordered, use order_by
 df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
 scrambled <- df[sample(nrow(df)), ]
 
-wrong <- mutate(scrambled, prev = lag(value))
+wrong <- mutate(scrambled, previous = lag(value))
 arrange(wrong, year)
 
-right <- mutate(scrambled, prev = lag(value, order_by = year))
+right <- mutate(scrambled, previous = lag(value, order_by = year))
 arrange(right, year)
 }
