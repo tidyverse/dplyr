@@ -21,13 +21,13 @@
 #' tibble(ahead = lead(x), x, behind = lag(x))
 #'
 #' # If data are not already ordered, use order_by
-#' df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
-#' scrambled <- df[sample(nrow(df)), ]
+#' scrambled <- tibble(year = 2000:2005, value = (0:5) ^ 2) %>%
+#'     sample_frac()
 #'
-#' wrong <- mutate(scrambled, previous = lag(value))
+#' wrong <- mutate(scrambled, previous_value = lag(value))
 #' arrange(wrong, year)
 #'
-#' right <- mutate(scrambled, previous = lag(value, order_by = year))
+#' right <- mutate(scrambled, previous_value = lag(value, order_by = year))
 #' arrange(right, year)
 #' @name lead-lag
 NULL
