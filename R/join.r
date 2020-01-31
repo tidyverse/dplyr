@@ -245,7 +245,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 
 #' Nest join
 #'
-#' `nest_join()` returns all rows and columns `x` with a new nested-df column
+#' `nest_join()` returns all rows and columns in `x` with a new nested-df column
 #' that contains all matches from `y`. When there is no match, the list column
 #' is a 0-row tibble.
 #'
