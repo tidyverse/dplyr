@@ -29,21 +29,21 @@
 #'
 #' ```
 #' starwars %>%
-#'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
-#'   pull()
+#'   select(name, mass, species) %>%
+#'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #' ```
 #'
 #' With the grouped equivalent:
 #'
 #' ```
 #' starwars %>%
-#'   group_by(gender) %>%
-#'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
-#'   pull()
+#'   select(name, mass, species) %>%
+#'   group_by(species) %>%
+#'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #' ```
 #'
 #' The former normalises `mass` by the global average whereas the
-#' latter normalises by the averages within gender levels.
+#' latter normalises by the averages within species levels.
 #'
 #' @export
 #' @inheritParams arrange
@@ -89,22 +89,34 @@
 #' * `transmute()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("transmute")}.
 #' @examples
 #' # Newly created variables are available immediately
-#' mtcars %>% as_tibble() %>% mutate(
-#'   cyl2 = cyl * 2,
-#'   cyl4 = cyl2 * 2
+#' starwars %>%
+#'  select(name, mass) %>%
+#'  mutate(
+#'   mass2 = mass * 2,
+#'   mass2_squared = mass2 * mass2
 #' )
 #'
 #' # As well as adding new variables, you can use mutate() to
 #' # remove variables and modify existing variables.
-#' mtcars %>% as_tibble() %>% mutate(
-#'   mpg = NULL,
-#'   disp = disp * 0.0163871 # convert to litres
+#' starwars %>%
+#'  select(name, height, mass, homeworld) %>%
+#'  mutate(
+#'   mass = NULL,
+#'   height = height * 0.0328084 # convert to feet
 #' )
 #'
-#' # window functions are useful for grouped mutates
-#' mtcars %>%
-#'  group_by(cyl) %>%
-#'  mutate(rank = min_rank(desc(mpg)))
+#' # Use across() with mutate() to apply a transformation
+#' # to multiple columns in a tibble.
+#' starwars %>%
+#'  select(name, homeworld, species) %>%
+#'  mutate(across(-name, as.factor))
+#' # see more in ?across
+#'
+#' # Window functions are useful for grouped mutates:
+#' starwars %>%
+#'  select(name, mass, homeworld) %>%
+#'  group_by(homeworld) %>%
+#'  mutate(rank = min_rank(desc(mass)))
 #' # see `vignette("window-functions")` for more details
 #'
 #' # By default, new columns are placed on the far right.
@@ -127,15 +139,15 @@
 #' # tibbles because the expressions are computed within groups.
 #' # The following normalises `mass` by the global average:
 #' starwars %>%
-#'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
-#'   pull()
+#'   select(name, mass, species) %>%
+#'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #'
-#' # Whereas this normalises `mass` by the averages within gender
+#' # Whereas this normalises `mass` by the averages within species
 #' # levels:
 #' starwars %>%
-#'   group_by(gender) %>%
-#'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
-#'   pull()
+#'   select(name, mass, species) %>%
+#'   group_by(species) %>%
+#'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #'
 #' # Indirection ----------------------------------------
 #' # Refer to column names stored as strings with the `.data` pronoun:
@@ -281,24 +293,24 @@ mutate_cols <- function(.data, ..., .track_usage = FALSE) {
     }
 
   },
-    rlang_error_data_pronoun_not_found = function(e) {
-      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
-    },
-    vctrs_error_recycle_incompatible_size = function(e) {
-      stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
-    },
-    dplyr_mutate_mixed_NULL = function(e) {
-      stop_mutate_mixed_NULL(index = i, dots = dots)
-    },
-    dplyr_mutate_not_vector = function(e) {
-      stop_mutate_not_vector(index = i, dots = dots, result = e$result)
-    },
-    vctrs_error_incompatible_type = function(e) {
-      stop_combine(e, index = i, dots = dots, fn = "mutate")
-    },
-    simpleError = function(e) {
-      stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
-    }
+  rlang_error_data_pronoun_not_found = function(e) {
+    stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+  },
+  vctrs_error_recycle_incompatible_size = function(e) {
+    stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
+  },
+  dplyr_mutate_mixed_NULL = function(e) {
+    stop_mutate_mixed_NULL(index = i, dots = dots)
+  },
+  dplyr_mutate_not_vector = function(e) {
+    stop_mutate_not_vector(index = i, dots = dots, result = e$result)
+  },
+  vctrs_error_incompatible_type = function(e) {
+    stop_combine(e, index = i, dots = dots, fn = "mutate")
+  },
+  simpleError = function(e) {
+    stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
+  }
   )
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
