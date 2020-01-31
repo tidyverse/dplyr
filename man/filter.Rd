@@ -11,16 +11,17 @@ filter(.data, ..., .preserve = FALSE)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Logical predicates defined
-in terms of the variables in \code{.data}.
-Multiple conditions are combined with \code{&}. Only rows where the
-condition evaluates to \code{TRUE} are kept.}
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Expressions that return a
+logical value, and are defined in terms of the variables in \code{.data}.
+If multiple expressions are included, they are combined with the \code{&} operator.
+Only rows for which all conditions evaluate to \code{TRUE} are kept.}
 
-\item{.preserve}{when \code{FALSE} (the default), the grouping structure
-is recalculated based on the resulting data, otherwise it is kept as is.}
+\item{.preserve}{Relevant when the \code{.data} input is grouped.
+If \code{.preserve = FALSE} (the default), the grouping structure
+is recalculated based on the resulting data, otherwise the grouping is kept as is.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following properties:
 \itemize{
 \item Rows are a subset of the input, but appear in the same order.
 \item Columns are not modified.
@@ -29,17 +30,25 @@ An object of the same type as \code{.data}.
 }
 }
 \description{
-\code{filter()} retains the rows where the conditions you provide a \code{TRUE}. Note
-that, unlike base subsetting with \code{[}, rows where the condition evaluates
-to \code{NA} are dropped.
+The \code{filter()} function is used to subset a data frame,
+retaining all rows that satisfy your conditions.
+To be retained, the row must produce a value of \code{TRUE} for all conditions.
+Note that when a condition evaluates to \code{NA}
+the row will be dropped, unlike base subsetting with \code{[}.
 }
 \details{
-dplyr is not yet smart enough to optimise filtering optimisation
-on grouped datasets that don't need grouped calculations. For this reason,
-filtering is often considerably faster on \code{\link[=ungroup]{ungroup()}}ed data.
+The \code{filter()} function is used to subset the rows of
+\code{.data}, applying the expressions in \code{...} to the column values to determine which
+rows should be retained. It can be applied to both grouped and ungrouped data (see \code{\link[=group_by]{group_by()}} and
+\code{\link[=ungroup]{ungroup()}}). However, dplyr is not yet smart enough to optimise the filtering
+operation on grouped datasets that do not need grouped calculations. For this
+reason, filtering is often considerably faster on ungrouped data.
 }
 \section{Useful filter functions}{
 
+
+There are many functions and operators that are useful when constructing the
+expressions used to filter the data:
 \itemize{
 \item \code{\link{==}}, \code{\link{>}}, \code{\link{>=}} etc
 \item \code{\link{&}}, \code{\link{|}}, \code{\link{!}}, \code{\link[=xor]{xor()}}
@@ -60,10 +69,11 @@ involved. Compare this ungrouped filtering:\preformatted{starwars \%>\% filter(m
 With the grouped equivalent:\preformatted{starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
 }
 
-The former keeps rows with \code{mass} greater than the global average
-whereas the latter keeps rows with \code{mass} greater than the gender
-
-average.
+In the ungrouped version, \code{filter()} compares the value of \code{mass} in each row to
+the global average (taken over the whole data set), keeping only the rows with
+\code{mass} greater than this global average. In contrast, the grouped version calculates
+the average mass separately for each \code{gender} group, and keeps rows with \code{mass} greater
+than the relevant within-gender average.
 }
 
 \section{Methods}{
@@ -77,14 +87,15 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
+# Filtering by one criterion
 filter(starwars, species == "Human")
 filter(starwars, mass > 1000)
 
-# Multiple criteria
+# Filtering by multiple criteria within a single logical expression
 filter(starwars, hair_color == "none" & eye_color == "black")
 filter(starwars, hair_color == "none" | eye_color == "black")
 
-# Multiple arguments are equivalent to and
+# When multiple expressions are used, they are combined using &
 filter(starwars, hair_color == "none", eye_color == "black")
 
 
@@ -100,7 +111,7 @@ starwars \%>\% filter(mass > mean(mass, na.rm = TRUE))
 starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
 
 
-# Refer to column names stored as strings with the `.data` pronoun:
+# To refer to column names that are stored as strings, use the `.data` pronoun:
 vars <- c("mass", "height")
 cond <- c(80, 150)
 starwars \%>\%
@@ -111,8 +122,6 @@ starwars \%>\%
 # Learn more in ?dplyr_data_masking
 }
 \seealso{
-\code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and \code{\link[=filter_at]{filter_at()}}.
-
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{mutate}()},
