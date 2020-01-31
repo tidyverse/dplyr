@@ -25,7 +25,7 @@
 #' * Output columns include all `x` columns and all `y` columns. If columns in
 #'   `x` and `y` have the same name (and aren't included in `by`), `suffix`es are
 #'   added to disambiguate.
-#' * Output columns columns included in `by` are coerced to common type across
+#' * Output columns included in `by` are coerced to common type across
 #'   `x` and `y`.
 #' * Groups are taken from `x`.
 #' @section Methods:
