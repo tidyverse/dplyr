@@ -2,7 +2,7 @@
 #'
 #' Select (and optionally rename) variables in a data frame, using a concise
 #' mini-language that makes it easy to refer to variables based on their name
-#' (e.g. `a:f` selects all columns between `a` on the left to `f` on the
+#' (e.g. `a:f` selects all columns from `a` on the left to `f` on the
 #' right). You can also use predicate functions like [is.numeric] to select
 #' variables based on their properties.
 #'
@@ -18,18 +18,18 @@
 #'
 #' You can also use predicate functions (functions that return a single `TRUE`
 #' or `FALSE`) like `is.numeric`, `is.character`, and `is.factor`
-#' to select variables with specific types.
+#' to select variables of specific types.
 #'
-#' Selections can be combined using Boolean algebra like:
+#' Selections can be combined using Boolean algebra:
 #'
-#' * `starts_with("a") & ends_with("x")`: start with "a" and end with "x"
-#' * `starts_with("a") | starts_with("b")`: start with "a" or "b"
-#' * `!starts_with("a")`: doesn't start with "a"
+#' * `starts_with("a") & ends_with("x")`: variables with names that start with "a" and end with "x"
+#' * `starts_with("a") | starts_with("b")`: variables with names that start with "a" or "b"
+#' * `!starts_with("a")`: variables with names that do not start with "a"
 #'
 #' To remove variables from a selection, use `-`:
 #'
-#' * `starts_with("a") - ends_width("x")`: start with "a" and doesn't end with "x"
-#' * `is.numeric - c(a, b, c)`: numeric variables except for `a`, `b`, `c`.
+#' * `starts_with("a") - ends_width("x")`: variables with names that start with "a" and do not end with "x"
+#' * `is.numeric - c(a, b, c)`: numeric variables except, for `a`, `b`, `c`.
 #'
 #' See [select helpers][tidyselect::select_helpers] for more details and
 #' examples.
@@ -37,11 +37,11 @@
 #' Note that except for `:`, `-` and `c()`, all complex expressions
 #' are evaluated outside the data frame context. This is to prevent
 #' accidental matching of data frame variables when you refer to
-#' variables from the calling context.
+#' variables from the calling environment.
 #' @inheritParams arrange
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
-#'   expressions separated by commas. You can treat variable names like they
-#'   are positions, so you can use expressions like `x:y` to select ranges of
+#'   expressions separated by commas. Variable names can be used like they
+#'   are positions, so expressions like `x:y` can be used to select a range of
 #'   variables.
 #' @return
 #' An object of the same type as `.data`.
@@ -49,7 +49,7 @@
 #' * Output columns are a subset of input columns, potentially with a different
 #'   order. Columns will be renamed if `new_name = old_name` form is used.
 #' * Data frame attributes are preserved.
-#' * Groups are maintained; you can not select off grouping variables.
+#' * Groups are maintained.
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -60,14 +60,14 @@
 #' @family single table verbs
 #' @export
 #' @examples
-#' iris <- as_tibble(iris) # so it prints a little nicer
+#' iris <- as_tibble(iris) # Convert to simplify appearance of object when printed
 #' select(iris, starts_with("Petal"))
 #' select(iris, ends_with("Width"))
 #' select(iris, !starts_with("Petal"))
 #' select(iris, starts_with("Petal") & ends_with("Width"))
 #' select(iris, is.numeric)
 #'
-#' # If desired, you can rename individual variables as you select them
+#' # Optionally, rename individual variables as they are selected, in the format "new_name" = "old_name"
 #' select(iris, species = Species, width = Petal.Width, length = Petal.Length)
 #'
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
@@ -75,10 +75,10 @@
 #' select(df, V4:V6)
 #' select(df, num_range("V", 4:6))
 #'
-#' # Select the grouping variables:
+#' # Select the existing grouping variables:
 #' starwars %>% group_by(gender) %>% select(group_cols())
 #'
-#' # Moving variables around --------------------------
+#' # Modifying the order of variables --------------------------
 #' # As of dplyr 1.0.0, use relocate(), not select():
 #' relocate(iris, Species, .before = 1)
 #' relocate(iris, Sepal.Length, .after = last_col())
