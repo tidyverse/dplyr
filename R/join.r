@@ -44,7 +44,7 @@
 #'   more details.
 #' @param by A character vector of variables to join by.
 #'
-#'   If `NULL`, the default, `*_join()` will perofrm a natural join, using all
+#'   If `NULL`, the default, `*_join()` will perform a natural join, using all
 #'   variables in common across `x` and `y`. A message lists the variables so that you
 #'   can check they're correct; suppress the message by supplying `by` explicitly.
 #'
