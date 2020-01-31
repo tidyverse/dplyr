@@ -66,7 +66,8 @@
 #' select(starwars, starts_with("h") & ends_with("color"))
 #' select(starwars, is.numeric)
 #'
-#' # Optionally, rename individual variables as they are selected, in the format "new_name" = "old_name"
+#' # Optionally, rename individual variables as they are selected,
+#' # in the format "new_name" = "old_name"
 #' select(starwars, character_name = name, character_height = height)
 #'
 #' # Use num_range() to select variables with numeric suffixes
