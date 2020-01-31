@@ -86,7 +86,7 @@ select(starwars, starts_with("h"))
 select(starwars, ends_with("color"))
 select(starwars, !contains("s"))
 select(starwars, starts_with("h") & ends_with("color"))
-select(starwars, is.numeric) # This produces an error...
+select(starwars, is.numeric)
 
 # Optionally, rename individual variables as they are selected, in the format "new_name" = "old_name"
 select(starwars, character_name = name, character_height = height)
@@ -100,7 +100,7 @@ select(df, num_range(prefix = "V", range = 4:6)) # Or, specify the prefix used o
 starwars \%>\% group_by(gender, eye_color) \%>\% select(group_cols())
 
 # Using select() semantics in across()
-starwars \%>\% summarise(across(height:mass, mean)) # Produces error
+starwars \%>\% summarise(across(cols = height:mass, fns = ~mean(.x, na.rm = TRUE)))
 
 # Applying tidy eval to select()
 # See dplyr::tidyeval for more information
@@ -109,8 +109,8 @@ starwars \%>\% select({{mycol}})
 
 # Modifying the order of variables --------------------------
 # As of dplyr 1.0.0, use relocate(), not select():
-select(starwars, homeworld, .before = 1)
-select(starwars, homeworld, .after = last_col())
+starwars \%>\% select(name:birth_year) \%>\% relocate(birth_year, .before = 1)
+starwars \%>\% select(name:birth_year) \%>\% relocate(name, .after = last_col())
 }
 \seealso{
 Other single table verbs: 
