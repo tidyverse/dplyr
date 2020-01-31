@@ -20,7 +20,7 @@ condition evaluates to \code{TRUE} are kept.}
 is recalculated based on the resulting data, otherwise it is kept as is.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following properties:
 \itemize{
 \item Rows are a subset of the input, but appear in the same order.
 \item Columns are not modified.

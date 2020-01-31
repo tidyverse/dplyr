@@ -47,12 +47,13 @@
 #' @param .preserve when `FALSE` (the default), the grouping structure
 #'   is recalculated based on the resulting data, otherwise it is kept as is.
 #' @return
-#' An object of the same type as `.data`.
+#' An object of the same type as `.data`. The output has the following properties:
 #'
 #' * Rows are a subset of the input, but appear in the same order.
 #' * Columns are not modified.
 #' * The number of groups may be reduced (if `.preserve` is not `TRUE`).
 #' * Data frame attributes are preserved.
+#'
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
