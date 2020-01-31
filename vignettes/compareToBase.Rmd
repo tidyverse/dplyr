@@ -47,7 +47,7 @@ Overall the main differences between base R and dplyr are:
 
 2. dplyr banishes the use of `$` to access particular columns of a data frame.
 
-3. Overall, dplyr solutions to data manipulation problems remove nesting of code (e.g. df[extra_stuff_here, ]) and is more amenable to the pipe workflow (e.g. df %>% verb). 
+3. Overall, dplyr solutions to data manipulation problems remove nesting of code (e.g. `df[extra_stuff_here, ]`) and is more amenable to the pipe workflow (e.g. `df %>% verb`). 
 
 Now we will walk through each of the functions in the above tables, noting the similarities and differences between base R and dplyr.
 
@@ -55,6 +55,8 @@ These dplyr examples come from the [dplyr documentation](https://cran.r-project.
 
 
 # Single-Table Verbs
+
+For more information about these single-table verbs see [`vignette("dplyr")`](https://dplyr.tidyverse.org/articles/dplyr.html).
 
 ## `arrange()`: Arrange rows by variables
 
@@ -111,7 +113,6 @@ The syntax of dplyr's `filter()` is very similar.
 
 ```{r}
 # dplyr
-
 filter(starwars, species == "Human")
 filter(starwars, mass > 1000)
 filter(starwars, hair_color == "none" & eye_color == "black")
@@ -227,13 +228,17 @@ slice(mtcars, 25:n())
 
 # Two-Table Verbs
 
-Various `merge()` calls are replaced by a variety of `join()` functions.
+When we want to merge two data frames (refered to as `x` and `y` in base R's `merge() ` arguments), we have a variety of different ways to bring them together. Various base R `merge()` calls are replaced by a variety of dplyr `join()` functions.
+
+For more information about two-table verbs, see [`vignette("two-table")`](https://dplyr.tidyverse.org/articles/two-table.html).
 
 ## `inner_join()`: Join two tables together
 
-The rows are by default lexicographically sorted on the common columns, but for sort = FALSE are in an unspecified order.
+If we want only rows that match in both data sets, we use dplyr's `inner_join()`. This drops the rows from the first data frame that do not occur in the second data frame (denoted by base R as `all.x = F`) and the rows from the second data frame that do not occur in the first data frame (denoted by base R as `all.y = F`).
 
-preserves row order of first data set
+In base R the resulting merged data frame has rows that are sorted in alphabetical order of the common solumns while in dplyr, the order of the first data frame's rows is preserved.
+
+Which band members also play instruments and what instruments do they play?
 
 ```{r}
 # base
@@ -245,6 +250,10 @@ band_members %>% inner_join(band_instruments)
 
 ## `left_join()`: Join two tables together
 
+If we want every row in the first data frame to be preserved in the merged data frame (denoted by base R as `all.x = T`), we use dplyr's `left_join()`. This drops any row in the second data frame that does not match the first data frame (denoted by base R as `all.y = F)`.
+
+What instrument does every band member play?
+
 ```{r}
 # base
 merge(band_members, band_instruments, by.x = "name", by.y = "name", all.x = T, all.y = F)
@@ -254,6 +263,10 @@ band_members %>% left_join(band_instruments)
 ```
 
 ## `right_join()`: Join two tables together
+
+If we want every row in the second data frame to be preserved in the merged data frame (denoted by base R as `all.y = T`), we use dplyr's `right_join()`. This drops any row in the first data frame that does not match the first data frame (denoted by base R as `all.x = F)`.
+
+Which instruments are played and who are they played by?
 
 ```{r}
 # base
@@ -265,6 +278,10 @@ band_members %>% right_join(band_instruments)
 
 ## `full_join()`: Join two tables together
 
+If we want every row in both data frames to be preserved in the merged data frame (denoted by base R as `all.x = T` and `all.y=T`), we use dplyr's `full_join()`. This doesn't drop any rows, even if they don't match. 
+
+What band members and band instruments exist?
+
 ```{r}
 # base
 merge(band_members, band_instruments, by.x = "name", by.y = "name", all.x = T, all.y = T)
@@ -275,13 +292,13 @@ band_members %>% full_join(band_instruments)
 
 ## `semi_join()`: Join two tables together
 
-return all rows from `x` where there are matching values in `y`
+If we do not want to add information from another data frame but we care about the rows in one data frame narrowed to those that have a match in another data frame we can use dplyr's `semi_join()`. In base R we have to use `%in%` to help us find the correct rows to access. The `drop = F` option is again needed to ensure we end up with a data frame.
 
-only returns columns from `x`
+Which band members play instruments?
 
 ```{r}
 # base
-band_members[band_members$name %in% band_instruments$name, , drop = FALSE]
+band_members[band_members$name %in% band_instruments$name, , drop = F]
 
 # dplyr
 band_members %>% semi_join(band_instruments)
@@ -289,9 +306,9 @@ band_members %>% semi_join(band_instruments)
 
 ## `anti_join()`: Join two tables together
 
-return all rows from `x` where are not matching values in `y`
+If we do not want to add information from another data frame but we care about the rows in one data frame that do not match another data frame we can use dplyr's `anti_join()`. We can use the negation of `%in%` in base R to help us find the correct rows to access and we need to remember the `drop = F` option.
 
-only returns columsn from `x`
+Which band members do not play instruments?
 
 ```{r}
 # base
