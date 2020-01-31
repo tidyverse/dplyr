@@ -18,7 +18,7 @@
 #' lag(1:10, 1)
 #'
 #' x <- runif(5)
-#' cbind(ahead = lead(x), x, behind = lag(x))
+#' tibble(ahead = lead(x), x, behind = lag(x))
 #'
 #' # If data are not already ordered, use order_by
 #' df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
