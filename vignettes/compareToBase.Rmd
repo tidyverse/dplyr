@@ -1,0 +1,42 @@
+---
+title: "From base R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{From base R}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(tibble.print_min = 5)
+library(dplyr)
+```
+
+This vignette aims to compare dplyr functions to base R equivalents to facilitate users transitioning from using base R to dplyr. 
+
+# One input
+
+| base | dplyr    |
+|------|------------|
+|   `df[order(x), , drop = FALSE]`   | `arrange(df, x)` |
+|   `df[!duplicated(x), , drop = FALSE]`, `unique()`   | `distinct(df, x)`  |
+|   `df[x & !is.na(x), , drop = FALSE]`, `subset()`   | `filter(df, x)`  |
+|   `df$z <- df$x + df$y`, `transform()`   | `mutate(df, z = x + y)`  |
+|   `df$x`    | `pull(df, x)` |
+|   N/A   | `rename(df, y = x)` |
+|   `df[c("x", "y")]`, `subset()`  | `select(df, x, y)` |
+|   `df[grepl(names(df), "^x")]` | `select(df, starts_with("x")` |
+|   `mean(df$x)` | `summarise(df, mean(x))` |
+|   `df[c(1, 2, 5), , drop = FALSE]` | `slice(df, c(1, 2, 5))` |
+
+# Two inputs
+
+| base | dplyr    |
+|------|------------|
+|   `merge(df1, df2)`   | `inner_join(df1, df2)` |
+|   `merge(df1, df2, all.x = TRUE)`   | `left_join(df1, df2) `  |
+|   ` merge(df1, df2, all.y = TRUE)`   | `right_join(df1, df2)`  |
+|   `merge(df1, df2, all = TRUE)`   | `full_join(df1, df2)`  |
+|   `df1[df1$x %in% df2$x, , drop = FALSE]`    | `semi_join(df1, df2)` |
+|   `df1[!df1$x %in% df2$x, , drop = FALSE]` | `anti_join(df1, df2)` |
