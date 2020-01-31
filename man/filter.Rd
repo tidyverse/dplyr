@@ -11,10 +11,11 @@ filter(.data, ..., .preserve = FALSE)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Logical predicates defined
-in terms of the variables in \code{.data}.
-Multiple conditions are combined with \code{&}. Only rows where the
-condition evaluates to \code{TRUE} are kept.}
+\item{...}{Expressions that return a
+logical value, and are defined in terms of the variables in \code{.data}.
+If multiple expressions are included, they are combined with the \code{&} operator.
+Only rows for which all conditions evaluate to \code{TRUE} are kept. Note that
+<\code{\link[=dplyr_data_masking]{data-masking}}> applies here.}
 
 \item{.preserve}{when \code{FALSE} (the default), the grouping structure
 is recalculated based on the resulting data, otherwise it is kept as is.}
