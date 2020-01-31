@@ -45,8 +45,9 @@
 #'   If multiple expressions are included, they are combined with the `&` operator.
 #'   Only rows for which all conditions evaluate to `TRUE` are kept. Note that
 #'   <[`data-masking`][dplyr_data_masking]> applies here.
-#' @param .preserve when `FALSE` (the default), the grouping structure
-#'   is recalculated based on the resulting data, otherwise it is kept as is.
+#' @param .preserve Relevant when the `.data` input is grouped.
+#'   If `.preserve = FALSE` (the default), the grouping structure
+#'   is recalculated based on the resulting data, otherwise the grouping is kept as is.
 #' @return
 #' An object of the same type as `.data`. The output has the following properties:
 #'

@@ -17,8 +17,9 @@ If multiple expressions are included, they are combined with the \code{&} operat
 Only rows for which all conditions evaluate to \code{TRUE} are kept. Note that
 <\code{\link[=dplyr_data_masking]{data-masking}}> applies here.}
 
-\item{.preserve}{when \code{FALSE} (the default), the grouping structure
-is recalculated based on the resulting data, otherwise it is kept as is.}
+\item{.preserve}{Relevant when the \code{.data} input is grouped.
+If \code{.preserve = FALSE} (the default), the grouping structure
+is recalculated based on the resulting data, otherwise the grouping is kept as is.}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following properties:
