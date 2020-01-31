@@ -58,14 +58,14 @@ These dplyr examples come from the [dplyr documentation](https://cran.r-project.
 
 ## `arrange()`: Arrange rows by variables
 
-You may want to order a data frame based on the values of one or more columns. In base R you can use the output of `order` as an index for your data frame. We must remember to use  `drop = F` though to ensure that the result is still a data frame. If our manipulation reduces the data frame to one column and we forget `drop = F` we will end up with a vector. This can cause problems further into our analysis if we expect a different data type than we actually have. 
+You may want to order a data frame based on the values of one or more columns. In base R you can use the output of `order()` as an index for your data frame. We must remember to use  `drop = F` though to ensure that the result is still a data frame. If our manipulation reduces the data frame to one column and we forget `drop = F` we will end up with a vector. This can cause problems further into our analysis if we expect a different data type than we actually have. 
 
 ```{r}
 # base
 mtcars[order(mtcars$cyl, mtcars$disp), ,drop = F] %>% head()
 ```
 
-In dplyr, we simply choose the verb relevant to our goals: `arrange`.
+In dplyr, we simply choose the verb relevant to our goals: `arrange()`.
 
 ```{r}
 # dplyr
@@ -88,7 +88,7 @@ df[!duplicated(df$x), , drop = F] # whole data frame
 unique(df$x) # just see the unique values
 ```
 
-In both base R and dplyr we can either access the entire data frame or just the column of interest. The corresponding dplyr verb is `distinct'. 
+In both base R and dplyr we can either access the entire data frame or just the column of interest. The corresponding dplyr verb is `distinct()`. 
 
 ```{r}
 # dplyr
@@ -98,12 +98,18 @@ distinct(df, x) ## just see the unique values
 
 ## `filter()`: Return rows with matching conditions
 
+In base R if we want to narrow our data set based on criteria of interest, `subset()` is used.
+
 ```{r}
 # base
 subset(starwars, species == "Human")
 subset(starwars, mass > 1000)
 subset(starwars, hair_color == "none" & eye_color == "black")
+```
 
+The syntax of dplyr's `filter()` is very similar.
+
+```{r}
 # dplyr
 
 filter(starwars, species == "Human")
@@ -113,21 +119,29 @@ filter(starwars, hair_color == "none" & eye_color == "black")
 
 ## `mutate()`: Create or transform variables
 
+We can create new variables as functions of other ones. In base R we directly create a new variable using `$` and assign it a vector of values.
+
 ```{r}
 # base
 mtcars$cyl2 <- mtcars$cyl * 2
 mtcars$cyl4 <- mtcars$cyl2 * 2
+head(mtcars)
+```
 
+In dplyr we `mutate()` the data frame but we do not need to use `$` to refer to new or current variables.
+
+```{r}
 # dplyr
 mtcars %>%
-  as_tibble() %>%
   mutate(
     cyl2 = cyl * 2,
     cyl4 = cyl2 * 2
-  )
+  ) %>% head()
 ```
 
 ## `pull()`: Pull out a single variable
+
+The dplyr verb `pull()` can replace the base R use of `$`.
 
 ```{r}
 # base
@@ -141,23 +155,36 @@ mtcars %>% pull(cyl)
 
 ## `rename()`: Rename variables by name
 
+To rename a variable in base R, we first need to find which column is the one we want to replace, and then we need to override the name.
+
 ```{r}
 iris_copy = iris
 # base
 change_idx <- grep(pattern = "Petal.Length", names(iris))
 names(iris)[change_idx] <- "petal_length"
+```
 
+In dplyr the `rename()` function takes care of finding the correct column. 
+
+```{r}
 # dplyr
 rename(iris_copy, petal_length = Petal.Length) %>% head()
 ```
 
 ## `select()`: Select variables by name
 
+To grab certain variables from a data frame in base R, we need to do the work to specify and find the matches.
+
 ```{r}
 # base
 iris[, c("Species", "Petal.Width")] %>% head()
 iris[, grepl("^x", names(iris))] %>% head()
+```
 
+
+`select()` has some helper functions that can help us obtain multiple columns based on patterns rather than manually specifying them all. Below we show `starts_with()` but addtional ones include `ends.with()`, `contains()`, `matches()`, `num.range()`, `one_of()`, `everything()`, and `group.cols()`.  
+
+```{r}
 # dplyr
 select(iris, Species, Petal.Width) %>% head()
 select(iris, starts_with("Sepal")) %>% head()
@@ -165,11 +192,18 @@ select(iris, starts_with("Sepal")) %>% head()
 
 ## `summarise()`: Reduce multiple values down to a single value
 
+We can find summaries of various columns in our data frame using base R functions
+
 ```{r}
 # base
 mean(mtcars$disp)
 nrow(mtcars$disp)
+```
 
+In dplyr `summarise()` allows us to make these summaries and keep the answers tidier. We also get access to helpers such as `n()` and `n_distinct()` that count entries.
+
+
+```{r}
 # dplyr
 mtcars %>%
   summarise(mean = mean(disp), n = n())
@@ -177,17 +211,23 @@ mtcars %>%
 
 ## `slice()`: Choose rows by position
 
+We've talked a lot about choosing columns of a data frame, but we can also choose rows of our data frame. In base R we manually subset the data frame using specified indices. 
+
 ```{r}
 # base
 mtcars[25:nrow(mtcars), ]
+```
 
+In dplyr `slice()` helps us access particular rows.
+
+```{r}
 # dplyr
 slice(mtcars, 25:n())
 ```
 
 # Two-Table Verbs
 
-Various `merge` calls are replaced by a variety of `join` functions.
+Various `merge()` calls are replaced by a variety of `join()` functions.
 
 ## `inner_join()`: Join two tables together
 
