@@ -23,14 +23,14 @@ Most dplyr verbs use **tidy evaluation** in some way. Tidy evaluation is a speci
   `df$myvariable`). 
 
 * `across()`, `relocate()`, `rename()`, `select()`, and `pull()` use 
-  **tidy selection** so you can easily choose variabe based on their position, 
+  **tidy selection** so you can easily choose variables based on their position, 
   name, or type (e.g. `starts_with("x")` or `is.numeric`).
 
-To determine whether a function argument uses data masking or tidy selection, look at the documentation: in the arguments list you'll see `<data-masking>` or `<tidy-select>`.
+To determine whether a function argument uses data masking or tidy selection, look at the documentation: in the arguments list, you'll see `<data-masking>` or `<tidy-select>`.
 
-Data masking and tidy selection make interactive data exploration fast and fluid, but add some new challenges when you attempt to use them indirectly, as in a for loop or function. This vignette shows you how to overcome those challenges. We'll first go over the basics of data masking and tidy selection, talk about how to use them indirectly, and then show you a number of recipes to solve common problems.
+Data masking and tidy selection make interactive data exploration fast and fluid, but they add some new challenges when you attempt to use them indirectly such as in a for loop or a function. This vignette shows you how to overcome those challenges. We'll first go over the basics of data masking and tidy selection, talk about how to use them indirectly, and then show you a number of recipes to solve common problems.
 
-This vignette will give you the minimum knowledge you need to be an effective programmer with tidy evaluation. If you'd like to learn more about the underlying theory, or how precisely its different from non-standard evaluation, we recommend that you read the Metaprogramming chapters in [_Advanced R_](https://adv-r.hadley.nz).
+This vignette will give you the minimum knowledge you need to be an effective programmer with tidy evaluation. If you'd like to learn more about the underlying theory, or precisely how it's different from non-standard evaluation, we recommend that you read the Metaprogramming chapters in [_Advanced R_](https://adv-r.hadley.nz).
 
 ```{r, message = FALSE}
 library(dplyr)
@@ -72,21 +72,21 @@ df$x
 
 It creates a env-variable, `df`, that contains two data-variables, `x` and `y`. Then it extracts the data-variable `x` out of the env-variable `df` using `$`.
 
-I think this blurring of the meaning of variable is a really nice feature for interactive data analysis, because it allows you to refer to data-vars as is, without any prefix. And this seems to be fairly intuitive, since many newer R users will attempt to write `diamonds[x == 0 | y == 0, ]`. 
+I think this blurring of the meaning of "variable" is a really nice feature for interactive data analysis because it allows you to refer to data-vars as is, without any prefix. And this seems to be fairly intuitive since many newer R users will attempt to write `diamonds[x == 0 | y == 0, ]`. 
 
-Unfortunately this benefit does not come for free. When you start to program with these tools, you're going to have to grapple with the distinction. And this will be hard because you've never had to think about it before, so it'll take a while for your brain to learn these new concepts and categories. However, once you've teased apart the idea of "variable" in data-variable and env-variable, I think you'll find it fairly straightforward to use.
+Unfortunately, this benefit does not come for free. When you start to program with these tools, you're going to have to grapple with the distinction. This will be hard because you've never had to think about it before, so it'll take a while for your brain to learn these new concepts and categories. However, once you've teased apart the idea of "variable" into data-variable and env-variable, I think you'll find it fairly straightforward to use.
 
 ### Indirection
 
-The main challenge of programming with function that use data masking arises when you introduce some indirection, i.e. instead of you directly typing the name of a data-variable you want to get it from an env-variable. There are two main cases:
+The main challenge of programming with functions that use data masking arises when you introduce some indirection, i.e. when you want to get the data-variable from an env-variable instead of directly typing the data-variable's name. There are two main cases:
 
 *   When you have the data-variable in a function argument (i.e. an env-variable
     that holds a promise[^promise]), you need to **embrace** the argument by
-    surrounding it in doubled parentheses, like `filter(df, {{ var }})`.
+    surrounding it in doubled braces, like `filter(df, {{ var }})`.
     
     The following function uses embracing to create a wrapper around 
     `summarise()` that computes the minimum and maximum values of a variable,
-    as well as the number of observations that were summarised.
+    as well as the number of observations that were summarised:
 
     ```{r, results = FALSE}
     var_summary <- function(data, var) {
@@ -110,6 +110,8 @@ The main challenge of programming with function that use data masking arises whe
       mtcars %>% count(.data[[var]]) %>% print()
     }
     ```
+
+<-- {JR} {Is the expectation that the reader is familiar with the `.data` pronoun by the time they read this? If not, it might be helpful to: include a hyperlink to more docs that explain what it is, add a "You can learn more about pronouns in `?.data`" sentence, or move your addendum (down below under "Loop over multiple variables") further up to this first mention of `.data`. Otherwise, I think it's pretty clear for users familiar with pronouns. } -->
 
 
 [^promise]: In R, arguments are lazily evaluated which means that until you attempt to use, they don't hold a value, just a __promise__ that describes how to compute the value. You can learn more at <https://adv-r.hadley.nz/functions.html#lazy-evaluation>
@@ -136,14 +138,14 @@ You can see more details in `?dplyr_tidy_select`.
 
 ### Indirection
 
-As with data masking, tidy selection makes a common task easier, and at the cost of making a less common task harder. When you want to use tidy select indirectly, with the column specification stored in an intermediate variable, you'll need to learn some new tools. Again, there are there are two forms of indirection:
+As with data masking, tidy selection makes a common task easier at the cost of making a less common task harder. When you want to use tidy select indirectly with the column specification stored in an intermediate variable, you'll need to learn some new tools. Again, there are two forms of indirection:
 
-*   When you have the data-variable in an env-variable that is a functon
+*   When you have the data-variable in an env-variable that is a function
     argument, you use the same technique as data masking: you **embrace** the
-    argument by surrounding it in doubled parentheses.
+    argument by surrounding it in doubled braces.
     
     The following function summarises a data frame by computing
-    the mean of all variables selected by the user.
+    the mean of all variables selected by the user:
 
     ```{r, results = FALSE}
     summarise_mean <- function(data, vars) {
@@ -155,12 +157,12 @@ As with data masking, tidy selection makes a common task easier, and at the cost
     ```
 
 *   When you have an env-variable that is a character vector, you need to use
-    `all_of()` or `any_of()` depending on whether or not you want the
+    `all_of()` or `any_of()` depending on whether you want the
     function to error if a variable is not found. 
     
     The following code uses `all_of()` to select all of the variables found
     in a character vector; then `!` plus `all_of()` to select all of the 
-    variables *not* found in a character vector.
+    variables *not* found in a character vector:
 
     ```{r, results = FALSE}
     vars <- c("mpg", "vs")
@@ -170,7 +172,7 @@ As with data masking, tidy selection makes a common task easier, and at the cost
 
 ## How tos
 
-The following examples solve a grab bag of common problems. We show you the minimum amount of code so that you can get the basic idea; most real problems will require more code, or combining multiple techniques.
+The following examples solve a grab bag of common problems. We show you the minimum amount of code so that you can get the basic idea; most real problems will require more code or combining multiple techniques.
 
 ### User-supplied data
 
@@ -184,7 +186,7 @@ mutate_y <- function(data) {
 
 ### Eliminating `R CMD check` `NOTE`s
 
-If you're writing a package, and you have a function that uses data-variables:
+If you're writing a package and you have a function that uses data-variables:
 
 ```{r}
 my_summary_function <- function(data) {
@@ -204,7 +206,7 @@ N  checking R code for possible problems
      x grp y
 ```
 
-You can eliminate this by using `.data$var`, and importing `.data` from its source in the rlang package (the underlying package that implements tidy evaluation):
+You can eliminate this by using `.data$var` and importing `.data` from its source in the [rlang](https://rlang.r-lib.org/) package (the underlying package that implements tidy evaluation):
 
 ```{r}
 #' @importFrom rlang .data
@@ -218,7 +220,7 @@ my_summary_function <- function(data) {
 
 ### One user-supplied expression
 
-If you want the user the to supply an expression that's passed on to an argument that uses data masking or tidy select, embrace the argument:
+If you want the user to supply an expression that's passed onto an argument which uses data masking or tidy select, embrace the argument:
 
 ```{r}
 my_summarise <- function(data, group_var) {
@@ -235,7 +237,7 @@ my_summarise <- function(data, vars) {
 }
 ```
 
-This generalises in a straightforward way if you want to use one user supplied expression in multiple places:
+This generalises in a straightforward way if you want to use one user-supplied expression in multiple places:
 
 ```{r}
 my_summarise2 <- function(data, expr) {
@@ -277,7 +279,7 @@ When you use `...` in this way, make sure that any other arguments start with `.
   
 ### Transforming user-supplied variables
 
-If you want the user to provide a set of variables that are then transformed, use `across()`:
+If you want the user to provide a set of data-variables that are then transformed, use `across()`:
 
 ```{r}
 my_summarise <- function(data, summary_vars) {
@@ -289,7 +291,7 @@ starwars %>%
   my_summarise(c(mass, height))
 ```
 
-You can use this same idea for multiple sets of input variables:
+You can use this same idea for multiple sets of input data-variables:
 
 ```{r}
 my_summarise <- function(data, group_by, summarise_by) {
