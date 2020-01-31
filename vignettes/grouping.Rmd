@@ -1,0 +1,260 @@
+---
+title: "Introduction to dplyr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{grouping}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+set.seed(1014)
+```
+
+# Grouped operations
+
+The dplyr verbs are useful on their own, but they become even more
+powerful when you apply them to groups of observations within a
+dataset. In dplyr, you do this with the `group_by()` function.
+
+## `group_by()`
+
+Most data operations are done on groups defined by variables. `group_by()` takes 
+an existing tbl and converts it into a grouped tbl where operations are performed 
+"by group". You can see the grouping when you print the grouped data.
+
+```{r by_species}
+by_species <- starwars %>% group_by(species) %>% select(species, everything())
+by_species
+```
+
+You can see the grouping metadata using the functions `group_vars()`, and 
+`n_groups()`:
+
+```{r group_vars}
+by_species %>%
+  group_vars()
+```
+
+```{r n_groups}
+by_species %>%
+  n_groups()
+```
+
+The `group_data()` function returns a data frame that defines the grouping 
+structure. The .rows column shown provides the location of the rows in the data
+corresponding to each grouping variable value.
+
+```{r group_rows}
+by_species %>%
+  group_data()
+```
+
+
+Grouping is most commonly used in conjuction with dplyr verbs. Grouping affects 
+the verbs as follows:
+
+### summarise
+
+Grouped `summarise()` on a grouped data object computes the summary for each 
+group and combines these to a single tbl.
+
+```{r summarise}
+by_species %>%
+  summarise(
+    n = n(),
+    mass = mean(mass, na.rm = TRUE)
+  ) %>%
+  filter(n>1) %>%
+  arrange(desc(mass))
+```
+
+### select
+
+grouped `select()` is the same as ungrouped `select()`, except that 
+grouping variables are always retained. 
+
+```{r select}
+by_species %>%
+  select(mass)
+```
+
+It is not possible to deselect one of the grouping variables. 
+
+```{r cannot_deselect_grouped_variable}
+by_species %>%
+  select(-species)
+```
+
+
+### arrange  
+
+Grouped `arrange()` is the same as ungrouped; unless you set `.by_group = TRUE`,
+in which case it orders first by the grouping variables.
+
+First without `.by_group = TRUE`:
+```{r arrange_without_by_group}
+by_species %>%
+  arrange(desc(mass)) %>%
+  select(species, mass, everything())
+```
+
+Now the same code using `.by_group = TRUE`:
+  
+```{r arrange_using_by_group}
+by_species %>%
+  arrange(desc(mass), .by_group = TRUE) %>%
+  select(species, mass, everything())
+```
+
+Note that the data is sorted by species (from the `group_by()` statement) and
+**then** mass ***within*** species.
+
+### mutate
+
+`mutate()` when used with a grouped tbl will allow you to add summarising actions
+within the grouping. So for example, we can standardise the mass of each 
+character to the mean of all characters on their homeworld:  
+
+```{r by_homeworld}
+by_homeworld <- starwars %>%
+  filter(!is.na(homeworld)) %>%
+  group_by(homeworld)
+```
+
+```{r mutate}
+by_homeworld %>%
+  filter(!is.na(mass)) %>%
+  mutate(standardised.mass = mass - mean(mass)) %>%
+  select(name, homeworld, mass, standardised.mass) %>%
+  arrange(homeworld, standardised.mass)
+```
+
+
+### filter
+
+When we apply `filter()` with grouped data, the filter works within the grouping
+variable. We can find the character with the highest mass within each homeworld:
+
+```{r filter}
+by_homeworld %>%
+  filter(mass == max(mass)) %>%
+  select(homeworld, mass, everything()) %>%
+  arrange(homeworld, mass)
+```
+
+It is possible to use `filter()` with grouped data to remove an entire group. 
+Here we remove first level of the grouped variable homeworld (in this case
+Tatooine):  
+
+```{r filter_n_remove}
+by_homeworld %>%
+  filter(n() == 1) %>%
+  select(homeworld, everything())
+```
+
+
+### slice
+
+Using `slice` and variants `slice_head()`, `slice_tail()`, `slice_sample()`,
+`slice_min()` and `slice_max()` will perform the `slice` action within the levels
+of the grouping variable.
+
+For example, we can select the first observation within each homeworld:
+
+```{r slice}
+by_homeworld %>%
+  slice(1) %>%
+  select(homeworld, everything())
+```
+
+We can similarly use `slice_min()` to select the smallest `n` values of the 
+specified variable:
+
+```{r slice_min}
+by_homeworld %>%
+  slice_min(height, n = 2)
+```
+
+
+## Changing and adding to grouping variables
+
+It is possible to amend or add to the grouping variables. Submitting another 
+`group_by()` will ***change*** the grouping variable, so that what was the 
+dataset grouped by homeworld, can become a dataset grouped by species:
+
+```{r change_grouping}
+by_homeworld %>%
+  group_by(species) %>%
+  summarise(n = n())
+```
+
+Using `group_by()` with the option `.add=TRUE` will **augment** the `group_by()` 
+variables and add a new grouping variable. ***NOTE*** that the argument has
+changed from `add = TRUE` to `.add = TRUE` in dplyr >v1.0.0.
+
+```{r add_to_grouping}
+by_homeworld %>%
+  group_by(species, add = TRUE) %>%
+  summarise(n = n())
+```
+
+### `group_by()` with expressions
+
+Using `group_by()` with expressions is equivalent to performing a `mutate()`
+**before** `group_by()`:  
+
+```{r group_by_with_expression}
+bmi_breaks <- c(18.5, 25, 30)
+
+starwars %>%
+  group_by(cut(mass/(height/100)^2, breaks=bmi_breaks)) %>%
+  summarise(n = n())
+```
+
+## Computing on grouping information
+
+The `cur_data()`, `cur_group_id()`, `cur_group()` and `cur_group_rows()` 
+functions make it easier to identify, label and extract data for 
+the current grouping variable. They work best alongside verbs such as 
+`summarise` and `mutate`.
+
+### `cur_data()`
+`cur_data()` can be used to create nested datasets for each level of the 
+grouping variable.
+
+```{r cur_data}
+by_homeworld %>%
+  summarise(data = list(cur_data())) %>%
+  slice(1) %>%
+  tidyr::unnest(cols = data)
+```
+
+### `cur_group()` and `cur_group_id()`
+
+`cur_group_id()` gives a unique numeric identifier for the current grouping
+variable(s). This would then allow us to compute on a numeric identifier for 
+the group rather than grouping variable name values.
+
+```{r cur_group_id}
+by_homeworld %>%
+  mutate(id = cur_group_id()) %>%
+  select(homeworld, id, everything())
+```
+
+## Removing grouping variables
+
+You remove grouping variables from a dataset by using the `ungroup()` 
+function:
+
+```{r}
+by_homeworld %>%
+  ungroup() %>%
+  summarise(n = n())
+```
+
