@@ -111,8 +111,10 @@ The main challenge of programming with functions that use data masking arises wh
     }
     ```
 
-<-- {JR} {Is the expectation that the reader is familiar with the `.data` pronoun by the time they read this? If not, it might be helpful to: include a hyperlink to more docs that explain what it is, add a "You can learn more about pronouns in `?.data`" sentence, or move your addendum (down below under "Loop over multiple variables") further up to this first mention of `.data`. Otherwise, I think it's pretty clear for users familiar with pronouns. } -->
-
+    Note that `.data` is not a data frame; it's a special construct, a pronoun, 
+    that allows you to access the current variables either directly, with 
+    `.data$x` or indirectly with `.data[[var]]`. Don't expect other functions 
+    to work with it.
 
 [^promise]: In R, arguments are lazily evaluated which means that until you attempt to use, they don't hold a value, just a __promise__ that describes how to compute the value. You can learn more at <https://adv-r.hadley.nz/functions.html#lazy-evaluation>
 
@@ -318,8 +320,6 @@ mtcars %>%
   names() %>% 
   purrr::map(~ mtcars %>% count(.data[[.x]]))
 ```
-
-(Note that `.data` is not a data frame; it's a special construct that allows you to access the current variables either directly, with `.data$x` or indirectly with `.data[[var]]`. Don't expect other functions to work with it.)
 
 ### Use a variable from an Shiny input
 
