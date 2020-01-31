@@ -63,6 +63,14 @@ distinct(df, y, .keep_all = TRUE)
 # You can also use distinct on computed variables
 distinct(df, diff = abs(x - y))
 
+# Using across() to select variables ----------------------
+iris \%>\%
+  distinct(across(starts_with("Sepal")))
+
+# call round() on each selected column first
+iris \%>\%
+  distinct(across(starts_with("Sepal"), round))
+
 # Grouping -------------------------------------------------
 # The same behaviour applies for grouped data frames,
 # except that the grouping variables are always included
@@ -72,4 +80,5 @@ df <- tibble(
 ) \%>\% group_by(g)
 df \%>\% distinct()
 df \%>\% distinct(x)
+
 }
