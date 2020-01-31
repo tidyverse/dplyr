@@ -15,6 +15,9 @@
 #'
 #' @section Useful filter functions:
 #'
+#' There are many functions and operators that are useful when constructing the
+#' expressions used to filter the data:
+#'
 #' * [`==`], [`>`], [`>=`] etc
 #' * [`&`], [`|`], [`!`], [xor()]
 #' * [is.na()]

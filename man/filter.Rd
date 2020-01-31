@@ -47,6 +47,9 @@ reason, filtering is often considerably faster on ungrouped data.
 }
 \section{Useful filter functions}{
 
+
+There are many functions and operators that are useful when constructing the
+expressions used to filter the data:
 \itemize{
 \item \code{\link{==}}, \code{\link{>}}, \code{\link{>=}} etc
 \item \code{\link{&}}, \code{\link{|}}, \code{\link{!}}, \code{\link[=xor]{xor()}}
