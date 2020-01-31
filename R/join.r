@@ -88,14 +88,14 @@
 #' band_members %>%
 #'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 #'
-#' # If a row in `x` matches multiple rows in `y`, all rows
+#' # If a row in `x` matches multiple rows in `y`, all combinations of rows
 #' # will be returned
 #' df1 <- tibble(x = 1:3)
 #' df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 #' df1 %>% left_join(df2)
 #'
 #' # By default, NAs match other NAs so that there are two
-#' # rows in the output:
+#' # rows in the output of this join:
 #' df1 <- data.frame(x = c(1, NA), y = 2)
 #' df2 <- data.frame(x = c(1, NA), z = 3)
 #' left_join(df1, df2)
