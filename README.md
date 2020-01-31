@@ -37,24 +37,18 @@ chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
 ## Backends
 
 In addition to data frames/tibbles, dplyr makes working with other
-computational backends accesible and efficient. Below is a list of
+computational backends accessible and efficient. Below is a list of
 alternative backends:
 
   - [dtplyr](https://dtplyr.tidyverse.org/): for large, in-memory
-    datasets, try to access the excellent performance of
-    [data.table](http://r-datatable.com/).
+    datasets. Translates your dplyr code to high performance
+    [data.table](http://r-datatable.com/) code.
 
-  - [dbplyr](http://dbplyr.tidyverse.org/): for data in relational
-    databases, use [dbplyr](http://dbplyr.tidyverse.org/). dbplyr will
-    automatically translate your dplyr code in to SQL.
+  - [dbplyr](http://dbplyr.tidyverse.org/): for data stored in a
+    relational database. Translates your dplyr code to SQL.
 
   - [sparklyr](https://spark.rstudio.com): for very large datasets
-    stored in [Apache Spark](https://spark.apache.org), check out
-    [sparklyr](https://spark.rstudio.com).
-
-  - [cubelyr](https://github.com/hadley/cubelyr): for data cube
-    representations, check out
-    [cubelyr](https://github.com/hadley/cubelyr).
+    stored in [Apache Spark](https://spark.apache.org).
 
 ## Installation
 
@@ -84,7 +78,6 @@ devtools::install_github("tidyverse/dplyr")
 
 ``` r
 library(dplyr)
-#> Warning: package 'dplyr' was built under R version 3.5.2
 
 starwars %>% 
   filter(species == "Droid")
