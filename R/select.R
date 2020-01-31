@@ -60,15 +60,15 @@
 #' @family single table verbs
 #' @export
 #' @examples
-#' iris <- as_tibble(iris) # Convert to simplify appearance of object when printed
-#' select(iris, starts_with("Petal"))
-#' select(iris, ends_with("Width"))
-#' select(iris, !starts_with("Petal"))
-#' select(iris, starts_with("Petal") & ends_with("Width"))
-#' select(iris, is.numeric)
+#' starwars <- as_tibble(starwars) # Convert to simplify appearance of object when printed
+#' select(starwars, starts_with("h"))
+#' select(starwars, ends_with("color"))
+#' select(starwars, !starts_with("h"))
+#' select(starwars, starts_with("h") & ends_with("color"))
+#' select(starwars, is.numeric)
 #'
 #' # Optionally, rename individual variables as they are selected, in the format "new_name" = "old_name"
-#' select(iris, species = Species, width = Petal.Width, length = Petal.Length)
+#' select(starwars, character_name = name, character_height = height)
 #'
 #' # Use num_range() to select variables with numeric suffixes
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
