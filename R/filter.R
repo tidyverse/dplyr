@@ -60,7 +60,6 @@
 #'
 #' The following methods are currently available in loaded packages:
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("filter")}.
-#' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples
 #' filter(starwars, species == "Human")

@@ -113,8 +113,6 @@ starwars \%>\%
 # Learn more in ?dplyr_data_masking
 }
 \seealso{
-\code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and \code{\link[=filter_at]{filter_at()}}.
-
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{mutate}()},
