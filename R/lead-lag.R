@@ -1,13 +1,13 @@
-#' Lag and Lead
+#' Compute lagged or leading values
 #'
-#' Find the "previous" (lag) or "next" (lead) values in a vector. Useful for comparing values
-#' behind of or ahead of the current values.
+#' Find the "previous" (`lag()`) or "next" (`lead()`) values in a vector.
+#' Useful for comparing values behind of or ahead of the current values.
 #'
-#' @param x a vector of values
-#' @param n a positive integer of length 1, giving the number of positions to
+#' @param x Vector of values
+#' @param n Positive integer of length 1, giving the number of positions to
 #'   lead or lag by
-#' @param default value used for non-existent rows. Defaults to `NA`.
-#' @param order_by override the default ordering to use another vector or column
+#' @param default Value used for non-existent rows. Defaults to `NA`.
+#' @param order_by Override the default ordering to use another vector or column
 #' @param ... Needed for compatibility with lag generic.
 #' @importFrom stats lag
 #' @examples
@@ -17,34 +17,33 @@
 #' x <- 1:5
 #' tibble(behind = lag(x), x, ahead = lead(x))
 #'
-#' # If you want to look more rows behind or ahead, use n
+#' # If you want to look more rows behind or ahead, use `n`
 #' lag(1:5, n = 1)
 #' lag(1:5, n = 2)
 #'
 #' lead(1:5, n = 1)
 #' lead(1:5, n = 2)
 #'
-#' # If you want to define a value for non-existing rows, use default
+#' # If you want to define a value for non-existing rows, use `default`
 #' lag(1:5)
 #' lag(1:5, default = 0)
 #'
 #' lead(1:5)
 #' lead(1:5, default = 6)
 #'
-#' # If data are not already ordered, use order_by
-#' scrambled <- tibble(year = 2000:2005, value = (0:5) ^ 2) %>%
-#'   sample_frac()
+#' # If data are not already ordered, use `order_by`
+#' scrambled <- slice_sample(tibble(year = 2000:2005, value = (0:5) ^ 2))
 #'
 #' wrong <- mutate(scrambled, previous_year_value = lag(value))
 #' arrange(wrong, year)
 #'
 #' right <- mutate(scrambled, previous_year_value = lag(value, order_by = year))
 #' arrange(right, year)
-#' @name lag-lead
+#' @name lead-lag
 NULL
 
 #' @export
-#' @rdname lag-lead
+#' @rdname lead-lag
 lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   if (!is.null(order_by)) {
     return(with_order(order_by, lag, x, n = n, default = default))
@@ -71,7 +70,7 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
 }
 
 #' @export
-#' @rdname lag-lead
+#' @rdname lead-lag
 lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   if (!is.null(order_by)) {
     return(with_order(order_by, lead, x, n = n, default = default))
