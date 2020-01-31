@@ -15,7 +15,7 @@ library(dplyr)
 
 This vignette aims to compare dplyr functions to base R equivalents to facilitate users transitioning from using base R to dplyr. 
 
-# One input
+# Single-Table Verbs
 
 | base | dplyr    |
 |------|------------|
@@ -30,7 +30,7 @@ This vignette aims to compare dplyr functions to base R equivalents to facilitat
 |   `mean(df$x)` | `summarise(df, mean(x))` |
 |   `df[c(1, 2, 5), , drop = FALSE]` | `slice(df, c(1, 2, 5))` |
 
-# Two inputs
+# Two-Table Verbs
 
 | base | dplyr    |
 |------|------------|
@@ -43,22 +43,39 @@ This vignette aims to compare dplyr functions to base R equivalents to facilitat
 
 Overall the main differences between base R and dplyr are:
 
+1. dplyr provides functions to help you manipulate a data fram via relevant verbs. This style contrasts base R approaches where you more explicitly manipulate the data frame itself. 
 
+2. dplyr banishes the use of `$` to access particular columns of a data frame.
+
+3. Overall, dplyr solutions to data manipulation problems remove nesting of code (e.g. df[extra_stuff_here, ]) and is more amenable to the pipe workflow (e.g. df %>% verb). 
+
+Now we will walk through each of the functions in the above tables, noting the similarities and differences between base R and dplyr.
 
 These dplyr examples come from the [dplyr documentation](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) and here, they are contrasted with the analogous base R operation(s).
-# One thing
+
+
+# Single-Table Verbs
 
 ## `arrange()`: Arrange rows by variables
+
+You may want to order a data frame based on the values of one or more columns. In base R you can use the output of `order` as an index for your data frame. We must remember to use  `drop = F` though to ensure that the result is still a data frame. If our manipulation reduces the data frame to one column and we forget `drop = F` we will end up with a vector. This can cause problems further into our analysis if we expect a different data type than we actually have. 
 
 ```{r}
 # base
 mtcars[order(mtcars$cyl, mtcars$disp), ,drop = F] %>% head()
+```
 
+In dplyr, we simply choose the verb relevant to our goals: `arrange`.
+
+```{r}
 # dplyr
 arrange(mtcars, cyl, disp) %>% head()
 ```
 
+
 ## `distinct()`: Select distinct/unique rows
+
+We may want to streamline our data frame by only including distinct values of a particular variable. Again, we can't forget that `drop = F`. 
 
 ```{r}
 df <- tibble(
@@ -67,12 +84,16 @@ df <- tibble(
 )
 
 # base
-df[!duplicated(df$x), , drop = F] # whole dataframe
-unique(df$x) # just the values
+df[!duplicated(df$x), , drop = F] # whole data frame
+unique(df$x) # just see the unique values
+```
 
+In both base R and dplyr we can either access the entire data frame or just the column of interest. The corresponding dplyr verb is `distinct'. 
 
+```{r}
 # dplyr
-distinct(df, x)
+distinct(df, x, .keep_all = TRUE) ## whole data frame
+distinct(df, x) ## just see the unique values
 ```
 
 ## `filter()`: Return rows with matching conditions
@@ -164,9 +185,15 @@ mtcars[25:nrow(mtcars), ]
 slice(mtcars, 25:n())
 ```
 
-# Merge --> Join
+# Two-Table Verbs
+
+Various `merge` calls are replaced by a variety of `join` functions.
 
 ## `inner_join()`: Join two tables together
+
+The rows are by default lexicographically sorted on the common columns, but for sort = FALSE are in an unspecified order.
+
+preserves row order of first data set
 
 ```{r}
 # base
