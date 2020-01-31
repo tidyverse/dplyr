@@ -38,16 +38,17 @@ If you are new to dplyr, the best place to start is the [data import chapter](ht
 
 ## Backends
 
-dplyr is designed to abstract over how the data is stored. Out of the box, dplyr works with data frames/tibbles; other packages provide alternative computational backends:
+In addition to data frames/tibbles, dplyr makes working with other computational backends accessible and efficient. Below is a list of alternative backends:
 
-* For large, in-memory datasets, try [dtplyr](http://dtplyr.tidyverse.org/)
-  to access the excellent performance of [data.table](http://r-datatable.com/).
-  
-* For data in relational databases, [dbplyr](http://dbplyr.tidyverse.org/) 
-  will automatically translate your dplyr code in to SQL.
-  
-* For very large datasets stored in [Apache Spark](https://spark.apache.org), 
-  use [sparklyr](https://spark.rstudio.com).
+- [dtplyr](https://dtplyr.tidyverse.org/): for large, in-memory datasets. 
+  Translates your dplyr code to high performance 
+  [data.table](http://r-datatable.com/) code.
+
+- [dbplyr](http://dbplyr.tidyverse.org/): for data stored in a relational 
+  database. Translates your dplyr code to SQL.
+
+- [sparklyr](https://spark.rstudio.com): for very large datasets stored in 
+  [Apache Spark](https://spark.apache.org).
 
 ## Installation
 
