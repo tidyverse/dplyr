@@ -1,7 +1,7 @@
 #' Subset distinct/unique rows
 #'
 #' Select only unique/distinct rows from a data frame. This is similar
-#' to [unique.data.frame()], but considerably faster.
+#' to [unique.data.frame()] but considerably faster.
 #'
 #' @inheritParams arrange
 #' @param ... <[`data-masking`][dplyr_data_masking]> Optional variables to use
@@ -14,7 +14,7 @@
 #' @return
 #' An object of the same type as `.data`.
 #'
-#' * Rows are a subset of the input, but appear in the same order.
+#' * Rows are a subset of the input but appear in the same order.
 #' * Columns are not modified if `...` is empty or `.keep_all` is `TRUE`.
 #'   Otherwise, `distinct()` first calls `mutate()` to create new columns.
 #' * Groups are not modified.
@@ -39,14 +39,18 @@
 #' distinct(df, x)
 #' distinct(df, y)
 #'
-#' # Can choose to keep all other variables as well
+#' # You can choose to keep all other variables as well
 #' distinct(df, x, .keep_all = TRUE)
 #' distinct(df, y, .keep_all = TRUE)
 #'
 #' # You can also use distinct on computed variables
 #' distinct(df, diff = abs(x - y))
 #'
-#' # The same behaviour applies for grouped data frames
+#' # Using across() to select variables ----------------------
+#' distinct(starwars, across(contains("color")))
+#'
+#' # Grouping -------------------------------------------------
+#' # The same behaviour applies for grouped data frames,
 #' # except that the grouping variables are always included
 #' df <- tibble(
 #'   g = c(1, 1, 2, 2),
@@ -54,9 +58,12 @@
 #' ) %>% group_by(g)
 #' df %>% distinct()
 #' df %>% distinct(x)
+#'
 distinct <- function(.data, ..., .keep_all = FALSE) {
   UseMethod("distinct")
 }
+
+
 
 #' Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
 #' vars (character vector) comes out.

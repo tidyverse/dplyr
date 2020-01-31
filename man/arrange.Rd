@@ -73,6 +73,18 @@ by_cyl <- mtcars \%>\% group_by(cyl)
 by_cyl \%>\% arrange(desc(wt))
 # Unless you specifically ask:
 by_cyl \%>\% arrange(desc(wt), .by_group = TRUE)
+# using Tidy Eval embracing
+tidy_eval_arrange <- function(data, arrange_var) {
+
+  arrange_var <- enquo(arrange_var)
+
+  data \%>\%
+    arrange(!! arrange_var)
+
+}
+tidy_eval_arrange(mtcars, mpg)
+# using `across`
+iris \%>\% arrange(across(starts_with("Sepal"), desc))
 }
 \seealso{
 Other single table verbs: 
