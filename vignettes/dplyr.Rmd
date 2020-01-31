@@ -53,14 +53,15 @@ dplyr aims to provide a function for each basic verb of data manipulation.
 
 * row operations:
 
-  * `filter()` to select cases based on their values.
+  * `filter()` to choose cases based on their values.
   * `arrange()` to reorder the cases.
-  * `sample_n()` and `sample_frac()` to take random samples of the cases.
+  * `slice()` to choose cases based on their position.
   
 * column operations:
 
   * `select()` and `rename()` to select variables based on their names.
   * `mutate()` and `transmute()` to add new variables that are functions of existing variables.
+  * `relocate()` to change the order of the variables.
  
 
 * summarize operation:
@@ -97,16 +98,37 @@ Use `desc()` to order a column in descending order:
 arrange(flights, desc(arr_delay))
 ```
 
-### Randomly sample rows with `sample_n()` and `sample_frac()`
+###  Choose rows using their position with `slice()`
 
-You can use `sample_n()` and `sample_frac()` to take a random sample of rows: use `sample_n()` for a fixed number  and `sample_frac()` for a fixed fraction.
+slice() lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows. 
 
+We can get flights from row numbers 5 through 10.
 ```{r}
-sample_n(flights, 10)
-sample_frac(flights, 0.01)
+slice(flights, 5:10)
 ```
 
+It is accompanied by a number of helpers for common use cases:
+
+* slice_head() and slice_tail() select the first or last rows.  
+
+```{r}
+slice_head(flights, n = 3)
+```
+
+* slice_sample() randomly selects rows.  Use the option prop to choose a certain proportion of the cases.
+
+```{r}
+slice_sample(flights, n = 5)
+slice_sample(flights, prop = 0.001)
+```
 Use `replace = TRUE` to perform a bootstrap sample. If needed, you can weight the sample with the `weight` argument.
+
+* slice_min() and slice_max() select rows with highest or lowest values of a variable.
+
+```{r}
+slice_max(flights, distance, n = 1)
+```
+Note that this resulted in more all cases which have the same maximum distance. 
 
 ### Select columns with `select()`
 
@@ -163,6 +185,15 @@ transmute(flights,
   gain_per_hour = gain / (air_time / 60)
 )
 ```
+
+### Change column order with `relocate()`
+
+Use a similar syntax as `select()` to move blocks of columns at once.
+
+```{r}
+relocate(flights, carrier:distance, .before = year)
+```
+
 
 ### Summarise values with `summarise()`
 
@@ -222,7 +253,7 @@ filter(
 )
 ```
 
-This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then":
+This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"):
 
 ```{r, eval = FALSE}
 flights %>%
@@ -265,7 +296,7 @@ Grouping affects the verbs as follows:
   functions (like `rank()`, or `min(x) == x`). They are described in detail in 
   `vignette("window-functions")`.
   
-* `sample_n()` and `sample_frac()` sample the specified number/fraction of
+* `slice()` select rows by row number, sample the specified number/fraction of
   rows in each group.
 
 * `summarise()` computes the summary for each group.
