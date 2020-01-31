@@ -16,7 +16,7 @@
 #' An object of the same type as `x`. The order of the rows and columns of `x`
 #' is preserved as much as possible.
 #'
-#' * For `inner_join()`, a subset of the `x` rows.
+#' * For `inner_join()`, a subset of `x` rows.
 #'   For `left_join()`, all `x` rows.
 #'   For `right_join()`, a subset of `x` rows, followed by unmatched `y` rows.
 #'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
