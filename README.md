@@ -36,21 +36,31 @@ chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
 
 ## Backends
 
-dplyr is designed to abstract over how the data is stored. Out of the
-box, dplyr works with data frames/tibbles; other packages provide
-alternative computational backends:
+In addition to data frames/tibbles, dplyr makes working with other
+computational backends accesible and efficient. Below is a list of
+alternative backends :
 
-  - For large, in-memory datasets, try
-    [dtplyr](https://dtplyr.tidyverse.org/) to access the excellent
-    performance of [data.table](http://r-datatable.com/).
+#### [dtplyr](https://dtplyr.tidyverse.org/)
 
-  - For data in relational databases,
-    [dbplyr](http://dbplyr.tidyverse.org/) will automatically translate
-    your dplyr code in to SQL.
+For large, in-memory datasets, try to access the excellent performance
+of [data.table](http://r-datatable.com/).
 
-  - For very large datasets stored in [Apache
-    Spark](https://spark.apache.org), use
-    [sparklyr](https://spark.rstudio.com).
+#### [dbplyr](http://dbplyr.tidyverse.org/)
+
+For data in relational databases, use
+[dbplyr](http://dbplyr.tidyverse.org/). dbplyr will automatically
+translate your dplyr code in to SQL.
+
+#### [sparklyr](https://spark.rstudio.com)
+
+For very large datasets stored in [Apache
+Spark](https://spark.apache.org), check out
+[sparklyr](https://spark.rstudio.com).
+
+#### [cubelyr](https://github.com/hadley/cubelyr)
+
+For data cube representations, check out
+[cubelyr](https://github.com/hadley/cubelyr).
 
 ## Installation
 
@@ -80,19 +90,20 @@ devtools::install_github("tidyverse/dplyr")
 
 ``` r
 library(dplyr)
+#> Warning: package 'dplyr' was built under R version 3.5.2
 
 starwars %>% 
   filter(species == "Droid")
 #> # A tibble: 5 x 13
-#>   name  height  mass hair_color skin_color eye_color birth_year gender
-#>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> 
-#> 1 C-3PO    167    75 <NA>       gold       yellow           112 <NA>  
-#> 2 R2-D2     96    32 <NA>       white, bl… red               33 <NA>  
-#> 3 R5-D4     97    32 <NA>       white, red red               NA <NA>  
-#> 4 IG-88    200   140 none       metal      red               15 none  
-#> 5 BB8       NA    NA none       none       black             NA none  
-#> # … with 5 more variables: homeworld <chr>, species <chr>, films <list>,
-#> #   vehicles <list>, starships <list>
+#>   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
+#>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>  <chr>    
+#> 1 C-3PO    167    75 <NA>       gold       yellow           112 <NA>   Tatooine 
+#> 2 R2-D2     96    32 <NA>       white, bl… red               33 <NA>   Naboo    
+#> 3 R5-D4     97    32 <NA>       white, red red               NA <NA>   Tatooine 
+#> 4 IG-88    200   140 none       metal      red               15 none   <NA>     
+#> 5 BB8       NA    NA none       none       black             NA none   <NA>     
+#> # … with 4 more variables: species <chr>, films <list>, vehicles <list>,
+#> #   starships <list>
 
 starwars %>% 
   select(name, ends_with("color"))
@@ -122,15 +133,15 @@ starwars %>%
 starwars %>% 
   arrange(desc(mass))
 #> # A tibble: 87 x 13
-#>   name  height  mass hair_color skin_color eye_color birth_year gender
-#>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> 
-#> 1 Jabb…    175  1358 <NA>       green-tan… orange         600   herma…
-#> 2 Grie…    216   159 none       brown, wh… green, y…       NA   male  
-#> 3 IG-88    200   140 none       metal      red             15   none  
-#> 4 Dart…    202   136 none       white      yellow          41.9 male  
-#> 5 Tarf…    234   136 brown      brown      blue            NA   male  
-#> # … with 82 more rows, and 5 more variables: homeworld <chr>,
-#> #   species <chr>, films <list>, vehicles <list>, starships <list>
+#>   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
+#>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>  <chr>    
+#> 1 Jabb…    175  1358 <NA>       green-tan… orange         600   herma… Nal Hutta
+#> 2 Grie…    216   159 none       brown, wh… green, y…       NA   male   Kalee    
+#> 3 IG-88    200   140 none       metal      red             15   none   <NA>     
+#> 4 Dart…    202   136 none       white      yellow          41.9 male   Tatooine 
+#> 5 Tarf…    234   136 brown      brown      blue            NA   male   Kashyyyk 
+#> # … with 82 more rows, and 4 more variables: species <chr>, films <list>,
+#> #   vehicles <list>, starships <list>
 
 starwars %>%
   group_by(species) %>%
