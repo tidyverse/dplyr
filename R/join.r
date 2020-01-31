@@ -9,7 +9,7 @@
 #' * `right_join()`: includes all rows in `y`.
 #' * `full_join()`: includes all rows in `x` or `y`.
 #'
-#' If there are multiple matches between `x` and `y`, all combination of the
+#' If there are multiple matches between `x` and `y`, all combinations of the
 #' matches are returned.
 #'
 #' @return
@@ -25,7 +25,7 @@
 #' * Output columns include all `x` columns and all `y` columns. If the
 #'   columns have the same name (and aren't included `y`), `suffix`es are
 #'   added to disambiguate.
-#' * Output columns columns included `by` are coerced to common type across
+#' * Output columns columns included in `by` are coerced to common type across
 #'   `x` and `y`.
 #' * Groups are taken from `x`.
 #' @section Methods:
