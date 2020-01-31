@@ -100,18 +100,18 @@ Because mutating expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
 involved. Compare this ungrouped mutate:\preformatted{starwars \%>\%
-  mutate(mass / mean(mass, na.rm = TRUE)) \%>\%
-  pull()
+  select(name, mass, species) \%>\%
+  mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 }
 
 With the grouped equivalent:\preformatted{starwars \%>\%
-  group_by(gender) \%>\%
-  mutate(mass / mean(mass, na.rm = TRUE)) \%>\%
-  pull()
+  select(name, mass, species) \%>\%
+  group_by(species) \%>\%
+  mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 }
 
 The former normalises \code{mass} by the global average whereas the
-latter normalises by the averages within gender levels.
+latter normalises by the averages within species levels.
 }
 
 \section{Methods}{
@@ -129,22 +129,30 @@ Methods available in currently loaded packages:
 
 \examples{
 # Newly created variables are available immediately
-mtcars \%>\% as_tibble() \%>\% mutate(
-  cyl2 = cyl * 2,
-  cyl4 = cyl2 * 2
+starwars \%>\% select(name, mass) \%>\% mutate(
+  mass2 = mass * 2,
+  mass2_squared = mass2 * mass2
 )
 
 # As well as adding new variables, you can use mutate() to
 # remove variables and modify existing variables.
-mtcars \%>\% as_tibble() \%>\% mutate(
-  mpg = NULL,
-  disp = disp * 0.0163871 # convert to litres
+starwars \%>\% select(name, height, mass, homeworld) \%>\% mutate(
+  mass = NULL,
+  height = height * 0.0328084 # convert to feet
 )
 
-# window functions are useful for grouped mutates
-mtcars \%>\%
- group_by(cyl) \%>\%
- mutate(rank = min_rank(desc(mpg)))
+# Use across() with mutate() to apply a transformation
+# to multiple columns in a tibble.
+starwars \%>\%
+ select(name, homeworld, species) \%>\%
+ mutate(across(-name, as.factor))
+# see more in ?across
+
+# Window functions are useful for grouped mutates:
+starwars \%>\%
+ select(name, mass, homeworld) \%>\%
+ group_by(homeworld) \%>\%
+ mutate(rank = min_rank(desc(mass)))
 # see `vignette("window-functions")` for more details
 
 # By default, new columns are placed on the far right.
@@ -167,15 +175,15 @@ df \%>\% mutate(z = x + y, .keep = "none") # same as transmute()
 # tibbles because the expressions are computed within groups.
 # The following normalises `mass` by the global average:
 starwars \%>\%
-  mutate(mass / mean(mass, na.rm = TRUE)) \%>\%
-  pull()
+  select(name, mass, species) \%>\%
+  mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 
-# Whereas this normalises `mass` by the averages within gender
+# Whereas this normalises `mass` by the averages within species
 # levels:
 starwars \%>\%
-  group_by(gender) \%>\%
-  mutate(mass / mean(mass, na.rm = TRUE)) \%>\%
-  pull()
+  select(name, mass, species) \%>\%
+  group_by(species) \%>\%
+  mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 
 # Indirection ----------------------------------------
 # Refer to column names stored as strings with the `.data` pronoun:
