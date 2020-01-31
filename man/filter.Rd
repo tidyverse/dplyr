@@ -88,14 +88,15 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
+# Filtering by one criterion
 filter(starwars, species == "Human")
 filter(starwars, mass > 1000)
 
-# Multiple criteria
+# Filtering by multiple criteria within a single logical expression
 filter(starwars, hair_color == "none" & eye_color == "black")
 filter(starwars, hair_color == "none" | eye_color == "black")
 
-# Multiple arguments are equivalent to and
+# When multiple expressions are used, they are combined using &
 filter(starwars, hair_color == "none", eye_color == "black")
 
 
@@ -111,7 +112,7 @@ starwars \%>\% filter(mass > mean(mass, na.rm = TRUE))
 starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
 
 
-# Refer to column names stored as strings with the `.data` pronoun:
+# To refer to column names that are as strings, use the `.data` pronoun:
 vars <- c("mass", "height")
 cond <- c(80, 150)
 starwars \%>\%
