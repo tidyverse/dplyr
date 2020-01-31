@@ -38,7 +38,7 @@ If you are new to dplyr, the best place to start is the [data import chapter](ht
 
 ## Backends
 
-In addition to data frames/tibbles, dplyr makes working with other computational backends accesible and efficient. Below is a list of alternative backends:
+In addition to data frames/tibbles, dplyr makes working with other computational backends accessible and efficient. Below is a list of alternative backends:
 
 - [dtplyr](https://dtplyr.tidyverse.org/): for large, in-memory datasets, try to access the excellent performance of [data.table](http://r-datatable.com/).
 
