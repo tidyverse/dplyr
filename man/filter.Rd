@@ -112,7 +112,7 @@ starwars \%>\% filter(mass > mean(mass, na.rm = TRUE))
 starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
 
 
-# To refer to column names that are as strings, use the `.data` pronoun:
+# To refer to column names stored as strings, use the `.data` pronoun:
 vars <- c("mass", "height")
 cond <- c(80, 150)
 starwars \%>\%
