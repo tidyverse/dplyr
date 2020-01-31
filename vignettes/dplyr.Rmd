@@ -35,6 +35,8 @@ The dplyr package makes these steps fast and easy:
 
 This document introduces you to dplyr's basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you've installed, read `vignette("dbplyr")` to learn more.
 
+All of the dplyr functions take a data frame (or tibble) as the first argument.  Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so the result from one step is then "piped" into the next step.  You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"). 
+
 ## Data: nycflights13
 
 To explore the basic data manipulation verbs of dplyr, we'll use `nycflights13::flights`. This dataset contains all `r nrow(nycflights13::flights)` flights that departed from New York City in 2013. The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0), and is documented in `?nycflights13`
@@ -75,7 +77,7 @@ dplyr aims to provide a function for each basic verb of data manipulation.
 For example, we can select all flights on January 1st with:
 
 ```{r}
-filter(flights, month == 1, day == 1)
+flights %>% filter(month == 1, day == 1)
 ```
 
 This is rougly equivalent to this base R code:
@@ -89,13 +91,13 @@ flights[flights$month == 1 & flights$day == 1, ]
 `arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:
 
 ```{r}
-arrange(flights, year, month, day)
+flights %>% arrange(year, month, day)
 ```
 
 Use `desc()` to order a column in descending order:
 
 ```{r}
-arrange(flights, desc(arr_delay))
+flights %>% arrange(desc(arr_delay))
 ```
 
 ###  Choose rows using their position with `slice()`
@@ -104,7 +106,7 @@ slice() lets you index rows by their (integer) locations. It allows you to selec
 
 We can get flights from row numbers 5 through 10.
 ```{r}
-slice(flights, 5:10)
+flights %>% slice(5:10)
 ```
 
 It is accompanied by a number of helpers for common use cases:
@@ -112,21 +114,21 @@ It is accompanied by a number of helpers for common use cases:
 * slice_head() and slice_tail() select the first or last rows.  
 
 ```{r}
-slice_head(flights, n = 3)
+flights %>% slice_head(n = 3)
 ```
 
 * slice_sample() randomly selects rows.  Use the option prop to choose a certain proportion of the cases.
 
 ```{r}
-slice_sample(flights, n = 5)
-slice_sample(flights, prop = 0.001)
+flights %>% slice_sample(n = 5)
+flights %>% slice_sample(prop = 0.001)
 ```
 Use `replace = TRUE` to perform a bootstrap sample. If needed, you can weight the sample with the `weight` argument.
 
 * slice_min() and slice_max() select rows with highest or lowest values of a variable.
 
 ```{r}
-slice_max(flights, distance, n = 1)
+flights %>% slice_max(distance, n = 1)
 ```
 Note that this resulted in more all cases which have the same maximum distance. 
 
@@ -136,11 +138,11 @@ Often you work with large datasets with many columns but only a few are actually
 
 ```{r}
 # Select columns by name
-select(flights, year, month, day)
+flights %>% select(year, month, day)
 # Select all columns between year and day (inclusive)
-select(flights, year:day)
+flights %>% select(year:day)
 # Select all columns except those from year to day (inclusive)
-select(flights, -(year:day))
+flights %>% select(-(year:day))
 ```
 
 There are a number of helper functions you can use within `select()`, like `starts_with()`, `ends_with()`, `matches()` and `contains()`. These let you quickly match larger blocks of variables that meet some criterion. See `?select` for more details.
@@ -148,13 +150,13 @@ There are a number of helper functions you can use within `select()`, like `star
 You can rename variables with `select()` by using named arguments:
 
 ```{r}
-select(flights, tail_num = tailnum)
+flights %>% select(tail_num = tailnum)
 ```
 
 But because `select()` drops all the variables not explicitly mentioned, it's not that useful. Instead, use `rename()`:
 
 ```{r}
-rename(flights, tail_num = tailnum)
+flights %>% rename(tail_num = tailnum)
 ```
 
 ### Add new columns with `mutate()`
@@ -162,7 +164,7 @@ rename(flights, tail_num = tailnum)
 Besides selecting sets of existing columns, it's often useful to add new columns that are functions of existing columns.  This is the job of `mutate()`:
 
 ```{r}
-mutate(flights,
+flights %>% mutate(
   gain = arr_delay - dep_delay,
   speed = distance / air_time * 60
 )
@@ -171,7 +173,7 @@ mutate(flights,
 `dplyr::mutate()` is similar to the base `transform()`, but allows you to refer to columns that you've just created:
 
 ```{r}
-mutate(flights,
+flights %>% mutate(
   gain = arr_delay - dep_delay,
   gain_per_hour = gain / (air_time / 60)
 )
@@ -180,7 +182,7 @@ mutate(flights,
 If you only want to keep the new variables, use `transmute()`:
 
 ```{r}
-transmute(flights,
+flights %>% transmute(
   gain = arr_delay - dep_delay,
   gain_per_hour = gain / (air_time / 60)
 )
@@ -191,7 +193,7 @@ transmute(flights,
 Use a similar syntax as `select()` to move blocks of columns at once.
 
 ```{r}
-relocate(flights, carrier:distance, .before = year)
+flights %>% relocate(carrier:distance, .before = year)
 ```
 
 
@@ -200,13 +202,13 @@ relocate(flights, carrier:distance, .before = year)
 The last verb is `summarise()`. It collapses a data frame to a single row.
 
 ```{r}
-summarise(flights,
-  delay = mean(dep_delay, na.rm = TRUE)
-)
+flights %>%
+  summarise(
+    delay = mean(dep_delay, na.rm = TRUE)
+  )
 ```
 
 It's not that useful until we learn the `group_by()` verb below.
-
 
 
 ### Commonalities
@@ -224,7 +226,7 @@ Together these properties make it easy to chain together multiple simple steps t
 
 These five functions provide the basis of a language of data manipulation. At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (`arrange()`), pick observations and variables of interest (`filter()` and `select()`), add new variables that are functions of existing variables (`mutate()`), or collapse many values to a summary (`summarise()`). 
 
-## Piping
+## Combining functions with `%>%` 
 
 The dplyr API is functional in the sense that function calls don't have side-effects. You must always save their results. This doesn't lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:
 
@@ -360,35 +362,8 @@ makes it a bit easier to program with `select()`:
 
 ```{r}
 vars <- c("year", "month")
-select(flights, vars, "day")
+select(flights, all_of(vars), "day")
 ```
-
-Note that the code above is somewhat unsafe because you might have
-added a column named `vars` to the tibble, or you might apply the code
-to another data frame containing such a column. To avoid this issue,
-you can wrap the variable in an `identity()` call as we mentioned
-above, as this will bypass column names. However, a more explicit and
-general method that works in all dplyr verbs is to unquote the
-variable with the `{{ }}` operator. This tells dplyr to bypass the data
-frame and to directly look in the context:
-
-```{r}
-# Let's create a new `vars` column:
-flights$vars <- flights$year
-
-# The new column won't be an issue if you evaluate `vars` in the
-# context with the `{{ }}` operator:
-vars <- c("year", "month", "day")
-select(flights, {{vars}})
-```
-
-This operator is very useful when you need to use dplyr within custom
-functions. You can learn more about it in `vignette("programming")`.
-However it is important to understand the semantics of the verbs you
-are unquoting into, that is, the values they understand. As we have
-just seen, `select()` supports names and positions of columns. But
-that won't be the case in other verbs like `mutate()` because they
-have different semantics.
 
 
 ### Mutating operations
@@ -448,15 +423,3 @@ number of rows:
 ```{r}
 group_by(df, "month")
 ```
-
-Since grouping with select semantics can be sometimes useful as well,
-we have added the `group_by_at()` variant. In dplyr, variants suffixed
-with `_at()` support selection semantics in their second argument. You
-just need to wrap the selection with `vars()`:
-
-```{r}
-group_by_at(df, vars(year:day))
-```
-
-You can read more about the `_at()` and `_if()` variants in the
-`?scoped` help page.
