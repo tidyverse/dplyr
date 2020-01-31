@@ -40,3 +40,131 @@ This vignette aims to compare dplyr functions to base R equivalents to facilitat
 |   `merge(df1, df2, all = TRUE)`   | `full_join(df1, df2)`  |
 |   `df1[df1$x %in% df2$x, , drop = FALSE]`    | `semi_join(df1, df2)` |
 |   `df1[!df1$x %in% df2$x, , drop = FALSE]` | `anti_join(df1, df2)` |
+
+Overall the main differences between base R and dplyr are:
+
+
+
+These dplyr examples come from the [dplyr documentation](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) and here, they are contrasted with the analogous base R operation(s).
+# One thing
+
+## `arrange()`: Arrange rows by variables
+
+```{r}
+# base
+mtcars[order(mtcars$cyl, mtcars$disp), ,drop = F] %>% head()
+
+# dplyr
+arrange(mtcars, cyl, disp) %>% head()
+```
+
+## `distinct()`: Select distinct/unique rows
+
+```{r}
+df <- tibble(
+  x = sample(10, 100, rep = TRUE),
+  y = sample(10, 100, rep = TRUE)
+)
+
+# base
+df[!duplicated(df$x), , drop = F] # whole dataframe
+unique(df$x) # just the values
+
+
+# dplyr
+distinct(df, x)
+```
+
+## `filter()`: Return rows with matching conditions
+
+```{r}
+# base
+subset(starwars, species == "Human")
+subset(starwars, mass > 1000)
+subset(starwars, hair_color == "none" & eye_color == "black")
+
+# dplyr
+
+filter(starwars, species == "Human")
+filter(starwars, mass > 1000)
+filter(starwars, hair_color == "none" & eye_color == "black")
+```
+
+## `mutate()`: Create or transform variables
+
+```{r}
+# base
+mtcars$cyl2 <- mtcars$cyl * 2
+mtcars$cyl4 <- mtcars$cyl2 * 2
+
+# dplyr
+mtcars %>%
+  as_tibble() %>%
+  mutate(
+    cyl2 = cyl * 2,
+    cyl4 = cyl2 * 2
+  )
+```
+
+## `pull()`: Pull out a single variable
+
+```{r}
+# base
+mtcars[,1]
+mtcars$cyl
+
+# dplyr
+mtcars %>% pull(1)
+mtcars %>% pull(cyl)
+```
+
+## `rename()`: Rename variables by name
+
+```{r}
+iris_copy = iris
+# base
+change_idx <- grep(pattern = "Petal.Length", names(iris))
+names(iris)[change_idx] <- "petal_length"
+
+# dplyr
+rename(iris_copy, petal_length = Petal.Length) %>% head()
+```
+
+## `select()`: Select variables by name
+
+```{r}
+# base
+iris[, c("Species", "Petal.Width")] %>% head()
+iris[, grepl("^x", names(iris))] %>% head()
+
+# dplyr
+select(iris, Species, Petal.Width) %>% head()
+select(iris, starts_with("Sepal")) %>% head()
+```
+
+## `summarise()`: Reduce multiple values down to a single value
+
+```{r}
+# base
+mean(mtcars$disp)
+nrow(mtcars$disp)
+
+# dplyr
+mtcars %>%
+  summarise(mean = mean(disp), n = n())
+```
+
+## `slice()`: Choose rows by position
+
+```{r}
+# base
+mtcars[25:nrow(mtcars), ]
+
+# dplyr
+slice(mtcars, 25:n())
+```
+
+
+
+# Merge --> Join
+
