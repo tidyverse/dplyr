@@ -3,8 +3,8 @@
 #' The `filter()` function is used to subset a data frame,
 #' retaining all rows that satisfy your conditions.
 #' To be retained, the row must produce a value of `TRUE` for all conditions.
-#' An important difference between `filter()` and base subsetting with `[`, any
-#' row for which a condition evaluates to `NA` is dropped.
+#' Note that when a condition evaluates to `NA`
+#' the row will be dropped, unlike base subsetting with `[`.
 #'
 #' The `filter()` function is used to subset the rows of
 #' `.data`, applying the expressions in `...` to the column values to determine which

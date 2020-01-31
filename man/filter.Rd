@@ -33,8 +33,8 @@ An object of the same type as \code{.data}. The output has the following propert
 The \code{filter()} function is used to subset a data frame,
 retaining all rows that satisfy your conditions.
 To be retained, the row must produce a value of \code{TRUE} for all conditions.
-An important difference between \code{filter()} and base subsetting with \code{[}, any
-row for which a condition evaluates to \code{NA} is dropped.
+Note that when a condition evaluates to \code{NA}
+the row will be dropped, unlike base subsetting with \code{[}.
 }
 \details{
 The \code{filter()} function is used to subset the rows of
