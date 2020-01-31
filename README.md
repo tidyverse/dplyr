@@ -38,29 +38,23 @@ chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
 
 In addition to data frames/tibbles, dplyr makes working with other
 computational backends accesible and efficient. Below is a list of
-alternative backends :
+alternative backends:
 
-#### [dtplyr](https://dtplyr.tidyverse.org/)
+  - [dtplyr](https://dtplyr.tidyverse.org/): for large, in-memory
+    datasets, try to access the excellent performance of
+    [data.table](http://r-datatable.com/).
 
-For large, in-memory datasets, try to access the excellent performance
-of [data.table](http://r-datatable.com/).
+  - [dbplyr](http://dbplyr.tidyverse.org/): for data in relational
+    databases, use [dbplyr](http://dbplyr.tidyverse.org/). dbplyr will
+    automatically translate your dplyr code in to SQL.
 
-#### [dbplyr](http://dbplyr.tidyverse.org/)
+  - [sparklyr](https://spark.rstudio.com): for very large datasets
+    stored in [Apache Spark](https://spark.apache.org), check out
+    [sparklyr](https://spark.rstudio.com).
 
-For data in relational databases, use
-[dbplyr](http://dbplyr.tidyverse.org/). dbplyr will automatically
-translate your dplyr code in to SQL.
-
-#### [sparklyr](https://spark.rstudio.com)
-
-For very large datasets stored in [Apache
-Spark](https://spark.apache.org), check out
-[sparklyr](https://spark.rstudio.com).
-
-#### [cubelyr](https://github.com/hadley/cubelyr)
-
-For data cube representations, check out
-[cubelyr](https://github.com/hadley/cubelyr).
+  - [cubelyr](https://github.com/hadley/cubelyr): for data cube
+    representations, check out
+    [cubelyr](https://github.com/hadley/cubelyr).
 
 ## Installation
 
