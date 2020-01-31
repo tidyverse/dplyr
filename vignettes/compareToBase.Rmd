@@ -1,8 +1,8 @@
 ---
-title: "From base R"
+title: "From base R to dplyr"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{From base R}
+  %\VignetteIndexEntry{From base R to dplyr}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -10,7 +10,6 @@ vignette: >
 ```{r, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 5)
-library(dplyr)
 ```
 
 This vignette aims to compare dplyr functions to base R equivalents to facilitate users transitioning from using base R to dplyr. 
@@ -55,6 +54,9 @@ Now we will walk through each of the functions in the above tables, noting the s
 
 These dplyr examples come from the [dplyr documentation](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) and here, they are contrasted with the analogous base R operation(s).
 
+```{r setup}
+library(dplyr)
+```
 
 # Single-Table Verbs
 
