@@ -12,9 +12,9 @@ lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> One or more unquoted
-expressions separated by commas. Variable names can be used like they
-are positions, so expressions like \code{x:y} can be used to select a range of
-variables.}
+expressions separated by commas. Variable names can be used as if they
+were positions in the data frame, so expressions like \code{x:y} can
+be used to select a range of variables.}
 }
 \value{
 An object of the same type as \code{.data}.
@@ -23,7 +23,7 @@ An object of the same type as \code{.data}.
 \item Output columns are a subset of input columns, potentially with a different
 order. Columns will be renamed if \code{new_name = old_name} form is used.
 \item Data frame attributes are preserved.
-\item Groups are maintained.
+\item Groups are maintained; you can not select off grouping variables.
 }
 }
 \description{
@@ -89,7 +89,7 @@ select(starwars, starts_with("h") & ends_with("color"))
 select(starwars, is.numeric)
 
 # Optionally, rename individual variables as they are selected,
-# in the format "new_name" = "old_name"
+# in the format `new_name = old_name`
 select(starwars, character_name = name, character_height = height)
 
 # Use num_range() to select variables with numeric suffixes
@@ -104,9 +104,14 @@ starwars \%>\% group_by(gender, eye_color) \%>\% select(group_cols())
 starwars \%>\% summarise(across(cols = height:mass, fns = ~mean(.x, na.rm = TRUE)))
 
 # Applying tidy eval to select()
-# See dplyr::tidyeval for more information
-mycol <- c("height", "mass")
-starwars \%>\% select({{mycol}})
+# See dplyr::tidyeval and ?dplyr_tidy_eval for more information
+averages <- function(data, vars) {
+data \%>\%
+select({{ vars }}) \%>\%
+lapply(mean, na.rm = TRUE)
+}
+starwars \%>\% averages(height)
+starwars \%>\% averages(c(height, mass))
 
 # Modifying the order of variables --------------------------
 # As of dplyr 1.0.0, use relocate(), not select():

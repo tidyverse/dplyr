@@ -40,16 +40,16 @@
 #' variables from the calling environment.
 #' @inheritParams arrange
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
-#'   expressions separated by commas. Variable names can be used like they
-#'   are positions, so expressions like `x:y` can be used to select a range of
-#'   variables.
+#'   expressions separated by commas. Variable names can be used as if they
+#'   were positions in the data frame, so expressions like `x:y` can
+#'   be used to select a range of variables.
 #' @return
 #' An object of the same type as `.data`.
 #' * Rows are not affected.
 #' * Output columns are a subset of input columns, potentially with a different
 #'   order. Columns will be renamed if `new_name = old_name` form is used.
 #' * Data frame attributes are preserved.
-#' * Groups are maintained.
+#' * Groups are maintained; you can not select off grouping variables.
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -82,9 +82,15 @@
 #' starwars %>% summarise(across(cols = height:mass, fns = ~mean(.x, na.rm = TRUE)))
 #'
 #' # Applying tidy eval to select()
-#' # See dplyr::tidyeval for more information
-#' mycol <- c("height", "mass")
-#' starwars %>% select({{mycol}})
+#' # See dplyr::tidyeval and ?dplyr_tidy_eval for more information
+#' averages <- function(data, vars) {
+#' data %>%
+#' select({{ vars }}) %>%
+#' lapply(mean, na.rm = TRUE)
+#' }
+#' starwars %>% averages(height)
+#' starwars %>% averages(c(height, mass))
+
 #'
 #' # Modifying the order of variables --------------------------
 #' # As of dplyr 1.0.0, use relocate(), not select():
