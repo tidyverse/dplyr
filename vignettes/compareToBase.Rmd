@@ -164,7 +164,73 @@ mtcars[25:nrow(mtcars), ]
 slice(mtcars, 25:n())
 ```
 
-
-
 # Merge --> Join
+
+## `inner_join()`: Join two tables together
+
+```{r}
+# base
+merge(band_members, band_instruments, by.x = "name", by.y = "name", all.x = F, all.y = F)
+
+# dplyr
+band_members %>% inner_join(band_instruments)
+```
+
+## `left_join()`: Join two tables together
+
+```{r}
+# base
+merge(band_members, band_instruments, by.x = "name", by.y = "name", all.x = T, all.y = F)
+
+# dplyr
+band_members %>% left_join(band_instruments)
+```
+
+## `right_join()`: Join two tables together
+
+```{r}
+# base
+merge(band_members, band_instruments, by.x = "name", by.y = "name", all.x = F, all.y = T)
+
+# dplyr
+band_members %>% right_join(band_instruments)
+```
+
+## `full_join()`: Join two tables together
+
+```{r}
+# base
+merge(band_members, band_instruments, by.x = "name", by.y = "name", all.x = T, all.y = T)
+
+# dplyr
+band_members %>% full_join(band_instruments)
+```
+
+## `semi_join()`: Join two tables together
+
+return all rows from `x` where there are matching values in `y`
+
+only returns columns from `x`
+
+```{r}
+# base
+band_members[band_members$name %in% band_instruments$name, , drop = FALSE]
+
+# dplyr
+band_members %>% semi_join(band_instruments)
+```
+
+## `anti_join()`: Join two tables together
+
+return all rows from `x` where are not matching values in `y`
+
+only returns columsn from `x`
+
+```{r}
+# base
+band_members[!band_members$name %in% band_instruments$name, , drop = FALSE]
+
+# dplyr
+band_members %>% anti_join(band_instruments)
+```
 
