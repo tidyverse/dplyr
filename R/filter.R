@@ -1,7 +1,7 @@
 #' Return all rows that satisfy conditions
 #'
 #' The `filter()` function is used to subset a data object,
-#' retaining all rows that satisfy user-specified conditions.
+#' retaining all rows that satisfy your conditions.
 #' To be retained, the row must produce a value of `TRUE` for all conditions.
 #' An important difference between `filter()` and base subsetting with `[`, any
 #' row for which a condition evaluates to `NA` is dropped.
