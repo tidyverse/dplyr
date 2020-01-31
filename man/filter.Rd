@@ -31,7 +31,7 @@ An object of the same type as \code{.data}. The output has the following propert
 }
 }
 \description{
-The \code{filter()} function is used to subset a data set,
+The \code{filter()} function is used to subset a data object,
 retaining all rows that satisfy user-specified conditions.
 To be retained, the row must produce a value of \code{TRUE} for all conditions.
 An important difference between \code{filter()} and base subsetting with \code{[}, any
