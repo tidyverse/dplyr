@@ -23,7 +23,7 @@ An object of the same type as \code{.data}.
 \item Output columns are a subset of input columns, potentially with a different
 order. Columns will be renamed if \code{new_name = old_name} form is used.
 \item Data frame attributes are preserved.
-\item Groups are maintained; you can not select off grouping variables.
+\item Groups are maintained; you can't select off grouping variables.
 }
 }
 \description{
@@ -103,15 +103,16 @@ starwars \%>\% group_by(gender, eye_color) \%>\% select(group_cols())
 # Using select() semantics in across()
 starwars \%>\% summarise(across(cols = height:mass, fns = ~mean(.x, na.rm = TRUE)))
 
-# Applying tidy eval to select()
-# See dplyr::tidyeval and ?dplyr_tidy_eval for more information
+# Use `{{ }}` inside functions to tunnel data-variables through
+# function arguments. See ?dplyr_tidy_eval for more information.
 averages <- function(data, vars) {
-data \%>\%
-select({{ vars }}) \%>\%
-lapply(mean, na.rm = TRUE)
+  data \%>\%
+    select({{ vars }}) \%>\%
+    lapply(mean, na.rm = TRUE)
 }
 starwars \%>\% averages(height)
 starwars \%>\% averages(c(height, mass))
+
 
 # Modifying the order of variables --------------------------
 # As of dplyr 1.0.0, use relocate(), not select():

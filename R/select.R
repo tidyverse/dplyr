@@ -49,7 +49,7 @@
 #' * Output columns are a subset of input columns, potentially with a different
 #'   order. Columns will be renamed if `new_name = old_name` form is used.
 #' * Data frame attributes are preserved.
-#' * Groups are maintained; you can not select off grouping variables.
+#' * Groups are maintained; you can't select off grouping variables.
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -81,16 +81,16 @@
 #' # Using select() semantics in across()
 #' starwars %>% summarise(across(cols = height:mass, fns = ~mean(.x, na.rm = TRUE)))
 #'
-#' # Applying tidy eval to select()
-#' # See dplyr::tidyeval and ?dplyr_tidy_eval for more information
+#' # Use `{{ }}` inside functions to tunnel data-variables through
+#' # function arguments. See ?dplyr_tidy_eval for more information.
 #' averages <- function(data, vars) {
-#' data %>%
-#' select({{ vars }}) %>%
-#' lapply(mean, na.rm = TRUE)
+#'   data %>%
+#'     select({{ vars }}) %>%
+#'     lapply(mean, na.rm = TRUE)
 #' }
 #' starwars %>% averages(height)
 #' starwars %>% averages(c(height, mass))
-
+#'
 #'
 #' # Modifying the order of variables --------------------------
 #' # As of dplyr 1.0.0, use relocate(), not select():
