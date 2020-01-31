@@ -9,7 +9,7 @@
 #' * `right_join()`: includes all rows in `y`.
 #' * `full_join()`: includes all rows in `x` or `y`.
 #'
-#' If there are multiple matches between `x` and `y`, all combinations of the
+#' If there are multiple matches between rows in `x` and `y`, all combinations of the
 #' matches are returned.
 #'
 #' @return
@@ -20,16 +20,16 @@
 #'   For `left_join()`, all `x` rows.
 #'   For `right_join()`, a subset of `x` rows, followed by unmatched `y` rows.
 #'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
-#' * For all joins, rows will be duplicated if one row in `x` rows match
+#' * For all joins, rows will be duplicated if one or more rows in `x` matches
 #'   multiple rows in `y`.
-#' * Output columns include all `x` columns and all `y` columns. If the
-#'   columns have the same name (and aren't included `y`), `suffix`es are
+#' * Output columns include all `x` columns and all `y` columns. If columns in
+#'   `x` and `y` have the same name (and aren't included in `by`), `suffix`es are
 #'   added to disambiguate.
 #' * Output columns columns included in `by` are coerced to common type across
 #'   `x` and `y`.
 #' * Groups are taken from `x`.
 #' @section Methods:
-#' These function are **generic**s, which means that packages can provide
+#' These functions are **generic**s, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
 #'
