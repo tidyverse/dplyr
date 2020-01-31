@@ -70,13 +70,21 @@
 #' # Optionally, rename individual variables as they are selected, in the format "new_name" = "old_name"
 #' select(iris, species = Species, width = Petal.Width, length = Petal.Length)
 #'
+#' # Use num_range() to select variables with numeric suffixes
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
-#' df <- as_tibble(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
-#' select(df, V4:V6)
-#' select(df, num_range("V", 4:6))
+#' select(df, V4:V6) # Specify variable names explicitly
+#' select(df, num_range(prefix = "V", range = 4:6)) # Or, specify the prefix used on a numeric range
 #'
 #' # Select the existing grouping variables:
 #' starwars %>% group_by(gender) %>% select(group_cols())
+#'
+#' # Using select() semantics in across()
+#' starwars %>% summarise(across(height:mass, mean))
+#'
+#' # Applying tidy eval to select()
+#' # See dplyr::tidyeval for more information
+#' mycol <- "height"
+#' starwars %>% select({{mycol}})
 #'
 #' # Modifying the order of variables --------------------------
 #' # As of dplyr 1.0.0, use relocate(), not select():
