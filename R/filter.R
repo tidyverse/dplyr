@@ -1,6 +1,6 @@
-#' Return all rows that satisfy conditions
+#' Subset rows using column values
 #'
-#' The `filter()` function is used to subset a data object,
+#' The `filter()` function is used to subset a data frame,
 #' retaining all rows that satisfy your conditions.
 #' To be retained, the row must produce a value of `TRUE` for all conditions.
 #' An important difference between `filter()` and base subsetting with `[`, any
@@ -48,11 +48,10 @@
 #'
 #' @family single table verbs
 #' @inheritParams arrange
-#' @param ... Expressions that return a
+#' @param ... <[`data-masking`][dplyr_data_masking]> Expressions that return a
 #'   logical value, and are defined in terms of the variables in `.data`.
 #'   If multiple expressions are included, they are combined with the `&` operator.
-#'   Only rows for which all conditions evaluate to `TRUE` are kept. Note that
-#'   <[`data-masking`][dplyr_data_masking]> applies here.
+#'   Only rows for which all conditions evaluate to `TRUE` are kept.
 #' @param .preserve Relevant when the `.data` input is grouped.
 #'   If `.preserve = FALSE` (the default), the grouping structure
 #'   is recalculated based on the resulting data, otherwise the grouping is kept as is.
