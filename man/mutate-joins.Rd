@@ -132,7 +132,7 @@ output? Only applies to \code{nest_join()}, \code{left_join()}, \code{right_join
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}
 is preserved as much as possible.
 \itemize{
-\item For \code{inner_join()}, a subset of the \code{x} rows.
+\item For \code{inner_join()}, a subset of \code{x} rows.
 For \code{left_join()}, all \code{x} rows.
 For \code{right_join()}, a subset of \code{x} rows, followed by unmatched \code{y} rows.
 For \code{full_join()}, all \code{x} rows, followed by unmatched \code{y} rows.
@@ -141,7 +141,7 @@ multiple rows in \code{y}.
 \item Output columns include all \code{x} columns and all \code{y} columns. If columns in
 \code{x} and \code{y} have the same name (and aren't included in \code{by}), \code{suffix}es are
 added to disambiguate.
-\item Output columns columns included in \code{by} are coerced to common type across
+\item Output columns included in \code{by} are coerced to common type across
 \code{x} and \code{y}.
 \item Groups are taken from \code{x}.
 }
