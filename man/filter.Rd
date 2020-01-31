@@ -70,10 +70,11 @@ involved. Compare this ungrouped filtering:\preformatted{starwars \%>\% filter(m
 With the grouped equivalent:\preformatted{starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
 }
 
-The former keeps rows with \code{mass} greater than the global average
-whereas the latter keeps rows with \code{mass} greater than the gender
-
-average.
+In the ungrouped version, \code{filter()} compares the value of \code{mass} in each row to
+the global average (taken over the whole data set), keeping only the rows with
+\code{mass} greater than this global average. In contrast, the grouped version calculates
+the average mass separately for each \code{gender} group, and keeps rows with \code{mass} greater
+than the relevant within-gender average.
 }
 
 \section{Methods}{

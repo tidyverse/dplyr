@@ -40,10 +40,12 @@
 #' starwars %>% group_by(gender) %>% filter(mass > mean(mass, na.rm = TRUE))
 #' ```
 #'
-#' The former keeps rows with `mass` greater than the global average
-#' whereas the latter keeps rows with `mass` greater than the gender
+#' In the ungrouped version, `filter()` compares the value of `mass` in each row to
+#' the global average (taken over the whole data set), keeping only the rows with
+#' `mass` greater than this global average. In contrast, the grouped version calculates
+#' the average mass separately for each `gender` group, and keeps rows with `mass` greater
+#' than the relevant within-gender average.
 #'
-#' average.
 #' @family single table verbs
 #' @inheritParams arrange
 #' @param ... Expressions that return a
