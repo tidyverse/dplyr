@@ -6,9 +6,12 @@
 #' An important difference between `filter()` and base subsetting with `[`, any
 #' row for which a condition evaluates to `NA` is dropped.
 #'
-#' dplyr is not yet smart enough to optimise filtering optimisation
-#' on grouped datasets that don't need grouped calculations. For this reason,
-#' filtering is often considerably faster on [ungroup()]ed data.
+#' The `filter()` function is used to subset the rows of
+#' `.data`, applying the expressions in `...` to the column values to determine which
+#' rows should be retained. It can be applied to both grouped and ungrouped data (see [group_by()] and
+#' [ungroup()]). However, dplyr is not yet smart enough to optimise the filtering
+#' operation on grouped datasets that do not need grouped calculations. For this
+#' reason, filtering is often considerably faster on ungrouped data.
 #'
 #' @section Useful filter functions:
 #'

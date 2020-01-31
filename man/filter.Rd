@@ -38,9 +38,12 @@ An important difference between \code{filter()} and base subsetting with \code{[
 row for which a condition evaluates to \code{NA} is dropped.
 }
 \details{
-dplyr is not yet smart enough to optimise filtering optimisation
-on grouped datasets that don't need grouped calculations. For this reason,
-filtering is often considerably faster on \code{\link[=ungroup]{ungroup()}}ed data.
+The \code{filter()} function is used to subset the rows of
+\code{.data}, applying the expressions in \code{...} to the column values to determine which
+rows should be retained. It can be applied to both grouped and ungrouped data (see \code{\link[=group_by]{group_by()}} and
+\code{\link[=ungroup]{ungroup()}}). However, dplyr is not yet smart enough to optimise the filtering
+operation on grouped datasets that do not need grouped calculations. For this
+reason, filtering is often considerably faster on ungrouped data.
 }
 \section{Useful filter functions}{
 
