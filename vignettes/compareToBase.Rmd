@@ -60,7 +60,7 @@ library(dplyr)
 
 # Single-table verbs
 
-For more information about these single-table verbs see [`vignette("dplyr")`](https://dplyr.tidyverse.org/articles/dplyr.html).
+For more information about these single-table verbs see `vignette("dplyr")`.
 
 ## `arrange()`: Arrange rows by variables
 
@@ -126,6 +126,8 @@ filter(starwars, mass > 1000)
 filter(starwars, hair_color == "none" & eye_color == "black")
 ```
 
+Both base R and dplyr will drop `NA`s in the process of returning the matching conditions.
+
 ## `mutate()`: Create or transform variables
 
 We can create new variables as functions of other ones. In base R we directly create a new variable using `$` and assign it a vector of values. We can also use the function `transform()`.
@@ -179,7 +181,15 @@ mtcars %>% pull(1)
 mtcars %>% pull(cyl)
 ```
 
-## `relocate()`: Rename variables by name
+## `relocate()`: Change column order
+
+```{r}
+# base
+mtcars = mtcars[,c(ncol(mtcars), 1:(ncol(mtcars)-1))] %>% head()
+
+# dplyr
+
+```
 
 ## `rename()`: Rename variables by name
 
@@ -274,7 +284,7 @@ slice(mtcars, 25:n())
 
 When we want to merge two data frames (refered to as `x` and `y` in base R's `merge() ` arguments), we have a variety of different ways to bring them together. Various base R `merge()` calls are replaced by a variety of dplyr `join()` functions.
 
-For more information about two-table verbs, see [`vignette("two-table")`](https://dplyr.tidyverse.org/articles/two-table.html).
+For more information about two-table verbs, see `vignette("two-table")`.
 
 ## Mutating joins: Join two tables together
 
@@ -333,6 +343,8 @@ band_members[band_members$name %in% band_instruments$name, , drop = F]
 # dplyr
 band_members %>% semi_join(band_instruments)
 ```
+
+Note that if we want to perform a semi-join based on more than one match criteria in base R, it is non-trivial. We cannot just do two %in% statements connected with a logical expression because we need joint matches. However, in dplyr multiple match criteria are easily handled. 
 
 ## `anti_join()`: Join two tables together
 
