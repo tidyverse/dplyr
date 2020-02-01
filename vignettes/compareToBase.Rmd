@@ -164,7 +164,7 @@ In dplyr we can use `group_by()` and then define whatever function we want to cr
 
 ```{r}
 # dplyr
-mtcars %>% group_by(cyl) %>% mutate(avg_mpg_by_cyl = mean(mpg)) %>% ungroup()
+mtcars = mtcars %>% group_by(cyl) %>% mutate(avg_mpg_by_cyl = mean(mpg)) %>% ungroup()
 ```
 
 ## `pull()`: Pull out a single variable
@@ -183,12 +183,15 @@ mtcars %>% pull(cyl)
 
 ## `relocate()`: Change column order
 
+If we want to reorder the column names of a dataframe, we must provide the reordering ourselves in base R. In dplyr we can use `relocate()` which helps us find our new desired locations without knowing the exact number order of the columns.
+
 ```{r}
 # base
 mtcars = mtcars[,c(ncol(mtcars), 1:(ncol(mtcars)-1))] %>% head()
 
 # dplyr
-
+mtcars %>% relocate(avg_mpg_by_cyl) %>% head() # bring last to the front
+mtcars %>% relocate(avg_mpg_by_cyl, .before = cyl) %>% head() # alternative approach
 ```
 
 ## `rename()`: Rename variables by name
