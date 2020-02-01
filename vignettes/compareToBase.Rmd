@@ -207,7 +207,8 @@ To grab (or exclude) certain variables from a data frame in base R, we need to d
 # base
 iris[, c("Species", "Petal.Width")] %>% head()
 iris[, grepl("^x", names(iris))] %>% head()
-iris[, setdiff(names(iris), c("Species", "Petal.Width"))] # all but two particular variables
+iris[, setdiff(names(iris), c("Species", "Petal.Width"))] %>% head()
+# all but two particular variables
 ```
 
 
@@ -347,28 +348,3 @@ band_members[!band_members$name %in% band_instruments$name, , drop = FALSE]
 band_members %>% anti_join(band_instruments)
 ```
 
-# Grouping
-
-One of dplyr's strengths is the ability to manipulate data frames by a grouping variable. To get the average of every column in a dataset by a grouping variable, like species, in base R requires three steps (a `split()`, an `lapply()`, and a `do.call("rbind")`).
-
-```{r}
-# base
-bySpecies = split(iris, iris$Species) 
-class(bySpecies) # returns a list
-length(bySpecies) # 3 species
-head(bySpecies[[1]]) 
-# each element of the list is the subset of the dataset for one species
-
-bySpeciesMeans = lapply(bySpecies, function(x){apply(x[,-ncol(x),],2,mean)})
-# get column means for every column but the last (which is the actual species name)
-
-do.call("rbind", bySpeciesMeans)
-# rbind each element of the list to make a data frame
-```
-
-In dplyr this can be done in one line of code.
-
-```{r}
-# dplyr
-iris %>% group_by(Species) %>% summarise_all(mean)
-```
