@@ -23,9 +23,9 @@ more details.}
 
 \item{by}{A character vector of variables to join by.
 
-If \code{NULL}, the default, \verb{*_join()} will perofrm a natural join, using all
-variables in across \code{x} and \code{y}. A message lists the variables so that you
-can check they're correct; suppress the message by supply \code{by} explicitly.
+If \code{NULL}, the default, \verb{*_join()} will perform a natural join, using all
+variables in common across \code{x} and \code{y}. A message lists the variables so that you
+can check they're correct; suppress the message by supplying \code{by} explicitly.
 
 To join by different variables on \code{x} and \code{y} use a named vector.
 For example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
