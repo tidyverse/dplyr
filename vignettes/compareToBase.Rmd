@@ -102,8 +102,8 @@ In both base R and dplyr we can either access the entire data frame or just the 
 
 ```{r}
 # dplyr
-distinct(df, x, .keep_all = TRUE) ## whole data frame
-distinct(df, x) ## just see the unique values
+distinct(df, x, .keep_all = TRUE) # whole data frame
+distinct(df, x) # just see the unique values
 ```
 
 ## `filter()`: Return rows with matching conditions
@@ -264,7 +264,7 @@ In dplyr we can use `group_by()` paired with `summarise()` to get the same resul
 ```{r}
 # dplyr
 iris %>% group_by(Species) %>% summarise(mean_Sepal_Width = mean(Sepal.Width))
-iris %>% group_by(Species) %>% summarise_all(mean) ## get means of all columns
+iris %>% group_by(Species) %>% summarise_all(mean) # get means of all columns
 ```
 
 ## `slice()`: Choose rows by position
@@ -347,7 +347,7 @@ band_members[band_members$name %in% band_instruments$name, , drop = F]
 band_members %>% semi_join(band_instruments)
 ```
 
-Note that if we want to perform a semi-join based on more than one match criteria in base R, it is non-trivial. We cannot just do two %in% statements connected with a logical expression because we need joint matches. However, in dplyr multiple match criteria are easily handled. 
+Note that if we want to perform a semi-join based on more than one match criteria in base R, it is non-trivial. We cannot just do two `%in%` statements connected with a logical expression because we need joint matches. However, in dplyr multiple match criteria are easily handled. 
 
 ## `anti_join()`: Join two tables together
 
