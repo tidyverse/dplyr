@@ -15,13 +15,13 @@ DataMask <- R6Class("DataMask",
         function(index) {
           col <- .subset2(data, index)
           if (is_list(col) && !is.data.frame(col)) {
-            map(rows, function(row) vec_slice(col, row)[[1L]])
+            map(vec_chop(col, rows), `[[`, 1L)
           } else {
-            map(rows, vec_slice, x = col)
+            vec_chop(col, rows)
           }
         }
       } else if (is_grouped_df(data)) {
-        function(index) map(rows, vec_slice, x = .subset2(data, index))
+        function(index) vec_chop(.subset2(data, index), rows)
       } else {
         # for ungrouped data frames, there is only one chunk that
         # is made of the full column
