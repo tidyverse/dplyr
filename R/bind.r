@@ -57,19 +57,6 @@
 #' )
 #'
 #'
-#' # Note that for historical reasons, lists containing vectors are
-#' # always treated as data frames. Thus their vectors are treated as
-#' # columns rather than rows, and their inner names are ignored:
-#' ll <- list(
-#'   a = c(A = 1, B = 2),
-#'   b = c(A = 3, B = 4)
-#' )
-#' bind_rows(ll)
-#'
-#' # You can circumvent that behaviour with explicit splicing:
-#' bind_rows(!!!ll)
-#'
-#'
 #' # When you supply a column name with the `.id` argument, a new
 #' # column is created to link each row to its original data frame
 #' bind_rows(list(one, two), .id = "id")
