@@ -35,7 +35,7 @@ DataMask <- R6Class("DataMask",
 
       promise_fn <- function(index, chunks = resolve_chunks(index)) {
           # resolve the chunks and hold the slice for current group
-          res <- .subset2(chunks, private$get_current_group())
+          res <- .subset2(chunks, self$get_current_group())
 
           # track
           private$used[[index]] <- TRUE
