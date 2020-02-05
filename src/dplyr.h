@@ -65,12 +65,14 @@ SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows)); \
 R_xlen_t ngroups = XLENGTH(rows);                                          \
 SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask)); \
-SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller))
+SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller)); \
+SEXP current_group = PROTECT(Rf_ScalarInteger(NA_INTEGER));    \
+Rf_defineVar(dplyr::symbols::current_group, current_group, env_private); \
+int* p_current_group = INTEGER(current_group)
 
-#define DPLYR_MASK_FINALISE() UNPROTECT(3);
+#define DPLYR_MASK_FINALISE() UNPROTECT(4);
 
-#define DPLYR_MASK_SET_GROUP(INDEX)                                                  \
-Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(INDEX + 1), env_private);
+#define DPLYR_MASK_SET_GROUP(INDEX) *p_current_group = INDEX + 1
 
 #define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
 
