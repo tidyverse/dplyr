@@ -35,7 +35,7 @@ DataMask <- R6Class("DataMask",
 
       promise_fn <- function(index, chunks = resolve_chunks(index)) {
           # resolve the chunks and hold the slice for current group
-          res <- .subset2(chunks, private$current_group)
+          res <- .subset2(chunks, private$get_current_group())
 
           # track
           private$used[[index]] <- TRUE
@@ -92,15 +92,18 @@ DataMask <- R6Class("DataMask",
     },
 
     current_rows = function() {
-      private$rows[[private$current_group]]
+      private$rows[[self$get_current_group()]]
     },
 
     current_key = function() {
-      vec_slice(private$keys, private$current_group)
+      vec_slice(private$keys, self$get_current_group())
     },
 
     get_current_group = function() {
-      private$current_group
+      # The [] is so that we get a copy, which is important for how
+      # current_group is dealt with internally, to avoid defining it at each
+      # iteration of the dplyr_mask_eval_*() loops.
+      private$current_group[]
     },
 
     set_current_group = function(group) {

@@ -68,13 +68,16 @@ SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows)); \
 R_xlen_t ngroups = XLENGTH(rows);                                          \
 SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask)); \
-SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));\
-SEXP bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::bindings))
+SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller)); \
+SEXP bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::bindings)); \
+SEXP current_group = PROTECT(Rf_ScalarInteger(NA_INTEGER));                    \
+Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);       \
+int* p_current_group = INTEGER(current_group)
 
 #define DPLYR_MASK_FINALISE() UNPROTECT(4);
 
 #define DPLYR_MASK_SET_GROUP(INDEX)                                                  \
-Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(i + 1), env_private);   \
+*p_current_group = INDEX + 1;   \
 SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);            \
 SEXP which_used = Rf_findVarInFrame(env_private, dplyr::symbols::which_used); \
 int* p_which_used = INTEGER(which_used);                       \
@@ -87,6 +90,7 @@ for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) { \
     VECTOR_ELT(VECTOR_ELT(resolved, idx_promise), i), bindings \
   ); \
 }
+
 
 #define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
 
