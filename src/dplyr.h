@@ -74,8 +74,6 @@ SEXP bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::bindings)
 #define DPLYR_MASK_FINALISE() UNPROTECT(4);
 
 #define DPLYR_MASK_SET_GROUP(INDEX)                                                  \
-SEXP rows_i = VECTOR_ELT(rows, i);                                                   \
-R_xlen_t n_i = XLENGTH(rows_i);                                                      \
 Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(i + 1), env_private);   \
 SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);            \
 SEXP which_used = Rf_findVarInFrame(env_private, dplyr::symbols::which_used); \
