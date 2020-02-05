@@ -65,4 +65,4 @@ RoxygenNote: 7.0.2
 Remotes:
     tidyverse/tibble,
     r-lib/pillar, 
-    r-lib/rlang#910
+    r-lib/rlang
