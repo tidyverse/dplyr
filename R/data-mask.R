@@ -33,7 +33,7 @@ DataMask <- R6Class("DataMask",
         binding_fn <- function(index, chunks = resolve_chunks(index)) {
           function() {
             private$used[[index]] <- TRUE
-            .subset2(chunks, private$current_group)
+            .subset2(chunks, self$get_current_group())
           }
         }
       } else {
@@ -41,7 +41,7 @@ DataMask <- R6Class("DataMask",
           # chunks is a promise of the list of all chunks for the column
           # at this index, so resolve_chunks() is only called when
           # the active binding is touched
-          function() .subset2(chunks, private$current_group)
+          function() .subset2(chunks, self$get_current_group())
         }
       }
 
@@ -54,7 +54,7 @@ DataMask <- R6Class("DataMask",
     add = function(name, chunks) {
       force(chunks)
       env_bind_active(private$bindings, !!name := function() {
-        .subset2(chunks, private$current_group)
+        .subset2(chunks, self$get_current_group())
       })
     },
 
@@ -83,15 +83,18 @@ DataMask <- R6Class("DataMask",
     },
 
     current_rows = function() {
-      private$rows[[private$current_group]]
+      private$rows[[self$get_current_group()]]
     },
 
     current_key = function() {
-      vec_slice(private$keys, private$current_group)
+      vec_slice(private$keys, self$get_current_group())
     },
 
     get_current_group = function() {
-      private$current_group
+      # The [] is so that we get a copy, which is important for how
+      # current_group is dealt with internally, to avoid defining it at each
+      # iteration of the dplyr_mask_eval_*() loops.
+      private$current_group[]
     },
 
     set_current_group = function(group) {
