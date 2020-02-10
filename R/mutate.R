@@ -178,7 +178,7 @@ mutate.data.frame <- function(.data, ...,
                               .before = NULL, .after = NULL) {
   keep <- arg_match(.keep)
 
-  cols <- mutate_cols(.data, ..., .track_usage = keep %in% c("used", "unused"))
+  cols <- mutate_cols(.data, ...)
   out <- dplyr_col_modify(.data, cols)
 
   .before <- enquo(.before)
@@ -223,7 +223,7 @@ transmute.data.frame <- function(.data, ...) {
 
 # Helpers -----------------------------------------------------------------
 
-mutate_cols <- function(.data, ..., .track_usage = FALSE) {
+mutate_cols <- function(.data, ...) {
   rows <- group_rows(.data)
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
@@ -232,7 +232,7 @@ mutate_cols <- function(.data, ..., .track_usage = FALSE) {
   rows_lengths <- .Call(`dplyr_vec_sizes`, rows)
 
   o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
-  mask <- DataMask$new(.data, caller_env(), rows, track_usage = .track_usage)
+  mask <- DataMask$new(.data, caller_env(), rows)
 
   dots <- enquos(...)
   dots_names <- names(dots)

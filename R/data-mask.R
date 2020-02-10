@@ -1,6 +1,6 @@
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller, rows = group_rows(data), track_usage = FALSE) {
+    initialize = function(data, caller, rows = group_rows(data)) {
       frame <- caller_env(n = 2)
       local_mask(self, frame)
 
@@ -15,50 +15,59 @@ DataMask <- R6Class("DataMask",
         function(index) {
           col <- .subset2(data, index)
           if (is_list(col) && !is.data.frame(col)) {
-            map(rows, function(row) vec_slice(col, row)[[1L]])
+            map(vec_chop(col, rows), `[[`, 1L)
           } else {
-            map(rows, vec_slice, x = col)
+            vec_chop(col, rows)
           }
         }
       } else if (is_grouped_df(data)) {
-        function(index) map(rows, vec_slice, x = .subset2(data, index))
+        function(index) vec_chop(.subset2(data, index), rows)
       } else {
         # for ungrouped data frames, there is only one chunk that
         # is made of the full column
         function(index) list(.subset2(data, index))
       }
 
-      if (track_usage) {
-        private$used <- rep(FALSE, ncol(data))
-        binding_fn <- function(index, chunks = resolve_chunks(index)) {
-          function() {
-            private$used[[index]] <- TRUE
-            .subset2(chunks, self$get_current_group())
-          }
-        }
-      } else {
-        binding_fn <- function(index, chunks = resolve_chunks(index)) {
-          # chunks is a promise of the list of all chunks for the column
-          # at this index, so resolve_chunks() is only called when
-          # the active binding is touched
-          function() .subset2(chunks, self$get_current_group())
-        }
+      private$used <- rep(FALSE, ncol(data))
+
+      names_bindings <- chr_unserialise_unicode(names(data))
+      private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
+
+      promise_fn <- function(index, chunks = resolve_chunks(index)) {
+          # resolve the chunks and hold the slice for current group
+          res <- .subset2(chunks, self$get_current_group())
+
+          # track
+          private$used[[index]] <- TRUE
+          private$resolved[[index]] <- chunks
+          private$which_used <- c(private$which_used, index)
+
+          # return result for current slice
+          res
       }
 
-      env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
+      promises <- map(seq_len(ncol(data)), function(.x) expr(promise_fn(!!.x)))
+
+      env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
     },
 
     add = function(name, chunks) {
-      force(chunks)
-      env_bind_active(private$bindings, !!name := function() {
-        .subset2(chunks, self$get_current_group())
-      })
+      pos <- which(names(private$resolved) == name)
+      if (length(pos) == 0L) {
+        pos <- length(private$resolved) + 1L
+        private$used[[pos]] <- TRUE
+        private$which_used <- c(private$which_used, pos)
+      }
+      private$resolved[[name]] <- chunks
     },
 
     remove = function(name) {
+      pos <- which(names(private$resolved) == name)
+      private$resolved[[name]] <- NULL
+      private$which_used <- setdiff(private$which_used, pos)
       rm(list = name, envir = private$bindings)
     },
 
@@ -116,6 +125,8 @@ DataMask <- R6Class("DataMask",
     mask = NULL,
     old_vars = character(),
     used = logical(),
+    resolved = list(),
+    which_used = integer(),
     rows = NULL,
     keys = NULL,
     bindings = NULL,

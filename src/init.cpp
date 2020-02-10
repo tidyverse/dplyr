@@ -37,6 +37,9 @@ SEXP symbols::current_expression = Rf_install("current_expression");
 SEXP symbols::rows = Rf_install("rows");
 SEXP symbols::mask = Rf_install("mask");
 SEXP symbols::caller = Rf_install("caller");
+SEXP symbols::resolved = Rf_install("resolved");
+SEXP symbols::bindings = Rf_install("bindings");
+SEXP symbols::which_used = Rf_install("which_used");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();
