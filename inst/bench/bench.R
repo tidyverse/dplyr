@@ -3,6 +3,7 @@ library(rlang)
 library(purrr)
 library(tibble)
 library(tidyr)
+library(bench)
 
 if (!dir.exists("../bench-libs")) dir.create("../bench-libs")
 
@@ -28,11 +29,56 @@ benchs <- function(libs, setup, ..., iterations = NULL){
       mutate(expression = purrr::map_chr(expression, deparse))
   })
   results <- purrr::imap(libs, ~callr::r(f, libpath = .x) %>% mutate(version = .y))
-  as_tibble(vctrs::vec_rbind(!!!results))
-  # %>%
-  #   select(expression, version, median) %>%
-  #   pivot_wider(names_from = version, values_from = median)
+  as_tibble(vctrs::vec_rbind(!!!results)) %>%
+    select(expression, version, median) %>%
+    pivot_wider(names_from = version, values_from = median)
 }
+
+# nrows = 1e6, 10'000 groups of 100
+benchs(
+  iterations = 10,
+  libs = libs,
+  setup = {
+    df <- tibble(x = rnorm(1e6), y = rnorm(1e6), g = sample(rep(1:1e4, 100))) %>% group_by(g)
+  },
+  summarise(df, n = 1 + 1),
+  summarise(df, n = +n()),
+
+  summarise(df, n = length(x)),
+  summarise(df, n = +mean(x)),
+  summarise(df, n = mean.default(x)),
+  summarise(df, n = .Internal(mean(x))),
+
+  summarise(df, nx = length(x), ny = length(y)),
+  summarise(df, mean(x) + mean(y))
+)
+
+# nrows = 1e6, 10 groups of 100'000
+benchs(
+  iterations = 10,
+  libs = libs,
+  setup = {
+    df <- tibble(x = rnorm(1e6), y = rnorm(1e6), g = sample(rep(1:10, 1e5))) %>% group_by(g)
+  },
+  summarise(df, n = 1 + 1),
+  summarise(df, n = +n()),
+
+  summarise(df, n = length(x)),
+  summarise(df, n = +mean(x)),
+  summarise(df, n = mean.default(x)),
+  summarise(df, n = .Internal(mean(x))),
+
+  summarise(df, nx = length(x), ny = length(y)),
+  summarise(df, mean(x) + mean(y))
+)
+
+q()
+
+df <- tibble(x = rnorm(1e6), y = rnorm(1e6), g = sample(rep(1:10, 1e5))) %>% group_by(g)
+profvis(
+  for(i in 1:100) summarise(df, n = mean(x))
+)
+
 
 summarise_hybrid <- benchs(
   iterations = 10,
@@ -80,7 +126,7 @@ summarise_non_hybrid <- benchs(
   libs = libs,
 
   setup = {
-    df <- tibble(x = rnorm(1e4), g = sample(rep(1:1e2, 100))) %>% group_by(g)
+    df <- tibble(x = rnorm(1e5), g = sample(rep(1:1e3, 100))) %>% group_by(g)
   },
 
   summarise(df, n = 0 + 0),
@@ -122,7 +168,7 @@ mutate_hybrid <- benchs(
   libs = libs,
 
   setup = {
-    df <- tibble(x = rnorm(1e4), g = sample(rep(1:1e2, 100))) %>% group_by(g)
+    df <- tibble(x = rnorm(1e5), g = sample(rep(1:1e3, 100))) %>% group_by(g)
   },
 
   # window
@@ -181,7 +227,7 @@ mutate_non_hybrid <- benchs(
   libs = libs,
 
   setup = {
-    df <- tibble(x = rnorm(1e4), g = sample(rep(1:1e2, 100))) %>% group_by(g)
+    df <- tibble(x = rnorm(1e5), g = sample(rep(1:1e3, 100))) %>% group_by(g)
   },
 
   # window
@@ -236,5 +282,5 @@ mutate_non_hybrid <- benchs(
   mutate(hybrid = FALSE)
 
 results <- as_tibble(vctrs::vec_rbind(summarise_hybrid, summarise_non_hybrid, mutate_hybrid, mutate_non_hybrid))
-
+print(results, n = nrow(results))
 
