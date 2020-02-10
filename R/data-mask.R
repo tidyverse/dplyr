@@ -61,6 +61,14 @@ DataMask <- R6Class("DataMask",
         private$used[[pos]] <- TRUE
         private$which_used <- c(private$which_used, pos)
       }
+      if (inherits(private$data, "rowwise_df")){
+        is_scalar_list <- function(.x) {
+          is.list(.x) && !is.data.frame(.x) && length(.x) == 1L
+        }
+        if (all(map_lgl(chunks, is_scalar_list))) {
+          chunks <- map(chunks, `[[`, 1L)
+        }
+      }
       private$resolved[[name]] <- chunks
     },
 
