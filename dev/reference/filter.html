@@ -48,9 +48,11 @@
 
 
 <meta property="og:title" content="Subset rows using column values — filter" />
-<meta property="og:description" content="filter() retains the rows where the conditions you provide a TRUE. Note
-that, unlike base subsetting with [, rows where the condition evaluates
-to NA are dropped." />
+<meta property="og:description" content="The filter() function is used to subset a data frame,
+retaining all rows that satisfy your conditions.
+To be retained, the row must produce a value of TRUE for all conditions.
+Note that when a condition evaluates to NA
+the row will be dropped, unlike base subsetting with [." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -193,9 +195,11 @@ to NA are dropped." />
     </div>
 
     <div class="ref-description">
-    <p><code>filter()</code> retains the rows where the conditions you provide a <code>TRUE</code>. Note
-that, unlike base subsetting with <code>[</code>, rows where the condition evaluates
-to <code>NA</code> are dropped.</p>
+    <p>The <code>filter()</code> function is used to subset a data frame,
+retaining all rows that satisfy your conditions.
+To be retained, the row must produce a value of <code>TRUE</code> for all conditions.
+Note that when a condition evaluates to <code>NA</code>
+the row will be dropped, unlike base subsetting with <code>[</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>filter</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
@@ -211,21 +215,22 @@ more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Logical predicates defined
-in terms of the variables in <code>.data</code>.
-Multiple conditions are combined with <code>&amp;</code>. Only rows where the
-condition evaluates to <code>TRUE</code> are kept.</p></td>
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Expressions that return a
+logical value, and are defined in terms of the variables in <code>.data</code>.
+If multiple expressions are included, they are combined with the <code>&amp;</code> operator.
+Only rows for which all conditions evaluate to <code>TRUE</code> are kept.</p></td>
     </tr>
     <tr>
       <th>.preserve</th>
-      <td><p>when <code>FALSE</code> (the default), the grouping structure
-is recalculated based on the resulting data, otherwise it is kept as is.</p></td>
+      <td><p>Relevant when the <code>.data</code> input is grouped.
+If <code>.preserve = FALSE</code> (the default), the grouping structure
+is recalculated based on the resulting data, otherwise the grouping is kept as is.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same type as <code>.data</code>.</p><ul>
+    <p>An object of the same type as <code>.data</code>. The output has the following properties:</p><ul>
 <li><p>Rows are a subset of the input, but appear in the same order.</p></li>
 <li><p>Columns are not modified.</p></li>
 <li><p>The number of groups may be reduced (if <code>.preserve</code> is not <code>TRUE</code>).</p></li>
@@ -234,14 +239,19 @@ is recalculated based on the resulting data, otherwise it is kept as is.</p></td
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>dplyr is not yet smart enough to optimise filtering optimisation
-on grouped datasets that don't need grouped calculations. For this reason,
-filtering is often considerably faster on <code><a href='group_by.html'>ungroup()</a></code>ed data.</p>
+    <p>The <code>filter()</code> function is used to subset the rows of
+<code>.data</code>, applying the expressions in <code>...</code> to the column values to determine which
+rows should be retained. It can be applied to both grouped and ungrouped data (see <code><a href='group_by.html'>group_by()</a></code> and
+<code><a href='group_by.html'>ungroup()</a></code>). However, dplyr is not yet smart enough to optimise the filtering
+operation on grouped datasets that do not need grouped calculations. For this
+reason, filtering is often considerably faster on ungrouped data.</p>
     <h2 class="hasAnchor" id="useful-filter-functions"><a class="anchor" href="#useful-filter-functions"></a>Useful filter functions</h2>
 
     
 
-<ul>
+
+<p>There are many functions and operators that are useful when constructing the
+expressions used to filter the data:</p><ul>
 <li><p><code><a href='https://rdrr.io/r/base/Comparison.html'>==</a></code>, <code>&gt;</code>, <code>&gt;=</code> etc</p></li>
 <li><p><code>&amp;</code>, <code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code>, <code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code>, <code><a href='https://rdrr.io/r/base/Logic.html'>xor()</a></code></p></li>
 <li><p><code><a href='https://rdrr.io/r/base/NA.html'>is.na()</a></code></p></li>
@@ -262,9 +272,11 @@ involved. Compare this ungrouped filtering:</p><pre>starwars %&gt;% filter(mass 
 <p>With the grouped equivalent:</p><pre>starwars %&gt;% group_by(gender) %&gt;% filter(mass &gt; mean(mass, na.rm = TRUE))
 </pre>
 
-<p>The former keeps rows with <code>mass</code> greater than the global average
-whereas the latter keeps rows with <code>mass</code> greater than the gender</p>
-<p>average.</p>
+<p>In the ungrouped version, <code>filter()</code> compares the value of <code>mass</code> in each row to
+the global average (taken over the whole data set), keeping only the rows with
+<code>mass</code> greater than this global average. In contrast, the grouped version calculates
+the average mass separately for each <code>gender</code> group, and keeps rows with <code>mass</code> greater
+than the relevant within-gender average.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -277,8 +289,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 .</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='filter_all.html'>filter_all()</a></code>, <code><a href='filter_all.html'>filter_if()</a></code> and <code><a href='filter_all.html'>filter_at()</a></code>.</p>
-<p>Other single table verbs: 
+    <div class='dont-index'><p>Other single table verbs: 
 <code><a href='arrange.html'>arrange</a>()</code>,
 <code><a href='mutate.html'>mutate</a>()</code>,
 <code><a href='rename.html'>rename</a>()</code>,
@@ -287,7 +298,8 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Human"</span>)</div><div class='output co'>#&gt; # A tibble: 35 x 14
+    <pre class="examples"><div class='input'><span class='co'># Filtering by one criterion</span>
+<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Human"</span>)</div><div class='output co'>#&gt; # A tibble: 35 x 14
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
 #&gt;  1 Luke…    172    77 blond      fair       blue            19   male  mascu…
@@ -307,7 +319,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herm… mascu…
 #&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 #&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
-<span class='co'># Multiple criteria</span>
+<span class='co'># Filtering by multiple criteria within a single logical expression</span>
 <span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>&amp;</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 14
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
@@ -336,7 +348,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; 10 Roos…    224    82 none       grey       orange          NA   male  mascu…
 #&gt; # … with 28 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
-<span class='co'># Multiple arguments are equivalent to and</span>
+<span class='co'># When multiple expressions are used, they are combined using &amp;</span>
 <span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span>, <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 14
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
@@ -395,7 +407,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 #&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 
-<span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
+<span class='co'># To refer to column names that are stored as strings, use the `.data` pronoun:</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
 <span class='no'>cond</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>80</span>, <span class='fl'>150</span>)
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>

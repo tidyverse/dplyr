@@ -166,6 +166,7 @@
 <li><p>It uses efficient backends, so you spend less time waiting for the computer.</p></li>
 </ul>
 <p>This document introduces you to dplyr’s basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you’ve installed, read <code>vignette("dbplyr")</code> to learn more.</p>
+<p>All of the dplyr functions take a data frame (or tibble) as the first argument. Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so the result from one step is then “piped” into the next step. You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as “then”).</p>
 <div id="data-nycflights13" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-nycflights13" class="anchor"></a>Data: nycflights13</h2>
@@ -189,20 +190,37 @@
 <div id="single-table-verbs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single-table-verbs" class="anchor"></a>Single table verbs</h2>
-<p>Dplyr aims to provide a function for each basic verb of data manipulation:</p>
+<p>dplyr aims to provide a function for each basic verb of data manipulation.</p>
 <ul>
 <li>
-<code><a href="../reference/filter.html">filter()</a></code> to select cases based on their values.</li>
+<p>row operations:</p>
+<ul>
+<li>
+<code><a href="../reference/filter.html">filter()</a></code> to choose cases based on their values.</li>
 <li>
 <code><a href="../reference/arrange.html">arrange()</a></code> to reorder the cases.</li>
+<li>
+<code><a href="../reference/slice.html">slice()</a></code> to choose cases based on their position.</li>
+</ul>
+</li>
+<li>
+<p>column operations:</p>
+<ul>
 <li>
 <code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/rename.html">rename()</a></code> to select variables based on their names.</li>
 <li>
 <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/mutate.html">transmute()</a></code> to add new variables that are functions of existing variables.</li>
 <li>
-<code><a href="../reference/summarise.html">summarise()</a></code> to condense multiple values to a single value.</li>
+<code><a href="../reference/relocate.html">relocate()</a></code> to change the order of the variables.</li>
+</ul>
+</li>
 <li>
-<code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> to take random samples.</li>
+<p>summarize operation:</p>
+<ul>
+<li>
+<code><a href="../reference/summarise.html">summarise()</a></code> to condense multiple values to a single value.</li>
+</ul>
+</li>
 </ul>
 <div id="filter-rows-with-filter" class="section level3">
 <h3 class="hasAnchor">
@@ -210,7 +228,7 @@
 </h3>
 <p><code><a href="../reference/filter.html">filter()</a></code> allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is <code>TRUE</code>.</p>
 <p>For example, we can select all flights on January 1st with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(flights, month <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, day <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(month <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, day <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; # A tibble: 842 x 19</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
@@ -229,7 +247,7 @@
 <a href="#arrange-rows-with-arrange" class="anchor"></a>Arrange rows with <code>arrange()</code>
 </h3>
 <p><code><a href="../reference/arrange.html">arrange()</a></code> works similarly to <code><a href="../reference/filter.html">filter()</a></code> except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(flights, year, month, day)</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(year, month, day)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
@@ -241,7 +259,7 @@
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
 <p>Use <code><a href="../reference/desc.html">desc()</a></code> to order a column in descending order:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(flights, <span class="kw"><a href="../reference/desc.html">desc</a></span>(arr_delay))</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(arr_delay))</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
@@ -253,159 +271,222 @@
 <a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
 </div>
+<div id="choose-rows-using-their-position-with-slice" class="section level3">
+<h3 class="hasAnchor">
+<a href="#choose-rows-using-their-position-with-slice" class="anchor"></a>Choose rows using their position with <code>slice()</code>
+</h3>
+<p>slice() lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows.</p>
+<p>We can get flights from row numbers 5 through 10.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; # A tibble: 6 x 19</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      554            600        -6      812            837</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      554            558        -4      740            728</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      555            600        -5      913            854</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      557            600        -3      709            723</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; # … with 2 more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<p>It is accompanied by a number of helpers for common use cases:</p>
+<ul>
+<li>slice_head() and slice_tail() select the first or last rows.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_head</a></span>(<span class="dt">n =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 19</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; # … with 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<ul>
+<li>slice_sample() randomly selects rows. Use the option prop to choose a certain proportion of the cases.</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_sample</a></span>(<span class="dt">n =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 19</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1  2013     9     9     1440           1429        11     1649           1655</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2  2013     5    15     1427           1429        -2     1728           1738</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3  2013     8    14     1121           1120         1     1228           1233</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 4  2013     8     4     1448           1429        19     1657           1659</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; # … with 1 more row, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_sample</a></span>(<span class="dt">prop =</span> <span class="fl">0.001</span>)</a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; # A tibble: 336 x 19</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; 1  2013     9     2     2309           2110       119       19           2222</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; 2  2013     6    10     2310           1935       215      257           2302</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; 3  2013    12    31      806            805         1     1142           1132</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; 4  2013     6    18      925            930        -5     1031           1044</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; # … with 332 more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<p>Use <code>replace = TRUE</code> to perform a bootstrap sample. If needed, you can weight the sample with the <code>weight</code> argument.</p>
+<ul>
+<li>slice_min() and slice_max() select rows with highest or lowest values of a variable.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_max</a></span>(distance, <span class="dt">n =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; # A tibble: 342 x 19</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      857            900        -3     1516           1530</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     2      909            900         9     1525           1530</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     3      914            900        14     1504           1530</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     4      900            900         0     1516           1530</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; # … with 338 more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<p>Note that this resulted in more all cases which have the same maximum distance.</p>
+</div>
 <div id="select-columns-with-select" class="section level3">
 <h3 class="hasAnchor">
 <a href="#select-columns-with-select" class="anchor"></a>Select columns with <code>select()</code>
 </h3>
 <p>Often you work with large datasets with many columns but only a few are actually of interest to you. <code><a href="../reference/select.html">select()</a></code> allows you to rapidly zoom in on a useful subset using operations that usually only work on numeric variable positions:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Select columns by name</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year, month, day)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;    year month   day</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co"># Select all columns between year and day (inclusive)</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year<span class="op">:</span>day)</a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;    year month   day</span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; 1  2013     1     1</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; 2  2013     1     1</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; 3  2013     1     1</span></a>
-<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; 4  2013     1     1</span></a>
-<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co"># Select all columns except those from year to day (inclusive)</span></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="op">-</span>(year<span class="op">:</span>day))</a>
-<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; # A tibble: 336,776 x 16</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt;   dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier</span></a>
-<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt;      &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;  </span></a>
-<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; 1      517            515         2      830            819        11 UA     </span></a>
-<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; 2      533            529         4      850            830        20 UA     </span></a>
-<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; 3      542            540         2      923            850        33 AA     </span></a>
-<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt; 4      544            545        -1     1004           1022       -18 B6     </span></a>
-<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt; # … with 336,772 more rows, and 9 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Select columns by name</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(year, month, day)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;    year month   day</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co"># Select all columns between year and day (inclusive)</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(year<span class="op">:</span>day)</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;    year month   day</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 1  2013     1     1</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 2  2013     1     1</span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 3  2013     1     1</span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 4  2013     1     1</span></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; # … with 336,772 more rows</span></a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co"># Select all columns except those from year to day (inclusive)</span></a>
+<a class="sourceLine" id="cb10-22" data-line-number="22">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="op">-</span>(year<span class="op">:</span>day))</a>
+<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="co">#&gt; # A tibble: 336,776 x 16</span></a>
+<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="co">#&gt;   dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier</span></a>
+<a class="sourceLine" id="cb10-25" data-line-number="25"><span class="co">#&gt;      &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="co">#&gt; 1      517            515         2      830            819        11 UA     </span></a>
+<a class="sourceLine" id="cb10-27" data-line-number="27"><span class="co">#&gt; 2      533            529         4      850            830        20 UA     </span></a>
+<a class="sourceLine" id="cb10-28" data-line-number="28"><span class="co">#&gt; 3      542            540         2      923            850        33 AA     </span></a>
+<a class="sourceLine" id="cb10-29" data-line-number="29"><span class="co">#&gt; 4      544            545        -1     1004           1022       -18 B6     </span></a>
+<a class="sourceLine" id="cb10-30" data-line-number="30"><span class="co">#&gt; # … with 336,772 more rows, and 9 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb10-32" data-line-number="32"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
 <p>There are a number of helper functions you can use within <code><a href="../reference/select.html">select()</a></code>, like <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">matches()</a></code> and <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains()</a></code>. These let you quickly match larger blocks of variables that meet some criterion. See <code><a href="../reference/select.html">?select</a></code> for more details.</p>
 <p>You can rename variables with <code><a href="../reference/select.html">select()</a></code> by using named arguments:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="dt">tail_num =</span> tailnum)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;   tail_num</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;   </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 1 N14228  </span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 2 N24211  </span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 3 N619AA  </span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 4 N804JB  </span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="dt">tail_num =</span> tailnum)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;   tail_num</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;   </span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; 1 N14228  </span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; 2 N24211  </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; 3 N619AA  </span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 4 N804JB  </span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 <p>But because <code><a href="../reference/select.html">select()</a></code> drops all the variables not explicitly mentioned, it’s not that useful. Instead, use <code><a href="../reference/rename.html">rename()</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/rename.html">rename</a></span>(flights, <span class="dt">tail_num =</span> tailnum)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tail_num &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rename.html">rename</a></span>(<span class="dt">tail_num =</span> tailnum)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tail_num &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
 </div>
 <div id="add-new-columns-with-mutate" class="section level3">
 <h3 class="hasAnchor">
 <a href="#add-new-columns-with-mutate" class="anchor"></a>Add new columns with <code>mutate()</code>
 </h3>
 <p>Besides selecting sets of existing columns, it’s often useful to add new columns that are functions of existing columns. This is the job of <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(flights,</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">  <span class="dt">speed =</span> distance <span class="op">/</span><span class="st"> </span>air_time <span class="op">*</span><span class="st"> </span><span class="dv">60</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 21</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; # … with 336,772 more rows, and 13 more variables: arr_delay &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;,</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; #   gain &lt;dbl&gt;, speed &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="dt">speed =</span> distance <span class="op">/</span><span class="st"> </span>air_time <span class="op">*</span><span class="st"> </span><span class="dv">60</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 21</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt; # … with 336,772 more rows, and 13 more variables: arr_delay &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;,</span></a>
+<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt; #   gain &lt;dbl&gt;, speed &lt;dbl&gt;</span></a></code></pre></div>
 <p><code><a href="../reference/mutate.html">dplyr::mutate()</a></code> is similar to the base <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>, but allows you to refer to columns that you’ve just created:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(flights,</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="dt">gain_per_hour =</span> gain <span class="op">/</span><span class="st"> </span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 21</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; # … with 336,772 more rows, and 13 more variables: arr_delay &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;,</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; #   gain &lt;dbl&gt;, gain_per_hour &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">gain_per_hour =</span> gain <span class="op">/</span><span class="st"> </span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 21</span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
+<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; # … with 336,772 more rows, and 13 more variables: arr_delay &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;,</span></a>
+<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; #   gain &lt;dbl&gt;, gain_per_hour &lt;dbl&gt;</span></a></code></pre></div>
 <p>If you only want to keep the new variables, use <code><a href="../reference/mutate.html">transmute()</a></code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">transmute</a></span>(flights,</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">  <span class="dt">gain_per_hour =</span> gain <span class="op">/</span><span class="st"> </span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;    gain gain_per_hour</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;   &lt;dbl&gt;         &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 1     9          2.38</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; 2    16          4.23</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; 3    31         11.6 </span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; 4   -17         -5.57</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">transmute</a></span>(</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="dt">gain_per_hour =</span> gain <span class="op">/</span><span class="st"> </span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt;    gain gain_per_hour</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt;   &lt;dbl&gt;         &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 1     9          2.38</span></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt; 2    16          4.23</span></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; 3    31         11.6 </span></a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co">#&gt; 4   -17         -5.57</span></a>
+<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+</div>
+<div id="change-column-order-with-relocate" class="section level3">
+<h3 class="hasAnchor">
+<a href="#change-column-order-with-relocate" class="anchor"></a>Change column order with <code>relocate()</code>
+</h3>
+<p>Use a similar syntax as <code><a href="../reference/select.html">select()</a></code> to move blocks of columns at once.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/relocate.html">relocate</a></span>(carrier<span class="op">:</span>distance, <span class="dt">.before =</span> year)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt;   carrier flight tailnum origin dest  air_time distance  year month   day</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 1 UA        1545 N14228  EWR    IAH        227     1400  2013     1     1</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 2 UA        1714 N24211  LGA    IAH        227     1416  2013     1     1</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 3 AA        1141 N619AA  JFK    MIA        160     1089  2013     1     1</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 4 B6         725 N804JB  JFK    BQN        183     1576  2013     1     1</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows, and 9 more variables: dep_time &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; #   sched_dep_time &lt;int&gt;, dep_delay &lt;dbl&gt;, arr_time &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; #   sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; #   time_hour &lt;dttm&gt;</span></a></code></pre></div>
 </div>
 <div id="summarise-values-with-summarise" class="section level3">
 <h3 class="hasAnchor">
 <a href="#summarise-values-with-summarise" class="anchor"></a>Summarise values with <code>summarise()</code>
 </h3>
 <p>The last verb is <code><a href="../reference/summarise.html">summarise()</a></code>. It collapses a data frame to a single row.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(flights,</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">delay =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt;   delay</span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 1  12.6</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">flights <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">    <span class="dt">delay =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">  )</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&gt;   delay</span></a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co">#&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&gt; 1  12.6</span></a></code></pre></div>
 <p>It’s not that useful until we learn the <code><a href="../reference/group_by.html">group_by()</a></code> verb below.</p>
-</div>
-<div id="randomly-sample-rows-with-sample_n-and-sample_frac" class="section level3">
-<h3 class="hasAnchor">
-<a href="#randomly-sample-rows-with-sample_n-and-sample_frac" class="anchor"></a>Randomly sample rows with <code>sample_n()</code> and <code>sample_frac()</code>
-</h3>
-<p>You can use <code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> to take a random sample of rows: use <code><a href="../reference/sample_n.html">sample_n()</a></code> for a fixed number and <code><a href="../reference/sample_n.html">sample_frac()</a></code> for a fixed fraction.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/sample_n.html">sample_n</a></span>(flights, <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 19</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; 1  2013     9     9     1440           1429        11     1649           1655</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; 2  2013     5    15     1427           1429        -2     1728           1738</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; 3  2013     8    14     1121           1120         1     1228           1233</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; 4  2013     8     4     1448           1429        19     1657           1659</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; # … with 6 more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="kw"><a href="../reference/sample_n.html">sample_frac</a></span>(flights, <span class="fl">0.01</span>)</a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; # A tibble: 3,368 x 19</span></a>
-<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb13-16" data-line-number="16"><span class="co">#&gt; 1  2013    11     7     1855           1900        -5     2238           2251</span></a>
-<a class="sourceLine" id="cb13-17" data-line-number="17"><span class="co">#&gt; 2  2013     3    10     1930           1935        -5     2213           2242</span></a>
-<a class="sourceLine" id="cb13-18" data-line-number="18"><span class="co">#&gt; 3  2013     2    22     1622           1615         7     1820           1831</span></a>
-<a class="sourceLine" id="cb13-19" data-line-number="19"><span class="co">#&gt; 4  2013     8     9      602            605        -3      744            749</span></a>
-<a class="sourceLine" id="cb13-20" data-line-number="20"><span class="co">#&gt; # … with 3,364 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb13-21" data-line-number="21"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb13-22" data-line-number="22"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
-<p>Use <code>replace = TRUE</code> to perform a bootstrap sample. If needed, you can weight the sample with the <code>weight</code> argument.</p>
 </div>
 <div id="commonalities" class="section level3">
 <h3 class="hasAnchor">
@@ -417,8 +498,51 @@
 <li><p>The result is a new data frame</p></li>
 </ul>
 <p>Together these properties make it easy to chain together multiple simple steps to achieve a complex result.</p>
-<p>These five functions provide the basis of a language of data manipulation. At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (<code><a href="../reference/arrange.html">arrange()</a></code>), pick observations and variables of interest (<code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/select.html">select()</a></code>), add new variables that are functions of existing variables (<code><a href="../reference/mutate.html">mutate()</a></code>), or collapse many values to a summary (<code><a href="../reference/summarise.html">summarise()</a></code>). The remainder of the language comes from applying the five functions to different types of data. For example, I’ll discuss how these functions work with grouped data.</p>
+<p>These five functions provide the basis of a language of data manipulation. At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (<code><a href="../reference/arrange.html">arrange()</a></code>), pick observations and variables of interest (<code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/select.html">select()</a></code>), add new variables that are functions of existing variables (<code><a href="../reference/mutate.html">mutate()</a></code>), or collapse many values to a summary (<code><a href="../reference/summarise.html">summarise()</a></code>).</p>
 </div>
+</div>
+<div id="combining-functions-with" class="section level2">
+<h2 class="hasAnchor">
+<a href="#combining-functions-with" class="anchor"></a>Combining functions with <code>%&gt;%</code>
+</h2>
+<p>The dplyr API is functional in the sense that function calls don’t have side-effects. You must always save their results. This doesn’t lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">a1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">a2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(a1, arr_delay, dep_delay)</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">a3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(a2,</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">  <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">  <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb18-6" data-line-number="6">a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(a3, arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</a></code></pre></div>
+<p>Or if you don’t want to name the intermediate results, you need to wrap the function calls inside each other:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">  <span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">    <span class="kw"><a href="../reference/select.html">select</a></span>(</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">      <span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day),</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">      arr_delay, dep_delay</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">    ),</a>
+<a class="sourceLine" id="cb19-7" data-line-number="7">    <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb19-8" data-line-number="8">    <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb19-9" data-line-number="9">  ),</a>
+<a class="sourceLine" id="cb19-10" data-line-number="10">  arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span></a>
+<a class="sourceLine" id="cb19-11" data-line-number="11">)</a>
+<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&gt; Adding missing grouping variables: `year`, `month`, `day`</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; # A tibble: 49 x 5</span></a>
+<a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; # Groups:   year, month [11]</span></a>
+<a class="sourceLine" id="cb19-15" data-line-number="15"><span class="co">#&gt;    year month   day   arr   dep</span></a>
+<a class="sourceLine" id="cb19-16" data-line-number="16"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb19-17" data-line-number="17"><span class="co">#&gt; 1  2013     1    16  34.2  24.6</span></a>
+<a class="sourceLine" id="cb19-18" data-line-number="18"><span class="co">#&gt; 2  2013     1    31  32.6  28.7</span></a>
+<a class="sourceLine" id="cb19-19" data-line-number="19"><span class="co">#&gt; 3  2013     2    11  36.3  39.1</span></a>
+<a class="sourceLine" id="cb19-20" data-line-number="20"><span class="co">#&gt; 4  2013     2    27  31.3  37.8</span></a>
+<a class="sourceLine" id="cb19-21" data-line-number="21"><span class="co">#&gt; # … with 45 more rows</span></a></code></pre></div>
+<p>This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as “then”):</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">flights <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(year, month, day) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(arr_delay, dep_delay) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">    <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">    <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</a></code></pre></div>
 </div>
 <div id="patterns-of-operations" class="section level2">
 <h2 class="hasAnchor">
@@ -433,340 +557,152 @@
 <li><p>grouped <code><a href="../reference/select.html">select()</a></code> is the same as ungrouped <code><a href="../reference/select.html">select()</a></code>, except that grouping variables are always retained.</p></li>
 <li><p>grouped <code><a href="../reference/arrange.html">arrange()</a></code> is the same as ungrouped; unless you set <code>.by_group = TRUE</code>, in which case it orders first by the grouping variables</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> are most useful in conjunction with window functions (like <code><a href="https://rdrr.io/r/base/rank.html">rank()</a></code>, or <code>min(x) == x</code>). They are described in detail in <code><a href="../articles/window-functions.html">vignette("window-functions")</a></code>.</p></li>
-<li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> sample the specified number/fraction of rows in each group.</p></li>
+<li><p><code><a href="../reference/slice.html">slice()</a></code> select rows by row number, sample the specified number/fraction of rows in each group.</p></li>
 <li><p><code><a href="../reference/summarise.html">summarise()</a></code> computes the summary for each group.</p></li>
 </ul>
-<p>In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (<code>count = n()</code>) and computing the average distance (<code>dist = mean(distance, na.rm = TRUE)</code>) and arrival delay (<code>delay = mean(arr_delay, na.rm = TRUE)</code>). We then use ggplot2 to display the output.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">by_tailnum &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, tailnum)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(by_tailnum,</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">count =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(),</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dt">dist =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(distance, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="dt">delay =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(delay, count <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>, dist <span class="op">&lt;</span><span class="st"> </span><span class="dv">2000</span>)</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co"># Interestingly, the average delay is only slightly related to the</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co"># average distance flown by a plane.</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="kw">ggplot</span>(delay, <span class="kw">aes</span>(dist, delay)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> count), <span class="dt">alpha =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="st">  </span><span class="kw">scale_size_area</span>()</a></code></pre></div>
-<p><img src="dplyr_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
-<p>You use <code><a href="../reference/summarise.html">summarise()</a></code> with <strong>aggregate functions</strong>, which take a vector of values and return a single number. There are many useful examples of such functions in base R like <code><a href="https://rdrr.io/r/base/Extremes.html">min()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code>, <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>, <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code>, <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code>, and <code><a href="https://rdrr.io/r/stats/IQR.html">IQR()</a></code>. dplyr provides a handful of others:</p>
-<ul>
-<li><p><code><a href="../reference/context.html">n()</a></code>: the number of observations in the current group</p></li>
-<li><p><code><a href="../reference/n_distinct.html">n_distinct(x)</a></code>:the number of unique values in <code>x</code>.</p></li>
-<li><p><code><a href="../reference/nth.html">first(x)</a></code>, <code><a href="../reference/nth.html">last(x)</a></code> and <code><a href="../reference/nth.html">nth(x, n)</a></code> - these work similarly to <code>x[1]</code>, <code>x[length(x)]</code>, and <code>x[n]</code> but give you more control over the result if the value is missing.</p></li>
-</ul>
-<p>For example, we could use these to find the number of planes and the number of flights that go to each possible destination:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">destinations &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, dest)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(destinations,</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="dt">planes =</span> <span class="kw"><a href="../reference/n_distinct.html">n_distinct</a></span>(tailnum),</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">  <span class="dt">flights =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; # A tibble: 105 x 3</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt;   dest  planes flights</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt; 1 ABQ      108     254</span></a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; 2 ACK       58     265</span></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co">#&gt; 3 ALB      172     439</span></a>
-<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt; 4 ANC        6       8</span></a>
-<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="co">#&gt; # … with 101 more rows</span></a></code></pre></div>
-<p>When you group by multiple variables, each summary peels off one level of the grouping. That makes it easy to progressively roll-up a dataset:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">daily &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day)</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">(per_day   &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(daily, <span class="dt">flights =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()))</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; # A tibble: 365 x 4</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; # Groups:   year, month [12]</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt;    year month   day flights</span></a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 1  2013     1     1     842</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 2  2013     1     2     943</span></a>
-<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 3  2013     1     3     914</span></a>
-<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; 4  2013     1     4     915</span></a>
-<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; # … with 361 more rows</span></a>
-<a class="sourceLine" id="cb16-12" data-line-number="12">(per_month &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(flights)))</a>
-<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt; # A tibble: 12 x 3</span></a>
-<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt; # Groups:   year [1]</span></a>
-<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt;    year month flights</span></a>
-<a class="sourceLine" id="cb16-16" data-line-number="16"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb16-17" data-line-number="17"><span class="co">#&gt; 1  2013     1   27004</span></a>
-<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="co">#&gt; 2  2013     2   24951</span></a>
-<a class="sourceLine" id="cb16-19" data-line-number="19"><span class="co">#&gt; 3  2013     3   28834</span></a>
-<a class="sourceLine" id="cb16-20" data-line-number="20"><span class="co">#&gt; 4  2013     4   28330</span></a>
-<a class="sourceLine" id="cb16-21" data-line-number="21"><span class="co">#&gt; # … with 8 more rows</span></a>
-<a class="sourceLine" id="cb16-22" data-line-number="22">(per_year  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(per_month, <span class="dt">flights =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(flights)))</a>
-<a class="sourceLine" id="cb16-23" data-line-number="23"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb16-24" data-line-number="24"><span class="co">#&gt;    year flights</span></a>
-<a class="sourceLine" id="cb16-25" data-line-number="25"><span class="co">#&gt;   &lt;int&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb16-26" data-line-number="26"><span class="co">#&gt; 1  2013  336776</span></a></code></pre></div>
-<p>However you need to be careful when progressively rolling up summaries like this: it’s ok for sums and counts, but you need to think about weighting for means and variances (it’s not possible to do this exactly for medians).</p>
+<p>Examples and more information on the use of grouped opertions are in <code>vignette("grouping-data")</code>.</p>
 </div>
 <div id="selecting-operations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#selecting-operations" class="anchor"></a>Selecting operations</h3>
 <p>One of the appealing features of dplyr is that you can refer to columns from the tibble as if they were regular variables. However, the syntactic uniformity of referring to bare column names hides semantical differences across the verbs. A column symbol supplied to <code><a href="../reference/select.html">select()</a></code> does not have the same meaning as the same symbol supplied to <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
 <p>Selecting operations expect column names and positions. Hence, when you call <code><a href="../reference/select.html">select()</a></code> with bare variable names, they actually represent their own positions in the tibble. The following calls are completely equivalent from dplyr’s point of view:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co"># `year` represents the integer 1</span></a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co">#&gt;    year</span></a>
-<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&gt; 1  2013</span></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co">#&gt; 2  2013</span></a>
-<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&gt; 3  2013</span></a>
-<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&gt; 4  2013</span></a>
-<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
-<a class="sourceLine" id="cb17-13" data-line-number="13"><span class="co">#&gt;    year</span></a>
-<a class="sourceLine" id="cb17-14" data-line-number="14"><span class="co">#&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co">#&gt; 1  2013</span></a>
-<a class="sourceLine" id="cb17-16" data-line-number="16"><span class="co">#&gt; 2  2013</span></a>
-<a class="sourceLine" id="cb17-17" data-line-number="17"><span class="co">#&gt; 3  2013</span></a>
-<a class="sourceLine" id="cb17-18" data-line-number="18"><span class="co">#&gt; 4  2013</span></a>
-<a class="sourceLine" id="cb17-19" data-line-number="19"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># `year` represents the integer 1</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt;    year</span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="co">#&gt; 1  2013</span></a>
+<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="co">#&gt; 2  2013</span></a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&gt; 3  2013</span></a>
+<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&gt; 4  2013</span></a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a>
+<a class="sourceLine" id="cb21-11" data-line-number="11"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb21-12" data-line-number="12"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
+<a class="sourceLine" id="cb21-13" data-line-number="13"><span class="co">#&gt;    year</span></a>
+<a class="sourceLine" id="cb21-14" data-line-number="14"><span class="co">#&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb21-15" data-line-number="15"><span class="co">#&gt; 1  2013</span></a>
+<a class="sourceLine" id="cb21-16" data-line-number="16"><span class="co">#&gt; 2  2013</span></a>
+<a class="sourceLine" id="cb21-17" data-line-number="17"><span class="co">#&gt; 3  2013</span></a>
+<a class="sourceLine" id="cb21-18" data-line-number="18"><span class="co">#&gt; 4  2013</span></a>
+<a class="sourceLine" id="cb21-19" data-line-number="19"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 <p>By the same token, this means that you cannot refer to variables from the surrounding context if they have the same name as one of the columns. In the following example, <code>year</code> still represents 1, not 5:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">year &lt;-<span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">year &lt;-<span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)</a></code></pre></div>
 <p>One useful subtlety is that this only applies to bare names and to selecting calls like <code><a href="https://rdrr.io/r/base/c.html">c(year, month, day)</a></code> or <code>year:day</code>. In all other cases, the columns of the data frame are not put in scope. This allows you to refer to contextual variables in selection helpers:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">year &lt;-<span class="st"> "dep"</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(year))</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt;   dep_time dep_delay</span></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co">#&gt; 1      517         2</span></a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="co">#&gt; 2      533         4</span></a>
-<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co">#&gt; 3      542         2</span></a>
-<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="co">#&gt; 4      544        -1</span></a>
-<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">year &lt;-<span class="st"> "dep"</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(year))</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="co">#&gt;   dep_time dep_delay</span></a>
+<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="co">#&gt; 1      517         2</span></a>
+<a class="sourceLine" id="cb23-7" data-line-number="7"><span class="co">#&gt; 2      533         4</span></a>
+<a class="sourceLine" id="cb23-8" data-line-number="8"><span class="co">#&gt; 3      542         2</span></a>
+<a class="sourceLine" id="cb23-9" data-line-number="9"><span class="co">#&gt; 4      544        -1</span></a>
+<a class="sourceLine" id="cb23-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 <p>These semantics are usually intuitive. But note the subtle difference:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">year &lt;-<span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year, <span class="kw"><a href="https://rdrr.io/r/base/identity.html">identity</a></span>(year))</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co">#&gt;    year sched_dep_time</span></a>
-<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="co">#&gt; 1  2013            515</span></a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="co">#&gt; 2  2013            529</span></a>
-<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="co">#&gt; 3  2013            540</span></a>
-<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="co">#&gt; 4  2013            545</span></a>
-<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">year &lt;-<span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year, <span class="kw"><a href="https://rdrr.io/r/base/identity.html">identity</a></span>(year))</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co">#&gt;    year sched_dep_time</span></a>
+<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt;          &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="co">#&gt; 1  2013            515</span></a>
+<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co">#&gt; 2  2013            529</span></a>
+<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="co">#&gt; 3  2013            540</span></a>
+<a class="sourceLine" id="cb24-9" data-line-number="9"><span class="co">#&gt; 4  2013            545</span></a>
+<a class="sourceLine" id="cb24-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 <p>In the first argument, <code>year</code> represents its own position <code>1</code>. In the second argument, <code>year</code> is evaluated in the surrounding context and represents the fifth column.</p>
 <p>For a long time, <code><a href="../reference/select.html">select()</a></code> used to only understand column positions. Counting from dplyr 0.6, it now understands column names as well. This makes it a bit easier to program with <code><a href="../reference/select.html">select()</a></code>:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"year"</span>, <span class="st">"month"</span>)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, vars, <span class="st">"day"</span>)</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt; Note: Using an external vector in selections is ambiguous.</span></a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt; ℹ Use `all_of(vars)` instead of `vars` to silence this message.</span></a>
-<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&gt; ℹ See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</span></a>
-<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="co">#&gt; This message is displayed once per session.</span></a>
-<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
-<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&gt;    year month   day</span></a>
-<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt; 1  2013     1     1</span></a>
-<a class="sourceLine" id="cb21-11" data-line-number="11"><span class="co">#&gt; 2  2013     1     1</span></a>
-<a class="sourceLine" id="cb21-12" data-line-number="12"><span class="co">#&gt; 3  2013     1     1</span></a>
-<a class="sourceLine" id="cb21-13" data-line-number="13"><span class="co">#&gt; 4  2013     1     1</span></a>
-<a class="sourceLine" id="cb21-14" data-line-number="14"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>Note that the code above is somewhat unsafe because you might have added a column named <code>vars</code> to the tibble, or you might apply the code to another data frame containing such a column. To avoid this issue, you can wrap the variable in an <code><a href="https://rdrr.io/r/base/identity.html">identity()</a></code> call as we mentioned above, as this will bypass column names. However, a more explicit and general method that works in all dplyr verbs is to unquote the variable with the <code>!!</code> operator. This tells dplyr to bypass the data frame and to directly look in the context:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># Let's create a new `vars` column:</span></a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">flights<span class="op">$</span>vars &lt;-<span class="st"> </span>flights<span class="op">$</span>year</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co"># The new column won't be an issue if you evaluate `vars` in the</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co"># context with the `!!` operator:</span></a>
-<a class="sourceLine" id="cb22-6" data-line-number="6">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"day"</span>)</a>
-<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="op">!!</span><span class="st"> </span>vars)</a>
-<a class="sourceLine" id="cb22-8" data-line-number="8"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
-<a class="sourceLine" id="cb22-9" data-line-number="9"><span class="co">#&gt;    year month   day</span></a>
-<a class="sourceLine" id="cb22-10" data-line-number="10"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb22-11" data-line-number="11"><span class="co">#&gt; 1  2013     1     1</span></a>
-<a class="sourceLine" id="cb22-12" data-line-number="12"><span class="co">#&gt; 2  2013     1     1</span></a>
-<a class="sourceLine" id="cb22-13" data-line-number="13"><span class="co">#&gt; 3  2013     1     1</span></a>
-<a class="sourceLine" id="cb22-14" data-line-number="14"><span class="co">#&gt; 4  2013     1     1</span></a>
-<a class="sourceLine" id="cb22-15" data-line-number="15"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>This operator is very useful when you need to use dplyr within custom functions. You can learn more about it in <code><a href="../articles/programming.html">vignette("programming")</a></code>. However it is important to understand the semantics of the verbs you are unquoting into, that is, the values they understand. As we have just seen, <code><a href="../reference/select.html">select()</a></code> supports names and positions of columns. But that won’t be the case in other verbs like <code><a href="../reference/mutate.html">mutate()</a></code> because they have different semantics.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"year"</span>, <span class="st">"month"</span>)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw">all_of</span>(vars), <span class="st">"day"</span>)</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co">#&gt;    year month   day</span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1</span></a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1</span></a>
+<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1</span></a>
+<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1</span></a>
+<a class="sourceLine" id="cb25-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 </div>
 <div id="mutating-operations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#mutating-operations" class="anchor"></a>Mutating operations</h3>
 <p>Mutate semantics are quite different from selection semantics. Whereas <code><a href="../reference/select.html">select()</a></code> expects column names or positions, <code><a href="../reference/mutate.html">mutate()</a></code> expects <em>column vectors</em>. Let’s create a smaller tibble for clarity:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year<span class="op">:</span>dep_time)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year<span class="op">:</span>dep_time)</a></code></pre></div>
 <p>When we use <code><a href="../reference/select.html">select()</a></code>, the bare column names stand for ther own positions in the tibble. For <code><a href="../reference/mutate.html">mutate()</a></code> on the other hand, column symbols represent the actual column vectors stored in the tibble. Consider what happens if we give a string or a number to <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="st">"year"</span>, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 6</span></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time `"year"`   `2`</span></a>
-<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517 year         2</span></a>
-<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533 year         2</span></a>
-<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542 year         2</span></a>
-<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544 year         2</span></a>
-<a class="sourceLine" id="cb24-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="st">"year"</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 6</span></a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time `"year"`   `2`</span></a>
+<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517 year         2</span></a>
+<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533 year         2</span></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542 year         2</span></a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544 year         2</span></a>
+<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 <p><code><a href="../reference/mutate.html">mutate()</a></code> gets length-1 vectors that it interprets as new columns in the data frame. These vectors are recycled so they match the number of rows. That’s why it doesn’t make sense to supply expressions like <code>"year" + 10</code> to <code><a href="../reference/mutate.html">mutate()</a></code>. This amounts to adding 10 to a string! The correct expression is:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, year <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time `year + 10`</span></a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;       &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517        2023</span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533        2023</span></a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542        2023</span></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544        2023</span></a>
-<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>In the same way, you can unquote values from the context if these values represent a valid column. They must be either length 1 (they then get recycled) or have the same length as the number of rows. In the following example we create a new vector that we add to the data frame:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">var &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(df))</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">new =</span> var)</a>
-<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
-<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time   new</span></a>
-<a class="sourceLine" id="cb26-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb26-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1      517     1</span></a>
-<a class="sourceLine" id="cb26-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1      533     2</span></a>
-<a class="sourceLine" id="cb26-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542     3</span></a>
-<a class="sourceLine" id="cb26-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544     4</span></a>
-<a class="sourceLine" id="cb26-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>A case in point is <code><a href="../reference/group_by.html">group_by()</a></code>. While you might think it has select semantics, it actually has mutate semantics. This is quite handy as it allows to group by a modified column:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, month)</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 4</span></a>
-<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="co">#&gt; # Groups:   month [12]</span></a>
-<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time</span></a>
-<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1      517</span></a>
-<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1      533</span></a>
-<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542</span></a>
-<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544</span></a>
-<a class="sourceLine" id="cb27-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb27-11" data-line-number="11"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">month =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(month))</a>
-<a class="sourceLine" id="cb27-12" data-line-number="12"><span class="co">#&gt; # A tibble: 336,776 x 4</span></a>
-<a class="sourceLine" id="cb27-13" data-line-number="13"><span class="co">#&gt; # Groups:   month [12]</span></a>
-<a class="sourceLine" id="cb27-14" data-line-number="14"><span class="co">#&gt;    year month   day dep_time</span></a>
-<a class="sourceLine" id="cb27-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;fct&gt; &lt;int&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb27-16" data-line-number="16"><span class="co">#&gt; 1  2013 1         1      517</span></a>
-<a class="sourceLine" id="cb27-17" data-line-number="17"><span class="co">#&gt; 2  2013 1         1      533</span></a>
-<a class="sourceLine" id="cb27-18" data-line-number="18"><span class="co">#&gt; 3  2013 1         1      542</span></a>
-<a class="sourceLine" id="cb27-19" data-line-number="19"><span class="co">#&gt; 4  2013 1         1      544</span></a>
-<a class="sourceLine" id="cb27-20" data-line-number="20"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb27-21" data-line-number="21"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">day_binned =</span> <span class="kw"><a href="https://rdrr.io/r/base/cut.html">cut</a></span>(day, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb27-22" data-line-number="22"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
-<a class="sourceLine" id="cb27-23" data-line-number="23"><span class="co">#&gt; # Groups:   day_binned [3]</span></a>
-<a class="sourceLine" id="cb27-24" data-line-number="24"><span class="co">#&gt;    year month   day dep_time day_binned</span></a>
-<a class="sourceLine" id="cb27-25" data-line-number="25"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;fct&gt;     </span></a>
-<a class="sourceLine" id="cb27-26" data-line-number="26"><span class="co">#&gt; 1  2013     1     1      517 (0.97,11] </span></a>
-<a class="sourceLine" id="cb27-27" data-line-number="27"><span class="co">#&gt; 2  2013     1     1      533 (0.97,11] </span></a>
-<a class="sourceLine" id="cb27-28" data-line-number="28"><span class="co">#&gt; 3  2013     1     1      542 (0.97,11] </span></a>
-<a class="sourceLine" id="cb27-29" data-line-number="29"><span class="co">#&gt; 4  2013     1     1      544 (0.97,11] </span></a>
-<a class="sourceLine" id="cb27-30" data-line-number="30"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>This is why you can’t supply a column name to <code><a href="../reference/group_by.html">group_by()</a></code>. This amounts to creating a new column containing the string recycled to the number of rows:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="st">"month"</span>)</a>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, year <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb28-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="co">#&gt; # Groups:   "month" [1]</span></a>
-<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time `"month"`</span></a>
-<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;    </span></a>
-<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1      517 month    </span></a>
-<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1      533 month    </span></a>
-<a class="sourceLine" id="cb28-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542 month    </span></a>
-<a class="sourceLine" id="cb28-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544 month    </span></a>
-<a class="sourceLine" id="cb28-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>Since grouping with select semantics can be sometimes useful as well, we have added the <code><a href="../reference/group_by_all.html">group_by_at()</a></code> variant. In dplyr, variants suffixed with <code>_at()</code> support selection semantics in their second argument. You just need to wrap the selection with <code><a href="../reference/vars.html">vars()</a></code>:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="../reference/group_by_all.html">group_by_at</a></span>(df, <span class="kw"><a href="../reference/vars.html">vars</a></span>(year<span class="op">:</span>day))</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 4</span></a>
-<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="co">#&gt; # Groups:   year, month, day [365]</span></a>
-<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time</span></a>
-<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1      517</span></a>
-<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1      533</span></a>
-<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542</span></a>
-<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544</span></a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time `year + 10`</span></a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;       &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517        2023</span></a>
+<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533        2023</span></a>
+<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542        2023</span></a>
+<a class="sourceLine" id="cb28-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544        2023</span></a>
+<a class="sourceLine" id="cb28-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<p>In the same way, you can unquote values from the context if these values represent a valid column. They must be either length 1 (they then get recycled) or have the same length as the number of rows. In the following example we create a new vector that we add to the data frame:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">var &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(df))</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">new =</span> var)</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time   new</span></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1      517     1</span></a>
+<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1      533     2</span></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542     3</span></a>
+<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544     4</span></a>
 <a class="sourceLine" id="cb29-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>You can read more about the <code>_at()</code> and <code>_if()</code> variants in the <code><a href="../reference/scoped.html">?scoped</a></code> help page.</p>
+<p>A case in point is <code><a href="../reference/group_by.html">group_by()</a></code>. While you might think it has select semantics, it actually has mutate semantics. This is quite handy as it allows to group by a modified column:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, month)</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 4</span></a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="co">#&gt; # Groups:   month [12]</span></a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time</span></a>
+<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1      517</span></a>
+<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1      533</span></a>
+<a class="sourceLine" id="cb30-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542</span></a>
+<a class="sourceLine" id="cb30-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544</span></a>
+<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a>
+<a class="sourceLine" id="cb30-11" data-line-number="11"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">month =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(month))</a>
+<a class="sourceLine" id="cb30-12" data-line-number="12"><span class="co">#&gt; # A tibble: 336,776 x 4</span></a>
+<a class="sourceLine" id="cb30-13" data-line-number="13"><span class="co">#&gt; # Groups:   month [12]</span></a>
+<a class="sourceLine" id="cb30-14" data-line-number="14"><span class="co">#&gt;    year month   day dep_time</span></a>
+<a class="sourceLine" id="cb30-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;fct&gt; &lt;int&gt;    &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb30-16" data-line-number="16"><span class="co">#&gt; 1  2013 1         1      517</span></a>
+<a class="sourceLine" id="cb30-17" data-line-number="17"><span class="co">#&gt; 2  2013 1         1      533</span></a>
+<a class="sourceLine" id="cb30-18" data-line-number="18"><span class="co">#&gt; 3  2013 1         1      542</span></a>
+<a class="sourceLine" id="cb30-19" data-line-number="19"><span class="co">#&gt; 4  2013 1         1      544</span></a>
+<a class="sourceLine" id="cb30-20" data-line-number="20"><span class="co">#&gt; # … with 336,772 more rows</span></a>
+<a class="sourceLine" id="cb30-21" data-line-number="21"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">day_binned =</span> <span class="kw"><a href="https://rdrr.io/r/base/cut.html">cut</a></span>(day, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb30-22" data-line-number="22"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
+<a class="sourceLine" id="cb30-23" data-line-number="23"><span class="co">#&gt; # Groups:   day_binned [3]</span></a>
+<a class="sourceLine" id="cb30-24" data-line-number="24"><span class="co">#&gt;    year month   day dep_time day_binned</span></a>
+<a class="sourceLine" id="cb30-25" data-line-number="25"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;fct&gt;     </span></a>
+<a class="sourceLine" id="cb30-26" data-line-number="26"><span class="co">#&gt; 1  2013     1     1      517 (0.97,11] </span></a>
+<a class="sourceLine" id="cb30-27" data-line-number="27"><span class="co">#&gt; 2  2013     1     1      533 (0.97,11] </span></a>
+<a class="sourceLine" id="cb30-28" data-line-number="28"><span class="co">#&gt; 3  2013     1     1      542 (0.97,11] </span></a>
+<a class="sourceLine" id="cb30-29" data-line-number="29"><span class="co">#&gt; 4  2013     1     1      544 (0.97,11] </span></a>
+<a class="sourceLine" id="cb30-30" data-line-number="30"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<p>This is why you can’t supply a column name to <code><a href="../reference/group_by.html">group_by()</a></code>. This amounts to creating a new column containing the string recycled to the number of rows:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="st">"month"</span>)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="co">#&gt; # Groups:   "month" [1]</span></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time `"month"`</span></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1      517 month    </span></a>
+<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1      533 month    </span></a>
+<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542 month    </span></a>
+<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544 month    </span></a>
+<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 </div>
-</div>
-<div id="piping" class="section level2">
-<h2 class="hasAnchor">
-<a href="#piping" class="anchor"></a>Piping</h2>
-<p>The dplyr API is functional in the sense that function calls don’t have side-effects. You must always save their results. This doesn’t lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">a1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day)</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2">a2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(a1, arr_delay, dep_delay)</a>
-<a class="sourceLine" id="cb30-3" data-line-number="3">a3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(a2,</a>
-<a class="sourceLine" id="cb30-4" data-line-number="4">  <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb30-5" data-line-number="5">  <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb30-6" data-line-number="6">a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(a3, arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</a></code></pre></div>
-<p>Or if you don’t want to name the intermediate results, you need to wrap the function calls inside each other:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(</a>
-<a class="sourceLine" id="cb31-2" data-line-number="2">  <span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
-<a class="sourceLine" id="cb31-3" data-line-number="3">    <span class="kw"><a href="../reference/select.html">select</a></span>(</a>
-<a class="sourceLine" id="cb31-4" data-line-number="4">      <span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day),</a>
-<a class="sourceLine" id="cb31-5" data-line-number="5">      arr_delay, dep_delay</a>
-<a class="sourceLine" id="cb31-6" data-line-number="6">    ),</a>
-<a class="sourceLine" id="cb31-7" data-line-number="7">    <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb31-8" data-line-number="8">    <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb31-9" data-line-number="9">  ),</a>
-<a class="sourceLine" id="cb31-10" data-line-number="10">  arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span></a>
-<a class="sourceLine" id="cb31-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb31-12" data-line-number="12"><span class="co">#&gt; Adding missing grouping variables: `year`, `month`, `day`</span></a>
-<a class="sourceLine" id="cb31-13" data-line-number="13"><span class="co">#&gt; # A tibble: 49 x 5</span></a>
-<a class="sourceLine" id="cb31-14" data-line-number="14"><span class="co">#&gt; # Groups:   year, month [11]</span></a>
-<a class="sourceLine" id="cb31-15" data-line-number="15"><span class="co">#&gt;    year month   day   arr   dep</span></a>
-<a class="sourceLine" id="cb31-16" data-line-number="16"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb31-17" data-line-number="17"><span class="co">#&gt; 1  2013     1    16  34.2  24.6</span></a>
-<a class="sourceLine" id="cb31-18" data-line-number="18"><span class="co">#&gt; 2  2013     1    31  32.6  28.7</span></a>
-<a class="sourceLine" id="cb31-19" data-line-number="19"><span class="co">#&gt; 3  2013     2    11  36.3  39.1</span></a>
-<a class="sourceLine" id="cb31-20" data-line-number="20"><span class="co">#&gt; 4  2013     2    27  31.3  37.8</span></a>
-<a class="sourceLine" id="cb31-21" data-line-number="21"><span class="co">#&gt; # … with 45 more rows</span></a></code></pre></div>
-<p>This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">flights <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(year, month, day) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(arr_delay, dep_delay) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
-<a class="sourceLine" id="cb32-5" data-line-number="5">    <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb32-6" data-line-number="6">    <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb32-7" data-line-number="7">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</a></code></pre></div>
-</div>
-<div id="other-data-sources" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-data-sources" class="anchor"></a>Other data sources</h2>
-<p>As well as data frames, dplyr works with data that is stored in other ways, like data tables, databases and multidimensional arrays.</p>
-<div id="data-table" class="section level3">
-<h3 class="hasAnchor">
-<a href="#data-table" class="anchor"></a>Data table</h3>
-<p>dplyr also provides <a href="http://datatable.r-forge.r-project.org/">data table</a> methods for all verbs through <a href="http://github.com/hadley/dtplyr">dtplyr</a>. If you’re using data.tables already this lets you to use dplyr syntax for data manipulation, and data.table for everything else.</p>
-<p>For multiple operations, data.table can be faster because you usually use it with multiple verbs simultaneously. For example, with data table you can do a mutate and a select in a single step. It’s smart enough to know that there’s no point in computing the new variable for rows you’re about to throw away.</p>
-<p>The advantages of using dplyr with data tables are:</p>
-<ul>
-<li><p>For common data manipulation tasks, it insulates you from the reference semantics of data.tables, and protects you from accidentally modifying your data.</p></li>
-<li><p>Instead of one complex method built on the subscripting operator (<code><a href="https://rdrr.io/r/base/Extract.html">[</a></code>), it provides many simple methods.</p></li>
-</ul>
-</div>
-<div id="databases" class="section level3">
-<h3 class="hasAnchor">
-<a href="#databases" class="anchor"></a>Databases</h3>
-<p>dplyr also allows you to use the same verbs with a remote database. It takes care of generating the SQL for you so that you can avoid the cognitive challenge of constantly switching between languages. To use these capabilities, you’ll need to install the dbplyr package and then read <code>vignette("dbplyr")</code> for the details.</p>
-</div>
-<div id="multidimensional-arrays-cubes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#multidimensional-arrays-cubes" class="anchor"></a>Multidimensional arrays / cubes</h3>
-<p><code>tbl_cube()</code> provides an experimental interface to multidimensional arrays or data cubes. If you’re using this form of data in R, please get in touch so I can better understand your needs.</p>
-</div>
-</div>
-<div id="comparisons" class="section level2">
-<h2 class="hasAnchor">
-<a href="#comparisons" class="anchor"></a>Comparisons</h2>
-<p>Compared to all existing options, dplyr:</p>
-<ul>
-<li><p>abstracts away how your data is stored, so that you can work with data frames, data tables and remote databases using the same set of functions. This lets you focus on what you want to achieve, not on the logistics of data storage.</p></li>
-<li><p>provides a thoughtful default <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method that doesn’t automatically print pages of data to the screen (this was inspired by data table’s output).</p></li>
-</ul>
-<p>Compared to base functions:</p>
-<ul>
-<li><p>dplyr is much more consistent; functions have the same interface. So once you’ve mastered one, you can easily pick up the others</p></li>
-<li><p>base functions tend to be based around vectors; dplyr is based around data frames</p></li>
-</ul>
-<p>Compared to plyr, dplyr:</p>
-<ul>
-<li><p>is much much faster</p></li>
-<li><p>provides a better thought out set of joins</p></li>
-<li><p>only provides tools for working with data frames (e.g. most of dplyr is equivalent to <code>ddply()</code> + various functions, <code><a href="../reference/do.html">do()</a></code> is equivalent to <code>dlply()</code>)</p></li>
-</ul>
-<p>Compared to virtual data frame approaches:</p>
-<ul>
-<li><p>it doesn’t pretend that you have a data frame: if you want to run lm etc, you’ll still need to manually pull down the data</p></li>
-<li><p>it doesn’t provide methods for R summary functions (e.g. <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, or <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>)</p></li>
-</ul>
 </div>
   </div>
 
@@ -778,10 +714,8 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#data-nycflights13">Data: nycflights13</a></li>
       <li><a href="#single-table-verbs">Single table verbs</a></li>
+      <li><a href="#combining-functions-with">Combining functions with <code>%&gt;%</code></a></li>
       <li><a href="#patterns-of-operations">Patterns of operations</a></li>
-      <li><a href="#piping">Piping</a></li>
-      <li><a href="#other-data-sources">Other data sources</a></li>
-      <li><a href="#comparisons">Comparisons</a></li>
       </ul>
 </div>
       </div>

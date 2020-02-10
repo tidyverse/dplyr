@@ -56,8 +56,8 @@ right_join(): includes all rows in y.
 full_join(): includes all rows in x or y.
 
 
-If there are multiple matches between x and y, all combination of the
-matches are returned." />
+If a row in x matches multiple rows in y, all the rows in y will be returned
+once for each matching row in x." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -208,8 +208,8 @@ keys:</p><ul>
 <li><p><code>full_join()</code>: includes all rows in <code>x</code> or <code>y</code>.</p></li>
 </ul>
 
-<p>If there are multiple matches between <code>x</code> and <code>y</code>, all combination of the
-matches are returned.</p>
+<p>If a row in <code>x</code> matches multiple rows in <code>y</code>, all the rows in <code>y</code> will be returned
+once for each matching row in <code>x</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>inner_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='no'>...</span>)
@@ -303,9 +303,9 @@ more details.</p></td>
     <tr>
       <th>by</th>
       <td><p>A character vector of variables to join by.</p>
-<p>If <code>NULL</code>, the default, <code>*_join()</code> will perofrm a natural join, using all
-variables in across <code>x</code> and <code>y</code>. A message lists the variables so that you
-can check they're correct; suppress the message by supply <code>by</code> explicitly.</p>
+<p>If <code>NULL</code>, the default, <code>*_join()</code> will perform a natural join, using all
+variables in common across <code>x</code> and <code>y</code>. A message lists the variables so that you
+can check they're correct; suppress the message by supplying <code>by</code> explicitly.</p>
 <p>To join by different variables on <code>x</code> and <code>y</code> use a named vector.
 For example, <code>by = c("a" = "b")</code> will match <code>x$a</code> to <code>y$b</code>.</p>
 <p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>,
@@ -348,16 +348,16 @@ output? Only applies to <code><a href='nest_join.html'>nest_join()</a></code>, <
 
     <p>An object of the same type as <code>x</code>. The order of the rows and columns of <code>x</code>
 is preserved as much as possible.</p><ul>
-<li><p>For <code>inner_join()</code>, a subset of the <code>x</code> rows.
+<li><p>For <code>inner_join()</code>, a subset of <code>x</code> rows.
 For <code>left_join()</code>, all <code>x</code> rows.
 For <code>right_join()</code>, a subset of <code>x</code> rows, followed by unmatched <code>y</code> rows.
 For <code>full_join()</code>, all <code>x</code> rows, followed by unmatched <code>y</code> rows.</p></li>
-<li><p>For all joins, rows will be duplicated if one row in <code>x</code> rows match
+<li><p>For all joins, rows will be duplicated if one or more rows in <code>x</code> matches
 multiple rows in <code>y</code>.</p></li>
-<li><p>Output columns include all <code>x</code> columns and all <code>y</code> columns. If the
-columns have the same name (and aren't included <code>y</code>), <code>suffix</code>es are
+<li><p>Output columns include all <code>x</code> columns and all <code>y</code> columns. If columns in
+<code>x</code> and <code>y</code> have the same name (and aren't included in <code>by</code>), <code>suffix</code>es are
 added to disambiguate.</p></li>
-<li><p>Output columns columns included <code>by</code> are coerced to common type across
+<li><p>Output columns included in <code>by</code> are coerced to common type across
 <code>x</code> and <code>y</code>.</p></li>
 <li><p>Groups are taken from <code>x</code>.</p></li>
 </ul>
@@ -366,7 +366,7 @@ added to disambiguate.</p></li>
 
     
 
-<p>These function are <strong>generic</strong>s, which means that packages can provide
+<p>These functions are <strong>generic</strong>s, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>Methods available in currently loaded packages:</p><ul>
@@ -432,8 +432,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; 2 John  Beatles John   guitar
 #&gt; 3 Paul  Beatles Paul   bass  
 #&gt; 4 &lt;NA&gt;  &lt;NA&gt;    Keith  guitar</div><div class='input'>
-<span class='co'># If a row in `x` matches multiple rows in `y`, all rows</span>
-<span class='co'># will be returned</span>
+<span class='co'># If a row in `x` matches multiple rows in `y`, all the rows in `y` will be</span>
+<span class='co'># returned once for each matching row in `x`</span>
 <span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)
 <span class='no'>df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"first"</span>, <span class='st'>"second"</span>, <span class='st'>"third"</span>))
 <span class='no'>df1</span> <span class='kw'>%&gt;%</span> <span class='fu'>left_join</span>(<span class='no'>df2</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt; # A tibble: 4 x 2
@@ -444,7 +444,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; 3     2 third 
 #&gt; 4     3 &lt;NA&gt;  </div><div class='input'>
 <span class='co'># By default, NAs match other NAs so that there are two</span>
-<span class='co'># rows in the output:</span>
+<span class='co'># rows in the output of this join:</span>
 <span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='no'>df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>), <span class='kw'>z</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 <span class='fu'>left_join</span>(<span class='no'>df1</span>, <span class='no'>df2</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt;    x y z

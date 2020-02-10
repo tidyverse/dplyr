@@ -300,18 +300,18 @@ explicitly kept.</p></li>
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
 involved. Compare this ungrouped mutate:</p><pre>starwars %&gt;%
-  mutate(mass / mean(mass, na.rm = TRUE)) %&gt;%
-  pull()
+  select(name, mass, species) %&gt;%
+  mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 </pre>
 
 <p>With the grouped equivalent:</p><pre>starwars %&gt;%
-  group_by(gender) %&gt;%
-  mutate(mass / mean(mass, na.rm = TRUE)) %&gt;%
-  pull()
+  select(name, mass, species) %&gt;%
+  group_by(species) %&gt;%
+  mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 </pre>
 
 <p>The former normalises <code>mass</code> by the global average whereas the
-latter normalises by the averages within gender levels.</p>
+latter normalises by the averages within species levels.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -338,60 +338,84 @@ individual methods for extra arguments and differences in behaviour.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Newly created variables are available immediately</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
-  <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>,
-  <span class='kw'>cyl4</span> <span class='kw'>=</span> <span class='no'>cyl2</span> * <span class='fl'>2</span>
-)</div><div class='output co'>#&gt; # A tibble: 32 x 13
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  cyl2  cyl4
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4    12    24
-#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4    12    24
-#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1     8    16
-#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1    12    24
-#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2    16    32
-#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1    12    24
-#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4    16    32
-#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2     8    16
-#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2     8    16
-#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4    12    24
-#&gt; # … with 22 more rows</div><div class='input'>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(
+  <span class='kw'>mass2</span> <span class='kw'>=</span> <span class='no'>mass</span> * <span class='fl'>2</span>,
+  <span class='kw'>mass2_squared</span> <span class='kw'>=</span> <span class='no'>mass2</span> * <span class='no'>mass2</span>
+)</div><div class='output co'>#&gt; # A tibble: 87 x 4
+#&gt;    name                mass mass2 mass2_squared
+#&gt;    &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;
+#&gt;  1 Luke Skywalker        77   154         23716
+#&gt;  2 C-3PO                 75   150         22500
+#&gt;  3 R2-D2                 32    64          4096
+#&gt;  4 Darth Vader          136   272         73984
+#&gt;  5 Leia Organa           49    98          9604
+#&gt;  6 Owen Lars            120   240         57600
+#&gt;  7 Beru Whitesun lars    75   150         22500
+#&gt;  8 R5-D4                 32    64          4096
+#&gt;  9 Biggs Darklighter     84   168         28224
+#&gt; 10 Obi-Wan Kenobi        77   154         23716
+#&gt; # … with 77 more rows</div><div class='input'>
 <span class='co'># As well as adding new variables, you can use mutate() to</span>
 <span class='co'># remove variables and modify existing variables.</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
-  <span class='kw'>mpg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>disp</span> <span class='kw'>=</span> <span class='no'>disp</span> * <span class='fl'>0.0163871</span> <span class='co'># convert to litres</span>
-)</div><div class='output co'>#&gt; # A tibble: 32 x 10
-#&gt;      cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1     6  2.62   110  3.9   2.62  16.5     0     1     4     4
-#&gt;  2     6  2.62   110  3.9   2.88  17.0     0     1     4     4
-#&gt;  3     4  1.77    93  3.85  2.32  18.6     1     1     4     1
-#&gt;  4     6  4.23   110  3.08  3.22  19.4     1     0     3     1
-#&gt;  5     8  5.90   175  3.15  3.44  17.0     0     0     3     2
-#&gt;  6     6  3.69   105  2.76  3.46  20.2     1     0     3     1
-#&gt;  7     8  5.90   245  3.21  3.57  15.8     0     0     3     4
-#&gt;  8     4  2.40    62  3.69  3.19  20       1     0     4     2
-#&gt;  9     4  2.31    95  3.92  3.15  22.9     1     0     4     2
-#&gt; 10     6  2.75   123  3.92  3.44  18.3     1     0     4     4
-#&gt; # … with 22 more rows</div><div class='input'>
-<span class='co'># window functions are useful for grouped mutates</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>mutate</span>(<span class='kw'>rank</span> <span class='kw'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>mpg</span>)))</div><div class='output co'>#&gt; # A tibble: 32 x 12
-#&gt; # Groups:   cyl [3]
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  rank
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4     2
-#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4     2
-#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1     8
-#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1     1
-#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2     2
-#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1     6
-#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4    11
-#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2     7
-#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2     8
-#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4     5
-#&gt; # … with 22 more rows</div><div class='input'><span class='co'># see `vignette("window-functions")` for more details</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>height</span>, <span class='no'>mass</span>, <span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(
+  <span class='kw'>mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>height</span> <span class='kw'>=</span> <span class='no'>height</span> * <span class='fl'>0.0328084</span> <span class='co'># convert to feet</span>
+)</div><div class='output co'>#&gt; # A tibble: 87 x 3
+#&gt;    name               height homeworld
+#&gt;    &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;    
+#&gt;  1 Luke Skywalker       5.64 Tatooine 
+#&gt;  2 C-3PO                5.48 Tatooine 
+#&gt;  3 R2-D2                3.15 Naboo    
+#&gt;  4 Darth Vader          6.63 Tatooine 
+#&gt;  5 Leia Organa          4.92 Alderaan 
+#&gt;  6 Owen Lars            5.84 Tatooine 
+#&gt;  7 Beru Whitesun lars   5.41 Tatooine 
+#&gt;  8 R5-D4                3.18 Tatooine 
+#&gt;  9 Biggs Darklighter    6.00 Tatooine 
+#&gt; 10 Obi-Wan Kenobi       5.97 Stewjon  
+#&gt; # … with 77 more rows</div><div class='input'>
+<span class='co'># Use across() with mutate() to apply a transformation</span>
+<span class='co'># to multiple columns in a tibble.</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>homeworld</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(<span class='fu'><a href='across.html'>across</a></span>(-<span class='no'>name</span>, <span class='no'>as.factor</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 3
+#&gt;    name               homeworld species
+#&gt;    &lt;chr&gt;              &lt;fct&gt;     &lt;fct&gt;  
+#&gt;  1 Luke Skywalker     Tatooine  Human  
+#&gt;  2 C-3PO              Tatooine  Droid  
+#&gt;  3 R2-D2              Naboo     Droid  
+#&gt;  4 Darth Vader        Tatooine  Human  
+#&gt;  5 Leia Organa        Alderaan  Human  
+#&gt;  6 Owen Lars          Tatooine  Human  
+#&gt;  7 Beru Whitesun lars Tatooine  Human  
+#&gt;  8 R5-D4              Tatooine  Droid  
+#&gt;  9 Biggs Darklighter  Tatooine  Human  
+#&gt; 10 Obi-Wan Kenobi     Stewjon   Human  
+#&gt; # … with 77 more rows</div><div class='input'><span class='co'># see more in ?across</span>
+
+<span class='co'># Window functions are useful for grouped mutates:</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(<span class='kw'>rank</span> <span class='kw'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>mass</span>)))</div><div class='output co'>#&gt; # A tibble: 87 x 4
+#&gt; # Groups:   homeworld [49]
+#&gt;    name                mass homeworld  rank
+#&gt;    &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;int&gt;
+#&gt;  1 Luke Skywalker        77 Tatooine      5
+#&gt;  2 C-3PO                 75 Tatooine      6
+#&gt;  3 R2-D2                 32 Naboo         6
+#&gt;  4 Darth Vader          136 Tatooine      1
+#&gt;  5 Leia Organa           49 Alderaan      2
+#&gt;  6 Owen Lars            120 Tatooine      2
+#&gt;  7 Beru Whitesun lars    75 Tatooine      6
+#&gt;  8 R5-D4                 32 Tatooine      8
+#&gt;  9 Biggs Darklighter     84 Tatooine      3
+#&gt; 10 Obi-Wan Kenobi        77 Stewjon       1
+#&gt; # … with 77 more rows</div><div class='input'><span class='co'># see `vignette("window-functions")` for more details</span>
 
 <span class='co'># By default, new columns are placed on the far right.</span>
 <span class='co'># Experimental: you can override with `.before` or `.after`</span>
@@ -427,42 +451,41 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='co'># tibbles because the expressions are computed within groups.</span>
 <span class='co'># The following normalises `mass` by the global average:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span>(<span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pull.html'>pull</a></span>()</div><div class='output co'>#&gt;  [1]  0.7912704  0.7707179  0.3288397  1.3975685  0.5035357  1.2331487
-#&gt;  [7]  0.7707179  0.3288397  0.8632041  0.7912704  0.8632041         NA
-#&gt; [13]  1.1509388  0.8220991  0.7604417 13.9551329  0.7912704  1.1303863
-#&gt; [19]  0.1746961  0.7707179  0.8036019  1.4386735  1.1612150  0.8118229
-#&gt; [25]  0.8118229  0.8529279         NA         NA  0.2055248  0.6987843
-#&gt; [31]  0.9145853  0.9248615         NA  0.6782318  0.8426516         NA
-#&gt; [37]         NA         NA  0.4110496         NA         NA  0.8220991
-#&gt; [43]         NA  0.5651932  0.4624308         NA  0.6679556  0.8632041
-#&gt; [49]  0.8426516  0.8940328         NA  0.5138120         NA         NA
-#&gt; [55]  0.8220991         NA  0.8734803         NA         NA  0.8220991
-#&gt; [61]  0.5775246  0.5138120         NA  0.8220991         NA  0.8118229
-#&gt; [67]  0.5651932  1.0481764  0.9043091         NA         NA  0.1541436
-#&gt; [73]         NA  0.4932595         NA  0.5857456  1.6339220  1.3975685
-#&gt; [79]  0.8118229  0.4932595  0.8220991         NA         NA         NA
-#&gt; [85]         NA         NA  0.4624308</div><div class='input'>
-<span class='co'># Whereas this normalises `mass` by the averages within gender</span>
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 4
+#&gt;    name                mass species mass_norm
+#&gt;    &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;
+#&gt;  1 Luke Skywalker        77 Human       0.791
+#&gt;  2 C-3PO                 75 Droid       0.771
+#&gt;  3 R2-D2                 32 Droid       0.329
+#&gt;  4 Darth Vader          136 Human       1.40 
+#&gt;  5 Leia Organa           49 Human       0.504
+#&gt;  6 Owen Lars            120 Human       1.23 
+#&gt;  7 Beru Whitesun lars    75 Human       0.771
+#&gt;  8 R5-D4                 32 Droid       0.329
+#&gt;  9 Biggs Darklighter     84 Human       0.863
+#&gt; 10 Obi-Wan Kenobi        77 Human       0.791
+#&gt; # … with 77 more rows</div><div class='input'>
+<span class='co'># Whereas this normalises `mass` by the averages within species</span>
 <span class='co'># levels:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span>(<span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pull.html'>pull</a></span>()</div><div class='output co'>#&gt;  [1]  0.7254095  0.7065677  0.3014689  1.2812428  0.8959772  1.1305083
-#&gt;  [7]  1.3713937  0.3014689  0.7913558  0.7254095  0.7913558         NA
-#&gt; [13]  1.0551411  0.7536722  0.6971468 12.7935861  0.7254095  1.0362993
-#&gt; [19]  0.1601553  0.7065677  0.7367146  1.3189264  1.0645620  0.7442513
-#&gt; [25]  0.7442513  0.7819349         NA         NA  0.1884181  0.6406214
-#&gt; [31]  0.8384604  0.8478813         NA  0.6217796  0.7725140         NA
-#&gt; [37]         NA         NA  0.3768361         NA         NA  0.7536722
-#&gt; [43]         NA  1.0056887  0.4239406         NA  0.6123587  0.7913558
-#&gt; [49]  0.7725140  0.8196185         NA  0.9142625         NA         NA
-#&gt; [55]  0.7536722         NA  0.8007767         NA         NA  0.7536722
-#&gt; [61]  1.0276310  0.9142625         NA  0.7536722         NA  0.7442513
-#&gt; [67]  1.0056887  0.9609321  0.8290395         NA         NA  0.1413135
-#&gt; [73]         NA  0.4522033         NA  1.0422592  1.4979236  1.2812428
-#&gt; [79]  0.7442513  1.0000000  0.7536722         NA         NA         NA
-#&gt; [85]         NA         NA  0.8228362</div><div class='input'>
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 4
+#&gt; # Groups:   species [38]
+#&gt;    name                mass species mass_norm
+#&gt;    &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;
+#&gt;  1 Luke Skywalker        77 Human       0.930
+#&gt;  2 C-3PO                 75 Droid       1.08 
+#&gt;  3 R2-D2                 32 Droid       0.459
+#&gt;  4 Darth Vader          136 Human       1.64 
+#&gt;  5 Leia Organa           49 Human       0.592
+#&gt;  6 Owen Lars            120 Human       1.45 
+#&gt;  7 Beru Whitesun lars    75 Human       0.906
+#&gt;  8 R5-D4                 32 Droid       0.459
+#&gt;  9 Biggs Darklighter     84 Human       1.01 
+#&gt; 10 Obi-Wan Kenobi        77 Human       0.930
+#&gt; # … with 77 more rows</div><div class='input'>
 <span class='co'># Indirection ----------------------------------------</span>
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
