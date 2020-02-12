@@ -129,9 +129,6 @@ test_that("group_data() give meaningful errors", {
   df8 <- df6
   attr(df8, "groups")$.rows <- list(0L)
 
-  df9 <- df6
-  attr(df9, "groups")$.rows <- list(1)
-
   df10 <- df6
   attr(df10, "groups") <- tibble()
 
@@ -158,7 +155,6 @@ test_that("group_data() give meaningful errors", {
     validate_grouped_df(df6, check_bounds = TRUE)
     validate_grouped_df(df7, check_bounds = TRUE)
     validate_grouped_df(df8, check_bounds = TRUE)
-    validate_grouped_df(df9)
     validate_grouped_df(df10)
     validate_grouped_df(df11)
   })

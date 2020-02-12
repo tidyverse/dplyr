@@ -42,9 +42,6 @@ Error: out of bounds indices
 > validate_grouped_df(df8, check_bounds = TRUE)
 Error: out of bounds indices
 
-> validate_grouped_df(df9)
-Error: `.rows` column is not a list of one-based integer vectors
-
 > validate_grouped_df(df10)
 Error: The `groups` attribute is not a data frame with its last column called `.rows`
 

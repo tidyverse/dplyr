@@ -18,3 +18,19 @@ SEXP dplyr_group_indices(SEXP rows, SEXP s_nr) {
   UNPROTECT(1);
   return indices;
 }
+
+SEXP dplyr_group_keys(SEXP group_data) {
+  R_xlen_t n = XLENGTH(group_data) - 1;
+  SEXP old_names = Rf_getAttrib(group_data, R_NamesSymbol);
+  SEXP new_names = PROTECT(Rf_allocVector(STRSXP, n));
+  SEXP keys = PROTECT(Rf_allocVector(VECSXP, n));
+  for (R_xlen_t i=0; i<n; i++){
+    SET_STRING_ELT(new_names, i, STRING_ELT(old_names, i));
+    SET_VECTOR_ELT(keys, i, VECTOR_ELT(group_data, i));
+  }
+  Rf_copyMostAttrib(group_data, keys);
+  Rf_setAttrib(keys, R_NamesSymbol, new_names);
+  Rf_setAttrib(keys, dplyr::symbols::dot_drop, R_NilValue);
+  UNPROTECT(2);
+  return keys;
+}
