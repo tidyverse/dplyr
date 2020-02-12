@@ -235,8 +235,6 @@ test_that("arguments to sample are passed along", {
   expect_equal(df %>% slice_sample(n = 2, weight_by = wt, replace = TRUE) %>% pull(x), c(1, 1))
 })
 
-
-
 # Errors ------------------------------------------------------------------
 
 test_that("rename errors with invalid grouped data frame (#640)", {
