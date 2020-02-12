@@ -47,7 +47,7 @@ all_equal(mtcars, scramble(mtcars), ignore_col_order = FALSE)
 all_equal(mtcars, scramble(mtcars), ignore_row_order = FALSE)
 
 # By default all_equal is sensitive to variable differences
-df1 <- data.frame(x = "a")
+df1 <- data.frame(x = "a", stringsAsFactors = FALSE)
 df2 <- data.frame(x = factor("a"))
 all_equal(df1, df2)
 # But you can request dplyr convert similar types
