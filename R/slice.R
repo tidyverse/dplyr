@@ -170,8 +170,8 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   size <- check_slice_size(n, prop)
   if (with_ties) {
     idx <- switch(size$type,
-      n =    function(x, n) head(order(x), sum(min_rank(x) <= size$n)),
-      prop = function(x, n) head(order(x), sum(min_rank(x) <= size$prop * n)),
+      n =    function(x, n) head(order(x), sum(min_rank(x) <= size$n, na.rm = TRUE)),
+      prop = function(x, n) head(order(x), sum(min_rank(x) <= size$prop * n, na.rm = TRUE))
     )
   } else {
     idx <- switch(size$type,
@@ -197,8 +197,14 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   size <- check_slice_size(n, prop)
   if (with_ties) {
     idx <- switch(size$type,
-      n =    function(x, n) head(order(x, decreasing = TRUE), sum(min_rank(desc(x)) <= size$n)),
-      prop = function(x, n) head(order(x, decreasing = TRUE), sum(min_rank(desc(x)) <= size$prop * n))
+      n =    function(x, n) head(
+          order(x, decreasing = TRUE),
+          sum(min_rank(desc(x)) <= size$n, na.rm = TRUE)
+        ),
+      prop = function(x, n) head(
+        order(x, decreasing = TRUE),
+        sum(min_rank(desc(x)) <= size$prop * n, na.rm = TRUE)
+      )
     )
   } else {
     idx <- switch(size$type,
