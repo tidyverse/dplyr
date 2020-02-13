@@ -170,8 +170,8 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   size <- check_slice_size(n, prop)
   if (with_ties) {
     idx <- switch(size$type,
-      n =    function(x, n) head(order(x), sum(min_rank(x) <= size$n, na.rm = TRUE)),
-      prop = function(x, n) head(order(x), sum(min_rank(x) <= size$prop * n, na.rm = TRUE))
+      n =    function(x, n) head(order(x), nr_ranks_lesser_or_equal_to(x, size$n)),
+      prop = function(x, n) head(order(x), nr_ranks_lesser_or_equal_to(x, size$prop * n))
     )
   } else {
     idx <- switch(size$type,
@@ -198,12 +198,10 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   if (with_ties) {
     idx <- switch(size$type,
       n =    function(x, n) head(
-          order(x, decreasing = TRUE),
-          sum(min_rank(desc(x)) <= size$n, na.rm = TRUE)
-        ),
+        order(x, decreasing = TRUE), nr_ranks_lesser_or_equal_to(desc(x), size$n)
+      ),
       prop = function(x, n) head(
-        order(x, decreasing = TRUE),
-        sum(min_rank(desc(x)) <= size$prop * n, na.rm = TRUE)
+        order(x, decreasing = TRUE), nr_ranks_lesser_or_equal_to(desc(x), size$prop)
       )
     )
   } else {
@@ -318,5 +316,9 @@ sample_int <- function(n, size, replace = FALSE, wt = NULL) {
   } else {
     sample.int(n, min(size, n), prob = wt)
   }
+}
+
+nr_ranks_lesser_or_equal_to <- function(x, y) {
+  sum(min_rank(x) <= y, na.rm = TRUE)
 }
 
