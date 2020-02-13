@@ -273,7 +273,12 @@ mutate_cols <- function(.data, ...) {
         })
       }
       ptype <- vec_ptype_common(!!!chunks)
-      if (is.matrix(ptype)) {
+
+      requires_fallback <- function(x) {
+        (is.object(x) && !is.data.frame(x)) || is.array(x)
+      }
+
+      if (requires_fallback(ptype)) {
         result <- vec_slice(vec_c(!!!chunks, .ptype = ptype), o_rows)
       } else {
         result <- vec_init(ptype, nrow(.data))
