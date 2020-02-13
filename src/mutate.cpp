@@ -14,6 +14,14 @@ void stop_mutate_not_vector(SEXP result) {
 }
 }
 
+SEXP dplyr_vec_sprinkle(SEXP result, SEXP chunks, SEXP rows) {
+  R_xlen_t n = XLENGTH(rows);
+  for (R_xlen_t i=0; i<n; i++) {
+    result = vctrs::vec_assign_impl(result, VECTOR_ELT(rows, i), VECTOR_ELT(chunks, i), false);
+  }
+  return result;
+}
+
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
   DPLYR_MASK_INIT();
 
