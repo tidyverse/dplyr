@@ -231,7 +231,9 @@ mutate_cols <- function(.data, ...) {
   }
   rows_lengths <- .Call(`dplyr_vec_sizes`, rows)
 
-  o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
+  env_bind_lazy(environment(),
+    o_rows = vec_order(vec_c(!!!rows, .ptype = integer()))
+  )
   mask <- DataMask$new(.data, caller_env(), rows)
 
   dots <- enquos(...)
@@ -270,7 +272,13 @@ mutate_cols <- function(.data, ...) {
           vec_recycle(chunk, n)
         })
       }
-      result <- vec_slice(vec_c(!!!chunks), o_rows)
+      ptype <- vec_ptype_common(!!!chunks)
+      if (is.matrix(ptype)) {
+        result <- vec_slice(vec_c(!!!chunks, .ptype = ptype), o_rows)
+      } else {
+        result <- vec_init(ptype, nrow(.data))
+        result <- .Call(`dplyr_vec_sprinkle`, result, chunks, rows)
+      }
 
       not_named <- (is.null(dots_names) || dots_names[i] == "")
       if (not_named && is.data.frame(result)) {
