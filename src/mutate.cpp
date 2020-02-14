@@ -14,10 +14,37 @@ void stop_mutate_not_vector(SEXP result) {
 }
 }
 
-SEXP dplyr_vec_sprinkle(SEXP result, SEXP chunks, SEXP rows) {
+SEXP dplyr_vec_sprinkle(SEXP result, SEXP chunks, SEXP rows, SEXP ptype) {
   R_xlen_t n = XLENGTH(rows);
   for (R_xlen_t i=0; i<n; i++) {
     result = vctrs::vec_assign_impl(result, VECTOR_ELT(rows, i), VECTOR_ELT(chunks, i), false);
+  }
+
+  // deal with names when sprinkling vectors
+  if (!Rf_inherits(ptype, "data.frame")) {
+    bool have_names = false;
+    for (R_xlen_t i=0; i<n; i++) {
+      SEXP x = VECTOR_ELT(chunks, i);
+      if (Rf_getAttrib(x, R_NamesSymbol) != R_NilValue) {
+        have_names = true;
+        break;
+      }
+    }
+
+    if (have_names) {
+      // sprinkle the names
+      R_xlen_t n_result = XLENGTH(result);
+      SEXP result_names = PROTECT(Rf_allocVector(STRSXP, n_result));
+
+      for (R_xlen_t i=0; i<n; i++) {
+        SEXP names_i = Rf_getAttrib(VECTOR_ELT(chunks, i), R_NamesSymbol);
+        if (names_i != R_NilValue) {
+          vctrs::vec_assign_impl(result_names, VECTOR_ELT(rows, i), names_i, false);
+        }
+      }
+      Rf_namesgets(result, result_names);
+      UNPROTECT(1);
+    }
   }
   return result;
 }
