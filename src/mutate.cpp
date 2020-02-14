@@ -30,13 +30,14 @@ SEXP dplyr_vec_sprinkle(SEXP nrows, SEXP chunks, SEXP rows, SEXP ptype) {
       vctrs::vec_assign_impl(result, rows_i, x, false);
     } else {
       // recycling `x` ni times
-      SEXP rows_i_j = Rf_ScalarInteger(0);
+      SEXP rows_i_j = PROTECT(Rf_ScalarInteger(0));
       int* p_rows_i_j = INTEGER(rows_i_j);
       int* p_rows_i = INTEGER(rows_i);
       for (int j=0; j<ni; j++, ++p_rows_i) {
         *p_rows_i_j = *p_rows_i;
         vctrs::vec_assign_impl(result, rows_i_j, x, false);
       }
+      UNPROTECT(1);
     }
 
     UNPROTECT(1);
