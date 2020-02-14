@@ -282,6 +282,7 @@ mutate_cols <- function(.data, ...) {
         result <- vec_slice(vec_c(!!!chunks, .ptype = ptype), o_rows)
       } else {
         result <- vec_init(ptype, nrow(.data))
+        chunks <- map(chunks, vec_cast, ptype)
         result <- .Call(`dplyr_vec_sprinkle`, result, chunks, rows, ptype)
       }
 
