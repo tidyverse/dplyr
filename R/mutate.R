@@ -264,14 +264,6 @@ mutate_cols <- function(.data, ...) {
         next
       }
 
-      if (needs_recycle) {
-        chunks <- pmap(list(seq_along(chunks), chunks, rows_lengths), function(i, chunk, n) {
-          # set the group so that stop_mutate_recycle_incompatible_size() correctly
-          # identifies it, otherwise it would always report the last group
-          mask$set_current_group(i)
-          vec_recycle(chunk, n)
-        })
-      }
       ptype <- vec_ptype_common(!!!chunks)
 
       requires_fallback <- function(x) {
@@ -279,6 +271,14 @@ mutate_cols <- function(.data, ...) {
       }
 
       if (requires_fallback(ptype)) {
+        if (needs_recycle) {
+          chunks <- pmap(list(seq_along(chunks), chunks, rows_lengths), function(i, chunk, n) {
+            # set the group so that stop_mutate_recycle_incompatible_size() correctly
+            # identifies it, otherwise it would always report the last group
+            mask$set_current_group(i)
+            vec_recycle(chunk, n)
+          })
+        }
         result <- vec_slice(vec_c(!!!chunks, .ptype = ptype), o_rows)
       } else {
         result <- .Call(`dplyr_vec_sprinkle`, nrow(.data), chunks, rows, ptype)
