@@ -14,10 +14,16 @@ void stop_mutate_not_vector(SEXP result) {
 }
 }
 
-SEXP dplyr_vec_sprinkle(SEXP result, SEXP chunks, SEXP rows, SEXP ptype) {
+SEXP dplyr_vec_sprinkle(SEXP nrows, SEXP chunks, SEXP rows, SEXP ptype) {
+  SEXP result = PROTECT(vctrs::short_vec_init(ptype, Rf_asInteger(nrows)));
+
   R_xlen_t n = XLENGTH(rows);
+  SEXP x_arg = PROTECT(Rf_mkString("x"));
+  SEXP to_arg = PROTECT(Rf_mkString("to"));
   for (R_xlen_t i=0; i<n; i++) {
-    result = vctrs::vec_assign_impl(result, VECTOR_ELT(rows, i), VECTOR_ELT(chunks, i), false);
+    SEXP x = PROTECT(vctrs::vec_cast(VECTOR_ELT(chunks, i), ptype, x_arg, to_arg));
+    result = vctrs::vec_assign_impl(result, VECTOR_ELT(rows, i), x, false);
+    UNPROTECT(1);
   }
 
   // deal with names when sprinkling vectors
@@ -46,6 +52,8 @@ SEXP dplyr_vec_sprinkle(SEXP result, SEXP chunks, SEXP rows, SEXP ptype) {
       UNPROTECT(1);
     }
   }
+
+  UNPROTECT(3);
   return result;
 }
 
