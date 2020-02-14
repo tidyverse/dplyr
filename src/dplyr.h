@@ -49,6 +49,8 @@ namespace vctrs {
 bool vec_is_vector(SEXP x) ;
 R_len_t short_vec_size(SEXP x) ;
 SEXP vec_assign_impl(SEXP, SEXP, SEXP, bool);
+SEXP vec_cast(SEXP, SEXP, SEXP, SEXP);
+SEXP short_vec_init(SEXP, R_len_t);
 }
 
 SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr);
@@ -61,7 +63,7 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds);
 SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private);
-SEXP dplyr_vec_sprinkle(SEXP result, SEXP chunks, SEXP rows, SEXP ptype);
+SEXP dplyr_vec_sprinkle(SEXP nrows, SEXP chunks, SEXP rows, SEXP ptype);
 SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_filter);
 SEXP dplyr_vec_sizes(SEXP chunks);
 SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks);
