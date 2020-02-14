@@ -21,8 +21,24 @@ SEXP dplyr_vec_sprinkle(SEXP nrows, SEXP chunks, SEXP rows, SEXP ptype) {
   SEXP x_arg = PROTECT(Rf_mkString("x"));
   SEXP to_arg = PROTECT(Rf_mkString("to"));
   for (R_xlen_t i=0; i<n; i++) {
+    SEXP rows_i = VECTOR_ELT(rows, i);
+    int ni = vctrs::short_vec_size(rows_i);
+
     SEXP x = PROTECT(vctrs::vec_cast(VECTOR_ELT(chunks, i), ptype, x_arg, to_arg));
-    result = vctrs::vec_assign_impl(result, VECTOR_ELT(rows, i), x, false);
+    if (vctrs::short_vec_size(x) == ni) {
+      // x and rows_i are the same size
+      vctrs::vec_assign_impl(result, rows_i, x, false);
+    } else {
+      // recycling `x` ni times
+      SEXP rows_i_j = Rf_ScalarInteger(0);
+      int* p_rows_i_j = INTEGER(rows_i_j);
+      int* p_rows_i = INTEGER(rows_i);
+      for (int j=0; j<ni; j++, ++p_rows_i) {
+        *p_rows_i_j = *p_rows_i;
+        vctrs::vec_assign_impl(result, rows_i_j, x, false);
+      }
+    }
+
     UNPROTECT(1);
   }
 
