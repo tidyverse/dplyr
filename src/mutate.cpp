@@ -34,7 +34,7 @@ SEXP dplyr_vec_unchop(SEXP chunks, SEXP rows, SEXP nrows,
       SEXP rows_i_j = PROTECT(Rf_ScalarInteger(0));
       int* p_rows_i_j = INTEGER(rows_i_j);
       int* p_rows_i = INTEGER(rows_i);
-      for (int j=0; j<ni; j++, ++p_rows_i) {
+      for (int j = 0; j < ni; ++j, ++p_rows_i) {
         *p_rows_i_j = *p_rows_i;
         vctrs::vec_assign_impl(result, rows_i_j, x, false);
       }
@@ -60,7 +60,7 @@ SEXP dplyr_vec_unchop(SEXP chunks, SEXP rows, SEXP nrows,
       R_xlen_t n_result = XLENGTH(result);
       SEXP result_names = PROTECT(Rf_allocVector(STRSXP, n_result));
 
-      for (R_xlen_t i=0; i<n; i++) {
+      for (R_xlen_t i = 0; i < n; ++i) {
         SEXP names_i = Rf_getAttrib(VECTOR_ELT(chunks, i), R_NamesSymbol);
         if (names_i != R_NilValue) {
           vctrs::vec_assign_impl(result_names, VECTOR_ELT(rows, i), names_i, false);
