@@ -21,7 +21,7 @@ SEXP dplyr_vec_unchop(SEXP chunks, SEXP rows, SEXP nrows,
   R_xlen_t n = XLENGTH(rows);
   SEXP x_arg = PROTECT(Rf_mkString("x"));
   SEXP to_arg = PROTECT(Rf_mkString("to"));
-  for (R_xlen_t i=0; i<n; i++) {
+  for (R_xlen_t i = 0; i < n; ++i) {
     SEXP rows_i = VECTOR_ELT(rows, i);
     int ni = vctrs::short_vec_size(rows_i);
 
