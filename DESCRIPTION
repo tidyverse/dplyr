@@ -56,7 +56,8 @@ Suggests:
     withr,
     broom,
     purrr,
-    readr
+    readr, 
+    bench
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: yes
@@ -65,4 +66,5 @@ RoxygenNote: 7.0.2
 Remotes:
     tidyverse/tibble,
     r-lib/pillar, 
-    r-lib/rlang
+    r-lib/rlang,
+    r-lib/bench
