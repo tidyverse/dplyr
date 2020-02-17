@@ -281,7 +281,7 @@ mutate_cols <- function(.data, ...) {
         }
         result <- vec_slice(vec_c(!!!chunks, .ptype = ptype), o_rows)
       } else {
-        result <- .Call(`dplyr_vec_sprinkle`, nrow(.data), chunks, rows, ptype)
+        result <- .Call(`dplyr_vec_unchop`, chunks, rows, nrow(.data), ptype)
       }
 
       not_named <- (is.null(dots_names) || dots_names[i] == "")

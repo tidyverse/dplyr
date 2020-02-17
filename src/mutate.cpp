@@ -14,7 +14,8 @@ void stop_mutate_not_vector(SEXP result) {
 }
 }
 
-SEXP dplyr_vec_sprinkle(SEXP nrows, SEXP chunks, SEXP rows, SEXP ptype) {
+SEXP dplyr_vec_unchop(SEXP chunks, SEXP rows, SEXP nrows,
+  SEXP ptype) {
   SEXP result = PROTECT(vctrs::short_vec_init(ptype, Rf_asInteger(nrows)));
 
   R_xlen_t n = XLENGTH(rows);
