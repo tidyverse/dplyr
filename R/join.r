@@ -330,8 +330,10 @@ join_mutate <- function(x, y, by, type,
 
   if (!keep) {
     out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
-    new_rows <- length(rows$x) + seq_along(rows$y_extra)
-    out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
+    if (length(rows$y_extra)) {
+      new_rows <- length(rows$x) + seq_along(rows$y_extra)
+      out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
+    }
   }
 
   out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
