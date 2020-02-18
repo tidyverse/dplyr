@@ -288,7 +288,13 @@ unnamed arguments.</p></td>
 <span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
   <span class='kw'>var</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>.</span>$<span class='no'>mod</span>)),
   <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>.</span>$<span class='no'>mod</span>)))
-)</div><div class='output co'>#&gt; # A tibble: 6 x 5
+)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* `(Intercept)` -&gt; `(Intercept)...1`</span>
+#&gt; <span class='message'>* disp -&gt; disp...2</span>
+#&gt; <span class='message'>* `(Intercept)` -&gt; `(Intercept)...3`</span>
+#&gt; <span class='message'>* disp -&gt; disp...4</span>
+#&gt; <span class='message'>* `(Intercept)` -&gt; `(Intercept)...5`</span>
+#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt; # A tibble: 6 x 5
 #&gt; # Rowwise: 
 #&gt;   var         Estimate Std..Error t.value   Pr...t..
 #&gt;   &lt;fct&gt;          &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
