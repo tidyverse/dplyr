@@ -1,6 +1,12 @@
 #include "dplyr.h"
 
 namespace dplyr {
+void stop_mutate_recycle(R_len_t n_result_i) {
+  SEXP sym_stop_mutate_recycle_incompatible_size = Rf_install("stop_mutate_recycle_incompatible_size");
+  SEXP call = Rf_lang2(sym_stop_mutate_recycle_incompatible_size, Rf_ScalarInteger(n_result_i));
+  Rf_eval(call, dplyr::envs::ns_dplyr);
+}
+
 void stop_mutate_mixed_NULL() {
   SEXP sym_stop_mutate_mixed_NULL = Rf_install("stop_mutate_mixed_NULL");
   SEXP call = Rf_lang1(sym_stop_mutate_mixed_NULL);
@@ -104,8 +110,15 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
     } else if (vctrs::vec_is_vector(result_i)) {
       seen_vec = true;
 
-      if (vctrs::short_vec_size(result_i) != n_i) {
+      R_len_t n_result_i = vctrs::short_vec_size(result_i);
+
+      if (n_result_i != n_i) {
         needs_recycle = true;
+
+        // only allow sizes 1 and n_i are allowed
+        if (n_result_i != 1) {
+          dplyr::stop_mutate_recycle(n_result_i);
+        }
       }
 
     } else {
