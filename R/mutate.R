@@ -273,9 +273,6 @@ mutate_cols <- function(.data, ...) {
       if (requires_fallback(ptype)) {
         if (needs_recycle) {
           chunks <- pmap(list(seq_along(chunks), chunks, rows_lengths), function(i, chunk, n) {
-            # set the group so that stop_mutate_recycle_incompatible_size() correctly
-            # identifies it, otherwise it would always report the last group
-            mask$set_current_group(i)
             vec_recycle(chunk, n)
           })
         }
@@ -308,7 +305,8 @@ mutate_cols <- function(.data, ...) {
   rlang_error_data_pronoun_not_found = function(e) {
     stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
   },
-  vctrs_error_recycle_incompatible_size = function(e) {
+  dplyr_mutate_incompatible_size = function(e) {
+    e$size <- rows_lengths[i]
     stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
   },
   dplyr_mutate_mixed_NULL = function(e) {
