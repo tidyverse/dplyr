@@ -119,8 +119,6 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
   df1 <- tibble(a = NA)
   df2 <- tibble(a = NA, b = 1:3)
   expect_warning(left_join(df1, df2, by = "a", na_matches = "never"))
-
-  skip("until https://github.com/r-lib/vctrs/issues/718")
 })
 
 # nest_join ---------------------------------------------------------------
