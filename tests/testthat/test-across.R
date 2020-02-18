@@ -1,3 +1,10 @@
+test_that("across() works on one column data.frame", {
+  df <- data.frame(x = 1)
+
+  out <- df %>% mutate(across(x, identity))
+  expect_equal(dim(out), c(1, 1))
+})
+
 test_that("across() does not select grouping variables", {
   df <- data.frame(g = 1, x = 1)
 
