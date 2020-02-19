@@ -51,6 +51,11 @@
 #'   To join by different variables on `x` and `y` use a named vector.
 #'   For example, `by = c("a" = "b")` will match `x$a` to `y$b`.
 #'
+#'   You can join by multiple variables by using a vector with length > 1. For
+#'   example, `by = c("a", "b")` to match `x$a` to `y$a` and `x$b` to `y$b`.
+#'   Using a named vector with length > 1 also works, for example
+#'   `by = c("a" = "b", "c" = "d")` to match `x$a` to `y$b` and `x$c` to `y$d`.
+#'
 #'   To perform a cross-join, generating all combinations of `x` and `y`,
 #'   use `by = character()`.
 #' @param copy If `x` and `y` are not from the same data source,
