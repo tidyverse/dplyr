@@ -63,7 +63,7 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
 
   vars <- tidyselect::eval_select(
     expr({{ cols }}),
-    data[, setdiff(names(data), group_vars(data))]
+    data[, setdiff(names(data), group_vars(data)), drop = FALSE]
   )
   data <- mask$pick(names(vars))
 
