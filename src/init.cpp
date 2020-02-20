@@ -72,7 +72,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_validate_summarise_sizes", (DL_FUNC)& dplyr_validate_summarise_sizes, 2},
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
-  {"dplyr_vec_unchop", (DL_FUNC)& dplyr_vec_unchop, 4},
 
   {NULL, NULL, 0}
 };

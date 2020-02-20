@@ -231,9 +231,6 @@ mutate_cols <- function(.data, ...) {
   }
   rows_lengths <- .Call(`dplyr_vec_sizes`, rows)
 
-  env_bind_lazy(environment(),
-    o_rows = vec_order(vec_c(!!!rows, .ptype = integer()))
-  )
   mask <- DataMask$new(.data, caller_env(), rows)
 
   dots <- enquos(...)
@@ -264,22 +261,7 @@ mutate_cols <- function(.data, ...) {
         next
       }
 
-      ptype <- vec_ptype_common(!!!chunks)
-
-      requires_fallback <- function(x) {
-        (is.object(x) && !is.data.frame(x)) || is.array(x)
-      }
-
-      if (requires_fallback(ptype)) {
-        if (needs_recycle) {
-          chunks <- pmap(list(seq_along(chunks), chunks, rows_lengths), function(i, chunk, n) {
-            vec_recycle(chunk, n)
-          })
-        }
-        result <- vec_slice(vec_c(!!!chunks, .ptype = ptype), o_rows)
-      } else {
-        result <- .Call(`dplyr_vec_unchop`, chunks, rows, nrow(.data), ptype)
-      }
+      result <- vec_unchop(chunks, rows)
 
       not_named <- (is.null(dots_names) || dots_names[i] == "")
       if (not_named && is.data.frame(result)) {
