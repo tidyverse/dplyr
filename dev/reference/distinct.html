@@ -314,7 +314,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt;  8     7
 #&gt;  9     6
 #&gt; 10     5</div><div class='input'>
-<span class='co'># Using across() to select variables ----------------------</span>
+<span class='co'># use across() to access select()-style semantics</span>
 <span class='fu'>distinct</span>(<span class='no'>starwars</span>, <span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"color"</span>)))</div><div class='output co'>#&gt; # A tibble: 67 x 3
 #&gt;    hair_color    skin_color  eye_color
 #&gt;    &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;    
@@ -336,13 +336,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
   <span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>)
 ) <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>)
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt; # Groups:   g [2]
-#&gt;       g     x
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     1
-#&gt; 2     2     2
-#&gt; 3     2     1</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt; # Groups:   g [2]
 #&gt;       g     x
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
