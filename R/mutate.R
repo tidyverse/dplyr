@@ -249,7 +249,7 @@ mutate_cols <- function(.data, ...) {
       # recycling it appropriately to match the group size
       #
       # TODO: reinject hybrid evaluation at the R level
-      c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]])
+      chunks <- mask$eval_all_mutate(dots[[i]])
 
       if (is.null(chunks)) {
         if (!is.null(dots_names) && dots_names[i] != "") {

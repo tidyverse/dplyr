@@ -32,6 +32,7 @@ struct vctrs_api_ptrs_t {
   SEXP (*vec_assign_impl)(SEXP, SEXP, SEXP, bool);
   SEXP (*vec_cast)(SEXP, SEXP, SEXP, SEXP);
   SEXP (*short_vec_init)(SEXP, R_len_t);
+  SEXP (*short_vec_recycle)(SEXP, R_len_t, struct vctrs_arg*);
 
   vctrs_api_ptrs_t() {
     vec_is_vector =         (bool (*)(SEXP)) R_GetCCallable("vctrs", "vec_is_vector");
@@ -39,6 +40,7 @@ struct vctrs_api_ptrs_t {
     vec_assign_impl = (SEXP (*)(SEXP, SEXP, SEXP, bool)) R_GetCCallable("vctrs", "vec_assign_impl");
     vec_cast = (SEXP (*)(SEXP, SEXP, SEXP, SEXP)) R_GetCCallable("vctrs", "vctrs_cast");
     short_vec_init = (SEXP (*)(SEXP, R_len_t)) R_GetCCallable("vctrs", "short_vec_init");
+    short_vec_recycle = (SEXP (*)(SEXP, R_len_t, struct vctrs_arg*)) R_GetCCallable("vctrs", "short_vec_recycle");
   }
 };
 // *INDENT-ON*
@@ -67,4 +69,9 @@ SEXP vec_cast(SEXP x, SEXP to, SEXP x_arg_, SEXP to_arg_) {
 SEXP short_vec_init(SEXP x, R_len_t n) {
   return vctrs_api().short_vec_init(x, n);
 }
+
+SEXP short_vec_recycle(SEXP x, R_len_t n) {
+  return vctrs_api().short_vec_recycle(x, n, NULL);
+}
+
 }
