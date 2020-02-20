@@ -229,8 +229,13 @@ more details.</p></td>
 <p>If <code>NULL</code>, the default, <code>*_join()</code> will perform a natural join, using all
 variables in common across <code>x</code> and <code>y</code>. A message lists the variables so that you
 can check they're correct; suppress the message by supplying <code>by</code> explicitly.</p>
-<p>To join by different variables on <code>x</code> and <code>y</code> use a named vector.
+<p>To join by different variables on <code>x</code> and <code>y</code>, use a named vector.
 For example, <code>by = c("a" = "b")</code> will match <code>x$a</code> to <code>y$b</code>.</p>
+<p>To join by multiple variables, use a vector with length &gt; 1.
+For example, <code>by = c("a", "b")</code> will match <code>x$a</code> to <code>y$a</code> and <code>x$b</code> to
+<code>y$b</code>. Use a named vector to match different variables in <code>x</code> and <code>y</code>.
+For example, <code>by = c("a" = "b", "c" = "d")</code> will match <code>x$a</code> to <code>y$b</code> and
+<code>x$c</code> to <code>y$d</code>.</p>
 <p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>,
 use <code>by = character()</code>.</p></td>
     </tr>
