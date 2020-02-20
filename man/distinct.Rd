@@ -74,4 +74,5 @@ df <- tibble(
   x = c(1, 1, 2, 1)
 ) \%>\% group_by(g)
 df \%>\% distinct(x)
+
 }

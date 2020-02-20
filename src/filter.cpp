@@ -101,6 +101,8 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_
 
   for (R_xlen_t i = 0; i < ngroups; i++) {
     DPLYR_MASK_SET_GROUP(i);
+    SEXP rows_i = VECTOR_ELT(rows, i);
+    R_xlen_t n_i = XLENGTH(rows_i);
 
     SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, n_i, env_filter));
 

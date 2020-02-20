@@ -163,7 +163,7 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
 #' @rdname new_grouped_df
 #' @export
 validate_grouped_df <- function(x, check_bounds = FALSE) {
-  result <- .Call(`dplyr_validate_grouped_df`, x, nrow(x), check_bounds)
+  result <- .Call(`dplyr_validate_grouped_df`, x, check_bounds)
   if (!is.null(result)) {
     abort(result, class = "dplyr_grouped_df_corrupt")
   }

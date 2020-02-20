@@ -22,6 +22,10 @@ struct symbols {
   static SEXP rows;
   static SEXP mask;
   static SEXP caller;
+  static SEXP resolved;
+  static SEXP bindings;
+  static SEXP which_used;
+  static SEXP dot_drop;
 };
 
 struct vectors {
@@ -52,7 +56,7 @@ SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right);
 SEXP dplyr_cumall(SEXP x);
 SEXP dplyr_cumany(SEXP x);
 SEXP dplyr_cummean(SEXP x);
-SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_nr_df, SEXP s_check_bounds);
+SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds);
 SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private);
@@ -60,19 +64,35 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_
 SEXP dplyr_vec_sizes(SEXP chunks);
 SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
+SEXP dplyr_group_keys(SEXP group_data);
 
 #define DPLYR_MASK_INIT()                                                  \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows)); \
 R_xlen_t ngroups = XLENGTH(rows);                                          \
 SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask)); \
-SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller))
+SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller)); \
+SEXP bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::bindings)); \
+SEXP current_group = PROTECT(Rf_ScalarInteger(NA_INTEGER));                    \
+Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);       \
+int* p_current_group = INTEGER(current_group)
 
-#define DPLYR_MASK_FINALISE() UNPROTECT(3);
+#define DPLYR_MASK_FINALISE() UNPROTECT(5);
 
 #define DPLYR_MASK_SET_GROUP(INDEX)                                                  \
-SEXP rows_i = VECTOR_ELT(rows, i);                                                   \
-R_xlen_t n_i = XLENGTH(rows_i);                                                      \
-Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(i + 1), env_private);
+*p_current_group = INDEX + 1;   \
+SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);            \
+SEXP which_used = Rf_findVarInFrame(env_private, dplyr::symbols::which_used); \
+int* p_which_used = INTEGER(which_used);                       \
+SEXP names_resolved = Rf_getAttrib(resolved, R_NamesSymbol);       \
+R_xlen_t n_resolved = XLENGTH(which_used);                           \
+for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) { \
+  int idx_promise = p_which_used[i_resolved] - 1;              \
+  Rf_defineVar( \
+    Rf_installChar(STRING_ELT(names_resolved, idx_promise)), \
+    VECTOR_ELT(VECTOR_ELT(resolved, idx_promise), i), bindings \
+  ); \
+}
+
 
 #define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
 

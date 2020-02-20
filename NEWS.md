@@ -136,7 +136,7 @@
   packages, and we now believe that you're better off performing comparisons 
   more directly (#4675).
 
-* `combine()` is soft deprecated. Please use `vectrs::vec_c()` instead.
+* `combine()` is soft deprecated. Please use `vctrs::vec_c()` instead.
 
 * `do()` is deprecated in favour of either `condense()` or `summarise()`
   depending on whether you were using the named or unnamed form.

@@ -9,27 +9,27 @@
 #' * `right_join()`: includes all rows in `y`.
 #' * `full_join()`: includes all rows in `x` or `y`.
 #'
-#' If there are multiple matches between `x` and `y`, all combination of the
-#' matches are returned.
+#' If a row in `x` matches multiple rows in `y`, all the rows in `y` will be returned
+#' once for each matching row in `x`.
 #'
 #' @return
 #' An object of the same type as `x`. The order of the rows and columns of `x`
 #' is preserved as much as possible.
 #'
-#' * For `inner_join()`, a subset of the `x` rows.
+#' * For `inner_join()`, a subset of `x` rows.
 #'   For `left_join()`, all `x` rows.
 #'   For `right_join()`, a subset of `x` rows, followed by unmatched `y` rows.
 #'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
-#' * For all joins, rows will be duplicated if one row in `x` rows match
+#' * For all joins, rows will be duplicated if one or more rows in `x` matches
 #'   multiple rows in `y`.
-#' * Output columns include all `x` columns and all `y` columns. If the
-#'   columns have the same name (and aren't included `y`), `suffix`es are
+#' * Output columns include all `x` columns and all `y` columns. If columns in
+#'   `x` and `y` have the same name (and aren't included in `by`), `suffix`es are
 #'   added to disambiguate.
-#' * Output columns columns included `by` are coerced to common type across
+#' * Output columns included in `by` are coerced to common type across
 #'   `x` and `y`.
 #' * Groups are taken from `x`.
 #' @section Methods:
-#' These function are **generic**s, which means that packages can provide
+#' These functions are **generic**s, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
 #'
@@ -44,12 +44,18 @@
 #'   more details.
 #' @param by A character vector of variables to join by.
 #'
-#'   If `NULL`, the default, `*_join()` will perofrm a natural join, using all
-#'   variables in across `x` and `y`. A message lists the variables so that you
-#'   can check they're correct; suppress the message by supply `by` explicitly.
+#'   If `NULL`, the default, `*_join()` will perform a natural join, using all
+#'   variables in common across `x` and `y`. A message lists the variables so that you
+#'   can check they're correct; suppress the message by supplying `by` explicitly.
 #'
-#'   To join by different variables on `x` and `y` use a named vector.
+#'   To join by different variables on `x` and `y`, use a named vector.
 #'   For example, `by = c("a" = "b")` will match `x$a` to `y$b`.
+#'
+#'   To join by multiple variables, use a vector with length > 1.
+#'   For example, `by = c("a", "b")` will match `x$a` to `y$a` and `x$b` to
+#'   `y$b`. Use a named vector to match different variables in `x` and `y`.
+#'   For example, `by = c("a" = "b", "c" = "d")` will match `x$a` to `y$b` and
+#'   `x$c` to `y$d`.
 #'
 #'   To perform a cross-join, generating all combinations of `x` and `y`,
 #'   use `by = character()`.
@@ -88,14 +94,14 @@
 #' band_members %>%
 #'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 #'
-#' # If a row in `x` matches multiple rows in `y`, all rows
-#' # will be returned
+#' # If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
+#' # returned once for each matching row in `x`
 #' df1 <- tibble(x = 1:3)
 #' df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 #' df1 %>% left_join(df2)
 #'
 #' # By default, NAs match other NAs so that there are two
-#' # rows in the output:
+#' # rows in the output of this join:
 #' df1 <- data.frame(x = c(1, NA), y = 2)
 #' df2 <- data.frame(x = c(1, NA), z = 3)
 #' left_join(df1, df2)
@@ -245,7 +251,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 
 #' Nest join
 #'
-#' `nest_join()` returns all rows and columns `x` with a new nested-df column
+#' `nest_join()` returns all rows and columns in `x` with a new nested-df column
 #' that contains all matches from `y`. When there is no match, the list column
 #' is a 0-row tibble.
 #'
@@ -329,7 +335,7 @@ join_mutate <- function(x, y, by, type,
   out <- vec_slice(out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
 
   if (!keep) {
-    out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+    out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype_common(x_key, y_key))
     new_rows <- length(rows$x) + seq_along(rows$y_extra)
     out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
   }

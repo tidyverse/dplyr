@@ -37,6 +37,10 @@ SEXP symbols::current_expression = Rf_install("current_expression");
 SEXP symbols::rows = Rf_install("rows");
 SEXP symbols::mask = Rf_install("mask");
 SEXP symbols::caller = Rf_install("caller");
+SEXP symbols::resolved = Rf_install("resolved");
+SEXP symbols::bindings = Rf_install("bindings");
+SEXP symbols::which_used = Rf_install("which_used");
+SEXP symbols::dot_drop = Rf_install(".drop");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();
@@ -57,7 +61,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_cumall", (DL_FUNC)& dplyr_cumall, 1},
   {"dplyr_cumany", (DL_FUNC)& dplyr_cumany, 1},
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
-  {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
+  {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 2},
 
   {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 2},
   {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 2},
@@ -67,6 +71,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
   {"dplyr_validate_summarise_sizes", (DL_FUNC)& dplyr_validate_summarise_sizes, 2},
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
+  {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
 
   {NULL, NULL, 0}
 };

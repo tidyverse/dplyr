@@ -35,8 +35,9 @@ Indices beyond the number of rows in the input are silently ignored.
 
 For \code{slice_helpers()}, these arguments are passed on to methods.}
 
-\item{.preserve}{when \code{FALSE} (the default), the grouping structure
-is recalculated based on the resulting data, otherwise it is kept as is.}
+\item{.preserve}{Relevant when the \code{.data} input is grouped.
+If \code{.preserve = FALSE} (the default), the grouping structure
+is recalculated based on the resulting data, otherwise the grouping is kept as is.}
 
 \item{n, prop}{Provide either \code{n}, the number of rows, or \code{prop}, the
 proportion of rows to select. If \code{n} is greater than the number of
