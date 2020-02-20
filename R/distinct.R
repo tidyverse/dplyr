@@ -46,7 +46,7 @@
 #' # You can also use distinct on computed variables
 #' distinct(df, diff = abs(x - y))
 #'
-#' # Using across() to select variables ----------------------
+#' # use across() to access select()-style semantics
 #' distinct(starwars, across(contains("color")))
 #'
 #' # Grouping -------------------------------------------------
@@ -56,7 +56,6 @@
 #'   g = c(1, 1, 2, 2),
 #'   x = c(1, 1, 2, 1)
 #' ) %>% group_by(g)
-#' df %>% distinct()
 #' df %>% distinct(x)
 #'
 distinct <- function(.data, ..., .keep_all = FALSE) {
