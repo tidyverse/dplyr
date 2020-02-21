@@ -241,8 +241,8 @@ slice_rows <- function(.data, ...) {
     return(TRUE)
   }
 
-  rows <- group_rows(.data)
-  mask <- DataMask$new(.data, caller_env(), rows)
+  mask <- DataMask$new(.data, caller_env())
+  rows <- mask$get_rows()
 
   quo <- quo(c(!!!dots))
   chunks <- mask$eval_all(quo)
