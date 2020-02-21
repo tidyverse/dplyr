@@ -48,7 +48,6 @@ SEXP eval_tidy(SEXP expr, SEXP data, SEXP env);
 namespace vctrs {
 bool vec_is_vector(SEXP x) ;
 R_len_t short_vec_size(SEXP x) ;
-SEXP vec_assign_impl(SEXP, SEXP, SEXP, bool);
 SEXP vec_cast(SEXP, SEXP, SEXP, SEXP);
 SEXP short_vec_init(SEXP, R_len_t);
 SEXP short_vec_recycle(SEXP x, R_len_t n);
