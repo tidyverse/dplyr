@@ -26,7 +26,6 @@ struct symbols {
   static SEXP bindings;
   static SEXP which_used;
   static SEXP dot_drop;
-  static SEXP seq_int;
 };
 
 struct vectors {
@@ -67,7 +66,7 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_filter);
 SEXP dplyr_vec_sizes(SEXP chunks);
-SEXP dplyr_summarise_indices(SEXP chunks);
+SEXP dplyr_summarise_recycle_chunks(SEXP chunks);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
 SEXP dplyr_group_keys(SEXP group_data);
 

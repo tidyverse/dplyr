@@ -41,7 +41,6 @@ SEXP symbols::resolved = Rf_install("resolved");
 SEXP symbols::bindings = Rf_install("bindings");
 SEXP symbols::which_used = Rf_install("which_used");
 SEXP symbols::dot_drop = Rf_install(".drop");
-SEXP symbols::seq_int = Rf_install("seq.int");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();
@@ -70,7 +69,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
 
   {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
-  {"dplyr_summarise_indices", (DL_FUNC)& dplyr_summarise_indices, 1},
+  {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 1},
 
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
