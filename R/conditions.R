@@ -192,18 +192,18 @@ stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
   )
 }
 
-stop_summarise_incompatible_size <- function(size, group, index, expected_sizes, dots) {
+stop_summarise_incompatible_size <- function(group, index, expected_size, size, dots) {
   # called from the C++ code
   if(missing(dots)) {
-    abort(class = "dplyr_summarise_incompatible_size", size = size, group = group)
+    abort(class = "dplyr_summarise_incompatible_size", size = size, group = group, index = index, expected_size = expected_size)
   }
 
   # so that cnd_bullet_cur_group_label() correctly reports the faulty group
   peek_mask()$set_current_group(group)
 
   stop_dplyr(index, dots, "summarise", "must be recyclable",
-    x = "`{error_name}` must be size {or_1(expected_sizes[group])}, not {size}.",
-    i = "An earlier column had size {expected_sizes[group]}."
+    x = "`{error_name}` must be size {or_1(expected_size)}, not {size}.",
+    i = "An earlier column had size {expected_size}."
   )
 
 }

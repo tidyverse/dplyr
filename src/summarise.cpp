@@ -35,50 +35,66 @@ SEXP dplyr_vec_sizes(SEXP chunks) {
   return res;
 }
 
-SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks) {
-  R_xlen_t nchunks = XLENGTH(chunks);
-
-  if (XLENGTH(size) == 1 && INTEGER(size)[0] == 1) {
-    // we might not have to allocate the vector of sizes if
-    // all the chunks are of size 1
-
-    R_xlen_t i = 0;
-    for (; i < nchunks; i++) {
-      if (vctrs::short_vec_size(VECTOR_ELT(chunks, i)) != 1) {
-        break;
-      }
-    }
-
-    if (i == nchunks) {
-      // we can just return the input size
-      return size;
-    }
-
-    // we need to return a vector to track the new sizes
-    size = PROTECT(Rf_allocVector(INTSXP, nchunks));
-    int* p_size = INTEGER(size);
-
-    // until i, all sizes are 1
-    for (R_xlen_t j = 0; j < i; j++, ++p_size) {
-      *p_size = 1;
-    }
-
-    // then finish with i
-    for (; i < nchunks; i++, ++p_size) {
-      *p_size = vctrs::short_vec_size(VECTOR_ELT(chunks, i));
-    }
-    UNPROTECT(1);
-    return size;
-  } else {
-    // size is already a vector, we need to check if the sizes of chunks
-    // matches
-    int* p_size = INTEGER(size);
-    for (R_xlen_t i = 0; i < nchunks; i++, ++p_size) {
-      int size_i = vctrs::short_vec_size(VECTOR_ELT(chunks, i));
-      if (size_i != *p_size && size_i != 1) {
-        dplyr::stop_summarise_incompatible_size(size_i, i);
-      }
-    }
-    return size;
+SEXP seq3(int start, int len) {
+  if (len == 0) {
+    return Rf_allocVector(INTSXP, 0);
   }
+
+  SEXP from = PROTECT(Rf_ScalarInteger(start));
+  SEXP to = PROTECT(Rf_ScalarInteger(start + len - 1));
+  SEXP call = PROTECT(Rf_lang3(dplyr::symbols::seq_int, from, to));
+  SEXP res = PROTECT(Rf_eval(call, R_BaseEnv));
+  UNPROTECT(4);
+  return res;
+}
+
+SEXP dplyr_summarise_indices(SEXP chunks) {
+  SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
+  R_len_t n_chunks = LENGTH(chunks);
+  if (n_chunks == 0) {
+    SET_VECTOR_ELT(res, 0, Rf_allocVector(VECSXP, 0));
+    SET_VECTOR_ELT(res, 1, Rf_ScalarInteger(1));
+    return res;
+  }
+  R_len_t n = LENGTH(VECTOR_ELT(chunks, 0));
+
+  SEXP indices = PROTECT(Rf_allocVector(VECSXP, n));
+  SET_VECTOR_ELT(res, 0, indices);
+  bool all_one = true;
+  int k = 1;
+  for (R_xlen_t i = 0; i < n; i++) {
+    R_len_t n_i = vctrs::short_vec_size(VECTOR_ELT(VECTOR_ELT(chunks, 0), i));
+
+    for (R_len_t j = 1; j < n_chunks; j++) {
+      R_len_t n_i_j = vctrs::short_vec_size(VECTOR_ELT(VECTOR_ELT(chunks, j), i));
+      if (n_i != n_i_j) {
+        if (n_i == 1) {
+          n_i = n_i_j;
+        } else if (n_i_j != 1) {
+          dplyr::stop_summarise_incompatible_size(i, j, n_i, n_i_j);
+        }
+      }
+    }
+
+    SET_VECTOR_ELT(indices, i, seq3(k, n_i));
+    k = k + n_i;
+    if (n_i != 1) {
+      all_one = false;
+    }
+  }
+
+  if (all_one) {
+    SET_VECTOR_ELT(res, 1, Rf_ScalarInteger(1));
+  } else {
+    SEXP sizes = PROTECT(Rf_allocVector(INTSXP, n));
+    int* p_sizes = INTEGER(sizes);
+    for (int i = 0; i < n; i++, ++p_sizes) {
+      *p_sizes = XLENGTH(VECTOR_ELT(indices, i));
+    }
+    SET_VECTOR_ELT(res, 1, sizes);
+    UNPROTECT(1);
+  }
+
+  UNPROTECT(2);
+  return res;
 }
