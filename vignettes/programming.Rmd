@@ -274,7 +274,7 @@ my_summarise <- function(.data, ...) {
 }
 
 starwars %>% my_summarise(homeworld)
-starwars %>% my_summarise(sex, gender)
+starwars %>% my_summarise(species, gender)
 ```
   
 When you use `...` in this way, make sure that any other arguments start with `.` to reduce the chances of argument clashes; see <https://design.tidyverse.org/dots-prefix.html> for more details.
