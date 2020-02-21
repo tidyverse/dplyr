@@ -191,7 +191,7 @@ test_that("summarise() gives meaningful errors", {
     tibble(z = 1:2) %>%
       group_by(z) %>%
       summarise(x = 1:3, y = 1:2)
-    tibble(z = 2:1) %>%
+    tibble(z = c(1, 3)) %>%
       group_by(z) %>%
       summarise(x = seq_len(z), y = 1:2)
 

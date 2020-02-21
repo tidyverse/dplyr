@@ -148,7 +148,7 @@ summarise_cols <- function(.data, ...) {
 
   cols <- list()
 
-  .size <- 1L
+  sizes <- 1L
   chunks <- vector("list", length(dots))
 
   tryCatch({
@@ -163,10 +163,6 @@ summarise_cols <- function(.data, ...) {
       # TODO: reinject hybrid evaluation at the R level
       chunks[[i]] <- mask$eval_all_summarise(quo)
 
-      # check that vec_size() of chunks is compatible with .size
-      # and maybe update .size
-      .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks[[i]])
-
       result_type <- vec_ptype_common(!!!chunks[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
@@ -180,16 +176,13 @@ summarise_cols <- function(.data, ...) {
       }
     }
 
+    indices <- .Call(`dplyr_summarise_indices`, chunks)
+    sizes <- indices[[2]]
+    indices <- indices[[1]]
+
     # materialize columns
     for (i in seq_along(dots)) {
-      if (!identical(.size, 1L)) {
-        sizes <- .Call(`dplyr_vec_sizes`, chunks[[i]])
-        if (!identical(sizes, .size)) {
-          chunks[[i]] <- map2(chunks[[i]], .size, vec_recycle, x_arg = glue("..{i}"))
-        }
-      }
-
-      result <- vec_c(!!!chunks[[i]])
+      result <- vec_unchop(chunks[[i]], indices)
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
         cols[names(result)] <- result
@@ -209,11 +202,11 @@ summarise_cols <- function(.data, ...) {
     stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
   },
   dplyr_summarise_incompatible_size = function(cnd) {
-    stop_summarise_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
+    stop_summarise_incompatible_size(size = cnd$size, group = cnd$group, index = cnd$index, expected_size = cnd$expected_size, dots = dots)
   },
   simpleError = function(e) {
     stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
   })
 
-  list(new = cols, size = .size)
+  list(new = cols, size = sizes)
 }
