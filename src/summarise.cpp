@@ -35,34 +35,22 @@ SEXP dplyr_vec_sizes(SEXP chunks) {
   return res;
 }
 
-SEXP seq3(int start, int len) {
-  if (len == 0) {
-    return Rf_allocVector(INTSXP, 0);
-  }
-
-  SEXP from = PROTECT(Rf_ScalarInteger(start));
-  SEXP to = PROTECT(Rf_ScalarInteger(start + len - 1));
-  SEXP call = PROTECT(Rf_lang3(dplyr::symbols::seq_int, from, to));
-  SEXP res = PROTECT(Rf_eval(call, R_BaseEnv));
-  UNPROTECT(4);
-  return res;
-}
-
-SEXP dplyr_summarise_indices(SEXP chunks) {
+SEXP dplyr_summarise_recycle_chunks(SEXP chunks) {
   SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(res, 0, chunks);
+
   R_len_t n_chunks = LENGTH(chunks);
   if (n_chunks == 0) {
-    SET_VECTOR_ELT(res, 0, Rf_allocVector(VECSXP, 0));
     SET_VECTOR_ELT(res, 1, Rf_ScalarInteger(1));
     return res;
   }
   R_len_t n = LENGTH(VECTOR_ELT(chunks, 0));
 
-  SEXP indices = PROTECT(Rf_allocVector(VECSXP, n));
-  SET_VECTOR_ELT(res, 0, indices);
   bool all_one = true;
   int k = 1;
-  for (R_xlen_t i = 0; i < n; i++) {
+  SEXP sizes = PROTECT(Rf_allocVector(INTSXP, n));
+  int* p_sizes = INTEGER(sizes);
+  for (R_xlen_t i = 0; i < n; i++, ++p_sizes) {
     R_len_t n_i = vctrs::short_vec_size(VECTOR_ELT(VECTOR_ELT(chunks, 0), i));
 
     for (R_len_t j = 1; j < n_chunks; j++) {
@@ -76,8 +64,8 @@ SEXP dplyr_summarise_indices(SEXP chunks) {
       }
     }
 
-    SET_VECTOR_ELT(indices, i, seq3(k, n_i));
     k = k + n_i;
+    *p_sizes = n_i;
     if (n_i != 1) {
       all_one = false;
     }
@@ -86,13 +74,18 @@ SEXP dplyr_summarise_indices(SEXP chunks) {
   if (all_one) {
     SET_VECTOR_ELT(res, 1, Rf_ScalarInteger(1));
   } else {
-    SEXP sizes = PROTECT(Rf_allocVector(INTSXP, n));
-    int* p_sizes = INTEGER(sizes);
-    for (int i = 0; i < n; i++, ++p_sizes) {
-      *p_sizes = XLENGTH(VECTOR_ELT(indices, i));
+    // perform recycling
+    for (int j = 0; j < n_chunks; j++){
+      SEXP chunks_j = VECTOR_ELT(chunks, j);
+      int* p_sizes = INTEGER(sizes);
+      for (int i = 0; i < n; i++, ++p_sizes) {
+        SET_VECTOR_ELT(chunks_j, i,
+          vctrs::short_vec_recycle(VECTOR_ELT(chunks_j, i), *p_sizes)
+        );
+      }
     }
+    SET_VECTOR_ELT(res, 0, chunks);
     SET_VECTOR_ELT(res, 1, sizes);
-    UNPROTECT(1);
   }
 
   UNPROTECT(2);

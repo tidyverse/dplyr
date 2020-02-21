@@ -176,13 +176,11 @@ summarise_cols <- function(.data, ...) {
       }
     }
 
-    indices <- .Call(`dplyr_summarise_indices`, chunks)
-    sizes <- indices[[2]]
-    indices <- indices[[1]]
+    c(chunks, sizes) %<-% .Call(`dplyr_summarise_recycle_chunks`, chunks)
 
     # materialize columns
     for (i in seq_along(dots)) {
-      result <- vec_unchop(chunks[[i]], indices)
+      result <- vec_c(!!!chunks[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
         cols[names(result)] <- result
