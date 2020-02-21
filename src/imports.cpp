@@ -29,13 +29,11 @@ namespace vctrs {
 struct vctrs_api_ptrs_t {
   bool (*vec_is_vector)(SEXP x);
   R_len_t (*short_vec_size)(SEXP x);
-  SEXP (*vec_cast)(SEXP, SEXP, SEXP, SEXP);
   SEXP (*short_vec_recycle)(SEXP, R_len_t, struct vctrs_arg*);
 
   vctrs_api_ptrs_t() {
     vec_is_vector =         (bool (*)(SEXP)) R_GetCCallable("vctrs", "vec_is_vector");
     short_vec_size  =         (R_len_t (*)(SEXP)) R_GetCCallable("vctrs", "short_vec_size");
-    vec_cast = (SEXP (*)(SEXP, SEXP, SEXP, SEXP)) R_GetCCallable("vctrs", "vctrs_cast");
     short_vec_recycle = (SEXP (*)(SEXP, R_len_t, struct vctrs_arg*)) R_GetCCallable("vctrs", "short_vec_recycle");
   }
 };
@@ -52,10 +50,6 @@ bool vec_is_vector(SEXP x) {
 
 R_len_t short_vec_size(SEXP x) {
   return vctrs_api().short_vec_size(x);
-}
-
-SEXP vec_cast(SEXP x, SEXP to, SEXP x_arg_, SEXP to_arg_) {
-  return vctrs_api().vec_cast(x, to, x_arg_, to_arg_);
 }
 
 SEXP short_vec_recycle(SEXP x, R_len_t n) {
