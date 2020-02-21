@@ -229,8 +229,6 @@ mutate_cols <- function(.data, ...) {
   if (length(rows) == 0L) {
     rows <- list(integer(0))
   }
-  rows_lengths <- .Call(`dplyr_vec_sizes`, rows)
-
   mask <- DataMask$new(.data, caller_env(), rows)
 
   dots <- enquos(...)
@@ -288,7 +286,7 @@ mutate_cols <- function(.data, ...) {
     stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
   },
   dplyr_mutate_incompatible_size = function(e) {
-    e$size <- rows_lengths[i]
+    e$size <- vec_size(rows[[i]])
     stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
   },
   dplyr_mutate_mixed_NULL = function(e) {
