@@ -9,83 +9,95 @@ vignette: >
 
 ```{r, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
-options(tibble.print_min = 5)
+options(tibble.print_min = 4, tibble.print_max = 4)
 ```
 
-This vignette aims to compare dplyr functions to base R equivalents to facilitate users transitioning from using base R to dplyr. 
+This vignette aims to compare dplyr functions to base R equivalents to facilitate users transitioning from using base R to dplyr, and vice versa. We'll start with a rough overivew, then discuss one table verbs in more detail, then the two table verbs.
 
-# Single-Table Verbs
-
-| base | dplyr    |
-|------|------------|
-|   `df[order(x), , drop = FALSE]`   | `arrange(df, x)` |
-|   `df[!duplicated(x), , drop = FALSE]`, `unique()`   | `distinct(df, x)`  |
-|   `df[x & !is.na(x), , drop = FALSE]`, `subset()`   | `filter(df, x)`  |
-|   `df$z <- df$x + df$y`, `transform()`   | `mutate(df, z = x + y)`  |
-|   `df$x`    | `pull(df, x)` |
-|   N/A   | `rename(df, y = x)` |
-|   `df[c("x", "y")]`, `subset()`  | `select(df, x, y)` |
-|   `df[grepl(names(df), "^x")]` | `select(df, starts_with("x")` |
-|   `mean(df$x)` | `summarise(df, mean(x))` |
-|   `df[c(1, 2, 5), , drop = FALSE]` | `slice(df, c(1, 2, 5))` |
-
-# Two-Table Verbs
-
-| base | dplyr    |
-|------|------------|
-|   `merge(df1, df2)`   | `inner_join(df1, df2)` |
-|   `merge(df1, df2, all.x = TRUE)`   | `left_join(df1, df2) `  |
-|   ` merge(df1, df2, all.y = TRUE)`   | `right_join(df1, df2)`  |
-|   `merge(df1, df2, all = TRUE)`   | `full_join(df1, df2)`  |
-|   `df1[df1$x %in% df2$x, , drop = FALSE]`    | `semi_join(df1, df2)` |
-|   `df1[!df1$x %in% df2$x, , drop = FALSE]` | `anti_join(df1, df2)` |
-
-Overall the main differences between base R and dplyr are:
-
-1. dplyr provides functions to help us manipulate a whole data frame via relevant verbs. This style contrasts base R approaches where we more explicitly manipulate columns within the data frame. 
-
-2. dplyr eliminates the use of `$` to access particular columns of a data frame.
-
-3. Overall, dplyr solutions to data manipulation problems leverage a vocabulary of verbs which do explicit tasks, while base R solutions require using `[` in many different ways depending on the task at hand.
-
-4. Manipulation of grouped data frames is much more streamlined in dplyr thanks to `group_by()`. 
-
-Now we will walk through each of the functions in the above tables, noting the similarities and differences between base R and dplyr.
-
-These dplyr examples come from the [dplyr documentation](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) and here, they are contrasted with the analogous base R operation(s).
-
-```{r setup}
+```{r setup, message = FALSE}
 library(dplyr)
+mtcars <- as_tibble(mtcars)
+iris <- as_tibble(iris)
 ```
+
+# Overview
+
+1.  dplyr functions tends to focus on whole data frame operations. This contrasts 
+    with base R approaches which tend to more explicitly individual columns within 
+    the data frame. 
+
+1.  dplyr relies heavily on the use of "non-standard evaluation" so that you 
+    do not need to use `$` to access columns of the "current" data frame. This
+    is inspired by the base functions `subset()` and `transform()`.
+    
+1.  dplyr solutions tend to leverage a vocabulary of single purpose verbs, 
+    while base R solution typically tend to use `[` in a variety of ways, 
+    depending on the task at hand.
+    
+    | dplyr | base    |
+    |------|------------|
+    | `arrange(df, x)`              | `df[order(x), , drop = FALSE]`                   | 
+    | `distinct(df, x)`             | `df[!duplicated(x), , drop = FALSE]`, `unique()` | 
+    | `filter(df, x)`               | `df[x & !is.na(x), , drop = FALSE]`, `subset()`  | 
+    | `mutate(df, z = x + y)`       | `df$z <- df$x + df$y`, `transform()`             | 
+    | `pull(df, x)`                 | `df$x`                                           | 
+    | `rename(df, y = x)`           | ???                                              | 
+    | `relocate(df, y)              | ???                                              | 
+    | `select(df, x, y)`            | `df[c("x", "y")]`, `subset()`                    | 
+    | `select(df, starts_with("x")` | `df[grepl(names(df), "^x")]`                     | 
+    | `summarise(df, mean(x))`      | `mean(df$x)`                                     | 
+    | `slice(df, c(1, 2, 5))`       | `df[c(1, 2, 5), , drop = FALSE]`                 | 
+
+1.  The singular focus of dplyr verbs leads naturally to solving more 
+    challenging problems by stringing together multiple verbs using the pipe.
+    In base R, you'll typically either create variables or override an existing
+    variable.
+
+1.  dplyr verbs provide different implementations for different backends.  
+    Built-in implementation includes for data frames, tibbles, and "grouped" 
+    data frames, and other packages provide implementations for other backends
+    like databases, data.tables, and spark.
 
 # Single-table verbs
 
-For more information about these single-table verbs see `vignette("dplyr")`.
+For more information about two-table verbs, see `vignette("one-table")`.
 
 ## `arrange()`: Arrange rows by variables
 
-You may want to order a data frame based on the values of one or more columns. In base R you can use the output of `order()` as an index for your data frame. We must remember to use  `drop = F` though to ensure that the result is still a data frame. If our manipulation reduces the data frame to one column and we forget `drop = F`, we will end up with a vector. This can cause problems further into our analysis if we expect a different data type than we actually have. 
-
-By default, both organize in increasing order, but decreasing order is possible. 
+`dplyr::arrange()` orders the rows of a data frame by the values of one or more variables: 
 
 ```{r}
-# base
-mtcars[order(mtcars$cyl, mtcars$disp), ,drop = F] %>% head()
-mtcars[order(mtcars$cyl, mtcars$disp, decreasing = T), ,drop = F] %>% head() # decreasing
+mtcars %>% arrange(cyl, disp)
 ```
 
-In dplyr, we simply choose the verb relevant to our goals: `arrange()`.
+The `desc()` helper allows you to order selected variables in descending order:
 
 ```{r}
-# dplyr
-arrange(mtcars, cyl, disp) %>% head()
-arrange(mtcars, desc(cyl), desc(disp)) %>% head() # descending order
+mtcars %>% arrange(desc(cyl), desc(disp))
+```
+
+We can replicate the same result with base R by combining `[` with `order()`:
+
+```{r}
+mtcars[order(mtcars$cyl, mtcars$disp), , drop = F]
+```
+
+Note the use of `drop = FALSE`. If you forget this, and the input is a data frame with a single column, the output will be a vector, not a data frame. This is a source of subtle bugs.
+
+Base R does not provide a convenient and general way to sort individual variables in descending order. Instead you have two options:
+
+* For numeric variables, you can use `-x`.
+* You can request `order()` to sort all variables in descending order
+
+```{r, results = FALSE}
+mtcars[order(mtcars$cyl, mtcars$disp, decreasing = T), , drop = F]
+mtcars[order(-mtcars$cyl, -mtcars$disp), , drop = F]
 ```
 
 
 ## `distinct()`: Select distinct/unique rows
 
-We may want to streamline our data frame by only including distinct values of a particular variable. Again, we can't forget `drop = F`. 
+`dplyr::distinct()` selects unique rows:
 
 ```{r}
 df <- tibble(
@@ -93,199 +105,260 @@ df <- tibble(
   y = sample(10, 100, rep = TRUE)
 )
 
-# base
+df %>% distinct(x, .keep_all = TRUE) # whole data frame
+df %>% distinct(x) # just see the unique values
+```
+
+There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:
+
+```{r}
 df[!duplicated(df$x), , drop = F] # whole data frame
 unique(df$x) # just see the unique values
 ```
 
-In both base R and dplyr we can either access the entire data frame or just the column of interest. The corresponding dplyr verb is `distinct()`. 
-
-```{r}
-# dplyr
-distinct(df, x, .keep_all = TRUE) # whole data frame
-distinct(df, x) # just see the unique values
-```
+Again, you must remeber to use `drop = F`. 
 
 ## `filter()`: Return rows with matching conditions
 
-In base R if we want to narrow our data set based on criteria of interest, `subset()` is used.
+`dplyr::filter()` selects rows where an expression is `TRUE`:
 
 ```{r}
-# base
+starwars %>% filter(species == "Human")
+starwars %>% filter(mass > 1000)
+starwars %>% filter(hair_color == "none" & eye_color == "black")
+```
+
+The closest base equivalent (and the inspiration for `filter()`) is `subset()`:
+
+```{r}
 subset(starwars, species == "Human")
 subset(starwars, mass > 1000)
 subset(starwars, hair_color == "none" & eye_color == "black")
 ```
 
-The syntax of dplyr's `filter()` is very similar.
+You can also use `[` but this requires the use of `which()` to ensure that NA rows are not generated:
 
 ```{r}
-# dplyr
-filter(starwars, species == "Human")
-filter(starwars, mass > 1000)
-filter(starwars, hair_color == "none" & eye_color == "black")
+starwars[which(starwars$species == "human"), , drop = FALSE]
+starwars[which(starwars$mass > 1000), , drop = FALSE]
+starwars[which(starwars$hair_color == "none" & starwars$eye_color == "black"), , drop = FALSE]
 ```
-
-Both base R and dplyr will drop `NA`s in the process of returning the matching conditions.
 
 ## `mutate()`: Create or transform variables
 
-We can create new variables as functions of other ones. In base R we directly create a new variable using `$` and assign it a vector of values. We can also use the function `transform()`.
+`dplyr::mutate()` creates new variables from existing variables:
 
 ```{r}
-# base
+df %>% mutate(z = x + y, z2 = z ^ 2)
+```
+
+The closest base equivalent is `transform()`, but note that it cannot use freshly created variables:
+
+```{r}
+transform(df, z = x + y, z2 = (x + y) ^ 2)
+```
+
+Alternatively, you can use `$<-`:
+
+```{r}
 mtcars$cyl2 <- mtcars$cyl * 2
 mtcars$cyl4 <- mtcars$cyl2 * 2
-head(mtcars)
-
-# or
-transform(mtcars, cyl3 = cyl*3) %>% head()
 ```
 
-In dplyr we `mutate()` the data frame but we do not need to use `$` to refer to new or current variables. Note that we can create a variable using another new variable in the same `mutate()` call. `transform()` does not allow for this. 
+When applied to a grouped data frame, `dplyr::mutate()` computes new variable once per group:
 
 ```{r}
-# dplyr
-mtcars %>%
-  mutate(
-    cyl2 = cyl * 2,
-    cyl4 = cyl2 * 2
-  ) %>% head()
+gf <- tibble(g = c(1, 1, 2, 2), x = c(0.5, 1.5, 2.5, 3.5))
+gf %>% 
+  group_by(g) %>% 
+  mutate(x_mean = mean(x), x_rank = rank(x))
 ```
 
-To create a new variable based on a group requires specialized functions in base R. For example, we can take a mean by group using `ave()`.
+To replicate this in base R, you can use `ave()`:
 
 ```{r}
-# base
-mtcars$avg_mpg_by_cyl <- ave(mtcars$mpg, mtcars$cyl)
-```
-
-In dplyr we can use `group_by()` and then define whatever function we want to create a new variable, using `ungroup()` to get back to an ungrouped data frame after our calculation.
-
-```{r}
-# dplyr
-mtcars = mtcars %>% group_by(cyl) %>% mutate(avg_mpg_by_cyl = mean(mpg)) %>% ungroup()
+transform(gf, 
+  x_mean = ave(x, g, FUN = mean), 
+  x_rank = ave(x, g, FUN = rank)
+)
 ```
 
 ## `pull()`: Pull out a single variable
 
-The dplyr verb `pull()` is equivalent to the base R use of `$`.
+`dplyr::pull()` extracts a variable either by name or position:
 
 ```{r}
-# base
-mtcars[[1]]
-mtcars$cyl
-
-# dplyr
 mtcars %>% pull(1)
 mtcars %>% pull(cyl)
 ```
 
-## `relocate()`: Change column order
-
-If we want to reorder the column names of a dataframe, we must provide the reordering ourselves in base R. In dplyr we can use `relocate()` which helps us find our new desired locations without knowing the exact number order of the columns.
+This equivalent to either `[[` or `$`:
 
 ```{r}
-# base
-mtcars = mtcars[,c(ncol(mtcars), 1:(ncol(mtcars)-1))] %>% head()
-
-# dplyr
-mtcars %>% relocate(avg_mpg_by_cyl) %>% head() # bring last to the front
-mtcars %>% relocate(avg_mpg_by_cyl, .before = cyl) %>% head() # alternative approach
+mtcars[[1]]
+mtcars$cyl
 ```
+
+## `relocate()`: Change column order
+
+`dplyr::relocate()` makes it easy to move a set of columns to a new position (by default, the front):
+
+```{r}
+# to front
+mtcars %>% relocate(gear, carb) 
+
+# to back
+mtcars %>% relocate(mpg, cyl, .after = last_col()) 
+```
+
+We can replicate this in base R with a little set manipulation:
+
+```{r}
+mtcars[union(c("gear", "carb"), names(mtcars))]
+
+to_back <- c("mpg", "cyl")
+mtcars[setdiff(names(mtcars), to_back)]
+```
+
+Moving columns to somewhere in the middle requires yet more set twiddling.
 
 ## `rename()`: Rename variables by name
 
-To rename a variable in base R, we first need to identify which column we want to replace based on `names()`. Then we need to override the name.
+`dplyr::rename()` allows you to rename variables by name or position:
 
 ```{r}
-iris_copy = iris
-# base
-change_idx <- grep(pattern = "Petal.Length", names(iris))
-names(iris)[change_idx] <- "petal_length"
+iris %>% rename(sepal_length = Sepal.Length, sepal_width = 2)
 ```
 
-In dplyr the `rename()` function takes care of finding the correct column. 
+Renaming variables by position is straight forward in base R:
 
 ```{r}
-# dplyr
-rename(iris_copy, petal_length = Petal.Length) %>% head()
+iris2 <- iris
+names(iris2)[2] <- "sepal_width"
+```
+
+Renaming variables by name requires a bit more work:
+
+```{r}
+names(iris2)[which(names(iris2) == "Sepal.Length")] <- "sepal_length"
 ```
 
 ## `select()`: Select variables by name
 
-To grab (or exclude) certain variables from a data frame in base R, we need to do the work to specify and find the matches.
+`dplyr::select()` subsets columns by name, position, or other property:
 
 ```{r}
-# base
-iris[, c("Species", "Petal.Width")] %>% head()
-iris[, grepl("^x", names(iris))] %>% head()
-iris[, setdiff(names(iris), c("Species", "Petal.Width"))] %>% head()
-# all but two particular variables
+iris %>% select(1:3)
+iris %>% select(starts_with("Petal"))
+iris %>% select(is.factor)
 ```
 
-
-`select()` has some helper functions that can help us obtain (or exclude) multiple columns based on patterns rather than manually specifying them all. Below we show `starts_with()` but addtional ones include `ends.with()`, `contains()`, `matches()`, `num.range()`, `one_of()`, `everything()`, and `group.cols()`.  
+Subsetting variables by position is straightforward in base R:
 
 ```{r}
-# dplyr
-select(iris, Species, Petal.Width) %>% head()
-select(iris, starts_with("Sepal")) %>% head()
-select(iris, -c(Species, Petal.Width)) %>% head() # all but two particular variables
+iris[1:3] # single argument selects columns; never drops
+iris[1:3, , drop = FALSE]
+```
+
+Subsetting by name requires a bit of work with `grep()`:
+
+```{r}
+iris[grep("^Petal", names(iris))]
+```
+
+And you can use `Filter()` to subset by type:
+
+```{r}
+Filter(is.factor, iris)
 ```
 
 ## `summarise()`: Reduce multiple values down to a single value
 
-We can find summaries of various columns in our data frame using base R functions
+`dplyr::summarise()` computes one or more summaries for each group:
 
 ```{r}
-# base
-mean(mtcars$disp)
-nrow(mtcars$disp)
-```
-
-In dplyr `summarise()` allows us to make these summaries and keep the answers tidier. We also get access to helpers such as `n()` and `n_distinct()` that count entries.
-
-
-```{r}
-# dplyr
-mtcars %>%
+mtcars %>% 
+  group_by(cyl) %>% 
   summarise(mean = mean(disp), n = n())
 ```
 
-To get the average of every column in a dataset by a grouping variable, like species, in base R requires a special type of `apply()`. 
+Base R provides a variety of functions, none of which make it particularly easy to get all the results in one data frame.
 
-```{r}
-tapply(iris$Sepal.Width, iris$Species, mean)
-```
+*   `tapply()` will compute the individual summary values, but reassembling these 
+    fragments the fragments back into a complete data frame is challenging:
 
-In dplyr we can use `group_by()` paired with `summarise()` to get the same results. We can also get the mean for every column just as easily.
+    ```{r}
+    tapply(mtcars$disp, mtcars$cyl, mean)
+    tapply(mtcars$disp, mtcars$cyl, length)
+    ```
+    
+    The use of `tapply()` to compute the number of observations in each group
+    is mildly idiosyncratic. An alternative would be to use `split()` and 
+    `sapply()`:
+    
+    ```{r}
+    sapply(split(mtcars, mtcars$cyl), nrow)
+    ```
 
-```{r}
-# dplyr
-iris %>% group_by(Species) %>% summarise(mean_Sepal_Width = mean(Sepal.Width))
-iris %>% group_by(Species) %>% summarise_all(mean) # get means of all columns
-```
+*   `aggregate()` gives us back a data frame, but you must use the same 
+    transformation on every column, so you need to apply it twice:
+
+    ```{r}
+    df_mean <- aggregate(mtcars["mpg"], mtcars["cyl"], mean)
+    df_mean
+    
+    df_length <- aggregate(mtcars["mpg"], mtcars["cyl"], length)
+    df_length
+    ```
+
+    Then `merge()` the results together:
+
+    ```{r}
+    names(df_mean)[2] <- "mean"
+    names(df_length)[2] <- "n"
+    merge(df_mean, df_length, by = "cyl")
+    ```
+    
+    (Note the use of single argument `[` to ensure that both the first and 
+    second arguments remain as data frames.)
+
+*   `by()` is very close to what we need, but returns a list of data frames,
+    which need to be stitched back together with `rbind()`:
+
+    ```{r}
+    mtcars_by <- by(mtcars, mtcars$cyl, function(df) data.frame(mean = mean(df$disp), n = nrow(df)))
+    do.call(rbind, mtcars_by)
+    ```
+    
+    (The documentation suggests that the second argument must be a factor or
+    a list of factors, but empiricially this doesn't seem to be true.)
 
 ## `slice()`: Choose rows by position
 
-We've talked a lot about choosing columns of a data frame, but we can also choose rows of our data frame. In base R we manually subset the data frame using specified indices. 
+`slice()` subsets rows by their numeric location:
 
 ```{r}
-# base
-mtcars[25:nrow(mtcars), ]
+slice(mtcars, 25:n())
 ```
 
-In dplyr `slice()` helps us access particular rows.
+This is straightforward to replicate with `[`:
 
 ```{r}
-# dplyr
-slice(mtcars, 25:n())
+mtcars[25:nrow(mtcars), ]
 ```
 
 # Two-table verbs
 
-When we want to merge two data frames (refered to as `x` and `y` in base R's `merge() ` arguments), we have a variety of different ways to bring them together. Various base R `merge()` calls are replaced by a variety of dplyr `join()` functions.
+When we want to merge two data frames, `x` and `y`), we have a variety of different ways to bring them together. Various base R `merge()` calls are replaced by a variety of dplyr `join()` functions.
+
+| dplyr | base     |
+|------|------------|
+| `inner_join(df1, df2)` |`merge(df1, df2)`                        | 
+| `left_join(df1, df2) ` |`merge(df1, df2, all.x = TRUE)`          | 
+| `right_join(df1, df2)` |`merge(df1, df2, all.y = TRUE)`          | 
+| `full_join(df1, df2)`  |`merge(df1, df2, all = TRUE)`            | 
+| `semi_join(df1, df2)`  |`df1[df1$x %in% df2$x, , drop = FALSE]`  | 
+| `anti_join(df1, df2)`  |`df1[!df1$x %in% df2$x, , drop = FALSE]` | 
 
 For more information about two-table verbs, see `vignette("two-table")`.
 
