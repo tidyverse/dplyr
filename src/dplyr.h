@@ -25,6 +25,7 @@ struct symbols {
   static SEXP resolved;
   static SEXP bindings;
   static SEXP which_used;
+  static SEXP dot_drop;
 };
 
 struct vectors {
@@ -55,7 +56,7 @@ SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right);
 SEXP dplyr_cumall(SEXP x);
 SEXP dplyr_cumany(SEXP x);
 SEXP dplyr_cummean(SEXP x);
-SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_nr_df, SEXP s_check_bounds);
+SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds);
 SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private);
@@ -63,6 +64,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_
 SEXP dplyr_vec_sizes(SEXP chunks);
 SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
+SEXP dplyr_group_keys(SEXP group_data);
 
 #define DPLYR_MASK_INIT()                                                  \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows)); \

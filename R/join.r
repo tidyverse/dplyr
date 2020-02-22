@@ -48,8 +48,14 @@
 #'   variables in common across `x` and `y`. A message lists the variables so that you
 #'   can check they're correct; suppress the message by supplying `by` explicitly.
 #'
-#'   To join by different variables on `x` and `y` use a named vector.
+#'   To join by different variables on `x` and `y`, use a named vector.
 #'   For example, `by = c("a" = "b")` will match `x$a` to `y$b`.
+#'
+#'   To join by multiple variables, use a vector with length > 1.
+#'   For example, `by = c("a", "b")` will match `x$a` to `y$a` and `x$b` to
+#'   `y$b`. Use a named vector to match different variables in `x` and `y`.
+#'   For example, `by = c("a" = "b", "c" = "d")` will match `x$a` to `y$b` and
+#'   `x$c` to `y$d`.
 #'
 #'   To perform a cross-join, generating all combinations of `x` and `y`,
 #'   use `by = character()`.
@@ -329,7 +335,7 @@ join_mutate <- function(x, y, by, type,
   out <- vec_slice(out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
 
   if (!keep) {
-    out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+    out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype_common(x_key, y_key))
     new_rows <- length(rows$x) + seq_along(rows$y_extra)
     out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
   }
