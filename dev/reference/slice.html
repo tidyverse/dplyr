@@ -255,10 +255,11 @@ is recalculated based on the resulting data, otherwise the grouping is kept as i
     <tr>
       <th>n, prop</th>
       <td><p>Provide either <code>n</code>, the number of rows, or <code>prop</code>, the
-proportion of rows to select. If <code>n</code> is greater than the number of
-rows in the group (or <code>prop &gt; 1</code>), it will be silently truncated to the
-group size. If the <code>prop</code>ortion of a group size is not an integer, it will
-be rounded down.</p></td>
+proportion of rows to select. If neither are supplied, <code>n = 1</code> will be
+used.</p>
+<p>If <code>n</code> is greater than the number of rows in the group (or <code>prop &gt; 1</code>),
+the result will be silently truncated to the group size. If the
+<code>prop</code>ortion of a group size is not an integer, it is rounded down.</p></td>
     </tr>
     <tr>
       <th>order_by</th>
