@@ -2,6 +2,7 @@ pandoc: '2.2'
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
+  base: base.html
   compatibility: compatibility.html
   dplyr: dplyr.html
   programming: programming.html
