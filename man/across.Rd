@@ -9,7 +9,7 @@ across(cols = everything(), fns = NULL, names = NULL)
 \arguments{
 \item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
 Because \code{across()} is used within functions like \code{summarise()} and
-\code{mutate()}, you can't grouping variables.}
+\code{mutate()}, you can't select or compute upon grouping variables.}
 
 \item{fns}{Functions to apply to each of the selected columns.
 Possible values are:
