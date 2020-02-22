@@ -24,10 +24,11 @@ Possible values are:
 Within these functions you can use \code{\link[=cur_column]{cur_column()}} and \code{\link[=cur_group]{cur_group()}}
 to access the current column and grouping keys respectively.}
 
-\item{names}{A glue specification that describes how to name the output columns. This can use \code{{col}} to stand for
-the selected column name, and \code{{fn}} to stand for the name of the function
-being applied. The default (\code{NULL}) is equivalent to \code{"{col}"} for the single
-function case and \code{"{col}_{fn}"} for the case where a list is used for \code{fns}.}
+\item{names}{A glue specification that describes how to name the output
+columns. This can use \code{{col}} to stand for the selected column name, and
+\code{{fn}} to stand for the name of the function being applied. The default
+(\code{NULL}) is equivalent to \code{"{col}"} for the single function case and
+\code{"{col}_{fn}"} for the case where a list is used for \code{fns}.}
 }
 \value{
 A tibble with one column for each column in \code{cols} and each function in \code{fns}.
