@@ -14,14 +14,14 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 
 dplyr verbs are particularly powerful when you apply them to grouped data frames (`grouped_df` objects). This vignette shows you:
 
-* How to create and inspect grouped data frames with `group_by()` and 
-  friends.
+* How to group, inspect, and ungroup with `group_by()` and friends.
   
-* How individual dplyr verbs changes when applied to grouped data frame.
+* How individual dplyr verbs changes their behaviour when applied to grouped 
+  data frame.
 
 * How to access data about the "current" group from within a verb.
 
-We'll start by loading dplyr.
+We'll start by loading dplyr:
 
 ```{r, message = FALSE}
 library(dplyr)
@@ -29,26 +29,26 @@ library(dplyr)
 
 ## `group_by()`
 
-The most important grouping verb is `group_by()`: it takes a data frame and set of variables to group by:
+The most important grouping verb is `group_by()`: it takes a data frame and one or more variables to group by:
 
 ```{r}
 by_species <- starwars %>% group_by(species)
 by_sex_gender <- starwars %>% group_by(sex, gender)
 ```
 
-You can see the grouping when you print the grouped data:
+You can see the grouping when you print the data:
 
 ```{r}
 by_species
 by_sex_gender
 ```
 
-Another useful summary is `tally()`, which counts the number of rows in each group: 
+Or use `tally()` to count the number of rows in each group. The `sort` argument is useful if you want to see the largest groups up front.
 
 ```{r}
 by_species %>% tally()
 
-by_sex_gender %>% tally()
+by_sex_gender %>% tally(sort = TRUE)
 ```
 As well as grouping by existing variables, you can group by any function of existing variables. This is equivalent to performing a `mutate()` **before** the `group_by()`:  
 
@@ -62,13 +62,14 @@ starwars %>%
 
 ## Group metadata
 
-You can see the grouping structure with `group_keys()`. It has one column for each grouping variable:
+You can see underlying group data with `group_keys()`. It has one row for each group and one column for each grouping variable:
 
 ```{r group_vars}
 by_species %>% group_keys()
 
 by_sex_gender %>% group_keys()
 ```
+
 You can see which group each row belongs to with `group_indices()`:
 
 ```{r}
@@ -80,7 +81,7 @@ And which rows each group contains with `group_rows()`:
 ```{r}
 by_species %>% group_rows() %>% head()
 ```
-If you just want the names of the grouping variables you can use `group_vars()`:
+Use `group_vars()` if you just want the names of the grouping variables:
 
 ```{r}
 by_species %>% group_vars()
@@ -89,7 +90,7 @@ by_sex_gender %>% group_vars()
 
 ### Changing and adding to grouping variables
 
-It is possible to amend or add to the grouping variables. Using `group_by()` with an already grouped dataset, will ***change*** the grouping variable. For example, the following code groups by `homeworld` instead of `species`:
+If you apply `group_by()` to an already grouped dataset, will overwrite the existing grouping variables. For example, the following code groups by `homeworld` instead of `species`:
 
 ```{r}
 by_species %>%
@@ -116,6 +117,7 @@ by_species %>%
   ungroup() %>%
   tally()
 ```
+
 You can also choose to selectively ungroup by listing the variables you want to remove:
 
 ```{r}
@@ -126,7 +128,7 @@ by_sex_gender %>%
 
 ## Verbs
 
-Grouping is most commonly used in conjunction with dplyr verbs. The following sections describe how grouping affects the main dplyr verbs.
+The following sections describe how grouping affects the main dplyr verbs.
 
 ### `summarise()`
 
@@ -148,7 +150,9 @@ by_sex_gender %>%
   group_vars()
 ```
 
-### `select()`, `rename()` and `relocate()`
+If there's only one grouping variable, the output will be ungrouped (i.e. a regular tibble).
+
+### `select()`, `rename()`, and `relocate()`
 
 `rename()` and `relocate()` behave identically with grouped and ungrouped data because they only affect the name or position of existing columns. Grouped `select()` is almost identical to ungrouped select, except that it always includes the grouping variables:
 
@@ -156,7 +160,7 @@ by_sex_gender %>%
 by_species %>% select(mass)
 ```
 
-If you don't want the grouping variables, you'll have to first `ungroup()`.
+If you don't want the grouping variables, you'll have to first `ungroup()`. (This design is possibly a mistake, but we're stuck with it for now.)
 
 ### `arrange()`
 
@@ -178,7 +182,7 @@ then by `mass` (within species).
 
 ### `mutate()` and `transmute()`
 
-In simple case grouped and ungrouped `mutate()` give the same results. They differ when used with summary functions:
+In simple cases with vectorised functions, grouped and ungrouped `mutate()` give the same results. They differ when used with summary functions:
 
 ```{r by_homeworld}
 # Subtract off global mean
@@ -186,7 +190,7 @@ starwars %>%
   select(name, homeworld, mass) %>% 
   mutate(standard_mass = mass - mean(mass, na.rm = TRUE))
 
-# Subtract of mean per homeworld:
+# Subtract off homeworld mean
 starwars %>% 
   select(name, homeworld, mass) %>% 
   group_by(homeworld) %>% 
@@ -218,7 +222,7 @@ by_species %>%
   filter(height == max(height))
 ```
 
-It is possible to use `filter()` to remove entire groups. For example, the following code eliminates all groups that only have a single member:
+You can also use `filter()` to remove entire groups. For example, the following code eliminates all groups that only have a single member:
 
 ```{r filter_group}
 by_species %>%
@@ -236,13 +240,14 @@ by_species %>%
   slice(1)
 ```
 
-We can similarly use `slice_min()` to select the smallest `n` values of a variable:
+Similarly, we can use `slice_min()` to select the smallest `n` values of a variable:
 
 ```{r slice_min}
 by_species %>%
   filter(!is.na(height)) %>% 
   slice_min(height, n = 2)
 ```
+
 ## Computing on grouping information
 
 Inside dplyr verbs, you can access various properties of the "current" group using a family of functions with the `cur_` prefix. These functions are typically needed for everyday usage of dplyr, but can be useful because they allow you to free from some of the typical constraints of dplyr verbs.
