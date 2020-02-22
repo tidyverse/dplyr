@@ -37,17 +37,16 @@ This document introduces you to dplyr's basic set of tools, and shows you how to
 
 All of the dplyr functions take a data frame (or tibble) as the first argument.  Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so the result from one step is then "piped" into the next step.  You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"). 
 
-## Data: nycflights13
+## Data: starwars
 
-To explore the basic data manipulation verbs of dplyr, we'll use `nycflights13::flights`. This dataset contains all `r nrow(nycflights13::flights)` flights that departed from New York City in 2013. The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0), and is documented in `?nycflights13`
+To explore the basic data manipulation verbs of dplyr, we'll use the dataset `starwars`. This dataset contains `r nrow(starwars)` characters and comes from the [Star Wars API](http://swapi.co), and is documented in `?starwars`
 
 ```{r}
-library(nycflights13)
-dim(flights)
-flights
+dim(starwars)
+starwars
 ```
 
-Note that `nycflights13::flights` is a tibble, a modern reimagining of the data frame. It's particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <http://tibble.tidyverse.org>; in particular you can convert data frames to tibbles with `as_tibble()`.
+Note that `starwars` is a tibble, a modern reimagining of the data frame. It's particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <http://tibble.tidyverse.org>; in particular you can convert data frames to tibbles with `as_tibble()`.
 
 ## Single table verbs
 
@@ -74,16 +73,16 @@ dplyr aims to provide a function for each basic verb of data manipulation.
 
 `filter()` allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is `TRUE`.
 
-For example, we can select all flights on January 1st with:
+For example, we can select all character with light skin color and brown eyes with:
 
 ```{r}
-flights %>% filter(month == 1, day == 1)
+starwars %>% filter(skin_color == "light", eye_color == "brown")
 ```
 
 This is rougly equivalent to this base R code:
 
 ```{r, eval = FALSE}
-flights[flights$month == 1 & flights$day == 1, ]
+starwars[starwars$skin_color == "light" & starwars$eye_color == "brown", ]
 ```
 
 ### Arrange rows with `arrange()`
@@ -91,22 +90,22 @@ flights[flights$month == 1 & flights$day == 1, ]
 `arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:
 
 ```{r}
-flights %>% arrange(year, month, day)
+starwars %>% arrange(height, mass)
 ```
 
 Use `desc()` to order a column in descending order:
 
 ```{r}
-flights %>% arrange(desc(arr_delay))
+starwars %>% arrange(desc(height))
 ```
 
 ###  Choose rows using their position with `slice()`
 
 slice() lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows. 
 
-We can get flights from row numbers 5 through 10.
+We can get characters from row numbers 5 through 10.
 ```{r}
-flights %>% slice(5:10)
+starwars %>% slice(5:10)
 ```
 
 It is accompanied by a number of helpers for common use cases:
@@ -114,23 +113,24 @@ It is accompanied by a number of helpers for common use cases:
 * slice_head() and slice_tail() select the first or last rows.  
 
 ```{r}
-flights %>% slice_head(n = 3)
+starwars %>% slice_head(n = 3)
 ```
 
 * slice_sample() randomly selects rows.  Use the option prop to choose a certain proportion of the cases.
 
 ```{r}
-flights %>% slice_sample(n = 5)
-flights %>% slice_sample(prop = 0.001)
+starwars %>% slice_sample(n = 5)
+starwars %>% slice_sample(prop = 0.1)
 ```
 Use `replace = TRUE` to perform a bootstrap sample. If needed, you can weight the sample with the `weight` argument.
 
-* slice_min() and slice_max() select rows with highest or lowest values of a variable.
+* slice_min() and slice_max() select rows with highest or lowest values of a variable. Note that we first must choose  only the values which are not NA.
 
 ```{r}
-flights %>% slice_max(distance, n = 1)
+starwars %>% 
+  filter(!is.na(height)) %>%
+  slice_max(height, n = 3)
 ```
-Note that this resulted in more all cases which have the same maximum distance. 
 
 ### Select columns with `select()`
 
@@ -138,11 +138,13 @@ Often you work with large datasets with many columns but only a few are actually
 
 ```{r}
 # Select columns by name
-flights %>% select(year, month, day)
-# Select all columns between year and day (inclusive)
-flights %>% select(year:day)
-# Select all columns except those from year to day (inclusive)
-flights %>% select(-(year:day))
+starwars %>% select(hair_color, skin_color, eye_color)
+# Select all columns between hair_color and eye_color (inclusive)
+starwars %>% select(hair_color:eye_color)
+# Select all columns except those from hair_color to eye_color (inclusive)
+starwars %>% select(-(hair_color:eye_color))
+# Select all columns ending with color
+starwars %>% select(ends_with("color"))
 ```
 
 There are a number of helper functions you can use within `select()`, like `starts_with()`, `ends_with()`, `matches()` and `contains()`. These let you quickly match larger blocks of variables that meet some criterion. See `?select` for more details.
@@ -150,13 +152,13 @@ There are a number of helper functions you can use within `select()`, like `star
 You can rename variables with `select()` by using named arguments:
 
 ```{r}
-flights %>% select(tail_num = tailnum)
+starwars %>% select(home_world = homeworld)
 ```
 
 But because `select()` drops all the variables not explicitly mentioned, it's not that useful. Instead, use `rename()`:
 
 ```{r}
-flights %>% rename(tail_num = tailnum)
+starwars %>% rename(home_world = homeworld)
 ```
 
 ### Add new columns with `mutate()`
@@ -164,36 +166,42 @@ flights %>% rename(tail_num = tailnum)
 Besides selecting sets of existing columns, it's often useful to add new columns that are functions of existing columns.  This is the job of `mutate()`:
 
 ```{r}
-flights %>% mutate(
-  gain = arr_delay - dep_delay,
-  speed = distance / air_time * 60
-)
+starwars %>% mutate(height_m =  height / 100)
+```
+
+We can't see the height in meters we just calculated, but we can fix that using a select command.
+
+```{r}
+starwars %>% 
+  mutate(height_m = height / 100) %>%
+  select(height_m, height, everything())
 ```
 
 `dplyr::mutate()` is similar to the base `transform()`, but allows you to refer to columns that you've just created:
 
 ```{r}
-flights %>% mutate(
-  gain = arr_delay - dep_delay,
-  gain_per_hour = gain / (air_time / 60)
-)
+starwars %>% mutate(
+  height_m = height / 100,
+  BMI = mass/(height_m^2)
+  ) %>%
+  select(BMI, everything())
 ```
 
 If you only want to keep the new variables, use `transmute()`:
 
 ```{r}
-flights %>% transmute(
-  gain = arr_delay - dep_delay,
-  gain_per_hour = gain / (air_time / 60)
+starwars %>% transmute(
+  height_m = height / 100,
+  BMI = mass/(height_m^2)
 )
 ```
 
 ### Change column order with `relocate()`
 
-Use a similar syntax as `select()` to move blocks of columns at once.
+Use a similar syntax as `select()` to move blocks of columns at once
 
 ```{r}
-flights %>% relocate(carrier:distance, .before = year)
+starwars %>% relocate(sex:homeworld, .before = height)
 ```
 
 
@@ -202,9 +210,9 @@ flights %>% relocate(carrier:distance, .before = year)
 The last verb is `summarise()`. It collapses a data frame to a single row.
 
 ```{r}
-flights %>%
+starwars %>%
   summarise(
-    delay = mean(dep_delay, na.rm = TRUE)
+    height = mean(height, na.rm = TRUE)
   )
 ```
 
@@ -231,41 +239,36 @@ These five functions provide the basis of a language of data manipulation. At th
 The dplyr API is functional in the sense that function calls don't have side-effects. You must always save their results. This doesn't lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:
 
 ```{r, eval = FALSE}
-a1 <- group_by(flights, year, month, day)
-a2 <- select(a1, arr_delay, dep_delay)
+a1 <- group_by(starwars, species, sex)
+a2 <- select(a1, height, mass)
 a3 <- summarise(a2,
-  arr = mean(arr_delay, na.rm = TRUE),
-  dep = mean(dep_delay, na.rm = TRUE))
-a4 <- filter(a3, arr > 30 | dep > 30)
+  height = mean(height, na.rm = TRUE),
+  mass = mean(mass, na.rm = TRUE))
 ```
 
 Or if you don't want to name the intermediate results, you need to wrap the function calls inside each other:
 
 ```{r}
-filter(
-  summarise(
-    select(
-      group_by(flights, year, month, day),
-      arr_delay, dep_delay
+summarise(
+  select(
+    group_by(starwars, species, sex),
+      height, mass
     ),
-    arr = mean(arr_delay, na.rm = TRUE),
-    dep = mean(dep_delay, na.rm = TRUE)
-  ),
-  arr > 30 | dep > 30
-)
+    height = mean(height, na.rm = TRUE),
+    mass = mean(mass, na.rm = TRUE)
+  )
 ```
 
 This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"):
 
 ```{r, eval = FALSE}
-flights %>%
-  group_by(year, month, day) %>%
-  select(arr_delay, dep_delay) %>%
+starwars %>%
+  group_by(species, sex) %>%
+  select(height, mass) %>%
   summarise(
-    arr = mean(arr_delay, na.rm = TRUE),
-    dep = mean(dep_delay, na.rm = TRUE)
-  ) %>%
-  filter(arr > 30 | dep > 30)
+    height = mean(height, na.rm = TRUE),
+    mass = mean(mass, na.rm = TRUE)
+  ) 
 ```
 
 ## Patterns of operations
@@ -322,38 +325,38 @@ equivalent from dplyr's point of view:
 
 ```{r}
 # `year` represents the integer 1
-select(flights, year)
-select(flights, 1)
+select(starwars, name)
+select(starwars, 1)
 ```
 
 By the same token, this means that you cannot refer to variables from
 the surrounding context if they have the same name as one of the
-columns. In the following example, `year` still represents 1, not 5:
+columns. In the following example, `height` still represents 2, not 5:
 
-```r
-year <- 5
-select(flights, year)
+```{r}
+height <- 5
+select(starwars, height)
 ```
 
 One useful subtlety is that this only applies to bare names and to
-selecting calls like `c(year, month, day)` or `year:day`. In all other
+selecting calls like `c(height, mass)` or `height:mass`. In all other
 cases, the columns of the data frame are not put in scope. This allows
 you to refer to contextual variables in selection helpers:
 
 ```{r}
-year <- "dep"
-select(flights, starts_with(year))
+name <- "color"
+select(starwars, ends_with(name))
 ```
 
 These semantics are usually intuitive. But note the subtle difference:
 
 ```{r}
-year <- 5
-select(flights, year, identity(year))
+name <- 5
+select(starwars, name, identity(name))
 ```
 
-In the first argument, `year` represents its own position `1`. In the
-second argument, `year` is evaluated in the surrounding context and
+In the first argument, `name` represents its own position `1`. In the
+second argument, `name` is evaluated in the surrounding context and
 represents the fifth column.
 
 For a long time, `select()` used to only understand column positions.
@@ -361,8 +364,8 @@ Counting from dplyr 0.6, it now understands column names as well. This
 makes it a bit easier to program with `select()`:
 
 ```{r}
-vars <- c("year", "month")
-select(flights, all_of(vars), "day")
+vars <- c("name", "height")
+select(starwars, all_of(vars), "mass")
 ```
 
 
@@ -370,29 +373,31 @@ select(flights, all_of(vars), "day")
 
 Mutate semantics are quite different from selection semantics. Whereas
 `select()` expects column names or positions, `mutate()` expects
-*column vectors*. Let's create a smaller tibble for clarity:
+*column vectors*. 
+We will set up a smaller tibble to use for our examples.
 
 ```{r}
-df <- select(flights, year:dep_time)
+df <- starwars %>%
+  select(name, height, mass)
 ```
 
-When we use `select()`, the bare column names stand for ther own
+When we use `select()`, the bare column names stand for their own
 positions in the tibble. For `mutate()` on the other hand, column
 symbols represent the actual column vectors stored in the tibble.
 Consider what happens if we give a string or a number to `mutate()`:
 
 ```{r}
-mutate(df, "year", 2)
+mutate(df, "height", 2)
 ```
 
 `mutate()` gets length-1 vectors that it interprets as new columns in
 the data frame. These vectors are recycled so they match the number of
 rows. That's why it doesn't make sense to supply expressions like
-`"year" + 10` to `mutate()`. This amounts to adding 10 to a string!
+`"height" + 10` to `mutate()`. This amounts to adding 10 to a string!
 The correct expression is:
 
 ```{r}
-mutate(df, year + 10)
+mutate(df, height + 10)
 ```
 
 In the same way, you can unquote values from the context if these
@@ -411,9 +416,9 @@ semantics, it actually has mutate semantics. This is quite handy as it
 allows to group by a modified column:
 
 ```{r}
-group_by(df, month)
-group_by(df, month = as.factor(month))
-group_by(df, day_binned = cut(day, 3))
+group_by(starwars, sex)
+group_by(starwars, sex = as.factor(sex))
+group_by(starwars, height_binned = cut(height, 3))
 ```
 
 This is why you can't supply a column name to `group_by()`. This
