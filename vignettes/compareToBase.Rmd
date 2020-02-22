@@ -12,34 +12,32 @@ knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4, tibble.print_max = 4)
 ```
 
-This vignette aims to compare dplyr functions to base R equivalents to facilitate users transitioning from using base R to dplyr, and vice versa. We'll start with a rough overivew, then discuss one table verbs in more detail, then the two table verbs.
+This vignette compares dplyr functions to their base R equivalents. This helps those familiar with base R understand better what dplyr does, and shows dplyr users how you might express the same ideas in base R code. We'll start with a rough overview of the major differences, then discuss the one table verbs in more detail, followed by the two table verbs.
 
 # Overview
 
-1.  dplyr functions tend to focus on whole data frame operations. This 
-    contrasts with base R approaches which tend to focus more on individual 
-    columns.
+1.  The code dplyr verbs input and output data frames. This contrasts with base 
+    R functions which more frequently work with individual vectors.
 
 1.  dplyr relies heavily on "non-standard evaluation" so that you don't need to 
-    use `$` to refer to columns in the "current" data frame. This is inspired 
-    by the base functions `subset()` and `transform()`.
+    use `$` to refer to columns in the "current" data frame. This behaviour 
+    is inspired by the base functions `subset()` and `transform()`.
     
 1.  dplyr solutions tend to use a variety of single purpose verbs, while base 
     R solutions typically tend to use `[` in a variety of ways, depending on the 
-    task at hand.
+    task at hand. 
     
-1.  The singular focus of dplyr verbs leads naturally to solving more 
-    challenging problems by stringing together multiple verbs (usually with
-    the pipe). In base R, you'll typically either create new objects or 
-    repeatedly overwrite an existing object.
+1.  Multiple dplyr verbs are often strung together into a pipeline by `%>%`.
+    In base R, you'll typically save intermediate results to a variable that
+    you either discard, or repeatedly overwrite.
 
-1.  All dplyr verbs handled "grouped" data frames so that the code to do an
-    operation per-group looks very similar to the whole-data frame code. 
-    In base R, per-group operations tend to have a more varied form.
+1.  All dplyr verbs handle "grouped" data frames so that the code to perform a
+    computation per-group looks very similar to code that works on a whole 
+    data frame. In base R, per-group operations tend to have varied forms.
 
-# Single-table verbs
+# One table verbs
 
-The following table shows a very condensed, high-level comparison of dplyr verbs and their base R equivalents. The following sections describe each operation in more detail. You learn more about the dplyr verbs in their documentation and in For more `vignette("one-table")`.
+The following table shows a condensed translation between dplyr verbs and their base R equivalents. The following sections describe each operation in more detail. You learn more about the dplyr verbs in their documentation and in For more `vignette("one-table")`.
 
 | dplyr                         | base                                             |
 |-------------------------------|--------------------------------------------------|
@@ -66,7 +64,7 @@ iris <- as_tibble(iris)
 
 ## `arrange()`: Arrange rows by variables
 
-`dplyr::arrange()` orders the rows of a data frame by the values of one or more variables: 
+`dplyr::arrange()` orders the rows of a data frame by the values of one or more columns: 
 
 ```{r}
 mtcars %>% arrange(cyl, disp)
@@ -78,7 +76,7 @@ The `desc()` helper allows you to order selected variables in descending order:
 mtcars %>% arrange(desc(cyl), desc(disp))
 ```
 
-We can replicate in base R by combining `[` with `order()`:
+We can replicate in base R by using `[` with `order()`:
 
 ```{r}
 mtcars[order(mtcars$cyl, mtcars$disp), , drop = FALSE]
@@ -86,7 +84,7 @@ mtcars[order(mtcars$cyl, mtcars$disp), , drop = FALSE]
 
 Note the use of `drop = FALSE`. If you forget this, and the input is a data frame with a single column, the output will be a vector, not a data frame. This is a source of subtle bugs.
 
-Base R does not provide a convenient and general way to sort individual variables in descending order. Instead you have two options:
+Base R does not provide a convenient and general way to sort individual variables in descending order, so you have two options:
 
 * For numeric variables, you can use `-x`.
 * You can request `order()` to sort all variables in descending order.
@@ -95,7 +93,6 @@ Base R does not provide a convenient and general way to sort individual variable
 mtcars[order(mtcars$cyl, mtcars$disp, decreasing = TRUE), , drop = FALSE]
 mtcars[order(-mtcars$cyl, -mtcars$disp), , drop = FALSE]
 ```
-
 
 ## `distinct()`: Select distinct/unique rows
 
@@ -117,8 +114,6 @@ There are two equivalents in base R, depending on whether you want the whole dat
 unique(df["x"]) # selected columns
 df[!duplicated(df$x), , drop = FALSE] # whole data frame
 ```
-
-Again, you must remember to use `drop = FALSE`. 
 
 ## `filter()`: Return rows with matching conditions
 
@@ -221,7 +216,7 @@ to_back <- c("mpg", "cyl")
 mtcars[c(setdiff(names(mtcars), to_back), to_back)]
 ```
 
-Moving columns to somewhere in the middle requires yet more set twiddling.
+Moving columns to somewhere in the middle requires a little more set twiddling.
 
 ## `rename()`: Rename variables by name
 
@@ -241,7 +236,7 @@ names(iris2)[2] <- "sepal_width"
 Renaming variables by name requires a bit more work:
 
 ```{r}
-names(iris2)[which(names(iris2) == "Sepal.Length")] <- "sepal_length"
+names(iris2)[names(iris2) == "Sepal.Length"] <- "sepal_length"
 ```
 
 ## `select()`: Select variables by name
@@ -262,7 +257,7 @@ iris[1:3] # single argument selects columns; never drops
 iris[1:3, , drop = FALSE]
 ```
 
-And you have two options to subset by name:
+You have two options to subset by name:
 
 ```{r}
 iris[c("Species", "Sepal.Length")]
@@ -291,7 +286,7 @@ mtcars %>%
   summarise(mean = mean(disp), n = n())
 ```
 
-I think the closest base R equivalent is `by()`. Unfortunately `by()` returns a list of data frames, but you can combine them back together again with `do.call()` and `rbind()`:
+I think the closest base R equivalent uses `by()`. Unfortunately `by()` returns a list of data frames, but you can combine them back together again with `do.call()` and `rbind()`:
 
 ```{r}
 mtcars_by <- by(mtcars, mtcars$cyl, function(df) {
@@ -313,11 +308,11 @@ But unfortunately while it looks like there are `disp.mean` and `disp.n` columns
 str(agg)
 ```
 
-You can see a variety of other options at <https://gist.github.com/hadley/c430501804349d382ce90754936ab8ec>, many generated by the R community  and 
+You can see a variety of other options at <https://gist.github.com/hadley/c430501804349d382ce90754936ab8ec>, many generated by the R community inspired by [a tweet](https://twitter.com/hadleywickham/status/1231252596712771585).
 
 ## `slice()`: Choose rows by position
 
-`slice()` subsets rows by their numeric location:
+`slice()` selects rows with their location:
 
 ```{r}
 slice(mtcars, 25:n())
@@ -348,8 +343,8 @@ For more information about two-table verbs, see `vignette("two-table")`.
 
 dplyr's `inner_join()`, `left_join()`, `right_join()`, and `full_join()` add new columns from `y` to `x`, matching rows based on a set of "keys", and differ only in how missing matches are handled. They are equivalent to calls to `merge()` with various settings of the `all`, `all.x`, and `all.y` arguments. The main difference is the order of the rows:
 
-* dplyr preserves the order of the `x` data frame
-* `merge()` sorts the key columns
+* dplyr preserves the order of the `x` data frame.
+* `merge()` sorts the key columns.
 
 ### Filtering joins
 
@@ -366,3 +361,5 @@ They can be replicated in base R with `[` and `%in%`:
 band_members[band_members$name %in% band_instruments$name, , drop = FALSE]
 band_members[!band_members$name %in% band_instruments$name, , drop = FALSE]
 ```
+
+Semi and anti joins with multiple key variables are considerably more challenging to implement.
