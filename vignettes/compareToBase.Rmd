@@ -362,8 +362,8 @@ mtcars[25:nrow(mtcars), , drop = FALSE]
 
 When we want to merge two data frames, `x` and `y`), we have a variety of different ways to bring them together. Various base R `merge()` calls are replaced by a variety of dplyr `join()` functions.
 
-| dplyr | base     |
-|------|------------|
+| dplyr                  | base                                    |
+|------------------------|-----------------------------------------|
 | `inner_join(df1, df2)` |`merge(df1, df2)`                        | 
 | `left_join(df1, df2) ` |`merge(df1, df2, all.x = TRUE)`          | 
 | `right_join(df1, df2)` |`merge(df1, df2, all.y = TRUE)`          | 
@@ -373,77 +373,25 @@ When we want to merge two data frames, `x` and `y`), we have a variety of differ
 
 For more information about two-table verbs, see `vignette("two-table")`.
 
-## Mutating joins: Join two tables together
+### Mutating joins
 
-If we want only rows that match in both data sets, we use dplyr's `inner_join()`. This drops the rows from the first data frame that do not occur in the second data frame (denoted by base R as `all.x = F`) and the rows from the second data frame that do not occur in the first data frame (denoted by base R as `all.y = F`).
+dplyr's `inner_join()`, `left_join()`, `right_join()`, and `full_join()` add new columns from `y` to `x`, matching rows based on a set of "keys", and differ only in how missing matches are handled. They are equivalent to calls to `merge()` with various settings of the `all`, `all.x`, and `all.y` arguments. The main difference is the order of the rows:
 
-In base R the resulting merged data frame has rows that are sorted in alphabetical order of the common solumns while in dplyr, the order of the first data frame's rows is preserved.
+* dplyr preserves the order of the `x` data frame
+* `merge()` sorts the key columns
 
-Left, right, and full joins drop rows without matches from the second data frame, first data frame, and neither data frame respectively. 
+### Filtering joins
 
-```{r}
-## Which band members also play instruments and what instruments do they play?
-
-# base
-merge(band_members, band_instruments, by.x = "name", by.y = "name", all.x = F, all.y = F)
-
-# dplyr
-band_members %>% inner_join(band_instruments)
-
-## What instrument does every band member play?
-
-# base
-merge(band_members, band_instruments, by.x = "name", by.y = "name", all.x = T, all.y = F)
-
-# dplyr
-band_members %>% left_join(band_instruments)
-
-## Which instruments are played and who are they played by?
-
-# base
-merge(band_members, band_instruments, by.x = "name", by.y = "name", all.x = F, all.y = T)
-
-# dplyr
-band_members %>% right_join(band_instruments)
-
-## What band members and band instruments exist?
-
-# base
-merge(band_members, band_instruments, by.x = "name", by.y = "name", all.x = T, all.y = T)
-merge(band_members, band_instruments, by.x = "name", by.y = "name", all = T) # shortcut
-
-# dplyr
-band_members %>% full_join(band_instruments)
-```
-
-## `semi_join()`: Join two tables together
-
-If we do not want to add information from another data frame but we care about the rows in one data frame narrowed to those that have a match in another data frame we can use dplyr's `semi_join()`. In base R we have to use `%in%` to help us find the correct rows to access. The `drop = F` option is again needed to ensure we end up with a data frame.
-
+dplyr's `semi_join()` and `anti_join()` affect only the rows, not the columns:
 
 ```{r}
-## Which band members play instruments?
-
-# base
-band_members[band_members$name %in% band_instruments$name, , drop = F]
-
-# dplyr
 band_members %>% semi_join(band_instruments)
-```
-
-Note that if we want to perform a semi-join based on more than one match criteria in base R, it is non-trivial. We cannot just do two `%in%` statements connected with a logical expression because we need joint matches. However, in dplyr multiple match criteria are easily handled. 
-
-## `anti_join()`: Join two tables together
-
-If we do not want to add information from another data frame but we care about the rows in one data frame that do not match another data frame we can use dplyr's `anti_join()`. We can use the negation of `%in%` in base R to help us find the correct rows to access, and we need to remember the `drop = F` option.
-
-```{r}
-## Which band members do not play instruments?
-
-# base
-band_members[!band_members$name %in% band_instruments$name, , drop = FALSE]
-
-# dplyr
 band_members %>% anti_join(band_instruments)
 ```
 
+They can be replicated in base R with `[` and `%in%`:
+
+```{r}
+band_members[band_members$name %in% band_instruments$name, , drop = FALSE]
+band_members[!band_members$name %in% band_instruments$name, , drop = FALSE]
+```
