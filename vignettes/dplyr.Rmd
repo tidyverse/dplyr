@@ -272,39 +272,8 @@ flights %>%
 
 The dplyr verbs can be classified by the type of operations they
 accomplish (we sometimes speak of their **semantics**, i.e., their
-meaning). The most important and useful distinction is between grouped
-and ungrouped operations. In addition, it is helpful to have a good
-grasp of the difference between select and mutate operations.
-
-
-### Grouped operations
-
-The dplyr verbs are useful on their own, but they become even more
-powerful when you apply them to groups of observations within a
-dataset. In dplyr, you do this with the `group_by()` function. It
-breaks down a dataset into specified groups of rows. When you then
-apply the verbs above on the resulting object they'll be automatically
-applied "by group".
-
-Grouping affects the verbs as follows:
-
-* grouped `select()` is the same as ungrouped `select()`, except that 
-  grouping variables are always retained. 
-   
-* grouped `arrange()` is the same as ungrouped; unless you set 
-  `.by_group = TRUE`, in which case it orders first by the grouping variables
-
-* `mutate()` and `filter()` are most useful in conjunction with window 
-  functions (like `rank()`, or `min(x) == x`). They are described in detail in 
-  `vignette("window-functions")`.
-  
-* `slice()` select rows by row number, sample the specified number/fraction of
-  rows in each group.
-
-* `summarise()` computes the summary for each group.
-
-Examples and more information on the use of grouped opertions are in  `vignette("grouping-data")`.
-
+meaning). It's helpful to have a good grasp of the difference between 
+select and mutate operations.
 
 ### Selecting operations
 
