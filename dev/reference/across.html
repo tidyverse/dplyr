@@ -211,7 +211,7 @@ See <code>vignette("colwise")</code> for more details.</p>
       <th>cols</th>
       <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Columns to transform.
 Because <code>across()</code> is used within functions like <code><a href='summarise.html'>summarise()</a></code> and
-<code><a href='mutate.html'>mutate()</a></code>, you can't grouping variables.</p></td>
+<code><a href='mutate.html'>mutate()</a></code>, you can't select or compute upon grouping variables.</p></td>
     </tr>
     <tr>
       <th>fns</th>
@@ -229,10 +229,11 @@ to access the current column and grouping keys respectively.</p></td>
     </tr>
     <tr>
       <th>names</th>
-      <td><p>A glue specification that describes how to name the output columns. This can use <code>{col}</code> to stand for
-the selected column name, and <code>{fn}</code> to stand for the name of the function
-being applied. The default (<code>NULL</code>) is equivalent to <code>"{col}"</code> for the single
-function case and <code>"{col}_{fn}"</code> for the case where a list is used for <code>fns</code>.</p></td>
+      <td><p>A glue specification that describes how to name the output
+columns. This can use <code>{col}</code> to stand for the selected column name, and
+<code>{fn}</code> to stand for the name of the function being applied. The default
+(<code>NULL</code>) is equivalent to <code>"{col}"</code> for the single function case and
+<code>"{col}_{fn}"</code> for the case where a list is used for <code>fns</code>.</p></td>
     </tr>
     </table>
 
