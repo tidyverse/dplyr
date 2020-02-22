@@ -40,13 +40,6 @@ compute_groups <- function(data, vars, drop = FALSE) {
     abort(glue("`vars` missing from `data`: {vars}"))
   }
 
-  for (var in vars) {
-    x <- data[[var]]
-    if (is.factor(x) && anyNA(x)) {
-      warn(glue("Factor `{var}` contains implicit NA, consider using `forcats::fct_explicit_na()`"))
-    }
-  }
-
   # Only train the dictionary based on selected columns
   group_vars <- as_tibble(data)[vars]
   c(old_keys, old_rows) %<-% vec_split_id_order(group_vars)
