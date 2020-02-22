@@ -167,25 +167,23 @@
 </ul>
 <p>This document introduces you to dplyr’s basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you’ve installed, read <code>vignette("dbplyr")</code> to learn more.</p>
 <p>All of the dplyr functions take a data frame (or tibble) as the first argument. Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so the result from one step is then “piped” into the next step. You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as “then”).</p>
-<div id="data-nycflights13" class="section level2">
+<div id="data-starwars" class="section level2">
 <h2 class="hasAnchor">
-<a href="#data-nycflights13" class="anchor"></a>Data: nycflights13</h2>
-<p>To explore the basic data manipulation verbs of dplyr, we’ll use <code><a href="https://rdrr.io/pkg/nycflights13/man/flights.html">nycflights13::flights</a></code>. This dataset contains all 336776 flights that departed from New York City in 2013. The data comes from the US <a href="http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&amp;Link=0">Bureau of Transportation Statistics</a>, and is documented in <code>?nycflights13</code></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(nycflights13)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(flights)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; [1] 336776     19</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">flights</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; # … with 336,772 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
-<p>Note that <code><a href="https://rdrr.io/pkg/nycflights13/man/flights.html">nycflights13::flights</a></code> is a tibble, a modern reimagining of the data frame. It’s particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <a href="http://tibble.tidyverse.org" class="uri">http://tibble.tidyverse.org</a>; in particular you can convert data frames to tibbles with <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code>.</p>
+<a href="#data-starwars" class="anchor"></a>Data: starwars</h2>
+<p>To explore the basic data manipulation verbs of dplyr, we’ll use the dataset <code>starwars</code>. This dataset contains 87 characters and comes from the <a href="http://swapi.co">Star Wars API</a>, and is documented in <code><a href="../reference/starwars.html">?starwars</a></code></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(starwars)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; [1] 87 14</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">starwars</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; # A tibble: 87 x 14</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
+<p>Note that <code>starwars</code> is a tibble, a modern reimagining of the data frame. It’s particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <a href="http://tibble.tidyverse.org" class="uri">http://tibble.tidyverse.org</a>; in particular you can convert data frames to tibbles with <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code>.</p>
 </div>
 <div id="single-table-verbs" class="section level2">
 <h2 class="hasAnchor">
@@ -227,122 +225,114 @@
 <a href="#filter-rows-with-filter" class="anchor"></a>Filter rows with <code>filter()</code>
 </h3>
 <p><code><a href="../reference/filter.html">filter()</a></code> allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is <code>TRUE</code>.</p>
-<p>For example, we can select all flights on January 1st with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(month <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, day <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; # A tibble: 842 x 19</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; # … with 838 more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<p>For example, we can select all character with light skin color and brown eyes with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(skin_color <span class="op">==</span><span class="st"> "light"</span>, eye_color <span class="op">==</span><span class="st"> "brown"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; # A tibble: 7 x 14</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 1 Leia…    150    49 brown      light      brown             19 fema… femin…</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 2 Bigg…    183    84 black      light      brown             24 male  mascu…</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 3 Cordé    157    NA brown      light      brown             NA fema… femin…</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 4 Dormé    165    NA brown      light      brown             NA fema… femin…</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; # … with 3 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
 <p>This is rougly equivalent to this base R code:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">flights[flights<span class="op">$</span>month <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>flights<span class="op">$</span>day <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ]</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">starwars[starwars<span class="op">$</span>skin_color <span class="op">==</span><span class="st"> "light"</span> <span class="op">&amp;</span><span class="st"> </span>starwars<span class="op">$</span>eye_color <span class="op">==</span><span class="st"> "brown"</span>, ]</a></code></pre></div>
 </div>
 <div id="arrange-rows-with-arrange" class="section level3">
 <h3 class="hasAnchor">
 <a href="#arrange-rows-with-arrange" class="anchor"></a>Arrange rows with <code>arrange()</code>
 </h3>
 <p><code><a href="../reference/arrange.html">arrange()</a></code> works similarly to <code><a href="../reference/filter.html">filter()</a></code> except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(year, month, day)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(height, mass)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; # A tibble: 87 x 14</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 1 Yoda      66    17 white      green      brown            896 male  mascu…</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 2 Ratt…     79    15 none       grey, blue unknown           NA male  mascu…</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 3 Wick…     88    20 brown      brown      brown              8 male  mascu…</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 4 Dud …     94    45 none       blue, grey yellow            NA male  mascu…</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
 <p>Use <code><a href="../reference/desc.html">desc()</a></code> to order a column in descending order:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(arr_delay))</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     9      641            900      1301     1242           1530</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 2  2013     6    15     1432           1935      1137     1607           2120</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 3  2013     1    10     1121           1635      1126     1239           1810</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 4  2013     9    20     1139           1845      1014     1457           2210</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(height))</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; # A tibble: 87 x 14</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  mascu…</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  mascu…</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  mascu…</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 4 Chew…    228   112 brown      unknown    blue             200 male  mascu…</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
 </div>
 <div id="choose-rows-using-their-position-with-slice" class="section level3">
 <h3 class="hasAnchor">
 <a href="#choose-rows-using-their-position-with-slice" class="anchor"></a>Choose rows using their position with <code>slice()</code>
 </h3>
 <p>slice() lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows.</p>
-<p>We can get flights from row numbers 5 through 10.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; # A tibble: 6 x 19</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      554            600        -6      812            837</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      554            558        -4      740            728</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      555            600        -5      913            854</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      557            600        -3      709            723</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; # … with 2 more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<p>We can get characters from row numbers 5 through 10.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; # A tibble: 6 x 14</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; 1 Leia…    150    49 brown      light      brown             19 fema… femin…</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 2 Owen…    178   120 brown, gr… light      blue              52 male  mascu…</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 3 Beru…    165    75 brown      light      blue              47 fema… femin…</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 4 R5-D4     97    32 &lt;NA&gt;       white, red red               NA none  mascu…</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; # … with 2 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
 <p>It is accompanied by a number of helpers for common use cases:</p>
 <ul>
 <li>slice_head() and slice_tail() select the first or last rows.</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_head</a></span>(<span class="dt">n =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 19</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; # … with 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_head</a></span>(<span class="dt">n =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 14</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue              19 male  mascu…</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none  mascu…</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none  mascu…</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
 <ul>
 <li>slice_sample() randomly selects rows. Use the option prop to choose a certain proportion of the cases.</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_sample</a></span>(<span class="dt">n =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 19</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1  2013     9     9     1440           1429        11     1649           1655</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2  2013     5    15     1427           1429        -2     1728           1738</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3  2013     8    14     1121           1120         1     1228           1233</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 4  2013     8     4     1448           1429        19     1657           1659</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; # … with 1 more row, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_sample</a></span>(<span class="dt">prop =</span> <span class="fl">0.001</span>)</a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; # A tibble: 336 x 19</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; 1  2013     9     2     2309           2110       119       19           2222</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; 2  2013     6    10     2310           1935       215      257           2302</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; 3  2013    12    31      806            805         1     1142           1132</span></a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; 4  2013     6    18      925            930        -5     1031           1044</span></a>
-<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; # … with 332 more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_sample</a></span>(<span class="dt">n =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 14</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1 Dud …     94    45 none       blue, grey yellow            NA male  mascu…</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 2 Bossk    190   113 none       green      red               53 male  mascu…</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 3 Shaa…    178    57 none       red, blue… black             NA fema… femin…</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 4 Dormé    165    NA brown      light      brown             NA fema… femin…</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; # … with 1 more row, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_sample</a></span>(<span class="dt">prop =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; # A tibble: 8 x 14</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; 1 Qui-…    193    89 brown      fair       blue              92 male  mascu…</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; 2 Dext…    198   102 none       brown      yellow            NA male  mascu…</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; 3 R4-P…     96    NA none       silver, r… red, blue         NA none  femin…</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; 4 Lama…    229    88 none       grey       black             NA male  mascu…</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; # … with 4 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
 <p>Use <code>replace = TRUE</code> to perform a bootstrap sample. If needed, you can weight the sample with the <code>weight</code> argument.</p>
 <ul>
-<li>slice_min() and slice_max() select rows with highest or lowest values of a variable.</li>
+<li>slice_min() and slice_max() select rows with highest or lowest values of a variable. Note that we first must choose only the values which are not NA.</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_max</a></span>(distance, <span class="dt">n =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; # A tibble: 342 x 19</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      857            900        -3     1516           1530</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     2      909            900         9     1525           1530</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     3      914            900        14     1504           1530</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     4      900            900         0     1516           1530</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; # … with 338 more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
-<p>Note that this resulted in more all cases which have the same maximum distance.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(height)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/slice.html">slice_max</a></span>(height, <span class="dt">n =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 14</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  mascu…</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  mascu…</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  mascu…</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
 </div>
 <div id="select-columns-with-select" class="section level3">
 <h3 class="hasAnchor">
@@ -350,142 +340,155 @@
 </h3>
 <p>Often you work with large datasets with many columns but only a few are actually of interest to you. <code><a href="../reference/select.html">select()</a></code> allows you to rapidly zoom in on a useful subset using operations that usually only work on numeric variable positions:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Select columns by name</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(year, month, day)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;    year month   day</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co"># Select all columns between year and day (inclusive)</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(year<span class="op">:</span>day)</a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;    year month   day</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 1  2013     1     1</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 2  2013     1     1</span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 3  2013     1     1</span></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 4  2013     1     1</span></a>
-<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co"># Select all columns except those from year to day (inclusive)</span></a>
-<a class="sourceLine" id="cb10-22" data-line-number="22">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="op">-</span>(year<span class="op">:</span>day))</a>
-<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="co">#&gt; # A tibble: 336,776 x 16</span></a>
-<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="co">#&gt;   dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier</span></a>
-<a class="sourceLine" id="cb10-25" data-line-number="25"><span class="co">#&gt;      &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;  </span></a>
-<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="co">#&gt; 1      517            515         2      830            819        11 UA     </span></a>
-<a class="sourceLine" id="cb10-27" data-line-number="27"><span class="co">#&gt; 2      533            529         4      850            830        20 UA     </span></a>
-<a class="sourceLine" id="cb10-28" data-line-number="28"><span class="co">#&gt; 3      542            540         2      923            850        33 AA     </span></a>
-<a class="sourceLine" id="cb10-29" data-line-number="29"><span class="co">#&gt; 4      544            545        -1     1004           1022       -18 B6     </span></a>
-<a class="sourceLine" id="cb10-30" data-line-number="30"><span class="co">#&gt; # … with 336,772 more rows, and 9 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb10-32" data-line-number="32"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-2" data-line-number="2">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(hair_color, skin_color, eye_color)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; # A tibble: 87 x 3</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;   hair_color skin_color  eye_color</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; 1 blond      fair        blue     </span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 4 none       white       yellow   </span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; # … with 83 more rows</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co"># Select all columns between hair_color and eye_color (inclusive)</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(hair_color<span class="op">:</span>eye_color)</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt; # A tibble: 87 x 3</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;   hair_color skin_color  eye_color</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 1 blond      fair        blue     </span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 4 none       white       yellow   </span></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; # … with 83 more rows</span></a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co"># Select all columns except those from hair_color to eye_color (inclusive)</span></a>
+<a class="sourceLine" id="cb10-22" data-line-number="22">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="op">-</span>(hair_color<span class="op">:</span>eye_color))</a>
+<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="co">#&gt; # A tibble: 87 x 11</span></a>
+<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="co">#&gt;   name  height  mass birth_year sex   gender homeworld species films vehicles</span></a>
+<a class="sourceLine" id="cb10-25" data-line-number="25"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;   &lt;lis&gt; &lt;list&gt;  </span></a>
+<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="co">#&gt; 1 Luke…    172    77       19   male  mascu… Tatooine  Human   &lt;chr… &lt;chr [2…</span></a>
+<a class="sourceLine" id="cb10-27" data-line-number="27"><span class="co">#&gt; 2 C-3PO    167    75      112   none  mascu… Tatooine  Droid   &lt;chr… &lt;chr [0…</span></a>
+<a class="sourceLine" id="cb10-28" data-line-number="28"><span class="co">#&gt; 3 R2-D2     96    32       33   none  mascu… Naboo     Droid   &lt;chr… &lt;chr [0…</span></a>
+<a class="sourceLine" id="cb10-29" data-line-number="29"><span class="co">#&gt; 4 Dart…    202   136       41.9 male  mascu… Tatooine  Human   &lt;chr… &lt;chr [0…</span></a>
+<a class="sourceLine" id="cb10-30" data-line-number="30"><span class="co">#&gt; # … with 83 more rows, and 1 more variable: starships &lt;list&gt;</span></a>
+<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="co"># Select all columns ending with color</span></a>
+<a class="sourceLine" id="cb10-32" data-line-number="32">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with</a></span>(<span class="st">"color"</span>))</a>
+<a class="sourceLine" id="cb10-33" data-line-number="33"><span class="co">#&gt; # A tibble: 87 x 3</span></a>
+<a class="sourceLine" id="cb10-34" data-line-number="34"><span class="co">#&gt;   hair_color skin_color  eye_color</span></a>
+<a class="sourceLine" id="cb10-35" data-line-number="35"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb10-36" data-line-number="36"><span class="co">#&gt; 1 blond      fair        blue     </span></a>
+<a class="sourceLine" id="cb10-37" data-line-number="37"><span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span></a>
+<a class="sourceLine" id="cb10-38" data-line-number="38"><span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span></a>
+<a class="sourceLine" id="cb10-39" data-line-number="39"><span class="co">#&gt; 4 none       white       yellow   </span></a>
+<a class="sourceLine" id="cb10-40" data-line-number="40"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
 <p>There are a number of helper functions you can use within <code><a href="../reference/select.html">select()</a></code>, like <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">matches()</a></code> and <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains()</a></code>. These let you quickly match larger blocks of variables that meet some criterion. See <code><a href="../reference/select.html">?select</a></code> for more details.</p>
 <p>You can rename variables with <code><a href="../reference/select.html">select()</a></code> by using named arguments:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="dt">tail_num =</span> tailnum)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;   tail_num</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;   </span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; 1 N14228  </span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; 2 N24211  </span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; 3 N619AA  </span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 4 N804JB  </span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="dt">home_world =</span> homeworld)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; # A tibble: 87 x 1</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;   home_world</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;     </span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; 1 Tatooine  </span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; 2 Tatooine  </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; 3 Naboo     </span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 4 Tatooine  </span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
 <p>But because <code><a href="../reference/select.html">select()</a></code> drops all the variables not explicitly mentioned, it’s not that useful. Instead, use <code><a href="../reference/rename.html">rename()</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rename.html">rename</a></span>(<span class="dt">tail_num =</span> tailnum)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tail_num &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rename.html">rename</a></span>(<span class="dt">home_world =</span> homeworld)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; # A tibble: 87 x 14</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; # … with 83 more rows, and 5 more variables: home_world &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
 </div>
 <div id="add-new-columns-with-mutate" class="section level3">
 <h3 class="hasAnchor">
 <a href="#add-new-columns-with-mutate" class="anchor"></a>Add new columns with <code>mutate()</code>
 </h3>
 <p>Besides selecting sets of existing columns, it’s often useful to add new columns that are functions of existing columns. This is the job of <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="dt">speed =</span> distance <span class="op">/</span><span class="st"> </span>air_time <span class="op">*</span><span class="st"> </span><span class="dv">60</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 21</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt; # … with 336,772 more rows, and 13 more variables: arr_delay &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;,</span></a>
-<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt; #   gain &lt;dbl&gt;, speed &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">height_m =</span>  height <span class="op">/</span><span class="st"> </span><span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; # A tibble: 87 x 15</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; # … with 83 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, height_m &lt;dbl&gt;</span></a></code></pre></div>
+<p>We can’t see the height in meters we just calculated, but we can fix that using a select command.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">height_m =</span> height <span class="op">/</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(height_m, height, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>())</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt; # A tibble: 87 x 15</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt;   height_m height name   mass hair_color skin_color eye_color birth_year sex  </span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt;      &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; 1     1.72    172 Luke…    77 blond      fair       blue            19   male </span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 2     1.67    167 C-3PO    75 &lt;NA&gt;       gold       yellow         112   none </span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; 3     0.96     96 R2-D2    32 &lt;NA&gt;       white, bl… red             33   none </span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; 4     2.02    202 Dart…   136 none       white      yellow          41.9 male </span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt; # … with 83 more rows, and 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
 <p><code><a href="../reference/mutate.html">dplyr::mutate()</a></code> is similar to the base <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>, but allows you to refer to columns that you’ve just created:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">gain_per_hour =</span> gain <span class="op">/</span><span class="st"> </span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 21</span></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 1  2013     1     1      517            515         2      830            819</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; 2  2013     1     1      533            529         4      850            830</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; 3  2013     1     1      542            540         2      923            850</span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt; 4  2013     1     1      544            545        -1     1004           1022</span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; # … with 336,772 more rows, and 13 more variables: arr_delay &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt; #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt; #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;,</span></a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; #   gain &lt;dbl&gt;, gain_per_hour &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="dt">height_m =</span> height <span class="op">/</span><span class="st"> </span><span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="dt">BMI =</span> mass<span class="op">/</span>(height_m<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(BMI, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>())</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; # A tibble: 87 x 16</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt;     BMI name  height  mass hair_color skin_color eye_color birth_year sex  </span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt; 1  26.0 Luke…    172    77 blond      fair       blue            19   male </span></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; 2  26.9 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none </span></a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co">#&gt; 3  34.7 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none </span></a>
+<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt; 4  33.3 Dart…    202   136 none       white      yellow          41.9 male </span></a>
+<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="co">#&gt; # … with 83 more rows, and 7 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;,</span></a>
+<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co">#&gt; #   height_m &lt;dbl&gt;</span></a></code></pre></div>
 <p>If you only want to keep the new variables, use <code><a href="../reference/mutate.html">transmute()</a></code>:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">transmute</a></span>(</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="dt">gain_per_hour =</span> gain <span class="op">/</span><span class="st"> </span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt;    gain gain_per_hour</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt;   &lt;dbl&gt;         &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 1     9          2.38</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt; 2    16          4.23</span></a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; 3    31         11.6 </span></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co">#&gt; 4   -17         -5.57</span></a>
-<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">transmute</a></span>(</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">  <span class="dt">height_m =</span> height <span class="op">/</span><span class="st"> </span><span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">  <span class="dt">BMI =</span> mass<span class="op">/</span>(height_m<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; # A tibble: 87 x 2</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt;   height_m   BMI</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt;      &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 1     1.72  26.0</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 2     1.67  26.9</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; 3     0.96  34.7</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; 4     2.02  33.3</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
 </div>
 <div id="change-column-order-with-relocate" class="section level3">
 <h3 class="hasAnchor">
 <a href="#change-column-order-with-relocate" class="anchor"></a>Change column order with <code>relocate()</code>
 </h3>
-<p>Use a similar syntax as <code><a href="../reference/select.html">select()</a></code> to move blocks of columns at once.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/relocate.html">relocate</a></span>(carrier<span class="op">:</span>distance, <span class="dt">.before =</span> year)</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt;   carrier flight tailnum origin dest  air_time distance  year month   day</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 1 UA        1545 N14228  EWR    IAH        227     1400  2013     1     1</span></a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 2 UA        1714 N24211  LGA    IAH        227     1416  2013     1     1</span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 3 AA        1141 N619AA  JFK    MIA        160     1089  2013     1     1</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 4 B6         725 N804JB  JFK    BQN        183     1576  2013     1     1</span></a>
-<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows, and 9 more variables: dep_time &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; #   sched_dep_time &lt;int&gt;, dep_delay &lt;dbl&gt;, arr_time &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; #   sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; #   time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<p>Use a similar syntax as <code><a href="../reference/select.html">select()</a></code> to move blocks of columns at once</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/relocate.html">relocate</a></span>(sex<span class="op">:</span>homeworld, <span class="dt">.before =</span> height)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="co">#&gt; # A tibble: 87 x 14</span></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="co">#&gt;   name  sex   gender homeworld height  mass hair_color skin_color eye_color</span></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="co">#&gt; 1 Luke… male  mascu… Tatooine     172    77 blond      fair       blue     </span></a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&gt; 2 C-3PO none  mascu… Tatooine     167    75 &lt;NA&gt;       gold       yellow   </span></a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co">#&gt; 3 R2-D2 none  mascu… Naboo         96    32 &lt;NA&gt;       white, bl… red      </span></a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&gt; 4 Dart… male  mascu… Tatooine     202   136 none       white      yellow   </span></a>
+<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&gt; # … with 83 more rows, and 5 more variables: birth_year &lt;dbl&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
 </div>
 <div id="summarise-values-with-summarise" class="section level3">
 <h3 class="hasAnchor">
 <a href="#summarise-values-with-summarise" class="anchor"></a>Summarise values with <code>summarise()</code>
 </h3>
 <p>The last verb is <code><a href="../reference/summarise.html">summarise()</a></code>. It collapses a data frame to a single row.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">flights <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">    <span class="dt">delay =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">  )</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&gt;   delay</span></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co">#&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&gt; 1  12.6</span></a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">starwars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">    <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">  )</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt;   height</span></a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="co">#&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="co">#&gt; 1   174.</span></a></code></pre></div>
 <p>It’s not that useful until we learn the <code><a href="../reference/group_by.html">group_by()</a></code> verb below.</p>
 </div>
 <div id="commonalities" class="section level3">
@@ -506,43 +509,38 @@
 <a href="#combining-functions-with" class="anchor"></a>Combining functions with <code>%&gt;%</code>
 </h2>
 <p>The dplyr API is functional in the sense that function calls don’t have side-effects. You must always save their results. This doesn’t lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">a1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day)</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">a2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(a1, arr_delay, dep_delay)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">a3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(a2,</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">  <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">  <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(a3, arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">a1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, species, sex)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">a2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(a1, height, mass)</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">a3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(a2,</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">  <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">  <span class="dt">mass =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <p>Or if you don’t want to name the intermediate results, you need to wrap the function calls inside each other:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">  <span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">    <span class="kw"><a href="../reference/select.html">select</a></span>(</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">      <span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day),</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">      arr_delay, dep_delay</a>
-<a class="sourceLine" id="cb19-6" data-line-number="6">    ),</a>
-<a class="sourceLine" id="cb19-7" data-line-number="7">    <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb19-8" data-line-number="8">    <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb19-9" data-line-number="9">  ),</a>
-<a class="sourceLine" id="cb19-10" data-line-number="10">  arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span></a>
-<a class="sourceLine" id="cb19-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&gt; Adding missing grouping variables: `year`, `month`, `day`</span></a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; # A tibble: 49 x 5</span></a>
-<a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; # Groups:   year, month [11]</span></a>
-<a class="sourceLine" id="cb19-15" data-line-number="15"><span class="co">#&gt;    year month   day   arr   dep</span></a>
-<a class="sourceLine" id="cb19-16" data-line-number="16"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb19-17" data-line-number="17"><span class="co">#&gt; 1  2013     1    16  34.2  24.6</span></a>
-<a class="sourceLine" id="cb19-18" data-line-number="18"><span class="co">#&gt; 2  2013     1    31  32.6  28.7</span></a>
-<a class="sourceLine" id="cb19-19" data-line-number="19"><span class="co">#&gt; 3  2013     2    11  36.3  39.1</span></a>
-<a class="sourceLine" id="cb19-20" data-line-number="20"><span class="co">#&gt; 4  2013     2    27  31.3  37.8</span></a>
-<a class="sourceLine" id="cb19-21" data-line-number="21"><span class="co">#&gt; # … with 45 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">  <span class="kw"><a href="../reference/select.html">select</a></span>(</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">    <span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, species, sex),</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">      height, mass</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">    ),</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">    <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">    <span class="dt">mass =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="co">#&gt; Adding missing grouping variables: `species`, `sex`</span></a>
+<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="co">#&gt; # A tibble: 41 x 4</span></a>
+<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="co">#&gt; # Groups:   species [38]</span></a>
+<a class="sourceLine" id="cb20-12" data-line-number="12"><span class="co">#&gt;   species  sex   height  mass</span></a>
+<a class="sourceLine" id="cb20-13" data-line-number="13"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb20-14" data-line-number="14"><span class="co">#&gt; 1 Aleena   male      79    15</span></a>
+<a class="sourceLine" id="cb20-15" data-line-number="15"><span class="co">#&gt; 2 Besalisk male     198   102</span></a>
+<a class="sourceLine" id="cb20-16" data-line-number="16"><span class="co">#&gt; 3 Cerean   male     198    82</span></a>
+<a class="sourceLine" id="cb20-17" data-line-number="17"><span class="co">#&gt; 4 Chagrian male     196   NaN</span></a>
+<a class="sourceLine" id="cb20-18" data-line-number="18"><span class="co">#&gt; # … with 37 more rows</span></a></code></pre></div>
 <p>This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as “then”):</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">flights <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(year, month, day) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(arr_delay, dep_delay) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
-<a class="sourceLine" id="cb20-5" data-line-number="5">    <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb20-6" data-line-number="6">    <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb20-7" data-line-number="7">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">starwars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(species, sex) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(height, mass) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">    <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6">    <span class="dt">mass =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb21-7" data-line-number="7">  ) </a></code></pre></div>
 </div>
 <div id="patterns-of-operations" class="section level2">
 <h2 class="hasAnchor">
@@ -567,141 +565,157 @@
 <a href="#selecting-operations" class="anchor"></a>Selecting operations</h3>
 <p>One of the appealing features of dplyr is that you can refer to columns from the tibble as if they were regular variables. However, the syntactic uniformity of referring to bare column names hides semantical differences across the verbs. A column symbol supplied to <code><a href="../reference/select.html">select()</a></code> does not have the same meaning as the same symbol supplied to <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
 <p>Selecting operations expect column names and positions. Hence, when you call <code><a href="../reference/select.html">select()</a></code> with bare variable names, they actually represent their own positions in the tibble. The following calls are completely equivalent from dplyr’s point of view:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># `year` represents the integer 1</span></a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt;    year</span></a>
-<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="co">#&gt; 1  2013</span></a>
-<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="co">#&gt; 2  2013</span></a>
-<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&gt; 3  2013</span></a>
-<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&gt; 4  2013</span></a>
-<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb21-11" data-line-number="11"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb21-12" data-line-number="12"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
-<a class="sourceLine" id="cb21-13" data-line-number="13"><span class="co">#&gt;    year</span></a>
-<a class="sourceLine" id="cb21-14" data-line-number="14"><span class="co">#&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb21-15" data-line-number="15"><span class="co">#&gt; 1  2013</span></a>
-<a class="sourceLine" id="cb21-16" data-line-number="16"><span class="co">#&gt; 2  2013</span></a>
-<a class="sourceLine" id="cb21-17" data-line-number="17"><span class="co">#&gt; 3  2013</span></a>
-<a class="sourceLine" id="cb21-18" data-line-number="18"><span class="co">#&gt; 4  2013</span></a>
-<a class="sourceLine" id="cb21-19" data-line-number="19"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>By the same token, this means that you cannot refer to variables from the surrounding context if they have the same name as one of the columns. In the following example, <code>year</code> still represents 1, not 5:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">year &lt;-<span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)</a></code></pre></div>
-<p>One useful subtlety is that this only applies to bare names and to selecting calls like <code><a href="https://rdrr.io/r/base/c.html">c(year, month, day)</a></code> or <code>year:day</code>. In all other cases, the columns of the data frame are not put in scope. This allows you to refer to contextual variables in selection helpers:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">year &lt;-<span class="st"> "dep"</span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(year))</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
-<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="co">#&gt;   dep_time dep_delay</span></a>
-<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="co">#&gt; 1      517         2</span></a>
-<a class="sourceLine" id="cb23-7" data-line-number="7"><span class="co">#&gt; 2      533         4</span></a>
-<a class="sourceLine" id="cb23-8" data-line-number="8"><span class="co">#&gt; 3      542         2</span></a>
-<a class="sourceLine" id="cb23-9" data-line-number="9"><span class="co">#&gt; 4      544        -1</span></a>
-<a class="sourceLine" id="cb23-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># `year` represents the integer 1</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, name)</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co">#&gt; # A tibble: 87 x 1</span></a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#&gt;   name          </span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;         </span></a>
+<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="co">#&gt; 1 Luke Skywalker</span></a>
+<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="co">#&gt; 2 C-3PO         </span></a>
+<a class="sourceLine" id="cb22-8" data-line-number="8"><span class="co">#&gt; 3 R2-D2         </span></a>
+<a class="sourceLine" id="cb22-9" data-line-number="9"><span class="co">#&gt; 4 Darth Vader   </span></a>
+<a class="sourceLine" id="cb22-10" data-line-number="10"><span class="co">#&gt; # … with 83 more rows</span></a>
+<a class="sourceLine" id="cb22-11" data-line-number="11"><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb22-12" data-line-number="12"><span class="co">#&gt; # A tibble: 87 x 1</span></a>
+<a class="sourceLine" id="cb22-13" data-line-number="13"><span class="co">#&gt;   name          </span></a>
+<a class="sourceLine" id="cb22-14" data-line-number="14"><span class="co">#&gt;   &lt;chr&gt;         </span></a>
+<a class="sourceLine" id="cb22-15" data-line-number="15"><span class="co">#&gt; 1 Luke Skywalker</span></a>
+<a class="sourceLine" id="cb22-16" data-line-number="16"><span class="co">#&gt; 2 C-3PO         </span></a>
+<a class="sourceLine" id="cb22-17" data-line-number="17"><span class="co">#&gt; 3 R2-D2         </span></a>
+<a class="sourceLine" id="cb22-18" data-line-number="18"><span class="co">#&gt; 4 Darth Vader   </span></a>
+<a class="sourceLine" id="cb22-19" data-line-number="19"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
+<p>By the same token, this means that you cannot refer to variables from the surrounding context if they have the same name as one of the columns. In the following example, <code>height</code> still represents 2, not 5:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">height &lt;-<span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, height)</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="co">#&gt; # A tibble: 87 x 1</span></a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="co">#&gt;   height</span></a>
+<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="co">#&gt;    &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="co">#&gt; 1    172</span></a>
+<a class="sourceLine" id="cb23-7" data-line-number="7"><span class="co">#&gt; 2    167</span></a>
+<a class="sourceLine" id="cb23-8" data-line-number="8"><span class="co">#&gt; 3     96</span></a>
+<a class="sourceLine" id="cb23-9" data-line-number="9"><span class="co">#&gt; 4    202</span></a>
+<a class="sourceLine" id="cb23-10" data-line-number="10"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
+<p>One useful subtlety is that this only applies to bare names and to selecting calls like <code><a href="https://rdrr.io/r/base/c.html">c(height, mass)</a></code> or <code>height:mass</code>. In all other cases, the columns of the data frame are not put in scope. This allows you to refer to contextual variables in selection helpers:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">name &lt;-<span class="st"> "color"</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with</a></span>(name))</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co">#&gt; # A tibble: 87 x 3</span></a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co">#&gt;   hair_color skin_color  eye_color</span></a>
+<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="co">#&gt; 1 blond      fair        blue     </span></a>
+<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span></a>
+<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span></a>
+<a class="sourceLine" id="cb24-9" data-line-number="9"><span class="co">#&gt; 4 none       white       yellow   </span></a>
+<a class="sourceLine" id="cb24-10" data-line-number="10"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
 <p>These semantics are usually intuitive. But note the subtle difference:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">year &lt;-<span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year, <span class="kw"><a href="https://rdrr.io/r/base/identity.html">identity</a></span>(year))</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
-<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co">#&gt;    year sched_dep_time</span></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt;          &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="co">#&gt; 1  2013            515</span></a>
-<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co">#&gt; 2  2013            529</span></a>
-<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="co">#&gt; 3  2013            540</span></a>
-<a class="sourceLine" id="cb24-9" data-line-number="9"><span class="co">#&gt; 4  2013            545</span></a>
-<a class="sourceLine" id="cb24-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>In the first argument, <code>year</code> represents its own position <code>1</code>. In the second argument, <code>year</code> is evaluated in the surrounding context and represents the fifth column.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">name &lt;-<span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, name, <span class="kw"><a href="https://rdrr.io/r/base/identity.html">identity</a></span>(name))</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co">#&gt; # A tibble: 87 x 2</span></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co">#&gt;   name           skin_color </span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      </span></a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#&gt; 1 Luke Skywalker fair       </span></a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; 2 C-3PO          gold       </span></a>
+<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; 3 R2-D2          white, blue</span></a>
+<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="co">#&gt; 4 Darth Vader    white      </span></a>
+<a class="sourceLine" id="cb25-10" data-line-number="10"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
+<p>In the first argument, <code>name</code> represents its own position <code>1</code>. In the second argument, <code>name</code> is evaluated in the surrounding context and represents the fifth column.</p>
 <p>For a long time, <code><a href="../reference/select.html">select()</a></code> used to only understand column positions. Counting from dplyr 0.6, it now understands column names as well. This makes it a bit easier to program with <code><a href="../reference/select.html">select()</a></code>:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"year"</span>, <span class="st">"month"</span>)</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw">all_of</span>(vars), <span class="st">"day"</span>)</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co">#&gt;    year month   day</span></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1</span></a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1</span></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1</span></a>
-<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1</span></a>
-<a class="sourceLine" id="cb25-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"name"</span>, <span class="st">"height"</span>)</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, <span class="kw">all_of</span>(vars), <span class="st">"mass"</span>)</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="co">#&gt; # A tibble: 87 x 3</span></a>
+<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="co">#&gt;   name           height  mass</span></a>
+<a class="sourceLine" id="cb26-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb26-6" data-line-number="6"><span class="co">#&gt; 1 Luke Skywalker    172    77</span></a>
+<a class="sourceLine" id="cb26-7" data-line-number="7"><span class="co">#&gt; 2 C-3PO             167    75</span></a>
+<a class="sourceLine" id="cb26-8" data-line-number="8"><span class="co">#&gt; 3 R2-D2              96    32</span></a>
+<a class="sourceLine" id="cb26-9" data-line-number="9"><span class="co">#&gt; 4 Darth Vader       202   136</span></a>
+<a class="sourceLine" id="cb26-10" data-line-number="10"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
 </div>
 <div id="mutating-operations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#mutating-operations" class="anchor"></a>Mutating operations</h3>
-<p>Mutate semantics are quite different from selection semantics. Whereas <code><a href="../reference/select.html">select()</a></code> expects column names or positions, <code><a href="../reference/mutate.html">mutate()</a></code> expects <em>column vectors</em>. Let’s create a smaller tibble for clarity:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year<span class="op">:</span>dep_time)</a></code></pre></div>
-<p>When we use <code><a href="../reference/select.html">select()</a></code>, the bare column names stand for ther own positions in the tibble. For <code><a href="../reference/mutate.html">mutate()</a></code> on the other hand, column symbols represent the actual column vectors stored in the tibble. Consider what happens if we give a string or a number to <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="st">"year"</span>, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 6</span></a>
-<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time `"year"`   `2`</span></a>
-<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517 year         2</span></a>
-<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533 year         2</span></a>
-<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542 year         2</span></a>
-<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544 year         2</span></a>
-<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p><code><a href="../reference/mutate.html">mutate()</a></code> gets length-1 vectors that it interprets as new columns in the data frame. These vectors are recycled so they match the number of rows. That’s why it doesn’t make sense to supply expressions like <code>"year" + 10</code> to <code><a href="../reference/mutate.html">mutate()</a></code>. This amounts to adding 10 to a string! The correct expression is:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, year <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="co">#&gt;    year month   day dep_time `year + 10`</span></a>
-<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;       &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1      517        2023</span></a>
-<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1      533        2023</span></a>
-<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1      542        2023</span></a>
-<a class="sourceLine" id="cb28-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544        2023</span></a>
-<a class="sourceLine" id="cb28-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<p>Mutate semantics are quite different from selection semantics. Whereas <code><a href="../reference/select.html">select()</a></code> expects column names or positions, <code><a href="../reference/mutate.html">mutate()</a></code> expects <em>column vectors</em>. We will set up a smaller tibble to use for our examples.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">df &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(name, height, mass)</a></code></pre></div>
+<p>When we use <code><a href="../reference/select.html">select()</a></code>, the bare column names stand for their own positions in the tibble. For <code><a href="../reference/mutate.html">mutate()</a></code> on the other hand, column symbols represent the actual column vectors stored in the tibble. Consider what happens if we give a string or a number to <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="st">"height"</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="co">#&gt; # A tibble: 87 x 5</span></a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="co">#&gt;   name           height  mass `"height"`   `2`</span></a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co">#&gt; 1 Luke Skywalker    172    77 height         2</span></a>
+<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="co">#&gt; 2 C-3PO             167    75 height         2</span></a>
+<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="co">#&gt; 3 R2-D2              96    32 height         2</span></a>
+<a class="sourceLine" id="cb28-8" data-line-number="8"><span class="co">#&gt; 4 Darth Vader       202   136 height         2</span></a>
+<a class="sourceLine" id="cb28-9" data-line-number="9"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
+<p><code><a href="../reference/mutate.html">mutate()</a></code> gets length-1 vectors that it interprets as new columns in the data frame. These vectors are recycled so they match the number of rows. That’s why it doesn’t make sense to supply expressions like <code>"height" + 10</code> to <code><a href="../reference/mutate.html">mutate()</a></code>. This amounts to adding 10 to a string! The correct expression is:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, height <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="co">#&gt; # A tibble: 87 x 4</span></a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="co">#&gt;   name           height  mass `height + 10`</span></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;         &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co">#&gt; 1 Luke Skywalker    172    77           182</span></a>
+<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co">#&gt; 2 C-3PO             167    75           177</span></a>
+<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="co">#&gt; 3 R2-D2              96    32           106</span></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="co">#&gt; 4 Darth Vader       202   136           212</span></a>
+<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
 <p>In the same way, you can unquote values from the context if these values represent a valid column. They must be either length 1 (they then get recycled) or have the same length as the number of rows. In the following example we create a new vector that we add to the data frame:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">var &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(df))</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">new =</span> var)</a>
-<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
-<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time   new</span></a>
-<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1      517     1</span></a>
-<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1      533     2</span></a>
-<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542     3</span></a>
-<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544     4</span></a>
-<a class="sourceLine" id="cb29-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">var &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(df))</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">new =</span> var)</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="co">#&gt; # A tibble: 87 x 4</span></a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co">#&gt;   name           height  mass   new</span></a>
+<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="co">#&gt; 1 Luke Skywalker    172    77     1</span></a>
+<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="co">#&gt; 2 C-3PO             167    75     2</span></a>
+<a class="sourceLine" id="cb30-8" data-line-number="8"><span class="co">#&gt; 3 R2-D2              96    32     3</span></a>
+<a class="sourceLine" id="cb30-9" data-line-number="9"><span class="co">#&gt; 4 Darth Vader       202   136     4</span></a>
+<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
 <p>A case in point is <code><a href="../reference/group_by.html">group_by()</a></code>. While you might think it has select semantics, it actually has mutate semantics. This is quite handy as it allows to group by a modified column:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, month)</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 4</span></a>
-<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="co">#&gt; # Groups:   month [12]</span></a>
-<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time</span></a>
-<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1      517</span></a>
-<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1      533</span></a>
-<a class="sourceLine" id="cb30-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542</span></a>
-<a class="sourceLine" id="cb30-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544</span></a>
-<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb30-11" data-line-number="11"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">month =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(month))</a>
-<a class="sourceLine" id="cb30-12" data-line-number="12"><span class="co">#&gt; # A tibble: 336,776 x 4</span></a>
-<a class="sourceLine" id="cb30-13" data-line-number="13"><span class="co">#&gt; # Groups:   month [12]</span></a>
-<a class="sourceLine" id="cb30-14" data-line-number="14"><span class="co">#&gt;    year month   day dep_time</span></a>
-<a class="sourceLine" id="cb30-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;fct&gt; &lt;int&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb30-16" data-line-number="16"><span class="co">#&gt; 1  2013 1         1      517</span></a>
-<a class="sourceLine" id="cb30-17" data-line-number="17"><span class="co">#&gt; 2  2013 1         1      533</span></a>
-<a class="sourceLine" id="cb30-18" data-line-number="18"><span class="co">#&gt; 3  2013 1         1      542</span></a>
-<a class="sourceLine" id="cb30-19" data-line-number="19"><span class="co">#&gt; 4  2013 1         1      544</span></a>
-<a class="sourceLine" id="cb30-20" data-line-number="20"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb30-21" data-line-number="21"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">day_binned =</span> <span class="kw"><a href="https://rdrr.io/r/base/cut.html">cut</a></span>(day, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb30-22" data-line-number="22"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
-<a class="sourceLine" id="cb30-23" data-line-number="23"><span class="co">#&gt; # Groups:   day_binned [3]</span></a>
-<a class="sourceLine" id="cb30-24" data-line-number="24"><span class="co">#&gt;    year month   day dep_time day_binned</span></a>
-<a class="sourceLine" id="cb30-25" data-line-number="25"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;fct&gt;     </span></a>
-<a class="sourceLine" id="cb30-26" data-line-number="26"><span class="co">#&gt; 1  2013     1     1      517 (0.97,11] </span></a>
-<a class="sourceLine" id="cb30-27" data-line-number="27"><span class="co">#&gt; 2  2013     1     1      533 (0.97,11] </span></a>
-<a class="sourceLine" id="cb30-28" data-line-number="28"><span class="co">#&gt; 3  2013     1     1      542 (0.97,11] </span></a>
-<a class="sourceLine" id="cb30-29" data-line-number="29"><span class="co">#&gt; 4  2013     1     1      544 (0.97,11] </span></a>
-<a class="sourceLine" id="cb30-30" data-line-number="30"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, sex)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co">#&gt; # A tibble: 87 x 14</span></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="co">#&gt; # Groups:   sex [5]</span></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></a>
+<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></a>
+<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></a>
+<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></a>
+<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb31-11" data-line-number="11"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a>
+<a class="sourceLine" id="cb31-12" data-line-number="12"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, <span class="dt">sex =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(sex))</a>
+<a class="sourceLine" id="cb31-13" data-line-number="13"><span class="co">#&gt; Warning: Factor `sex` contains implicit NA, consider using</span></a>
+<a class="sourceLine" id="cb31-14" data-line-number="14"><span class="co">#&gt; `forcats::fct_explicit_na()`</span></a>
+<a class="sourceLine" id="cb31-15" data-line-number="15"><span class="co">#&gt; # A tibble: 87 x 14</span></a>
+<a class="sourceLine" id="cb31-16" data-line-number="16"><span class="co">#&gt; # Groups:   sex [5]</span></a>
+<a class="sourceLine" id="cb31-17" data-line-number="17"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb31-18" data-line-number="18"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb31-19" data-line-number="19"><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></a>
+<a class="sourceLine" id="cb31-20" data-line-number="20"><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></a>
+<a class="sourceLine" id="cb31-21" data-line-number="21"><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></a>
+<a class="sourceLine" id="cb31-22" data-line-number="22"><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></a>
+<a class="sourceLine" id="cb31-23" data-line-number="23"><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb31-24" data-line-number="24"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a>
+<a class="sourceLine" id="cb31-25" data-line-number="25"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, <span class="dt">height_binned =</span> <span class="kw"><a href="https://rdrr.io/r/base/cut.html">cut</a></span>(height, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb31-26" data-line-number="26"><span class="co">#&gt; Warning: Factor `height_binned` contains implicit NA, consider using</span></a>
+<a class="sourceLine" id="cb31-27" data-line-number="27"><span class="co">#&gt; `forcats::fct_explicit_na()`</span></a>
+<a class="sourceLine" id="cb31-28" data-line-number="28"><span class="co">#&gt; # A tibble: 87 x 15</span></a>
+<a class="sourceLine" id="cb31-29" data-line-number="29"><span class="co">#&gt; # Groups:   height_binned [4]</span></a>
+<a class="sourceLine" id="cb31-30" data-line-number="30"><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></a>
+<a class="sourceLine" id="cb31-31" data-line-number="31"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb31-32" data-line-number="32"><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></a>
+<a class="sourceLine" id="cb31-33" data-line-number="33"><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></a>
+<a class="sourceLine" id="cb31-34" data-line-number="34"><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></a>
+<a class="sourceLine" id="cb31-35" data-line-number="35"><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></a>
+<a class="sourceLine" id="cb31-36" data-line-number="36"><span class="co">#&gt; # … with 83 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb31-37" data-line-number="37"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, height_binned &lt;fct&gt;</span></a></code></pre></div>
 <p>This is why you can’t supply a column name to <code><a href="../reference/group_by.html">group_by()</a></code>. This amounts to creating a new column containing the string recycled to the number of rows:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="st">"month"</span>)</a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
-<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="co">#&gt; # Groups:   "month" [1]</span></a>
-<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time `"month"`</span></a>
-<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;    </span></a>
-<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1      517 month    </span></a>
-<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1      533 month    </span></a>
-<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542 month    </span></a>
-<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544 month    </span></a>
-<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="st">"month"</span>)</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co">#&gt; # A tibble: 87 x 4</span></a>
+<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co">#&gt; # Groups:   "month" [1]</span></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt;   name           height  mass `"month"`</span></a>
+<a class="sourceLine" id="cb32-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb32-6" data-line-number="6"><span class="co">#&gt; 1 Luke Skywalker    172    77 month    </span></a>
+<a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt; 2 C-3PO             167    75 month    </span></a>
+<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; 3 R2-D2              96    32 month    </span></a>
+<a class="sourceLine" id="cb32-9" data-line-number="9"><span class="co">#&gt; 4 Darth Vader       202   136 month    </span></a>
+<a class="sourceLine" id="cb32-10" data-line-number="10"><span class="co">#&gt; # … with 83 more rows</span></a></code></pre></div>
 </div>
 </div>
   </div>
@@ -712,7 +726,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#data-nycflights13">Data: nycflights13</a></li>
+<li><a href="#data-starwars">Data: starwars</a></li>
       <li><a href="#single-table-verbs">Single table verbs</a></li>
       <li><a href="#combining-functions-with">Combining functions with <code>%&gt;%</code></a></li>
       <li><a href="#patterns-of-operations">Patterns of operations</a></li>
