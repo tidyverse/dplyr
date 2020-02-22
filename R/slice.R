@@ -32,10 +32,12 @@
 #'   For `slice_helpers()`, these arguments are passed on to methods.
 #'
 #' @param n,prop Provide either `n`, the number of rows, or `prop`, the
-#'   proportion of rows to select. If `n` is greater than the number of
-#'   rows in the group (or `prop > 1`), it will be silently truncated to the
-#'   group size. If the `prop`ortion of a group size is not an integer, it will
-#'   be rounded down.
+#'   proportion of rows to select. If neither are supplied, `n = 1` will be
+#'   used.
+#'
+#'   If `n` is greater than the number of rows in the group (or `prop > 1`),
+#'   the result will be silently truncated to the group size. If the
+#'   `prop`ortion of a group size is not an integer, it is rounded down.
 #' @return
 #' An object of the same type as `.data`.
 #'
@@ -288,7 +290,9 @@ slice_rows <- function(.data, ...) {
 }
 
 check_slice_size <- function(n, prop) {
-  if (!missing(n) && missing(prop)) {
+  if (missing(n) && missing(prop)) {
+    list(type = "n", n = 1L)
+  } else if (!missing(n) && missing(prop)) {
     if (!is.numeric(n) || length(n) != 1) {
       abort("`n` must be a single number")
     }

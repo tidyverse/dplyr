@@ -203,11 +203,11 @@ test_that("functions silently truncate results", {
 
 test_that("min and max return ties by default", {
   df <- data.frame(x = c(1, 1, 1, 2, 2))
-  expect_equal(df %>% slice_min(x, n = 1) %>% nrow(), 3)
-  expect_equal(df %>% slice_max(x, n = 1) %>% nrow(), 2)
+  expect_equal(df %>% slice_min(x) %>% nrow(), 3)
+  expect_equal(df %>% slice_max(x) %>% nrow(), 2)
 
-  expect_equal(df %>% slice_min(x, n = 1, with_ties = FALSE) %>% nrow(), 1)
-  expect_equal(df %>% slice_max(x, n = 1, with_ties = FALSE) %>% nrow(), 1)
+  expect_equal(df %>% slice_min(x, with_ties = FALSE) %>% nrow(), 1)
+  expect_equal(df %>% slice_max(x, with_ties = FALSE) %>% nrow(), 1)
 })
 
 test_that("min and max reorder results", {
@@ -250,7 +250,6 @@ test_that("rename errors with invalid grouped data frame (#640)", {
     mtcars %>% slice(c(2:3, -1))
 
     "# n and prop are carefully validated"
-    check_slice_size()
     check_slice_size(n = 1, prop = 1)
     check_slice_size(n = "a")
     check_slice_size(prop = "a")
