@@ -52,7 +52,19 @@
 numeric values based on their position or their name, and character or factor
 values only by their name. This is an S3 generic: dplyr provides methods for
 numeric, character, and factors. For logical vectors, use if_else(). For
-more complicated criteria, use case_when()." />
+more complicated criteria, use case_when().
+You can use recode() directly with factors; it will preserve the existing
+order of levels while changing the values. Alternatively, you can
+use recode_factor(), which will change the order of levels to match
+the order of replacements. See the forcats
+package for more tools for working with factors and their levels.
+
+
+recode() is questioning because the arguments are in the wrong order.
+We have new &amp;lt;- old, mutate(df, new = old), and rename(df, new = old)
+but recode(x, old = new). We don't yet know how to fix this problem, but
+it's likely to involve creating a new function then retiring or deprecating
+recode()." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -200,6 +212,18 @@ numeric values based on their position or their name, and character or factor
 values only by their name. This is an S3 generic: dplyr provides methods for
 numeric, character, and factors. For logical vectors, use <code><a href='if_else.html'>if_else()</a></code>. For
 more complicated criteria, use <code><a href='case_when.html'>case_when()</a></code>.</p>
+<p>You can use <code>recode()</code> directly with factors; it will preserve the existing
+order of levels while changing the values. Alternatively, you can
+use <code>recode_factor()</code>, which will change the order of levels to match
+the order of replacements. See the <a href='http://forcats.tidyverse.org/'>forcats</a>
+package for more tools for working with factors and their levels.</p>
+<p><a href='https://www.tidyverse.org/lifecycle/#questioning'><img src='figures/lifecycle-questioning.svg' alt='Questioning lifecycle'></a>
+
+<code>recode()</code> is questioning because the arguments are in the wrong order.
+We have <code>new &lt;- old</code>, <code><a href='mutate.html'>mutate(df, new = old)</a></code>, and <code><a href='rename.html'>rename(df, new = old)</a></code>
+but <code>recode(x, old = new)</code>. We don't yet know how to fix this problem, but
+it's likely to involve creating a new function then retiring or deprecating
+<code>recode()</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>recode</span>(<span class='no'>.x</span>, <span class='no'>...</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.missing</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
@@ -253,13 +277,6 @@ ordered factor.</p></td>
 the first of <code>...</code>, <code>.default</code>, or <code>.missing</code>.
 <code>recode_factor()</code> returns a factor whose levels are in the same order as
 in <code>...</code>. The levels in <code>.default</code> and <code>.missing</code> come last.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>You can use <code>recode()</code> directly with factors; it will preserve the existing
-order of levels while changing the values. Alternatively, you can
-use <code>recode_factor()</code>, which will change the order of levels to match
-the order of replacements. See the <a href='http://forcats.tidyverse.org/'>forcats</a>
-package for more tools for working with factors and their levels.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='na_if.html'>na_if()</a></code> to replace specified values with a <code>NA</code>.</p>
@@ -329,7 +346,6 @@ package for more tools for working with factors and their levels.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
