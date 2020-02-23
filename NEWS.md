@@ -82,7 +82,13 @@
   provided by the vctrs package. This makes it easier to add support for 
   new types of vector, radically simplifies the implementation, and makes
   all dplyr verbs more consistent.
-  
+
+* The place where you are mostly likely to be impacted by the coercion
+  changes is when working with factors in joins or grouped mutates:
+  now when combining factors with different levels, dplyr creates a new
+  factor with the union of the levels. This matches base R more closely, 
+  and while perhaps strictly less correct, is much more convenient.
+
 * dplyr dropped its two heaviest dependencies: Rcpp and BH. This should make
   it considerably easier and faster to build from source.
   
