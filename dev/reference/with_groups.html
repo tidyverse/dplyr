@@ -232,7 +232,7 @@ Supports purrr-style <code>~</code> syntax</p></td>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>with_groups</span>(<span class='no'>g</span>, <span class='no'>mutate</span>, <span class='kw'>x_mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; # A tibble: 5 x 3
 #&gt;       g      x x_mean
-#&gt; * &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
 #&gt; 1     1 0.0633  0.467
 #&gt; 2     1 0.870   0.467
 #&gt; 3     2 0.359   0.630
@@ -240,7 +240,7 @@ Supports purrr-style <code>~</code> syntax</p></td>
 #&gt; 5     3 0.998   0.998</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>with_groups</span>(<span class='no'>g</span>, ~ <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>.x</span>, <span class='kw'>x1</span> <span class='kw'>=</span> <span class='fu'><a href='nth.html'>first</a></span>(<span class='no'>x</span>)))</div><div class='output co'>#&gt; # A tibble: 5 x 3
 #&gt;       g      x     x1
-#&gt; * &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
 #&gt; 1     1 0.0633 0.0633
 #&gt; 2     1 0.870  0.0633
 #&gt; 3     2 0.359  0.359 

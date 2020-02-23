@@ -272,7 +272,7 @@ group transiently, so the output has the same groups as the input.</p>
 <span class='co'># values in a dataset</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
 #&gt;    species       n
-#&gt;  * &lt;chr&gt;     &lt;int&gt;
+#&gt;    &lt;chr&gt;     &lt;int&gt;
 #&gt;  1 Aleena        1
 #&gt;  2 Besalisk      1
 #&gt;  3 Cerean        1
@@ -285,7 +285,7 @@ group transiently, so the output has the same groups as the input.</p>
 #&gt; 10 Gungan        3
 #&gt; # … with 28 more rows</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
 #&gt;    species      n
-#&gt;  * &lt;chr&gt;    &lt;int&gt;
+#&gt;    &lt;chr&gt;    &lt;int&gt;
 #&gt;  1 Human       35
 #&gt;  2 Droid        6
 #&gt;  3 &lt;NA&gt;         4
@@ -308,12 +308,12 @@ group transiently, so the output has the same groups as the input.</p>
 <span class='co'># counts rows:</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;   gender     n
-#&gt; * &lt;chr&gt;  &lt;int&gt;
+#&gt;   &lt;chr&gt;  &lt;int&gt;
 #&gt; 1 female     2
 #&gt; 2 male       1</div><div class='input'><span class='co'># counts runs:</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;   gender     n
-#&gt; * &lt;chr&gt;  &lt;dbl&gt;
+#&gt;   &lt;chr&gt;  &lt;dbl&gt;
 #&gt; 1 female     5
 #&gt; 2 male      10</div><div class='input'>
 <span class='co'># tally() is a lower-level function that assumes you've done the grouping</span>

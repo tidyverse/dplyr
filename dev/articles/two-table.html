@@ -174,7 +174,7 @@
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; Joining, by = "carrier"</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; # A tibble: 336,776 x 9</span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name                  </span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; * &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                 </span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                 </span></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      United Air Lines Inc. </span></a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      United Air Lines Inc. </span></a>
 <a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      American Airlines Inc.</span></a>
@@ -192,7 +192,7 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Joining, by = c("year", "month", "day", "hour", "origin")</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 18</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier  temp  dewp humid</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; * &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA       39.0  28.0  64.4</span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span></a>
@@ -207,7 +207,7 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(planes, <span class="dt">by =</span> <span class="st">"tailnum"</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 16</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   year.x month   day  hour origin dest  tailnum carrier year.y type </span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; *  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1   2013     1     1     5 EWR    IAH   N14228  UA        1999 Fixe…</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2   2013     1     1     5 LGA    IAH   N24211  UA        1998 Fixe…</span></a>
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3   2013     1     1     5 JFK    MIA   N619AA  AA        1990 Fixe…</span></a>
@@ -223,7 +223,7 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(airports, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dest"</span> =<span class="st"> "faa"</span>))</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 15</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; * &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Geor…  30.0 -95.3    97</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      Geor…  30.0 -95.3    97</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      Miam…  25.8 -80.3     8</span></a>
@@ -234,7 +234,7 @@
 <a class="sourceLine" id="cb4-12" data-line-number="12">flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(airports, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"origin"</span> =<span class="st"> "faa"</span>))</a>
 <a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; # A tibble: 336,776 x 15</span></a>
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; * &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Newa…  40.7 -74.2    18</span></a>
 <a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      La G…  40.8 -73.9    22</span></a>
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      John…  40.6 -73.8    13</span></a>
@@ -277,7 +277,7 @@
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Joining, by = "x"</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;       x     y     a b    </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; * &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 1     1     2    10 a    </span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 2     2     1    NA &lt;NA&gt;</span></a></code></pre></div>
 </li>
@@ -287,14 +287,14 @@
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Joining, by = "x"</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;       x     y     a b    </span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; * &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 1     1     2    10 a    </span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 2     3    NA    10 a</span></a>
 <a class="sourceLine" id="cb8-8" data-line-number="8">df2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(df1)</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; Joining, by = "x"</span></a>
 <a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;       x     a b         y</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; 1     1    10 a         2</span></a>
 <a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 2     3    10 a        NA</span></a></code></pre></div>
 </li>
@@ -304,7 +304,7 @@
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; Joining, by = "x"</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;       x     y     a b    </span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; * &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 1     1     2    10 a    </span></a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 2     2     1    NA &lt;NA&gt; </span></a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 3     3    NA    10 a</span></a></code></pre></div>
@@ -323,7 +323,7 @@
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; Joining, by = "x"</span></a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; # A tibble: 5 x 3</span></a>
 <a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;       x     y z    </span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; * &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;</span></a>
 <a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 1     1     1 a    </span></a>
 <a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 2     1     1 b    </span></a>
 <a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 3     1     2 a    </span></a>
@@ -348,7 +348,7 @@
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/tally.html">count</a></span>(tailnum, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; # A tibble: 722 x 2</span></a>
 <a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;   tailnum     n</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; * &lt;chr&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 1 &lt;NA&gt;     2512</span></a>
 <a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; 2 N725MQ    575</span></a>
 <a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; 3 N722MQ    513</span></a>

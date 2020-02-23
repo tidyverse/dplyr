@@ -394,21 +394,21 @@ individual methods for extra arguments and differences in behaviour.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>inner_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
 #&gt;   name  band    plays 
-#&gt; * &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
 #&gt; 1 John  Beatles guitar
 #&gt; 2 Paul  Beatles bass  </div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>left_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;   name  band    plays 
-#&gt; * &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
 #&gt; 1 Mick  Stones  &lt;NA&gt;  
 #&gt; 2 John  Beatles guitar
 #&gt; 3 Paul  Beatles bass  </div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;   name  band    plays 
-#&gt; * &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
 #&gt; 1 John  Beatles guitar
 #&gt; 2 Paul  Beatles bass  
 #&gt; 3 Keith &lt;NA&gt;    guitar</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 4 x 3
 #&gt;   name  band    plays 
-#&gt; * &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
 #&gt; 1 Mick  Stones  &lt;NA&gt;  
 #&gt; 2 John  Beatles guitar
 #&gt; 3 Paul  Beatles bass  
@@ -416,14 +416,14 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='co'># To suppress the message about joining variables, supply `by`</span>
 <span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>inner_join</span>(<span class='no'>band_instruments</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"name"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
 #&gt;   name  band    plays 
-#&gt; * &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
 #&gt; 1 John  Beatles guitar
 #&gt; 2 Paul  Beatles bass  </div><div class='input'><span class='co'># This is good practice in production code</span>
 
 <span class='co'># Use a named `by` if the join variables have different names</span>
 <span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>))</div><div class='output co'>#&gt; # A tibble: 4 x 3
 #&gt;   name  band    plays 
-#&gt; * &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
 #&gt; 1 Mick  Stones  &lt;NA&gt;  
 #&gt; 2 John  Beatles guitar
 #&gt; 3 Paul  Beatles bass  
@@ -432,7 +432,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='no'>band_members</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>), <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 4
 #&gt;   name  band    artist plays 
-#&gt; * &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; 
 #&gt; 1 Mick  Stones  &lt;NA&gt;   &lt;NA&gt;  
 #&gt; 2 John  Beatles John   guitar
 #&gt; 3 Paul  Beatles Paul   bass  
@@ -443,7 +443,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='no'>df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"first"</span>, <span class='st'>"second"</span>, <span class='st'>"third"</span>))
 <span class='no'>df1</span> <span class='kw'>%&gt;%</span> <span class='fu'>left_join</span>(<span class='no'>df2</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt; # A tibble: 4 x 2
 #&gt;       x y     
-#&gt; * &lt;dbl&gt; &lt;chr&gt; 
+#&gt;   &lt;dbl&gt; &lt;chr&gt; 
 #&gt; 1     1 first 
 #&gt; 2     1 second
 #&gt; 3     2 third 
