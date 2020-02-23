@@ -217,7 +217,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   selected <- new_logical(n)
 
   for (i in seq_len(n)) {
-    column <- .tbl[[tibble_vars[[i]]]]
+    column <- pull(.tbl, tibble_vars[[i]])
     selected[[i]] <- isTRUE(eval_tidy(.p(column, ...)))
   }
 
