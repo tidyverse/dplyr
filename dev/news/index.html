@@ -251,6 +251,7 @@
 <h2 class="hasAnchor">
 <a href="#grouping" class="anchor"></a>Grouping</h2>
 <ul>
+<li><p>New <code><a href="../articles/grouping.html">vignette("grouping")</a></code> gives more details about how dplyr verbs change when applied to grouped data frames (<a href='https://github.com/tidyverse/dplyr/issues/4779'>#4779</a>, <a href='https://github.com/MikeKSmith'>@MikeKSmith</a>).</p></li>
 <li><p>Grouped data frames now have <code>names&lt;-</code>, <code>[[&lt;-</code>, <code>[&lt;-</code> and <code>$&lt;-</code> methods that re-generate the underlying grouping. Note that modifying grouping variables in multiple steps (i.e. <code>df$grp1 &lt;- 1; df$grp2 &lt;- 1</code>) will be inefficient since the data frame will be regrouped after each modification.</p></li>
 <li><p><code>[.grouped_df</code> now regroups to respect any grouping columns that have been removed (<a href='https://github.com/tidyverse/dplyr/issues/4708'>#4708</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> can now modify grouping variables (<a href='https://github.com/tidyverse/dplyr/issues/4709'>#4709</a>).</p></li>

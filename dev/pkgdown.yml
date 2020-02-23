@@ -5,6 +5,7 @@ articles:
   base: base.html
   compatibility: compatibility.html
   dplyr: dplyr.html
+  grouping: grouping.html
   programming: programming.html
   two-table: two-table.html
   window-functions: window-functions.html
