@@ -54,7 +54,7 @@ The default, \code{"na"}, always treats two \code{NA} or \code{NaN} values as eq
 like \code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.}
 }
 \value{
-An object of the same type as \code{x}.
+An object of the same type as \code{x}. The output has the following properties:
 \itemize{
 \item Rows are a subset of the input, but appear in the same order.
 \item Columns are not modified.

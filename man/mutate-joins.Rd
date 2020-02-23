@@ -136,7 +136,7 @@ output? Only applies to \code{nest_join()}, \code{left_join()}, \code{right_join
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}
-is preserved as much as possible.
+is preserved as much as possible. The output has the following properties:
 \itemize{
 \item For \code{inner_join()}, a subset of \code{x} rows.
 For \code{left_join()}, all \code{x} rows.

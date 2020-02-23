@@ -12,7 +12,8 @@
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
 #' @return
-#' An object of the same type as `.data`.
+#' An object of the same type as `.data`. The output has the following
+#' properties:
 #'
 #' * Rows are a subset of the input but appear in the same order.
 #' * Columns are not modified if `...` is empty or `.keep_all` is `TRUE`.

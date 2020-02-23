@@ -21,7 +21,8 @@ variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending orde
 grouped data frames only.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item All rows appear in the output, but (usually) in a different place.
 \item Columns are not modified.

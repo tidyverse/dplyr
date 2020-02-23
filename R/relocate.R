@@ -9,7 +9,9 @@
 #'   columns selected by `...`. Supplying neither will move columns to the
 #'   left-hand side; specifying both is an error.
 #' @return
-#' An object of the same type as `.data`.
+#' An object of the same type as `.data`. The output has the following
+#' properties:
+#'
 #' * Rows are not affected.
 #' * The same columns appear in the output, but (usually) in a different place.
 #' * Data frame attributes are preserved.

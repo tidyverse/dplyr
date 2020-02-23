@@ -44,7 +44,9 @@
 #'   were positions in the data frame, so expressions like `x:y` can
 #'   be used to select a range of variables.
 #' @return
-#' An object of the same type as `.data`.
+#' An object of the same type as `.data`. The output has the following
+#' properties:
+#'
 #' * Rows are not affected.
 #' * Output columns are a subset of input columns, potentially with a different
 #'   order. Columns will be renamed if `new_name = old_name` form is used.

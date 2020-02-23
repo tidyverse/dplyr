@@ -21,7 +21,8 @@ If a combination of \code{...} is not distinct, this keeps the
 first row of values.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item Rows are a subset of the input but appear in the same order.
 \item Columns are not modified if \code{...} is empty or \code{.keep_all} is \code{TRUE}.

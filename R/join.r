@@ -14,7 +14,7 @@
 #'
 #' @return
 #' An object of the same type as `x`. The order of the rows and columns of `x`
-#' is preserved as much as possible.
+#' is preserved as much as possible. The output has the following properties:
 #'
 #' * For `inner_join()`, a subset of `x` rows.
 #'   For `left_join()`, all `x` rows.
@@ -192,7 +192,7 @@ full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 #'   more details.
 #' @inheritParams left_join
 #' @return
-#' An object of the same type as `x`.
+#' An object of the same type as `x`. The output has the following properties:
 #'
 #' * Rows are a subset of the input, but appear in the same order.
 #' * Columns are not modified.

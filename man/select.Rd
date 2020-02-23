@@ -17,7 +17,8 @@ were positions in the data frame, so expressions like \code{x:y} can
 be used to select a range of variables.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item Rows are not affected.
 \item Output columns are a subset of input columns, potentially with a different

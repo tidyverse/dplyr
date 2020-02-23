@@ -39,7 +39,8 @@
 #'   the result will be silently truncated to the group size. If the
 #'   `prop`ortion of a group size is not an integer, it is rounded down.
 #' @return
-#' An object of the same type as `.data`.
+#' An object of the same type as `.data`. The output has the following
+#' properties:
 #'
 #' * Each row may appear 0, 1, or many times in the output.
 #' * Columns are not modified.

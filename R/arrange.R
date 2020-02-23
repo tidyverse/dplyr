@@ -20,7 +20,8 @@
 #' * treated differently for remote data, depending on the backend.
 #'
 #' @return
-#' An object of the same type as `.data`.
+#' An object of the same type as `.data`. The output has the following
+#' properties:
 #'
 #' * All rows appear in the output, but (usually) in a different place.
 #' * Columns are not modified.

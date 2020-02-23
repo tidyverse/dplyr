@@ -61,7 +61,8 @@ automatically standardised to sum to 1.}
 (\code{FALSE}, the default) replacement.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item Each row may appear 0, 1, or many times in the output.
 \item Columns are not modified.

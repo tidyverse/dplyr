@@ -59,23 +59,15 @@
 #'   * A data frame or tibble, to create multiple columns in the output.
 #' @family single table verbs
 #' @return
-#' An object of the same type as `.data`.
-#'
-#' For `mutate()`:
+#' An object of the same type as `.data`. The output has the following
+#' properties:
 #'
 #' * Rows are not affected.
-#' * Existing columns will be preserved unless explicitly modified.
-#' * New columns will be added to the right of existing columns.
+#' * Existing columns will be preserved according to the `.keep` argument.
+#'   New columns will be placed according to the `.before` and `.after`
+#'   arguments. If `.keep = "none"` (as in `transmute()`), the output order
+#'   is determined only by `...`, not the order of existing columns.
 #' * Columns given value `NULL` will be removed
-#' * Groups will be recomputed if a grouping variable is mutated.
-#' * Data frame attributes are preserved.
-#'
-#' For `transmute()`:
-#'
-#' * Rows are not affected.
-#' * Apart from grouping variables, existing columns will be remove unless
-#'   explicitly kept.
-#' * Column order matches order of expressions.
 #' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
 #' @section Methods:
