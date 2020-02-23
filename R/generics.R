@@ -143,7 +143,16 @@ dplyr_reconstruct.data.frame <- function(data, template) {
   to_copy <- setdiff(names(attr_old), c("row.names", "names", ".drop"))
   attr_new[to_copy] <- attr_old[to_copy]
 
-  attributes(data) <- attr_new
+  class <- attr_new[["class"]]
+  attr_new[["class"]] <- NULL
+
+  # `new_data_frame()` will add the `"data.frame"` class
+  class <- setdiff(class, "data.frame")
+
+  size <- vec_size(data)
+
+  data <- exec(new_data_frame, x = data, n = size, class = class, !!! attr_new)
+
   data
 }
 
