@@ -68,8 +68,8 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
     to_move <- union(to_move, where)
   }
 
-  lhs <- setdiff(seq2(1, min(where) - 1), to_move)
-  rhs <- setdiff(seq2(max(where) + 1, ncol(.data)), to_move)
+  lhs <- setdiff(seq2(1, where - 1), to_move)
+  rhs <- setdiff(seq2(where + 1, ncol(.data)), to_move)
 
   .data[vec_unique(c(lhs, to_move, rhs))]
 }
