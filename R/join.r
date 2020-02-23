@@ -331,16 +331,27 @@ join_mutate <- function(x, y, by, type,
   x_out <- set_names(x[vars$x$out], names(vars$x$out))
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
 
+  if (type == "right" || type == "full") {
+    x_slicer <- c(rows$x, rep_along(rows$y_extra, NA_integer_))
+    y_slicer <- c(rows$y, rows$y_extra)
+  } else {
+    x_slicer <- rows$x
+    y_slicer <- rows$y
+  }
+
   out <- as_tibble(x_out)
-  out <- vec_slice(out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
+  out <- vec_slice(out, x_slicer)
+  out[names(y_out)] <- vec_slice(y_out, y_slicer)
 
   if (!keep) {
     out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype_common(x_key, y_key))
-    new_rows <- length(rows$x) + seq_along(rows$y_extra)
-    out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
+
+    if (type == "right" || type == "full") {
+      new_rows <- length(rows$x) + seq_along(rows$y_extra)
+      out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
+    }
   }
 
-  out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
   dplyr_reconstruct(out, x_out)
 }
 
