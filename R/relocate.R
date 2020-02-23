@@ -48,7 +48,7 @@ relocate <- function(.data, ..., .before = NULL, .after = NULL) {
 
 #' @export
 relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
-  to_move <- tidyselect::eval_select(expr(c(...)), .data)
+  to_move <- unname(tidyselect::eval_select(expr(c(...)), .data))
 
   .before <- enquo(.before)
   .after <- enquo(.after)
@@ -58,10 +58,10 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   if (has_before && has_after) {
     abort("Must supply only one of `.before` and `.after`")
   } else if (has_before) {
-    where <- tidyselect::eval_select(.before, .data)
+    where <- min(unname(tidyselect::eval_select(.before, .data)))
     to_move <- c(setdiff(to_move, where), where)
   } else if (has_after) {
-    where <- tidyselect::eval_select(.after, .data)
+    where <- max(unname(tidyselect::eval_select(.after, .data)))
     to_move <- c(where, setdiff(to_move, where))
   } else {
     where <- 1L
