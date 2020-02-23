@@ -242,6 +242,7 @@
 <a href="#vctrs" class="anchor"></a>vctrs</h2>
 <ul>
 <li><p>The implementation of all dplyr verbs have been changed to use primitives provided by the vctrs package. This makes it easier to add support for new types of vector, radically simplifies the implementation, and makes all dplyr verbs more consistent.</p></li>
+<li><p>The place where you are mostly likely to be impacted by the coercion changes is when working with factors in joins or grouped mutates: now when combining factors with different levels, dplyr creates a new factor with the union of the levels. This matches base R more closely, and while perhaps strictly less correct, is much more convenient.</p></li>
 <li><p>dplyr dropped its two heaviest dependencies: Rcpp and BH. This should make it considerably easier and faster to build from source.</p></li>
 <li><p>The implementation of all verbs has been carefully thought through. This mostly makes implementation simpler but should hopefully increase consistency, and also makes it easier to adapt to dplyr to new data structures in the new future. Pragmatically, the biggest difference for most people will be that each verb documents its return value in terms of rows, columns, groups, and data frame attributes.</p></li>
 <li><p>Row names are now preserved when working with data frames.</p></li>
