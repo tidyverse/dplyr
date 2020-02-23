@@ -180,6 +180,11 @@
 * `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
   (#4429).
 
+## Documentation improvements
+
+* New `vignette("base")` which describes how dplyr verbs relate to the
+  base R equivalents (@sastoudt, #4755)
+
 ## Minor improvements and bug fixes
   
 * dplyr now has a rudimentary, experimental, and stop-gap, extension mechanism
