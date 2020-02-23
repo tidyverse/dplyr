@@ -258,21 +258,14 @@ right hand side). See <code><a href='relocate.html'>relocate()</a></code> for mo
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same type as <code>.data</code>.</p>
-<p>For <code>mutate()</code>:</p><ul>
+    <p>An object of the same type as <code>.data</code>. The output has the following
+properties:</p><ul>
 <li><p>Rows are not affected.</p></li>
-<li><p>Existing columns will be preserved unless explicitly modified.</p></li>
-<li><p>New columns will be added to the right of existing columns.</p></li>
+<li><p>Existing columns will be preserved according to the <code>.keep</code> argument.
+New columns will be placed according to the <code>.before</code> and <code>.after</code>
+arguments. If <code>.keep = "none"</code> (as in <code>transmute()</code>), the output order
+is determined only by <code>...</code>, not the order of existing columns.</p></li>
 <li><p>Columns given value <code>NULL</code> will be removed</p></li>
-<li><p>Groups will be recomputed if a grouping variable is mutated.</p></li>
-<li><p>Data frame attributes are preserved.</p></li>
-</ul>
-
-<p>For <code>transmute()</code>:</p><ul>
-<li><p>Rows are not affected.</p></li>
-<li><p>Apart from grouping variables, existing columns will be remove unless
-explicitly kept.</p></li>
-<li><p>Column order matches order of expressions.</p></li>
 <li><p>Groups will be recomputed if a grouping variable is mutated.</p></li>
 <li><p>Data frame attributes are preserved.</p></li>
 </ul>
