@@ -1,4 +1,4 @@
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
 library(bench)
 
 df <- tibble(x = rnorm(1e6), g = sample(rep(1:1e4, 100)))
