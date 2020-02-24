@@ -1,6 +1,12 @@
 #include "dplyr.h"
 
 namespace dplyr {
+void stop_mutate_recycle(R_len_t n_result_i) {
+  SEXP sym_stop_mutate_recycle_incompatible_size = Rf_install("stop_mutate_recycle_incompatible_size");
+  SEXP call = Rf_lang2(sym_stop_mutate_recycle_incompatible_size, Rf_ScalarInteger(n_result_i));
+  Rf_eval(call, dplyr::envs::ns_dplyr);
+}
+
 void stop_mutate_mixed_NULL() {
   SEXP sym_stop_mutate_mixed_NULL = Rf_install("stop_mutate_mixed_NULL");
   SEXP call = Rf_lang1(sym_stop_mutate_mixed_NULL);
@@ -17,14 +23,13 @@ void stop_mutate_not_vector(SEXP result) {
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
   DPLYR_MASK_INIT();
 
-  SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
   SEXP chunks = PROTECT(Rf_allocVector(VECSXP, ngroups));
   bool seen_vec = false;
-  bool needs_recycle = false;
   bool seen_null = false;
 
   for (R_xlen_t i = 0; i < ngroups; i++) {
     DPLYR_MASK_SET_GROUP(i);
+    R_xlen_t n_i = XLENGTH(VECTOR_ELT(rows, i));
 
     SEXP result_i = PROTECT(DPLYR_MASK_EVAL(quo));
     SET_VECTOR_ELT(chunks, i, result_i);
@@ -39,8 +44,15 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
     } else if (vctrs::vec_is_vector(result_i)) {
       seen_vec = true;
 
-      if (vctrs::short_vec_size(result_i) != n_i) {
-        needs_recycle = true;
+      R_len_t n_result_i = vctrs::short_vec_size(result_i);
+
+      if (n_result_i != n_i) {
+        // only allow sizes 1 and n_i are allowed
+        if (n_result_i != 1) {
+          dplyr::stop_mutate_recycle(n_result_i);
+        } else {
+          SET_VECTOR_ELT(chunks, i, vctrs::short_vec_recycle(result_i, n_i));
+        }
       }
 
     } else {
@@ -65,11 +77,9 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
   if (ngroups > 0 && !seen_vec) {
     chunks = R_NilValue;
   }
-  SET_VECTOR_ELT(res, 0, chunks);
-  SET_VECTOR_ELT(res, 1, Rf_ScalarLogical(needs_recycle));
 
-  UNPROTECT(2);
+  UNPROTECT(1);
   DPLYR_MASK_FINALISE();
 
-  return res;
+  return chunks;
 }

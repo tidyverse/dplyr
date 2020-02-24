@@ -21,9 +21,10 @@ If a combination of \code{...} is not distinct, this keeps the
 first row of values.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
-\item Rows are a subset of the input, but appear in the same order.
+\item Rows are a subset of the input but appear in the same order.
 \item Columns are not modified if \code{...} is empty or \code{.keep_all} is \code{TRUE}.
 Otherwise, \code{distinct()} first calls \code{mutate()} to create new columns.
 \item Groups are not modified.
@@ -32,7 +33,7 @@ Otherwise, \code{distinct()} first calls \code{mutate()} to create new columns.
 }
 \description{
 Select only unique/distinct rows from a data frame. This is similar
-to \code{\link[=unique.data.frame]{unique.data.frame()}}, but considerably faster.
+to \code{\link[=unique.data.frame]{unique.data.frame()}} but considerably faster.
 }
 \section{Methods}{
 
@@ -56,19 +57,23 @@ nrow(distinct(df, x, y))
 distinct(df, x)
 distinct(df, y)
 
-# Can choose to keep all other variables as well
+# You can choose to keep all other variables as well
 distinct(df, x, .keep_all = TRUE)
 distinct(df, y, .keep_all = TRUE)
 
 # You can also use distinct on computed variables
 distinct(df, diff = abs(x - y))
 
-# The same behaviour applies for grouped data frames
+# use across() to access select()-style semantics
+distinct(starwars, across(contains("color")))
+
+# Grouping -------------------------------------------------
+# The same behaviour applies for grouped data frames,
 # except that the grouping variables are always included
 df <- tibble(
   g = c(1, 1, 2, 2),
   x = c(1, 1, 2, 1)
 ) \%>\% group_by(g)
-df \%>\% distinct()
 df \%>\% distinct(x)
+
 }

@@ -82,7 +82,13 @@
   provided by the vctrs package. This makes it easier to add support for 
   new types of vector, radically simplifies the implementation, and makes
   all dplyr verbs more consistent.
-  
+
+* The place where you are mostly likely to be impacted by the coercion
+  changes is when working with factors in joins or grouped mutates:
+  now when combining factors with different levels, dplyr creates a new
+  factor with the union of the levels. This matches base R more closely, 
+  and while perhaps strictly less correct, is much more convenient.
+
 * dplyr dropped its two heaviest dependencies: Rcpp and BH. This should make
   it considerably easier and faster to build from source.
   
@@ -96,6 +102,9 @@
 * Row names are now preserved when working with data frames.
 
 ## Grouping
+
+* New `vignette("grouping")` gives more details about how dplyr verbs change
+  when applied to grouped data frames (#4779, @MikeKSmith).
 
 * Grouped data frames now have `names<-`, `[[<-`, `[<-` and `$<-` methods that
   re-generate the underlying grouping. Note that modifying grouping variables 
@@ -136,7 +145,7 @@
   packages, and we now believe that you're better off performing comparisons 
   more directly (#4675).
 
-* `combine()` is soft deprecated. Please use `vectrs::vec_c()` instead.
+* `combine()` is soft deprecated. Please use `vctrs::vec_c()` instead.
 
 * `do()` is deprecated in favour of either `condense()` or `summarise()`
   depending on whether you were using the named or unnamed form.
@@ -176,6 +185,11 @@
 
 * `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
   (#4429).
+
+## Documentation improvements
+
+* New `vignette("base")` which describes how dplyr verbs relate to the
+  base R equivalents (@sastoudt, #4755)
 
 ## Minor improvements and bug fixes
   

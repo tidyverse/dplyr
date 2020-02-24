@@ -21,13 +21,14 @@ test_that("local arrange sorts missing values to end", {
 test_that("arrange() gives meaningful errors", {
   verify_output(test_path("test-arrange-errors.txt"), {
     "# duplicated column name"
-    df <- data.frame(x = 1:10, x = 1:10)
-    names(df) <- c("x", "x")
-    df %>% arrange(x)
+    tibble(x = 1, x = 1, .name_repair = "minimal") %>%
+      arrange(x)
 
-    df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
-    names(df) <- c("x", "x", "y", "y")
-    df %>% arrange(x)
+    "# error in mutate() step"
+    tibble(x = 1) %>%
+      arrange(y)
+    tibble(x = 1) %>%
+      arrange(rep(x, 2))
   })
 })
 

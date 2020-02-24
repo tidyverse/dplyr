@@ -17,7 +17,7 @@ test_that("mutations applied progressively", {
 test_that("length-1 vectors are recycled (#152)", {
   df <- tibble(x = 1:4)
   expect_equal(mutate(df, y = 1)$y, rep(1, 4))
-  expect_error(mutate(df, y = 1:2), "must be recyclable")
+  expect_error(mutate(df, y = 1:2))
 })
 
 test_that("can remove variables with NULL (#462)", {
@@ -170,6 +170,17 @@ test_that("grouped mutate does not drop grouping attributes (#1020)", {
   expect_equal(setdiff(a1, a2), character(0))
 })
 
+test_that("mutate() hands list columns with rowwise magic to follow up expressions (#4845)", {
+  test <- rowwise(tibble(x = 1:2))
+
+  expect_identical(
+    test %>%
+      mutate(a = list(1)) %>%
+      mutate(b = list(a + 1)),
+    test %>%
+      mutate(a = list(1), b = list(a + 1))
+  )
+})
 
 
 # other -------------------------------------------------------------------

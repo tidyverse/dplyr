@@ -96,12 +96,18 @@ more details.}
 
 \item{by}{A character vector of variables to join by.
 
-If \code{NULL}, the default, \verb{*_join()} will perofrm a natural join, using all
-variables in across \code{x} and \code{y}. A message lists the variables so that you
-can check they're correct; suppress the message by supply \code{by} explicitly.
+If \code{NULL}, the default, \verb{*_join()} will perform a natural join, using all
+variables in common across \code{x} and \code{y}. A message lists the variables so that you
+can check they're correct; suppress the message by supplying \code{by} explicitly.
 
-To join by different variables on \code{x} and \code{y} use a named vector.
+To join by different variables on \code{x} and \code{y}, use a named vector.
 For example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
+
+To join by multiple variables, use a vector with length > 1.
+For example, \code{by = c("a", "b")} will match \code{x$a} to \code{y$a} and \code{x$b} to
+\code{y$b}. Use a named vector to match different variables in \code{x} and \code{y}.
+For example, \code{by = c("a" = "b", "c" = "d")} will match \code{x$a} to \code{y$b} and
+\code{x$c} to \code{y$d}.
 
 To perform a cross-join, generating all combinations of \code{x} and \code{y},
 use \code{by = character()}.}
@@ -130,18 +136,18 @@ output? Only applies to \code{nest_join()}, \code{left_join()}, \code{right_join
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}
-is preserved as much as possible.
+is preserved as much as possible. The output has the following properties:
 \itemize{
-\item For \code{inner_join()}, a subset of the \code{x} rows.
+\item For \code{inner_join()}, a subset of \code{x} rows.
 For \code{left_join()}, all \code{x} rows.
 For \code{right_join()}, a subset of \code{x} rows, followed by unmatched \code{y} rows.
 For \code{full_join()}, all \code{x} rows, followed by unmatched \code{y} rows.
-\item For all joins, rows will be duplicated if one row in \code{x} rows match
+\item For all joins, rows will be duplicated if one or more rows in \code{x} matches
 multiple rows in \code{y}.
-\item Output columns include all \code{x} columns and all \code{y} columns. If the
-columns have the same name (and aren't included \code{y}), \code{suffix}es are
+\item Output columns include all \code{x} columns and all \code{y} columns. If columns in
+\code{x} and \code{y} have the same name (and aren't included in \code{by}), \code{suffix}es are
 added to disambiguate.
-\item Output columns columns included \code{by} are coerced to common type across
+\item Output columns included in \code{by} are coerced to common type across
 \code{x} and \code{y}.
 \item Groups are taken from \code{x}.
 }
@@ -156,12 +162,12 @@ keys:
 \item \code{full_join()}: includes all rows in \code{x} or \code{y}.
 }
 
-If there are multiple matches between \code{x} and \code{y}, all combination of the
-matches are returned.
+If a row in \code{x} matches multiple rows in \code{y}, all the rows in \code{y} will be returned
+once for each matching row in \code{x}.
 }
 \section{Methods}{
 
-These function are \strong{generic}s, which means that packages can provide
+These functions are \strong{generic}s, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
@@ -191,14 +197,14 @@ band_members \%>\% full_join(band_instruments2, by = c("name" = "artist"))
 band_members \%>\%
   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 
-# If a row in `x` matches multiple rows in `y`, all rows
-# will be returned
+# If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
+# returned once for each matching row in `x`
 df1 <- tibble(x = 1:3)
 df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 df1 \%>\% left_join(df2)
 
 # By default, NAs match other NAs so that there are two
-# rows in the output:
+# rows in the output of this join:
 df1 <- data.frame(x = c(1, NA), y = 2)
 df2 <- data.frame(x = c(1, NA), z = 3)
 left_join(df1, df2)

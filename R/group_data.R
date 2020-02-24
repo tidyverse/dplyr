@@ -73,10 +73,8 @@ group_keys.data.frame <- function(.tbl, ...) {
     )
     .tbl <- group_by(.tbl, ...)
   }
-
   out <- group_data(.tbl)
-  attr(out, ".drop") <- NULL
-  out[-length(out)]
+  .Call(`dplyr_group_keys`, out)
 }
 #' @rdname group_data
 #' @export

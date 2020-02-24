@@ -21,7 +21,8 @@ variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending orde
 grouped data frames only.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item All rows appear in the output, but (usually) in a different place.
 \item Columns are not modified.
@@ -73,6 +74,18 @@ by_cyl <- mtcars \%>\% group_by(cyl)
 by_cyl \%>\% arrange(desc(wt))
 # Unless you specifically ask:
 by_cyl \%>\% arrange(desc(wt), .by_group = TRUE)
+
+# use embracing when wrapping in a function;
+# see ?dplyr_data_masking for more details
+tidy_eval_arrange <- function(.data, var) {
+  .data \%>\%
+    arrange({{ var }})
+}
+tidy_eval_arrange(mtcars, mpg)
+
+# use across() access select()-style semantics
+iris \%>\% arrange(across(starts_with("Sepal")))
+iris \%>\% arrange(across(starts_with("Sepal"), desc))
 }
 \seealso{
 Other single table verbs: 

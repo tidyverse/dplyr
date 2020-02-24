@@ -29,15 +29,15 @@
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
-#' one <- mtcars[1:4, ]
-#' two <- mtcars[11:14, ]
+#' one <- starwars[1:4, ]
+#' two <- starwars[9:12, ]
 #'
 #' # You can supply data frames as arguments:
 #' bind_rows(one, two)
 #'
 #' # The contents of lists are spliced automatically:
 #' bind_rows(list(one, two))
-#' bind_rows(split(mtcars, mtcars$cyl))
+#' bind_rows(split(starwars, starwars$homeworld))
 #' bind_rows(list(one, two), list(two, one))
 #'
 #'
@@ -57,19 +57,6 @@
 #' )
 #'
 #'
-#' # Note that for historical reasons, lists containing vectors are
-#' # always treated as data frames. Thus their vectors are treated as
-#' # columns rather than rows, and their inner names are ignored:
-#' ll <- list(
-#'   a = c(A = 1, B = 2),
-#'   b = c(A = 3, B = 4)
-#' )
-#' bind_rows(ll)
-#'
-#' # You can circumvent that behaviour with explicit splicing:
-#' bind_rows(!!!ll)
-#'
-#'
 #' # When you supply a column name with the `.id` argument, a new
 #' # column is created to link each row to its original data frame
 #' bind_rows(list(one, two), .id = "id")
@@ -77,10 +64,10 @@
 #' bind_rows("group 1" = one, "group 2" = two, .id = "groups")
 #'
 #' # Columns don't need to match when row-binding
-#' bind_rows(data.frame(x = 1:3), data.frame(y = 1:4))
+#' bind_rows(tibble(x = 1:3), tibble(y = 1:4))
 #' \dontrun{
 #' # Rows do need to match when column-binding
-#' bind_cols(data.frame(x = 1), data.frame(y = 1:2))
+#' bind_cols(tibble(x = 1:3), tibble(y = 1:2))
 #' }
 #'
 #' bind_cols(one, two)
@@ -91,34 +78,19 @@ NULL
 #' @export
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
-  dots <- dots_values(...)
-  if (length(dots) == 1 && is.list(dots[[1]]) && !is.data.frame(dots[[1]])) {
+  dots <- list2(...)
+
+  # bind_rows() has weird legacy squashing behaviour
+  is_flattenable <- function(x) is.list(x) && !is_named(x) && !is.data.frame(x)
+  if (length(dots) == 1 && is_bare_list(dots[[1]])) {
     dots <- dots[[1]]
   }
-  dataframe_ish <- function(.x) {
-    is.data.frame(.x) || (vec_is(.x) && !is.null(names(.x)))
-  }
-  dots <- keep(
-    flatten_if(dots, function(.x) is.list(.x) && !is.data.frame(.x)),
-    function(.x) !is.null(.x)
-  )
+  dots <- flatten_if(dots, is_flattenable)
+  dots <- discard(dots, is.null)
 
-  dots <- keep(dots, function(.x) !is.null(.x))
-  dots <- flatten_if(dots, function(.x) is.list(.x) && !dataframe_ish(.x))
-
-  if (!is_null(.id)) {
-    if (!(is_string(.id))) {
-      bad_args(".id", "must be a scalar string, ",
-        "not {friendly_type_of(.id)} of length {length(.id)}"
-      )
-    }
-    if (!all(have_name(dots) | map_lgl(dots, is_empty))) {
-      dots <- compact(dots)
-      names(dots) <- seq_along(dots)
-    }
-  }
-  if (!is.null(names(dots)) && !all(map_lgl(dots, dataframe_ish))) {
-    dots <- list(as_tibble(dots))
+  if (is_named(dots) && !all(map_lgl(dots, dataframe_ish))) {
+    # This is hit by map_dfr() so we can't easily deprecate
+    return(as_tibble(dots))
   }
 
   for (i in seq_along(dots)) {
@@ -132,53 +104,48 @@ bind_rows <- function(..., .id = NULL) {
     }
   }
 
-  dots <- map(dots, function(.x) if(is.data.frame(.x)) .x else tibble(!!!as.list(.x)))
-  result <- vec_rbind(!!!dots, .names_to = .id)
-  if (length(dots) && is_tibble(first <- dots[[1L]])) {
-    if (is_grouped_df(first)) {
-      result <- grouped_df(result, group_vars(first), group_by_drop_default(first))
-    } else {
-      class(result) <- class(first)
+  if (!is_null(.id)) {
+    if (!is_string(.id)) {
+      bad_args(".id", "must be a scalar string, ",
+        "not {friendly_type_of(.id)} of length {length(.id)}"
+      )
+    }
+    if (!is_named(dots)) {
+      names(dots) <- seq_along(dots)
     }
   }
-  result
+
+  dots <- map(dots, function(.x) if (is.data.frame(.x)) .x else tibble(!!!.x))
+
+  out <- vec_rbind(!!!dots, .names_to = .id)
+  if (length(dots) && is_tibble(first <- dots[[1L]])) {
+    out <- dplyr_reconstruct(out, first)
+  }
+  out
 }
 
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
-  dots <- dots_values(...)
-  not_null <- function(.x) !is.null(.x)
-  dots <- keep(dots, not_null)
+  dots <- list2(...)
 
-  # nothing to bind, return a dummy tibble
-  if (!length(dots)) {
-    return(tibble())
-  }
+  is_flattenable <- function(x) is.list(x) && !is.data.frame(x)
+  dots <- squash_if(dots, is_flattenable)
+  dots <- discard(dots, is.null)
 
-  # Before things are squashed, we need
-  # some information about the "first" data frame
-  if (is.data.frame(dots[[1]]) || !is.list(dots[[1]])) {
-    first <- dots[[1]]
-  } else {
-    first <- dots[[1]][[1]]
-  }
+  # Strip names off of data frame components so that vec_cbind() unpacks them
+  is_data_frame <- map_lgl(dots, is.data.frame)
+  names(dots)[is_data_frame] <- ""
 
-  dots <- squash_if(dots, function(.x) is.list(.x) && !is.data.frame(.x))
-  dots <- keep(dots, not_null)
-  if (!length(dots)) {
-    return(tibble())
+  out <- vec_cbind(!!!dots)
+  if (length(dots) && is_tibble(first <- dots[[1L]])) {
+    out <- dplyr_reconstruct(out, first)
   }
+  out
+}
 
-  res <- vec_cbind(!!!dots)
-  if (length(dots)) {
-    if (is_grouped_df(first)) {
-      res <- grouped_df(res, group_vars(first), group_by_drop_default(first))
-    } else if(inherits(first, "rowwise_df")){
-      res <- rowwise(res)
-    } else if(is_tibble(first) || !is.data.frame(first)) {
-      res <- as_tibble(res)
-    }
-  }
-  res
+# helpers -----------------------------------------------------------------
+
+dataframe_ish <- function(.x) {
+  is.data.frame(.x) || (vec_is(.x) && is_named(.x))
 }

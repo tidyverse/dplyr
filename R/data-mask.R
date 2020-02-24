@@ -1,10 +1,16 @@
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller, rows = group_rows(data), track_usage = FALSE) {
+    initialize = function(data, caller) {
+      rows <- group_rows(data)
+      # workaround for whene there are 0 groups
+      if (length(rows) == 0) {
+        rows <- list(integer())
+      }
+      private$rows <- rows
+
       frame <- caller_env(n = 2)
       local_mask(self, frame)
 
-      private$rows <- rows
       private$data <- data
       private$caller <- caller
       private$bindings <- env(empty_env())
@@ -15,46 +21,67 @@ DataMask <- R6Class("DataMask",
         function(index) {
           col <- .subset2(data, index)
           if (is_list(col) && !is.data.frame(col)) {
-            map(rows, function(row) vec_slice(col, row)[[1L]])
+            map(vec_chop(col, rows), `[[`, 1L)
           } else {
-            map(rows, vec_slice, x = col)
+            vec_chop(col, rows)
           }
         }
+      } else if (is_grouped_df(data)) {
+        function(index) vec_chop(.subset2(data, index), rows)
       } else {
-        function(index) map(rows, vec_slice, x = .subset2(data, index))
+        # for ungrouped data frames, there is only one chunk that
+        # is made of the full column
+        function(index) list(.subset2(data, index))
       }
 
-      if (track_usage) {
-        private$used <- rep(FALSE, ncol(data))
-        binding_fn <- function(index, chunks = resolve_chunks(index)) {
-          function() {
-            private$used[[index]] <- TRUE
-            .subset2(chunks, private$current_group)
-          }
-        }
-      } else {
-        binding_fn <- function(index, chunks = resolve_chunks(index)){
-          # chunks is a promise of the list of all chunks for the column
-          # at this index, so resolve_chunks() is only called when
-          # the active binding is touched
-          function() .subset2(chunks, private$current_group)
-        }
+      private$used <- rep(FALSE, ncol(data))
+
+      names_bindings <- chr_unserialise_unicode(names(data))
+      private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
+
+      promise_fn <- function(index, chunks = resolve_chunks(index)) {
+          # resolve the chunks and hold the slice for current group
+          res <- .subset2(chunks, self$get_current_group())
+
+          # track
+          private$used[[index]] <- TRUE
+          private$resolved[[index]] <- chunks
+          private$which_used <- c(private$which_used, index)
+
+          # return result for current slice
+          res
       }
 
-      env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
+      promises <- map(seq_len(ncol(data)), function(.x) expr(promise_fn(!!.x)))
+
+      env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
     },
 
     add = function(name, chunks) {
-      force(chunks)
-      env_bind_active(private$bindings, !!name := function() {
-        .subset2(chunks, private$current_group)
-      })
+      pos <- which(names(private$resolved) == name)
+      if (length(pos) == 0L) {
+        pos <- length(private$resolved) + 1L
+        private$used[[pos]] <- TRUE
+        private$which_used <- c(private$which_used, pos)
+      }
+      if (inherits(private$data, "rowwise_df")){
+        is_scalar_list <- function(.x) {
+          is.list(.x) && !is.data.frame(.x) && length(.x) == 1L
+        }
+        if (all(map_lgl(chunks, is_scalar_list))) {
+          chunks <- map(chunks, `[[`, 1L)
+        }
+      }
+      private$resolved[[name]] <- chunks
     },
 
     remove = function(name) {
+      pos <- which(names(private$resolved) == name)
+      private$resolved[[name]] <- NULL
+      private$which_used <- setdiff(private$which_used, pos)
       rm(list = name, envir = private$bindings)
     },
 
@@ -79,15 +106,18 @@ DataMask <- R6Class("DataMask",
     },
 
     current_rows = function() {
-      private$rows[[private$current_group]]
+      private$rows[[self$get_current_group()]]
     },
 
     current_key = function() {
-      vec_slice(private$keys, private$current_group)
+      vec_slice(private$keys, self$get_current_group())
     },
 
     get_current_group = function() {
-      private$current_group
+      # The [] is so that we get a copy, which is important for how
+      # current_group is dealt with internally, to avoid defining it at each
+      # iteration of the dplyr_mask_eval_*() loops.
+      private$current_group[]
     },
 
     set_current_group = function(group) {
@@ -100,6 +130,10 @@ DataMask <- R6Class("DataMask",
 
     get_used = function() {
       private$used
+    },
+
+    get_rows = function() {
+      private$rows
     }
 
   ),
@@ -109,6 +143,8 @@ DataMask <- R6Class("DataMask",
     mask = NULL,
     old_vars = character(),
     used = logical(),
+    resolved = list(),
+    which_used = integer(),
     rows = NULL,
     keys = NULL,
     bindings = NULL,

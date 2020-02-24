@@ -9,7 +9,7 @@ across(cols = everything(), fns = NULL, names = NULL)
 \arguments{
 \item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
 Because \code{across()} is used within functions like \code{summarise()} and
-\code{mutate()}, you can't grouping variables.}
+\code{mutate()}, you can't select or compute upon grouping variables.}
 
 \item{fns}{Functions to apply to each of the selected columns.
 Possible values are:
@@ -24,10 +24,11 @@ Possible values are:
 Within these functions you can use \code{\link[=cur_column]{cur_column()}} and \code{\link[=cur_group]{cur_group()}}
 to access the current column and grouping keys respectively.}
 
-\item{names}{A glue specification that describes how to name the output columns. This can use \code{{col}} to stand for
-the selected column name, and \code{{fn}} to stand for the name of the function
-being applied. The default (\code{NULL}) is equivalent to \code{"{col}"} for the single
-function case and \code{"{col}_{fn}"} for the case where a list is used for \code{fns}.}
+\item{names}{A glue specification that describes how to name the output
+columns. This can use \code{{col}} to stand for the selected column name, and
+\code{{fn}} to stand for the name of the function being applied. The default
+(\code{NULL}) is equivalent to \code{"{col}"} for the single function case and
+\code{"{col}_{fn}"} for the case where a list is used for \code{fns}.}
 }
 \value{
 A tibble with one column for each column in \code{cols} and each function in \code{fns}.

@@ -140,13 +140,7 @@ summarise.rowwise_df <- function(.data, ...) {
 }
 
 summarise_cols <- function(.data, ...) {
-  rows <- group_rows(.data)
-  # workaround when there are 0 groups
-  if (length(rows) == 0L) {
-    rows <- list(integer(0))
-  }
-
-  mask <- DataMask$new(.data, caller_env(), rows)
+  mask <- DataMask$new(.data, caller_env())
 
   dots <- enquos(...)
   dots_names <- names(dots)
@@ -154,7 +148,7 @@ summarise_cols <- function(.data, ...) {
 
   cols <- list()
 
-  .size <- 1L
+  sizes <- 1L
   chunks <- vector("list", length(dots))
 
   tryCatch({
@@ -169,10 +163,6 @@ summarise_cols <- function(.data, ...) {
       # TODO: reinject hybrid evaluation at the R level
       chunks[[i]] <- mask$eval_all_summarise(quo)
 
-      # check that vec_size() of chunks is compatible with .size
-      # and maybe update .size
-      .size <- .Call(`dplyr_validate_summarise_sizes`, .size, chunks[[i]])
-
       result_type <- vec_ptype_common(!!!chunks[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
@@ -186,15 +176,10 @@ summarise_cols <- function(.data, ...) {
       }
     }
 
+    c(chunks, sizes) %<-% .Call(`dplyr_summarise_recycle_chunks`, chunks)
+
     # materialize columns
     for (i in seq_along(dots)) {
-      if (!identical(.size, 1L)) {
-        sizes <- .Call(`dplyr_vec_sizes`, chunks[[i]])
-        if (!identical(sizes, .size)) {
-          chunks[[i]] <- map2(chunks[[i]], .size, vec_recycle, x_arg = glue("..{i}"))
-        }
-      }
-
       result <- vec_c(!!!chunks[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
@@ -215,11 +200,11 @@ summarise_cols <- function(.data, ...) {
     stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
   },
   dplyr_summarise_incompatible_size = function(cnd) {
-    stop_summarise_incompatible_size(size = cnd$size, group = cnd$group, index = i, expected_sizes = .size, dots = dots)
+    stop_summarise_incompatible_size(size = cnd$size, group = cnd$group, index = cnd$index, expected_size = cnd$expected_size, dots = dots)
   },
   simpleError = function(e) {
     stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
   })
 
-  list(new = cols, size = .size)
+  list(new = cols, size = sizes)
 }

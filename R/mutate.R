@@ -29,21 +29,21 @@
 #'
 #' ```
 #' starwars %>%
-#'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
-#'   pull()
+#'   select(name, mass, species) %>%
+#'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #' ```
 #'
 #' With the grouped equivalent:
 #'
 #' ```
 #' starwars %>%
-#'   group_by(gender) %>%
-#'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
-#'   pull()
+#'   select(name, mass, species) %>%
+#'   group_by(species) %>%
+#'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #' ```
 #'
 #' The former normalises `mass` by the global average whereas the
-#' latter normalises by the averages within gender levels.
+#' latter normalises by the averages within species levels.
 #'
 #' @export
 #' @inheritParams arrange
@@ -59,23 +59,15 @@
 #'   * A data frame or tibble, to create multiple columns in the output.
 #' @family single table verbs
 #' @return
-#' An object of the same type as `.data`.
-#'
-#' For `mutate()`:
+#' An object of the same type as `.data`. The output has the following
+#' properties:
 #'
 #' * Rows are not affected.
-#' * Existing columns will be preserved unless explicitly modified.
-#' * New columns will be added to the right of existing columns.
+#' * Existing columns will be preserved according to the `.keep` argument.
+#'   New columns will be placed according to the `.before` and `.after`
+#'   arguments. If `.keep = "none"` (as in `transmute()`), the output order
+#'   is determined only by `...`, not the order of existing columns.
 #' * Columns given value `NULL` will be removed
-#' * Groups will be recomputed if a grouping variable is mutated.
-#' * Data frame attributes are preserved.
-#'
-#' For `transmute()`:
-#'
-#' * Rows are not affected.
-#' * Apart from grouping variables, existing columns will be remove unless
-#'   explicitly kept.
-#' * Column order matches order of expressions.
 #' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
 #' @section Methods:
@@ -89,22 +81,34 @@
 #' * `transmute()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("transmute")}.
 #' @examples
 #' # Newly created variables are available immediately
-#' mtcars %>% as_tibble() %>% mutate(
-#'   cyl2 = cyl * 2,
-#'   cyl4 = cyl2 * 2
+#' starwars %>%
+#'  select(name, mass) %>%
+#'  mutate(
+#'   mass2 = mass * 2,
+#'   mass2_squared = mass2 * mass2
 #' )
 #'
 #' # As well as adding new variables, you can use mutate() to
 #' # remove variables and modify existing variables.
-#' mtcars %>% as_tibble() %>% mutate(
-#'   mpg = NULL,
-#'   disp = disp * 0.0163871 # convert to litres
+#' starwars %>%
+#'  select(name, height, mass, homeworld) %>%
+#'  mutate(
+#'   mass = NULL,
+#'   height = height * 0.0328084 # convert to feet
 #' )
 #'
-#' # window functions are useful for grouped mutates
-#' mtcars %>%
-#'  group_by(cyl) %>%
-#'  mutate(rank = min_rank(desc(mpg)))
+#' # Use across() with mutate() to apply a transformation
+#' # to multiple columns in a tibble.
+#' starwars %>%
+#'  select(name, homeworld, species) %>%
+#'  mutate(across(-name, as.factor))
+#' # see more in ?across
+#'
+#' # Window functions are useful for grouped mutates:
+#' starwars %>%
+#'  select(name, mass, homeworld) %>%
+#'  group_by(homeworld) %>%
+#'  mutate(rank = min_rank(desc(mass)))
 #' # see `vignette("window-functions")` for more details
 #'
 #' # By default, new columns are placed on the far right.
@@ -127,15 +131,15 @@
 #' # tibbles because the expressions are computed within groups.
 #' # The following normalises `mass` by the global average:
 #' starwars %>%
-#'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
-#'   pull()
+#'   select(name, mass, species) %>%
+#'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #'
-#' # Whereas this normalises `mass` by the averages within gender
+#' # Whereas this normalises `mass` by the averages within species
 #' # levels:
 #' starwars %>%
-#'   group_by(gender) %>%
-#'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
-#'   pull()
+#'   select(name, mass, species) %>%
+#'   group_by(species) %>%
+#'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #'
 #' # Indirection ----------------------------------------
 #' # Refer to column names stored as strings with the `.data` pronoun:
@@ -166,7 +170,7 @@ mutate.data.frame <- function(.data, ...,
                               .before = NULL, .after = NULL) {
   keep <- arg_match(.keep)
 
-  cols <- mutate_cols(.data, ..., .track_usage = keep %in% c("used", "unused"))
+  cols <- mutate_cols(.data, ...)
   out <- dplyr_col_modify(.data, cols)
 
   .before <- enquo(.before)
@@ -211,16 +215,9 @@ transmute.data.frame <- function(.data, ...) {
 
 # Helpers -----------------------------------------------------------------
 
-mutate_cols <- function(.data, ..., .track_usage = FALSE) {
-  rows <- group_rows(.data)
-  # workaround when there are 0 groups
-  if (length(rows) == 0L) {
-    rows <- list(integer(0))
-  }
-  rows_lengths <- .Call(`dplyr_vec_sizes`, rows)
-
-  o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
-  mask <- DataMask$new(.data, caller_env(), rows, track_usage = .track_usage)
+mutate_cols <- function(.data, ...) {
+  mask <- DataMask$new(.data, caller_env())
+  rows <- mask$get_rows()
 
   dots <- enquos(...)
   dots_names <- names(dots)
@@ -238,7 +235,7 @@ mutate_cols <- function(.data, ..., .track_usage = FALSE) {
       # recycling it appropriately to match the group size
       #
       # TODO: reinject hybrid evaluation at the R level
-      c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]])
+      chunks <- mask$eval_all_mutate(dots[[i]])
 
       if (is.null(chunks)) {
         if (!is.null(dots_names) && dots_names[i] != "") {
@@ -250,15 +247,7 @@ mutate_cols <- function(.data, ..., .track_usage = FALSE) {
         next
       }
 
-      if (needs_recycle) {
-        chunks <- pmap(list(seq_along(chunks), chunks, rows_lengths), function(i, chunk, n) {
-          # set the group so that stop_mutate_recycle_incompatible_size() correctly
-          # identifies it, otherwise it would always report the last group
-          mask$set_current_group(i)
-          vec_recycle(chunk, n)
-        })
-      }
-      result <- vec_slice(vec_c(!!!chunks), o_rows)
+      result <- vec_unchop(chunks, rows)
 
       not_named <- (is.null(dots_names) || dots_names[i] == "")
       if (not_named && is.data.frame(result)) {
@@ -281,24 +270,25 @@ mutate_cols <- function(.data, ..., .track_usage = FALSE) {
     }
 
   },
-    rlang_error_data_pronoun_not_found = function(e) {
-      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
-    },
-    vctrs_error_recycle_incompatible_size = function(e) {
-      stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
-    },
-    dplyr_mutate_mixed_NULL = function(e) {
-      stop_mutate_mixed_NULL(index = i, dots = dots)
-    },
-    dplyr_mutate_not_vector = function(e) {
-      stop_mutate_not_vector(index = i, dots = dots, result = e$result)
-    },
-    vctrs_error_incompatible_type = function(e) {
-      stop_combine(e, index = i, dots = dots, fn = "mutate")
-    },
-    simpleError = function(e) {
-      stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
-    }
+  rlang_error_data_pronoun_not_found = function(e) {
+    stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+  },
+  dplyr_mutate_incompatible_size = function(e) {
+    e$size <- vec_size(rows[[i]])
+    stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
+  },
+  dplyr_mutate_mixed_NULL = function(e) {
+    stop_mutate_mixed_NULL(index = i, dots = dots)
+  },
+  dplyr_mutate_not_vector = function(e) {
+    stop_mutate_not_vector(index = i, dots = dots, result = e$result)
+  },
+  vctrs_error_incompatible_type = function(e) {
+    stop_combine(e, index = i, dots = dots, fn = "mutate")
+  },
+  simpleError = function(e) {
+    stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
+  }
   )
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")

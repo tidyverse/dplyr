@@ -21,7 +21,7 @@ test_that("cbind uses shallow copies", {
 })
 
 test_that("bind_cols handles lists (#1104)", {
-  exp <- tibble(x = 1, y = "a", z = 2)
+  exp <- data.frame(x = 1, y = "a", z = 2, stringsAsFactors = FALSE)
 
   l1 <- list(x = 1, y = "a")
   l2 <- list(z = 2)
@@ -31,12 +31,12 @@ test_that("bind_cols handles lists (#1104)", {
 })
 
 test_that("bind_cols handles empty argument list (#1963)", {
-  expect_equal(bind_cols(), tibble())
+  expect_equal(bind_cols(), data.frame())
 })
 
 test_that("bind_cols handles all-NULL values (#2303)", {
-  expect_identical(bind_cols(list(a = NULL, b = NULL)), tibble())
-  expect_identical(bind_cols(NULL), tibble())
+  expect_identical(bind_cols(list(a = NULL, b = NULL)), data.frame())
+  expect_identical(bind_cols(NULL), data.frame())
 })
 
 test_that("bind_cols repairs names", {
@@ -49,6 +49,17 @@ test_that("bind_cols repairs names", {
   )
 
   expect_identical(bound, repaired)
+})
+
+test_that("bind_cols unpacks tibbles", {
+  expect_equal(
+    bind_cols(list(y = tibble(x = 1:2))),
+    tibble(x = 1:2)
+  )
+  expect_equal(
+    bind_cols(list(y = tibble(x = 1:2), z = tibble(y = 1:2))),
+    tibble(x = 1:2, y = 1:2)
+  )
 })
 
 
@@ -392,7 +403,7 @@ test_that("bind_cols infers classes from first result (#1692)", {
   expect_equal(class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame"))
   expect_equal(map_int(group_rows(res3), length), c(5, 5))
   expect_equal(class(bind_cols(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
-  expect_equal(class(bind_cols(d5, d1)), c("tbl_df", "tbl", "data.frame"))
+  expect_equal(class(bind_cols(d5, d1)), "data.frame")
 })
 
 test_that("bind_rows accepts data frame columns (#2015)", {
@@ -434,10 +445,24 @@ test_that("bind_rows() handles rowwise vectors", {
 })
 
 test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {
-  expect_identical(
-    bind_rows(list(list(a = 1, b = 2))),
-    tibble(a = 1, b = 2)
-  )
+  ll <- list(a = 1, b = 2)
+  df <- tibble(a = 1, b = 2)
+
+  expect_equal(bind_rows(list(ll)), df)
+  expect_equal(bind_rows(list(ll, ll)), df[c(1, 1), ])
+})
+
+test_that("bind_rows can handle lists (#1104)", {
+  my_list <- list(list(x = 1, y = "a"), list(x = 2, y = "b"))
+  res <- bind_rows(my_list)
+  expect_equal(nrow(res), 2L)
+  expect_is(res$x, "numeric")
+  expect_is(res$y, "character")
+
+  res <- bind_rows(list(x = 1, y = "a"), list(x = 2, y = "b"))
+  expect_equal(nrow(res), 2L)
+  expect_is(res$x, "numeric")
+  expect_is(res$y, "character")
 })
 
 test_that("columns that are OBJECT but have NULL class are handled gracefully (#3349)", {
@@ -451,12 +476,11 @@ test_that("columns that are OBJECT but have NULL class are handled gracefully (#
 # Vectors ------------------------------------------------------------
 
 test_that("accepts named columns", {
-  expect_identical(bind_cols(a = 1:2, b = 3:4), tibble(a = 1:2, b = 3:4))
-  expect_identical(bind_cols(!!!mtcars), as_tibble(mtcars))
+  expect_identical(bind_cols(a = 1:2, b = 3:4), data.frame(a = 1:2, b = 3:4))
 })
 
-test_that("supports NULL values", {
-  expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), tibble(a = 1, b = 2))
+test_that("ignores NULL values", {
+  expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), data.frame(a = 1, b = 2))
 })
 
 test_that("bind_cols() handles unnamed list with name repair (#3402)", {
@@ -488,7 +512,7 @@ test_that("bind_rows() correctly restores (#2457)", {
 # Errors ------------------------------------------------------------------
 
 test_that("*_bind() give meaningful errors", {
-  verify_output(test_path("test-binds-errors.txt"), {
+  verify_output(test_path("test-bind-errors.txt"), {
     "# invalid .id"
     df1 <- tibble(x = 1:3)
     df2 <- tibble(x = 4:6)
