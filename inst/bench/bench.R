@@ -3,6 +3,7 @@ library(rlang)
 library(purrr)
 library(tibble)
 library(tidyr)
+library(glue)
 
 if (!dir.exists("../bench-libs")) dir.create("../bench-libs")
 
@@ -15,6 +16,14 @@ libs <- list.files("../bench-libs", full.names = TRUE)
 names(libs) <- basename(libs)
 
 libs <- c(libs, "master" = .libPaths())
+
+bench_script <- function(file, ...) {
+  message("\n", glue("This branch ({prompt::git_branch()}): "))
+  callr::rscript(file, ...)
+
+  message("\nRelease 0.8.3")
+  callr::rscript(file, libpath = "../bench-libs/0.8.3/", ...)
+}
 
 benchs <- function(libs, setup, ..., iterations = NULL){
   dots <- rlang::exprs(...)
