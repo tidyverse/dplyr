@@ -2,13 +2,21 @@
 duplicated column name
 ======================
 
-> df <- data.frame(x = 1:10, x = 1:10)
-> names(df) <- c("x", "x")
-> df %>% arrange(x)
-Error: Can't bind data because some arguments have the same name
+> tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)
+Error: arrange() failed at implicit mutate() step. 
+x Can't bind data because some arguments have the same name
 
-> df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
-> names(df) <- c("x", "x", "y", "y")
-> df %>% arrange(x)
-Error: Can't bind data because some arguments have the same name
+
+error in mutate() step
+======================
+
+> tibble(x = 1) %>% arrange(y)
+Error: arrange() failed at implicit mutate() step. 
+i Could not create a temporary column for `..1`.
+i `..1` is `y`.
+
+> tibble(x = 1) %>% arrange(rep(x, 2))
+Error: arrange() failed at implicit mutate() step. 
+i Could not create a temporary column for `..1`.
+i `..1` is `rep(x, 2)`.
 

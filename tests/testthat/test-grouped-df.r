@@ -94,9 +94,3 @@ test_that("helper gives meaningful error messages", {
     grouped_df(data.frame(x = 1), 1)
   })
 })
-
-test_that("compute_group warns about implicit missing values", {
-  df <- tibble(x = 1:3, f = factor(c("a", "b", NA)))
-  expect_warning(g <- compute_groups(df, "f"), "Factor `f` contains implicit NA")
-  expect_equal(as.list(g$.rows), list(1L, 2L, 3L))
-})

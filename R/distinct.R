@@ -12,7 +12,8 @@
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
 #' @return
-#' An object of the same type as `.data`.
+#' An object of the same type as `.data`. The output has the following
+#' properties:
 #'
 #' * Rows are a subset of the input but appear in the same order.
 #' * Columns are not modified if `...` is empty or `.keep_all` is `TRUE`.
@@ -46,7 +47,7 @@
 #' # You can also use distinct on computed variables
 #' distinct(df, diff = abs(x - y))
 #'
-#' # Using across() to select variables ----------------------
+#' # use across() to access select()-style semantics
 #' distinct(starwars, across(contains("color")))
 #'
 #' # Grouping -------------------------------------------------
@@ -56,7 +57,6 @@
 #'   g = c(1, 1, 2, 2),
 #'   x = c(1, 1, 2, 1)
 #' ) %>% group_by(g)
-#' df %>% distinct()
 #' df %>% distinct(x)
 #'
 distinct <- function(.data, ..., .keep_all = FALSE) {

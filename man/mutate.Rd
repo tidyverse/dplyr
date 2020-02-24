@@ -52,24 +52,15 @@ control where new columns should appear (the default is to add to the
 right hand side). See \code{\link[=relocate]{relocate()}} for more details.}
 }
 \value{
-An object of the same type as \code{.data}.
-
-For \code{mutate()}:
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item Rows are not affected.
-\item Existing columns will be preserved unless explicitly modified.
-\item New columns will be added to the right of existing columns.
+\item Existing columns will be preserved according to the \code{.keep} argument.
+New columns will be placed according to the \code{.before} and \code{.after}
+arguments. If \code{.keep = "none"} (as in \code{transmute()}), the output order
+is determined only by \code{...}, not the order of existing columns.
 \item Columns given value \code{NULL} will be removed
-\item Groups will be recomputed if a grouping variable is mutated.
-\item Data frame attributes are preserved.
-}
-
-For \code{transmute()}:
-\itemize{
-\item Rows are not affected.
-\item Apart from grouping variables, existing columns will be remove unless
-explicitly kept.
-\item Column order matches order of expressions.
 \item Groups will be recomputed if a grouping variable is mutated.
 \item Data frame attributes are preserved.
 }

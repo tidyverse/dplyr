@@ -100,8 +100,14 @@ If \code{NULL}, the default, \verb{*_join()} will perform a natural join, using 
 variables in common across \code{x} and \code{y}. A message lists the variables so that you
 can check they're correct; suppress the message by supplying \code{by} explicitly.
 
-To join by different variables on \code{x} and \code{y} use a named vector.
+To join by different variables on \code{x} and \code{y}, use a named vector.
 For example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
+
+To join by multiple variables, use a vector with length > 1.
+For example, \code{by = c("a", "b")} will match \code{x$a} to \code{y$a} and \code{x$b} to
+\code{y$b}. Use a named vector to match different variables in \code{x} and \code{y}.
+For example, \code{by = c("a" = "b", "c" = "d")} will match \code{x$a} to \code{y$b} and
+\code{x$c} to \code{y$d}.
 
 To perform a cross-join, generating all combinations of \code{x} and \code{y},
 use \code{by = character()}.}
@@ -130,7 +136,7 @@ output? Only applies to \code{nest_join()}, \code{left_join()}, \code{right_join
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}
-is preserved as much as possible.
+is preserved as much as possible. The output has the following properties:
 \itemize{
 \item For \code{inner_join()}, a subset of \code{x} rows.
 For \code{left_join()}, all \code{x} rows.

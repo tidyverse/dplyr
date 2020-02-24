@@ -182,56 +182,6 @@ setdiff(df1, df2)
 setdiff(df2, df1)
 ```
 
-
-## Coercion rules
-
-When joining tables, dplyr is a little more conservative than base R about the types of variable that it considers equivalent. This is mostly likely to surprise if you're working factors:
-
-  * Factors with different levels are coerced to character with a warning:
-    
-    ```{r}
-    df1 <- tibble(x = 1, y = factor("a"))
-    df2 <- tibble(x = 2, y = factor("b"))
-    full_join(df1, df2) %>% str()
-    ```
-
-  * Factors with the same levels in a different order are coerced to character 
-    with a warning:
-  
-    ```{r}
-    df1 <- tibble(x = 1, y = factor("a", levels = c("a", "b")))
-    df2 <- tibble(x = 2, y = factor("b", levels = c("b", "a")))
-    full_join(df1, df2) %>% str()
-    ```
-
-  * Factors are preserved only if the levels match exactly:
-    
-    ```{r}
-    df1 <- tibble(x = 1, y = factor("a", levels = c("a", "b")))
-    df2 <- tibble(x = 2, y = factor("b", levels = c("a", "b")))
-    full_join(df1, df2) %>% str()
-    ```    
-
-  * A factor and a character are coerced to character with a warning:
-    
-    ```{r}
-    df1 <- tibble(x = 1, y = "a")
-    df2 <- tibble(x = 2, y = factor("a"))
-    full_join(df1, df2) %>% str()
-    ```
-    
-Otherwise logicals will be silently upcast to integer, and integer to numeric, but coercing to character will raise an error:
-
-```{r, error = TRUE, purl = FALSE}
-df1 <- tibble(x = 1, y = 1L)
-df2 <- tibble(x = 2, y = 1.5)
-full_join(df1, df2) %>% str()
-
-df1 <- tibble(x = 1, y = 1L)
-df2 <- tibble(x = 2, y = "a")
-full_join(df1, df2) %>% str()
-```
-
 ## Multiple-table verbs
 
 dplyr does not provide any functions for working with three or more tables. Instead use `purrr::reduce()` or `Reduce()`, as described in [Advanced R](http://adv-r.had.co.nz/Functionals.html#functionals-fp), to iteratively combine the two-table verbs to handle as many tables as you need.

@@ -30,11 +30,13 @@ void stop_summarise_unsupported_type(SEXP result) {
   Rf_eval(call, dplyr::envs::ns_dplyr);
 }
 
-void stop_summarise_incompatible_size(int size, R_xlen_t index_group) {
+void stop_summarise_incompatible_size(int index_group, int index_expression, int expected_size, int size) {
   SEXP s_size = PROTECT(Rf_ScalarInteger(size));
+  SEXP s_expected_size = PROTECT(Rf_ScalarInteger(expected_size));
   SEXP s_index_group = PROTECT(Rf_ScalarInteger(index_group + 1));
+  SEXP s_index_expression = PROTECT(Rf_ScalarInteger(index_expression + 1));
   SEXP sym_stop_summarise_incompatible_size = Rf_install("stop_summarise_incompatible_size");
-  SEXP call = Rf_lang3(sym_stop_summarise_incompatible_size, s_size, s_index_group);
+  SEXP call = Rf_lang5(sym_stop_summarise_incompatible_size, s_index_group, s_index_expression, s_expected_size, s_size);
   Rf_eval(call, dplyr::envs::ns_dplyr);
 }
 }

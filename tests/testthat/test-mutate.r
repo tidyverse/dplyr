@@ -17,7 +17,7 @@ test_that("mutations applied progressively", {
 test_that("length-1 vectors are recycled (#152)", {
   df <- tibble(x = 1:4)
   expect_equal(mutate(df, y = 1)$y, rep(1, 4))
-  expect_error(mutate(df, y = 1:2), "must be recyclable")
+  expect_error(mutate(df, y = 1:2))
 })
 
 test_that("can remove variables with NULL (#462)", {

@@ -10,6 +10,12 @@ test_that("can move blocks of variables", {
   expect_named(relocate(df, is.character, .after = is.numeric), c("x", "y", "a", "b"))
 })
 
+test_that("don't lose non-contiguous variables", {
+  df <- tibble(a = 1, b = 1, c = 1, d = 1, e = 1)
+  expect_named(relocate(df, b, .after = c(a, c, e)), c("a", "c", "d", "e", "b"))
+  expect_named(relocate(df, e, .before = c(b, d)), c("a", "e", "b", "c", "d"))
+})
+
 test_that("no .before/.after moves to front", {
   df <- tibble(x = 1, y = 2)
   expect_named(relocate(df, y), c("y", "x"))

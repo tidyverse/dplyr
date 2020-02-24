@@ -15,7 +15,8 @@ more details.}
 to rename selected variables.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item Rows are not affected.
 \item Column names are changed; column order is preserved

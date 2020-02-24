@@ -123,13 +123,8 @@ filter_rows <- function(.data, ...) {
   dots <- enquos(...)
   check_filter(dots)
 
-  rows <- group_rows(.data)
-  # workaround when there are 0 groups
-  if (length(rows) == 0L) {
-    rows <- list(integer(0))
-  }
+  mask <- DataMask$new(.data, caller_env())
 
-  mask <- DataMask$new(.data, caller_env(), rows)
   env_filter <- env()
   tryCatch(
     mask$eval_all_filter(dots, env_filter),

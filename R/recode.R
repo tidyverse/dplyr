@@ -1,5 +1,6 @@
 #' Recode values
 #'
+#' @description
 #' This is a vectorised version of [switch()]: you can replace
 #' numeric values based on their position or their name, and character or factor
 #' values only by their name. This is an S3 generic: dplyr provides methods for
@@ -11,6 +12,13 @@
 #' use `recode_factor()`, which will change the order of levels to match
 #' the order of replacements. See the [forcats](http://forcats.tidyverse.org/)
 #' package for more tools for working with factors and their levels.
+#'
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
+#' `recode()` is questioning because the arguments are in the wrong order.
+#' We have `new <- old`, `mutate(df, new = old)`, and `rename(df, new = old)`
+#' but `recode(x, old = new)`. We don't yet know how to fix this problem, but
+#' it's likely to involve creating a new function then retiring or deprecating
+#' `recode()`.
 #'
 #' @param .x A vector to modify
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Replacements. For character and factor `.x`, these should be named

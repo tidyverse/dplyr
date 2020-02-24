@@ -40,10 +40,12 @@ If \code{.preserve = FALSE} (the default), the grouping structure
 is recalculated based on the resulting data, otherwise the grouping is kept as is.}
 
 \item{n, prop}{Provide either \code{n}, the number of rows, or \code{prop}, the
-proportion of rows to select. If \code{n} is greater than the number of
-rows in the group (or \code{prop > 1}), it will be silently truncated to the
-group size. If the \code{prop}ortion of a group size is not an integer, it will
-be rounded down.}
+proportion of rows to select. If neither are supplied, \code{n = 1} will be
+used.
+
+If \code{n} is greater than the number of rows in the group (or \code{prop > 1}),
+the result will be silently truncated to the group size. If the
+\code{prop}ortion of a group size is not an integer, it is rounded down.}
 
 \item{order_by}{Variable or function of variables to order by.}
 
@@ -59,7 +61,8 @@ automatically standardised to sum to 1.}
 (\code{FALSE}, the default) replacement.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item Each row may appear 0, 1, or many times in the output.
 \item Columns are not modified.

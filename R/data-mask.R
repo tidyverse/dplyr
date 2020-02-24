@@ -1,10 +1,16 @@
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller, rows = group_rows(data)) {
+    initialize = function(data, caller) {
+      rows <- group_rows(data)
+      # workaround for whene there are 0 groups
+      if (length(rows) == 0) {
+        rows <- list(integer())
+      }
+      private$rows <- rows
+
       frame <- caller_env(n = 2)
       local_mask(self, frame)
 
-      private$rows <- rows
       private$data <- data
       private$caller <- caller
       private$bindings <- env(empty_env())
@@ -124,6 +130,10 @@ DataMask <- R6Class("DataMask",
 
     get_used = function() {
       private$used
+    },
+
+    get_rows = function() {
+      private$rows
     }
 
   ),

@@ -14,7 +14,7 @@
 #'
 #' @return
 #' An object of the same type as `x`. The order of the rows and columns of `x`
-#' is preserved as much as possible.
+#' is preserved as much as possible. The output has the following properties:
 #'
 #' * For `inner_join()`, a subset of `x` rows.
 #'   For `left_join()`, all `x` rows.
@@ -48,8 +48,14 @@
 #'   variables in common across `x` and `y`. A message lists the variables so that you
 #'   can check they're correct; suppress the message by supplying `by` explicitly.
 #'
-#'   To join by different variables on `x` and `y` use a named vector.
+#'   To join by different variables on `x` and `y`, use a named vector.
 #'   For example, `by = c("a" = "b")` will match `x$a` to `y$b`.
+#'
+#'   To join by multiple variables, use a vector with length > 1.
+#'   For example, `by = c("a", "b")` will match `x$a` to `y$a` and `x$b` to
+#'   `y$b`. Use a named vector to match different variables in `x` and `y`.
+#'   For example, `by = c("a" = "b", "c" = "d")` will match `x$a` to `y$b` and
+#'   `x$c` to `y$d`.
 #'
 #'   To perform a cross-join, generating all combinations of `x` and `y`,
 #'   use `by = character()`.
@@ -186,7 +192,7 @@ full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
 #'   more details.
 #' @inheritParams left_join
 #' @return
-#' An object of the same type as `x`.
+#' An object of the same type as `x`. The output has the following properties:
 #'
 #' * Rows are a subset of the input, but appear in the same order.
 #' * Columns are not modified.
@@ -325,16 +331,27 @@ join_mutate <- function(x, y, by, type,
   x_out <- set_names(x[vars$x$out], names(vars$x$out))
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
 
-  out <- as_tibble(x_out)
-  out <- vec_slice(out, c(rows$x, rep_along(rows$y_extra, NA_integer_)))
-
-  if (!keep) {
-    out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
-    new_rows <- length(rows$x) + seq_along(rows$y_extra)
-    out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
+  if (type == "right" || type == "full") {
+    x_slicer <- c(rows$x, rep_along(rows$y_extra, NA_integer_))
+    y_slicer <- c(rows$y, rows$y_extra)
+  } else {
+    x_slicer <- rows$x
+    y_slicer <- rows$y
   }
 
-  out[names(y_out)] <- vec_slice(y_out, c(rows$y, rows$y_extra))
+  out <- as_tibble(x_out)
+  out <- vec_slice(out, x_slicer)
+  out[names(y_out)] <- vec_slice(y_out, y_slicer)
+
+  if (!keep) {
+    out[names(x_key)] <- vec_cast(out[names(x_key)], vec_ptype_common(x_key, y_key))
+
+    if (type == "right" || type == "full") {
+      new_rows <- length(rows$x) + seq_along(rows$y_extra)
+      out[new_rows, names(y_key)] <- vec_slice(y_key, rows$y_extra)
+    }
+  }
+
   dplyr_reconstruct(out, x_out)
 }
 
