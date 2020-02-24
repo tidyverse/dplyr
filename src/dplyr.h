@@ -66,6 +66,7 @@ SEXP dplyr_vec_sizes(SEXP chunks);
 SEXP dplyr_summarise_recycle_chunks(SEXP chunks);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
 SEXP dplyr_group_keys(SEXP group_data);
+SEXP dplyr_rep_int(SEXP x, SEXP times);
 
 #define DPLYR_MASK_INIT()                                                  \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows)); \

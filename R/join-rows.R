@@ -13,7 +13,7 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full")) 
   x_loc <- seq_len(vec_size(x_key))
 
   # flatten index list
-  x_loc <- rep(x_loc, lengths(y_loc))
+  x_loc <- rep_int(x_loc, lengths(y_loc))
   y_loc <- vec_c(!!!y_loc, .ptype = integer())
 
   y_extra <- integer()
@@ -27,4 +27,9 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full")) 
   }
 
   list(x = x_loc, y = y_loc, y_extra = y_extra)
+}
+
+# A faster version of `rep.int(x, times)`
+rep_int <- function(x, times) {
+  .Call(dplyr_rep_int, x, times)
 }
