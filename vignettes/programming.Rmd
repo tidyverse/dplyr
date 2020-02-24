@@ -7,7 +7,7 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-```{r setup, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(1014)
@@ -32,7 +32,7 @@ Data masking and tidy selection make interactive data exploration fast and fluid
 
 This vignette will give you the minimum knowledge you need to be an effective programmer with tidy evaluation. If you'd like to learn more about the underlying theory, or precisely how it's different from non-standard evaluation, we recommend that you read the Metaprogramming chapters in [_Advanced R_](https://adv-r.hadley.nz).
 
-```{r, message = FALSE}
+```{r setup, message = FALSE}
 library(dplyr)
 ```
 
@@ -220,7 +220,7 @@ my_summary_function <- function(data) {
 }
 ```
 
-### One user-supplied expression
+### One or more user-supplied expressions
 
 If you want the user to supply an expression that's passed onto an argument which uses data masking or tidy select, embrace the argument:
 
@@ -229,13 +229,6 @@ my_summarise <- function(data, group_var) {
   data %>%
     group_by({{ group_var }}) %>%
     summarise(mean = mean(mass))
-}
-
-my_summarise <- function(data, vars) {
-  data %>%
-    summarise(
-      across({{ vars }}, ~ mean(x, na.rm = TRUE))
-    )
 }
 ```
 
@@ -251,14 +244,31 @@ my_summarise2 <- function(data, expr) {
 }
 ```
 
-### Multiple user-supplied expressions
-
 If you want the user to provide multiple expressions, embrace each of them:
 
 ```{r}
-my_summarise <- function(data, mean_var, sd_var) {
+my_summarise3 <- function(data, mean_var, sd_var) {
   data %>% 
     summarise(mean = mean({{ mean_var }}), sd = mean({{ sd_var }}))
+}
+```
+
+If you want to use the names of variables in the output, you can use glue syntax in conjunction with `:=`:
+
+```{r}
+my_summarise4 <- function(data, expr) {
+  data %>% summarise(
+    "mean_{{expr}}" := mean({{ expr }}),
+    "sum_{{expr}}" := sum({{ expr }}),
+    "n_{{expr}}" := n()
+  )
+}
+my_summarise5 <- function(data, mean_var, sd_var) {
+  data %>% 
+    summarise(
+      "mean_{{mean_var}}" := mean({{ mean_var }}), 
+      "sd_{{sd_var}}" := mean({{ sd_var }})
+    )
 }
 ```
 
@@ -303,9 +313,19 @@ my_summarise <- function(data, group_by, summarise_by) {
 }
 ```
 
+Use the `names` argument to `across()` to control the names of the output.
+
+```{r}
+my_summarise <- function(data, group_by, summarise_by) {
+  data %>%
+    group_by(across({{ group_by }})) %>% 
+    summarise(across({{ summarise_by }}, mean), names = "mean_{col}")
+}
+```
+
 ### Loop over multiple variables
 
-Index into the special `.data` pronoun:
+If you have a character vector of variable names, and want to operate on them with a for loop, index into the special `.data` pronoun:
 
 ```{r, results = FALSE}
 for (var in names(mtcars)) {
@@ -313,12 +333,12 @@ for (var in names(mtcars)) {
 }
 ```
 
-This same technique works with the base R `apply()` family and the purrr `map()` family:
+This same technique works with for loop alternatives like the base R `apply()` family and the purrr `map()` family:
 
 ```{r, results = FALSE}
 mtcars %>% 
   names() %>% 
-  purrr::map(~ mtcars %>% count(.data[[.x]]))
+  purrr::map(~ count(mtcars, .data[[.x]]))
 ```
 
 ### Use a variable from an Shiny input
