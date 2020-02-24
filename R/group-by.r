@@ -208,11 +208,11 @@ quo_is_variable_reference <- function(quo) {
       fun <- node_car(expr)
       param <- node_cadr(node_cdr(expr))
 
-      if (fun == sym("$") && (is_symbol(param) || (is_string(param) && length(param) == 1L))) {
+      if (fun == sym("$") && (is_symbol(param) || is_string(param))) {
         return(TRUE)
       }
 
-      if (fun == sym("[[") && (is_string(param) && length(param) == 1L)) {
+      if (fun == sym("[[") && is_string(param)) {
         return(TRUE)
       }
     }

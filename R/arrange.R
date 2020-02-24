@@ -20,7 +20,8 @@
 #' * treated differently for remote data, depending on the backend.
 #'
 #' @return
-#' An object of the same type as `.data`.
+#' An object of the same type as `.data`. The output has the following
+#' properties:
 #'
 #' * All rows appear in the output, but (usually) in a different place.
 #' * Columns are not modified.
@@ -49,6 +50,18 @@
 #' by_cyl %>% arrange(desc(wt))
 #' # Unless you specifically ask:
 #' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
+#'
+#' # use embracing when wrapping in a function;
+#' # see ?dplyr_data_masking for more details
+#' tidy_eval_arrange <- function(.data, var) {
+#'   .data %>%
+#'     arrange({{ var }})
+#' }
+#' tidy_eval_arrange(mtcars, mpg)
+#'
+#' # use across() access select()-style semantics
+#' iris %>% arrange(across(starts_with("Sepal")))
+#' iris %>% arrange(across(starts_with("Sepal"), desc))
 arrange <- function(.data, ..., .by_group = FALSE) {
   UseMethod("arrange")
 }
@@ -100,7 +113,11 @@ arrange_rows <- function(.data, ..., .by_group = FALSE) {
   #
   #       revisit when we have something like mutate_one() to
   #       evaluate one quosure in the data mask
-  data <- transmute(ungroup(.data), !!!quosures)
+  tryCatch({
+    data <- transmute(ungroup(.data), !!!quosures)
+  }, error = function(cnd) {
+    stop_arrange_transmute(cnd)
+  })
 
   # we can't just use vec_compare_proxy(data) because we need to apply
   # direction for each column, so we get a list of proxies instead

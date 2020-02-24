@@ -262,16 +262,18 @@ SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr) {
   return out;
 }
 
-SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_nr_df, SEXP s_check_bounds) {
+SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds) {
   if (!Rf_inherits(df, "grouped_df")) {
     return Rf_mkString("not a `grouped_df` object");
   }
 
-  SEXP vars = Rf_getAttrib(df, dplyr::symbols::vars);
   SEXP groups = Rf_getAttrib(df, dplyr::symbols::groups);
 
-  if (!Rf_isNull(vars) && Rf_isNull(groups)) {
-    return Rf_mkString("Corrupt grouped_df data using the old format");
+  if (Rf_isNull(groups)) {
+    SEXP vars = Rf_getAttrib(df, dplyr::symbols::vars);
+    if (!Rf_isNull(vars)){
+      return Rf_mkString("Corrupt grouped_df data using the old format");
+    }
   }
 
   if (!Rf_inherits(groups, "data.frame") || XLENGTH(groups) < 1) {
@@ -288,16 +290,16 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_nr_df, SEXP s_check_bounds) {
     return Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`");
   }
 
-  R_xlen_t nr = XLENGTH(dot_rows);
-  for (R_xlen_t i = 0; i < nr; i++) {
-    SEXP rows_i = VECTOR_ELT(dot_rows, i);
-    if (TYPEOF(rows_i) != INTSXP) {
-      return Rf_mkString("`.rows` column is not a list of one-based integer vectors");
-    }
-  }
-
   if (LOGICAL(s_check_bounds)[0]) {
-    R_xlen_t nr_df = TYPEOF(s_nr_df) == INTSXP ? (R_xlen_t)(INTEGER(s_nr_df)[0]) : (R_xlen_t)(REAL(s_nr_df)[0]);
+    R_xlen_t nr = XLENGTH(dot_rows);
+    for (R_xlen_t i = 0; i < nr; i++) {
+      SEXP rows_i = VECTOR_ELT(dot_rows, i);
+      if (TYPEOF(rows_i) != INTSXP) {
+        return Rf_mkString("`.rows` column is not a list of one-based integer vectors");
+      }
+    }
+
+    R_xlen_t nr_df = vctrs::short_vec_size(df);
     for (R_xlen_t i = 0; i < nr; i++) {
       SEXP rows_i = VECTOR_ELT(dot_rows, i);
       R_xlen_t n_i = XLENGTH(rows_i);

@@ -18,7 +18,8 @@ columns selected by \code{...}. Supplying neither will move columns to the
 left-hand side; specifying both is an error.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item Rows are not affected.
 \item The same columns appear in the output, but (usually) in a different place.

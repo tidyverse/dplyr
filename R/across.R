@@ -8,7 +8,7 @@
 #'
 #' @param cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
-#'   `mutate()`, you can't grouping variables.
+#'   `mutate()`, you can't select or compute upon grouping variables.
 #' @param fns Functions to apply to each of the selected columns.
 #'   Possible values are:
 #'
@@ -20,12 +20,13 @@
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param names A glue specification that describes how to name the output columns. This can use `{col}` to stand for
-#'   the selected column name, and `{fn}` to stand for the name of the function
-#'   being applied. The default (`NULL`) is equivalent to `"{col}"` for the single
-#'   function case and `"{col}_{fn}"` for the case where a list is used for `fns`.
-#' @returns A tibble with one column for each column in `cols` and each function in `fns`.
-#'
+#' @param names A glue specification that describes how to name the output
+#'   columns. This can use `{col}` to stand for the selected column name, and
+#'   `{fn}` to stand for the name of the function being applied. The default
+#'   (`NULL`) is equivalent to `"{col}"` for the single function case and
+#'   `"{col}_{fn}"` for the case where a list is used for `fns`.
+#' @returns
+#' A tibble with one column for each column in `cols` and each function in `fns`.
 #' @examples
 #' # A function
 #' iris %>%
@@ -63,7 +64,7 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
 
   vars <- tidyselect::eval_select(
     expr({{ cols }}),
-    data[, setdiff(names(data), group_vars(data))]
+    data[, setdiff(names(data), group_vars(data)), drop = FALSE]
   )
   data <- mask$pick(names(vars))
 

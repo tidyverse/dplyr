@@ -22,9 +22,6 @@ Error: slice() expressions should return either all positive or all negative
 n and prop are carefully validated
 ==================================
 
-> check_slice_size()
-Error: Must supply exactly one of `n` and `prop` arguments
-
 > check_slice_size(n = 1, prop = 1)
 Error: Must supply exactly one of `n` and `prop` arguments
 

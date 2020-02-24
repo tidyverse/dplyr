@@ -6,7 +6,9 @@
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> Use `new_name = old_name`
 #'   to rename selected variables.
 #' @return
-#' An object of the same type as `.data`.
+#' An object of the same type as `.data`. The output has the following
+#' properties:
+#'
 #' * Rows are not affected.
 #' * Column names are changed; column order is preserved
 #' * Data frame attributes are preserved.

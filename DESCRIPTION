@@ -25,11 +25,11 @@ Imports:
     lobstr,
     pkgconfig,
     R6,
-    rlang (>= 0.4.2.9000),
+    rlang (>= 0.4.3),
     tibble (>= 2.99.99.9014),
-    tidyselect (>= 0.2.5),
+    tidyselect (>= 1.0.0),
     utils,
-    vctrs (>= 0.2.0.9007),
+    vctrs (>= 0.2.99.9005),
     zeallot
 Suggests: 
     bit64,
@@ -56,7 +56,8 @@ Suggests:
     withr,
     broom,
     purrr,
-    readr
+    readr, 
+    bench
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: yes
@@ -64,7 +65,8 @@ Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 7.0.2
 Remotes:
     tidyverse/tibble,
-    r-lib/pillar,
-    r-lib/vctrs, 
-    r-lib/tidyselect,
-    r-lib/rlang
+    r-lib/pillar, 
+    r-lib/rlang,
+    r-lib/bench,
+    r-lib/rlang, 
+    r-lib/vctrs

@@ -1,14 +1,22 @@
 #' Subset rows using column values
 #'
-#' `filter()` retains the rows where the conditions you provide a `TRUE`. Note
-#' that, unlike base subsetting with `[`, rows where the condition evaluates
-#' to `NA` are dropped.
+#' The `filter()` function is used to subset a data frame,
+#' retaining all rows that satisfy your conditions.
+#' To be retained, the row must produce a value of `TRUE` for all conditions.
+#' Note that when a condition evaluates to `NA`
+#' the row will be dropped, unlike base subsetting with `[`.
 #'
-#' dplyr is not yet smart enough to optimise filtering optimisation
-#' on grouped datasets that don't need grouped calculations. For this reason,
-#' filtering is often considerably faster on [ungroup()]ed data.
+#' The `filter()` function is used to subset the rows of
+#' `.data`, applying the expressions in `...` to the column values to determine which
+#' rows should be retained. It can be applied to both grouped and ungrouped data (see [group_by()] and
+#' [ungroup()]). However, dplyr is not yet smart enough to optimise the filtering
+#' operation on grouped datasets that do not need grouped calculations. For this
+#' reason, filtering is often considerably faster on ungrouped data.
 #'
 #' @section Useful filter functions:
+#'
+#' There are many functions and operators that are useful when constructing the
+#' expressions used to filter the data:
 #'
 #' * [`==`], [`>`], [`>=`] etc
 #' * [`&`], [`|`], [`!`], [xor()]
@@ -32,25 +40,29 @@
 #' starwars %>% group_by(gender) %>% filter(mass > mean(mass, na.rm = TRUE))
 #' ```
 #'
-#' The former keeps rows with `mass` greater than the global average
-#' whereas the latter keeps rows with `mass` greater than the gender
+#' In the ungrouped version, `filter()` compares the value of `mass` in each row to
+#' the global average (taken over the whole data set), keeping only the rows with
+#' `mass` greater than this global average. In contrast, the grouped version calculates
+#' the average mass separately for each `gender` group, and keeps rows with `mass` greater
+#' than the relevant within-gender average.
 #'
-#' average.
 #' @family single table verbs
 #' @inheritParams arrange
-#' @param ... <[`data-masking`][dplyr_data_masking]> Logical predicates defined
-#'   in terms of the variables in `.data`.
-#'   Multiple conditions are combined with `&`. Only rows where the
-#'   condition evaluates to `TRUE` are kept.
-#' @param .preserve when `FALSE` (the default), the grouping structure
-#'   is recalculated based on the resulting data, otherwise it is kept as is.
+#' @param ... <[`data-masking`][dplyr_data_masking]> Expressions that return a
+#'   logical value, and are defined in terms of the variables in `.data`.
+#'   If multiple expressions are included, they are combined with the `&` operator.
+#'   Only rows for which all conditions evaluate to `TRUE` are kept.
+#' @param .preserve Relevant when the `.data` input is grouped.
+#'   If `.preserve = FALSE` (the default), the grouping structure
+#'   is recalculated based on the resulting data, otherwise the grouping is kept as is.
 #' @return
-#' An object of the same type as `.data`.
+#' An object of the same type as `.data`. The output has the following properties:
 #'
 #' * Rows are a subset of the input, but appear in the same order.
 #' * Columns are not modified.
 #' * The number of groups may be reduced (if `.preserve` is not `TRUE`).
 #' * Data frame attributes are preserved.
+#'
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -58,17 +70,17 @@
 #'
 #' The following methods are currently available in loaded packages:
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("filter")}.
-#' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples
+#' # Filtering by one criterion
 #' filter(starwars, species == "Human")
 #' filter(starwars, mass > 1000)
 #'
-#' # Multiple criteria
+#' # Filtering by multiple criteria within a single logical expression
 #' filter(starwars, hair_color == "none" & eye_color == "black")
 #' filter(starwars, hair_color == "none" | eye_color == "black")
 #'
-#' # Multiple arguments are equivalent to and
+#' # When multiple expressions are used, they are combined using &
 #' filter(starwars, hair_color == "none", eye_color == "black")
 #'
 #'
@@ -84,7 +96,7 @@
 #' starwars %>% group_by(gender) %>% filter(mass > mean(mass, na.rm = TRUE))
 #'
 #'
-#' # Refer to column names stored as strings with the `.data` pronoun:
+#' # To refer to column names that are stored as strings, use the `.data` pronoun:
 #' vars <- c("mass", "height")
 #' cond <- c(80, 150)
 #' starwars %>%
@@ -111,13 +123,8 @@ filter_rows <- function(.data, ...) {
   dots <- enquos(...)
   check_filter(dots)
 
-  rows <- group_rows(.data)
-  # workaround when there are 0 groups
-  if (length(rows) == 0L) {
-    rows <- list(integer(0))
-  }
+  mask <- DataMask$new(.data, caller_env())
 
-  mask <- DataMask$new(.data, caller_env(), rows)
   env_filter <- env()
   tryCatch(
     mask$eval_all_filter(dots, env_filter),

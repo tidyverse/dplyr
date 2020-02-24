@@ -12,24 +12,25 @@ lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
 \item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> One or more unquoted
-expressions separated by commas. You can treat variable names like they
-are positions, so you can use expressions like \code{x:y} to select ranges of
-variables.}
+expressions separated by commas. Variable names can be used as if they
+were positions in the data frame, so expressions like \code{x:y} can
+be used to select a range of variables.}
 }
 \value{
-An object of the same type as \code{.data}.
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item Rows are not affected.
 \item Output columns are a subset of input columns, potentially with a different
 order. Columns will be renamed if \code{new_name = old_name} form is used.
 \item Data frame attributes are preserved.
-\item Groups are maintained; you can not select off grouping variables.
+\item Groups are maintained; you can't select off grouping variables.
 }
 }
 \description{
 Select (and optionally rename) variables in a data frame, using a concise
 mini-language that makes it easy to refer to variables based on their name
-(e.g. \code{a:f} selects all columns between \code{a} on the left to \code{f} on the
+(e.g. \code{a:f} selects all columns from \code{a} on the left to \code{f} on the
 right). You can also use predicate functions like \link{is.numeric} to select
 variables based on their properties.
 }
@@ -47,19 +48,19 @@ a number of special functions that only work inside \code{select()}:
 
 You can also use predicate functions (functions that return a single \code{TRUE}
 or \code{FALSE}) like \code{is.numeric}, \code{is.character}, and \code{is.factor}
-to select variables with specific types.
+to select variables of specific types.
 
-Selections can be combined using Boolean algebra like:
+Selections can be combined using Boolean algebra:
 \itemize{
-\item \code{starts_with("a") & ends_with("x")}: start with "a" and end with "x"
-\item \code{starts_with("a") | starts_with("b")}: start with "a" or "b"
-\item \code{!starts_with("a")}: doesn't start with "a"
+\item \code{starts_with("a") & ends_with("x")}: variables with names that start with "a" and end with "x"
+\item \code{starts_with("a") | starts_with("b")}: variables with names that start with "a" or "b"
+\item \code{!starts_with("a")}: variables with names that do not start with "a"
 }
 
 To remove variables from a selection, use \code{-}:
 \itemize{
-\item \code{starts_with("a") - ends_width("x")}: start with "a" and doesn't end with "x"
-\item \code{is.numeric - c(a, b, c)}: numeric variables except for \code{a}, \code{b}, \code{c}.
+\item \code{starts_with("a") - ends_width("x")}: variables with names that start with "a" and do not end with "x"
+\item \code{is.numeric - c(a, b, c)}: numeric variables except, for \code{a}, \code{b}, \code{c}.
 }
 
 See \link[tidyselect:select_helpers]{select helpers} for more details and
@@ -68,7 +69,7 @@ examples.
 Note that except for \code{:}, \code{-} and \code{c()}, all complex expressions
 are evaluated outside the data frame context. This is to prevent
 accidental matching of data frame variables when you refer to
-variables from the calling context.
+variables from the calling environment.
 }
 
 \section{Methods}{
@@ -82,28 +83,42 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-iris <- as_tibble(iris) # so it prints a little nicer
-select(iris, starts_with("Petal"))
-select(iris, ends_with("Width"))
-select(iris, !starts_with("Petal"))
-select(iris, starts_with("Petal") & ends_with("Width"))
-select(iris, is.numeric)
+select(starwars, starts_with("h"))
+select(starwars, ends_with("color"))
+select(starwars, !contains("s"))
+select(starwars, starts_with("h") & ends_with("color"))
+select(starwars, is.numeric)
 
-# If desired, you can rename individual variables as you select them
-select(iris, species = Species, width = Petal.Width, length = Petal.Length)
+# Optionally, rename individual variables as they are selected,
+# in the format `new_name = old_name`
+select(starwars, character_name = name, character_height = height)
 
+# Use num_range() to select variables with numeric suffixes
 df <- as.data.frame(matrix(runif(100), nrow = 10))
-df <- as_tibble(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
-select(df, V4:V6)
-select(df, num_range("V", 4:6))
+select(df, V4:V6) # Specify variable names explicitly
+select(df, num_range(prefix = "V", range = 4:6)) # Or, specify the prefix used on a numeric range
 
-# Select the grouping variables:
-starwars \%>\% group_by(gender) \%>\% select(group_cols())
+# Select the existing grouping variables:
+starwars \%>\% group_by(gender, eye_color) \%>\% select(group_cols())
 
-# Moving variables around --------------------------
+# Using select() semantics in across()
+starwars \%>\% summarise(across(cols = height:mass, fns = ~mean(.x, na.rm = TRUE)))
+
+# Use `{{ }}` inside functions to tunnel data-variables through
+# function arguments. See ?dplyr_tidy_eval for more information.
+averages <- function(data, vars) {
+  data \%>\%
+    select({{ vars }}) \%>\%
+    lapply(mean, na.rm = TRUE)
+}
+starwars \%>\% averages(height)
+starwars \%>\% averages(c(height, mass))
+
+
+# Modifying the order of variables --------------------------
 # As of dplyr 1.0.0, use relocate(), not select():
-relocate(iris, Species, .before = 1)
-relocate(iris, Sepal.Length, .after = last_col())
+starwars \%>\% select(name:birth_year) \%>\% relocate(birth_year, .before = 1)
+starwars \%>\% select(name:birth_year) \%>\% relocate(name, .after = last_col())
 }
 \seealso{
 Other single table verbs: 
