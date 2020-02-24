@@ -16,17 +16,15 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full")) 
   x_loc <- rep(x_loc, lengths(y_loc))
   y_loc <- vec_c(!!!y_loc, .ptype = integer())
 
-  y_extra <- integer()
-  any_y_extra <- FALSE
-
   if (type == "right" || type == "full") {
     miss_x <- !vec_in(y_key, x_key)
-    any_y_extra <- any(miss_x)
 
-    if (any_y_extra) {
+    if (any(miss_x)) {
       y_extra <- seq_len(vec_size(y_key))[miss_x]
     }
+  } else {
+    y_extra <- integer()
   }
 
-  list(x = x_loc, y = y_loc, y_extra = y_extra, any_y_extra = any_y_extra)
+  list(x = x_loc, y = y_loc, y_extra = y_extra)
 }
