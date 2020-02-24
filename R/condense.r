@@ -68,14 +68,7 @@ condense.data.frame <- function(.data, ...) {
 }
 
 condense_cols <- function(.data, ...) {
-  rows <- group_rows(.data)
-  # workaround when there are 0 groups
-  if (length(rows) == 0L) {
-    rows <- list(integer(0))
-  }
-
-  mask <- DataMask$new(.data, caller_env(), rows)
-
+  mask <- DataMask$new(.data, caller_env())
   dots <- enquos(..., .named = TRUE)
   dots_names <- names(dots)
 

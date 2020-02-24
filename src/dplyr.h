@@ -37,7 +37,7 @@ struct vectors {
 void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t nres, R_xlen_t n);
 void stop_filter_incompatible_type(R_xlen_t i, SEXP column_name, SEXP result);
 void stop_summarise_unsupported_type(SEXP result);
-void stop_summarise_incompatible_size(int size, R_xlen_t index_group);
+void stop_summarise_incompatible_size(int index_group, int index_expression, int expected_size, int size);
 
 } // namespace dplyr
 
@@ -48,6 +48,7 @@ SEXP eval_tidy(SEXP expr, SEXP data, SEXP env);
 namespace vctrs {
 bool vec_is_vector(SEXP x) ;
 R_len_t short_vec_size(SEXP x) ;
+SEXP short_vec_recycle(SEXP x, R_len_t n);
 }
 
 SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr);
@@ -62,7 +63,7 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_filter);
 SEXP dplyr_vec_sizes(SEXP chunks);
-SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks);
+SEXP dplyr_summarise_recycle_chunks(SEXP chunks);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
 SEXP dplyr_group_keys(SEXP group_data);
 

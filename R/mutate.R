@@ -216,15 +216,8 @@ transmute.data.frame <- function(.data, ...) {
 # Helpers -----------------------------------------------------------------
 
 mutate_cols <- function(.data, ...) {
-  rows <- group_rows(.data)
-  # workaround when there are 0 groups
-  if (length(rows) == 0L) {
-    rows <- list(integer(0))
-  }
-  rows_lengths <- .Call(`dplyr_vec_sizes`, rows)
-
-  o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
-  mask <- DataMask$new(.data, caller_env(), rows)
+  mask <- DataMask$new(.data, caller_env())
+  rows <- mask$get_rows()
 
   dots <- enquos(...)
   dots_names <- names(dots)
@@ -242,7 +235,7 @@ mutate_cols <- function(.data, ...) {
       # recycling it appropriately to match the group size
       #
       # TODO: reinject hybrid evaluation at the R level
-      c(chunks, needs_recycle) %<-% mask$eval_all_mutate(dots[[i]])
+      chunks <- mask$eval_all_mutate(dots[[i]])
 
       if (is.null(chunks)) {
         if (!is.null(dots_names) && dots_names[i] != "") {
@@ -254,15 +247,7 @@ mutate_cols <- function(.data, ...) {
         next
       }
 
-      if (needs_recycle) {
-        chunks <- pmap(list(seq_along(chunks), chunks, rows_lengths), function(i, chunk, n) {
-          # set the group so that stop_mutate_recycle_incompatible_size() correctly
-          # identifies it, otherwise it would always report the last group
-          mask$set_current_group(i)
-          vec_recycle(chunk, n)
-        })
-      }
-      result <- vec_slice(vec_c(!!!chunks), o_rows)
+      result <- vec_unchop(chunks, rows)
 
       not_named <- (is.null(dots_names) || dots_names[i] == "")
       if (not_named && is.data.frame(result)) {
@@ -288,7 +273,8 @@ mutate_cols <- function(.data, ...) {
   rlang_error_data_pronoun_not_found = function(e) {
     stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
   },
-  vctrs_error_recycle_incompatible_size = function(e) {
+  dplyr_mutate_incompatible_size = function(e) {
+    e$size <- vec_size(rows[[i]])
     stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
   },
   dplyr_mutate_mixed_NULL = function(e) {
