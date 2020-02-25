@@ -4,7 +4,7 @@
 \alias{across}
 \title{Apply a function (or a set of functions) to a set of columns}
 \usage{
-across(cols = everything(), fns = NULL, names = NULL)
+across(cols = everything(), fns = NULL, names = NULL, ...)
 }
 \arguments{
 \item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
@@ -29,6 +29,9 @@ columns. This can use \code{{col}} to stand for the selected column name, and
 \code{{fn}} to stand for the name of the function being applied. The default
 (\code{NULL}) is equivalent to \code{"{col}"} for the single function case and
 \code{"{col}_{fn}"} for the case where a list is used for \code{fns}.}
+
+\item{...}{Additional arguments for the function calls in \code{.fns}.
+These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
 }
 \value{
 A tibble with one column for each column in \code{cols} and each function in \code{fns}.

@@ -25,6 +25,9 @@
 #'   `{fn}` to stand for the name of the function being applied. The default
 #'   (`NULL`) is equivalent to `"{col}"` for the single function case and
 #'   `"{col}_{fn}"` for the case where a list is used for `fns`.
+#' @param ... Additional arguments for the function calls in `.fns`.
+#'   These are evaluated only once, with [tidy dots][rlang::tidy-dots] support.
+#'
 #' @returns
 #' A tibble with one column for each column in `cols` and each function in `fns`.
 #' @examples
