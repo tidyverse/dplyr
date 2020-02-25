@@ -103,10 +103,9 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   }
   names_data <- names(data)
 
-  # promote formulas
-  args <- list2(...)
+  # handle ellipsis for functions and handle formulas
   fns <- map(fns, function(fn) {
-    if (is.function(f)) function(x) exec(f, x, !!!args) else as_function(f)
+    if (is.function(fn)) function(.x) fn(.x, ...) else as_function(fn)
   })
 
   # main loop
