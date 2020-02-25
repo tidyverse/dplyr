@@ -105,7 +105,7 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
 
   # promote formulas
   args <- list2(...)
-  fns <- map(fns, function(f) {
+  fns <- map(fns, function(fn) {
     if (is.function(f)) function(x) exec(f, x, !!!args) else as_function(f)
   })
 
