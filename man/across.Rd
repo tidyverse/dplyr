@@ -30,7 +30,7 @@ columns. This can use \code{{col}} to stand for the selected column name, and
 (\code{NULL}) is equivalent to \code{"{col}"} for the single function case and
 \code{"{col}_{fn}"} for the case where a list is used for \code{fns}.}
 
-\item{...}{Additional arguments for the function calls in \code{.fns}.
+\item{...}{Additional arguments for the function calls in \code{fns}.
 These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
 }
 \value{
