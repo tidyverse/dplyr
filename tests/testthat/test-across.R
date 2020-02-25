@@ -53,6 +53,18 @@ test_that("across() correctly names output columns", {
   )
 })
 
+test_that("across() passes ... to functions", {
+  df <- tibble(x = c(1, NA))
+  expect_equal(
+    summarise(df, across(everything(), mean, na.rm = TRUE)),
+    tibble(x = 1)
+  )
+  expect_equal(
+    summarise(df, across(everything(), list(mean = mean, median = median), na.rm = TRUE)),
+    tibble(x_mean = 1, x_median = 1)
+  )
+})
+
 test_that("across() gives meaningful messages", {
   verify_output(test_path("test-across-errors.txt"), {
     tibble(x = 1) %>%

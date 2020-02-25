@@ -58,7 +58,7 @@
 #'   summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
 #'
 #' @export
-across <- function(cols = everything(), fns = NULL, names = NULL) {
+across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   mask <- peek_mask()
   data <- mask$full_data()
 
@@ -101,7 +101,10 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
   names_data <- names(data)
 
   # promote formulas
-  fns <- map(fns, as_function)
+  args <- list2(...)
+  fns <- map(fns, function(f) {
+    if (is.function(f)) function(x) exec(f, x, !!!args) else as_function(f)
+  })
 
   # main loop
   cols <- pmap(
