@@ -2,3 +2,4 @@ figure
 *.html
 *.md
 rsconnect
+*.R
