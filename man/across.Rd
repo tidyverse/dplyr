@@ -38,6 +38,7 @@ A tibble with one column for each column in \code{cols} and each function in \co
 columns, allowing you to use \code{\link[=select]{select()}} semantics inside in \code{\link[=summarise]{summarise()}} and
 \code{\link[=mutate]{mutate()}}. \code{across()} supersedes the family of "scoped variants" like
 \code{summarise_at()}, \code{summarise_if()}, and \code{summarise_all()}.
+
 See \code{vignette("colwise")} for more details.
 }
 \examples{
