@@ -149,7 +149,9 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   new_groups <- new_groups[!map_lgl(new_groups, quo_is_missing)]
 
   # If any calls, use mutate to add new columns, then group by those
-  c(out, group_names) %<-% add_computed_columns(.data, new_groups)
+  computed_columns <- add_computed_columns(.data, new_groups)
+  out <- computed_columns$data
+  group_names <- computed_columns$added_names
 
   if (.add) {
     group_names <- union(group_vars(.data), group_names)

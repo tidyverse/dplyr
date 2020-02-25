@@ -69,10 +69,11 @@ setequal.default <- function(x, y, ...) base::setequal(x, y, ...)
 #' @export
 intersect.data.frame <- function(x, y, ...) {
   check_compatible(x, y)
-  original_x <- x
-  c(x, y) %<-% vec_cast_common(x, y)
-  out <- vec_unique(vec_slice(x, vec_in(x, y)))
-  reconstruct_set(out, original_x)
+  cast <- vec_cast_common(x, y)
+  new_x <- cast[[1L]]
+  new_y <- cast[[2L]]
+  out <- vec_unique(vec_slice(new_x, vec_in(new_x, new_y)))
+  reconstruct_set(out, x)
 }
 
 #' @export
@@ -91,10 +92,11 @@ union_all.data.frame <- function(x, y, ...) {
 #' @export
 setdiff.data.frame <- function(x, y, ...) {
   check_compatible(x, y)
-  original_x <- x
-  c(x, y) %<-% vec_cast_common(x, y)
-  out <- vec_unique(vec_slice(x, !vec_in(x, y)))
-  reconstruct_set(out, original_x)
+  cast <- vec_cast_common(x, y)
+  new_x <- cast[[1L]]
+  new_y <- cast[[2L]]
+  out <- vec_unique(vec_slice(new_x, !vec_in(new_x, new_y)))
+  reconstruct_set(out, x)
 }
 
 #' @export

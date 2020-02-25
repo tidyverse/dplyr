@@ -14,8 +14,6 @@
 #' @param drop When `.drop = TRUE`, empty groups are dropped.
 #'
 #' @import vctrs
-#' @importFrom zeallot %<-%
-#'
 #' @export
 grouped_df <- function(data, vars, drop = FALSE) {
   if (!is.data.frame(data)) {
@@ -42,11 +40,13 @@ compute_groups <- function(data, vars, drop = FALSE) {
 
   # Only train the dictionary based on selected columns
   group_vars <- as_tibble(data)[vars]
-  c(old_keys, old_rows) %<-% vec_split_id_order(group_vars)
+  split_key_loc <- vec_split_id_order(group_vars)
+  old_keys <- split_key_loc$key
+  old_rows <- split_key_loc$loc
 
   signal("", class = "dplyr_regroup")
 
-  groups <- tibble(!!!old_keys, .rows := old_rows)
+  groups <- tibble(!!!old_keys, ".rows" := old_rows)
 
   if (!isTRUE(drop) && any(map_lgl(old_keys, is.factor))) {
     # Extra work is needed to auto expand empty groups
@@ -70,7 +70,9 @@ compute_groups <- function(data, vars, drop = FALSE) {
     #
     # - rows:    the new list of rows (i.e. the same as old rows,
     #            but with some extra empty integer(0) added for empty groups)
-    c(new_indices, new_rows) %<-% expand_groups(groups, positions, vec_size(old_keys))
+    expanded <- expand_groups(groups, positions, vec_size(old_keys))
+    new_indices <- expanded$indices
+    new_rows <- expanded$rows
 
     # Make the new keys from the old keys and the new_indices
     new_keys <- pmap(list(old_keys, new_indices, uniques), function(key, index, unique) {
@@ -82,7 +84,7 @@ compute_groups <- function(data, vars, drop = FALSE) {
     })
     names(new_keys) <- vars
 
-    groups <- tibble(!!!new_keys, .rows := new_rows)
+    groups <- tibble(!!!new_keys, ".rows" := new_rows)
   }
 
   structure(groups, .drop = drop)

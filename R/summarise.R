@@ -176,7 +176,9 @@ summarise_cols <- function(.data, ...) {
       }
     }
 
-    c(chunks, sizes) %<-% .Call(`dplyr_summarise_recycle_chunks`, chunks)
+    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks)
+    chunks <- recycle_info$chunks
+    sizes <- recycle_info$sizes
 
     # materialize columns
     for (i in seq_along(dots)) {
