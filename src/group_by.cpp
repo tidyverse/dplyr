@@ -258,7 +258,7 @@ SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr) {
   SET_VECTOR_ELT(out, 1, new_rows);
   delete exp;
 
-  Rf_namesgets(out, dplyr::vectors::expanded_names);
+  Rf_namesgets(out, dplyr::vectors::names_expanded);
 
   UNPROTECT(3);
   return out;
