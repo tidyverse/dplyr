@@ -36,7 +36,7 @@ DataMask <- R6Class("DataMask",
 
       private$used <- rep(FALSE, ncol(data))
 
-      names_bindings <- chr_unserialise_unicode(names(data))
+      names_bindings <- chr_unserialise_unicode(names2(data))
       private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
 
       promise_fn <- function(index, chunks = resolve_chunks(index)) {
