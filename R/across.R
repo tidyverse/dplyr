@@ -102,17 +102,15 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   }
   names_data <- names(data)
 
-  # handle ellipsis for functions and handle formulas
-  fns <- map(fns, function(fn) {
-    if (is.function(fn)) function(.x) fn(.x, ...) else as_function(fn)
-  })
+  # handle formulas
+  fns <- map(fns, as_function)
 
   # main loop
   cols <- pmap(
     expand.grid(i = seq_along(data), fn = fns),
     function(i, fn) {
       local_column(names_data[i])
-      fn(data[[i]])
+      fn(data[[i]], ...)
     }
   )
   names(cols) <- glue(names,
