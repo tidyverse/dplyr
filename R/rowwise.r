@@ -73,9 +73,11 @@ new_rowwise_df <- function(data, group_data) {
     abort("`group_data` must be a tibble without a `.rows` column")
   }
 
-  group_data <- new_tibble(vec_data(group_data), nrow = nrow(group_data)) # strip attributes
-  group_data$.rows <- new_list_of(as.list(seq_len(nrow(data))), ptype = integer())
-  new_tibble(data, groups = group_data, class = "rowwise_df")
+  nrow <- nrow(data)
+
+  group_data <- new_tibble(vec_data(group_data), nrow = nrow) # strip attributes
+  group_data$.rows <- new_list_of(as.list(seq_len(nrow)), ptype = integer())
+  new_tibble(data, groups = group_data, nrow = nrow, class = "rowwise_df")
 }
 setOldClass(c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 
