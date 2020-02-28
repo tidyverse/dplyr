@@ -125,6 +125,10 @@ DataMask <- R6Class("DataMask",
       vec_slice(private$keys, self$get_current_group())
     },
 
+    current_vars = function() {
+      env_names(private$bindings)
+    },
+
     get_current_group = function() {
       # The [] is so that we get a copy, which is important for how
       # current_group is dealt with internally, to avoid defining it at each
