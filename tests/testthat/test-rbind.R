@@ -78,7 +78,7 @@ test_that("bind_rows() creates a column of identifiers (#1337)", {
 
   out <- bind_rows(data1, data2, .id = "col")
   out_list <- bind_rows(list(data1, data2), .id = "col")
-  expect_equal(names(out)[ncol(out)], "col")
+  expect_equal(names(out)[1], "col")
   expect_equal(out$col, c("1", "1", "2"))
   expect_equal(out_list$col, c("1", "1", "2"))
 
