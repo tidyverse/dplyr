@@ -126,7 +126,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_vars = function() {
-      env_names(private$bindings)
+      names(private$resolved)
     },
 
     get_current_group = function() {
