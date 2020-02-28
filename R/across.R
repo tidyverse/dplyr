@@ -25,6 +25,8 @@
 #'   `{fn}` to stand for the name of the function being applied. The default
 #'   (`NULL`) is equivalent to `"{col}"` for the single function case and
 #'   `"{col}_{fn}"` for the case where a list is used for `fns`.
+#' @param ... Additional arguments for the function calls in `fns`.
+#'
 #' @returns
 #' A tibble with one column for each column in `cols` and each function in `fns`.
 #' @examples
@@ -58,7 +60,7 @@
 #'   summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
 #'
 #' @export
-across <- function(cols = everything(), fns = NULL, names = NULL) {
+across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   mask <- peek_mask()
   data <- mask$full_data()
 
@@ -100,7 +102,7 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
   }
   names_data <- names(data)
 
-  # promote formulas
+  # handle formulas
   fns <- map(fns, as_function)
 
   # main loop
@@ -108,7 +110,7 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
     expand.grid(i = seq_along(data), fn = fns),
     function(i, fn) {
       local_column(names_data[i])
-      fn(data[[i]])
+      fn(data[[i]], ...)
     }
   )
   names(cols) <- glue(names,
