@@ -108,3 +108,20 @@ test_that("monitoring cache - across() can be used in separate expressions", {
     tibble(a = 1, b = 2, x = 2, y = 1)
   )
 })
+
+test_that("monitoring cache - across() usage can depend on the group id", {
+  df <- tibble(g = 1:2, a = 1:2, b = 3:4)
+  df <- group_by(df, g)
+
+  switcher <- function() {
+    if_else(cur_group_id() == 1L, across(a)$a, across(b)$b)
+  }
+
+  expect <- df
+  expect$x <- c(1L, 4L)
+
+  expect_equal(
+    mutate(df, x = switcher()),
+    expect
+  )
+})
