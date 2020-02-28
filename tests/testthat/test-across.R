@@ -92,3 +92,19 @@ test_that("across() gives meaningful messages", {
       summarise(res = across(is.numeric, 42))
   })
 })
+
+test_that("monitoring cache - across() can be used twice in the same expression", {
+  df <- tibble(a = 1, b = 2)
+  expect_equal(
+    mutate(df, x = ncol(across(is.numeric)) + ncol(across(a))),
+    tibble(a = 1, b = 2, x = 3)
+  )
+})
+
+test_that("monitoring cache - across() can be used in separate expressions", {
+  df <- tibble(a = 1, b = 2)
+  expect_equal(
+    mutate(df, x = ncol(across(is.numeric)), y = ncol(across(a))),
+    tibble(a = 1, b = 2, x = 2, y = 1)
+  )
+})
