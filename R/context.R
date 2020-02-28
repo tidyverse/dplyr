@@ -54,7 +54,11 @@ n <- function() {
 cur_data <- function() {
   mask <- peek_mask("cur_data()")
   data <- mask$full_data()
-  mask$pick(setdiff(names(data), group_vars(data)))
+
+  current_vars <- mask$current_vars()
+  group_vars <- group_vars(data)
+
+  mask$pick(setdiff(current_vars, group_vars))
 }
 
 #' @rdname context
