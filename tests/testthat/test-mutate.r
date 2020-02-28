@@ -64,17 +64,11 @@ test_that("can mutate a data frame with zero columns and `NULL` column names", {
 test_that("n() can be used without loading dplyr", {
   skip_if_not_installed("callr")
 
-  df <- callr::r(function(){
+  res <- callr::r(function(){
+    # n() can be used without dplyr loaded
     dplyr::mutate(data.frame(x = 1), n = n())
   })
-  expect_equal(df$n, 1)
-
-  # but can be overwritten
-  df <- callr::r(function(){
-    n <- function() 42
-    dplyr::mutate(data.frame(x = 1), n = n())
-  })
-  expect_equal(df$n, 42)
+  expect_equal(res$n, 1)
 })
 
 # column types ------------------------------------------------------------

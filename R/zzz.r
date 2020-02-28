@@ -1,5 +1,3 @@
-dplyr_state <- env(attached = FALSE)
-
 .onLoad <- function(libname, pkgname) {
   op <- options()
   op.dplyr <- list(
@@ -13,8 +11,6 @@ dplyr_state <- env(attached = FALSE)
 }
 
 .onAttach <- function(libname, pkgname) {
-  dplyr_state$attached <- TRUE
-
   setHook(packageEvent("plyr", "attach"), function(...) {
     packageStartupMessage(rule())
     packageStartupMessage(
