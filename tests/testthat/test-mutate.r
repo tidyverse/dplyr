@@ -66,9 +66,13 @@ test_that("n() can be used without loading dplyr", {
 
   res <- callr::r(function(){
     # n() can be used without dplyr loaded
-    dplyr::mutate(data.frame(x = 1), n = n())
+    list(
+      dplyr::mutate(data.frame(x = 1), n = n()),
+      dplyr::mutate(data.frame(n = 3), m = n)
+    )
   })
-  expect_equal(res$n, 1)
+  expect_equal(res[[1]]$n, 1L)
+  expect_equal(res[[2]]$m, 3)
 })
 
 # column types ------------------------------------------------------------
