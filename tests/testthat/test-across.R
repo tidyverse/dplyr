@@ -65,6 +65,27 @@ test_that("across() passes ... to functions", {
   )
 })
 
+test_that("across() works sequentially (#4907)", {
+  df <- tibble(a = 1)
+  expect_equal(
+    mutate(df, x = ncol(across(is.numeric)), y = ncol(across(is.numeric))),
+    tibble(a = 1, x = 1L, y = 2L)
+  )
+  expect_equal(
+    mutate(df, a = "x", y = ncol(across(is.numeric))),
+    tibble(a = "x", y = 0L)
+  )
+  expect_equal(
+    mutate(df, x = 1, y = ncol(across(is.numeric))),
+    tibble(a = 1, x = 1, y = 2L)
+  )
+})
+
+test_that("across() retains original ordering", {
+  df <- tibble(a = 1, b = 2)
+  expect_named(mutate(df, a = 2, x = across())$x, c("a", "b"))
+})
+
 test_that("across() gives meaningful messages", {
   verify_output(test_path("test-across-errors.txt"), {
     tibble(x = 1) %>%

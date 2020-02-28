@@ -62,15 +62,49 @@
 #' @export
 across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   mask <- peek_mask()
-  data <- mask$full_data()
 
-  vars <- tidyselect::eval_select(
-    expr({{ cols }}),
-    data[, setdiff(names(data), group_vars(data)), drop = FALSE]
-  )
-  data <- mask$pick(names(vars))
+  original_data <- mask$full_data()
+  group_vars <- group_vars(original_data)
+  original_data <- unclass(original_data)
+  original_vars <- names(original_data)
+
+  current_vars <- mask$current_vars()
+
+  # Allowed columns are any non-group columns in the current data
+  allowed_vars <- setdiff(current_vars, group_vars)
+
+  # Locate unused columns. These always exist in the original data, but
+  # we subset against `current_vars` because `get_used()` tracks new
+  # columns as well.
+  used <- mask$get_used()
+  unused_vars <- current_vars[!used]
+
+  # Split the allowed columns into:
+  # - old: non-group cols in the original data that are unused
+  # - new: non-group cols in the current data that are used
+  old_vars <- intersect(allowed_vars, unused_vars)
+  new_vars <- setdiff(allowed_vars, old_vars)
+
+  # Pull unused columns from the original data to avoid
+  # resolving / marking them as used. If the data is grouped,
+  # lengths will be different but names and types will be correct
+  old_data <- original_data[old_vars]
+  new_data <- mask$current_cols(new_vars)
+
+  data <- vec_c(old_data, new_data)
+
+  # Retain the original ordering
+  data <- data[allowed_vars]
+
+  vars <- tidyselect::eval_select(expr({{ cols }}), data)
+  vars <- names(vars)
+
+  data <- mask$current_cols(vars)
 
   if (is.null(fns)) {
+    nrow <- length(mask$current_rows())
+    data <- new_tibble(data, nrow = nrow)
+
     if (is.null(names)) {
       return(data)
     } else {
@@ -100,7 +134,6 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
       names_fns[empties] <- empties
     }
   }
-  names_data <- names(data)
 
   # handle formulas
   fns <- map(fns, as_function)
@@ -109,13 +142,13 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   cols <- pmap(
     expand.grid(i = seq_along(data), fn = fns),
     function(i, fn) {
-      local_column(names_data[i])
+      local_column(vars[i])
       fn(data[[i]], ...)
     }
   )
   names(cols) <- glue(names,
-    col = rep(names_data, each = length(fns)),
-    fn  = rep(names_fns, ncol(data))
+    col = rep(vars, each = length(fns)),
+    fn  = rep(names_fns, length(data))
   )
   as_tibble(cols)
 }
