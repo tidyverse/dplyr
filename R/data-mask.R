@@ -1,3 +1,16 @@
+quo_disguise <- function(quo) {
+  if (!.dplyr_attached) {
+    n <- get0("n", envir = quo_get_env(quo), inherits = TRUE, mode = "function")
+    if (is.null(n)) {
+      quo <- new_quosure(
+        quo_get_expr(quo),
+        env(quo_get_env(quo), n = dplyr::n)
+      )
+    }
+  }
+  quo
+}
+
 DataMask <- R6Class("DataMask",
   public = list(
     initialize = function(data, caller) {
@@ -96,18 +109,19 @@ DataMask <- R6Class("DataMask",
     },
 
     eval_all = function(quo) {
-      .Call(`dplyr_mask_eval_all`, quo, private)
+      .Call(`dplyr_mask_eval_all`, quo_disguise(quo), private)
     },
 
     eval_all_summarise = function(quo) {
-      .Call(`dplyr_mask_eval_all_summarise`, quo, private)
+      .Call(`dplyr_mask_eval_all_summarise`, quo_disguise(quo), private)
     },
 
     eval_all_mutate = function(quo) {
-      .Call(`dplyr_mask_eval_all_mutate`, quo, private)
+      .Call(`dplyr_mask_eval_all_mutate`, quo_disguise(quo), private)
     },
 
     eval_all_filter = function(quos, env_filter) {
+      quos <- map(quos, quo_disguise)
       .Call(`dplyr_mask_eval_all_filter`, quos, private, nrow(private$data), env_filter)
     },
 

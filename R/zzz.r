@@ -1,3 +1,5 @@
+.dplyr_attached <- FALSE
+
 .onLoad <- function(libname, pkgname) {
   op <- options()
   op.dplyr <- list(
@@ -6,12 +8,16 @@
   toset <- !(names(op.dplyr) %in% names(op))
   if (any(toset)) options(op.dplyr[toset])
 
-  ns <- ns_env("dplyr")
   .Call(dplyr_init_library, ns_env())
   invisible()
 }
 
 .onAttach <- function(libname, pkgname) {
+  ns <- ns_env()
+  unlockBinding(".dplyr_attached", ns)
+  assign(".dplyr_attached", TRUE, env = ns)
+  lockBinding(".dplyr_attached", env = ns)
+
   setHook(packageEvent("plyr", "attach"), function(...) {
     packageStartupMessage(rule())
     packageStartupMessage(
