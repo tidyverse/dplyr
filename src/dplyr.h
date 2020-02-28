@@ -32,6 +32,9 @@ struct vectors {
   static SEXP classes_vctrs_list_of;
   static SEXP classes_tbl_df;
   static SEXP empty_int_vector;
+
+  static SEXP names_expanded;
+  static SEXP names_summarise_recycle_chunks;
 };
 
 void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t nres, R_xlen_t n);

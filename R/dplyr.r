@@ -42,5 +42,3 @@
 #' @importFrom pkgconfig get_config
 #' @importFrom lifecycle deprecated
 "_PACKAGE"
-
-utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows", "new_rows_sizes", "distinct_vars", "out"))

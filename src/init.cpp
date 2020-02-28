@@ -28,6 +28,22 @@ SEXP get_empty_int_vector() {
   return x;
 }
 
+SEXP get_names_expanded() {
+  SEXP names = Rf_allocVector(STRSXP, 2);
+  R_PreserveObject(names);
+  SET_STRING_ELT(names, 0, Rf_mkChar("indices"));
+  SET_STRING_ELT(names, 1, Rf_mkChar("rows"));
+  return names;
+}
+
+SEXP get_names_summarise_recycle_chunks(){
+  SEXP names = Rf_allocVector(STRSXP, 2);
+  R_PreserveObject(names);
+  SET_STRING_ELT(names, 0, Rf_mkChar("chunks"));
+  SET_STRING_ELT(names, 1, Rf_mkChar("sizes"));
+  return names;
+}
+
 SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::levels = Rf_install("levels");
 SEXP symbols::groups = Rf_install("groups");
@@ -45,6 +61,9 @@ SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
+
+SEXP vectors::names_expanded = get_names_expanded();
+SEXP vectors::names_summarise_recycle_chunks = get_names_summarise_recycle_chunks();
 
 } // dplyr
 
