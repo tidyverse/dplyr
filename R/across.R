@@ -61,13 +61,9 @@
 #'
 #' @export
 across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
+  vars <- across_select({{ cols }})
+
   mask <- peek_mask()
-
-  across_cols <- mask$across_cols()
-
-  vars <- tidyselect::eval_select(expr({{ cols }}), across_cols)
-  vars <- names(vars)
-
   data <- mask$current_cols(vars)
 
   if (is.null(fns)) {
@@ -120,4 +116,29 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
     fn  = rep(names_fns, length(data))
   )
   as_tibble(cols)
+}
+
+across_select <- function(cols) {
+  mask <- peek_mask()
+
+  cols <- enquo(cols)
+
+  key <- quo_get_expr(cols)
+  key <- expr_text(key, width = 500L)
+
+  cache <- mask$across_cache_get()
+  value <- cache[[key]]
+
+  if (!is.null(value)) {
+    return(value)
+  }
+
+  across_cols <- mask$across_cols()
+
+  vars <- tidyselect::eval_select(expr(!!cols), across_cols)
+  value <- names(vars)
+
+  mask$across_cache_add(key, value)
+
+  value
 }

@@ -77,6 +77,7 @@ condense_cols <- function(.data, ...) {
   tryCatch({
     for (i in seq_along(dots)) {
       chunks[[i]] <- mask$eval_all(dots[[i]])
+      mask$across_cache_reset()
       mask$add(dots_names[i], chunks[[i]])
     }
 
