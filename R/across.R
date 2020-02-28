@@ -118,6 +118,11 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   as_tibble(cols)
 }
 
+# TODO: The usage of a cache in `across_select()` is a stopgap solution, and
+# this idea should not be used anywhere else. This should be replaced by the
+# next version of hybrid evaluation, which should offer a way for any function
+# to do any required "set up" work (like the `eval_select()` call) a single
+# time per top-level call, rather than once per group.
 across_select <- function(cols) {
   mask <- peek_mask()
 
