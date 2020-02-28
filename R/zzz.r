@@ -14,7 +14,8 @@
 
 .onAttach <- function(libname, pkgname) {
   ns <- ns_env()
-  unlockBinding(".dplyr_attached", ns)
+
+  exec("unlockBinding", ".dplyr_attached", ns)
   assign(".dplyr_attached", TRUE, envir = ns)
   lockBinding(".dplyr_attached", env = ns)
 
