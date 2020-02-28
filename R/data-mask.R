@@ -112,9 +112,13 @@ DataMask <- R6Class("DataMask",
     },
 
     pick = function(vars) {
-      cols <- env_get_list(private$bindings, vars)
+      cols <- self$current_cols(vars)
       nrow <- length(self$current_rows())
       new_tibble(cols, nrow = nrow)
+    },
+
+    current_cols = function(vars) {
+      env_get_list(private$bindings, vars)
     },
 
     current_rows = function() {
