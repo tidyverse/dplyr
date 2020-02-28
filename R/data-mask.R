@@ -15,7 +15,7 @@ DataMask <- R6Class("DataMask",
       private$caller <- caller
       helpers <- env(empty_env())
       if (!.dplyr_attached) {
-        helpers[["n"]] = dplyr::n
+        helpers$n <- n
       }
       private$bindings <- env(helpers)
       private$keys <- group_keys(data)
