@@ -14,7 +14,7 @@ DataMask <- R6Class("DataMask",
       private$data <- data
       private$caller <- caller
       helpers <- env(empty_env())
-      if (!.dplyr_attached) {
+      if (!dplyr_state$attached) {
         helpers$n <- n
       }
       private$bindings <- env(helpers)

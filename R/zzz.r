@@ -1,4 +1,4 @@
-.dplyr_attached <- FALSE
+dplyr_state <- env(attached = FALSE)
 
 .onLoad <- function(libname, pkgname) {
   op <- options()
@@ -13,11 +13,7 @@
 }
 
 .onAttach <- function(libname, pkgname) {
-  ns <- ns_env()
-
-  exec("unlockBinding", ".dplyr_attached", ns)
-  assign(".dplyr_attached", TRUE, envir = ns)
-  lockBinding(".dplyr_attached", env = ns)
+  dplyr_state$attached <- TRUE
 
   setHook(packageEvent("plyr", "attach"), function(...) {
     packageStartupMessage(rule())
