@@ -61,6 +61,22 @@ test_that("can mutate a data frame with zero columns and `NULL` column names", {
   expect_equal(mutate(df, x = 1), data.frame(x = c(1, 1)))
 })
 
+test_that("n() can be used without loading dplyr", {
+  skip_if_not_installed("callr")
+
+  df <- callr::r(function(){
+    dplyr::mutate(data.frame(x = 1), n = n())
+  })
+  expect_equal(df$n, 1)
+
+  # but can be overwritten
+  df <- callr::r(function(){
+    n <- function() 42
+    dplyr::mutate(data.frame(x = 1), n = n())
+  })
+  expect_equal(df$n, 42)
+})
+
 # column types ------------------------------------------------------------
 
 test_that("mutate disambiguates NA and NaN (#1448)", {
