@@ -992,7 +992,7 @@ ERROR: compilation failed for package ‘BMTME’
 * URL: https://github.com/EllaKaye/BradleyTerryScalable
 * BugReports: https://github.com/EllaKaye/BradleyTerryScalable/issues
 * Date/Publication: 2017-06-29 22:39:23 UTC
-* Number of recursive dependencies: 57
+* Number of recursive dependencies: 58
 
 Run `revdep_details(,"BradleyTerryScalable")` for more info
 
@@ -6791,7 +6791,7 @@ ERROR: compilation failed for package ‘qgraph’
 * URL: https://quanteda.io
 * BugReports: https://github.com/quanteda/quanteda/issues
 * Date/Publication: 2019-11-26 06:40:03 UTC
-* Number of recursive dependencies: 138
+* Number of recursive dependencies: 143
 
 Run `revdep_details(,"quanteda")` for more info
 
