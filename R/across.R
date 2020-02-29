@@ -129,7 +129,7 @@ across_select <- function(cols) {
   cols <- enquo(cols)
 
   key <- quo_get_expr(cols)
-  key <- expr_text(key, width = 500L)
+  key <- key_deparse(key)
 
   cache <- mask$across_cache_get()
   value <- cache[[key]]
@@ -146,4 +146,8 @@ across_select <- function(cols) {
   mask$across_cache_add(key, value)
 
   value
+}
+
+key_deparse <- function(key) {
+  deparse(key, width.cutoff = 500L, backtick = TRUE, nlines = 1L, control = NULL)
 }
