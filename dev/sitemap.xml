@@ -64,6 +64,9 @@
     <loc>https://dplyr.tidyverse.org/reference/copy_to.html</loc>
   </url>
   <url>
+    <loc>https://dplyr.tidyverse.org/reference/count.html</loc>
+  </url>
+  <url>
     <loc>https://dplyr.tidyverse.org/reference/cumall.html</loc>
   </url>
   <url>
@@ -269,9 +272,6 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/summarise_each.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/tally.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/tbl.html</loc>

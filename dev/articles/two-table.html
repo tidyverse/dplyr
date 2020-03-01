@@ -345,7 +345,7 @@
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"nycflights13"</span>)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">flights <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/filter-joins.html">anti_join</a></span>(planes, <span class="dt">by =</span> <span class="st">"tailnum"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/tally.html">count</a></span>(tailnum, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/count.html">count</a></span>(tailnum, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; # A tibble: 722 x 2</span></a>
 <a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;   tailnum     n</span></a>
 <a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt;</span></a>

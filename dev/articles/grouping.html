@@ -191,8 +191,8 @@
 <a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></a>
 <a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></a></code></pre></div>
-<p>Or use <code><a href="../reference/tally.html">tally()</a></code> to count the number of rows in each group. The <code>sort</code> argument is useful if you want to see the largest groups up front.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">by_species <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/tally.html">tally</a></span>()</a>
+<p>Or use <code><a href="../reference/count.html">tally()</a></code> to count the number of rows in each group. The <code>sort</code> argument is useful if you want to see the largest groups up front.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">by_species <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/count.html">tally</a></span>()</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; # A tibble: 38 x 2</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;   species      n</span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;</span></a>
@@ -202,7 +202,7 @@
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 4 Chagrian     1</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; # … with 34 more rows</span></a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">by_sex_gender <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/tally.html">tally</a></span>(<span class="dt">sort =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">by_sex_gender <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/count.html">tally</a></span>(<span class="dt">sort =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; # A tibble: 6 x 3</span></a>
 <a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; # Groups:   sex [5]</span></a>
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;   sex    gender        n</span></a>
@@ -217,7 +217,7 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">starwars <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="dt">bmi_cat =</span> <span class="kw"><a href="https://rdrr.io/r/base/cut.html">cut</a></span>(mass<span class="op">/</span>(height<span class="op">/</span><span class="dv">100</span>)<span class="op">^</span><span class="dv">2</span>, <span class="dt">breaks=</span>bmi_breaks)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/tally.html">tally</a></span>()</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/count.html">tally</a></span>()</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;   bmi_cat       n</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;   &lt;fct&gt;     &lt;int&gt;</span></a>
@@ -287,7 +287,7 @@
 <p>If you apply <code><a href="../reference/group_by.html">group_by()</a></code> to an already grouped dataset, will overwrite the existing grouping variables. For example, the following code groups by <code>homeworld</code> instead of <code>species</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">by_species <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(homeworld) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/tally.html">tally</a></span>()</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/count.html">tally</a></span>()</a>
 <a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; # A tibble: 49 x 2</span></a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;   homeworld       n</span></a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt;</span></a>
@@ -299,7 +299,7 @@
 <p>To <strong>augment</strong> the grouping, using <code>.add = TRUE</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. For example, the following code groups by species and homeworld:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">by_species <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(homeworld, <span class="dt">.add =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/tally.html">tally</a></span>()</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/count.html">tally</a></span>()</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; # A tibble: 58 x 3</span></a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; # Groups:   species [38]</span></a>
 <a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;   species  homeworld       n</span></a>
@@ -316,7 +316,7 @@
 <p>To remove all grouping variables, use <code><a href="../reference/group_by.html">ungroup()</a></code>:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">by_species <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/tally.html">tally</a></span>()</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/count.html">tally</a></span>()</a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt;       n</span></a>
 <a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt;</span></a>
@@ -324,7 +324,7 @@
 <p>You can also choose to selectively ungroup by listing the variables you want to remove:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">by_sex_gender <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">ungroup</a></span>(sex) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/tally.html">tally</a></span>()</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/count.html">tally</a></span>()</a>
 <a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
 <a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt;   gender        n</span></a>
 <a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt;</span></a>
@@ -495,7 +495,7 @@
 <p>You can also use <code><a href="../reference/filter.html">filter()</a></code> to remove entire groups. For example, the following code eliminates all groups that only have a single member:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">by_species <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(<span class="kw"><a href="../reference/context.html">n</a></span>() <span class="op">!=</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/tally.html">tally</a></span>()</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/count.html">tally</a></span>()</a>
 <a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt; # A tibble: 9 x 2</span></a>
 <a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&gt;   species      n</span></a>
 <a class="sourceLine" id="cb21-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;</span></a>
