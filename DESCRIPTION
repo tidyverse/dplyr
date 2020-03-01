@@ -31,13 +31,11 @@ Imports:
     vctrs (>= 0.2.99.9005)
 Suggests: 
     bench,
-    bit64,
     broom,
     callr,
     covr,
     DBI,
     dbplyr,
-    hms,
     knitr,
     Lahman,
     lobstr,
