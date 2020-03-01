@@ -30,22 +30,17 @@ Imports:
     utils,
     vctrs (>= 0.2.99.9005)
 Suggests: 
+    bench,
     bit64,
+    broom,
     callr,
     covr,
-    crayon (>= 1.3.4),
     DBI,
     dbplyr,
-    dtplyr,
-    ggplot2,
     hms,
     knitr,
     Lahman,
     lobstr,
-    lubridate,
-    MASS,
-    mgcv,
-    microbenchmark,
     nycflights13,
     rmarkdown,
     RMySQL,
@@ -53,10 +48,7 @@ Suggests:
     RSQLite,
     testthat (>= 2.1.0),
     withr,
-    broom,
-    purrr,
-    readr, 
-    bench
+    purrr
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: yes
