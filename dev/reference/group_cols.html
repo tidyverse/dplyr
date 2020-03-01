@@ -187,7 +187,7 @@ in select() or vars() selections." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Select grouping variables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/grouped-df.r'><code>R/grouped-df.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/select-helpers.R'><code>R/select-helpers.R</code></a></small>
     <div class="hidden name"><code>group_cols.Rd</code></div>
     </div>
 
@@ -196,16 +196,19 @@ in select() or vars() selections." />
 in <code><a href='select.html'>select()</a></code> or <a href='scoped.html'>vars()</a> selections.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_cols</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>peek_vars</span>())</pre>
+    <pre class="usage"><span class='fu'>group_cols</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>vars</th>
-      <td><p>A character vector of variable names. When called
-from inside selecting functions like <code><a href='select.html'>dplyr::select()</a></code> these are
-automatically set to the names of the table.</p></td>
+      <td><p>Deprecated; please use data instead.</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>For advanced use only. The default <code>NULL</code> automatically
+finds the "current" data frames.</p></td>
     </tr>
     </table>
 
@@ -216,9 +219,7 @@ variables outside selection contexts.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>gdf</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>)
-
-<span class='co'># Select the grouping variables:</span>
-<span class='no'>gdf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='fu'>group_cols</span>())</div><div class='output co'>#&gt; <span class='message'>Adding missing grouping variables: `Species`</span></div><div class='output co'>#&gt; # A tibble: 150 x 1
+<span class='no'>gdf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='fu'>group_cols</span>())</div><div class='output co'>#&gt; # A tibble: 150 x 1
 #&gt; # Groups:   Species [3]
 #&gt;    Species
 #&gt;    &lt;fct&gt;  
@@ -235,6 +236,21 @@ variables outside selection contexts.</p></div>
 #&gt; # … with 140 more rows</div><div class='input'>
 <span class='co'># Remove the grouping variables from mutate selections:</span>
 <span class='no'>gdf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate_all.html'>mutate_at</a></span>(<span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'>group_cols</span>()), <span class='no'>`/`</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
+#&gt; # Groups:   Species [3]
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+#&gt;  1        0.051      0.035        0.0140       0.002 setosa 
+#&gt;  2        0.049      0.03         0.0140       0.002 setosa 
+#&gt;  3        0.047      0.032        0.013        0.002 setosa 
+#&gt;  4        0.046      0.031        0.015        0.002 setosa 
+#&gt;  5        0.05       0.036        0.0140       0.002 setosa 
+#&gt;  6        0.054      0.039        0.017        0.004 setosa 
+#&gt;  7        0.046      0.034        0.0140       0.003 setosa 
+#&gt;  8        0.05       0.034        0.015        0.002 setosa 
+#&gt;  9        0.044      0.0290       0.0140       0.002 setosa 
+#&gt; 10        0.049      0.031        0.015        0.001 setosa 
+#&gt; # … with 140 more rows</div><div class='input'><span class='co'># -&gt; No longer necessary with across()</span>
+<span class='no'>gdf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), ~ <span class='no'>.</span> / <span class='fl'>100</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt; # Groups:   Species [3]
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
