@@ -64,7 +64,6 @@ VignetteBuilder:
     knitr
 Remotes:
     r-lib/bench,
-    r-lib/pillar,
     r-lib/rlang,
     r-lib/vctrs,
     tidyverse/tibble
