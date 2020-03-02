@@ -10,6 +10,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
+set.seed(1014)
 ```
 
 It's often useful to perform the same operation on multiple columns, but copying and pasting is both tedious and error prone:
@@ -107,6 +108,28 @@ starwars %>% summarise(
 
 (One day this might could become an argument to `across()` but we're not yet sure how it would work.)
 
+### Gotchas
+
+Be careful when combining numeric summaries with `is.numeric`:
+
+```{r}
+df <- data.frame(x = c(1, 2, 3), y = c(1, 4, 9))
+
+df %>% 
+  summarise(n = n(), across(is.numeric, sd))
+```
+
+Here `n` becomes `NA` because the standard deviation of 3 is `NA`. You probably want to compute `n()` last to avoid this problem:
+
+```{r}
+df %>% 
+  summarise(
+    across(is.numeric, sd), 
+    n = n()
+  )
+```
+
+
 ### Other verbs
 
 So far we've focussed on the use of `across()` with `summarise()`, but it works with any other dplyr verb that uses data masking:
@@ -118,7 +141,7 @@ So far we've focussed on the use of `across()` with `summarise()`, but it works 
       rng <- range(x, na.rm = TRUE)
       (x - rng[1]) / (rng[2] - rng[1])
     }
-    df <- tibble(x = 1:5, y = rnorm(5))
+    df <- tibble(x = 1:4, y = rnorm(4))
     df %>% mutate(across(is.numeric, rescale01))
     ```
 
@@ -160,9 +183,9 @@ Why did we decide to move away from these functions in favour of `across()`?
     df %>%
       group_by(g1, g2) %>% 
       summarise(
-        n = n(), 
         across(is.numeric, mean), 
-        across(is.factor, nlevels)
+        across(is.factor, nlevels),
+        n = n(), 
       )
     ```
 

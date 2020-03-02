@@ -106,7 +106,7 @@ rf %>% mutate(total = sum(c_across(w:z)))
 rf %>% mutate(total = sum(c_across(is.numeric)))
 ```
 
-You could combine this with col-wise operations (see `vignette("colwise")` for more details) to compute the 
+You could combine this with col-wise operations (see `vignette("colwise")` for more details) to compute the proportion of the total for each column:
 
 ```{r}
 rf %>% 
