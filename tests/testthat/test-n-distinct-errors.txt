@@ -1,5 +1,5 @@
 > n_distinct(1:2, 1:3)
-Error: Tibble columns must have consistent sizes, only values of size one are recycled:
-* Size 2: Existing data
-* Size 3: Column at position 2
+Error: Tibble columns must have consistent lengths, only values of length one are recycled:
+* Length 2: Column `1:2`
+* Length 3: Column `1:3`
 

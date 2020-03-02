@@ -102,8 +102,32 @@ dplyr_col_modify <- function(data, cols) {
 
 #' @export
 dplyr_col_modify.data.frame <- function(data, cols) {
-  data[names(cols)] <- cols
-  data
+  # Work around corner cases with CRAN tibble:
+  # - Names of zero-length vectors
+  if (length(cols) == 0) return(data)
+
+  # - Assigning a scalar to a zero-row data frame
+  if (nrow(data) == 0) {
+    cols[] <- map(cols, vec_slice, 0)
+  }
+
+  # - Issues with UTF-8 names
+  names(data) <- as_utf8_character(names2(data))
+  names(cols) <- as_utf8_character(names2(cols))
+
+  # - Removal of inner names by [<-.data.frame
+  cols_null <- map_lgl(cols, is.null)
+  data_list <- unclass(data)
+  data_list[names2(cols)[!cols_null]] <- cols[!cols_null]
+  data_list[names(data_list) %in% names2(cols)[cols_null]] <- NULL
+  class(data_list) <- class(data)
+
+  # - Work around test for utf-8 invasion (#722)
+  if (!l10n_info()$"UTF-8") {
+    names(data_list) <- enc2native(as_utf8_character(names2(data_list)))
+  }
+
+  data_list
 }
 
 #' @export

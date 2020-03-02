@@ -98,6 +98,8 @@ test_that("group_by orders by groups. #242", {
 })
 
 test_that("Can group_by() a POSIXlt", {
+  skip_if_not_installed("tibble", "2.99.99.9014")
+
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
   g <- group_by(df, times)
