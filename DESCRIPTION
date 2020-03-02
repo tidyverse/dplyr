@@ -2,27 +2,39 @@ Type: Package
 Package: dplyr
 Title: A Grammar of Data Manipulation
 Version: 0.8.99.9000
-Authors@R: c(
-    person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre"), comment = c(ORCID = "0000-0003-4757-117X")),
-    person("Romain", "Fran\u00e7ois", role = "aut", comment = c(ORCID = "0000-0002-2444-4226")),
-    person("Lionel", "Henry", role = "aut"),
-    person("Kirill", "M\u00fcller", role = "aut", comment = c(ORCID = "0000-0002-1416-3412")),
-    person("RStudio", role = c("cph", "fnd"))
-    )
-Description: A fast, consistent tool for working with data frame like objects,
-    both in memory and out of memory.
+Authors@R: 
+    c(person(given = "Hadley",
+             family = "Wickham",
+             role = c("aut", "cre"),
+             email = "hadley@rstudio.com",
+             comment = c(ORCID = "0000-0003-4757-117X")),
+      person(given = "Romain",
+             family = "François",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-2444-4226")),
+      person(given = "Lionel",
+             family = "Henry",
+             role = "aut"),
+      person(given = "Kirill",
+             family = "Müller",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-1416-3412")),
+      person(given = "RStudio",
+             role = c("cph", "fnd")))
+Description: A fast, consistent tool for working with data frame
+    like objects, both in memory and out of memory.
 License: MIT + file LICENSE
-URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+URL: https://dplyr.tidyverse.org,
+    https://github.com/tidyverse/dplyr
 BugReports: https://github.com/tidyverse/dplyr/issues
 Depends: 
     R (>= 3.2.0)
 Imports: 
     ellipsis,
     glue (>= 1.3.0),
+    lifecycle,
     magrittr (>= 1.5),
     methods,
-    lifecycle,
-    lobstr,
     pkgconfig,
     R6,
     rlang (>= 0.4.3),
@@ -31,41 +43,31 @@ Imports:
     utils,
     vctrs (>= 0.2.99.9005)
 Suggests: 
-    bit64,
+    bench,
+    broom,
     callr,
     covr,
-    crayon (>= 1.3.4),
     DBI,
     dbplyr,
-    dtplyr,
-    ggplot2,
-    hms,
     knitr,
     Lahman,
-    lubridate,
-    MASS,
-    mgcv,
-    microbenchmark,
+    lobstr,
     nycflights13,
+    purrr,
     rmarkdown,
     RMySQL,
     RPostgreSQL,
     RSQLite,
     testthat (>= 2.1.0),
-    withr,
-    broom,
-    purrr,
-    readr, 
-    bench
-VignetteBuilder: knitr
+    withr
+VignetteBuilder: 
+    knitr
+Remotes:
+    r-lib/bench,
+    r-lib/rlang,
+    r-lib/vctrs,
+    tidyverse/tibble
 Encoding: UTF-8
 LazyData: yes
-Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.0.2
-Remotes:
-    tidyverse/tibble,
-    r-lib/pillar, 
-    r-lib/rlang,
-    r-lib/bench,
-    r-lib/rlang, 
-    r-lib/vctrs
