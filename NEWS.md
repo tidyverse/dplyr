@@ -1,5 +1,12 @@
 # dplyr 1.0.0 (in development)
 
+## Breaking changes
+
+* n() and row_number() can no longer be called directly when dplyr is not loaded, 
+  this now generates an error: `dplyr::mutate(mtcars, x = n())`. 
+  
+  This can be fixed by prefixing with `dplyr::` as in `dplyr::mutate(mtcars, x = dplyr::n())`
+
 ## New features
 
 * The `cur_` functions (`cur_data()`, `cur_group()`, `cur_group_id()`, 
