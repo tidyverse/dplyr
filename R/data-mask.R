@@ -180,7 +180,8 @@ DataMask <- R6Class("DataMask",
 
       # Pull unused vars from original data to keep from marking them as used.
       # Column lengths will not match if `original_data` is grouped, but for
-      # across we only need the column names and types to be correct.
+      # the usage of tidyselect in `across()` we only need the column names
+      # and types to be correct.
       cols_unused <- original_data[across_vars_unused]
       cols_used <- self$current_cols(across_vars_used)
 
