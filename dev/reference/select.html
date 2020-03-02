@@ -255,9 +255,9 @@ to select variables of specific types.</p>
 <li><p><code>!starts_with("a")</code>: variables with names that do not start with "a"</p></li>
 </ul>
 
-<p>To remove variables from a selection, use <code>-</code>:</p><ul>
-<li><p><code>starts_with("a") - ends_width("x")</code>: variables with names that start with "a" and do not end with "x"</p></li>
-<li><p><code>is.numeric - c(a, b, c)</code>: numeric variables except, for <code>a</code>, <code>b</code>, <code>c</code>.</p></li>
+<p>To remove variables from a selection, use <code>&amp;</code> and <code>!</code>:</p><ul>
+<li><p><code>starts_with("a") &amp; !ends_width("x")</code>: variables with names that start with "a" and do not end with "x"</p></li>
+<li><p><code>is.numeric &amp; !c(a, b, c)</code>: numeric variables except, for <code>a</code>, <code>b</code>, <code>c</code>.</p></li>
 </ul>
 
 <p>See <a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>select helpers</a> for more details and

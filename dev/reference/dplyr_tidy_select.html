@@ -224,8 +224,8 @@ error; <code>any_of(vars)</code> will select <code>apple</code> and <code>fig</c
 <li><p>Invert a selection with <code>!</code>: <code>!is.numeric</code>, or <code>!contains("x")</code>.</p></li>
 <li><p>Create logical combination with <code>|</code> and <code>&amp;</code>:
 <code>starts_with("a") | starts_with("b")</code>, <code>contains("x") &amp; is.numeric</code></p></li>
-<li><p>Remove variables from a collection with <code>-</code>:
-<code>is.numeric - starts_with("a")</code></p></li>
+<li><p>Remove variables from a collection with <code>&amp;</code> and <code>!</code>:
+<code>is.numeric &amp; !starts_with("a")</code></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="indirection"><a class="anchor" href="#indirection"></a>Indirection</h2>
