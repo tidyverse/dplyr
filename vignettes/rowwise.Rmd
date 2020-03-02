@@ -58,7 +58,7 @@ df %>% mutate(m = mean(c(x, y, z)))
 df %>% rowwise() %>% mutate(m = mean(c(x, y, z)))
 ```
 
-If use `mutate()` with a regular data frame it computes the mean of `x`, `y`, and `z` across all rows. If you apply it to a row-wise data frame, it computes the mean for each row.
+If you use `mutate()` with a regular data frame, it computes the mean of `x`, `y`, and `z` across all rows. If you apply it to a row-wise data frame, it computes the mean for each row.
 
 You can optionally supply "identifier" variables in your call to `rowwise()`. These variables are preserved when you call `summarise()`, so they behave somewhat similarly to the grouping variables passed to `group_by()`.
 
@@ -298,14 +298,14 @@ rf %>% mutate(y2 = list(y))
 
 ### Modelling
 
-`rowwise()` data frames allow you to express solve a variety of modelling problems in what I think is a particularly elegant way. We'll start by using 
+`rowwise()` data frames allow you to solve a variety of modelling problems in what I think is a particularly elegant way. We'll start by using:
 
 ```{r}
 by_cyl <- mtcars %>% nest_by(cyl)
 by_cyl
 ```
 
-This is a little different to the usual `group_by()` output: we have visibly changed the structure of the data. Now we three rows (one for each group), and we have a list-col, `data`, that stores the data for that group. Also note that the output is `rowwise()`; this is important because it's going to make working with that list of data frames much easier.
+This is a little different to the usual `group_by()` output: we have visibly changed the structure of the data. Now we have three rows (one for each group), and we have a list-col, `data`, that stores the data for that group. Also note that the output is `rowwise()`; this is important because it's going to make working with that list of data frames much easier.
 
 Once we have one data frame per row, it's straightforward to make one model per row:
 
@@ -341,7 +341,7 @@ We've made a number of previous attempts at solving this problem, starting with 
 
 * Without argument names: you could call functions that input and output 
   data frames using `.` to refer to the "current" group. This has been
-  superseeded by the combination of `across()` plus the more permission 
+  superseded by the combination of `across()` plus the more permissive 
   `summarise()` which can now create multiple columns and multiple rows.
 
 * With arguments: it worked like `mutate()` but automatically wrapped every
@@ -349,7 +349,6 @@ We've made a number of previous attempts at solving this problem, starting with 
   by `mutate()`. (Which now gives a error message with hint to use `list()` 
   in case you forget).
 
-`rowwise()` was also questioning for quite some time, partly because I didn't appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative we recommended performing rowwise operations with the purrr `map()` functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite some knowledge of purrr functions. 
+`rowwise()` was also questioning for quite some time, partly because I didn't appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative, we recommended performing rowwise operations with the purrr `map()` functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite some knowledge of purrr functions. 
 
 I was also resistant to `rowwise()` because I felt like automatically switching between `[` to `[[` was too magical in the same way that automatically `list()`-ing results made `do()` too magical. I've now persuaded myself that the rowwise magic is good magic partly because most people find the distinction between `[` and `[[` mystifying and `rowwise()` means that you don't need to think about it.
-
