@@ -15,6 +15,7 @@ DataMask <- R6Class("DataMask",
       private$caller <- caller
       private$bindings <- env(empty_env())
       private$keys <- group_keys(data)
+      private$group_vars <- group_vars(data)
 
       # A function that returns all the chunks for a column
       resolve_chunks <- if (inherits(data, "rowwise_df")) {
@@ -133,6 +134,11 @@ DataMask <- R6Class("DataMask",
       names(private$resolved)
     },
 
+    current_non_group_vars = function() {
+      current_vars <- self$current_vars()
+      setdiff(current_vars, private$group_vars)
+    },
+
     get_current_group = function() {
       # The [] is so that we get a copy, which is important for how
       # current_group is dealt with internally, to avoid defining it at each
@@ -152,8 +158,38 @@ DataMask <- R6Class("DataMask",
       private$used
     },
 
+    unused_vars = function() {
+      used <- self$get_used()
+      current_vars <- self$current_vars()
+      current_vars[!used]
+    },
+
     get_rows = function() {
       private$rows
+    },
+
+    across_cols = function() {
+      original_data <- self$full_data()
+      original_data <- unclass(original_data)
+
+      across_vars <- self$current_non_group_vars()
+      unused_vars <- self$unused_vars()
+
+      across_vars_unused <- intersect(across_vars, unused_vars)
+      across_vars_used <- setdiff(across_vars, across_vars_unused)
+
+      # Pull unused vars from original data to keep from marking them as used.
+      # Column lengths will not match if `original_data` is grouped, but for
+      # across we only need the column names and types to be correct.
+      cols_unused <- original_data[across_vars_unused]
+      cols_used <- self$current_cols(across_vars_used)
+
+      cols <- vec_c(cols_unused, cols_used)
+
+      # Match original ordering
+      cols <- cols[across_vars]
+
+      cols
     }
 
   ),
@@ -162,6 +198,7 @@ DataMask <- R6Class("DataMask",
     data = NULL,
     mask = NULL,
     old_vars = character(),
+    group_vars = character(),
     used = logical(),
     resolved = list(),
     which_used = integer(),
