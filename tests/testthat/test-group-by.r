@@ -11,6 +11,8 @@ test_that("group_by with .add = TRUE adds groups", {
 })
 
 test_that("add = TRUE is deprecated", {
+  rlang::scoped_options(lifecycle_verbosity = "warning")
+
   df <- tibble(x = 1, y = 2)
 
   expect_warning(
@@ -41,6 +43,8 @@ test_that("grouping by constant adds column (#410)", {
 })
 
 test_that(".dots is soft deprecated", {
+  rlang::scoped_options(lifecycle_verbosity = "warning")
+
   df <- tibble(x = 1, y = 1)
   expect_warning(gf <- group_by(df, .dots = "x"), "deprecated")
 })
