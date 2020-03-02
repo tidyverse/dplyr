@@ -37,7 +37,7 @@ Imports:
     methods,
     pkgconfig,
     R6,
-    rlang (>= 0.4.3),
+    rlang (>= 0.4.5),
     tibble (>= 2.99.99.9014),
     tidyselect (>= 1.0.0),
     utils,
@@ -64,7 +64,6 @@ VignetteBuilder:
     knitr
 Remotes:
     r-lib/bench,
-    r-lib/rlang,
     r-lib/vctrs,
     tidyverse/tibble
 Encoding: UTF-8
