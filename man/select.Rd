@@ -57,10 +57,10 @@ Selections can be combined using Boolean algebra:
 \item \code{!starts_with("a")}: variables with names that do not start with "a"
 }
 
-To remove variables from a selection, use \code{-}:
+To remove variables from a selection, use \code{&} and \code{!}:
 \itemize{
-\item \code{starts_with("a") - ends_width("x")}: variables with names that start with "a" and do not end with "x"
-\item \code{is.numeric - c(a, b, c)}: numeric variables except, for \code{a}, \code{b}, \code{c}.
+\item \code{starts_with("a") & !ends_width("x")}: variables with names that start with "a" and do not end with "x"
+\item \code{is.numeric & !c(a, b, c)}: numeric variables except, for \code{a}, \code{b}, \code{c}.
 }
 
 See \link[tidyselect:select_helpers]{select helpers} for more details and

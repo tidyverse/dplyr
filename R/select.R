@@ -26,10 +26,10 @@
 #' * `starts_with("a") | starts_with("b")`: variables with names that start with "a" or "b"
 #' * `!starts_with("a")`: variables with names that do not start with "a"
 #'
-#' To remove variables from a selection, use `-`:
+#' To remove variables from a selection, use `&` and `!`:
 #'
-#' * `starts_with("a") - ends_width("x")`: variables with names that start with "a" and do not end with "x"
-#' * `is.numeric - c(a, b, c)`: numeric variables except, for `a`, `b`, `c`.
+#' * `starts_with("a") & !ends_width("x")`: variables with names that start with "a" and do not end with "x"
+#' * `is.numeric & !c(a, b, c)`: numeric variables except, for `a`, `b`, `c`.
 #'
 #' See [select helpers][tidyselect::select_helpers] for more details and
 #' examples.
