@@ -3,10 +3,12 @@ pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   base: base.html
+  colwise: colwise.html
   compatibility: compatibility.html
   dplyr: dplyr.html
   grouping: grouping.html
   programming: programming.html
+  rowwise: rowwise.html
   two-table: two-table.html
   window-functions: window-functions.html
 urls:

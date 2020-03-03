@@ -304,6 +304,9 @@
     <loc>https://dplyr.tidyverse.org/articles/base.html</loc>
   </url>
   <url>
+    <loc>https://dplyr.tidyverse.org/articles/colwise.html</loc>
+  </url>
+  <url>
     <loc>https://dplyr.tidyverse.org/articles/compatibility.html</loc>
   </url>
   <url>
@@ -314,6 +317,9 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/articles/programming.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/rowwise.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/articles/two-table.html</loc>

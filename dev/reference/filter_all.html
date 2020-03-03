@@ -199,7 +199,7 @@ with all_vars() or any_vars() and should mention the pronoun
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#retired'><img src='figures/lifecycle-retired.svg' alt='Retired lifecycle'></a></p>
 <p>Scoped verbs (<code>_if</code>, <code>_at</code>, <code>_all</code>) have been superseded by the use of
-<code><a href='across.html'>across()</a></code> in an existing verb. See <code>vignette("colwise")</code> for details.</p>
+<code><a href='across.html'>across()</a></code> in an existing verb. See <code><a href='../articles/colwise.html'>vignette("colwise")</a></code> for details.</p>
 <p>These <a href='scoped.html'>scoped</a> filtering verbs apply a predicate expression to a
 selection of variables. The predicate expression should be quoted
 with <code><a href='all_vars.html'>all_vars()</a></code> or <code><a href='all_vars.html'>any_vars()</a></code> and should mention the pronoun
@@ -264,10 +264,10 @@ into account to determine filtered rows.</p>
 <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate intersection&gt;
 #&gt; &lt;quosure&gt;
 #&gt; expr: ^is.na(.)
-#&gt; env:  0xa13dd20</div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
+#&gt; env:  0x63b95b0</div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
 #&gt; &lt;quosure&gt;
 #&gt; expr: ^is.na(.)
-#&gt; env:  0xa13dd20</div><div class='input'>
+#&gt; env:  0x63b95b0</div><div class='input'>
 
 <span class='co'># You can take the intersection of the replicated expressions:</span>
 <span class='fu'>filter_all</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='no'>.</span> <span class='kw'>&gt;</span> <span class='fl'>150</span>))</div><div class='output co'>#&gt;  [1] mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb
