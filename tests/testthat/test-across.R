@@ -67,11 +67,65 @@ test_that("across() passes ... to functions", {
   )
 })
 
+test_that("across() works sequentially (#4907)", {
+  df <- tibble(a = 1)
+  expect_equal(
+    mutate(df, x = ncol(across(is.numeric)), y = ncol(across(is.numeric))),
+    tibble(a = 1, x = 1L, y = 2L)
+  )
+  expect_equal(
+    mutate(df, a = "x", y = ncol(across(is.numeric))),
+    tibble(a = "x", y = 0L)
+  )
+  expect_equal(
+    mutate(df, x = 1, y = ncol(across(is.numeric))),
+    tibble(a = 1, x = 1, y = 2L)
+  )
+})
+
+test_that("across() retains original ordering", {
+  df <- tibble(a = 1, b = 2)
+  expect_named(mutate(df, a = 2, x = across())$x, c("a", "b"))
+})
+
 test_that("across() gives meaningful messages", {
   verify_output(test_path("test-across-errors.txt"), {
     tibble(x = 1) %>%
       summarise(res = across(is.numeric, 42))
   })
+})
+
+test_that("monitoring cache - across() can be used twice in the same expression", {
+  df <- tibble(a = 1, b = 2)
+  expect_equal(
+    mutate(df, x = ncol(across(is.numeric)) + ncol(across(a))),
+    tibble(a = 1, b = 2, x = 3)
+  )
+})
+
+test_that("monitoring cache - across() can be used in separate expressions", {
+  df <- tibble(a = 1, b = 2)
+  expect_equal(
+    mutate(df, x = ncol(across(is.numeric)), y = ncol(across(a))),
+    tibble(a = 1, b = 2, x = 2, y = 1)
+  )
+})
+
+test_that("monitoring cache - across() usage can depend on the group id", {
+  df <- tibble(g = 1:2, a = 1:2, b = 3:4)
+  df <- group_by(df, g)
+
+  switcher <- function() {
+    if_else(cur_group_id() == 1L, across(a)$a, across(b)$b)
+  }
+
+  expect <- df
+  expect$x <- c(1L, 4L)
+
+  expect_equal(
+    mutate(df, x = switcher()),
+    expect
+  )
 })
 
 # c_across ----------------------------------------------------------------
