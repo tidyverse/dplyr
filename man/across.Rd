@@ -45,7 +45,7 @@ columns, allowing you to use \code{\link[=select]{select()}} semantics inside in
 \code{summarise_at()}, \code{summarise_if()}, and \code{summarise_all()}.
 See \code{vignette("colwise")} for more details.
 
-\code{across_c()} is designed to work with \code{\link[=rowwise]{rowwise()}} to make it easy to
+\code{c_across()} is designed to work with \code{\link[=rowwise]{rowwise()}} to make it easy to
 perform rowwise aggregations; it works like \code{c()} but uses tidy select
 semantics so you can easily select multiple variables. See
 \code{vignette("rowwise")} for more details.
