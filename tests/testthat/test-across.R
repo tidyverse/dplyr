@@ -1,3 +1,5 @@
+# across ------------------------------------------------------------------
+
 test_that("across() works on one column data.frame", {
   df <- data.frame(x = 1)
 
@@ -70,4 +72,12 @@ test_that("across() gives meaningful messages", {
     tibble(x = 1) %>%
       summarise(res = across(is.numeric, 42))
   })
+})
+
+# c_across ----------------------------------------------------------------
+
+test_that("selects and combines columns", {
+  df <- data.frame(x = 1:2, y = 3:4)
+  out <- df %>% summarise(z = list(c_across(x:y)))
+  expect_equal(out$z, list(1:4))
 })

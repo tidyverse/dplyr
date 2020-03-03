@@ -59,9 +59,14 @@
 
 ## across()
 
-* New function `across()` that can be used inside `summarise()` or `mutate()` 
-  to apply a function (or a set of functions) to a selection of columns. 
+* New function `across()` that can be used inside `summarise()`, `mutate()`,
+  and other verbs to apply a function (or a set of functions) to a selection of 
+  columns. See `vignette("colwise")` for more details.
   
+* New function `c_across()` that can be used inside `summarise()` and `mutate()`
+  in row-wise data frames to easily (e.g.) compute a row-wise mean of all
+  numeric variables. See `vignette("rowwise")` for more details.
+
 ## rowwise()
 
 * New, experimental, `condense()` makes it easy to create and use list-columns.
