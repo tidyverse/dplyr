@@ -61,13 +61,9 @@
 #'
 #' @export
 across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
+  vars <- across_select({{ cols }})
+
   mask <- peek_mask()
-
-  across_cols <- mask$across_cols()
-
-  vars <- tidyselect::eval_select(expr({{ cols }}), across_cols)
-  vars <- names(vars)
-
   data <- mask$current_cols(vars)
 
   if (is.null(fns)) {
@@ -120,4 +116,38 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
     fn  = rep(names_fns, length(data))
   )
   as_tibble(cols)
+}
+
+# TODO: The usage of a cache in `across_select()` is a stopgap solution, and
+# this idea should not be used anywhere else. This should be replaced by the
+# next version of hybrid evaluation, which should offer a way for any function
+# to do any required "set up" work (like the `eval_select()` call) a single
+# time per top-level call, rather than once per group.
+across_select <- function(cols) {
+  mask <- peek_mask()
+
+  cols <- enquo(cols)
+
+  key <- quo_get_expr(cols)
+  key <- key_deparse(key)
+
+  cache <- mask$across_cache_get()
+  value <- cache[[key]]
+
+  if (!is.null(value)) {
+    return(value)
+  }
+
+  across_cols <- mask$across_cols()
+
+  vars <- tidyselect::eval_select(expr(!!cols), across_cols)
+  value <- names(vars)
+
+  mask$across_cache_add(key, value)
+
+  value
+}
+
+key_deparse <- function(key) {
+  deparse(key, width.cutoff = 500L, backtick = TRUE, nlines = 1L, control = NULL)
 }

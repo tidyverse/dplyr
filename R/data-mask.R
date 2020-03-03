@@ -191,6 +191,18 @@ DataMask <- R6Class("DataMask",
       cols <- cols[across_vars]
 
       cols
+    },
+
+    across_cache_get = function() {
+      private$across_cache
+    },
+
+    across_cache_add = function(key, value) {
+      private$across_cache[[key]] <- value
+    },
+
+    across_cache_reset = function() {
+      private$across_cache <- list()
     }
 
   ),
@@ -207,6 +219,7 @@ DataMask <- R6Class("DataMask",
     keys = NULL,
     bindings = NULL,
     current_group = 0L,
-    caller = NULL
+    caller = NULL,
+    across_cache = list()
   )
 )
