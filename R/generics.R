@@ -113,7 +113,6 @@ dplyr_col_modify.data.frame <- function(data, cols) {
 
   # - Issues with UTF-8 names
   names(data) <- as_utf8_character(names2(data))
-  names(cols) <- as_utf8_character(names2(cols))
 
   # - Removal of inner names by [<-.data.frame
   cols_null <- map_lgl(cols, is.null)
