@@ -36,7 +36,7 @@
   frame (#4598).
   
 * New `rename_with()` is designed specifically for the purpose of renaming
-  selected columns with a function.
+  selected columns with a function (#4771).
 
 * `ungroup()` can now selectively remove grouping variables (#3760).
 
