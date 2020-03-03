@@ -20,7 +20,7 @@ unnamed arguments.}
 \code{do()} is deprecated as of dplyr 1.0.0, because its syntax never really
 felt like it belong with the rest of dplyr. It's replaced by a combination
 of \code{\link[=summarise]{summarise()}} (which can now produce multiple rows and multiple columns),
-\code{\link[=condense]{condense()}} (which creates a \link{rowwise} tibble containing list-columns),
+\code{\link[=nest_by]{nest_by()}} (which creates a \link{rowwise} tibble of nested data),
 and \code{\link[=across]{across()}} (which allows you to access the data for the "current" group).
 }
 \examples{
@@ -35,12 +35,14 @@ by_cyl \%>\% slice_head(n = 2)
 # Can refer to variables directly
 by_cyl \%>\% do(mean = mean(.$vs))
 # ->
-by_cyl \%>\% condense(mean = mean(vs))
+by_cyl \%>\% summarise(mean = mean(vs))
 
-# do() with named arguments becomes condense()
+# do() with named arguments becomes nest_by() + mutate() & list()
 models <- by_cyl \%>\% do(mod = lm(mpg ~ disp, data = .))
 # ->
-models <- by_cyl \%>\% condense(mod = lm(mpg ~ disp))
+models <- mtcars \%>\%
+  nest_by(cyl) \%>\%
+  mutate(mod = list(lm(mpg ~ disp, data = data)))
 models \%>\% summarise(rsq = summary(mod)$r.squared)
 
 # use broom to turn models into data

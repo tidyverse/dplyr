@@ -6,7 +6,7 @@
 #' `do()` is deprecated as of dplyr 1.0.0, because its syntax never really
 #' felt like it belong with the rest of dplyr. It's replaced by a combination
 #' of [summarise()] (which can now produce multiple rows and multiple columns),
-#' [condense()] (which creates a [rowwise] tibble containing list-columns),
+#' [nest_by()] (which creates a [rowwise] tibble of nested data),
 #' and [across()] (which allows you to access the data for the "current" group).
 #'
 #' @param .data a tbl
@@ -28,12 +28,14 @@
 #' # Can refer to variables directly
 #' by_cyl %>% do(mean = mean(.$vs))
 #' # ->
-#' by_cyl %>% condense(mean = mean(vs))
+#' by_cyl %>% summarise(mean = mean(vs))
 #'
-#' # do() with named arguments becomes condense()
+#' # do() with named arguments becomes nest_by() + mutate() & list()
 #' models <- by_cyl %>% do(mod = lm(mpg ~ disp, data = .))
 #' # ->
-#' models <- by_cyl %>% condense(mod = lm(mpg ~ disp))
+#' models <- mtcars %>%
+#'   nest_by(cyl) %>%
+#'   mutate(mod = list(lm(mpg ~ disp, data = data)))
 #' models %>% summarise(rsq = summary(mod)$r.squared)
 #'
 #' # use broom to turn models into data
@@ -47,7 +49,7 @@
 #' }
 do <- function(.data, ...) {
   lifecycle::deprecate_warn("1.0.0", "do()",
-    details = "Use condense() or summarise()"
+    details = "See ?do for translation help"
   )
 
   UseMethod("do")

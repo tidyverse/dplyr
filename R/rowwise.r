@@ -53,11 +53,6 @@
 #' params %>%
 #'   rowwise(sim) %>%
 #'   summarise(z = list(rnorm(n, mean, sd)))
-#'
-#' # Or use do() which do this automatically:
-#' params %>%
-#'   rowwise(sim) %>%
-#'   condense(z = rnorm(n, mean, sd))
 rowwise <- function(data, ...) {
   vars <- tidyselect::eval_select(expr(c(...)), data, include = group_vars(data))
   rowwise_df(data, vars)
