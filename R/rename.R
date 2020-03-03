@@ -1,16 +1,21 @@
 #' Rename columns
 #'
-#' Rename individual variables using `new_name = old_name` syntax.
+#' `rename()` changes the names of individual variables using
+#' `new_name = old_name` syntax; `rename_with()` renames columns using a
+#' function.
 #'
 #' @inheritParams arrange
-#' @param ... <[`tidy-select`][dplyr_tidy_select]> Use `new_name = old_name`
-#'   to rename selected variables.
+#' @param ...
+#'   For `rename()`: <[`tidy-select`][dplyr_tidy_select]> Use
+#'   `new_name = old_name` to rename selected variables.
+#'
+#'   For `rename_with()`: additional arguments passed onto `.fn`.
 #' @return
 #' An object of the same type as `.data`. The output has the following
 #' properties:
 #'
 #' * Rows are not affected.
-#' * Column names are changed; column order is preserved
+#' * Column names are changed; column order is preserved.
 #' * Data frame attributes are preserved.
 #' * Groups are updated to reflect new names.
 #' @section Methods:
@@ -25,6 +30,10 @@
 #' @examples
 #' iris <- as_tibble(iris) # so it prints a little nicer
 #' rename(iris, petal_length = Petal.Length)
+#'
+#' rename_with(iris, toupper)
+#' rename_with(iris, toupper, starts_with("Petal"))
+#' rename_with(iris, ~ tolower(gsub(".", "_", .x, fixed = TRUE)))
 #' @export
 rename <- function(.data, ...) {
   UseMethod("rename")
@@ -39,3 +48,26 @@ rename.data.frame <- function(.data, ...) {
 
   set_names(.data, names)
 }
+
+#' @export
+#' @rdname rename
+#' @param .fn A function used to transform the selected `.cols`. Should
+#'   return a character vector the same length as the input.
+#' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to rename;
+#'   defaults to all columns.
+rename_with <- function(.data, .fn, .cols = everything(), ...) {
+  UseMethod("rename_with")
+}
+
+
+#' @export
+rename_with.data.frame <- function(.data, .fn, .cols = everything(), ...) {
+  .fn <- as_function(.fn)
+  cols <- tidyselect::eval_select({{ .cols }}, .data)
+
+  names <- names(.data)
+  names[cols] <- .fn(names[cols], ...)
+
+  set_names(.data, names)
+}
+

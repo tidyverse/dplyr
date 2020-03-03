@@ -34,6 +34,9 @@
 
 * New `relocate()` verb makes it easy to move columns around within a data 
   frame (#4598).
+  
+* New `rename_with()` is designed specifically for the purpose of renaming
+  selected columns with a function.
 
 * `ungroup()` can now selectively remove grouping variables (#3760).
 
@@ -61,7 +64,7 @@
 
 * New function `across()` that can be used inside `summarise()` or `mutate()` 
   to apply a function (or a set of functions) to a selection of columns. 
-  
+
 ## rowwise()
 
 * New, experimental, `condense()` makes it easy to create and use list-columns.

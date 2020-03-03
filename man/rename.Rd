@@ -2,30 +2,43 @@
 % Please edit documentation in R/rename.R
 \name{rename}
 \alias{rename}
+\alias{rename_with}
 \title{Rename columns}
 \usage{
 rename(.data, ...)
+
+rename_with(.data, .fn, .cols = everything(), ...)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Use \code{new_name = old_name}
-to rename selected variables.}
+\item{...}{For \code{rename()}: <\code{\link[=dplyr_tidy_select]{tidy-select}}> Use
+\code{new_name = old_name} to rename selected variables.
+
+For \code{rename_with()}: additional arguments passed onto \code{.fn}.}
+
+\item{.fn}{A function used to transform the selected \code{.cols}. Should
+return a character vector the same length as the input.}
+
+\item{.cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to rename;
+defaults to all columns.}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following
 properties:
 \itemize{
 \item Rows are not affected.
-\item Column names are changed; column order is preserved
+\item Column names are changed; column order is preserved.
 \item Data frame attributes are preserved.
 \item Groups are updated to reflect new names.
 }
 }
 \description{
-Rename individual variables using \code{new_name = old_name} syntax.
+\code{rename()} changes the names of individual variables using
+\code{new_name = old_name} syntax; \code{rename_with()} renames columns using a
+function.
 }
 \section{Methods}{
 
@@ -40,6 +53,10 @@ The following methods are currently available in loaded packages:
 \examples{
 iris <- as_tibble(iris) # so it prints a little nicer
 rename(iris, petal_length = Petal.Length)
+
+rename_with(iris, toupper)
+rename_with(iris, toupper, starts_with("Petal"))
+rename_with(iris, ~ tolower(gsub(".", "_", .x, fixed = TRUE)))
 }
 \seealso{
 Other single table verbs: 
