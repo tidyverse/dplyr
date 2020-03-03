@@ -22,6 +22,8 @@
 #'
 #'   **NB**: unlike `group_by()` you can not create new variables here but
 #'   instead you can select multiple variables with (e.g.) `everything()`.
+#' @seealso [nest_by()] for a convenient way of creating rowwwise data frames
+#'   with nested data.
 #' @export
 #' @examples
 #' df <- tibble(x = runif(6), y = runif(6))

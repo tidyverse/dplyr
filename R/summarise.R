@@ -45,7 +45,7 @@
 #' @return
 #' An object _usually_ of the same type as `.data`.
 #'
-#' * The rows come from the underlying `group_keys()`.
+#' * The rows come from the underlying [group_keys()].
 #' * The columns are a combination of the grouping keys and the summary
 #'   expressions that you provide.
 #' * If `x` is grouped by more than one variable, the output will be another

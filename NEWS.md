@@ -54,6 +54,10 @@
   not used to make new columns. `.keep = "used"` keeps only the input variables
   used to create new columns; it's useful for double checking your work (#3721).
 
+* New, experimental, `nest_by()`. It has the same interface as `group_by()`,
+  but returns a rowwise data frame of grouping keys, supplemental with a 
+  list-column of data frames containing the rest of the data.
+
 * New, experimental, `with_groups()` makes it easy to temporarily group or
   ungroup (#4711).
 

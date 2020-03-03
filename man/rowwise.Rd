@@ -67,3 +67,7 @@ params \%>\%
   rowwise(sim) \%>\%
   condense(z = rnorm(n, mean, sd))
 }
+\seealso{
+\code{\link[=nest_by]{nest_by()}} for a convenient way of creating rowwwise data frames
+with nested data.
+}
