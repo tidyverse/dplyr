@@ -11,6 +11,8 @@ test_that("group_by with .add = TRUE adds groups", {
 })
 
 test_that("add = TRUE is deprecated", {
+  rlang::scoped_options(lifecycle_verbosity = "warning")
+
   df <- tibble(x = 1, y = 2)
 
   expect_warning(
@@ -41,6 +43,8 @@ test_that("grouping by constant adds column (#410)", {
 })
 
 test_that(".dots is soft deprecated", {
+  rlang::scoped_options(lifecycle_verbosity = "warning")
+
   df <- tibble(x = 1, y = 1)
   expect_warning(gf <- group_by(df, .dots = "x"), "deprecated")
 })
@@ -282,12 +286,6 @@ test_that("tbl_sum gets the right number of groups", {
 test_that("group_by ignores empty quosures (3780)", {
   empty <- quo()
   expect_equal(group_by(mtcars, cyl), group_by(mtcars, cyl, !!empty))
-})
-
-test_that("group_cols() selects grouping variables", {
-  expect_identical(select(mtcars, group_cols()), select(mtcars))
-  expect_identical(select(group_by(mtcars, cyl, am), group_cols()), group_by_all(select(mtcars, cyl, am)))
-  expect_identical(mutate_at(group_by(iris, Species), vars(-group_cols()), `/`, 100), mutate_all(group_by(iris, Species), `/`, 100))
 })
 
 # Zero groups ---------------------------------------------------

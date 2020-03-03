@@ -27,6 +27,8 @@
 #'   `{fn}` to stand for the name of the function being applied. The default
 #'   (`NULL`) is equivalent to `"{col}"` for the single function case and
 #'   `"{col}_{fn}"` for the case where a list is used for `fns`.
+#' @param ... Additional arguments for the function calls in `fns`.
+#'
 #' @returns
 #' A tibble with one column for each column in `cols` and each function in `fns`.
 #' @examples
@@ -60,17 +62,16 @@
 #'   summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
 #'
 #' @export
-across <- function(cols = everything(), fns = NULL, names = NULL) {
-  mask <- peek_mask()
-  data <- mask$full_data()
+across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
+  vars <- across_select({{ cols }})
 
-  vars <- tidyselect::eval_select(
-    expr({{ cols }}),
-    data[, setdiff(names(data), group_vars(data)), drop = FALSE]
-  )
-  data <- mask$pick(names(vars))
+  mask <- peek_mask()
+  data <- mask$current_cols(vars)
 
   if (is.null(fns)) {
+    nrow <- length(mask$current_rows())
+    data <- new_tibble(data, nrow = nrow)
+
     if (is.null(names)) {
       return(data)
     } else {
@@ -100,22 +101,55 @@ across <- function(cols = everything(), fns = NULL, names = NULL) {
       names_fns[empties] <- empties
     }
   }
-  names_data <- names(data)
 
-  # promote formulas
+  # handle formulas
   fns <- map(fns, as_function)
 
   # main loop
   cols <- pmap(
     expand.grid(i = seq_along(data), fn = fns),
     function(i, fn) {
-      local_column(names_data[i])
-      fn(data[[i]])
+      local_column(vars[i])
+      fn(data[[i]], ...)
     }
   )
   names(cols) <- glue(names,
-    col = rep(names_data, each = length(fns)),
-    fn  = rep(names_fns, ncol(data))
+    col = rep(vars, each = length(fns)),
+    fn  = rep(names_fns, length(data))
   )
   as_tibble(cols)
+}
+
+# TODO: The usage of a cache in `across_select()` is a stopgap solution, and
+# this idea should not be used anywhere else. This should be replaced by the
+# next version of hybrid evaluation, which should offer a way for any function
+# to do any required "set up" work (like the `eval_select()` call) a single
+# time per top-level call, rather than once per group.
+across_select <- function(cols) {
+  mask <- peek_mask()
+
+  cols <- enquo(cols)
+
+  key <- quo_get_expr(cols)
+  key <- key_deparse(key)
+
+  cache <- mask$across_cache_get()
+  value <- cache[[key]]
+
+  if (!is.null(value)) {
+    return(value)
+  }
+
+  across_cols <- mask$across_cols()
+
+  vars <- tidyselect::eval_select(expr(!!cols), across_cols)
+  value <- names(vars)
+
+  mask$across_cache_add(key, value)
+
+  value
+}
+
+key_deparse <- function(key) {
+  deparse(key, width.cutoff = 500L, backtick = TRUE, nlines = 1L, control = NULL)
 }

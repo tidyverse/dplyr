@@ -121,8 +121,8 @@ NULL
 #' * Create logical combination with `|` and `&`:
 #'   `starts_with("a") | starts_with("b")`, `contains("x") & is.numeric`
 #'
-#' * Remove variables from a collection with `-`:
-#'   `is.numeric - starts_with("a")`
+#' * Remove variables from a collection with `&` and `!`:
+#'   `is.numeric & !starts_with("a")`
 #'
 #' # Indirection
 #'

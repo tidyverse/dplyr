@@ -114,7 +114,7 @@ summarise.data.frame <- function(.data, ...) {
 
   out <- group_keys(.data)
   if (!identical(cols$size, 1L)) {
-    out <- vec_slice(out, rep(1:nrow(out), cols$size))
+    out <- vec_slice(out, rep(seq_len(nrow(out)), cols$size))
   }
 
   dplyr_col_modify(out, cols$new)
@@ -163,6 +163,8 @@ summarise_cols <- function(.data, ...) {
       # TODO: reinject hybrid evaluation at the R level
       chunks[[i]] <- mask$eval_all_summarise(quo)
 
+      mask$across_cache_reset()
+
       result_type <- vec_ptype_common(!!!chunks[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
@@ -176,7 +178,9 @@ summarise_cols <- function(.data, ...) {
       }
     }
 
-    c(chunks, sizes) %<-% .Call(`dplyr_summarise_recycle_chunks`, chunks)
+    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks)
+    chunks <- recycle_info$chunks
+    sizes <- recycle_info$sizes
 
     # materialize columns
     for (i in seq_along(dots)) {

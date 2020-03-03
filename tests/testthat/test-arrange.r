@@ -63,11 +63,6 @@ test_that("arrange handles complex columns", {
   expect_equal(arrange(df, y), df[3:1, ])
 })
 
-test_that("arrange supports bit64::integer64 (#4366)", {
-  df <- tibble(x = 1:3, y = bit64::as.integer64(3:1))
-  expect_equal(arrange(df, y), df[3:1, ])
-})
-
 test_that("arrange handles S4 classes #1105", {
   skip("TODO: https://github.com/r-lib/vctrs/issues/776")
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))

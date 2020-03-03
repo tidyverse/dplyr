@@ -142,9 +142,9 @@ test_that("bind_rows handles lists with NULL values (#2056)", {
   lst1 <- list(a = df1, NULL, b = df2)
 
   df3 <- tibble(
+    names = c("a", "b"),
     x = c(1, 2),
-    y = c(1, 2),
-    names = c("a", "b")
+    y = c(1, 2)
   )
 
   expect_identical(bind_rows(lst1, .id = "names"), df3)
@@ -320,7 +320,7 @@ test_that("bind_rows() creates a column of identifiers (#1337)", {
 
   out <- bind_rows(data1, data2, .id = "col")
   out_list <- bind_rows(list(data1, data2), .id = "col")
-  expect_equal(names(out)[ncol(out)], "col")
+  expect_equal(names(out)[1], "col")
   expect_equal(out$col, c("1", "1", "2"))
   expect_equal(out_list$col, c("1", "1", "2"))
 
@@ -426,13 +426,6 @@ test_that("bind_rows accepts difftime objects", {
   expect_equal(res$x, as.difftime(c(3600, 60), units = "secs"))
 })
 
-test_that("bind_rows accepts hms objects", {
-  df1 <- data.frame(x = hms::hms(hours = 1))
-  df2 <- data.frame(x = as.difftime(1, units = "mins"))
-  res <- bind_rows(df1, df2)
-  expect_equal(res$x, hms::hms(hours = c(1, 0), minutes = c(0, 1)))
-})
-
 test_that("bind_rows() handles rowwise vectors", {
   tbl <- bind_rows(
       tibble(a = "foo", b = "bar"),
@@ -441,7 +434,7 @@ test_that("bind_rows() handles rowwise vectors", {
   expect_identical(tbl, tibble(a = c("foo", "A"), b = c("bar", "B")))
 
   id_tbl <- bind_rows(a = c(a = 1, b = 2), b = c(a = 3, b = 4), .id = "id")
-  expect_equivalent(id_tbl, tibble(a = c(1, 3), b = c(2, 4), id = c("a", "b")))
+  expect_equivalent(id_tbl, tibble(id = c("a", "b"), a = c(1, 3), b = c(2, 4)))
 })
 
 test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {

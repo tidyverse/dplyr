@@ -37,6 +37,7 @@ SEXP dplyr_vec_sizes(SEXP chunks) {
 
 SEXP dplyr_summarise_recycle_chunks(SEXP chunks) {
   SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
+  Rf_namesgets(res, dplyr::vectors::names_summarise_recycle_chunks);
   SET_VECTOR_ELT(res, 0, chunks);
 
   R_len_t n_chunks = LENGTH(chunks);

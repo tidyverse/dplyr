@@ -9,7 +9,6 @@
 #' @param df a data frame
 #' @param x,y two data frames to compare
 #' @keywords internal
-#' @importFrom lobstr obj_addr obj_addrs
 #' @export
 #'
 #' @examples
@@ -27,15 +26,17 @@
 location <- function(df) {
   lifecycle::deprecate_warn("1.0.0", "location()", "lobst::ref()")
 
+  check_pkg("lobstr", "compute package locations")
+
   if (!is.data.frame(df)) {
     abort("location() is meant for data frames")
   }
 
   attrs <- attributes(df)
   structure(list(
-    df = obj_addr(df),
-    vars = set_names(obj_addrs(df), names(df)),
-    attr = set_names(obj_addrs(attrs), names(attrs))
+    df = lobstr::obj_addr(df),
+    vars = set_names(lobstr::obj_addrs(df), names(df)),
+    attr = set_names(lobstr::obj_addrs(attrs), names(attrs))
   ), class = "location")
 }
 

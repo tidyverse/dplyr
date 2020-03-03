@@ -12,6 +12,7 @@ test_that("mutations applied progressively", {
   df <- tibble(x = 1)
   expect_equal(df %>% mutate(y = x + 1, z = y + 1), tibble(x = 1, y = 2, z = 3))
   expect_equal(df %>% mutate(x = x + 1, x = x + 1), tibble(x = 3))
+  expect_equal(df %>% mutate(x = 2, y = x), tibble(x = 2, y = 2))
 })
 
 test_that("length-1 vectors are recycled (#152)", {
@@ -52,6 +53,12 @@ test_that("assignments don't overwrite variables (#315)", {
   df <- tibble(x = 1, y = 2)
   out <- df %>% mutate(z = {x <- 10; x})
   expect_equal(out, tibble(x = 1, y = 2, z = 10))
+})
+
+test_that("can mutate a data frame with zero columns and `NULL` column names", {
+  df <- new_data_frame(n = 2L)
+  colnames(df) <- NULL
+  expect_equal(mutate(df, x = 1), data.frame(x = c(1, 1)))
 })
 
 # column types ------------------------------------------------------------
