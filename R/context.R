@@ -53,8 +53,8 @@ n <- function() {
 #' @export
 cur_data <- function() {
   mask <- peek_mask("cur_data()")
-  data <- mask$full_data()
-  mask$pick(setdiff(names(data), group_vars(data)))
+  vars <- mask$current_non_group_vars()
+  mask$pick(vars)
 }
 
 #' @rdname context

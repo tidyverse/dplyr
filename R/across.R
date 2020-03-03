@@ -62,15 +62,18 @@
 #' @export
 across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   mask <- peek_mask()
-  data <- mask$full_data()
 
-  vars <- tidyselect::eval_select(
-    expr({{ cols }}),
-    data[, setdiff(names(data), group_vars(data)), drop = FALSE]
-  )
-  data <- mask$pick(names(vars))
+  across_cols <- mask$across_cols()
+
+  vars <- tidyselect::eval_select(expr({{ cols }}), across_cols)
+  vars <- names(vars)
+
+  data <- mask$current_cols(vars)
 
   if (is.null(fns)) {
+    nrow <- length(mask$current_rows())
+    data <- new_tibble(data, nrow = nrow)
+
     if (is.null(names)) {
       return(data)
     } else {
@@ -100,7 +103,6 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
       names_fns[empties] <- empties
     }
   }
-  names_data <- names(data)
 
   # handle formulas
   fns <- map(fns, as_function)
@@ -109,13 +111,13 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   cols <- pmap(
     expand.grid(i = seq_along(data), fn = fns),
     function(i, fn) {
-      local_column(names_data[i])
+      local_column(vars[i])
       fn(data[[i]], ...)
     }
   )
   names(cols) <- glue(names,
-    col = rep(names_data, each = length(fns)),
-    fn  = rep(names_fns, ncol(data))
+    col = rep(vars, each = length(fns)),
+    fn  = rep(names_fns, length(data))
   )
   as_tibble(cols)
 }
