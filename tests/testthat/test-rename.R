@@ -40,14 +40,12 @@ test_that("can rename with duplicate columns", {
 test_that("can select columns", {
   df <- tibble(x = 1, y = 2)
   expect_named(df %>% rename_with(toupper, 1), c("X", "y"))
+
+  df <- tibble(x = 1, y = 2)
+  expect_named(df %>% rename_with(toupper, x), c("X", "y"))
 })
 
 test_that("passes ... along", {
   df <- tibble(x = 1, y = 2)
   expect_named(df %>% rename_with(gsub, 1, pattern = "x", replacement = "X"), c("X", "y"))
-})
-
-test_that("can rename with duplicate columns", {
-  df <- tibble(x = 1, x = 2, y = 1, .name_repair = "minimal")
-  expect_named(df %>% rename_with(toupper), c("X", "X", "Y"))
 })

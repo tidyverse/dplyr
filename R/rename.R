@@ -63,7 +63,7 @@ rename_with <- function(.data, .fn, .cols = everything(), ...) {
 #' @export
 rename_with.data.frame <- function(.data, .fn, .cols = everything(), ...) {
   .fn <- as_function(.fn)
-  cols <- tidyselect::eval_select({{ .cols }}, .data)
+  cols <- tidyselect::eval_select(enexpr(.cols), .data)
 
   names <- names(.data)
   names[cols] <- .fn(names[cols], ...)
