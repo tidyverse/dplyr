@@ -40,45 +40,49 @@ a character vector of column names, a numeric vector of column
 positions, or \code{NULL}.}
 }
 \description{
-These \link{scoped} variants of \code{\link[=select]{select()}} and \code{\link[=rename]{rename()}} operate on a
-selection of variables. The semantics of these verbs have subtle
-but important differences:
-\itemize{
-\item Selection drops variables that are not in the selection while
-renaming retains them.
-\item The renaming function is optional for selection but not for
-renaming.
+\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+
+\code{rename_if()}, \code{rename_at()}, and \code{rename_all()} have been superseded by
+\code{rename_with()}. The matching select statements have been superseded by the
+combination of a \code{select()} + \code{rename_with()}.
+
+These functions were superseded because \code{mutate_if()} and friends were
+superseded by \code{across()}. \code{select_if()} and \code{rename_if()} already use tidy
+selection so they can't be replaced by \code{across()} and instead we need a new
+function.
 }
-
-The \verb{_if} and \verb{_at} variants always retain grouping variables for grouped
-data frames.
-}
-\section{Grouping variables}{
-
-
-Existing grouping variables are always kept in the data frame, even
-if not included in the selection.
-}
-
 \examples{
+mtcars <- as_tibble(mtcars) # for nicer printing
 
-# Supply a renaming function:
-select_all(mtcars, toupper)
-select_all(mtcars, "toupper")
-select_all(mtcars, list(~toupper(.)))
+mtcars \%>\% rename_all(toupper)
+# ->
+mtcars \%>\% rename_with(toupper)
+
+# NB: the transformation comes first in rename_with
+is_whole <- function(x) all(floor(x) == x)
+mtcars \%>\% rename_if(is_whole, toupper)
+# ->
+mtcars \%>\% rename_with(toupper, is_whole)
+
+mtcars \%>\% rename_at(vars(mpg:hp), toupper)
+# ->
+mtcars \%>\% rename_with(toupper, mpg:hp)
+
+# You now must select() and then rename
+
+mtcars \%>\% select_all(toupper)
+# ->
+mtcars \%>\% rename_with(toupper)
 
 # Selection drops unselected variables:
-is_whole <- function(x) all(floor(x) == x)
-select_if(mtcars, is_whole, toupper)
-select_at(mtcars, vars(-contains("ar"), starts_with("c")), toupper)
+mtcars \%>\% select_if(is_whole, toupper)
+# ->
+mtcars \%>\% select(is_whole) \%>\% rename_with(toupper)
 
-# But renaming retains them:
-rename_if(mtcars, is_whole, toupper)
-rename_at(mtcars, vars(-(1:3)), toupper)
-rename_all(mtcars, toupper)
-
-# The renaming function is optional for selection:
-select_if(mtcars, is_whole)
-select_at(mtcars, vars(-everything()))
-select_all(mtcars)
+mtcars \%>\% select_at(vars(-contains("ar"), starts_with("c")), toupper)
+# ->
+mtcars \%>\%
+  select(!contains("ar") | starts_with("c")) \%>\%
+  rename_with(toupper)
 }
+\keyword{internal}
