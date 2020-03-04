@@ -1,3 +1,8 @@
+
+# dplyr 0.8.5 (2020-03-04)
+
+* Maintenance release for compatibility with R-devel.
+
 # dplyr 0.8.4 (2020-01-30)
 
 * Adapt tests to changes in dependent packages. 

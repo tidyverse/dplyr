@@ -1,6 +1,7 @@
 ## Release summary
 
-This is a patch release to adress request from CRAN. 
+This is a patch release to adress request from Luke and Tomas regarding compatibility with R 4.0.0.
+
 
 ## Test environments
 
@@ -16,10 +17,7 @@ This is a patch release to adress request from CRAN.
 *   installed size is  8.3Mb
     sub-directories of 1Mb or more:
       libs   6.1Mb
-       
+
 ## revdepcheck results
 
-The code is exactly the same, this release only changed a test to 
-adjust to changers in a dependent package recently released. 
-
-reverse dependency checks would not exhibit anything. 
+Revdepchecks were not performed as this is a minimal patch release.
