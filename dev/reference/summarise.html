@@ -298,24 +298,24 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <span class='co'># Usually, you'll want to group first</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise</span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt; # A tibble: 3 x 3
+  <span class='fu'>summarise</span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;     cyl  mean     n
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt; 1     4  105.    11
-#&gt; 2     6  183.     7
-#&gt; 3     8  353.    14</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4  105.    11
+#&gt; </span><span style='color: #555555;'>2</span><span>     6  183.     7
+#&gt; </span><span style='color: #555555;'>3</span><span>     8  353.    14</div><div class='input'>
 <span class='co'># dplyr 1.0.0 allows to summarise to more than one value:</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
    <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-   <span class='fu'>summarise</span>(<span class='kw'>qs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>disp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>)), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 3
+   <span class='fu'>summarise</span>(<span class='kw'>qs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>disp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>)), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt;     cyl    qs  prob
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     4  78.8  0.25
-#&gt; 2     4 121.   0.75
-#&gt; 3     6 160    0.25
-#&gt; 4     6 196.   0.75
-#&gt; 5     8 302.   0.25
-#&gt; 6     8 390    0.75</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4  78.8  0.25
+#&gt; </span><span style='color: #555555;'>2</span><span>     4 121.   0.75
+#&gt; </span><span style='color: #555555;'>3</span><span>     6 160    0.25
+#&gt; </span><span style='color: #555555;'>4</span><span>     6 196.   0.75
+#&gt; </span><span style='color: #555555;'>5</span><span>     8 302.   0.25
+#&gt; </span><span style='color: #555555;'>6</span><span>     8 390    0.75</div><div class='input'>
 <span class='co'># You use a data frame to create multiple columns so you can wrap</span>
 <span class='co'># this up into a function:</span>
 <span class='no'>my_quantile</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>probs</span>) {
@@ -323,15 +323,15 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 }
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise</span>(<span class='fu'>my_quantile</span>(<span class='no'>disp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>)))</div><div class='output co'>#&gt; # A tibble: 6 x 3
+  <span class='fu'>summarise</span>(<span class='fu'>my_quantile</span>(<span class='no'>disp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt;     cyl     x probs
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     4  78.8  0.25
-#&gt; 2     4 121.   0.75
-#&gt; 3     6 160    0.25
-#&gt; 4     6 196.   0.75
-#&gt; 5     8 302.   0.25
-#&gt; 6     8 390    0.75</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4  78.8  0.25
+#&gt; </span><span style='color: #555555;'>2</span><span>     4 121.   0.75
+#&gt; </span><span style='color: #555555;'>3</span><span>     6 160    0.25
+#&gt; </span><span style='color: #555555;'>4</span><span>     6 196.   0.75
+#&gt; </span><span style='color: #555555;'>5</span><span>     8 302.   0.25
+#&gt; </span><span style='color: #555555;'>6</span><span>     8 390    0.75</div><div class='input'>
 <span class='co'># Each summary call removes one grouping level (since that group</span>
 <span class='co'># is now just a single row)</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
@@ -341,21 +341,21 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <span class='co'># BEWARE: reusing variables may lead to unexpected results</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
+  <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;     cyl  disp    sd
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     4  105.    NA
-#&gt; 2     6  183.    NA
-#&gt; 3     8  353.    NA</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4  105.    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>     6  183.    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     8  353.    </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
 <span class='no'>var</span> <span class='kw'>&lt;-</span> <span class='st'>"mass"</span>
-<span class='fu'>summarise</span>(<span class='no'>starwars</span>, <span class='kw'>avg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.data</span><span class='kw'>[[</span><span class='no'>var</span>]], <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
+<span class='fu'>summarise</span>(<span class='no'>starwars</span>, <span class='kw'>avg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.data</span><span class='kw'>[[</span><span class='no'>var</span>]], <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;     avg
-#&gt;   &lt;dbl&gt;
-#&gt; 1  97.3</div><div class='input'># Learn more in ?dplyr_data_masking
-</div></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>  97.3</div><div class='input'># Learn more in ?dplyr_data_masking
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

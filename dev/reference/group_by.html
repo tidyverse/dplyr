@@ -268,76 +268,76 @@ individual methods for extra arguments and differences in behaviour.</p>
 
 <span class='co'># grouping doesn't change how the data looks (apart from listing</span>
 <span class='co'># how it's grouped):</span>
-<span class='no'>by_cyl</span></div><div class='output co'>#&gt; # A tibble: 32 x 11
-#&gt; # Groups:   cyl [3]
+<span class='no'>by_cyl</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-#&gt; # … with 22 more rows</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
 <span class='co'># It changes how it acts with the other dplyr verbs:</span>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(
   <span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>),
   <span class='kw'>hp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>hp</span>)
-)</div><div class='output co'>#&gt; # A tibble: 3 x 3
+)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;     cyl  disp    hp
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     4  105.  82.6
-#&gt; 2     6  183. 122. 
-#&gt; 3     8  353. 209. </div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>disp</span> <span class='kw'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 11
-#&gt; # Groups:   cyl [3]
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4  105.  82.6
+#&gt; </span><span style='color: #555555;'>2</span><span>     6  183. 122. 
+#&gt; </span><span style='color: #555555;'>3</span><span>     8  353. 209. </div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>disp</span> <span class='kw'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 11</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-#&gt; 2  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt; 3  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; </span><span style='color: #555555;'>2</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'>3</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4</div><div class='input'>
 <span class='co'># Each call to summarise() removes a layer of grouping</span>
 <span class='no'>by_vs_am</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>)
 <span class='no'>by_vs</span> <span class='kw'>&lt;-</span> <span class='no'>by_vs_am</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>())
-<span class='no'>by_vs</span></div><div class='output co'>#&gt; # A tibble: 4 x 3
-#&gt; # Groups:   vs [2]
+<span class='no'>by_vs</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   vs [2]</span><span>
 #&gt;      vs    am     n
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt; 1     0     0    12
-#&gt; 2     0     1     6
-#&gt; 3     1     0     7
-#&gt; 4     1     1     7</div><div class='input'><span class='no'>by_vs</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     0     0    12
+#&gt; </span><span style='color: #555555;'>2</span><span>     0     1     6
+#&gt; </span><span style='color: #555555;'>3</span><span>     1     0     7
+#&gt; </span><span style='color: #555555;'>4</span><span>     1     1     7</div><div class='input'><span class='no'>by_vs</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;      vs     n
-#&gt;   &lt;dbl&gt; &lt;int&gt;
-#&gt; 1     0    18
-#&gt; 2     1    14</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     0    18
+#&gt; </span><span style='color: #555555;'>2</span><span>     1    14</div><div class='input'>
 <span class='co'># To removing grouping, use ungroup</span>
 <span class='no'>by_vs</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>ungroup</span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;       n
-#&gt;   &lt;int&gt;
-#&gt; 1    32</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>    32</div><div class='input'>
 <span class='co'># You can group by expressions: this is just short-hand for</span>
 <span class='co'># a mutate() followed by a group_by()</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='kw'>vsam</span> <span class='kw'>=</span> <span class='no'>vs</span> + <span class='no'>am</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 12
-#&gt; # Groups:   vsam [3]
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='kw'>vsam</span> <span class='kw'>=</span> <span class='no'>vs</span> + <span class='no'>am</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 12</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   vsam [3]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  vsam
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4     1
-#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4     1
-#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1     2
-#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1     1
-#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2     0
-#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1     1
-#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4     0
-#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2     1
-#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2     1
-#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4     1
-#&gt; # … with 22 more rows</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4     1
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4     1
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1     2
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2     0
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4     0
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2     1
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2     1
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4     1
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
 <span class='co'># By default, group_by() overrides existing grouping</span>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>) <span class='kw'>%&gt;%</span>
@@ -361,9 +361,9 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; [[2]]
 #&gt; [1]  6  7  8  9 10
 #&gt; </div><div class='input'>
-</div></pre>
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

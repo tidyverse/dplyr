@@ -159,32 +159,32 @@
 <p>Most dplyr verbs use <strong>tidy evaluation</strong> in some way. Tidy evaluation is a special type of non-standard evaluation used throughout the tidyverse. There are two basic forms found in dplyr:</p>
 <ul>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code>, <code><a href="../reference/count.html">count()</a></code>, <code><a href="../reference/filter.html">filter()</a></code>, <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/mutate.html">mutate()</a></code>, and <code><a href="../reference/summarise.html">summarise()</a></code> use <strong>data masking</strong> so that you can use data variables as if they were variables in the environment (i.e. you write <code>my_variable</code> not <code>df$myvariable</code>).</p></li>
-<li><p><code><a href="../reference/across.html">across()</a></code>, <code><a href="../reference/relocate.html">relocate()</a></code>, <code><a href="../reference/rename.html">rename()</a></code>, <code><a href="../reference/select.html">select()</a></code>, and <code><a href="../reference/pull.html">pull()</a></code> use <strong>tidy selection</strong> so you can easily choose variables based on their position, name, or type (e.g. <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with("x")</a></code> or <code>is.numeric</code>).</p></li>
+<li><p><code><a href="../reference/across.html">across()</a></code>, <code><a href="../reference/relocate.html">relocate()</a></code>, <code><a href="../reference/rename.html">rename()</a></code>, <code><a href="../reference/select.html">select()</a></code>, and <code><a href="../reference/pull.html">pull()</a></code> use <strong>tidy selection</strong> so you can easily choose variables based on their position, name, or type (e.g. <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with("x")</a></code> or <code>is.numeric</code>).</p></li>
 </ul>
 <p>To determine whether a function argument uses data masking or tidy selection, look at the documentation: in the arguments list, you’ll see <code>&lt;data-masking&gt;</code> or <code>&lt;tidy-select&gt;</code>.</p>
 <p>Data masking and tidy selection make interactive data exploration fast and fluid, but they add some new challenges when you attempt to use them indirectly such as in a for loop or a function. This vignette shows you how to overcome those challenges. We’ll first go over the basics of data masking and tidy selection, talk about how to use them indirectly, and then show you a number of recipes to solve common problems.</p>
 <p>This vignette will give you the minimum knowledge you need to be an effective programmer with tidy evaluation. If you’d like to learn more about the underlying theory, or precisely how it’s different from non-standard evaluation, we recommend that you read the Metaprogramming chapters in <a href="https://adv-r.hadley.nz"><em>Advanced R</em></a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</span></code></pre></div>
 </div>
 <div id="data-masking" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-masking" class="anchor"></a>Data masking</h2>
 <p>Data masking makes data manipulation faster because it requires less typing. In most (but not all<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>) base R functions you need to refer to variables with <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>, leading to code that repeats the name of the data frame many times:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">starwars[starwars<span class="op">$</span>homeworld <span class="op">==</span><span class="st"> "Naboo"</span> <span class="op">&amp;</span><span class="st"> </span>starwars<span class="op">$</span>species <span class="op">==</span><span class="st"> "Human"</span>, ,]</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>starwars[starwars<span class="op">$</span>homeworld <span class="op">==</span><span class="st"> "Naboo"</span> <span class="op">&amp;</span><span class="st"> </span>starwars<span class="op">$</span>species <span class="op">==</span><span class="st"> "Human"</span>, ,]</span></code></pre></div>
 <p>The dplyr equivalent of this code is more concise because data masking allows you to need to type <code>starwars</code> once:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(homeworld <span class="op">==</span><span class="st"> "Naboo"</span>, species <span class="op">==</span><span class="st"> "Human"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(homeworld <span class="op">==</span><span class="st"> "Naboo"</span>, species <span class="op">==</span><span class="st"> "Human"</span>)</span></code></pre></div>
 <div id="data--and-env-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data--and-env-variables" class="anchor"></a>Data- and env-variables</h3>
 <p>The key idea behind data masking is that it blurs the line between the two different meanings of the word “variable”:</p>
 <ul>
 <li><p><strong>env-variables</strong> are “programming” variables that live in an environment. They are usually created with <code>&lt;-</code>.</p></li>
-<li><p><strong>data-variables</strong> are “statistical” variables that live in a data frame. They usually come from data files (e.g. <code>.csv</code>, <code>.xls</code>), or are created manipulating existing variables.</p></li>
+<li><p><strong>data-variables</strong> are “statistical” variables that live in a data frame. They usually come from data files (e.g. <code>.csv</code>, <code>.xls</code>), or are created manipulating existing variables.</p></li>
 </ul>
 <p>To make those definitions a little more concrete, take this piece of code:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">3</span>), <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">df<span class="op">$</span>x</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; [1] 0.08075014 0.83433304 0.60076089</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">3</span>), <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">3</span>))</span>
+<span id="cb4-2"><a href="#cb4-2"></a>df<span class="op">$</span>x</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; [1] 0.08075014 0.83433304 0.60076089</span></span></code></pre></div>
 <p>It creates a env-variable, <code>df</code>, that contains two data-variables, <code>x</code> and <code>y</code>. Then it extracts the data-variable <code>x</code> out of the env-variable <code>df</code> using <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>.</p>
 <p>I think this blurring of the meaning of “variable” is a really nice feature for interactive data analysis because it allows you to refer to data-vars as is, without any prefix. And this seems to be fairly intuitive since many newer R users will attempt to write <code>diamonds[x == 0 | y == 0, ]</code>.</p>
 <p>Unfortunately, this benefit does not come for free. When you start to program with these tools, you’re going to have to grapple with the distinction. This will be hard because you’ve never had to think about it before, so it’ll take a while for your brain to learn these new concepts and categories. However, once you’ve teased apart the idea of “variable” into data-variable and env-variable, I think you’ll find it fairly straightforward to use.</p>
@@ -197,20 +197,20 @@
 <li>
 <p>When you have the data-variable in a function argument (i.e. an env-variable that holds a promise<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>), you need to <strong>embrace</strong> the argument by surrounding it in doubled braces, like <code><a href="../reference/filter.html">filter(df, {{ var }})</a></code>.</p>
 <p>The following function uses embracing to create a wrapper around <code><a href="../reference/summarise.html">summarise()</a></code> that computes the minimum and maximum values of a variable, as well as the number of observations that were summarised:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">var_summary &lt;-<span class="st"> </span><span class="cf">function</span>(data, var) {</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), <span class="dt">min =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>({{ var }}), <span class="dt">max =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>({{ var }}))</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span><span class="kw">var_summary</span>(mpg)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>var_summary &lt;-<span class="st"> </span><span class="cf">function</span>(data, var) {</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  data <span class="op">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), <span class="dt">min =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>({{ var }}), <span class="dt">max =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>({{ var }}))</span>
+<span id="cb5-4"><a href="#cb5-4"></a>}</span>
+<span id="cb5-5"><a href="#cb5-5"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="st">  </span><span class="kw">var_summary</span>(mpg)</span></code></pre></div>
 </li>
 <li>
 <p>When you have an env-variable that is a character vector, you need to index into the <code>.data</code> pronoun with <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code>, like <code><a href="../reference/summarise.html">summarise(df, mean = mean(.data[[var]]))</a></code>.</p>
 <p>The following example uses <code>.data</code> to count the number of unique values in each variable of <code>mtcars</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">for</span> (var <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(mtcars)) {</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">  mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/count.html">count</a></span>(.data[[var]]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>()</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">}</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="cf">for</span> (var <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(mtcars)) {</span>
+<span id="cb6-2"><a href="#cb6-2"></a>  mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/count.html">count</a></span>(.data[[var]]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>()</span>
+<span id="cb6-3"><a href="#cb6-3"></a>}</span></code></pre></div>
 <p>Note that <code>.data</code> is not a data frame; it’s a special construct, a pronoun, that allows you to access the current variables either directly, with <code>.data$x</code> or indirectly with <code>.data[[var]]</code>. Don’t expect other functions to work with it.</p>
 </li>
 </ul>
@@ -240,19 +240,19 @@
 <li>
 <p>When you have the data-variable in an env-variable that is a function argument, you use the same technique as data masking: you <strong>embrace</strong> the argument by surrounding it in doubled braces.</p>
 <p>The following function summarises a data frame by computing the mean of all variables selected by the user:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">summarise_mean &lt;-<span class="st"> </span><span class="cf">function</span>(data, vars) {</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), <span class="kw"><a href="../reference/across.html">across</a></span>({{ vars }}, mean))</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise_mean</span>(is.numeric)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>summarise_mean &lt;-<span class="st"> </span><span class="cf">function</span>(data, vars) {</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), <span class="kw"><a href="../reference/across.html">across</a></span>({{ vars }}, mean))</span>
+<span id="cb7-3"><a href="#cb7-3"></a>}</span>
+<span id="cb7-4"><a href="#cb7-4"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="st">  </span><span class="kw">summarise_mean</span>(is.numeric)</span></code></pre></div>
 </li>
 <li>
 <p>When you have an env-variable that is a character vector, you need to use <code>all_of()</code> or <code>any_of()</code> depending on whether you want the function to error if a variable is not found.</p>
 <p>The following code uses <code>all_of()</code> to select all of the variables found in a character vector; then <code>!</code> plus <code>all_of()</code> to select all of the variables <em>not</em> found in a character vector:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mpg"</span>, <span class="st">"vs"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="kw">all_of</span>(vars))</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="op">!</span><span class="kw">all_of</span>(vars))</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mpg"</span>, <span class="st">"vs"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="kw">all_of</span>(vars))</span>
+<span id="cb8-3"><a href="#cb8-3"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="op">!</span><span class="kw">all_of</span>(vars))</span></code></pre></div>
 </li>
 </ul>
 </div>
@@ -265,173 +265,173 @@
 <h3 class="hasAnchor">
 <a href="#user-supplied-data" class="anchor"></a>User-supplied data</h3>
 <p>If you check the documentation, you’ll see that <code>.data</code> never uses data masking or tidy select. That means you don’t need to do anything special in your function:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">mutate_y &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="kw"><a href="../reference/mutate.html">mutate</a></span>(data, <span class="dt">y =</span> a <span class="op">+</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">}</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>mutate_y &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="kw"><a href="../reference/mutate.html">mutate</a></span>(data, <span class="dt">y =</span> a <span class="op">+</span><span class="st"> </span>x)</span>
+<span id="cb9-3"><a href="#cb9-3"></a>}</span></code></pre></div>
 </div>
 <div id="eliminating-r-cmd-check-notes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#eliminating-r-cmd-check-notes" class="anchor"></a>Eliminating <code>R CMD check</code> <code>NOTE</code>s</h3>
 <p>If you’re writing a package and you have a function that uses data-variables:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">my_summary_function &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(grp) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(y), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>my_summary_function &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</span>
+<span id="cb10-2"><a href="#cb10-2"></a>  data <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="st">    </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(grp) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(y), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</span>
+<span id="cb10-6"><a href="#cb10-6"></a>}</span></code></pre></div>
 <p>You’ll get an <code>R CMD CHECK</code> <code>NOTE</code>:</p>
 <pre><code>N  checking R code for possible problems
    my_summary_function: no visible binding for global variable ‘x’, ‘grp’, ‘y’
    Undefined global functions or variables:
      x grp y</code></pre>
 <p>You can eliminate this by using <code>.data$var</code> and importing <code>.data</code> from its source in the <a href="https://rlang.r-lib.org/">rlang</a> package (the underlying package that implements tidy evaluation):</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">#' @importFrom rlang .data</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">my_summary_function &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(.data<span class="op">$</span>x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(.data<span class="op">$</span>grp) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(.data<span class="op">$</span>y), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7">}</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">#' @importFrom rlang .data</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>my_summary_function &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</span>
+<span id="cb12-3"><a href="#cb12-3"></a>  data <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="st">    </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(.data<span class="op">$</span>x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(.data<span class="op">$</span>grp) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(.data<span class="op">$</span>y), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</span>
+<span id="cb12-7"><a href="#cb12-7"></a>}</span></code></pre></div>
 </div>
 <div id="one-or-more-user-supplied-expressions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#one-or-more-user-supplied-expressions" class="anchor"></a>One or more user-supplied expressions</h3>
 <p>If you want the user to supply an expression that’s passed onto an argument which uses data masking or tidy select, embrace the argument:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_var) {</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>({{ group_var }}) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass))</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_var) {</span>
+<span id="cb13-2"><a href="#cb13-2"></a>  data <span class="op">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>({{ group_var }}) <span class="op">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass))</span>
+<span id="cb13-5"><a href="#cb13-5"></a>}</span></code></pre></div>
 <p>This generalises in a straightforward way if you want to use one user-supplied expression in multiple places:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">my_summarise2 &lt;-<span class="st"> </span><span class="cf">function</span>(data, expr) {</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">    <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ expr }}),</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">    <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>({{ expr }}),</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">    <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">  )</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">}</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>my_summarise2 &lt;-<span class="st"> </span><span class="cf">function</span>(data, expr) {</span>
+<span id="cb14-2"><a href="#cb14-2"></a>  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</span>
+<span id="cb14-3"><a href="#cb14-3"></a>    <span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ expr }}),</span>
+<span id="cb14-4"><a href="#cb14-4"></a>    <span class="dt">sum =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>({{ expr }}),</span>
+<span id="cb14-5"><a href="#cb14-5"></a>    <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>()</span>
+<span id="cb14-6"><a href="#cb14-6"></a>  )</span>
+<span id="cb14-7"><a href="#cb14-7"></a>}</span></code></pre></div>
 <p>If you want the user to provide multiple expressions, embrace each of them:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">my_summarise3 &lt;-<span class="st"> </span><span class="cf">function</span>(data, mean_var, sd_var) {</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ mean_var }}), <span class="dt">sd =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ sd_var }}))</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>my_summarise3 &lt;-<span class="st"> </span><span class="cf">function</span>(data, mean_var, sd_var) {</span>
+<span id="cb15-2"><a href="#cb15-2"></a>  data <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ mean_var }}), <span class="dt">sd =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ sd_var }}))</span>
+<span id="cb15-4"><a href="#cb15-4"></a>}</span></code></pre></div>
 <p>If you want to use the names of variables in the output, you can use glue syntax in conjunction with <code>:=</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">my_summarise4 &lt;-<span class="st"> </span><span class="cf">function</span>(data, expr) {</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">    <span class="st">"mean_{{expr}}"</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ expr }}),</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">    <span class="st">"sum_{{expr}}"</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>({{ expr }}),</a>
-<a class="sourceLine" id="cb16-5" data-line-number="5">    <span class="st">"n_{{expr}}"</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="../reference/context.html">n</a></span>()</a>
-<a class="sourceLine" id="cb16-6" data-line-number="6">  )</a>
-<a class="sourceLine" id="cb16-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb16-8" data-line-number="8">my_summarise5 &lt;-<span class="st"> </span><span class="cf">function</span>(data, mean_var, sd_var) {</a>
-<a class="sourceLine" id="cb16-9" data-line-number="9">  data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
-<a class="sourceLine" id="cb16-11" data-line-number="11">      <span class="st">"mean_{{mean_var}}"</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ mean_var }}), </a>
-<a class="sourceLine" id="cb16-12" data-line-number="12">      <span class="st">"sd_{{sd_var}}"</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ sd_var }})</a>
-<a class="sourceLine" id="cb16-13" data-line-number="13">    )</a>
-<a class="sourceLine" id="cb16-14" data-line-number="14">}</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>my_summarise4 &lt;-<span class="st"> </span><span class="cf">function</span>(data, expr) {</span>
+<span id="cb16-2"><a href="#cb16-2"></a>  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</span>
+<span id="cb16-3"><a href="#cb16-3"></a>    <span class="st">"mean_{{expr}}"</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ expr }}),</span>
+<span id="cb16-4"><a href="#cb16-4"></a>    <span class="st">"sum_{{expr}}"</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>({{ expr }}),</span>
+<span id="cb16-5"><a href="#cb16-5"></a>    <span class="st">"n_{{expr}}"</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="../reference/context.html">n</a></span>()</span>
+<span id="cb16-6"><a href="#cb16-6"></a>  )</span>
+<span id="cb16-7"><a href="#cb16-7"></a>}</span>
+<span id="cb16-8"><a href="#cb16-8"></a>my_summarise5 &lt;-<span class="st"> </span><span class="cf">function</span>(data, mean_var, sd_var) {</span>
+<span id="cb16-9"><a href="#cb16-9"></a>  data <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb16-10"><a href="#cb16-10"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</span>
+<span id="cb16-11"><a href="#cb16-11"></a>      <span class="st">"mean_{{mean_var}}"</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ mean_var }}), </span>
+<span id="cb16-12"><a href="#cb16-12"></a>      <span class="st">"sd_{{sd_var}}"</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>({{ sd_var }})</span>
+<span id="cb16-13"><a href="#cb16-13"></a>    )</span>
+<span id="cb16-14"><a href="#cb16-14"></a>}</span></code></pre></div>
 </div>
 <div id="any-number-of-user-supplied-expressions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#any-number-of-user-supplied-expressions" class="anchor"></a>Any number of user-supplied expressions</h3>
 <p>If you want to take an arbitrary number of user supplied expressions, use <code>...</code>. This is most often useful when you want to give the user full control over a single part of the pipeline, like a <code><a href="../reference/group_by.html">group_by()</a></code> or a <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(.data, ...) {</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">  .data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(...) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mass =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">my_summarise</span>(homeworld)</a>
-<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&gt; # A tibble: 49 x 3</span></a>
-<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&gt;   homeworld    mass height</span></a>
-<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co">#&gt; 1 Alderaan       64   176.</span></a>
-<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="co">#&gt; 2 Aleen Minor    15    79 </span></a>
-<a class="sourceLine" id="cb17-13" data-line-number="13"><span class="co">#&gt; 3 Bespin         79   175 </span></a>
-<a class="sourceLine" id="cb17-14" data-line-number="14"><span class="co">#&gt; 4 Bestine IV    110   180 </span></a>
-<a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co">#&gt; # … with 45 more rows</span></a>
-<a class="sourceLine" id="cb17-16" data-line-number="16">starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">my_summarise</span>(sex, gender)</a>
-<a class="sourceLine" id="cb17-17" data-line-number="17"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
-<a class="sourceLine" id="cb17-18" data-line-number="18"><span class="co">#&gt; # Groups:   sex [5]</span></a>
-<a class="sourceLine" id="cb17-19" data-line-number="19"><span class="co">#&gt;   sex            gender      mass height</span></a>
-<a class="sourceLine" id="cb17-20" data-line-number="20"><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb17-21" data-line-number="21"><span class="co">#&gt; 1 female         feminine    54.7   169.</span></a>
-<a class="sourceLine" id="cb17-22" data-line-number="22"><span class="co">#&gt; 2 hermaphroditic masculine 1358     175 </span></a>
-<a class="sourceLine" id="cb17-23" data-line-number="23"><span class="co">#&gt; 3 male           masculine   81.0   179.</span></a>
-<a class="sourceLine" id="cb17-24" data-line-number="24"><span class="co">#&gt; 4 none           feminine   NaN      96 </span></a>
-<a class="sourceLine" id="cb17-25" data-line-number="25"><span class="co">#&gt; # … with 2 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(.data, ...) {</span>
+<span id="cb17-2"><a href="#cb17-2"></a>  .data <span class="op">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(...) <span class="op">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mass =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span>
+<span id="cb17-5"><a href="#cb17-5"></a>}</span>
+<span id="cb17-6"><a href="#cb17-6"></a></span>
+<span id="cb17-7"><a href="#cb17-7"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">my_summarise</span>(homeworld)</span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="co">#&gt; # A tibble: 49 x 3</span></span>
+<span id="cb17-9"><a href="#cb17-9"></a><span class="co">#&gt;   homeworld    mass height</span></span>
+<span id="cb17-10"><a href="#cb17-10"></a><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb17-11"><a href="#cb17-11"></a><span class="co">#&gt; 1 Alderaan       64   176.</span></span>
+<span id="cb17-12"><a href="#cb17-12"></a><span class="co">#&gt; 2 Aleen Minor    15    79 </span></span>
+<span id="cb17-13"><a href="#cb17-13"></a><span class="co">#&gt; 3 Bespin         79   175 </span></span>
+<span id="cb17-14"><a href="#cb17-14"></a><span class="co">#&gt; 4 Bestine IV    110   180 </span></span>
+<span id="cb17-15"><a href="#cb17-15"></a><span class="co">#&gt; # … with 45 more rows</span></span>
+<span id="cb17-16"><a href="#cb17-16"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">my_summarise</span>(sex, gender)</span>
+<span id="cb17-17"><a href="#cb17-17"></a><span class="co">#&gt; # A tibble: 6 x 4</span></span>
+<span id="cb17-18"><a href="#cb17-18"></a><span class="co">#&gt; # Groups:   sex [5]</span></span>
+<span id="cb17-19"><a href="#cb17-19"></a><span class="co">#&gt;   sex            gender      mass height</span></span>
+<span id="cb17-20"><a href="#cb17-20"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb17-21"><a href="#cb17-21"></a><span class="co">#&gt; 1 female         feminine    54.7   169.</span></span>
+<span id="cb17-22"><a href="#cb17-22"></a><span class="co">#&gt; 2 hermaphroditic masculine 1358     175 </span></span>
+<span id="cb17-23"><a href="#cb17-23"></a><span class="co">#&gt; 3 male           masculine   81.0   179.</span></span>
+<span id="cb17-24"><a href="#cb17-24"></a><span class="co">#&gt; 4 none           feminine   NaN      96 </span></span>
+<span id="cb17-25"><a href="#cb17-25"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <p>When you use <code>...</code> in this way, make sure that any other arguments start with <code>.</code> to reduce the chances of argument clashes; see <a href="https://design.tidyverse.org/dots-prefix.html" class="uri">https://design.tidyverse.org/dots-prefix.html</a> for more details.</p>
 </div>
 <div id="transforming-user-supplied-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#transforming-user-supplied-variables" class="anchor"></a>Transforming user-supplied variables</h3>
 <p>If you want the user to provide a set of data-variables that are then transformed, use <code><a href="../reference/across.html">across()</a></code>:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, summary_vars) {</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summary_vars }}, <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(., <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">starwars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(species) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="st">  </span><span class="kw">my_summarise</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(mass, height))</a>
-<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="co">#&gt; # A tibble: 38 x 3</span></a>
-<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="co">#&gt;   species   mass height</span></a>
-<a class="sourceLine" id="cb18-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb18-11" data-line-number="11"><span class="co">#&gt; 1 Aleena      15     79</span></a>
-<a class="sourceLine" id="cb18-12" data-line-number="12"><span class="co">#&gt; 2 Besalisk   102    198</span></a>
-<a class="sourceLine" id="cb18-13" data-line-number="13"><span class="co">#&gt; 3 Cerean      82    198</span></a>
-<a class="sourceLine" id="cb18-14" data-line-number="14"><span class="co">#&gt; 4 Chagrian   NaN    196</span></a>
-<a class="sourceLine" id="cb18-15" data-line-number="15"><span class="co">#&gt; # … with 34 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, summary_vars) {</span>
+<span id="cb18-2"><a href="#cb18-2"></a>  data <span class="op">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summary_vars }}, <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(., <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))</span>
+<span id="cb18-4"><a href="#cb18-4"></a>}</span>
+<span id="cb18-5"><a href="#cb18-5"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(species) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="st">  </span><span class="kw">my_summarise</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(mass, height))</span>
+<span id="cb18-8"><a href="#cb18-8"></a><span class="co">#&gt; # A tibble: 38 x 3</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a><span class="co">#&gt;   species   mass height</span></span>
+<span id="cb18-10"><a href="#cb18-10"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb18-11"><a href="#cb18-11"></a><span class="co">#&gt; 1 Aleena      15     79</span></span>
+<span id="cb18-12"><a href="#cb18-12"></a><span class="co">#&gt; 2 Besalisk   102    198</span></span>
+<span id="cb18-13"><a href="#cb18-13"></a><span class="co">#&gt; 3 Cerean      82    198</span></span>
+<span id="cb18-14"><a href="#cb18-14"></a><span class="co">#&gt; 4 Chagrian   NaN    196</span></span>
+<span id="cb18-15"><a href="#cb18-15"></a><span class="co">#&gt; # … with 34 more rows</span></span></code></pre></div>
 <p>You can use this same idea for multiple sets of input data-variables:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_by, summarise_by) {</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_by }})) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summarise_by }}, mean))</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_by, summarise_by) {</span>
+<span id="cb19-2"><a href="#cb19-2"></a>  data <span class="op">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_by }})) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summarise_by }}, mean))</span>
+<span id="cb19-5"><a href="#cb19-5"></a>}</span></code></pre></div>
 <p>Use the <code>names</code> argument to <code><a href="../reference/across.html">across()</a></code> to control the names of the output.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_by, summarise_by) {</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_by }})) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summarise_by }}, mean), <span class="dt">names =</span> <span class="st">"mean_{col}"</span>)</a>
-<a class="sourceLine" id="cb20-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_by, summarise_by) {</span>
+<span id="cb20-2"><a href="#cb20-2"></a>  data <span class="op">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_by }})) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summarise_by }}, mean), <span class="dt">names =</span> <span class="st">"mean_{col}"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5"></a>}</span></code></pre></div>
 </div>
 <div id="loop-over-multiple-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#loop-over-multiple-variables" class="anchor"></a>Loop over multiple variables</h3>
 <p>If you have a character vector of variable names, and want to operate on them with a for loop, index into the special <code>.data</code> pronoun:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="cf">for</span> (var <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(mtcars)) {</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2">  mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/count.html">count</a></span>(.data[[var]]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>()</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3">}</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="cf">for</span> (var <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(mtcars)) {</span>
+<span id="cb21-2"><a href="#cb21-2"></a>  mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/count.html">count</a></span>(.data[[var]]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>()</span>
+<span id="cb21-3"><a href="#cb21-3"></a>}</span></code></pre></div>
 <p>This same technique works with for loop alternatives like the base R <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> family and the purrr <code>map()</code> family:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="op">~</span><span class="st"> </span><span class="kw"><a href="../reference/count.html">count</a></span>(mtcars, .data[[.x]]))</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="op">~</span><span class="st"> </span><span class="kw"><a href="../reference/count.html">count</a></span>(mtcars, .data[[.x]]))</span></code></pre></div>
 </div>
 <div id="use-a-variable-from-an-shiny-input" class="section level3">
 <h3 class="hasAnchor">
 <a href="#use-a-variable-from-an-shiny-input" class="anchor"></a>Use a variable from an Shiny input</h3>
 <p>Many Shiny input controls return character vectors, so you can use the same approach as above: <code>.data[[input$var]]</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3">  <span class="kw">selectInput</span>(<span class="st">"var"</span>, <span class="st">"Variable"</span>, <span class="dt">choices =</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(diamonds)),</a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">  <span class="kw">tableOutput</span>(<span class="st">"output"</span>)</a>
-<a class="sourceLine" id="cb23-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb23-6" data-line-number="6">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb23-7" data-line-number="7">  data &lt;-<span class="st"> </span><span class="kw">reactive</span>(<span class="kw"><a href="../reference/filter.html">filter</a></span>(diamonds, .data[[input<span class="op">$</span>var]] <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb23-8" data-line-number="8">  output<span class="op">$</span>output &lt;-<span class="st"> </span><span class="kw">renderTable</span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>()))</a>
-<a class="sourceLine" id="cb23-9" data-line-number="9">}</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</span>
+<span id="cb23-2"><a href="#cb23-2"></a>ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</span>
+<span id="cb23-3"><a href="#cb23-3"></a>  <span class="kw">selectInput</span>(<span class="st">"var"</span>, <span class="st">"Variable"</span>, <span class="dt">choices =</span> <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(diamonds)),</span>
+<span id="cb23-4"><a href="#cb23-4"></a>  <span class="kw">tableOutput</span>(<span class="st">"output"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5"></a>)</span>
+<span id="cb23-6"><a href="#cb23-6"></a>server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</span>
+<span id="cb23-7"><a href="#cb23-7"></a>  data &lt;-<span class="st"> </span><span class="kw">reactive</span>(<span class="kw"><a href="../reference/filter.html">filter</a></span>(diamonds, .data[[input<span class="op">$</span>var]] <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>))</span>
+<span id="cb23-8"><a href="#cb23-8"></a>  output<span class="op">$</span>output &lt;-<span class="st"> </span><span class="kw">renderTable</span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>()))</span>
+<span id="cb23-9"><a href="#cb23-9"></a>}</span></code></pre></div>
 <p>See <a href="https://mastering-shiny.org/action-tidy.html" class="uri">https://mastering-shiny.org/action-tidy.html</a> for more details and case studies.</p>
 </div>
 </div>
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>dplyr’s <code><a href="../reference/filter.html">filter()</a></code> is inspired by base R’s <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code>. <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code> provides data masking, but not with tidy evaluation, so the techniques described in this chapter don’t apply to it.<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>In R, arguments are lazily evaluated which means that until you attempt to use, they don’t hold a value, just a <strong>promise</strong> that describes how to compute the value. You can learn more at <a href="https://adv-r.hadley.nz/functions.html#lazy-evaluation" class="uri">https://adv-r.hadley.nz/functions.html#lazy-evaluation</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>dplyr’s <code><a href="../reference/filter.html">filter()</a></code> is inspired by base R’s <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code>. <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code> provides data masking, but not with tidy evaluation, so the techniques described in this chapter don’t apply to it.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>In R, arguments are lazily evaluated which means that until you attempt to use, they don’t hold a value, just a <strong>promise</strong> that describes how to compute the value. You can learn more at <a href="https://adv-r.hadley.nz/functions.html#lazy-evaluation" class="uri">https://adv-r.hadley.nz/functions.html#lazy-evaluation</a><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
         <div id="tocnav">
       <h2 class="hasAnchor">

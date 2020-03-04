@@ -336,20 +336,20 @@ individual methods for extra arguments and differences in behaviour.</p>
  <span class='fu'>mutate</span>(
   <span class='kw'>mass2</span> <span class='kw'>=</span> <span class='no'>mass</span> * <span class='fl'>2</span>,
   <span class='kw'>mass2_squared</span> <span class='kw'>=</span> <span class='no'>mass2</span> * <span class='no'>mass2</span>
-)</div><div class='output co'>#&gt; # A tibble: 87 x 4
+)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 4</span><span>
 #&gt;    name                mass mass2 mass2_squared
-#&gt;    &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;
-#&gt;  1 Luke Skywalker        77   154         23716
-#&gt;  2 C-3PO                 75   150         22500
-#&gt;  3 R2-D2                 32    64          4096
-#&gt;  4 Darth Vader          136   272         73984
-#&gt;  5 Leia Organa           49    98          9604
-#&gt;  6 Owen Lars            120   240         57600
-#&gt;  7 Beru Whitesun lars    75   150         22500
-#&gt;  8 R5-D4                 32    64          4096
-#&gt;  9 Biggs Darklighter     84   168         28224
-#&gt; 10 Obi-Wan Kenobi        77   154         23716
-#&gt; # … with 77 more rows</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker        77   154         </span><span style='text-decoration: underline;'>23</span><span>716
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                 75   150         </span><span style='text-decoration: underline;'>22</span><span>500
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                 32    64          </span><span style='text-decoration: underline;'>4</span><span>096
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader          136   272         </span><span style='text-decoration: underline;'>73</span><span>984
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa           49    98          </span><span style='text-decoration: underline;'>9</span><span>604
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars            120   240         </span><span style='text-decoration: underline;'>57</span><span>600
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars    75   150         </span><span style='text-decoration: underline;'>22</span><span>500
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                 32    64          </span><span style='text-decoration: underline;'>4</span><span>096
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter     84   168         </span><span style='text-decoration: underline;'>28</span><span>224
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi        77   154         </span><span style='text-decoration: underline;'>23</span><span>716
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># As well as adding new variables, you can use mutate() to</span>
 <span class='co'># remove variables and modify existing variables.</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
@@ -357,149 +357,149 @@ individual methods for extra arguments and differences in behaviour.</p>
  <span class='fu'>mutate</span>(
   <span class='kw'>mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>height</span> <span class='kw'>=</span> <span class='no'>height</span> * <span class='fl'>0.0328084</span> <span class='co'># convert to feet</span>
-)</div><div class='output co'>#&gt; # A tibble: 87 x 3
+)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
 #&gt;    name               height homeworld
-#&gt;    &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;    
-#&gt;  1 Luke Skywalker       5.64 Tatooine 
-#&gt;  2 C-3PO                5.48 Tatooine 
-#&gt;  3 R2-D2                3.15 Naboo    
-#&gt;  4 Darth Vader          6.63 Tatooine 
-#&gt;  5 Leia Organa          4.92 Alderaan 
-#&gt;  6 Owen Lars            5.84 Tatooine 
-#&gt;  7 Beru Whitesun lars   5.41 Tatooine 
-#&gt;  8 R5-D4                3.18 Tatooine 
-#&gt;  9 Biggs Darklighter    6.00 Tatooine 
-#&gt; 10 Obi-Wan Kenobi       5.97 Stewjon  
-#&gt; # … with 77 more rows</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker       5.64 Tatooine 
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                5.48 Tatooine 
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                3.15 Naboo    
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader          6.63 Tatooine 
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa          4.92 Alderaan 
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars            5.84 Tatooine 
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars   5.41 Tatooine 
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                3.18 Tatooine 
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter    6.00 Tatooine 
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi       5.97 Stewjon  
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># Use across() with mutate() to apply a transformation</span>
 <span class='co'># to multiple columns in a tibble.</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>homeworld</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>mutate</span>(<span class='fu'><a href='across.html'>across</a></span>(-<span class='no'>name</span>, <span class='no'>as.factor</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 3
+ <span class='fu'>mutate</span>(<span class='fu'><a href='across.html'>across</a></span>(-<span class='no'>name</span>, <span class='no'>as.factor</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
 #&gt;    name               homeworld species
-#&gt;    &lt;chr&gt;              &lt;fct&gt;     &lt;fct&gt;  
-#&gt;  1 Luke Skywalker     Tatooine  Human  
-#&gt;  2 C-3PO              Tatooine  Droid  
-#&gt;  3 R2-D2              Naboo     Droid  
-#&gt;  4 Darth Vader        Tatooine  Human  
-#&gt;  5 Leia Organa        Alderaan  Human  
-#&gt;  6 Owen Lars          Tatooine  Human  
-#&gt;  7 Beru Whitesun lars Tatooine  Human  
-#&gt;  8 R5-D4              Tatooine  Droid  
-#&gt;  9 Biggs Darklighter  Tatooine  Human  
-#&gt; 10 Obi-Wan Kenobi     Stewjon   Human  
-#&gt; # … with 77 more rows</div><div class='input'><span class='co'># see more in ?across</span>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker     Tatooine  Human  
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO              Tatooine  Droid  
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2              Naboo     Droid  
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader        Tatooine  Human  
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa        Alderaan  Human  
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars          Tatooine  Human  
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars Tatooine  Human  
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4              Tatooine  Droid  
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter  Tatooine  Human  
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi     Stewjon   Human  
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='co'># see more in ?across</span>
 
 <span class='co'># Window functions are useful for grouped mutates:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>mutate</span>(<span class='kw'>rank</span> <span class='kw'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>mass</span>)))</div><div class='output co'>#&gt; # A tibble: 87 x 4
-#&gt; # Groups:   homeworld [49]
+ <span class='fu'>mutate</span>(<span class='kw'>rank</span> <span class='kw'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>mass</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   homeworld [49]</span><span>
 #&gt;    name                mass homeworld  rank
-#&gt;    &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;int&gt;
-#&gt;  1 Luke Skywalker        77 Tatooine      5
-#&gt;  2 C-3PO                 75 Tatooine      6
-#&gt;  3 R2-D2                 32 Naboo         6
-#&gt;  4 Darth Vader          136 Tatooine      1
-#&gt;  5 Leia Organa           49 Alderaan      2
-#&gt;  6 Owen Lars            120 Tatooine      2
-#&gt;  7 Beru Whitesun lars    75 Tatooine      6
-#&gt;  8 R5-D4                 32 Tatooine      8
-#&gt;  9 Biggs Darklighter     84 Tatooine      3
-#&gt; 10 Obi-Wan Kenobi        77 Stewjon       1
-#&gt; # … with 77 more rows</div><div class='input'><span class='co'># see `vignette("window-functions")` for more details</span>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker        77 Tatooine      5
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                 75 Tatooine      6
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                 32 Naboo         6
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader          136 Tatooine      1
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa           49 Alderaan      2
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars            120 Tatooine      2
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars    75 Tatooine      6
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                 32 Tatooine      8
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter     84 Tatooine      3
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi        77 Stewjon       1
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='co'># see `vignette("window-functions")` for more details</span>
 
 <span class='co'># By default, new columns are placed on the far right.</span>
 <span class='co'># Experimental: you can override with `.before` or `.after`</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       x     y     z
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     2     3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.before</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2     3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.before</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       z     x     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     3     1     2</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='no'>x</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     3     1     2</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='no'>x</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       x     z     y
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     3     2</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     3     2</div><div class='input'>
 <span class='co'># By default, mutate() keeps all columns from the input data.</span>
 <span class='co'># Experimental: You can override with `.keep`</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"a"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"b"</span>)
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"all"</span>) <span class='co'># the default</span></div><div class='output co'>#&gt; # A tibble: 1 x 5
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"all"</span>) <span class='co'># the default</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 5</span><span>
 #&gt;       x     y a     b         z
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
-#&gt; 1     1     2 a     b         3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"used"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2 a     b         3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"used"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       x     y     z
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     2     3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"unused"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2     3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"unused"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   a     b         z
-#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
-#&gt; 1 a     b         3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"none"</span>) <span class='co'># same as transmute()</span></div><div class='output co'>#&gt; # A tibble: 1 x 1
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> a     b         3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"none"</span>) <span class='co'># same as transmute()</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;       z
-#&gt;   &lt;dbl&gt;
-#&gt; 1     3</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     3</div><div class='input'>
 <span class='co'># Grouping ----------------------------------------</span>
 <span class='co'># The mutate operation may yield different results on grouped</span>
 <span class='co'># tibbles because the expressions are computed within groups.</span>
 <span class='co'># The following normalises `mass` by the global average:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 4
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
 #&gt;    name                mass species mass_norm
-#&gt;    &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;
-#&gt;  1 Luke Skywalker        77 Human       0.791
-#&gt;  2 C-3PO                 75 Droid       0.771
-#&gt;  3 R2-D2                 32 Droid       0.329
-#&gt;  4 Darth Vader          136 Human       1.40 
-#&gt;  5 Leia Organa           49 Human       0.504
-#&gt;  6 Owen Lars            120 Human       1.23 
-#&gt;  7 Beru Whitesun lars    75 Human       0.771
-#&gt;  8 R5-D4                 32 Droid       0.329
-#&gt;  9 Biggs Darklighter     84 Human       0.863
-#&gt; 10 Obi-Wan Kenobi        77 Human       0.791
-#&gt; # … with 77 more rows</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker        77 Human       0.791
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                 75 Droid       0.771
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                 32 Droid       0.329
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader          136 Human       1.40 
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa           49 Human       0.504
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars            120 Human       1.23 
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars    75 Human       0.771
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                 32 Droid       0.329
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter     84 Human       0.863
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi        77 Human       0.791
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># Whereas this normalises `mass` by the averages within species</span>
 <span class='co'># levels:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 4
-#&gt; # Groups:   species [38]
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   species [38]</span><span>
 #&gt;    name                mass species mass_norm
-#&gt;    &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;
-#&gt;  1 Luke Skywalker        77 Human       0.930
-#&gt;  2 C-3PO                 75 Droid       1.08 
-#&gt;  3 R2-D2                 32 Droid       0.459
-#&gt;  4 Darth Vader          136 Human       1.64 
-#&gt;  5 Leia Organa           49 Human       0.592
-#&gt;  6 Owen Lars            120 Human       1.45 
-#&gt;  7 Beru Whitesun lars    75 Human       0.906
-#&gt;  8 R5-D4                 32 Droid       0.459
-#&gt;  9 Biggs Darklighter     84 Human       1.01 
-#&gt; 10 Obi-Wan Kenobi        77 Human       0.930
-#&gt; # … with 77 more rows</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker        77 Human       0.930
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                 75 Droid       1.08 
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                 32 Droid       0.459
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader          136 Human       1.64 
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa           49 Human       0.592
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars            120 Human       1.45 
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars    75 Human       0.906
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                 32 Droid       0.459
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter     84 Human       1.01 
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi        77 Human       0.930
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># Indirection ----------------------------------------</span>
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
-<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>prod</span> <span class='kw'>=</span> <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>1</span>]]]] * <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>2</span>]]]])</div><div class='output co'>#&gt; # A tibble: 87 x 15
+<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>prod</span> <span class='kw'>=</span> <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>1</span>]]]] * <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>2</span>]]]])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 15</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Luke…    172    77 blond      fair       blue            19   male  mascu…
-#&gt;  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt;  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt;  4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
-#&gt;  5 Leia…    150    49 brown      light      brown           19   fema… femin…
-#&gt;  6 Owen…    178   120 brown, gr… light      blue            52   male  mascu…
-#&gt;  7 Beru…    165    75 brown      light      blue            47   fema… femin…
-#&gt;  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   none  mascu…
-#&gt;  9 Bigg…    183    84 black      light      brown           24   male  mascu…
-#&gt; 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
-#&gt; # … with 77 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, prod &lt;dbl&gt;</div><div class='input'># Learn more in ?dplyr_data_masking
-</div></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia…    150    49 brown      light      brown           19   fema… femin…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru…    165    75 brown      light      blue            47   fema… femin…
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4     97    32 </span><span style='color: #BB0000;'>NA</span><span>         white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 77 more rows, and 6 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, prod </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'># Learn more in ?dplyr_data_masking
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

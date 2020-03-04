@@ -287,88 +287,88 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"h"</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 3
+    <pre class="examples"><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"h"</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 3</span><span>
 #&gt;    height hair_color    homeworld
-#&gt;     &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;    
-#&gt;  1    172 blond         Tatooine 
-#&gt;  2    167 &lt;NA&gt;          Tatooine 
-#&gt;  3     96 &lt;NA&gt;          Naboo    
-#&gt;  4    202 none          Tatooine 
-#&gt;  5    150 brown         Alderaan 
-#&gt;  6    178 brown, grey   Tatooine 
-#&gt;  7    165 brown         Tatooine 
-#&gt;  8     97 &lt;NA&gt;          Tatooine 
-#&gt;  9    183 black         Tatooine 
-#&gt; 10    182 auburn, white Stewjon  
-#&gt; # … with 77 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with</a></span>(<span class='st'>"color"</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 3
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'> 1</span><span>    172 blond         Tatooine 
+#&gt; </span><span style='color: #555555;'> 2</span><span>    167 </span><span style='color: #BB0000;'>NA</span><span>            Tatooine 
+#&gt; </span><span style='color: #555555;'> 3</span><span>     96 </span><span style='color: #BB0000;'>NA</span><span>            Naboo    
+#&gt; </span><span style='color: #555555;'> 4</span><span>    202 none          Tatooine 
+#&gt; </span><span style='color: #555555;'> 5</span><span>    150 brown         Alderaan 
+#&gt; </span><span style='color: #555555;'> 6</span><span>    178 brown, grey   Tatooine 
+#&gt; </span><span style='color: #555555;'> 7</span><span>    165 brown         Tatooine 
+#&gt; </span><span style='color: #555555;'> 8</span><span>     97 </span><span style='color: #BB0000;'>NA</span><span>            Tatooine 
+#&gt; </span><span style='color: #555555;'> 9</span><span>    183 black         Tatooine 
+#&gt; </span><span style='color: #555555;'>10</span><span>    182 auburn, white Stewjon  
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with</a></span>(<span class='st'>"color"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
 #&gt;    hair_color    skin_color  eye_color
-#&gt;    &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;    
-#&gt;  1 blond         fair        blue     
-#&gt;  2 &lt;NA&gt;          gold        yellow   
-#&gt;  3 &lt;NA&gt;          white, blue red      
-#&gt;  4 none          white       yellow   
-#&gt;  5 brown         light       brown    
-#&gt;  6 brown, grey   light       blue     
-#&gt;  7 brown         light       blue     
-#&gt;  8 &lt;NA&gt;          white, red  red      
-#&gt;  9 black         light       brown    
-#&gt; 10 auburn, white fair        blue-gray
-#&gt; # … with 77 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, !<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"s"</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 7
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'> 1</span><span> blond         fair        blue     
+#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #BB0000;'>NA</span><span>            gold        yellow   
+#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>            white, blue red      
+#&gt; </span><span style='color: #555555;'> 4</span><span> none          white       yellow   
+#&gt; </span><span style='color: #555555;'> 5</span><span> brown         light       brown    
+#&gt; </span><span style='color: #555555;'> 6</span><span> brown, grey   light       blue     
+#&gt; </span><span style='color: #555555;'> 7</span><span> brown         light       blue     
+#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #BB0000;'>NA</span><span>            white, red  red      
+#&gt; </span><span style='color: #555555;'> 9</span><span> black         light       brown    
+#&gt; </span><span style='color: #555555;'>10</span><span> auburn, white fair        blue-gray
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, !<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"s"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 7</span><span>
 #&gt;    name             height hair_color    eye_color birth_year gender   homeworld
-#&gt;    &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;    
-#&gt;  1 Luke Skywalker      172 blond         blue            19   masculi… Tatooine 
-#&gt;  2 C-3PO               167 &lt;NA&gt;          yellow         112   masculi… Tatooine 
-#&gt;  3 R2-D2                96 &lt;NA&gt;          red             33   masculi… Naboo    
-#&gt;  4 Darth Vader         202 none          yellow          41.9 masculi… Tatooine 
-#&gt;  5 Leia Organa         150 brown         brown           19   feminine Alderaan 
-#&gt;  6 Owen Lars           178 brown, grey   blue            52   masculi… Tatooine 
-#&gt;  7 Beru Whitesun l…    165 brown         blue            47   feminine Tatooine 
-#&gt;  8 R5-D4                97 &lt;NA&gt;          red             NA   masculi… Tatooine 
-#&gt;  9 Biggs Darklight…    183 black         brown           24   masculi… Tatooine 
-#&gt; 10 Obi-Wan Kenobi      182 auburn, white blue-gray       57   masculi… Stewjon  
-#&gt; # … with 77 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"h"</span>) <span class='kw'>&amp;</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with</a></span>(<span class='st'>"color"</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 1
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker      172 blond         blue            19   masculi… Tatooine 
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO               167 </span><span style='color: #BB0000;'>NA</span><span>            yellow         112   masculi… Tatooine 
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                96 </span><span style='color: #BB0000;'>NA</span><span>            red             33   masculi… Naboo    
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader         202 none          yellow          41.9 masculi… Tatooine 
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa         150 brown         brown           19   feminine Alderaan 
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars           178 brown, grey   blue            52   masculi… Tatooine 
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun l…    165 brown         blue            47   feminine Tatooine 
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                97 </span><span style='color: #BB0000;'>NA</span><span>            red             </span><span style='color: #BB0000;'>NA</span><span>   masculi… Tatooine 
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklight…    183 black         brown           24   masculi… Tatooine 
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi      182 auburn, white blue-gray       57   masculi… Stewjon  
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"h"</span>) <span class='kw'>&amp;</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with</a></span>(<span class='st'>"color"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 1</span><span>
 #&gt;    hair_color   
-#&gt;    &lt;chr&gt;        
-#&gt;  1 blond        
-#&gt;  2 &lt;NA&gt;         
-#&gt;  3 &lt;NA&gt;         
-#&gt;  4 none         
-#&gt;  5 brown        
-#&gt;  6 brown, grey  
-#&gt;  7 brown        
-#&gt;  8 &lt;NA&gt;         
-#&gt;  9 black        
-#&gt; 10 auburn, white
-#&gt; # … with 77 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='no'>is.numeric</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 3
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        
+#&gt; </span><span style='color: #555555;'> 1</span><span> blond        
+#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #BB0000;'>NA</span><span>           
+#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>           
+#&gt; </span><span style='color: #555555;'> 4</span><span> none         
+#&gt; </span><span style='color: #555555;'> 5</span><span> brown        
+#&gt; </span><span style='color: #555555;'> 6</span><span> brown, grey  
+#&gt; </span><span style='color: #555555;'> 7</span><span> brown        
+#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #BB0000;'>NA</span><span>           
+#&gt; </span><span style='color: #555555;'> 9</span><span> black        
+#&gt; </span><span style='color: #555555;'>10</span><span> auburn, white
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='no'>is.numeric</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
 #&gt;    height  mass birth_year
-#&gt;     &lt;int&gt; &lt;dbl&gt;      &lt;dbl&gt;
-#&gt;  1    172    77       19  
-#&gt;  2    167    75      112  
-#&gt;  3     96    32       33  
-#&gt;  4    202   136       41.9
-#&gt;  5    150    49       19  
-#&gt;  6    178   120       52  
-#&gt;  7    165    75       47  
-#&gt;  8     97    32       NA  
-#&gt;  9    183    84       24  
-#&gt; 10    182    77       57  
-#&gt; # … with 77 more rows</div><div class='input'>
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>    172    77       19  
+#&gt; </span><span style='color: #555555;'> 2</span><span>    167    75      112  
+#&gt; </span><span style='color: #555555;'> 3</span><span>     96    32       33  
+#&gt; </span><span style='color: #555555;'> 4</span><span>    202   136       41.9
+#&gt; </span><span style='color: #555555;'> 5</span><span>    150    49       19  
+#&gt; </span><span style='color: #555555;'> 6</span><span>    178   120       52  
+#&gt; </span><span style='color: #555555;'> 7</span><span>    165    75       47  
+#&gt; </span><span style='color: #555555;'> 8</span><span>     97    32       </span><span style='color: #BB0000;'>NA</span><span>  
+#&gt; </span><span style='color: #555555;'> 9</span><span>    183    84       24  
+#&gt; </span><span style='color: #555555;'>10</span><span>    182    77       57  
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># Optionally, rename individual variables as they are selected,</span>
 <span class='co'># in the format `new_name = old_name`</span>
-<span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='kw'>character_name</span> <span class='kw'>=</span> <span class='no'>name</span>, <span class='kw'>character_height</span> <span class='kw'>=</span> <span class='no'>height</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 2
+<span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='kw'>character_name</span> <span class='kw'>=</span> <span class='no'>name</span>, <span class='kw'>character_height</span> <span class='kw'>=</span> <span class='no'>height</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 2</span><span>
 #&gt;    character_name     character_height
-#&gt;    &lt;chr&gt;                         &lt;int&gt;
-#&gt;  1 Luke Skywalker                  172
-#&gt;  2 C-3PO                           167
-#&gt;  3 R2-D2                            96
-#&gt;  4 Darth Vader                     202
-#&gt;  5 Leia Organa                     150
-#&gt;  6 Owen Lars                       178
-#&gt;  7 Beru Whitesun lars              165
-#&gt;  8 R5-D4                            97
-#&gt;  9 Biggs Darklighter               183
-#&gt; 10 Obi-Wan Kenobi                  182
-#&gt; # … with 77 more rows</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker                  172
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                           167
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                            96
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader                     202
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa                     150
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars                       178
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars              165
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                            97
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter               183
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi                  182
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># Use num_range() to select variables with numeric suffixes</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>10</span>))
 <span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>) <span class='co'># Specify variable names explicitly</span></div><div class='output co'>#&gt;           V4         V5        V6
@@ -393,26 +393,26 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; 9  0.4061940 0.13677454 0.1579919
 #&gt; 10 0.2465288 0.90816676 0.6647531</div><div class='input'>
 <span class='co'># Select the existing grouping variables:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>, <span class='no'>eye_color</span>) <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='group_cols.html'>group_cols</a></span>())</div><div class='output co'>#&gt; # A tibble: 87 x 2
-#&gt; # Groups:   gender, eye_color [23]
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>, <span class='no'>eye_color</span>) <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='group_cols.html'>group_cols</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   gender, eye_color [23]</span><span>
 #&gt;    gender    eye_color
-#&gt;    &lt;chr&gt;     &lt;chr&gt;    
-#&gt;  1 masculine blue     
-#&gt;  2 masculine yellow   
-#&gt;  3 masculine red      
-#&gt;  4 masculine yellow   
-#&gt;  5 feminine  brown    
-#&gt;  6 masculine blue     
-#&gt;  7 feminine  blue     
-#&gt;  8 masculine red      
-#&gt;  9 masculine brown    
-#&gt; 10 masculine blue-gray
-#&gt; # … with 77 more rows</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'> 1</span><span> masculine blue     
+#&gt; </span><span style='color: #555555;'> 2</span><span> masculine yellow   
+#&gt; </span><span style='color: #555555;'> 3</span><span> masculine red      
+#&gt; </span><span style='color: #555555;'> 4</span><span> masculine yellow   
+#&gt; </span><span style='color: #555555;'> 5</span><span> feminine  brown    
+#&gt; </span><span style='color: #555555;'> 6</span><span> masculine blue     
+#&gt; </span><span style='color: #555555;'> 7</span><span> feminine  blue     
+#&gt; </span><span style='color: #555555;'> 8</span><span> masculine red      
+#&gt; </span><span style='color: #555555;'> 9</span><span> masculine brown    
+#&gt; </span><span style='color: #555555;'>10</span><span> masculine blue-gray
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># Using select() semantics in across()</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='no'>height</span>:<span class='no'>mass</span>, <span class='kw'>fns</span> <span class='kw'>=</span> ~<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; # A tibble: 1 x 2
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='no'>height</span>:<span class='no'>mass</span>, <span class='kw'>fns</span> <span class='kw'>=</span> ~<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
 #&gt;   height  mass
-#&gt;    &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1   174.  97.3</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   174.  97.3</div><div class='input'>
 <span class='co'># Use `{{ }}` inside functions to tunnel data-variables through</span>
 <span class='co'># function arguments. See ?dplyr_tidy_eval for more information.</span>
 <span class='no'>averages</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>data</span>, <span class='no'>vars</span>) {
@@ -431,35 +431,35 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 
 <span class='co'># Modifying the order of variables --------------------------</span>
 <span class='co'># As of dplyr 1.0.0, use relocate(), not select():</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='no'>name</span>:<span class='no'>birth_year</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='relocate.html'>relocate</a></span>(<span class='no'>birth_year</span>, <span class='kw'>.before</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 7
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='no'>name</span>:<span class='no'>birth_year</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='relocate.html'>relocate</a></span>(<span class='no'>birth_year</span>, <span class='kw'>.before</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 7</span><span>
 #&gt;    birth_year name               height  mass hair_color    skin_color eye_color
-#&gt;         &lt;dbl&gt; &lt;chr&gt;               &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;      &lt;chr&gt;    
-#&gt;  1       19   Luke Skywalker        172    77 blond         fair       blue     
-#&gt;  2      112   C-3PO                 167    75 &lt;NA&gt;          gold       yellow   
-#&gt;  3       33   R2-D2                  96    32 &lt;NA&gt;          white, bl… red      
-#&gt;  4       41.9 Darth Vader           202   136 none          white      yellow   
-#&gt;  5       19   Leia Organa           150    49 brown         light      brown    
-#&gt;  6       52   Owen Lars             178   120 brown, grey   light      blue     
-#&gt;  7       47   Beru Whitesun lars    165    75 brown         light      blue     
-#&gt;  8       NA   R5-D4                  97    32 &lt;NA&gt;          white, red red      
-#&gt;  9       24   Biggs Darklighter     183    84 black         light      brown    
-#&gt; 10       57   Obi-Wan Kenobi        182    77 auburn, white fair       blue-gray
-#&gt; # … with 77 more rows</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='no'>name</span>:<span class='no'>birth_year</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='relocate.html'>relocate</a></span>(<span class='no'>name</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>last_col</a></span>())</div><div class='output co'>#&gt; # A tibble: 87 x 7
+#&gt;         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'> 1</span><span>       19   Luke Skywalker        172    77 blond         fair       blue     
+#&gt; </span><span style='color: #555555;'> 2</span><span>      112   C-3PO                 167    75 </span><span style='color: #BB0000;'>NA</span><span>            gold       yellow   
+#&gt; </span><span style='color: #555555;'> 3</span><span>       33   R2-D2                  96    32 </span><span style='color: #BB0000;'>NA</span><span>            white, bl… red      
+#&gt; </span><span style='color: #555555;'> 4</span><span>       41.9 Darth Vader           202   136 none          white      yellow   
+#&gt; </span><span style='color: #555555;'> 5</span><span>       19   Leia Organa           150    49 brown         light      brown    
+#&gt; </span><span style='color: #555555;'> 6</span><span>       52   Owen Lars             178   120 brown, grey   light      blue     
+#&gt; </span><span style='color: #555555;'> 7</span><span>       47   Beru Whitesun lars    165    75 brown         light      blue     
+#&gt; </span><span style='color: #555555;'> 8</span><span>       </span><span style='color: #BB0000;'>NA</span><span>   R5-D4                  97    32 </span><span style='color: #BB0000;'>NA</span><span>            white, red red      
+#&gt; </span><span style='color: #555555;'> 9</span><span>       24   Biggs Darklighter     183    84 black         light      brown    
+#&gt; </span><span style='color: #555555;'>10</span><span>       57   Obi-Wan Kenobi        182    77 auburn, white fair       blue-gray
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='no'>name</span>:<span class='no'>birth_year</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='relocate.html'>relocate</a></span>(<span class='no'>name</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>last_col</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 7</span><span>
 #&gt;    height  mass hair_color    skin_color  eye_color birth_year name             
-#&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;            
-#&gt;  1    172    77 blond         fair        blue            19   Luke Skywalker   
-#&gt;  2    167    75 &lt;NA&gt;          gold        yellow         112   C-3PO            
-#&gt;  3     96    32 &lt;NA&gt;          white, blue red             33   R2-D2            
-#&gt;  4    202   136 none          white       yellow          41.9 Darth Vader      
-#&gt;  5    150    49 brown         light       brown           19   Leia Organa      
-#&gt;  6    178   120 brown, grey   light       blue            52   Owen Lars        
-#&gt;  7    165    75 brown         light       blue            47   Beru Whitesun la…
-#&gt;  8     97    32 &lt;NA&gt;          white, red  red             NA   R5-D4            
-#&gt;  9    183    84 black         light       brown           24   Biggs Darklighter
-#&gt; 10    182    77 auburn, white fair        blue-gray       57   Obi-Wan Kenobi   
-#&gt; # … with 77 more rows</div></pre>
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            
+#&gt; </span><span style='color: #555555;'> 1</span><span>    172    77 blond         fair        blue            19   Luke Skywalker   
+#&gt; </span><span style='color: #555555;'> 2</span><span>    167    75 </span><span style='color: #BB0000;'>NA</span><span>            gold        yellow         112   C-3PO            
+#&gt; </span><span style='color: #555555;'> 3</span><span>     96    32 </span><span style='color: #BB0000;'>NA</span><span>            white, blue red             33   R2-D2            
+#&gt; </span><span style='color: #555555;'> 4</span><span>    202   136 none          white       yellow          41.9 Darth Vader      
+#&gt; </span><span style='color: #555555;'> 5</span><span>    150    49 brown         light       brown           19   Leia Organa      
+#&gt; </span><span style='color: #555555;'> 6</span><span>    178   120 brown, grey   light       blue            52   Owen Lars        
+#&gt; </span><span style='color: #555555;'> 7</span><span>    165    75 brown         light       blue            47   Beru Whitesun la…
+#&gt; </span><span style='color: #555555;'> 8</span><span>     97    32 </span><span style='color: #BB0000;'>NA</span><span>            white, red  red             </span><span style='color: #BB0000;'>NA</span><span>   R5-D4            
+#&gt; </span><span style='color: #555555;'> 9</span><span>    183    84 black         light       brown           24   Biggs Darklighter
+#&gt; </span><span style='color: #555555;'>10</span><span>    182    77 auburn, white fair        blue-gray       57   Obi-Wan Kenobi   
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

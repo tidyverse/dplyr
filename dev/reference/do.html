@@ -229,61 +229,61 @@ unnamed arguments.</p></td>
 <span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>)
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>.</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `do()` is deprecated as of dplyr 1.0.0.</span>
 #&gt; <span class='warning'>Use condense() or summarise()</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; # A tibble: 6 x 11
-#&gt; # Groups:   cyl [3]
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once per session.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt; 2  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt; 3  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#&gt; 4  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#&gt; 5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt; 6  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='across.html'>across</a></span>(), <span class='fl'>2</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 11
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'>2</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'>3</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'>4</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'>5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'>6</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='across.html'>across</a></span>(), <span class='fl'>2</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
 #&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     4  22.8  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt; 2     4  24.4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt; 3     6  21    160    110  3.9   2.62  16.5     0     1     4     4
-#&gt; 4     6  21    160    110  3.9   2.88  17.0     0     1     4     4
-#&gt; 5     8  18.7  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt; 6     8  14.3  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 11
-#&gt; # Groups:   cyl [3]
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4  22.8  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'>2</span><span>     4  24.4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'>3</span><span>     6  21    160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'>4</span><span>     6  21    160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'>5</span><span>     8  18.7  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'>6</span><span>     8  14.3  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt; 2  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt; 3  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#&gt; 4  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#&gt; 5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt; 6  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'>2</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'>3</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'>4</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'>5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'>6</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'>
 <span class='co'># Can refer to variables directly</span>
-<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>$<span class='no'>vs</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt; # Rowwise: 
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>$<span class='no'>vs</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise: </span><span>
 #&gt;     cyl mean     
-#&gt;   &lt;dbl&gt; &lt;list&gt;   
-#&gt; 1     4 &lt;dbl [1]&gt;
-#&gt; 2     6 &lt;dbl [1]&gt;
-#&gt; 3     8 &lt;dbl [1]&gt;</div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='condense.html'>condense</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>vs</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt; # Rowwise:  cyl
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   
+#&gt; </span><span style='color: #555555;'>1</span><span>     4 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>     6 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     8 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='condense.html'>condense</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>vs</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
 #&gt;     cyl mean     
-#&gt;   &lt;dbl&gt; &lt;list&gt;   
-#&gt; 1     4 &lt;dbl [1]&gt;
-#&gt; 2     6 &lt;dbl [1]&gt;
-#&gt; 3     8 &lt;dbl [1]&gt;</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   
+#&gt; </span><span style='color: #555555;'>1</span><span>     4 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>     6 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     8 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span></div><div class='input'>
 <span class='co'># do() with named arguments becomes condense()</span>
 <span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
 <span class='co'># -&gt;</span>
 <span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='condense.html'>condense</a></span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>))
-<span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt; # Rowwise:  cyl
+<span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
 #&gt;     cyl    rsq
-#&gt;   &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1     4 0.648 
-#&gt; 2     6 0.0106
-#&gt; 3     8 0.270 </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4 0.648 
+#&gt; </span><span style='color: #555555;'>2</span><span>     6 0.010</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     8 0.270 </div><div class='input'>
 <span class='co'># use broom to turn models into data</span>
 <span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
   <span class='kw'>var</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>.</span>$<span class='no'>mod</span>)),
@@ -294,30 +294,30 @@ unnamed arguments.</p></td>
 #&gt; <span class='message'>* `(Intercept)` -&gt; `(Intercept)...3`</span>
 #&gt; <span class='message'>* disp -&gt; disp...4</span>
 #&gt; <span class='message'>* `(Intercept)` -&gt; `(Intercept)...5`</span>
-#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt; # A tibble: 6 x 5
-#&gt; # Rowwise: 
+#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 5</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise: </span><span>
 #&gt;   var         Estimate Std..Error t.value   Pr...t..
-#&gt;   &lt;fct&gt;          &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
-#&gt; 1 (Intercept) 40.9        3.59     11.4   0.00000120
-#&gt; 2 disp        -0.135      0.0332   -4.07  0.00278   
-#&gt; 3 (Intercept) 19.1        2.91      6.55  0.00124   
-#&gt; 4 disp         0.00361    0.0156    0.232 0.826     
-#&gt; 5 (Intercept) 22.0        3.35      6.59  0.0000259 
-#&gt; 6 disp        -0.0196     0.00932  -2.11  0.0568    </div><div class='input'><span class='co'># -&gt;</span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> (Intercept) 40.9        3.59     11.4   0.000</span><span style='text-decoration: underline;'>001</span><span>20
+#&gt; </span><span style='color: #555555;'>2</span><span> disp        -</span><span style='color: #BB0000;'>0.135</span><span>      0.033</span><span style='text-decoration: underline;'>2</span><span>   -</span><span style='color: #BB0000;'>4.07</span><span>  0.002</span><span style='text-decoration: underline;'>78</span><span>   
+#&gt; </span><span style='color: #555555;'>3</span><span> (Intercept) 19.1        2.91      6.55  0.001</span><span style='text-decoration: underline;'>24</span><span>   
+#&gt; </span><span style='color: #555555;'>4</span><span> disp         0.003</span><span style='text-decoration: underline;'>61</span><span>    0.015</span><span style='text-decoration: underline;'>6</span><span>    0.232 0.826     
+#&gt; </span><span style='color: #555555;'>5</span><span> (Intercept) 22.0        3.35      6.59  0.000</span><span style='text-decoration: underline;'>025</span><span>9 
+#&gt; </span><span style='color: #555555;'>6</span><span> disp        -</span><span style='color: #BB0000;'>0.019</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>     0.009</span><span style='text-decoration: underline;'>32</span><span>  -</span><span style='color: #BB0000;'>2.11</span><span>  0.056</span><span style='text-decoration: underline;'>8</span><span>    </div><div class='input'><span class='co'># -&gt;</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"broom"</span>)) {
   <span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>tidy</a></span>(<span class='no'>mod</span>))
-}</div><div class='output co'>#&gt; # A tibble: 6 x 6
-#&gt; # Rowwise:  cyl
+}</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
 #&gt;     cyl term        estimate std.error statistic    p.value
-#&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-#&gt; 1     4 (Intercept) 40.9       3.59       11.4   0.00000120
-#&gt; 2     4 disp        -0.135     0.0332     -4.07  0.00278   
-#&gt; 3     6 (Intercept) 19.1       2.91        6.55  0.00124   
-#&gt; 4     6 disp         0.00361   0.0156      0.232 0.826     
-#&gt; 5     8 (Intercept) 22.0       3.35        6.59  0.0000259 
-#&gt; 6     8 disp        -0.0196    0.00932    -2.11  0.0568    </div></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4 (Intercept) 40.9       3.59       11.4   0.000</span><span style='text-decoration: underline;'>001</span><span>20
+#&gt; </span><span style='color: #555555;'>2</span><span>     4 disp        -</span><span style='color: #BB0000;'>0.135</span><span>     0.033</span><span style='text-decoration: underline;'>2</span><span>     -</span><span style='color: #BB0000;'>4.07</span><span>  0.002</span><span style='text-decoration: underline;'>78</span><span>   
+#&gt; </span><span style='color: #555555;'>3</span><span>     6 (Intercept) 19.1       2.91        6.55  0.001</span><span style='text-decoration: underline;'>24</span><span>   
+#&gt; </span><span style='color: #555555;'>4</span><span>     6 disp         0.003</span><span style='text-decoration: underline;'>61</span><span>   0.015</span><span style='text-decoration: underline;'>6</span><span>      0.232 0.826     
+#&gt; </span><span style='color: #555555;'>5</span><span>     8 (Intercept) 22.0       3.35        6.59  0.000</span><span style='text-decoration: underline;'>025</span><span>9 
+#&gt; </span><span style='color: #555555;'>6</span><span>     8 disp        -</span><span style='color: #BB0000;'>0.019</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>    0.009</span><span style='text-decoration: underline;'>32</span><span>    -</span><span style='color: #BB0000;'>2.11</span><span>  0.056</span><span style='text-decoration: underline;'>8</span><span>    </div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

@@ -225,23 +225,23 @@ or Hurricane)</p></dd>
     <div class='dont-index'><p>The script to create the storms data set: <a href='https://github.com/tidyverse/dplyr/blob/master/data-raw/storms.R'>https://github.com/tidyverse/dplyr/blob/master/data-raw/storms.R</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>storms</span></div><div class='output co'>#&gt; # A tibble: 10,010 x 13
+    <pre class="examples"><div class='input'><span class='no'>storms</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10,010 x 13</span><span>
 #&gt;    name   year month   day  hour   lat  long status category  wind pressure
-#&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;ord&gt;    &lt;int&gt;    &lt;int&gt;
-#&gt;  1 Amy    1975     6    27     0  27.5 -79   tropi… -1          25     1013
-#&gt;  2 Amy    1975     6    27     6  28.5 -79   tropi… -1          25     1013
-#&gt;  3 Amy    1975     6    27    12  29.5 -79   tropi… -1          25     1013
-#&gt;  4 Amy    1975     6    27    18  30.5 -79   tropi… -1          25     1013
-#&gt;  5 Amy    1975     6    28     0  31.5 -78.8 tropi… -1          25     1012
-#&gt;  6 Amy    1975     6    28     6  32.4 -78.7 tropi… -1          25     1012
-#&gt;  7 Amy    1975     6    28    12  33.3 -78   tropi… -1          25     1011
-#&gt;  8 Amy    1975     6    28    18  34   -77   tropi… -1          30     1006
-#&gt;  9 Amy    1975     6    29     0  34.4 -75.8 tropi… 0           35     1004
-#&gt; 10 Amy    1975     6    29     6  34   -74.8 tropi… 0           40     1002
-#&gt; # … with 10,000 more rows, and 2 more variables: ts_diameter &lt;dbl&gt;,
-#&gt; #   hu_diameter &lt;dbl&gt;</div></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27     0  27.5 -</span><span style='color: #BB0000;'>79</span><span>   tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
+#&gt; </span><span style='color: #555555;'> 2</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27     6  28.5 -</span><span style='color: #BB0000;'>79</span><span>   tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
+#&gt; </span><span style='color: #555555;'> 3</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27    12  29.5 -</span><span style='color: #BB0000;'>79</span><span>   tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
+#&gt; </span><span style='color: #555555;'> 4</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27    18  30.5 -</span><span style='color: #BB0000;'>79</span><span>   tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
+#&gt; </span><span style='color: #555555;'> 5</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28     0  31.5 -</span><span style='color: #BB0000;'>78.8</span><span> tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>012
+#&gt; </span><span style='color: #555555;'> 6</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28     6  32.4 -</span><span style='color: #BB0000;'>78.7</span><span> tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>012
+#&gt; </span><span style='color: #555555;'> 7</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28    12  33.3 -</span><span style='color: #BB0000;'>78</span><span>   tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>011
+#&gt; </span><span style='color: #555555;'> 8</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28    18  34   -</span><span style='color: #BB0000;'>77</span><span>   tropi… -1          30     </span><span style='text-decoration: underline;'>1</span><span>006
+#&gt; </span><span style='color: #555555;'> 9</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    29     0  34.4 -</span><span style='color: #BB0000;'>75.8</span><span> tropi… 0           35     </span><span style='text-decoration: underline;'>1</span><span>004
+#&gt; </span><span style='color: #555555;'>10</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    29     6  34   -</span><span style='color: #BB0000;'>74.8</span><span> tropi… 0           40     </span><span style='text-decoration: underline;'>1</span><span>002
+#&gt; </span><span style='color: #555555;'># … with 10,000 more rows, and 2 more variables: ts_diameter </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   hu_diameter </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>

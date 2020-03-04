@@ -164,152 +164,152 @@
 <blockquote>
 <p>Of course, someone has to write loops. It doesn’t have to be you. — Jenny Bryan</p>
 </blockquote>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <div id="creating" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating" class="anchor"></a>Creating</h2>
 <p>Row-wise operations require a special type of grouping where each group consists of a single row. You create this with <code><a href="../reference/rowwise.html">rowwise()</a></code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">y =</span> <span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">z =</span> <span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>()</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; # Rowwise: </span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;       x     y     z</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 1     1     3     4</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 2     2     4     5</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">y =</span> <span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">z =</span> <span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>()</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; # A tibble: 2 x 3</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; # Rowwise: </span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;       x     y     z</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; 1     1     3     4</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; 2     2     4     5</span></span></code></pre></div>
 <p>Like <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/rowwise.html">rowwise()</a></code> doesn’t really do anything itself; it just changes how the other verbs work. For example, compare the results of <code><a href="../reference/mutate.html">mutate()</a></code> in the following code:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">m =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, y, z)))</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;       x     y     z     m</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1     1     3     4  3.17</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2     2     4     5  3.17</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">m =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, y, z)))</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; # Rowwise: </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;       x     y     z     m</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 1     1     3     4  2.67</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; 2     2     4     5  3.67</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">m =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, y, z)))</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; # A tibble: 2 x 4</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;       x     y     z     m</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; 1     1     3     4  3.17</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; 2     2     4     5  3.17</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">m =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, y, z)))</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; # A tibble: 2 x 4</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; # Rowwise: </span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;       x     y     z     m</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; 1     1     3     4  2.67</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; 2     2     4     5  3.67</span></span></code></pre></div>
 <p>If you use <code><a href="../reference/mutate.html">mutate()</a></code> with a regular data frame, it computes the mean of <code>x</code>, <code>y</code>, and <code>z</code> across all rows. If you apply it to a row-wise data frame, it computes the mean for each row.</p>
 <p>You can optionally supply “identifier” variables in your call to <code><a href="../reference/rowwise.html">rowwise()</a></code>. These variables are preserved when you call <code><a href="../reference/summarise.html">summarise()</a></code>, so they behave somewhat similarly to the grouping variables passed to <code><a href="../reference/group_by.html">group_by()</a></code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Mara"</span>, <span class="st">"Hadley"</span>), <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">9</span>, <span class="dv">1</span>), <span class="dt">y =</span> <span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">z =</span> <span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">m =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, y, z)))</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; # A tibble: 2 x 1</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; # Rowwise: </span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;       m</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 1  5.33</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 2  3.33</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13">df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>(name) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">m =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, y, z)))</a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; # Rowwise:  name</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;   name       m</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 1 Mara    5.33</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 2 Hadley  3.33</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Mara"</span>, <span class="st">"Hadley"</span>), <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">9</span>, <span class="dv">1</span>), <span class="dt">y =</span> <span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">z =</span> <span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">m =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, y, z)))</span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; # A tibble: 2 x 1</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; # Rowwise: </span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;       m</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;   &lt;dbl&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; 1  5.33</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; 2  3.33</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a></span>
+<span id="cb4-13"><a href="#cb4-13"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>(name) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">m =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, y, z)))</span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; # A tibble: 2 x 2</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; # Rowwise:  name</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt;   name       m</span></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt;</span></span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt; 1 Mara    5.33</span></span>
+<span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt; 2 Hadley  3.33</span></span></code></pre></div>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> is just a special form of grouping, so if you want to remove it from a data frame, just call <code><a href="../reference/group_by.html">ungroup()</a></code>.</p>
 </div>
 <div id="per-row-summary-statistics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#per-row-summary-statistics" class="anchor"></a>Per row summary statistics</h2>
 <p>U<code><a href="../reference/summarise.html">dplyr::summarise()</a></code> makes it really easy to summarise values across rows within one column. When combined with <code><a href="../reference/rowwise.html">rowwise()</a></code> it also makes it easy to summarise values across columns within one row. To see how, we’ll start by making a little dataset:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">w =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">6</span>), <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">6</span>), <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">6</span>), <span class="dt">z =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">6</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(<span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(.x, <span class="dv">3</span>)))</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">df</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; # A tibble: 6 x 5</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;      id     w     x     y     z</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 1     1 0.119 0.481 0.248 0.324</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 2     2 0.134 0.36  0.001 0.235</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 3     3 0.439 0.386 0.72  0.404</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 4     4 0.489 0.548 0.205 0.82 </span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; # … with 2 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">w =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">6</span>), <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">6</span>), <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">6</span>), <span class="dt">z =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">6</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(<span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(.x, <span class="dv">3</span>)))</span>
+<span id="cb5-3"><a href="#cb5-3"></a>df</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; # A tibble: 6 x 5</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt;      id     w     x     y     z</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; 1     1 0.916 0.043 0.131 0.691</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; 2     2 0.458 0.605 0.286 0.701</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 3     3 0.379 0.349 0.125 0.945</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; 4     4 0.164 0.91  0.678 0.171</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <p>Let’s say we want compute the sum of <code>w</code>, <code>x</code>, <code>y</code>, and <code>z</code> for each row. We start by making a rowwise data frame:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">rf &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>(id)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>rf &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>(id)</span></code></pre></div>
 <p>We can then use <code><a href="../reference/mutate.html">mutate()</a></code> to add a new column to each row, or <code><a href="../reference/summarise.html">summarise()</a></code> to return just that one summary:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(w, x, y, z)))</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; # Rowwise:  id</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;      id     w     x     y     z total</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 1     1 0.119 0.481 0.248 0.324  1.17</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 2     2 0.134 0.36  0.001 0.235  0.73</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 3     3 0.439 0.386 0.72  0.404  1.95</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 4     4 0.489 0.548 0.205 0.82   2.06</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; # … with 2 more rows</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11">rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(w, x, y, z)))</a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; # A tibble: 6 x 2</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; # Rowwise:  id</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt;      id total</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; 1     1  1.17</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; 2     2  0.73</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt; 3     3  1.95</span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; 4     4  2.06</span></a>
-<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt; # … with 2 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(w, x, y, z)))</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; # Rowwise:  id</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;      id     w     x     y     z total</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; 1     1 0.916 0.043 0.131 0.691  1.78</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; 2     2 0.458 0.605 0.286 0.701  2.05</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; 3     3 0.379 0.349 0.125 0.945  1.80</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; 4     4 0.164 0.91  0.678 0.171  1.92</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; # … with 2 more rows</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(w, x, y, z)))</span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt; # A tibble: 6 x 2</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt; # Rowwise:  id</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt;      id total</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; 1     1  1.78</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; 2     2  2.05</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt; 3     3  1.80</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt; 4     4  1.92</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <p>Of course, if you have a lot of variables, it’s going to be tedious to type in every variable name. Instead, you can use <code>c_across()</code> which uses tidy selection syntax so you can to succinctly select many variables:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">c_across</span>(w<span class="op">:</span>z)))</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; # Rowwise:  id</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;      id     w     x     y     z total</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 1     1 0.119 0.481 0.248 0.324  1.17</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 2     2 0.134 0.36  0.001 0.235  0.73</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 3     3 0.439 0.386 0.72  0.404  1.95</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; 4     4 0.489 0.548 0.205 0.82   2.06</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; # … with 2 more rows</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11">rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">c_across</span>(is.numeric)))</a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; # Rowwise:  id</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;      id     w     x     y     z total</span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; 1     1 0.119 0.481 0.248 0.324  1.17</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; 2     2 0.134 0.36  0.001 0.235  0.73</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; 3     3 0.439 0.386 0.72  0.404  1.95</span></a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; 4     4 0.489 0.548 0.205 0.82   2.06</span></a>
-<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; # … with 2 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">c_across</span>(w<span class="op">:</span>z)))</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt; # Rowwise:  id</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt;      id     w     x     y     z total</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; 1     1 0.916 0.043 0.131 0.691  1.78</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; 2     2 0.458 0.605 0.286 0.701  2.05</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; 3     3 0.379 0.349 0.125 0.945  1.80</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt; 4     4 0.164 0.91  0.678 0.171  1.92</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; # … with 2 more rows</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">c_across</span>(is.numeric)))</span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt; # Rowwise:  id</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="co">#&gt;      id     w     x     y     z total</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a><span class="co">#&gt; 1     1 0.916 0.043 0.131 0.691  1.78</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a><span class="co">#&gt; 2     2 0.458 0.605 0.286 0.701  2.05</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="co">#&gt; 3     3 0.379 0.349 0.125 0.945  1.80</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="co">#&gt; 4     4 0.164 0.91  0.678 0.171  1.92</span></span>
+<span id="cb8-20"><a href="#cb8-20"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <p>You could combine this with col-wise operations (see <code><a href="../articles/colwise.html">vignette("colwise")</a></code> for more details) to compute the proportion of the total for each column:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">rf <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">c_across</span>(w<span class="op">:</span>z))) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(w<span class="op">:</span>z, <span class="op">~</span><span class="st"> </span>. <span class="op">/</span><span class="st"> </span>total))</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;      id     w     x       y     z total</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 1     1 0.102 0.410 0.212   0.276  1.17</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; 2     2 0.184 0.493 0.00137 0.322  0.73</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; 3     3 0.225 0.198 0.369   0.207  1.95</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; 4     4 0.237 0.266 0.0994  0.398  2.06</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; # … with 2 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>rf <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">c_across</span>(w<span class="op">:</span>z))) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(w<span class="op">:</span>z, <span class="op">~</span><span class="st"> </span>. <span class="op">/</span><span class="st"> </span>total))</span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt;      id      w      x      y      z total</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; 1     1 0.514  0.0241 0.0736 0.388   1.78</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; 2     2 0.223  0.295  0.140  0.342   2.05</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; 3     3 0.211  0.194  0.0695 0.526   1.80</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; 4     4 0.0853 0.473  0.353  0.0889  1.92</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <div id="row-wise-summary-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#row-wise-summary-functions" class="anchor"></a>Row-wise summary functions</h3>
 <p>The <code><a href="../reference/rowwise.html">rowwise()</a></code> approach will work for any summary function. But if you need greater speed, it’s worth looking for a built-in row-wise variant of your summary function. These are more efficient because they operate on the data frame as whole; they don’t split it into rows, compute the summary, and then join the results back together again.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric)))</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;      id     w     x     y     z total</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; 1     1 0.119 0.481 0.248 0.324  2.17</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; 2     2 0.134 0.36  0.001 0.235  2.73</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 3     3 0.439 0.386 0.72  0.404  4.95</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 4     4 0.489 0.548 0.205 0.82   6.06</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; # … with 2 more rows</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric)))</a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt;      id     w     x     y     z  mean</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; 1     1 0.119 0.481 0.248 0.324 0.434</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; 2     2 0.134 0.36  0.001 0.235 0.546</span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 3     3 0.439 0.386 0.72  0.404 0.990</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 4     4 0.489 0.548 0.205 0.82  1.21 </span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; # … with 2 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric)))</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="co">#&gt;      id     w     x     y     z total</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt; 1     1 0.916 0.043 0.131 0.691  2.78</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; 2     2 0.458 0.605 0.286 0.701  4.05</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt; 3     3 0.379 0.349 0.125 0.945  4.80</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt; 4     4 0.164 0.91  0.678 0.171  5.92</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="co">#&gt; # … with 2 more rows</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric)))</span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="co">#&gt;      id     w     x     y     z  mean</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a><span class="co">#&gt; 1     1 0.916 0.043 0.131 0.691 0.556</span></span>
+<span id="cb10-15"><a href="#cb10-15"></a><span class="co">#&gt; 2     2 0.458 0.605 0.286 0.701 0.81 </span></span>
+<span id="cb10-16"><a href="#cb10-16"></a><span class="co">#&gt; 3     3 0.379 0.349 0.125 0.945 0.960</span></span>
+<span id="cb10-17"><a href="#cb10-17"></a><span class="co">#&gt; 4     4 0.164 0.91  0.678 0.171 1.18 </span></span>
+<span id="cb10-18"><a href="#cb10-18"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <p><strong>NB</strong>: I use <code>df</code> (not <code>rf</code>) and <code><a href="../reference/across.html">across()</a></code> (not <code>c_across()</code>) here because <code><a href="https://rdrr.io/r/base/colSums.html">rowMeans()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html">rowSums()</a></code> take a multi-row data frame as input.</p>
 </div>
 </div>
@@ -321,73 +321,73 @@
 <h3 class="hasAnchor">
 <a href="#simulations" class="anchor"></a>Simulations</h3>
 <p>I think this is particularly elegant way to perform simulations, because it lets you store simulated values along with the parameters that generated them. For example, imagine you have the following data frame that describes the properties of 3 samples from the uniform distribution:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="op">~</span><span class="st"> </span>n, <span class="op">~</span><span class="st"> </span>min, <span class="op">~</span><span class="st"> </span>max,</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">    <span class="dv">1</span>,     <span class="dv">0</span>,     <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">    <span class="dv">2</span>,    <span class="dv">10</span>,   <span class="dv">100</span>,</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">    <span class="dv">3</span>,   <span class="dv">100</span>,  <span class="dv">1000</span>,</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(</span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="op">~</span><span class="st"> </span>n, <span class="op">~</span><span class="st"> </span>min, <span class="op">~</span><span class="st"> </span>max,</span>
+<span id="cb11-3"><a href="#cb11-3"></a>    <span class="dv">1</span>,     <span class="dv">0</span>,     <span class="dv">1</span>,</span>
+<span id="cb11-4"><a href="#cb11-4"></a>    <span class="dv">2</span>,    <span class="dv">10</span>,   <span class="dv">100</span>,</span>
+<span id="cb11-5"><a href="#cb11-5"></a>    <span class="dv">3</span>,   <span class="dv">100</span>,  <span class="dv">1000</span>,</span>
+<span id="cb11-6"><a href="#cb11-6"></a>)</span></code></pre></div>
 <p>You can supply these parameters to <code><a href="https://rdrr.io/r/stats/Uniform.html">runif()</a></code> by using <code><a href="../reference/rowwise.html">rowwise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(n, min, max)))</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; # Rowwise: </span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt;       n   min   max data     </span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;   </span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 1     1     0     1 &lt;dbl [1]&gt;</span></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 2     2    10   100 &lt;dbl [2]&gt;</span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; 3     3   100  1000 &lt;dbl [3]&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(n, min, max)))</span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; # A tibble: 3 x 4</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt; # Rowwise: </span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt;       n   min   max data     </span></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;   </span></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#&gt; 1     1     0     1 &lt;dbl [1]&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a><span class="co">#&gt; 2     2    10   100 &lt;dbl [2]&gt;</span></span>
+<span id="cb12-10"><a href="#cb12-10"></a><span class="co">#&gt; 3     3   100  1000 &lt;dbl [3]&gt;</span></span></code></pre></div>
 <p>Note the use of <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> here - <code><a href="https://rdrr.io/r/stats/Uniform.html">runif()</a></code> returns multiple values and a <code><a href="../reference/mutate.html">mutate()</a></code> expression has to return something of length 1. <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> means that we’ll get a list column where each row is a list containing multiple values. If you forget to use <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>, dplyr will you a hint:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(n, min, max))</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; Error: `mutate()` argument `data` must be recyclable.</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; ℹ `data` is `runif(n, min, max)`.</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; ℹ The error occured in row 2.</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; ✖ `data` can't be recycled to size 1.</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; ℹ `data` must be size 1, not 2.</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; ℹ Did you mean: `data = list(runif(n, min, max))` ?</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(n, min, max))</span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="co">#&gt; Error: `mutate()` argument `data` must be recyclable.</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="co">#&gt; ℹ `data` is `runif(n, min, max)`.</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="co">#&gt; ℹ The error occured in row 2.</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="co">#&gt; ✖ `data` can't be recycled to size 1.</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a><span class="co">#&gt; ℹ `data` must be size 1, not 2.</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="co">#&gt; ℹ Did you mean: `data = list(runif(n, min, max))` ?</span></span></code></pre></div>
 </div>
 <div id="multiple-combinations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#multiple-combinations" class="anchor"></a>Multiple combinations</h3>
 <p>What if you want to call a function for every combination of inputs? You can use <code><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid()</a></code> (or <code><a href="https://tidyr.tidyverse.org/reference/expand_grid.html">tidyr::expand_grid()</a></code>) to generate the data frame and then repeat the same pattern as above:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">sd =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>))</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">10</span>, mean, sd)))</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; # A tibble: 9 x 3</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; # Rowwise: </span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt;    mean    sd data      </span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;    </span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; 1    -1     1 &lt;dbl [10]&gt;</span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt; 2     0     1 &lt;dbl [10]&gt;</span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; 3     1     1 &lt;dbl [10]&gt;</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt; 4    -1    10 &lt;dbl [10]&gt;</span></a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt; # … with 5 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">sd =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>))</span>
+<span id="cb14-2"><a href="#cb14-2"></a></span>
+<span id="cb14-3"><a href="#cb14-3"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">10</span>, mean, sd)))</span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt; # A tibble: 9 x 3</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt; # Rowwise: </span></span>
+<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt;    mean    sd data      </span></span>
+<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;    </span></span>
+<span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt; 1    -1     1 &lt;dbl [10]&gt;</span></span>
+<span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt; 2     0     1 &lt;dbl [10]&gt;</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt; 3     1     1 &lt;dbl [10]&gt;</span></span>
+<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#&gt; 4    -1    10 &lt;dbl [10]&gt;</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a><span class="co">#&gt; # … with 5 more rows</span></span></code></pre></div>
 </div>
 <div id="varying-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#varying-functions" class="anchor"></a>Varying functions</h3>
 <p>In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because because the columns in the input tibble will be less regular. But it’s still possible, and it’s a natural place to use <code><a href="https://rdrr.io/r/base/do.call.html">do.call()</a></code>:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>(<span class="kw"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">   <span class="op">~</span>rng,     <span class="op">~</span>params,</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">   <span class="st">"runif"</span>,  <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">n =</span> <span class="dv">10</span>), </a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">   <span class="st">"rnorm"</span>,  <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">n =</span> <span class="dv">20</span>),</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">   <span class="st">"rpois"</span>,  <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">lambda =</span> <span class="dv">5</span>),</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">))</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8">df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(rng, params)))</a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co">#&gt; # Rowwise: </span></a>
-<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt;   rng   params           data      </span></a>
-<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="co">#&gt;   &lt;chr&gt; &lt;list&gt;           &lt;list&gt;    </span></a>
-<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="co">#&gt; 1 runif &lt;named list [1]&gt; &lt;dbl [10]&gt;</span></a>
-<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co">#&gt; 2 rnorm &lt;named list [1]&gt; &lt;dbl [20]&gt;</span></a>
-<a class="sourceLine" id="cb15-16" data-line-number="16"><span class="co">#&gt; 3 rpois &lt;named list [2]&gt; &lt;int [10]&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>(<span class="kw"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(</span>
+<span id="cb15-2"><a href="#cb15-2"></a>   <span class="op">~</span>rng,     <span class="op">~</span>params,</span>
+<span id="cb15-3"><a href="#cb15-3"></a>   <span class="st">"runif"</span>,  <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">n =</span> <span class="dv">10</span>), </span>
+<span id="cb15-4"><a href="#cb15-4"></a>   <span class="st">"rnorm"</span>,  <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">n =</span> <span class="dv">20</span>),</span>
+<span id="cb15-5"><a href="#cb15-5"></a>   <span class="st">"rpois"</span>,  <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">lambda =</span> <span class="dv">5</span>),</span>
+<span id="cb15-6"><a href="#cb15-6"></a>))</span>
+<span id="cb15-7"><a href="#cb15-7"></a></span>
+<span id="cb15-8"><a href="#cb15-8"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb15-9"><a href="#cb15-9"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(rng, params)))</span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt; # A tibble: 3 x 3</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt; # Rowwise: </span></span>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt;   rng   params           data      </span></span>
+<span id="cb15-13"><a href="#cb15-13"></a><span class="co">#&gt;   &lt;chr&gt; &lt;list&gt;           &lt;list&gt;    </span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="co">#&gt; 1 runif &lt;named list [1]&gt; &lt;dbl [10]&gt;</span></span>
+<span id="cb15-15"><a href="#cb15-15"></a><span class="co">#&gt; 2 rnorm &lt;named list [1]&gt; &lt;dbl [20]&gt;</span></span>
+<span id="cb15-16"><a href="#cb15-16"></a><span class="co">#&gt; 3 rpois &lt;named list [2]&gt; &lt;int [10]&gt;</span></span></code></pre></div>
 </div>
 </div>
 <div id="list-columns" class="section level2">
@@ -398,185 +398,185 @@
 <h3 class="hasAnchor">
 <a href="#motivation" class="anchor"></a>Motivation</h3>
 <p>Imagine you have this data frame, and you want to count the lengths of each element:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">  <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dv">1</span>, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">4</span><span class="op">:</span><span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</span>
+<span id="cb16-2"><a href="#cb16-2"></a>  <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dv">1</span>, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">4</span><span class="op">:</span><span class="dv">6</span>)</span>
+<span id="cb16-3"><a href="#cb16-3"></a>)</span></code></pre></div>
 <p>You might try calling <code><a href="https://rdrr.io/r/base/length.html">length()</a></code>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">l =</span> <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x))</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="co">#&gt;   x             l</span></a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="co">#&gt; 1 &lt;dbl [1]&gt;     3</span></a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&gt; 2 &lt;int [2]&gt;     3</span></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">l =</span> <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x))</span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="co">#&gt;   x             l</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="co">#&gt; 1 &lt;dbl [1]&gt;     3</span></span>
+<span id="cb17-6"><a href="#cb17-6"></a><span class="co">#&gt; 2 &lt;int [2]&gt;     3</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a><span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></span></code></pre></div>
 <p>But that returns the length of the column, not the length of the individual values. If you’re an R documentation aficionado, you might know there’s already a base R function just for this purpose:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">l =</span> <span class="kw"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span>(x))</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt;   x             l</span></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt; 2 &lt;int [2]&gt;     2</span></a>
-<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">l =</span> <span class="kw"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span>(x))</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="co">#&gt;   x             l</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="co">#&gt; 2 &lt;int [2]&gt;     2</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></span></code></pre></div>
 <p>Or if you’re an experienced R programmer, you might know how to apply a function to each element of a list using <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">vapply()</a></code>, or one of the purrr <code>map()</code> functions:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">l =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(x, length))</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt;   x             l</span></a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span></a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co">#&gt; 2 &lt;int [2]&gt;     2</span></a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></a>
-<a class="sourceLine" id="cb19-8" data-line-number="8">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">l =</span> purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map_int</a></span>(x, length))</a>
-<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="co">#&gt;   x             l</span></a>
-<a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span></a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; 2 &lt;int [2]&gt;     2</span></a>
-<a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">l =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(x, length))</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="co">#&gt;   x             l</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="co">#&gt; 2 &lt;int [2]&gt;     2</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">l =</span> purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map_int</a></span>(x, length))</span>
+<span id="cb19-9"><a href="#cb19-9"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb19-10"><a href="#cb19-10"></a><span class="co">#&gt;   x             l</span></span>
+<span id="cb19-11"><a href="#cb19-11"></a><span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span></span>
+<span id="cb19-12"><a href="#cb19-12"></a><span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span></span>
+<span id="cb19-13"><a href="#cb19-13"></a><span class="co">#&gt; 2 &lt;int [2]&gt;     2</span></span>
+<span id="cb19-14"><a href="#cb19-14"></a><span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></span></code></pre></div>
 <p>But wouldn’t it be nice if you could just write <code><a href="https://rdrr.io/r/base/length.html">length(x)</a></code> and dplyr would figure out that you wanted to compute the length of the element inside of <code>x</code>? Since you’re here, you might already be guessing at the answer: this is just another application of the rowwise pattern.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">l =</span> <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x))</a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co">#&gt; # Rowwise: </span></a>
-<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="co">#&gt;   x             l</span></a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span></a>
-<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="co">#&gt; 2 &lt;int [2]&gt;     2</span></a>
-<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="st">  </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">l =</span> <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x))</span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="co">#&gt; # Rowwise: </span></span>
+<span id="cb20-6"><a href="#cb20-6"></a><span class="co">#&gt;   x             l</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a><span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a><span class="co">#&gt; 2 &lt;int [2]&gt;     2</span></span>
+<span id="cb20-10"><a href="#cb20-10"></a><span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></span></code></pre></div>
 </div>
 <div id="subsetting" class="section level3">
 <h3 class="hasAnchor">
 <a href="#subsetting" class="anchor"></a>Subsetting</h3>
 <p>Before we continue on, I wanted to briefly mention the magic that makes this work. This isn’t something you’ll generally need to think about (it’ll just work), but it’s useful to know about when something goes wrong.</p>
 <p>There’s an important difference between a grouped data frame where each group happens to have one row, and a rowwise data frame where every group always has one row. Take these two data frames:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">g =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="st">"a"</span>))</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2">gf &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(g)</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3">rf &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>(g)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">g =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="st">"a"</span>))</span>
+<span id="cb21-2"><a href="#cb21-2"></a>gf &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(g)</span>
+<span id="cb21-3"><a href="#cb21-3"></a>rf &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>(g)</span></code></pre></div>
 <p>If we compute some properties of <code>y</code>, you’ll notice the results look different:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">gf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">type =</span> <span class="kw"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>(y), <span class="dt">length =</span> <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(y))</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co">#&gt; # Groups:   g [2]</span></a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#&gt;       g y         type  length</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;chr&gt;  &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="co">#&gt; 1     1 &lt;int [3]&gt; list       1</span></a>
-<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="co">#&gt; 2     2 &lt;chr [1]&gt; list       1</span></a>
-<a class="sourceLine" id="cb22-8" data-line-number="8">rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">type =</span> <span class="kw"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>(y), <span class="dt">length =</span> <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(y))</a>
-<a class="sourceLine" id="cb22-9" data-line-number="9"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
-<a class="sourceLine" id="cb22-10" data-line-number="10"><span class="co">#&gt; # Rowwise:  g</span></a>
-<a class="sourceLine" id="cb22-11" data-line-number="11"><span class="co">#&gt;       g y         type      length</span></a>
-<a class="sourceLine" id="cb22-12" data-line-number="12"><span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;chr&gt;      &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb22-13" data-line-number="13"><span class="co">#&gt; 1     1 &lt;int [3]&gt; integer        3</span></a>
-<a class="sourceLine" id="cb22-14" data-line-number="14"><span class="co">#&gt; 2     2 &lt;chr [1]&gt; character      1</span></a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>gf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">type =</span> <span class="kw"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>(y), <span class="dt">length =</span> <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(y))</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="co">#&gt; # A tibble: 2 x 4</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="co">#&gt; # Groups:   g [2]</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="co">#&gt;       g y         type  length</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a><span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;chr&gt;  &lt;int&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a><span class="co">#&gt; 1     1 &lt;int [3]&gt; list       1</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="co">#&gt; 2     2 &lt;chr [1]&gt; list       1</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a>rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">type =</span> <span class="kw"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>(y), <span class="dt">length =</span> <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(y))</span>
+<span id="cb22-9"><a href="#cb22-9"></a><span class="co">#&gt; # A tibble: 2 x 4</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a><span class="co">#&gt; # Rowwise:  g</span></span>
+<span id="cb22-11"><a href="#cb22-11"></a><span class="co">#&gt;       g y         type      length</span></span>
+<span id="cb22-12"><a href="#cb22-12"></a><span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;chr&gt;      &lt;int&gt;</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a><span class="co">#&gt; 1     1 &lt;int [3]&gt; integer        3</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a><span class="co">#&gt; 2     2 &lt;chr [1]&gt; character      1</span></span></code></pre></div>
 <p>They key difference is that when <code><a href="../reference/mutate.html">mutate()</a></code> slices up the columns to pass to <code><a href="https://rdrr.io/r/base/length.html">length(y)</a></code> the grouped mutate uses <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> and the rowwise mutate used <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code>. The following code gives a flavour of the differences if you used a for loop:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># grouped</span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">out1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/integer.html">integer</a></span>(<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) {</a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">  out1[[i]] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(df<span class="op">$</span>y[i])</a>
-<a class="sourceLine" id="cb23-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb23-6" data-line-number="6">out1</a>
-<a class="sourceLine" id="cb23-7" data-line-number="7"><span class="co">#&gt; [1] 1 1</span></a>
-<a class="sourceLine" id="cb23-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb23-9" data-line-number="9"><span class="co"># rowwise</span></a>
-<a class="sourceLine" id="cb23-10" data-line-number="10">out2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/integer.html">integer</a></span>(<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb23-11" data-line-number="11"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) {</a>
-<a class="sourceLine" id="cb23-12" data-line-number="12">  out2[[i]] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(df<span class="op">$</span>y[[i]])</a>
-<a class="sourceLine" id="cb23-13" data-line-number="13">}</a>
-<a class="sourceLine" id="cb23-14" data-line-number="14">out2</a>
-<a class="sourceLine" id="cb23-15" data-line-number="15"><span class="co">#&gt; [1] 3 1</span></a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># grouped</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>out1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/integer.html">integer</a></span>(<span class="dv">2</span>)</span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) {</span>
+<span id="cb23-4"><a href="#cb23-4"></a>  out1[[i]] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(df<span class="op">$</span>y[i])</span>
+<span id="cb23-5"><a href="#cb23-5"></a>}</span>
+<span id="cb23-6"><a href="#cb23-6"></a>out1</span>
+<span id="cb23-7"><a href="#cb23-7"></a><span class="co">#&gt; [1] 1 1</span></span>
+<span id="cb23-8"><a href="#cb23-8"></a></span>
+<span id="cb23-9"><a href="#cb23-9"></a><span class="co"># rowwise</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a>out2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/integer.html">integer</a></span>(<span class="dv">2</span>)</span>
+<span id="cb23-11"><a href="#cb23-11"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) {</span>
+<span id="cb23-12"><a href="#cb23-12"></a>  out2[[i]] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(df<span class="op">$</span>y[[i]])</span>
+<span id="cb23-13"><a href="#cb23-13"></a>}</span>
+<span id="cb23-14"><a href="#cb23-14"></a>out2</span>
+<span id="cb23-15"><a href="#cb23-15"></a><span class="co">#&gt; [1] 3 1</span></span></code></pre></div>
 <p>Note that this magic only applies when you’re referring to existing columns, not when you’re creating new rows. This is potentially confusing, but we’re fairly confident it’s the least worst solution, particularly given the hint in the error message.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">gf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">y2 =</span> y)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co">#&gt; # Groups:   g [2]</span></a>
-<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co">#&gt;       g y         y2       </span></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;list&gt;   </span></a>
-<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="co">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span></a>
-<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span></a>
-<a class="sourceLine" id="cb24-8" data-line-number="8">rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">y2 =</span> y)</a>
-<a class="sourceLine" id="cb24-9" data-line-number="9"><span class="co">#&gt; Error: `mutate()` argument `y2` must be recyclable.</span></a>
-<a class="sourceLine" id="cb24-10" data-line-number="10"><span class="co">#&gt; ℹ `y2` is `y`.</span></a>
-<a class="sourceLine" id="cb24-11" data-line-number="11"><span class="co">#&gt; ℹ The error occured in row 1.</span></a>
-<a class="sourceLine" id="cb24-12" data-line-number="12"><span class="co">#&gt; ✖ `y2` can't be recycled to size 1.</span></a>
-<a class="sourceLine" id="cb24-13" data-line-number="13"><span class="co">#&gt; ℹ `y2` must be size 1, not 3.</span></a>
-<a class="sourceLine" id="cb24-14" data-line-number="14"><span class="co">#&gt; ℹ Did you mean: `y2 = list(y)` ?</span></a>
-<a class="sourceLine" id="cb24-15" data-line-number="15">rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">y2 =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(y))</a>
-<a class="sourceLine" id="cb24-16" data-line-number="16"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb24-17" data-line-number="17"><span class="co">#&gt; # Rowwise:  g</span></a>
-<a class="sourceLine" id="cb24-18" data-line-number="18"><span class="co">#&gt;       g y         y2       </span></a>
-<a class="sourceLine" id="cb24-19" data-line-number="19"><span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;list&gt;   </span></a>
-<a class="sourceLine" id="cb24-20" data-line-number="20"><span class="co">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span></a>
-<a class="sourceLine" id="cb24-21" data-line-number="21"><span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>gf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">y2 =</span> y)</span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="co">#&gt; # A tibble: 2 x 3</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="co">#&gt; # Groups:   g [2]</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="co">#&gt;       g y         y2       </span></span>
+<span id="cb24-5"><a href="#cb24-5"></a><span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;list&gt;   </span></span>
+<span id="cb24-6"><a href="#cb24-6"></a><span class="co">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span></span>
+<span id="cb24-7"><a href="#cb24-7"></a><span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a>rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">y2 =</span> y)</span>
+<span id="cb24-9"><a href="#cb24-9"></a><span class="co">#&gt; Error: `mutate()` argument `y2` must be recyclable.</span></span>
+<span id="cb24-10"><a href="#cb24-10"></a><span class="co">#&gt; ℹ `y2` is `y`.</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a><span class="co">#&gt; ℹ The error occured in row 1.</span></span>
+<span id="cb24-12"><a href="#cb24-12"></a><span class="co">#&gt; ✖ `y2` can't be recycled to size 1.</span></span>
+<span id="cb24-13"><a href="#cb24-13"></a><span class="co">#&gt; ℹ `y2` must be size 1, not 3.</span></span>
+<span id="cb24-14"><a href="#cb24-14"></a><span class="co">#&gt; ℹ Did you mean: `y2 = list(y)` ?</span></span>
+<span id="cb24-15"><a href="#cb24-15"></a>rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">y2 =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(y))</span>
+<span id="cb24-16"><a href="#cb24-16"></a><span class="co">#&gt; # A tibble: 2 x 3</span></span>
+<span id="cb24-17"><a href="#cb24-17"></a><span class="co">#&gt; # Rowwise:  g</span></span>
+<span id="cb24-18"><a href="#cb24-18"></a><span class="co">#&gt;       g y         y2       </span></span>
+<span id="cb24-19"><a href="#cb24-19"></a><span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;list&gt;   </span></span>
+<span id="cb24-20"><a href="#cb24-20"></a><span class="co">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span></span>
+<span id="cb24-21"><a href="#cb24-21"></a><span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span></span></code></pre></div>
 </div>
 <div id="modelling" class="section level3">
 <h3 class="hasAnchor">
 <a href="#modelling" class="anchor"></a>Modelling</h3>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> data frames allow you to solve a variety of modelling problems in what I think is a particularly elegant way. We’ll start by creating a nested data frame:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">by_cyl &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nest_by</span>(cyl)</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">by_cyl</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co">#&gt; # Rowwise:  cyl</span></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#&gt;     cyl data              </span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;            </span></a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt;</span></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt; </span></a>
-<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>by_cyl &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nest_by</span>(cyl)</span>
+<span id="cb25-2"><a href="#cb25-2"></a>by_cyl</span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="co">#&gt; # Rowwise:  cyl</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a><span class="co">#&gt;     cyl data              </span></span>
+<span id="cb25-6"><a href="#cb25-6"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;            </span></span>
+<span id="cb25-7"><a href="#cb25-7"></a><span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt;</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a><span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt; </span></span>
+<span id="cb25-9"><a href="#cb25-9"></a><span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt;</span></span></code></pre></div>
 <p>This is a little different to the usual <code><a href="../reference/group_by.html">group_by()</a></code> output: we have visibly changed the structure of the data. Now we have three rows (one for each group), and we have a list-col, <code>data</code>, that stores the data for that group. Also note that the output is <code><a href="../reference/rowwise.html">rowwise()</a></code>; this is important because it’s going to make working with that list of data frames much easier.</p>
 <p>Once we have one data frame per row, it’s straightforward to make one model per row:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">mods &lt;-<span class="st"> </span>by_cyl <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">mod =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> data)))</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">mods</a>
-<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
-<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="co">#&gt; # Rowwise:  cyl</span></a>
-<a class="sourceLine" id="cb26-5" data-line-number="5"><span class="co">#&gt;     cyl data               mod   </span></a>
-<a class="sourceLine" id="cb26-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt;</span></a>
-<a class="sourceLine" id="cb26-7" data-line-number="7"><span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;  </span></a>
-<a class="sourceLine" id="cb26-8" data-line-number="8"><span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;  </span></a>
-<a class="sourceLine" id="cb26-9" data-line-number="9"><span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>mods &lt;-<span class="st"> </span>by_cyl <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">mod =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> data)))</span>
+<span id="cb26-2"><a href="#cb26-2"></a>mods</span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="co">#&gt; # A tibble: 3 x 3</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="co">#&gt; # Rowwise:  cyl</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="co">#&gt;     cyl data               mod   </span></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt;</span></span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;  </span></span>
+<span id="cb26-8"><a href="#cb26-8"></a><span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;  </span></span>
+<span id="cb26-9"><a href="#cb26-9"></a><span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;</span></span></code></pre></div>
 <p>And supplement that with one set of predictions per row:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">mods &lt;-<span class="st"> </span>mods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">pred =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(mod, data)))</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">mods</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
-<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="co">#&gt; # Rowwise:  cyl</span></a>
-<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co">#&gt;     cyl data               mod    pred      </span></a>
-<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt; &lt;list&gt;    </span></a>
-<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;   &lt;dbl [11]&gt;</span></a>
-<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;   &lt;dbl [7]&gt; </span></a>
-<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;   &lt;dbl [14]&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>mods &lt;-<span class="st"> </span>mods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">pred =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(mod, data)))</span>
+<span id="cb27-2"><a href="#cb27-2"></a>mods</span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="co">#&gt; # A tibble: 3 x 4</span></span>
+<span id="cb27-4"><a href="#cb27-4"></a><span class="co">#&gt; # Rowwise:  cyl</span></span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="co">#&gt;     cyl data               mod    pred      </span></span>
+<span id="cb27-6"><a href="#cb27-6"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt; &lt;list&gt;    </span></span>
+<span id="cb27-7"><a href="#cb27-7"></a><span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;   &lt;dbl [11]&gt;</span></span>
+<span id="cb27-8"><a href="#cb27-8"></a><span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;   &lt;dbl [7]&gt; </span></span>
+<span id="cb27-9"><a href="#cb27-9"></a><span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;   &lt;dbl [14]&gt;</span></span></code></pre></div>
 <p>You could then summarise the model in a variety of ways:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">mods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mse =</span> <span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>((pred <span class="op">-</span><span class="st"> </span>data<span class="op">$</span>mpg) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)))</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="co">#&gt; # Rowwise:  cyl</span></a>
-<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co">#&gt;     cyl   mse</span></a>
-<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="co">#&gt; 1     4 3.01 </span></a>
-<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="co">#&gt; 2     6 0.985</span></a>
-<a class="sourceLine" id="cb28-8" data-line-number="8"><span class="co">#&gt; 3     8 1.87</span></a>
-<a class="sourceLine" id="cb28-9" data-line-number="9">mods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">rsq =</span> <span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(mod)<span class="op">$</span>r.squared)</a>
-<a class="sourceLine" id="cb28-10" data-line-number="10"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb28-11" data-line-number="11"><span class="co">#&gt; # Rowwise:  cyl</span></a>
-<a class="sourceLine" id="cb28-12" data-line-number="12"><span class="co">#&gt;     cyl   rsq</span></a>
-<a class="sourceLine" id="cb28-13" data-line-number="13"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb28-14" data-line-number="14"><span class="co">#&gt; 1     4 0.509</span></a>
-<a class="sourceLine" id="cb28-15" data-line-number="15"><span class="co">#&gt; 2     6 0.465</span></a>
-<a class="sourceLine" id="cb28-16" data-line-number="16"><span class="co">#&gt; 3     8 0.423</span></a>
-<a class="sourceLine" id="cb28-17" data-line-number="17">mods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(broom<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/broom/man/reexports.html">glance</a></span>(mod))</a>
-<a class="sourceLine" id="cb28-18" data-line-number="18"><span class="co">#&gt; # A tibble: 3 x 12</span></a>
-<a class="sourceLine" id="cb28-19" data-line-number="19"><span class="co">#&gt; # Rowwise:  cyl</span></a>
-<a class="sourceLine" id="cb28-20" data-line-number="20"><span class="co">#&gt;     cyl r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC</span></a>
-<a class="sourceLine" id="cb28-21" data-line-number="21"><span class="co">#&gt;   &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb28-22" data-line-number="22"><span class="co">#&gt; 1     4     0.509         0.454  3.33      9.32  0.0137     2 -27.7   61.5  62.7</span></a>
-<a class="sourceLine" id="cb28-23" data-line-number="23"><span class="co">#&gt; 2     6     0.465         0.357  1.17      4.34  0.0918     2  -9.83  25.7  25.5</span></a>
-<a class="sourceLine" id="cb28-24" data-line-number="24"><span class="co">#&gt; 3     8     0.423         0.375  2.02      8.80  0.0118     2 -28.7   63.3  65.2</span></a>
-<a class="sourceLine" id="cb28-25" data-line-number="25"><span class="co">#&gt; # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>mods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">mse =</span> <span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>((pred <span class="op">-</span><span class="st"> </span>data<span class="op">$</span>mpg) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)))</span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb28-3"><a href="#cb28-3"></a><span class="co">#&gt; # Rowwise:  cyl</span></span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="co">#&gt;     cyl   mse</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a><span class="co">#&gt; 1     4 3.01 </span></span>
+<span id="cb28-7"><a href="#cb28-7"></a><span class="co">#&gt; 2     6 0.985</span></span>
+<span id="cb28-8"><a href="#cb28-8"></a><span class="co">#&gt; 3     8 1.87</span></span>
+<span id="cb28-9"><a href="#cb28-9"></a>mods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">rsq =</span> <span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(mod)<span class="op">$</span>r.squared)</span>
+<span id="cb28-10"><a href="#cb28-10"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb28-11"><a href="#cb28-11"></a><span class="co">#&gt; # Rowwise:  cyl</span></span>
+<span id="cb28-12"><a href="#cb28-12"></a><span class="co">#&gt;     cyl   rsq</span></span>
+<span id="cb28-13"><a href="#cb28-13"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb28-14"><a href="#cb28-14"></a><span class="co">#&gt; 1     4 0.509</span></span>
+<span id="cb28-15"><a href="#cb28-15"></a><span class="co">#&gt; 2     6 0.465</span></span>
+<span id="cb28-16"><a href="#cb28-16"></a><span class="co">#&gt; 3     8 0.423</span></span>
+<span id="cb28-17"><a href="#cb28-17"></a>mods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(broom<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/broom/man/reexports.html">glance</a></span>(mod))</span>
+<span id="cb28-18"><a href="#cb28-18"></a><span class="co">#&gt; # A tibble: 3 x 12</span></span>
+<span id="cb28-19"><a href="#cb28-19"></a><span class="co">#&gt; # Rowwise:  cyl</span></span>
+<span id="cb28-20"><a href="#cb28-20"></a><span class="co">#&gt;     cyl r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC</span></span>
+<span id="cb28-21"><a href="#cb28-21"></a><span class="co">#&gt;   &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb28-22"><a href="#cb28-22"></a><span class="co">#&gt; 1     4     0.509         0.454  3.33      9.32  0.0137     2 -27.7   61.5  62.7</span></span>
+<span id="cb28-23"><a href="#cb28-23"></a><span class="co">#&gt; 2     6     0.465         0.357  1.17      4.34  0.0918     2  -9.83  25.7  25.5</span></span>
+<span id="cb28-24"><a href="#cb28-24"></a><span class="co">#&gt; 3     8     0.423         0.375  2.02      8.80  0.0118     2 -28.7   63.3  65.2</span></span>
+<span id="cb28-25"><a href="#cb28-25"></a><span class="co">#&gt; # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</span></span></code></pre></div>
 <p>Or easily access the parameters of each model:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">mods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(broom<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/broom/man/reexports.html">tidy</a></span>(mod))</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="co">#&gt; # Rowwise:  cyl</span></a>
-<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#&gt;     cyl term        estimate std.error statistic    p.value</span></a>
-<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co">#&gt; 1     4 (Intercept)    39.6       4.35      9.10 0.00000777</span></a>
-<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="co">#&gt; 2     4 wt             -5.65      1.85     -3.05 0.0137    </span></a>
-<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="co">#&gt; 3     6 (Intercept)    28.4       4.18      6.79 0.00105   </span></a>
-<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co">#&gt; 4     6 wt             -2.78      1.33     -2.08 0.0918    </span></a>
-<a class="sourceLine" id="cb29-10" data-line-number="10"><span class="co">#&gt; # … with 2 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>mods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(broom<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/broom/man/reexports.html">tidy</a></span>(mod))</span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="co">#&gt; # Rowwise:  cyl</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a><span class="co">#&gt;     cyl term        estimate std.error statistic    p.value</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb29-6"><a href="#cb29-6"></a><span class="co">#&gt; 1     4 (Intercept)    39.6       4.35      9.10 0.00000777</span></span>
+<span id="cb29-7"><a href="#cb29-7"></a><span class="co">#&gt; 2     4 wt             -5.65      1.85     -3.05 0.0137    </span></span>
+<span id="cb29-8"><a href="#cb29-8"></a><span class="co">#&gt; 3     6 (Intercept)    28.4       4.18      6.79 0.00105   </span></span>
+<span id="cb29-9"><a href="#cb29-9"></a><span class="co">#&gt; 4     6 wt             -2.78      1.33     -2.08 0.0918    </span></span>
+<span id="cb29-10"><a href="#cb29-10"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 </div>
 </div>
 <div id="previously" class="section level2">
@@ -598,53 +598,53 @@
 <ul>
 <li>
 <p>Without argument names: you could call functions that input and output data frames using <code>.</code> to refer to the “current” group. For example, the following code gets the first row of each group:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(., <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co">#&gt; Warning: `do()` is deprecated as of dplyr 1.0.0.</span></a>
-<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="co">#&gt; Use condense() or summarise()</span></a>
-<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="co">#&gt; This warning is displayed once per session.</span></a>
-<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span></a>
-<a class="sourceLine" id="cb30-8" data-line-number="8"><span class="co">#&gt; # A tibble: 3 x 11</span></a>
-<a class="sourceLine" id="cb30-9" data-line-number="9"><span class="co">#&gt; # Groups:   cyl [3]</span></a>
-<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="co">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></a>
-<a class="sourceLine" id="cb30-11" data-line-number="11"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb30-12" data-line-number="12"><span class="co">#&gt; 1  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span></a>
-<a class="sourceLine" id="cb30-13" data-line-number="13"><span class="co">#&gt; 2  21       6   160   110  3.9   2.62  16.5     0     1     4     4</span></a>
-<a class="sourceLine" id="cb30-14" data-line-number="14"><span class="co">#&gt; 3  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2</span></a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="st">  </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(., <span class="dv">1</span>))</span>
+<span id="cb30-4"><a href="#cb30-4"></a><span class="co">#&gt; Warning: `do()` is deprecated as of dplyr 1.0.0.</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="co">#&gt; Use condense() or summarise()</span></span>
+<span id="cb30-6"><a href="#cb30-6"></a><span class="co">#&gt; This warning is displayed once per session.</span></span>
+<span id="cb30-7"><a href="#cb30-7"></a><span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span></span>
+<span id="cb30-8"><a href="#cb30-8"></a><span class="co">#&gt; # A tibble: 3 x 11</span></span>
+<span id="cb30-9"><a href="#cb30-9"></a><span class="co">#&gt; # Groups:   cyl [3]</span></span>
+<span id="cb30-10"><a href="#cb30-10"></a><span class="co">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
+<span id="cb30-11"><a href="#cb30-11"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb30-12"><a href="#cb30-12"></a><span class="co">#&gt; 1  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span id="cb30-13"><a href="#cb30-13"></a><span class="co">#&gt; 2  21       6   160   110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span id="cb30-14"><a href="#cb30-14"></a><span class="co">#&gt; 3  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2</span></span></code></pre></div>
 <p>This has been superseded <code><a href="../reference/context.html">cur_data()</a></code> plus the more permissive <code><a href="../reference/summarise.html">summarise()</a></code> which can now create multiple columns and multiple rows.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw"><a href="../reference/context.html">cur_data</a></span>(), <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 11</span></a>
-<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">#&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></a>
-<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="co">#&gt; 1     4  22.8   108    93  3.85  2.32  18.6     1     1     4     1</span></a>
-<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="co">#&gt; 2     6  21     160   110  3.9   2.62  16.5     0     1     4     4</span></a>
-<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="co">#&gt; 3     8  18.7   360   175  3.15  3.44  17.0     0     0     3     2</span></a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw"><a href="../reference/context.html">cur_data</a></span>(), <span class="dv">1</span>))</span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="co">#&gt; # A tibble: 3 x 11</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="co">#&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
+<span id="cb31-6"><a href="#cb31-6"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb31-7"><a href="#cb31-7"></a><span class="co">#&gt; 1     4  22.8   108    93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span id="cb31-8"><a href="#cb31-8"></a><span class="co">#&gt; 2     6  21     160   110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span id="cb31-9"><a href="#cb31-9"></a><span class="co">#&gt; 3     8  18.7   360   175  3.15  3.44  17.0     0     0     3     2</span></span></code></pre></div>
 </li>
 <li>
 <p>With arguments: it worked like <code><a href="../reference/mutate.html">mutate()</a></code> but automatically wrapped every element in a list:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="dt">nrows =</span> <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(.))</a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb32-5" data-line-number="5"><span class="co">#&gt; # Rowwise: </span></a>
-<a class="sourceLine" id="cb32-6" data-line-number="6"><span class="co">#&gt;     cyl nrows    </span></a>
-<a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;   </span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; 1     4 &lt;int [1]&gt;</span></a>
-<a class="sourceLine" id="cb32-9" data-line-number="9"><span class="co">#&gt; 2     6 &lt;int [1]&gt;</span></a>
-<a class="sourceLine" id="cb32-10" data-line-number="10"><span class="co">#&gt; 3     8 &lt;int [1]&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-2"><a href="#cb32-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-3"><a href="#cb32-3"></a><span class="st">  </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="dt">nrows =</span> <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(.))</span>
+<span id="cb32-4"><a href="#cb32-4"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb32-5"><a href="#cb32-5"></a><span class="co">#&gt; # Rowwise: </span></span>
+<span id="cb32-6"><a href="#cb32-6"></a><span class="co">#&gt;     cyl nrows    </span></span>
+<span id="cb32-7"><a href="#cb32-7"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;   </span></span>
+<span id="cb32-8"><a href="#cb32-8"></a><span class="co">#&gt; 1     4 &lt;int [1]&gt;</span></span>
+<span id="cb32-9"><a href="#cb32-9"></a><span class="co">#&gt; 2     6 &lt;int [1]&gt;</span></span>
+<span id="cb32-10"><a href="#cb32-10"></a><span class="co">#&gt; 3     8 &lt;int [1]&gt;</span></span></code></pre></div>
 <p>I now believe that behaviour is both too magical and not very useful, and it can be replaced by <code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/context.html">cur_data()</a></code> .</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">nrows =</span> <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw"><a href="../reference/context.html">cur_data</a></span>()))</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="co">#&gt;     cyl nrows</span></a>
-<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb33-7" data-line-number="7"><span class="co">#&gt; 1     4    11</span></a>
-<a class="sourceLine" id="cb33-8" data-line-number="8"><span class="co">#&gt; 2     6     7</span></a>
-<a class="sourceLine" id="cb33-9" data-line-number="9"><span class="co">#&gt; 3     8    14</span></a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb33-3"><a href="#cb33-3"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">nrows =</span> <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw"><a href="../reference/context.html">cur_data</a></span>()))</span>
+<span id="cb33-4"><a href="#cb33-4"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a><span class="co">#&gt;     cyl nrows</span></span>
+<span id="cb33-6"><a href="#cb33-6"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt;</span></span>
+<span id="cb33-7"><a href="#cb33-7"></a><span class="co">#&gt; 1     4    11</span></span>
+<span id="cb33-8"><a href="#cb33-8"></a><span class="co">#&gt; 2     6     7</span></span>
+<span id="cb33-9"><a href="#cb33-9"></a><span class="co">#&gt; 3     8    14</span></span></code></pre></div>
 <p>If needed (unlike here), you can wrap the results in list yourself.</p>
 </li>
 </ul>
@@ -653,7 +653,7 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
         <div id="tocnav">
       <h2 class="hasAnchor">

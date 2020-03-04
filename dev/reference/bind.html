@@ -242,67 +242,67 @@ appears in any of the inputs.</p>
 <span class='no'>two</span> <span class='kw'>&lt;-</span> <span class='no'>starwars</span>[<span class='fl'>9</span>:<span class='fl'>12</span>, ]
 
 <span class='co'># You can supply data frames as arguments:</span>
-<span class='fu'>bind_rows</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt; # A tibble: 8 x 14
+<span class='fu'>bind_rows</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 8 x 14</span><span>
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…
-#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
-#&gt; 5 Bigg…    183    84 black      light      brown           24   male  mascu…
-#&gt; 6 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
-#&gt; 7 Anak…    188    84 blond      fair       blue            41.9 male  mascu…
-#&gt; 8 Wilh…    180    NA auburn, g… fair       blue            64   male  mascu…
-#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
-#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'>2</span><span> C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'>3</span><span> R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'>4</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'>5</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>6</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'>7</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'>8</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,
+#&gt; #   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># The contents of lists are spliced automatically:</span>
-<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt; # A tibble: 8 x 14
+<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 14</span><span>
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…
-#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
-#&gt; 5 Bigg…    183    84 black      light      brown           24   male  mascu…
-#&gt; 6 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
-#&gt; 7 Anak…    188    84 blond      fair       blue            41.9 male  mascu…
-#&gt; 8 Wilh…    180    NA auburn, g… fair       blue            64   male  mascu…
-#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
-#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>$<span class='no'>homeworld</span>))</div><div class='output co'>#&gt; # A tibble: 77 x 14
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'>2</span><span> C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'>3</span><span> R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'>4</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'>5</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>6</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'>7</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'>8</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,
+#&gt; #   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>$<span class='no'>homeworld</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 77 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Leia…    150    49 brown      light      brown             19 fema… femin…
-#&gt;  2 Bail…    191    NA black      tan        brown             67 male  mascu…
-#&gt;  3 Raym…    188    79 brown      light      brown             NA male  mascu…
-#&gt;  4 Ratt…     79    15 none       grey, blue unknown           NA male  mascu…
-#&gt;  5 Lobot    175    79 none       light      blue              37 male  mascu…
-#&gt;  6 Jek …    180   110 brown      fair       blue              NA male  mascu…
-#&gt;  7 Nute…    191    90 none       mottled g… red               NA male  mascu…
-#&gt;  8 Ki-A…    198    82 white      pale       yellow            92 male  mascu…
-#&gt;  9 Mas …    196    NA none       blue       blue              NA male  mascu…
-#&gt; 10 Mon …    150    NA auburn     fair       blue              48 fema… femin…
-#&gt; # … with 67 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>two</span>, <span class='no'>one</span>))</div><div class='output co'>#&gt; # A tibble: 16 x 14
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Leia…    150    49 brown      light      brown             19 fema… femin…
+#&gt; </span><span style='color: #555555;'> 2</span><span> Bail…    191    </span><span style='color: #BB0000;'>NA</span><span> black      tan        brown             67 male  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> Raym…    188    79 brown      light      brown             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Ratt…     79    15 none       grey, blue unknown           </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Lobot    175    79 none       light      blue              37 male  mascu…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Jek …    180   110 brown      fair       blue              </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Nute…    191    90 none       mottled g… red               </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 8</span><span> Ki-A…    198    82 white      pale       yellow            92 male  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Mas …    196    </span><span style='color: #BB0000;'>NA</span><span> none       blue       blue              </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Mon …    150    </span><span style='color: #BB0000;'>NA</span><span> auburn     fair       blue              48 fema… femin…
+#&gt; </span><span style='color: #555555;'># … with 67 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>two</span>, <span class='no'>one</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 16 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Luke…    172    77 blond      fair       blue            19   male  mascu…
-#&gt;  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt;  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt;  4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
-#&gt;  5 Bigg…    183    84 black      light      brown           24   male  mascu…
-#&gt;  6 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
-#&gt;  7 Anak…    188    84 blond      fair       blue            41.9 male  mascu…
-#&gt;  8 Wilh…    180    NA auburn, g… fair       blue            64   male  mascu…
-#&gt;  9 Bigg…    183    84 black      light      brown           24   male  mascu…
-#&gt; 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
-#&gt; 11 Anak…    188    84 blond      fair       blue            41.9 male  mascu…
-#&gt; 12 Wilh…    180    NA auburn, g… fair       blue            64   male  mascu…
-#&gt; 13 Luke…    172    77 blond      fair       blue            19   male  mascu…
-#&gt; 14 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt; 15 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt; 16 Dart…    202   136 none       white      yellow          41.9 male  mascu…
-#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
-#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 8</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'>11</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'>12</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
+#&gt; </span><span style='color: #555555;'>13</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'>14</span><span> C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'>15</span><span> R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'>16</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,
+#&gt; #   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 
 <span class='co'># In addition to data frames, you can supply vectors. In the rows</span>
 <span class='co'># direction, the vectors represent rows and should have inner</span>
@@ -310,74 +310,74 @@ appears in any of the inputs.</p>
 <span class='fu'>bind_rows</span>(
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>4</span>)
-)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;       a     b
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     2
-#&gt; 2     3     4</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2
+#&gt; </span><span style='color: #555555;'>2</span><span>     3     4</div><div class='input'>
 <span class='co'># You can mix vectors and data frames:</span>
 <span class='fu'>bind_rows</span>(
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
   <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>:<span class='fl'>4</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>5</span>:<span class='fl'>6</span>),
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>8</span>)
-)</div><div class='output co'>#&gt; # A tibble: 4 x 2
+)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
 #&gt;       a     b
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     2
-#&gt; 2     3     5
-#&gt; 3     4     6
-#&gt; 4     7     8</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2
+#&gt; </span><span style='color: #555555;'>2</span><span>     3     5
+#&gt; </span><span style='color: #555555;'>3</span><span>     4     6
+#&gt; </span><span style='color: #555555;'>4</span><span>     7     8</div><div class='input'>
 
 <span class='co'># When you supply a column name with the `.id` argument, a new</span>
 <span class='co'># column is created to link each row to its original data frame</span>
-<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt; # A tibble: 8 x 15
+<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
 #&gt;   id    name  height  mass hair_color skin_color eye_color birth_year sex  
-#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;
-#&gt; 1 1     Luke…    172    77 blond      fair       blue            19   male 
-#&gt; 2 1     C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none 
-#&gt; 3 1     R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none 
-#&gt; 4 1     Dart…    202   136 none       white      yellow          41.9 male 
-#&gt; 5 2     Bigg…    183    84 black      light      brown           24   male 
-#&gt; 6 2     Obi-…    182    77 auburn, w… fair       blue-gray       57   male 
-#&gt; 7 2     Anak…    188    84 blond      fair       blue            41.9 male 
-#&gt; 8 2     Wilh…    180    NA auburn, g… fair       blue            64   male 
-#&gt; # … with 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt; # A tibble: 8 x 15
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 1     Luke…    172    77 blond      fair       blue            19   male 
+#&gt; </span><span style='color: #555555;'>2</span><span> 1     C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none 
+#&gt; </span><span style='color: #555555;'>3</span><span> 1     R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none 
+#&gt; </span><span style='color: #555555;'>4</span><span> 1     Dart…    202   136 none       white      yellow          41.9 male 
+#&gt; </span><span style='color: #555555;'>5</span><span> 2     Bigg…    183    84 black      light      brown           24   male 
+#&gt; </span><span style='color: #555555;'>6</span><span> 2     Obi-…    182    77 auburn, w… fair       blue-gray       57   male 
+#&gt; </span><span style='color: #555555;'>7</span><span> 2     Anak…    188    84 blond      fair       blue            41.9 male 
+#&gt; </span><span style='color: #555555;'>8</span><span> 2     Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male 
+#&gt; </span><span style='color: #555555;'># … with 6 more variables: gender </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
 #&gt;   id    name  height  mass hair_color skin_color eye_color birth_year sex  
-#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;
-#&gt; 1 a     Luke…    172    77 blond      fair       blue            19   male 
-#&gt; 2 a     C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none 
-#&gt; 3 a     R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none 
-#&gt; 4 a     Dart…    202   136 none       white      yellow          41.9 male 
-#&gt; 5 b     Bigg…    183    84 black      light      brown           24   male 
-#&gt; 6 b     Obi-…    182    77 auburn, w… fair       blue-gray       57   male 
-#&gt; 7 b     Anak…    188    84 blond      fair       blue            41.9 male 
-#&gt; 8 b     Wilh…    180    NA auburn, g… fair       blue            64   male 
-#&gt; # … with 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>bind_rows</span>(<span class='st'>"group 1"</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='st'>"group 2"</span> <span class='kw'>=</span> <span class='no'>two</span>, <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"groups"</span>)</div><div class='output co'>#&gt; # A tibble: 8 x 15
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> a     Luke…    172    77 blond      fair       blue            19   male 
+#&gt; </span><span style='color: #555555;'>2</span><span> a     C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none 
+#&gt; </span><span style='color: #555555;'>3</span><span> a     R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none 
+#&gt; </span><span style='color: #555555;'>4</span><span> a     Dart…    202   136 none       white      yellow          41.9 male 
+#&gt; </span><span style='color: #555555;'>5</span><span> b     Bigg…    183    84 black      light      brown           24   male 
+#&gt; </span><span style='color: #555555;'>6</span><span> b     Obi-…    182    77 auburn, w… fair       blue-gray       57   male 
+#&gt; </span><span style='color: #555555;'>7</span><span> b     Anak…    188    84 blond      fair       blue            41.9 male 
+#&gt; </span><span style='color: #555555;'>8</span><span> b     Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male 
+#&gt; </span><span style='color: #555555;'># … with 6 more variables: gender </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='st'>"group 1"</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='st'>"group 2"</span> <span class='kw'>=</span> <span class='no'>two</span>, <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"groups"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
 #&gt;   groups name  height  mass hair_color skin_color eye_color birth_year sex  
-#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;
-#&gt; 1 group… Luke…    172    77 blond      fair       blue            19   male 
-#&gt; 2 group… C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none 
-#&gt; 3 group… R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none 
-#&gt; 4 group… Dart…    202   136 none       white      yellow          41.9 male 
-#&gt; 5 group… Bigg…    183    84 black      light      brown           24   male 
-#&gt; 6 group… Obi-…    182    77 auburn, w… fair       blue-gray       57   male 
-#&gt; 7 group… Anak…    188    84 blond      fair       blue            41.9 male 
-#&gt; 8 group… Wilh…    180    NA auburn, g… fair       blue            64   male 
-#&gt; # … with 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> group… Luke…    172    77 blond      fair       blue            19   male 
+#&gt; </span><span style='color: #555555;'>2</span><span> group… C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none 
+#&gt; </span><span style='color: #555555;'>3</span><span> group… R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none 
+#&gt; </span><span style='color: #555555;'>4</span><span> group… Dart…    202   136 none       white      yellow          41.9 male 
+#&gt; </span><span style='color: #555555;'>5</span><span> group… Bigg…    183    84 black      light      brown           24   male 
+#&gt; </span><span style='color: #555555;'>6</span><span> group… Obi-…    182    77 auburn, w… fair       blue-gray       57   male 
+#&gt; </span><span style='color: #555555;'>7</span><span> group… Anak…    188    84 blond      fair       blue            41.9 male 
+#&gt; </span><span style='color: #555555;'>8</span><span> group… Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male 
+#&gt; </span><span style='color: #555555;'># … with 6 more variables: gender </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># Columns don't need to match when row-binding</span>
-<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>))</div><div class='output co'>#&gt; # A tibble: 7 x 2
+<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 7 x 2</span><span>
 #&gt;       x     y
-#&gt;   &lt;int&gt; &lt;int&gt;
-#&gt; 1     1    NA
-#&gt; 2     2    NA
-#&gt; 3     3    NA
-#&gt; 4    NA     1
-#&gt; 5    NA     2
-#&gt; 6    NA     3
-#&gt; 7    NA     4</div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>     2    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     3    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     1
+#&gt; </span><span style='color: #555555;'>5</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     2
+#&gt; </span><span style='color: #555555;'>6</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     3
+#&gt; </span><span style='color: #555555;'>7</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     4</div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Rows do need to match when column-binding</span>
 <span class='fu'>bind_cols</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>))
 }
@@ -388,43 +388,43 @@ appears in any of the inputs.</p>
 #&gt; <span class='message'>* mass -&gt; mass...3</span>
 #&gt; <span class='message'>* hair_color -&gt; hair_color...4</span>
 #&gt; <span class='message'>* skin_color -&gt; skin_color...5</span>
-#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt; # A tibble: 4 x 28
+#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 28</span><span>
 #&gt;   name...1 height...2 mass...3 hair_color...4 skin_color...5 eye_color...6
-#&gt;   &lt;chr&gt;         &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;          &lt;chr&gt;        
-#&gt; 1 Luke Sk…        172       77 blond          fair           blue         
-#&gt; 2 C-3PO           167       75 &lt;NA&gt;           gold           yellow       
-#&gt; 3 R2-D2            96       32 &lt;NA&gt;           white, blue    red          
-#&gt; 4 Darth V…        202      136 none           white          yellow       
-#&gt; # … with 22 more variables: birth_year...7 &lt;dbl&gt;, sex...8 &lt;chr&gt;,
-#&gt; #   gender...9 &lt;chr&gt;, homeworld...10 &lt;chr&gt;, species...11 &lt;chr&gt;,
-#&gt; #   films...12 &lt;list&gt;, vehicles...13 &lt;list&gt;, starships...14 &lt;list&gt;,
-#&gt; #   name...15 &lt;chr&gt;, height...16 &lt;int&gt;, mass...17 &lt;dbl&gt;, hair_color...18 &lt;chr&gt;,
-#&gt; #   skin_color...19 &lt;chr&gt;, eye_color...20 &lt;chr&gt;, birth_year...21 &lt;dbl&gt;,
-#&gt; #   sex...22 &lt;chr&gt;, gender...23 &lt;chr&gt;, homeworld...24 &lt;chr&gt;,
-#&gt; #   species...25 &lt;chr&gt;, films...26 &lt;list&gt;, vehicles...27 &lt;list&gt;,
-#&gt; #   starships...28 &lt;list&gt;</div><div class='input'><span class='fu'>bind_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        
+#&gt; </span><span style='color: #555555;'>1</span><span> Luke Sk…        172       77 blond          fair           blue         
+#&gt; </span><span style='color: #555555;'>2</span><span> C-3PO           167       75 </span><span style='color: #BB0000;'>NA</span><span>             gold           yellow       
+#&gt; </span><span style='color: #555555;'>3</span><span> R2-D2            96       32 </span><span style='color: #BB0000;'>NA</span><span>             white, blue    red          
+#&gt; </span><span style='color: #555555;'>4</span><span> Darth V…        202      136 none           white          yellow       
+#&gt; </span><span style='color: #555555;'># … with 22 more variables: birth_year...7 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, sex...8 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   gender...9 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld...10 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species...11 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films...12 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles...13 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships...14 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,
+#&gt; #   name...15 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, height...16 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, mass...17 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, hair_color...18 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   skin_color...19 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, eye_color...20 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, birth_year...21 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   sex...22 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, gender...23 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld...24 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   species...25 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films...26 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles...27 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,
+#&gt; #   starships...28 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* name -&gt; name...1</span>
 #&gt; <span class='message'>* height -&gt; height...2</span>
 #&gt; <span class='message'>* mass -&gt; mass...3</span>
 #&gt; <span class='message'>* hair_color -&gt; hair_color...4</span>
 #&gt; <span class='message'>* skin_color -&gt; skin_color...5</span>
-#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt; # A tibble: 4 x 28
+#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 28</span><span>
 #&gt;   name...1 height...2 mass...3 hair_color...4 skin_color...5 eye_color...6
-#&gt;   &lt;chr&gt;         &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;          &lt;chr&gt;        
-#&gt; 1 Luke Sk…        172       77 blond          fair           blue         
-#&gt; 2 C-3PO           167       75 &lt;NA&gt;           gold           yellow       
-#&gt; 3 R2-D2            96       32 &lt;NA&gt;           white, blue    red          
-#&gt; 4 Darth V…        202      136 none           white          yellow       
-#&gt; # … with 22 more variables: birth_year...7 &lt;dbl&gt;, sex...8 &lt;chr&gt;,
-#&gt; #   gender...9 &lt;chr&gt;, homeworld...10 &lt;chr&gt;, species...11 &lt;chr&gt;,
-#&gt; #   films...12 &lt;list&gt;, vehicles...13 &lt;list&gt;, starships...14 &lt;list&gt;,
-#&gt; #   name...15 &lt;chr&gt;, height...16 &lt;int&gt;, mass...17 &lt;dbl&gt;, hair_color...18 &lt;chr&gt;,
-#&gt; #   skin_color...19 &lt;chr&gt;, eye_color...20 &lt;chr&gt;, birth_year...21 &lt;dbl&gt;,
-#&gt; #   sex...22 &lt;chr&gt;, gender...23 &lt;chr&gt;, homeworld...24 &lt;chr&gt;,
-#&gt; #   species...25 &lt;chr&gt;, films...26 &lt;list&gt;, vehicles...27 &lt;list&gt;,
-#&gt; #   starships...28 &lt;list&gt;</div></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        
+#&gt; </span><span style='color: #555555;'>1</span><span> Luke Sk…        172       77 blond          fair           blue         
+#&gt; </span><span style='color: #555555;'>2</span><span> C-3PO           167       75 </span><span style='color: #BB0000;'>NA</span><span>             gold           yellow       
+#&gt; </span><span style='color: #555555;'>3</span><span> R2-D2            96       32 </span><span style='color: #BB0000;'>NA</span><span>             white, blue    red          
+#&gt; </span><span style='color: #555555;'>4</span><span> Darth V…        202      136 none           white          yellow       
+#&gt; </span><span style='color: #555555;'># … with 22 more variables: birth_year...7 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, sex...8 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   gender...9 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld...10 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species...11 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films...12 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles...13 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships...14 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,
+#&gt; #   name...15 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, height...16 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, mass...17 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, hair_color...18 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   skin_color...19 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, eye_color...20 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, birth_year...21 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   sex...22 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, gender...23 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld...24 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   species...25 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films...26 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles...27 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,
+#&gt; #   starships...28 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

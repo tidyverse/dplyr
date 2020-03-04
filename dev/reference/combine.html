@@ -218,17 +218,17 @@ but could fail in surprising ways. We now believe it's better to be explicit.</p
 
 <span class='fu'>combine</span>(<span class='no'>f1</span>, <span class='no'>f2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `combine()` is deprecated as of dplyr 1.0.0.</span>
 #&gt; <span class='warning'>Please use `vctrs::vec_c()` instead.</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; [1] a b
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once per session.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; [1] a b
 #&gt; Levels: a b</div><div class='input'><span class='co'># -&gt;</span>
 <span class='kw pkg'>vctrs</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/vctrs/man/vec_c.html'>vec_c</a></span>(<span class='no'>f1</span>, <span class='no'>f1</span>)</div><div class='output co'>#&gt; [1] a a
 #&gt; Levels: a</div><div class='input'>
 <span class='fu'>combine</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>f1</span>, <span class='no'>f2</span>))</div><div class='output co'>#&gt; [1] a b
 #&gt; Levels: a b</div><div class='input'><span class='co'># -&gt;</span>
 <span class='kw pkg'>vctrs</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/vctrs/man/vec_c.html'>vec_c</a></span>(!!!<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>f1</span>, <span class='no'>f2</span>))</div><div class='output co'>#&gt; [1] a b
-#&gt; Levels: a b</div></pre>
+#&gt; Levels: a b</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

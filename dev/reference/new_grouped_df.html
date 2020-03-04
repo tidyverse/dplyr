@@ -239,17 +239,17 @@ a list of 1 based integer vectors that all are between 1 and the number of rows 
   <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='st'>".rows"</span> <span class='kw'>:=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>replicate</a></span>(<span class='fl'>5</span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))
 )
 <span class='co'># mean of each bootstrap sample</span>
-<span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='no'>tbl</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; # A tibble: 5 x 1
+<span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='no'>tbl</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 1</span><span>
 #&gt;        x
-#&gt;    &lt;dbl&gt;
-#&gt; 1 -0.427
-#&gt; 2 -0.388
-#&gt; 3 -0.685
-#&gt; 4 -0.213
-#&gt; 5 -0.453</div><div class='input'>
-</div></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> -</span><span style='color: #BB0000;'>0.427</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> -</span><span style='color: #BB0000;'>0.388</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> -</span><span style='color: #BB0000;'>0.685</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> -</span><span style='color: #BB0000;'>0.213</span><span>
+#&gt; </span><span style='color: #555555;'>5</span><span> -</span><span style='color: #BB0000;'>0.453</span><span></div><div class='input'>
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

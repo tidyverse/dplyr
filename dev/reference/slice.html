@@ -461,24 +461,24 @@ individual methods for extra arguments and differences in behaviour.</p>
 
 <span class='co'># All slice helpers operate per group, silently truncating to the group</span>
 <span class='co'># size, so the following code works without error</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>group</span>) <span class='kw'>%&gt;%</span> <span class='fu'>slice_head</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; # A tibble: 5 x 2
-#&gt; # Groups:   group [3]
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>group</span>) <span class='kw'>%&gt;%</span> <span class='fu'>slice_head</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   group [3]</span><span>
 #&gt;   group      x
-#&gt;   &lt;chr&gt;  &lt;dbl&gt;
-#&gt; 1 a     0.0438
-#&gt; 2 b     0.982 
-#&gt; 3 b     0.0819
-#&gt; 4 c     0.542 
-#&gt; 5 c     0.610 </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> a     0.043</span><span style='text-decoration: underline;'>8</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> b     0.982 
+#&gt; </span><span style='color: #555555;'>3</span><span> b     0.081</span><span style='text-decoration: underline;'>9</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> c     0.542 
+#&gt; </span><span style='color: #555555;'>5</span><span> c     0.610 </div><div class='input'>
 <span class='co'># When specifying the proportion of rows to include non-integer sizes</span>
 <span class='co'># are rounded down, so group a gets 0 rows</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>group</span>) <span class='kw'>%&gt;%</span> <span class='fu'>slice_head</span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt; # Groups:   group [2]
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>group</span>) <span class='kw'>%&gt;%</span> <span class='fu'>slice_head</span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   group [2]</span><span>
 #&gt;   group     x
-#&gt;   &lt;chr&gt; &lt;dbl&gt;
-#&gt; 1 b     0.982
-#&gt; 2 c     0.542
-#&gt; 3 c     0.610</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> b     0.982
+#&gt; </span><span style='color: #555555;'>2</span><span> c     0.542
+#&gt; </span><span style='color: #555555;'>3</span><span> c     0.610</div><div class='input'>
 <span class='co'># Filter equivalents --------------------------------------------</span>
 <span class='co'># slice() expressions can often be written to use `filter()` and</span>
 <span class='co'># `row_number()`, which can also be translated to SQL. For many databases,</span>
@@ -513,9 +513,9 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
 #&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
 #&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div></pre>
+#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

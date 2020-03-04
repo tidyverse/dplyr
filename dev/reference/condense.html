@@ -264,42 +264,42 @@ dplyr (<code>data.frame</code>)
 <span class='no'>mods</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>condense</span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='across.html'>across</a></span>()))
-<span class='no'>mods</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
-#&gt; # Rowwise:  cyl
+<span class='no'>mods</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
 #&gt;     cyl mod   
-#&gt;   &lt;dbl&gt; &lt;list&gt;
-#&gt; 1     4 &lt;lm&gt;  
-#&gt; 2     6 &lt;lm&gt;  
-#&gt; 3     8 &lt;lm&gt;  </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4 </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>2</span><span>     6 </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>3</span><span>     8 </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  </div><div class='input'>
 <span class='no'>mods</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt; # Rowwise:  cyl
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
 #&gt;     cyl mod       rsq
-#&gt;   &lt;dbl&gt; &lt;list&gt;  &lt;dbl&gt;
-#&gt; 1     4 &lt;lm&gt;   0.648 
-#&gt; 2     6 &lt;lm&gt;   0.0106
-#&gt; 3     8 &lt;lm&gt;   0.270 </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4 </span><span style='color: #555555;'>&lt;lm&gt;</span><span>   0.648 
+#&gt; </span><span style='color: #555555;'>2</span><span>     6 </span><span style='color: #555555;'>&lt;lm&gt;</span><span>   0.010</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     8 </span><span style='color: #555555;'>&lt;lm&gt;</span><span>   0.270 </div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"broom"</span>)) {
   <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>glance</a></span>(<span class='no'>mod</span>))
   <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>tidy</a></span>(<span class='no'>mod</span>))
   <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>augment</a></span>(<span class='no'>mod</span>))
-}</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: broom</span></div><div class='output co'>#&gt; # A tibble: 32 x 10
-#&gt; # Rowwise:  cyl
+}</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: broom</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 10</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
 #&gt;      cyl   mpg  disp .fitted .se.fit .resid   .hat .sigma .cooksd .std.resid
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
-#&gt;  1     4  22.8 108      26.3   0.855 -3.48  0.0920   2.70 0.0849     -1.29  
-#&gt;  2     4  24.4 147.     21.0   1.62   3.35  0.330    2.62 0.521       1.45  
-#&gt;  3     4  22.8 141.     21.8   1.46   0.956 0.267    2.96 0.0286      0.396 
-#&gt;  4     4  32.4  78.7    30.2   1.22   2.16  0.188    2.87 0.0838      0.852 
-#&gt;  5     4  30.4  75.7    30.6   1.29  -0.242 0.211    2.99 0.00125    -0.0965
-#&gt;  6     4  33.9  71.1    31.3   1.41   2.64  0.251    2.79 0.196       1.08  
-#&gt;  7     4  21.5 120.     24.6   0.984 -3.14  0.122    2.74 0.0982     -1.19  
-#&gt;  8     4  27.3  79      30.2   1.21  -2.90  0.186    2.77 0.148      -1.14  
-#&gt;  9     4  26   120.     24.6   0.988  1.39  0.123    2.94 0.0193      0.525 
-#&gt; 10     4  30.4  95.1    28.0   0.913  2.38  0.105    2.85 0.0466      0.892 
-#&gt; # … with 22 more rows</div></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>     4  22.8 108      26.3   0.855 -</span><span style='color: #BB0000;'>3.48</span><span>  0.092</span><span style='text-decoration: underline;'>0</span><span>   2.70 0.084</span><span style='text-decoration: underline;'>9</span><span>     -</span><span style='color: #BB0000;'>1.29</span><span>  
+#&gt; </span><span style='color: #555555;'> 2</span><span>     4  24.4 147.     21.0   1.62   3.35  0.330    2.62 0.521       1.45  
+#&gt; </span><span style='color: #555555;'> 3</span><span>     4  22.8 141.     21.8   1.46   0.956 0.267    2.96 0.028</span><span style='text-decoration: underline;'>6</span><span>      0.396 
+#&gt; </span><span style='color: #555555;'> 4</span><span>     4  32.4  78.7    30.2   1.22   2.16  0.188    2.87 0.083</span><span style='text-decoration: underline;'>8</span><span>      0.852 
+#&gt; </span><span style='color: #555555;'> 5</span><span>     4  30.4  75.7    30.6   1.29  -</span><span style='color: #BB0000;'>0.242</span><span> 0.211    2.99 0.001</span><span style='text-decoration: underline;'>25</span><span>    -</span><span style='color: #BB0000;'>0.096</span><span style='color: #BB0000;text-decoration: underline;'>5</span><span>
+#&gt; </span><span style='color: #555555;'> 6</span><span>     4  33.9  71.1    31.3   1.41   2.64  0.251    2.79 0.196       1.08  
+#&gt; </span><span style='color: #555555;'> 7</span><span>     4  21.5 120.     24.6   0.984 -</span><span style='color: #BB0000;'>3.14</span><span>  0.122    2.74 0.098</span><span style='text-decoration: underline;'>2</span><span>     -</span><span style='color: #BB0000;'>1.19</span><span>  
+#&gt; </span><span style='color: #555555;'> 8</span><span>     4  27.3  79      30.2   1.21  -</span><span style='color: #BB0000;'>2.90</span><span>  0.186    2.77 0.148      -</span><span style='color: #BB0000;'>1.14</span><span>  
+#&gt; </span><span style='color: #555555;'> 9</span><span>     4  26   120.     24.6   0.988  1.39  0.123    2.94 0.019</span><span style='text-decoration: underline;'>3</span><span>      0.525 
+#&gt; </span><span style='color: #555555;'>10</span><span>     4  30.4  95.1    28.0   0.913  2.38  0.105    2.85 0.046</span><span style='text-decoration: underline;'>6</span><span>      0.892 
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

@@ -155,30 +155,30 @@
     
 <p>A <strong>window function</strong> is a variation on an aggregation function. Where an aggregation function, like <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code> and <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, takes n inputs and return a single value, a window function returns n values. The output of a window function depends on all its input values, so window functions don’t include functions that work element-wise, like <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> or <code><a href="https://rdrr.io/r/base/Round.html">round()</a></code>. Window functions include variations on aggregate functions, like <code><a href="https://rdrr.io/r/base/cumsum.html">cumsum()</a></code> and <code><a href="../reference/cumall.html">cummean()</a></code>, functions for ranking and ordering, like <code><a href="https://rdrr.io/r/base/rank.html">rank()</a></code>, and functions for taking offsets, like <code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code>.</p>
 <p>In this vignette, we’ll use a small sample of the Lahman batting dataset, including the players that have won an award.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(Lahman)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">batting &lt;-<span class="st"> </span>Lahman<span class="op">::</span>Batting <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(playerID, yearID, teamID, G, AB<span class="op">:</span>H) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(playerID, yearID, teamID) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="../reference/filter-joins.html">semi_join</a></span>(Lahman<span class="op">::</span>AwardsPlayers, <span class="dt">by =</span> <span class="st">"playerID"</span>)</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">players &lt;-<span class="st"> </span>batting <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(playerID)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(Lahman)</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>batting &lt;-<span class="st"> </span>Lahman<span class="op">::</span>Batting <span class="op">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="st">  </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="op">%&gt;%</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(playerID, yearID, teamID, G, AB<span class="op">:</span>H) <span class="op">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="st">  </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(playerID, yearID, teamID) <span class="op">%&gt;%</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="st">  </span><span class="kw"><a href="../reference/filter-joins.html">semi_join</a></span>(Lahman<span class="op">::</span>AwardsPlayers, <span class="dt">by =</span> <span class="st">"playerID"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a>players &lt;-<span class="st"> </span>batting <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(playerID)</span></code></pre></div>
 <p>Window functions are used in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> to solve a wide range of problems. Here’s a selection:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># For each player, find the two years with most hits</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">min_rank</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(H)) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>H <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># Within each player, rank each year by the number of games played</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_rank =</span> <span class="kw"><a href="../reference/ranking.html">min_rank</a></span>(G))</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># For each player, find every year that was better than the previous year</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(G))</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co"># For each player, compute avg change in games played per year</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_change =</span> (G <span class="op">-</span><span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(G)) <span class="op">/</span><span class="st"> </span>(yearID <span class="op">-</span><span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(yearID)))</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co"># For each player, find all where they played more games than average</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(G))</a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co"># For each, player compute a z score based on number of games played</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(G)) <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span>(G))</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># For each player, find the two years with most hits</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">min_rank</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(H)) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>H <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Within each player, rank each year by the number of games played</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_rank =</span> <span class="kw"><a href="../reference/ranking.html">min_rank</a></span>(G))</span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co"># For each player, find every year that was better than the previous year</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(G))</span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># For each player, compute avg change in games played per year</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_change =</span> (G <span class="op">-</span><span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(G)) <span class="op">/</span><span class="st"> </span>(yearID <span class="op">-</span><span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(yearID)))</span>
+<span id="cb2-10"><a href="#cb2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co"># For each player, find all where they played more games than average</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(G))</span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co"># For each, player compute a z score based on number of games played</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(G)) <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span>(G))</span></code></pre></div>
 <p>Before reading this vignette, you should be familiar with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code>.</p>
 <div id="types-of-window-functions" class="section level2">
 <h2 class="hasAnchor">
@@ -200,141 +200,141 @@
 <h2 class="hasAnchor">
 <a href="#ranking-functions" class="anchor"></a>Ranking functions</h2>
 <p>The ranking functions are variations on a theme, differing in how they handle ties:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="../reference/ranking.html">row_number</a></span>(x)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; [1] 1 2 3 4 5</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="../reference/ranking.html">min_rank</a></span>(x)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; [1] 1 1 3 3 3</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw"><a href="../reference/ranking.html">dense_rank</a></span>(x)</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; [1] 1 1 2 2 2</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw"><a href="../reference/ranking.html">row_number</a></span>(x)</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; [1] 1 2 3 4 5</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="kw"><a href="../reference/ranking.html">min_rank</a></span>(x)</span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; [1] 1 1 3 3 3</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="kw"><a href="../reference/ranking.html">dense_rank</a></span>(x)</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; [1] 1 1 2 2 2</span></span></code></pre></div>
 <p>If you’re familiar with R, you may recognise that <code><a href="../reference/ranking.html">row_number()</a></code> and <code><a href="../reference/ranking.html">min_rank()</a></code> can be computed with the base <code><a href="https://rdrr.io/r/base/rank.html">rank()</a></code> function and various values of the <code>ties.method</code> argument. These functions are provided to save a little typing, and to make it easier to convert between R and SQL.</p>
 <p>Two other ranking functions return numbers between 0 and 1. <code><a href="../reference/ranking.html">percent_rank()</a></code> gives the percentage of the rank; <code><a href="../reference/ranking.html">cume_dist()</a></code> gives the proportion of values less than or equal to the current value.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/ranking.html">cume_dist</a></span>(x)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] 0.4 0.4 1.0 1.0 1.0</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="../reference/ranking.html">percent_rank</a></span>(x)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; [1] 0.0 0.0 0.5 0.5 0.5</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/ranking.html">cume_dist</a></span>(x)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; [1] 0.4 0.4 1.0 1.0 1.0</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="kw"><a href="../reference/ranking.html">percent_rank</a></span>(x)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; [1] 0.0 0.0 0.5 0.5 0.5</span></span></code></pre></div>
 <p>These are useful if you want to select (for example) the top 10% of records within each group. For example:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">cume_dist</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(G)) <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1,037 x 7</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; # Groups:   playerID [945]</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 1 aaronha01   1963 ML1      161   631   121   201</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 2 aaronha01   1968 ATL      160   606    84   174</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 3 abbotji01   1991 CAL       34     0     0     0</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 4 abernte02   1965 CHN       84    18     1     3</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; # … with 1,033 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">cume_dist</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(G)) <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; # A tibble: 1,037 x 7</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt; # Groups:   playerID [945]</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt; 1 aaronha01   1963 ML1      161   631   121   201</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; 2 aaronha01   1968 ATL      160   606    84   174</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; 3 abbotji01   1991 CAL       34     0     0     0</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 4 abernte02   1965 CHN       84    18     1     3</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; # … with 1,033 more rows</span></span></code></pre></div>
 <p>Finally, <code><a href="../reference/ranking.html">ntile()</a></code> divides the data up into <code>n</code> evenly sized buckets. It’s a coarse ranking, and it can be used in with <code><a href="../reference/mutate.html">mutate()</a></code> to divide the data into buckets for further summary. For example, we could use <code><a href="../reference/ranking.html">ntile()</a></code> to divide the players within a team into four ranked groups, and calculate the average number of games within each group.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">by_team_player &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(batting, teamID, playerID)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">by_team &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(by_team_player, <span class="dt">G =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(G))</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">by_team_quartile &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(by_team, <span class="dt">quartile =</span> <span class="kw"><a href="../reference/ranking.html">ntile</a></span>(G, <span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(by_team_quartile, <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(G))</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;   quartile `mean(G)`</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 1        1      26.9</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 2        2      96.7</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; 3        3     271. </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 4        4     976.</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>by_team_player &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(batting, teamID, playerID)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>by_team &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(by_team_player, <span class="dt">G =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(G))</span>
+<span id="cb6-3"><a href="#cb6-3"></a>by_team_quartile &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(by_team, <span class="dt">quartile =</span> <span class="kw"><a href="../reference/ranking.html">ntile</a></span>(G, <span class="dv">4</span>))</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(by_team_quartile, <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(G))</span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; # A tibble: 4 x 2</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt;   quartile `mean(G)`</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt; 1        1      26.9</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt; 2        2      96.7</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; 3        3     271. </span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt; 4        4     976.</span></span></code></pre></div>
 <p>All ranking functions rank from lowest to highest so that small input values get small ranks. Use <code><a href="../reference/desc.html">desc()</a></code> to rank from highest to lowest.</p>
 </div>
 <div id="lead-and-lag" class="section level2">
 <h2 class="hasAnchor">
 <a href="#lead-and-lag" class="anchor"></a>Lead and lag</h2>
 <p><code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> produce offset versions of a input vector that is either ahead of or behind the original vector.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../reference/lead-lag.html">lead</a></span>(x)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; [1]  2  3  4  5 NA</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(x)</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; [1] NA  1  2  3  4</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="../reference/lead-lag.html">lead</a></span>(x)</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; [1]  2  3  4  5 NA</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(x)</span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; [1] NA  1  2  3  4</span></span></code></pre></div>
 <p>You can use them to:</p>
 <ul>
 <li>
 <p>Compute differences or percent changes.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Compute the relative change in games played</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_delta =</span> G <span class="op">-</span><span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(G))</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Compute the relative change in games played</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_delta =</span> G <span class="op">-</span><span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(G))</span></code></pre></div>
 <p>Using <code><a href="../reference/lead-lag.html">lag()</a></code> is more convenient than <code><a href="https://rdrr.io/r/base/diff.html">diff()</a></code> because for <code>n</code> inputs <code><a href="https://rdrr.io/r/base/diff.html">diff()</a></code> returns <code>n - 1</code> outputs.</p>
 </li>
 <li>
 <p>Find out when a value changes.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Find when a player changed teams</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, teamID <span class="op">!=</span><span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(teamID))</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Find when a player changed teams</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, teamID <span class="op">!=</span><span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(teamID))</span></code></pre></div>
 </li>
 </ul>
 <p><code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> have an optional argument <code>order_by</code>. If set, instead of using the row order to determine which value comes before another, they will use another variable. This is important if you have not already sorted the data, or you want to sort one way and lag another.</p>
 <p>Here’s a simple example of what happens if you don’t specify <code>order_by</code> when you need it:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">year =</span> <span class="dv">2000</span><span class="op">:</span><span class="dv">2005</span>, <span class="dt">value =</span> (<span class="dv">0</span><span class="op">:</span><span class="dv">5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">scrambled &lt;-<span class="st"> </span>df[<span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(df)), ]</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">wrong &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">prev_value =</span> <span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(value))</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(wrong, year)</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;   year value prev_value</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 1 2000     0          4</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 2 2001     1          0</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 3 2002     4          9</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 4 2003     9         16</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 5 2004    16         NA</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 6 2005    25          1</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14">right &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">prev_value =</span> <span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(value, <span class="dt">order_by =</span> year))</a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(right, year)</a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt;   year value prev_value</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 1 2000     0         NA</span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 2 2001     1          0</span></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 3 2002     4          1</span></a>
-<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 4 2003     9          4</span></a>
-<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 5 2004    16          9</span></a>
-<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">#&gt; 6 2005    25         16</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">year =</span> <span class="dv">2000</span><span class="op">:</span><span class="dv">2005</span>, <span class="dt">value =</span> (<span class="dv">0</span><span class="op">:</span><span class="dv">5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>scrambled &lt;-<span class="st"> </span>df[<span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(df)), ]</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>wrong &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">prev_value =</span> <span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(value))</span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(wrong, year)</span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt;   year value prev_value</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt; 1 2000     0          4</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt; 2 2001     1          0</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="co">#&gt; 3 2002     4          9</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a><span class="co">#&gt; 4 2003     9         16</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="co">#&gt; 5 2004    16         NA</span></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="co">#&gt; 6 2005    25          1</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a></span>
+<span id="cb10-14"><a href="#cb10-14"></a>right &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">prev_value =</span> <span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(value, <span class="dt">order_by =</span> year))</span>
+<span id="cb10-15"><a href="#cb10-15"></a><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(right, year)</span>
+<span id="cb10-16"><a href="#cb10-16"></a><span class="co">#&gt;   year value prev_value</span></span>
+<span id="cb10-17"><a href="#cb10-17"></a><span class="co">#&gt; 1 2000     0         NA</span></span>
+<span id="cb10-18"><a href="#cb10-18"></a><span class="co">#&gt; 2 2001     1          0</span></span>
+<span id="cb10-19"><a href="#cb10-19"></a><span class="co">#&gt; 3 2002     4          1</span></span>
+<span id="cb10-20"><a href="#cb10-20"></a><span class="co">#&gt; 4 2003     9          4</span></span>
+<span id="cb10-21"><a href="#cb10-21"></a><span class="co">#&gt; 5 2004    16          9</span></span>
+<span id="cb10-22"><a href="#cb10-22"></a><span class="co">#&gt; 6 2005    25         16</span></span></code></pre></div>
 </div>
 <div id="cumulative-aggregates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cumulative-aggregates" class="anchor"></a>Cumulative aggregates</h2>
 <p>Base R provides cumulative sum (<code><a href="https://rdrr.io/r/base/cumsum.html">cumsum()</a></code>), cumulative min (<code><a href="https://rdrr.io/r/base/cumsum.html">cummin()</a></code>), and cumulative max (<code><a href="https://rdrr.io/r/base/cumsum.html">cummax()</a></code>). (It also provides <code><a href="https://rdrr.io/r/base/cumsum.html">cumprod()</a></code> but that is rarely useful). Other common accumulating functions are <code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code>, cumulative versions of <code>||</code> and <code>&amp;&amp;</code>, and <code><a href="../reference/cumall.html">cummean()</a></code>, a cumulative mean. These are not included in base R, but efficient versions are provided by <code>dplyr</code>.</p>
 <p><code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code> are useful for selecting all rows up to, or all rows after, a condition is true for the first (or last) time. For example, we can use <code><a href="../reference/cumall.html">cumany()</a></code> to find all records for a player after they played a year with 150 games:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/cumall.html">cumany</a></span>(G <span class="op">&gt;</span><span class="st"> </span><span class="dv">150</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/cumall.html">cumany</a></span>(G <span class="op">&gt;</span><span class="st"> </span><span class="dv">150</span>))</span></code></pre></div>
 <p>Like lead and lag, you may want to control the order in which the accumulation occurs. None of the built in functions have an <code>order_by</code> argument so <code>dplyr</code> provides a helper: <code><a href="../reference/order_by.html">order_by()</a></code>. You give it the variable you want to order by, and then the call to the window function:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">:</span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw"><a href="../reference/order_by.html">order_by</a></span>(y, <span class="kw"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span>(x))</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>y &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">:</span><span class="dv">1</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="kw"><a href="../reference/order_by.html">order_by</a></span>(y, <span class="kw"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span>(x))</span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</span></span></code></pre></div>
 <p>This function uses a bit of non-standard evaluation, so I wouldn’t recommend using it inside another function; use the simpler but less concise <code><a href="../reference/with_order.html">with_order()</a></code> instead.</p>
 </div>
 <div id="recycled-aggregates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#recycled-aggregates" class="anchor"></a>Recycled aggregates</h2>
 <p>R’s vector recycling makes it easy to select values that are higher or lower than a summary. I call this a recycled aggregate because the value of the aggregate is recycled to be the same length as the original vector. Recycled aggregates are useful if you want to find all records greater than the mean or less than the median:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(G))</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G <span class="op">&lt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(G))</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(G))</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G <span class="op">&lt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(G))</span></code></pre></div>
 <p>While most SQL databases don’t have an equivalent of <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code> or <code><a href="https://rdrr.io/r/stats/quantile.html">quantile()</a></code>, when filtering you can achieve the same effect with <code><a href="../reference/ranking.html">ntile()</a></code>. For example, <code>x &gt; median(x)</code> is equivalent to <code>ntile(x, 2) == 2</code>; <code>x &gt; quantile(x, 75)</code> is equivalent to <code>ntile(x, 100) &gt; 75</code> or <code>ntile(x, 4) &gt; 3</code>.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">ntile</a></span>(G, <span class="dv">2</span>) <span class="op">==</span><span class="st"> </span><span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">ntile</a></span>(G, <span class="dv">2</span>) <span class="op">==</span><span class="st"> </span><span class="dv">2</span>)</span></code></pre></div>
 <p>You can also use this idea to select the records with the highest (<code>x == max(x)</code>) or lowest value (<code>x == min(x)</code>) for a field, but the ranking functions give you more control over ties, and allow you to select any number of records.</p>
 <p>Recycled aggregates are also useful in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code>. For example, with the batting data, we could compute the “career year”, the number of years a player has played since they entered the league:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">career_year =</span> yearID <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(yearID) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt; # A tibble: 19,834 x 8</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; # Groups:   playerID [1,359]</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H career_year</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; 1 aaronha01   1954 ML1      122   468    58   131           1</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189           2</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200           3</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198           4</span></a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; # … with 19,830 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">career_year =</span> yearID <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(yearID) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt; # A tibble: 19,834 x 8</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt; # Groups:   playerID [1,359]</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H career_year</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt; 1 aaronha01   1954 ML1      122   468    58   131           1</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189           2</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200           3</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198           4</span></span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt; # … with 19,830 more rows</span></span></code></pre></div>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(G)) <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span>(G))</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; # A tibble: 19,834 x 8</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; # Groups:   playerID [1,359]</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H    G_z</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 1 aaronha01   1954 ML1      122   468    58   131 -1.16 </span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189  0.519</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200  0.519</span></a>
-<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198  0.411</span></a>
-<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; # … with 19,830 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(G)) <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span>(G))</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co">#&gt; # A tibble: 19,834 x 8</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="co">#&gt; # Groups:   playerID [1,359]</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H    G_z</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt; 1 aaronha01   1954 ML1      122   468    58   131 -1.16 </span></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189  0.519</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200  0.519</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198  0.411</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a><span class="co">#&gt; # … with 19,830 more rows</span></span></code></pre></div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
         <div id="tocnav">
       <h2 class="hasAnchor">

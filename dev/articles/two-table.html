@@ -165,22 +165,22 @@
 <h2 class="hasAnchor">
 <a href="#mutating-joins" class="anchor"></a>Mutating joins</h2>
 <p>Mutating joins allow you to combine variables from multiple tables. For example, take the nycflights13 data. In one table we have flight information with an abbreviation for carrier, and in another we have a mapping between abbreviations and full names. You can use a join to add the carrier names to the flight data:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"nycflights13"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># Drop unimportant variables so it's easier to understand the join results.</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">flights2 &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(year<span class="op">:</span>day, hour, origin, dest, tailnum, carrier)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">flights2 <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(airlines)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; Joining, by = "carrier"</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; # A tibble: 336,776 x 9</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name                  </span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                 </span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      United Air Lines Inc. </span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      United Air Lines Inc. </span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      American Airlines Inc.</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      JetBlue Airways       </span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Delta Air Lines Inc.  </span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; # … with 336,771 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"nycflights13"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># Drop unimportant variables so it's easier to understand the join results.</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>flights2 &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(year<span class="op">:</span>day, hour, origin, dest, tailnum, carrier)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>flights2 <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(airlines)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; Joining, by = "carrier"</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; # A tibble: 336,776 x 9</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name                  </span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                 </span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      United Air Lines Inc. </span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      United Air Lines Inc. </span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      American Airlines Inc.</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      JetBlue Airways       </span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Delta Air Lines Inc.  </span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt; # … with 336,771 more rows</span></span></code></pre></div>
 <div id="controlling-how-the-tables-are-matched" class="section level3">
 <h3 class="hasAnchor">
 <a href="#controlling-how-the-tables-are-matched" class="anchor"></a>Controlling how the tables are matched</h3>
@@ -188,60 +188,60 @@
 <ul>
 <li>
 <p><code>NULL</code>, the default. dplyr will will use all variables that appear in both tables, a <strong>natural</strong> join. For example, the flights and weather tables match on their common variables: year, month, day, hour and origin.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(weather)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Joining, by = c("year", "month", "day", "hour", "origin")</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 18</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier  temp  dewp humid</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA       39.0  28.0  64.4</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6       39.0  27.0  61.6</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL       39.9  25.0  54.8</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; # … with 336,771 more rows, and 7 more variables: wind_dir &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; #   wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; #   visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(weather)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; Joining, by = c("year", "month", "day", "hour", "origin")</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; # A tibble: 336,776 x 18</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier  temp  dewp humid</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA       39.0  28.0  64.4</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6       39.0  27.0  61.6</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL       39.9  25.0  54.8</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt; # … with 336,771 more rows, and 7 more variables: wind_dir &lt;dbl&gt;,</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt; #   wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;,</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt; #   visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></span></code></pre></div>
 </li>
 <li>
 <p>A character vector, <code>by = "x"</code>. Like a natural join, but uses only some of the common variables. For example, <code>flights</code> and <code>planes</code> have <code>year</code> columns, but they mean different things so we only want to join by <code>tailnum</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(planes, <span class="dt">by =</span> <span class="st">"tailnum"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 16</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   year.x month   day  hour origin dest  tailnum carrier year.y type </span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1   2013     1     1     5 EWR    IAH   N14228  UA        1999 Fixe…</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2   2013     1     1     5 LGA    IAH   N24211  UA        1998 Fixe…</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3   2013     1     1     5 JFK    MIA   N619AA  AA        1990 Fixe…</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 4   2013     1     1     5 JFK    BQN   N804JB  B6        2012 Fixe…</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 5   2013     1     1     6 LGA    ATL   N668DN  DL        1991 Fixe…</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; # … with 336,771 more rows, and 6 more variables: manufacturer &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(planes, <span class="dt">by =</span> <span class="st">"tailnum"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; # A tibble: 336,776 x 16</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;   year.x month   day  hour origin dest  tailnum carrier year.y type </span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; 1   2013     1     1     5 EWR    IAH   N14228  UA        1999 Fixe…</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; 2   2013     1     1     5 LGA    IAH   N24211  UA        1998 Fixe…</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; 3   2013     1     1     5 JFK    MIA   N619AA  AA        1990 Fixe…</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; 4   2013     1     1     5 JFK    BQN   N804JB  B6        2012 Fixe…</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; 5   2013     1     1     6 LGA    ATL   N668DN  DL        1991 Fixe…</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt; # … with 336,771 more rows, and 6 more variables: manufacturer &lt;chr&gt;,</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span></span></code></pre></div>
 <p>Note that the year columns in the output are disambiguated with a suffix.</p>
 </li>
 <li>
 <p>A named character vector: <code>by = c("x" = "a")</code>. This will match variable <code>x</code> in table <code>x</code> to variable <code>a</code> in table <code>y</code>. The variables from use will be used in the output.</p>
 <p>Each flight has an origin and destination <code>airport</code>, so we need to specify which one we want to join to:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(airports, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dest"</span> =<span class="st"> "faa"</span>))</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 15</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Geor…  30.0 -95.3    97</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      Geor…  30.0 -95.3    97</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      Miam…  25.8 -80.3     8</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      &lt;NA&gt;   NA    NA      NA</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Hart…  33.6 -84.4  1026</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; #   tzone &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12">flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(airports, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"origin"</span> =<span class="st"> "faa"</span>))</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; # A tibble: 336,776 x 15</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Newa…  40.7 -74.2    18</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      La G…  40.8 -73.9    22</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      John…  40.6 -73.8    13</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      John…  40.6 -73.8    13</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      La G…  40.8 -73.9    22</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; #   tzone &lt;chr&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(airports, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dest"</span> =<span class="st"> "faa"</span>))</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; # A tibble: 336,776 x 15</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Geor…  30.0 -95.3    97</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      Geor…  30.0 -95.3    97</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      Miam…  25.8 -80.3     8</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      &lt;NA&gt;   NA    NA      NA</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Hart…  33.6 -84.4  1026</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; #   tzone &lt;chr&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a>flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(airports, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"origin"</span> =<span class="st"> "faa"</span>))</span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; # A tibble: 336,776 x 15</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Newa…  40.7 -74.2    18</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      La G…  40.8 -73.9    22</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      John…  40.6 -73.8    13</span></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      John…  40.6 -73.8    13</span></span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      La G…  40.8 -73.9    22</span></span>
+<span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span></span>
+<span id="cb4-22"><a href="#cb4-22"></a><span class="co">#&gt; #   tzone &lt;chr&gt;</span></span></code></pre></div>
 </li>
 </ul>
 </div>
@@ -249,13 +249,13 @@
 <h3 class="hasAnchor">
 <a href="#types-of-join" class="anchor"></a>Types of join</h3>
 <p>There are four types of mutating join, which differ in their behaviour when a match is not found. We’ll illustrate each with a simple example:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">y =</span> <span class="dv">2</span><span class="op">:</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">df2 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="dt">a =</span> <span class="dv">10</span>, <span class="dt">b =</span> <span class="st">"a"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">y =</span> <span class="dv">2</span><span class="op">:</span><span class="dv">1</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>df2 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="dt">a =</span> <span class="dv">10</span>, <span class="dt">b =</span> <span class="st">"a"</span>)</span></code></pre></div>
 <ul>
 <li>
 <p><code><a href="../reference/mutate-joins.html">inner_join(x, y)</a></code> only includes observations that match in both <code>x</code> and <code>y</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">inner_join</a></span>(df2) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; Joining, by = "x"</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">inner_join</a></span>(df2) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; Joining, by = "x"</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">x</th>
@@ -273,41 +273,41 @@
 </li>
 <li>
 <p><code><a href="../reference/mutate-joins.html">left_join(x, y)</a></code> includes all observations in <code>x</code>, regardless of whether they match or not. This is the most commonly used join because it ensures that you don’t lose observations from your primary table.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(df2)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Joining, by = "x"</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;       x     y     a b    </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 1     1     2    10 a    </span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 2     2     1    NA &lt;NA&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(df2)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; Joining, by = "x"</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; # A tibble: 2 x 4</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;       x     y     a b    </span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; 1     1     2    10 a    </span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; 2     2     1    NA &lt;NA&gt;</span></span></code></pre></div>
 </li>
 <li>
 <p><code><a href="../reference/mutate-joins.html">right_join(x, y)</a></code> includes all observations in <code>y</code>. It’s equivalent to <code><a href="../reference/mutate-joins.html">left_join(y, x)</a></code>, but the columns will be ordered differently.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">right_join</a></span>(df2)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Joining, by = "x"</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;       x     y     a b    </span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 1     1     2    10 a    </span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 2     3    NA    10 a</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">df2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(df1)</a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; Joining, by = "x"</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;       x     a b         y</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; 1     1    10 a         2</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 2     3    10 a        NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">right_join</a></span>(df2)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt; Joining, by = "x"</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt; # A tibble: 2 x 4</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt;       x     y     a b    </span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; 1     1     2    10 a    </span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; 2     3    NA    10 a</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>df2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(df1)</span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt; Joining, by = "x"</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; # A tibble: 2 x 4</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt;       x     a b         y</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt;</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt; 1     1    10 a         2</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="co">#&gt; 2     3    10 a        NA</span></span></code></pre></div>
 </li>
 <li>
 <p><code><a href="../reference/mutate-joins.html">full_join()</a></code> includes all observations from <code>x</code> and <code>y</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">full_join</a></span>(df2)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; Joining, by = "x"</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;       x     y     a b    </span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 1     1     2    10 a    </span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 2     2     1    NA &lt;NA&gt; </span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 3     3    NA    10 a</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">full_join</a></span>(df2)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; Joining, by = "x"</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt; # A tibble: 3 x 4</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt;       x     y     a b    </span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt; 1     1     2    10 a    </span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt; 2     2     1    NA &lt;NA&gt; </span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; 3     3    NA    10 a</span></span></code></pre></div>
 </li>
 </ul>
 <p>The left, right and full joins are collectively know as <strong>outer joins</strong>. When a row doesn’t match in an outer join, the new variables are filled in with missing values.</p>
@@ -316,19 +316,19 @@
 <h3 class="hasAnchor">
 <a href="#observations" class="anchor"></a>Observations</h3>
 <p>While mutating joins are primarily used to add new variables, they can also generate new observations. If a match is not unique, a join will add all possible combinations (the Cartesian product) of the matching observations:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">df2 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">z =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>))</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(df2)</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; Joining, by = "x"</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; # A tibble: 5 x 3</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;       x     y z    </span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 1     1     1 a    </span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 2     1     1 b    </span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 3     1     2 a    </span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 4     1     2 b    </span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt; 5     2     3 a</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>df2 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">z =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>))</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">left_join</a></span>(df2)</span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt; Joining, by = "x"</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; # A tibble: 5 x 3</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt;       x     y z    </span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="co">#&gt; 1     1     1 a    </span></span>
+<span id="cb10-10"><a href="#cb10-10"></a><span class="co">#&gt; 2     1     1 b    </span></span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="co">#&gt; 3     1     2 a    </span></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="co">#&gt; 4     1     2 b    </span></span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="co">#&gt; 5     2     3 a</span></span></code></pre></div>
 </div>
 </div>
 <div id="filtering-joins" class="section level2">
@@ -342,32 +342,32 @@
 <code><a href="../reference/filter-joins.html">anti_join(x, y)</a></code> <strong>drops</strong> all observations in <code>x</code> that have a match in <code>y</code>.</li>
 </ul>
 <p>These are most useful for diagnosing join mismatches. For example, there are many flights in the nycflights13 dataset that don’t have a matching tail number in the planes table:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"nycflights13"</span>)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">flights <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/filter-joins.html">anti_join</a></span>(planes, <span class="dt">by =</span> <span class="st">"tailnum"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/count.html">count</a></span>(tailnum, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; # A tibble: 722 x 2</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;   tailnum     n</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 1 &lt;NA&gt;     2512</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; 2 N725MQ    575</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; 3 N722MQ    513</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; 4 N723MQ    507</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; 5 N713MQ    483</span></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; # … with 717 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"nycflights13"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2"></a>flights <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw"><a href="../reference/filter-joins.html">anti_join</a></span>(planes, <span class="dt">by =</span> <span class="st">"tailnum"</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span><span class="kw"><a href="../reference/count.html">count</a></span>(tailnum, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt; # A tibble: 722 x 2</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt;   tailnum     n</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt;</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#&gt; 1 &lt;NA&gt;     2512</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="co">#&gt; 2 N725MQ    575</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="co">#&gt; 3 N722MQ    513</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="co">#&gt; 4 N723MQ    507</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a><span class="co">#&gt; 5 N713MQ    483</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="co">#&gt; # … with 717 more rows</span></span></code></pre></div>
 <p>If you’re worried about what observations your joins will match, start with a <code><a href="../reference/filter-joins.html">semi_join()</a></code> or <code><a href="../reference/filter-joins.html">anti_join()</a></code>. <code><a href="../reference/filter-joins.html">semi_join()</a></code> and <code><a href="../reference/filter-joins.html">anti_join()</a></code> never duplicate; they only ever remove observations.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">df2 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">z =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>))</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co"># Four rows to start with:</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; [1] 4</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co"># And we get four rows after the join</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">inner_join</a></span>(df2, <span class="dt">by =</span> <span class="st">"x"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()</a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; [1] 4</span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co"># But only two rows actually match</span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11">df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter-joins.html">semi_join</a></span>(df2, <span class="dt">by =</span> <span class="st">"x"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()</a>
-<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt; [1] 2</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>df2 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">z =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>))</span>
+<span id="cb12-3"><a href="#cb12-3"></a></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co"># Four rows to start with:</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()</span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="co"># And we get four rows after the join</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate-joins.html">inner_join</a></span>(df2, <span class="dt">by =</span> <span class="st">"x"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()</span>
+<span id="cb12-9"><a href="#cb12-9"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb12-10"><a href="#cb12-10"></a><span class="co"># But only two rows actually match</span></span>
+<span id="cb12-11"><a href="#cb12-11"></a>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter-joins.html">semi_join</a></span>(df2, <span class="dt">by =</span> <span class="st">"x"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()</span>
+<span id="cb12-12"><a href="#cb12-12"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 </div>
 <div id="set-operations" class="section level2">
 <h2 class="hasAnchor">
@@ -384,42 +384,42 @@
 <code><a href="../reference/setops.html">setdiff(x, y)</a></code>: return observations in <code>x</code>, but not in <code>y</code>.</li>
 </ul>
 <p>Given this simple data:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">(df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(1L, 1L)))</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;       x     y</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; 1     1     1</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; 2     2     1</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">(df2 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt;       x     y</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt; 1     1     1</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt; 2     2     2</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>(df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(1L, 1L)))</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co">#&gt; # A tibble: 2 x 2</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="co">#&gt;       x     y</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="co">#&gt; 1     1     1</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="co">#&gt; 2     2     1</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>(df2 &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))</span>
+<span id="cb13-8"><a href="#cb13-8"></a><span class="co">#&gt; # A tibble: 2 x 2</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="co">#&gt;       x     y</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a><span class="co">#&gt; 1     1     1</span></span>
+<span id="cb13-12"><a href="#cb13-12"></a><span class="co">#&gt; 2     2     2</span></span></code></pre></div>
 <p>The four possibilities are:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/setops.html">intersect</a></span>(df1, df2)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt;       x     y</span></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; 1     1     1</span></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co"># Note that we get 3 rows, not 4</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="kw"><a href="../reference/setops.html">union</a></span>(df1, df2)</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt;       x     y</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt; 1     1     1</span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; 2     2     1</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt; 3     2     2</span></a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df1, df2)</a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt;       x     y</span></a>
-<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt; 1     2     1</span></a>
-<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df2, df1)</a>
-<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb14-21" data-line-number="21"><span class="co">#&gt;       x     y</span></a>
-<a class="sourceLine" id="cb14-22" data-line-number="22"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb14-23" data-line-number="23"><span class="co">#&gt; 1     2     2</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="../reference/setops.html">intersect</a></span>(df1, df2)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#&gt; # A tibble: 1 x 2</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="co">#&gt;       x     y</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt; 1     1     1</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="co"># Note that we get 3 rows, not 4</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="kw"><a href="../reference/setops.html">union</a></span>(df1, df2)</span>
+<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt;       x     y</span></span>
+<span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt; 1     1     1</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt; 2     2     1</span></span>
+<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#&gt; 3     2     2</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df1, df2)</span>
+<span id="cb14-15"><a href="#cb14-15"></a><span class="co">#&gt; # A tibble: 1 x 2</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a><span class="co">#&gt;       x     y</span></span>
+<span id="cb14-17"><a href="#cb14-17"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb14-18"><a href="#cb14-18"></a><span class="co">#&gt; 1     2     1</span></span>
+<span id="cb14-19"><a href="#cb14-19"></a><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df2, df1)</span>
+<span id="cb14-20"><a href="#cb14-20"></a><span class="co">#&gt; # A tibble: 1 x 2</span></span>
+<span id="cb14-21"><a href="#cb14-21"></a><span class="co">#&gt;       x     y</span></span>
+<span id="cb14-22"><a href="#cb14-22"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb14-23"><a href="#cb14-23"></a><span class="co">#&gt; 1     2     2</span></span></code></pre></div>
 </div>
 <div id="multiple-table-verbs" class="section level2">
 <h2 class="hasAnchor">
@@ -428,7 +428,7 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
         <div id="tocnav">
       <h2 class="hasAnchor">

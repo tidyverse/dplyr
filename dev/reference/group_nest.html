@@ -252,41 +252,41 @@ the first argument, the grouped tibble, and warns when <code>...</code> is used.
 <span class='co'>#----- use case 1: a grouped data frame</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_nest</span>()</div><div class='output co'>#&gt; # A tibble: 3 x 2
+  <span class='fu'>group_nest</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;   Species              data
-#&gt;   &lt;fct&gt;      &lt;list&lt;df[,4]&gt;&gt;
-#&gt; 1 setosa           [50 × 4]
-#&gt; 2 versicolor       [50 × 4]
-#&gt; 3 virginica        [50 × 4]</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,4]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> setosa           </span><span style='color: #555555;'>[50 × 4]</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> versicolor       </span><span style='color: #555555;'>[50 × 4]</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> virginica        </span><span style='color: #555555;'>[50 × 4]</span><span></div><div class='input'>
 <span class='co'># this can be useful if the grouped data has been altered before nesting</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>Sepal.Length</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>Sepal.Length</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_nest</span>()</div><div class='output co'>#&gt; # A tibble: 3 x 2
+  <span class='fu'>group_nest</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;   Species              data
-#&gt;   &lt;fct&gt;      &lt;list&lt;df[,4]&gt;&gt;
-#&gt; 1 setosa           [22 × 4]
-#&gt; 2 versicolor       [24 × 4]
-#&gt; 3 virginica        [22 × 4]</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,4]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> setosa           </span><span style='color: #555555;'>[22 × 4]</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> versicolor       </span><span style='color: #555555;'>[24 × 4]</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> virginica        </span><span style='color: #555555;'>[22 × 4]</span><span></div><div class='input'>
 <span class='co'>#----- use case 2: using group_nest() on a ungrouped data frame with</span>
 <span class='co'>#                  a grouping specification that uses the data mask</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_nest</span>(<span class='no'>species</span>, <span class='no'>homeworld</span>)</div><div class='output co'>#&gt; # A tibble: 58 x 3
+  <span class='fu'>group_nest</span>(<span class='no'>species</span>, <span class='no'>homeworld</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 58 x 3</span><span>
 #&gt;    species  homeworld              data
-#&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;list&lt;df[,12]&gt;&gt;
-#&gt;  1 Aleena   Aleen Minor        [1 × 12]
-#&gt;  2 Besalisk Ojom               [1 × 12]
-#&gt;  3 Cerean   Cerea              [1 × 12]
-#&gt;  4 Chagrian Champala           [1 × 12]
-#&gt;  5 Clawdite Zolan              [1 × 12]
-#&gt;  6 Droid    Naboo              [1 × 12]
-#&gt;  7 Droid    Tatooine           [2 × 12]
-#&gt;  8 Droid    &lt;NA&gt;               [3 × 12]
-#&gt;  9 Dug      Malastare          [1 × 12]
-#&gt; 10 Ewok     Endor              [1 × 12]
-#&gt; # … with 48 more rows</div></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,12]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Aleena   Aleen Minor        </span><span style='color: #555555;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span> Besalisk Ojom               </span><span style='color: #555555;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #555555;'> 3</span><span> Cerean   Cerea              </span><span style='color: #555555;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #555555;'> 4</span><span> Chagrian Champala           </span><span style='color: #555555;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #555555;'> 5</span><span> Clawdite Zolan              </span><span style='color: #555555;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #555555;'> 6</span><span> Droid    Naboo              </span><span style='color: #555555;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span> Droid    Tatooine           </span><span style='color: #555555;'>[2 × 12]</span><span>
+#&gt; </span><span style='color: #555555;'> 8</span><span> Droid    </span><span style='color: #BB0000;'>NA</span><span>                 </span><span style='color: #555555;'>[3 × 12]</span><span>
+#&gt; </span><span style='color: #555555;'> 9</span><span> Dug      Malastare          </span><span style='color: #555555;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #555555;'>10</span><span> Ewok     Endor              </span><span style='color: #555555;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #555555;'># … with 48 more rows</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

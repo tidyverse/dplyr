@@ -188,9 +188,9 @@
       <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="dplyr-1-0-0-in-development" class="section level1">
+    <div id="dplyr-100-in-development" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-1-0-0-in-development" class="anchor"></a>dplyr 1.0.0 (in development)<small> Unreleased </small>
+<a href="#dplyr-100-in-development" class="anchor"></a>dplyr 1.0.0 (in development)<small> Unreleased </small>
 </h1>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
@@ -198,7 +198,7 @@
 <ul>
 <li><p>The <code>cur_</code> functions (<code><a href="../reference/context.html">cur_data()</a></code>, <code><a href="../reference/context.html">cur_group()</a></code>, <code><a href="../reference/context.html">cur_group_id()</a></code>, <code><a href="../reference/context.html">cur_group_rows()</a></code>) provide a full set of options to you access information about the “current” group in dplyr verbs. They are inspired by data.table’s <code>.SD</code>, <code>.GRP</code>, <code>.BY</code>, and <code>.I</code>.</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> create multiple columns from a single expression if you return a data frame (<a href='https://github.com/tidyverse/dplyr/issues/2326'>#2326</a>).</p></li>
-<li><p><code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/rename.html">rename()</a></code> use the latest version of the tidyselect interface. Practically, this means that you can now combine selections using Boolean logic (i.e. <code>!</code>, <code><a href="https://rdrr.io/r/base/Logic.html">&amp;</a></code> and <code><a href="https://rdrr.io/r/base/Logic.html">|</a></code>), and use predicate functions (e.g. <code>is.character</code>) to select variables by type (<a href='https://github.com/tidyverse/dplyr/issues/4680'>#4680</a>). It also makes it possible to use <code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/rename.html">rename()</a></code> to repair data frames with duplicated names (<a href='https://github.com/tidyverse/dplyr/issues/4615'>#4615</a>) and prevents you from accidentally introducing duplicate names (<a href='https://github.com/tidyverse/dplyr/issues/4643'>#4643</a>).</p></li>
+<li><p><code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/rename.html">rename()</a></code> use the latest version of the tidyselect interface. Practically, this means that you can now combine selections using Boolean logic (i.e. <code>!</code>, <code><a href="https://rdrr.io/r/base/Logic.html">&amp;</a></code> and <code><a href="https://rdrr.io/r/base/Logic.html">|</a></code>), and use predicate functions (e.g. <code>is.character</code>) to select variables by type (<a href='https://github.com/tidyverse/dplyr/issues/4680'>#4680</a>). It also makes it possible to use <code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/rename.html">rename()</a></code> to repair data frames with duplicated names (<a href='https://github.com/tidyverse/dplyr/issues/4615'>#4615</a>) and prevents you from accidentally introducing duplicate names (<a href='https://github.com/tidyverse/dplyr/issues/4643'>#4643</a>).</p></li>
 <li>
 <p><code><a href="../reference/slice.html">slice()</a></code> gains a new set of helpers:</p>
 <ul>
@@ -253,7 +253,7 @@
 <a href="#grouping" class="anchor"></a>Grouping</h2>
 <ul>
 <li><p>New <code><a href="../articles/grouping.html">vignette("grouping")</a></code> gives more details about how dplyr verbs change when applied to grouped data frames (<a href='https://github.com/tidyverse/dplyr/issues/4779'>#4779</a>, <a href='https://github.com/MikeKSmith'>@MikeKSmith</a>).</p></li>
-<li><p>Grouped data frames now have <code>names&lt;-</code>, <code>[[&lt;-</code>, <code>[&lt;-</code> and <code>$&lt;-</code> methods that re-generate the underlying grouping. Note that modifying grouping variables in multiple steps (i.e. <code>df$grp1 &lt;- 1; df$grp2 &lt;- 1</code>) will be inefficient since the data frame will be regrouped after each modification.</p></li>
+<li><p>Grouped data frames now have <code>names&lt;-</code>, <code>[[&lt;-</code>, <code>[&lt;-</code> and <code>$&lt;-</code> methods that re-generate the underlying grouping. Note that modifying grouping variables in multiple steps (i.e. <code>df$grp1 &lt;- 1; df$grp2 &lt;- 1</code>) will be inefficient since the data frame will be regrouped after each modification.</p></li>
 <li><p><code>[.grouped_df</code> now regroups to respect any grouping columns that have been removed (<a href='https://github.com/tidyverse/dplyr/issues/4708'>#4708</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> can now modify grouping variables (<a href='https://github.com/tidyverse/dplyr/issues/4709'>#4709</a>).</p></li>
 </ul>
@@ -316,9 +316,9 @@
 </ul>
 </div>
 </div>
-    <div id="dplyr-0-8-4-development-version" class="section level1">
+    <div id="dplyr-084-development-version" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-8-4-development-version" class="anchor"></a>dplyr 0.8.4 (development version)<small> 2020-01-31 </small>
+<a href="#dplyr-084-development-version" class="anchor"></a>dplyr 0.8.4 (development version)<small> 2020-01-31 </small>
 </h1>
 <ul>
 <li><p>Better performance for extracting slices of factors and ordered factors (<a href='https://github.com/tidyverse/dplyr/issues/4501'>#4501</a>).</p></li>
@@ -332,17 +332,17 @@
 <li><p><code><a href="../reference/src_tbls.html">src_tbls()</a></code> accepts <code>...</code> arguments (<a href='https://github.com/tidyverse/dplyr/issues/4485'>#4485</a>, <a href='https://github.com/ianmcook'>@ianmcook</a>). This could be a breaking change for some dplyr backend packages that implement <code><a href="../reference/src_tbls.html">src_tbls()</a></code>.</p></li>
 </ul>
 </div>
-    <div id="dplyr-0-8-3-2019-07-04" class="section level1">
+    <div id="dplyr-083-2019-07-04" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-8-3-2019-07-04" class="anchor"></a>dplyr 0.8.3 (2019-07-04)<small> 2019-07-04 </small>
+<a href="#dplyr-083-2019-07-04" class="anchor"></a>dplyr 0.8.3 (2019-07-04)<small> 2019-07-04 </small>
 </h1>
 <ul>
 <li>Fixed performance regression introduced in version 0.8.2 (<a href='https://github.com/tidyverse/dplyr/issues/4458'>#4458</a>).</li>
 </ul>
 </div>
-    <div id="dplyr-0-8-2-2019-06-28" class="section level1">
+    <div id="dplyr-082-2019-06-28" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-8-2-2019-06-28" class="anchor"></a>dplyr 0.8.2 (2019-06-28)<small> 2019-06-29 </small>
+<a href="#dplyr-082-2019-06-28" class="anchor"></a>dplyr 0.8.2 (2019-06-28)<small> 2019-06-29 </small>
 </h1>
 <div id="new-functions" class="section level2">
 <h2 class="hasAnchor">
@@ -387,9 +387,9 @@
 </ul>
 </div>
 </div>
-    <div id="dplyr-0-8-1-2019-05-14" class="section level1">
+    <div id="dplyr-081-2019-05-14" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-8-1-2019-05-14" class="anchor"></a>dplyr 0.8.1 (2019-05-14)<small> 2019-05-14 </small>
+<a href="#dplyr-081-2019-05-14" class="anchor"></a>dplyr 0.8.1 (2019-05-14)<small> 2019-05-14 </small>
 </h1>
 <div id="breaking-changes" class="section level2">
 <h2 class="hasAnchor">
@@ -428,17 +428,17 @@
 </ul>
 </div>
 </div>
-    <div id="dplyr-0-8-0-1-2019-02-15" class="section level1">
+    <div id="dplyr-0801-2019-02-15" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-8-0-1-2019-02-15" class="anchor"></a>dplyr 0.8.0.1 (2019-02-15)<small> 2019-02-15 </small>
+<a href="#dplyr-0801-2019-02-15" class="anchor"></a>dplyr 0.8.0.1 (2019-02-15)<small> 2019-02-15 </small>
 </h1>
 <ul>
 <li>Fixed integer C/C++ division, forced released by CRAN (<a href='https://github.com/tidyverse/dplyr/issues/4185'>#4185</a>).</li>
 </ul>
 </div>
-    <div id="dplyr-0-8-0-2019-02-14" class="section level1">
+    <div id="dplyr-080-2019-02-14" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-8-0-2019-02-14" class="anchor"></a>dplyr 0.8.0 (2019-02-14)<small> 2019-02-14 </small>
+<a href="#dplyr-080-2019-02-14" class="anchor"></a>dplyr 0.8.0 (2019-02-14)<small> 2019-02-14 </small>
 </h1>
 <div id="breaking-changes-1" class="section level2">
 <h2 class="hasAnchor">
@@ -475,34 +475,34 @@
 <li><p><code><a href="../reference/group_trim.html">group_trim()</a></code> drops unused levels of factors that are used as grouping variables.</p></li>
 <li>
 <p><code><a href="../reference/nest_join.html">nest_join()</a></code> creates a list column of the matching rows. <code><a href="../reference/nest_join.html">nest_join()</a></code> + <code><a href="https://tidyr.tidyverse.org/reference/nest.html">tidyr::unnest()</a></code> is equivalent to <code>inner_join</code> (<a href='https://github.com/tidyverse/dplyr/issues/3570'>#3570</a>).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">band_members <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/nest_join.html">nest_join</a></span>(band_instruments)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>band_members <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="st">  </span><span class="kw"><a href="../reference/nest_join.html">nest_join</a></span>(band_instruments)</span></code></pre></div>
 </li>
 <li>
 <p><code><a href="../reference/group_nest.html">group_nest()</a></code> is similar to <code><a href="https://tidyr.tidyverse.org/reference/nest.html">tidyr::nest()</a></code> but focusing on the variables to nest by instead of the nested columns.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">starwars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(species, homeworld) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/group_nest.html">group_nest</a></span>()</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">starwars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/group_nest.html">group_nest</a></span>(species, homeworld)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>starwars <span class="op">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(species, homeworld) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="st">  </span><span class="kw"><a href="../reference/group_nest.html">group_nest</a></span>()</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a>starwars <span class="op">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="st">  </span><span class="kw"><a href="../reference/group_nest.html">group_nest</a></span>(species, homeworld)</span></code></pre></div>
 </li>
 <li>
 <p><code><a href="../reference/group_split.html">group_split()</a></code> is similar to <code><a href="https://rdrr.io/r/base/split.html">base::split()</a></code> but operating on existing groups when applied to a grouped data frame, or subject to the data mask on ungrouped data frames</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">starwars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(species, homeworld) <span class="op">%&gt;%</span><span class="st">   </span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/group_split.html">group_split</a></span>()</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">starwars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/group_split.html">group_split</a></span>(species, homeworld)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>starwars <span class="op">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(species, homeworld) <span class="op">%&gt;%</span><span class="st">   </span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw"><a href="../reference/group_split.html">group_split</a></span>()</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a>starwars <span class="op">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="st">  </span><span class="kw"><a href="../reference/group_split.html">group_split</a></span>(species, homeworld)</span></code></pre></div>
 </li>
 <li>
 <p><code><a href="../reference/group_map.html">group_map()</a></code> and <code><a href="../reference/group_map.html">group_walk()</a></code> are purrr-like functions to iterate on groups of a grouped data frame, jointly identified by the data subset (exposed as <code>.x</code>) and the data key (a one row tibble, exposed as <code>.y</code>). <code><a href="../reference/group_map.html">group_map()</a></code> returns a grouped data frame that combines the results of the function, <code><a href="../reference/group_map.html">group_walk()</a></code> is only used for side effects and returns its input invisibly.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">mtcars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/group_map.html">group_map</a></span>(<span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(.x, 2L))</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>mtcars <span class="op">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="st">  </span><span class="kw"><a href="../reference/group_map.html">group_map</a></span>(<span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(.x, 2L))</span></code></pre></div>
 </li>
-<li><p><code><a href="../reference/group_by_prepare.html">distinct_prepare()</a></code>, previously known as <code>distinct_vars()</code> is exported. This is mostly useful for alternative backends (e.g. <code>dbplyr</code>).</p></li>
+<li><p><code><a href="../reference/group_by_prepare.html">distinct_prepare()</a></code>, previously known as <code>distinct_vars()</code> is exported. This is mostly useful for alternative backends (e.g. <code>dbplyr</code>).</p></li>
 </ul>
 </div>
 <div id="major-changes" class="section level2">
@@ -511,40 +511,40 @@
 <ul>
 <li>
 <p><code><a href="../reference/group_by.html">group_by()</a></code> gains the <code>.drop</code> argument. When set to <code>FALSE</code> the groups are generated based on factor levels, hence some groups may be empty (<a href='https://github.com/tidyverse/dplyr/issues/341'>#341</a>).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># 3 groups</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">f =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(f, <span class="dt">.drop =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co"># the order of the grouping variables matter</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">  <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>), </a>
-<a class="sourceLine" id="cb5-11" data-line-number="11">  <span class="dt">f =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</a>
-<a class="sourceLine" id="cb5-12" data-line-number="12">)</a>
-<a class="sourceLine" id="cb5-13" data-line-number="13">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(f, x, <span class="dt">.drop =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(x, f, <span class="dt">.drop =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># 3 groups</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, </span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="dt">f =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span>
+<span id="cb5-5"><a href="#cb5-5"></a>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(f, <span class="dt">.drop =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb5-7"><a href="#cb5-7"></a></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co"># the order of the grouping variables matter</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</span>
+<span id="cb5-10"><a href="#cb5-10"></a>  <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>), </span>
+<span id="cb5-11"><a href="#cb5-11"></a>  <span class="dt">f =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span>
+<span id="cb5-12"><a href="#cb5-12"></a>)</span>
+<span id="cb5-13"><a href="#cb5-13"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(f, x, <span class="dt">.drop =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb5-14"><a href="#cb5-14"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(x, f, <span class="dt">.drop =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p>The default behaviour drops the empty groups as in the previous versions.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">    <span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">    <span class="dt">f =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(f)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</span>
+<span id="cb6-2"><a href="#cb6-2"></a>    <span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, </span>
+<span id="cb6-3"><a href="#cb6-3"></a>    <span class="dt">f =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span>
+<span id="cb6-4"><a href="#cb6-4"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(f)</span></code></pre></div>
 </li>
 <li>
 <p><code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/slice.html">slice()</a></code> gain a <code>.preserve</code> argument to control which groups it should keep. The default <code><a href="../reference/filter.html">filter(.preserve = FALSE)</a></code> recalculates the grouping structure based on the resulting data, otherwise it is kept as is.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>), </a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">  <span class="dt">f =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(x, f, <span class="dt">.drop =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb7-8" data-line-number="8">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">.preserve =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>), </span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="dt">f =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span>
+<span id="cb7-4"><a href="#cb7-4"></a>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(x, f, <span class="dt">.drop =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb7-8"><a href="#cb7-8"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">.preserve =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 </li>
 <li><p>The notion of lazily grouped data frames have disappeared. All dplyr verbs now recalculate immediately the grouping structure, and respect the levels of factors.</p></li>
-<li><p>Subsets of columns now properly dispatch to the <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> or <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code> method when the column is an object (a vector with a class) instead of making assumptions on how the column should be handled. The <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> method must handle integer indices, including <code>NA_integer_</code>, i.e. <code>x[NA_integer_]</code> should produce a vector of the same class as <code>x</code> with whatever represents a missing value.</p></li>
+<li><p>Subsets of columns now properly dispatch to the <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> or <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code> method when the column is an object (a vector with a class) instead of making assumptions on how the column should be handled. The <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> method must handle integer indices, including <code>NA_integer_</code>, i.e. <code>x[NA_integer_]</code> should produce a vector of the same class as <code>x</code> with whatever represents a missing value.</p></li>
 </ul>
 </div>
 <div id="minor-changes-2" class="section level2">
@@ -566,7 +566,7 @@
 <li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> gain <code>...</code> (<a href='https://github.com/tidyverse/dplyr/issues/2888'>#2888</a>).</p></li>
 <li>
 <p>Scoped filter variants now support functions and purrr-like lambdas:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter_all.html">filter_at</a></span>(<span class="kw"><a href="../reference/vars.html">vars</a></span>(hp, vs), <span class="op">~</span><span class="st"> </span>. <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter_all.html">filter_at</a></span>(<span class="kw"><a href="../reference/vars.html">vars</a></span>(hp, vs), <span class="op">~</span><span class="st"> </span>. <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span></code></pre></div>
 </li>
 </ul>
 </div>
@@ -595,8 +595,7 @@
 <p>R expressions that cannot be handled with native code are now evaluated with unwind-protection when available (on R 3.5 and later). This improves the performance of dplyr on data frames with many groups (and hence many expressions to evaluate). We benchmarked that computing a grouped average is consistently twice as fast with unwind-protection enabled.</p>
 <p>Unwind-protection also makes dplyr more robust in corner cases because it ensures the C++ destructors are correctly called in all circumstances (debugger exit, captured condition, restart invokation).</p>
 </li>
-<li>
-<code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> gain <code>...</code> (<a href='https://github.com/tidyverse/dplyr/issues/2888'>#2888</a>).</li>
+<li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> gain <code>...</code> (<a href='https://github.com/tidyverse/dplyr/issues/2888'>#2888</a>).</p></li>
 <li><p>Improved performance for wide tibbles (<a href='https://github.com/tidyverse/dplyr/issues/3335'>#3335</a>).</p></li>
 <li><p>Faster hybrid <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>, <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/stats/cor.html">var()</a></code> and <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code> for logical vectors (<a href='https://github.com/tidyverse/dplyr/issues/3189'>#3189</a>).</p></li>
 <li><p>Hybrid version of <code><a href="https://rdrr.io/r/base/sum.html">sum(na.rm = FALSE)</a></code> exits early when there are missing values. This considerably improves performance when there are missing values early in the vector (<a href='https://github.com/tidyverse/dplyr/issues/3288'>#3288</a>).</p></li>
@@ -609,17 +608,17 @@
 <ul>
 <li>
 <p>The grouping metadata of grouped data frame has been reorganized in a single tidy tibble, that can be accessed with the new <code><a href="../reference/group_data.html">group_data()</a></code> function. The grouping tibble consists of one column per grouping variable, followed by a list column of the (1-based) indices of the groups. The new <code><a href="../reference/group_data.html">group_rows()</a></code> function retrieves that list of indices (<a href='https://github.com/tidyverse/dplyr/issues/3489'>#3489</a>).</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># the grouping metadata, as a tibble</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, homeworld) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/group_data.html">group_data</a></span>()</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># the indices</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, homeworld) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="../reference/group_data.html">group_data</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="../reference/pull.html">pull</a></span>(.rows)</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, homeworld) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="../reference/group_data.html">group_rows</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># the grouping metadata, as a tibble</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, homeworld) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw"><a href="../reference/group_data.html">group_data</a></span>()</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co"># the indices</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, homeworld) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="st">  </span><span class="kw"><a href="../reference/group_data.html">group_data</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="st">  </span><span class="kw"><a href="../reference/pull.html">pull</a></span>(.rows)</span>
+<span id="cb9-9"><a href="#cb9-9"></a></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, homeworld) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="st">  </span><span class="kw"><a href="../reference/group_data.html">group_rows</a></span>()</span></code></pre></div>
 </li>
 <li><p>Hybrid evaluation has been completely redesigned for better performance and stability.</p></li>
 </ul>
@@ -641,9 +640,9 @@
 </div>
 </div>
 </div>
-    <div id="dplyr-0-7-6" class="section level1">
+    <div id="dplyr-076" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-7-6" class="anchor"></a>dplyr 0.7.6<small> 2018-06-29 </small>
+<a href="#dplyr-076" class="anchor"></a>dplyr 0.7.6<small> 2018-06-29 </small>
 </h1>
 <ul>
 <li><p><code>exprs()</code> is no longer exported to avoid conflicts with <code>Biobase::exprs()</code> (<a href='https://github.com/tidyverse/dplyr/issues/3638'>#3638</a>).</p></li>
@@ -653,9 +652,9 @@
 <li><p>Fix rchk errors (<a href='https://github.com/tidyverse/dplyr/issues/3693'>#3693</a>).</p></li>
 </ul>
 </div>
-    <div id="dplyr-0-7-5-2018-04-14" class="section level1">
+    <div id="dplyr-075-2018-04-14" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-7-5-2018-04-14" class="anchor"></a>dplyr 0.7.5 (2018-04-14)<small> 2018-05-19 </small>
+<a href="#dplyr-075-2018-04-14" class="anchor"></a>dplyr 0.7.5 (2018-04-14)<small> 2018-05-19 </small>
 </h1>
 <div id="breaking-changes-for-package-developers" class="section level2">
 <h2 class="hasAnchor">
@@ -716,7 +715,7 @@ select(mtcars, -(!! vars))</code></pre>
 <h2 class="hasAnchor">
 <a href="#documentation-1" class="anchor"></a>Documentation</h2>
 <ul>
-<li>Improved documentation for <code><a href="../reference/funs.html">funs()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3094'>#3094</a>) and set operations (e.g. <code><a href="../reference/setops.html">union()</a></code>) (<a href='https://github.com/tidyverse/dplyr/issues/3238'>#3238</a>, <a href='https://github.com/edublancas'>@edublancas</a>).</li>
+<li>Improved documentation for <code><a href="../reference/funs.html">funs()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3094'>#3094</a>) and set operations (e.g. <code><a href="../reference/setops.html">union()</a></code>) (<a href='https://github.com/tidyverse/dplyr/issues/3238'>#3238</a>, <a href='https://github.com/edublancas'>@edublancas</a>).</li>
 </ul>
 </div>
 <div id="error-messages" class="section level2">
@@ -751,22 +750,22 @@ select(mtcars, -(!! vars))</code></pre>
 </ul>
 </div>
 </div>
-    <div id="dplyr-0-7-4" class="section level1">
+    <div id="dplyr-074" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-7-4" class="anchor"></a>dplyr 0.7.4<small> 2017-09-28 </small>
+<a href="#dplyr-074" class="anchor"></a>dplyr 0.7.4<small> 2017-09-28 </small>
 </h1>
 <ul>
 <li><p>Fix recent Fedora and ASAN check errors (<a href='https://github.com/tidyverse/dplyr/issues/3098'>#3098</a>).</p></li>
 <li><p>Avoid dependency on Rcpp 0.12.10 (<a href='https://github.com/tidyverse/dplyr/issues/3106'>#3106</a>).</p></li>
 </ul>
 </div>
-    <div id="dplyr-0-7-3" class="section level1">
+    <div id="dplyr-073" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-7-3" class="anchor"></a>dplyr 0.7.3<small> 2017-09-09 </small>
+<a href="#dplyr-073" class="anchor"></a>dplyr 0.7.3<small> 2017-09-09 </small>
 </h1>
 <ul>
 <li><p>Fixed protection error that occurred when creating a character column using grouped <code><a href="../reference/mutate.html">mutate()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/2971'>#2971</a>).</p></li>
-<li>Fixed a rare problem with accessing variable values in <code><a href="../reference/summarise.html">summarise()</a></code> when all groups have size one (<a href='https://github.com/tidyverse/dplyr/issues/3050'>#3050</a>).</li>
+<li><p>Fixed a rare problem with accessing variable values in <code><a href="../reference/summarise.html">summarise()</a></code> when all groups have size one (<a href='https://github.com/tidyverse/dplyr/issues/3050'>#3050</a>).</p></li>
 <li><p><code><a href="../reference/distinct.html">distinct()</a></code> now throws an error when used on unknown columns (<a href='https://github.com/tidyverse/dplyr/issues/2867'>#2867</a>, <a href='https://github.com/foo-bar-baz-qux'>@foo-bar-baz-qux</a>).</p></li>
 <li><p>Fixed rare out-of-bounds memory write in <code><a href="../reference/slice.html">slice()</a></code> when negative indices beyond the number of rows were involved (<a href='https://github.com/tidyverse/dplyr/issues/3073'>#3073</a>).</p></li>
 <li><p><code><a href="../reference/select.html">select()</a></code>, <code><a href="../reference/rename.html">rename()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> no longer change the grouped vars of the original data (<a href='https://github.com/tidyverse/dplyr/issues/3038'>#3038</a>).</p></li>
@@ -779,17 +778,17 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>Fixed a crash that occurred when an unexpected input was supplied to the <code>call</code> argument of <code><a href="../reference/order_by.html">order_by()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3065'>#3065</a>).</p></li>
 </ul>
 </div>
-    <div id="dplyr-0-7-2" class="section level1">
+    <div id="dplyr-072" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-7-2" class="anchor"></a>dplyr 0.7.2<small> 2017-07-20 </small>
+<a href="#dplyr-072" class="anchor"></a>dplyr 0.7.2<small> 2017-07-20 </small>
 </h1>
 <ul>
 <li>Move build-time vs. run-time checks out of <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onLoad()</a></code> and into <code>dr_dplyr()</code>.</li>
 </ul>
 </div>
-    <div id="dplyr-0-7-1" class="section level1">
+    <div id="dplyr-071" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-7-1" class="anchor"></a>dplyr 0.7.1<small> 2017-06-22 </small>
+<a href="#dplyr-071" class="anchor"></a>dplyr 0.7.1<small> 2017-06-22 </small>
 </h1>
 <ul>
 <li><p>Use new versions of bindrcpp and glue to avoid protection problems. Avoid wrapping arguments to internal error functions (<a href='https://github.com/tidyverse/dplyr/issues/2877'>#2877</a>). Fix two protection mistakes found by rchk (<a href='https://github.com/tidyverse/dplyr/issues/2868'>#2868</a>).</p></li>
@@ -800,9 +799,9 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>Quosured symbols do not prevent hybrid handling anymore. This should fix many performance issues introduced with tidyeval (<a href='https://github.com/tidyverse/dplyr/issues/2822'>#2822</a>).</p></li>
 </ul>
 </div>
-    <div id="dplyr-0-7-0" class="section level1">
+    <div id="dplyr-070" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-7-0" class="anchor"></a>dplyr 0.7.0<small> 2017-06-09 </small>
+<a href="#dplyr-070" class="anchor"></a>dplyr 0.7.0<small> 2017-06-09 </small>
 </h1>
 <div id="new-data-functions-and-features" class="section level2">
 <h2 class="hasAnchor">
@@ -848,13 +847,13 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>It is no longer necessary to create a remote “src”. Instead you can work directly with the database connection returned by DBI. This reflects the maturity of the DBI ecosystem. Thanks largely to the work of Kirill Muller (funded by the R Consortium) DBI backends are now much more consistent, comprehensive, and easier to use. That means that there’s no longer a need for a layer in between you and DBI.</p></li>
 </ul>
 <p>You can continue to use <code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code>, but I recommend a new style that makes the connection to DBI more clear:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(RSQLite<span class="op">::</span><span class="kw"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html">SQLite</a></span>(), <span class="st">":memory:"</span>)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html">dbWriteTable</a></span>(con, <span class="st">"mtcars"</span>, mtcars)</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">mtcars2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tbl.html">tbl</a></span>(con, <span class="st">"mtcars"</span>)</a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">mtcars2</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a>con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(RSQLite<span class="op">::</span><span class="kw"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html">SQLite</a></span>(), <span class="st">":memory:"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html">dbWriteTable</a></span>(con, <span class="st">"mtcars"</span>, mtcars)</span>
+<span id="cb11-5"><a href="#cb11-5"></a></span>
+<span id="cb11-6"><a href="#cb11-6"></a>mtcars2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tbl.html">tbl</a></span>(con, <span class="st">"mtcars"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7"></a>mtcars2</span></code></pre></div>
 <p>This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with <code><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html">DBI::dbGetQuery()</a></code> and <code><a href="https://dbi.r-dbi.org/reference/dbExecute.html">DBI::dbExecute()</a></code>.</p>
 <p>If you’ve implemented a database backend for dplyr, please read the <a href="https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends">backend news</a> to see what’s changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see <code><a href="../reference/check_dbplyr.html">wrap_dbplyr_obj()</a></code> for helpers.</p>
 </div>
@@ -958,7 +957,7 @@ starwars %&gt;%
 <li><p><code><a href="../reference/bind.html">bind_cols()</a></code> handles empty argument list (<a href='https://github.com/tidyverse/dplyr/issues/2048'>#2048</a>).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_cols()</a></code> better handles <code>NULL</code> inputs (<a href='https://github.com/tidyverse/dplyr/issues/2303'>#2303</a>, <a href='https://github.com/tidyverse/dplyr/issues/2443'>#2443</a>).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> explicitly rejects columns containing data frames (<a href='https://github.com/tidyverse/dplyr/issues/2015'>#2015</a>, <a href='https://github.com/tidyverse/dplyr/issues/2446'>#2446</a>).</p></li>
-<li><p><code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/bind.html">bind_cols()</a></code> now accept vectors. They are treated as rows by the former and columns by the latter. Rows require inner names like <code><a href="https://rdrr.io/r/base/c.html">c(col1 = 1, col2 = 2)</a></code>, while columns require outer names: <code>col1 = c(1, 2)</code>. Lists are still treated as data frames but can be spliced explicitly with <code>!!!</code>, e.g. <code><a href="../reference/bind.html">bind_rows(!!! x)</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/1676'>#1676</a>).</p></li>
+<li><p><code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/bind.html">bind_cols()</a></code> now accept vectors. They are treated as rows by the former and columns by the latter. Rows require inner names like <code><a href="https://rdrr.io/r/base/c.html">c(col1 = 1, col2 = 2)</a></code>, while columns require outer names: <code>col1 = c(1, 2)</code>. Lists are still treated as data frames but can be spliced explicitly with <code>!!!</code>, e.g. <code><a href="../reference/bind.html">bind_rows(!!! x)</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/1676'>#1676</a>).</p></li>
 <li><p><code>rbind_list()</code> and <code>rbind_all()</code> now call <code><a href="https://rdrr.io/r/base/Deprecated.html">.Deprecated()</a></code>, they will be removed in the next CRAN release. Please use <code><a href="../reference/bind.html">bind_rows()</a></code> instead.</p></li>
 <li><p><code><a href="../reference/combine.html">combine()</a></code> accepts <code>NA</code> values (<a href='https://github.com/tidyverse/dplyr/issues/2203'>#2203</a>, <a href='https://github.com/zeehio'>@zeehio</a>)</p></li>
 <li><p><code><a href="../reference/combine.html">combine()</a></code> and <code><a href="../reference/bind.html">bind_rows()</a></code> with character and factor types now always warn about the coercion to character (<a href='https://github.com/tidyverse/dplyr/issues/2317'>#2317</a>, <a href='https://github.com/zeehio'>@zeehio</a>)</p></li>
@@ -1012,9 +1011,9 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-    <div id="dplyr-0-5-0" class="section level1">
+    <div id="dplyr-050" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-5-0" class="anchor"></a>dplyr 0.5.0<small> 2016-06-24 </small>
+<a href="#dplyr-050" class="anchor"></a>dplyr 0.5.0<small> 2016-06-24 </small>
 </h1>
 <div id="breaking-changes-2" class="section level2">
 <h2 class="hasAnchor">
@@ -1025,7 +1024,7 @@ starwars %&gt;%
 <ul>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code> once again ignores grouping (<a href='https://github.com/tidyverse/dplyr/issues/1206'>#1206</a>).</p></li>
 <li><p><code><a href="../reference/distinct.html">distinct()</a></code> now only keeps the distinct variables. If you want to return all variables (using the first row for non-distinct values) use <code>.keep_all = TRUE</code> (<a href='https://github.com/tidyverse/dplyr/issues/1110'>#1110</a>). For SQL sources, <code>.keep_all = FALSE</code> is implemented using <code>GROUP BY</code>, and <code>.keep_all = TRUE</code> raises an error (<a href='https://github.com/tidyverse/dplyr/issues/1937'>#1937</a>, <a href='https://github.com/tidyverse/dplyr/issues/1942'>#1942</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>). (The default behaviour of using all variables when none are specified remains - this note only applies if you select some variables).</p></li>
-<li><p>The select helper functions <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with()</a></code> etc are now real exported functions. This means that you’ll need to import those functions if you’re using from a package where dplyr is not attached. i.e. <code><a href="../reference/select.html">dplyr::select(mtcars, starts_with("m"))</a></code> used to work, but now you’ll need <code><a href="../reference/select.html">dplyr::select(mtcars, dplyr::starts_with("m"))</a></code>.</p></li>
+<li><p>The select helper functions <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with()</a></code> etc are now real exported functions. This means that you’ll need to import those functions if you’re using from a package where dplyr is not attached. i.e. <code><a href="../reference/select.html">dplyr::select(mtcars, starts_with("m"))</a></code> used to work, but now you’ll need <code><a href="../reference/select.html">dplyr::select(mtcars, dplyr::starts_with("m"))</a></code>.</p></li>
 </ul>
 </div>
 <div id="deprecated-and-defunct-functions-1" class="section level3">
@@ -1169,7 +1168,7 @@ starwars %&gt;%
 <li><p><code><a href="../reference/filter.html">filter()</a></code> throws an error if you supply an named arguments. This is usually a type: <code><a href="../reference/filter.html">filter(df, x = 1)</a></code> instead of <code><a href="../reference/filter.html">filter(df, x == 1)</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/1529'>#1529</a>).</p></li>
 <li><p><code><a href="../reference/summarise.html">summarise()</a></code> correctly coerces factors with different levels (<a href='https://github.com/tidyverse/dplyr/issues/1678'>#1678</a>), handles min/max of already summarised variable (<a href='https://github.com/tidyverse/dplyr/issues/1622'>#1622</a>), and supports data frames as columns (<a href='https://github.com/tidyverse/dplyr/issues/1425'>#1425</a>).</p></li>
 <li>
-<p><code><a href="../reference/select.html">select()</a></code> now informs you that it adds missing grouping variables (<a href='https://github.com/tidyverse/dplyr/issues/1511'>#1511</a>). It works even if the grouping variable has a non-syntactic name (<a href='https://github.com/tidyverse/dplyr/issues/1138'>#1138</a>). Negating a failed match (e.g. <code><a href="../reference/select.html">select(mtcars, -contains("x"))</a></code>) returns all columns, instead of no columns (<a href='https://github.com/tidyverse/dplyr/issues/1176'>#1176</a>)</p>
+<p><code><a href="../reference/select.html">select()</a></code> now informs you that it adds missing grouping variables (<a href='https://github.com/tidyverse/dplyr/issues/1511'>#1511</a>). It works even if the grouping variable has a non-syntactic name (<a href='https://github.com/tidyverse/dplyr/issues/1138'>#1138</a>). Negating a failed match (e.g. <code><a href="../reference/select.html">select(mtcars, -contains("x"))</a></code>) returns all columns, instead of no columns (<a href='https://github.com/tidyverse/dplyr/issues/1176'>#1176</a>)</p>
 <p>The <code><a href="../reference/select.html">select()</a></code> helpers are now exported and have their own documentation (<a href='https://github.com/tidyverse/dplyr/issues/1410'>#1410</a>). <code><a href="https://tidyselect.r-lib.org/reference/one_of.html">one_of()</a></code> gives a useful error message if variables names are not found in data frame (<a href='https://github.com/tidyverse/dplyr/issues/1407'>#1407</a>).</p>
 </li>
 <li><p>The naming behaviour of <code><a href="../reference/summarise_each.html">summarise_each()</a></code> and <code><a href="../reference/summarise_each.html">mutate_each()</a></code> has been tweaked so that you can force inclusion of both the function and the variable name: <code><a href="../reference/summarise_each.html">summarise_each(mtcars, funs(mean = mean), everything())</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/442'>#442</a>).</p></li>
@@ -1204,16 +1203,16 @@ starwars %&gt;%
 <li><p>Hybrid <code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> received a considerable overhaul. They are more careful about more complicated expressions (<a href='https://github.com/tidyverse/dplyr/issues/1588'>#1588</a>), and falls back more readily to pure R evaluation (<a href='https://github.com/tidyverse/dplyr/issues/1411'>#1411</a>). They behave correctly in <code><a href="../reference/summarise.html">summarise()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/1434'>#1434</a>). and handle default values for string columns.</p></li>
 <li><p>Hybrid <code><a href="https://rdrr.io/r/base/Extremes.html">min()</a></code> and <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code> handle empty sets (<a href='https://github.com/tidyverse/dplyr/issues/1481'>#1481</a>).</p></li>
 <li><p><code><a href="../reference/n_distinct.html">n_distinct()</a></code> uses multiple arguments for data frames (<a href='https://github.com/tidyverse/dplyr/issues/1084'>#1084</a>), falls back to R evaluation when needed (<a href='https://github.com/tidyverse/dplyr/issues/1657'>#1657</a>), reverting decision made in (<a href='https://github.com/tidyverse/dplyr/issues/567'>#567</a>). Passing no arguments gives an error (<a href='https://github.com/tidyverse/dplyr/issues/1957'>#1957</a>, <a href='https://github.com/tidyverse/dplyr/issues/1959'>#1959</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>).</p></li>
-<li><p><code><a href="../reference/nth.html">nth()</a></code> now supports negative indices to select from end, e.g. <code><a href="../reference/nth.html">nth(x, -2)</a></code> selects the 2nd value from the end of <code>x</code> (<a href='https://github.com/tidyverse/dplyr/issues/1584'>#1584</a>).</p></li>
+<li><p><code><a href="../reference/nth.html">nth()</a></code> now supports negative indices to select from end, e.g. <code><a href="../reference/nth.html">nth(x, -2)</a></code> selects the 2nd value from the end of <code>x</code> (<a href='https://github.com/tidyverse/dplyr/issues/1584'>#1584</a>).</p></li>
 <li><p><code><a href="../reference/top_n.html">top_n()</a></code> can now also select bottom <code>n</code> values by passing a negative value to <code>n</code> (<a href='https://github.com/tidyverse/dplyr/issues/1008'>#1008</a>, <a href='https://github.com/tidyverse/dplyr/issues/1352'>#1352</a>).</p></li>
 <li><p>Hybrid evaluation leaves formulas untouched (<a href='https://github.com/tidyverse/dplyr/issues/1447'>#1447</a>).</p></li>
 </ul>
 </div>
 </div>
 </div>
-    <div id="dplyr-0-4-3" class="section level1">
+    <div id="dplyr-043" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-4-3" class="anchor"></a>dplyr 0.4.3<small> 2015-09-01 </small>
+<a href="#dplyr-043" class="anchor"></a>dplyr 0.4.3<small> 2015-09-01 </small>
 </h1>
 <div id="improved-encoding-support" class="section level2">
 <h2 class="hasAnchor">
@@ -1245,7 +1244,7 @@ starwars %&gt;%
 <li><p><code>mutate.rowwise_df()</code> handles factors (<a href='https://github.com/tidyverse/dplyr/issues/886'>#886</a>) and correctly handles 0-row inputs (<a href='https://github.com/tidyverse/dplyr/issues/1300'>#1300</a>).</p></li>
 <li><p><code><a href="../reference/n_distinct.html">n_distinct()</a></code> gains an <code>na_rm</code> argument (<a href='https://github.com/tidyverse/dplyr/issues/1052'>#1052</a>).</p></li>
 <li><p>The <code>Progress</code> bar used by <code><a href="../reference/do.html">do()</a></code> now respects global option <code>dplyr.show_progress</code> (default is TRUE) so you can turn it off globally (<a href='https://github.com/jimhester'>@jimhester</a> <a href='https://github.com/tidyverse/dplyr/issues/1264'>#1264</a>, <a href='https://github.com/tidyverse/dplyr/issues/1226'>#1226</a>).</p></li>
-<li><p><code><a href="../reference/summarise.html">summarise()</a></code> handles expressions that returning heterogenous outputs, e.g. <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code>, which that sometimes returns an integer, and other times a numeric (<a href='https://github.com/tidyverse/dplyr/issues/893'>#893</a>).</p></li>
+<li><p><code><a href="../reference/summarise.html">summarise()</a></code> handles expressions that returning heterogenous outputs, e.g. <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code>, which that sometimes returns an integer, and other times a numeric (<a href='https://github.com/tidyverse/dplyr/issues/893'>#893</a>).</p></li>
 <li><p><code><a href="../reference/slice.html">slice()</a></code> silently drops columns corresponding to an NA (<a href='https://github.com/tidyverse/dplyr/issues/1235'>#1235</a>).</p></li>
 <li><p><code>ungroup.rowwise_df()</code> gives a <code>tbl_df</code> (<a href='https://github.com/tidyverse/dplyr/issues/936'>#936</a>).</p></li>
 <li><p>More explicit duplicated column name error message (<a href='https://github.com/tidyverse/dplyr/issues/996'>#996</a>).</p></li>
@@ -1275,9 +1274,9 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-    <div id="dplyr-0-4-2" class="section level1">
+    <div id="dplyr-042" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-4-2" class="anchor"></a>dplyr 0.4.2<small> 2015-06-16 </small>
+<a href="#dplyr-042" class="anchor"></a>dplyr 0.4.2<small> 2015-06-16 </small>
 </h1>
 <p>This is a minor release containing fixes for a number of crashes and issues identified by R CMD CHECK. There is one new “feature”: dplyr no longer complains about unrecognised attributes, and instead just copies them over to the output.</p>
 <ul>
@@ -1294,17 +1293,17 @@ starwars %&gt;%
 <li><p>Improved performance when working with large number of columns (<a href='https://github.com/tidyverse/dplyr/issues/879'>#879</a>).</p></li>
 </ul>
 </div>
-    <div id="dplyr-0-4-1" class="section level1">
+    <div id="dplyr-041" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-4-1" class="anchor"></a>dplyr 0.4.1<small> 2015-01-14 </small>
+<a href="#dplyr-041" class="anchor"></a>dplyr 0.4.1<small> 2015-01-14 </small>
 </h1>
 <ul>
 <li>Don’t assume that RPostgreSQL is available.</li>
 </ul>
 </div>
-    <div id="dplyr-0-4-0" class="section level1">
+    <div id="dplyr-040" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-4-0" class="anchor"></a>dplyr 0.4.0<small> 2015-01-08 </small>
+<a href="#dplyr-040" class="anchor"></a>dplyr 0.4.0<small> 2015-01-08 </small>
 </h1>
 <div id="new-features-1" class="section level2">
 <h2 class="hasAnchor">
@@ -1333,7 +1332,7 @@ starwars %&gt;%
 <li><p><code><a href="../reference/do.html">do()</a></code> uses lazyeval to correctly evaluate its arguments in the correct environment (<a href='https://github.com/tidyverse/dplyr/issues/744'>#744</a>), and new <code><a href="../reference/se-deprecated.html">do_()</a></code> is the SE equivalent of <code><a href="../reference/do.html">do()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/718'>#718</a>). You can modify grouped data in place: this is probably a bad idea but it’s sometimes convenient (<a href='https://github.com/tidyverse/dplyr/issues/737'>#737</a>). <code><a href="../reference/do.html">do()</a></code> on grouped data tables now passes in all columns (not all columns except grouping vars) (<a href='https://github.com/tidyverse/dplyr/issues/735'>#735</a>, thanks to <a href='https://github.com/kismsu'>@kismsu</a>). <code><a href="../reference/do.html">do()</a></code> with database tables no longer potentially includes grouping variables twice (<a href='https://github.com/tidyverse/dplyr/issues/673'>#673</a>). Finally, <code><a href="../reference/do.html">do()</a></code> gives more consistent outputs when there are no rows or no groups (<a href='https://github.com/tidyverse/dplyr/issues/625'>#625</a>).</p></li>
 <li><p><code><a href="../reference/nth.html">first()</a></code> and <code><a href="../reference/nth.html">last()</a></code> preserve factors, dates and times (<a href='https://github.com/tidyverse/dplyr/issues/509'>#509</a>).</p></li>
 <li><p>Overhaul of single table verbs for data.table backend. They now all use a consistent (and simpler) code base. This ensures that (e.g.) <code><a href="../reference/context.html">n()</a></code> now works in all verbs (<a href='https://github.com/tidyverse/dplyr/issues/579'>#579</a>).</p></li>
-<li><p>In <code>*_join()</code>, you can now name only those variables that are different between the two tables, e.g. <code><a href="../reference/mutate-joins.html">inner_join(x, y, c("a", "b", "c" = "d"))</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/682'>#682</a>). If non-join colums are the same, dplyr will add <code>.x</code> and <code>.y</code> suffixes to distinguish the source (<a href='https://github.com/tidyverse/dplyr/issues/655'>#655</a>).</p></li>
+<li><p>In <code>*_join()</code>, you can now name only those variables that are different between the two tables, e.g. <code><a href="../reference/mutate-joins.html">inner_join(x, y, c("a", "b", "c" = "d"))</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/682'>#682</a>). If non-join colums are the same, dplyr will add <code>.x</code> and <code>.y</code> suffixes to distinguish the source (<a href='https://github.com/tidyverse/dplyr/issues/655'>#655</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> handles complex vectors (<a href='https://github.com/tidyverse/dplyr/issues/436'>#436</a>) and forbids <code>POSIXlt</code> results (instead of crashing) (<a href='https://github.com/tidyverse/dplyr/issues/670'>#670</a>).</p></li>
 <li><p><code><a href="../reference/select.html">select()</a></code> now implements a more sophisticated algorithm so if you’re doing multiples includes and excludes with and without names, you’re more likely to get what you expect (<a href='https://github.com/tidyverse/dplyr/issues/644'>#644</a>). You’ll also get a better error message if you supply an input that doesn’t resolve to an integer column position (<a href='https://github.com/tidyverse/dplyr/issues/643'>#643</a>).</p></li>
 <li>
@@ -1345,7 +1344,7 @@ starwars %&gt;%
 <li><p><code><a href="../reference/slice.html">slice()</a></code> works for data tables (<a href='https://github.com/tidyverse/dplyr/issues/717'>#717</a>). Documentation clarifies that slice can’t work with relational databases, and the examples show how to achieve the same results using <code><a href="../reference/filter.html">filter()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/720'>#720</a>).</p></li>
 <li><p>dplyr now requires RSQLite &gt;= 1.0. This shouldn’t affect your code in any way (except that RSQLite now doesn’t need to be attached) but does simplify the internals (<a href='https://github.com/tidyverse/dplyr/issues/622'>#622</a>).</p></li>
 <li>
-<p>Functions that need to combine multiple results into a single column (e.g. <code><a href="../reference/mutate-joins.html">join()</a></code>, <code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code>) are more careful about coercion.</p>
+<p>Functions that need to combine multiple results into a single column (e.g. <code><a href="../reference/mutate-joins.html">join()</a></code>, <code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code>) are more careful about coercion.</p>
 <p>Joining factors with the same levels in the same order preserves the original levels (<a href='https://github.com/tidyverse/dplyr/issues/675'>#675</a>). Joining factors with non-identical levels generates a warning and coerces to character (<a href='https://github.com/tidyverse/dplyr/issues/684'>#684</a>). Joining a character to a factor (or vice versa) generates a warning and coerces to character. Avoid these warnings by ensuring your data is compatible before joining.</p>
 <p><code>rbind_list()</code> will throw an error if you attempt to combine an integer and factor (<a href='https://github.com/tidyverse/dplyr/issues/751'>#751</a>). <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code>ing a column full of <code>NA</code>s is allowed and just collects the appropriate missing value for the column type being collected (<a href='https://github.com/tidyverse/dplyr/issues/493'>#493</a>).</p>
 <p><code><a href="../reference/summarise.html">summarise()</a></code> is more careful about <code>NA</code>, e.g. the decision on the result type will be delayed until the first non NA value is returned (<a href='https://github.com/tidyverse/dplyr/issues/599'>#599</a>). It will complain about loss of precision coercions, which can happen for expressions that return integers for some groups and a doubles for others (<a href='https://github.com/tidyverse/dplyr/issues/599'>#599</a>).</p>
@@ -1378,17 +1377,17 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-    <div id="dplyr-0-3-0-1" class="section level1">
+    <div id="dplyr-0301" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-3-0-1" class="anchor"></a>dplyr 0.3.0.1<small> 2014-10-08 </small>
+<a href="#dplyr-0301" class="anchor"></a>dplyr 0.3.0.1<small> 2014-10-08 </small>
 </h1>
 <ul>
 <li>Fixed problem with test script on Windows.</li>
 </ul>
 </div>
-    <div id="dplyr-0-3" class="section level1">
+    <div id="dplyr-03" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-3" class="anchor"></a>dplyr 0.3<small> 2014-10-04 </small>
+<a href="#dplyr-03" class="anchor"></a>dplyr 0.3<small> 2014-10-04 </small>
 </h1>
 <div id="new-functions-4" class="section level2">
 <h2 class="hasAnchor">
@@ -1399,7 +1398,7 @@ starwars %&gt;%
 <li><p><code><a href="https://tibble.tidyverse.org/reference/deprecated.html">data_frame()</a></code> by <a href='https://github.com/kevinushey'>@kevinushey</a> is a nicer way of creating data frames. It never coerces column types (no more <code>stringsAsFactors = FALSE</code>!), never munges column names, and never adds row names. You can use previously defined columns to compute new columns (<a href='https://github.com/tidyverse/dplyr/issues/376'>#376</a>).</p></li>
 <li><p><code><a href="../reference/distinct.html">distinct()</a></code> returns distinct (unique) rows of a tbl (<a href='https://github.com/tidyverse/dplyr/issues/97'>#97</a>). Supply additional variables to return the first row for each unique combination of variables.</p></li>
 <li><p>Set operations, <code><a href="../reference/setops.html">intersect()</a></code>, <code><a href="../reference/setops.html">union()</a></code> and <code><a href="../reference/setops.html">setdiff()</a></code> now have methods for data frames, data tables and SQL database tables (<a href='https://github.com/tidyverse/dplyr/issues/93'>#93</a>). They pass their arguments down to the base functions, which will ensure they raise errors if you pass in two many arguments.</p></li>
-<li><p>Joins (e.g. <code><a href="../reference/mutate-joins.html">left_join()</a></code>, <code><a href="../reference/mutate-joins.html">inner_join()</a></code>, <code><a href="../reference/filter-joins.html">semi_join()</a></code>, <code><a href="../reference/filter-joins.html">anti_join()</a></code>) now allow you to join on different variables in <code>x</code> and <code>y</code> tables by supplying a named vector to <code>by</code>. For example, <code>by = c("a" = "b")</code> joins <code>x.a</code> to <code>y.b</code>.</p></li>
+<li><p>Joins (e.g. <code><a href="../reference/mutate-joins.html">left_join()</a></code>, <code><a href="../reference/mutate-joins.html">inner_join()</a></code>, <code><a href="../reference/filter-joins.html">semi_join()</a></code>, <code><a href="../reference/filter-joins.html">anti_join()</a></code>) now allow you to join on different variables in <code>x</code> and <code>y</code> tables by supplying a named vector to <code>by</code>. For example, <code>by = c("a" = "b")</code> joins <code>x.a</code> to <code>y.b</code>.</p></li>
 <li><p><code><a href="../reference/group_data.html">n_groups()</a></code> function tells you how many groups in a tbl. It returns 1 for ungrouped data. (<a href='https://github.com/tidyverse/dplyr/issues/477'>#477</a>)</p></li>
 <li><p><code><a href="../reference/mutate.html">transmute()</a></code> works like <code><a href="../reference/mutate.html">mutate()</a></code> but drops all variables that you didn’t explicitly refer to (<a href='https://github.com/tidyverse/dplyr/issues/302'>#302</a>).</p></li>
 <li><p><code><a href="../reference/rename.html">rename()</a></code> makes it easy to rename variables - it works similarly to <code><a href="../reference/select.html">select()</a></code> but it preserves columns that you didn’t otherwise touch.</p></li>
@@ -1478,7 +1477,7 @@ starwars %&gt;%
 <li><p>no longer substitutes within <code><a href="../reference/order_by.html">order_by()</a></code> because <code><a href="../reference/order_by.html">order_by()</a></code> needs to do its own NSE (<a href='https://github.com/tidyverse/dplyr/issues/169'>#169</a>).</p></li>
 </ul>
 </li>
-<li><p><code>[.tbl_df</code> always returns a tbl_df (i.e. <code>drop = FALSE</code> is the default) (<a href='https://github.com/tidyverse/dplyr/issues/587'>#587</a>, <a href='https://github.com/tidyverse/dplyr/issues/610'>#610</a>). <code>[.grouped_df</code> preserves important output attributes (<a href='https://github.com/tidyverse/dplyr/issues/398'>#398</a>).</p></li>
+<li><p><code>[.tbl_df</code> always returns a tbl_df (i.e. <code>drop = FALSE</code> is the default) (<a href='https://github.com/tidyverse/dplyr/issues/587'>#587</a>, <a href='https://github.com/tidyverse/dplyr/issues/610'>#610</a>). <code>[.grouped_df</code> preserves important output attributes (<a href='https://github.com/tidyverse/dplyr/issues/398'>#398</a>).</p></li>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code> keeps the grouping structure of grouped data (<a href='https://github.com/tidyverse/dplyr/issues/491'>#491</a>, <a href='https://github.com/tidyverse/dplyr/issues/605'>#605</a>), and preserves input classes (<a href='https://github.com/tidyverse/dplyr/issues/563'>#563</a>).</p></li>
 <li><p><code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains()</a></code> accidentally matched regular expressions, now it passes <code>fixed = TRUE</code> to <code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/608'>#608</a>).</p></li>
 <li><p><code><a href="../reference/filter.html">filter()</a></code> asserts all variables are white listed (<a href='https://github.com/tidyverse/dplyr/issues/566'>#566</a>).</p></li>
@@ -1515,15 +1514,15 @@ starwars %&gt;%
 </div>
 </div>
 </div>
-    <div id="dplyr-0-2" class="section level1">
+    <div id="dplyr-02" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-2" class="anchor"></a>dplyr 0.2<small> 2014-05-21 </small>
+<a href="#dplyr-02" class="anchor"></a>dplyr 0.2<small> 2014-05-21 </small>
 </h1>
 <div id="piping" class="section level2">
 <h2 class="hasAnchor">
 <a href="#piping" class="anchor"></a>Piping</h2>
 <p>dplyr now imports <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> from magrittr (<a href='https://github.com/tidyverse/dplyr/issues/330'>#330</a>). I recommend that you use this instead of <code>%.%</code> because it is easier to type (since you can hold down the shift key) and is more flexible. With you <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code>, you can control which argument on the RHS recieves the LHS by using the pronoun <code>.</code>. This makes <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> more useful with base R functions because they don’t always take the data frame as the first argument. For example you could pipe <code>mtcars</code> to <code><a href="https://rdrr.io/r/stats/xtabs.html">xtabs()</a></code> with:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/xtabs.html">xtabs</a></span>( <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>vs, <span class="dt">data =</span> .)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/xtabs.html">xtabs</a></span>( <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>vs, <span class="dt">data =</span> .)</span></code></pre></div>
 <p>Thanks to <a href='https://github.com/smbache'>@smbache</a> for the excellent magrittr package. dplyr only provides <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> from magrittr, but it contains many other useful functions. To use them, load <code>magrittr</code> explicitly: <code><a href="https://rdrr.io/r/base/library.html">library(magrittr)</a></code>. For more details, see <code>vignette("magrittr")</code>.</p>
 <p><code>%.%</code> will be deprecated in a future version of dplyr, but it won’t happen for a while. I’ve also deprecated <code>chain()</code> to encourage a single style of dplyr usage: please use <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> instead.</p>
 </div>
@@ -1532,11 +1531,11 @@ starwars %&gt;%
 <a href="#do" class="anchor"></a>Do</h2>
 <p><code><a href="../reference/do.html">do()</a></code> has been completely overhauled. There are now two ways to use it, either with multiple named arguments or a single unnamed arguments. <code><a href="../reference/group_by.html">group_by()</a></code> + <code><a href="../reference/do.html">do()</a></code> is equivalent to <code><a href="https://rdrr.io/pkg/plyr/man/dlply.html">plyr::dlply</a></code>, except it always returns a data frame.</p>
 <p>If you use named arguments, each argument becomes a list-variable in the output. A list-variable can contain any arbitrary R object so it’s particularly well suited for storing models.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">models &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="dt">lm =</span> <span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> .))</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">models <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">rsq =</span> <span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(lm)<span class="op">$</span>r.squared)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</span>
+<span id="cb14-2"><a href="#cb14-2"></a>models &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="dt">lm =</span> <span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> .))</span>
+<span id="cb14-3"><a href="#cb14-3"></a>models <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">rsq =</span> <span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(lm)<span class="op">$</span>r.squared)</span></code></pre></div>
 <p>If you use an unnamed argument, the result should be a data frame. This allows you to apply arbitrary functions to each group.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(., <span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(., <span class="dv">1</span>))</span></code></pre></div>
 <p>Note the use of the <code>.</code> pronoun to refer to the data in the current group.</p>
 <p><code><a href="../reference/do.html">do()</a></code> also has an automatic progress bar. It appears if the computation takes longer than 5 seconds and lets you know (approximately) how much longer the job will take to complete.</p>
 </div>
@@ -1603,9 +1602,9 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-    <div id="dplyr-0-1-3" class="section level1">
+    <div id="dplyr-013" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-1-3" class="anchor"></a>dplyr 0.1.3<small> 2014-03-15 </small>
+<a href="#dplyr-013" class="anchor"></a>dplyr 0.1.3<small> 2014-03-15 </small>
 </h1>
 <div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
@@ -1621,9 +1620,9 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-    <div id="dplyr-0-1-2" class="section level1">
+    <div id="dplyr-012" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-1-2" class="anchor"></a>dplyr 0.1.2<small> 2014-02-24 </small>
+<a href="#dplyr-012" class="anchor"></a>dplyr 0.1.2<small> 2014-02-24 </small>
 </h1>
 <div id="new-features-2" class="section level2">
 <h2 class="hasAnchor">
@@ -1652,9 +1651,9 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-    <div id="dplyr-0-1-1" class="section level1">
+    <div id="dplyr-011" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-1-1" class="anchor"></a>dplyr 0.1.1<small> 2014-01-29 </small>
+<a href="#dplyr-011" class="anchor"></a>dplyr 0.1.1<small> 2014-01-29 </small>
 </h1>
 <div id="improvements" class="section level2">
 <h2 class="hasAnchor">
@@ -1684,35 +1683,35 @@ starwars %&gt;%
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#dplyr-1-0-0-in-development">1.0.0</a></li>
-        <li><a href="#dplyr-0-8-4-development-version">0.8.4</a></li>
-        <li><a href="#dplyr-0-8-3-2019-07-04">0.8.3</a></li>
-        <li><a href="#dplyr-0-8-2-2019-06-28">0.8.2</a></li>
-        <li><a href="#dplyr-0-8-1-2019-05-14">0.8.1</a></li>
-        <li><a href="#dplyr-0-8-0-1-2019-02-15">0.8.0.1</a></li>
-        <li><a href="#dplyr-0-8-0-2019-02-14">0.8.0</a></li>
-        <li><a href="#dplyr-0-7-6">0.7.6</a></li>
-        <li><a href="#dplyr-0-7-5-2018-04-14">0.7.5</a></li>
-        <li><a href="#dplyr-0-7-4">0.7.4</a></li>
-        <li><a href="#dplyr-0-7-3">0.7.3</a></li>
-        <li><a href="#dplyr-0-7-2">0.7.2</a></li>
-        <li><a href="#dplyr-0-7-1">0.7.1</a></li>
-        <li><a href="#dplyr-0-7-0">0.7.0</a></li>
-        <li><a href="#dplyr-0-5-0">0.5.0</a></li>
-        <li><a href="#dplyr-0-4-3">0.4.3</a></li>
-        <li><a href="#dplyr-0-4-2">0.4.2</a></li>
-        <li><a href="#dplyr-0-4-1">0.4.1</a></li>
-        <li><a href="#dplyr-0-4-0">0.4.0</a></li>
-        <li><a href="#dplyr-0-3-0-1">0.3.0.1</a></li>
-        <li><a href="#dplyr-0-3">0.3</a></li>
-        <li><a href="#dplyr-0-2">0.2</a></li>
-        <li><a href="#dplyr-0-1-3">0.1.3</a></li>
-        <li><a href="#dplyr-0-1-2">0.1.2</a></li>
-        <li><a href="#dplyr-0-1-1">0.1.1</a></li>
+        <li><a href="#dplyr-100-in-development">1.0.0</a></li>
+        <li><a href="#dplyr-084-development-version">0.8.4</a></li>
+        <li><a href="#dplyr-083-2019-07-04">0.8.3</a></li>
+        <li><a href="#dplyr-082-2019-06-28">0.8.2</a></li>
+        <li><a href="#dplyr-081-2019-05-14">0.8.1</a></li>
+        <li><a href="#dplyr-0801-2019-02-15">0.8.0.1</a></li>
+        <li><a href="#dplyr-080-2019-02-14">0.8.0</a></li>
+        <li><a href="#dplyr-076">0.7.6</a></li>
+        <li><a href="#dplyr-075-2018-04-14">0.7.5</a></li>
+        <li><a href="#dplyr-074">0.7.4</a></li>
+        <li><a href="#dplyr-073">0.7.3</a></li>
+        <li><a href="#dplyr-072">0.7.2</a></li>
+        <li><a href="#dplyr-071">0.7.1</a></li>
+        <li><a href="#dplyr-070">0.7.0</a></li>
+        <li><a href="#dplyr-050">0.5.0</a></li>
+        <li><a href="#dplyr-043">0.4.3</a></li>
+        <li><a href="#dplyr-042">0.4.2</a></li>
+        <li><a href="#dplyr-041">0.4.1</a></li>
+        <li><a href="#dplyr-040">0.4.0</a></li>
+        <li><a href="#dplyr-0301">0.3.0.1</a></li>
+        <li><a href="#dplyr-03">0.3</a></li>
+        <li><a href="#dplyr-02">0.2</a></li>
+        <li><a href="#dplyr-013">0.1.3</a></li>
+        <li><a href="#dplyr-012">0.1.2</a></li>
+        <li><a href="#dplyr-011">0.1.1</a></li>
       </ul>
     </div>
   </div>

@@ -272,58 +272,58 @@ group transiently, so the output has the same groups as the input.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># count() is a convenient way to get a sense of the distribution of</span>
 <span class='co'># values in a dataset</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 38 x 2</span><span>
 #&gt;    species       n
-#&gt;    &lt;chr&gt;     &lt;int&gt;
-#&gt;  1 Aleena        1
-#&gt;  2 Besalisk      1
-#&gt;  3 Cerean        1
-#&gt;  4 Chagrian      1
-#&gt;  5 Clawdite      1
-#&gt;  6 Droid         6
-#&gt;  7 Dug           1
-#&gt;  8 Ewok          1
-#&gt;  9 Geonosian     1
-#&gt; 10 Gungan        3
-#&gt; # … with 28 more rows</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Aleena        1
+#&gt; </span><span style='color: #555555;'> 2</span><span> Besalisk      1
+#&gt; </span><span style='color: #555555;'> 3</span><span> Cerean        1
+#&gt; </span><span style='color: #555555;'> 4</span><span> Chagrian      1
+#&gt; </span><span style='color: #555555;'> 5</span><span> Clawdite      1
+#&gt; </span><span style='color: #555555;'> 6</span><span> Droid         6
+#&gt; </span><span style='color: #555555;'> 7</span><span> Dug           1
+#&gt; </span><span style='color: #555555;'> 8</span><span> Ewok          1
+#&gt; </span><span style='color: #555555;'> 9</span><span> Geonosian     1
+#&gt; </span><span style='color: #555555;'>10</span><span> Gungan        3
+#&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
 #&gt;    species      n
-#&gt;    &lt;chr&gt;    &lt;int&gt;
-#&gt;  1 Human       35
-#&gt;  2 Droid        6
-#&gt;  3 &lt;NA&gt;         4
-#&gt;  4 Gungan       3
-#&gt;  5 Kaminoan     2
-#&gt;  6 Mirialan     2
-#&gt;  7 Twi'lek      2
-#&gt;  8 Wookiee      2
-#&gt;  9 Zabrak       2
-#&gt; 10 Aleena       1
-#&gt; # … with 28 more rows</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>sex</span>, <span class='no'>gender</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 3
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Human       35
+#&gt; </span><span style='color: #555555;'> 2</span><span> Droid        6
+#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>           4
+#&gt; </span><span style='color: #555555;'> 4</span><span> Gungan       3
+#&gt; </span><span style='color: #555555;'> 5</span><span> Kaminoan     2
+#&gt; </span><span style='color: #555555;'> 6</span><span> Mirialan     2
+#&gt; </span><span style='color: #555555;'> 7</span><span> Twi'lek      2
+#&gt; </span><span style='color: #555555;'> 8</span><span> Wookiee      2
+#&gt; </span><span style='color: #555555;'> 9</span><span> Zabrak       2
+#&gt; </span><span style='color: #555555;'>10</span><span> Aleena       1
+#&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>sex</span>, <span class='no'>gender</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt;   sex            gender        n
-#&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
-#&gt; 1 male           masculine    60
-#&gt; 2 female         feminine     16
-#&gt; 3 none           masculine     5
-#&gt; 4 &lt;NA&gt;           &lt;NA&gt;          4
-#&gt; 5 hermaphroditic masculine     1
-#&gt; 6 none           feminine      1</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='kw'>birth_decade</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>birth_year</span>, -<span class='fl'>1</span>))</div><div class='output co'>#&gt; # A tibble: 15 x 2
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> male           masculine    60
+#&gt; </span><span style='color: #555555;'>2</span><span> female         feminine     16
+#&gt; </span><span style='color: #555555;'>3</span><span> none           masculine     5
+#&gt; </span><span style='color: #555555;'>4</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            4
+#&gt; </span><span style='color: #555555;'>5</span><span> hermaphroditic masculine     1
+#&gt; </span><span style='color: #555555;'>6</span><span> none           feminine      1</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='kw'>birth_decade</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>birth_year</span>, -<span class='fl'>1</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 2</span><span>
 #&gt;    birth_decade     n
-#&gt;           &lt;dbl&gt; &lt;int&gt;
-#&gt;  1           10     1
-#&gt;  2           20     6
-#&gt;  3           30     4
-#&gt;  4           40     6
-#&gt;  5           50     8
-#&gt;  6           60     4
-#&gt;  7           70     4
-#&gt;  8           80     2
-#&gt;  9           90     3
-#&gt; 10          100     1
-#&gt; 11          110     1
-#&gt; 12          200     1
-#&gt; 13          600     1
-#&gt; 14          900     1
-#&gt; 15           NA    44</div><div class='input'>
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>           10     1
+#&gt; </span><span style='color: #555555;'> 2</span><span>           20     6
+#&gt; </span><span style='color: #555555;'> 3</span><span>           30     4
+#&gt; </span><span style='color: #555555;'> 4</span><span>           40     6
+#&gt; </span><span style='color: #555555;'> 5</span><span>           50     8
+#&gt; </span><span style='color: #555555;'> 6</span><span>           60     4
+#&gt; </span><span style='color: #555555;'> 7</span><span>           70     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>           80     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>           90     3
+#&gt; </span><span style='color: #555555;'>10</span><span>          100     1
+#&gt; </span><span style='color: #555555;'>11</span><span>          110     1
+#&gt; </span><span style='color: #555555;'>12</span><span>          200     1
+#&gt; </span><span style='color: #555555;'>13</span><span>          600     1
+#&gt; </span><span style='color: #555555;'>14</span><span>          900     1
+#&gt; </span><span style='color: #555555;'>15</span><span>           </span><span style='color: #BB0000;'>NA</span><span>    44</div><div class='input'>
 <span class='co'># use the `wt` argument to perform a weighted count. This is useful</span>
 <span class='co'># when the data has already been aggregated once</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
@@ -333,49 +333,49 @@ group transiently, so the output has the same groups as the input.</p>
   <span class='st'>"Susan"</span>,  <span class='st'>"female"</span>,      <span class='fl'>4</span>
 )
 <span class='co'># counts rows:</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   gender     n
-#&gt;   &lt;chr&gt;  &lt;int&gt;
-#&gt; 1 female     2
-#&gt; 2 male       1</div><div class='input'><span class='co'># counts runs:</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> female     2
+#&gt; </span><span style='color: #555555;'>2</span><span> male       1</div><div class='input'><span class='co'># counts runs:</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   gender     n
-#&gt;   &lt;chr&gt;  &lt;dbl&gt;
-#&gt; 1 female     5
-#&gt; 2 male      10</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> female     5
+#&gt; </span><span style='color: #555555;'>2</span><span> male      10</div><div class='input'>
 <span class='co'># tally() is a lower-level function that assumes you've done the grouping</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt; # A tibble: 1 x 1
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;       n
-#&gt;   &lt;int&gt;
-#&gt; 1    87</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt; # A tibble: 38 x 2
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>    87</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
 #&gt;    species       n
-#&gt;    &lt;chr&gt;     &lt;int&gt;
-#&gt;  1 Aleena        1
-#&gt;  2 Besalisk      1
-#&gt;  3 Cerean        1
-#&gt;  4 Chagrian      1
-#&gt;  5 Clawdite      1
-#&gt;  6 Droid         6
-#&gt;  7 Dug           1
-#&gt;  8 Ewok          1
-#&gt;  9 Geonosian     1
-#&gt; 10 Gungan        3
-#&gt; # … with 28 more rows</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Aleena        1
+#&gt; </span><span style='color: #555555;'> 2</span><span> Besalisk      1
+#&gt; </span><span style='color: #555555;'> 3</span><span> Cerean        1
+#&gt; </span><span style='color: #555555;'> 4</span><span> Chagrian      1
+#&gt; </span><span style='color: #555555;'> 5</span><span> Clawdite      1
+#&gt; </span><span style='color: #555555;'> 6</span><span> Droid         6
+#&gt; </span><span style='color: #555555;'> 7</span><span> Dug           1
+#&gt; </span><span style='color: #555555;'> 8</span><span> Ewok          1
+#&gt; </span><span style='color: #555555;'> 9</span><span> Geonosian     1
+#&gt; </span><span style='color: #555555;'>10</span><span> Gungan        3
+#&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'>
 <span class='co'># both count() and tally() have add_ variants that work like</span>
 <span class='co'># mutate() instead of summarise</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_count</span>(<span class='no'>gender</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 4
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_count</span>(<span class='no'>gender</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
 #&gt;   name   gender  runs     n
-#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1 Max    male      10    10
-#&gt; 2 Sandra female     1     5
-#&gt; 3 Susan  female     4     5</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_tally</span>(<span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 4
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> Max    male      10    10
+#&gt; </span><span style='color: #555555;'>2</span><span> Sandra female     1     5
+#&gt; </span><span style='color: #555555;'>3</span><span> Susan  female     4     5</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_tally</span>(<span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
 #&gt;   name   gender  runs     n
-#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1 Max    male      10    15
-#&gt; 2 Sandra female     1    15
-#&gt; 3 Susan  female     4    15</div></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> Max    male      10    15
+#&gt; </span><span style='color: #555555;'>2</span><span> Sandra female     1    15
+#&gt; </span><span style='color: #555555;'>3</span><span> Susan  female     4    15</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

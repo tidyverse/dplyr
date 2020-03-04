@@ -331,300 +331,300 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 <span class='co'># purrr-style. The _at() variants directly support strings. Here</span>
 <span class='co'># we'll scale the variables `height` and `mass`:</span>
 <span class='no'>scale2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) (<span class='no'>x</span> - <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>na.rm</span>)) / <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='no'>x</span>, <span class='no'>na.rm</span>)
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 14
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Luke…     NA    NA blond      fair       blue            19   male  mascu…
-#&gt;  2 C-3PO     NA    NA &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt;  3 R2-D2     NA    NA &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt;  4 Dart…     NA    NA none       white      yellow          41.9 male  mascu…
-#&gt;  5 Leia…     NA    NA brown      light      brown           19   fema… femin…
-#&gt;  6 Owen…     NA    NA brown, gr… light      blue            52   male  mascu…
-#&gt;  7 Beru…     NA    NA brown      light      blue            47   fema… femin…
-#&gt;  8 R5-D4     NA    NA &lt;NA&gt;       white, red red             NA   none  mascu…
-#&gt;  9 Bigg…     NA    NA black      light      brown           24   male  mascu…
-#&gt; 10 Obi-…     NA    NA auburn, w… fair       blue-gray       57   male  mascu…
-#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 14
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> brown      light      brown           19   fema… femin…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> brown      light      blue            47   fema… femin…
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>         white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 77 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Luke…     NA    NA blond      fair       blue            19   male  mascu…
-#&gt;  2 C-3PO     NA    NA &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt;  3 R2-D2     NA    NA &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt;  4 Dart…     NA    NA none       white      yellow          41.9 male  mascu…
-#&gt;  5 Leia…     NA    NA brown      light      brown           19   fema… femin…
-#&gt;  6 Owen…     NA    NA brown, gr… light      blue            52   male  mascu…
-#&gt;  7 Beru…     NA    NA brown      light      blue            47   fema… femin…
-#&gt;  8 R5-D4     NA    NA &lt;NA&gt;       white, red red             NA   none  mascu…
-#&gt;  9 Bigg…     NA    NA black      light      brown           24   male  mascu…
-#&gt; 10 Obi-…     NA    NA auburn, w… fair       blue-gray       57   male  mascu…
-#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> brown      light      brown           19   fema… femin…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> brown      light      blue            47   fema… femin…
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #BB0000;'>NA</span><span>         white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 77 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># You can pass additional arguments to the function:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 14
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 14</span><span>
 #&gt;    name   height    mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Luke… -0.0678 -0.120  blond      fair       blue            19   male  mascu…
-#&gt;  2 C-3PO -0.212  -0.132  &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt;  3 R2-D2 -2.25   -0.385  &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt;  4 Dart…  0.795   0.228  none       white      yellow          41.9 male  mascu…
-#&gt;  5 Leia… -0.701  -0.285  brown      light      brown           19   fema… femin…
-#&gt;  6 Owen…  0.105   0.134  brown, gr… light      blue            52   male  mascu…
-#&gt;  7 Beru… -0.269  -0.132  brown      light      blue            47   fema… femin…
-#&gt;  8 R5-D4 -2.22   -0.385  &lt;NA&gt;       white, red red             NA   none  mascu…
-#&gt;  9 Bigg…  0.249  -0.0786 black      light      brown           24   male  mascu…
-#&gt; 10 Obi-…  0.220  -0.120  auburn, w… fair       blue-gray       57   male  mascu…
-#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), ~<span class='fu'>scale2</span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 14
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke… -</span><span style='color: #BB0000;'>0.067</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span> -</span><span style='color: #BB0000;'>0.120</span><span>  blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO -</span><span style='color: #BB0000;'>0.212</span><span>  -</span><span style='color: #BB0000;'>0.132</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2 -</span><span style='color: #BB0000;'>2.25</span><span>   -</span><span style='color: #BB0000;'>0.385</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…  0.795   0.228  none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia… -</span><span style='color: #BB0000;'>0.701</span><span>  -</span><span style='color: #BB0000;'>0.285</span><span>  brown      light      brown           19   fema… femin…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen…  0.105   0.134  brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru… -</span><span style='color: #BB0000;'>0.269</span><span>  -</span><span style='color: #BB0000;'>0.132</span><span>  brown      light      blue            47   fema… femin…
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4 -</span><span style='color: #BB0000;'>2.22</span><span>   -</span><span style='color: #BB0000;'>0.385</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…  0.249  -</span><span style='color: #BB0000;'>0.078</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…  0.220  -</span><span style='color: #BB0000;'>0.120</span><span>  auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 77 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), ~<span class='fu'>scale2</span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 14</span><span>
 #&gt;    name   height    mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Luke… -0.0678 -0.120  blond      fair       blue            19   male  mascu…
-#&gt;  2 C-3PO -0.212  -0.132  &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt;  3 R2-D2 -2.25   -0.385  &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt;  4 Dart…  0.795   0.228  none       white      yellow          41.9 male  mascu…
-#&gt;  5 Leia… -0.701  -0.285  brown      light      brown           19   fema… femin…
-#&gt;  6 Owen…  0.105   0.134  brown, gr… light      blue            52   male  mascu…
-#&gt;  7 Beru… -0.269  -0.132  brown      light      blue            47   fema… femin…
-#&gt;  8 R5-D4 -2.22   -0.385  &lt;NA&gt;       white, red red             NA   none  mascu…
-#&gt;  9 Bigg…  0.249  -0.0786 black      light      brown           24   male  mascu…
-#&gt; 10 Obi-…  0.220  -0.120  auburn, w… fair       blue-gray       57   male  mascu…
-#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), ~ <span class='fu'>scale2</span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; # A tibble: 87 x 14
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke… -</span><span style='color: #BB0000;'>0.067</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span> -</span><span style='color: #BB0000;'>0.120</span><span>  blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO -</span><span style='color: #BB0000;'>0.212</span><span>  -</span><span style='color: #BB0000;'>0.132</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2 -</span><span style='color: #BB0000;'>2.25</span><span>   -</span><span style='color: #BB0000;'>0.385</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…  0.795   0.228  none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia… -</span><span style='color: #BB0000;'>0.701</span><span>  -</span><span style='color: #BB0000;'>0.285</span><span>  brown      light      brown           19   fema… femin…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen…  0.105   0.134  brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru… -</span><span style='color: #BB0000;'>0.269</span><span>  -</span><span style='color: #BB0000;'>0.132</span><span>  brown      light      blue            47   fema… femin…
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4 -</span><span style='color: #BB0000;'>2.22</span><span>   -</span><span style='color: #BB0000;'>0.385</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…  0.249  -</span><span style='color: #BB0000;'>0.078</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…  0.220  -</span><span style='color: #BB0000;'>0.120</span><span>  auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 77 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), ~ <span class='fu'>scale2</span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 14</span><span>
 #&gt;    name   height    mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Luke… -0.0678 -0.120  blond      fair       blue            19   male  mascu…
-#&gt;  2 C-3PO -0.212  -0.132  &lt;NA&gt;       gold       yellow         112   none  mascu…
-#&gt;  3 R2-D2 -2.25   -0.385  &lt;NA&gt;       white, bl… red             33   none  mascu…
-#&gt;  4 Dart…  0.795   0.228  none       white      yellow          41.9 male  mascu…
-#&gt;  5 Leia… -0.701  -0.285  brown      light      brown           19   fema… femin…
-#&gt;  6 Owen…  0.105   0.134  brown, gr… light      blue            52   male  mascu…
-#&gt;  7 Beru… -0.269  -0.132  brown      light      blue            47   fema… femin…
-#&gt;  8 R5-D4 -2.22   -0.385  &lt;NA&gt;       white, red red             NA   none  mascu…
-#&gt;  9 Bigg…  0.249  -0.0786 black      light      brown           24   male  mascu…
-#&gt; 10 Obi-…  0.220  -0.120  auburn, w… fair       blue-gray       57   male  mascu…
-#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke… -</span><span style='color: #BB0000;'>0.067</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span> -</span><span style='color: #BB0000;'>0.120</span><span>  blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO -</span><span style='color: #BB0000;'>0.212</span><span>  -</span><span style='color: #BB0000;'>0.132</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2 -</span><span style='color: #BB0000;'>2.25</span><span>   -</span><span style='color: #BB0000;'>0.385</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…  0.795   0.228  none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia… -</span><span style='color: #BB0000;'>0.701</span><span>  -</span><span style='color: #BB0000;'>0.285</span><span>  brown      light      brown           19   fema… femin…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen…  0.105   0.134  brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru… -</span><span style='color: #BB0000;'>0.269</span><span>  -</span><span style='color: #BB0000;'>0.132</span><span>  brown      light      blue            47   fema… femin…
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4 -</span><span style='color: #BB0000;'>2.22</span><span>   -</span><span style='color: #BB0000;'>0.385</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…  0.249  -</span><span style='color: #BB0000;'>0.078</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…  0.220  -</span><span style='color: #BB0000;'>0.120</span><span>  auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 77 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># You can also supply selection helpers to _at() functions but you have</span>
 <span class='co'># to quote them with vars():</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>matches</a></span>(<span class='st'>"Sepal"</span>)), <span class='no'>log</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>matches</a></span>(<span class='st'>"Sepal"</span>)), <span class='no'>log</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-#&gt;  1         1.63        1.25          1.4         0.2 setosa 
-#&gt;  2         1.59        1.10          1.4         0.2 setosa 
-#&gt;  3         1.55        1.16          1.3         0.2 setosa 
-#&gt;  4         1.53        1.13          1.5         0.2 setosa 
-#&gt;  5         1.61        1.28          1.4         0.2 setosa 
-#&gt;  6         1.69        1.36          1.7         0.4 setosa 
-#&gt;  7         1.53        1.22          1.4         0.3 setosa 
-#&gt;  8         1.61        1.22          1.5         0.2 setosa 
-#&gt;  9         1.48        1.06          1.4         0.2 setosa 
-#&gt; 10         1.59        1.13          1.5         0.1 setosa 
-#&gt; # … with 140 more rows</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>matches</a></span>(<span class='st'>"Sepal"</span>), <span class='no'>log</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 5
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span>         1.63        1.25          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 2</span><span>         1.59        1.10          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 3</span><span>         1.55        1.16          1.3         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 4</span><span>         1.53        1.13          1.5         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 5</span><span>         1.61        1.28          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 6</span><span>         1.69        1.36          1.7         0.4 setosa 
+#&gt; </span><span style='color: #555555;'> 7</span><span>         1.53        1.22          1.4         0.3 setosa 
+#&gt; </span><span style='color: #555555;'> 8</span><span>         1.61        1.22          1.5         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 9</span><span>         1.48        1.06          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'>10</span><span>         1.59        1.13          1.5         0.1 setosa 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>matches</a></span>(<span class='st'>"Sepal"</span>), <span class='no'>log</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-#&gt;  1         1.63        1.25          1.4         0.2 setosa 
-#&gt;  2         1.59        1.10          1.4         0.2 setosa 
-#&gt;  3         1.55        1.16          1.3         0.2 setosa 
-#&gt;  4         1.53        1.13          1.5         0.2 setosa 
-#&gt;  5         1.61        1.28          1.4         0.2 setosa 
-#&gt;  6         1.69        1.36          1.7         0.4 setosa 
-#&gt;  7         1.53        1.22          1.4         0.3 setosa 
-#&gt;  8         1.61        1.22          1.5         0.2 setosa 
-#&gt;  9         1.48        1.06          1.4         0.2 setosa 
-#&gt; 10         1.59        1.13          1.5         0.1 setosa 
-#&gt; # … with 140 more rows</div><div class='input'>
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span>         1.63        1.25          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 2</span><span>         1.59        1.10          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 3</span><span>         1.55        1.16          1.3         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 4</span><span>         1.53        1.13          1.5         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 5</span><span>         1.61        1.28          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 6</span><span>         1.69        1.36          1.7         0.4 setosa 
+#&gt; </span><span style='color: #555555;'> 7</span><span>         1.53        1.22          1.4         0.3 setosa 
+#&gt; </span><span style='color: #555555;'> 8</span><span>         1.61        1.22          1.5         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 9</span><span>         1.48        1.06          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'>10</span><span>         1.59        1.13          1.5         0.1 setosa 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'>
 <span class='co'># The _if() variants apply a predicate function (a function that</span>
 <span class='co'># returns TRUE or FALSE) to determine the relevant subset of</span>
 <span class='co'># columns. Here we divide all the numeric columns by 100:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='no'>scale2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 14
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='no'>scale2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 14</span><span>
 #&gt;    name   height    mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Luke… -0.0678 -0.120  blond      fair       blue          -0.443 male  mascu…
-#&gt;  2 C-3PO -0.212  -0.132  &lt;NA&gt;       gold       yellow         0.158 none  mascu…
-#&gt;  3 R2-D2 -2.25   -0.385  &lt;NA&gt;       white, bl… red           -0.353 none  mascu…
-#&gt;  4 Dart…  0.795   0.228  none       white      yellow        -0.295 male  mascu…
-#&gt;  5 Leia… -0.701  -0.285  brown      light      brown         -0.443 fema… femin…
-#&gt;  6 Owen…  0.105   0.134  brown, gr… light      blue          -0.230 male  mascu…
-#&gt;  7 Beru… -0.269  -0.132  brown      light      blue          -0.262 fema… femin…
-#&gt;  8 R5-D4 -2.22   -0.385  &lt;NA&gt;       white, red red           NA     none  mascu…
-#&gt;  9 Bigg…  0.249  -0.0786 black      light      brown         -0.411 male  mascu…
-#&gt; 10 Obi-…  0.220  -0.120  auburn, w… fair       blue-gray     -0.198 male  mascu…
-#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.numeric</span>, ~ <span class='fu'>scale2</span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; # A tibble: 87 x 14
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke… -</span><span style='color: #BB0000;'>0.067</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span> -</span><span style='color: #BB0000;'>0.120</span><span>  blond      fair       blue          -</span><span style='color: #BB0000;'>0.443</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO -</span><span style='color: #BB0000;'>0.212</span><span>  -</span><span style='color: #BB0000;'>0.132</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         0.158 none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2 -</span><span style='color: #BB0000;'>2.25</span><span>   -</span><span style='color: #BB0000;'>0.385</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red           -</span><span style='color: #BB0000;'>0.353</span><span> none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…  0.795   0.228  none       white      yellow        -</span><span style='color: #BB0000;'>0.295</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia… -</span><span style='color: #BB0000;'>0.701</span><span>  -</span><span style='color: #BB0000;'>0.285</span><span>  brown      light      brown         -</span><span style='color: #BB0000;'>0.443</span><span> fema… femin…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen…  0.105   0.134  brown, gr… light      blue          -</span><span style='color: #BB0000;'>0.230</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru… -</span><span style='color: #BB0000;'>0.269</span><span>  -</span><span style='color: #BB0000;'>0.132</span><span>  brown      light      blue          -</span><span style='color: #BB0000;'>0.262</span><span> fema… femin…
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4 -</span><span style='color: #BB0000;'>2.22</span><span>   -</span><span style='color: #BB0000;'>0.385</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         white, red red           </span><span style='color: #BB0000;'>NA</span><span>     none  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…  0.249  -</span><span style='color: #BB0000;'>0.078</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> black      light      brown         -</span><span style='color: #BB0000;'>0.411</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…  0.220  -</span><span style='color: #BB0000;'>0.120</span><span>  auburn, w… fair       blue-gray     -</span><span style='color: #BB0000;'>0.198</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 77 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.numeric</span>, ~ <span class='fu'>scale2</span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 14</span><span>
 #&gt;    name   height    mass hair_color skin_color eye_color birth_year sex   gender
-#&gt;    &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-#&gt;  1 Luke… -0.0678 -0.120  blond      fair       blue          -0.443 male  mascu…
-#&gt;  2 C-3PO -0.212  -0.132  &lt;NA&gt;       gold       yellow         0.158 none  mascu…
-#&gt;  3 R2-D2 -2.25   -0.385  &lt;NA&gt;       white, bl… red           -0.353 none  mascu…
-#&gt;  4 Dart…  0.795   0.228  none       white      yellow        -0.295 male  mascu…
-#&gt;  5 Leia… -0.701  -0.285  brown      light      brown         -0.443 fema… femin…
-#&gt;  6 Owen…  0.105   0.134  brown, gr… light      blue          -0.230 male  mascu…
-#&gt;  7 Beru… -0.269  -0.132  brown      light      blue          -0.262 fema… femin…
-#&gt;  8 R5-D4 -2.22   -0.385  &lt;NA&gt;       white, red red           NA     none  mascu…
-#&gt;  9 Bigg…  0.249  -0.0786 black      light      brown         -0.411 male  mascu…
-#&gt; 10 Obi-…  0.220  -0.120  auburn, w… fair       blue-gray     -0.198 male  mascu…
-#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke… -</span><span style='color: #BB0000;'>0.067</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span> -</span><span style='color: #BB0000;'>0.120</span><span>  blond      fair       blue          -</span><span style='color: #BB0000;'>0.443</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO -</span><span style='color: #BB0000;'>0.212</span><span>  -</span><span style='color: #BB0000;'>0.132</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         0.158 none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2 -</span><span style='color: #BB0000;'>2.25</span><span>   -</span><span style='color: #BB0000;'>0.385</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red           -</span><span style='color: #BB0000;'>0.353</span><span> none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…  0.795   0.228  none       white      yellow        -</span><span style='color: #BB0000;'>0.295</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia… -</span><span style='color: #BB0000;'>0.701</span><span>  -</span><span style='color: #BB0000;'>0.285</span><span>  brown      light      brown         -</span><span style='color: #BB0000;'>0.443</span><span> fema… femin…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen…  0.105   0.134  brown, gr… light      blue          -</span><span style='color: #BB0000;'>0.230</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru… -</span><span style='color: #BB0000;'>0.269</span><span>  -</span><span style='color: #BB0000;'>0.132</span><span>  brown      light      blue          -</span><span style='color: #BB0000;'>0.262</span><span> fema… femin…
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4 -</span><span style='color: #BB0000;'>2.22</span><span>   -</span><span style='color: #BB0000;'>0.385</span><span>  </span><span style='color: #BB0000;'>NA</span><span>         white, red red           </span><span style='color: #BB0000;'>NA</span><span>     none  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…  0.249  -</span><span style='color: #BB0000;'>0.078</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> black      light      brown         -</span><span style='color: #BB0000;'>0.411</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…  0.220  -</span><span style='color: #BB0000;'>0.120</span><span>  auburn, w… fair       blue-gray     -</span><span style='color: #BB0000;'>0.198</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 77 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
+#&gt; #   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># mutate_if() is particularly useful for transforming variables from</span>
 <span class='co'># one type to another</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.factor</span>, <span class='no'>as.character</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.factor</span>, <span class='no'>as.character</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-#&gt;  1          5.1         3.5          1.4         0.2 setosa 
-#&gt;  2          4.9         3            1.4         0.2 setosa 
-#&gt;  3          4.7         3.2          1.3         0.2 setosa 
-#&gt;  4          4.6         3.1          1.5         0.2 setosa 
-#&gt;  5          5           3.6          1.4         0.2 setosa 
-#&gt;  6          5.4         3.9          1.7         0.4 setosa 
-#&gt;  7          4.6         3.4          1.4         0.3 setosa 
-#&gt;  8          5           3.4          1.5         0.2 setosa 
-#&gt;  9          4.4         2.9          1.4         0.2 setosa 
-#&gt; 10          4.9         3.1          1.5         0.1 setosa 
-#&gt; # … with 140 more rows</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.double</span>, <span class='no'>as.integer</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 2</span><span>          4.9         3            1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 3</span><span>          4.7         3.2          1.3         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 4</span><span>          4.6         3.1          1.5         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 5</span><span>          5           3.6          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 6</span><span>          5.4         3.9          1.7         0.4 setosa 
+#&gt; </span><span style='color: #555555;'> 7</span><span>          4.6         3.4          1.4         0.3 setosa 
+#&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.double</span>, <span class='no'>as.integer</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;int&gt;       &lt;int&gt;        &lt;int&gt;       &lt;int&gt; &lt;fct&gt;  
-#&gt;  1            5           3            1           0 setosa 
-#&gt;  2            4           3            1           0 setosa 
-#&gt;  3            4           3            1           0 setosa 
-#&gt;  4            4           3            1           0 setosa 
-#&gt;  5            5           3            1           0 setosa 
-#&gt;  6            5           3            1           0 setosa 
-#&gt;  7            4           3            1           0 setosa 
-#&gt;  8            5           3            1           0 setosa 
-#&gt;  9            4           2            1           0 setosa 
-#&gt; 10            4           3            1           0 setosa 
-#&gt; # … with 140 more rows</div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.factor</span>, <span class='no'>as.character</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 5
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span>            5           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 2</span><span>            4           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 3</span><span>            4           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 4</span><span>            4           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 5</span><span>            5           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 6</span><span>            5           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 7</span><span>            4           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 8</span><span>            5           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 9</span><span>            4           2            1           0 setosa 
+#&gt; </span><span style='color: #555555;'>10</span><span>            4           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.factor</span>, <span class='no'>as.character</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-#&gt;  1          5.1         3.5          1.4         0.2 setosa 
-#&gt;  2          4.9         3            1.4         0.2 setosa 
-#&gt;  3          4.7         3.2          1.3         0.2 setosa 
-#&gt;  4          4.6         3.1          1.5         0.2 setosa 
-#&gt;  5          5           3.6          1.4         0.2 setosa 
-#&gt;  6          5.4         3.9          1.7         0.4 setosa 
-#&gt;  7          4.6         3.4          1.4         0.3 setosa 
-#&gt;  8          5           3.4          1.5         0.2 setosa 
-#&gt;  9          4.4         2.9          1.4         0.2 setosa 
-#&gt; 10          4.9         3.1          1.5         0.1 setosa 
-#&gt; # … with 140 more rows</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.double</span>, <span class='no'>as.integer</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 5
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 2</span><span>          4.9         3            1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 3</span><span>          4.7         3.2          1.3         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 4</span><span>          4.6         3.1          1.5         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 5</span><span>          5           3.6          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 6</span><span>          5.4         3.9          1.7         0.4 setosa 
+#&gt; </span><span style='color: #555555;'> 7</span><span>          4.6         3.4          1.4         0.3 setosa 
+#&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa 
+#&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
+#&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.double</span>, <span class='no'>as.integer</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;int&gt;       &lt;int&gt;        &lt;int&gt;       &lt;int&gt; &lt;fct&gt;  
-#&gt;  1            5           3            1           0 setosa 
-#&gt;  2            4           3            1           0 setosa 
-#&gt;  3            4           3            1           0 setosa 
-#&gt;  4            4           3            1           0 setosa 
-#&gt;  5            5           3            1           0 setosa 
-#&gt;  6            5           3            1           0 setosa 
-#&gt;  7            4           3            1           0 setosa 
-#&gt;  8            5           3            1           0 setosa 
-#&gt;  9            4           2            1           0 setosa 
-#&gt; 10            4           3            1           0 setosa 
-#&gt; # … with 140 more rows</div><div class='input'>
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span>            5           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 2</span><span>            4           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 3</span><span>            4           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 4</span><span>            4           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 5</span><span>            5           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 6</span><span>            5           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 7</span><span>            4           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 8</span><span>            5           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'> 9</span><span>            4           2            1           0 setosa 
+#&gt; </span><span style='color: #555555;'>10</span><span>            4           3            1           0 setosa 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'>
 <span class='co'># Multiple transformations ----------------------------------------</span>
 
 <span class='co'># If you want to apply multiple transformations, pass a list of</span>
 <span class='co'># functions. When there are multiple functions, they create new</span>
 <span class='co'># variables instead of modifying the variables in place:</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>scale2</span>, <span class='no'>log</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 13
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>scale2</span>, <span class='no'>log</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 13</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_fn1
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
-#&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
-#&gt;  2          4.9         3            1.4         0.2 setosa            -1.14 
-#&gt;  3          4.7         3.2          1.3         0.2 setosa            -1.38 
-#&gt;  4          4.6         3.1          1.5         0.2 setosa            -1.50 
-#&gt;  5          5           3.6          1.4         0.2 setosa            -1.02 
-#&gt;  6          5.4         3.9          1.7         0.4 setosa            -0.535
-#&gt;  7          4.6         3.4          1.4         0.3 setosa            -1.50 
-#&gt;  8          5           3.4          1.5         0.2 setosa            -1.02 
-#&gt;  9          4.4         2.9          1.4         0.2 setosa            -1.74 
-#&gt; 10          4.9         3.1          1.5         0.1 setosa            -1.14 
-#&gt; # … with 140 more rows, and 7 more variables: Sepal.Width_fn1 &lt;dbl&gt;,
-#&gt; #   Petal.Length_fn1 &lt;dbl&gt;, Petal.Width_fn1 &lt;dbl&gt;, Sepal.Length_fn2 &lt;dbl&gt;,
-#&gt; #   Sepal.Width_fn2 &lt;dbl&gt;, Petal.Length_fn2 &lt;dbl&gt;, Petal.Width_fn2 &lt;dbl&gt;</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(~<span class='fu'>scale2</span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 150 x 13
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>0.898</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span>          4.9         3            1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.14</span><span> 
+#&gt; </span><span style='color: #555555;'> 3</span><span>          4.7         3.2          1.3         0.2 setosa            -</span><span style='color: #BB0000;'>1.38</span><span> 
+#&gt; </span><span style='color: #555555;'> 4</span><span>          4.6         3.1          1.5         0.2 setosa            -</span><span style='color: #BB0000;'>1.50</span><span> 
+#&gt; </span><span style='color: #555555;'> 5</span><span>          5           3.6          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.02</span><span> 
+#&gt; </span><span style='color: #555555;'> 6</span><span>          5.4         3.9          1.7         0.4 setosa            -</span><span style='color: #BB0000;'>0.535</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span>          4.6         3.4          1.4         0.3 setosa            -</span><span style='color: #BB0000;'>1.50</span><span> 
+#&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa            -</span><span style='color: #BB0000;'>1.02</span><span> 
+#&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.74</span><span> 
+#&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa            -</span><span style='color: #BB0000;'>1.14</span><span> 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows, and 7 more variables: Sepal.Width_fn1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   Petal.Length_fn1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_fn1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Sepal.Length_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   Sepal.Width_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Length_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(~<span class='fu'>scale2</span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 13</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_sc…
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
-#&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
-#&gt;  2          4.9         3            1.4         0.2 setosa            -1.14 
-#&gt;  3          4.7         3.2          1.3         0.2 setosa            -1.38 
-#&gt;  4          4.6         3.1          1.5         0.2 setosa            -1.50 
-#&gt;  5          5           3.6          1.4         0.2 setosa            -1.02 
-#&gt;  6          5.4         3.9          1.7         0.4 setosa            -0.535
-#&gt;  7          4.6         3.4          1.4         0.3 setosa            -1.50 
-#&gt;  8          5           3.4          1.5         0.2 setosa            -1.02 
-#&gt;  9          4.4         2.9          1.4         0.2 setosa            -1.74 
-#&gt; 10          4.9         3.1          1.5         0.1 setosa            -1.14 
-#&gt; # … with 140 more rows, and 7 more variables: Sepal.Width_scale2 &lt;dbl&gt;,
-#&gt; #   Petal.Length_scale2 &lt;dbl&gt;, Petal.Width_scale2 &lt;dbl&gt;,
-#&gt; #   Sepal.Length_log &lt;dbl&gt;, Sepal.Width_log &lt;dbl&gt;, Petal.Length_log &lt;dbl&gt;,
-#&gt; #   Petal.Width_log &lt;dbl&gt;</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='no'>log</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 13
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>0.898</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span>          4.9         3            1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.14</span><span> 
+#&gt; </span><span style='color: #555555;'> 3</span><span>          4.7         3.2          1.3         0.2 setosa            -</span><span style='color: #BB0000;'>1.38</span><span> 
+#&gt; </span><span style='color: #555555;'> 4</span><span>          4.6         3.1          1.5         0.2 setosa            -</span><span style='color: #BB0000;'>1.50</span><span> 
+#&gt; </span><span style='color: #555555;'> 5</span><span>          5           3.6          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.02</span><span> 
+#&gt; </span><span style='color: #555555;'> 6</span><span>          5.4         3.9          1.7         0.4 setosa            -</span><span style='color: #BB0000;'>0.535</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span>          4.6         3.4          1.4         0.3 setosa            -</span><span style='color: #BB0000;'>1.50</span><span> 
+#&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa            -</span><span style='color: #BB0000;'>1.02</span><span> 
+#&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.74</span><span> 
+#&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa            -</span><span style='color: #BB0000;'>1.14</span><span> 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows, and 7 more variables: Sepal.Width_scale2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   Petal.Length_scale2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_scale2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   Sepal.Length_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Sepal.Width_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Length_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   Petal.Width_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='no'>log</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 13</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_sc…
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
-#&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
-#&gt;  2          4.9         3            1.4         0.2 setosa            -1.14 
-#&gt;  3          4.7         3.2          1.3         0.2 setosa            -1.38 
-#&gt;  4          4.6         3.1          1.5         0.2 setosa            -1.50 
-#&gt;  5          5           3.6          1.4         0.2 setosa            -1.02 
-#&gt;  6          5.4         3.9          1.7         0.4 setosa            -0.535
-#&gt;  7          4.6         3.4          1.4         0.3 setosa            -1.50 
-#&gt;  8          5           3.4          1.5         0.2 setosa            -1.02 
-#&gt;  9          4.4         2.9          1.4         0.2 setosa            -1.74 
-#&gt; 10          4.9         3.1          1.5         0.1 setosa            -1.14 
-#&gt; # … with 140 more rows, and 7 more variables: Sepal.Width_scale &lt;dbl&gt;,
-#&gt; #   Petal.Length_scale &lt;dbl&gt;, Petal.Width_scale &lt;dbl&gt;, Sepal.Length_log &lt;dbl&gt;,
-#&gt; #   Sepal.Width_log &lt;dbl&gt;, Petal.Length_log &lt;dbl&gt;, Petal.Width_log &lt;dbl&gt;</div><div class='input'><span class='co'># -&gt;</span>
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>0.898</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span>          4.9         3            1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.14</span><span> 
+#&gt; </span><span style='color: #555555;'> 3</span><span>          4.7         3.2          1.3         0.2 setosa            -</span><span style='color: #BB0000;'>1.38</span><span> 
+#&gt; </span><span style='color: #555555;'> 4</span><span>          4.6         3.1          1.5         0.2 setosa            -</span><span style='color: #BB0000;'>1.50</span><span> 
+#&gt; </span><span style='color: #555555;'> 5</span><span>          5           3.6          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.02</span><span> 
+#&gt; </span><span style='color: #555555;'> 6</span><span>          5.4         3.9          1.7         0.4 setosa            -</span><span style='color: #BB0000;'>0.535</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span>          4.6         3.4          1.4         0.3 setosa            -</span><span style='color: #BB0000;'>1.50</span><span> 
+#&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa            -</span><span style='color: #BB0000;'>1.02</span><span> 
+#&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.74</span><span> 
+#&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa            -</span><span style='color: #BB0000;'>1.14</span><span> 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows, and 7 more variables: Sepal.Width_scale </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   Petal.Length_scale </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_scale </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Sepal.Length_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   Sepal.Width_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Length_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='no'>log</span>)))</div><div class='output co'>#&gt; # A tibble: 150 x 13
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='no'>log</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 13</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_sc…
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
-#&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
-#&gt;  2          4.9         3            1.4         0.2 setosa            -1.14 
-#&gt;  3          4.7         3.2          1.3         0.2 setosa            -1.38 
-#&gt;  4          4.6         3.1          1.5         0.2 setosa            -1.50 
-#&gt;  5          5           3.6          1.4         0.2 setosa            -1.02 
-#&gt;  6          5.4         3.9          1.7         0.4 setosa            -0.535
-#&gt;  7          4.6         3.4          1.4         0.3 setosa            -1.50 
-#&gt;  8          5           3.4          1.5         0.2 setosa            -1.02 
-#&gt;  9          4.4         2.9          1.4         0.2 setosa            -1.74 
-#&gt; 10          4.9         3.1          1.5         0.1 setosa            -1.14 
-#&gt; # … with 140 more rows, and 7 more variables: Sepal.Length_log &lt;dbl&gt;,
-#&gt; #   Sepal.Width_scale &lt;dbl&gt;, Sepal.Width_log &lt;dbl&gt;, Petal.Length_scale &lt;dbl&gt;,
-#&gt; #   Petal.Length_log &lt;dbl&gt;, Petal.Width_scale &lt;dbl&gt;, Petal.Width_log &lt;dbl&gt;</div><div class='input'>
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>0.898</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span>          4.9         3            1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.14</span><span> 
+#&gt; </span><span style='color: #555555;'> 3</span><span>          4.7         3.2          1.3         0.2 setosa            -</span><span style='color: #BB0000;'>1.38</span><span> 
+#&gt; </span><span style='color: #555555;'> 4</span><span>          4.6         3.1          1.5         0.2 setosa            -</span><span style='color: #BB0000;'>1.50</span><span> 
+#&gt; </span><span style='color: #555555;'> 5</span><span>          5           3.6          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.02</span><span> 
+#&gt; </span><span style='color: #555555;'> 6</span><span>          5.4         3.9          1.7         0.4 setosa            -</span><span style='color: #BB0000;'>0.535</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span>          4.6         3.4          1.4         0.3 setosa            -</span><span style='color: #BB0000;'>1.50</span><span> 
+#&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa            -</span><span style='color: #BB0000;'>1.02</span><span> 
+#&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.74</span><span> 
+#&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa            -</span><span style='color: #BB0000;'>1.14</span><span> 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows, and 7 more variables: Sepal.Length_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   Sepal.Width_scale </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Sepal.Width_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Length_scale </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   Petal.Length_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_scale </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_log </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
 <span class='co'># When there's only one function in the list, it modifies existing</span>
 <span class='co'># variables in place. Give it a name to instead create new variables:</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>scale2</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>scale2</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-#&gt;  1       -0.898      1.02          -1.34       -1.31 setosa 
-#&gt;  2       -1.14      -0.132         -1.34       -1.31 setosa 
-#&gt;  3       -1.38       0.327         -1.39       -1.31 setosa 
-#&gt;  4       -1.50       0.0979        -1.28       -1.31 setosa 
-#&gt;  5       -1.02       1.25          -1.34       -1.31 setosa 
-#&gt;  6       -0.535      1.93          -1.17       -1.05 setosa 
-#&gt;  7       -1.50       0.786         -1.34       -1.18 setosa 
-#&gt;  8       -1.02       0.786         -1.28       -1.31 setosa 
-#&gt;  9       -1.74      -0.361         -1.34       -1.31 setosa 
-#&gt; 10       -1.14       0.0979        -1.28       -1.44 setosa 
-#&gt; # … with 140 more rows</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 9
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span>       -</span><span style='color: #BB0000;'>0.898</span><span>      1.02          -</span><span style='color: #BB0000;'>1.34</span><span>       -</span><span style='color: #BB0000;'>1.31</span><span> setosa 
+#&gt; </span><span style='color: #555555;'> 2</span><span>       -</span><span style='color: #BB0000;'>1.14</span><span>      -</span><span style='color: #BB0000;'>0.132</span><span>         -</span><span style='color: #BB0000;'>1.34</span><span>       -</span><span style='color: #BB0000;'>1.31</span><span> setosa 
+#&gt; </span><span style='color: #555555;'> 3</span><span>       -</span><span style='color: #BB0000;'>1.38</span><span>       0.327         -</span><span style='color: #BB0000;'>1.39</span><span>       -</span><span style='color: #BB0000;'>1.31</span><span> setosa 
+#&gt; </span><span style='color: #555555;'> 4</span><span>       -</span><span style='color: #BB0000;'>1.50</span><span>       0.097</span><span style='text-decoration: underline;'>9</span><span>        -</span><span style='color: #BB0000;'>1.28</span><span>       -</span><span style='color: #BB0000;'>1.31</span><span> setosa 
+#&gt; </span><span style='color: #555555;'> 5</span><span>       -</span><span style='color: #BB0000;'>1.02</span><span>       1.25          -</span><span style='color: #BB0000;'>1.34</span><span>       -</span><span style='color: #BB0000;'>1.31</span><span> setosa 
+#&gt; </span><span style='color: #555555;'> 6</span><span>       -</span><span style='color: #BB0000;'>0.535</span><span>      1.93          -</span><span style='color: #BB0000;'>1.17</span><span>       -</span><span style='color: #BB0000;'>1.05</span><span> setosa 
+#&gt; </span><span style='color: #555555;'> 7</span><span>       -</span><span style='color: #BB0000;'>1.50</span><span>       0.786         -</span><span style='color: #BB0000;'>1.34</span><span>       -</span><span style='color: #BB0000;'>1.18</span><span> setosa 
+#&gt; </span><span style='color: #555555;'> 8</span><span>       -</span><span style='color: #BB0000;'>1.02</span><span>       0.786         -</span><span style='color: #BB0000;'>1.28</span><span>       -</span><span style='color: #BB0000;'>1.31</span><span> setosa 
+#&gt; </span><span style='color: #555555;'> 9</span><span>       -</span><span style='color: #BB0000;'>1.74</span><span>      -</span><span style='color: #BB0000;'>0.361</span><span>         -</span><span style='color: #BB0000;'>1.34</span><span>       -</span><span style='color: #BB0000;'>1.31</span><span> setosa 
+#&gt; </span><span style='color: #555555;'>10</span><span>       -</span><span style='color: #BB0000;'>1.14</span><span>       0.097</span><span style='text-decoration: underline;'>9</span><span>        -</span><span style='color: #BB0000;'>1.28</span><span>       -</span><span style='color: #BB0000;'>1.44</span><span> setosa 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 9</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_sc…
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
-#&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
-#&gt;  2          4.9         3            1.4         0.2 setosa            -1.14 
-#&gt;  3          4.7         3.2          1.3         0.2 setosa            -1.38 
-#&gt;  4          4.6         3.1          1.5         0.2 setosa            -1.50 
-#&gt;  5          5           3.6          1.4         0.2 setosa            -1.02 
-#&gt;  6          5.4         3.9          1.7         0.4 setosa            -0.535
-#&gt;  7          4.6         3.4          1.4         0.3 setosa            -1.50 
-#&gt;  8          5           3.4          1.5         0.2 setosa            -1.02 
-#&gt;  9          4.4         2.9          1.4         0.2 setosa            -1.74 
-#&gt; 10          4.9         3.1          1.5         0.1 setosa            -1.14 
-#&gt; # … with 140 more rows, and 3 more variables: Sepal.Width_scale &lt;dbl&gt;,
-#&gt; #   Petal.Length_scale &lt;dbl&gt;, Petal.Width_scale &lt;dbl&gt;</div></pre>
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>0.898</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span>          4.9         3            1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.14</span><span> 
+#&gt; </span><span style='color: #555555;'> 3</span><span>          4.7         3.2          1.3         0.2 setosa            -</span><span style='color: #BB0000;'>1.38</span><span> 
+#&gt; </span><span style='color: #555555;'> 4</span><span>          4.6         3.1          1.5         0.2 setosa            -</span><span style='color: #BB0000;'>1.50</span><span> 
+#&gt; </span><span style='color: #555555;'> 5</span><span>          5           3.6          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.02</span><span> 
+#&gt; </span><span style='color: #555555;'> 6</span><span>          5.4         3.9          1.7         0.4 setosa            -</span><span style='color: #BB0000;'>0.535</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span>          4.6         3.4          1.4         0.3 setosa            -</span><span style='color: #BB0000;'>1.50</span><span> 
+#&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa            -</span><span style='color: #BB0000;'>1.02</span><span> 
+#&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa            -</span><span style='color: #BB0000;'>1.74</span><span> 
+#&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa            -</span><span style='color: #BB0000;'>1.14</span><span> 
+#&gt; </span><span style='color: #555555;'># … with 140 more rows, and 3 more variables: Sepal.Width_scale </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   Petal.Length_scale </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_scale </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

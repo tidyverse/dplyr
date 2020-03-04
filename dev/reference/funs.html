@@ -244,19 +244,19 @@ own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.
 #&gt; <span class='warning'></span>
 #&gt; <span class='warning'>  # Using lambdas</span>
 #&gt; <span class='warning'>  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; &lt;fun_calls&gt;
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once per session.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; &lt;fun_calls&gt;
 #&gt; $ mean: mean(.)
 #&gt; $ mean: mean(., na.rm = TRUE)</div><div class='input'><span class='co'># -&gt;</span>
 <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>mean</span> <span class='kw'>=</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; $mean
 #&gt; function (x, ...) 
 #&gt; UseMethod("mean")
-#&gt; &lt;bytecode: 0x3561d20&gt;
+#&gt; &lt;bytecode: 0x7f8ead5c48e8&gt;
 #&gt; &lt;environment: namespace:base&gt;
 #&gt; 
 #&gt; $mean
 #&gt; ~mean(.x, na.rm = TRUE)
-#&gt; &lt;environment: 0x8a363c0&gt;
+#&gt; &lt;environment: 0x7f8eb2206fc8&gt;
 #&gt; </div><div class='input'>
 <span class='fu'>funs</span>(<span class='kw'>m1</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>m2</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>m3</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; &lt;fun_calls&gt;
 #&gt; $ m1: mean(.)
@@ -265,7 +265,7 @@ own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.
 <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>m1</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>m2</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>m3</span> <span class='kw'>=</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; $m1
 #&gt; function (x, ...) 
 #&gt; UseMethod("mean")
-#&gt; &lt;bytecode: 0x3561d20&gt;
+#&gt; &lt;bytecode: 0x7f8ead5c48e8&gt;
 #&gt; &lt;environment: namespace:base&gt;
 #&gt; 
 #&gt; $m2
@@ -273,10 +273,10 @@ own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.
 #&gt; 
 #&gt; $m3
 #&gt; ~mean(.x, na.rm = TRUE)
-#&gt; &lt;environment: 0x8a363c0&gt;
-#&gt; </div></pre>
+#&gt; &lt;environment: 0x7f8eb2206fc8&gt;
+#&gt; </div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

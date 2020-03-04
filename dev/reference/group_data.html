@@ -265,10 +265,10 @@ instead.</p></td>
 <span class='fu'>group_vars</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; character(0)</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[1]&gt;
 #&gt; [[1]]
 #&gt; [1] 1 2 3 4
-#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 1
+#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;         .rows
-#&gt;   &lt;list&lt;int&gt;&gt;
-#&gt; 1         [4]</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;int&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>         </span><span style='color: #555555;'>[4]</span><span></div><div class='input'>
 <span class='no'>gf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>, <span class='no'>x</span>)
 <span class='fu'>group_vars</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; [1] "x"</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[2]&gt;
 #&gt; [[1]]
@@ -276,13 +276,13 @@ instead.</p></td>
 #&gt; 
 #&gt; [[2]]
 #&gt; [1] 3 4
-#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;       x       .rows
-#&gt; * &lt;dbl&gt; &lt;list&lt;int&gt;&gt;
-#&gt; 1     1         [2]
-#&gt; 2     2         [2]</div></pre>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;int&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1         </span><span style='color: #555555;'>[2]</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>     2         </span><span style='color: #555555;'>[2]</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
