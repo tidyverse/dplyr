@@ -1,6 +1,6 @@
 ## Release summary
 
-This is a patch release to adress request from Luke and Tomas regarding compatibility with R 4.0.0.
+This is a patch release to adress compatibility with R 4.0.0.
 
 
 ## Test environments
@@ -10,6 +10,7 @@ This is a patch release to adress request from Luke and Tomas regarding compatib
 * mac OS 10.3.3 (on travis-ci) R 3.6.0
 * win-builder (devel)
 
+
 ## R CMD check results
 
 0 ERRORs | 0 WARNINGs | 1 NOTE
@@ -17,6 +18,7 @@ This is a patch release to adress request from Luke and Tomas regarding compatib
 *   installed size is  8.3Mb
     sub-directories of 1Mb or more:
       libs   6.1Mb
+
 
 ## revdepcheck results
 
