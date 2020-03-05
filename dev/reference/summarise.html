@@ -300,7 +300,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise</span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;     cyl  mean     n
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     4  105.    11
 #&gt; </span><span style='color: #555555;'>2</span><span>     6  183.     7
 #&gt; </span><span style='color: #555555;'>3</span><span>     8  353.    14</div><div class='input'>
@@ -343,7 +343,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;     cyl  disp    sd
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     4  105.    </span><span style='color: #BB0000;'>NA</span><span>
 #&gt; </span><span style='color: #555555;'>2</span><span>     6  183.    </span><span style='color: #BB0000;'>NA</span><span>
 #&gt; </span><span style='color: #555555;'>3</span><span>     8  353.    </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>

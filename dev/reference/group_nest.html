@@ -254,7 +254,7 @@ the first argument, the grouped tibble, and warns when <code>...</code> is used.
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>group_nest</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;   Species              data
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,4]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,4]&gt;&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> setosa           </span><span style='color: #555555;'>[50 × 4]</span><span>
 #&gt; </span><span style='color: #555555;'>2</span><span> versicolor       </span><span style='color: #555555;'>[50 × 4]</span><span>
 #&gt; </span><span style='color: #555555;'>3</span><span> virginica        </span><span style='color: #555555;'>[50 × 4]</span><span></div><div class='input'>
@@ -273,7 +273,7 @@ the first argument, the grouped tibble, and warns when <code>...</code> is used.
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_nest</span>(<span class='no'>species</span>, <span class='no'>homeworld</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 58 x 3</span><span>
 #&gt;    species  homeworld              data
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,12]&gt;&gt;</span><span>
+#&gt;  </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,12]&gt;&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Aleena   Aleen Minor        </span><span style='color: #555555;'>[1 × 12]</span><span>
 #&gt; </span><span style='color: #555555;'> 2</span><span> Besalisk Ojom               </span><span style='color: #555555;'>[1 × 12]</span><span>
 #&gt; </span><span style='color: #555555;'> 3</span><span> Cerean   Cerea              </span><span style='color: #555555;'>[1 × 12]</span><span>

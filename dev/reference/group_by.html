@@ -289,7 +289,7 @@ individual methods for extra arguments and differences in behaviour.</p>
   <span class='kw'>hp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>hp</span>)
 )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;     cyl  disp    hp
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     4  105.  82.6
 #&gt; </span><span style='color: #555555;'>2</span><span>     6  183. 122. 
 #&gt; </span><span style='color: #555555;'>3</span><span>     8  353. 209. </div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>disp</span> <span class='kw'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 11</span><span>
@@ -311,7 +311,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'>3</span><span>     1     0     7
 #&gt; </span><span style='color: #555555;'>4</span><span>     1     1     7</div><div class='input'><span class='no'>by_vs</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;      vs     n
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     0    18
 #&gt; </span><span style='color: #555555;'>2</span><span>     1    14</div><div class='input'>
 <span class='co'># To removing grouping, use ungroup</span>
