@@ -372,10 +372,12 @@ join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
 
 check_na_matches <- function(na_matches = c("na", "never")) {
   if (isNamespaceLoaded("pkgconfig")) {
-    conf <- get("get_config", asNamespace(("pkgconfig")))("dplyr::na_matches")
+    conf <- asNamespace("pkgconfig")$get_config("dplyr::na_matches")
     if (!is.null(conf)) {
-      warn("Use of pkgconfig no longer supported. Please set `na_matches` directly")
-      na_matches <- conf
+      warn(c(
+        "`dplyr::na_matches` pkgconfig options is now ignored.",
+        "Please set `na_matches` directly."
+      ))
     }
   }
 
