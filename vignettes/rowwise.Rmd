@@ -37,11 +37,6 @@ nest_by <- function(df, ...) {
     rowwise(...)
 }
 # mtcars %>% nest_by(cyl)
-
-c_across <- function(cols) {
-  vctrs::vec_c(!!!unname(across({{ cols }})))
-}
-# iris %>% rowwise() %>% mutate(m = sum(c_across(is.numeric)))
 ```
 
 ## Creating

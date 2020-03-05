@@ -8,6 +8,11 @@
 #'
 #' See `vignette("colwise")` for more details.
 #'
+#' `c_across()` is designed to work with [rowwise()] to make it easy to
+#' perform rowwise aggregations; it works like `c()` but uses tidy select
+#' semantics so you can easily select multiple variables. See
+#' `vignette("rowwise")` for more details.
+#'
 #' @param cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
 #'   `mutate()`, you can't select or compute upon grouping variables.
@@ -32,7 +37,7 @@
 #' @returns
 #' A tibble with one column for each column in `cols` and each function in `fns`.
 #' @examples
-#' # A function
+#' # across() -----------------------------------------------------------------
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), mean))
@@ -61,6 +66,14 @@
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
 #'
+#' # c_across() ---------------------------------------------------------------
+#' df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
+#' df %>%
+#'   rowwise() %>%
+#'   mutate(
+#'     sum = sum(c_across(w:z)),
+#'     sd = sd(c_across(w:z))
+#'  )
 #' @export
 across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   vars <- across_select({{ cols }})
@@ -118,6 +131,19 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
     fn  = rep(names_fns, length(data))
   )
   as_tibble(cols)
+}
+
+#' @export
+#' @rdname across
+c_across <- function(cols = everything()) {
+  vars <- across_select({{ cols }})
+
+  mask <- peek_mask()
+
+  cols <- mask$current_cols(vars)
+  cols <- unname(cols)
+
+  vec_c(!!!cols)
 }
 
 # TODO: The usage of a cache in `across_select()` is a stopgap solution, and
