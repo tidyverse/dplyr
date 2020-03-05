@@ -217,6 +217,10 @@
 <li><p><code><a href="../reference/distinct.html">distinct()</a></code> keeps the original column order.</p></li>
 <li><p><code><a href="../reference/distinct.html">distinct()</a></code> on missing columns now raises an error, it has been a compatibility warning for a long time.</p></li>
 <li><p><code><a href="../reference/group_map.html">group_modify()</a></code> puts the grouping variable to the front.</p></li>
+<li>
+<p><code><a href="../reference/context.html">n()</a></code> and <code><a href="../reference/ranking.html">row_number()</a></code> can no longer be called directly when dplyr is not loaded, and this now generates an error: <code><a href="../reference/mutate.html">dplyr::mutate(mtcars, x = n())</a></code>.</p>
+<p>Fix by prefixing with <code>dplyr::</code> as in <code><a href="../reference/mutate.html">dplyr::mutate(mtcars, x = dplyr::n())</a></code></p>
+</li>
 <li><p>The old data format for <code>grouped_df</code> is no longer supported. This may affect you if you have serialized grouped data frames to disk, e.g. with <code><a href="https://rdrr.io/r/base/readRDS.html">saveRDS()</a></code> or when using knitr caching.</p></li>
 </ul>
 </div>
