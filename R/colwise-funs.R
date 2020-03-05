@@ -26,7 +26,7 @@ as_fun_list <- function(.funs, .env, ...) {
       if (is_quosure(.x)) {
         lifecycle::deprecate_soft(
           "1.0.0",
-          "dplyr::funs(... = 'can\\'t be a quosure')",
+          "dplyr::funs(... = 'can\\'t contain quosures')",
           details = "Please use a one-sided formula, a function, or a function name",
           env = .env
         )
