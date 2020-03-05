@@ -112,10 +112,10 @@ dplyr_col_modify.data.frame <- function(data, cols) {
   names(data) <- as_utf8_character(names2(data))
 
   out <- vec_data(data)
-  out[names(cols)] <- cols
-
-  is_null <- map_lgl(out, is.null)
-  out <- out[!is_null]
+  for (i in seq_along(cols)) {
+    nm <- names(cols)[[i]]
+    out[[nm]] <- cols[[i]]
+  }
 
   # Restore attributes (apart from names)
   attr <- attributes(data)
