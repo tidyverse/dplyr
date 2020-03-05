@@ -281,12 +281,12 @@ dplyr (<code>data.frame</code>)
 <code><a href='mutate-joins.html'>mutate-joins</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 4</span><span>
-#&gt;   name  band    `c("Mick", "John", "Paul")` band_instruments
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>          
-#&gt; </span><span style='color: #555555;'>1</span><span> Mick  Stones  Mick                        </span><span style='color: #555555;'>&lt;tibble [0 × 1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> John  Beatles John                        </span><span style='color: #555555;'>&lt;tibble [1 × 1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> Paul  Beatles Paul                        </span><span style='color: #555555;'>&lt;tibble [1 × 1]&gt;</span><span></div></span></pre>
+    <pre class="examples"><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt;   name  band    band_instruments
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>          
+#&gt; </span><span style='color: #555555;'>1</span><span> Mick  Stones  </span><span style='color: #555555;'>&lt;tibble [0 × 1]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> John  Beatles </span><span style='color: #555555;'>&lt;tibble [1 × 1]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> Paul  Beatles </span><span style='color: #555555;'>&lt;tibble [1 × 1]&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
