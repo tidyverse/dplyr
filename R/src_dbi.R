@@ -172,8 +172,3 @@ copy_to.DBIConnection <- function(dest, df, name = deparse(substitute(df)),
     ...
   )
 }
-
-# S4 ----------------------------------------------------------------------
-
-setOldClass(c("sql", "character"))
-setOldClass(c("ident", "sql", "character"))
