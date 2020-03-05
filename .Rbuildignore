@@ -38,3 +38,4 @@ demo/pandas
 ^\.github$
 ^\.github/workflows/R-CMD-check\.yaml$
 ^\.github/workflows/pr-commands\.yaml$
+^\.github/workflows/pkgdown\.yaml$

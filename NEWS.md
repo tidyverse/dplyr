@@ -1,5 +1,41 @@
 # dplyr 1.0.0 (in development)
 
+## Breaking changes
+
+* `bind_cols()` no longer converts to a tibble, returns a data frame if the input is a data frame.
+
+* `bind_rows()` and `combine()` use vctrs coercion rules.
+
+    * Combining factor and character creates a character without warning, combining factors creates a factor with levels combined.
+
+    * For time columns, the time zone of the first argument is used.
+    
+    * Classed atomic vectors are no longer accepted, `vctrs::vec_is()` is required for all inputs.
+
+* `bind_rows()` and other functions use vctrs name repair, see `?vctrs::vec_as_names`.
+
+* `all.equal.tbl_df()` removed.
+
+    * Data frames, tibbles and grouped data frames are no longer considered equal, even if the data is the same.
+    
+    * Equality checks for data frames no longer ignore row order or groupings.
+
+    * `expect_equal()` uses `all.equal()` internally. When comparing data frames, tests that used to pass may now fail.
+
+* `distinct()` keeps the original column order.
+
+* `distinct()` on missing columns now raises an error, it has been a compatibility warning for a long time.
+
+* `group_modify()` puts the grouping variable to the front.
+
+* `n()` and `row_number()` can no longer be called directly when dplyr is not loaded, 
+  and this now generates an error: `dplyr::mutate(mtcars, x = n())`. 
+  
+  Fix by prefixing with `dplyr::` as in `dplyr::mutate(mtcars, x = dplyr::n())`
+  
+
+* The old data format for `grouped_df` is no longer supported. This may affect you if you have serialized grouped data frames to disk, e.g. with `saveRDS()` or when using knitr caching.
+
 ## New features
 
 * The `cur_` functions (`cur_data()`, `cur_group()`, `cur_group_id()`, 
@@ -64,6 +100,13 @@
 
 * New function `across()` that can be used inside `summarise()` or `mutate()` 
   to apply a function (or a set of functions) to a selection of columns. 
+* New function `across()` that can be used inside `summarise()`, `mutate()`,
+  and other verbs to apply a function (or a set of functions) to a selection of 
+  columns. See `vignette("colwise")` for more details.
+  
+* New function `c_across()` that can be used inside `summarise()` and `mutate()`
+  in row-wise data frames to easily (e.g.) compute a row-wise mean of all
+  numeric variables. See `vignette("rowwise")` for more details.
 
 ## rowwise()
 
