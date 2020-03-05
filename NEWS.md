@@ -2,9 +2,11 @@
 
 ## Breaking changes
 
-* `bind_cols()` no longer forces tibbles.
+* `bind_cols()` no longer converts to a tibble, returns a data frame if the input is a data frame.
 
 * `bind_rows()` and `combine()` use vctrs coercion rules.
+
+    * Combining factor and character creates a character without warning, combining factors creates a factor with levels combined.
 
     * For time columns, the time zone of the first argument is used.
     
@@ -12,9 +14,13 @@
 
 * `bind_rows()` and other functions use vctrs name repair, see `?vctrs::vec_as_names`.
 
-* `count()` no longer removes the last level of grouping.
+* `all.equal.tbl_df()` removed.
 
-* `all.equal.tbl_df()` removed, equality checks for data frames no longer ignore row order or groupings.
+    * Data frames, tibbles and grouped data frames are no longer considered equal, even if the data is the same.
+    
+    * Equality checks for data frames no longer ignore row order or groupings.
+
+    * `expect_equal()` uses `all.equal()` internally. When comparing data frames, tests that used to pass may now fail.
 
 * `distinct()` keeps the original column order.
 
