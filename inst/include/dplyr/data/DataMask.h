@@ -57,11 +57,11 @@ public:
   }
 
   inline void clear(SEXP mask_resolved) {
-    Rcpp::Environment env(mask_resolved);
-    const char* nm = CHAR(PRINTNAME(symbol));
-    if (env.exists(nm) && !env.bindingIsLocked(nm)) {
+    try {
+      Rcpp::Environment env(mask_resolved);
+      const char* nm = CHAR(PRINTNAME(symbol));
       env.remove(nm);
-    }
+    } catch (...) { }
   }
 
   // summary accessor
