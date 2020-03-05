@@ -108,12 +108,13 @@ dplyr_col_modify.data.frame <- function(data, cols) {
   # Apply tidyverse recycling rules
   cols <- lapply(cols, vec_recycle, size = nrow(data))
 
-  names(cols) <- as_utf8_character(names2(cols))
-  names(data) <- as_utf8_character(names2(data))
-
   out <- vec_data(data)
+
+  nms <- as_utf8_character(names2(cols))
+  names(out) <- as_utf8_character(names2(out))
+
   for (i in seq_along(cols)) {
-    nm <- names(cols)[[i]]
+    nm <- nms[[i]]
     out[[nm]] <- cols[[i]]
   }
 
