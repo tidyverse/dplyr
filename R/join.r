@@ -306,7 +306,6 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
   # Currently, this regroups too often, because it looks like we're always
   # changing the key vars because of the cast
   new_cols <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
-  names(new_cols) <- x_key
 
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
   new_cols[[name_var]] <- map(y_loc, vec_slice, x = y_out)
