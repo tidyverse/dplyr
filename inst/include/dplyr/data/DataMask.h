@@ -57,7 +57,11 @@ public:
   }
 
   inline void clear(SEXP mask_resolved) {
-    Rf_defineVar(symbol, R_UnboundValue, mask_resolved);
+    Rcpp::Environment env(mask_resolved);
+    const char* nm = CHAR(PRINTNAME(symbol));
+    if (env.exists(nm) && !env.bindingIsLocked(nm)) {
+      env.remove(nm);
+    }
   }
 
   // summary accessor

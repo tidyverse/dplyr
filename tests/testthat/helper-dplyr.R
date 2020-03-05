@@ -6,3 +6,7 @@ tibble <- function(...) {
   tibble::tibble(...)
 }
 data_frame <- tibble
+
+data.frame <- function(..., stringsAsFactors = TRUE) {
+  base::data.frame(..., stringsAsFactors = stringsAsFactors)
+}

@@ -1,6 +1,7 @@
 ## Release summary
 
-This is a patch release to adress request from CRAN. 
+This is a patch release to adress compatibility with R 4.0.0.
+
 
 ## Test environments
 
@@ -9,6 +10,7 @@ This is a patch release to adress request from CRAN.
 * mac OS 10.3.3 (on travis-ci) R 3.6.0
 * win-builder (devel)
 
+
 ## R CMD check results
 
 0 ERRORs | 0 WARNINGs | 1 NOTE
@@ -16,10 +18,8 @@ This is a patch release to adress request from CRAN.
 *   installed size is  8.3Mb
     sub-directories of 1Mb or more:
       libs   6.1Mb
-       
+
+
 ## revdepcheck results
 
-The code is exactly the same, this release only changed a test to 
-adjust to changers in a dependent package recently released. 
-
-reverse dependency checks would not exhibit anything. 
+Full revdepchecks were performed and no problems were found.
