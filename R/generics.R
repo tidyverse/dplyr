@@ -102,8 +102,28 @@ dplyr_col_modify <- function(data, cols) {
 
 #' @export
 dplyr_col_modify.data.frame <- function(data, cols) {
-  data[names(cols)] <- cols
-  data
+  if (length(cols) == 0) {
+    return(data)
+  }
+
+  # Apply tidyverse recycling rules
+  cols <- lapply(cols, vec_recycle, size = nrow(data))
+
+  names(cols) <- as_utf8_character(names2(cols))
+  names(data) <- as_utf8_character(names2(data))
+
+  out <- vec_data(data)
+  out[names(cols)] <- cols
+
+  is_null <- map_lgl(out, is.null)
+  out <- out[!is_null]
+
+  # Restore attributes (apart from names)
+  attr <- attributes(data)
+  attr$names <- names(out)
+  attributes(out) <- attr
+
+  out
 }
 
 #' @export

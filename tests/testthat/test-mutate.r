@@ -209,7 +209,7 @@ test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
     names(df) <- c("a", enc2native("\u4e2d"))
 
     res <- df %>% mutate_all(as.numeric)
-    expect_equal(names(res), names(df))
+    expect_equal(names(res), as_utf8_character(names(df)))
   })
 })
 

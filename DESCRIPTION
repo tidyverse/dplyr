@@ -38,7 +38,7 @@ Imports:
     pkgconfig,
     R6,
     rlang (>= 0.4.5),
-    tibble (>= 2.99.99.9014),
+    tibble (>= 2.1.3),
     tidyselect (>= 1.0.0),
     utils,
     vctrs (>= 0.2.99.9005)
@@ -64,8 +64,7 @@ VignetteBuilder:
     knitr
 Remotes:
     r-lib/bench,
-    r-lib/vctrs,
-    tidyverse/tibble
+    r-lib/vctrs
 Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE)
