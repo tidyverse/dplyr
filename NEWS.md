@@ -229,6 +229,10 @@
 * `src_local()` has been deprecated; it was part of an approach to testing
   dplyr backends that didn't pan out.
 
+* `src_mysql()`, `src_postgres()`, and `src_sqlite()` has been deprecated. 
+  We've recommended against them for some time. Instead please use the approach 
+  described at <http://dbplyr.tidyverse.org/>.
+
 * `top_n()` has been superseded by`slice_min()`/`slice_max()`. See `?top_n` 
   for details about why, and how to convert old to new usage (#4494).
 
