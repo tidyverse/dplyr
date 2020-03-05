@@ -397,23 +397,3 @@
 |ZeligEI                        |0.1-2    |1     |          |     |
 |zeligverse                     |0.1.1    |1     |          |     |
 
-## New problems (15)
-
-|package                                            |version |error     |warning |note   |
-|:--------------------------------------------------|:-------|:---------|:-------|:------|
-|[adductomicsR](problems.md#adductomicsr)           |1.2.0   |__+1__    |        |       |
-|[AMARETTO](problems.md#amaretto)                   |1.2.0   |__+1__    |        |4      |
-|[bibliometrix](problems.md#bibliometrix)           |2.3.2   |__+1__    |        |1      |
-|[comperes](problems.md#comperes)                   |0.2.3   |__+2__    |        |       |
-|[congressbr](problems.md#congressbr)               |0.2.2   |__+1__    |        |1      |
-|[ddpcr](problems.md#ddpcr)                         |1.13    |2         |        |__+1__ |
-|[descriptr](problems.md#descriptr)                 |0.5.1   |__+2__    |        |       |
-|[DuoClustering2018](problems.md#duoclustering2018) |1.4.0   |-1 __+1__ |        |1      |
-|[Lahman](problems.md#lahman)                       |7.0-1   |__+1__    |        |2      |
-|[MachineLearning](problems.md#machinelearning)     |0.1.3   |__+1__    |        |       |
-|[metaplot](problems.md#metaplot)                   |0.8.3   |__+1__    |        |       |
-|[mvMonitoring](problems.md#mvmonitoring)           |0.1.0   |          |        |__+1__ |
-|[plotly](problems.md#plotly)                       |4.9.2   |__+1__    |        |1      |
-|[qicharts2](problems.md#qicharts2)                 |0.6.0   |__+2__    |        |       |
-|[ushr](problems.md#ushr)                           |0.2.1   |__+2__    |        |       |
-
