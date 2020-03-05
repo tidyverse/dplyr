@@ -224,7 +224,7 @@ test_that("bind_rows preserves timezones #298", {
 
 test_that("bind_rows handles all NA columns (#493)", {
   mydata <- list(
-    data.frame(x = c("foo", "bar")),
+    data.frame(x = c("foo", "bar"), stringsAsFactors = TRUE),
     data.frame(x = NA)
   )
   res <- bind_rows(mydata)
@@ -233,7 +233,7 @@ test_that("bind_rows handles all NA columns (#493)", {
 
   mydata <- list(
     data.frame(x = NA),
-    data.frame(x = c("foo", "bar"))
+    data.frame(x = c("foo", "bar"), stringsAsFactors = TRUE)
   )
   res <- bind_rows(mydata)
   expect_true(is.na(res$x[1]))
