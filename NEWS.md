@@ -98,8 +98,6 @@
 
 ## across()
 
-* New function `across()` that can be used inside `summarise()` or `mutate()` 
-  to apply a function (or a set of functions) to a selection of columns. 
 * New function `across()` that can be used inside `summarise()`, `mutate()`,
   and other verbs to apply a function (or a set of functions) to a selection of 
   columns. See `vignette("colwise")` for more details.
