@@ -251,12 +251,12 @@ lead or lag by</p></td>
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>wrong</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt;    year value previous_year_value
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>2</span><span>000     0                   9
-#&gt; </span><span style='color: #555555;'>2</span><span>  </span><span style='text-decoration: underline;'>2</span><span>001     1                  25
-#&gt; </span><span style='color: #555555;'>3</span><span>  </span><span style='text-decoration: underline;'>2</span><span>002     4                   0
-#&gt; </span><span style='color: #555555;'>4</span><span>  </span><span style='text-decoration: underline;'>2</span><span>003     9                   1
-#&gt; </span><span style='color: #555555;'>5</span><span>  </span><span style='text-decoration: underline;'>2</span><span>004    16                   4
-#&gt; </span><span style='color: #555555;'>6</span><span>  </span><span style='text-decoration: underline;'>2</span><span>005    25                  </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>2</span><span>000     0                  25
+#&gt; </span><span style='color: #555555;'>2</span><span>  </span><span style='text-decoration: underline;'>2</span><span>001     1                   4
+#&gt; </span><span style='color: #555555;'>3</span><span>  </span><span style='text-decoration: underline;'>2</span><span>002     4                   9
+#&gt; </span><span style='color: #555555;'>4</span><span>  </span><span style='text-decoration: underline;'>2</span><span>003     9                   0
+#&gt; </span><span style='color: #555555;'>5</span><span>  </span><span style='text-decoration: underline;'>2</span><span>004    16                  </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #555555;'>6</span><span>  </span><span style='text-decoration: underline;'>2</span><span>005    25                  16</div><div class='input'>
 <span class='no'>right</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>scrambled</span>, <span class='kw'>previous_year_value</span> <span class='kw'>=</span> <span class='fu'>lag</span>(<span class='no'>value</span>, <span class='kw'>order_by</span> <span class='kw'>=</span> <span class='no'>year</span>))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>right</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt;    year value previous_year_value

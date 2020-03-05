@@ -52,7 +52,11 @@
 columns, allowing you to use select() semantics inside in summarise() and
 mutate(). across() supersedes the family of &quot;scoped variants&quot; like
 summarise_at(), summarise_if(), and summarise_all().
-See vignette(&quot;colwise&quot;) for more details." />
+See vignette(&quot;colwise&quot;) for more details.
+c_across() is designed to work with rowwise() to make it easy to
+perform rowwise aggregations; it works like c() but uses tidy select
+semantics so you can easily select multiple variables. See
+vignette(&quot;rowwise&quot;) for more details." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -200,9 +204,15 @@ columns, allowing you to use <code><a href='select.html'>select()</a></code> sem
 <code><a href='mutate.html'>mutate()</a></code>. <code>across()</code> supersedes the family of "scoped variants" like
 <code><a href='summarise_all.html'>summarise_at()</a></code>, <code><a href='summarise_all.html'>summarise_if()</a></code>, and <code><a href='summarise_all.html'>summarise_all()</a></code>.</p>
 <p>See <code><a href='../articles/colwise.html'>vignette("colwise")</a></code> for more details.</p>
+<p><code>c_across()</code> is designed to work with <code><a href='rowwise.html'>rowwise()</a></code> to make it easy to
+perform rowwise aggregations; it works like <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> but uses tidy select
+semantics so you can easily select multiple variables. See
+<code><a href='../articles/rowwise.html'>vignette("rowwise")</a></code> for more details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>across</span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='kw'>fns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>across</span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='kw'>fns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+
+<span class='fu'>c_across</span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -246,7 +256,7 @@ columns. This can use <code>{col}</code> to stand for the selected column name, 
     <p>A tibble with one column for each column in <code>cols</code> and each function in <code>fns</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># A function</span>
+    <pre class="examples"><div class='input'><span class='co'># across() -----------------------------------------------------------------</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'>across</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='no'>mean</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
@@ -311,7 +321,21 @@ columns. This can use <code>{col}</code> to stand for the selected column name, 
 #&gt; </span><span style='color: #555555;'>1</span><span> setosa                 5.01             3.43           0.352           0.379
 #&gt; </span><span style='color: #555555;'>2</span><span> versicolor             5.94             2.77           0.516           0.314
 #&gt; </span><span style='color: #555555;'>3</span><span> virginica              6.59             2.97           0.636           0.322</div><div class='input'>
-</div></span></pre>
+<span class='co'># c_across() ---------------------------------------------------------------</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>4</span>), <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>4</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>4</span>), <span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>4</span>))
+<span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rowwise.html'>rowwise</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(
+    <span class='kw'>sum</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'>c_across</span>(<span class='no'>w</span>:<span class='no'>z</span>)),
+    <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='fu'>c_across</span>(<span class='no'>w</span>:<span class='no'>z</span>))
+ )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 7</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise: </span><span>
+#&gt;      id      w       x     y      z   sum     sd
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1 0.080</span><span style='text-decoration: underline;'>8</span><span> 0.007</span><span style='text-decoration: underline;'>40</span><span> 0.733 0.034</span><span style='text-decoration: underline;'>2</span><span> 0.855 0.347 
+#&gt; </span><span style='color: #555555;'>2</span><span>     2 0.834  0.466   0.773 0.320  2.39  0.245 
+#&gt; </span><span style='color: #555555;'>3</span><span>     3 0.601  0.498   0.875 0.402  2.38  0.204 
+#&gt; </span><span style='color: #555555;'>4</span><span>     4 0.157  0.290   0.175 0.196  0.818 0.059</span><span style='text-decoration: underline;'>0</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>

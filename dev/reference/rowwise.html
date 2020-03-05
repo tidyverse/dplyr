@@ -231,38 +231,48 @@ a <code>rowwise</code> tibble, then dplyr will use <code>[[</code> instead of <c
 life a little easier.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>))
-<span class='co'># Compute the mean of x and y in each row</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>rowwise</span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>x</span>, <span class='no'>y</span>)))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 3</span><span>
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>), <span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>))
+<span class='co'># Compute the mean of x, y, z in each row</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>rowwise</span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>z</span>)))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 4</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise: </span><span>
-#&gt;       x     y     z
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 0.144 0.831 0.487
-#&gt; </span><span style='color: #555555;'>2</span><span> 0.109 0.676 0.392
-#&gt; </span><span style='color: #555555;'>3</span><span> 0.212 0.127 0.169
-#&gt; </span><span style='color: #555555;'>4</span><span> 0.267 0.337 0.302
-#&gt; </span><span style='color: #555555;'>5</span><span> 0.372 0.453 0.413
-#&gt; </span><span style='color: #555555;'>6</span><span> 0.722 0.438 0.580</div><div class='input'>
+#&gt;       x     y     z     m
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 0.109 0.676 0.869 0.551
+#&gt; </span><span style='color: #555555;'>2</span><span> 0.212 0.127 0.446 0.262
+#&gt; </span><span style='color: #555555;'>3</span><span> 0.267 0.337 0.850 0.485
+#&gt; </span><span style='color: #555555;'>4</span><span> 0.372 0.453 0.896 0.574
+#&gt; </span><span style='color: #555555;'>5</span><span> 0.722 0.438 0.290 0.483
+#&gt; </span><span style='color: #555555;'>6</span><span> 0.831 0.565 0.534 0.643</div><div class='input'><span class='co'># use c_across() to more easily select many variables</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>rowwise</span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='fu'><a href='across.html'>c_across</a></span>(<span class='no'>x</span>:<span class='no'>z</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 4</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise: </span><span>
+#&gt;       x     y     z     m
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 0.109 0.676 0.869 0.551
+#&gt; </span><span style='color: #555555;'>2</span><span> 0.212 0.127 0.446 0.262
+#&gt; </span><span style='color: #555555;'>3</span><span> 0.267 0.337 0.850 0.485
+#&gt; </span><span style='color: #555555;'>4</span><span> 0.372 0.453 0.896 0.574
+#&gt; </span><span style='color: #555555;'>5</span><span> 0.722 0.438 0.290 0.483
+#&gt; </span><span style='color: #555555;'>6</span><span> 0.831 0.565 0.534 0.643</div><div class='input'>
 <span class='co'># Compute the minimum of x and y in each row</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>rowwise</span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>x</span>, <span class='no'>y</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>rowwise</span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>z</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 4</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise: </span><span>
-#&gt;       x     y     z
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 0.144 0.831 0.144
-#&gt; </span><span style='color: #555555;'>2</span><span> 0.109 0.676 0.109
-#&gt; </span><span style='color: #555555;'>3</span><span> 0.212 0.127 0.127
-#&gt; </span><span style='color: #555555;'>4</span><span> 0.267 0.337 0.267
-#&gt; </span><span style='color: #555555;'>5</span><span> 0.372 0.453 0.372
-#&gt; </span><span style='color: #555555;'>6</span><span> 0.722 0.438 0.438</div><div class='input'><span class='co'># In this case you can use an existing vectorised function:</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>pmin</a></span>(<span class='no'>x</span>, <span class='no'>y</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
-#&gt;       x     y     z
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 0.144 0.831 0.144
-#&gt; </span><span style='color: #555555;'>2</span><span> 0.109 0.676 0.109
-#&gt; </span><span style='color: #555555;'>3</span><span> 0.212 0.127 0.127
-#&gt; </span><span style='color: #555555;'>4</span><span> 0.267 0.337 0.267
-#&gt; </span><span style='color: #555555;'>5</span><span> 0.372 0.453 0.372
-#&gt; </span><span style='color: #555555;'>6</span><span> 0.722 0.438 0.438</div><div class='input'><span class='co'># Where these functions exist they'll be much faster than rowwise</span>
+#&gt;       x     y     z     m
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 0.109 0.676 0.869 0.109
+#&gt; </span><span style='color: #555555;'>2</span><span> 0.212 0.127 0.446 0.127
+#&gt; </span><span style='color: #555555;'>3</span><span> 0.267 0.337 0.850 0.267
+#&gt; </span><span style='color: #555555;'>4</span><span> 0.372 0.453 0.896 0.372
+#&gt; </span><span style='color: #555555;'>5</span><span> 0.722 0.438 0.290 0.290
+#&gt; </span><span style='color: #555555;'>6</span><span> 0.831 0.565 0.534 0.534</div><div class='input'><span class='co'># In this case you can use an existing vectorised function:</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>pmin</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>z</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 4</span><span>
+#&gt;       x     y     z     m
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 0.109 0.676 0.869 0.109
+#&gt; </span><span style='color: #555555;'>2</span><span> 0.212 0.127 0.446 0.127
+#&gt; </span><span style='color: #555555;'>3</span><span> 0.267 0.337 0.850 0.267
+#&gt; </span><span style='color: #555555;'>4</span><span> 0.372 0.453 0.896 0.372
+#&gt; </span><span style='color: #555555;'>5</span><span> 0.722 0.438 0.290 0.290
+#&gt; </span><span style='color: #555555;'>6</span><span> 0.831 0.565 0.534 0.534</div><div class='input'><span class='co'># Where these functions exist they'll be much faster than rowwise</span>
 <span class='co'># so be on the lookout for them.</span>
 
 <span class='co'># rowwise() is also useful when doing simulations</span>
@@ -279,12 +289,12 @@ life a little easier.</p>
 #&gt; </span><span style='color: #555555;'># Rowwise:  sim</span><span>
 #&gt;     sim       z
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1  1.16  
-#&gt; </span><span style='color: #555555;'>2</span><span>     2  1.46  
-#&gt; </span><span style='color: #555555;'>3</span><span>     2  7.03  
-#&gt; </span><span style='color: #555555;'>4</span><span>     3 -</span><span style='color: #BB0000;'>0.828</span><span> 
-#&gt; </span><span style='color: #555555;'>5</span><span>     3 -</span><span style='color: #BB0000;'>3.72</span><span>  
-#&gt; </span><span style='color: #555555;'>6</span><span>     3 -</span><span style='color: #BB0000;'>0.081</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1  0.048</span><span style='text-decoration: underline;'>0</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>     2  6.08  
+#&gt; </span><span style='color: #555555;'>3</span><span>     2  1.82  
+#&gt; </span><span style='color: #555555;'>4</span><span>     3  0.704 
+#&gt; </span><span style='color: #555555;'>5</span><span>     3  0.328 
+#&gt; </span><span style='color: #555555;'>6</span><span>     3 -</span><span style='color: #BB0000;'>3.16</span><span>  </div><div class='input'>
 <span class='co'># If you want one row per simulation, put the results in a list()</span>
 <span class='no'>params</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>rowwise</span>(<span class='no'>sim</span>) <span class='kw'>%&gt;%</span>

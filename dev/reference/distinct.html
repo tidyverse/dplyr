@@ -253,65 +253,65 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>x</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 1</span><span>
 #&gt;        x
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     5
-#&gt; </span><span style='color: #555555;'> 2</span><span>     6
-#&gt; </span><span style='color: #555555;'> 3</span><span>     9
-#&gt; </span><span style='color: #555555;'> 4</span><span>     1
-#&gt; </span><span style='color: #555555;'> 5</span><span>     4
-#&gt; </span><span style='color: #555555;'> 6</span><span>     2
-#&gt; </span><span style='color: #555555;'> 7</span><span>     8
-#&gt; </span><span style='color: #555555;'> 8</span><span>     7
-#&gt; </span><span style='color: #555555;'> 9</span><span>    10
+#&gt; </span><span style='color: #555555;'> 1</span><span>     6
+#&gt; </span><span style='color: #555555;'> 2</span><span>     9
+#&gt; </span><span style='color: #555555;'> 3</span><span>     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>     4
+#&gt; </span><span style='color: #555555;'> 5</span><span>     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>     8
+#&gt; </span><span style='color: #555555;'> 7</span><span>     7
+#&gt; </span><span style='color: #555555;'> 8</span><span>    10
+#&gt; </span><span style='color: #555555;'> 9</span><span>     5
 #&gt; </span><span style='color: #555555;'>10</span><span>     3</div><div class='input'><span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 1</span><span>
 #&gt;        y
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     9
-#&gt; </span><span style='color: #555555;'> 2</span><span>     4
-#&gt; </span><span style='color: #555555;'> 3</span><span>     3
-#&gt; </span><span style='color: #555555;'> 4</span><span>    10
-#&gt; </span><span style='color: #555555;'> 5</span><span>     1
-#&gt; </span><span style='color: #555555;'> 6</span><span>     8
-#&gt; </span><span style='color: #555555;'> 7</span><span>     6
-#&gt; </span><span style='color: #555555;'> 8</span><span>     5
+#&gt; </span><span style='color: #555555;'> 1</span><span>     3
+#&gt; </span><span style='color: #555555;'> 2</span><span>     9
+#&gt; </span><span style='color: #555555;'> 3</span><span>    10
+#&gt; </span><span style='color: #555555;'> 4</span><span>     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>     8
+#&gt; </span><span style='color: #555555;'> 6</span><span>     6
+#&gt; </span><span style='color: #555555;'> 7</span><span>     5
+#&gt; </span><span style='color: #555555;'> 8</span><span>     4
 #&gt; </span><span style='color: #555555;'> 9</span><span>     2
 #&gt; </span><span style='color: #555555;'>10</span><span>     7</div><div class='input'>
 <span class='co'># You can choose to keep all other variables as well</span>
 <span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>x</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 2</span><span>
 #&gt;        x     y
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     5     9
-#&gt; </span><span style='color: #555555;'> 2</span><span>     6     3
-#&gt; </span><span style='color: #555555;'> 3</span><span>     9     9
-#&gt; </span><span style='color: #555555;'> 4</span><span>     1    10
-#&gt; </span><span style='color: #555555;'> 5</span><span>     4     8
-#&gt; </span><span style='color: #555555;'> 6</span><span>     2     6
-#&gt; </span><span style='color: #555555;'> 7</span><span>     8    10
-#&gt; </span><span style='color: #555555;'> 8</span><span>     7     6
-#&gt; </span><span style='color: #555555;'> 9</span><span>    10     3
+#&gt; </span><span style='color: #555555;'> 1</span><span>     6     3
+#&gt; </span><span style='color: #555555;'> 2</span><span>     9     9
+#&gt; </span><span style='color: #555555;'> 3</span><span>     1    10
+#&gt; </span><span style='color: #555555;'> 4</span><span>     4     8
+#&gt; </span><span style='color: #555555;'> 5</span><span>     2     6
+#&gt; </span><span style='color: #555555;'> 6</span><span>     8    10
+#&gt; </span><span style='color: #555555;'> 7</span><span>     7     6
+#&gt; </span><span style='color: #555555;'> 8</span><span>    10     3
+#&gt; </span><span style='color: #555555;'> 9</span><span>     5     6
 #&gt; </span><span style='color: #555555;'>10</span><span>     3     6</div><div class='input'><span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>y</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 2</span><span>
 #&gt;        x     y
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     5     9
-#&gt; </span><span style='color: #555555;'> 2</span><span>     5     4
-#&gt; </span><span style='color: #555555;'> 3</span><span>     6     3
-#&gt; </span><span style='color: #555555;'> 4</span><span>     1    10
-#&gt; </span><span style='color: #555555;'> 5</span><span>     9     1
-#&gt; </span><span style='color: #555555;'> 6</span><span>     4     8
-#&gt; </span><span style='color: #555555;'> 7</span><span>     2     6
-#&gt; </span><span style='color: #555555;'> 8</span><span>     7     5
+#&gt; </span><span style='color: #555555;'> 1</span><span>     6     3
+#&gt; </span><span style='color: #555555;'> 2</span><span>     9     9
+#&gt; </span><span style='color: #555555;'> 3</span><span>     1    10
+#&gt; </span><span style='color: #555555;'> 4</span><span>     9     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>     4     8
+#&gt; </span><span style='color: #555555;'> 6</span><span>     2     6
+#&gt; </span><span style='color: #555555;'> 7</span><span>     7     5
+#&gt; </span><span style='color: #555555;'> 8</span><span>     8     4
 #&gt; </span><span style='color: #555555;'> 9</span><span>     7     2
 #&gt; </span><span style='color: #555555;'>10</span><span>     9     7</div><div class='input'>
 <span class='co'># You can also use distinct on computed variables</span>
 <span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='kw'>diff</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>x</span> - <span class='no'>y</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 1</span><span>
 #&gt;     diff
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     4
-#&gt; </span><span style='color: #555555;'> 2</span><span>     1
-#&gt; </span><span style='color: #555555;'> 3</span><span>     3
-#&gt; </span><span style='color: #555555;'> 4</span><span>     0
-#&gt; </span><span style='color: #555555;'> 5</span><span>     9
-#&gt; </span><span style='color: #555555;'> 6</span><span>     8
-#&gt; </span><span style='color: #555555;'> 7</span><span>     2
+#&gt; </span><span style='color: #555555;'> 1</span><span>     3
+#&gt; </span><span style='color: #555555;'> 2</span><span>     0
+#&gt; </span><span style='color: #555555;'> 3</span><span>     9
+#&gt; </span><span style='color: #555555;'> 4</span><span>     8
+#&gt; </span><span style='color: #555555;'> 5</span><span>     4
+#&gt; </span><span style='color: #555555;'> 6</span><span>     2
+#&gt; </span><span style='color: #555555;'> 7</span><span>     1
 #&gt; </span><span style='color: #555555;'> 8</span><span>     7
 #&gt; </span><span style='color: #555555;'> 9</span><span>     6
 #&gt; </span><span style='color: #555555;'>10</span><span>     5</div><div class='input'>
