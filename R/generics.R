@@ -102,9 +102,8 @@ dplyr_col_modify <- function(data, cols) {
 
 #' @export
 dplyr_col_modify.data.frame <- function(data, cols) {
-  if (length(cols) == 0) {
-    return(data)
-  }
+  # Implement from first principles to avoiding edge cases in [.data.frame
+  # and [.tibble in 2.1.3 and earlier
 
   # Apply tidyverse recycling rules
   cols <- lapply(cols, vec_recycle, size = nrow(data))
