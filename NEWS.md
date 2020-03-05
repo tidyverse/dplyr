@@ -1,5 +1,30 @@
 # dplyr 1.0.0 (in development)
 
+## Breaking changes
+
+* `bind_cols()` no longer forces tibbles.
+
+* `bind_rows()` and `combine()` use vctrs coercion rules.
+
+    * For time columns, the time zone of the first argument is used.
+    
+    * Classed atomic vectors are no longer accepted, `vctrs::vec_is()` is required for all inputs.
+
+* `bind_rows()` and other functions use vctrs name repair, see `?vctrs::vec_as_names`.
+
+* `count()` no longer removes the last level of grouping.
+
+* `all.equal.tbl_df()` removed, equality checks for data frames no longer ignore row order or groupings.
+
+* `distinct()` keeps the original column order.
+
+* `distinct()` on missing columns now raises an error, it has been a compatibility warning for a long time.
+
+* `group_modify()` puts the grouping variable to the front.
+
+* The old data format for `grouped_df` is no longer supported. This may affect you if you have serialized grouped data frames to disk, e.g. with `saveRDS()` or when using knitr caching.
+
+
 ## New features
 
 * The `cur_` functions (`cur_data()`, `cur_group()`, `cur_group_id()`, 
