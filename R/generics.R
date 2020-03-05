@@ -106,7 +106,7 @@ dplyr_col_modify.data.frame <- function(data, cols) {
   # and [.tibble in 2.1.3 and earlier
 
   # Apply tidyverse recycling rules
-  cols <- lapply(cols, vec_recycle, size = nrow(data))
+  cols <- vec_recycle_common(!!!cols, .size = nrow(data))
 
   out <- vec_data(data)
 
