@@ -35,7 +35,6 @@ Imports:
     lifecycle,
     magrittr (>= 1.5),
     methods,
-    pkgconfig,
     R6,
     rlang (>= 0.4.5),
     tibble (>= 2.99.99.9014),

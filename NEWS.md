@@ -234,6 +234,10 @@
 
 * `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
   (#4429).
+  
+* Use of pkgconfig for setting `na_matches` argument to join functions is now
+  deprecated (#4914). This was rarely used, and I'm now confident that the 
+  default is correct for R.
 
 ## Documentation improvements
 

@@ -33,17 +33,6 @@ show a progress bar? Default: \code{TRUE}}
 }
 }
 
-\section{Package configurations}{
-
-These can be set on a package-by-package basis, or for the global environment.
-See \code{\link[pkgconfig:set_config]{pkgconfig::set_config()}} for usage.
-\itemize{
-\item \code{dplyr::na_matches}: Should \code{NA} values be matched in data frame joins
-by default? Default: \code{"na"}. Alternative value: \code{"never"}.
-See \link{join.data.frame} for details.
-}
-}
-
 \seealso{
 Useful links:
 \itemize{

@@ -24,14 +24,6 @@
 #'   show a progress bar? Default: `TRUE`}
 #' }
 #'
-#' @section Package configurations:
-#' These can be set on a package-by-package basis, or for the global environment.
-#' See [pkgconfig::set_config()] for usage.
-#'
-#' * `dplyr::na_matches`: Should `NA` values be matched in data frame joins
-#'   by default? Default: `"na"`. Alternative value: `"never"`.
-#'   See [join.data.frame] for details.
-#'
 #' @useDynLib dplyr, .registration = TRUE
 #' @keywords internal
 #' @import rlang
@@ -39,6 +31,5 @@
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
 #' @importFrom methods is
-#' @importFrom pkgconfig get_config
 #' @importFrom lifecycle deprecated
 "_PACKAGE"
