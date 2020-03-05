@@ -22,4 +22,4 @@ This is a patch release to adress compatibility with R 4.0.0.
 
 ## revdepcheck results
 
-Revdepchecks were not performed as this is a minimal patch release.
+Full revdepchecks were performed and no problems were found.
