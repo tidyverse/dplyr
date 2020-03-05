@@ -192,6 +192,34 @@
 <h1 class="page-header">
 <a href="#dplyr-100-in-development" class="anchor"></a>dplyr 1.0.0 (in development)<small> Unreleased </small>
 </h1>
+<div id="breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
+<ul>
+<li><p><code><a href="../reference/bind.html">bind_cols()</a></code> no longer converts to a tibble, returns a data frame if the input is a data frame.</p></li>
+<li>
+<p><code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/combine.html">combine()</a></code> use vctrs coercion rules.</p>
+<ul>
+<li><p>Combining factor and character creates a character without warning, combining factors creates a factor with levels combined.</p></li>
+<li><p>For time columns, the time zone of the first argument is used.</p></li>
+<li><p>Classed atomic vectors are no longer accepted, <code><a href="https://rdrr.io/pkg/vctrs/man/vec_assert.html">vctrs::vec_is()</a></code> is required for all inputs.</p></li>
+</ul>
+</li>
+<li><p><code><a href="../reference/bind.html">bind_rows()</a></code> and other functions use vctrs name repair, see <code><a href="https://rdrr.io/pkg/vctrs/man/vec_as_names.html">?vctrs::vec_as_names</a></code>.</p></li>
+<li>
+<p><code>all.equal.tbl_df()</code> removed.</p>
+<ul>
+<li><p>Data frames, tibbles and grouped data frames are no longer considered equal, even if the data is the same.</p></li>
+<li><p>Equality checks for data frames no longer ignore row order or groupings.</p></li>
+<li><p><code>expect_equal()</code> uses <code><a href="https://rdrr.io/r/base/all.equal.html">all.equal()</a></code> internally. When comparing data frames, tests that used to pass may now fail.</p></li>
+</ul>
+</li>
+<li><p><code><a href="../reference/distinct.html">distinct()</a></code> keeps the original column order.</p></li>
+<li><p><code><a href="../reference/distinct.html">distinct()</a></code> on missing columns now raises an error, it has been a compatibility warning for a long time.</p></li>
+<li><p><code><a href="../reference/group_map.html">group_modify()</a></code> puts the grouping variable to the front.</p></li>
+<li><p>The old data format for <code>grouped_df</code> is no longer supported. This may affect you if you have serialized grouped data frames to disk, e.g. with <code><a href="https://rdrr.io/r/base/readRDS.html">saveRDS()</a></code> or when using knitr caching.</p></li>
+</ul>
+</div>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
@@ -391,9 +419,9 @@
 <h1 class="page-header">
 <a href="#dplyr-081-2019-05-14" class="anchor"></a>dplyr 0.8.1 (2019-05-14)<small> 2019-05-14 </small>
 </h1>
-<div id="breaking-changes" class="section level2">
+<div id="breaking-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes-1" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>
 <code><a href="../reference/group_map.html">group_modify()</a></code> is the new name of the function previously known as <code><a href="../reference/group_map.html">group_map()</a></code>
@@ -440,9 +468,9 @@
 <h1 class="page-header">
 <a href="#dplyr-080-2019-02-14" class="anchor"></a>dplyr 0.8.0 (2019-02-14)<small> 2019-02-14 </small>
 </h1>
-<div id="breaking-changes-1" class="section level2">
+<div id="breaking-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-1" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes-2" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>
 <p>The error <code>could not find function "n"</code> or the warning <code>Calling `n()` without importing or prefixing it is deprecated, use `dplyr::n()`</code></p>
@@ -1015,9 +1043,9 @@ starwars %&gt;%
 <h1 class="page-header">
 <a href="#dplyr-050" class="anchor"></a>dplyr 0.5.0<small> 2016-06-24 </small>
 </h1>
-<div id="breaking-changes-2" class="section level2">
+<div id="breaking-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-2" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes-3" class="anchor"></a>Breaking changes</h2>
 <div id="existing-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#existing-functions" class="anchor"></a>Existing functions</h3>
