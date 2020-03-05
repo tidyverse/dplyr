@@ -23,7 +23,7 @@ inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  na_matches = NULL
+  na_matches = c("na", "never")
 )
 
 left_join(
@@ -44,7 +44,7 @@ left_join(
   suffix = c(".x", ".y"),
   ...,
   keep = FALSE,
-  na_matches = NULL
+  na_matches = c("na", "never")
 )
 
 right_join(
@@ -65,7 +65,7 @@ right_join(
   suffix = c(".x", ".y"),
   ...,
   keep = FALSE,
-  na_matches = NULL
+  na_matches = c("na", "never")
 )
 
 full_join(
@@ -86,7 +86,7 @@ full_join(
   suffix = c(".x", ".y"),
   ...,
   keep = FALSE,
-  na_matches = NULL
+  na_matches = c("na", "never")
 )
 }
 \arguments{
@@ -125,10 +125,11 @@ Should be a character vector of length 2.}
 
 \item{na_matches}{Should \code{NA} and \code{NaN} values match one another?
 
+The default, \code{"na"}, treats two \code{NA} or \code{NaN} values as equal, like
+\code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.
+
 Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as different, like
-joins for database sources, similarly to \code{merge(incomparables = FALSE)}.
-The default, \code{"na"}, always treats two \code{NA} or \code{NaN} values as equal,
-like \code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.}
+joins for database sources, similarly to \code{merge(incomparables = FALSE)}.}
 
 \item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
 output? Only applies to \code{nest_join()}, \code{left_join()}, \code{right_join()}, and
