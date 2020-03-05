@@ -17,6 +17,12 @@ A ref class with methods \code{tick()}, \code{print()},
 \code{pause()}, and \code{stop()}.
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+
+This progress bar has been deprecated since providing progress bars is not
+the responsibility of dplyr. Instead, you might try the more powerful
+\href{https://github.com/r-lib/progress}{progress} package.
+
 This reference class represents a text progress bar displayed estimated
 time remaining. When finished, it displays the total duration.  The
 automatic progress bar can be disabled by setting option

@@ -212,6 +212,9 @@
 * `location()` and `changes()` are soft deprecated, please use functions from 
   the lobstr package. 
 
+* `progress_estimated()` is soft deprecated; it's not the responsibility of
+  dplyr to provide progress bars (#4935).
+
 * `rowwise()` is no longer questioning.
 
 * `sample_n()` and `sample_frac()` have been superseded by `slice_sample()`. 
