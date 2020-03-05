@@ -239,6 +239,21 @@ Renaming variables by name requires a bit more work:
 names(iris2)[names(iris2) == "Sepal.Length"] <- "sepal_length"
 ```
 
+## `rename_with()`: Rename variables with a function
+
+`dplyr::rename_with()` transform column names with a function:
+
+```{r}
+iris %>% rename_with(toupper)
+```
+
+A similar effect can be achieved with `setNames()` in base R:
+
+```{r}
+setNames(iris, toupper(names(iris)))
+```
+
+
 ## `select()`: Select variables by name
 
 `dplyr::select()` subsets columns by position, name, function of name, or other property:

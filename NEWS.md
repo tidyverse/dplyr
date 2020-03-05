@@ -70,6 +70,9 @@
 
 * New `relocate()` verb makes it easy to move columns around within a data 
   frame (#4598).
+  
+* New `rename_with()` is designed specifically for the purpose of renaming
+  selected columns with a function (#4771).
 
 * `ungroup()` can now selectively remove grouping variables (#3760).
 
@@ -168,6 +171,8 @@
   been superseded by `across()`. This dramatically reduces the API surface for 
   dplyr, while at the same providing providing a more flexible and less 
   error-prone interface (#4769).
+  
+    `rename_*()` and `select_*()` have been superseded by `rename_with()`.
 
 * `all_equal()` is questioning; it solves a problem that no longer seems 
   important.
