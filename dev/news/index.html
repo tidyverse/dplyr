@@ -241,6 +241,7 @@
 </li>
 <li><p><code><a href="../reference/summarise.html">summarise()</a></code> can create summaries of greater than length 1 if you use a summary function that returns multiple values.</p></li>
 <li><p>New <code><a href="../reference/relocate.html">relocate()</a></code> verb makes it easy to move columns around within a data frame (<a href='https://github.com/tidyverse/dplyr/issues/4598'>#4598</a>).</p></li>
+<li><p>New <code><a href="../reference/rename.html">rename_with()</a></code> is designed specifically for the purpose of renaming selected columns with a function (<a href='https://github.com/tidyverse/dplyr/issues/4771'>#4771</a>).</p></li>
 <li><p><code><a href="../reference/group_by.html">ungroup()</a></code> can now selectively remove grouping variables (<a href='https://github.com/tidyverse/dplyr/issues/3760'>#3760</a>).</p></li>
 <li><p><code><a href="../reference/pull.html">pull()</a></code> can now return named vectors by specifying an additional column name (<a href='https://github.com/ilarischeinin'>@ilarischeinin</a>, <a href='https://github.com/tidyverse/dplyr/issues/4102'>#4102</a>).</p></li>
 </ul>
@@ -296,7 +297,10 @@
 <a href="#lifecycle-changes" class="anchor"></a>Lifecycle changes</h2>
 <ul>
 <li><p>All deprecations now use the <a href="https://lifecycle.r-lib.org">lifecycle</a>, that means by default you’ll only see a deprecation warning once per session, and you can control with <code><a href="https://rdrr.io/r/base/options.html">options(lifecycle_verbosity = x)</a></code> where <code>x</code> is one of NULL, “quiet”, “warning”, and “error”.</p></li>
-<li><p>The scoped helpers (all functions ending in <code>_if</code>, <code>_at</code>, or <code>_all</code>) have been superseded by <code><a href="../reference/across.html">across()</a></code>. This dramatically reduces the API surface for dplyr, while at the same providing providing a more flexible and less error-prone interface (<a href='https://github.com/tidyverse/dplyr/issues/4769'>#4769</a>).</p></li>
+<li>
+<p>The scoped helpers (all functions ending in <code>_if</code>, <code>_at</code>, or <code>_all</code>) have been superseded by <code><a href="../reference/across.html">across()</a></code>. This dramatically reduces the API surface for dplyr, while at the same providing providing a more flexible and less error-prone interface (<a href='https://github.com/tidyverse/dplyr/issues/4769'>#4769</a>).</p>
+<p><code>rename_*()</code> and <code>select_*()</code> have been superseded by <code><a href="../reference/rename.html">rename_with()</a></code>.</p>
+</li>
 <li><p><code><a href="../reference/all_equal.html">all_equal()</a></code> is questioning; it solves a problem that no longer seems important.</p></li>
 <li><p>In <code><a href="../reference/count.html">add_count()</a></code>, the <code>drop</code> argument has been deprecated because it didn’t actually affect the output.</p></li>
 <li><p><code><a href="../reference/add_rownames.html">add_rownames()</a></code> has been deprecated. Please use <code><a href="https://tibble.tidyverse.org/reference/rownames.html">tibble::rownames_to_column()</a></code> instead.</p></li>

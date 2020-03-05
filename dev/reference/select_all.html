@@ -48,17 +48,14 @@
 
 
 <meta property="og:title" content="Select and rename a selection of variables — select_all" />
-<meta property="og:description" content="These scoped variants of select() and rename() operate on a
-selection of variables. The semantics of these verbs have subtle
-but important differences:
-Selection drops variables that are not in the selection while
-renaming retains them.
-The renaming function is optional for selection but not for
-renaming.
-
-
-The _if and _at variants always retain grouping variables for grouped
-data frames." />
+<meta property="og:description" content="
+rename_if(), rename_at(), and rename_all() have been superseded by
+rename_with(). The matching select statements have been superseded by the
+combination of a select() + rename_with().
+These functions were superseded because mutate_if() and friends were
+superseded by across(). select_if() and rename_if() already use tidy
+selection so they can't be replaced by across() and instead we need a new
+function." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -201,17 +198,14 @@ data frames." />
     </div>
 
     <div class="ref-description">
-    <p>These <a href='scoped.html'>scoped</a> variants of <code><a href='select.html'>select()</a></code> and <code><a href='rename.html'>rename()</a></code> operate on a
-selection of variables. The semantics of these verbs have subtle
-but important differences:</p><ul>
-<li><p>Selection drops variables that are not in the selection while
-renaming retains them.</p></li>
-<li><p>The renaming function is optional for selection but not for
-renaming.</p></li>
-</ul>
-
-<p>The <code>_if</code> and <code>_at</code> variants always retain grouping variables for grouped
-data frames.</p>
+    <p><a href='https://www.tidyverse.org/lifecycle/#retired'><img src='figures/lifecycle-retired.svg' alt='Retired lifecycle'></a></p>
+<p><code>rename_if()</code>, <code>rename_at()</code>, and <code>rename_all()</code> have been superseded by
+<code><a href='rename.html'>rename_with()</a></code>. The matching select statements have been superseded by the
+combination of a <code><a href='select.html'>select()</a></code> + <code><a href='rename.html'>rename_with()</a></code>.</p>
+<p>These functions were superseded because <code><a href='mutate_all.html'>mutate_if()</a></code> and friends were
+superseded by <code><a href='across.html'>across()</a></code>. <code>select_if()</code> and <code>rename_if()</code> already use tidy
+selection so they can't be replaced by <code><a href='across.html'>across()</a></code> and instead we need a new
+function.</p>
     </div>
 
     <pre class="usage"><span class='fu'>select_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
@@ -258,351 +252,190 @@ positions, or <code>NULL</code>.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="grouping-variables"><a class="anchor" href="#grouping-variables"></a>Grouping variables</h2>
-
-    
-
-
-<p>Existing grouping variables are always kept in the data frame, even
-if not included in the selection.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># Supply a renaming function:</span>
-<span class='fu'>select_all</span>(<span class='no'>mtcars</span>, <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM GEAR CARB
-#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='fu'>select_all</span>(<span class='no'>mtcars</span>, <span class='st'>"toupper"</span>)</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM GEAR CARB
-#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='fu'>select_all</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(~<span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>toupper</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM GEAR CARB
-#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'>
-<span class='co'># Selection drops unselected variables:</span>
+    <pre class="examples"><div class='input'><span class='no'>mtcars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>mtcars</span>) <span class='co'># for nicer printing</span>
+
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>rename_all</span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
+#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
+<span class='co'># NB: the transformation comes first in rename_with</span>
 <span class='no'>is_whole</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span>(<span class='no'>x</span>) <span class='kw'>==</span> <span class='no'>x</span>)
-<span class='fu'>select_if</span>(<span class='no'>mtcars</span>, <span class='no'>is_whole</span>, <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                     CYL  HP VS AM GEAR CARB
-#&gt; Mazda RX4             6 110  0  1    4    4
-#&gt; Mazda RX4 Wag         6 110  0  1    4    4
-#&gt; Datsun 710            4  93  1  1    4    1
-#&gt; Hornet 4 Drive        6 110  1  0    3    1
-#&gt; Hornet Sportabout     8 175  0  0    3    2
-#&gt; Valiant               6 105  1  0    3    1
-#&gt; Duster 360            8 245  0  0    3    4
-#&gt; Merc 240D             4  62  1  0    4    2
-#&gt; Merc 230              4  95  1  0    4    2
-#&gt; Merc 280              6 123  1  0    4    4
-#&gt; Merc 280C             6 123  1  0    4    4
-#&gt; Merc 450SE            8 180  0  0    3    3
-#&gt; Merc 450SL            8 180  0  0    3    3
-#&gt; Merc 450SLC           8 180  0  0    3    3
-#&gt; Cadillac Fleetwood    8 205  0  0    3    4
-#&gt; Lincoln Continental   8 215  0  0    3    4
-#&gt; Chrysler Imperial     8 230  0  0    3    4
-#&gt; Fiat 128              4  66  1  1    4    1
-#&gt; Honda Civic           4  52  1  1    4    2
-#&gt; Toyota Corolla        4  65  1  1    4    1
-#&gt; Toyota Corona         4  97  1  0    3    1
-#&gt; Dodge Challenger      8 150  0  0    3    2
-#&gt; AMC Javelin           8 150  0  0    3    2
-#&gt; Camaro Z28            8 245  0  0    3    4
-#&gt; Pontiac Firebird      8 175  0  0    3    2
-#&gt; Fiat X1-9             4  66  1  1    4    1
-#&gt; Porsche 914-2         4  91  0  1    5    2
-#&gt; Lotus Europa          4 113  1  1    5    2
-#&gt; Ford Pantera L        8 264  0  1    5    4
-#&gt; Ferrari Dino          6 175  0  1    5    6
-#&gt; Maserati Bora         8 335  0  1    5    8
-#&gt; Volvo 142E            4 109  1  1    4    2</div><div class='input'><span class='fu'>select_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"ar"</span>), <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"c"</span>)), <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM CARB
-#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4
-#&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4
-#&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    1
-#&gt; Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    1
-#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    2
-#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    1
-#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    4
-#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    2
-#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    2
-#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4
-#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4
-#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3
-#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3
-#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3
-#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    4
-#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    4
-#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    4
-#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    1
-#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    2
-#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    1
-#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    1
-#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    2
-#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    2
-#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    4
-#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    2
-#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    1
-#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    2
-#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    2
-#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    4
-#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    6
-#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    2</div><div class='input'>
-<span class='co'># But renaming retains them:</span>
-<span class='fu'>rename_if</span>(<span class='no'>mtcars</span>, <span class='no'>is_whole</span>, <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                      mpg CYL  disp  HP drat    wt  qsec VS AM GEAR CARB
-#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='fu'>rename_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-(<span class='fl'>1</span>:<span class='fl'>3</span>)), <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  HP DRAT    WT  QSEC VS AM GEAR CARB
-#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='fu'>rename_all</span>(<span class='no'>mtcars</span>, <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM GEAR CARB
-#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'>
-<span class='co'># The renaming function is optional for selection:</span>
-<span class='fu'>select_if</span>(<span class='no'>mtcars</span>, <span class='no'>is_whole</span>)</div><div class='output co'>#&gt;                     cyl  hp vs am gear carb
-#&gt; Mazda RX4             6 110  0  1    4    4
-#&gt; Mazda RX4 Wag         6 110  0  1    4    4
-#&gt; Datsun 710            4  93  1  1    4    1
-#&gt; Hornet 4 Drive        6 110  1  0    3    1
-#&gt; Hornet Sportabout     8 175  0  0    3    2
-#&gt; Valiant               6 105  1  0    3    1
-#&gt; Duster 360            8 245  0  0    3    4
-#&gt; Merc 240D             4  62  1  0    4    2
-#&gt; Merc 230              4  95  1  0    4    2
-#&gt; Merc 280              6 123  1  0    4    4
-#&gt; Merc 280C             6 123  1  0    4    4
-#&gt; Merc 450SE            8 180  0  0    3    3
-#&gt; Merc 450SL            8 180  0  0    3    3
-#&gt; Merc 450SLC           8 180  0  0    3    3
-#&gt; Cadillac Fleetwood    8 205  0  0    3    4
-#&gt; Lincoln Continental   8 215  0  0    3    4
-#&gt; Chrysler Imperial     8 230  0  0    3    4
-#&gt; Fiat 128              4  66  1  1    4    1
-#&gt; Honda Civic           4  52  1  1    4    2
-#&gt; Toyota Corolla        4  65  1  1    4    1
-#&gt; Toyota Corona         4  97  1  0    3    1
-#&gt; Dodge Challenger      8 150  0  0    3    2
-#&gt; AMC Javelin           8 150  0  0    3    2
-#&gt; Camaro Z28            8 245  0  0    3    4
-#&gt; Pontiac Firebird      8 175  0  0    3    2
-#&gt; Fiat X1-9             4  66  1  1    4    1
-#&gt; Porsche 914-2         4  91  0  1    5    2
-#&gt; Lotus Europa          4 113  1  1    5    2
-#&gt; Ford Pantera L        8 264  0  1    5    4
-#&gt; Ferrari Dino          6 175  0  1    5    6
-#&gt; Maserati Bora         8 335  0  1    5    8
-#&gt; Volvo 142E            4 109  1  1    4    2</div><div class='input'><span class='fu'>select_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>()))</div><div class='output co'>#&gt; data frame with 0 columns and 32 rows</div><div class='input'><span class='fu'>select_all</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div></pre>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>rename_if</span>(<span class='no'>is_whole</span>, <span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+#&gt;      mpg   CYL  disp    HP  drat    wt  qsec    VS    AM  GEAR  CARB
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>, <span class='no'>is_whole</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+#&gt;      mpg   CYL  disp    HP  drat    wt  qsec    VS    AM  GEAR  CARB
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>rename_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>mpg</span>:<span class='no'>hp</span>), <span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+#&gt;      MPG   CYL  DISP    HP  drat    wt  qsec    vs    am  gear  carb
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>, <span class='no'>mpg</span>:<span class='no'>hp</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+#&gt;      MPG   CYL  DISP    HP  drat    wt  qsec    vs    am  gear  carb
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
+<span class='co'># You now must select() and then rename</span>
+
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select_all</span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
+<span class='co'># Selection drops unselected variables:</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select_if</span>(<span class='no'>is_whole</span>, <span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 6</span><span>
+#&gt;      CYL    HP    VS    AM  GEAR  CARB
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>     6   110     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>     6   110     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>     4    93     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>     6   110     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>     8   175     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>     6   105     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>     8   245     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>     4    62     1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>     4    95     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>     6   123     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>is_whole</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 6</span><span>
+#&gt;      CYL    HP    VS    AM  GEAR  CARB
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>     6   110     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>     6   110     0     1     4     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>     4    93     1     1     4     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>     6   110     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>     8   175     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>     6   105     1     0     3     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>     8   245     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>     4    62     1     0     4     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>     4    95     1     0     4     2
+#&gt; </span><span style='color: #555555;'>10</span><span>     6   123     1     0     4     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"ar"</span>), <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"c"</span>)), <span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 10</span><span>
+#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  CARB
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='select.html'>select</a></span>(!<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"ar"</span>) <span class='kw'>|</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"c"</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 10</span><span>
+#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  CARB
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4
+#&gt; </span><span style='color: #555555;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     1
+#&gt; </span><span style='color: #555555;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     1
+#&gt; </span><span style='color: #555555;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     2
+#&gt; </span><span style='color: #555555;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     1
+#&gt; </span><span style='color: #555555;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4
+#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#grouping-variables">Grouping variables</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
