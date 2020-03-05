@@ -48,7 +48,11 @@
 
 
 <meta property="og:title" content="Progress bar with estimated time. — progress_estimated" />
-<meta property="og:description" content="This reference class represents a text progress bar displayed estimated
+<meta property="og:description" content="
+This progress bar has been deprecated since providing progress bars is not
+the responsibility of dplyr. Instead, you might try the more powerful
+progress package.
+This reference class represents a text progress bar displayed estimated
 time remaining. When finished, it displays the total duration.  The
 automatic progress bar can be disabled by setting option
 dplyr.show_progress to FALSE." />
@@ -194,7 +198,11 @@ dplyr.show_progress to FALSE." />
     </div>
 
     <div class="ref-description">
-    <p>This reference class represents a text progress bar displayed estimated
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>This progress bar has been deprecated since providing progress bars is not
+the responsibility of dplyr. Instead, you might try the more powerful
+<a href='https://github.com/r-lib/progress'>progress</a> package.</p>
+<p>This reference class represents a text progress bar displayed estimated
 time remaining. When finished, it displays the total duration.  The
 automatic progress bar can be disabled by setting option
 <code>dplyr.show_progress</code> to <code>FALSE</code>.</p>
@@ -222,8 +230,9 @@ seconds have elapsed before displaying any results.</p></td>
 <code>pause()</code>, and <code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>)
-<span class='no'>p</span>$<span class='fu'>tick</span>()
+    <pre class="examples"><div class='input'><span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `progress_estimated()` is deprecated as of dplyr 1.0.0.</span>
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once per session.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='input'><span class='no'>p</span>$<span class='fu'>tick</span>()
 <span class='no'>p</span>$<span class='fu'>tick</span>()
 <span class='no'>p</span>$<span class='fu'>tick</span>()
 
@@ -242,7 +251,7 @@ seconds have elapsed before displaying any results.</p></td>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>10</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>10</span>) <span class='no'>p</span>$<span class='fu'>pause</span>(<span class='fl'>0.5</span>)$<span class='fu'>tick</span>()$<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()
-}</div></pre>
+}</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
