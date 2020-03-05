@@ -24,10 +24,12 @@ as_fun_list <- function(.funs, .env, ...) {
   funs <- map(.funs, function(.x){
     if (is_formula(.x)) {
       if (is_quosure(.x)) {
-        warn(c(
-          "Using quosures if funs() is deprecated",
-          "Please use a one-sided formula, a function, or a function name"
-        ))
+        lifecycle::deprecate_soft(
+          "1.0.0",
+          "dplyr::funs(... = 'can\\'t be a quosure')",
+          details = "Please use a one-sided formula, a function, or a function name",
+          env = .env
+        )
         .x <- new_formula(NULL, quo_squash(.x), quo_get_env(.x))
       }
       .x <- as_inlined_function(.x, env = .env)
