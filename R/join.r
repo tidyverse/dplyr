@@ -321,11 +321,11 @@ join_mutate <- function(x, y, by, type,
                         keep = FALSE
                         ) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
-  na_matches <- check_na_matches(na_matches %||% "na")
+  na_equal <- check_na_matches(na_matches %||% "na")
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
-  rows <- join_rows(x_key, y_key, type = type)
+  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal)
 
   x_out <- set_names(x[vars$x$out], names(vars$x$out))
   y_out <- set_names(y[vars$y$out], names(vars$y$out))
@@ -357,27 +357,18 @@ join_mutate <- function(x, y, by, type,
 
 join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
-  na_matches <- check_na_matches(na_matches %||% "na")
+  na_equal <- check_na_matches(na_matches %||% "na")
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
   idx <- switch(type,
-    semi = vec_in(x_key, y_key),
-    anti = !vec_in(x_key, y_key)
+    semi = vec_in(x_key, y_key, na_equal),
+    anti = !vec_in(x_key, y_key, na_equal)
   )
   dplyr_row_slice(x, idx)
 }
 
 check_na_matches <- function(na_matches = c("na", "never")) {
-  if (is.null(na_matches)) {
-    na_matches <- pkgconfig::get_config("dplyr::na_matches")
-  }
-  na_matches <- arg_match(na_matches)
-
-  if (na_matches == "never") {
-    warn("`na_matches = 'never' currently unsupported")
-  }
-
-  (na_matches == "na")
+  arg_match(na_matches) == "na"
 }
