@@ -28,8 +28,13 @@
 
 * `group_modify()` puts the grouping variable to the front.
 
-* The old data format for `grouped_df` is no longer supported. This may affect you if you have serialized grouped data frames to disk, e.g. with `saveRDS()` or when using knitr caching.
+* `n()` and `row_number()` can no longer be called directly when dplyr is not loaded, 
+  and this now generates an error: `dplyr::mutate(mtcars, x = n())`. 
+  
+  Fix by prefixing with `dplyr::` as in `dplyr::mutate(mtcars, x = dplyr::n())`
+  
 
+* The old data format for `grouped_df` is no longer supported. This may affect you if you have serialized grouped data frames to disk, e.g. with `saveRDS()` or when using knitr caching.
 
 ## New features
 
@@ -90,9 +95,14 @@
 
 ## across()
 
-* New function `across()` that can be used inside `summarise()` or `mutate()` 
-  to apply a function (or a set of functions) to a selection of columns. 
+* New function `across()` that can be used inside `summarise()`, `mutate()`,
+  and other verbs to apply a function (or a set of functions) to a selection of 
+  columns. See `vignette("colwise")` for more details.
   
+* New function `c_across()` that can be used inside `summarise()` and `mutate()`
+  in row-wise data frames to easily (e.g.) compute a row-wise mean of all
+  numeric variables. See `vignette("rowwise")` for more details.
+
 ## rowwise()
 
 * New, experimental, `condense()` makes it easy to create and use list-columns.
@@ -201,6 +211,9 @@
 
 * `location()` and `changes()` are soft deprecated, please use functions from 
   the lobstr package. 
+
+* `progress_estimated()` is soft deprecated; it's not the responsibility of
+  dplyr to provide progress bars (#4935).
 
 * `rowwise()` is no longer questioning.
 

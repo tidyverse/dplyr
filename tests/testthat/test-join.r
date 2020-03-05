@@ -133,6 +133,7 @@ test_that("nest_join returns list of tibbles (#3570)",{
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
   out <- nest_join(df1, df2, by = "x")
 
+  expect_named(out, c("x", "y", "df2"))
   expect_type(out$df2, "list")
   expect_s3_class(out$df2[[1]], "tbl_df")
 })
@@ -149,6 +150,7 @@ test_that("y keys dropped by default", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
   out <- nest_join(df1, df2, by = "x")
+  expect_named(out, c("x", "y", "df2"))
   expect_named(out$df2[[1]], "z")
 
   out <- nest_join(df1, df2, by = "x", keep = TRUE)
@@ -177,8 +179,9 @@ test_that("joins preserve groups", {
   expect_equal(i, 0L)
   expect_equal(group_vars(out), "a")
 
+  # See comment in nest_join
   i <- count_regroups(out <- nest_join(gf1, gf2, by = "a"))
-  expect_equal(i, 0L)
+  expect_equal(i, 1L)
   expect_equal(group_vars(out), "a")
 })
 

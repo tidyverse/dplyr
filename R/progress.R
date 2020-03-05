@@ -1,5 +1,12 @@
 #' Progress bar with estimated time.
 #'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#'
+#' This progress bar has been deprecated since providing progress bars is not
+#' the responsibility of dplyr. Instead, you might try the more powerful
+#' [progress](https://github.com/r-lib/progress) package.
+#'
 #' This reference class represents a text progress bar displayed estimated
 #' time remaining. When finished, it displays the total duration.  The
 #' automatic progress bar can be disabled by setting option
@@ -35,6 +42,8 @@
 #' for (i in 1:10) p$pause(0.5)$tick()$print()
 #' }
 progress_estimated <- function(n, min_time = 0) {
+  lifecycle::deprecate_soft("1.0.0", "dplyr::progress_estimated()")
+
   Progress$new(n, min_time = min_time)
 }
 
