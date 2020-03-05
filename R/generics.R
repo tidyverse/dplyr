@@ -120,6 +120,7 @@ dplyr_col_modify.data.frame <- function(data, cols) {
   # Restore attributes (apart from names)
   attr <- attributes(data)
   attr$names <- names(out)
+  attr$row.names <- .row_names_info(data, 0L)
   attributes(out) <- attr
 
   out

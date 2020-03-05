@@ -43,3 +43,10 @@ test_that("can add, remove, and replace columns", {
   expect_equal(dplyr_col_modify(df, list(y = 3)), data.frame(x = 1, y = 3))
   expect_equal(dplyr_col_modify(df, list(z = 3)), data.frame(x = 1, y = 2, z = 3))
 })
+
+test_that("doesn't expand row names", {
+  df <- data.frame(x = 1:10)
+  out <- dplyr_col_modify(df, list(y = 1))
+
+  expect_equal(.row_names_info(out, 1), -10)
+})
