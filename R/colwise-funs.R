@@ -1,5 +1,5 @@
 
-as_fun_list <- function(.funs, .env, ...) {
+as_fun_list <- function(.funs, .env, ..., .caller, .caller_arg = "...") {
   args <- list2(...)
 
   if (is_fun_list(.funs)) {
@@ -24,9 +24,13 @@ as_fun_list <- function(.funs, .env, ...) {
   funs <- map(.funs, function(.x){
     if (is_formula(.x)) {
       if (is_quosure(.x)) {
+        what <- paste0(
+          "dplyr::", .caller, "(", .caller_arg, " = ",
+          "'can\\'t contain quosures')"
+        )
+
         lifecycle::deprecate_soft(
-          "1.0.0",
-          "dplyr::funs(... = 'can\\'t contain quosures')",
+          "1.0.0", what,
           details = "Please use a one-sided formula, a function, or a function name",
           env = .env
         )
