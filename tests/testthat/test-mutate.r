@@ -127,7 +127,7 @@ test_that("mutate preserves grouping", {
 })
 
 test_that("mutate works on zero-row grouped data frame (#596)", {
-  dat <- data.frame(a = numeric(0), b = character(0))
+  dat <- data.frame(a = numeric(0), b = character(0), stringsAsFactors = TRUE)
   res <- dat %>% group_by(b, .drop = FALSE) %>% mutate(a2 = a * 2)
   expect_is(res$a2, "numeric")
   expect_is(res, "grouped_df")

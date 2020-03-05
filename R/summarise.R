@@ -114,7 +114,7 @@ summarise.data.frame <- function(.data, ...) {
 
   out <- group_keys(.data)
   if (!identical(cols$size, 1L)) {
-    out <- vec_slice(out, rep(1:nrow(out), cols$size))
+    out <- vec_slice(out, rep(seq_len(nrow(out)), cols$size))
   }
 
   dplyr_col_modify(out, cols$new)
@@ -162,6 +162,8 @@ summarise_cols <- function(.data, ...) {
       #
       # TODO: reinject hybrid evaluation at the R level
       chunks[[i]] <- mask$eval_all_summarise(quo)
+
+      mask$across_cache_reset()
 
       result_type <- vec_ptype_common(!!!chunks[[i]])
 

@@ -30,8 +30,8 @@ error; \code{any_of(vars)} will select \code{apple} and \code{fig}.
 \item Invert a selection with \code{!}: \code{!is.numeric}, or \code{!contains("x")}.
 \item Create logical combination with \code{|} and \code{&}:
 \code{starts_with("a") | starts_with("b")}, \code{contains("x") & is.numeric}
-\item Remove variables from a collection with \code{-}:
-\code{is.numeric - starts_with("a")}
+\item Remove variables from a collection with \code{&} and \code{!}:
+\code{is.numeric & !starts_with("a")}
 }
 }
 \section{Indirection}{

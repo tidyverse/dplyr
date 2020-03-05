@@ -19,9 +19,9 @@ test_that("can extract by name, or positive/negative position", {
 test_that("can extract named vectors", {
   x <- 1:10
   y <- letters[x]
-  df <- data_frame(x = x, y = y)
+  df <- tibble(x = x, y = y)
   xn <- set_names(x, y)
-  
+
   expect_equal(pull(df, x), x)
   expect_equal(pull(df, x, y), xn)
   expect_equal(pull(df, 1, 2), xn)
