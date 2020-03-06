@@ -147,9 +147,6 @@
 
 ## Grouping
 
-* New `vignette("grouping")` gives more details about how dplyr verbs change
-  when applied to grouped data frames (#4779, @MikeKSmith).
-
 * Grouped data frames now have `names<-`, `[[<-`, `[<-` and `$<-` methods that
   re-generate the underlying grouping. Note that modifying grouping variables 
   in multiple steps (i.e. `df$grp1 <- 1; df$grp2 <- 1`) will be inefficient
@@ -249,6 +246,14 @@
 
 * New `vignette("base")` which describes how dplyr verbs relate to the
   base R equivalents (@sastoudt, #4755)
+
+* New `vignette("grouping")` gives more details about how dplyr verbs change
+  when applied to grouped data frames (#4779, @MikeKSmith).
+
+* `vignette("programming")` has been completely rewritten to reflect our
+  latest vocabulary, the most recent rlang features, and our current 
+  recommendations. It should now be substantially easier to program with
+  dplyr.
 
 ## Minor improvements and bug fixes
   
