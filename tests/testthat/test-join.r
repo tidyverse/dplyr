@@ -126,8 +126,14 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
   out <- left_join(df1, df2, by = "a", na_matches = "never")
   expect_equal(out, tibble(a = c(1, NA), b = c(1, NA)))
 
+  out <- inner_join(df1, df2, by = "a", na_matches = "never")
+  expect_equal(out, tibble(a = 1, b = 1))
+
   out <- semi_join(df1, df2, by = "a", na_matches = "never")
   expect_equal(out, tibble(a = 1))
+
+  out <- anti_join(df1, df2, by = "a", na_matches = "never")
+  expect_equal(out, tibble(a = NA_integer_))
 })
 
 # nest_join ---------------------------------------------------------------

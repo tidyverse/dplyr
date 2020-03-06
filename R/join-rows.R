@@ -19,7 +19,7 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
   y_extra <- integer()
 
   if (type == "right" || type == "full") {
-    miss_x <- !vec_in(y_key, x_key, na_equal)
+    miss_x <- !vec_in(y_key, x_key, na_equal = na_equal)
 
     if (any(miss_x)) {
       y_extra <- seq_len(vec_size(y_key))[miss_x]

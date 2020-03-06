@@ -322,7 +322,7 @@ join_mutate <- function(x, y, by, type,
                         keep = FALSE
                         ) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
-  na_equal <- check_na_matches(na_matches %||% "na")
+  na_equal <- check_na_matches(na_matches)
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
@@ -356,17 +356,25 @@ join_mutate <- function(x, y, by, type,
   dplyr_reconstruct(out, x_out)
 }
 
-join_filter <- function(x, y, by = NULL, type, na_matches = "na") {
+join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
-  na_equal <- check_na_matches(na_matches %||% "na")
+  na_equal <- check_na_matches(na_matches)
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
 
   idx <- switch(type,
-    semi = vec_in(x_key, y_key, na_equal),
-    anti = !vec_in(x_key, y_key, na_equal)
+    semi = vec_in(x_key, y_key, na_equal = na_equal),
+    anti = !vec_in(x_key, y_key, na_equal = na_equal)
   )
+
+  if (!na_equal) {
+    idx <- switch(type,
+      semi = idx & !is.na(idx),
+      anti = idx | is.na(idx)
+    )
+  }
+
   dplyr_row_slice(x, idx)
 }
 
