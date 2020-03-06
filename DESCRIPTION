@@ -35,13 +35,12 @@ Imports:
     lifecycle,
     magrittr (>= 1.5),
     methods,
-    pkgconfig,
     R6,
     rlang (>= 0.4.5),
     tibble (>= 2.1.3),
     tidyselect (>= 1.0.0),
     utils,
-    vctrs (>= 0.2.99.9008)
+    vctrs (>= 0.2.99.9009)
 Suggests: 
     bench,
     broom,
