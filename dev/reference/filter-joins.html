@@ -207,12 +207,12 @@ of matches in <code>y</code>:</p><ul>
     <pre class="usage"><span class='fu'>semi_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>semi_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>, <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>semi_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>, <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>))
 
 <span class='fu'>anti_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>anti_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>, <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>anti_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>, <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -253,10 +253,10 @@ it is a potentially expensive operation so you must opt into it.</p></td>
     <tr>
       <th>na_matches</th>
       <td><p>Should <code>NA</code> and <code>NaN</code> values match one another?</p>
+<p>The default, <code>"na"</code>, treats two <code>NA</code> or <code>NaN</code> values as equal, like
+<code>%in%</code>, <code><a href='https://rdrr.io/r/base/match.html'>match()</a></code>, <code><a href='https://rdrr.io/r/base/merge.html'>merge()</a></code>.</p>
 <p>Use <code>"never"</code> to always treat two <code>NA</code> or <code>NaN</code> values as different, like
-joins for database sources, similarly to <code><a href='https://rdrr.io/r/base/merge.html'>merge(incomparables = FALSE)</a></code>.
-The default, <code>"na"</code>, always treats two <code>NA</code> or <code>NaN</code> values as equal,
-like <code>%in%</code>, <code><a href='https://rdrr.io/r/base/match.html'>match()</a></code>, <code><a href='https://rdrr.io/r/base/merge.html'>merge()</a></code>.</p></td>
+joins for database sources, similarly to <code><a href='https://rdrr.io/r/base/merge.html'>merge(incomparables = FALSE)</a></code>.</p></td>
     </tr>
     </table>
 

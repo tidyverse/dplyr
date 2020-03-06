@@ -322,6 +322,7 @@
 <li><p><code><a href="../reference/src_local.html">src_local()</a></code> has been deprecated; it was part of an approach to testing dplyr backends that didn’t pan out.</p></li>
 <li><p><code><a href="../reference/top_n.html">top_n()</a></code> has been superseded by<code><a href="../reference/slice.html">slice_min()</a></code>/<code><a href="../reference/slice.html">slice_max()</a></code>. See <code><a href="../reference/top_n.html">?top_n</a></code> for details about why, and how to convert old to new usage (<a href='https://github.com/tidyverse/dplyr/issues/4494'>#4494</a>).</p></li>
 <li><p><code>tbl_cube()</code> and <code>nasa</code> have been pulled out into a separate cubelyr package (<a href='https://github.com/tidyverse/dplyr/issues/4429'>#4429</a>).</p></li>
+<li><p>Use of pkgconfig for setting <code>na_matches</code> argument to join functions is now deprecated (<a href='https://github.com/tidyverse/dplyr/issues/4914'>#4914</a>). This was rarely used, and I’m now confident that the default is correct for R.</p></li>
 </ul>
 </div>
 <div id="documentation-improvements" class="section level2">

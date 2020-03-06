@@ -274,7 +274,7 @@ group transiently, so the output has the same groups as the input.</p>
 <span class='co'># values in a dataset</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 38 x 2</span><span>
 #&gt;    species       n
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt;  </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Aleena        1
 #&gt; </span><span style='color: #555555;'> 2</span><span> Besalisk      1
 #&gt; </span><span style='color: #555555;'> 3</span><span> Cerean        1
@@ -287,7 +287,7 @@ group transiently, so the output has the same groups as the input.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span> Gungan        3
 #&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
 #&gt;    species      n
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt;  </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Human       35
 #&gt; </span><span style='color: #555555;'> 2</span><span> Droid        6
 #&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>           4
@@ -300,7 +300,7 @@ group transiently, so the output has the same groups as the input.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span> Aleena       1
 #&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>sex</span>, <span class='no'>gender</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt;   sex            gender        n
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> male           masculine    60
 #&gt; </span><span style='color: #555555;'>2</span><span> female         feminine     16
 #&gt; </span><span style='color: #555555;'>3</span><span> none           masculine     5
@@ -308,7 +308,7 @@ group transiently, so the output has the same groups as the input.</p>
 #&gt; </span><span style='color: #555555;'>5</span><span> hermaphroditic masculine     1
 #&gt; </span><span style='color: #555555;'>6</span><span> none           feminine      1</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='kw'>birth_decade</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>birth_year</span>, -<span class='fl'>1</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 2</span><span>
 #&gt;    birth_decade     n
-#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt;  </span><span style='color: #555555;'>*</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>           10     1
 #&gt; </span><span style='color: #555555;'> 2</span><span>           20     6
 #&gt; </span><span style='color: #555555;'> 3</span><span>           30     4
@@ -335,12 +335,12 @@ group transiently, so the output has the same groups as the input.</p>
 <span class='co'># counts rows:</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   gender     n
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> female     2
 #&gt; </span><span style='color: #555555;'>2</span><span> male       1</div><div class='input'><span class='co'># counts runs:</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>gender</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='no'>runs</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   gender     n
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> female     5
 #&gt; </span><span style='color: #555555;'>2</span><span> male      10</div><div class='input'>
 <span class='co'># tally() is a lower-level function that assumes you've done the grouping</span>
