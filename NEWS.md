@@ -167,45 +167,42 @@
   and you can control with `options(lifecycle_verbosity = x)` where
   `x` is one of NULL, "quiet", "warning", and "error".
 
-* The scoped helpers (all functions ending in `_if`, `_at`, or `_all`) have
-  been superseded by `across()`. This dramatically reduces the API surface for 
-  dplyr, while at the same providing providing a more flexible and less 
-  error-prone interface (#4769).
-  
-    `rename_*()` and `select_*()` have been superseded by `rename_with()`.
+### Removed
 
-* `all_equal()` is questioning; it solves a problem that no longer seems 
-  important.
+* `id()`, deprecated in dplyr 0.5.0, is now defunct.
+
+* `failwith()`, deprecated in dplyr 0.7.0, is now defunct.
+
+* `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
+  (#4429).
+
+### Deprecated
+
+* Use of pkgconfig for setting `na_matches` argument to join functions is now
+  deprecated (#4914). This was rarely used, and I'm now confident that the 
+  default is correct for R.
 
 * In `add_count()`, the `drop` argument has been deprecated because it didn't 
   actually affect the output.
 
-* `add_rownames()` has been deprecated. Please use 
-  `tibble::rownames_to_column()` instead.
-  
-* `as.tbl()` and `tbl_df()` have been formally deprecated.
-  Please use `as_tibble()` instead.
+* `add_rownames()`: please use `tibble::rownames_to_column()` instead.
+
+* `as.tbl()` and `tbl_df()`: please use `as_tibble()` instead.
 
 * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()` and 
   `eval_tbls2()` are now deprecated. That were only used in a handful of 
   packages, and we now believe that you're better off performing comparisons 
   more directly (#4675).
 
-* `combine()` is soft deprecated. Please use `vctrs::vec_c()` instead.
+* `combine()`: please use `vctrs::vec_c()` instead.
 
-* `do()` is superseded in favour of `summarise()`.
+* `funs()`: please use `list()` instead.
 
-* `failwith()`, deprecated in dplyr 0.7.0, is now defunct.
-
-* `funs()` is deprecated. Please use `across()` instead.
-
-* `id()`, deprecated in dplyr 0.5.0, is now defunct.
-
-* `group_by()`: the `add` argument has been deprecated; please use `.add`
+* `group_by(add = )`: please use `.add`
   instead.
 
-* `group_by()`/`group_by_prepare()`: the `.dots` argument is deprecated; 
-  please use `!!!` instead (#4734).
+* `group_by(.dots = )`/`group_by_prepare(.dots = )`: please use `!!!` 
+  instead (#4734).
 
 * The use of zero-arg `group_indices()` to retrieve the group id for the
   "current" group is deprecated; instead use `cur_group_id()`.
@@ -213,31 +210,41 @@
 * Passing arguments to `group_keys()` or `group_indices()` to change the
   grouping has been deprecated, instead do grouping first yourself.
 
-* `location()` and `changes()` are soft deprecated, please use functions from 
-  the lobstr package. 
+* `location()` and `changes()`: please use `lobstr::ref()` instead.
 
 * `progress_estimated()` is soft deprecated; it's not the responsibility of
   dplyr to provide progress bars (#4935).
 
-* `rowwise()` is no longer questioning.
+* `src_local()` has been deprecated; it was part of an approach to testing
+  dplyr backends that didn't pan out.
+
+### Superseded
+
+* The scoped helpers (all functions ending in `_if`, `_at`, or `_all`) have
+  been superseded by `across()`. This dramatically reduces the API surface for 
+  dplyr, while at the same providing providing a more flexible and less 
+  error-prone interface (#4769).
+  
+    `rename_*()` and `select_*()` have been superseded by `rename_with()`.
+
+* `do()` is superseded in favour of `summarise()`.
 
 * `sample_n()` and `sample_frac()` have been superseded by `slice_sample()`. 
   See `?sample_n` for details about why, and for examples converting from 
   old to new usage.
 
-* `src_local()` has been deprecated; it was part of an approach to testing
-  dplyr backends that didn't pan out.
-
 * `top_n()` has been superseded by`slice_min()`/`slice_max()`. See `?top_n` 
   for details about why, and how to convert old to new usage (#4494).
 
-* `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
-  (#4429).
-  
-* Use of pkgconfig for setting `na_matches` argument to join functions is now
-  deprecated (#4914). This was rarely used, and I'm now confident that the 
-  default is correct for R.
+### Questioning
 
+* `all_equal()` is questioning; it solves a problem that no longer seems 
+  important.
+
+### Stable
+
+* `rowwise()` is no longer questioning.
+  
 ## Documentation improvements
 
 * New `vignette("base")` which describes how dplyr verbs relate to the
