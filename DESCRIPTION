@@ -63,7 +63,6 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
-    r-lib/bench,
     r-lib/vctrs
 Encoding: UTF-8
 LazyData: yes

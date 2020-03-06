@@ -14,8 +14,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          Rscript -e "install.packages(c('remotes'))" -e "remotes::install_deps(dependencies = TRUE)"
+          install.packages("remotes")
+          remotes::install_deps()
+          remotes::install_github("r-lib/bench")
           R CMD INSTALL .
+        shell: Rscript {0}
+
       - name: Fetch existing benchmarks
         run: Rscript -e 'bench::cb_fetch()'
 
