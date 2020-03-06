@@ -193,8 +193,7 @@
 
 * `combine()` is soft deprecated. Please use `vctrs::vec_c()` instead.
 
-* `do()` is deprecated in favour of either `condense()` or `summarise()`
-  depending on whether you were using the named or unnamed form.
+* `do()` is superseded in favour of `summarise()`.
 
 * `failwith()`, deprecated in dplyr 0.7.0, is now defunct.
 
