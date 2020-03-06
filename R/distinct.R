@@ -128,7 +128,7 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 #'
 #' This is a faster and more concise equivalent of `length(unique(x))`
 #'
-#' @param \dots vectors of values
+#' @param \dots Vectors of values, passed on to [list2()]
 #' @param na.rm if `TRUE` missing values don't count
 #' @examples
 #' x <- sample(1:10, 1e5, rep = TRUE)
@@ -136,7 +136,7 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 #' n_distinct(x)
 #' @export
 n_distinct <- function(..., na.rm = FALSE) {
-  data <- tibble(...)
+  data <- tibble(!!!list2(...))
   if (isTRUE(na.rm)){
     data <- vec_slice(data, !reduce(map(data, vec_equal_na), `|`))
   }
