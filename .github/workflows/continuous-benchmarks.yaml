@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages("remotes")
-          remotes::install_deps()
+          remotes::install_deps(dependencies = TRUE)
           remotes::install_github("r-lib/bench")
         shell: Rscript {0}
 
