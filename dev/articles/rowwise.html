@@ -226,10 +226,10 @@
 <span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; # A tibble: 6 x 5</span></span>
 <span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt;      id     w     x     y     z</span></span>
 <span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; 1     1 0.505 0.674 0.555 0.124</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; 2     2 0.706 0.359 0.122 0.580</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 3     3 0.898 0.761 0.799 0.285</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; 4     4 0.377 0.899 0.385 0.974</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; 1     1 0.287 0.564 0.001 0.296</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; 2     2 0.014 0.482 0.502 0.005</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 3     3 0.942 0.077 0.435 0.876</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; 4     4 0.557 0.012 0.145 0.98 </span></span>
 <span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <p>Let’s say we want compute the sum of <code>w</code>, <code>x</code>, <code>y</code>, and <code>z</code> for each row. We start by making a rowwise data frame:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>rf &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rowwise.html">rowwise</a></span>(id)</span></code></pre></div>
@@ -239,20 +239,20 @@
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; # Rowwise:  id</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;      id     w     x     y     z total</span></span>
 <span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; 1     1 0.505 0.674 0.555 0.124  1.86</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; 2     2 0.706 0.359 0.122 0.580  1.77</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; 3     3 0.898 0.761 0.799 0.285  2.74</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; 4     4 0.377 0.899 0.385 0.974  2.64</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; 1     1 0.287 0.564 0.001 0.296  1.15</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; 2     2 0.014 0.482 0.502 0.005  1.00</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; 3     3 0.942 0.077 0.435 0.876  2.33</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; 4     4 0.557 0.012 0.145 0.98   1.69</span></span>
 <span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; # … with 2 more rows</span></span>
 <span id="cb7-11"><a href="#cb7-11"></a>rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(w, x, y, z)))</span>
 <span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt; # A tibble: 6 x 2</span></span>
 <span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt; # Rowwise:  id</span></span>
 <span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt;      id total</span></span>
 <span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; 1     1  1.86</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; 2     2  1.77</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt; 3     3  2.74</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt; 4     4  2.64</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; 1     1  1.15</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; 2     2  1.00</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt; 3     3  2.33</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt; 4     4  1.69</span></span>
 <span id="cb7-20"><a href="#cb7-20"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <p>Of course, if you have a lot of variables, it’s going to be tedious to type in every variable name. Instead, you can use <code><a href="../reference/across.html">c_across()</a></code> which uses tidy selection syntax so you can to succinctly select many variables:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="../reference/across.html">c_across</a></span>(w<span class="op">:</span>z)))</span>
@@ -260,20 +260,20 @@
 <span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt; # Rowwise:  id</span></span>
 <span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt;      id     w     x     y     z total</span></span>
 <span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; 1     1 0.505 0.674 0.555 0.124  1.86</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; 2     2 0.706 0.359 0.122 0.580  1.77</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; 3     3 0.898 0.761 0.799 0.285  2.74</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt; 4     4 0.377 0.899 0.385 0.974  2.64</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; 1     1 0.287 0.564 0.001 0.296  1.15</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; 2     2 0.014 0.482 0.502 0.005  1.00</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; 3     3 0.942 0.077 0.435 0.876  2.33</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt; 4     4 0.557 0.012 0.145 0.98   1.69</span></span>
 <span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; # … with 2 more rows</span></span>
 <span id="cb8-11"><a href="#cb8-11"></a>rf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="../reference/across.html">c_across</a></span>(is.numeric)))</span>
 <span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
 <span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt; # Rowwise:  id</span></span>
 <span id="cb8-14"><a href="#cb8-14"></a><span class="co">#&gt;      id     w     x     y     z total</span></span>
 <span id="cb8-15"><a href="#cb8-15"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a><span class="co">#&gt; 1     1 0.505 0.674 0.555 0.124  1.86</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co">#&gt; 2     2 0.706 0.359 0.122 0.580  1.77</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a><span class="co">#&gt; 3     3 0.898 0.761 0.799 0.285  2.74</span></span>
-<span id="cb8-19"><a href="#cb8-19"></a><span class="co">#&gt; 4     4 0.377 0.899 0.385 0.974  2.64</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a><span class="co">#&gt; 1     1 0.287 0.564 0.001 0.296  1.15</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a><span class="co">#&gt; 2     2 0.014 0.482 0.502 0.005  1.00</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="co">#&gt; 3     3 0.942 0.077 0.435 0.876  2.33</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="co">#&gt; 4     4 0.557 0.012 0.145 0.98   1.69</span></span>
 <span id="cb8-20"><a href="#cb8-20"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <p>You could combine this with col-wise operations (see <code><a href="../articles/colwise.html">vignette("colwise")</a></code> for more details) to compute the proportion of the total for each column:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>rf <span class="op">%&gt;%</span><span class="st"> </span></span>
@@ -281,12 +281,12 @@
 <span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(w<span class="op">:</span>z, <span class="op">~</span><span class="st"> </span>. <span class="op">/</span><span class="st"> </span>total))</span>
 <span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt;      id     w     x      y      z total</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; 1     1 0.272 0.363 0.299  0.0667  1.86</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; 2     2 0.400 0.203 0.0690 0.328   1.77</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; 3     3 0.327 0.277 0.291  0.104   2.74</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; 4     4 0.143 0.341 0.146  0.370   2.64</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt;      id      w       x        y       z total</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; 1     1 0.25   0.491   0.000871 0.258    1.15</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; 2     2 0.0140 0.481   0.500    0.00499  1.00</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; 3     3 0.404  0.0330  0.187    0.376    2.33</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; 4     4 0.329  0.00708 0.0856   0.579    1.69</span></span>
 <span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <div id="row-wise-summary-functions" class="section level3">
 <h3 class="hasAnchor">
@@ -296,19 +296,19 @@
 <span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a><span class="co">#&gt;      id     w     x     y     z total</span></span>
 <span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt; 1     1 0.505 0.674 0.555 0.124  2.86</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; 2     2 0.706 0.359 0.122 0.580  3.77</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt; 3     3 0.898 0.761 0.799 0.285  5.74</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt; 4     4 0.377 0.899 0.385 0.974  6.64</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt; 1     1 0.287 0.564 0.001 0.296  2.15</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; 2     2 0.014 0.482 0.502 0.005  3.00</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt; 3     3 0.942 0.077 0.435 0.876  5.33</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt; 4     4 0.557 0.012 0.145 0.98   5.69</span></span>
 <span id="cb10-9"><a href="#cb10-9"></a><span class="co">#&gt; # … with 2 more rows</span></span>
 <span id="cb10-10"><a href="#cb10-10"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">mean =</span> <span class="kw"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric)))</span>
 <span id="cb10-11"><a href="#cb10-11"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
 <span id="cb10-12"><a href="#cb10-12"></a><span class="co">#&gt;      id     w     x     y     z  mean</span></span>
 <span id="cb10-13"><a href="#cb10-13"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb10-14"><a href="#cb10-14"></a><span class="co">#&gt; 1     1 0.505 0.674 0.555 0.124 0.572</span></span>
-<span id="cb10-15"><a href="#cb10-15"></a><span class="co">#&gt; 2     2 0.706 0.359 0.122 0.580 0.753</span></span>
-<span id="cb10-16"><a href="#cb10-16"></a><span class="co">#&gt; 3     3 0.898 0.761 0.799 0.285 1.15 </span></span>
-<span id="cb10-17"><a href="#cb10-17"></a><span class="co">#&gt; 4     4 0.377 0.899 0.385 0.974 1.33 </span></span>
+<span id="cb10-14"><a href="#cb10-14"></a><span class="co">#&gt; 1     1 0.287 0.564 0.001 0.296 0.430</span></span>
+<span id="cb10-15"><a href="#cb10-15"></a><span class="co">#&gt; 2     2 0.014 0.482 0.502 0.005 0.601</span></span>
+<span id="cb10-16"><a href="#cb10-16"></a><span class="co">#&gt; 3     3 0.942 0.077 0.435 0.876 1.07 </span></span>
+<span id="cb10-17"><a href="#cb10-17"></a><span class="co">#&gt; 4     4 0.557 0.012 0.145 0.98  1.14 </span></span>
 <span id="cb10-18"><a href="#cb10-18"></a><span class="co">#&gt; # … with 2 more rows</span></span></code></pre></div>
 <p><strong>NB</strong>: I use <code>df</code> (not <code>rf</code>) and <code><a href="../reference/across.html">across()</a></code> (not <code><a href="../reference/across.html">c_across()</a></code>) here because <code><a href="https://rdrr.io/r/base/colSums.html">rowMeans()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html">rowSums()</a></code> take a multi-row data frame as input.</p>
 </div>
