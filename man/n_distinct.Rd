@@ -7,7 +7,7 @@
 n_distinct(..., na.rm = FALSE)
 }
 \arguments{
-\item{\dots}{vectors of values}
+\item{\dots}{Vectors of values, passed on to \code{\link[=list2]{list2()}}}
 
 \item{na.rm}{if \code{TRUE} missing values don't count}
 }
