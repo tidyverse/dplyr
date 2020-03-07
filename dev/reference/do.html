@@ -49,7 +49,7 @@
 
 <meta property="og:title" content="Do anything — do" />
 <meta property="og:description" content="
-do() is deprecated as of dplyr 1.0.0, because its syntax never really
+do() is superseded as of dplyr 1.0.0, because its syntax never really
 felt like it belong with the rest of dplyr. It's replaced by a combination
 of summarise() (which can now produce multiple rows and multiple columns),
 condense() (which creates a rowwise tibble containing list-columns),
@@ -196,8 +196,8 @@ and across() (which allows you to access the data for the &quot;current&quot; gr
     </div>
 
     <div class="ref-description">
-    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
-<p><code>do()</code> is deprecated as of dplyr 1.0.0, because its syntax never really
+    <p><a href='https://www.tidyverse.org/lifecycle/#retired'><img src='figures/lifecycle-retired.svg' alt='Retired lifecycle'></a></p>
+<p><code>do()</code> is superseded as of dplyr 1.0.0, because its syntax never really
 felt like it belong with the rest of dplyr. It's replaced by a combination
 of <code><a href='summarise.html'>summarise()</a></code> (which can now produce multiple rows and multiple columns),
 <code><a href='condense.html'>condense()</a></code> (which creates a <a href='rowwise.html'>rowwise</a> tibble containing list-columns),
@@ -227,10 +227,7 @@ unnamed arguments.</p></td>
     <pre class="examples"><div class='input'><span class='co'># do() with unnamed arguments becomes summarise()</span>
 <span class='co'># . becomes across()</span>
 <span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>)
-<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>.</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `do()` is deprecated as of dplyr 1.0.0.</span>
-#&gt; <span class='warning'>Use condense() or summarise()</span>
-#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>.</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>

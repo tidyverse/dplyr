@@ -286,7 +286,6 @@
 <h2 class="hasAnchor">
 <a href="#grouping" class="anchor"></a>Grouping</h2>
 <ul>
-<li><p>New <code><a href="../articles/grouping.html">vignette("grouping")</a></code> gives more details about how dplyr verbs change when applied to grouped data frames (<a href='https://github.com/tidyverse/dplyr/issues/4779'>#4779</a>, <a href='https://github.com/MikeKSmith'>@MikeKSmith</a>).</p></li>
 <li><p>Grouped data frames now have <code>names&lt;-</code>, <code>[[&lt;-</code>, <code>[&lt;-</code> and <code>$&lt;-</code> methods that re-generate the underlying grouping. Note that modifying grouping variables in multiple steps (i.e. <code>df$grp1 &lt;- 1; df$grp2 &lt;- 1</code>) will be inefficient since the data frame will be regrouped after each modification.</p></li>
 <li><p><code>[.grouped_df</code> now regroups to respect any grouping columns that have been removed (<a href='https://github.com/tidyverse/dplyr/issues/4708'>#4708</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> can now modify grouping variables (<a href='https://github.com/tidyverse/dplyr/issues/4709'>#4709</a>).</p></li>
@@ -296,40 +295,74 @@
 <h2 class="hasAnchor">
 <a href="#lifecycle-changes" class="anchor"></a>Lifecycle changes</h2>
 <ul>
-<li><p>All deprecations now use the <a href="https://lifecycle.r-lib.org">lifecycle</a>, that means by default you’ll only see a deprecation warning once per session, and you can control with <code><a href="https://rdrr.io/r/base/options.html">options(lifecycle_verbosity = x)</a></code> where <code>x</code> is one of NULL, “quiet”, “warning”, and “error”.</p></li>
+<li>All deprecations now use the <a href="https://lifecycle.r-lib.org">lifecycle</a>, that means by default you’ll only see a deprecation warning once per session, and you can control with <code><a href="https://rdrr.io/r/base/options.html">options(lifecycle_verbosity = x)</a></code> where <code>x</code> is one of NULL, “quiet”, “warning”, and “error”.</li>
+</ul>
+<div id="removed" class="section level3">
+<h3 class="hasAnchor">
+<a href="#removed" class="anchor"></a>Removed</h3>
+<ul>
+<li><p><code><a href="../reference/defunct.html">id()</a></code>, deprecated in dplyr 0.5.0, is now defunct.</p></li>
+<li><p><code><a href="../reference/defunct.html">failwith()</a></code>, deprecated in dplyr 0.7.0, is now defunct.</p></li>
+<li><p><code>tbl_cube()</code> and <code>nasa</code> have been pulled out into a separate cubelyr package (<a href='https://github.com/tidyverse/dplyr/issues/4429'>#4429</a>).</p></li>
+</ul>
+</div>
+<div id="deprecated" class="section level3">
+<h3 class="hasAnchor">
+<a href="#deprecated" class="anchor"></a>Deprecated</h3>
+<ul>
+<li><p>Use of pkgconfig for setting <code>na_matches</code> argument to join functions is now deprecated (<a href='https://github.com/tidyverse/dplyr/issues/4914'>#4914</a>). This was rarely used, and I’m now confident that the default is correct for R.</p></li>
+<li><p>In <code><a href="../reference/count.html">add_count()</a></code>, the <code>drop</code> argument has been deprecated because it didn’t actually affect the output.</p></li>
+<li><p><code><a href="../reference/add_rownames.html">add_rownames()</a></code>: please use <code><a href="https://tibble.tidyverse.org/reference/rownames.html">tibble::rownames_to_column()</a></code> instead.</p></li>
+<li><p><code><a href="../reference/tbl_df.html">as.tbl()</a></code> and <code><a href="../reference/tbl_df.html">tbl_df()</a></code>: please use <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code> instead.</p></li>
+<li><p><code>bench_tbls()</code>, <code>compare_tbls()</code>, <code>compare_tbls2()</code>, <code>eval_tbls()</code> and <code>eval_tbls2()</code> are now deprecated. That were only used in a handful of packages, and we now believe that you’re better off performing comparisons more directly (<a href='https://github.com/tidyverse/dplyr/issues/4675'>#4675</a>).</p></li>
+<li><p><code><a href="../reference/combine.html">combine()</a></code>: please use <code><a href="https://rdrr.io/pkg/vctrs/man/vec_c.html">vctrs::vec_c()</a></code> instead.</p></li>
+<li><p><code><a href="../reference/funs.html">funs()</a></code>: please use <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> instead.</p></li>
+<li><p><code><a href="../reference/group_by.html">group_by(add = )</a></code>: please use <code>.add</code> instead.</p></li>
+<li><p><code><a href="../reference/group_by.html">group_by(.dots = )</a></code>/<code><a href="../reference/group_by_prepare.html">group_by_prepare(.dots = )</a></code>: please use <code>!!!</code> instead (<a href='https://github.com/tidyverse/dplyr/issues/4734'>#4734</a>).</p></li>
+<li><p>The use of zero-arg <code><a href="../reference/group_data.html">group_indices()</a></code> to retrieve the group id for the “current” group is deprecated; instead use <code><a href="../reference/context.html">cur_group_id()</a></code>.</p></li>
+<li><p>Passing arguments to <code><a href="../reference/group_data.html">group_keys()</a></code> or <code><a href="../reference/group_data.html">group_indices()</a></code> to change the grouping has been deprecated, instead do grouping first yourself.</p></li>
+<li><p><code><a href="../reference/location.html">location()</a></code> and <code><a href="../reference/location.html">changes()</a></code>: please use <code><a href="https://rdrr.io/pkg/lobstr/man/ref.html">lobstr::ref()</a></code> instead.</p></li>
+<li><p><code><a href="../reference/progress_estimated.html">progress_estimated()</a></code> is soft deprecated; it’s not the responsibility of dplyr to provide progress bars (<a href='https://github.com/tidyverse/dplyr/issues/4935'>#4935</a>).</p></li>
+<li><p><code><a href="../reference/src_local.html">src_local()</a></code> has been deprecated; it was part of an approach to testing dplyr backends that didn’t pan out.</p></li>
+</ul>
+</div>
+<div id="superseded" class="section level3">
+<h3 class="hasAnchor">
+<a href="#superseded" class="anchor"></a>Superseded</h3>
+<ul>
 <li>
 <p>The scoped helpers (all functions ending in <code>_if</code>, <code>_at</code>, or <code>_all</code>) have been superseded by <code><a href="../reference/across.html">across()</a></code>. This dramatically reduces the API surface for dplyr, while at the same providing providing a more flexible and less error-prone interface (<a href='https://github.com/tidyverse/dplyr/issues/4769'>#4769</a>).</p>
 <p><code>rename_*()</code> and <code>select_*()</code> have been superseded by <code><a href="../reference/rename.html">rename_with()</a></code>.</p>
 </li>
-<li><p><code><a href="../reference/all_equal.html">all_equal()</a></code> is questioning; it solves a problem that no longer seems important.</p></li>
-<li><p>In <code><a href="../reference/count.html">add_count()</a></code>, the <code>drop</code> argument has been deprecated because it didn’t actually affect the output.</p></li>
-<li><p><code><a href="../reference/add_rownames.html">add_rownames()</a></code> has been deprecated. Please use <code><a href="https://tibble.tidyverse.org/reference/rownames.html">tibble::rownames_to_column()</a></code> instead.</p></li>
-<li><p><code><a href="../reference/tbl_df.html">as.tbl()</a></code> and <code><a href="../reference/tbl_df.html">tbl_df()</a></code> have been formally deprecated. Please use <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code> instead.</p></li>
-<li><p><code>bench_tbls()</code>, <code>compare_tbls()</code>, <code>compare_tbls2()</code>, <code>eval_tbls()</code> and <code>eval_tbls2()</code> are now deprecated. That were only used in a handful of packages, and we now believe that you’re better off performing comparisons more directly (<a href='https://github.com/tidyverse/dplyr/issues/4675'>#4675</a>).</p></li>
-<li><p><code><a href="../reference/combine.html">combine()</a></code> is soft deprecated. Please use <code><a href="https://rdrr.io/pkg/vctrs/man/vec_c.html">vctrs::vec_c()</a></code> instead.</p></li>
-<li><p><code><a href="../reference/do.html">do()</a></code> is deprecated in favour of either <code><a href="../reference/condense.html">condense()</a></code> or <code><a href="../reference/summarise.html">summarise()</a></code> depending on whether you were using the named or unnamed form.</p></li>
-<li><p><code><a href="../reference/defunct.html">failwith()</a></code>, deprecated in dplyr 0.7.0, is now defunct.</p></li>
-<li><p><code><a href="../reference/funs.html">funs()</a></code> is deprecated. Please use <code><a href="../reference/across.html">across()</a></code> instead.</p></li>
-<li><p><code><a href="../reference/defunct.html">id()</a></code>, deprecated in dplyr 0.5.0, is now defunct.</p></li>
-<li><p><code><a href="../reference/group_by.html">group_by()</a></code>: the <code>add</code> argument has been deprecated; please use <code>.add</code> instead.</p></li>
-<li><p><code><a href="../reference/group_by.html">group_by()</a></code>/<code><a href="../reference/group_by_prepare.html">group_by_prepare()</a></code>: the <code>.dots</code> argument is deprecated; please use <code>!!!</code> instead (<a href='https://github.com/tidyverse/dplyr/issues/4734'>#4734</a>).</p></li>
-<li><p>The use of zero-arg <code><a href="../reference/group_data.html">group_indices()</a></code> to retrieve the group id for the “current” group is deprecated; instead use <code><a href="../reference/context.html">cur_group_id()</a></code>.</p></li>
-<li><p>Passing arguments to <code><a href="../reference/group_data.html">group_keys()</a></code> or <code><a href="../reference/group_data.html">group_indices()</a></code> to change the grouping has been deprecated, instead do grouping first yourself.</p></li>
-<li><p><code><a href="../reference/location.html">location()</a></code> and <code><a href="../reference/location.html">changes()</a></code> are soft deprecated, please use functions from the lobstr package.</p></li>
-<li><p><code><a href="../reference/progress_estimated.html">progress_estimated()</a></code> is soft deprecated; it’s not the responsibility of dplyr to provide progress bars (<a href='https://github.com/tidyverse/dplyr/issues/4935'>#4935</a>).</p></li>
-<li><p><code><a href="../reference/rowwise.html">rowwise()</a></code> is no longer questioning.</p></li>
+<li><p><code><a href="../reference/do.html">do()</a></code> is superseded in favour of <code><a href="../reference/summarise.html">summarise()</a></code>.</p></li>
 <li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> have been superseded by <code><a href="../reference/slice.html">slice_sample()</a></code>. See <code><a href="../reference/sample_n.html">?sample_n</a></code> for details about why, and for examples converting from old to new usage.</p></li>
-<li><p><code><a href="../reference/src_local.html">src_local()</a></code> has been deprecated; it was part of an approach to testing dplyr backends that didn’t pan out.</p></li>
 <li><p><code><a href="../reference/top_n.html">top_n()</a></code> has been superseded by<code><a href="../reference/slice.html">slice_min()</a></code>/<code><a href="../reference/slice.html">slice_max()</a></code>. See <code><a href="../reference/top_n.html">?top_n</a></code> for details about why, and how to convert old to new usage (<a href='https://github.com/tidyverse/dplyr/issues/4494'>#4494</a>).</p></li>
-<li><p><code>tbl_cube()</code> and <code>nasa</code> have been pulled out into a separate cubelyr package (<a href='https://github.com/tidyverse/dplyr/issues/4429'>#4429</a>).</p></li>
-<li><p>Use of pkgconfig for setting <code>na_matches</code> argument to join functions is now deprecated (<a href='https://github.com/tidyverse/dplyr/issues/4914'>#4914</a>). This was rarely used, and I’m now confident that the default is correct for R.</p></li>
 </ul>
+</div>
+<div id="questioning" class="section level3">
+<h3 class="hasAnchor">
+<a href="#questioning" class="anchor"></a>Questioning</h3>
+<ul>
+<li>
+<code><a href="../reference/all_equal.html">all_equal()</a></code> is questioning; it solves a problem that no longer seems important.</li>
+</ul>
+</div>
+<div id="stable" class="section level3">
+<h3 class="hasAnchor">
+<a href="#stable" class="anchor"></a>Stable</h3>
+<ul>
+<li>
+<code><a href="../reference/rowwise.html">rowwise()</a></code> is no longer questioning.</li>
+</ul>
+</div>
 </div>
 <div id="documentation-improvements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#documentation-improvements" class="anchor"></a>Documentation improvements</h2>
 <ul>
-<li>New <code><a href="../articles/base.html">vignette("base")</a></code> which describes how dplyr verbs relate to the base R equivalents (<a href='https://github.com/sastoudt'>@sastoudt</a>, <a href='https://github.com/tidyverse/dplyr/issues/4755'>#4755</a>)</li>
+<li><p>New <code><a href="../articles/base.html">vignette("base")</a></code> which describes how dplyr verbs relate to the base R equivalents (<a href='https://github.com/sastoudt'>@sastoudt</a>, <a href='https://github.com/tidyverse/dplyr/issues/4755'>#4755</a>)</p></li>
+<li><p>New <code><a href="../articles/grouping.html">vignette("grouping")</a></code> gives more details about how dplyr verbs change when applied to grouped data frames (<a href='https://github.com/tidyverse/dplyr/issues/4779'>#4779</a>, <a href='https://github.com/MikeKSmith'>@MikeKSmith</a>).</p></li>
+<li><p><code><a href="../articles/programming.html">vignette("programming")</a></code> has been completely rewritten to reflect our latest vocabulary, the most recent rlang features, and our current recommendations. It should now be substantially easier to program with dplyr.</p></li>
 </ul>
 </div>
 <div id="minor-improvements-and-bug-fixes" class="section level2">
