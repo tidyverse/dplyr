@@ -43,6 +43,7 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks) {
   R_len_t n_chunks = LENGTH(chunks);
   if (n_chunks == 0) {
     SET_VECTOR_ELT(res, 1, Rf_ScalarInteger(1));
+    UNPROTECT(1);
     return res;
   }
   R_len_t n = LENGTH(VECTOR_ELT(chunks, 0));
