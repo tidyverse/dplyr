@@ -1,7 +1,7 @@
 #' Arrange rows by a selection of variables
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
 #' [across()] in an existing verb. See `vignette("colwise")` for details.

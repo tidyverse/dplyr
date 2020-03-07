@@ -1,13 +1,13 @@
 #' Select top (or bottom) n rows (by value)
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
-#' `top_n()` has been retired in favour of [slice_min()]/[slice_max()].
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#' `top_n()` has been superseded in favour of [slice_min()]/[slice_max()].
 #' While it will not be deprecated in the near future, retirement means
 #' that we will only perform critical bug fixes, so we recommend moving to the
 #' newer alternatives.
 #'
-#' `top_n()` was retired because the name was fundamentally confusing as
+#' `top_n()` was superseded because the name was fundamentally confusing as
 #' it returned what you might reasonably consider to be the _bottom_
 #' rows. Additionally, the `wt` variable had a confusing name, and strange
 #' default (the last column in the data frame). Unfortunately we could not

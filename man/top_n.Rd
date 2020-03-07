@@ -22,13 +22,13 @@ Will include more rows if there are ties.}
 specified, defaults to the last variable in the tbl.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
-\code{top_n()} has been retired in favour of \code{\link[=slice_min]{slice_min()}}/\code{\link[=slice_max]{slice_max()}}.
+\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+\code{top_n()} has been superseded in favour of \code{\link[=slice_min]{slice_min()}}/\code{\link[=slice_max]{slice_max()}}.
 While it will not be deprecated in the near future, retirement means
 that we will only perform critical bug fixes, so we recommend moving to the
 newer alternatives.
 
-\code{top_n()} was retired because the name was fundamentally confusing as
+\code{top_n()} was superseded because the name was fundamentally confusing as
 it returned what you might reasonably consider to be the \emph{bottom}
 rows. Additionally, the \code{wt} variable had a confusing name, and strange
 default (the last column in the data frame). Unfortunately we could not

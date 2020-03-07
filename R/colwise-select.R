@@ -1,7 +1,7 @@
 #' Select and rename a selection of variables
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 #'
 #' `rename_if()`, `rename_at()`, and `rename_all()` have been superseded by
 #' `rename_with()`. The matching select statements have been superseded by the

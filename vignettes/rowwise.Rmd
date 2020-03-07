@@ -385,4 +385,4 @@ We've questioned the need for `do()` for quite some time, because it never felt 
 
     If needed (unlike here), you can wrap the results in list yourself.
 
-The additional of `cur_data()`/`acrosS()` and the increased scope of `summarise()` means that `do()` is no longer needed, so we have retired it.
+The additional of `cur_data()`/`acrosS()` and the increased scope of `summarise()` means that `do()` is no longer needed, so it is now superseded.

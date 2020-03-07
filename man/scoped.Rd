@@ -22,7 +22,7 @@ functions and strings representing function names.}
 \code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 
 Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
 \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
