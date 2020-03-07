@@ -64,6 +64,7 @@
 #'
 #' @export
 sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...) {
+  lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
   UseMethod("sample_n")
 }
 
@@ -89,6 +90,7 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
 #' @rdname sample_n
 #' @export
 sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL, ...) {
+  lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
   UseMethod("sample_frac")
 }
 

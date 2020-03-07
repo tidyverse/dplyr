@@ -115,18 +115,21 @@
 #'   summarise(across(everything(), list(min = min, max = max)))
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
+  lifecycle::signal_superseded("1.0.0", "summarise_all()", "across()")
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
+  lifecycle::signal_superseded("1.0.0", "summarise_if()", "across()")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
+  lifecycle::signal_superseded("1.0.0", "summarise_at()", "across()")
   .vars <- check_dot_cols(.vars, .cols)
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!!funs)
@@ -247,6 +250,7 @@ summarize_at <- summarise_at
 #' iris %>% mutate_if(is.numeric, list(scale = scale2))
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
+  lifecycle::signal_superseded("1.0.0", "mutate_all()", "across()")
   check_grouped(.tbl, "mutate", "all", alt = TRUE)
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
@@ -254,6 +258,7 @@ mutate_all <- function(.tbl, .funs, ...) {
 #' @rdname mutate_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
+  lifecycle::signal_superseded("1.0.0", "mutate_if()", "across()")
   check_grouped(.tbl, "mutate", "if")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
@@ -261,6 +266,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 #' @rdname mutate_all
 #' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
+  lifecycle::signal_superseded("1.0.0", "mutate_at()", "across()")
   .vars <- check_dot_cols(.vars, .cols)
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   mutate(.tbl, !!!funs)

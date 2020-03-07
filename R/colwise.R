@@ -107,6 +107,7 @@ NULL
 #'   functions that you can use with scoped verbs.
 #' @export
 vars <- function(...) {
+  lifecycle::signal_superseded("1.0.0", "vars()", "across()")
   quos(...)
 }
 
@@ -131,11 +132,13 @@ vars <- function(...) {
 #'   can use with scoped verbs.
 #' @export
 all_vars <- function(expr) {
+  lifecycle::signal_superseded("1.0.0", "all_vars()", "across()")
   structure(enquo(expr), class = c("all_vars", "quosure", "formula"))
 }
 #' @rdname all_vars
 #' @export
 any_vars <- function(expr) {
+  lifecycle::signal_superseded("1.0.0", "any_vars()")
   structure(enquo(expr), class = c("any_vars", "quosure", "formula"))
 }
 #' @export
