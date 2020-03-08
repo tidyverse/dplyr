@@ -122,13 +122,14 @@ dplyr_col_modify.data.frame <- function(data, cols) {
   attr <- attributes(data)
   attr$names <- NULL
   if (!is.character(attr$row.names)) {
-    attr$row.names <- .row_names_info(data, 0L)
+    attr$row.names <- NULL
+    n <- .row_names_info(data, 2L)
+  } else {
+    # Required until https://github.com/r-lib/vctrs/pull/894
+    n <- .row_names_info(data, 2L)
+    # n <- NULL
   }
   attr$class <- setdiff(attr$class, "data.frame")
-
-  # Required until https://github.com/r-lib/vctrs/pull/894
-  n <- .row_names_info(data, 2L)
-  # n <- NULL
 
   exec(new_data_frame, out, n = n, !!!attr)
 }
