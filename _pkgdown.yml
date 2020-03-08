@@ -77,7 +77,6 @@ reference:
   - ident
   - explain
   - tbl
-  - src_dbi
   - sql
 
 - title: Experimental

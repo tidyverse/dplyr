@@ -215,6 +215,10 @@
 * `src_local()` has been deprecated; it was part of an approach to testing
   dplyr backends that didn't pan out.
 
+* `src_mysql()`, `src_postgres()`, and `src_sqlite()` has been deprecated. 
+  We've recommended against them for some time. Instead please use the approach 
+  described at <http://dbplyr.tidyverse.org/>.
+
 ### Superseded
 
 * The scoped helpers (all functions ending in `_if`, `_at`, or `_all`) have
