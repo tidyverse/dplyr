@@ -48,14 +48,10 @@
 
 
 <meta property="og:title" content="Source for database backends — src_dbi" />
-<meta property="og:description" content="For backward compatibility dplyr provides three srcs for popular
-open source databases:
-src_mysql() connects to a MySQL or MariaDB database using RMySQL::MySQL().
-src_postgres() connects to PostgreSQL using RPostgreSQL::PostgreSQL()
-src_sqlite() to connect to a SQLite database using RSQLite::SQLite().
-
-
-However, modern best practice is to use tbl() directly on an DBIConnection." />
+<meta property="og:description" content="
+These functions have been deprecated; instead please use tbl()
+directly on an DBIConnection. See https://dbplyr.tidyverse.org/ for
+more details." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -193,19 +189,15 @@ However, modern best practice is to use tbl() directly on an DBIConnection." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Source for database backends</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/src_dbi.R'><code>R/src_dbi.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-dbi.R'><code>R/deprec-dbi.R</code></a></small>
     <div class="hidden name"><code>src_dbi.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>For backward compatibility dplyr provides three srcs for popular
-open source databases:</p><ul>
-<li><p><code>src_mysql()</code> connects to a MySQL or MariaDB database using <code><a href='https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.html'>RMySQL::MySQL()</a></code>.</p></li>
-<li><p><code>src_postgres()</code> connects to PostgreSQL using <code><a href='https://rdrr.io/pkg/RPostgreSQL/man/PostgreSQL.html'>RPostgreSQL::PostgreSQL()</a></code></p></li>
-<li><p><code>src_sqlite()</code> to connect to a SQLite database using <code><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>RSQLite::SQLite()</a></code>.</p></li>
-</ul>
-
-<p>However, modern best practice is to use <code><a href='tbl.html'>tbl()</a></code> directly on an <code>DBIConnection</code>.</p>
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>These functions have been deprecated; instead please use <code><a href='tbl.html'>tbl()</a></code>
+directly on an <code>DBIConnection</code>. See <a href='https://dbplyr.tidyverse.org/'>https://dbplyr.tidyverse.org/</a> for
+more details.</p>
     </div>
 
     <pre class="usage"><span class='fu'>src_mysql</span>(
@@ -271,83 +263,40 @@ as described in <code><a href='https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An S3 object with class <code>src_dbi</code>, <code>src_sql</code>, <code>src</code>.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>All data manipulation on SQL tbls are lazy: they will not actually
-run the query or retrieve the data unless you ask for it: they all return
-a new <code>tbl_dbi</code> object. Use <code><a href='compute.html'>compute()</a></code> to run the query and save the
-results in a temporary in the database, or use <code><a href='compute.html'>collect()</a></code> to retrieve the
-results to R. You can see the query with <code><a href='explain.html'>show_query()</a></code>.</p>
-<p>For best performance, the database should have an index on the variables
-that you are grouping by. Use <code><a href='explain.html'>explain()</a></code> to check that the database is using
-the indexes that you expect.</p>
-<p>There is one exception: <code><a href='do.html'>do()</a></code> is not lazy since it must pull the data
-into R.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Basic connection using DBI -------------------------------------------</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>dbplyr</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>dbplyr</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
 
 <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
 <span class='fu'><a href='copy_to.html'>copy_to</a></span>(<span class='no'>con</span>, <span class='no'>mtcars</span>)
 
-<span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbListTables.html'>dbListTables</a></span>(<span class='no'>con</span>)
-
 <span class='co'># To retrieve a single table from a source, use `tbl()`</span>
-<span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"mtcars"</span>)
+<span class='no'>mtcars</span> <span class='kw'>&lt;-</span> <span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"mtcars"</span>)
+<span class='no'>mtcars</span>
 
 <span class='co'># You can also use pass raw SQL if you want a more sophisticated query</span>
 <span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='fu'><a href='sql.html'>sql</a></span>(<span class='st'>"SELECT * FROM mtcars WHERE cyl == 8"</span>))
-
-<span class='co'># To show off the full features of dplyr's database integration,</span>
-<span class='co'># we'll use the Lahman database. lahman_sqlite() takes care of</span>
-<span class='co'># creating the database.</span>
-<span class='no'>lahman_p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/lahman.html'>lahman_sqlite</a></span>()
-<span class='no'>batting</span> <span class='kw'>&lt;-</span> <span class='no'>lahman_p</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Batting"</span>)
-<span class='no'>batting</span>
-
-<span class='co'># Basic data manipulation verbs work in the same way as with a tibble</span>
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>&gt;</span> <span class='fl'>2005</span>, <span class='no'>G</span> <span class='kw'>&gt;</span> <span class='fl'>130</span>)
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>:<span class='no'>lgID</span>)
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>playerID</span>, <span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>yearID</span>))
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>G</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>G</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>())
-
-<span class='co'># There are a few exceptions. For example, databases give integer results</span>
-<span class='co'># when dividing one integer by another. Multiply by 1 to fix the problem</span>
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>:<span class='no'>lgID</span>, <span class='no'>AB</span>, <span class='no'>R</span>, <span class='no'>G</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='mutate.html'>mutate</a></span>(
-   <span class='kw'>R_per_game1</span> <span class='kw'>=</span> <span class='no'>R</span> / <span class='no'>G</span>,
-   <span class='kw'>R_per_game2</span> <span class='kw'>=</span> <span class='no'>R</span> * <span class='fl'>1.0</span> / <span class='no'>G</span>
- )
-
-<span class='co'># All operations are lazy: they don't do anything until you request the</span>
-<span class='co'># data, either by `print()`ing it (which shows the first ten rows),</span>
-<span class='co'># or by `collect()`ing the results locally.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>recent</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>batting</span>, <span class='no'>yearID</span> <span class='kw'>&gt;</span> <span class='fl'>2010</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='compute.html'>collect</a></span>(<span class='no'>recent</span>))
-
-<span class='co'># You can see the query that dplyr creates with show_query()</span>
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>G</span> <span class='kw'>&gt;</span> <span class='fl'>0</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>playerID</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='explain.html'>show_query</a></span>()
-}</div><div class='output co'>#&gt; <span class='warning'>Warning: The `add` argument of `group_by()` is deprecated as of dplyr 1.0.0.</span>
-#&gt; <span class='warning'>Please use the `.add` argument instead.</span>
-#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; &lt;SQL&gt;
-#&gt; SELECT `playerID`, COUNT() AS `n`
-#&gt; FROM `Batting`
-#&gt; WHERE (`G` &gt; 0.0)
-#&gt; GROUP BY `playerID`</div></span></pre>
+}</div><div class='output co'>#&gt; <span style='color: #555555;'># Source:   SQL [?? x 11]</span><span>
+#&gt; </span><span style='color: #555555;'># Database: sqlite 3.30.1 [:memory:]</span><span>
+#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 2</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
+#&gt; </span><span style='color: #555555;'> 4</span><span>  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
+#&gt; </span><span style='color: #555555;'> 5</span><span>  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
+#&gt; </span><span style='color: #555555;'> 6</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 7</span><span>  10.4     8  460    215  3     5.42  17.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 9</span><span>  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
+#&gt; </span><span style='color: #555555;'># … with more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
