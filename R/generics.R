@@ -120,11 +120,12 @@ dplyr_col_modify.data.frame <- function(data, cols) {
 
   # Restore attributes (apart from names)
   attr <- attributes(data)
-  attr$names <- names(out)
-  attr$row.names <- .row_names_info(data, 0L)
-  attributes(out) <- attr
-
-  out
+  attr$names <- NULL
+  if (!is.character(attr$row.names)) {
+    attr$row.names <- .row_names_info(data, 0L)
+  }
+  attr$class <- setdiff(attr$class, "data.frame")
+  exec(new_data_frame, out, n = .row_names_info(data, 2L), !!!attr)
 }
 
 #' @export
