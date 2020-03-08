@@ -125,7 +125,12 @@ dplyr_col_modify.data.frame <- function(data, cols) {
     attr$row.names <- .row_names_info(data, 0L)
   }
   attr$class <- setdiff(attr$class, "data.frame")
-  exec(new_data_frame, out, n = .row_names_info(data, 2L), !!!attr)
+
+  # Required until https://github.com/r-lib/vctrs/pull/894
+  n <- .row_names_info(data, 2L)
+  # n <- NULL
+
+  exec(new_data_frame, out, n = n, !!!attr)
 }
 
 #' @export
