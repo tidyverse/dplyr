@@ -64,7 +64,15 @@ test_that("n_distinct handles expressions in na.rm (#3686)", {
   expect_equal(d %>% summarise(n = n_distinct(x, na.rm = TRUE || TRUE)) %>% pull(), 4)
 })
 
-test_that("n_distinct() can use .data (tidyverse/tibble#721)", {
-  d <- tibble(a = 1:3)
-  expect_equal(d %>% mutate(n = n_distinct(.data$a)) %>% pull(), rep(3L, 3))
+test_that("n_distinct() doesn't have tibble semantics (tidyverse/tibble#721)", {
+  df <- tibble(a = 1:3)
+  expect_equal(
+    df %>% summarise(n = n_distinct(.data$a)),
+    tibble(n = 3L)
+  )
+
+  expect_equal(
+    df %>% summarise(n = n_distinct(a = 1, b = a)),
+    tibble(n = 3L)
+  )
 })
