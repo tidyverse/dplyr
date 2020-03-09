@@ -127,7 +127,7 @@ test_that("mutate preserves grouping", {
 })
 
 test_that("mutate works on zero-row grouped data frame (#596)", {
-  dat <- data.frame(a = numeric(0), b = character(0))
+  dat <- data.frame(a = numeric(0), b = character(0), stringsAsFactors = TRUE)
   res <- dat %>% group_by(b, .drop = FALSE) %>% mutate(a2 = a * 2)
   expect_is(res$a2, "numeric")
   expect_is(res, "grouped_df")
@@ -209,7 +209,7 @@ test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
     names(df) <- c("a", enc2native("\u4e2d"))
 
     res <- df %>% mutate_all(as.numeric)
-    expect_equal(names(res), names(df))
+    expect_equal(names(res), as_utf8_character(names(df)))
   })
 })
 

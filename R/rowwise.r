@@ -24,14 +24,16 @@
 #'   instead you can select multiple variables with (e.g.) `everything()`.
 #' @export
 #' @examples
-#' df <- tibble(x = runif(6), y = runif(6))
-#' # Compute the mean of x and y in each row
-#' df %>% rowwise() %>% mutate(z = mean(c(x, y)))
+#' df <- tibble(x = runif(6), y = runif(6), z = runif(6))
+#' # Compute the mean of x, y, z in each row
+#' df %>% rowwise() %>% mutate(m = mean(c(x, y, z)))
+#' # use c_across() to more easily select many variables
+#' df %>% rowwise() %>% mutate(m = mean(c_across(x:z)))
 #'
 #' # Compute the minimum of x and y in each row
-#' df %>% rowwise() %>% mutate(z = min(c(x, y)))
+#' df %>% rowwise() %>% mutate(m = min(c(x, y, z)))
 #' # In this case you can use an existing vectorised function:
-#' df %>% mutate(z = pmin(x, y))
+#' df %>% mutate(m = pmin(x, y, z))
 #' # Where these functions exist they'll be much faster than rowwise
 #' # so be on the lookout for them.
 #'

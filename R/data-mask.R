@@ -15,6 +15,7 @@ DataMask <- R6Class("DataMask",
       private$caller <- caller
       private$bindings <- env(empty_env())
       private$keys <- group_keys(data)
+      private$group_vars <- group_vars(data)
 
       # A function that returns all the chunks for a column
       resolve_chunks <- if (inherits(data, "rowwise_df")) {
@@ -112,9 +113,13 @@ DataMask <- R6Class("DataMask",
     },
 
     pick = function(vars) {
-      cols <- env_get_list(private$bindings, vars)
+      cols <- self$current_cols(vars)
       nrow <- length(self$current_rows())
       new_tibble(cols, nrow = nrow)
+    },
+
+    current_cols = function(vars) {
+      env_get_list(private$bindings, vars)
     },
 
     current_rows = function() {
@@ -123,6 +128,15 @@ DataMask <- R6Class("DataMask",
 
     current_key = function() {
       vec_slice(private$keys, self$get_current_group())
+    },
+
+    current_vars = function() {
+      names(private$resolved)
+    },
+
+    current_non_group_vars = function() {
+      current_vars <- self$current_vars()
+      setdiff(current_vars, private$group_vars)
     },
 
     get_current_group = function() {
@@ -144,8 +158,51 @@ DataMask <- R6Class("DataMask",
       private$used
     },
 
+    unused_vars = function() {
+      used <- self$get_used()
+      current_vars <- self$current_vars()
+      current_vars[!used]
+    },
+
     get_rows = function() {
       private$rows
+    },
+
+    across_cols = function() {
+      original_data <- self$full_data()
+      original_data <- unclass(original_data)
+
+      across_vars <- self$current_non_group_vars()
+      unused_vars <- self$unused_vars()
+
+      across_vars_unused <- intersect(across_vars, unused_vars)
+      across_vars_used <- setdiff(across_vars, across_vars_unused)
+
+      # Pull unused vars from original data to keep from marking them as used.
+      # Column lengths will not match if `original_data` is grouped, but for
+      # the usage of tidyselect in `across()` we only need the column names
+      # and types to be correct.
+      cols_unused <- original_data[across_vars_unused]
+      cols_used <- self$current_cols(across_vars_used)
+
+      cols <- vec_c(cols_unused, cols_used)
+
+      # Match original ordering
+      cols <- cols[across_vars]
+
+      cols
+    },
+
+    across_cache_get = function() {
+      private$across_cache
+    },
+
+    across_cache_add = function(key, value) {
+      private$across_cache[[key]] <- value
+    },
+
+    across_cache_reset = function() {
+      private$across_cache <- list()
     }
 
   ),
@@ -154,6 +211,7 @@ DataMask <- R6Class("DataMask",
     data = NULL,
     mask = NULL,
     old_vars = character(),
+    group_vars = character(),
     used = logical(),
     resolved = list(),
     which_used = integer(),
@@ -161,6 +219,7 @@ DataMask <- R6Class("DataMask",
     keys = NULL,
     bindings = NULL,
     current_group = 0L,
-    caller = NULL
+    caller = NULL,
+    across_cache = list()
   )
 )

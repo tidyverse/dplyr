@@ -163,6 +163,8 @@ summarise_cols <- function(.data, ...) {
       # TODO: reinject hybrid evaluation at the R level
       chunks[[i]] <- mask$eval_all_summarise(quo)
 
+      mask$across_cache_reset()
+
       result_type <- vec_ptype_common(!!!chunks[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {

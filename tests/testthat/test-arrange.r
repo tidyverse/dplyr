@@ -55,7 +55,7 @@ test_that("arrange handles matrix columns", {
 
 test_that("arrange handles data.frame columns (#3153)", {
   df <- tibble(x = 1:3, y = data.frame(z = 3:1))
-  expect_equal(arrange(df, y), df[3:1, ])
+  expect_equal(arrange(df, y), tibble(x = 3:1, y = data.frame(z = 1:3)))
 })
 
 test_that("arrange handles complex columns", {

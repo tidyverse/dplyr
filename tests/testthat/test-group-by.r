@@ -102,8 +102,8 @@ test_that("group_by orders by groups. #242", {
 })
 
 test_that("Can group_by() a POSIXlt", {
-  df <- data.frame(times = 1:5, x = 1:5)
-  df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
+  skip_if_not_installed("tibble", "2.99.99")
+  df <- tibble(x = 1:5, times = as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day")))
   g <- group_by(df, times)
   expect_equal(nrow(group_data(g)), 5L)
 })
