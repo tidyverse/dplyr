@@ -7,7 +7,7 @@
 n_distinct(..., na.rm = FALSE)
 }
 \arguments{
-\item{\dots}{Vectors of values, passed on to \code{\link[=list2]{list2()}}}
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Vectors, passed on to \code{\link[=list2]{list2()}}}
 
 \item{na.rm}{if \code{TRUE} missing values don't count}
 }
