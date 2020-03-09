@@ -50,11 +50,11 @@
 <meta property="og:title" content="Select top (or bottom) n rows (by value) — top_n" />
 <meta property="og:description" content="
 
-top_n() has been retired in favour of slice_min()/slice_max().
+top_n() has been superseded in favour of slice_min()/slice_max().
 While it will not be deprecated in the near future, retirement means
 that we will only perform critical bug fixes, so we recommend moving to the
 newer alternatives.
-top_n() was retired because the name was fundamentally confusing as
+top_n() was superseded because the name was fundamentally confusing as
 it returned what you might reasonably consider to be the bottom
 rows. Additionally, the wt variable had a confusing name, and strange
 default (the last column in the data frame). Unfortunately we could not
@@ -202,13 +202,13 @@ existing code, so we created a new alternative." />
     </div>
 
     <div class="ref-description">
-    <p><a href='https://www.tidyverse.org/lifecycle/#retired'><img src='figures/lifecycle-retired.svg' alt='Retired lifecycle'></a>
+    <p><a href='https://www.tidyverse.org/lifecycle/#superseded'><img src='figures/lifecycle-superseded.svg' alt='Superseded lifecycle'></a>
 
-<code>top_n()</code> has been retired in favour of <code><a href='slice.html'>slice_min()</a></code>/<code><a href='slice.html'>slice_max()</a></code>.
+<code>top_n()</code> has been superseded in favour of <code><a href='slice.html'>slice_min()</a></code>/<code><a href='slice.html'>slice_max()</a></code>.
 While it will not be deprecated in the near future, retirement means
 that we will only perform critical bug fixes, so we recommend moving to the
 newer alternatives.</p>
-<p><code>top_n()</code> was retired because the name was fundamentally confusing as
+<p><code>top_n()</code> was superseded because the name was fundamentally confusing as
 it returned what you might reasonably consider to be the <em>bottom</em>
 rows. Additionally, the <code>wt</code> variable had a confusing name, and strange
 default (the last column in the data frame). Unfortunately we could not
