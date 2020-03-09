@@ -64,3 +64,6 @@ test_that("n_distinct handles expressions in na.rm (#3686)", {
   expect_equal(d %>% summarise(n = n_distinct(x, na.rm = TRUE || TRUE)) %>% pull(), 4)
 })
 
+test_that("n_distinct only considers entire rows to be `NA`", {
+  expect_identical(n_distinct(c(1, NA), c(NA, NA), na.rm = TRUE), 1L)
+})

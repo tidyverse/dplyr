@@ -2,6 +2,8 @@
 
 ## Breaking changes
 
+* `n_distinct()` with multiple arguments and `na.rm = TRUE` now only removes cases where every argument has a missing value.
+
 * `bind_cols()` no longer converts to a tibble, returns a data frame if the input is a data frame.
 
 * `bind_rows()` and `combine()` use vctrs coercion rules.

@@ -137,8 +137,8 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 #' @export
 n_distinct <- function(..., na.rm = FALSE) {
   data <- tibble(...)
-  if (isTRUE(na.rm)){
-    data <- vec_slice(data, !reduce(map(data, vec_equal_na), `|`))
+  if (isTRUE(na.rm)) {
+    data <- vec_slice(data, !vec_equal_na(data))
   }
   vec_unique_count(data)
 }
