@@ -75,7 +75,7 @@ df %>%
 
 ## Per row summary statistics
 
-U`dplyr::summarise()` makes it really easy to summarise values across rows within one column. When combined with `rowwise()` it also makes it easy to summarise values across columns within one row. To see how, we'll start by making a little dataset:
+`dplyr::summarise()` makes it really easy to summarise values across rows within one column. When combined with `rowwise()` it also makes it easy to summarise values across columns within one row. To see how, we'll start by making a little dataset:
 
 ```{r}
 df <- tibble(id = 1:6, w = runif(6), x = runif(6), y = runif(6), z = runif(6)) %>% 
