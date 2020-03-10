@@ -53,6 +53,9 @@ test_that("no expressions yields grouping data", {
 
   expect_equal(summarise(df), tibble(.rows = 1))
   expect_equal(summarise(gf), tibble(x = 1:2))
+
+  expect_equal(summarise(df, !!!list()), tibble(.rows = 1))
+  expect_equal(summarise(gf, !!!list()), tibble(x = 1:2))
 })
 
 test_that("preserved class, but not attributes", {

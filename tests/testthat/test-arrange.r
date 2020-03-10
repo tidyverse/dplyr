@@ -4,6 +4,9 @@ test_that("empty arrange() returns input", {
 
   expect_reference(arrange(df), df)
   expect_reference(arrange(gf), gf)
+
+  expect_reference(arrange(df, !!!list()), df)
+  expect_reference(arrange(gf, !!!list()), gf)
 })
 
 test_that("can sort empty data frame", {
