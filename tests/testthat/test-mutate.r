@@ -6,6 +6,9 @@ test_that("empty mutate returns input", {
 
   expect_equal(mutate(df), df)
   expect_equal(mutate(gf), gf)
+
+  expect_equal(mutate(df, !!!list()), df)
+  expect_equal(mutate(gf, !!!list()), gf)
 })
 
 test_that("mutations applied progressively", {
