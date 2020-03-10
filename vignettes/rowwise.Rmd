@@ -179,7 +179,7 @@ df %>%
 
 ### Varying functions
 
-In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because because the columns in the input tibble will be less regular. But it's still possible, and it's a natural place to use `do.call()`:
+In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because the columns in the input tibble will be less regular. But it's still possible, and it's a natural place to use `do.call()`:
 
 ```{r}
 df <- rowwise(tribble(
