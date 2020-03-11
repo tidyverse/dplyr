@@ -306,9 +306,9 @@ starwars %>%
 You can use this same idea for multiple sets of input data-variables:
 
 ```{r}
-my_summarise <- function(data, group_by, summarise_by) {
+my_summarise <- function(data, group_var, summarise_by) {
   data %>%
-    group_by(across({{ group_by }})) %>% 
+    group_by(across({{ group_var }})) %>% 
     summarise(across({{ summarise_by }}, mean))
 }
 ```
@@ -316,9 +316,9 @@ my_summarise <- function(data, group_by, summarise_by) {
 Use the `names` argument to `across()` to control the names of the output.
 
 ```{r}
-my_summarise <- function(data, group_by, summarise_by) {
+my_summarise <- function(data, group_var, summarise_by) {
   data %>%
-    group_by(across({{ group_by }})) %>% 
+    group_by(across({{ group_var }})) %>% 
     summarise(across({{ summarise_by }}, mean, names = "mean_{col}"))
 }
 ```
