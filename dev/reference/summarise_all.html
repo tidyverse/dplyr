@@ -281,13 +281,11 @@ selection is <strong>implicit</strong> (<code>all</code> and <code>if</code> sel
 <strong>explicit</strong> (<code>at</code> selections).</p><ul>
 <li><p>Grouping variables covered by explicit selections in
 <code>summarise_at()</code> are always an error. Add <code>-group_cols()</code> to the
-<code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre>data %&gt;%
-  summarise_at(vars(-group_cols(), ...), myoperation)
-</pre>
+<code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre><span class='no'>data</span> <span class='kw'>%&amp;gt;%</span>
+  <span class='fu'>summarise_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='group_cols.html'>group_cols</a></span>(), <span class='no'>...</span>), <span class='no'>myoperation</span>)</pre>
 
-<p>Or remove <code><a href='group_data.html'>group_vars()</a></code> from the character vector of column names:</p><pre>nms &lt;- setdiff(nms, group_vars(data))
-data %&gt;% summarise_at(nms, myoperation)
-</pre></li>
+<p>Or remove <code><a href='group_data.html'>group_vars()</a></code> from the character vector of column names:</p><pre><span class='no'>nms</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'><a href='setops.html'>setdiff</a></span>(<span class='no'>nms</span>, <span class='fu'><a href='group_data.html'>group_vars</a></span>(<span class='no'>data</span>))
+<span class='no'>data</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>summarise_at</span>(<span class='no'>nms</span>, <span class='no'>myoperation</span>)</pre></li>
 <li><p>Grouping variables covered by implicit selections are silently
 ignored by <code>summarise_all()</code> and <code>summarise_if()</code>.</p></li>
 </ul>
@@ -382,9 +380,9 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
   <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='no'>min</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='no'>max</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 9</span><span>
 #&gt;   Species Sepal.Length_min Sepal.Length_max Sepal.Width_min Sepal.Width_max
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> setosa               4.3              2.3             1               0.1
-#&gt; </span><span style='color: #555555;'>2</span><span> versic…              4.9              2               3               1  
-#&gt; </span><span style='color: #555555;'>3</span><span> virgin…              4.9              2.2             4.5             1.4
+#&gt; </span><span style='color: #555555;'>1</span><span> setosa               4.3              5.8             2.3             4.4
+#&gt; </span><span style='color: #555555;'>2</span><span> versic…              4.9              7               2               3.4
+#&gt; </span><span style='color: #555555;'>3</span><span> virgin…              4.9              7.9             2.2             3.8
 #&gt; </span><span style='color: #555555;'># … with 4 more variables: Petal.Length_min </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Length_max </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
 #&gt; #   Petal.Width_min </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_max </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
   </div>

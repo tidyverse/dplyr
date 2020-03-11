@@ -277,12 +277,10 @@ selection is <strong>implicit</strong> (<code>all</code> and <code>if</code> sel
 <strong>explicit</strong> (<code>at</code> selections).</p><ul>
 <li><p>Grouping variables covered by explicit selections in
 <code>mutate_at()</code> and <code>transmute_at()</code> are always an error. Add
-<code>-group_cols()</code> to the <code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre>data %&gt;% mutate_at(vars(-group_cols(), ...), myoperation)
-</pre>
+<code>-group_cols()</code> to the <code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre><span class='no'>data</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='group_cols.html'>group_cols</a></span>(), <span class='no'>...</span>), <span class='no'>myoperation</span>)</pre>
 
-<p>Or remove <code><a href='group_data.html'>group_vars()</a></code> from the character vector of column names:</p><pre>nms &lt;- setdiff(nms, group_vars(data))
-data %&gt;% mutate_at(vars, myoperation)
-</pre></li>
+<p>Or remove <code><a href='group_data.html'>group_vars()</a></code> from the character vector of column names:</p><pre><span class='no'>nms</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'><a href='setops.html'>setdiff</a></span>(<span class='no'>nms</span>, <span class='fu'><a href='group_data.html'>group_vars</a></span>(<span class='no'>data</span>))
+<span class='no'>data</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>mutate_at</span>(<span class='no'>vars</span>, <span class='no'>myoperation</span>)</pre></li>
 <li><p>Grouping variables covered by implicit selections are ignored by
 <code>mutate_all()</code>, <code>transmute_all()</code>, <code>mutate_if()</code>, and
 <code>transmute_if()</code>.</p></li>

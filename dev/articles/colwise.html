@@ -226,14 +226,14 @@
 <span id="cb6-5"><a href="#cb6-5"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, min_max))</span>
 <span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; # A tibble: 1 x 6</span></span>
 <span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;   height_min height_max mass_min mass_max birth_year_min birth_year_max</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;        &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;int&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt; 1         66         15        8      264           1358            896</span></span></code></pre></div>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt; 1         66        264       15     1358              8            896</span></span></code></pre></div>
 <p>Control how the names are created with the <code>names</code> argument which takes a <a href="http://glue.tidyverse.org/">glue</a> spec:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, min_max, <span class="dt">names =</span> <span class="st">"{fn}.{col}"</span>))</span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; # A tibble: 1 x 6</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt;   min.height max.height min.mass max.mass min.birth_year max.birth_year</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;        &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;int&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; 1         66         15        8      264           1358            896</span></span></code></pre></div>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; 1         66        264       15     1358              8            896</span></span></code></pre></div>
 <p>If you’d prefer all summaries with the same function to be grouped together, you’ll have to expand the calls yourself:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</span>
 <span id="cb8-2"><a href="#cb8-2"></a>  <span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, <span class="op">~</span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(.x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">names =</span> <span class="st">"min_{col}"</span>),</span>

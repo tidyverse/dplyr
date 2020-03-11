@@ -234,20 +234,18 @@ indirection, i.e. instead of directly typing the name of a variable you
 want to supply it in a function argument or character vector.</p>
 <p>There are two main cases:</p><ul>
 <li><p>If you want the user to supply the variable (or function of variables)
-in a function argument, embrace the argument, e.g. <code><a href='filter.html'>filter(df, {{ var }})</a></code>.</p><pre>dist_summary &lt;- function(df, var) {
-  df %&gt;%
-    summarise(n = n(), min = min({{ var }}), max = max({{ var }}))
+in a function argument, embrace the argument, e.g. <code><a href='filter.html'>filter(df, {{ var }})</a></code>.</p><pre><span class='no'>dist_summary</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw'>function</span>(<span class='no'>df</span>, <span class='no'>var</span>) {
+  <span class='no'>df</span> <span class='kw'>%&amp;gt;%</span>
+    <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>n</a></span>(), <span class='kw'>min</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>({{ <span class='no'>var</span> }}), <span class='kw'>max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>({{ <span class='no'>var</span> }}))
 }
-mtcars %&gt;% dist_summary(mpg)
-mtcars %&gt;% group_by(cyl) %&gt;% dist_summary(mpg)
-</pre></li>
+<span class='no'>mtcars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>dist_summary</span>(<span class='no'>mpg</span>)
+<span class='no'>mtcars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&amp;gt;%</span> <span class='fu'>dist_summary</span>(<span class='no'>mpg</span>)</pre></li>
 <li><p>If you have the column name as a character vector, use the <code>.data</code>
-pronoun, e.g. <code><a href='summarise.html'>summarise(df, mean = mean(.data[[var]]))</a></code>.</p><pre>for (var in names(mtcars)) {
-  mtcars %&gt;% count(.data[[var]]) %&gt;% print()
+pronoun, e.g. <code><a href='summarise.html'>summarise(df, mean = mean(.data[[var]]))</a></code>.</p><pre><span class='kw'>for</span> (<span class='no'>var</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>mtcars</span>)) {
+  <span class='no'>mtcars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='count.html'>count</a></span>(<span class='no'>.data</span><span class='kw'>[[</span><span class='no'>var</span>]]) <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()
 }
 
-lapply(names(mtcars), function(var) mtcars %&gt;% count(.data[[var]]))
-</pre></li>
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>mtcars</span>), <span class='kw'>function</span>(<span class='no'>var</span>) <span class='no'>mtcars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='count.html'>count</a></span>(<span class='no'>.data</span><span class='kw'>[[</span><span class='no'>var</span>]]))</pre></li>
 </ul>
 
     <h2 class="hasAnchor" id="dot-dot-dot-"><a class="anchor" href="#dot-dot-dot-"></a>Dot-dot-dot (...)</h2>
@@ -257,17 +255,15 @@ lapply(names(mtcars), function(var) mtcars %&gt;% count(.data[[var]]))
 <p>When this modifier is applied to <code>...</code>, there is one other useful technique
 which solves the problem of creating a new variable with a name supplied
 by the user. Use <code>!!var := expression</code>. (Note the use of <code>:=</code> instead of
-<code>=</code>).</p><pre>var_name &lt;- "l100km"
-mtcars %&gt;% mutate(!!var_name := 235 / mpg)
-</pre>
+<code>=</code>).</p><pre><span class='no'>var_name</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='st'>"l100km"</span>
+<span class='no'>mtcars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(!!<span class='no'>var_name</span> <span class='kw'>:=</span> <span class='fl'>235</span> / <span class='no'>mpg</span>)</pre>
 
 <p>Note that <code>...</code> automatically provides indirection, so you can use it as is
-(i.e. without embracing) inside a function:</p><pre>grouped_mean &lt;- function(df, var, ...) {
-  df %&gt;%
-    group_by(...) %&gt;%
-    summarise(mean = mean({{ var }}))
-}
-</pre>
+(i.e. without embracing) inside a function:</p><pre><span class='no'>grouped_mean</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw'>function</span>(<span class='no'>df</span>, <span class='no'>var</span>, <span class='no'>...</span>) {
+  <span class='no'>df</span> <span class='kw'>%&amp;gt;%</span>
+    <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>...</span>) <span class='kw'>%&amp;gt;%</span>
+    <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>({{ <span class='no'>var</span> }}))
+}</pre>
 
 
   </div>
