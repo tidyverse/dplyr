@@ -67,6 +67,16 @@ test_that("across() passes ... to functions", {
   )
 })
 
+test_that("across() passes unnamed arguments following .fns as ... (#4965)", {
+  df <- tibble(x = 1)
+  expect_equal(mutate(df, across(x, `+`, 1)), tibble(x = 2))
+})
+
+test_that("across() avoids simple argument name collisions with ... (#4965)", {
+  df <- tibble(x = c(1, 2))
+  expect_equal(summarize(df, across(x, tail, n = 1)), tibble(x = 2))
+})
+
 test_that("across() works sequentially (#4907)", {
   df <- tibble(a = 1)
   expect_equal(
