@@ -2455,6 +2455,67 @@ ERROR: compilation failed for package ‘crawl’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/crawl/old/crawl.Rcheck/crawl’
 
 ```
+# cTRAP
+
+<details>
+
+* Version: 1.4.0
+* Source code: https://github.com/cran/cTRAP
+* URL: https://github.com/nuno-agostinho/cTRAP
+* BugReports: https://github.com/nuno-agostinho/cTRAP/issues
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 114
+
+Run `revdep_details(,"cTRAP")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > 
+    > ## Not run: 
+    > ##D # Download and load CMap perturbations to compare with
+    > ##D cellLine <- c("HepG2", "HUH7")
+    > ##D cmapMetadataCompounds <- filterCMapMetadata(
+    > ##D     "cmapMetadata.txt", cellLine=cellLine, timepoint="24 h",
+    > ##D     dosage="5 \u00B5M", perturbationType="Compound")
+    > ##D 
+    > ##D cmapPerturbationsCompounds <- prepareCMapPerturbations(
+    > ##D     cmapMetadataCompounds, "cmapZscores.gctx", "cmapGeneInfo.txt",
+    > ##D     "cmapCompoundInfo_drugs.txt", loadZscores=TRUE)
+    > ## End(Not run)
+    > perturbations <- cmapPerturbationsCompounds
+    > 
+    > # Rank similar CMap perturbations (by default, Spearman's and Pearson's
+    > # correlation are used, as well as GSEA with the top and bottom 150 genes of
+    > # the differential expression profile used as reference)
+    > rankSimilarPerturbations(diffExprStat, perturbations)
+    Subsetting data based on 8790 intersecting genes (65% of the 13451 input genes)...
+    Correlating against 22 CMap perturbations (2 cell lines; Spearman's correlation)...
+    New names:
+    ```
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  6.9Mb
+      sub-directories of 1Mb or more:
+        data   4.8Mb
+        doc    1.5Mb
+    ```
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 1 marked UTF-8 string
+    ```
+
 # DataVisualizations
 
 <details>
@@ -3257,6 +3318,79 @@ ERROR: compilation failed for package ‘dtwclust’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/dtwclust/old/dtwclust.Rcheck/dtwclust’
 
 ```
+# DuoClustering2018
+
+<details>
+
+* Version: 1.4.0
+* Source code: https://github.com/cran/DuoClustering2018
+* Date/Publication: 2019-11-05
+* Number of recursive dependencies: 151
+
+Run `revdep_details(,"DuoClustering2018")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘DuoClustering2018’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: `select_()` is deprecated as of dplyr 0.7.0.
+      Warning: `filter_()` is deprecated as of dplyr 0.7.0.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DuoClustering2018/new/DuoClustering2018.Rcheck/00install.out’ for details.
+    ```
+
+*   checking whether the namespace can be loaded with stated dependencies ... NOTE
+    ```
+    Warning: `select_()` is deprecated as of dplyr 0.7.0.
+    Please use `select()` instead.
+    This warning is displayed once every 8 hours.
+    Call `lifecycle::last_warnings()` to see where this warning was generated.
+    Warning: `filter_()` is deprecated as of dplyr 0.7.0.
+    Please use `filter()` instead.
+    See vignette('programming') for more help
+    This warning is displayed once every 8 hours.
+    Call `lifecycle::last_warnings()` to see where this warning was generated.
+    
+    A namespace must be able to be loaded with just the base namespace
+    loaded: otherwise if the namespace gets loaded by a saved object, the
+    session will be unable to start.
+    
+    Probably some imports need to be declared in the NAMESPACE file.
+    ```
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking R code for possible problems ... NOTE
+    ```
+    ...
+    plot_timing: no visible binding for global variable ‘dataset’
+    plot_timing: no visible binding for global variable ‘method’
+    plot_timing: no visible binding for global variable ‘run’
+    plot_timing: no visible binding for global variable ‘k’
+    plot_timing: no visible binding for global variable ‘cluster’
+    plot_timing: no visible binding for global variable ‘trueclass’
+    plot_timing: no visible binding for global variable ‘est_k’
+    plot_timing: no visible binding for global variable ‘elapsed’
+    plot_timing: no visible binding for global variable ‘sce’
+    plot_timing: no visible binding for global variable ‘filtering’
+    plot_timing: no visible binding for global variable ‘truenclust’
+    plot_timing: no visible binding for global variable ‘median.elapsed’
+    plot_timing: no visible binding for global variable ‘med.t’
+    plot_timing: no visible binding for global variable ‘norm.time’
+    plot_timing: no visible binding for global variable ‘medianelapsed’
+    Undefined global functions or variables:
+      ARI ari.stab cell cluster data.wide dataset ds ds.norm elapsed
+      entropy est_k estnclust filtering k k_diff med.t medARI
+      median.elapsed median.stability medianARI medianelapsed method
+      norm.time run s s.norm s.true s.true.norm sce stability trueclass
+      truenclust
+    ```
+
 # dynfrail
 
 <details>
@@ -3615,6 +3749,26 @@ ERROR: compilation failed for package ‘fastLink’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/fastLink/old/fastLink.Rcheck/fastLink’
 
 ```
+# fingertipsR
+
+<details>
+
+* Version: 1.0.2
+* Source code: https://github.com/cran/fingertipsR
+* URL: https://fingertips.phe.org.uk, https://github.com/ropensci/fingertipsR, https://docs.ropensci.org/fingertipsR/
+* BugReports: https://github.com/ropensci/fingertipsR/issues
+* Date/Publication: 2020-02-09 16:50:02 UTC
+* Number of recursive dependencies: 86
+
+Run `revdep_details(,"fingertipsR")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
 # fourierin
 
 <details>
@@ -8657,6 +8811,32 @@ ERROR: compilation failed for package ‘RxODE’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RxODE/old/RxODE.Rcheck/RxODE’
 
 ```
+# saotd
+
+<details>
+
+* Version: 0.2.0
+* Source code: https://github.com/cran/saotd
+* BugReports: https://github.com/evan-l-munson/saotd/issues
+* Date/Publication: 2019-04-04 16:30:03 UTC
+* Number of recursive dependencies: 110
+
+Run `revdep_details(,"saotd")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
+## In both
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 826 marked UTF-8 strings
+    ```
+
 # sarima
 
 <details>

@@ -552,9 +552,9 @@ Run `revdep_details(,"bayesplot")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.6Mb
+      installed size is  6.5Mb
       sub-directories of 1Mb or more:
-        R     1.9Mb
+        R     1.8Mb
         doc   4.1Mb
     ```
 
@@ -725,30 +725,6 @@ Run `revdep_details(,"benchmarkfdrData2019")` for more info
     Package in Depends field not imported from: ‘SummarizedExperiment’
       These packages need to be imported from (in the NAMESPACE file)
       for when this namespace is loaded but not attached.
-    ```
-
-# bibliometrix
-
-<details>
-
-* Version: 2.3.2
-* Source code: https://github.com/cran/bibliometrix
-* URL: http://www.bibliometrix.org
-* Date/Publication: 2019-11-23 17:20:02 UTC
-* Number of recursive dependencies: 143
-
-Run `revdep_details(,"bibliometrix")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.1Mb
-      sub-directories of 1Mb or more:
-        data   2.0Mb
-        doc    1.9Mb
     ```
 
 # biclustermd
@@ -1374,11 +1350,11 @@ Run `revdep_details(,"CellBench")` for more info
 
 <details>
 
-* Version: 1.2.3
+* Version: 1.2.4
 * Source code: https://github.com/cran/CellMixS
 * URL: https://github.com/almutlue/CellMixS
 * BugReports: https://github.com/almutlue/CellMixS/issues
-* Date/Publication: 2020-01-23
+* Date/Publication: 2020-03-09
 * Number of recursive dependencies: 113
 
 Run `revdep_details(,"CellMixS")` for more info
@@ -2037,52 +2013,6 @@ Run `revdep_details(,"confoundr")` for more info
       Execution halted
     ```
 
-# congressbr
-
-<details>
-
-* Version: 0.2.2
-* Source code: https://github.com/cran/congressbr
-* Date/Publication: 2019-12-12 11:20:02 UTC
-* Number of recursive dependencies: 109
-
-Run `revdep_details(,"congressbr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘congressbr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: cham_bill_info
-    > ### Title: Downloads details of a specific bill by providing type, number
-    > ###   and year
-    > ### Aliases: cham_bill_info
-    > 
-    > ### ** Examples
-    > 
-    > cham_bill_info(type = "PL", number = "3962", year = "2008")
-    Error in open.connection(x, "rb") : 
-      Timeout was reached: [www.camara.leg.br] Operation timed out after 10348 milliseconds with 0 out of 0 bytes received
-    Calls: cham_bill_info ... read_xml.character -> read_xml.connection -> open -> open.connection
-    Execution halted
-    ```
-
-## Newly fixed
-
-*   R CMD check timed out
-    
-
-## In both
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 1 marked UTF-8 string
-    ```
-
 # correlationfunnel
 
 <details>
@@ -2285,35 +2215,16 @@ Run `revdep_details(,"cTRAP")` for more info
     New names:
     ```
 
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       3. cTRAP:::rankColumns(...)
-       4. data.table::setkeyv(table, colnames(table)[[1]])
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 94 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 7 ]
-      1. Error: Compare using Spearman correlation (@test_CMap.R#139) 
-      2. Error: Compare using Pearson correlation (@test_CMap.R#147) 
-      3. Error: Compare using GSEA (@test_CMap.R#155) 
-      4. Error: Compare against CMap using multiple methods simultaneously (@test_CMap.R#162) 
-      5. Error: Compare against CMap by also ranking individual cell lines (@test_CMap.R#183) 
-      6. Error: Analyse drug set enrichment for ranked CMap perturbations (@test_drugSetEnrichment.R#174) 
-      7. Error: (unknown) (@test_plots.R#7) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 ## In both
+
+*   R CMD check timed out
+    
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.5Mb
+      installed size is  6.9Mb
       sub-directories of 1Mb or more:
-        data   4.4Mb
+        data   4.8Mb
         doc    1.5Mb
     ```
 
@@ -2430,18 +2341,18 @@ Run `revdep_details(,"cvms")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+       34. base:::tryCatchOne(...)
+       35. value[[3L]](cond)
+       36. dplyr:::stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
+       37. dplyr:::stop_dplyr(...)
+      
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 1097 | SKIPPED: 12 | WARNINGS: 2 | FAILED: 12 ]
+      [ OK: 1482 | SKIPPED: 12 | WARNINGS: 2 | FAILED: 5 ]
       1. Error: multinomial evaluations are correct in baseline() (@test_baseline.R#394) 
       2. Failure: model_verbose reports the correct model functions in cross_validate() (@test_cross_validate.R#923) 
       3. Failure: model_verbose reports the correct model functions in cross_validate() (@test_cross_validate.R#962) 
       4. Failure: model_verbose reports the correct model functions in cross_validate() (@test_cross_validate.R#975) 
-      5. Failure: multinomial evaluations are correct in evaluate() (@test_evaluate.R#19) 
-      6. Error: multinomial evaluations are correct in evaluate() (@test_evaluate.R#34) 
-      7. Failure: arguments throw proper errors and warnings in evaluate() (@test_evaluate.R#563) 
-      8. Failure: arguments throw proper errors and warnings in evaluate() (@test_evaluate.R#577) 
-      9. Error: binomial evaluation works in evaluate() (@test_evaluate.R#625) 
-      1. ...
+      5. Error: evaluate() treats dfs and tbls the same (@test_evaluate.R#1262) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -3321,7 +3232,7 @@ Run `revdep_details(,"disk.frame")` for more info
     > 
     > # re-chunking cars.df to 3 chunks, done "in-place" to the same folder as cars.df
     > rechunk(cars.df, 3)
-    files have been backed up to temporary dir /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpjrgD2p/back_up_tmp_dir12a8750934b01. You can recover there files until you restart your R session
+    files have been backed up to temporary dir /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpQ5UjmK/back_up_tmp_dir162893a7310eb. You can recover there files until you restart your R session
     Error in .(colnames, coltypes) : could not find function "."
     Calls: rechunk -> <Anonymous> -> [ -> [.data.frame
     Execution halted
@@ -3629,6 +3540,9 @@ Run `revdep_details(,"DuoClustering2018")` for more info
     ```
 
 ## In both
+
+*   R CMD check timed out
+    
 
 *   checking R code for possible problems ... NOTE
     ```
@@ -4683,7 +4597,7 @@ Run `revdep_details(,"fgeo.plot")` for more info
     ...
     Error: `mutate()` argument `digit2` errored.
     ℹ `digit2` is `NULL`.
-    ✖ 'installTrChar' must be called on a CHARSXP, but got 'double'
+    ✖ VECTOR_ELT() can only be applied to a 'list', not a 'char'
     Backtrace:
          █
       1. └─fgeo.plot::plot_tag_status_by_subquadrat(...)
@@ -4700,7 +4614,7 @@ Run `revdep_details(,"fgeo.plot")` for more info
      12.                     ├─dplyr::mutate(...)
      13.                     └─dplyr:::mutate.data.frame(...)
      14.                       └─dplyr:::mutate_cols(.data, ...)
-     15.      
+     15.         
     Execution halted
     ```
 
@@ -4965,45 +4879,6 @@ Run `revdep_details(,"fingertipscharts")` for more info
       All declared Imports should be used.
     ```
 
-# fingertipsR
-
-<details>
-
-* Version: 1.0.2
-* Source code: https://github.com/cran/fingertipsR
-* URL: https://fingertips.phe.org.uk, https://github.com/ropensci/fingertipsR, https://docs.ropensci.org/fingertipsR/
-* BugReports: https://github.com/ropensci/fingertipsR/issues
-* Date/Publication: 2020-02-09 16:50:02 UTC
-* Number of recursive dependencies: 86
-
-Run `revdep_details(,"fingertipsR")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/e.R’ failed.
-    Last 13 lines of output:
-      ── 1. Failure: number of fields returned by fingertips_data function are 26 (@te
-      fingertips_data(ProfileID = 156, AreaTypeID = "All", url_only = TRUE) not equal to c(...).
-      names for target but not for current
-      
-      ── 2. Failure: number of fields returned by fingertips_data function are 26 (@te
-      fingertips_data(...) not equal to c(...).
-      names for target but not for current
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 27 | SKIPPED: 0 | WARNINGS: 2 | FAILED: 2 ]
-      1. Failure: number of fields returned by fingertips_data function are 26 (@test-extract.R#85) 
-      2. Failure: number of fields returned by fingertips_data function are 26 (@test-extract.R#94) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # foieGras
 
 <details>
@@ -5140,49 +5015,6 @@ Run `revdep_details(,"forecastML")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# forestmangr
-
-<details>
-
-* Version: 0.9.1
-* Source code: https://github.com/cran/forestmangr
-* URL: https://github.com/sollano/forestmangr#readme
-* BugReports: https://github.com/sollano/forestmangr/issues
-* Date/Publication: 2019-01-02 23:10:27 UTC
-* Number of recursive dependencies: 124
-
-Run `revdep_details(,"forestmangr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > exfm1
-    # A tibble: 22 x 4
-       STRATA STRATA_AREA PLOT_AREA   VWB
-        <int>       <dbl>     <int> <dbl>
-     1      1        14.4      1000  7.9 
-     2      1        14.4      1000  3.8 
-     3      1        14.4      1000  4.4 
-     4      1        14.4      1000  6.25
-     5      1        14.4      1000  5.55
-     6      1        14.4      1000  8.1 
-     7      1        14.4      1000  6.1 
-     8      2        16.4      1000 10.2 
-     9      2        16.4      1000 15.2 
-    10      2        16.4      1000 13.4 
-    # … with 12 more rows
-    > 
-    > strs(exfm1, "VWB", "PLOT_AREA", "STRATA_AREA", strata = "STRATA", error = 5, pop = "fin")
-    Error in names(quosures) <- paste0("^^--arrange_quosure_", seq_along(quosures)) : 
-      'names' attribute [1] must be the same length as the vector [0]
-    Calls: strs ... <Anonymous> -> <Anonymous> -> arrange.data.frame -> arrange_rows
-    Execution halted
     ```
 
 # fueleconomy
@@ -6143,7 +5975,7 @@ Run `revdep_details(,"ggperiodic")` for more info
     Last 13 lines of output:
         1. dplyr::arrange(df, x)
         4. dplyr:::arrange.data.frame(df, x)
-        5. dplyr:::arrange_rows(.data, ..., .by_group = .by_group)
+        5. dplyr:::arrange_rows(.data, dots)
         6. base::tryCatch(...)
         7. base:::tryCatchList(expr, classes, parentenv, handlers)
         8. base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
@@ -6196,7 +6028,7 @@ Run `revdep_details(,"ggplot2")` for more info
     ```
       installed size is  5.8Mb
       sub-directories of 1Mb or more:
-        R     2.0Mb
+        R     2.1Mb
         doc   1.9Mb
     ```
 
@@ -7298,7 +7130,7 @@ Run `revdep_details(,"INDperform")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.0Mb
+      installed size is  5.1Mb
       sub-directories of 1Mb or more:
         data   3.1Mb
         help   1.6Mb
@@ -7795,8 +7627,8 @@ Run `revdep_details(,"lans2r")` for more info
       ── 2. Failure: test that transformation safety checks are in place (@test-transf
       spread_data(bind_rows(a, b)) not equal to full_join(...).
       Names: 2 string mismatches
-      Component 3: Mean relative difference: 0.9405629
-      Component 4: Mean relative difference: 9.494709
+      Component 3: Mean relative difference: 0.9500564
+      Component 4: Mean relative difference: 11.41356
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       [ OK: 142 | SKIPPED: 0 | WARNINGS: 5 | FAILED: 2 ]
@@ -7891,7 +7723,7 @@ Run `revdep_details(,"LymphoSeq")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.1Mb
+      installed size is  8.2Mb
       sub-directories of 1Mb or more:
         doc       2.4Mb
         extdata   5.5Mb
@@ -8171,7 +8003,6 @@ Run `revdep_details(,"microbiome")` for more info
 *   checking examples ... ERROR
     ```
     ...
-    > data(peerj32)
     > p <- boxplot_abundance(peerj32$phyloseq, x='time', y='Akkermansia',
     +    line='subject')
     Error: arrange() failed at implicit mutate() step. 
@@ -8190,7 +8021,8 @@ Run `revdep_details(,"microbiome")` for more info
      10.             └─function_list[[i]](value)
      11.               ├─dplyr::arrange(., linevar, xvar)
      12.               └─dplyr:::arrange.data.frame(., linevar, xvar)
-     13.                 └─dplyr:::arrange_rows(.data, ..., .by_gr
+     13.                 └─dplyr:::arrange_rows(.data, dots)
+     14. 
     Execution halted
     ```
 
@@ -8395,7 +8227,7 @@ Run `revdep_details(,"mosaic")` for more info
     ```
       installed size is 12.1Mb
       sub-directories of 1Mb or more:
-        R     2.5Mb
+        R     2.6Mb
         doc   9.0Mb
     ```
 
@@ -9571,7 +9403,7 @@ Run `revdep_details(,"PAST")` for more info
       3. │   ├─base::withVisible(eval(ei, envir))
       4. │   └─base::eval(ei, envir)
       5. │     └─base::eval(ei, envir)
-      6. └─PAST::load_GWAS_data(demo_association_file, demo_effects_file) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmpkg3byr/Rexcb9219b1bbff:11:0
+      6. └─PAST::load_GWAS_data(demo_association_file, demo_effects_file) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmp9Wi50A/Rex19a87acd1efc:11:0
       7.   └─`%>%`(...)
       8.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
       9.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
@@ -10012,7 +9844,7 @@ Run `revdep_details(,"plotly")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
        15. dplyr:::arrange.data.frame(.data, !!!dots, .by_group = .by_group)
-       16. dplyr:::arrange_rows(.data, ..., .by_group = .by_group)
+       16. dplyr:::arrange_rows(.data, dots)
        17. base::tryCatch(...)
        18. base:::tryCatchList(expr, classes, parentenv, handlers)
        19. base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
@@ -11018,16 +10850,16 @@ Run `revdep_details(,"recipes")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 1403 | SKIPPED: 8 | WARNINGS: 0 | FAILED: 31 ]
-      1. Error: no input (@test_arrange.R#61) 
-      2. Failure: correct means and std devs for step_norm (@test_center_scale_norm.R#135) 
-      3. Failure: correct means and std devs for step_norm (@test_center_scale_norm.R#145) 
-      4. Failure: defaults (@test_classdist.R#47) 
-      5. Failure: check_col works in the bake stage (@test_colcheck.R#22) 
-      6. Failure: check_col works in the bake stage (@test_colcheck.R#25) 
-      7. Failure: correct ICA values (@test_ica.R#96) 
-      8. Failure: correct ICA values (@test_ica.R#111) 
-      9. Failure: add appropriate column with default settings (@test_intercept.R#21) 
+      [ OK: 1404 | SKIPPED: 8 | WARNINGS: 0 | FAILED: 30 ]
+      1. Failure: correct means and std devs for step_norm (@test_center_scale_norm.R#135) 
+      2. Failure: correct means and std devs for step_norm (@test_center_scale_norm.R#145) 
+      3. Failure: defaults (@test_classdist.R#47) 
+      4. Failure: check_col works in the bake stage (@test_colcheck.R#22) 
+      5. Failure: check_col works in the bake stage (@test_colcheck.R#25) 
+      6. Failure: correct ICA values (@test_ica.R#96) 
+      7. Failure: correct ICA values (@test_ica.R#111) 
+      8. Failure: add appropriate column with default settings (@test_intercept.R#21) 
+      9. Failure: adds arbitrary numeric column (@test_intercept.R#33) 
       1. ...
       
       Error: testthat unit tests failed
@@ -11571,27 +11403,8 @@ Run `revdep_details(,"saotd")` for more info
 
 ## Newly broken
 
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ── 5. Failure: unigrams are computed properly (@test_unigram.R#18)  ────────────
-      saotd::unigram(DataFrame = test_unigram_df) not equal to `correct_unigram_df`.
-      Attributes: < Component "class": Lengths (1, 3) differ (string compare on first 1) >
-      Attributes: < Component "class": 1 string mismatch >
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 63 | SKIPPED: 0 | WARNINGS: 5 | FAILED: 5 ]
-      1. Failure: bigrams are computed properly (@test_bigram.R#19) 
-      2. Error: (unknown) (@test_number_topics.R#12) 
-      3. Failure: Trigrams are computed properly (@test_trigram.R#21) 
-      4. Error: (unknown) (@test_tweet_topics.R#12) 
-      5. Failure: unigrams are computed properly (@test_unigram.R#18) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
+*   R CMD check timed out
+    
 
 ## In both
 
@@ -11723,6 +11536,13 @@ Run `revdep_details(,"sergeant")` for more info
     Extensions’ manual.
     ```
 
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘RJDBC’
+    ```
+
 # sevenbridges
 
 <details>
@@ -11772,7 +11592,7 @@ Run `revdep_details(,"sevenbridges")` for more info
     ```
       installed size is 12.3Mb
       sub-directories of 1Mb or more:
-        R     2.1Mb
+        R     2.0Mb
         doc   9.5Mb
     ```
 
@@ -11823,7 +11643,7 @@ Run `revdep_details(,"sf")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 16.8Mb
+      installed size is 16.9Mb
       sub-directories of 1Mb or more:
         doc     12.0Mb
         sqlite   1.5Mb
@@ -12561,57 +12381,6 @@ installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/slide
 * DONE (slider)
 
 ```
-# spatialEco
-
-<details>
-
-* Version: 1.3-0
-* Source code: https://github.com/cran/spatialEco
-* URL: https://github.com/jeffreyevans/spatialEco
-* Date/Publication: 2020-01-17 09:40:03 UTC
-* Number of recursive dependencies: 132
-
-Run `revdep_details(,"spatialEco")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    >  library(raster)
-    Loading required package: sp
-    
-    Attaching package: ‘raster’
-    
-    The following object is masked from ‘package:spatialEco’:
-    
-        shift
-    
-    >  data(elev)
-    >  sa <- raster::terrain(elev, opt=c("slope", "aspect"), unit="degrees")
-    
-     *** caught segfault ***
-    address 0x11aba2ff8, cause 'memory not mapped'
-    
-    Traceback:
-     1: .terrain(as.double(values(x)), as.integer(dim(out)), rs, un,     nopt, lonlat, y)
-     2: .local(x, ...)
-     3: raster::terrain(elev, opt = c("slope", "aspect"), unit = "degrees")
-     4: raster::terrain(elev, opt = c("slope", "aspect"), unit = "degrees")
-    An irrecoverable exception occurred. R is aborting now ...
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘dplyr’ ‘fasterize’
-      All declared Imports should be used.
-    ```
-
 # spatialrisk
 
 <details>
@@ -13038,7 +12807,7 @@ Run `revdep_details(,"stars")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 16.2Mb
+      installed size is 16.1Mb
       sub-directories of 1Mb or more:
         doc  10.3Mb
         nc    4.5Mb
@@ -13343,11 +13112,11 @@ Run `revdep_details(,"sugarbag")` for more info
 
 <details>
 
-* Version: 0.2.5
+* Version: 0.2.6
 * Source code: https://github.com/cran/sugrrants
 * URL: https://pkg.earo.me/sugrrants
 * BugReports: https://github.com/earowang/sugrrants/issues
-* Date/Publication: 2020-02-21 20:50:03 UTC
+* Date/Publication: 2020-03-10 06:40:02 UTC
 * Number of recursive dependencies: 93
 
 Run `revdep_details(,"sugrrants")` for more info
@@ -13515,45 +13284,6 @@ Run `revdep_details(,"survminer")` for more info
       installed size is  5.6Mb
       sub-directories of 1Mb or more:
         doc   5.1Mb
-    ```
-
-# survParamSim
-
-<details>
-
-* Version: 0.1.0
-* Source code: https://github.com/cran/survParamSim
-* URL: https://github.com/yoshidk6/survParamSim
-* BugReports: https://github.com/yoshidk6/survParamSim/issues
-* Date/Publication: 2020-01-13 17:00:02 UTC
-* Number of recursive dependencies: 132
-
-Run `revdep_details(,"survParamSim")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ── 2. Error: no group or trt (@test-calc_km_pi.R#78)  ──────────────────────────
-      'names' attribute [1] must be the same length as the vector [0]
-      Backtrace:
-        1. survParamSim::calc_km_pi(sim)
-        2. dplyr::bind_rows(sim.median.pi, obs.median)
-       10. dplyr::arrange(., !!!trt.syms, !!!group.syms)
-       12. dplyr:::arrange_rows(.data, ..., .by_group = .by_group)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 13 | SKIPPED: 5 | WARNINGS: 1 | FAILED: 2 ]
-      1. Error: (unknown) (@test-calc_hr_pi.R#19) 
-      2. Error: no group or trt (@test-calc_km_pi.R#78) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # tabr
@@ -13850,7 +13580,7 @@ Run `revdep_details(,"tibbleOne")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
        11. dplyr:::arrange.data.frame(., variable)
-       12. dplyr:::arrange_rows(.data, ..., .by_group = .by_group)
+       12. dplyr:::arrange_rows(.data, dots)
        13. base::tryCatch(...)
        14. base:::tryCatchList(expr, classes, parentenv, handlers)
        15. base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
@@ -14012,63 +13742,6 @@ Run `revdep_details(,"tidycells")` for more info
       8. Error: (unknown) (@test-analyze_cells.R#25) 
       9. Error: as_cell_df() works on tidyxl::xlsx_cells on single sheet (@test-as_cell_df.R#6) 
       1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-# tidycomm
-
-<details>
-
-* Version: 0.1.0
-* Source code: https://github.com/cran/tidycomm
-* URL: https://github.com/joon-e/tidycomm
-* BugReports: https://github.com/joon-e/tidycomm/issues
-* Date/Publication: 2019-09-22 16:30:02 UTC
-* Number of recursive dependencies: 89
-
-Run `revdep_details(,"tidycomm")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘tidycomm-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: tab_frequencies
-    > ### Title: Tabulate frequencies
-    > ### Aliases: tab_frequencies
-    > 
-    > ### ** Examples
-    > 
-    > WoJ %>% tab_frequencies(employment)
-    Error in names(quosures) <- paste0("^^--arrange_quosure_", seq_along(quosures)) : 
-      'names' attribute [1] must be the same length as the vector [0]
-    Calls: %>% ... <Anonymous> -> <Anonymous> -> arrange.data.frame -> arrange_rows
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Backtrace:
-        1. tidycomm::tab_frequencies(WoJ, employment)
-        2. dplyr::group_by(., ..., !!!grouping)
-        2. dplyr::summarise(., n = dplyr::n())
-        2. dplyr::group_by(., !!!grouping)
-        2. dplyr::mutate(., percent = .data$n/sum(.data$n))
-       10. dplyr::arrange(., !!!grouping)
-       12. dplyr:::arrange_rows(.data, ..., .by_group = .by_group)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 136 | SKIPPED: 0 | WARNINGS: 2 | FAILED: 1 ]
-      1. Error: tab_frequencies returns tibble (@test-categorical.R#7) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -14331,20 +14004,20 @@ Run `revdep_details(,"tidyquant")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      1: In for (i in 1:length(args)) { :
+      1: In for (i in 2:(n - 1)) { :
         closing unused connection 5 (https://fred.stlouisfed.org/series/XYZ/downloaddata/XYZ.csv)
-      2: In for (i in 1:length(args)) { :
+      2: In for (i in 2:(n - 1)) { :
         closing unused connection 4 (https://fred.stlouisfed.org/series/XYZ/downloaddata/XYZ.csv)
-      3: In UseMethod("mean") :
-        closing unused connection 8 (https://query1.finance.yahoo.com/v7/finance/download/AAPL?period1=1262304000&period2=1420070400&interval=1d&events=history&crumb=VNmwLiEfChB)
-      4: In UseMethod("mean") :
-        closing unused connection 7 (https://query1.finance.yahoo.com/v7/finance/download/XYZ?period1=1262304000&period2=1583798400&interval=1d&events=history&crumb=VNmwLiEfChB)
-      5: In UseMethod("mean") :
-        closing unused connection 6 (https://query2.finance.yahoo.com/v7/finance/download/XYZ?period1=1262304000&period2=1583798400&interval=1d&events=history&crumb=3Y.Wmd4nw0n)
-      6: In UseMethod("mean") :
-        closing unused connection 5 (https://query1.finance.yahoo.com/v7/finance/download/XYZ?period1=1262304000&period2=1583798400&interval=1d&events=history&crumb=3Y.Wmd4nw0n)
-      7: In UseMethod("mean") :
-        closing unused connection 4 (https://query1.finance.yahoo.com/v7/finance/download/XYZ?period1=1262304000&period2=1583798400&interval=1d&events=history&crumb=gq9Ne8QgwOT)
+      3: In as.numeric(x) :
+        closing unused connection 8 (https://query2.finance.yahoo.com/v7/finance/download/AAPL?period1=1262304000&period2=1420070400&interval=1d&events=history&crumb=0oaqzCRDWeW)
+      4: In as.numeric(x) :
+        closing unused connection 7 (https://query2.finance.yahoo.com/v7/finance/download/XYZ?period1=1262304000&period2=1583798400&interval=1d&events=history&crumb=0oaqzCRDWeW)
+      5: In as.numeric(x) :
+        closing unused connection 6 (https://query1.finance.yahoo.com/v7/finance/download/XYZ?period1=1262304000&period2=1583798400&interval=1d&events=history&crumb=PerRapyP9up)
+      6: In as.numeric(x) :
+        closing unused connection 5 (https://query1.finance.yahoo.com/v7/finance/download/XYZ?period1=1262304000&period2=1583798400&interval=1d&events=history&crumb=PerRapyP9up)
+      7: In as.numeric(x) :
+        closing unused connection 4 (https://query2.finance.yahoo.com/v7/finance/download/XYZ?period1=1262304000&period2=1583798400&interval=1d&events=history&crumb=XUHPVwDPt1a)
       Execution halted
     ```
 
@@ -15408,10 +15081,10 @@ Run `revdep_details(,"TSstudio")` for more info
       9.             └─function_list[[k]](value)
      10.               ├─dplyr::arrange(., time)
      11.               └─dplyr:::arrange.data.frame(., time)
-     12.                 └─dplyr:::arrange_rows(.data, ..., .by_group = .by_group)
+     12.                 └─dplyr:::arrange_rows(.data, dots)
      13.                   └─base::tryCatch(...)
      14.                     └─base:::tryCatchList(expr, classes, parentenv, handlers)
-     15.                       └─base:::tryC
+     15.                       └─base:::tryCatchOne(expr, names, p
     Execution halted
     ```
 
