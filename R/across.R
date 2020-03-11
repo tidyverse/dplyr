@@ -136,14 +136,14 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #' @export
 #' @rdname across
 c_across <- function(.cols = everything()) {
-  vars <- across_select({{ cols }})
+  vars <- across_select({{ .cols }})
 
   mask <- peek_mask()
 
-  cols <- mask$current_cols(vars)
-  cols <- unname(cols)
+  .cols <- mask$current_cols(vars)
+  .cols <- unname(.cols)
 
-  vec_c(!!!cols)
+  vec_c(!!!.cols)
 }
 
 # TODO: The usage of a cache in `across_select()` is a stopgap solution, and
