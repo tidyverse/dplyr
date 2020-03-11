@@ -58,13 +58,14 @@ test_that("across() correctly names output columns", {
 test_that("across() result locations are aligned with column names (#4967)", {
   df <- tibble(x = 1:2, y = c("a", "b"))
 
-  x <- df %>% summarise(
-    across(
-      everything(),
-      list(cls = class, type = is.numeric),
-      names = "{col}_{fn}"
+  x <- df %>%
+    summarise(
+      across(
+        everything(),
+        list(cls = class, type = is.numeric),
+        names = "{col}_{fn}"
+      )
     )
-  )
 
   expect_named(x, c("x_cls", "x_type", "y_cls", "y_type"))
 
