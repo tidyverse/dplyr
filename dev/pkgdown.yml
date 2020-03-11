@@ -1,6 +1,6 @@
 pandoc: 2.7.3
 pkgdown: 1.4.1.9000
-pkgdown_sha: 42bd8ad4b801cbfbb9494f415ca5ac39a8511dfb
+pkgdown_sha: 5d965e42270c27db38e2e4da36ae5e46501a6688
 articles:
   base: base.html
   colwise: colwise.html
