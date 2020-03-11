@@ -382,16 +382,16 @@
 <span id="cb18-14"><a href="#cb18-14"></a><span class="co">#&gt; 4 Chagrian   NaN    196</span></span>
 <span id="cb18-15"><a href="#cb18-15"></a><span class="co">#&gt; # … with 34 more rows</span></span></code></pre></div>
 <p>You can use this same idea for multiple sets of input data-variables:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_by, summarise_by) {</span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_var, summarise_var) {</span>
 <span id="cb19-2"><a href="#cb19-2"></a>  data <span class="op">%&gt;%</span></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_by }})) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb19-4"><a href="#cb19-4"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summarise_by }}, mean))</span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_var }})) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_var }}, mean))</span>
 <span id="cb19-5"><a href="#cb19-5"></a>}</span></code></pre></div>
 <p>Use the <code>names</code> argument to <code><a href="../reference/across.html">across()</a></code> to control the names of the output.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_by, summarise_by) {</span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(data, group_var, summarise_var) {</span>
 <span id="cb20-2"><a href="#cb20-2"></a>  data <span class="op">%&gt;%</span></span>
-<span id="cb20-3"><a href="#cb20-3"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_by }})) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb20-4"><a href="#cb20-4"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summarise_by }}, mean), <span class="dt">names =</span> <span class="st">"mean_{col}"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ group_var }})) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>({{ summarise_var }}, mean, <span class="dt">names =</span> <span class="st">"mean_{col}"</span>))</span>
 <span id="cb20-5"><a href="#cb20-5"></a>}</span></code></pre></div>
 </div>
 <div id="loop-over-multiple-variables" class="section level3">
