@@ -118,19 +118,39 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   # handle formulas
   .fns <- map(.fns, as_function)
 
-  # main loop
-  .cols <- pmap(
-    expand.grid(i = seq_along(data), fn = .fns),
-    function(i, fn) {
-      local_column(vars[i])
-      fn(data[[i]], ...)
+  n_cols <- length(data)
+  n_fns <- length(.fns)
+
+  seq_n_cols <- seq_len(n_cols)
+  seq_fns <- seq_len(n_fns)
+
+  k <- 1L
+  out <- vector("list", n_cols * n_fns)
+
+  # Loop in such an order that all functions are applied
+  # to a single column before moving on to the next column
+  for (i in seq_n_cols) {
+    var <- vars[[i]]
+    col <- data[[i]]
+
+    for (j in seq_fns) {
+      fn <- .fns[[j]]
+      out[[k]] <- across_apply(var, col, fn, ...)
+      k <- k + 1L
     }
-  )
-  names(.cols) <- glue(.names,
+  }
+
+  names(out) <- glue(.names,
     col = rep(vars, each = length(.fns)),
     fn  = rep(names_fns, length(data))
   )
-  as_tibble(.cols)
+
+  as_tibble(out)
+}
+
+across_apply <- function(var, col, fn, ...) {
+  local_column(var)
+  fn(col, ...)
 }
 
 #' @export

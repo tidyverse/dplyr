@@ -55,6 +55,15 @@ test_that("across() correctly names output columns", {
   )
 })
 
+test_that("across() result locations are aligned with column names (#4967)", {
+  df <- tibble(x = 1:2, y = c("a", "b"))
+  expect <- tibble(x_cls = "integer", x_type = TRUE, y_cls = "character", y_type = FALSE)
+
+  x <- summarise(df, across(everything(), list(cls = class, type = is.numeric)))
+
+  expect_identical(x, expect)
+})
+
 test_that("across() passes ... to functions", {
   df <- tibble(x = c(1, NA))
   expect_equal(
