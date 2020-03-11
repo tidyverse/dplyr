@@ -13,7 +13,7 @@
 #' semantics so you can easily select multiple variables. See
 #' `vignette("rowwise")` for more details.
 #'
-#' @param cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
+#' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
 #'   `mutate()`, you can't select or compute upon grouping variables.
 #' @param fns Functions to apply to each of the selected columns.
@@ -35,7 +35,7 @@
 #' @param ... Additional arguments for the function calls in `fns`.
 #'
 #' @returns
-#' A tibble with one column for each column in `cols` and each function in `fns`.
+#' A tibble with one column for each column in `.cols` and each function in `fns`.
 #' @examples
 #' # across() -----------------------------------------------------------------
 #' iris %>%
@@ -75,8 +75,8 @@
 #'     sd = sd(c_across(w:z))
 #'  )
 #' @export
-across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
-  vars <- across_select({{ cols }})
+across <- function(.cols = everything(), fns = NULL, names = NULL, ...) {
+  vars <- across_select({{ .cols }})
 
   mask <- peek_mask()
   data <- mask$current_cols(vars)
@@ -119,18 +119,18 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   fns <- map(fns, as_function)
 
   # main loop
-  cols <- pmap(
+  .cols <- pmap(
     expand.grid(i = seq_along(data), fn = fns),
     function(i, fn) {
       local_column(vars[i])
       fn(data[[i]], ...)
     }
   )
-  names(cols) <- glue(names,
+  names(.cols) <- glue(names,
     col = rep(vars, each = length(fns)),
     fn  = rep(names_fns, length(data))
   )
-  as_tibble(cols)
+  as_tibble(.cols)
 }
 
 #' @export
