@@ -22,7 +22,7 @@ test_that("across() correctly names output columns", {
     c("x", "y", "z", "s")
   )
   expect_named(
-    summarise(gf, across(names = "id_{col}")),
+    summarise(gf, across(.names = "id_{col}")),
     c("x", "id_y", "id_z", "id_s")
   )
   expect_named(
@@ -30,7 +30,7 @@ test_that("across() correctly names output columns", {
     c("x", "y", "z")
   )
   expect_named(
-    summarise(gf, across(is.numeric, mean, names = "mean_{col}")),
+    summarise(gf, across(is.numeric, mean, .names = "mean_{col}")),
     c("x", "mean_y", "mean_z")
   )
   expect_named(
@@ -50,7 +50,7 @@ test_that("across() correctly names output columns", {
     c("x", "y_1", "y_2", "z_1", "z_2")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean = mean, sum = sum), names = "{fn}_{col}")),
+    summarise(gf, across(is.numeric, list(mean = mean, sum = sum), .names = "{fn}_{col}")),
     c("x", "mean_y", "sum_y", "mean_z", "sum_z")
   )
 })

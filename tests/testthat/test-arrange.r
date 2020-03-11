@@ -120,7 +120,7 @@ test_that("arrange() supports across() (#4679)", {
     df %>% arrange(x, y)
   )
   expect_identical(
-    df %>% arrange(across(fns = desc)),
+    df %>% arrange(across(.fns = desc)),
     df %>% arrange(desc(x), desc(y))
   )
   expect_identical(
