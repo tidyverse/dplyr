@@ -7,7 +7,9 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
   y_loc <- y_split$loc[matches]
 
   if (type == "left" || type == "full") {
-    y_loc <- vec_assign(y_loc, vec_equal_na(matches), list(NA_integer_))
+    if (anyNA(matches)) {
+      y_loc <- vec_assign(y_loc, vec_equal_na(matches), list(NA_integer_))
+    }
   }
 
   x_loc <- seq_len(vec_size(x_key))
