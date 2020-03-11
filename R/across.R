@@ -16,7 +16,7 @@
 #' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
 #'   `mutate()`, you can't select or compute upon grouping variables.
-#' @param fns Functions to apply to each of the selected columns.
+#' @param .fns Functions to apply to each of the selected columns.
 #'   Possible values are:
 #'
 #'   - `NULL`, to returns the columns untransformed.
@@ -31,11 +31,11 @@
 #'   columns. This can use `{col}` to stand for the selected column name, and
 #'   `{fn}` to stand for the name of the function being applied. The default
 #'   (`NULL`) is equivalent to `"{col}"` for the single function case and
-#'   `"{col}_{fn}"` for the case where a list is used for `fns`.
-#' @param ... Additional arguments for the function calls in `fns`.
+#'   `"{col}_{fn}"` for the case where a list is used for `.fns`.
+#' @param ... Additional arguments for the function calls in `.fns`.
 #'
 #' @returns
-#' A tibble with one column for each column in `.cols` and each function in `fns`.
+#' A tibble with one column for each column in `.cols` and each function in `.fns`.
 #' @examples
 #' # across() -----------------------------------------------------------------
 #' iris %>%
@@ -75,13 +75,13 @@
 #'     sd = sd(c_across(w:z))
 #'  )
 #' @export
-across <- function(.cols = everything(), fns = NULL, names = NULL, ...) {
+across <- function(.cols = everything(), .fns = NULL, names = NULL, ...) {
   vars <- across_select({{ .cols }})
 
   mask <- peek_mask()
   data <- mask$current_cols(vars)
 
-  if (is.null(fns)) {
+  if (is.null(.fns)) {
     nrow <- length(mask$current_rows())
     data <- new_tibble(data, nrow = nrow)
 
@@ -93,22 +93,22 @@ across <- function(.cols = everything(), fns = NULL, names = NULL, ...) {
   }
 
   # apply `names` smart default
-  if (is.function(fns) || is_formula(fns)) {
+  if (is.function(.fns) || is_formula(.fns)) {
     names <- names %||% "{col}"
-    fns <- list("1" = fns)
+    .fns <- list("1" = .fns)
   } else {
     names <- names %||% "{col}_{fn}"
   }
 
-  if (!is.list(fns)) {
-    abort("`fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
+  if (!is.list(.fns)) {
+    abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
   }
 
   # make sure fns has names, use number to replace unnamed
-  if (is.null(names(fns))) {
-    names_fns <- seq_along(fns)
+  if (is.null(names(.fns))) {
+    names_fns <- seq_along(.fns)
   } else {
-    names_fns <- names(fns)
+    names_fns <- names(.fns)
     empties <- which(names_fns == "")
     if (length(empties)) {
       names_fns[empties] <- empties
@@ -116,18 +116,18 @@ across <- function(.cols = everything(), fns = NULL, names = NULL, ...) {
   }
 
   # handle formulas
-  fns <- map(fns, as_function)
+  .fns <- map(.fns, as_function)
 
   # main loop
   .cols <- pmap(
-    expand.grid(i = seq_along(data), fn = fns),
+    expand.grid(i = seq_along(data), fn = .fns),
     function(i, fn) {
       local_column(vars[i])
       fn(data[[i]], ...)
     }
   )
   names(.cols) <- glue(names,
-    col = rep(vars, each = length(fns)),
+    col = rep(vars, each = length(.fns)),
     fn  = rep(names_fns, length(data))
   )
   as_tibble(.cols)
