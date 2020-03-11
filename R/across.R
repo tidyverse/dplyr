@@ -135,7 +135,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
 #' @export
 #' @rdname across
-c_across <- function(cols = everything()) {
+c_across <- function(.cols = everything()) {
   vars <- across_select({{ cols }})
 
   mask <- peek_mask()
