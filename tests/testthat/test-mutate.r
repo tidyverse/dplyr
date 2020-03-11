@@ -66,6 +66,13 @@ test_that("can mutate a data frame with zero columns and `NULL` column names", {
 
 # column types ------------------------------------------------------------
 
+test_that("glue() is supported", {
+  expect_equal(
+    tibble(x = 1) %>% mutate(y = glue("")),
+    tibble(x = 1, y = glue(""))
+  )
+})
+
 test_that("mutate disambiguates NA and NaN (#1448)", {
   df <- tibble(x = c(1, NA, NaN))
   out <- mutate(df, y = x * 1)
