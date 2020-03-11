@@ -27,7 +27,7 @@
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param names A glue specification that describes how to name the output
+#' @param .names A glue specification that describes how to name the output
 #'   columns. This can use `{col}` to stand for the selected column name, and
 #'   `{fn}` to stand for the name of the function being applied. The default
 #'   (`NULL`) is equivalent to `"{col}"` for the single function case and
@@ -55,16 +55,16 @@
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 #'
-#' # Use the names argument to control the output names
+#' # Use the .names argument to control the output names
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), mean, names = "mean_{col}"))
+#'   summarise(across(starts_with("Sepal"), mean, .names = "mean_{col}"))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), names = "{col}.{fn}"))
+#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{col}.{fn}"))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
+#'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{col}.fn{fn}"))
 #'
 #' # c_across() ---------------------------------------------------------------
 #' df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
@@ -75,7 +75,7 @@
 #'     sd = sd(c_across(w:z))
 #'  )
 #' @export
-across <- function(.cols = everything(), .fns = NULL, names = NULL, ...) {
+across <- function(.cols = everything(), .fns = NULL, .names = NULL, ...) {
   vars <- across_select({{ .cols }})
 
   mask <- peek_mask()
@@ -85,19 +85,19 @@ across <- function(.cols = everything(), .fns = NULL, names = NULL, ...) {
     nrow <- length(mask$current_rows())
     data <- new_tibble(data, nrow = nrow)
 
-    if (is.null(names)) {
+    if (is.null(.names)) {
       return(data)
     } else {
-      return(set_names(data, glue(names, col = names(data), fn = "1")))
+      return(set_names(data, glue(.names, col = names(data), fn = "1")))
     }
   }
 
-  # apply `names` smart default
+  # apply `.names` smart default
   if (is.function(.fns) || is_formula(.fns)) {
-    names <- names %||% "{col}"
+    .names <- .names %||% "{col}"
     .fns <- list("1" = .fns)
   } else {
-    names <- names %||% "{col}_{fn}"
+    .names <- .names %||% "{col}_{fn}"
   }
 
   if (!is.list(.fns)) {
@@ -126,7 +126,7 @@ across <- function(.cols = everything(), .fns = NULL, names = NULL, ...) {
       fn(data[[i]], ...)
     }
   )
-  names(.cols) <- glue(names,
+  names(.cols) <- glue(.names,
     col = rep(vars, each = length(.fns)),
     fn  = rep(names_fns, length(data))
   )
