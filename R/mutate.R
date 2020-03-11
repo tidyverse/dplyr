@@ -231,11 +231,37 @@ mutate_cols <- function(.data, ...) {
 
   tryCatch({
     for (i in seq_along(dots)) {
+      not_named <- (is.null(dots_names) || dots_names[i] == "")
+
       # a list in which each element is the result of
       # evaluating the quosure in the "sliced data mask"
       # recycling it appropriately to match the group size
       #
       # TODO: reinject hybrid evaluation at the R level
+
+      # skip chop/unchop when already known
+      if (quo_is_symbol(dots[[i]]) ){
+        name <- as_string(quo_get_expr(dots[[i]]))
+        result <- NULL
+
+        if (name %in% names(new_columns)) {
+          result <- new_columns[[name]]
+        } else if (name %in% names(.data)) {
+          result <- .data[[name]]
+        }
+
+        if (!is.null(result)) {
+          if (not_named && is.data.frame(result)) {
+            new_columns[names(result)] <- result
+          } else {
+            new_name <- if (not_named) auto_named_dots[i] else dots_names[i]
+            new_columns[[new_name]] <- result
+          }
+          next
+        }
+
+      }
+
       chunks <- mask$eval_all_mutate(dots[[i]])
 
       mask$across_cache_reset()
@@ -252,7 +278,6 @@ mutate_cols <- function(.data, ...) {
 
       result <- vec_unchop(chunks, rows)
 
-      not_named <- (is.null(dots_names) || dots_names[i] == "")
       if (not_named && is.data.frame(result)) {
         new_columns[names(result)] <- result
 
@@ -269,6 +294,7 @@ mutate_cols <- function(.data, ...) {
         # remember
         mask$add(name, chunks)
       }
+
 
     }
 
