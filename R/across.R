@@ -27,12 +27,12 @@
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
+#' @param ... Additional arguments for the function calls in `.fns`.
 #' @param .names A glue specification that describes how to name the output
 #'   columns. This can use `{col}` to stand for the selected column name, and
 #'   `{fn}` to stand for the name of the function being applied. The default
 #'   (`NULL`) is equivalent to `"{col}"` for the single function case and
 #'   `"{col}_{fn}"` for the case where a list is used for `.fns`.
-#' @param ... Additional arguments for the function calls in `.fns`.
 #'
 #' @returns
 #' A tibble with one column for each column in `.cols` and each function in `.fns`.
@@ -75,7 +75,7 @@
 #'     sd = sd(c_across(w:z))
 #'  )
 #' @export
-across <- function(.cols = everything(), .fns = NULL, .names = NULL, ...) {
+across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   vars <- across_select({{ .cols }})
 
   mask <- peek_mask()
