@@ -87,12 +87,6 @@ DataMask <- R6Class("DataMask",
       private$resolved[[name]] <- chunks
     },
 
-    set = function(name, chunks) {
-      private$resolved[[name]] <- chunks
-      private$used <- !map_lgl(private$resolved, is.null)
-      private$which_used <- which(private$used)
-    },
-
     remove = function(name) {
       private$set(name, NULL)
       rm(list = name, envir = private$bindings)
@@ -222,6 +216,12 @@ DataMask <- R6Class("DataMask",
     bindings = NULL,
     current_group = 0L,
     caller = NULL,
-    across_cache = list()
+    across_cache = list(),
+
+    set = function(name, chunks) {
+      private$resolved[[name]] <- chunks
+      private$used <- !map_lgl(private$resolved, is.null)
+      private$which_used <- which(private$used)
+    }
   )
 )
