@@ -92,7 +92,8 @@ DataMask <- R6Class("DataMask",
     remove = function(name) {
       pos <- which(names(private$resolved) == name)
       private$resolved[[name]] <- NULL
-      private$which_used <- which(!map_lgl(private$resolved, is.null))
+      private$used <- !map_lgl(private$resolved, is.null)
+      private$which_used <- which(private$used)
       rm(list = name, envir = private$bindings)
     },
 
