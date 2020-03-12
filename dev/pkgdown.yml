@@ -1,6 +1,6 @@
 pandoc: 2.7.3
 pkgdown: 1.4.1.9000
-pkgdown_sha: 6b0f53d6a7c864b711f27227687d590926532d9c
+pkgdown_sha: f2de52915749bd4233593e5c6bed232a482d530f
 articles:
   base: base.html
   colwise: colwise.html
@@ -11,6 +11,16 @@ articles:
   rowwise: rowwise.html
   two-table: two-table.html
   window-functions: window-functions.html
+last_built:
+  sec: 0.0
+  min: 32
+  hour: 12
+  mday: 12
+  mon: 2
+  year: 120
+  wday: 4
+  yday: 71
+  isdst: 0
 urls:
   reference: https://dplyr.tidyverse.org/reference
   article: https://dplyr.tidyverse.org/articles
