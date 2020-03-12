@@ -64,6 +64,16 @@ test_that("can mutate a data frame with zero columns and `NULL` column names", {
   expect_equal(mutate(df, x = 1), data.frame(x = c(1, 1)))
 })
 
+test_that("mutate() handles symbol expressions", {
+  df <- tibble(x = structure(1, class = "alien"))
+  res <- mutate(df, y = x)
+  expect_identical(df$x, res$y)
+
+  gf <- group_by(df, x)
+  res <- mutate(df, y = x)
+  expect_identical(df$x, res$y)
+})
+
 # column types ------------------------------------------------------------
 
 test_that("glue() is supported", {
