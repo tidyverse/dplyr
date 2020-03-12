@@ -40,14 +40,12 @@ DataMask <- R6Class("DataMask",
       names_bindings <- chr_unserialise_unicode(names2(data))
       private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
 
-      promise_fn <- function(index, chunks = resolve_chunks(index)) {
+      promise_fn <- function(index, chunks = resolve_chunks(index), name = names_bindings[index]) {
           # resolve the chunks and hold the slice for current group
           res <- .subset2(chunks, self$get_current_group())
 
-          # track
-          private$used[[index]] <- TRUE
-          private$resolved[[index]] <- chunks
-          private$which_used <- c(private$which_used, index)
+          # track - not safe to directly use `index`
+          private$set(name, chunks)
 
           # return result for current slice
           res
@@ -89,11 +87,14 @@ DataMask <- R6Class("DataMask",
       private$resolved[[name]] <- chunks
     },
 
-    remove = function(name) {
-      pos <- which(names(private$resolved) == name)
-      private$resolved[[name]] <- NULL
+    set = function(name, chunks) {
+      private$resolved[[name]] <- chunks
       private$used <- !map_lgl(private$resolved, is.null)
       private$which_used <- which(private$used)
+    },
+
+    remove = function(name) {
+      private$set(name, NULL)
       rm(list = name, envir = private$bindings)
     },
 
