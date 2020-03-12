@@ -13,10 +13,10 @@
 #' semantics so you can easily select multiple variables. See
 #' `vignette("rowwise")` for more details.
 #'
-#' @param cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
+#' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
 #'   `mutate()`, you can't select or compute upon grouping variables.
-#' @param fns Functions to apply to each of the selected columns.
+#' @param .fns Functions to apply to each of the selected columns.
 #'   Possible values are:
 #'
 #'   - `NULL`, to returns the columns untransformed.
@@ -27,15 +27,15 @@
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param names A glue specification that describes how to name the output
+#' @param ... Additional arguments for the function calls in `.fns`.
+#' @param .names A glue specification that describes how to name the output
 #'   columns. This can use `{col}` to stand for the selected column name, and
 #'   `{fn}` to stand for the name of the function being applied. The default
 #'   (`NULL`) is equivalent to `"{col}"` for the single function case and
-#'   `"{col}_{fn}"` for the case where a list is used for `fns`.
-#' @param ... Additional arguments for the function calls in `fns`.
+#'   `"{col}_{fn}"` for the case where a list is used for `.fns`.
 #'
 #' @returns
-#' A tibble with one column for each column in `cols` and each function in `fns`.
+#' A tibble with one column for each column in `.cols` and each function in `.fns`.
 #' @examples
 #' # across() -----------------------------------------------------------------
 #' iris %>%
@@ -55,16 +55,16 @@
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 #'
-#' # Use the names argument to control the output names
+#' # Use the .names argument to control the output names
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), mean, names = "mean_{col}"))
+#'   summarise(across(starts_with("Sepal"), mean, .names = "mean_{col}"))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), names = "{col}.{fn}"))
+#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{col}.{fn}"))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean, sd), names = "{col}.fn{fn}"))
+#'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{col}.fn{fn}"))
 #'
 #' # c_across() ---------------------------------------------------------------
 #' df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
@@ -75,40 +75,40 @@
 #'     sd = sd(c_across(w:z))
 #'  )
 #' @export
-across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
-  vars <- across_select({{ cols }})
+across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+  vars <- across_select({{ .cols }})
 
   mask <- peek_mask()
   data <- mask$current_cols(vars)
 
-  if (is.null(fns)) {
+  if (is.null(.fns)) {
     nrow <- length(mask$current_rows())
     data <- new_tibble(data, nrow = nrow)
 
-    if (is.null(names)) {
+    if (is.null(.names)) {
       return(data)
     } else {
-      return(set_names(data, glue(names, col = names(data), fn = "1")))
+      return(set_names(data, glue(.names, col = names(data), fn = "1")))
     }
   }
 
-  # apply `names` smart default
-  if (is.function(fns) || is_formula(fns)) {
-    names <- names %||% "{col}"
-    fns <- list("1" = fns)
+  # apply `.names` smart default
+  if (is.function(.fns) || is_formula(.fns)) {
+    .names <- .names %||% "{col}"
+    .fns <- list("1" = .fns)
   } else {
-    names <- names %||% "{col}_{fn}"
+    .names <- .names %||% "{col}_{fn}"
   }
 
-  if (!is.list(fns)) {
-    abort("`fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
+  if (!is.list(.fns)) {
+    abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
   }
 
   # make sure fns has names, use number to replace unnamed
-  if (is.null(names(fns))) {
-    names_fns <- seq_along(fns)
+  if (is.null(names(.fns))) {
+    names_fns <- seq_along(.fns)
   } else {
-    names_fns <- names(fns)
+    names_fns <- names(.fns)
     empties <- which(names_fns == "")
     if (length(empties)) {
       names_fns[empties] <- empties
@@ -116,10 +116,10 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
   }
 
   # handle formulas
-  fns <- map(fns, as_function)
+  .fns <- map(.fns, as_function)
 
   n_cols <- length(data)
-  n_fns <- length(fns)
+  n_fns <- length(.fns)
 
   seq_n_cols <- seq_len(n_cols)
   seq_fns <- seq_len(n_fns)
@@ -134,14 +134,14 @@ across <- function(cols = everything(), fns = NULL, names = NULL, ...) {
     col <- data[[i]]
 
     for (j in seq_fns) {
-      fn <- fns[[j]]
+      fn <- .fns[[j]]
       out[[k]] <- across_apply(var, col, fn, ...)
       k <- k + 1L
     }
   }
 
-  names(out) <- glue(names,
-    col = rep(vars, each = length(fns)),
+  names(out) <- glue(.names,
+    col = rep(vars, each = length(.fns)),
     fn  = rep(names_fns, length(data))
   )
 
@@ -155,15 +155,15 @@ across_apply <- function(var, col, fn, ...) {
 
 #' @export
 #' @rdname across
-c_across <- function(cols = everything()) {
-  vars <- across_select({{ cols }})
+c_across <- function(.cols = everything()) {
+  vars <- across_select({{ .cols }})
 
   mask <- peek_mask()
 
-  cols <- mask$current_cols(vars)
-  cols <- unname(cols)
+  .cols <- mask$current_cols(vars)
+  .cols <- unname(.cols)
 
-  vec_c(!!!cols)
+  vec_c(!!!.cols)
 }
 
 # TODO: The usage of a cache in `across_select()` is a stopgap solution, and

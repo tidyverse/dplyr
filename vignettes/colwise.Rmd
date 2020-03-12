@@ -41,11 +41,11 @@ library(dplyr, warn.conflicts = FALSE)
 
 `across()` has two primary arguments:
 
-* The first argument, `cols`, selects the columns you want to operate on.
+* The first argument, `.cols`, selects the columns you want to operate on.
   It uses tidy selection (like `select()`) so you can pick variables by 
   position, name, and type.
 
-* The second argument, `fns`, is a function or list of functions to apply to
+* The second argument, `.fns`, is a function or list of functions to apply to
   each column. This can also be a purrr style formula (or list of formulas)
   like `~ .x / 2`. (This argument is optional, and you can omit it if you just want
   to get the underlying data; you'll see that technique used in
@@ -89,18 +89,18 @@ min_max <- list(
 starwars %>% summarise(across(is.numeric, min_max))
 ```
 
-Control how the names are created with the `names` argument which takes a [glue](http://glue.tidyverse.org/) spec:
+Control how the names are created with the `.names` argument which takes a [glue](http://glue.tidyverse.org/) spec:
 
 ```{r}
-starwars %>% summarise(across(is.numeric, min_max, names = "{fn}.{col}"))
+starwars %>% summarise(across(is.numeric, min_max, .names = "{fn}.{col}"))
 ```
 
 If you'd prefer all summaries with the same function to be grouped together, you'll have to expand the calls yourself:
 
 ```{r}
 starwars %>% summarise(
-  across(is.numeric, ~min(.x, na.rm = TRUE), names = "min_{col}"),
-  across(is.numeric, ~max(.x, na.rm = TRUE), names = "max_{col}")
+  across(is.numeric, ~min(.x, na.rm = TRUE), .names = "min_{col}"),
+  across(is.numeric, ~max(.x, na.rm = TRUE), .names = "max_{col}")
 )
 ```
 
