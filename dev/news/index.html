@@ -286,9 +286,12 @@
 <h2 class="hasAnchor">
 <a href="#grouping" class="anchor"></a>Grouping</h2>
 <ul>
+<li><p><code><a href="../reference/group_by.html">group_by()</a></code> uses hashing from the <code>vctrs</code> package.</p></li>
 <li><p>Grouped data frames now have <code>names&lt;-</code>, <code>[[&lt;-</code>, <code>[&lt;-</code> and <code>$&lt;-</code> methods that re-generate the underlying grouping. Note that modifying grouping variables in multiple steps (i.e. <code>df$grp1 &lt;- 1; df$grp2 &lt;- 1</code>) will be inefficient since the data frame will be regrouped after each modification.</p></li>
 <li><p><code>[.grouped_df</code> now regroups to respect any grouping columns that have been removed (<a href='https://github.com/tidyverse/dplyr/issues/4708'>#4708</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> can now modify grouping variables (<a href='https://github.com/tidyverse/dplyr/issues/4709'>#4709</a>).</p></li>
+<li><p><code><a href="../reference/group_map.html">group_modify()</a></code> works with additional arguments (<a href='https://github.com/billdenney'>@billdenney</a> and <a href='https://github.com/cderv'>@cderv</a>, <a href='https://github.com/tidyverse/dplyr/issues/4509'>#4509</a>)</p></li>
+<li><p><code><a href="../reference/group_by.html">group_by()</a></code> does not create an arbitrary NA group when grouping by factors with <code>drop = TRUE</code> (<a href='https://github.com/tidyverse/dplyr/issues/4460'>#4460</a>).</p></li>
 </ul>
 </div>
 <div id="lifecycle-changes" class="section level2">
@@ -304,6 +307,8 @@
 <li><p><code><a href="../reference/defunct.html">id()</a></code>, deprecated in dplyr 0.5.0, is now defunct.</p></li>
 <li><p><code><a href="../reference/defunct.html">failwith()</a></code>, deprecated in dplyr 0.7.0, is now defunct.</p></li>
 <li><p><code>tbl_cube()</code> and <code>nasa</code> have been pulled out into a separate cubelyr package (<a href='https://github.com/tidyverse/dplyr/issues/4429'>#4429</a>).</p></li>
+<li><p><code>rbind_all()</code> and <code>rbind_list()</code> have been removed (<a href='https://github.com/bjungbogati'>@bjungbogati</a>, <a href='https://github.com/tidyverse/dplyr/issues/4430'>#4430</a>).</p></li>
+<li><p><code>dr_dplyr()</code> has been removed as it is no longer needed (<a href='https://github.com/tidyverse/dplyr/issues/4433'>#4433</a>, <a href='https://github.com/smwindecker'>@smwindecker</a>).</p></li>
 </ul>
 </div>
 <div id="deprecated" class="section level3">
@@ -325,6 +330,7 @@
 <li><p><code><a href="../reference/progress_estimated.html">progress_estimated()</a></code> is soft deprecated; it’s not the responsibility of dplyr to provide progress bars (<a href='https://github.com/tidyverse/dplyr/issues/4935'>#4935</a>).</p></li>
 <li><p><code><a href="../reference/src_local.html">src_local()</a></code> has been deprecated; it was part of an approach to testing dplyr backends that didn’t pan out.</p></li>
 <li><p><code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code> has been deprecated. We’ve recommended against them for some time. Instead please use the approach described at <a href="http://dbplyr.tidyverse.org/" class="uri">http://dbplyr.tidyverse.org/</a>.</p></li>
+<li><p><code><a href="../reference/select_vars.html">select_vars()</a></code>, <code><a href="../reference/select_vars.html">rename_vars()</a></code>, <code><a href="../reference/select_vars.html">select_var()</a></code>, <code><a href="../reference/select_vars.html">current_vars()</a></code> are now deprecated (<a href='https://github.com/perezp44'>@perezp44</a>, <a href='https://github.com/tidyverse/dplyr/issues/4432'>#4432</a>)</p></li>
 </ul>
 </div>
 <div id="superseded" class="section level3">
@@ -386,23 +392,26 @@
 <li><p><code><a href="../reference/order_by.html">order_by()</a></code> gives an informative hint if you accidentally call it instead of <code><a href="../reference/arrange.html">arrange()</a></code> <a href='https://github.com/tidyverse/dplyr/issues/3357'>#3357</a>.</p></li>
 <li><p><code><a href="../reference/count.html">tally()</a></code> and <code><a href="../reference/count.html">count()</a></code> now error if the default output <code>name</code> (n), already exists in the data frame. You’ll now need to specify it yourself; this replaces the existing ad hoc approach which used <code>nn</code>, <code>nnn</code> etc. If you supply an explicit <code>name</code>, it will override an existing column with that name (<a href='https://github.com/tidyverse/dplyr/issues/4284'>#4284</a>).</p></li>
 <li><p><code>starwars</code> dataset now does a better job of separating biological sex from gender identity. The previous <code>gender</code> column has been renamed to <code>sex</code>, since it actually describes the individual’s biological sex. A new <code>gender</code> column encodes the actual gender identity using other information about the Star Wars universe (<a href='https://github.com/MeganBeckett'>@MeganBeckett</a>, <a href='https://github.com/tidyverse/dplyr/issues/4456'>#4456</a>).</p></li>
+<li><p><code><a href="../reference/src_tbls.html">src_tbls()</a></code> accepts <code>...</code> arguments (<a href='https://github.com/tidyverse/dplyr/issues/4485'>#4485</a>, <a href='https://github.com/ianmcook'>@ianmcook</a>). This could be a breaking change for some dplyr backend packages that implement <code><a href="../reference/src_tbls.html">src_tbls()</a></code>.</p></li>
+<li><p>Better performance for extracting slices of factors and ordered factors (<a href='https://github.com/tidyverse/dplyr/issues/4501'>#4501</a>).</p></li>
+<li><p><code><a href="../reference/select_all.html">rename_at()</a></code> and <code><a href="../reference/select_all.html">rename_all()</a></code> call the function with a simple character vector, not a <code>dplyr_sel_vars</code> (<a href='https://github.com/tidyverse/dplyr/issues/4459'>#4459</a>).</p></li>
 </ul>
 </div>
 </div>
-    <div id="dplyr-084-development-version" class="section level1">
+    <div id="dplyr-085-2020-03-07" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-084-development-version" class="anchor"></a>dplyr 0.8.4 (development version)<small> 2020-01-31 </small>
+<a href="#dplyr-085-2020-03-07" class="anchor"></a>dplyr 0.8.5 (2020-03-07)<small> 2020-03-07 </small>
 </h1>
 <ul>
-<li><p>Better performance for extracting slices of factors and ordered factors (<a href='https://github.com/tidyverse/dplyr/issues/4501'>#4501</a>).</p></li>
-<li><p><code><a href="../reference/group_by.html">group_by()</a></code> uses hashing from the <code>vctrs</code> package.</p></li>
-<li><p><code><a href="../reference/group_by.html">group_by()</a></code> does not create an arbitrary NA group when grouping by factors with <code>drop = TRUE</code> (<a href='https://github.com/tidyverse/dplyr/issues/4460'>#4460</a>).</p></li>
-<li><p><code>rbind_all()</code> and <code>rbind_list()</code> have been removed (<a href='https://github.com/bjungbogati'>@bjungbogati</a>, <a href='https://github.com/tidyverse/dplyr/issues/4433'>#4433</a>).</p></li>
-<li><p><code>dr_dplyr()</code> has been removed as it is no longer needed (<a href='https://github.com/tidyverse/dplyr/issues/4433'>#4433</a>, <a href='https://github.com/smwindecker'>@smwindecker</a>).</p></li>
-<li><p><code><a href="../reference/select_all.html">rename_at()</a></code> and <code><a href="../reference/select_all.html">rename_all()</a></code> call the function with a simple character vector, not a <code>dplyr_sel_vars</code> (<a href='https://github.com/tidyverse/dplyr/issues/4459'>#4459</a>).</p></li>
-<li><p><code><a href="../reference/select_vars.html">select_vars()</a></code>, <code><a href="../reference/select_vars.html">rename_vars()</a></code>, <code><a href="../reference/select_vars.html">select_var()</a></code>, <code><a href="../reference/select_vars.html">current_vars()</a></code> are now deprecated (<a href='https://github.com/perezp44'>@perezp44</a>, <a href='https://github.com/tidyverse/dplyr/issues/4432'>#4432</a>)</p></li>
-<li><p><code><a href="../reference/group_map.html">group_modify()</a></code> works with additional arguments (<a href='https://github.com/billdenney'>@billdenney</a> and <a href='https://github.com/cderv'>@cderv</a>, <a href='https://github.com/tidyverse/dplyr/issues/4509'>#4509</a>)</p></li>
-<li><p><code><a href="../reference/src_tbls.html">src_tbls()</a></code> accepts <code>...</code> arguments (<a href='https://github.com/tidyverse/dplyr/issues/4485'>#4485</a>, <a href='https://github.com/ianmcook'>@ianmcook</a>). This could be a breaking change for some dplyr backend packages that implement <code><a href="../reference/src_tbls.html">src_tbls()</a></code>.</p></li>
+<li>Maintenance release for compatibility with R-devel.</li>
+</ul>
+</div>
+    <div id="dplyr-084-2020-01-30" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-084-2020-01-30" class="anchor"></a>dplyr 0.8.4 (2020-01-30)<small> 2020-01-31 </small>
+</h1>
+<ul>
+<li>Adapt tests to changes in dependent packages.</li>
 </ul>
 </div>
     <div id="dplyr-083-2019-07-04" class="section level1">
@@ -1761,7 +1770,8 @@ starwars %&gt;%
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
         <li><a href="#dplyr-100-in-development">1.0.0</a></li>
-        <li><a href="#dplyr-084-development-version">0.8.4</a></li>
+        <li><a href="#dplyr-085-2020-03-07">0.8.5</a></li>
+        <li><a href="#dplyr-084-2020-01-30">0.8.4</a></li>
         <li><a href="#dplyr-083-2019-07-04">0.8.3</a></li>
         <li><a href="#dplyr-082-2019-06-28">0.8.2</a></li>
         <li><a href="#dplyr-081-2019-05-14">0.8.1</a></li>
