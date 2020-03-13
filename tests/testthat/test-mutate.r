@@ -35,6 +35,12 @@ test_that("can remove variables with NULL (#462)", {
   expect_equal(df %>% mutate(z = NULL), df)
   # or was just created
   expect_equal(df %>% mutate(z = 1, z = NULL), df)
+
+  # regression test for https://github.com/tidyverse/dplyr/issues/4974
+  expect_equal(
+    mutate(data.frame(x = 1, y = 1), z = 1, x = NULL, y = NULL),
+    data.frame(z = 1)
+  )
 })
 
 test_that("mutate() names pronouns correctly (#2686)", {
