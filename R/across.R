@@ -76,7 +76,11 @@
 #'  )
 #' @export
 across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  vars <- across_select({{ .cols }})
+  setup <- across_setup({{ .cols }}, .fns = .fns, .names = .names)
+
+  vars <- setup$vars
+  .fns <- setup$.fns
+  .names <- setup$.names
 
   mask <- peek_mask()
   data <- mask$current_cols(vars)
@@ -88,35 +92,9 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     if (is.null(.names)) {
       return(data)
     } else {
-      return(set_names(data, glue(.names, col = names(data), fn = "1")))
+      return(set_names(data, .names))
     }
   }
-
-  # apply `.names` smart default
-  if (is.function(.fns) || is_formula(.fns)) {
-    .names <- .names %||% "{col}"
-    .fns <- list("1" = .fns)
-  } else {
-    .names <- .names %||% "{col}_{fn}"
-  }
-
-  if (!is.list(.fns)) {
-    abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
-  }
-
-  # make sure fns has names, use number to replace unnamed
-  if (is.null(names(.fns))) {
-    names_fns <- seq_along(.fns)
-  } else {
-    names_fns <- names(.fns)
-    empties <- which(names_fns == "")
-    if (length(empties)) {
-      names_fns[empties] <- empties
-    }
-  }
-
-  # handle formulas
-  .fns <- map(.fns, as_function)
 
   n_cols <- length(data)
   n_fns <- length(.fns)
@@ -140,10 +118,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     }
   }
 
-  names(out) <- glue(.names,
-    col = rep(vars, each = length(.fns)),
-    fn  = rep(names_fns, length(data))
-  )
+  names(out) <- .names
 
   as_tibble(out)
 }
@@ -165,6 +140,77 @@ c_across <- function(.cols = everything()) {
 
   vec_c(!!!.cols)
 }
+
+across_setup <- function(.cols = everything(), .fns = NULL, .names = NULL) {
+  mask <- peek_mask()
+
+  .cols <- enquo(.cols)
+
+  key <- quo_get_expr(.cols)
+  key <- paste0("setup_", key_deparse(key))
+
+  cache <- mask$across_cache_get()
+  value <- cache[[key]]
+
+  if (!is.null(value)) {
+    return(value)
+  }
+
+  across_cols <- mask$across_cols()
+
+  vars <- tidyselect::eval_select(expr(!!.cols), across_cols)
+  vars <- names(vars)
+
+  if (is.null(.fns)) {
+    if (!is.null(.names)) {
+      .names <- glue(.names, col = vars, fn = "1")
+    }
+
+    value <- list(vars = vars, .fns = .fns, .names = .names)
+    mask$across_cache_add(key, value)
+    return(value)
+  }
+
+  # apply `.names` smart default
+  if (is.function(.fns) || is_formula(.fns)) {
+    .names <- .names %||% "{col}"
+    .fns <- list("1" = .fns)
+  } else {
+    .names <- .names %||% "{col}_{fn}"
+  }
+
+  if (!is.list(.fns)) {
+    abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
+  }
+
+  # handle formulas
+  .fns <- map(.fns, as_function)
+
+  # make sure fns has names, use number to replace unnamed
+  if (is.null(names(.fns))) {
+    names_fns <- seq_along(.fns)
+  } else {
+    names_fns <- names(.fns)
+    empties <- which(names_fns == "")
+    if (length(empties)) {
+      names_fns[empties] <- empties
+    }
+  }
+
+  .names <- glue(.names,
+    col = rep(vars, each = length(.fns)),
+    fn  = rep(names_fns, length(vars))
+  )
+
+  value <- list(
+    vars = vars,
+    .fns = .fns,
+    .names = .names
+  )
+  mask$across_cache_add(key, value)
+  value
+}
+
 
 # TODO: The usage of a cache in `across_select()` is a stopgap solution, and
 # this idea should not be used anywhere else. This should be replaced by the
