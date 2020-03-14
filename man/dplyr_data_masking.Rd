@@ -9,9 +9,7 @@ indicates that the argument uses tidy evaluation with \strong{data masking}.
 If you've never head of tidy evaluation before, start with
 \code{vignette("programming")}.
 }
-\keyword{internal}
 \section{Key terms}{
-
 The primary motivation for tidy evaluation in dplyr is that it provides
 \strong{data masking}, which blurs the distinction between two types of variables:
 \itemize{
@@ -24,15 +22,15 @@ manipulating existing variables. Data-variables live inside data frames,
 so must be vectors.
 }
 }
-\section{General usage}{
 
+\section{General usage}{
 Data masking allows you to refer to variables in the "current" data frame
 (usually supplied in the \code{.data} argument), without any other prefix.
 It's what allows you to type (e.g.) \code{filter(diamonds, x == 0 & y == 0 & z == 0)}
 instead of \code{diamonds[diamonds$x == 0 & diamonds$y == 0 & diamonds$z == 0, ]}.
 }
-\section{Indirection}{
 
+\section{Indirection}{
 The main challenge of data masking arises when you introduce some
 indirection, i.e. instead of directly typing the name of a variable you
 want to supply it in a function argument or character vector.
@@ -56,8 +54,8 @@ lapply(names(mtcars), function(var) mtcars \%>\% count(.data[[var]]))
 }
 }
 }
-\section{Dot-dot-dot (...)}{
 
+\section{Dot-dot-dot (...)}{
 When this modifier is applied to \code{...}, there is one other useful technique
 which solves the problem of creating a new variable with a name supplied
 by the user. Use \code{!!var := expression}. (Note the use of \verb{:=} instead of
@@ -73,3 +71,5 @@ Note that \code{...} automatically provides indirection, so you can use it as is
 \}
 }
 }
+
+\keyword{internal}

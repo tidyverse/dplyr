@@ -10,9 +10,7 @@ provides a concise DSL for selecting variables based on their names.
 If you've never head of tidy evaluation before, start with
 \code{vignette("programming")}.
 }
-\keyword{internal}
 \section{General usage}{
-
 If you have a data frame with variables \code{apple}, \code{banana}, \code{cantelope},
 \code{date}, \code{eggplant}, \code{fig}, \code{grape} you can:
 \itemize{
@@ -34,8 +32,8 @@ error; \code{any_of(vars)} will select \code{apple} and \code{fig}.
 \code{is.numeric & !starts_with("a")}
 }
 }
-\section{Indirection}{
 
+\section{Indirection}{
 There are two main cases:
 \itemize{
 \item If you have a character vector of column names, use \code{all_of()}
@@ -47,3 +45,5 @@ function argument, embrace the function argument, e.g
 \code{select(df, {{ vars }})}.
 }
 }
+
+\keyword{internal}
