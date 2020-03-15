@@ -51,6 +51,7 @@ Suggests:
     knitr,
     Lahman,
     lobstr,
+    microbenchmark,
     nycflights13,
     purrr,
     rmarkdown,
