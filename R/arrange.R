@@ -71,23 +71,22 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 #' @rdname arrange
 #' @export
 arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
-  if (missing(...)) {
+  dots <- enquos(...)
+  if (length(dots) == 0L) {
     return(.data)
   }
 
-  loc <- arrange_rows(.data, ..., .by_group = .by_group)
+  if (.by_group) {
+    dots <- c(quos(!!!groups(.data)), dots)
+  }
+
+  loc <- arrange_rows(.data, dots)
   dplyr_row_slice(.data, loc)
 }
 
 # Helpers -----------------------------------------------------------------
 
-arrange_rows <- function(.data, ..., .by_group = FALSE) {
-
-  if (.by_group) {
-    dots <- c(quos(!!!groups(.data)), enquos(...))
-  } else {
-    dots <- enquos(...)
-  }
+arrange_rows <- function(.data, dots) {
 
   directions <- map_chr(dots, function(quosure) {
     if(quo_is_call(quosure, "desc")) "desc" else "asc"

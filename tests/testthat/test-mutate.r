@@ -6,6 +6,9 @@ test_that("empty mutate returns input", {
 
   expect_equal(mutate(df), df)
   expect_equal(mutate(gf), gf)
+
+  expect_equal(mutate(df, !!!list()), df)
+  expect_equal(mutate(gf, !!!list()), gf)
 })
 
 test_that("mutations applied progressively", {
@@ -32,6 +35,12 @@ test_that("can remove variables with NULL (#462)", {
   expect_equal(df %>% mutate(z = NULL), df)
   # or was just created
   expect_equal(df %>% mutate(z = 1, z = NULL), df)
+
+  # regression test for https://github.com/tidyverse/dplyr/issues/4974
+  expect_equal(
+    mutate(data.frame(x = 1, y = 1), z = 1, x = NULL, y = NULL),
+    data.frame(z = 1)
+  )
 })
 
 test_that("mutate() names pronouns correctly (#2686)", {
@@ -61,7 +70,24 @@ test_that("can mutate a data frame with zero columns and `NULL` column names", {
   expect_equal(mutate(df, x = 1), data.frame(x = c(1, 1)))
 })
 
+test_that("mutate() handles symbol expressions", {
+  df <- tibble(x = structure(1, class = "alien"))
+  res <- mutate(df, y = x)
+  expect_identical(df$x, res$y)
+
+  gf <- group_by(df, x)
+  res <- mutate(df, y = x)
+  expect_identical(df$x, res$y)
+})
+
 # column types ------------------------------------------------------------
+
+test_that("glue() is supported", {
+  expect_equal(
+    tibble(x = 1) %>% mutate(y = glue("")),
+    tibble(x = 1, y = glue(""))
+  )
+})
 
 test_that("mutate disambiguates NA and NaN (#1448)", {
   df <- tibble(x = c(1, NA, NaN))

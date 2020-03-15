@@ -145,10 +145,13 @@
 
 * Row names are now preserved when working with data frames.
 
+
 ## Grouping
 
+* `group_by()` uses hashing from the `vctrs` package.
+
 * Grouped data frames now have `names<-`, `[[<-`, `[<-` and `$<-` methods that
-  re-generate the underlying grouping. Note that modifying grouping variables 
+  re-generate the underlying grouping. Note that modifying grouping variables
   in multiple steps (i.e. `df$grp1 <- 1; df$grp2 <- 1`) will be inefficient
   since the data frame will be regrouped after each modification.
 
@@ -156,6 +159,12 @@
   been removed (#4708).
 
 * `mutate()` and `summarise()` can now modify grouping variables (#4709).
+
+* `group_modify()` works with additional arguments (@billdenney and @cderv, #4509)
+
+* `group_by()` does not create an arbitrary NA group when grouping by factors
+  with `drop = TRUE` (#4460).
+
 
 ## Lifecycle changes
 
@@ -170,8 +179,13 @@
 
 * `failwith()`, deprecated in dplyr 0.7.0, is now defunct.
 
-* `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package 
+* `tbl_cube()` and `nasa` have been pulled out into a separate cubelyr package
   (#4429).
+
+* `rbind_all()` and `rbind_list()` have been removed (@bjungbogati, #4430).
+
+* `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
+
 
 ### Deprecated
 
@@ -218,6 +232,10 @@
 * `src_mysql()`, `src_postgres()`, and `src_sqlite()` has been deprecated. 
   We've recommended against them for some time. Instead please use the approach 
   described at <http://dbplyr.tidyverse.org/>.
+
+* `select_vars()`, `rename_vars()`, `select_var()`, `current_vars()` are now
+  deprecated (@perezp44, #4432)
+
 
 ### Superseded
 
@@ -320,30 +338,30 @@
   since it actually describes the individual's biological sex. A new `gender`
   column encodes the actual gender identity using other information about
   the Star Wars universe (@MeganBeckett, #4456).
-  
-# dplyr 0.8.4 (development version)
+
+* `src_tbls()` accepts `...` arguments (#4485, @ianmcook). This could be a
+  breaking change for some dplyr backend packages that implement `src_tbls()`.
 
 * Better performance for extracting slices of factors and ordered factors (#4501).
 
-* `group_by()` uses hashing from the `vctrs` package. 
+* `rename_at()` and `rename_all()` call the function with a simple character
+  vector, not a `dplyr_sel_vars` (#4459).
 
-* `group_by()` does not create an arbitrary NA group when grouping by factors with `drop = TRUE` (#4460).
 
-* `rbind_all()` and `rbind_list()` have been removed (@bjungbogati, #4433).
+# dplyr 0.8.5 (2020-03-07)
 
-* `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
+* Maintenance release for compatibility with R-devel.
 
-* `rename_at()` and `rename_all()` call the function with a simple character vector, not a `dplyr_sel_vars` (#4459). 
 
-* `select_vars()`, `rename_vars()`, `select_var()`, `current_vars()` are now deprecated (@perezp44, #4432)
+# dplyr 0.8.4 (2020-01-30)
 
-* `group_modify()` works with additional arguments (@billdenney and @cderv, #4509)
+* Adapt tests to changes in dependent packages.
 
-* `src_tbls()` accepts `...` arguments (#4485, @ianmcook). This could be a breaking change for some dplyr backend packages that implement `src_tbls()`.
 
 # dplyr 0.8.3 (2019-07-04)
 
-* Fixed performance regression introduced in version 0.8.2 (#4458). 
+* Fixed performance regression introduced in version 0.8.2 (#4458).
+
 
 # dplyr 0.8.2 (2019-06-28)
 

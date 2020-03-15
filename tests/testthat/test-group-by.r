@@ -332,6 +332,10 @@ test_that("group_by() with empty spec produces a grouped data frame with 0 group
   gdata <- group_data(group_by(iris))
   expect_equal(names(gdata), ".rows")
   expect_equal(gdata$.rows, list_of(1:nrow(iris)))
+
+  gdata <- group_data(group_by(iris, !!!list()))
+  expect_equal(names(gdata), ".rows")
+  expect_equal(gdata$.rows, list_of(1:nrow(iris)))
 })
 
 # .drop = TRUE ---------------------------------------------------

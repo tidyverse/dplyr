@@ -15,7 +15,7 @@ use \code{.} to refer to the current group. You can not mix named and
 unnamed arguments.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 
 \code{do()} is superseded as of dplyr 1.0.0, because its syntax never really
 felt like it belong with the rest of dplyr. It's replaced by a combination

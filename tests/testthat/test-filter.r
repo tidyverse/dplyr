@@ -96,8 +96,9 @@ test_that("filter handles $ correctly (#278)", {
   expect_equal(res1, res2)
 })
 
-test_that("filter returns the input data if no parameters are given", {
-  expect_equivalent(filter(mtcars), mtcars)
+test_that("filter() returns the input data if no parameters are given", {
+  expect_reference(filter(mtcars), mtcars)
+  expect_reference(filter(mtcars, !!!list()), mtcars)
 })
 
 test_that("$ does not end call traversing. #502", {

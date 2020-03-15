@@ -75,7 +75,7 @@ df %>%
 
 ## Per row summary statistics
 
-U`dplyr::summarise()` makes it really easy to summarise values across rows within one column. When combined with `rowwise()` it also makes it easy to summarise values across columns within one row. To see how, we'll start by making a little dataset:
+`dplyr::summarise()` makes it really easy to summarise values across rows within one column. When combined with `rowwise()` it also makes it easy to summarise values across columns within one row. To see how, we'll start by making a little dataset:
 
 ```{r}
 df <- tibble(id = 1:6, w = runif(6), x = runif(6), y = runif(6), z = runif(6)) %>% 
@@ -134,7 +134,7 @@ bench::mark(
 
 ## Repeated function calls
 
-`rowwise()` doesn't work only with functions that return a length-1 vector (akak summary functions); it can work with any function if the result in a list. This means that `rowwise()` and `mutate()` provide an elegant way to call a function many times with varying arguments, storing the outputs alongside the inputs. 
+`rowwise()` doesn't work only with functions that return a length-1 vector (aka summary functions); it can work with any function if the result is a list. This means that `rowwise()` and `mutate()` provide an elegant way to call a function many times with varying arguments, storing the outputs alongside the inputs. 
 
 ### Simulations
 
@@ -179,7 +179,7 @@ df %>%
 
 ### Varying functions
 
-In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because because the columns in the input tibble will be less regular. But it's still possible, and it's a natural place to use `do.call()`:
+In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because the columns in the input tibble will be less regular. But it's still possible, and it's a natural place to use `do.call()`:
 
 ```{r}
 df <- rowwise(tribble(
@@ -385,4 +385,4 @@ We've questioned the need for `do()` for quite some time, because it never felt 
 
     If needed (unlike here), you can wrap the results in list yourself.
 
-The additional of `cur_data()`/`acrosS()` and the increased scope of `summarise()` means that `do()` is no longer needed, so we have retired it.
+The addition of `cur_data()`/`across()` and the increased scope of `summarise()` means that `do()` is no longer needed, so it is now superseded.

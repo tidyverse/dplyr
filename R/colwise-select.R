@@ -1,7 +1,7 @@
 #' Select and rename a selection of variables
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 #'
 #' `rename_if()`, `rename_at()`, and `rename_all()` have been superseded by
 #' `rename_with()`. The matching select statements have been superseded by the
@@ -50,6 +50,7 @@
 #'   rename_with(toupper)
 #' @export
 select_all <- function(.tbl, .funs = list(), ...) {
+  lifecycle::signal_superseded("1.0.0", "select_all()")
   funs <- as_fun_list(.funs, caller_env(), ..., .caller = "select_all")
   vars <- tbl_vars(.tbl)
   syms <- vars_select_syms(vars, funs, .tbl)
@@ -58,6 +59,7 @@ select_all <- function(.tbl, .funs = list(), ...) {
 #' @rdname select_all
 #' @export
 rename_all <- function(.tbl, .funs = list(), ...) {
+  lifecycle::signal_superseded("1.0.0", "rename_with()")
   funs <- as_fun_list(.funs, caller_env(), ..., .caller = "rename_all")
   vars <- tbl_vars(.tbl)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)

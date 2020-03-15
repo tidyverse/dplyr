@@ -22,7 +22,7 @@ test_that("across() correctly names output columns", {
     c("x", "y", "z", "s")
   )
   expect_named(
-    summarise(gf, across(names = "id_{col}")),
+    summarise(gf, across(.names = "id_{col}")),
     c("x", "id_y", "id_z", "id_s")
   )
   expect_named(
@@ -30,7 +30,7 @@ test_that("across() correctly names output columns", {
     c("x", "y", "z")
   )
   expect_named(
-    summarise(gf, across(is.numeric, mean, names = "mean_{col}")),
+    summarise(gf, across(is.numeric, mean, .names = "mean_{col}")),
     c("x", "mean_y", "mean_z")
   )
   expect_named(
@@ -50,9 +50,18 @@ test_that("across() correctly names output columns", {
     c("x", "y_1", "y_2", "z_1", "z_2")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean = mean, sum = sum), names = "{fn}_{col}")),
+    summarise(gf, across(is.numeric, list(mean = mean, sum = sum), .names = "{fn}_{col}")),
     c("x", "mean_y", "sum_y", "mean_z", "sum_z")
   )
+})
+
+test_that("across() result locations are aligned with column names (#4967)", {
+  df <- tibble(x = 1:2, y = c("a", "b"))
+  expect <- tibble(x_cls = "integer", x_type = TRUE, y_cls = "character", y_type = FALSE)
+
+  x <- summarise(df, across(everything(), list(cls = class, type = is.numeric)))
+
+  expect_identical(x, expect)
 })
 
 test_that("across() passes ... to functions", {
@@ -65,6 +74,16 @@ test_that("across() passes ... to functions", {
     summarise(df, across(everything(), list(mean = mean, median = median), na.rm = TRUE)),
     tibble(x_mean = 1, x_median = 1)
   )
+})
+
+test_that("across() passes unnamed arguments following .fns as ... (#4965)", {
+  df <- tibble(x = 1)
+  expect_equal(mutate(df, across(x, `+`, 1)), tibble(x = 2))
+})
+
+test_that("across() avoids simple argument name collisions with ... (#4965)", {
+  df <- tibble(x = c(1, 2))
+  expect_equal(summarize(df, across(x, tail, n = 1)), tibble(x = 2))
 })
 
 test_that("across() works sequentially (#4907)", {

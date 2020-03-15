@@ -4,6 +4,9 @@ test_that("empty arrange() returns input", {
 
   expect_reference(arrange(df), df)
   expect_reference(arrange(gf), gf)
+
+  expect_reference(arrange(df, !!!list()), df)
+  expect_reference(arrange(gf, !!!list()), gf)
 })
 
 test_that("can sort empty data frame", {
@@ -117,7 +120,7 @@ test_that("arrange() supports across() (#4679)", {
     df %>% arrange(x, y)
   )
   expect_identical(
-    df %>% arrange(across(fns = desc)),
+    df %>% arrange(across(.fns = desc)),
     df %>% arrange(desc(x), desc(y))
   )
   expect_identical(

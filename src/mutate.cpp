@@ -30,7 +30,6 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
   for (R_xlen_t i = 0; i < ngroups; i++) {
     DPLYR_MASK_SET_GROUP(i);
     R_xlen_t n_i = XLENGTH(VECTOR_ELT(rows, i));
-
     SEXP result_i = PROTECT(DPLYR_MASK_EVAL(quo));
     SET_VECTOR_ELT(chunks, i, result_i);
 

@@ -70,31 +70,31 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
 SEXP dplyr_group_keys(SEXP group_data);
 
-#define DPLYR_MASK_INIT()                                                  \
-SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows)); \
-R_xlen_t ngroups = XLENGTH(rows);                                          \
-SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask)); \
-SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller)); \
+#define DPLYR_MASK_INIT()                                                          \
+SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));         \
+R_xlen_t ngroups = XLENGTH(rows);                                                  \
+SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));         \
+SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));     \
 SEXP bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::bindings)); \
-SEXP current_group = PROTECT(Rf_ScalarInteger(NA_INTEGER));                    \
-Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);       \
+SEXP current_group = PROTECT(Rf_ScalarInteger(NA_INTEGER));                        \
+Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);           \
 int* p_current_group = INTEGER(current_group)
 
 #define DPLYR_MASK_FINALISE() UNPROTECT(5);
 
 #define DPLYR_MASK_SET_GROUP(INDEX)                                                  \
-*p_current_group = INDEX + 1;   \
+*p_current_group = INDEX + 1;                                                        \
 SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);            \
-SEXP which_used = Rf_findVarInFrame(env_private, dplyr::symbols::which_used); \
-int* p_which_used = INTEGER(which_used);                       \
-SEXP names_resolved = Rf_getAttrib(resolved, R_NamesSymbol);       \
-R_xlen_t n_resolved = XLENGTH(which_used);                           \
-for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) { \
-  int idx_promise = p_which_used[i_resolved] - 1;              \
-  Rf_defineVar( \
-    Rf_installChar(STRING_ELT(names_resolved, idx_promise)), \
-    VECTOR_ELT(VECTOR_ELT(resolved, idx_promise), i), bindings \
-  ); \
+SEXP which_used = Rf_findVarInFrame(env_private, dplyr::symbols::which_used);        \
+int* p_which_used = INTEGER(which_used);                                             \
+SEXP names_resolved = Rf_getAttrib(resolved, R_NamesSymbol);                         \
+R_xlen_t n_resolved = XLENGTH(which_used);                                           \
+for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) {               \
+  int idx_promise = p_which_used[i_resolved] - 1;                                    \
+  Rf_defineVar(                                                                      \
+    Rf_installChar(STRING_ELT(names_resolved, idx_promise)),                         \
+    VECTOR_ELT(VECTOR_ELT(resolved, idx_promise), i), bindings                       \
+  );                                                                                 \
 }
 
 

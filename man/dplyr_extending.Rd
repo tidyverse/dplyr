@@ -38,7 +38,6 @@ These functions are experimental and are stop-gap measure until more general
 tools become available in vctrs, but may still be useful in the short-term
 if you have a data frame class that you want to work with dplyr.
 }
-\keyword{internal}
 \section{Current usage}{
 \itemize{
 \item \code{arrange()}, \code{filter()}, \code{slice()}, \code{semi_join()}, and \code{anti_join()}
@@ -64,3 +63,5 @@ select distinct rows.
 Note that \code{group_by()} and \code{ungroup()} don't use any these generics and
 you'll need to provide methods directly.
 }
+
+\keyword{internal}

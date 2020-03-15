@@ -81,7 +81,7 @@
 #' starwars %>% group_by(gender, eye_color) %>% select(group_cols())
 #'
 #' # Using select() semantics in across()
-#' starwars %>% summarise(across(cols = height:mass, fns = ~mean(.x, na.rm = TRUE)))
+#' starwars %>% summarise(across(.cols = height:mass, .fns = ~mean(.x, na.rm = TRUE)))
 #'
 #' # Use `{{ }}` inside functions to tunnel data-variables through
 #' # function arguments. See ?dplyr_tidy_eval for more information.

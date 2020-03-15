@@ -17,7 +17,9 @@
 "band_members"
 
 #' @rdname band_members
+#' @format NULL
 "band_instruments"
 
 #' @rdname band_members
+#' @format NULL
 "band_instruments2"
