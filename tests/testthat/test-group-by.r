@@ -489,6 +489,29 @@ test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {
   )
 })
 
+test_that("add_computed_column()", {
+  df <- tibble(a = 2, b = 3)
+  expect_identical(
+    add_computed_columns(df, quos(b)),
+    list(data = df, added_names = "b")
+  )
+
+  expect_identical(
+    add_computed_columns(df, quos(c = a * b)),
+    list(data = df %>% mutate(c = a * b), added_names = "c")
+  )
+
+  expect_identical(
+    add_computed_columns(df, quos(c = a * b, b)),
+    list(data = df %>% mutate(c = a * b), added_names = c("c", "b"))
+  )
+
+  expect_error(
+    add_computed_columns(df, quos(c = a * b, d = b + c)),
+    "."
+  )
+})
+
 # Errors ------------------------------------------------------------------
 
 test_that("group_by() and ungroup() give meaningful error messages", {
