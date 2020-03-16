@@ -75,7 +75,7 @@ dplyr_row_slice.grouped_df <- function(data, i, ..., preserve = FALSE) {
   new_id <- vec_slice(group_indices(data), i)
   new_grps <- vec_group_loc(new_id)
 
-  rows <- rep(list_of(integer()), length = nrow(groups))
+  rows <- rep(list_of(integer()), length.out = nrow(groups))
   rows[new_grps$key] <- new_grps$loc
   groups$.rows <- rows
   if (!preserve && isTRUE(attr(groups, ".drop"))) {
