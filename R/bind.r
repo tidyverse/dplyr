@@ -129,8 +129,7 @@ bind_rows <- function(..., .id = NULL) {
 bind_cols <- function(...) {
   dots <- list2(...)
 
-  is_flattenable <- function(x) is.list(x) && !is.data.frame(x)
-  dots <- squash_if(dots, is_flattenable)
+  dots <- squash_if(dots, vec_is_list)
   dots <- discard(dots, is.null)
 
   # Strip names off of data frame components so that vec_cbind() unpacks them

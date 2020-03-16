@@ -483,6 +483,16 @@ test_that("bind_cols() handles unnamed list with name repair (#3402)", {
   )
 })
 
+test_that("bind_cols() doesn't squash record types", {
+  df <- data.frame(x = 1)
+  posixlt <- as.POSIXlt(as.Date("1970-01-01"))
+
+  expect_identical(
+    bind_cols(df, y = posixlt),
+    new_data_frame(list(x = 1, y = posixlt))
+  )
+})
+
 test_that("bind_rows handles typed lists (#3924)", {
   df <- data.frame(x = 1, y = 2)
   lst <- structure(list(df, df, df), class = "special_lst")
