@@ -76,7 +76,8 @@
 #'  )
 #' @export
 across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key_deparse(match.call()))
+  key <- key_deparse(match.call())
+  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key)
 
   vars <- setup$vars
   fns <- setup$fns
@@ -132,7 +133,8 @@ across_apply <- function(var, col, fn, ...) {
 #' @export
 #' @rdname across
 c_across <- function(.cols = everything()) {
-  vars <- c_across_setup({{ .cols }}, key = key_deparse(match.call()))
+  key <- key_deparse(match.call())
+  vars <- c_across_setup({{ .cols }}, key = key)
 
   mask <- peek_mask()
 
