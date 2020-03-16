@@ -281,7 +281,7 @@ There are a few exceptions to this rule:
     df %>% filter(rowAny(across(is.numeric, ~ .x > 0)))
     ```
     
-*   When used in a `mutate()`, all transformation performed by an `across()` 
+*   When used in a `mutate()`, all transformations performed by an `across()` 
     are applied at once. This is different to the behaviour of `mutate_if()`,
     `mutate_at()`, and `mutate_all()`, which apply the transformations one at 
     a time. We expect that you'll generally find the new behaviour less 
