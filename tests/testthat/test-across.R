@@ -147,6 +147,16 @@ test_that("monitoring cache - across() usage can depend on the group id", {
   )
 })
 
+test_that("monitoring cache - across() internal cache key depends on all inputs", {
+  df <- tibble(g = rep(1:2, each = 2), a = 1:4)
+  df <- group_by(df, g)
+
+  expect_identical(
+    mutate(df, tibble(x = across(is.numeric, mean)$a, y = across(is.numeric, max)$a)),
+    mutate(df, x = mean(a), y = max(a))
+  )
+})
+
 # c_across ----------------------------------------------------------------
 
 test_that("selects and combines columns", {
