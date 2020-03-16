@@ -44,7 +44,7 @@ nest_by <- function(df, ...) {
 Row-wise operations require a special type of grouping where each group consists of a single row. You create this with `rowwise()`:
 
 ```{r}
-df <- tibble(x = 1:2, y = 3:4, z = 4:5)
+df <- tibble(x = 1:2, y = 3:4, z = 5:6)
 df %>% rowwise()
 ```
 
@@ -60,7 +60,7 @@ If you use `mutate()` with a regular data frame, it computes the mean of `x`, `y
 You can optionally supply "identifier" variables in your call to `rowwise()`. These variables are preserved when you call `summarise()`, so they behave somewhat similarly to the grouping variables passed to `group_by()`:
 
 ```{r}
-df <- tibble(name = c("Mara", "Hadley"), x = c(9, 1), y = 3:4, z = 4:5)
+df <- tibble(name = c("Mara", "Hadley"), x = 1:2, y = 3:4, z = 5:6)
 
 df %>% 
   rowwise() %>% 
