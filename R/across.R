@@ -106,15 +106,21 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   k <- 1L
   out <- vector("list", n_cols * n_fns)
 
+  # Reset `cur_column()` info on exit
+  old_var <- context_peek_bare("column")
+  on.exit(context_poke("column", old_var), add = TRUE)
+
   # Loop in such an order that all functions are applied
   # to a single column before moving on to the next column
   for (i in seq_n_cols) {
     var <- vars[[i]]
     col <- data[[i]]
 
+    context_poke("column", var)
+
     for (j in seq_fns) {
       fn <- fns[[j]]
-      out[[k]] <- across_apply(var, col, fn, ...)
+      out[[k]] <- fn(col, ...)
       k <- k + 1L
     }
   }
@@ -122,12 +128,6 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   names(out) <- names
 
   as_tibble(out)
-}
-
-across_apply <- function(var, col, fn, ...) {
-  old_var <- context_poke("column", var)
-  on.exit(context_poke("column", old_var))
-  fn(col, ...)
 }
 
 #' @export
