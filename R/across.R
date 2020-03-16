@@ -76,28 +76,28 @@
 #'  )
 #' @export
 across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  setup <- across_setup({{ .cols }}, .fns = .fns, .names = .names, .key = key_deparse(match.call()))
+  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key_deparse(match.call()))
 
   vars <- setup$vars
-  .fns <- setup$.fns
-  .names <- setup$.names
+  fns <- setup$fns
+  names <- setup$names
 
   mask <- peek_mask()
   data <- mask$current_cols(vars)
 
-  if (is.null(.fns)) {
+  if (is.null(fns)) {
     nrow <- length(mask$current_rows())
     data <- new_tibble(data, nrow = nrow)
 
-    if (is.null(.names)) {
+    if (is.null(names)) {
       return(data)
     } else {
-      return(set_names(data, .names))
+      return(set_names(data, names))
     }
   }
 
   n_cols <- length(data)
-  n_fns <- length(.fns)
+  n_fns <- length(fns)
 
   seq_n_cols <- seq_len(n_cols)
   seq_fns <- seq_len(n_fns)
@@ -112,13 +112,13 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     col <- data[[i]]
 
     for (j in seq_fns) {
-      fn <- .fns[[j]]
+      fn <- fns[[j]]
       out[[k]] <- across_apply(var, col, fn, ...)
       k <- k + 1L
     }
   }
 
-  names(out) <- .names
+  names(out) <- names
 
   as_tibble(out)
 }
@@ -132,7 +132,7 @@ across_apply <- function(var, col, fn, ...) {
 #' @export
 #' @rdname across
 c_across <- function(.cols = everything()) {
-  vars <- c_across_setup({{ .cols }}, .key = key_deparse(match.call()))
+  vars <- c_across_setup({{ .cols }}, key = key_deparse(match.call()))
 
   mask <- peek_mask()
 
@@ -147,76 +147,76 @@ c_across <- function(.cols = everything()) {
 # next version of hybrid evaluation, which should offer a way for any function
 # to do any required "set up" work (like the `eval_select()` call) a single
 # time per top-level call, rather than once per group.
-across_setup <- function(.cols = everything(), .fns = NULL, .names = NULL, .key) {
+across_setup <- function(cols, fns, names, key) {
   mask <- peek_mask()
 
-  value <- mask$across_cache_get(.key)
+  value <- mask$across_cache_get(key)
   if (!is.null(value)) {
     return(value)
   }
 
-  .cols <- enquo(.cols)
+  cols <- enquo(cols)
   across_cols <- mask$across_cols()
 
-  vars <- tidyselect::eval_select(expr(!!.cols), across_cols)
+  vars <- tidyselect::eval_select(expr(!!cols), across_cols)
   vars <- names(vars)
 
-  if (is.null(.fns)) {
-    if (!is.null(.names)) {
-      .names <- glue(.names, col = vars, fn = "1")
+  if (is.null(fns)) {
+    if (!is.null(names)) {
+      names <- glue(names, col = vars, fn = "1")
     }
 
-    value <- list(vars = vars, .fns = .fns, .names = .names)
-    mask$across_cache_add(.key, value)
+    value <- list(vars = vars, fns = fns, names = names)
+    mask$across_cache_add(key, value)
     return(value)
   }
 
   # apply `.names` smart default
-  if (is.function(.fns) || is_formula(.fns)) {
-    .names <- .names %||% "{col}"
-    .fns <- list("1" = .fns)
+  if (is.function(fns) || is_formula(fns)) {
+    names <- names %||% "{col}"
+    fns <- list("1" = fns)
   } else {
-    .names <- .names %||% "{col}_{fn}"
+    names <- names %||% "{col}_{fn}"
   }
 
-  if (!is.list(.fns)) {
+  if (!is.list(fns)) {
     abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
   }
 
   # handle formulas
-  .fns <- map(.fns, as_function)
+  fns <- map(fns, as_function)
 
   # make sure fns has names, use number to replace unnamed
-  if (is.null(names(.fns))) {
-    names_fns <- seq_along(.fns)
+  if (is.null(names(fns))) {
+    names_fns <- seq_along(fns)
   } else {
-    names_fns <- names(.fns)
+    names_fns <- names(fns)
     empties <- which(names_fns == "")
     if (length(empties)) {
       names_fns[empties] <- empties
     }
   }
 
-  .names <- glue(.names,
-    col = rep(vars, each = length(.fns)),
+  names <- glue(names,
+    col = rep(vars, each = length(fns)),
     fn  = rep(names_fns, length(vars))
   )
 
   value <- list(
     vars = vars,
-    .fns = .fns,
-    .names = .names
+    fns = fns,
+    names = names
   )
-  mask$across_cache_add(.key, value)
+  mask$across_cache_add(key, value)
   value
 }
 
-c_across_setup <- function(cols, .key) {
+c_across_setup <- function(cols, key) {
   mask <- peek_mask()
 
   cols <- enquo(cols)
 
-  value <- mask$across_cache_get(.key)
+  value <- mask$across_cache_get(key)
   if (!is.null(value)) {
     return(value)
   }
@@ -226,7 +226,7 @@ c_across_setup <- function(cols, .key) {
   vars <- tidyselect::eval_select(expr(!!cols), across_cols)
   value <- names(vars)
 
-  mask$across_cache_add(.key, value)
+  mask$across_cache_add(key, value)
 
   value
 }
