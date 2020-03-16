@@ -124,7 +124,8 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 }
 
 across_apply <- function(var, col, fn, ...) {
-  local_column(var)
+  old_var <- context_poke("column", var)
+  on.exit(context_poke("column", old_var))
   fn(col, ...)
 }
 
