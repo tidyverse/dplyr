@@ -267,7 +267,7 @@ gf %>% mutate(type = typeof(y), length = length(y))
 rf %>% mutate(type = typeof(y), length = length(y))
 ```
 
-They key difference is that when `mutate()` slices up the columns to pass to `length(y)` the grouped mutate uses `[` and the rowwise mutate used `[[`. The following code gives a flavour of the differences if you used a for loop:
+They key difference is that when `mutate()` slices up the columns to pass to `length(y)` the grouped mutate uses `[` and the rowwise mutate uses `[[`. The following code gives a flavour of the differences if you used a for loop:
 
 ```{r}
 # grouped
