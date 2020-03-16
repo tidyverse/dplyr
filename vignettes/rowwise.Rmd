@@ -321,7 +321,7 @@ mods
 You could then summarise the model in a variety of ways:
 
 ```{r}
-mods %>% summarise(mse = sqrt(mean((pred - data$mpg) ^ 2)))
+mods %>% summarise(rmse = sqrt(mean((pred - data$mpg) ^ 2)))
 mods %>% summarise(rsq = summary(mod)$r.squared)
 mods %>% summarise(broom::glance(mod))
 ```
