@@ -214,13 +214,12 @@ across_setup <- function(cols, fns, names, key) {
 c_across_setup <- function(cols, key) {
   mask <- peek_mask()
 
-  cols <- enquo(cols)
-
   value <- mask$across_cache_get(key)
   if (!is.null(value)) {
     return(value)
   }
 
+  cols <- enquo(cols)
   across_cols <- mask$across_cols()
 
   vars <- tidyselect::eval_select(expr(!!cols), across_cols)
