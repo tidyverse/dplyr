@@ -104,7 +104,7 @@ starwars %>% summarise(
 )
 ```
 
-(One day this might could become an argument to `across()` but we're not yet sure how it would work.)
+(One day this might become an argument to `across()` but we're not yet sure how it would work.)
 
 
 ### Current column
