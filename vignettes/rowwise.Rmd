@@ -133,7 +133,7 @@ bench::mark(
 
 ## Repeated function calls
 
-`rowwise()` doesn't work only with functions that return a length-1 vector (aka summary functions); it can work with any function if the result is a list. This means that `rowwise()` and `mutate()` provide an elegant way to call a function many times with varying arguments, storing the outputs alongside the inputs. 
+`rowwise()` doesn't just work with functions that return a length-1 vector (aka summary functions); it can work with any function if the result is a list. This means that `rowwise()` and `mutate()` provide an elegant way to call a function many times with varying arguments, storing the outputs alongside the inputs. 
 
 ### Simulations
 
@@ -181,12 +181,13 @@ df %>%
 In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because the columns in the input tibble will be less regular. But it's still possible, and it's a natural place to use `do.call()`:
 
 ```{r}
-df <- rowwise(tribble(
+df <- tribble(
    ~rng,     ~params,
    "runif",  list(n = 10), 
    "rnorm",  list(n = 20),
    "rpois",  list(n = 10, lambda = 5),
-))
+) %>%
+  rowwise()
 
 df %>% 
   mutate(data = list(do.call(rng, params)))
