@@ -170,6 +170,7 @@ across_setup <- function(cols, fns, names, key) {
 
     value <- list(vars = vars, fns = fns, names = names)
     mask$across_cache_add(key, value)
+
     return(value)
   }
 
@@ -204,12 +205,9 @@ across_setup <- function(cols, fns, names, key) {
     fn  = rep(names_fns, length(vars))
   )
 
-  value <- list(
-    vars = vars,
-    fns = fns,
-    names = names
-  )
+  value <- list(vars = vars, fns = fns, names = names)
   mask$across_cache_add(key, value)
+
   value
 }
 
