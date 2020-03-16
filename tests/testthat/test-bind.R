@@ -493,10 +493,14 @@ test_that("bind_cols() doesn't squash record types", {
   )
 })
 
-test_that("bind_rows handles typed lists (#3924)", {
+test_that("bind_rows() only flattens list subclasses with explicit inheritance (#3924)", {
   df <- data.frame(x = 1, y = 2)
-  lst <- structure(list(df, df, df), class = "special_lst")
-  expect_equal(bind_rows(lst), bind_rows(df,df,df))
+
+  lst1 <- structure(list(df, df, df), class = "special_lst")
+  expect_error(bind_rows(lst1), "must be a data frame or a named atomic vector")
+
+  lst2 <- structure(list(df, df, df), class = c("special_lst", "list"))
+  expect_equal(bind_rows(lst2), bind_rows(df,df,df))
 })
 
 test_that("bind_rows() handles named list", {

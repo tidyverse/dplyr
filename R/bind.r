@@ -81,7 +81,7 @@ bind_rows <- function(..., .id = NULL) {
   dots <- list2(...)
 
   # bind_rows() has weird legacy squashing behaviour
-  is_flattenable <- function(x) is.list(x) && !is_named(x) && !is.data.frame(x)
+  is_flattenable <- function(x) vec_is_list(x) && !is_named(x)
   if (length(dots) == 1 && is_bare_list(dots[[1]])) {
     dots <- dots[[1]]
   }
