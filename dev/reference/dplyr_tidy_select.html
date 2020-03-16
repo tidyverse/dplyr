@@ -206,9 +206,7 @@ If you've never head of tidy evaluation before, start with
 
     <h2 class="hasAnchor" id="general-usage"><a class="anchor" href="#general-usage"></a>General usage</h2>
 
-    
-
-<p>If you have a data frame with variables <code>apple</code>, <code>banana</code>, <code>cantelope</code>,
+    <p>If you have a data frame with variables <code>apple</code>, <code>banana</code>, <code>cantelope</code>,
 <code>date</code>, <code>eggplant</code>, <code>fig</code>, <code>grape</code> you can:</p><ul>
 <li><p>Select individual variables with their name: e.g. <code><a href='https://rdrr.io/r/base/c.html'>c(apple, fig, grape)</a></code>.</p></li>
 <li><p>Select data-variables stored in a env-variable with <code>all_of()</code> (which
@@ -230,9 +228,7 @@ error; <code>any_of(vars)</code> will select <code>apple</code> and <code>fig</c
 
     <h2 class="hasAnchor" id="indirection"><a class="anchor" href="#indirection"></a>Indirection</h2>
 
-    
-
-<p>There are two main cases:</p><ul>
+    <p>There are two main cases:</p><ul>
 <li><p>If you have a character vector of column names, use <code>all_of()</code>
 or <code>any_of()</code>, depending on whether or not you want unknown variable
 names to cause an error, e.g <code><a href='select.html'>select(df, all_of(vars))</a></code>,
