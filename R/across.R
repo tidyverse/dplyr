@@ -127,7 +127,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
   names(out) <- names
 
-  as_tibble(out)
+  new_tibble(out, nrow = vec_size(out[[1]]))
 }
 
 #' @export
