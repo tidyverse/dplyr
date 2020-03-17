@@ -494,6 +494,21 @@ test_that("bind_rows() handles named list", {
   expect_equivalent(bind_rows(!!!map(mtcars, mean)), summarise_all(mtcars, mean))
 })
 
+test_that("bind_rows() handles named S3 objects (#4931)", {
+  df <- tibble(x = "foo", y = "bar")
+  fct <- set_names(factor(c("a", "b")), c("x", "y"))
+
+  expect_identical(
+    bind_rows(df, fct),
+    tibble(x = c("foo", "a"), y = c("bar", "b"))
+  )
+
+  expect_identical(
+    bind_rows(fct, fct),
+    tibble(x = fct[c(1, 1)], y = fct[c(2, 2)])
+  )
+})
+
 test_that("bind_rows() correctly restores (#2457)", {
   df <- bind_rows(
     tibble(x = vctrs::list_of(1))
