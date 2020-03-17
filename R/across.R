@@ -125,9 +125,10 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     }
   }
 
-  out <- vec_recycle_common(!!!out)
+  size <- vec_size_common(!!!out)
+  out <- vec_recycle_common(!!!out, .size = size)
   names(out) <- names
-  new_tibble(out, nrow = vec_size(out[[1]]))
+  new_tibble(out, nrow = size)
 }
 
 #' @export
