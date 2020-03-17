@@ -126,8 +126,9 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   }
 
   names(out) <- names
-
+  out <- .Call(dplyr_across_recycle, out)
   new_tibble(out, nrow = vec_size(out[[1]]))
+
 }
 
 #' @export

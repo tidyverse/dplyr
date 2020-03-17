@@ -93,6 +93,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
 
+  {"dplyr_across_recycle", (DL_FUNC)& dplyr_across_recycle, 1},
+
   {NULL, NULL, 0}
 };
 
