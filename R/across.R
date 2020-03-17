@@ -125,10 +125,9 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     }
   }
 
+  out <- vec_recycle_common(!!!out)
   names(out) <- names
-  out <- .Call(dplyr_across_recycle, out)
   new_tibble(out, nrow = vec_size(out[[1]]))
-
 }
 
 #' @export
