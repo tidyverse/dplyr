@@ -125,9 +125,10 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     }
   }
 
+  size <- vec_size_common(!!!out)
+  out <- vec_recycle_common(!!!out, .size = size)
   names(out) <- names
-
-  as_tibble(out)
+  new_tibble(out, nrow = size)
 }
 
 #' @export
@@ -165,7 +166,7 @@ across_setup <- function(cols, fns, names, key) {
 
   if (is.null(fns)) {
     if (!is.null(names)) {
-      names <- glue(names, col = vars, fn = "1")
+      names <- vec_as_names(glue(names, col = vars, fn = "1"), repair = "check_unique")
     }
 
     value <- list(vars = vars, fns = fns, names = names)
@@ -200,10 +201,10 @@ across_setup <- function(cols, fns, names, key) {
     }
   }
 
-  names <- glue(names,
+  names <- vec_as_names(glue(names,
     col = rep(vars, each = length(fns)),
     fn  = rep(names_fns, length(vars))
-  )
+  ), repair = "check_unique")
 
   value <- list(vars = vars, fns = fns, names = names)
   mask$across_cache_add(key, value)
