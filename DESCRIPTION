@@ -67,4 +67,4 @@ LazyData: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Remotes:
-    r-lib/rlang#945
+    r-lib/rlang
