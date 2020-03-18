@@ -21,7 +21,7 @@ test_that("cbind uses shallow copies", {
 })
 
 test_that("bind_cols handles lists (#1104)", {
-  exp <- data.frame(x = 1, y = "a", z = 2, stringsAsFactors = FALSE)
+  exp <- tibble(x = 1, y = "a", z = 2)
 
   l1 <- list(x = 1, y = "a")
   l2 <- list(z = 2)
@@ -31,12 +31,12 @@ test_that("bind_cols handles lists (#1104)", {
 })
 
 test_that("bind_cols handles empty argument list (#1963)", {
-  expect_equal(bind_cols(), data.frame())
+  expect_equal(bind_cols(), tibble())
 })
 
 test_that("bind_cols handles all-NULL values (#2303)", {
-  expect_identical(bind_cols(list(a = NULL, b = NULL)), data.frame())
-  expect_identical(bind_cols(NULL), data.frame())
+  expect_identical(bind_cols(list(a = NULL, b = NULL)), tibble())
+  expect_identical(bind_cols(NULL), tibble())
 })
 
 test_that("bind_cols repairs names", {
@@ -469,11 +469,11 @@ test_that("columns that are OBJECT but have NULL class are handled gracefully (#
 # Vectors ------------------------------------------------------------
 
 test_that("accepts named columns", {
-  expect_identical(bind_cols(a = 1:2, b = 3:4), data.frame(a = 1:2, b = 3:4))
+  expect_identical(bind_cols(a = 1:2, b = 3:4), tibble(a = 1:2, b = 3:4))
 })
 
 test_that("ignores NULL values", {
-  expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), data.frame(a = 1, b = 2))
+  expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), tibble(a = 1, b = 2))
 })
 
 test_that("bind_cols() handles unnamed list with name repair (#3402)", {

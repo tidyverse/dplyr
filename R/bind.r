@@ -137,6 +137,9 @@ bind_cols <- function(...) {
   names(dots)[is_data_frame] <- ""
 
   out <- vec_cbind(!!!dots)
+  if (!any(map_lgl(dots, is.data.frame))) {
+    out <- as_tibble(out)
+  }
   if (length(dots) && is_tibble(first <- dots[[1L]])) {
     out <- dplyr_reconstruct(out, first)
   }
