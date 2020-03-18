@@ -885,6 +885,79 @@ ERROR: compilation failed for package ‘BivRec’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/BivRec/old/BivRec.Rcheck/BivRec’
 
 ```
+# blorr
+
+<details>
+
+* Version: 0.2.2
+* Source code: https://github.com/cran/blorr
+* URL: URL: https://blorr.rsquaredacademy.com/, https://github.com/rsquaredacademy/blorr
+* BugReports: https://github.com/rsquaredacademy/blorr/issues
+* Date/Publication: 2020-02-03 11:40:02 UTC
+* Number of recursive dependencies: 165
+
+Run `revdep_details(,"blorr")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘blorr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/new/blorr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘blorr’ ...
+** package ‘blorr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/blorr/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/blorr/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c blr-pairs-cpp.cpp -o blr-pairs-cpp.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o blorr.so RcppExports.o blr-pairs-cpp.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/new/blorr.Rcheck/00LOCK-blorr/00new/blorr/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘blorr’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/new/blorr.Rcheck/blorr’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘blorr’ ...
+** package ‘blorr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c blr-pairs-cpp.cpp -o blr-pairs-cpp.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o blorr.so RcppExports.o blr-pairs-cpp.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/old/blorr.Rcheck/00LOCK-blorr/00new/blorr/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘blorr’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/old/blorr.Rcheck/blorr’
+
+```
 # BMSC
 
 <details>
@@ -5643,6 +5716,77 @@ ERROR: compilation failed for package ‘mrgsolve’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mrgsolve/old/mrgsolve.Rcheck/mrgsolve’
 
 ```
+# neuropsychology
+
+<details>
+
+* Version: 0.5.0
+* Source code: https://github.com/cran/neuropsychology
+* URL: https://github.com/neuropsychology/neuropsychology.R
+* BugReports: https://github.com/neuropsychology/neuropsychology.R/issues
+* Date/Publication: 2017-03-22 19:17:18 UTC
+* Number of recursive dependencies: 152
+
+Run `revdep_details(,"neuropsychology")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘neuropsychology’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/new/neuropsychology.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘neuropsychology’ ...
+** package ‘neuropsychology’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘neuropsychology’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/new/neuropsychology.Rcheck/neuropsychology’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘neuropsychology’ ...
+** package ‘neuropsychology’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘neuropsychology’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/old/neuropsychology.Rcheck/neuropsychology’
+
+```
 # nlmixr
 
 <details>
@@ -5929,6 +6073,64 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [openair.so] Error 1
 ERROR: compilation failed for package ‘openair’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/openair/old/openair.Rcheck/openair’
+
+```
+# parcats
+
+<details>
+
+* Version: 0.0.1
+* Source code: https://github.com/cran/parcats
+* URL: https://erblast.github.io/parcats/
+* Date/Publication: 2019-12-02 16:10:03 UTC
+* Number of recursive dependencies: 111
+
+Run `revdep_details(,"parcats")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘parcats’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/parcats/new/parcats.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘parcats’ ...
+** package ‘parcats’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘parcats’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/parcats/new/parcats.Rcheck/parcats’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘parcats’ ...
+** package ‘parcats’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘parcats’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/parcats/old/parcats.Rcheck/parcats’
 
 ```
 # partition
