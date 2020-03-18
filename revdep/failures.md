@@ -1808,7 +1808,7 @@ ERROR: compilation failed for package ‘circumplex’
 * URL: https://github.com/mschubert/clustermq
 * BugReports: https://github.com/mschubert/clustermq/issues
 * Date/Publication: 2020-02-29 19:20:02 UTC
-* Number of recursive dependencies: 105
+* Number of recursive dependencies: 84
 
 Run `revdep_details(,"clustermq")` for more info
 
@@ -3449,7 +3449,7 @@ ERROR: compilation failed for package ‘dynfrail’
 * Version: 2.10.0
 * Source code: https://github.com/cran/ELMER
 * Date/Publication: 2019-11-06
-* Number of recursive dependencies: 216
+* Number of recursive dependencies: 212
 
 Run `revdep_details(,"ELMER")` for more info
 
@@ -3502,7 +3502,7 @@ Run `revdep_details(,"ELMER")` for more info
 * Source code: https://github.com/cran/ENCODExplorer
 * BugReports: https://github.com/CharlesJB/ENCODExplorer/issues
 * Date/Publication: 2019-12-16
-* Number of recursive dependencies: 121
+* Number of recursive dependencies: 95
 
 Run `revdep_details(,"ENCODExplorer")` for more info
 
@@ -3611,7 +3611,7 @@ ERROR: compilation failed for package ‘exuber’
 * URL: https://fable.tidyverts.org
 * BugReports: https://github.com/tidyverts/fable/issues
 * Date/Publication: 2020-01-29 11:00:03 UTC
-* Number of recursive dependencies: 97
+* Number of recursive dependencies: 99
 
 Run `revdep_details(,"fable")` for more info
 
@@ -4445,7 +4445,7 @@ Run `revdep_details(,"grasp2db")` for more info
 * URL: https://robwschlegel.github.io/heatwaveR/index.html, https://github.com/robwschlegel/heatwaveR
 * BugReports: https://github.com/robwschlegel/heatwaveR/issues
 * Date/Publication: 2019-12-01 21:30:06 UTC
-* Number of recursive dependencies: 105
+* Number of recursive dependencies: 100
 
 Run `revdep_details(,"heatwaveR")` for more info
 
@@ -4737,7 +4737,7 @@ ERROR: lazy loading failed for package ‘infercnv’
 * Source code: https://github.com/cran/iRF
 * URL: https://arxiv.org/abs/1706.08457
 * Date/Publication: 2017-07-26 04:57:45 UTC
-* Number of recursive dependencies: 82
+* Number of recursive dependencies: 60
 
 Run `revdep_details(,"iRF")` for more info
 
@@ -4790,7 +4790,7 @@ ERROR: compilation failed for package ‘iRF’
 * URL: https://github.com/lanagarmire/lilikoi
 * BugReports: https://github.com/lanagarmire/lilikoi/issues
 * Date/Publication: 2018-07-30 11:10:03 UTC
-* Number of recursive dependencies: 151
+* Number of recursive dependencies: 146
 
 Run `revdep_details(,"lilikoi")` for more info
 
@@ -5651,7 +5651,7 @@ ERROR: compilation failed for package ‘mrgsolve’
 * Source code: https://github.com/cran/nlmixr
 * URL: https://github.com/nlmixrdevelopment/nlmixr
 * Date/Publication: 2020-01-27 13:20:02 UTC
-* Number of recursive dependencies: 164
+* Number of recursive dependencies: 153
 
 Run `revdep_details(,"nlmixr")` for more info
 
@@ -6887,7 +6887,7 @@ ERROR: compilation failed for package ‘qgraph’
 * URL: https://quanteda.io
 * BugReports: https://github.com/quanteda/quanteda/issues
 * Date/Publication: 2020-02-26 15:50:09 UTC
-* Number of recursive dependencies: 144
+* Number of recursive dependencies: 140
 
 Run `revdep_details(,"quanteda")` for more info
 
@@ -8056,7 +8056,7 @@ ERROR: lazy loading failed for package ‘RcwlPipelines’
 * Version: 1.1.1
 * Source code: https://github.com/cran/Rdrools
 * Date/Publication: 2018-12-08 15:00:13 UTC
-* Number of recursive dependencies: 78
+* Number of recursive dependencies: 73
 
 Run `revdep_details(,"Rdrools")` for more info
 
@@ -8511,7 +8511,7 @@ ERROR: lazy loading failed for package ‘RtutoR’
 * URL: https://nlmixrdevelopment.github.io/RxODE/
 * BugReports: https://github.com/nlmixrdevelopment/RxODE/issues
 * Date/Publication: 2020-01-10 23:20:06 UTC
-* Number of recursive dependencies: 120
+* Number of recursive dependencies: 132
 
 Run `revdep_details(,"RxODE")` for more info
 
@@ -8811,32 +8811,6 @@ ERROR: compilation failed for package ‘RxODE’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RxODE/old/RxODE.Rcheck/RxODE’
 
 ```
-# saotd
-
-<details>
-
-* Version: 0.2.0
-* Source code: https://github.com/cran/saotd
-* BugReports: https://github.com/evan-l-munson/saotd/issues
-* Date/Publication: 2019-04-04 16:30:03 UTC
-* Number of recursive dependencies: 110
-
-Run `revdep_details(,"saotd")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
-
-## In both
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 826 marked UTF-8 strings
-    ```
-
 # sarima
 
 <details>
@@ -13338,7 +13312,7 @@ ERROR: compilation failed for package ‘walker’
 * Version: 1.0.1
 * Source code: https://github.com/cran/weibulltools
 * Date/Publication: 2019-01-29 16:10:03 UTC
-* Number of recursive dependencies: 114
+* Number of recursive dependencies: 109
 
 Run `revdep_details(,"weibulltools")` for more info
 

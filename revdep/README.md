@@ -10,13 +10,13 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Europe/Paris                 |
-|date     |2020-03-11                   |
+|date     |2020-03-18                   |
 
 # Dependencies
 
 |package    |old      |new         |Δ  |
 |:----------|:--------|:-----------|:--|
-|dplyr      |0.8.5    |0.8.99.9000 |*  |
+|dplyr      |0.8.5    |0.8.99.9001 |*  |
 |assertthat |0.2.1    |0.2.1       |   |
 |BH         |1.72.0-3 |NA          |*  |
 |cli        |2.0.2    |2.0.2       |   |
@@ -24,7 +24,7 @@
 |digest     |0.6.25   |0.6.25      |   |
 |ellipsis   |0.3.0    |0.3.0       |   |
 |fansi      |0.4.1    |0.4.1       |   |
-|glue       |1.3.1    |1.3.1       |   |
+|glue       |1.3.1    |1.3.2       |*  |
 |lifecycle  |NA       |0.2.0       |*  |
 |magrittr   |1.5      |1.5         |   |
 |pillar     |1.4.3    |1.4.3       |   |
@@ -33,7 +33,7 @@
 |purrr      |0.3.3    |0.3.3       |   |
 |R6         |2.4.1    |2.4.1       |   |
 |Rcpp       |1.0.3    |NA          |*  |
-|rlang      |0.4.5    |0.4.5       |   |
+|rlang      |0.4.5    |0.4.5.9000  |*  |
 |tibble     |2.1.3    |2.1.3       |   |
 |tidyselect |1.0.0    |1.0.0       |   |
 |utf8       |1.1.4    |1.1.4       |   |
@@ -41,7 +41,7 @@
 
 # Revdeps
 
-## Failed to check (132)
+## Failed to check (131)
 
 |package                                            |version  |error     |warning |note     |
 |:--------------------------------------------------|:--------|:---------|:-------|:--------|
@@ -155,7 +155,6 @@
 |RSSL                                               |0.9.1    |1         |        |         |
 |RtutoR                                             |1.2      |1         |        |         |
 |RxODE                                              |0.9.1-9  |1         |        |1        |
-|[saotd](failures.md#saotd)                         |0.2.0    |__+1__    |        |1        |
 |sarima                                             |0.8.2    |1         |        |         |
 |scanstatistics                                     |1.0.1    |1         |        |         |
 |scfind                                             |1.8.0    |1         |        |         |
@@ -178,7 +177,7 @@
 |weibulltools                                       |1.0.1    |1         |        |         |
 |XBSeq                                              |1.18.0   |1         |        |2        |
 
-## New problems (287)
+## New problems (281)
 
 |package                                                          |version  |error    |warning |note     |
 |:----------------------------------------------------------------|:--------|:--------|:-------|:--------|
@@ -203,7 +202,6 @@
 |[brazilmaps](problems.md#brazilmaps)                             |0.1.0    |__+1__   |        |2        |
 |[breathtestcore](problems.md#breathtestcore)                     |0.5.0    |__+1__   |        |1        |
 |[breathteststan](problems.md#breathteststan)                     |0.4.7    |__+1__   |        |2        |
-|[broom](problems.md#broom)                                       |0.5.5    |__+1__   |        |2        |
 |[broom.mixed](problems.md#broommixed)                            |0.2.4    |__+2__   |        |1 __+1__ |
 |[cattonum](problems.md#cattonum)                                 |0.0.4    |__+1__   |        |         |
 |[CellBench](problems.md#cellbench)                               |1.2.0    |__+2__   |        |3        |
@@ -220,7 +218,7 @@
 |[comperes](problems.md#comperes)                                 |0.2.3    |__+1__   |        |         |
 |[concaveman](problems.md#concaveman)                             |1.0.0    |__+2__   |        |         |
 |[confoundr](problems.md#confoundr)                               |1.2      |__+2__   |        |         |
-|[correlationfunnel](problems.md#correlationfunnel)               |0.1.0    |__+2__   |        |2        |
+|[correlationfunnel](problems.md#correlationfunnel)               |0.1.0    |__+1__   |        |2        |
 |[corrr](problems.md#corrr)                                       |0.4.1    |__+1__   |        |         |
 |[crplyr](problems.md#crplyr)                                     |0.3.3    |__+1__   |        |         |
 |[cursory](problems.md#cursory)                                   |1.0.0    |__+1__   |        |1        |
@@ -290,12 +288,10 @@
 |[ggmcmc](problems.md#ggmcmc)                                     |1.3      |__+1__   |        |         |
 |[ggperiodic](problems.md#ggperiodic)                             |1.0.0    |__+1__   |        |         |
 |[ggplot2](problems.md#ggplot2)                                   |3.3.0    |         |__+1__  |1 -1     |
-|[ggpubr](problems.md#ggpubr)                                     |0.2.5    |__+1__   |        |1        |
 |[ggRandomForests](problems.md#ggrandomforests)                   |2.0.1    |__+1__   |        |1        |
 |[ggspatial](problems.md#ggspatial)                               |1.0.3    |__+1__   |        |1        |
 |[ggspectra](problems.md#ggspectra)                               |0.3.5    |__+1__   |        |         |
 |[ggtree](problems.md#ggtree)                                     |2.0.1    |__+2__   |        |         |
-|[glue](problems.md#glue)                                         |1.3.1    |__+1__   |        |         |
 |[gratia](problems.md#gratia)                                     |0.3.0    |__+1__   |        |         |
 |[gtsummary](problems.md#gtsummary)                               |1.2.6    |__+2__   |        |1        |
 |[hablar](problems.md#hablar)                                     |0.2.0    |__+1__   |        |         |
@@ -338,7 +334,6 @@
 |[mtconnectR](problems.md#mtconnectr)                             |1.2.1    |__+2__   |        |         |
 |[mudata2](problems.md#mudata2)                                   |1.1.1    |         |__+1__  |1        |
 |[muscData](problems.md#muscdata)                                 |1.0.0    |         |__+1__  |2 __+1__ |
-|[namer](problems.md#namer)                                       |0.1.5    |__+2__   |        |         |
 |[naniar](problems.md#naniar)                                     |0.5.0    |__+1__   |        |         |
 |[ncdfgeom](problems.md#ncdfgeom)                                 |1.1.0    |__+1__   |        |         |
 |[ncmeta](problems.md#ncmeta)                                     |0.2.0    |__+1__   |        |         |
@@ -363,10 +358,8 @@
 |[pixiedust](problems.md#pixiedust)                               |0.8.6    |__+1__   |        |1        |
 |[PKNCA](problems.md#pknca)                                       |0.9.2    |__+2__   |        |         |
 |[plater](problems.md#plater)                                     |1.0.1    |__+1__   |        |         |
-|[plotly](problems.md#plotly)                                     |4.9.2    |__+1__   |        |1        |
 |[pmdplyr](problems.md#pmdplyr)                                   |0.3.1    |__+2__   |__+1__  |1        |
 |[portalr](problems.md#portalr)                                   |0.3.1    |__+1__   |        |         |
-|[processcheckR](problems.md#processcheckr)                       |0.1.2    |__+1__   |        |         |
 |[prophet](problems.md#prophet)                                   |0.6      |__+1__   |        |         |
 |[ptstem](problems.md#ptstem)                                     |0.0.4    |__+1__   |        |1        |
 |[PupillometryR](problems.md#pupillometryr)                       |0.0.1    |__+1__   |        |1        |
@@ -393,6 +386,7 @@
 |[RWDataPlyr](problems.md#rwdataplyr)                             |0.6.3    |__+1__   |        |         |
 |[sabre](problems.md#sabre)                                       |0.3.2    |__+2__   |        |         |
 |[sampler](problems.md#sampler)                                   |0.2.4    |__+1__   |        |         |
+|[saotd](problems.md#saotd)                                       |0.2.0    |__+1__   |        |1        |
 |[scFeatureFilter](problems.md#scfeaturefilter)                   |1.6.0    |__+1__   |        |2        |
 |[seplyr](problems.md#seplyr)                                     |0.8.5    |__+1__   |        |         |
 |[sergeant](problems.md#sergeant)                                 |0.5.2    |         |__+1__  |1        |
@@ -401,7 +395,7 @@
 |[silicate](problems.md#silicate)                                 |0.2.0    |__+2__   |        |1        |
 |[simglm](problems.md#simglm)                                     |0.7.4    |__+1__   |        |         |
 |[SimplifyStats](problems.md#simplifystats)                       |2.0.2    |__+2__   |        |         |
-|[simTool](problems.md#simtool)                                   |1.1.4    |__+1__   |        |         |
+|[simTool](problems.md#simtool)                                   |1.1.5    |__+1__   |        |         |
 |[SIRItoGTFS](problems.md#siritogtfs)                             |0.2.4    |__+1__   |        |         |
 |[sitar](problems.md#sitar)                                       |1.1.2    |__+1__   |        |         |
 |[sjmisc](problems.md#sjmisc)                                     |2.8.3    |__+1__   |        |1        |
@@ -464,7 +458,6 @@
 |[viafr](problems.md#viafr)                                       |0.1.0    |__+1__   |        |1        |
 |[vpc](problems.md#vpc)                                           |1.1.0    |__+2__   |        |         |
 |[weathercan](problems.md#weathercan)                             |0.3.3    |__+1__   |        |1        |
-|[XKCDdata](problems.md#xkcddata)                                 |0.1.0    |__+1__   |        |1        |
 |[xpectr](problems.md#xpectr)                                     |0.1.1    |__+1__   |        |         |
 |[xpose](problems.md#xpose)                                       |0.4.7    |1 __+1__ |        |         |
 |[xrf](problems.md#xrf)                                           |0.1.2    |__+1__   |        |         |
