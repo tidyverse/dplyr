@@ -189,8 +189,8 @@ DataMask <- R6Class("DataMask",
       cols
     },
 
-    across_cache_get = function() {
-      private$across_cache
+    across_cache_get = function(key) {
+      private$across_cache[[key]]
     },
 
     across_cache_add = function(key, value) {
