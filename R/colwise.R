@@ -223,7 +223,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
     column <- pull(.tbl, tibble_vars[[i]])
     cond <- eval_tidy(.p(column, ...))
     if (!is.logical(cond) || length(cond) != 1) 
-        abort("Provided predicate function did not return a single logical")
+        abort("Provided predicate function does not return a single logical")
     selected[[i]] <- isTRUE(cond)
   }
 
