@@ -10,13 +10,21 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Europe/Paris                 |
+<<<<<<< Updated upstream
 |date     |2020-03-18                   |
+=======
+|date     |2020-03-19                   |
+>>>>>>> Stashed changes
 
 # Dependencies
 
 |package    |old      |new         |Δ  |
 |:----------|:--------|:-----------|:--|
+<<<<<<< Updated upstream
 |dplyr      |0.8.5    |0.8.99.9001 |*  |
+=======
+|dplyr      |0.8.5    |0.8.99.9002 |*  |
+>>>>>>> Stashed changes
 |assertthat |0.2.1    |0.2.1       |   |
 |BH         |1.72.0-3 |NA          |*  |
 |cli        |2.0.2    |2.0.2       |   |
@@ -41,7 +49,11 @@
 
 # Revdeps
 
+<<<<<<< Updated upstream
 ## Failed to check (134)
+=======
+## Failed to check (139)
+>>>>>>> Stashed changes
 
 |package                                            |version  |error     |warning |note     |
 |:--------------------------------------------------|:--------|:---------|:-------|:--------|
@@ -142,6 +154,7 @@
 |PPforest                                           |0.1.1    |1         |        |         |
 |pRoloc                                             |1.26.0   |1         |        |         |
 |psychonetrics                                      |0.6      |1         |        |         |
+|[purrrlyr](failures.md#purrrlyr)                   |0.0.5    |__+1__    |        |         |
 |qdap                                               |2.3.6    |1         |        |         |
 |qgraph                                             |1.6.5    |1         |        |         |
 |quanteda                                           |2.0.0    |1         |        |         |
@@ -164,6 +177,7 @@
 |scGPS                                              |?        |          |        |         |
 |scmap                                              |1.8.0    |1         |        |         |
 |SCPME                                              |1.0      |1         |        |         |
+|[sf](failures.md#sf)                               |0.8-1    |__+1__    |        |-1       |
 |SimBIID                                            |0.1.4    |1         |        |         |
 |simputation                                        |0.2.3    |1         |        |         |
 |simts                                              |0.1.1    |1         |        |         |
@@ -174,20 +188,30 @@
 |TCGAbiolinksGUI                                    |1.12.0   |1         |        |         |
 |telefit                                            |1.0.3    |1         |        |         |
 |textmining                                         |0.0.1    |1         |        |         |
+|[textreuse](failures.md#textreuse)                 |0.1.4    |__+1__    |        |-1       |
+|[tidyxl](failures.md#tidyxl)                       |1.0.4    |__+1__    |-2      |         |
 |VarSelLCM                                          |2.1.3    |1         |        |         |
+|[vcfR](failures.md#vcfr)                           |1.10.0   |__+1__    |        |         |
 |vlad                                               |0.2.0    |1         |        |         |
 |walker                                             |0.3.1-1  |1         |        |         |
 |weibulltools                                       |1.0.1    |1         |        |         |
 |XBSeq                                              |1.18.0   |1         |        |2        |
 
+<<<<<<< Updated upstream
 ## New problems (249)
+=======
+## New problems (238)
+>>>>>>> Stashed changes
 
 |package                                                  |version  |error    |warning |note     |
 |:--------------------------------------------------------|:--------|:--------|:-------|:--------|
 |[aemo](problems.md#aemo)                                 |0.2.0    |         |        |__+1__   |
 |[AlphaBeta](problems.md#alphabeta)                       |1.0.0    |__+1__   |        |2        |
 |[AMR](problems.md#amr)                                   |1.0.1    |__+2__   |        |1        |
+<<<<<<< Updated upstream
 |[anomalize](problems.md#anomalize)                       |0.2.0    |__+2__   |        |         |
+=======
+>>>>>>> Stashed changes
 |[apyramid](problems.md#apyramid)                         |0.1.1    |__+2__   |        |         |
 |[areal](problems.md#areal)                               |0.1.5    |__+2__   |        |         |
 |[AzureKusto](problems.md#azurekusto)                     |1.0.5    |__+1__   |        |1        |
@@ -236,7 +260,10 @@
 |[DiagrammeR](problems.md#diagrammer)                     |1.0.5    |__+2__   |        |2        |
 |[dials](problems.md#dials)                               |0.0.4    |__+1__   |        |         |
 |[disk.frame](problems.md#diskframe)                      |0.3.4    |__+1__   |        |         |
+<<<<<<< Updated upstream
 |[dlookr](problems.md#dlookr)                             |0.3.13   |__+1__   |        |1        |
+=======
+>>>>>>> Stashed changes
 |[docxtools](problems.md#docxtools)                       |0.2.1    |__+2__   |        |         |
 |[driftR](problems.md#driftr)                             |1.1.0    |__+1__   |        |         |
 |[dupree](problems.md#dupree)                             |0.2.0    |__+1__   |        |         |
@@ -253,7 +280,10 @@
 |[extdplyr](problems.md#extdplyr)                         |0.1.4    |__+2__   |        |         |
 |[ezplot](problems.md#ezplot)                             |0.3.1    |__+1__   |        |         |
 |[fabletools](problems.md#fabletools)                     |0.1.2    |__+2__   |        |1        |
+<<<<<<< Updated upstream
 |[feasts](problems.md#feasts)                             |0.1.3    |1 __+1__ |        |         |
+=======
+>>>>>>> Stashed changes
 |[fgeo.analyze](problems.md#fgeoanalyze)                  |1.1.12   |__+2__   |        |         |
 |[fgeo.tool](problems.md#fgeotool)                        |1.2.5    |__+1__   |        |         |
 |[finalfit](problems.md#finalfit)                         |1.0.0    |__+1__   |        |         |
@@ -269,7 +299,10 @@
 |[gemini](problems.md#gemini)                             |1.0.0    |__+1__   |        |2        |
 |[gender](problems.md#gender)                             |0.5.3    |__+1__   |        |1        |
 |[geomnet](problems.md#geomnet)                           |0.2.0    |__+1__   |        |         |
+<<<<<<< Updated upstream
 |[geospark](problems.md#geospark)                         |0.3.1    |__+1__   |        |1        |
+=======
+>>>>>>> Stashed changes
 |[GerminaR](problems.md#germinar)                         |1.4      |__+1__   |        |1        |
 |[getTBinR](problems.md#gettbinr)                         |0.7.0    |__+1__   |        |         |
 |[ggasym](problems.md#ggasym)                             |0.1.2    |__+2__   |        |1        |
@@ -277,7 +310,10 @@
 |[ggformula](problems.md#ggformula)                       |0.9.4    |__+2__   |        |1        |
 |[gghighlight](problems.md#gghighlight)                   |0.2.0    |__+1__   |        |1        |
 |[ggmcmc](problems.md#ggmcmc)                             |1.3      |__+1__   |        |         |
+<<<<<<< Updated upstream
 |[ggperiodic](problems.md#ggperiodic)                     |1.0.0    |__+1__   |        |         |
+=======
+>>>>>>> Stashed changes
 |[ggplot2](problems.md#ggplot2)                           |3.3.0    |         |__+1__  |1 -1     |
 |[ggRandomForests](problems.md#ggrandomforests)           |2.0.1    |__+1__   |        |1        |
 |[ggspatial](problems.md#ggspatial)                       |1.0.3    |__+1__   |        |1        |
@@ -319,7 +355,10 @@
 |[mosaic](problems.md#mosaic)                             |1.6.0    |__+1__   |        |3        |
 |[mosaicData](problems.md#mosaicdata)                     |0.17.0   |__+1__   |        |1        |
 |[MSstatsTMT](problems.md#msstatstmt)                     |1.4.5    |__+2__   |        |         |
+<<<<<<< Updated upstream
 |[mtconnectR](problems.md#mtconnectr)                     |1.2.1    |__+2__   |        |         |
+=======
+>>>>>>> Stashed changes
 |[mudata2](problems.md#mudata2)                           |1.1.1    |         |__+1__  |1        |
 |[muscData](problems.md#muscdata)                         |1.0.0    |         |__+1__  |2 __+1__ |
 |[naniar](problems.md#naniar)                             |0.5.0    |__+1__   |        |         |
@@ -348,7 +387,10 @@
 |[ptstem](problems.md#ptstem)                             |0.0.4    |__+1__   |        |1        |
 |[PupillometryR](problems.md#pupillometryr)               |0.0.1    |__+1__   |        |1        |
 |[purrr](problems.md#purrr)                               |0.3.3    |__+1__   |        |         |
+<<<<<<< Updated upstream
 |[purrrlyr](problems.md#purrrlyr)                         |0.0.5    |__+1__   |        |         |
+=======
+>>>>>>> Stashed changes
 |[qualmap](problems.md#qualmap)                           |0.1.1    |__+2__   |        |         |
 |[rabhit](problems.md#rabhit)                             |0.1.4    |__+1__   |        |         |
 |[raceland](problems.md#raceland)                         |1.0.5    |__+1__   |        |1        |
@@ -372,7 +414,10 @@
 |[seplyr](problems.md#seplyr)                             |0.8.5    |__+1__   |        |         |
 |[sergeant](problems.md#sergeant)                         |0.5.2    |         |__+1__  |         |
 |[sevenbridges](problems.md#sevenbridges)                 |1.16.0   |__+1__   |        |1        |
+<<<<<<< Updated upstream
 |[sf](problems.md#sf)                                     |0.8-1    |__+1__   |        |1        |
+=======
+>>>>>>> Stashed changes
 |[silicate](problems.md#silicate)                         |0.2.0    |__+2__   |        |1        |
 |[simglm](problems.md#simglm)                             |0.7.4    |__+1__   |        |         |
 |[SimplifyStats](problems.md#simplifystats)               |2.0.2    |__+2__   |        |         |
@@ -381,7 +426,11 @@
 |[sjmisc](problems.md#sjmisc)                             |2.8.3    |__+1__   |        |         |
 |[skimr](problems.md#skimr)                               |2.1      |__+1__   |        |         |
 |[skynet](problems.md#skynet)                             |1.3.0    |__+1__   |        |1        |
+<<<<<<< Updated upstream
 |[spatialrisk](problems.md#spatialrisk)                   |0.6.5    |__+1__   |        |2 __+1__ |
+=======
+|[spatialrisk](problems.md#spatialrisk)                   |0.6.5    |__+1__   |        |2        |
+>>>>>>> Stashed changes
 |[spdplyr](problems.md#spdplyr)                           |0.3.0    |__+2__   |        |         |
 |[srvyr](problems.md#srvyr)                               |0.3.8    |__+1__   |__+1__  |         |
 |[stacomiR](problems.md#stacomir)                         |0.5.4.3  |2 __+1__ |5       |2        |
@@ -398,7 +447,10 @@
 |[survminer](problems.md#survminer)                       |0.4.6    |__+1__   |        |1        |
 |[tabr](problems.md#tabr)                                 |0.4.2    |__+2__   |        |         |
 |[taxadb](problems.md#taxadb)                             |0.1.0    |__+1__   |        |2        |
+<<<<<<< Updated upstream
 |[textreuse](problems.md#textreuse)                       |0.1.4    |__+2__   |        |1        |
+=======
+>>>>>>> Stashed changes
 |[tibbleOne](problems.md#tibbleone)                       |0.1.1    |__+1__   |        |1        |
 |[tibbletime](problems.md#tibbletime)                     |0.1.3    |__+1__   |        |         |
 |[tidybayes](problems.md#tidybayes)                       |2.0.1    |__+1__   |        |         |
@@ -415,7 +467,10 @@
 |[tidystats](problems.md#tidystats)                       |0.4      |__+1__   |        |2        |
 |[tidystopwords](problems.md#tidystopwords)               |0.9.0    |__+1__   |        |1        |
 |[tidytransit](problems.md#tidytransit)                   |0.7.0    |__+2__   |        |2        |
+<<<<<<< Updated upstream
 |[tidyxl](problems.md#tidyxl)                             |1.0.4    |__+1__   |2       |         |
+=======
+>>>>>>> Stashed changes
 |[TimeSeriesExperiment](problems.md#timeseriesexperiment) |1.4.0    |__+1__   |1       |2        |
 |[TPP](problems.md#tpp)                                   |3.14.1   |__+2__   |        |3        |
 |[tree.bins](problems.md#treebins)                        |0.1.1    |__+1__   |        |1        |
@@ -426,7 +481,10 @@
 |[unpivotr](problems.md#unpivotr)                         |0.5.1    |__+1__   |        |         |
 |[ushr](problems.md#ushr)                                 |0.2.1    |__+2__   |        |         |
 |[valr](problems.md#valr)                                 |0.5.0    |__+2__   |        |         |
+<<<<<<< Updated upstream
 |[vcfR](problems.md#vcfr)                                 |1.10.0   |__+2__   |        |         |
+=======
+>>>>>>> Stashed changes
 |[viafr](problems.md#viafr)                               |0.1.0    |__+1__   |        |1        |
 |[vpc](problems.md#vpc)                                   |1.1.0    |__+2__   |        |         |
 |[weathercan](problems.md#weathercan)                     |0.3.3    |__+1__   |        |1        |
