@@ -51,7 +51,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9001</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
         </div>
       </div>
     </div>
@@ -398,28 +398,20 @@
 <span id="cb13-12"><a href="#cb13-12"></a><span class="co">#&gt; 2     2     2</span></span></code></pre></div>
 <p>The four possibilities are:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="../reference/setops.html">intersect</a></span>(df1, df2)</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#&gt; # A tibble: 1 x 2</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="co">#&gt;       x     y</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt; 1     1     1</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="co"># Note that we get 3 rows, not 4</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="kw"><a href="../reference/setops.html">union</a></span>(df1, df2)</span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt;       x     y</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
-<span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt; 1     1     1</span></span>
-<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt; 2     2     1</span></span>
-<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#&gt; 3     2     2</span></span>
-<span id="cb14-14"><a href="#cb14-14"></a><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df1, df2)</span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="co">#&gt; # A tibble: 1 x 2</span></span>
-<span id="cb14-16"><a href="#cb14-16"></a><span class="co">#&gt;       x     y</span></span>
-<span id="cb14-17"><a href="#cb14-17"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
-<span id="cb14-18"><a href="#cb14-18"></a><span class="co">#&gt; 1     2     1</span></span>
-<span id="cb14-19"><a href="#cb14-19"></a><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df2, df1)</span>
-<span id="cb14-20"><a href="#cb14-20"></a><span class="co">#&gt; # A tibble: 1 x 2</span></span>
-<span id="cb14-21"><a href="#cb14-21"></a><span class="co">#&gt;       x     y</span></span>
-<span id="cb14-22"><a href="#cb14-22"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
-<span id="cb14-23"><a href="#cb14-23"></a><span class="co">#&gt; 1     2     2</span></span></code></pre></div>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#&gt;   x y</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="co">#&gt; 1 1 1</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="co"># Note that we get 3 rows, not 4</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="kw"><a href="../reference/setops.html">union</a></span>(df1, df2)</span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt;   x y</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt; 1 1 1</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt; 2 2 1</span></span>
+<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt; 3 2 2</span></span>
+<span id="cb14-10"><a href="#cb14-10"></a><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df1, df2)</span>
+<span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt;   x y</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt; 1 2 1</span></span>
+<span id="cb14-13"><a href="#cb14-13"></a><span class="kw"><a href="../reference/setops.html">setdiff</a></span>(df2, df1)</span>
+<span id="cb14-14"><a href="#cb14-14"></a><span class="co">#&gt;   x y</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a><span class="co">#&gt; 1 2 2</span></span></code></pre></div>
 </div>
 <div id="multiple-table-verbs" class="section level2">
 <h2 class="hasAnchor">
