@@ -15,7 +15,7 @@
 #'
 #' @import vctrs
 #' @export
-grouped_df <- function(data, vars, drop = FALSE) {
+grouped_df <- function(data, vars, drop = group_by_drop_default(data)) {
   if (!is.data.frame(data)) {
     abort("`data` must be a data frame")
   }
