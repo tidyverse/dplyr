@@ -65,6 +65,8 @@ test_that("n_distinct handles expressions in na.rm (#3686)", {
 })
 
 test_that("n_distinct() respects .data (#5008)", {
-  data.frame(x = 42) %>%
-    summarise(n = n_distinct(.data$x))
+  expect_identical(
+    data.frame(x = 42) %>% summarise(n = n_distinct(.data$x)),
+    data.frame(n = 1L)
+  )
 })
