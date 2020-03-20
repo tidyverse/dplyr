@@ -294,38 +294,38 @@
 <span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt; # A tibble: 10 x 1</span></span>
 <span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;       x</span></span>
 <span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt;   &lt;int&gt;</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; 1     4</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt; 2     6</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; 3     2</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt; 4     9</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; 1     3</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt; 2     7</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; 3     9</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt; 4     4</span></span>
 <span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; # … with 6 more rows</span></span>
 <span id="cb6-15"><a href="#cb6-15"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/distinct.html">distinct</a></span>(x, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span>) <span class="co"># whole data frame</span></span>
 <span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; # A tibble: 10 x 2</span></span>
 <span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt;       x     y</span></span>
 <span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
-<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt; 1     4     1</span></span>
-<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; 2     6     3</span></span>
-<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt; 3     2    10</span></span>
-<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; 4     9     2</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt; 1     3    10</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; 2     7     5</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt; 3     9     2</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; 4     4     3</span></span>
 <span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt; # … with 6 more rows</span></span></code></pre></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(df[<span class="st">"x"</span>]) <span class="co"># selected columns</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; # A tibble: 10 x 1</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt;       x</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;   &lt;int&gt;</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; 1     4</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; 2     6</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; 3     2</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; 4     9</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; 1     3</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; 2     7</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; 3     9</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; 4     4</span></span>
 <span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; # … with 6 more rows</span></span>
 <span id="cb7-10"><a href="#cb7-10"></a>df[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(df<span class="op">$</span>x), , drop =<span class="st"> </span><span class="ot">FALSE</span>] <span class="co"># whole data frame</span></span>
 <span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt; # A tibble: 10 x 2</span></span>
 <span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt;       x     y</span></span>
 <span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt; 1     4     1</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt; 2     6     3</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; 3     2    10</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; 4     9     2</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt; 1     3    10</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt; 2     7     5</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; 3     9     2</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; 4     4     3</span></span>
 <span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt; # … with 6 more rows</span></span></code></pre></div>
 </div>
 <div id="filter-return-rows-with-matching-conditions" class="section level2">
@@ -420,20 +420,20 @@
 <span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; # A tibble: 100 x 4</span></span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt;       x     y     z    z2</span></span>
 <span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt; 1     4     1     5    25</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt; 2     6     3     9    81</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt; 3     2    10    12   144</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#&gt; 4     9     2    11   121</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt; 1     3    10    13   169</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt; 2     7     5    12   144</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt; 3     9     2    11   121</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#&gt; 4     3     3     6    36</span></span>
 <span id="cb11-9"><a href="#cb11-9"></a><span class="co">#&gt; # … with 96 more rows</span></span></code></pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/transform.html">transform</a></span>(df, <span class="dt">z =</span> x <span class="op">+</span><span class="st"> </span>y, <span class="dt">z2 =</span> (x <span class="op">+</span><span class="st"> </span>y) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))</span>
 <span id="cb12-2"><a href="#cb12-2"></a><span class="co">#&gt;   x  y  z  z2</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">#&gt; 1 4  1  5  25</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; 2 6  3  9  81</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt; 3 2 10 12 144</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt; 4 9  2 11 121</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="co">#&gt; 5 9  2 11 121</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#&gt; 6 6  7 13 169</span></span></code></pre></div>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="co">#&gt; 1 3 10 13 169</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; 2 7  5 12 144</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt; 3 9  2 11 121</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt; 4 3  3  6  36</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="co">#&gt; 5 4  3  7  49</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#&gt; 6 2  7  9  81</span></span></code></pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>mtcars<span class="op">$</span>cyl2 &lt;-<span class="st"> </span>mtcars<span class="op">$</span>cyl <span class="op">*</span><span class="st"> </span><span class="dv">2</span></span>
 <span id="cb13-2"><a href="#cb13-2"></a>mtcars<span class="op">$</span>cyl4 &lt;-<span class="st"> </span>mtcars<span class="op">$</span>cyl2 <span class="op">*</span><span class="st"> </span><span class="dv">2</span></span></code></pre></div>
