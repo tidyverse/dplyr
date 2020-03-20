@@ -107,7 +107,6 @@ NULL
 #'   functions that you can use with scoped verbs.
 #' @export
 vars <- function(...) {
-  lifecycle::signal_superseded("1.0.0", "vars()", "across()")
   quos(...)
 }
 
