@@ -4932,7 +4932,7 @@ ERROR: lazy loading failed for package ‘lilikoi’
 * URL: https://CRAN.R-project.org/package=LLSR
 * BugReports: https://github.com/diegofcoelho/LLSR/issues
 * Date/Publication: 2019-03-05 22:20:11 UTC
-* Number of recursive dependencies: 62
+* Number of recursive dependencies: 61
 
 Run `revdep_details(,"LLSR")` for more info
 

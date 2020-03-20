@@ -10,21 +10,13 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Europe/Paris                 |
-<<<<<<< Updated upstream
-|date     |2020-03-18                   |
-=======
-|date     |2020-03-19                   |
->>>>>>> Stashed changes
+|date     |2020-03-20                   |
 
 # Dependencies
 
 |package    |old      |new         |Δ  |
 |:----------|:--------|:-----------|:--|
-<<<<<<< Updated upstream
-|dplyr      |0.8.5    |0.8.99.9001 |*  |
-=======
 |dplyr      |0.8.5    |0.8.99.9002 |*  |
->>>>>>> Stashed changes
 |assertthat |0.2.1    |0.2.1       |   |
 |BH         |1.72.0-3 |NA          |*  |
 |cli        |2.0.2    |2.0.2       |   |
@@ -32,7 +24,7 @@
 |digest     |0.6.25   |0.6.25      |   |
 |ellipsis   |0.3.0    |0.3.0       |   |
 |fansi      |0.4.1    |0.4.1       |   |
-|glue       |1.3.1    |1.3.2       |*  |
+|glue       |1.3.1    |1.3.2.9000  |*  |
 |lifecycle  |NA       |0.2.0       |*  |
 |magrittr   |1.5      |1.5         |   |
 |pillar     |1.4.3    |1.4.3       |   |
@@ -49,11 +41,7 @@
 
 # Revdeps
 
-<<<<<<< Updated upstream
-## Failed to check (134)
-=======
 ## Failed to check (139)
->>>>>>> Stashed changes
 
 |package                                            |version  |error     |warning |note     |
 |:--------------------------------------------------|:--------|:---------|:-------|:--------|
@@ -197,21 +185,13 @@
 |weibulltools                                       |1.0.1    |1         |        |         |
 |XBSeq                                              |1.18.0   |1         |        |2        |
 
-<<<<<<< Updated upstream
-## New problems (249)
-=======
-## New problems (238)
->>>>>>> Stashed changes
+## New problems (234)
 
 |package                                                  |version  |error    |warning |note     |
 |:--------------------------------------------------------|:--------|:--------|:-------|:--------|
 |[aemo](problems.md#aemo)                                 |0.2.0    |         |        |__+1__   |
 |[AlphaBeta](problems.md#alphabeta)                       |1.0.0    |__+1__   |        |2        |
 |[AMR](problems.md#amr)                                   |1.0.1    |__+2__   |        |1        |
-<<<<<<< Updated upstream
-|[anomalize](problems.md#anomalize)                       |0.2.0    |__+2__   |        |         |
-=======
->>>>>>> Stashed changes
 |[apyramid](problems.md#apyramid)                         |0.1.1    |__+2__   |        |         |
 |[areal](problems.md#areal)                               |0.1.5    |__+2__   |        |         |
 |[AzureKusto](problems.md#azurekusto)                     |1.0.5    |__+1__   |        |1        |
@@ -243,7 +223,6 @@
 |[compareDF](problems.md#comparedf)                       |2.0.1    |__+1__   |        |1        |
 |[comperes](problems.md#comperes)                         |0.2.3    |__+1__   |        |         |
 |[concaveman](problems.md#concaveman)                     |1.0.0    |__+2__   |        |         |
-|[confoundr](problems.md#confoundr)                       |1.2      |__+2__   |        |         |
 |[corrr](problems.md#corrr)                               |0.4.1    |__+1__   |        |         |
 |[crplyr](problems.md#crplyr)                             |0.3.3    |__+1__   |        |         |
 |[cursory](problems.md#cursory)                           |1.0.0    |__+1__   |        |1        |
@@ -256,14 +235,10 @@
 |[ddpcr](problems.md#ddpcr)                               |1.13     |__+2__   |__+1__  |         |
 |[DEGreport](problems.md#degreport)                       |1.22.0   |__+2__   |        |2        |
 |[depmap](problems.md#depmap)                             |1.0.0    |         |__+1__  |__+1__   |
-|[dexterMST](problems.md#dextermst)                       |0.1.2    |__+2__   |        |         |
+|[dexterMST](problems.md#dextermst)                       |0.1.2    |__+1__   |        |         |
 |[DiagrammeR](problems.md#diagrammer)                     |1.0.5    |__+2__   |        |2        |
 |[dials](problems.md#dials)                               |0.0.4    |__+1__   |        |         |
 |[disk.frame](problems.md#diskframe)                      |0.3.4    |__+1__   |        |         |
-<<<<<<< Updated upstream
-|[dlookr](problems.md#dlookr)                             |0.3.13   |__+1__   |        |1        |
-=======
->>>>>>> Stashed changes
 |[docxtools](problems.md#docxtools)                       |0.2.1    |__+2__   |        |         |
 |[driftR](problems.md#driftr)                             |1.1.0    |__+1__   |        |         |
 |[dupree](problems.md#dupree)                             |0.2.0    |__+1__   |        |         |
@@ -279,12 +254,8 @@
 |[expstudies](problems.md#expstudies)                     |0.0.5    |__+1__   |        |         |
 |[extdplyr](problems.md#extdplyr)                         |0.1.4    |__+2__   |        |         |
 |[ezplot](problems.md#ezplot)                             |0.3.1    |__+1__   |        |         |
-|[fabletools](problems.md#fabletools)                     |0.1.2    |__+2__   |        |1        |
-<<<<<<< Updated upstream
-|[feasts](problems.md#feasts)                             |0.1.3    |1 __+1__ |        |         |
-=======
->>>>>>> Stashed changes
-|[fgeo.analyze](problems.md#fgeoanalyze)                  |1.1.12   |__+2__   |        |         |
+|[fabletools](problems.md#fabletools)                     |0.1.2    |__+2__   |        |         |
+|[fgeo.analyze](problems.md#fgeoanalyze)                  |1.1.12   |__+1__   |        |         |
 |[fgeo.tool](problems.md#fgeotool)                        |1.2.5    |__+1__   |        |         |
 |[finalfit](problems.md#finalfit)                         |1.0.0    |__+1__   |        |         |
 |[fingertipscharts](problems.md#fingertipscharts)         |0.0.10   |__+2__   |        |1        |
@@ -299,10 +270,6 @@
 |[gemini](problems.md#gemini)                             |1.0.0    |__+1__   |        |2        |
 |[gender](problems.md#gender)                             |0.5.3    |__+1__   |        |1        |
 |[geomnet](problems.md#geomnet)                           |0.2.0    |__+1__   |        |         |
-<<<<<<< Updated upstream
-|[geospark](problems.md#geospark)                         |0.3.1    |__+1__   |        |1        |
-=======
->>>>>>> Stashed changes
 |[GerminaR](problems.md#germinar)                         |1.4      |__+1__   |        |1        |
 |[getTBinR](problems.md#gettbinr)                         |0.7.0    |__+1__   |        |         |
 |[ggasym](problems.md#ggasym)                             |0.1.2    |__+2__   |        |1        |
@@ -310,17 +277,12 @@
 |[ggformula](problems.md#ggformula)                       |0.9.4    |__+2__   |        |1        |
 |[gghighlight](problems.md#gghighlight)                   |0.2.0    |__+1__   |        |1        |
 |[ggmcmc](problems.md#ggmcmc)                             |1.3      |__+1__   |        |         |
-<<<<<<< Updated upstream
-|[ggperiodic](problems.md#ggperiodic)                     |1.0.0    |__+1__   |        |         |
-=======
->>>>>>> Stashed changes
 |[ggplot2](problems.md#ggplot2)                           |3.3.0    |         |__+1__  |1 -1     |
 |[ggRandomForests](problems.md#ggrandomforests)           |2.0.1    |__+1__   |        |1        |
 |[ggspatial](problems.md#ggspatial)                       |1.0.3    |__+1__   |        |1        |
 |[ggspectra](problems.md#ggspectra)                       |0.3.5    |__+1__   |        |         |
 |[gratia](problems.md#gratia)                             |0.3.0    |__+1__   |        |         |
 |[gtsummary](problems.md#gtsummary)                       |1.2.6    |__+1__   |        |1        |
-|[hablar](problems.md#hablar)                             |0.2.0    |__+1__   |        |         |
 |[HaDeX](problems.md#hadex)                               |1.1      |__+2__   |        |1        |
 |[heemod](problems.md#heemod)                             |0.11.0   |__+2__   |        |         |
 |[HMP16SData](problems.md#hmp16sdata)                     |1.6.0    |         |__+1__  |2 __+1__ |
@@ -337,7 +299,6 @@
 |[InjurySeverityScore](problems.md#injuryseverityscore)   |0.0.0.2  |__+1__   |        |         |
 |[ipumsr](problems.md#ipumsr)                             |0.4.2    |__+2__   |        |         |
 |[isomiRs](problems.md#isomirs)                           |1.14.0   |1 __+1__ |        |3        |
-|[ISRaD](problems.md#israd)                               |1.2.3    |__+1__   |        |2        |
 |[janitor](problems.md#janitor)                           |1.2.1    |__+1__   |        |         |
 |[jstor](problems.md#jstor)                               |0.3.7    |__+1__   |        |         |
 |[keyholder](problems.md#keyholder)                       |0.1.4    |__+1__   |        |         |
@@ -355,10 +316,6 @@
 |[mosaic](problems.md#mosaic)                             |1.6.0    |__+1__   |        |3        |
 |[mosaicData](problems.md#mosaicdata)                     |0.17.0   |__+1__   |        |1        |
 |[MSstatsTMT](problems.md#msstatstmt)                     |1.4.5    |__+2__   |        |         |
-<<<<<<< Updated upstream
-|[mtconnectR](problems.md#mtconnectr)                     |1.2.1    |__+2__   |        |         |
-=======
->>>>>>> Stashed changes
 |[mudata2](problems.md#mudata2)                           |1.1.1    |         |__+1__  |1        |
 |[muscData](problems.md#muscdata)                         |1.0.0    |         |__+1__  |2 __+1__ |
 |[naniar](problems.md#naniar)                             |0.5.0    |__+1__   |        |         |
@@ -387,10 +344,6 @@
 |[ptstem](problems.md#ptstem)                             |0.0.4    |__+1__   |        |1        |
 |[PupillometryR](problems.md#pupillometryr)               |0.0.1    |__+1__   |        |1        |
 |[purrr](problems.md#purrr)                               |0.3.3    |__+1__   |        |         |
-<<<<<<< Updated upstream
-|[purrrlyr](problems.md#purrrlyr)                         |0.0.5    |__+1__   |        |         |
-=======
->>>>>>> Stashed changes
 |[qualmap](problems.md#qualmap)                           |0.1.1    |__+2__   |        |         |
 |[rabhit](problems.md#rabhit)                             |0.1.4    |__+1__   |        |         |
 |[raceland](problems.md#raceland)                         |1.0.5    |__+1__   |        |1        |
@@ -401,7 +354,7 @@
 |[recipes](problems.md#recipes)                           |0.1.10   |__+1__   |        |         |
 |[rFIA](problems.md#rfia)                                 |0.2.0    |__+1__   |        |         |
 |[RNeXML](problems.md#rnexml)                             |2.4.3    |__+1__   |        |         |
-|[rsample](problems.md#rsample)                           |0.0.5    |__+1__   |        |1        |
+|[rsample](problems.md#rsample)                           |0.0.5    |__+1__   |        |         |
 |[RSQL](problems.md#rsql)                                 |0.1.1    |__+1__   |        |1        |
 |[rstatix](problems.md#rstatix)                           |0.4.0    |__+1__   |        |         |
 |[RTD](problems.md#rtd)                                   |0.1.1    |__+1__   |        |1        |
@@ -414,10 +367,6 @@
 |[seplyr](problems.md#seplyr)                             |0.8.5    |__+1__   |        |         |
 |[sergeant](problems.md#sergeant)                         |0.5.2    |         |__+1__  |         |
 |[sevenbridges](problems.md#sevenbridges)                 |1.16.0   |__+1__   |        |1        |
-<<<<<<< Updated upstream
-|[sf](problems.md#sf)                                     |0.8-1    |__+1__   |        |1        |
-=======
->>>>>>> Stashed changes
 |[silicate](problems.md#silicate)                         |0.2.0    |__+2__   |        |1        |
 |[simglm](problems.md#simglm)                             |0.7.4    |__+1__   |        |         |
 |[SimplifyStats](problems.md#simplifystats)               |2.0.2    |__+2__   |        |         |
@@ -426,18 +375,13 @@
 |[sjmisc](problems.md#sjmisc)                             |2.8.3    |__+1__   |        |         |
 |[skimr](problems.md#skimr)                               |2.1      |__+1__   |        |         |
 |[skynet](problems.md#skynet)                             |1.3.0    |__+1__   |        |1        |
-<<<<<<< Updated upstream
-|[spatialrisk](problems.md#spatialrisk)                   |0.6.5    |__+1__   |        |2 __+1__ |
-=======
-|[spatialrisk](problems.md#spatialrisk)                   |0.6.5    |__+1__   |        |2        |
->>>>>>> Stashed changes
+|[spatialrisk](problems.md#spatialrisk)                   |0.6.5    |__+1__   |        |3        |
 |[spdplyr](problems.md#spdplyr)                           |0.3.0    |__+2__   |        |         |
 |[srvyr](problems.md#srvyr)                               |0.3.8    |__+1__   |__+1__  |         |
 |[stacomiR](problems.md#stacomir)                         |0.5.4.3  |2 __+1__ |5       |2        |
 |[stars](problems.md#stars)                               |0.4-0    |__+1__   |        |2 __+1__ |
 |[stplanr](problems.md#stplanr)                           |0.5.1    |__+1__   |        |1        |
 |[strapgod](problems.md#strapgod)                         |0.0.4    |__+1__   |        |         |
-|[strataG](problems.md#stratag)                           |2.4.905  |__+2__   |        |1        |
 |[stratamatch](problems.md#stratamatch)                   |0.1.4    |__+1__   |        |         |
 |[StratigrapheR](problems.md#stratigrapher)               |1.0.0    |__+1__   |        |         |
 |[sugarbag](problems.md#sugarbag)                         |0.1.2    |__+1__   |        |1        |
@@ -447,13 +391,9 @@
 |[survminer](problems.md#survminer)                       |0.4.6    |__+1__   |        |1        |
 |[tabr](problems.md#tabr)                                 |0.4.2    |__+2__   |        |         |
 |[taxadb](problems.md#taxadb)                             |0.1.0    |__+1__   |        |2        |
-<<<<<<< Updated upstream
-|[textreuse](problems.md#textreuse)                       |0.1.4    |__+2__   |        |1        |
-=======
->>>>>>> Stashed changes
 |[tibbleOne](problems.md#tibbleone)                       |0.1.1    |__+1__   |        |1        |
 |[tibbletime](problems.md#tibbletime)                     |0.1.3    |__+1__   |        |         |
-|[tidybayes](problems.md#tidybayes)                       |2.0.1    |__+1__   |        |         |
+|[tidybayes](problems.md#tidybayes)                       |2.0.2    |__+1__   |        |         |
 |[tidycells](problems.md#tidycells)                       |0.2.2    |__+2__   |        |         |
 |[tidygraph](problems.md#tidygraph)                       |1.1.2    |__+1__   |__+2__  |         |
 |[tidyjson](problems.md#tidyjson)                         |0.2.4    |__+2__   |        |         |
@@ -467,10 +407,6 @@
 |[tidystats](problems.md#tidystats)                       |0.4      |__+1__   |        |2        |
 |[tidystopwords](problems.md#tidystopwords)               |0.9.0    |__+1__   |        |1        |
 |[tidytransit](problems.md#tidytransit)                   |0.7.0    |__+2__   |        |2        |
-<<<<<<< Updated upstream
-|[tidyxl](problems.md#tidyxl)                             |1.0.4    |__+1__   |2       |         |
-=======
->>>>>>> Stashed changes
 |[TimeSeriesExperiment](problems.md#timeseriesexperiment) |1.4.0    |__+1__   |1       |2        |
 |[TPP](problems.md#tpp)                                   |3.14.1   |__+2__   |        |3        |
 |[tree.bins](problems.md#treebins)                        |0.1.1    |__+1__   |        |1        |
@@ -481,10 +417,6 @@
 |[unpivotr](problems.md#unpivotr)                         |0.5.1    |__+1__   |        |         |
 |[ushr](problems.md#ushr)                                 |0.2.1    |__+2__   |        |         |
 |[valr](problems.md#valr)                                 |0.5.0    |__+2__   |        |         |
-<<<<<<< Updated upstream
-|[vcfR](problems.md#vcfr)                                 |1.10.0   |__+2__   |        |         |
-=======
->>>>>>> Stashed changes
 |[viafr](problems.md#viafr)                               |0.1.0    |__+1__   |        |1        |
 |[vpc](problems.md#vpc)                                   |1.1.0    |__+2__   |        |         |
 |[weathercan](problems.md#weathercan)                     |0.3.3    |__+1__   |        |1        |
