@@ -13,7 +13,7 @@
 #' semantics so you can easily select multiple variables. See
 #' `vignette("rowwise")` for more details.
 #'
-#' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
+#' @param cols,.cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
 #'   `mutate()`, you can't select or compute upon grouping variables.
 #' @param .fns Functions to apply to each of the selected columns.
