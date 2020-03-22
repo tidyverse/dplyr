@@ -7,7 +7,7 @@
 \usage{
 across(.cols = everything(), .fns = NULL, ..., .names = NULL)
 
-c_across(.cols = everything())
+c_across(cols = everything())
 }
 \arguments{
 \item{.cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.

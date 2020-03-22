@@ -133,16 +133,16 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
 #' @export
 #' @rdname across
-c_across <- function(.cols = everything()) {
+c_across <- function(cols = everything()) {
   key <- key_deparse(sys.call())
-  vars <- c_across_setup({{ .cols }}, key = key)
+  vars <- c_across_setup({{ cols }}, key = key)
 
   mask <- peek_mask()
 
-  .cols <- mask$current_cols(vars)
-  .cols <- unname(.cols)
+  cols <- mask$current_cols(vars)
+  cols <- unname(cols)
 
-  vec_c(!!!.cols)
+  vec_c(!!!cols)
 }
 
 # TODO: The usage of a cache in `across_setup()` and `c_across_setup()` is a stopgap solution, and
