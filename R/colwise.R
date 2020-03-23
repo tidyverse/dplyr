@@ -83,12 +83,9 @@
 #' @name scoped
 NULL
 
-
 #' Select variables
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
-#'
 #' `vars()` was only needed for the scoped verbs, which have been superseded
 #' by the use of [across()] in an existing verb. See `vignette("colwise")` for
 #' details.
