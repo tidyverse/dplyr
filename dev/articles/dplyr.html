@@ -171,18 +171,18 @@
 <h2 class="hasAnchor">
 <a href="#data-starwars" class="anchor"></a>Data: starwars</h2>
 <p>To explore the basic data manipulation verbs of dplyr, we’ll use the dataset <code>starwars</code>. This dataset contains 87 characters and comes from the <a href="http://swapi.co">Star Wars API</a>, and is documented in <code><a href="../reference/starwars.html">?starwars</a></code></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(starwars)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt; [1] 87 14</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>starwars</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; # A tibble: 87 x 14</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="no">starwars</span>)
+<span class="co">#&gt; [1] 87 14</span>
+<span class="no">starwars</span>
+<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <p>Note that <code>starwars</code> is a tibble, a modern reimagining of the data frame. It’s particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <a href="http://tibble.tidyverse.org" class="uri">http://tibble.tidyverse.org</a>; in particular you can convert data frames to tibbles with <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code>.</p>
 </div>
 <div id="single-table-verbs" class="section level2">
@@ -226,45 +226,45 @@
 </h3>
 <p><code><a href="../reference/filter.html">filter()</a></code> allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is <code>TRUE</code>.</p>
 <p>For example, we can select all character with light skin color and brown eyes with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(skin_color <span class="op">==</span><span class="st"> "light"</span>, eye_color <span class="op">==</span><span class="st"> "brown"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; # A tibble: 7 x 14</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt; 1 Leia…    150    49 brown      light      brown             19 fema… femin…</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; 2 Bigg…    183    84 black      light      brown             24 male  mascu…</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; 3 Cordé    157    NA brown      light      brown             NA fema… femin…</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; 4 Dormé    165    NA brown      light      brown             NA fema… femin…</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; # … with 3 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="no">skin_color</span> <span class="kw">==</span> <span class="st">"light"</span>, <span class="no">eye_color</span> <span class="kw">==</span> <span class="st">"brown"</span>)
+<span class="co">#&gt; # A tibble: 7 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Leia…    150    49 brown      light      brown             19 fema… femin…</span>
+<span class="co">#&gt; 2 Bigg…    183    84 black      light      brown             24 male  mascu…</span>
+<span class="co">#&gt; 3 Cordé    157    NA brown      light      brown             NA fema… femin…</span>
+<span class="co">#&gt; 4 Dormé    165    NA brown      light      brown             NA fema… femin…</span>
+<span class="co">#&gt; # … with 3 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <p>This is rougly equivalent to this base R code:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>starwars[starwars<span class="op">$</span>skin_color <span class="op">==</span><span class="st"> "light"</span> <span class="op">&amp;</span><span class="st"> </span>starwars<span class="op">$</span>eye_color <span class="op">==</span><span class="st"> "brown"</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">starwars</span>[<span class="no">starwars</span>$<span class="no">skin_color</span> <span class="kw">==</span> <span class="st">"light"</span> <span class="kw">&amp;</span> <span class="no">starwars</span>$<span class="no">eye_color</span> <span class="kw">==</span> <span class="st">"brown"</span>, ]</pre></body></html></div>
 </div>
 <div id="arrange-rows-with-arrange" class="section level3">
 <h3 class="hasAnchor">
 <a href="#arrange-rows-with-arrange" class="anchor"></a>Arrange rows with <code>arrange()</code>
 </h3>
 <p><code><a href="../reference/arrange.html">arrange()</a></code> works similarly to <code><a href="../reference/filter.html">filter()</a></code> except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(height, mass)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; # A tibble: 87 x 14</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; 1 Yoda      66    17 white      green      brown            896 male  mascu…</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; 2 Ratt…     79    15 none       grey, blue unknown           NA male  mascu…</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; 3 Wick…     88    20 brown      brown      brown              8 male  mascu…</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; 4 Dud …     94    45 none       blue, grey yellow            NA male  mascu…</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span>(<span class="no">height</span>, <span class="no">mass</span>)
+<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yoda      66    17 white      green      brown            896 male  mascu…</span>
+<span class="co">#&gt; 2 Ratt…     79    15 none       grey, blue unknown           NA male  mascu…</span>
+<span class="co">#&gt; 3 Wick…     88    20 brown      brown      brown              8 male  mascu…</span>
+<span class="co">#&gt; 4 Dud …     94    45 none       blue, grey yellow            NA male  mascu…</span>
+<span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <p>Use <code><a href="../reference/desc.html">desc()</a></code> to order a column in descending order:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(height))</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; # A tibble: 87 x 14</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  mascu…</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  mascu…</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  mascu…</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; 4 Chew…    228   112 brown      unknown    blue             200 male  mascu…</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span>(<span class="fu"><a href="../reference/desc.html">desc</a></span>(<span class="no">height</span>))
+<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  mascu…</span>
+<span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  mascu…</span>
+<span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  mascu…</span>
+<span class="co">#&gt; 4 Chew…    228   112 brown      unknown    blue             200 male  mascu…</span>
+<span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 </div>
 <div id="choose-rows-using-their-position-with-slice" class="section level3">
 <h3 class="hasAnchor">
@@ -272,223 +272,223 @@
 </h3>
 <p>slice() lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows.</p>
 <p>We can get characters from row numbers 5 through 10.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice</a></span>(<span class="dv">5</span><span class="op">:</span><span class="dv">10</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; # A tibble: 6 x 14</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; 1 Leia…    150    49 brown      light      brown             19 fema… femin…</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; 2 Owen…    178   120 brown, gr… light      blue              52 male  mascu…</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt; 3 Beru…    165    75 brown      light      blue              47 fema… femin…</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt; 4 R5-D4     97    32 &lt;NA&gt;       white, red red               NA none  mascu…</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt; # … with 2 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/slice.html">slice</a></span>(<span class="fl">5</span>:<span class="fl">10</span>)
+<span class="co">#&gt; # A tibble: 6 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Leia…    150    49 brown      light      brown             19 fema… femin…</span>
+<span class="co">#&gt; 2 Owen…    178   120 brown, gr… light      blue              52 male  mascu…</span>
+<span class="co">#&gt; 3 Beru…    165    75 brown      light      blue              47 fema… femin…</span>
+<span class="co">#&gt; 4 R5-D4     97    32 &lt;NA&gt;       white, red red               NA none  mascu…</span>
+<span class="co">#&gt; # … with 2 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <p>It is accompanied by a number of helpers for common use cases:</p>
 <ul>
 <li>slice_head() and slice_tail() select the first or last rows.</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_head</a></span>(<span class="dt">n =</span> <span class="dv">3</span>)</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; # A tibble: 3 x 14</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue              19 male  mascu…</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none  mascu…</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none  mascu…</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/slice.html">slice_head</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fl">3</span>)
+<span class="co">#&gt; # A tibble: 3 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue              19 male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none  mascu…</span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <ul>
 <li>slice_sample() randomly selects rows. Use the option prop to choose a certain proportion of the cases.</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_sample</a></span>(<span class="dt">n =</span> <span class="dv">5</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt; # A tibble: 5 x 14</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt; 1 Dud …     94    45 none       blue, grey yellow            NA male  mascu…</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; 2 Bossk    190   113 none       green      red               53 male  mascu…</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; 3 Shaa…    178    57 none       red, blue… black             NA fema… femin…</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; 4 Dormé    165    NA brown      light      brown             NA fema… femin…</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt; # … with 1 more row, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/slice.html">slice_sample</a></span>(<span class="dt">prop =</span> <span class="fl">0.1</span>)</span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt; # A tibble: 8 x 14</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb8-15"><a href="#cb8-15"></a><span class="co">#&gt; 1 Qui-…    193    89 brown      fair       blue              92 male  mascu…</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a><span class="co">#&gt; 2 Dext…    198   102 none       brown      yellow            NA male  mascu…</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co">#&gt; 3 R4-P…     96    NA none       silver, r… red, blue         NA none  femin…</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a><span class="co">#&gt; 4 Lama…    229    88 none       grey       black             NA male  mascu…</span></span>
-<span id="cb8-19"><a href="#cb8-19"></a><span class="co">#&gt; # … with 4 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb8-20"><a href="#cb8-20"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/slice.html">slice_sample</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fl">5</span>)
+<span class="co">#&gt; # A tibble: 5 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Dud …     94    45 none       blue, grey yellow            NA male  mascu…</span>
+<span class="co">#&gt; 2 Bossk    190   113 none       green      red               53 male  mascu…</span>
+<span class="co">#&gt; 3 Shaa…    178    57 none       red, blue… black             NA fema… femin…</span>
+<span class="co">#&gt; 4 Dormé    165    NA brown      light      brown             NA fema… femin…</span>
+<span class="co">#&gt; # … with 1 more row, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/slice.html">slice_sample</a></span>(<span class="kw">prop</span> <span class="kw">=</span> <span class="fl">0.1</span>)
+<span class="co">#&gt; # A tibble: 8 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Qui-…    193    89 brown      fair       blue              92 male  mascu…</span>
+<span class="co">#&gt; 2 Dext…    198   102 none       brown      yellow            NA male  mascu…</span>
+<span class="co">#&gt; 3 R4-P…     96    NA none       silver, r… red, blue         NA none  femin…</span>
+<span class="co">#&gt; 4 Lama…    229    88 none       grey       black             NA male  mascu…</span>
+<span class="co">#&gt; # … with 4 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <p>Use <code>replace = TRUE</code> to perform a bootstrap sample. If needed, you can weight the sample with the <code>weight</code> argument.</p>
 <ul>
 <li>slice_min() and slice_max() select rows with highest or lowest values of a variable. Note that we first must choose only the values which are not NA.</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(height)) <span class="op">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw"><a href="../reference/slice.html">slice_max</a></span>(height, <span class="dt">n =</span> <span class="dv">3</span>)</span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; # A tibble: 3 x 14</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  mascu…</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  mascu…</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  mascu…</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/filter.html">filter</a></span>(!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">height</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/slice.html">slice_max</a></span>(<span class="no">height</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="fl">3</span>)
+<span class="co">#&gt; # A tibble: 3 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  mascu…</span>
+<span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  mascu…</span>
+<span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  mascu…</span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 </div>
 <div id="select-columns-with-select" class="section level3">
 <h3 class="hasAnchor">
 <a href="#select-columns-with-select" class="anchor"></a>Select columns with <code>select()</code>
 </h3>
 <p>Often you work with large datasets with many columns but only a few are actually of interest to you. <code><a href="../reference/select.html">select()</a></code> allows you to rapidly zoom in on a useful subset using operations that usually only work on numeric variable positions:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Select columns by name</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(hair_color, skin_color, eye_color)</span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="co">#&gt; # A tibble: 87 x 3</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt;   hair_color skin_color  eye_color</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; 1 blond      fair        blue     </span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span></span>
-<span id="cb10-9"><a href="#cb10-9"></a><span class="co">#&gt; 4 none       white       yellow   </span></span>
-<span id="cb10-10"><a href="#cb10-10"></a><span class="co">#&gt; # … with 83 more rows</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a><span class="co"># Select all columns between hair_color and eye_color (inclusive)</span></span>
-<span id="cb10-12"><a href="#cb10-12"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(hair_color<span class="op">:</span>eye_color)</span>
-<span id="cb10-13"><a href="#cb10-13"></a><span class="co">#&gt; # A tibble: 87 x 3</span></span>
-<span id="cb10-14"><a href="#cb10-14"></a><span class="co">#&gt;   hair_color skin_color  eye_color</span></span>
-<span id="cb10-15"><a href="#cb10-15"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span id="cb10-16"><a href="#cb10-16"></a><span class="co">#&gt; 1 blond      fair        blue     </span></span>
-<span id="cb10-17"><a href="#cb10-17"></a><span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span></span>
-<span id="cb10-18"><a href="#cb10-18"></a><span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span></span>
-<span id="cb10-19"><a href="#cb10-19"></a><span class="co">#&gt; 4 none       white       yellow   </span></span>
-<span id="cb10-20"><a href="#cb10-20"></a><span class="co">#&gt; # … with 83 more rows</span></span>
-<span id="cb10-21"><a href="#cb10-21"></a><span class="co"># Select all columns except those from hair_color to eye_color (inclusive)</span></span>
-<span id="cb10-22"><a href="#cb10-22"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="op">-</span>(hair_color<span class="op">:</span>eye_color))</span>
-<span id="cb10-23"><a href="#cb10-23"></a><span class="co">#&gt; # A tibble: 87 x 11</span></span>
-<span id="cb10-24"><a href="#cb10-24"></a><span class="co">#&gt;   name  height  mass birth_year sex   gender homeworld species films vehicles</span></span>
-<span id="cb10-25"><a href="#cb10-25"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;   &lt;lis&gt; &lt;list&gt;  </span></span>
-<span id="cb10-26"><a href="#cb10-26"></a><span class="co">#&gt; 1 Luke…    172    77       19   male  mascu… Tatooine  Human   &lt;chr… &lt;chr [2…</span></span>
-<span id="cb10-27"><a href="#cb10-27"></a><span class="co">#&gt; 2 C-3PO    167    75      112   none  mascu… Tatooine  Droid   &lt;chr… &lt;chr [0…</span></span>
-<span id="cb10-28"><a href="#cb10-28"></a><span class="co">#&gt; 3 R2-D2     96    32       33   none  mascu… Naboo     Droid   &lt;chr… &lt;chr [0…</span></span>
-<span id="cb10-29"><a href="#cb10-29"></a><span class="co">#&gt; 4 Dart…    202   136       41.9 male  mascu… Tatooine  Human   &lt;chr… &lt;chr [0…</span></span>
-<span id="cb10-30"><a href="#cb10-30"></a><span class="co">#&gt; # … with 83 more rows, and 1 more variable: starships &lt;list&gt;</span></span>
-<span id="cb10-31"><a href="#cb10-31"></a><span class="co"># Select all columns ending with color</span></span>
-<span id="cb10-32"><a href="#cb10-32"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with</a></span>(<span class="st">"color"</span>))</span>
-<span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt; # A tibble: 87 x 3</span></span>
-<span id="cb10-34"><a href="#cb10-34"></a><span class="co">#&gt;   hair_color skin_color  eye_color</span></span>
-<span id="cb10-35"><a href="#cb10-35"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span id="cb10-36"><a href="#cb10-36"></a><span class="co">#&gt; 1 blond      fair        blue     </span></span>
-<span id="cb10-37"><a href="#cb10-37"></a><span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span></span>
-<span id="cb10-38"><a href="#cb10-38"></a><span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span></span>
-<span id="cb10-39"><a href="#cb10-39"></a><span class="co">#&gt; 4 none       white       yellow   </span></span>
-<span id="cb10-40"><a href="#cb10-40"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co"># Select columns by name</span>
+<span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">hair_color</span>, <span class="no">skin_color</span>, <span class="no">eye_color</span>)
+<span class="co">#&gt; # A tibble: 87 x 3</span>
+<span class="co">#&gt;   hair_color skin_color  eye_color</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 blond      fair        blue     </span>
+<span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span>
+<span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span>
+<span class="co">#&gt; 4 none       white       yellow   </span>
+<span class="co">#&gt; # … with 83 more rows</span>
+<span class="co"># Select all columns between hair_color and eye_color (inclusive)</span>
+<span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">hair_color</span>:<span class="no">eye_color</span>)
+<span class="co">#&gt; # A tibble: 87 x 3</span>
+<span class="co">#&gt;   hair_color skin_color  eye_color</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 blond      fair        blue     </span>
+<span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span>
+<span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span>
+<span class="co">#&gt; 4 none       white       yellow   </span>
+<span class="co">#&gt; # … with 83 more rows</span>
+<span class="co"># Select all columns except those from hair_color to eye_color (inclusive)</span>
+<span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(-(<span class="no">hair_color</span>:<span class="no">eye_color</span>))
+<span class="co">#&gt; # A tibble: 87 x 11</span>
+<span class="co">#&gt;   name  height  mass birth_year sex   gender homeworld species films vehicles</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;   &lt;lis&gt; &lt;list&gt;  </span>
+<span class="co">#&gt; 1 Luke…    172    77       19   male  mascu… Tatooine  Human   &lt;chr… &lt;chr [2…</span>
+<span class="co">#&gt; 2 C-3PO    167    75      112   none  mascu… Tatooine  Droid   &lt;chr… &lt;chr [0…</span>
+<span class="co">#&gt; 3 R2-D2     96    32       33   none  mascu… Naboo     Droid   &lt;chr… &lt;chr [0…</span>
+<span class="co">#&gt; 4 Dart…    202   136       41.9 male  mascu… Tatooine  Human   &lt;chr… &lt;chr [0…</span>
+<span class="co">#&gt; # … with 83 more rows, and 1 more variable: starships &lt;list&gt;</span>
+<span class="co"># Select all columns ending with color</span>
+<span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with</a></span>(<span class="st">"color"</span>))
+<span class="co">#&gt; # A tibble: 87 x 3</span>
+<span class="co">#&gt;   hair_color skin_color  eye_color</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 blond      fair        blue     </span>
+<span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span>
+<span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span>
+<span class="co">#&gt; 4 none       white       yellow   </span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 <p>There are a number of helper functions you can use within <code><a href="../reference/select.html">select()</a></code>, like <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">matches()</a></code> and <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains()</a></code>. These let you quickly match larger blocks of variables that meet some criterion. See <code><a href="../reference/select.html">?select</a></code> for more details.</p>
 <p>You can rename variables with <code><a href="../reference/select.html">select()</a></code> by using named arguments:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(<span class="dt">home_world =</span> homeworld)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; # A tibble: 87 x 1</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt;   home_world</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt;   &lt;chr&gt;     </span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt; 1 Tatooine  </span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt; 2 Tatooine  </span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt; 3 Naboo     </span></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#&gt; 4 Tatooine  </span></span>
-<span id="cb11-9"><a href="#cb11-9"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">home_world</span> <span class="kw">=</span> <span class="no">homeworld</span>)
+<span class="co">#&gt; # A tibble: 87 x 1</span>
+<span class="co">#&gt;   home_world</span>
+<span class="co">#&gt;   &lt;chr&gt;     </span>
+<span class="co">#&gt; 1 Tatooine  </span>
+<span class="co">#&gt; 2 Tatooine  </span>
+<span class="co">#&gt; 3 Naboo     </span>
+<span class="co">#&gt; 4 Tatooine  </span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 <p>But because <code><a href="../reference/select.html">select()</a></code> drops all the variables not explicitly mentioned, it’s not that useful. Instead, use <code><a href="../reference/rename.html">rename()</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/rename.html">rename</a></span>(<span class="dt">home_world =</span> homeworld)</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">#&gt; # A tibble: 87 x 14</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="co">#&gt; # … with 83 more rows, and 5 more variables: home_world &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/rename.html">rename</a></span>(<span class="kw">home_world</span> <span class="kw">=</span> <span class="no">homeworld</span>)
+<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; # … with 83 more rows, and 5 more variables: home_world &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 </div>
 <div id="add-new-columns-with-mutate" class="section level3">
 <h3 class="hasAnchor">
 <a href="#add-new-columns-with-mutate" class="anchor"></a>Add new columns with <code>mutate()</code>
 </h3>
 <p>Besides selecting sets of existing columns, it’s often useful to add new columns that are functions of existing columns. This is the job of <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">height_m =</span>  height <span class="op">/</span><span class="st"> </span><span class="dv">100</span>)</span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="co">#&gt; # A tibble: 87 x 15</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></span>
-<span id="cb13-6"><a href="#cb13-6"></a><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></span>
-<span id="cb13-9"><a href="#cb13-9"></a><span class="co">#&gt; # … with 83 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb13-10"><a href="#cb13-10"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, height_m &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">height_m</span> <span class="kw">=</span>  <span class="no">height</span> / <span class="fl">100</span>)
+<span class="co">#&gt; # A tibble: 87 x 15</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; # … with 83 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, height_m &lt;dbl&gt;</span></pre></body></html></div>
 <p>We can’t see the height in meters we just calculated, but we can fix that using a select command.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="dt">height_m =</span> height <span class="op">/</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(height_m, height, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>())</span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt; # A tibble: 87 x 15</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt;   height_m height name   mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt;      &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt; 1     1.72    172 Luke…    77 blond      fair       blue            19   male </span></span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt; 2     1.67    167 C-3PO    75 &lt;NA&gt;       gold       yellow         112   none </span></span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt; 3     0.96     96 R2-D2    32 &lt;NA&gt;       white, bl… red             33   none </span></span>
-<span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt; 4     2.02    202 Dart…   136 none       white      yellow          41.9 male </span></span>
-<span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt; # … with 83 more rows, and 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span></span>
-<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">height_m</span> <span class="kw">=</span> <span class="no">height</span> / <span class="fl">100</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">height_m</span>, <span class="no">height</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>())
+<span class="co">#&gt; # A tibble: 87 x 15</span>
+<span class="co">#&gt;   height_m height name   mass hair_color skin_color eye_color birth_year sex  </span>
+<span class="co">#&gt;      &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1     1.72    172 Luke…    77 blond      fair       blue            19   male </span>
+<span class="co">#&gt; 2     1.67    167 C-3PO    75 &lt;NA&gt;       gold       yellow         112   none </span>
+<span class="co">#&gt; 3     0.96     96 R2-D2    32 &lt;NA&gt;       white, bl… red             33   none </span>
+<span class="co">#&gt; 4     2.02    202 Dart…   136 none       white      yellow          41.9 male </span>
+<span class="co">#&gt; # … with 83 more rows, and 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span>
+<span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <p><code><a href="../reference/mutate.html">dplyr::mutate()</a></code> is similar to the base <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>, but allows you to refer to columns that you’ve just created:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(</span>
-<span id="cb15-2"><a href="#cb15-2"></a>  <span class="dt">height_m =</span> height <span class="op">/</span><span class="st"> </span><span class="dv">100</span>,</span>
-<span id="cb15-3"><a href="#cb15-3"></a>  <span class="dt">BMI =</span> mass<span class="op">/</span>(height_m<span class="op">^</span><span class="dv">2</span>)</span>
-<span id="cb15-4"><a href="#cb15-4"></a>  ) <span class="op">%&gt;%</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(BMI, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>())</span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt; # A tibble: 87 x 16</span></span>
-<span id="cb15-7"><a href="#cb15-7"></a><span class="co">#&gt;     BMI name  height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt; 1  26.0 Luke…    172    77 blond      fair       blue            19   male </span></span>
-<span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt; 2  26.9 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none </span></span>
-<span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt; 3  34.7 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none </span></span>
-<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt; 4  33.3 Dart…    202   136 none       white      yellow          41.9 male </span></span>
-<span id="cb15-13"><a href="#cb15-13"></a><span class="co">#&gt; # … with 83 more rows, and 7 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span></span>
-<span id="cb15-14"><a href="#cb15-14"></a><span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;,</span></span>
-<span id="cb15-15"><a href="#cb15-15"></a><span class="co">#&gt; #   height_m &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(
+  <span class="kw">height_m</span> <span class="kw">=</span> <span class="no">height</span> / <span class="fl">100</span>,
+  <span class="kw">BMI</span> <span class="kw">=</span> <span class="no">mass</span>/(<span class="no">height_m</span>^<span class="fl">2</span>)
+  ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">BMI</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>())
+<span class="co">#&gt; # A tibble: 87 x 16</span>
+<span class="co">#&gt;     BMI name  height  mass hair_color skin_color eye_color birth_year sex  </span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1  26.0 Luke…    172    77 blond      fair       blue            19   male </span>
+<span class="co">#&gt; 2  26.9 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none </span>
+<span class="co">#&gt; 3  34.7 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none </span>
+<span class="co">#&gt; 4  33.3 Dart…    202   136 none       white      yellow          41.9 male </span>
+<span class="co">#&gt; # … with 83 more rows, and 7 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span>
+<span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;,</span>
+<span class="co">#&gt; #   height_m &lt;dbl&gt;</span></pre></body></html></div>
 <p>If you only want to keep the new variables, use <code><a href="../reference/mutate.html">transmute()</a></code>:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">transmute</a></span>(</span>
-<span id="cb16-2"><a href="#cb16-2"></a>  <span class="dt">height_m =</span> height <span class="op">/</span><span class="st"> </span><span class="dv">100</span>,</span>
-<span id="cb16-3"><a href="#cb16-3"></a>  <span class="dt">BMI =</span> mass<span class="op">/</span>(height_m<span class="op">^</span><span class="dv">2</span>)</span>
-<span id="cb16-4"><a href="#cb16-4"></a>)</span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="co">#&gt; # A tibble: 87 x 2</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt;   height_m   BMI</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt;      &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt; 1     1.72  26.0</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt; 2     1.67  26.9</span></span>
-<span id="cb16-10"><a href="#cb16-10"></a><span class="co">#&gt; 3     0.96  34.7</span></span>
-<span id="cb16-11"><a href="#cb16-11"></a><span class="co">#&gt; 4     2.02  33.3</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">transmute</a></span>(
+  <span class="kw">height_m</span> <span class="kw">=</span> <span class="no">height</span> / <span class="fl">100</span>,
+  <span class="kw">BMI</span> <span class="kw">=</span> <span class="no">mass</span>/(<span class="no">height_m</span>^<span class="fl">2</span>)
+)
+<span class="co">#&gt; # A tibble: 87 x 2</span>
+<span class="co">#&gt;   height_m   BMI</span>
+<span class="co">#&gt;      &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1.72  26.0</span>
+<span class="co">#&gt; 2     1.67  26.9</span>
+<span class="co">#&gt; 3     0.96  34.7</span>
+<span class="co">#&gt; 4     2.02  33.3</span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 </div>
 <div id="change-column-order-with-relocate" class="section level3">
 <h3 class="hasAnchor">
 <a href="#change-column-order-with-relocate" class="anchor"></a>Change column order with <code>relocate()</code>
 </h3>
 <p>Use a similar syntax as <code><a href="../reference/select.html">select()</a></code> to move blocks of columns at once</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/relocate.html">relocate</a></span>(sex<span class="op">:</span>homeworld, <span class="dt">.before =</span> height)</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co">#&gt; # A tibble: 87 x 14</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="co">#&gt;   name  sex   gender homeworld height  mass hair_color skin_color eye_color</span></span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;    </span></span>
-<span id="cb17-5"><a href="#cb17-5"></a><span class="co">#&gt; 1 Luke… male  mascu… Tatooine     172    77 blond      fair       blue     </span></span>
-<span id="cb17-6"><a href="#cb17-6"></a><span class="co">#&gt; 2 C-3PO none  mascu… Tatooine     167    75 &lt;NA&gt;       gold       yellow   </span></span>
-<span id="cb17-7"><a href="#cb17-7"></a><span class="co">#&gt; 3 R2-D2 none  mascu… Naboo         96    32 &lt;NA&gt;       white, bl… red      </span></span>
-<span id="cb17-8"><a href="#cb17-8"></a><span class="co">#&gt; 4 Dart… male  mascu… Tatooine     202   136 none       white      yellow   </span></span>
-<span id="cb17-9"><a href="#cb17-9"></a><span class="co">#&gt; # … with 83 more rows, and 5 more variables: birth_year &lt;dbl&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb17-10"><a href="#cb17-10"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/relocate.html">relocate</a></span>(<span class="no">sex</span>:<span class="no">homeworld</span>, <span class="kw">.before</span> <span class="kw">=</span> <span class="no">height</span>)
+<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt;   name  sex   gender homeworld height  mass hair_color skin_color eye_color</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 Luke… male  mascu… Tatooine     172    77 blond      fair       blue     </span>
+<span class="co">#&gt; 2 C-3PO none  mascu… Tatooine     167    75 &lt;NA&gt;       gold       yellow   </span>
+<span class="co">#&gt; 3 R2-D2 none  mascu… Naboo         96    32 &lt;NA&gt;       white, bl… red      </span>
+<span class="co">#&gt; 4 Dart… male  mascu… Tatooine     202   136 none       white      yellow   </span>
+<span class="co">#&gt; # … with 83 more rows, and 5 more variables: birth_year &lt;dbl&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 </div>
 <div id="summarise-values-with-summarise" class="section level3">
 <h3 class="hasAnchor">
 <a href="#summarise-values-with-summarise" class="anchor"></a>Summarise values with <code>summarise()</code>
 </h3>
 <p>The last verb is <code><a href="../reference/summarise.html">summarise()</a></code>. It collapses a data frame to a single row.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>starwars <span class="op">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</span>
-<span id="cb18-3"><a href="#cb18-3"></a>    <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb18-4"><a href="#cb18-4"></a>  )</span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="co">#&gt; # A tibble: 1 x 1</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a><span class="co">#&gt;   height</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a><span class="co">#&gt;    &lt;dbl&gt;</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a><span class="co">#&gt; 1   174.</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(
+    <span class="kw">height</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+  )
+<span class="co">#&gt; # A tibble: 1 x 1</span>
+<span class="co">#&gt;   height</span>
+<span class="co">#&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt; 1   174.</span></pre></body></html></div>
 <p>It’s not that useful until we learn the <code><a href="../reference/group_by.html">group_by()</a></code> verb below.</p>
 </div>
 <div id="commonalities" class="section level3">
@@ -509,38 +509,38 @@
 <a href="#combining-functions-with" class="anchor"></a>Combining functions with <code>%&gt;%</code>
 </h2>
 <p>The dplyr API is functional in the sense that function calls don’t have side-effects. You must always save their results. This doesn’t lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>a1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, species, sex)</span>
-<span id="cb19-2"><a href="#cb19-2"></a>a2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(a1, height, mass)</span>
-<span id="cb19-3"><a href="#cb19-3"></a>a3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(a2,</span>
-<span id="cb19-4"><a href="#cb19-4"></a>  <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
-<span id="cb19-5"><a href="#cb19-5"></a>  <span class="dt">mass =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">a1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">starwars</span>, <span class="no">species</span>, <span class="no">sex</span>)
+<span class="no">a2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">a1</span>, <span class="no">height</span>, <span class="no">mass</span>)
+<span class="no">a3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="no">a2</span>,
+  <span class="kw">height</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
+  <span class="kw">mass</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">mass</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></body></html></div>
 <p>Or if you don’t want to name the intermediate results, you need to wrap the function calls inside each other:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</span>
-<span id="cb20-2"><a href="#cb20-2"></a>  <span class="kw"><a href="../reference/select.html">select</a></span>(</span>
-<span id="cb20-3"><a href="#cb20-3"></a>    <span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, species, sex),</span>
-<span id="cb20-4"><a href="#cb20-4"></a>      height, mass</span>
-<span id="cb20-5"><a href="#cb20-5"></a>    ),</span>
-<span id="cb20-6"><a href="#cb20-6"></a>    <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
-<span id="cb20-7"><a href="#cb20-7"></a>    <span class="dt">mass =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb20-8"><a href="#cb20-8"></a>  )</span>
-<span id="cb20-9"><a href="#cb20-9"></a><span class="co">#&gt; Adding missing grouping variables: `species`, `sex`</span></span>
-<span id="cb20-10"><a href="#cb20-10"></a><span class="co">#&gt; # A tibble: 41 x 4</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a><span class="co">#&gt; # Groups:   species [38]</span></span>
-<span id="cb20-12"><a href="#cb20-12"></a><span class="co">#&gt;   species  sex   height  mass</span></span>
-<span id="cb20-13"><a href="#cb20-13"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb20-14"><a href="#cb20-14"></a><span class="co">#&gt; 1 Aleena   male      79    15</span></span>
-<span id="cb20-15"><a href="#cb20-15"></a><span class="co">#&gt; 2 Besalisk male     198   102</span></span>
-<span id="cb20-16"><a href="#cb20-16"></a><span class="co">#&gt; 3 Cerean   male     198    82</span></span>
-<span id="cb20-17"><a href="#cb20-17"></a><span class="co">#&gt; 4 Chagrian male     196   NaN</span></span>
-<span id="cb20-18"><a href="#cb20-18"></a><span class="co">#&gt; # … with 37 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="../reference/summarise.html">summarise</a></span>(
+  <span class="fu"><a href="../reference/select.html">select</a></span>(
+    <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">starwars</span>, <span class="no">species</span>, <span class="no">sex</span>),
+      <span class="no">height</span>, <span class="no">mass</span>
+    ),
+    <span class="kw">height</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
+    <span class="kw">mass</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">mass</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+  )
+<span class="co">#&gt; Adding missing grouping variables: `species`, `sex`</span>
+<span class="co">#&gt; # A tibble: 41 x 4</span>
+<span class="co">#&gt; # Groups:   species [38]</span>
+<span class="co">#&gt;   species  sex   height  mass</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Aleena   male      79    15</span>
+<span class="co">#&gt; 2 Besalisk male     198   102</span>
+<span class="co">#&gt; 3 Cerean   male     198    82</span>
+<span class="co">#&gt; 4 Chagrian male     196   NaN</span>
+<span class="co">#&gt; # … with 37 more rows</span></pre></body></html></div>
 <p>This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as “then”):</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>starwars <span class="op">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(species, sex) <span class="op">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(height, mass) <span class="op">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</span>
-<span id="cb21-5"><a href="#cb21-5"></a>    <span class="dt">height =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(height, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
-<span id="cb21-6"><a href="#cb21-6"></a>    <span class="dt">mass =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb21-7"><a href="#cb21-7"></a>  ) </span></code></pre></div>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">species</span>, <span class="no">sex</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">height</span>, <span class="no">mass</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(
+    <span class="kw">height</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
+    <span class="kw">mass</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">mass</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+  )</pre></body></html></div>
 </div>
 <div id="patterns-of-operations" class="section level2">
 <h2 class="hasAnchor">
@@ -551,153 +551,153 @@
 <a href="#selecting-operations" class="anchor"></a>Selecting operations</h3>
 <p>One of the appealing features of dplyr is that you can refer to columns from the tibble as if they were regular variables. However, the syntactic uniformity of referring to bare column names hides semantical differences across the verbs. A column symbol supplied to <code><a href="../reference/select.html">select()</a></code> does not have the same meaning as the same symbol supplied to <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
 <p>Selecting operations expect column names and positions. Hence, when you call <code><a href="../reference/select.html">select()</a></code> with bare variable names, they actually represent their own positions in the tibble. The following calls are completely equivalent from dplyr’s point of view:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># `year` represents the integer 1</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, name)</span>
-<span id="cb22-3"><a href="#cb22-3"></a><span class="co">#&gt; # A tibble: 87 x 1</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a><span class="co">#&gt;   name          </span></span>
-<span id="cb22-5"><a href="#cb22-5"></a><span class="co">#&gt;   &lt;chr&gt;         </span></span>
-<span id="cb22-6"><a href="#cb22-6"></a><span class="co">#&gt; 1 Luke Skywalker</span></span>
-<span id="cb22-7"><a href="#cb22-7"></a><span class="co">#&gt; 2 C-3PO         </span></span>
-<span id="cb22-8"><a href="#cb22-8"></a><span class="co">#&gt; 3 R2-D2         </span></span>
-<span id="cb22-9"><a href="#cb22-9"></a><span class="co">#&gt; 4 Darth Vader   </span></span>
-<span id="cb22-10"><a href="#cb22-10"></a><span class="co">#&gt; # … with 83 more rows</span></span>
-<span id="cb22-11"><a href="#cb22-11"></a><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, <span class="dv">1</span>)</span>
-<span id="cb22-12"><a href="#cb22-12"></a><span class="co">#&gt; # A tibble: 87 x 1</span></span>
-<span id="cb22-13"><a href="#cb22-13"></a><span class="co">#&gt;   name          </span></span>
-<span id="cb22-14"><a href="#cb22-14"></a><span class="co">#&gt;   &lt;chr&gt;         </span></span>
-<span id="cb22-15"><a href="#cb22-15"></a><span class="co">#&gt; 1 Luke Skywalker</span></span>
-<span id="cb22-16"><a href="#cb22-16"></a><span class="co">#&gt; 2 C-3PO         </span></span>
-<span id="cb22-17"><a href="#cb22-17"></a><span class="co">#&gt; 3 R2-D2         </span></span>
-<span id="cb22-18"><a href="#cb22-18"></a><span class="co">#&gt; 4 Darth Vader   </span></span>
-<span id="cb22-19"><a href="#cb22-19"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="co"># `year` represents the integer 1</span>
+<span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">starwars</span>, <span class="no">name</span>)
+<span class="co">#&gt; # A tibble: 87 x 1</span>
+<span class="co">#&gt;   name          </span>
+<span class="co">#&gt;   &lt;chr&gt;         </span>
+<span class="co">#&gt; 1 Luke Skywalker</span>
+<span class="co">#&gt; 2 C-3PO         </span>
+<span class="co">#&gt; 3 R2-D2         </span>
+<span class="co">#&gt; 4 Darth Vader   </span>
+<span class="co">#&gt; # … with 83 more rows</span>
+<span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">starwars</span>, <span class="fl">1</span>)
+<span class="co">#&gt; # A tibble: 87 x 1</span>
+<span class="co">#&gt;   name          </span>
+<span class="co">#&gt;   &lt;chr&gt;         </span>
+<span class="co">#&gt; 1 Luke Skywalker</span>
+<span class="co">#&gt; 2 C-3PO         </span>
+<span class="co">#&gt; 3 R2-D2         </span>
+<span class="co">#&gt; 4 Darth Vader   </span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 <p>By the same token, this means that you cannot refer to variables from the surrounding context if they have the same name as one of the columns. In the following example, <code>height</code> still represents 2, not 5:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>height &lt;-<span class="st"> </span><span class="dv">5</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, height)</span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="co">#&gt; # A tibble: 87 x 1</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="co">#&gt;   height</span></span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="co">#&gt;    &lt;int&gt;</span></span>
-<span id="cb23-6"><a href="#cb23-6"></a><span class="co">#&gt; 1    172</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a><span class="co">#&gt; 2    167</span></span>
-<span id="cb23-8"><a href="#cb23-8"></a><span class="co">#&gt; 3     96</span></span>
-<span id="cb23-9"><a href="#cb23-9"></a><span class="co">#&gt; 4    202</span></span>
-<span id="cb23-10"><a href="#cb23-10"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">height</span> <span class="kw">&lt;-</span> <span class="fl">5</span>
+<span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">starwars</span>, <span class="no">height</span>)
+<span class="co">#&gt; # A tibble: 87 x 1</span>
+<span class="co">#&gt;   height</span>
+<span class="co">#&gt;    &lt;int&gt;</span>
+<span class="co">#&gt; 1    172</span>
+<span class="co">#&gt; 2    167</span>
+<span class="co">#&gt; 3     96</span>
+<span class="co">#&gt; 4    202</span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 <p>One useful subtlety is that this only applies to bare names and to selecting calls like <code><a href="https://rdrr.io/r/base/c.html">c(height, mass)</a></code> or <code>height:mass</code>. In all other cases, the columns of the data frame are not put in scope. This allows you to refer to contextual variables in selection helpers:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>name &lt;-<span class="st"> "color"</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with</a></span>(name))</span>
-<span id="cb24-3"><a href="#cb24-3"></a><span class="co">#&gt; # A tibble: 87 x 3</span></span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="co">#&gt;   hair_color skin_color  eye_color</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span id="cb24-6"><a href="#cb24-6"></a><span class="co">#&gt; 1 blond      fair        blue     </span></span>
-<span id="cb24-7"><a href="#cb24-7"></a><span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span></span>
-<span id="cb24-8"><a href="#cb24-8"></a><span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span></span>
-<span id="cb24-9"><a href="#cb24-9"></a><span class="co">#&gt; 4 none       white       yellow   </span></span>
-<span id="cb24-10"><a href="#cb24-10"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">name</span> <span class="kw">&lt;-</span> <span class="st">"color"</span>
+<span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">starwars</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">ends_with</a></span>(<span class="no">name</span>))
+<span class="co">#&gt; # A tibble: 87 x 3</span>
+<span class="co">#&gt;   hair_color skin_color  eye_color</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 blond      fair        blue     </span>
+<span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span>
+<span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span>
+<span class="co">#&gt; 4 none       white       yellow   </span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 <p>These semantics are usually intuitive. But note the subtle difference:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>name &lt;-<span class="st"> </span><span class="dv">5</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, name, <span class="kw"><a href="https://rdrr.io/r/base/identity.html">identity</a></span>(name))</span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="co">#&gt; # A tibble: 87 x 2</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a><span class="co">#&gt;   name           skin_color </span></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      </span></span>
-<span id="cb25-6"><a href="#cb25-6"></a><span class="co">#&gt; 1 Luke Skywalker fair       </span></span>
-<span id="cb25-7"><a href="#cb25-7"></a><span class="co">#&gt; 2 C-3PO          gold       </span></span>
-<span id="cb25-8"><a href="#cb25-8"></a><span class="co">#&gt; 3 R2-D2          white, blue</span></span>
-<span id="cb25-9"><a href="#cb25-9"></a><span class="co">#&gt; 4 Darth Vader    white      </span></span>
-<span id="cb25-10"><a href="#cb25-10"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">name</span> <span class="kw">&lt;-</span> <span class="fl">5</span>
+<span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">starwars</span>, <span class="no">name</span>, <span class="fu"><a href="https://rdrr.io/r/base/identity.html">identity</a></span>(<span class="no">name</span>))
+<span class="co">#&gt; # A tibble: 87 x 2</span>
+<span class="co">#&gt;   name           skin_color </span>
+<span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      </span>
+<span class="co">#&gt; 1 Luke Skywalker fair       </span>
+<span class="co">#&gt; 2 C-3PO          gold       </span>
+<span class="co">#&gt; 3 R2-D2          white, blue</span>
+<span class="co">#&gt; 4 Darth Vader    white      </span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 <p>In the first argument, <code>name</code> represents its own position <code>1</code>. In the second argument, <code>name</code> is evaluated in the surrounding context and represents the fifth column.</p>
 <p>For a long time, <code><a href="../reference/select.html">select()</a></code> used to only understand column positions. Counting from dplyr 0.6, it now understands column names as well. This makes it a bit easier to program with <code><a href="../reference/select.html">select()</a></code>:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"name"</span>, <span class="st">"height"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="kw"><a href="../reference/select.html">select</a></span>(starwars, <span class="kw">all_of</span>(vars), <span class="st">"mass"</span>)</span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="co">#&gt; # A tibble: 87 x 3</span></span>
-<span id="cb26-4"><a href="#cb26-4"></a><span class="co">#&gt;   name           height  mass</span></span>
-<span id="cb26-5"><a href="#cb26-5"></a><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;</span></span>
-<span id="cb26-6"><a href="#cb26-6"></a><span class="co">#&gt; 1 Luke Skywalker    172    77</span></span>
-<span id="cb26-7"><a href="#cb26-7"></a><span class="co">#&gt; 2 C-3PO             167    75</span></span>
-<span id="cb26-8"><a href="#cb26-8"></a><span class="co">#&gt; 3 R2-D2              96    32</span></span>
-<span id="cb26-9"><a href="#cb26-9"></a><span class="co">#&gt; 4 Darth Vader       202   136</span></span>
-<span id="cb26-10"><a href="#cb26-10"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">vars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"name"</span>, <span class="st">"height"</span>)
+<span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">starwars</span>, <span class="fu">all_of</span>(<span class="no">vars</span>), <span class="st">"mass"</span>)
+<span class="co">#&gt; # A tibble: 87 x 3</span>
+<span class="co">#&gt;   name           height  mass</span>
+<span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Luke Skywalker    172    77</span>
+<span class="co">#&gt; 2 C-3PO             167    75</span>
+<span class="co">#&gt; 3 R2-D2              96    32</span>
+<span class="co">#&gt; 4 Darth Vader       202   136</span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 </div>
 <div id="mutating-operations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#mutating-operations" class="anchor"></a>Mutating operations</h3>
 <p>Mutate semantics are quite different from selection semantics. Whereas <code><a href="../reference/select.html">select()</a></code> expects column names or positions, <code><a href="../reference/mutate.html">mutate()</a></code> expects <em>column vectors</em>. We will set up a smaller tibble to use for our examples.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>df &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(name, height, mass)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">name</span>, <span class="no">height</span>, <span class="no">mass</span>)</pre></body></html></div>
 <p>When we use <code><a href="../reference/select.html">select()</a></code>, the bare column names stand for their own positions in the tibble. For <code><a href="../reference/mutate.html">mutate()</a></code> on the other hand, column symbols represent the actual column vectors stored in the tibble. Consider what happens if we give a string or a number to <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="st">"height"</span>, <span class="dv">2</span>)</span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="co">#&gt; # A tibble: 87 x 5</span></span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="co">#&gt;   name           height  mass `"height"`   `2`</span></span>
-<span id="cb28-4"><a href="#cb28-4"></a><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;</span></span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="co">#&gt; 1 Luke Skywalker    172    77 height         2</span></span>
-<span id="cb28-6"><a href="#cb28-6"></a><span class="co">#&gt; 2 C-3PO             167    75 height         2</span></span>
-<span id="cb28-7"><a href="#cb28-7"></a><span class="co">#&gt; 3 R2-D2              96    32 height         2</span></span>
-<span id="cb28-8"><a href="#cb28-8"></a><span class="co">#&gt; 4 Darth Vader       202   136 height         2</span></span>
-<span id="cb28-9"><a href="#cb28-9"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="no">df</span>, <span class="st">"height"</span>, <span class="fl">2</span>)
+<span class="co">#&gt; # A tibble: 87 x 5</span>
+<span class="co">#&gt;   name           height  mass `"height"`   `2`</span>
+<span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Luke Skywalker    172    77 height         2</span>
+<span class="co">#&gt; 2 C-3PO             167    75 height         2</span>
+<span class="co">#&gt; 3 R2-D2              96    32 height         2</span>
+<span class="co">#&gt; 4 Darth Vader       202   136 height         2</span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 <p><code><a href="../reference/mutate.html">mutate()</a></code> gets length-1 vectors that it interprets as new columns in the data frame. These vectors are recycled so they match the number of rows. That’s why it doesn’t make sense to supply expressions like <code>"height" + 10</code> to <code><a href="../reference/mutate.html">mutate()</a></code>. This amounts to adding 10 to a string! The correct expression is:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, height <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)</span>
-<span id="cb29-2"><a href="#cb29-2"></a><span class="co">#&gt; # A tibble: 87 x 4</span></span>
-<span id="cb29-3"><a href="#cb29-3"></a><span class="co">#&gt;   name           height  mass `height + 10`</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;         &lt;dbl&gt;</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a><span class="co">#&gt; 1 Luke Skywalker    172    77           182</span></span>
-<span id="cb29-6"><a href="#cb29-6"></a><span class="co">#&gt; 2 C-3PO             167    75           177</span></span>
-<span id="cb29-7"><a href="#cb29-7"></a><span class="co">#&gt; 3 R2-D2              96    32           106</span></span>
-<span id="cb29-8"><a href="#cb29-8"></a><span class="co">#&gt; 4 Darth Vader       202   136           212</span></span>
-<span id="cb29-9"><a href="#cb29-9"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="no">df</span>, <span class="no">height</span> + <span class="fl">10</span>)
+<span class="co">#&gt; # A tibble: 87 x 4</span>
+<span class="co">#&gt;   name           height  mass `height + 10`</span>
+<span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;         &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Luke Skywalker    172    77           182</span>
+<span class="co">#&gt; 2 C-3PO             167    75           177</span>
+<span class="co">#&gt; 3 R2-D2              96    32           106</span>
+<span class="co">#&gt; 4 Darth Vader       202   136           212</span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 <p>In the same way, you can unquote values from the context if these values represent a valid column. They must be either length 1 (they then get recycled) or have the same length as the number of rows. In the following example we create a new vector that we add to the data frame:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>var &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(df))</span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">new =</span> var)</span>
-<span id="cb30-3"><a href="#cb30-3"></a><span class="co">#&gt; # A tibble: 87 x 4</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a><span class="co">#&gt;   name           height  mass   new</span></span>
-<span id="cb30-5"><a href="#cb30-5"></a><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;int&gt;</span></span>
-<span id="cb30-6"><a href="#cb30-6"></a><span class="co">#&gt; 1 Luke Skywalker    172    77     1</span></span>
-<span id="cb30-7"><a href="#cb30-7"></a><span class="co">#&gt; 2 C-3PO             167    75     2</span></span>
-<span id="cb30-8"><a href="#cb30-8"></a><span class="co">#&gt; 3 R2-D2              96    32     3</span></span>
-<span id="cb30-9"><a href="#cb30-9"></a><span class="co">#&gt; 4 Darth Vader       202   136     4</span></span>
-<span id="cb30-10"><a href="#cb30-10"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">var</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">df</span>))
+<span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="no">df</span>, <span class="kw">new</span> <span class="kw">=</span> <span class="no">var</span>)
+<span class="co">#&gt; # A tibble: 87 x 4</span>
+<span class="co">#&gt;   name           height  mass   new</span>
+<span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1 Luke Skywalker    172    77     1</span>
+<span class="co">#&gt; 2 C-3PO             167    75     2</span>
+<span class="co">#&gt; 3 R2-D2              96    32     3</span>
+<span class="co">#&gt; 4 Darth Vader       202   136     4</span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 <p>A case in point is <code><a href="../reference/group_by.html">group_by()</a></code>. While you might think it has select semantics, it actually has mutate semantics. This is quite handy as it allows to group by a modified column:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, sex)</span>
-<span id="cb31-2"><a href="#cb31-2"></a><span class="co">#&gt; # A tibble: 87 x 14</span></span>
-<span id="cb31-3"><a href="#cb31-3"></a><span class="co">#&gt; # Groups:   sex [5]</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb31-5"><a href="#cb31-5"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb31-6"><a href="#cb31-6"></a><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></span>
-<span id="cb31-7"><a href="#cb31-7"></a><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></span>
-<span id="cb31-8"><a href="#cb31-8"></a><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></span>
-<span id="cb31-9"><a href="#cb31-9"></a><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></span>
-<span id="cb31-10"><a href="#cb31-10"></a><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb31-11"><a href="#cb31-11"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
-<span id="cb31-12"><a href="#cb31-12"></a><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, <span class="dt">sex =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(sex))</span>
-<span id="cb31-13"><a href="#cb31-13"></a><span class="co">#&gt; # A tibble: 87 x 14</span></span>
-<span id="cb31-14"><a href="#cb31-14"></a><span class="co">#&gt; # Groups:   sex [5]</span></span>
-<span id="cb31-15"><a href="#cb31-15"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb31-16"><a href="#cb31-16"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt; &lt;chr&gt; </span></span>
-<span id="cb31-17"><a href="#cb31-17"></a><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></span>
-<span id="cb31-18"><a href="#cb31-18"></a><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></span>
-<span id="cb31-19"><a href="#cb31-19"></a><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></span>
-<span id="cb31-20"><a href="#cb31-20"></a><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></span>
-<span id="cb31-21"><a href="#cb31-21"></a><span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb31-22"><a href="#cb31-22"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
-<span id="cb31-23"><a href="#cb31-23"></a><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(starwars, <span class="dt">height_binned =</span> <span class="kw"><a href="https://rdrr.io/r/base/cut.html">cut</a></span>(height, <span class="dv">3</span>))</span>
-<span id="cb31-24"><a href="#cb31-24"></a><span class="co">#&gt; # A tibble: 87 x 15</span></span>
-<span id="cb31-25"><a href="#cb31-25"></a><span class="co">#&gt; # Groups:   height_binned [4]</span></span>
-<span id="cb31-26"><a href="#cb31-26"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb31-27"><a href="#cb31-27"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb31-28"><a href="#cb31-28"></a><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></span>
-<span id="cb31-29"><a href="#cb31-29"></a><span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span></span>
-<span id="cb31-30"><a href="#cb31-30"></a><span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span></span>
-<span id="cb31-31"><a href="#cb31-31"></a><span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></span>
-<span id="cb31-32"><a href="#cb31-32"></a><span class="co">#&gt; # … with 83 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb31-33"><a href="#cb31-33"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, height_binned &lt;fct&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">starwars</span>, <span class="no">sex</span>)
+<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt; # Groups:   sex [5]</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">starwars</span>, <span class="kw">sex</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">sex</span>))
+<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt; # Groups:   sex [5]</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">starwars</span>, <span class="kw">height_binned</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span>(<span class="no">height</span>, <span class="fl">3</span>))
+<span class="co">#&gt; # A tibble: 87 x 15</span>
+<span class="co">#&gt; # Groups:   height_binned [4]</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; # … with 83 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, height_binned &lt;fct&gt;</span></pre></body></html></div>
 <p>This is why you can’t supply a column name to <code><a href="../reference/group_by.html">group_by()</a></code>. This amounts to creating a new column containing the string recycled to the number of rows:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="st">"month"</span>)</span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="co">#&gt; # A tibble: 87 x 4</span></span>
-<span id="cb32-3"><a href="#cb32-3"></a><span class="co">#&gt; # Groups:   "month" [1]</span></span>
-<span id="cb32-4"><a href="#cb32-4"></a><span class="co">#&gt;   name           height  mass `"month"`</span></span>
-<span id="cb32-5"><a href="#cb32-5"></a><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    </span></span>
-<span id="cb32-6"><a href="#cb32-6"></a><span class="co">#&gt; 1 Luke Skywalker    172    77 month    </span></span>
-<span id="cb32-7"><a href="#cb32-7"></a><span class="co">#&gt; 2 C-3PO             167    75 month    </span></span>
-<span id="cb32-8"><a href="#cb32-8"></a><span class="co">#&gt; 3 R2-D2              96    32 month    </span></span>
-<span id="cb32-9"><a href="#cb32-9"></a><span class="co">#&gt; 4 Darth Vader       202   136 month    </span></span>
-<span id="cb32-10"><a href="#cb32-10"></a><span class="co">#&gt; # … with 83 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">df</span>, <span class="st">"month"</span>)
+<span class="co">#&gt; # A tibble: 87 x 4</span>
+<span class="co">#&gt; # Groups:   "month" [1]</span>
+<span class="co">#&gt;   name           height  mass `"month"`</span>
+<span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 Luke Skywalker    172    77 month    </span>
+<span class="co">#&gt; 2 C-3PO             167    75 month    </span>
+<span class="co">#&gt; 3 R2-D2              96    32 month    </span>
+<span class="co">#&gt; 4 Darth Vader       202   136 month    </span>
+<span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 </div>
 </div>
   </div>

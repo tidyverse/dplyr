@@ -154,16 +154,16 @@
     
     
 <p>It’s often useful to perform the same operation on multiple columns, but copying and pasting is both tedious and error prone:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(g1, g2) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">a =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(a), <span class="dt">b =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(b), <span class="dt">c =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(c), <span class="dt">d =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(c))</span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">df</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">g1</span>, <span class="no">g2</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">a</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">a</span>), <span class="kw">b</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">b</span>), <span class="kw">c</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">c</span>), <span class="kw">d</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">c</span>))</pre></body></html></div>
 <p>(If you’re trying to compute <code><a href="https://rdrr.io/r/base/mean.html">mean(a, b, c, d)</a></code> for each row, instead see <code><a href="../articles/rowwise.html">vignette("rowwise")</a></code>)</p>
 <p>This vignette will introduce you to the <code><a href="../reference/across.html">across()</a></code> function, which lets you rewrite the previous code more succinctly:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(g1, g2) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(a<span class="op">:</span>d, mean))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">df</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">g1</span>, <span class="no">g2</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">a</span>:<span class="no">d</span>, <span class="no">mean</span>))</pre></body></html></div>
 <p>We’ll start by discussing the basic usage of <code><a href="../reference/across.html">across()</a></code>, particularly as it applies to <code><a href="../reference/summarise.html">summarise()</a></code>, and show how to use it with multiple functions. We’ll then show a few uses with other verbs. We’ll finish off with a bit of history, showing why we prefer <code><a href="../reference/across.html">across()</a></code> to our last approach (the <code>_if()</code>, <code>_at()</code> and <code>_all()</code> functions) and how to translate your old code to the new syntax.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>, <span class="kw">warn.conflicts</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <div id="basic-usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic usage</h2>
@@ -173,115 +173,115 @@
 <li><p>The second argument, <code>.fns</code>, is a function or list of functions to apply to each column. This can also be a purrr style formula (or list of formulas) like <code>~ .x / 2</code>. (This argument is optional, and you can omit it if you just want to get the underlying data; you’ll see that technique used in <code><a href="../articles/rowwise.html">vignette("rowwise")</a></code>.)</p></li>
 </ul>
 <p>Here are a couple of examples of <code><a href="../reference/across.html">across()</a></code> in conjunction with its favourite verb, <code><a href="../reference/summarise.html">summarise()</a></code>. But you can use <code><a href="../reference/across.html">across()</a></code> with any dplyr verb, as you’ll see a little later.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.character, <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(.x))))</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; # A tibble: 1 x 8</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;    name hair_color skin_color eye_color   sex gender homeworld species</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;   &lt;int&gt;      &lt;int&gt;      &lt;int&gt;     &lt;int&gt; &lt;int&gt;  &lt;int&gt;     &lt;int&gt;   &lt;int&gt;</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; 1    87         13         31        15     5      3        49      38</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a></span>
-<span id="cb4-8"><a href="#cb4-8"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(species) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(<span class="kw"><a href="../reference/context.html">n</a></span>() <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(sex, gender, homeworld), <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(.x))))</span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt; # A tibble: 9 x 4</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt;   species    sex gender homeworld</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;  &lt;int&gt;     &lt;int&gt;</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; 1 Droid        1      2         3</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; 2 Gungan       1      1         1</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; 3 Human        2      2        16</span></span>
-<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt; 4 Kaminoan     2      2         1</span></span>
-<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt; # … with 5 more rows</span></span>
-<span id="cb4-20"><a href="#cb4-20"></a></span>
-<span id="cb4-21"><a href="#cb4-21"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-22"><a href="#cb4-22"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(homeworld) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-23"><a href="#cb4-23"></a><span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(<span class="kw"><a href="../reference/context.html">n</a></span>() <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-24"><a href="#cb4-24"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(.x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))</span>
-<span id="cb4-25"><a href="#cb4-25"></a><span class="co">#&gt; # A tibble: 10 x 4</span></span>
-<span id="cb4-26"><a href="#cb4-26"></a><span class="co">#&gt;   homeworld height  mass birth_year</span></span>
-<span id="cb4-27"><a href="#cb4-27"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span></span>
-<span id="cb4-28"><a href="#cb4-28"></a><span class="co">#&gt; 1 Alderaan    176.  64         43  </span></span>
-<span id="cb4-29"><a href="#cb4-29"></a><span class="co">#&gt; 2 Corellia    175   78.5       25  </span></span>
-<span id="cb4-30"><a href="#cb4-30"></a><span class="co">#&gt; 3 Coruscant   174.  50         91  </span></span>
-<span id="cb4-31"><a href="#cb4-31"></a><span class="co">#&gt; 4 Kamino      208.  83.1       31.5</span></span>
-<span id="cb4-32"><a href="#cb4-32"></a><span class="co">#&gt; # … with 6 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.character</span>, ~ <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">.x</span>))))
+<span class="co">#&gt; # A tibble: 1 x 8</span>
+<span class="co">#&gt;    name hair_color skin_color eye_color   sex gender homeworld species</span>
+<span class="co">#&gt;   &lt;int&gt;      &lt;int&gt;      &lt;int&gt;     &lt;int&gt; &lt;int&gt;  &lt;int&gt;     &lt;int&gt;   &lt;int&gt;</span>
+<span class="co">#&gt; 1    87         13         31        15     5      3        49      38</span>
+
+<span class="no">starwars</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">species</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/context.html">n</a></span>() <span class="kw">&gt;</span> <span class="fl">1</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">sex</span>, <span class="no">gender</span>, <span class="no">homeworld</span>), ~ <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">.x</span>))))
+<span class="co">#&gt; # A tibble: 9 x 4</span>
+<span class="co">#&gt;   species    sex gender homeworld</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;  &lt;int&gt;     &lt;int&gt;</span>
+<span class="co">#&gt; 1 Droid        1      2         3</span>
+<span class="co">#&gt; 2 Gungan       1      1         1</span>
+<span class="co">#&gt; 3 Human        2      2        16</span>
+<span class="co">#&gt; 4 Kaminoan     2      2         1</span>
+<span class="co">#&gt; # … with 5 more rows</span>
+
+<span class="no">starwars</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">homeworld</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/context.html">n</a></span>() <span class="kw">&gt;</span> <span class="fl">1</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, ~ <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">.x</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)))
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;   homeworld height  mass birth_year</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Alderaan    176.  64         43  </span>
+<span class="co">#&gt; 2 Corellia    175   78.5       25  </span>
+<span class="co">#&gt; 3 Coruscant   174.  50         91  </span>
+<span class="co">#&gt; 4 Kamino      208.  83.1       31.5</span>
+<span class="co">#&gt; # … with 6 more rows</span></pre></body></html></div>
 <p>Because <code><a href="../reference/across.html">across()</a></code> is usually used in combination with <code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code>, it doesn’t select grouping variables in order to avoid accidentally modifying them:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">g =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-4</span>, <span class="dv">-9</span>))</span>
-<span id="cb5-2"><a href="#cb5-2"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(g) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, sum))</span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; # A tibble: 2 x 3</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt;       g     x     y</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; 1     1     0    -5</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 2     2     3    -9</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">g</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>), <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">3</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">1</span>, -<span class="fl">4</span>, -<span class="fl">9</span>))
+<span class="no">df</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">g</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">sum</span>))
+<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt;       g     x     y</span>
+<span class="co">#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1     0    -5</span>
+<span class="co">#&gt; 2     2     3    -9</span></pre></body></html></div>
 <div id="multiple-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#multiple-functions" class="anchor"></a>Multiple functions</h3>
 <p>You can transform each variable with more than one function by supplying a named list of functions or lambda functions in the second argument:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>min_max &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="dt">min =</span> <span class="op">~</span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(.x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
-<span id="cb6-3"><a href="#cb6-3"></a>  <span class="dt">max =</span> <span class="op">~</span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(.x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb6-4"><a href="#cb6-4"></a>)</span>
-<span id="cb6-5"><a href="#cb6-5"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, min_max))</span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; # A tibble: 1 x 6</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;   height_min height_max mass_min mass_max birth_year_min birth_year_max</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt; 1         66        264       15     1358              8            896</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">min_max</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+  <span class="kw">min</span> <span class="kw">=</span> ~<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="no">.x</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
+  <span class="kw">max</span> <span class="kw">=</span> ~<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">.x</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+)
+<span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">min_max</span>))
+<span class="co">#&gt; # A tibble: 1 x 6</span>
+<span class="co">#&gt;   height_min height_max mass_min mass_max birth_year_min birth_year_max</span>
+<span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span>
+<span class="co">#&gt; 1         66        264       15     1358              8            896</span></pre></body></html></div>
 <p>Control how the names are created with the <code>.names</code> argument which takes a <a href="http://glue.tidyverse.org/">glue</a> spec:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, min_max, <span class="dt">.names =</span> <span class="st">"{fn}.{col}"</span>))</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; # A tibble: 1 x 6</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt;   min.height max.height min.mass max.mass min.birth_year max.birth_year</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; 1         66        264       15     1358              8            896</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">min_max</span>, <span class="kw">.names</span> <span class="kw">=</span> <span class="st">"{fn}.{col}"</span>))
+<span class="co">#&gt; # A tibble: 1 x 6</span>
+<span class="co">#&gt;   min.height max.height min.mass max.mass min.birth_year max.birth_year</span>
+<span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span>
+<span class="co">#&gt; 1         66        264       15     1358              8            896</span></pre></body></html></div>
 <p>If you’d prefer all summaries with the same function to be grouped together, you’ll have to expand the calls yourself:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, <span class="op">~</span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(.x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">.names =</span> <span class="st">"min_{col}"</span>),</span>
-<span id="cb8-3"><a href="#cb8-3"></a>  <span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, <span class="op">~</span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(.x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">.names =</span> <span class="st">"max_{col}"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4"></a>)</span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt; # A tibble: 1 x 9</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt;   min_height min_mass min_birth_year max_height max_mass max_birth_year</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt;        &lt;int&gt;    &lt;dbl&gt;          &lt;dbl&gt;      &lt;int&gt;    &lt;dbl&gt;          &lt;dbl&gt;</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; 1         66       15              8        264     1358            896</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt; # … with 3 more variables: max_min_height &lt;int&gt;, max_min_mass &lt;dbl&gt;,</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; #   max_min_birth_year &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(
+  <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, ~<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="no">.x</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>), <span class="kw">.names</span> <span class="kw">=</span> <span class="st">"min_{col}"</span>),
+  <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, ~<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">.x</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>), <span class="kw">.names</span> <span class="kw">=</span> <span class="st">"max_{col}"</span>)
+)
+<span class="co">#&gt; # A tibble: 1 x 9</span>
+<span class="co">#&gt;   min_height min_mass min_birth_year max_height max_mass max_birth_year</span>
+<span class="co">#&gt;        &lt;int&gt;    &lt;dbl&gt;          &lt;dbl&gt;      &lt;int&gt;    &lt;dbl&gt;          &lt;dbl&gt;</span>
+<span class="co">#&gt; 1         66       15              8        264     1358            896</span>
+<span class="co">#&gt; # … with 3 more variables: max_min_height &lt;int&gt;, max_min_mass &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   max_min_birth_year &lt;dbl&gt;</span></pre></body></html></div>
 <p>(One day this might could become an argument to <code><a href="../reference/across.html">across()</a></code> but we’re not yet sure how it would work.)</p>
 </div>
 <div id="current-column" class="section level3">
 <h3 class="hasAnchor">
 <a href="#current-column" class="anchor"></a>Current column</h3>
 <p>If you need to, you can access the name of the “current” column inside by calling <code><a href="../reference/context.html">cur_column()</a></code>. This can be useful if you want to perform some sort of context dependent transformation that’s already encoded in a vector:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">y =</span> <span class="dv">3</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">z =</span> <span class="dv">5</span><span class="op">:</span><span class="dv">7</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a>mult &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">x =</span> <span class="dv">1</span>, <span class="dt">y =</span> <span class="dv">10</span>, <span class="dt">z =</span> <span class="dv">100</span>)</span>
-<span id="cb9-3"><a href="#cb9-3"></a></span>
-<span id="cb9-4"><a href="#cb9-4"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(<span class="kw">all_of</span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(mult)), <span class="op">~</span><span class="st"> </span>.x <span class="op">*</span><span class="st"> </span>mult[[<span class="kw"><a href="../reference/context.html">cur_column</a></span>()]]))</span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; # A tibble: 3 x 3</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt;       x     y     z</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; 1     1    30   500</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; 2     2    40   600</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; 3     3    50   700</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">3</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fl">3</span>:<span class="fl">5</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="fl">5</span>:<span class="fl">7</span>)
+<span class="no">mult</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="fl">100</span>)
+
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">all_of</span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">mult</span>)), ~ <span class="no">.x</span> * <span class="no">mult</span><span class="kw">[[</span><span class="fu"><a href="../reference/context.html">cur_column</a></span>()]]))
+<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt;       x     y     z</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1    30   500</span>
+<span class="co">#&gt; 2     2    40   600</span>
+<span class="co">#&gt; 3     3    50   700</span></pre></body></html></div>
 </div>
 <div id="gotchas" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gotchas" class="anchor"></a>Gotchas</h3>
 <p>Be careful when combining numeric summaries with <code>is.numeric</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">9</span>))</span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), <span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, sd))</span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt;    n x        y</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; 1 NA 1 4.041452</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">9</span>))
+
+<span class="no">df</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>(), <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">sd</span>))
+<span class="co">#&gt;    n x        y</span>
+<span class="co">#&gt; 1 NA 1 4.041452</span></pre></body></html></div>
 <p>Here <code>n</code> becomes <code>NA</code> because the standard deviation of 3 is <code>NA</code>. You probably want to compute <code><a href="../reference/context.html">n()</a></code> last to avoid this problem:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, sd), <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>())</span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt;   x        y n</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt; 1 1 4.041452 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">df</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">sd</span>), <span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>())
+<span class="co">#&gt;   x        y n</span>
+<span class="co">#&gt; 1 1 4.041452 3</span></pre></body></html></div>
 <p>Alternatively, you could explicitly exclude <code>n</code> from the columns to operate on:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), <span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span>n, sd))</span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">#&gt;   n x        y</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; 1 3 1 4.041452</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">df</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>(), <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span> <span class="kw">&amp;</span> !<span class="no">n</span>, <span class="no">sd</span>))
+<span class="co">#&gt;   n x        y</span>
+<span class="co">#&gt; 1 3 1 4.041452</span></pre></body></html></div>
 </div>
 <div id="other-verbs" class="section level3">
 <h3 class="hasAnchor">
@@ -290,59 +290,59 @@
 <ul>
 <li>
 <p>Rescale all numeric variables to range 0-1:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>rescale01 &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
-<span id="cb13-2"><a href="#cb13-2"></a>  rng &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/range.html">range</a></span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb13-3"><a href="#cb13-3"></a>  (x <span class="op">-</span><span class="st"> </span>rng[<span class="dv">1</span>]) <span class="op">/</span><span class="st"> </span>(rng[<span class="dv">2</span>] <span class="op">-</span><span class="st"> </span>rng[<span class="dv">1</span>])</span>
-<span id="cb13-4"><a href="#cb13-4"></a>}</span>
-<span id="cb13-5"><a href="#cb13-5"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">4</span>))</span>
-<span id="cb13-6"><a href="#cb13-6"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, rescale01))</span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="co">#&gt; # A tibble: 4 x 2</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a><span class="co">#&gt;       x     y</span></span>
-<span id="cb13-9"><a href="#cb13-9"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb13-10"><a href="#cb13-10"></a><span class="co">#&gt; 1 0     0.385</span></span>
-<span id="cb13-11"><a href="#cb13-11"></a><span class="co">#&gt; 2 0.333 1    </span></span>
-<span id="cb13-12"><a href="#cb13-12"></a><span class="co">#&gt; 3 0.667 0    </span></span>
-<span id="cb13-13"><a href="#cb13-13"></a><span class="co">#&gt; 4 1     0.903</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">rescale01</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
+  <span class="no">rng</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="no">x</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+  (<span class="no">x</span> - <span class="no">rng</span>[<span class="fl">1</span>]) / (<span class="no">rng</span>[<span class="fl">2</span>] - <span class="no">rng</span>[<span class="fl">1</span>])
+}
+<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">4</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">4</span>))
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">rescale01</span>))
+<span class="co">#&gt; # A tibble: 4 x 2</span>
+<span class="co">#&gt;       x     y</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 0     0.385</span>
+<span class="co">#&gt; 2 0.333 1    </span>
+<span class="co">#&gt; 3 0.667 0    </span>
+<span class="co">#&gt; 4 1     0.903</span></pre></body></html></div>
 </li>
 <li>
 <p>Find all rows where no variable has missing values:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(<span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), <span class="op">~</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(.x)))</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#&gt; # A tibble: 29 x 14</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt; 2 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt; 3 Leia…    150    49 brown      light      brown           19   fema… femin…</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt; 4 Owen…    178   120 brown, gr… light      blue            52   male  mascu…</span></span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt; # … with 25 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), ~ !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">.x</span>)))
+<span class="co">#&gt; # A tibble: 29 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; 3 Leia…    150    49 brown      light      brown           19   fema… femin…</span>
+<span class="co">#&gt; 4 Owen…    178   120 brown, gr… light      blue            52   male  mascu…</span>
+<span class="co">#&gt; # … with 25 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 </li>
 </ul>
 <p>For some verbs, like <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/count.html">count()</a></code> and <code><a href="../reference/distinct.html">distinct()</a></code>, you can omit the summary functions:</p>
 <ul>
 <li>
 <p>Find all distinct</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/distinct.html">distinct</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(<span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains</a></span>(<span class="st">"color"</span>)))</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt; # A tibble: 67 x 3</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;   hair_color skin_color  eye_color</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt; 1 blond      fair        blue     </span></span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span></span>
-<span id="cb15-7"><a href="#cb15-7"></a><span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span></span>
-<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt; 4 none       white       yellow   </span></span>
-<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt; # … with 63 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains</a></span>(<span class="st">"color"</span>)))
+<span class="co">#&gt; # A tibble: 67 x 3</span>
+<span class="co">#&gt;   hair_color skin_color  eye_color</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 blond      fair        blue     </span>
+<span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow   </span>
+<span class="co">#&gt; 3 &lt;NA&gt;       white, blue red      </span>
+<span class="co">#&gt; 4 none       white       yellow   </span>
+<span class="co">#&gt; # … with 63 more rows</span></pre></body></html></div>
 </li>
 <li>
 <p>Count all combinations of variables with a given pattern:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/count.html">count</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(<span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains</a></span>(<span class="st">"color"</span>)), <span class="dt">sort =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="co">#&gt; # A tibble: 67 x 4</span></span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="co">#&gt;   hair_color skin_color eye_color     n</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="co">#&gt; * &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;int&gt;</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="co">#&gt; 1 brown      light      brown         6</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt; 2 brown      fair       blue          4</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt; 3 none       grey       black         4</span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt; 4 black      dark       brown         3</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt; # … with 63 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/count.html">count</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains</a></span>(<span class="st">"color"</span>)), <span class="kw">sort</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="co">#&gt; # A tibble: 67 x 4</span>
+<span class="co">#&gt;   hair_color skin_color eye_color     n</span>
+<span class="co">#&gt; * &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;int&gt;</span>
+<span class="co">#&gt; 1 brown      light      brown         6</span>
+<span class="co">#&gt; 2 brown      fair       blue          4</span>
+<span class="co">#&gt; 3 none       grey       black         4</span>
+<span class="co">#&gt; 4 black      dark       brown         3</span>
+<span class="co">#&gt; # … with 63 more rows</span></pre></body></html></div>
 </li>
 </ul>
 <p><code><a href="../reference/across.html">across()</a></code> doesn’t work with <code><a href="../reference/select.html">select()</a></code> or <code><a href="../reference/rename.html">rename()</a></code> because they already use tidy select syntax; if you want to transform column names with a function, you can use <code><a href="../reference/rename.html">rename_with()</a></code>.</p>
@@ -360,13 +360,13 @@
 <ol style="list-style-type: decimal">
 <li>
 <p><code><a href="../reference/across.html">across()</a></code> makes it possible to express useful summaries that were previously impossible:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>df <span class="op">%&gt;%</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(g1, g2) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</span>
-<span id="cb17-4"><a href="#cb17-4"></a>    <span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, mean), </span>
-<span id="cb17-5"><a href="#cb17-5"></a>    <span class="kw"><a href="../reference/across.html">across</a></span>(is.factor, nlevels),</span>
-<span id="cb17-6"><a href="#cb17-6"></a>    <span class="dt">n =</span> <span class="kw"><a href="../reference/context.html">n</a></span>(), </span>
-<span id="cb17-7"><a href="#cb17-7"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">df</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">g1</span>, <span class="no">g2</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(
+    <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">mean</span>),
+    <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.factor</span>, <span class="no">nlevels</span>),
+    <span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>(),
+  )</pre></body></html></div>
 </li>
 <li><p><code><a href="../reference/across.html">across()</a></code> reduces the number of functions that dplyr needs to provide. This makes dplyr easier for you to use (because there are fewer functions to remember) and easier for us to implement new verbs (since we only need to implement one function, not four).</p></li>
 <li><p><code><a href="../reference/across.html">across()</a></code> unifies <code>_if</code> and <code>_at</code> semantics so that you can select by position, name, and type, and you can now create compound selections that were previously impossible. For example, you can now transform all numeric columns whose name begins with “x”: <code><a href="../reference/across.html">across(is.numeric &amp; starts_with("x"))</a></code>.</p></li>
@@ -400,54 +400,54 @@
 </li>
 </ul>
 <p>For example:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate_all.html">mutate_if</a></span>(is.numeric, mean, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="co"># -&gt;</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, mean, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span>
-<span id="cb18-4"><a href="#cb18-4"></a></span>
-<span id="cb18-5"><a href="#cb18-5"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate_all.html">mutate_at</a></span>(<span class="kw"><a href="../reference/vars.html">vars</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(<span class="st">"y"</span>))), mean)</span>
-<span id="cb18-6"><a href="#cb18-6"></a><span class="co"># -&gt;</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, <span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(<span class="st">"y"</span>)), mean, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span>
-<span id="cb18-8"><a href="#cb18-8"></a></span>
-<span id="cb18-9"><a href="#cb18-9"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate_all.html">mutate_all</a></span>(mean)</span>
-<span id="cb18-10"><a href="#cb18-10"></a><span class="co"># -&gt;</span></span>
-<span id="cb18-11"><a href="#cb18-11"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(<span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), mean))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate_all.html">mutate_if</a></span>(<span class="no">is.numeric</span>, <span class="no">mean</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="co"># -&gt;</span>
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">mean</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
+
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate_all.html">mutate_at</a></span>(<span class="fu"><a href="../reference/vars.html">vars</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(<span class="st">"y"</span>))), <span class="no">mean</span>)
+<span class="co"># -&gt;</span>
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(<span class="st">"y"</span>)), <span class="no">mean</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
+
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate_all.html">mutate_all</a></span>(<span class="no">mean</span>)
+<span class="co"># -&gt;</span>
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), <span class="no">mean</span>))</pre></body></html></div>
 <p>There are a few exceptions to this rule:</p>
 <ul>
 <li><p><code>rename_*()</code> and <code>select_*()</code> follow a different pattern. They already have select semantics, so are generally used in a different way that doesn’t have a direct equivalent with <code><a href="../reference/across.html">across()</a></code>; use the new <code><a href="../reference/rename.html">rename_with()</a></code> instead.</p></li>
 <li>
 <p>Previously, <code><a href="../reference/filter.html">filter()</a></code> was paired with the <code><a href="../reference/all_vars.html">all_vars()</a></code> and <code><a href="../reference/all_vars.html">any_vars()</a></code> helpers. Now, <code><a href="../reference/across.html">across()</a></code> is equivalent to <code><a href="../reference/all_vars.html">all_vars()</a></code>, and there’s no direct replacement for <code><a href="../reference/all_vars.html">any_vars()</a></code>. However you can make a simple helper yourself:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">z =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb19-2"><a href="#cb19-2"></a></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="co"># Find all rows where EVERY numeric variable is greater than zero</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, <span class="op">~</span><span class="st"> </span>.x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>))</span>
-<span id="cb19-5"><a href="#cb19-5"></a><span class="co">#&gt; # A tibble: 1 x 3</span></span>
-<span id="cb19-6"><a href="#cb19-6"></a><span class="co">#&gt;   x         y     z</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a><span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb19-8"><a href="#cb19-8"></a><span class="co">#&gt; 1 b         1     1</span></span>
-<span id="cb19-9"><a href="#cb19-9"></a></span>
-<span id="cb19-10"><a href="#cb19-10"></a><span class="co"># Find all rows where ANY numeric variable is greater than zero</span></span>
-<span id="cb19-11"><a href="#cb19-11"></a>rowAny &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span>(x) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></span>
-<span id="cb19-12"><a href="#cb19-12"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(<span class="kw">rowAny</span>(<span class="kw"><a href="../reference/across.html">across</a></span>(is.numeric, <span class="op">~</span><span class="st"> </span>.x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)))</span>
-<span id="cb19-13"><a href="#cb19-13"></a><span class="co">#&gt; # A tibble: 2 x 3</span></span>
-<span id="cb19-14"><a href="#cb19-14"></a><span class="co">#&gt;   x         y     z</span></span>
-<span id="cb19-15"><a href="#cb19-15"></a><span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb19-16"><a href="#cb19-16"></a><span class="co">#&gt; 1 a         1    -1</span></span>
-<span id="cb19-17"><a href="#cb19-17"></a><span class="co">#&gt; 2 b         1     1</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>), <span class="kw">z</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">1</span>, <span class="fl">1</span>))
+
+<span class="co"># Find all rows where EVERY numeric variable is greater than zero</span>
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, ~ <span class="no">.x</span> <span class="kw">&gt;</span> <span class="fl">0</span>))
+<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt;   x         y     z</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 b         1     1</span>
+
+<span class="co"># Find all rows where ANY numeric variable is greater than zero</span>
+<span class="no">rowAny</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span>(<span class="no">x</span>) <span class="kw">&gt;</span> <span class="fl">0</span>
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu">rowAny</span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, ~ <span class="no">.x</span> <span class="kw">&gt;</span> <span class="fl">0</span>)))
+<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt;   x         y     z</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 a         1    -1</span>
+<span class="co">#&gt; 2 b         1     1</span></pre></body></html></div>
 </li>
 <li>
 <p>When used in a <code><a href="../reference/mutate.html">mutate()</a></code>, all transformation performed by an <code><a href="../reference/across.html">across()</a></code> are applied at once. This is different to the behaviour of <code><a href="../reference/mutate_all.html">mutate_if()</a></code>, <code><a href="../reference/mutate_all.html">mutate_at()</a></code>, and <code><a href="../reference/mutate_all.html">mutate_all()</a></code>, which apply the transformations one at a time. We expect that you’ll generally find the new behaviour less surprising:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">x =</span> <span class="dv">2</span>, <span class="dt">y =</span> <span class="dv">4</span>, <span class="dt">z =</span> <span class="dv">8</span>)</span>
-<span id="cb20-2"><a href="#cb20-2"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate_all.html">mutate_all</a></span>(<span class="op">~</span><span class="st"> </span>.x <span class="op">/</span><span class="st"> </span>y)</span>
-<span id="cb20-3"><a href="#cb20-3"></a><span class="co">#&gt; # A tibble: 1 x 3</span></span>
-<span id="cb20-4"><a href="#cb20-4"></a><span class="co">#&gt;       x     y     z</span></span>
-<span id="cb20-5"><a href="#cb20-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb20-6"><a href="#cb20-6"></a><span class="co">#&gt; 1   0.5     1     8</span></span>
-<span id="cb20-7"><a href="#cb20-7"></a></span>
-<span id="cb20-8"><a href="#cb20-8"></a>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw"><a href="../reference/across.html">across</a></span>(<span class="kw"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), <span class="op">~</span><span class="st"> </span>.x <span class="op">/</span><span class="st"> </span>y))</span>
-<span id="cb20-9"><a href="#cb20-9"></a><span class="co">#&gt; # A tibble: 1 x 3</span></span>
-<span id="cb20-10"><a href="#cb20-10"></a><span class="co">#&gt;       x     y     z</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb20-12"><a href="#cb20-12"></a><span class="co">#&gt; 1   0.5     1     2</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="fl">8</span>)
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate_all.html">mutate_all</a></span>(~ <span class="no">.x</span> / <span class="no">y</span>)
+<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt;       x     y     z</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1   0.5     1     8</span>
+
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), ~ <span class="no">.x</span> / <span class="no">y</span>))
+<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt;       x     y     z</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1   0.5     1     2</span></pre></body></html></div>
 </li>
 </ul>
 </div>
