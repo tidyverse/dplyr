@@ -41,7 +41,7 @@ group_data <- function(.data) {
 
 #' @export
 group_data.data.frame <- function(.data) {
-  out <- vec_init(.data[0], 1)
+  out <- vec_init(.data[, 0], 1)
   rownames(out) <- NULL
   out$.rows <- list_of(seq_len(nrow(.data)), .ptype = integer())
   out
