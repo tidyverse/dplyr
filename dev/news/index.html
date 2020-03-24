@@ -198,11 +198,10 @@
 <ul>
 <li><p><code><a href="../reference/bind.html">bind_cols()</a></code> no longer converts to a tibble, returns a data frame if the input is a data frame.</p></li>
 <li>
-<p><code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/combine.html">combine()</a></code> use vctrs coercion rules.</p>
+<p><code><a href="../reference/bind.html">bind_rows()</a></code>, <code>*_join()</code>, <code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code> use vctrs coercion rules. There are two main user facing changes:</p>
 <ul>
-<li><p>Combining factor and character creates a character without warning, combining factors creates a factor with levels combined.</p></li>
-<li><p>For time columns, the time zone of the first argument is used.</p></li>
-<li><p>Classed atomic vectors are no longer accepted, <code><a href="https://rdrr.io/pkg/vctrs/man/vec_assert.html">vctrs::vec_is()</a></code> is required for all inputs.</p></li>
+<li><p>Combining factor and character vectors silently creates a character vector; previously it created a character vector with a warning.</p></li>
+<li><p>Combining multiple factors creates a factor with combined levels; previously it created a character vector with a warning.</p></li>
 </ul>
 </li>
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> and other functions use vctrs name repair, see <code><a href="https://rdrr.io/pkg/vctrs/man/vec_as_names.html">?vctrs::vec_as_names</a></code>.</p></li>
