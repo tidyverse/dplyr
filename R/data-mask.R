@@ -45,7 +45,7 @@ DataMask <- R6Class("DataMask",
           res <- .subset2(chunks, self$get_current_group())
 
           # track - not safe to directly use `index`
-          private$set(name, chunks)
+          self$set(name, chunks)
 
           # return result for current slice
           res
@@ -87,9 +87,19 @@ DataMask <- R6Class("DataMask",
       private$resolved[[name]] <- chunks
     },
 
+    set = function(name, chunks) {
+      private$resolved[[name]] <- chunks
+      private$used <- !map_lgl(private$resolved, is.null)
+      private$which_used <- which(private$used)
+    },
+
     remove = function(name) {
-      private$set(name, NULL)
+      self$set(name, NULL)
       rm(list = name, envir = private$bindings)
+    },
+
+    get_resolved = function(name) {
+      private$resolved[[name]]
     },
 
     eval_all = function(quo) {
@@ -216,12 +226,6 @@ DataMask <- R6Class("DataMask",
     bindings = NULL,
     current_group = 0L,
     caller = NULL,
-    across_cache = list(),
-
-    set = function(name, chunks) {
-      private$resolved[[name]] <- chunks
-      private$used <- !map_lgl(private$resolved, is.null)
-      private$which_used <- which(private$used)
-    }
+    across_cache = list()
   )
 )
