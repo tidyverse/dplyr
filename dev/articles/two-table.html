@@ -398,20 +398,28 @@
 <span class="co">#&gt; 2     2     2</span></pre></body></html></div>
 <p>The four possibilities are:</p>
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../reference/setops.html">intersect</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
-<span class="co">#&gt;   x y</span>
-<span class="co">#&gt; 1 1 1</span>
+<span class="co">#&gt; # A tibble: 1 x 2</span>
+<span class="co">#&gt;       x     y</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1     1     1</span>
 <span class="co"># Note that we get 3 rows, not 4</span>
 <span class="fu"><a href="../reference/setops.html">union</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
-<span class="co">#&gt;   x y</span>
-<span class="co">#&gt; 1 1 1</span>
-<span class="co">#&gt; 2 2 1</span>
-<span class="co">#&gt; 3 2 2</span>
+<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt;       x     y</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1     1     1</span>
+<span class="co">#&gt; 2     2     1</span>
+<span class="co">#&gt; 3     2     2</span>
 <span class="fu"><a href="../reference/setops.html">setdiff</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
-<span class="co">#&gt;   x y</span>
-<span class="co">#&gt; 1 2 1</span>
+<span class="co">#&gt; # A tibble: 1 x 2</span>
+<span class="co">#&gt;       x     y</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1     2     1</span>
 <span class="fu"><a href="../reference/setops.html">setdiff</a></span>(<span class="no">df2</span>, <span class="no">df1</span>)
-<span class="co">#&gt;   x y</span>
-<span class="co">#&gt; 1 2 2</span></pre></body></html></div>
+<span class="co">#&gt; # A tibble: 1 x 2</span>
+<span class="co">#&gt;       x     y</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1     2     2</span></pre></body></html></div>
 </div>
 <div id="multiple-table-verbs" class="section level2">
 <h2 class="hasAnchor">
