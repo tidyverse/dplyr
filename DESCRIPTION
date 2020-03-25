@@ -30,7 +30,6 @@ BugReports: https://github.com/tidyverse/dplyr/issues
 Depends: 
     R (>= 3.2.0)
 Imports: 
-    assertthat (>= 0.2.0),
     ellipsis,
     generics,
     glue (>= 1.3.2),
