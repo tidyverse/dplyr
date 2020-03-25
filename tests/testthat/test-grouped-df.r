@@ -85,6 +85,30 @@ test_that("names<- doesn't modify group data if not necessary", {
   expect_reference(group_data(gf1), group_data(gf2))
 })
 
+test_that("group order is maintained in grouped-df methods (#5040)", {
+  gdf <- group_by(mtcars, cyl, am, vs)
+
+  x <- gdf[0,]
+  expect_identical(group_vars(x), group_vars(gdf))
+
+  x <- gdf
+  x$am <- 1
+  expect_identical(group_vars(x), group_vars(gdf))
+
+  x <- gdf
+  x["am"] <- 1
+  expect_identical(group_vars(x), group_vars(gdf))
+
+  x <- gdf
+  x[["am"]] <- 1
+  expect_identical(group_vars(x), group_vars(gdf))
+
+  x <- gdf
+  names <- names(x)
+  names[9] <- "am2"
+  names(x) <- names
+  expect_identical(group_vars(x), group_vars(group_by(x, cyl, am2, vs)))
+})
 
 # compute_group ----------------------------------------------------------
 
