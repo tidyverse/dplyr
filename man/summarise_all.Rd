@@ -48,7 +48,10 @@ names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("maturing")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+
+Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
+\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
 
 The \link{scoped} variants of \code{\link[=summarise]{summarise()}} make it easy to apply the same
 transformation to multiple variables.
@@ -117,45 +120,39 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.
 }
 
 \examples{
-by_species <- iris \%>\%
-  group_by(Species)
-
-
 # The _at() variants directly support strings:
 starwars \%>\%
   summarise_at(c("height", "mass"), mean, na.rm = TRUE)
+# ->
+starwars \%>\% summarise(across(c("height", "mass"), ~ mean(.x, na.rm = TRUE)))
 
 # You can also supply selection helpers to _at() functions but you have
 # to quote them with vars():
 starwars \%>\%
   summarise_at(vars(height:mass), mean, na.rm = TRUE)
+# ->
+starwars \%>\%
+  summarise(across(height:mass, ~ mean(.x, na.rm = TRUE)))
 
 # The _if() variants apply a predicate function (a function that
 # returns TRUE or FALSE) to determine the relevant subset of
 # columns. Here we apply mean() to the numeric columns:
 starwars \%>\%
   summarise_if(is.numeric, mean, na.rm = TRUE)
+starwars \%>\%
+  summarise(across(is.numeric, ~ mean(.x, na.rm = TRUE)))
+
+by_species <- iris \%>\%
+  group_by(Species)
 
 # If you want to apply multiple transformations, pass a list of
 # functions. When there are multiple functions, they create new
 # variables instead of modifying the variables in place:
 by_species \%>\%
   summarise_all(list(min, max))
-
-# Note how the new variables include the function name, in order to
-# keep things distinct. Passing purrr-style lambdas often creates
-# better default names:
+# ->
 by_species \%>\%
-  summarise_all(list(~min(.), ~max(.)))
-
-# When that's not good enough, you can also supply the names explicitly:
-by_species \%>\%
-  summarise_all(list(min = min, max = max))
-
-# When there's only one function in the list, it modifies existing
-# variables in place. Give it a name to create new variables instead:
-by_species \%>\% summarise_all(list(med = median))
-by_species \%>\% summarise_all(list(Q3 = quantile), probs = 0.75)
+  summarise(across(everything(), list(min = min, max = max)))
 }
 \seealso{
 \link[=scoped]{The other scoped verbs}, \code{\link[=vars]{vars()}}

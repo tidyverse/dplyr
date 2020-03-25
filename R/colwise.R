@@ -1,5 +1,11 @@
 #' Operate on a selection of variables
 #'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#'
+#' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
+#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#'
 #' The variants suffixed with `_if`, `_at` or `_all` apply an
 #' expression (sometimes several) to all variables within a specified
 #' subset. This subset can contain all variables (`_all` variants), a
@@ -80,6 +86,13 @@ NULL
 
 #' Select variables
 #'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#'
+#' `vars()` was only needed for the scoped verbs, which have been superseded
+#' by the use of [across()] in an existing verb. See `vignette("colwise")` for
+#' details.
+#'
 #' This helper is intended to provide equivalent semantics to
 #' [select()]. It is used for instance in scoped summarising and
 #' mutating verbs ([mutate_at()] and [summarise_at()]).
@@ -87,22 +100,25 @@ NULL
 #' Note that verbs accepting a `vars()` specification also accept a
 #' numeric vector of positions or a character vector of column names.
 #'
-#' @param ... Variables to include/exclude in mutate/summarise. You
-#'   can use same specifications as in [select()]. If missing,
-#'   defaults to all non-grouping variables.
-#'
-#'   These arguments are automatically [quoted][rlang::quo] and later
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. They support [unquoting][rlang::quasiquotation]. See
-#'   `vignette("programming")` for an introduction to these concepts.
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> Variables to include/exclude
+#'   in mutate/summarise. You can use same specifications as in [select()].
+#'   If missing, defaults to all non-grouping variables.
 #' @seealso [all_vars()] and [any_vars()] for other quoting
 #'   functions that you can use with scoped verbs.
 #' @export
 vars <- function(...) {
+  lifecycle::signal_superseded("1.0.0", "vars()", "across()")
   quos(...)
 }
 
 #' Apply predicate to all variables
+#'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#'
+#' `all_vars()` and `any_vars()` were only needed for the scoped verbs, which
+#' have been superseded by the use of [across()] in an existing verb. See
+#' `vignette("colwise")` for details.
 #'
 #' These quoting functions signal to scoped filtering verbs
 #' (e.g. [filter_if()] or [filter_all()]) that a predicate expression
@@ -110,23 +126,19 @@ vars <- function(...) {
 #' variant takes the intersection of the predicate expressions with
 #' `&` while the `any_vars()` variant takes the union with `|`.
 #'
-#' @param expr A predicate expression. This variable supports
-#'   [unquoting][rlang::quasiquotation] and will be evaluated in the
-#'   context of the data frame. It should return a logical vector.
-#'
-#'   This argument is automatically [quoted][rlang::quo] and later
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. It supports [unquoting][rlang::quasiquotation]. See
-#'   `vignette("programming")` for an introduction to these concepts.
+#' @param expr <[`data-masking`][dplyr_data_masking]> An expression that
+#'   returns a logical vector, using `.` to refer to the "current" variable.
 #' @seealso [vars()] for other quoting functions that you
 #'   can use with scoped verbs.
 #' @export
 all_vars <- function(expr) {
+  lifecycle::signal_superseded("1.0.0", "all_vars()", "across()")
   structure(enquo(expr), class = c("all_vars", "quosure", "formula"))
 }
 #' @rdname all_vars
 #' @export
 any_vars <- function(expr) {
+  lifecycle::signal_superseded("1.0.0", "any_vars()")
   structure(enquo(expr), class = c("any_vars", "quosure", "formula"))
 }
 #' @export
@@ -179,7 +191,14 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   }
 
   if (is_logical(.p)) {
-    stopifnot(length(.p) == length(tibble_vars))
+    if (length(.p) != length(tibble_vars)) {
+      abort(c(
+        "`.p` is invalid",
+        x = "`.p` should have the same size as the number of variables in the tibble",
+        i = glue("`.p` is size {length(.p)}"),
+        i = glue("The tibble has {length(tibble_vars}) columns, {including} the grouping variables", including = if (.include_group_vars) "including" else "non including")
+      ))
+    }
     return(syms(tibble_vars[.p]))
   }
 
@@ -201,7 +220,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   selected <- new_logical(n)
 
   for (i in seq_len(n)) {
-    column <- .tbl[[tibble_vars[[i]]]]
+    column <- pull(.tbl, tibble_vars[[i]])
     selected[[i]] <- isTRUE(eval_tidy(.p(column, ...)))
   }
 

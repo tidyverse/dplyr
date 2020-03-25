@@ -4,10 +4,12 @@
 \alias{src_tbls}
 \title{List all tbls provided by a source.}
 \usage{
-src_tbls(x)
+src_tbls(x, ...)
 }
 \arguments{
 \item{x}{a data src.}
+
+\item{...}{other arguments passed on to the individual methods.}
 }
 \description{
 This is a generic method which individual src's will provide methods for.

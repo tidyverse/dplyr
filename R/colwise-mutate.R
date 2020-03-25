@@ -1,8 +1,10 @@
 #' Summarise multiple columns
 #'
 #' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("maturing")}
+#' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
+#' [across()] in an existing verb. See `vignette("colwise")` for details.
 #'
 #' The [scoped] variants of [summarise()] make it easy to apply the same
 #' transformation to multiple variables.
@@ -78,59 +80,56 @@
 #' disambiguation algorithm are subject to change in dplyr 0.9.0.
 #'
 #' @examples
-#' by_species <- iris %>%
-#'   group_by(Species)
-#'
-#'
 #' # The _at() variants directly support strings:
 #' starwars %>%
 #'   summarise_at(c("height", "mass"), mean, na.rm = TRUE)
+#' # ->
+#' starwars %>% summarise(across(c("height", "mass"), ~ mean(.x, na.rm = TRUE)))
 #'
 #' # You can also supply selection helpers to _at() functions but you have
 #' # to quote them with vars():
 #' starwars %>%
 #'   summarise_at(vars(height:mass), mean, na.rm = TRUE)
+#' # ->
+#' starwars %>%
+#'   summarise(across(height:mass, ~ mean(.x, na.rm = TRUE)))
 #'
 #' # The _if() variants apply a predicate function (a function that
 #' # returns TRUE or FALSE) to determine the relevant subset of
 #' # columns. Here we apply mean() to the numeric columns:
 #' starwars %>%
 #'   summarise_if(is.numeric, mean, na.rm = TRUE)
+#' starwars %>%
+#'   summarise(across(is.numeric, ~ mean(.x, na.rm = TRUE)))
+#'
+#' by_species <- iris %>%
+#'   group_by(Species)
 #'
 #' # If you want to apply multiple transformations, pass a list of
 #' # functions. When there are multiple functions, they create new
 #' # variables instead of modifying the variables in place:
 #' by_species %>%
 #'   summarise_all(list(min, max))
-#'
-#' # Note how the new variables include the function name, in order to
-#' # keep things distinct. Passing purrr-style lambdas often creates
-#' # better default names:
+#' # ->
 #' by_species %>%
-#'   summarise_all(list(~min(.), ~max(.)))
-#'
-#' # When that's not good enough, you can also supply the names explicitly:
-#' by_species %>%
-#'   summarise_all(list(min = min, max = max))
-#'
-#' # When there's only one function in the list, it modifies existing
-#' # variables in place. Give it a name to create new variables instead:
-#' by_species %>% summarise_all(list(med = median))
-#' by_species %>% summarise_all(list(Q3 = quantile), probs = 0.75)
+#'   summarise(across(everything(), list(min = min, max = max)))
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
+  lifecycle::signal_superseded("1.0.0", "summarise_all()", "across()")
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
+  lifecycle::signal_superseded("1.0.0", "summarise_if()", "across()")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
+  lifecycle::signal_superseded("1.0.0", "summarise_at()", "across()")
   .vars <- check_dot_cols(.vars, .cols)
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!!funs)
@@ -149,8 +148,10 @@ summarize_at <- summarise_at
 #' Mutate multiple columns
 #'
 #' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("maturing")}
+#' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
+#' [across()] in an existing verb. See `vignette("colwise")` for details.
 #'
 #' The [scoped] variants of [mutate()] and [transmute()] make it easy to apply
 #' the same transformation to multiple variables. There are three variants:
@@ -202,27 +203,33 @@ summarize_at <- summarise_at
 #' # we'll scale the variables `height` and `mass`:
 #' scale2 <- function(x, na.rm = FALSE) (x - mean(x, na.rm = na.rm)) / sd(x, na.rm)
 #' starwars %>% mutate_at(c("height", "mass"), scale2)
+#' # ->
+#' starwars %>% mutate(across(c("height", "mass"), scale2))
 #'
 #' # You can pass additional arguments to the function:
 #' starwars %>% mutate_at(c("height", "mass"), scale2, na.rm = TRUE)
-#'
-#' # You can also pass formulas to create functions on the spot, purrr-style:
 #' starwars %>% mutate_at(c("height", "mass"), ~scale2(., na.rm = TRUE))
+#' # ->
+#' starwars %>% mutate(across(c("height", "mass"), ~ scale2(.x, na.rm = TRUE)))
 #'
 #' # You can also supply selection helpers to _at() functions but you have
 #' # to quote them with vars():
 #' iris %>% mutate_at(vars(matches("Sepal")), log)
+#' iris %>% mutate(across(matches("Sepal"), log))
 #'
 #' # The _if() variants apply a predicate function (a function that
 #' # returns TRUE or FALSE) to determine the relevant subset of
 #' # columns. Here we divide all the numeric columns by 100:
 #' starwars %>% mutate_if(is.numeric, scale2, na.rm = TRUE)
+#' starwars %>% mutate(across(is.numeric, ~ scale2(.x, na.rm = TRUE)))
 #'
 #' # mutate_if() is particularly useful for transforming variables from
 #' # one type to another
 #' iris %>% mutate_if(is.factor, as.character)
 #' iris %>% mutate_if(is.double, as.integer)
-#'
+#' # ->
+#' iris %>% mutate(across(is.factor, as.character))
+#' iris %>% mutate(across(is.double, as.integer))
 #'
 #' # Multiple transformations ----------------------------------------
 #'
@@ -230,14 +237,12 @@ summarize_at <- summarise_at
 #' # functions. When there are multiple functions, they create new
 #' # variables instead of modifying the variables in place:
 #' iris %>% mutate_if(is.numeric, list(scale2, log))
-#'
-#' # The list can contain purrr-style formulas:
 #' iris %>% mutate_if(is.numeric, list(~scale2(.), ~log(.)))
-#'
-#' # Note how the new variables include the function name, in order to
-#' # keep things distinct. The default names are not always helpful
-#' # but you can also supply explicit names:
 #' iris %>% mutate_if(is.numeric, list(scale = scale2, log = log))
+#' # ->
+#' iris %>%
+#'   as_tibble() %>%
+#'   mutate(across(is.numeric, list(scale = scale2, log = log)))
 #'
 #' # When there's only one function in the list, it modifies existing
 #' # variables in place. Give it a name to instead create new variables:
@@ -245,6 +250,7 @@ summarize_at <- summarise_at
 #' iris %>% mutate_if(is.numeric, list(scale = scale2))
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
+  lifecycle::signal_superseded("1.0.0", "mutate_all()", "across()")
   check_grouped(.tbl, "mutate", "all", alt = TRUE)
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
@@ -252,6 +258,7 @@ mutate_all <- function(.tbl, .funs, ...) {
 #' @rdname mutate_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
+  lifecycle::signal_superseded("1.0.0", "mutate_if()", "across()")
   check_grouped(.tbl, "mutate", "if")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
@@ -259,6 +266,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 #' @rdname mutate_all
 #' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
+  lifecycle::signal_superseded("1.0.0", "mutate_at()", "across()")
   .vars <- check_dot_cols(.vars, .cols)
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   mutate(.tbl, !!!funs)
@@ -375,98 +383,6 @@ manip_apply_syms <- function(funs, syms, tbl) {
       names(out) <- paste(grid$var, grid$call, sep = "_")
     }
   }
+
   out
 }
-
-# Deprecated --------------------------------------------------------------
-
-#' Summarise and mutate multiple columns.
-#'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("deprecated")}
-#'
-#' @description
-#'
-#' `mutate_each()` and `summarise_each()` are deprecated in favour of
-#' a more featureful family of functions: [mutate_all()],
-#' [mutate_at()], [mutate_if()], [summarise_all()], [summarise_at()]
-#' and [summarise_if()].
-#'
-#' The `_each()` functions have two replacements depending on what
-#' variables you want to apply `funs` to. To apply a function to all
-#' variables, use [mutate_all()] or [summarise_all()]. To apply a
-#' function to a selection of variables, use [mutate_at()] or
-#' [summarise_at()].
-#'
-#' See the relevant section of `vignette("compatibility")` for more
-#' information.
-#'
-#' @keywords internal
-#' @export
-summarise_each <- function(tbl, funs, ...) {
-  summarise_each_(tbl, funs, enquos(...))
-}
-#' @export
-#' @rdname summarise_each
-summarise_each_ <- function(tbl, funs, vars) {
-  signal_soft_deprecated(paste_line(
-    "summarise_each() is deprecated",
-    "Please use summarise_if(), summarise_at(), or summarise_all() instead: ",
-    "",
-    "  - To map `funs` over all variables, use summarise_all()",
-    "  - To map `funs` over a selection of variables, use summarise_at()"
-  ))
-
-  if (is_empty(vars)) {
-    vars <- tbl_nongroup_vars(tbl)
-  } else {
-    vars <- compat_lazy_dots(vars, caller_env())
-    vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
-    if (length(vars) == 1 && names(vars) == as_string(vars)) {
-      vars <- unname(vars)
-    }
-  }
-  if (is_character(funs)) {
-    funs <- funs_(funs)
-  }
-  funs <- manip_at(tbl, vars, funs, enquo(funs), caller_env())
-  summarise(tbl, !!!funs)
-}
-
-#' @export
-#' @rdname summarise_each
-mutate_each <- function(tbl, funs, ...) {
-  if (is_character(funs)) {
-    funs <- funs_(funs)
-  }
-
-  mutate_each_(tbl, funs, enquos(...))
-}
-#' @export
-#' @rdname summarise_each
-mutate_each_ <- function(tbl, funs, vars) {
-  signal_soft_deprecated(paste_line(
-    "mutate_each() is deprecated",
-    "Please use mutate_if(), mutate_at(), or mutate_all() instead: ",
-    "",
-    "  - To map `funs` over all variables, use mutate_all()",
-    "  - To map `funs` over a selection of variables, use mutate_at()"
-  ))
-  if (is_empty(vars)) {
-    vars <- tbl_nongroup_vars(tbl)
-  } else {
-    vars <- compat_lazy_dots(vars, caller_env())
-    vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
-    if (length(vars) == 1 && names(vars) == as_string(vars)) {
-      vars <- unname(vars)
-    }
-  }
-  funs <- manip_at(tbl, vars, funs, enquo(funs), caller_env())
-  mutate(tbl, !!!funs)
-}
-
-#' @rdname summarise_each
-#' @export
-summarize_each <- summarise_each
-#' @rdname summarise_each
-#' @export
-summarize_each_ <- summarise_each_

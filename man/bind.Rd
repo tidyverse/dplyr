@@ -21,7 +21,7 @@ columns will be filled with NA.
 
 When column-binding, rows are matched by position, so all data
 frames must have the same number of rows. To match by value, not
-position, see \link{join}.}
+position, see \link{mutate-joins}.}
 
 \item{.id}{Data frame identifier.
 
@@ -46,15 +46,15 @@ The output of \code{bind_rows()} will contain a column if that column
 appears in any of the inputs.
 }
 \examples{
-one <- mtcars[1:4, ]
-two <- mtcars[11:14, ]
+one <- starwars[1:4, ]
+two <- starwars[9:12, ]
 
 # You can supply data frames as arguments:
 bind_rows(one, two)
 
 # The contents of lists are spliced automatically:
 bind_rows(list(one, two))
-bind_rows(split(mtcars, mtcars$cyl))
+bind_rows(split(starwars, starwars$homeworld))
 bind_rows(list(one, two), list(two, one))
 
 
@@ -74,19 +74,6 @@ bind_rows(
 )
 
 
-# Note that for historical reasons, lists containing vectors are
-# always treated as data frames. Thus their vectors are treated as
-# columns rather than rows, and their inner names are ignored:
-ll <- list(
-  a = c(A = 1, B = 2),
-  b = c(A = 3, B = 4)
-)
-bind_rows(ll)
-
-# You can circumvent that behaviour with explicit splicing:
-bind_rows(!!!ll)
-
-
 # When you supply a column name with the `.id` argument, a new
 # column is created to link each row to its original data frame
 bind_rows(list(one, two), .id = "id")
@@ -94,10 +81,10 @@ bind_rows(list(a = one, b = two), .id = "id")
 bind_rows("group 1" = one, "group 2" = two, .id = "groups")
 
 # Columns don't need to match when row-binding
-bind_rows(data.frame(x = 1:3), data.frame(y = 1:4))
+bind_rows(tibble(x = 1:3), tibble(y = 1:4))
 \dontrun{
 # Rows do need to match when column-binding
-bind_cols(data.frame(x = 1), data.frame(y = 1:2))
+bind_cols(tibble(x = 1:3), tibble(y = 1:2))
 }
 
 bind_cols(one, two)

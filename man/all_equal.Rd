@@ -2,19 +2,9 @@
 % Please edit documentation in R/all-equal.r
 \name{all_equal}
 \alias{all_equal}
-\alias{all.equal.tbl_df}
 \title{Flexible equality comparison for data frames}
 \usage{
 all_equal(
-  target,
-  current,
-  ignore_col_order = TRUE,
-  ignore_row_order = TRUE,
-  convert = FALSE,
-  ...
-)
-
-\method{all.equal}{tbl_df}(
   target,
   current,
   ignore_col_order = TRUE,
@@ -41,8 +31,10 @@ the reasons why they're not equal. Use \code{\link[=isTRUE]{isTRUE()}} if using 
 result in an \code{if} expression.
 }
 \description{
-You can use \code{all_equal()} with any data frame, and dplyr also provides
-\code{tbl_df} methods for \code{\link[=all.equal]{all.equal()}}.
+\Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
+\code{all_equal()} allows you to compare data frames, optionally ignoring
+row and column names. It is questioning as of dplyr 1.0.0, because it
+seems to solve a problem that no longer seems that important.
 }
 \examples{
 scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
@@ -55,9 +47,10 @@ all_equal(mtcars, scramble(mtcars), ignore_col_order = FALSE)
 all_equal(mtcars, scramble(mtcars), ignore_row_order = FALSE)
 
 # By default all_equal is sensitive to variable differences
-df1 <- data.frame(x = "a")
+df1 <- data.frame(x = "a", stringsAsFactors = FALSE)
 df2 <- data.frame(x = factor("a"))
 all_equal(df1, df2)
 # But you can request dplyr convert similar types
 all_equal(df1, df2, convert = TRUE)
 }
+\keyword{internal}

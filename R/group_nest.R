@@ -5,20 +5,10 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 
 #' Nest a tibble using a grouping specification
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
-#'
-#' @family grouping functions
-#'
 #' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
 #' Nest a tibble using a grouping specification
-#'
-#' @param .tbl A tbl
-#' @param ... Grouping specification, forwarded to [group_by()]
-#' @param .key the name of the list column
-#' @param keep Should the grouping columns be kept in the list column.
-#'
-#' @details
 #'
 #' @section Grouped data frames:
 #'
@@ -31,11 +21,16 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 #' When used on ungrouped data frames, [group_nest()] forwards the `...` to
 #' [group_by()] before nesting, therefore the `...` are subject to the data mask.
 #'
+#' @param .tbl A tbl
+#' @param ... Grouping specification, forwarded to [group_by()]
+#' @param .key the name of the list column
+#' @param keep Should the grouping columns be kept in the list column.
 #' @return A tbl with one row per unique combination of the grouping variables.
 #' The first columns are the grouping variables, followed by a list column of tibbles
 #' with matching rows of the remaining columns.
-#'
 #' @keywords internal
+#' @family grouping functions
+#' @export
 #' @examples
 #'
 #' #----- use case 1: a grouped data frame
@@ -53,9 +48,6 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 #' #                  a grouping specification that uses the data mask
 #' starwars %>%
 #'   group_nest(species, homeworld)
-#'
-#'
-#' @export
 group_nest <- function(.tbl, ..., .key = "data", keep = FALSE){
   UseMethod("group_nest")
 }
@@ -72,7 +64,7 @@ group_nest.data.frame <- function(.tbl, ..., .key = "data", keep = FALSE) {
 #' @export
 group_nest.grouped_df <- function(.tbl, ..., .key = "data", keep = FALSE) {
   if (dots_n(...)) {
-    warn("... is ignored in group_nest(<grouped_df>), please use group_by(..., add = TRUE) %>% group_nest()")
+    warn("... is ignored in group_nest(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_nest()")
   }
   group_nest_impl(.tbl, .key = .key, keep = keep)
 }

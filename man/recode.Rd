@@ -12,7 +12,7 @@ recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE)
 \arguments{
 \item{.x}{A vector to modify}
 
-\item{...}{Replacements. For character and factor \code{.x}, these should be named
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Replacements. For character and factor \code{.x}, these should be named
 and replacement is based only on their name. For numeric \code{.x}, these can be
 named or not. If not named, the replacement is done based on position i.e.
 \code{.x} represents positions to look for in replacements. See examples.
@@ -21,9 +21,7 @@ When named, the argument names should be the current values to be replaced, and 
 argument values should be the new (replacement) values.
 
 All replacements must be the same type, and must have either
-length one or the same length as \code{.x}.
-
-These dots support \link[rlang:tidy-dots]{tidy dots} features.}
+length one or the same length as \code{.x}.}
 
 \item{.default}{If supplied, all values not otherwise matched will
 be given this value. If not supplied and if the replacements are
@@ -53,13 +51,19 @@ numeric values based on their position or their name, and character or factor
 values only by their name. This is an S3 generic: dplyr provides methods for
 numeric, character, and factors. For logical vectors, use \code{\link[=if_else]{if_else()}}. For
 more complicated criteria, use \code{\link[=case_when]{case_when()}}.
-}
-\details{
+
 You can use \code{recode()} directly with factors; it will preserve the existing
 order of levels while changing the values. Alternatively, you can
 use \code{recode_factor()}, which will change the order of levels to match
 the order of replacements. See the \href{http://forcats.tidyverse.org/}{forcats}
 package for more tools for working with factors and their levels.
+
+\Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
+\code{recode()} is questioning because the arguments are in the wrong order.
+We have \code{new <- old}, \code{mutate(df, new = old)}, and \code{rename(df, new = old)}
+but \code{recode(x, old = new)}. We don't yet know how to fix this problem, but
+it's likely to involve creating a new function then retiring or deprecating
+\code{recode()}.
 }
 \examples{
 # For character values, recode values with named arguments only. Unmatched

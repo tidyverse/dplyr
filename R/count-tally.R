@@ -1,224 +1,157 @@
-#' Count/tally observations by group
+#' Count observations by group
 #'
 #' @description
-#' `tally()` is a convenient wrapper for summarise that will either call
-#' [n()] or \code{\link{sum}(n)} depending on whether you're tallying
-#' for the first time, or re-tallying. `count()` is similar but calls
-#' [group_by()] before and [ungroup()] after. If the data is already
-#' grouped, `count()` adds an additional group that is removed afterwards.
+#' `count()` lets you quickly count the unique values of one or more variables:
+#' `df %>% count(a, b)` is roughly equivalent to
+#' `df %>% group_by(a, b) %>% summarise(n = n())`.
+#' `count()` is paired with `tally()`, a lower-level helper that is equivalent
+#' to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
+#' switching the summary from from `n = n()` to `n = sum(wt)`.
 #'
-#' `add_tally()` adds a column `n` to a table based on the number
-#' of items within each existing group, while `add_count()` is a shortcut that
-#' does the grouping as well. These functions are to [tally()]
-#' and [count()] as [mutate()] is to [summarise()]:
-#' they add an additional column rather than collapsing each group.
+#' `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
+#' the use `mutate()` instead of `summarise()` so that they add a new column
+#' with group-wise counts.
 #'
-#' @note
-#' The column name in the returned data is given by the `name` argument,
-#' set to `"n"` by default.
+#' @param x A data frame, data frame extension (e.g. a tibble), or a
+#'   lazy data frame (e.g. from dbplyr or dtplyr).
+#' @param ... <[`data-masking`][dplyr_data_masking]> Variables to group by.
+#' @param wt <[`data-masking`][dplyr_data_masking]> If omitted, will count the
+#'   number of rows. If specified, will perform a "weighted" count by summing
+#'   the (non-missing) values of variable `wt`.
 #'
-#' If the data already has a column by that name, the output column
-#' will be prefixed by an extra `"n"` as many times as necessary.
+#'   If omitted, and column `n` exists, it will automatically be used as a
+#'   weighting variable, although you will have to specify `name` to provide
+#'   a new name for the output.
+#' @param sort If `TRUE`, will show the largest groups at the top.
+#' @param name The name of the new column in the output.
 #'
-#' @param x a [tbl()] to tally/count.
-#' @param ... Variables to group by.
-#' @param wt (Optional) If omitted (and no variable named `n` exists in the
-#'   data), will count the number of rows.
-#'   If specified, will perform a "weighted" tally by summing the
-#'   (non-missing) values of variable `wt`. A column named `n` (but not `nn` or
-#'   `nnn`) will be used as weighting variable by default in `tally()`, but not
-#'   in `count()`. This argument is automatically [quoted][rlang::quo] and later
-#'   [evaluated][rlang::eval_tidy] in the context of the data
-#'   frame. It supports [unquoting][rlang::quasiquotation]. See
-#'   `vignette("programming")` for an introduction to these concepts.
-#' @param sort if `TRUE` will sort output in descending order of `n`
-#' @param name The output column name. If omitted, it will be `n`.
-#' @param .drop see [group_by()]
-#' @return A tbl, grouped the same way as `x`.
+#'   If omitted, it will default to `n`. If there's already a column called `n`,
+#'   it will error, and require you to specify the name.
+#' @param .drop For `count()`: if `FALSE` will include counts for empty groups
+#'   (i.e. for levels of factors that don't exist in the data). Deprecated in
+#'   `add_count()` since it didn't actually affect the output.
+#' @return
+#' An object of the same type as `.data`. `count()` and `add_count()`
+#' group transiently, so the output has the same groups as the input.
 #' @export
 #' @examples
-#' # tally() is short-hand for summarise()
-#' mtcars %>% tally()
-#' mtcars %>% group_by(cyl) %>% tally()
-#' # count() is a short-hand for group_by() + tally()
-#' mtcars %>% count(cyl)
-#' # Note that if the data is already grouped, count() adds
-#' # an additional group that is removed afterwards
-#' mtcars %>% group_by(gear) %>% count(carb)
+#' # count() is a convenient way to get a sense of the distribution of
+#' # values in a dataset
+#' starwars %>% count(species)
+#' starwars %>% count(species, sort = TRUE)
+#' starwars %>% count(sex, gender, sort = TRUE)
+#' starwars %>% count(birth_decade = round(birth_year, -1))
 #'
-#' # add_tally() is short-hand for mutate()
-#' mtcars %>% add_tally()
-#' # add_count() is a short-hand for group_by() + add_tally()
-#' mtcars %>% add_count(cyl)
+#' # use the `wt` argument to perform a weighted count. This is useful
+#' # when the data has already been aggregated once
+#' df <- tribble(
+#'   ~name,    ~gender,   ~runs,
+#'   "Max",    "male",       10,
+#'   "Sandra", "female",      1,
+#'   "Susan",  "female",      4
+#' )
+#' # counts rows:
+#' df %>% count(gender)
+#' # counts runs:
+#' df %>% count(gender, wt = runs)
 #'
-#' # count() and tally() are designed so that you can call
-#' # them repeatedly, each time rolling up a level of detail
-#' species <-
-#'  starwars %>%
-#'  count(species, homeworld, sort = TRUE)
-#' species
-#' species %>% count(species, sort = TRUE)
+#' # tally() is a lower-level function that assumes you've done the grouping
+#' starwars %>% tally()
+#' starwars %>% group_by(species) %>% tally()
 #'
-#' # Change the name of the newly created column:
-#' species <-
-#'  starwars %>%
-#'  count(species, homeworld, sort = TRUE, name = "n_species_by_homeworld")
-#' species
-#' species %>%
-#'  count(species, sort = TRUE, name = "n_species")
-#'
-#' # add_count() is useful for groupwise filtering
-#' # e.g.: show details for species that have a single member
-#' starwars %>%
-#'   add_count(species) %>%
-#'   filter(n == 1)
-tally <- function(x, wt, sort = FALSE, name = "n") {
-  wt <- enquo(wt)
+#' # both count() and tally() have add_ variants that work like
+#' # mutate() instead of summarise
+#' df %>% add_count(gender, wt = runs)
+#' df %>% add_tally(wt = runs)
+count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
-  if (quo_is_missing(wt) && "n" %in% tbl_vars(x)) {
-    inform("Using `n` as weighting variable")
-    wt <- quo(n)
-  }
-
-  if (quo_is_missing(wt) || quo_is_null(wt)) {
-    n <- quo(n())
+  if (!missing(...)) {
+    out <- group_by(x, ..., .add = TRUE, .drop = .drop)
   } else {
-    n <- quo(sum(!!wt, na.rm = TRUE))
+    out <- x
   }
 
-  n_name <- n_name(group_vars(x), name)
+  out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
+  dplyr_reconstruct(out, x)
+}
 
-  if (name != "n" && name %in% group_vars(x)) {
-    abort(glue("Column `{name}` already exists in grouped variables"))
-  }
-
-  out <- summarise(x, !!n_name := !!n)
+#' @export
+#' @rdname count
+tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
+  n <- tally_n(x, {{ wt }})
+  name <- check_name(x, name)
+  out <- summarise(x, !!name := !!n)
 
   if (sort) {
-    arrange(out, desc(!!sym(n_name)))
+    arrange(out, desc(!!sym(name)))
   } else {
     out
   }
 }
-#' @rdname se-deprecated
-#' @inheritParams tally
-#' @export
-tally_ <- function(x, wt, sort = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "tally_() is deprecated. ",
-    "Please use tally() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with tally() : https://tidyeval.tidyverse.org"
-  ))
-
-  wt <- compat_lazy(wt, caller_env())
-  tally(x, wt = !!wt, sort = sort)
-}
-
-n_name <- function(x, name = "n") {
-  while (name %in% x) {
-    name <- paste0("n", name)
-  }
-
-  name
-}
 
 #' @export
-#' @rdname tally
-count <- function(x, ..., wt = NULL, sort = FALSE, name = "n", .drop = group_by_drop_default(x)) {
-  groups <- group_vars(x)
-
-  if (dots_n(...)) {
-    x <- .group_by_static_drop(x, ..., add = TRUE, .drop = .drop)
+#' @rdname count
+add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+  if (!missing(.drop)) {
+    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
   }
-  x <- tally(x, wt = !!enquo(wt), sort = sort, name = name)
-  x <- .group_by_static_drop(x, !!!syms(groups), add = FALSE, .drop = .drop)
+
+  if (!missing(...)) {
+    out <- group_by(x, ..., .add = TRUE)
+  } else {
+    out <- x
+  }
+  out <- add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
+
+  name <- check_name(x, name)
+  x[[name]] <- out[[name]]
   x
 }
-#' @export
-#' @rdname se-deprecated
-count_ <- function(x, vars, wt = NULL, sort = FALSE, .drop = group_by_drop_default(x)) {
-  signal_soft_deprecated(paste_line(
-    "count_() is deprecated. ",
-    "Please use count() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with count() : https://tidyeval.tidyverse.org"
-  ))
 
-  vars <- compat_lazy_dots(vars, caller_env())
-  wt <- wt %||% quo(NULL)
-  wt <- compat_lazy(wt, caller_env())
-  count(x, !!!vars, wt = !!wt, sort = sort, .drop = .drop)
+#' @rdname count
+#' @export
+add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
+  n <- tally_n(x, {{ wt }})
+  name <- check_name(x, name)
+  out <- mutate(x, !!name := !!n)
+
+  if (sort) {
+    arrange(out, desc(!!sym(name)))
+  } else {
+    out
+  }
 }
 
-#' @rdname tally
-#' @export
-add_tally <- function(x, wt, sort = FALSE, name = "n") {
-  wt <- enquo(wt)
+# Helpers -----------------------------------------------------------------
 
-  if (quo_is_missing(wt) && "n" %in% tbl_vars(x)) {
+tally_n <- function(x, wt) {
+  wt <- enquo(wt)
+  if (quo_is_null(wt) && "n" %in% tbl_vars(x)) {
     inform("Using `n` as weighting variable")
     wt <- quo(n)
   }
 
-  if (quo_is_missing(wt) || quo_is_null(wt)) {
-    n <- quo(n())
+  if (quo_is_null(wt)) {
+    quo(n())
   } else {
-    n <- quo(sum(!!wt, na.rm = TRUE))
+    quo(sum(!!wt, na.rm = TRUE))
+  }
+}
+
+check_name <- function(df, name) {
+  if (is.null(name)) {
+    if ("n" %in% tbl_vars(df)) {
+      glubort(
+        "Column 'n' is already present in output\n",
+        "* Use `name = \"new_name\"` to pick a new name"
+      )
+    }
+    return("n")
   }
 
-  n_name <- n_name(group_vars(x), name)
-
-  if (name != "n" && name %in% group_vars(x)) {
-    abort(glue("Column `{name}` already exists in grouped variables"))
+  if (!is.character(name) || length(name) != 1) {
+    abort("`name` must be a single string")
   }
 
-  out <- mutate(x, !!n_name := !!n)
-
-  if (sort) {
-    out <- arrange(out, desc(!!sym(n_name)))
-  }
-
-  grouped_df(out, group_vars(x), drop = group_by_drop_default(x))
-}
-#' @rdname se-deprecated
-#' @export
-add_tally_ <- function(x, wt, sort = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "add_tally_() is deprecated. ",
-    "Please use add_tally() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with add_tally() : https://tidyeval.tidyverse.org"
-  ))
-
-  wt <- compat_lazy(wt, caller_env())
-  add_tally(x, !!wt, sort = sort)
-}
-#' @rdname tally
-#' @export
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = "n") {
-  g <- group_vars(x)
-  grouped <- group_by(x, ..., add = TRUE)
-
-  out <- add_tally(grouped, wt = !!enquo(wt), sort = sort, name = name)
-  grouped_df(out, g, drop = group_by_drop_default(grouped))
-}
-#' @rdname se-deprecated
-#' @export
-add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  signal_soft_deprecated(paste_line(
-    "add_count_() is deprecated. ",
-    "Please use add_count() instead",
-    "",
-    "The 'programming' vignette or the tidyeval book can help you",
-    "to program with add_count() : https://tidyeval.tidyverse.org"
-  ))
-
-  vars <- compat_lazy_dots(vars, caller_env())
-  wt <- wt %||% quo(NULL)
-  wt <- compat_lazy(wt, caller_env())
-  add_count(x, !!!vars, wt = !!wt, sort = sort)
+  name
 }

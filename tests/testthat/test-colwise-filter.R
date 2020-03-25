@@ -15,28 +15,6 @@ test_that("filter_all()", {
   expect_identical(filter_all(mtcars, any_vars(. > 200))$disp, mtcars$disp[mtcars$disp > 200])
 })
 
-test_that("aborts on empty selection", {
-  expect_error(
-    filter_if(mtcars, is_character, all_vars(. > 0)),
-    "`.predicate` has no matching columns",
-    fixed = TRUE
-  )
-})
-
-test_that("aborts when supplied funs() or list", {
-  expect_error(
-    filter_all(mtcars, list(~. > 0)),
-    "`.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not a list",
-    fixed = TRUE
-  )
-
-  expect_error(
-    with_lifecycle_silence(filter_all(mtcars, funs(. > 0))),
-    "`.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not a `fun_list` object",
-    fixed = TRUE
-  )
-})
-
 test_that("filter_at can filter by grouping variables (#3351, #3480)", {
   tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
@@ -83,4 +61,14 @@ test_that("colwise filter support .data$. in the quosure versions", {
     filter_at(iris, vars(contains(".")), any_vars(.data$. > 4)),
     filter_at(iris, vars(contains(".")), any_vars(. > 4))
   )
+})
+
+
+# Errors ------------------------------------------------------------------
+
+test_that("colwise filter() give meaningful errors", {
+  verify_output(test_path("test-colwise-filter-errors.txt"), {
+    filter_if(mtcars, is_character, all_vars(. > 0))
+    filter_all(mtcars, list(~. > 0))
+  })
 })

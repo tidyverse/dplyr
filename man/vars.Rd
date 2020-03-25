@@ -7,21 +7,21 @@
 vars(...)
 }
 \arguments{
-\item{...}{Variables to include/exclude in mutate/summarise. You
-can use same specifications as in \code{\link[=select]{select()}}. If missing,
-defaults to all non-grouping variables.
-
-These arguments are automatically \link[rlang:quo]{quoted} and later
-\link[rlang:eval_tidy]{evaluated} in the context of the data
-frame. They support \link[rlang:quasiquotation]{unquoting}. See
-\code{vignette("programming")} for an introduction to these concepts.}
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Variables to include/exclude
+in mutate/summarise. You can use same specifications as in \code{\link[=select]{select()}}.
+If missing, defaults to all non-grouping variables.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+
+\code{vars()} was only needed for the scoped verbs, which have been superseded
+by the use of \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for
+details.
+
 This helper is intended to provide equivalent semantics to
 \code{\link[=select]{select()}}. It is used for instance in scoped summarising and
 mutating verbs (\code{\link[=mutate_at]{mutate_at()}} and \code{\link[=summarise_at]{summarise_at()}}).
-}
-\details{
+
 Note that verbs accepting a \code{vars()} specification also accept a
 numeric vector of positions or a character vector of column names.
 }

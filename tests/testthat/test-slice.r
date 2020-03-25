@@ -1,7 +1,12 @@
 context("slice")
 
+test_that("empty slice returns input", {
+  df <- tibble(x = 1:3)
+  expect_equal(slice(df), df)
+})
+
 test_that("slice handles numeric input (#226)", {
-  g <- mtcars %>% group_by(cyl)
+  g <- mtcars %>% arrange(cyl) %>% group_by(cyl)
   res <- g %>% slice(1)
   expect_equal(nrow(res), 3)
   expect_equal(res, g %>% filter(row_number() == 1L))
@@ -25,19 +30,8 @@ test_that("slice works with negative indices", {
   expect_equivalent(res, exp)
 })
 
-test_that("slice forbids positive and negative together", {
-  expect_error(
-    mtcars %>% slice(c(-1, 2)),
-    class = "dplyr_slice_ambiguous"
-  )
-  expect_error(
-    mtcars %>% slice(c(2:3, -1)),
-    class = "dplyr_slice_ambiguous"
-  )
-})
-
 test_that("slice works with grouped data", {
-  g <- group_by(mtcars, cyl)
+  g <- mtcars %>% arrange(cyl) %>% group_by(cyl)
 
   res <- slice(g, 1:2)
   exp <- filter(g, row_number() < 3)
@@ -81,14 +75,6 @@ test_that("slice handles NA (#1235)", {
 test_that("slice handles logical NA (#3970)", {
   df <- tibble(x = 1:3)
   expect_equal(nrow(slice(df, NA)), 0L)
-  expect_error(
-    slice(df, TRUE),
-    class = "dplyr_slice_incompatible"
-  )
-  expect_error(
-    slice(df, FALSE),
-    class = "dplyr_slice_incompatible"
-  )
 })
 
 test_that("slice handles empty data frames (#1219)", {
@@ -99,8 +85,9 @@ test_that("slice handles empty data frames (#1219)", {
 })
 
 test_that("slice works fine if n > nrow(df) (#1269)", {
-  slice_res <- mtcars %>% group_by(cyl) %>% slice(8)
-  filter_res <- mtcars %>% group_by(cyl) %>% filter(row_number() == 8)
+  by_slice <- mtcars %>% arrange(cyl) %>%  group_by(cyl)
+  slice_res <- by_slice  %>% slice(8)
+  filter_res <- by_slice %>% group_by(cyl) %>% filter(row_number() == 8)
   expect_equal(slice_res, filter_res)
 })
 
@@ -163,14 +150,13 @@ test_that("slice accepts ... (#3804)", {
 })
 
 test_that("slice does not evaluate the expression in empty groups (#1438)", {
-  skip("for now")
   res <- mtcars %>%
     group_by(cyl) %>%
     filter(cyl==6) %>%
     slice(1:2)
   expect_equal(nrow(res), 2L)
 
-  expect_condition(
+  expect_error(
     res <- mtcars %>% group_by(cyl) %>% filter(cyl==6) %>% sample_n(size=3),
     NA
   )
@@ -201,4 +187,73 @@ test_that("slice() handles matrix and data frame columns (#3630)", {
   expect_equal(slice(gdf, 1), gdf)
   expect_equal(slice(gdf, 1), gdf)
   expect_equal(slice(gdf, 1), gdf)
+})
+
+# Slice variants ----------------------------------------------------------
+
+test_that("functions silently truncate results", {
+  df <- data.frame(x = 1:5)
+
+  expect_equal(df %>% slice_head(n = 6) %>% nrow(), 5)
+  expect_equal(df %>% slice_tail(n = 6) %>% nrow(), 5)
+  expect_equal(df %>% slice_sample(n = 6) %>% nrow(), 5)
+  expect_equal(df %>% slice_min(x, n = 6) %>% nrow(), 5)
+  expect_equal(df %>% slice_max(x, n = 6) %>% nrow(), 5)
+})
+
+test_that("min and max return ties by default", {
+  df <- data.frame(x = c(1, 1, 1, 2, 2))
+  expect_equal(df %>% slice_min(x) %>% nrow(), 3)
+  expect_equal(df %>% slice_max(x) %>% nrow(), 2)
+
+  expect_equal(df %>% slice_min(x, with_ties = FALSE) %>% nrow(), 1)
+  expect_equal(df %>% slice_max(x, with_ties = FALSE) %>% nrow(), 1)
+})
+
+test_that("min and max reorder results", {
+  df <- data.frame(id = 1:4, x = c(2, 3, 1, 2))
+
+  expect_equal(df %>% slice_min(x, n = 2) %>% pull(id), c(3, 1, 4))
+  expect_equal(df %>% slice_min(x, n = 2, with_ties = FALSE) %>% pull(id), c(3, 1))
+  expect_equal(df %>% slice_max(x, n = 2) %>% pull(id), c(2, 1, 4))
+  expect_equal(df %>% slice_max(x, n = 2, with_ties = FALSE) %>% pull(id), c(2, 1))
+})
+
+test_that("min and max ignore NA's (#4826)", {
+  df <- data.frame(id = 1:4, x = c(2, NA, 1, 2), y = c(NA, NA, NA, NA))
+
+  expect_equal(df %>% slice_min(x, n = 2) %>% pull(id), c(3, 1, 4))
+  expect_equal(df %>% slice_min(y, n = 2) %>% nrow(), 0)
+  expect_equal(df %>% slice_max(x, n = 2) %>% pull(id), c(1, 4))
+  expect_equal(df %>% slice_max(y, n = 2) %>% nrow(), 0)
+})
+
+test_that("arguments to sample are passed along", {
+  df <- data.frame(x = 1:100, wt = c(1, rep(0, 99)))
+
+  expect_equal(df %>% slice_sample(n = 1, weight_by = wt) %>% pull(x), 1)
+  expect_equal(df %>% slice_sample(n = 2, weight_by = wt, replace = TRUE) %>% pull(x), c(1, 1))
+})
+
+# Errors ------------------------------------------------------------------
+
+test_that("rename errors with invalid grouped data frame (#640)", {
+  df <- tibble(x = 1:3)
+
+  verify_output(test_path("test-slice-errors.txt"), {
+    "# Incompatible type"
+    slice(df, TRUE)
+    slice(df, FALSE)
+
+    "# Mix of positive and negative integers"
+    mtcars %>% slice(c(-1, 2))
+    mtcars %>% slice(c(2:3, -1))
+
+    "# n and prop are carefully validated"
+    check_slice_size(n = 1, prop = 1)
+    check_slice_size(n = "a")
+    check_slice_size(prop = "a")
+    check_slice_size(n = -1)
+    check_slice_size(prop = -1)
+  })
 })

@@ -36,6 +36,11 @@ a character vector of column names, a numeric vector of column
 positions, or \code{NULL}.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+
+Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
+\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+
 These \link{scoped} filtering verbs apply a predicate expression to a
 selection of variables. The predicate expression should be quoted
 with \code{\link[=all_vars]{all_vars()}} or \code{\link[=any_vars]{any_vars()}} and should mention the pronoun
@@ -59,6 +64,8 @@ any_vars(is.na(.))
 
 # You can take the intersection of the replicated expressions:
 filter_all(mtcars, all_vars(. > 150))
+# ->
+filter(mtcars, across(everything(), ~ .x > 150))
 
 # Or the union:
 filter_all(mtcars, any_vars(. > 150))
@@ -67,14 +74,12 @@ filter_all(mtcars, any_vars(. > 150))
 # You can vary the selection of columns on which to apply the
 # predicate. filter_at() takes a vars() specification:
 filter_at(mtcars, vars(starts_with("d")), any_vars((. \%\% 2) == 0))
+# ->
+filter(mtcars, across(starts_with("d"), ~ (.x \%\% 2) == 0))
 
 # And filter_if() selects variables with a predicate function:
 filter_if(mtcars, ~ all(floor(.) == .), all_vars(. != 0))
-
-
-# We're working on a new syntax to allow functions instead,
-# including purrr-like lambda functions. This is already
-# operational, but there's currently no way to specify the union of
-# the predicate results:
-mtcars \%>\% filter_at(vars(hp, vs), ~ . \%\% 2 == 0)
+# ->
+is_int <- function(x) all(floor(x) == x)
+filter(mtcars, across(is_int, ~ .x != 0))
 }

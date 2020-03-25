@@ -4,10 +4,8 @@
 #' at each position. This is inspired by the SQL `COALESCE` function
 #' which does the same thing for `NULL`s.
 #'
-#' @param ... Vectors. All inputs should either be length 1, or the
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Vectors. All inputs should either be length 1, or the
 #'   same length as the first argument.
-#'
-#'   These dots support [tidy dots][rlang::tidy-dots] features.
 #' @return A vector the same length as the first `...` argument with
 #'   missing values replaced by the first non-missing value.
 #' @seealso [na_if()] to replace specified values with a `NA`.

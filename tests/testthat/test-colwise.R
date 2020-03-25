@@ -1,35 +1,10 @@
 context("colwise utils")
 
-test_that("tbl_at_vars() errs on bad input", {
-  expect_error(
-    tbl_at_vars(iris, raw(3)),
-    "`.vars` must be a character/numeric vector or a `vars()` object, not a raw vector",
-    fixed = TRUE
-  )
-})
-
 test_that("tbl_at_vars() treats `NULL` as empty inputs", {
   expect_identical(tbl_at_vars(mtcars, vars(NULL)), tbl_at_vars(mtcars, vars()))
   expect_identical(
     tibble::remove_rownames(mutate_at(mtcars, vars(NULL), `*`, 100)),
     tibble::remove_rownames(mtcars)
-  )
-})
-
-test_that("tbl_if_vars() errs on bad input", {
-  scoped_lifecycle_silence()
-  expect_error(
-    tbl_if_vars(iris, funs(identity, force), environment()),
-    "`.predicate` must have length 1, not 2",
-    fixed = TRUE
-  )
-
-  .funs <- list(identity, force)
-  .funs <- as_fun_list(.funs, caller_env())
-  expect_error(
-    tbl_if_vars(iris, .funs, environment()),
-    "`.predicate` must have length 1, not 2",
-    fixed = TRUE
   )
 })
 
@@ -41,4 +16,16 @@ test_that("lists of formulas are auto-named", {
 
   out <- df %>% summarise_all(list(foobar = ~ mean(.), ~sd(.x, na.rm = TRUE)))
   expect_named(out, c("x_foobar", "y_foobar", "x_sd", "y_sd"))
+})
+
+# Errors --------------------------------------------
+
+test_that("colwise utils gives meaningful error messages", {
+  verify_output(test_path("test-colwise-errors.txt"), {
+    tbl_at_vars(iris, raw(3))
+    tbl_if_vars(iris, list(identity, force), environment())
+
+    .funs <- as_fun_list(list(identity, force), caller_env())
+    tbl_if_vars(iris, .funs, environment())
+  })
 })

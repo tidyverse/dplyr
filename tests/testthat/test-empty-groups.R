@@ -15,25 +15,23 @@ test_that("filter and slice keep zero length groups", {
 
 test_that("filtering and slicing retains labels for zero length groups", {
   expect_equal(
-    count(filter(df, f == 1)),
+    ungroup(count(filter(df, f == 1))),
     tibble(
       e = 1,
       f = factor(1:3),
-      g = c(1, NA, NA),
+      g = c(1, 2, NA),
       n = c(2L, 0L, 0L)
-    ) %>%
-      group_by(e, f)
+    )
   )
 
   expect_equal(
-    count(slice(df, 1)),
+    ungroup(count(slice(df, 1))),
     tibble(
       e = 1,
       f = factor(1:3),
       g = c(1, 2, NA),
       n = c(1L, 1L, 0L)
-    ) %>%
-      group_by(e, f)
+    )
   )
 })
 

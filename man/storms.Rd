@@ -4,7 +4,8 @@
 \name{storms}
 \alias{storms}
 \title{Storm tracks data}
-\format{A tibble with 10,010 observations and 13 variables:
+\format{
+A tibble with 10,010 observations and 13 variables:
 \describe{
 \item{name}{Storm Name}
 \item{year,month,day}{Date of report}
@@ -18,7 +19,8 @@ or Hurricane)}
 \item{pressure}{Air pressure at the storm's center (in millibars)}
 \item{ts_diameter}{Diameter of the area experiencing tropical storm strength winds (34 knots or above)}
 \item{hu_diameter}{Diameter of the area experiencing hurricane strength winds (64 knots or above)}
-}}
+}
+}
 \usage{
 storms
 }

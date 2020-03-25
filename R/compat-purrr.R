@@ -80,7 +80,7 @@ args_recycle <- function(args) {
   lengths <- lengths(args)
   n <- max(lengths)
 
-  stopifnot(all(lengths == 1L | lengths == n))
+  abort_if_not(all(lengths == 1L | lengths == n))
   to_recycle <- lengths == 1L
   args[to_recycle] <- map(args[to_recycle], function(x) rep.int(x, n))
 
@@ -97,7 +97,7 @@ pmap <- function(.l, .f, ...) {
 
 probe <- function(.x, .p, ...) {
   if (is_logical(.p)) {
-    stopifnot(length(.p) == length(.x))
+    abort_if_not(length(.p) == length(.x))
     .p
   } else {
     map_lgl(.x, .p, ...)

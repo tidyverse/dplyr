@@ -1,10 +1,7 @@
 #' Trim grouping structure
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
-#'
-#' @family grouping functions
-#'
 #' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #' Drop unused levels of all factors that are used as grouping variables,
 #' then recalculates the grouping structure.
 #'
@@ -13,16 +10,14 @@
 #'
 #' @param .tbl A [grouped data frame][grouped_df()]
 #' @param .drop See [group_by()]
-#'
 #' @return A [grouped data frame][grouped_df()]
-#'
+#' @export
+#' @family grouping functions
 #' @examples
 #' iris %>%
 #'   group_by(Species) %>%
 #'   filter(Species == "setosa", .preserve = TRUE) %>%
 #'   group_trim()
-#'
-#' @export
 group_trim <- function(.tbl, .drop = group_by_drop_default(.tbl)) {
   UseMethod("group_trim")
 }

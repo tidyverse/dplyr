@@ -2,26 +2,27 @@ context("count-tally")
 
 # count -------------------------------------------------------------------
 
-test_that("can count variable called n", {
+test_that("must manually supply name when n column already present", {
   df <- data.frame(n = c(1, 1, 2, 2, 2))
+  expect_named(count(df, n, name = "nn"), c("n", "nn"))
 
-  out <- df %>% count(n)
-  expect_equal(names(out), c("n", "nn"))
-  expect_equal(out$nn, c(2, 3))
-
-  out <- df %>% count(n, sort = TRUE)
-  expect_equal(out$nn, c(3, 2))
+  df <- data.frame(g = c(1, 2, 2, 2), n = c(1:4))
+  expect_named(count(df, g, name = "n"), c("g", "n"))
 })
 
-test_that("count preserves grouping of input", {
+test_that("count preserves type of input", {
   df <- data.frame(g = c(1, 2, 2, 2))
+  attr(df, "my_attr") <- 1
 
-  out1 <- count(df, g)
-  expect_equal(group_vars(out1), character())
+  out <- df %>% count(g)
+  expect_s3_class(out, "data.frame", exact = TRUE)
+  expect_equal(attr(out, "my_attr"), 1)
 
-  df2 <- df %>% group_by(g)
-  out2 <- count(df2)
-  expect_equal(group_vars(out2), "g")
+  out <- df %>% group_by(g) %>% count()
+  expect_s3_class(out, "grouped_df")
+  expect_equal(group_vars(out), "g")
+  # TODO: currently lost by summarise
+  # expect_equal(attr(out, "my_attr"), 1)
 })
 
 test_that("grouped count includes group", {
@@ -33,113 +34,68 @@ test_that("grouped count includes group", {
   expect_equal(group_vars(res), "g")
 })
 
-test_that("returns user defined variable name", {
+test_that("can override variable name", {
   df <- data.frame(g = c(1, 1, 2, 2, 2))
-  var_name <- "number_n"
-  res <- df %>% count(g, name = var_name)
-
-  expect_equal(names(res), c("g", var_name))
-  expect_equal(res[[var_name]], c(2, 3))
+  expect_named(count(df, g, name = "xxx"), c("g", "xxx"))
 })
 
-test_that("count() does not ignore non-factor empty groups (#4013)",  {
-  d <- data.frame(x = c("a", "a", "b", "b"),
-    value = 1:4,
-    stringsAsFactors = FALSE)
+test_that("count() preserves with .drop", {
+  df <- tibble(f = factor("b", levels = c("a", "b", "c")))
+  out <- count(df, f, .drop = FALSE)
+  expect_equal(out$n, c(0, 1, 0))
 
-  g <- d %>%
-    group_by(x) %>%
-    filter(value > 3, .preserve = TRUE)
-
-  res <- count(g)
-  expect_equal(nrow(res), 2L)
-  expect_equal(res$x, c("a", "b"))
-  expect_equal(res$n, c(0L, 1L))
-})
-
-test_that("returns error if user-defined name equals a grouped variable name", {
-  df <- data.frame(g = c(1, 1, 2, 2, 2))
-
-  expect_error(df %>% count(g, name = "g"))
+  out <- count(group_by(df, f, .drop = FALSE))
+  expect_equal(out$n, c(0, 1, 0))
 })
 
 # add_count ---------------------------------------------------------------
 
-test_that("can add counts of a variable called n", {
+test_that("must manually supply name when n column already present", {
   df <- data.frame(n = c(1, 1, 2, 2, 2))
-
-  out <- df %>% add_count(n)
-  expect_equal(names(out), c("n", "nn"))
-  expect_equal(out$n, df$n)
-  expect_equal(out$nn, c(2, 2, 3, 3, 3))
-
-  out <- df %>% add_count(n, sort = TRUE)
-  expect_equal(out$nn, c(3, 3, 3, 2, 2))
+  expect_named(add_count(df, n, name = "nn"), c("n", "nn"))
 })
 
-test_that("add_count respects and preserves existing groups", {
+test_that("preserves input type", {
   df <- data.frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
-  res <- df %>% add_count(val)
-  expect_equal(res$n, c(3, 3, 3, 1))
-  expect_no_groups(res)
+  attr(df, "my_attr") <- 1
 
-  res <- df %>% group_by(g) %>% add_count(val)
-  expect_equal(res$n, c(1, 2, 2, 1))
-  expect_groups(res, "g")
+  out <- df %>% add_count(val)
+  expect_s3_class(out, "data.frame", exact = TRUE)
+  expect_equal(attr(out, "my_attr"), 1)
+
+  out <- df %>% group_by(g) %>% add_count(val)
+  expect_s3_class(out, "grouped_df")
+  expect_equal(group_vars(out), "g")
+  expect_equal(attr(out, "my_attr"), 1)
 })
 
-test_that("adds counts column with user-defined name if it is not a grouped variable", {
-  df <- data.frame(g = c(1, 1, 2, 2, 2), count = c(3, 2, 5, 5, 5))
-  name <- "count"
-
-  out <- df %>% add_count(g, name = name)
-  expect_equal(names(out), c("g", name))
-  expect_equal(out[[name]], c(2, 2, 3, 3, 3))
+test_that("can override output column", {
+  df <- data.frame(g = c(1, 1, 2, 2, 2), x = c(3, 2, 5, 5, 5))
+  expect_named(add_count(df, g, name = "xxx"), c("g", "x", "xxx"))
 })
 
-test_that("returns error if user-defined name equals a grouped variable", {
-  df <- data.frame(g = c(1, 1, 2, 2, 2))
-
-  expect_error(df %>% add_count(g, name = "g"))
+test_that(".drop is deprecated",  {
+  df <- tibble(f = factor("b", levels = c("a", "b", "c")))
+  expect_warning(out <- add_count(df, f, .drop = FALSE), "deprecated")
 })
 
 # tally -------------------------------------------------------------------
 
 test_that("weighted tally drops NAs (#1145)", {
   df <- tibble(x = c(1, 1, NA))
-
   expect_equal(tally(df, x)$n, 2)
 })
 
-test_that("returns column with user-defined name", {
-  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
-  name <- "counts"
-  res <- df %>% tally(name = name)
-
-  expect_equal(names(res), name)
-})
-
-test_that("returns column with user-defined name if it is not a grouped variable", {
-  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
-  name <- "g"
-  res <- df %>% tally(name = name)
-
-  expect_equal(names(res), name)
-})
-
-test_that("returns error if user-defined name equals a grouped variable", {
-  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
-  name <- "g"
-
-  expect_error(df %>% group_by(g) %>% tally(name = name))
+test_that("can override output column", {
+  df <- data.frame(g = c(1, 1, 2, 2, 2), x = c(3, 2, 5, 5, 5))
+  expect_named(tally(df, name = "xxx"), "xxx")
 })
 
 test_that("tally uses variable named n as default wt.", {
   df <- tibble(n = 1:3)
-  expect_message(res <- df %>%  tally(), "Using `n` as weighting variable")
-  expect_equal(res$n, sum(1:3))
+  expect_message(res <- df %>% tally(name = "nn"), "Using `n` as weighting variable")
+  expect_named(res, "nn")
 })
-
 
 # add_tally ---------------------------------------------------------------
 
@@ -159,11 +115,11 @@ test_that("add_tally respects and preserves existing groups", {
   df <- data.frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   res <- df %>% group_by(val) %>% add_tally()
   expect_equal(res$n, c(3, 3, 3, 1))
-  expect_groups(res, "val")
+  expect_equal(group_vars(res), "val")
 
   res <- df %>% group_by(g, val) %>% add_tally()
   expect_equal(res$n, c(1, 2, 2, 1))
-  expect_groups(res, c("g", "val"))
+  expect_equal(group_vars(res), c("g", "val"))
 })
 
 test_that("add_tally can be given a weighting variable", {
@@ -176,58 +132,23 @@ test_that("add_tally can be given a weighting variable", {
   expect_equal(out$n, c(4, 4, 12, 12, 12))
 })
 
-test_that("adds column with user-defined variable name if it is not a grouped variable name", {
-  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
-  name <- "val"
-  res <- df %>% add_tally(name = name)
-
-  expect_equal(names(res), c("g", "val"))
+test_that("can override output column", {
+  df <- data.frame(g = c(1, 1, 2, 2, 2), x = c(3, 2, 5, 5, 5))
+  expect_named(add_tally(df, name = "xxx"), c("g", "x", "xxx"))
 })
 
-test_that("returns error if user-defined name equals a grouped variable", {
-  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
-  name <- "val"
-  expect_error(df %>% group_by(val) %>% add_tally(name = name))
+
+# Errors ------------------------------------------------------------------
+
+test_that("count() give meaningful errors", {
+  verify_output(test_path("test-count-tally-errors.txt"), {
+    df <- data.frame(n = c(1, 1, 2, 2, 2))
+    add_count(df, n)
+
+    df <- data.frame(g = c(1, 2, 2, 2), n = c(1:4))
+    count(df, g)
+
+    df <- data.frame(n = c(1, 1, 2, 2, 2))
+    count(df, n)
+  })
 })
-
-# count and .drop ----------------------------------------------------
-
-test_that("count() deals with .drop", {
-  d <- tibble(
-    f1 = factor("b", levels = c("a", "b", "c")),
-    f2 = factor("g", levels = c("e", "f", "g")),
-    x  = 48
-  )
-  res <- d %>%
-    group_by(f1, .drop = TRUE) %>%
-    count(f2, .drop = TRUE)
-
-  res2 <- d %>%
-    group_by(f1, .drop = TRUE) %>%
-    count(f2)
-
-  res3 <- d %>%
-    group_by(f1, .drop = TRUE) %>%
-    count(f2, .drop = FALSE)
-
-  expect_equal(n_groups(res), 1L)
-  expect_identical(res, res2)
-  expect_equal(n_groups(res3), 3L)
-  expect_equal(nrow(res3), 9L)
-})
-
-test_that("add_count() respects .drop",  {
-  d <- tibble(
-    f1 = factor("b", levels = c("a", "b", "c")),
-    f2 = factor("g", levels = c("e", "f", "g")),
-    x  = 48
-  )
-  res1 <- d %>% group_by(f1) %>% add_count(f2, .drop = FALSE)
-  res2 <- d %>% group_by(f1) %>% add_count(f2, .drop = TRUE)
-  res3 <- d %>% group_by(f1) %>% add_count(f2)
-
-  expect_identical(res2, res3)
-  expect_equal(n_groups(res2), 1)
-  expect_equal(n_groups(res1), 3)
-})
-

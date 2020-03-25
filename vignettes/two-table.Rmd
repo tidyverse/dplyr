@@ -11,9 +11,6 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 5)
 library(dplyr)
-knit_print.tbl_df <- function(x, options) {
-  knitr::knit_print(trunc_mat(x), options)
-}
 ```
 
 It's rare that a data analysis involves only a single table of data. In practice, you'll normally have many tables that contribute to an analysis, and you need flexible tools to combine them. In dplyr, there are three families of verbs that work with two tables at a time:
@@ -183,56 +180,6 @@ intersect(df1, df2)
 union(df1, df2)
 setdiff(df1, df2)
 setdiff(df2, df1)
-```
-
-
-## Coercion rules
-
-When joining tables, dplyr is a little more conservative than base R about the types of variable that it considers equivalent. This is mostly likely to surprise if you're working factors:
-
-  * Factors with different levels are coerced to character with a warning:
-    
-    ```{r}
-    df1 <- tibble(x = 1, y = factor("a"))
-    df2 <- tibble(x = 2, y = factor("b"))
-    full_join(df1, df2) %>% str()
-    ```
-
-  * Factors with the same levels in a different order are coerced to character 
-    with a warning:
-  
-    ```{r}
-    df1 <- tibble(x = 1, y = factor("a", levels = c("a", "b")))
-    df2 <- tibble(x = 2, y = factor("b", levels = c("b", "a")))
-    full_join(df1, df2) %>% str()
-    ```
-
-  * Factors are preserved only if the levels match exactly:
-    
-    ```{r}
-    df1 <- tibble(x = 1, y = factor("a", levels = c("a", "b")))
-    df2 <- tibble(x = 2, y = factor("b", levels = c("a", "b")))
-    full_join(df1, df2) %>% str()
-    ```    
-
-  * A factor and a character are coerced to character with a warning:
-    
-    ```{r}
-    df1 <- tibble(x = 1, y = "a")
-    df2 <- tibble(x = 2, y = factor("a"))
-    full_join(df1, df2) %>% str()
-    ```
-    
-Otherwise logicals will be silently upcast to integer, and integer to numeric, but coercing to character will raise an error:
-
-```{r, error = TRUE, purl = FALSE}
-df1 <- tibble(x = 1, y = 1L)
-df2 <- tibble(x = 2, y = 1.5)
-full_join(df1, df2) %>% str()
-
-df1 <- tibble(x = 1, y = 1L)
-df2 <- tibble(x = 2, y = "a")
-full_join(df1, df2) %>% str()
 ```
 
 ## Multiple-table verbs

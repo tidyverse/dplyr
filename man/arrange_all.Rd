@@ -34,6 +34,11 @@ returns \code{TRUE} are selected. This argument is passed to
 functions and strings representing function names.}
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+
+Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
+\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+
 These \link{scoped} variants of \code{\link[=arrange]{arrange()}} sort a data frame by a
 selection of variables. Like \code{\link[=arrange]{arrange()}}, you can modify the
 variables before ordering with the \code{.funs} argument.
@@ -47,12 +52,11 @@ in the sorting of the data frame.
 
 \examples{
 df <- as_tibble(mtcars)
-df
 arrange_all(df)
+# ->
+arrange(df, across())
 
-# You can supply a function that will be applied before taking the
-# ordering of the variables. The variables of the sorted tibble
-# keep their original values.
 arrange_all(df, desc)
-arrange_all(df, list(~desc(.)))
+# ->
+arrange(df, across(everything(), desc))
 }

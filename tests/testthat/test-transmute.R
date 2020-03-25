@@ -5,13 +5,27 @@ test_that("non-syntactic grouping variable is preserved (#1138)", {
   expect_named(df, "a b")
 })
 
+test_that("transmute preserves grouping", {
+  gf <- group_by(tibble(x = 1:2, y = 2), x)
+
+  i <- count_regroups(out <- transmute(gf, x = 1))
+  expect_equal(i, 1L)
+  expect_equal(group_vars(out), "x")
+  expect_equal(nrow(group_data(out)), 1)
+
+  i <- count_regroups(out <- transmute(gf, z = 1))
+  expect_equal(i, 0)
+  expect_equal(group_data(out), group_data(gf))
+})
 
 # Empty transmutes -------------------------------------------------
 
-test_that("transmute with no args returns nothing", {
-  empty <- transmute(mtcars)
-  expect_equal(ncol(empty), 0)
-  expect_equal(nrow(empty), 32)
+test_that("transmute with no args returns grouping vars", {
+  df <- tibble(x = 1, y = 2)
+  gf <- group_by(df, x)
+
+  expect_equal(df %>% transmute(), df[integer()])
+  expect_equal(gf %>% transmute(), gf[1L])
 })
 
 # transmute variables -----------------------------------------------
@@ -44,4 +58,11 @@ test_that("can transmute() with .data pronoun (#2715)", {
 test_that("transmute() does not warn when a variable is removed with = NULL (#4609)", {
   df <- data.frame(x=1)
   expect_warning(transmute(df, y =x+1, z=y*2, y = NULL), NA)
+})
+
+test_that("transmute() can handle auto splicing", {
+  expect_equal(
+    iris %>% transmute(tibble(Sepal.Length, Sepal.Width)),
+    iris %>% select(Sepal.Length, Sepal.Width)
+  )
 })

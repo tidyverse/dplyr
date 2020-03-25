@@ -2,47 +2,57 @@
 % Please edit documentation in R/lead-lag.R
 \name{lead-lag}
 \alias{lead-lag}
-\alias{lead}
 \alias{lag}
-\title{Lead and lag.}
+\alias{lead}
+\title{Compute lagged or leading values}
 \usage{
-lead(x, n = 1L, default = NA, order_by = NULL, ...)
-
 lag(x, n = 1L, default = NA, order_by = NULL, ...)
+
+lead(x, n = 1L, default = NA, order_by = NULL, ...)
 }
 \arguments{
-\item{x}{a vector of values}
+\item{x}{Vector of values}
 
-\item{n}{a positive integer of length 1, giving the number of positions to
+\item{n}{Positive integer of length 1, giving the number of positions to
 lead or lag by}
 
-\item{default}{value used for non-existent rows. Defaults to \code{NA}.}
+\item{default}{Value used for non-existent rows. Defaults to \code{NA}.}
 
-\item{order_by}{override the default ordering to use another vector}
+\item{order_by}{Override the default ordering to use another vector or column}
 
 \item{...}{Needed for compatibility with lag generic.}
 }
 \description{
-Find the "next" or "previous" values in a vector. Useful for comparing values
-ahead of or behind the current values.
+Find the "previous" (\code{lag()}) or "next" (\code{lead()}) values in a vector.
+Useful for comparing values behind of or ahead of the current values.
 }
 \examples{
-lead(1:10, 1)
-lead(1:10, 2)
+lag(1:5)
+lead(1:5)
 
-lag(1:10, 1)
-lead(1:10, 1)
+x <- 1:5
+tibble(behind = lag(x), x, ahead = lead(x))
 
-x <- runif(5)
-cbind(ahead = lead(x), x, behind = lag(x))
+# If you want to look more rows behind or ahead, use `n`
+lag(1:5, n = 1)
+lag(1:5, n = 2)
 
-# Use order_by if data not already ordered
-df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
-scrambled <- df[sample(nrow(df)), ]
+lead(1:5, n = 1)
+lead(1:5, n = 2)
 
-wrong <- mutate(scrambled, prev = lag(value))
+# If you want to define a value for non-existing rows, use `default`
+lag(1:5)
+lag(1:5, default = 0)
+
+lead(1:5)
+lead(1:5, default = 6)
+
+# If data are not already ordered, use `order_by`
+scrambled <- slice_sample(tibble(year = 2000:2005, value = (0:5) ^ 2), prop = 1)
+
+wrong <- mutate(scrambled, previous_year_value = lag(value))
 arrange(wrong, year)
 
-right <- mutate(scrambled, prev = lag(value, order_by = year))
+right <- mutate(scrambled, previous_year_value = lag(value, order_by = year))
 arrange(right, year)
 }

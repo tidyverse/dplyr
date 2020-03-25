@@ -21,10 +21,9 @@ The first columns are the grouping variables, followed by a list column of tibbl
 with matching rows of the remaining columns.
 }
 \description{
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+
 Nest a tibble using a grouping specification
-}
-\details{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
 }
 \section{Grouped data frames}{
 
@@ -58,20 +57,13 @@ iris \%>\%
 #                  a grouping specification that uses the data mask
 starwars \%>\%
   group_nest(species, homeworld)
-
-
 }
 \seealso{
 Other grouping functions: 
-\code{\link{group_by_all}()},
 \code{\link{group_by}()},
-\code{\link{group_indices}()},
-\code{\link{group_keys}()},
 \code{\link{group_map}()},
-\code{\link{group_rows}()},
-\code{\link{group_size}()},
-\code{\link{group_trim}()},
-\code{\link{groups}()}
+\code{\link{group_split}()},
+\code{\link{group_trim}()}
 }
 \concept{grouping functions}
 \keyword{internal}
