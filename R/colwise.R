@@ -193,10 +193,10 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   if (is_logical(.p)) {
     if (length(.p) != length(tibble_vars)) {
       abort(c(
-        "`.p` is invalid",
-        x = "`.p` should have the same size as the number of variables in the tibble",
-        i = glue("`.p` is size {length(.p)}"),
-        i = glue("The tibble has {length(tibble_vars)} columns, {including} the grouping variables", including = if (.include_group_vars) "including" else "non including")
+        "`.p` is invalid.",
+        x = "`.p` should have the same size as the number of variables in the tibble.",
+        i = glue("`.p` is size {length(.p)}."),
+        i = glue("The tibble has {length(tibble_vars)} columns, {including} the grouping variables.", including = if (.include_group_vars) "including" else "non including")
       ))
     }
     return(syms(tibble_vars[.p]))
@@ -222,8 +222,17 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   for (i in seq_len(n)) {
     column <- pull(.tbl, tibble_vars[[i]])
     cond <- eval_tidy(.p(column, ...))
-    if (!is.logical(cond) || length(cond) != 1) 
-        abort("Provided predicate function does not return a single logical")
+    if (!is.logical(cond) || length(cond) != 1) {
+      abort(c(
+        "`.p` is invalid.",
+        x = "`.p` should return a single logical.",
+        i = if(is.logical(cond)) {
+          glue("`.p` returns a size {length(cond)} <logical> for column `{tibble_vars[[i]]}`.")
+        } else {
+          glue("`.p` returns a <{vec_ptype_full(cond)}> for column `{tibble_vars[[i]]}`.")
+        }
+      ))
+    }
     selected[[i]] <- isTRUE(cond)
   }
 
