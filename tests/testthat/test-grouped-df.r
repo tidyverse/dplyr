@@ -110,6 +110,71 @@ test_that("group order is maintained in grouped-df methods (#5040)", {
   expect_identical(group_vars(x), group_vars(group_by(x, cyl, am2, vs)))
 })
 
+
+# validate ----------------------------------------------------------------
+
+test_that("validate_grouped_df() gives useful errors", {
+  df1 <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
+  groups <- attr(df1, "groups")
+  groups[[2]] <- 1:2
+  attr(df1, "groups") <- groups
+
+  df2 <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
+  groups <- attr(df2, "groups")
+  names(groups) <- c("g", "not.rows")
+  attr(df2, "groups") <- groups
+
+  df3 <- df2
+  attr(df3, "groups") <- tibble()
+
+  df4 <- df3
+  attr(df4, "groups") <- NA
+
+  df5 <- tibble(x = 1:4, g = rep(1:2, each = 2))
+  attr(df5, "vars") <- "g"
+  attr(df5, "class") <- c("grouped_df", "tbl_df", "tbl", "data.frame")
+
+  df6 <- new_grouped_df(
+    tibble(x = 1:10),
+    groups = tibble(".rows" := list(1:5, -1L))
+  )
+  df7 <- df6
+  attr(df7, "groups")$.rows <- list(11L)
+
+  df8 <- df6
+  attr(df8, "groups")$.rows <- list(0L)
+
+  df10 <- df6
+  attr(df10, "groups") <- tibble()
+
+  df11 <- df6
+  attr(df11, "groups") <- NULL
+
+  verify_output(test_path("test-grouped-df-validate.txt"), {
+    "# Invalid `groups` attribute"
+    validate_grouped_df(df1)
+    validate_grouped_df(df2)
+    validate_grouped_df(df3)
+    validate_grouped_df(df4)
+
+    "# Older style grouped_df"
+    validate_grouped_df(df5)
+
+    "# validate_grouped_df()"
+    validate_grouped_df(df6, check_bounds = TRUE)
+    validate_grouped_df(df7, check_bounds = TRUE)
+    validate_grouped_df(df8, check_bounds = TRUE)
+    validate_grouped_df(df10)
+    validate_grouped_df(df11)
+
+    "# new_grouped_df()"
+    new_grouped_df(
+      tibble(x = 1:10),
+      tibble(other = list(1:2))
+    )
+  })
+})
+
 # compute_group ----------------------------------------------------------
 
 test_that("helper gives meaningful error messages", {

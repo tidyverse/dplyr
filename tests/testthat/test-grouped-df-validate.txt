@@ -2,16 +2,16 @@
 Invalid `groups` attribute
 ==========================
 
-> group_data(df1)
+> validate_grouped_df(df1)
 Error: The `groups` attribute is not a data frame with its last column called `.rows`
 
-> group_data(df2)
+> validate_grouped_df(df2)
 Error: The `groups` attribute is not a data frame with its last column called `.rows`
 
-> group_data(df3)
+> validate_grouped_df(df3)
 Error: The `groups` attribute is not a data frame with its last column called `.rows`
 
-> group_data(df4)
+> validate_grouped_df(df4)
 Error: The `groups` attribute is not a data frame with its last column called `.rows`
 
 
@@ -19,7 +19,8 @@ Older style grouped_df
 ======================
 
 > validate_grouped_df(df5)
-Error: Corrupt grouped_df data using the old format
+Error: Corrupt `grouped_df` using old (< 0.8.0) format
+i Strip off old grouping with `ungroup()`
 
 
 new_grouped_df()
