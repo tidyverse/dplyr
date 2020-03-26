@@ -44,8 +44,8 @@ with matching rows of the remaining columns.
 
 \code{nest_by()} is closely related to \code{\link[=group_by]{group_by()}}. However, instead of storing
 the group structure in the metadata, it makes it explicit in the data,
-giving each group key a single row with a list-column data frames that
-contains all the other data.
+giving each group key a single row with a list-column of data frames that
+contain all the other data.
 }
 \section{Methods}{
 
