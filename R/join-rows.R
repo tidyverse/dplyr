@@ -6,8 +6,9 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
   tryCatch(
     matches <- vec_match(x_key, y_split$key, na_equal = na_equal),
     vctrs_error_incompatible_type = function(cnd) {
-      x_name <- sub("^needles[$]", "", cnd$x_arg)
-      y_name <- sub("^haystack[$]", "", cnd$y_arg)
+      rx <- "^[^$]+[$]"
+      x_name <- sub(rx, "", cnd$x_arg)
+      y_name <- sub(rx, "", cnd$y_arg)
 
       abort(c(
         glue("Can't join on `x${x_name}` x `y${y_name}` because of incompatible types. "),
