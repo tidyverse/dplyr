@@ -325,6 +325,9 @@
   it prevents you from creating a new grouping var called `add` and
   it violates our naming conventions (#4137).
 
+* `intersect()`, `union()`, `setdiff()` and `setequal()` generics are now
+  imported from the generics package. This reduces a conflict with lubridate.
+
 * `order_by()` gives an informative hint if you accidentally call it instead
   of `arrange()` #3357.
 
