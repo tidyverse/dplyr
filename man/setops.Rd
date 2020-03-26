@@ -2,22 +2,10 @@
 % Please edit documentation in R/sets.r
 \name{setops}
 \alias{setops}
-\alias{intersect}
-\alias{union}
 \alias{union_all}
-\alias{setdiff}
-\alias{setequal}
 \title{Set operations}
 \usage{
-intersect(x, y, ...)
-
-union(x, y, ...)
-
 union_all(x, y, ...)
-
-setdiff(x, y, ...)
-
-setequal(x, y, ...)
 }
 \arguments{
 \item{x, y}{objects to perform set function on (ignoring order)}

@@ -53,8 +53,8 @@ n <- function() {
 #' @export
 cur_data <- function() {
   mask <- peek_mask("cur_data()")
-  data <- mask$full_data()
-  mask$pick(setdiff(names(data), group_vars(data)))
+  vars <- mask$current_non_group_vars()
+  mask$pick(vars)
 }
 
 #' @rdname context
@@ -107,8 +107,11 @@ context_poke <- function(name, value) {
   context_env[[name]] <- value
   old
 }
+context_peek_bare <- function(name) {
+  context_env[[name]]
+}
 context_peek <- function(name, fun, location = "dplyr verbs") {
-  context_env[[name]] %||%
+  context_peek_bare(name) %||%
     abort(glue("{fun} must only be used inside {location}"))
 }
 context_local <- function(name, value, frame = caller_env()) {

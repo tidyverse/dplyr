@@ -6,7 +6,9 @@
 \alias{band_instruments}
 \alias{band_instruments2}
 \title{Band membership}
-\format{Each is a tibble with two variables and three observations}
+\format{
+Each is a tibble with two variables and three observations
+}
 \usage{
 band_members
 

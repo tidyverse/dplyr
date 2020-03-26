@@ -161,9 +161,10 @@ mutate <- function(.data, ...) {
 #'   * `"unused"` keeps only existing variables **not** used to make new
 #'     variables.
 #'   * `"none"`, only keeps grouping keys (like [transmute()]).
-#' @param .before,.after <[`tidy-select`][dplyr_tidy_select]> Optionally,
-#'   control where new columns should appear (the default is to add to the
-#'   right hand side). See [relocate()] for more details.
+#' @param .before,.after \Sexpr[results=rd]{lifecycle::badge("experimental")}
+#'   <[`tidy-select`][dplyr_tidy_select]> Optionally, control where new columns
+#'   should appear (the default is to add to the right hand side). See
+#'   [relocate()] for more details.
 #' @export
 mutate.data.frame <- function(.data, ...,
                               .keep = c("all", "used", "unused", "none"),
@@ -230,12 +231,39 @@ mutate_cols <- function(.data, ...) {
 
   tryCatch({
     for (i in seq_along(dots)) {
+      not_named <- (is.null(dots_names) || dots_names[i] == "")
+
       # a list in which each element is the result of
       # evaluating the quosure in the "sliced data mask"
       # recycling it appropriately to match the group size
       #
       # TODO: reinject hybrid evaluation at the R level
-      chunks <- mask$eval_all_mutate(dots[[i]])
+      chunks <- NULL
+
+      # result after unchopping the chunks
+      result <- NULL
+
+      if (quo_is_symbol(dots[[i]]) ){
+        name <- as_string(quo_get_expr(dots[[i]]))
+
+        if (name %in% names(new_columns)) {
+          # already have result and chunks
+          result <- new_columns[[name]]
+          chunks <- mask$get_resolved(name)
+        } else if (name %in% names(.data)) {
+          # already have result but need to chop() and remember
+          result <- .data[[name]]
+          chunks <- vec_chop(result, rows)
+          mask$set(name, chunks)
+        }
+      }
+
+      # evaluluate the chunks if needed
+      if (is.null(chunks)) {
+        chunks <- mask$eval_all_mutate(dots[[i]])
+      }
+
+      mask$across_cache_reset()
 
       if (is.null(chunks)) {
         if (!is.null(dots_names) && dots_names[i] != "") {
@@ -247,9 +275,11 @@ mutate_cols <- function(.data, ...) {
         next
       }
 
-      result <- vec_unchop(chunks, rows)
+      # only unchop if needed
+      if (is.null(result)) {
+        result <- vec_unchop(chunks, rows)
+      }
 
-      not_named <- (is.null(dots_names) || dots_names[i] == "")
       if (not_named && is.data.frame(result)) {
         new_columns[names(result)] <- result
 
@@ -266,6 +296,7 @@ mutate_cols <- function(.data, ...) {
         # remember
         mask$add(name, chunks)
       }
+
 
     }
 

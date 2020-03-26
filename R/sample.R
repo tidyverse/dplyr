@@ -1,13 +1,13 @@
 #' Sample n rows from a table
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
-#' `sample_n()` and `sample_frac()` have been retired in favour of
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#' `sample_n()` and `sample_frac()` have been superseded in favour of
 #' [slice_sample()]. While they will not be deprecated in the near future,
 #' retirement means that we will only perform critical bug fixes, so we recommend
 #' moving to the newer alternative.
 #'
-#' These functions were retired because we realised it was more convenient to
+#' These functions were superseded because we realised it was more convenient to
 #' have two mutually exclusive arguments to one function, rather than two
 #' separate functions. This also made it to clean up a few other smaller
 #' design issues with `sample_n()`/`sample_frac`:
@@ -64,6 +64,7 @@
 #'
 #' @export
 sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...) {
+  lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
   UseMethod("sample_n")
 }
 
@@ -89,6 +90,7 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
 #' @rdname sample_n
 #' @export
 sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL, ...) {
+  lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
   UseMethod("sample_frac")
 }
 

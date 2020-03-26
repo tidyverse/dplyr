@@ -15,9 +15,9 @@ use \code{.} to refer to the current group. You can not mix named and
 unnamed arguments.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 
-\code{do()} is deprecated as of dplyr 1.0.0, because its syntax never really
+\code{do()} is superseded as of dplyr 1.0.0, because its syntax never really
 felt like it belong with the rest of dplyr. It's replaced by a combination
 of \code{\link[=summarise]{summarise()}} (which can now produce multiple rows and multiple columns),
 \code{\link[=nest_by]{nest_by()}} (which creates a \link{rowwise} tibble of nested data),

@@ -58,6 +58,14 @@ test_that("cur_group_rows() retrieves row position in original data", {
   )
 })
 
+test_that("cur_data() works sequentially", {
+  df <- tibble(a = 1)
+  expect_equal(
+    mutate(df, x = ncol(cur_data()), y = ncol(cur_data())),
+    tibble(a = 1, x = 1, y = 2)
+  )
+})
+
 test_that("give useful error messages when not applicable", {
   verify_output(test_path("test-context-error.txt"), {
     n()

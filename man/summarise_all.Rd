@@ -48,7 +48,7 @@ names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 
 Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
 \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.

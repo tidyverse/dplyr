@@ -6,7 +6,7 @@
 \alias{is_grouped_df}
 \title{A grouped data frame.}
 \usage{
-grouped_df(data, vars, drop = FALSE)
+grouped_df(data, vars, drop = group_by_drop_default(data))
 
 is.grouped_df(x)
 

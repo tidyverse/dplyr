@@ -75,7 +75,7 @@ dplyr_row_slice.grouped_df <- function(data, i, ..., preserve = FALSE) {
   new_id <- vec_slice(group_indices(data), i)
   new_grps <- vec_group_loc(new_id)
 
-  rows <- rep(list_of(integer()), length = nrow(groups))
+  rows <- rep(list_of(integer()), length.out = nrow(groups))
   rows[new_grps$key] <- new_grps$loc
   groups$.rows <- rows
   if (!preserve && isTRUE(attr(groups, ".drop"))) {
@@ -102,8 +102,29 @@ dplyr_col_modify <- function(data, cols) {
 
 #' @export
 dplyr_col_modify.data.frame <- function(data, cols) {
-  data[names(cols)] <- cols
-  data
+  # Implement from first principles to avoiding edge cases in [.data.frame
+  # and [.tibble in 2.1.3 and earlier
+
+  # Apply tidyverse recycling rules
+  cols <- vec_recycle_common(!!!cols, .size = nrow(data))
+
+  out <- vec_data(data)
+
+  nms <- as_utf8_character(names2(cols))
+  names(out) <- as_utf8_character(names2(out))
+
+  for (i in seq_along(cols)) {
+    nm <- nms[[i]]
+    out[[nm]] <- cols[[i]]
+  }
+
+  # Restore attributes (apart from names)
+  attr <- attributes(data)
+  attr$names <- names(out)
+  attr$row.names <- .row_names_info(data, 0L)
+  attributes(out) <- attr
+
+  out
 }
 
 #' @export

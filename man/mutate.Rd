@@ -47,9 +47,10 @@ variables.
 \item \code{"none"}, only keeps grouping keys (like \code{\link[=transmute]{transmute()}}).
 }}
 
-\item{.before, .after}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally,
-control where new columns should appear (the default is to add to the
-right hand side). See \code{\link[=relocate]{relocate()}} for more details.}
+\item{.before, .after}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
+<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, control where new columns
+should appear (the default is to add to the right hand side). See
+\code{\link[=relocate]{relocate()}} for more details.}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following

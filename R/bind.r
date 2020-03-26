@@ -81,7 +81,7 @@ bind_rows <- function(..., .id = NULL) {
   dots <- list2(...)
 
   # bind_rows() has weird legacy squashing behaviour
-  is_flattenable <- function(x) is.list(x) && !is_named(x) && !is.data.frame(x)
+  is_flattenable <- function(x) vec_is_list(x) && !is_named(x)
   if (length(dots) == 1 && is_bare_list(dots[[1]])) {
     dots <- dots[[1]]
   }
@@ -129,8 +129,7 @@ bind_rows <- function(..., .id = NULL) {
 bind_cols <- function(...) {
   dots <- list2(...)
 
-  is_flattenable <- function(x) is.list(x) && !is.data.frame(x)
-  dots <- squash_if(dots, is_flattenable)
+  dots <- squash_if(dots, vec_is_list)
   dots <- discard(dots, is.null)
 
   # Strip names off of data frame components so that vec_cbind() unpacks them
@@ -138,6 +137,9 @@ bind_cols <- function(...) {
   names(dots)[is_data_frame] <- ""
 
   out <- vec_cbind(!!!dots)
+  if (!any(map_lgl(dots, is.data.frame))) {
+    out <- as_tibble(out)
+  }
   if (length(dots) && is_tibble(first <- dots[[1L]])) {
     out <- dplyr_reconstruct(out, first)
   }

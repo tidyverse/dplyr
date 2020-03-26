@@ -1,0 +1,8 @@
+> src_sqlite(":memory:")
+Warning: `src_sqlite()` is deprecated as of dplyr 1.0.0.
+Please use `tbl()` directly with a database connection
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_warnings()` to see where this warning was generated.
+
+Error: `path` must already exist, unless `create` = TRUE
+

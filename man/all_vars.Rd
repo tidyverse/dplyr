@@ -14,7 +14,7 @@ any_vars(expr)
 returns a logical vector, using \code{.} to refer to the "current" variable.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 
 \code{all_vars()} and \code{any_vars()} were only needed for the scoped verbs, which
 have been superseded by the use of \code{\link[=across]{across()}} in an existing verb. See

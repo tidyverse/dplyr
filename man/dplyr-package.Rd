@@ -4,46 +4,11 @@
 \name{dplyr-package}
 \alias{dplyr}
 \alias{dplyr-package}
-\title{dplyr: a grammar of data manipulation}
+\title{dplyr: A Grammar of Data Manipulation}
 \description{
-dplyr provides a flexible grammar of data manipulation. It's the next
-iteration of plyr, focused on tools for working with data frames (hence the
-\emph{d} in the name).
-}
-\details{
-It has three main goals:
-
-\itemize{
-\item Identify the most important data manipulation verbs and make them
-easy to use from R.
-\item Provide blazing fast performance for in-memory data by writing key
-pieces in C++
-\item Use the same interface to work with data no matter where it's stored,
-whether in a data frame, a data table or database.
-}
-
 To learn more about dplyr, start with the vignettes:
 \code{browseVignettes(package = "dplyr")}
 }
-\section{Package options}{
-
-\describe{
-\item{\code{dplyr.show_progress}}{Should lengthy operations such as \code{do()}
-show a progress bar? Default: \code{TRUE}}
-}
-}
-
-\section{Package configurations}{
-
-These can be set on a package-by-package basis, or for the global environment.
-See \code{\link[pkgconfig:set_config]{pkgconfig::set_config()}} for usage.
-\itemize{
-\item \code{dplyr::na_matches}: Should \code{NA} values be matched in data frame joins
-by default? Default: \code{"na"}. Alternative value: \code{"never"}.
-See \link{join.data.frame} for details.
-}
-}
-
 \seealso{
 Useful links:
 \itemize{

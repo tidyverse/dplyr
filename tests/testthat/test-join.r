@@ -120,10 +120,20 @@ test_that("joins matches NAs by default (#892, #2033)", {
 })
 
 test_that("joins don't match NA when na_matches = 'never' (#2033)", {
-  df1 <- tibble(a = NA)
-  df2 <- tibble(a = NA, b = 1:3)
-  skip("until https://github.com/r-lib/vctrs/issues/807")
-  expect_warning(left_join(df1, df2, by = "a", na_matches = "never"))
+  df1 <- tibble(a = c(1, NA))
+  df2 <- tibble(a = c(1, NA), b = 1:2)
+
+  out <- left_join(df1, df2, by = "a", na_matches = "never")
+  expect_equal(out, tibble(a = c(1, NA), b = c(1, NA)))
+
+  out <- inner_join(df1, df2, by = "a", na_matches = "never")
+  expect_equal(out, tibble(a = 1, b = 1))
+
+  out <- semi_join(df1, df2, by = "a", na_matches = "never")
+  expect_equal(out, tibble(a = 1))
+
+  out <- anti_join(df1, df2, by = "a", na_matches = "never")
+  expect_equal(out, tibble(a = NA_integer_))
 })
 
 # nest_join ---------------------------------------------------------------
@@ -133,6 +143,7 @@ test_that("nest_join returns list of tibbles (#3570)",{
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
   out <- nest_join(df1, df2, by = "x")
 
+  expect_named(out, c("x", "y", "df2"))
   expect_type(out$df2, "list")
   expect_s3_class(out$df2[[1]], "tbl_df")
 })
@@ -149,6 +160,7 @@ test_that("y keys dropped by default", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
   out <- nest_join(df1, df2, by = "x")
+  expect_named(out, c("x", "y", "df2"))
   expect_named(out$df2[[1]], "z")
 
   out <- nest_join(df1, df2, by = "x", keep = TRUE)
@@ -177,8 +189,9 @@ test_that("joins preserve groups", {
   expect_equal(i, 0L)
   expect_equal(group_vars(out), "a")
 
+  # See comment in nest_join
   i <- count_regroups(out <- nest_join(gf1, gf2, by = "a"))
-  expect_equal(i, 0L)
+  expect_equal(i, 1L)
   expect_equal(group_vars(out), "a")
 })
 

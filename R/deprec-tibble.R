@@ -39,7 +39,7 @@ as.tbl.data.frame <- function(x, ...) {
 #' @keywords internal
 #' @export
 add_rownames <- function(df, var = "rowname") {
-  lifecycle::deprecate_warn("1.0.0", "tbl_df()", "tibble::rownames_to_column()")
+  lifecycle::deprecate_warn("1.0.0", "add_rownames()", "tibble::rownames_to_column()")
 
   abort_if_not(is.data.frame(df))
 

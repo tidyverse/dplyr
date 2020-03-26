@@ -4,7 +4,8 @@
 \name{starwars}
 \alias{starwars}
 \title{Starwars characters}
-\format{A tibble with 87 rows and 13 variables:
+\format{
+A tibble with 87 rows and 13 variables:
 \describe{
 \item{name}{Name of the character}
 \item{height}{Height (cm)}
@@ -18,7 +19,8 @@
 \item{films}{List of films the character appeared in}
 \item{vehicles}{List of vehicles the character has piloted}
 \item{starships}{List of starships the character has piloted}
-}}
+}
+}
 \usage{
 starwars
 }

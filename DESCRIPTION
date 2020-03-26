@@ -1,7 +1,7 @@
 Type: Package
 Package: dplyr
 Title: A Grammar of Data Manipulation
-Version: 0.8.99.9000
+Version: 0.8.99.9002
 Authors@R: 
     c(person(given = "Hadley",
              family = "Wickham",
@@ -31,17 +31,17 @@ Depends:
     R (>= 3.2.0)
 Imports: 
     ellipsis,
-    glue (>= 1.3.0),
-    lifecycle,
+    generics,
+    glue (>= 1.3.2),
+    lifecycle (>= 0.2.0),
     magrittr (>= 1.5),
     methods,
-    pkgconfig,
     R6,
-    rlang (>= 0.4.5),
-    tibble (>= 2.99.99.9014),
+    rlang (>= 0.4.5.9000),
+    tibble (>= 2.1.3),
     tidyselect (>= 1.0.0),
     utils,
-    vctrs (>= 0.2.99.9005)
+    vctrs (>= 0.2.99.9010)
 Suggests: 
     bench,
     broom,
@@ -52,6 +52,7 @@ Suggests:
     knitr,
     Lahman,
     lobstr,
+    microbenchmark,
     nycflights13,
     purrr,
     rmarkdown,
@@ -62,11 +63,10 @@ Suggests:
     withr
 VignetteBuilder: 
     knitr
-Remotes:
-    r-lib/bench,
-    r-lib/vctrs,
-    tidyverse/tibble
 Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
+Remotes:
+    r-lib/rlang, 
+    r-lib/vctrs

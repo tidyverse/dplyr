@@ -6,6 +6,9 @@ test_that("empty mutate returns input", {
 
   expect_equal(mutate(df), df)
   expect_equal(mutate(gf), gf)
+
+  expect_equal(mutate(df, !!!list()), df)
+  expect_equal(mutate(gf, !!!list()), gf)
 })
 
 test_that("mutations applied progressively", {
@@ -13,6 +16,12 @@ test_that("mutations applied progressively", {
   expect_equal(df %>% mutate(y = x + 1, z = y + 1), tibble(x = 1, y = 2, z = 3))
   expect_equal(df %>% mutate(x = x + 1, x = x + 1), tibble(x = 3))
   expect_equal(df %>% mutate(x = 2, y = x), tibble(x = 2, y = 2))
+
+  df <- data.frame(x = 1, y = 2)
+  expect_equal(
+    df %>% mutate(x2 = x, x3 = x2 + 1),
+    df %>% mutate(x2 = x + 0, x3 = x2 + 1)
+  )
 })
 
 test_that("length-1 vectors are recycled (#152)", {
@@ -32,6 +41,12 @@ test_that("can remove variables with NULL (#462)", {
   expect_equal(df %>% mutate(z = NULL), df)
   # or was just created
   expect_equal(df %>% mutate(z = 1, z = NULL), df)
+
+  # regression test for https://github.com/tidyverse/dplyr/issues/4974
+  expect_equal(
+    mutate(data.frame(x = 1, y = 1), z = 1, x = NULL, y = NULL),
+    data.frame(z = 1)
+  )
 })
 
 test_that("mutate() names pronouns correctly (#2686)", {
@@ -61,7 +76,24 @@ test_that("can mutate a data frame with zero columns and `NULL` column names", {
   expect_equal(mutate(df, x = 1), data.frame(x = c(1, 1)))
 })
 
+test_that("mutate() handles symbol expressions", {
+  df <- tibble(x = structure(1, class = "alien"))
+  res <- mutate(df, y = x)
+  expect_identical(df$x, res$y)
+
+  gf <- group_by(df, x)
+  res <- mutate(df, y = x)
+  expect_identical(df$x, res$y)
+})
+
 # column types ------------------------------------------------------------
+
+test_that("glue() is supported", {
+  expect_equal(
+    tibble(x = 1) %>% mutate(y = glue("")),
+    tibble(x = 1, y = glue(""))
+  )
+})
 
 test_that("mutate disambiguates NA and NaN (#1448)", {
   df <- tibble(x = c(1, NA, NaN))
@@ -127,7 +159,7 @@ test_that("mutate preserves grouping", {
 })
 
 test_that("mutate works on zero-row grouped data frame (#596)", {
-  dat <- data.frame(a = numeric(0), b = character(0))
+  dat <- data.frame(a = numeric(0), b = character(0), stringsAsFactors = TRUE)
   res <- dat %>% group_by(b, .drop = FALSE) %>% mutate(a2 = a * 2)
   expect_is(res$a2, "numeric")
   expect_is(res, "grouped_df")
@@ -209,7 +241,7 @@ test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
     names(df) <- c("a", enc2native("\u4e2d"))
 
     res <- df %>% mutate_all(as.numeric)
-    expect_equal(names(res), names(df))
+    expect_equal(names(res), as_utf8_character(names(df)))
   })
 })
 

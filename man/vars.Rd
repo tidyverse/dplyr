@@ -12,8 +12,6 @@ in mutate/summarise. You can use same specifications as in \code{\link[=select]{
 If missing, defaults to all non-grouping variables.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("retired")}
-
 \code{vars()} was only needed for the scoped verbs, which have been superseded
 by the use of \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for
 details.

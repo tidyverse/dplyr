@@ -5,7 +5,7 @@
 * Version: 1.0.4
 * Source code: https://github.com/cran/ACDm
 * Date/Publication: 2016-07-16 12:19:03
-* Number of recursive dependencies: 74
+* Number of recursive dependencies: 83
 
 Run `revdep_details(,"ACDm")` for more info
 
@@ -84,7 +84,7 @@ ERROR: compilation failed for package ‘ACDm’
 * URL: https://github.com/MGallow/ADMMsigma
 * BugReports: https://github.com/MGallow/ADMMsigma/issues
 * Date/Publication: 2018-08-02 17:10:02 UTC
-* Number of recursive dependencies: 85
+* Number of recursive dependencies: 83
 
 Run `revdep_details(,"ADMMsigma")` for more info
 
@@ -129,11 +129,11 @@ ERROR: compilation failed for package ‘ADMMsigma’
 ** package ‘ADMMsigma’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CV.cpp -o CV.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CVP.cpp -o CVP.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c Sigma.cpp -o Sigma.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c soft.cpp -o soft.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CV.cpp -o CV.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CVP.cpp -o CVP.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c Sigma.cpp -o Sigma.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/ADMMsigma/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c soft.cpp -o soft.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o ADMMsigma.so CV.o CVP.o RcppExports.o Sigma.o soft.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -148,12 +148,12 @@ ERROR: compilation failed for package ‘ADMMsigma’
 
 <details>
 
-* Version: 1.4.3.60
+* Version: 1.4.3.65
 * Source code: https://github.com/cran/airGR
 * URL: https://hydrogr.github.io/airGR/
 * BugReports: https://gitlab.irstea.fr/HYCAR-Hydro/airgr/issues
-* Date/Publication: 2020-01-29 09:50:06 UTC
-* Number of recursive dependencies: 70
+* Date/Publication: 2020-02-28 16:20:06 UTC
+* Number of recursive dependencies: 79
 
 Run `revdep_details(,"airGR")` for more info
 
@@ -165,11 +165,6 @@ Run `revdep_details(,"airGR")` for more info
     ```
     Installation failed.
     See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/airGR/new/airGR.Rcheck/00install.out’ for details.
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘hydroPSO’
     ```
 
 ## Installation
@@ -230,47 +225,15 @@ ERROR: compilation failed for package ‘airGR’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/airGR/old/airGR.Rcheck/airGR’
 
 ```
-# AnnotationHub
-
-<details>
-
-* Version: 2.16.1
-* Source code: https://github.com/cran/AnnotationHub
-* Date/Publication: 2019-09-04
-* Number of recursive dependencies: 137
-
-Run `revdep_details(,"AnnotationHub")` for more info
-
-</details>
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking dependencies in R code ... WARNING
-    ```
-    '::' or ':::' import not declared from: ‘ensembldb’
-    Unexported objects imported by ':::' calls:
-      ‘BiocFileCache:::.get_tbl_rid’ ‘BiocManager:::.version_bioc’
-      ‘BiocManager:::isDevel’
-      See the note in ?`:::` about the use of this operator.
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package which this enhances but not available for checking: ‘AnnotationHubData’
-    ```
-
 # annotatr
 
 <details>
 
-* Version: 1.10.0
+* Version: 1.12.1
 * Source code: https://github.com/cran/annotatr
 * BugReports: https://www.github.com/rcavalcante/annotatr/issues
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 164
+* Date/Publication: 2019-11-12
+* Number of recursive dependencies: 166
 
 Run `revdep_details(,"annotatr")` for more info
 
@@ -280,6 +243,15 @@ Run `revdep_details(,"annotatr")` for more info
 
 *   R CMD check timed out
     
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'TxDb.Ggallus.UCSC.galGal5.refGene',
+      'TxDb.Hsapiens.UCSC.hg38.knownGene',
+      'TxDb.Mmusculus.UCSC.mm10.knownGene',
+      'TxDb.Rnorvegicus.UCSC.rn5.refGene'
+    ```
 
 *   checking R code for possible problems ... NOTE
     ```
@@ -353,8 +325,8 @@ Arrow C++ libraries found via pkg-config
 PKG_CFLAGS=-DNDEBUG -I/usr/local/Cellar/apache-arrow/HEAD-1286f7a_3/include -DARROW_R_WITH_ARROW
 PKG_LIBS=-L/usr/local/Cellar/apache-arrow/HEAD-1286f7a_3/lib -larrow_dataset -lparquet -larrow
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DNDEBUG -I/usr/local/Cellar/apache-arrow/HEAD-1286f7a_3/include -DARROW_R_WITH_ARROW -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/arrow/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c array.cpp -o array.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DNDEBUG -I/usr/local/Cellar/apache-arrow/HEAD-1286f7a_3/include -DARROW_R_WITH_ARROW -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/arrow/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c array_from_vector.cpp -o array_from_vector.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DNDEBUG -I/usr/local/Cellar/apache-arrow/HEAD-1286f7a_3/include -DARROW_R_WITH_ARROW -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c array.cpp -o array.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DNDEBUG -I/usr/local/Cellar/apache-arrow/HEAD-1286f7a_3/include -DARROW_R_WITH_ARROW -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c array_from_vector.cpp -o array_from_vector.o
 array_from_vector.cpp:109:39: error: no member named 'SafeCopy' in namespace 'arrow::util'
       const auto value = arrow::util::SafeCopy<int64_t>(data[i]);
                          ~~~~~~~~~~~~~^
@@ -499,7 +471,7 @@ ERROR: compilation failed for package ‘BAS’
 * URL: https://github.com/ShanaScogin/BayesPostEst
 * BugReports: https://github.com/ShanaScogin/BayesPostEst/issues
 * Date/Publication: 2019-12-14 23:10:02 UTC
-* Number of recursive dependencies: 140
+* Number of recursive dependencies: 141
 
 Run `revdep_details(,"BayesPostEst")` for more info
 
@@ -595,11 +567,11 @@ ERROR: lazy loading failed for package ‘BayesPostEst’
 
 <details>
 
-* Version: 2.10.0
+* Version: 2.12.1
 * Source code: https://github.com/cran/BgeeDB
 * URL: https://github.com/BgeeDB/BgeeDB_R
 * BugReports: https://github.com/BgeeDB/BgeeDB_R/issues
-* Date/Publication: 2019-05-02
+* Date/Publication: 2020-03-04
 * Number of recursive dependencies: 73
 
 Run `revdep_details(,"BgeeDB")` for more info
@@ -611,13 +583,9 @@ Run `revdep_details(,"BgeeDB")` for more info
 *   R CMD check timed out
     
 
-*   checking whether package ‘BgeeDB’ can be installed ... WARNING
+*   checking DESCRIPTION meta-information ... NOTE
     ```
-    Found the following significant warnings:
-      Warning: package ‘AnnotationDbi’ was built under R version 3.6.1
-      Warning: package ‘IRanges’ was built under R version 3.6.1
-      Warning: package ‘S4Vectors’ was built under R version 3.6.1
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/BgeeDB/new/BgeeDB.Rcheck/00install.out’ for details.
+    Malformed Title field: should not end in a period.
     ```
 
 *   checking top-level files ... NOTE
@@ -648,11 +616,6 @@ Run `revdep_details(,"bigsnpr")` for more info
     ```
     Installation failed.
     See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/bigsnpr/new/bigsnpr.Rcheck/00install.out’ for details.
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘pcadapt’
     ```
 
 ## Installation
@@ -693,18 +656,18 @@ ERROR: compilation failed for package ‘bigsnpr’
 ** package ‘bigsnpr’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c assoc-bgen.cpp -o assoc-bgen.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bed-acc-xptr.cpp -o bed-acc-xptr.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bed-fun.cpp -o bed-fun.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c clumping-bed.cpp -o clumping-bed.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c clumping.cpp -o clumping.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c copy-subset.cpp -o copy-subset.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c corr.cpp -o corr.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c impute-simple.cpp -o impute-simple.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c multLinReg.cpp -o multLinReg.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c readbgen.cpp -o readbgen.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c readplink.cpp -o readplink.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c assoc-bgen.cpp -o assoc-bgen.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bed-acc-xptr.cpp -o bed-acc-xptr.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bed-fun.cpp -o bed-fun.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c clumping-bed.cpp -o clumping-bed.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c clumping.cpp -o clumping.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c copy-subset.cpp -o copy-subset.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c corr.cpp -o corr.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c impute-simple.cpp -o impute-simple.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c multLinReg.cpp -o multLinReg.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c readbgen.cpp -o readbgen.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING -DARMA_DONT_PRINT_CXX11_WARNING -DARMA_64BIT_WORD=1 -DSTRICT_R_HEADERS -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/bigstatsr/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/bigsnpr/rmio/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c readplink.cpp -o readplink.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o bigsnpr.so RcppExports.o assoc-bgen.o bed-acc-xptr.o bed-fun.o clumping-bed.o clumping.o copy-subset.o corr.o impute-simple.o multLinReg.o readbgen.o readplink.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -lz -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -737,13 +700,14 @@ Run `revdep_details(,"")` for more info
 
   There are binary versions available but the source versions are later:
              binary source needs_compilation
-gridGraphics  0.4-1  0.5-0             FALSE
-nnet         7.3-12 7.3-13              TRUE
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
+nloptr        1.2.1  1.2.2              TRUE
 
   Binaries will be installed
 
 
-installing the source packages ‘gridGraphics’, ‘reactome.db’
+installing the source package ‘reactome.db’
 
 
 
@@ -754,13 +718,14 @@ installing the source packages ‘gridGraphics’, ‘reactome.db’
 
   There are binary versions available but the source versions are later:
              binary source needs_compilation
-gridGraphics  0.4-1  0.5-0             FALSE
-nnet         7.3-12 7.3-13              TRUE
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
+nloptr        1.2.1  1.2.2              TRUE
 
   Binaries will be installed
 
 
-installing the source packages ‘gridGraphics’, ‘reactome.db’
+installing the source package ‘reactome.db’
 
 
 
@@ -862,7 +827,7 @@ ERROR: compilation failed for package ‘BivRec’
 ** package ‘BivRec’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BivRec/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c BivRec_init.c -o BivRec_init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c BivRec_init.c -o BivRec_init.o
 gfortran  -fPIC  -Wall -g -O2  -c bivrecur.f -o bivrecur.o
 f951: Warning: Nonconforming tab character in column 6 of line 82 [-Wtabs]
 f951: Warning: Nonconforming tab character in column 1 of line 100 [-Wtabs]
@@ -920,6 +885,104 @@ ERROR: compilation failed for package ‘BivRec’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/BivRec/old/BivRec.Rcheck/BivRec’
 
 ```
+# blorr
+
+<details>
+
+* Version: 0.2.2
+* Source code: https://github.com/cran/blorr
+* URL: URL: https://blorr.rsquaredacademy.com/, https://github.com/rsquaredacademy/blorr
+* BugReports: https://github.com/rsquaredacademy/blorr/issues
+* Date/Publication: 2020-02-03 11:40:02 UTC
+* Number of recursive dependencies: 165
+
+Run `revdep_details(,"blorr")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘blorr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/new/blorr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘blorr’ ...
+** package ‘blorr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/blorr/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/blorr/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c blr-pairs-cpp.cpp -o blr-pairs-cpp.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o blorr.so RcppExports.o blr-pairs-cpp.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/new/blorr.Rcheck/00LOCK-blorr/00new/blorr/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘blorr’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/new/blorr.Rcheck/blorr’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘blorr’ ...
+** package ‘blorr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c blr-pairs-cpp.cpp -o blr-pairs-cpp.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o blorr.so RcppExports.o blr-pairs-cpp.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/old/blorr.Rcheck/00LOCK-blorr/00new/blorr/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘blorr’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/old/blorr.Rcheck/blorr’
+
+```
+# BMSC
+
+<details>
+
+* Version: 0.2.0
+* Source code: https://github.com/cran/BMSC
+* Date/Publication: 2019-04-16 15:25:42 UTC
+* Number of recursive dependencies: 85
+
+Run `revdep_details(,"BMSC")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  6.8Mb
+      sub-directories of 1Mb or more:
+        libs   6.5Mb
+    ```
+
 # BMTME
 
 <details>
@@ -971,8 +1034,8 @@ ERROR: compilation failed for package ‘BMTME’
 ** package ‘BMTME’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BMTME/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BMTME/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BMTME/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BMTME/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c Sample_IW.cpp -o Sample_IW.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BMTME/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BMTME/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c Sample_IW.cpp -o Sample_IW.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o BMTME.so RcppExports.o Sample_IW.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -992,7 +1055,7 @@ ERROR: compilation failed for package ‘BMTME’
 * URL: https://github.com/EllaKaye/BradleyTerryScalable
 * BugReports: https://github.com/EllaKaye/BradleyTerryScalable/issues
 * Date/Publication: 2017-06-29 22:39:23 UTC
-* Number of recursive dependencies: 58
+* Number of recursive dependencies: 68
 
 Run `revdep_details(,"BradleyTerryScalable")` for more info
 
@@ -1004,11 +1067,6 @@ Run `revdep_details(,"BradleyTerryScalable")` for more info
     ```
     Installation failed.
     See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/BradleyTerryScalable/new/BradleyTerryScalable.Rcheck/00install.out’ for details.
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘Matrix.utils’
     ```
 
 ## Installation
@@ -1041,10 +1099,10 @@ ERROR: compilation failed for package ‘BradleyTerryScalable’
 ** package ‘BradleyTerryScalable’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c BT_EM_arma_SBT.cpp -o BT_EM_arma_SBT.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ILSR_arma.cpp -o ILSR_arma.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c btprob_vec.cpp -o btprob_vec.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c BT_EM_arma_SBT.cpp -o BT_EM_arma_SBT.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ILSR_arma.cpp -o ILSR_arma.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BradleyTerryScalable/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c btprob_vec.cpp -o btprob_vec.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o BradleyTerryScalable.so BT_EM_arma_SBT.o ILSR_arma.o RcppExports.o btprob_vec.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -1064,7 +1122,7 @@ ERROR: compilation failed for package ‘BradleyTerryScalable’
 * URL: https://github.com/toshi-ara/brunnermunzel
 * BugReports: https://github.com/toshi-ara/brunnermunzel/issues/
 * Date/Publication: 2020-01-08 00:50:05 UTC
-* Number of recursive dependencies: 66
+* Number of recursive dependencies: 64
 
 Run `revdep_details(,"brunnermunzel")` for more info
 
@@ -1141,7 +1199,7 @@ ERROR: compilation failed for package ‘brunnermunzel’
 * URL: https://github.com/ianjonsen/bsam
 * BugReports: https://github.com/ianjonsen/bsam/issues
 * Date/Publication: 2017-07-01 02:50:50 UTC
-* Number of recursive dependencies: 52
+* Number of recursive dependencies: 63
 
 Run `revdep_details(,"bsam")` for more info
 
@@ -1205,6 +1263,64 @@ ERROR: lazy loading failed for package ‘bsam’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/bsam/old/bsam.Rcheck/bsam’
 
 ```
+# BUSpaRse
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/BUSpaRse
+* URL: https://github.com/BUStools/BUSpaRse
+* BugReports: https://github.com/BUStools/BUSpaRse/issues
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 153
+
+Run `revdep_details(,"BUSpaRse")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘BUSpaRse’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/BUSpaRse/new/BUSpaRse.Rcheck/00install.out’ for details.
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'TENxBUSData', 'TxDb.Hsapiens.UCSC.hg38.knownGene',
+      'BSgenome.Hsapiens.UCSC.hg38'
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘BUSpaRse’ ...
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BUSpaRse/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BUSpaRse/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BUSpaRse/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BUSpaRse/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BUSpaRse/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang: error: unsupported option '-fopenmp'
+make: *** [RcppExports.o] Error 1
+ERROR: compilation failed for package ‘BUSpaRse’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/BUSpaRse/new/BUSpaRse.Rcheck/BUSpaRse’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘BUSpaRse’ ...
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BUSpaRse/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BUSpaRse/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/BUSpaRse/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang: error: unsupported option '-fopenmp'
+make: *** [RcppExports.o] Error 1
+ERROR: compilation failed for package ‘BUSpaRse’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/BUSpaRse/old/BUSpaRse.Rcheck/BUSpaRse’
+
+```
 # carat
 
 <details>
@@ -1212,7 +1328,7 @@ ERROR: lazy loading failed for package ‘bsam’
 * Version: 0.1.0
 * Source code: https://github.com/cran/carat
 * Date/Publication: 2020-01-15 10:20:02 UTC
-* Number of recursive dependencies: 44
+* Number of recursive dependencies: 55
 
 Run `revdep_details(,"carat")` for more info
 
@@ -1249,134 +1365,11 @@ ERROR: compilation failed for package ‘carat’
 ** package ‘carat’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/carat/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/carat/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c All.cpp -o All.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/carat/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c All.cpp -o All.o
 clang: error: unsupported option '-fopenmp'
 make: *** [All.o] Error 1
 ERROR: compilation failed for package ‘carat’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/carat/old/carat.Rcheck/carat’
-
-```
-# Cardinal
-
-<details>
-
-* Version: 2.2.6
-* Source code: https://github.com/cran/Cardinal
-* URL: http://www.cardinalmsi.org
-* Date/Publication: 2019-05-22
-* Number of recursive dependencies: 83
-
-Run `revdep_details(,"Cardinal")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘Cardinal’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/Cardinal/new/Cardinal.Rcheck/00install.out’ for details.
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘Cardinal’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: package ‘BiocParallel’ was built under R version 3.6.1
-      Warning: package ‘S4Vectors’ was built under R version 3.6.1
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/Cardinal/old/Cardinal.Rcheck/00install.out’ for details.
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  9.5Mb
-      sub-directories of 1Mb or more:
-        R     3.1Mb
-        doc   5.6Mb
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    group_by: no visible global function definition for
-      ‘group_by_drop_default’
-    Undefined global functions or variables:
-      group_by_drop_default
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘Cardinal’ ...
-** using staged installation
-** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c DIP.cpp -o DIP.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dynAlign.cpp -o dynAlign.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c imzML.cpp -o imzML.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c init.cpp -o init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c localMaxima.cpp -o localMaxima.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pugixml.cpp -o pugixml.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c spatial.cpp -o spatial.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c utils.cpp -o utils.o
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o Cardinal.so DIP.o dynAlign.o imzML.o init.o localMaxima.o pugixml.o spatial.o utils.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/Cardinal/new/Cardinal.Rcheck/00LOCK-Cardinal/00new/Cardinal/libs
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Warning messages:
-1: package ‘BiocParallel’ was built under R version 3.6.1 
-2: package ‘S4Vectors’ was built under R version 3.6.1 
-Creating a new generic function for ‘filter’ in package ‘Cardinal’
-Creating a new generic function for ‘arrange’ in package ‘Cardinal’
-Creating a new generic function for ‘group_by’ in package ‘Cardinal’
-Creating a new generic function for ‘slice’ in package ‘Cardinal’
-Error : in method for ‘group_by’ with signature ‘.data="DataFrame"’:  arguments (‘.add’, ‘.drop’) after ‘...’ in the generic must appear in the method, in the same place at the end of the argument list
-Error: unable to load R code in package ‘Cardinal’
-Execution halted
-ERROR: lazy loading failed for package ‘Cardinal’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/Cardinal/new/Cardinal.Rcheck/Cardinal’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘Cardinal’ ...
-** using staged installation
-** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c DIP.cpp -o DIP.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dynAlign.cpp -o dynAlign.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c imzML.cpp -o imzML.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c init.cpp -o init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c localMaxima.cpp -o localMaxima.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pugixml.cpp -o pugixml.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c spatial.cpp -o spatial.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c utils.cpp -o utils.o
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o Cardinal.so DIP.o dynAlign.o imzML.o init.o localMaxima.o pugixml.o spatial.o utils.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/Cardinal/old/Cardinal.Rcheck/00LOCK-Cardinal/00new/Cardinal/libs
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Warning messages:
-1: package ‘BiocParallel’ was built under R version 3.6.1 
-2: package ‘S4Vectors’ was built under R version 3.6.1 
-Creating a new generic function for ‘filter’ in package ‘Cardinal’
-Creating a new generic function for ‘group_by’ in package ‘Cardinal’
-Creating a new generic function for ‘slice’ in package ‘Cardinal’
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-Warning: package ‘BiocParallel’ was built under R version 3.6.1
-Warning: package ‘S4Vectors’ was built under R version 3.6.1
-** checking absolute paths in shared objects and dynamic libraries
-** testing if installed package can be loaded from final location
-Warning: package ‘BiocParallel’ was built under R version 3.6.1
-Warning: package ‘S4Vectors’ was built under R version 3.6.1
-** testing if installed package keeps a record of temporary installation path
-* DONE (Cardinal)
 
 ```
 # CaseBasedReasoning
@@ -1541,8 +1534,8 @@ ERROR: compilation failed for package ‘CaseBasedReasoning’
 ** package ‘CaseBasedReasoning’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c distanceAPI.cpp -o distanceAPI.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c distanceAPI.cpp -o distanceAPI.o
 In file included from distanceAPI.cpp:1:
 ./distanceAPI.h:134:16: warning: 'rfDepthXYDistanceAPI::calc' hides overloaded virtual function [-Woverloaded-virtual]
   virtual void calc(arma::mat& xNodeIDs, arma::mat& yNodeIDs);
@@ -1554,9 +1547,9 @@ In file included from distanceAPI.cpp:1:
 In file included from ./distanceAPI.h:5:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/RcppArmadillo.h:31:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/RcppArmadilloForward.h:26:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include/RcppCommon.h:29:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include/Rcpp/r/headers.h:67:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
 In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
 In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:3710:5: warning: destructor called on non-final 'weightedDistance' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
@@ -1614,7 +1607,7 @@ distanceAPI.cpp:124:16: note: in instantiation of function template specializati
     __data_.second().~_Tp();
                       ^
 4 warnings generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c distances.cpp -o distances.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c distances.cpp -o distances.o
 In file included from distances.cpp:4:
 ./distanceAPI.h:134:16: warning: 'rfDepthXYDistanceAPI::calc' hides overloaded virtual function [-Woverloaded-virtual]
   virtual void calc(arma::mat& xNodeIDs, arma::mat& yNodeIDs);
@@ -1623,7 +1616,7 @@ In file included from distances.cpp:4:
   virtual void calc(arma::mat& xNodeIDs);
                ^
 1 warning generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c kNN.cpp -o kNN.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c kNN.cpp -o kNN.o
 kNN.cpp:25:19: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdeprecated-declarations]
     order = arma::sort_index(tmpDist, sortDirection);
                   ^
@@ -1634,7 +1627,7 @@ arma_deprecated
     #define arma_deprecated __attribute__((__deprecated__))
                                            ^
 1 warning generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c order.cpp -o order.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c order.cpp -o order.o
 order.cpp:26:21: warning: 'sort_index<arma::subview<double> >' is deprecated [-Wdeprecated-declarations]
       order = arma::sort_index(x_.col(i), sortDirection_);
                     ^
@@ -1654,7 +1647,7 @@ arma_deprecated
     #define arma_deprecated __attribute__((__deprecated__))
                                            ^
 2 warnings generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c parallelTerminalNodeID.cpp -o parallelTerminalNodeID.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c parallelTerminalNodeID.cpp -o parallelTerminalNodeID.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o CaseBasedReasoning.so RcppExports.o distanceAPI.o distances.o kNN.o order.o parallelTerminalNodeID.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -1672,7 +1665,7 @@ ERROR: compilation failed for package ‘CaseBasedReasoning’
 * Version: 1.3.0
 * Source code: https://github.com/cran/CB2
 * Date/Publication: 2019-12-17 05:10:02 UTC
-* Number of recursive dependencies: 95
+* Number of recursive dependencies: 93
 
 Run `revdep_details(,"CB2")` for more info
 
@@ -1714,8 +1707,8 @@ ERROR: compilation failed for package ‘CB2’
 ** package ‘CB2’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CB2/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CB2/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CB2.cpp -o CB2.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CB2/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CB2/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CB2/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CB2.cpp -o CB2.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CB2/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o CB2.so CB2.o RcppExports.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -1746,6 +1739,12 @@ Run `revdep_details(,"")` for more info
 
 ```
 
+  There are binary versions available but the source versions are later:
+             binary source needs_compilation
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
+
+  Binaries will be installed
 
 
 installing the source package ‘reactome.db’
@@ -1757,6 +1756,12 @@ installing the source package ‘reactome.db’
 
 ```
 
+  There are binary versions available but the source versions are later:
+             binary source needs_compilation
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
+
+  Binaries will be installed
 
 
 installing the source package ‘reactome.db’
@@ -1784,9 +1789,10 @@ Run `revdep_details(,"")` for more info
 
 ```
 
-  There is a binary version available but the source version is later:
-     binary source needs_compilation
-nnet 7.3-12 7.3-13              TRUE
+  There are binary versions available but the source versions are later:
+             binary source needs_compilation
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
 
   Binaries will be installed
 
@@ -1800,9 +1806,10 @@ installing the source packages ‘pd.genomewidesnp.6’, ‘reactome.db’
 
 ```
 
-  There is a binary version available but the source version is later:
-     binary source needs_compilation
-nnet 7.3-12 7.3-13              TRUE
+  There are binary versions available but the source versions are later:
+             binary source needs_compilation
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
 
   Binaries will be installed
 
@@ -1821,7 +1828,7 @@ installing the source packages ‘pd.genomewidesnp.6’, ‘reactome.db’
 * URL: https://github.com/jmgirard/circumplex
 * BugReports: https://github.com/jmgirard/circumplex/issues
 * Date/Publication: 2020-01-10 01:10:08 UTC
-* Number of recursive dependencies: 94
+* Number of recursive dependencies: 93
 
 Run `revdep_details(,"circumplex")` for more info
 
@@ -1858,7 +1865,7 @@ ERROR: compilation failed for package ‘circumplex’
 ** package ‘circumplex’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/circumplex/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/circumplex/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/circumplex/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘circumplex’
@@ -1869,12 +1876,12 @@ ERROR: compilation failed for package ‘circumplex’
 
 <details>
 
-* Version: 0.8.8.1
+* Version: 0.8.9
 * Source code: https://github.com/cran/clustermq
 * URL: https://github.com/mschubert/clustermq
 * BugReports: https://github.com/mschubert/clustermq/issues
-* Date/Publication: 2019-12-18 10:10:02 UTC
-* Number of recursive dependencies: 106
+* Date/Publication: 2020-02-29 19:20:02 UTC
+* Number of recursive dependencies: 84
 
 Run `revdep_details(,"clustermq")` for more info
 
@@ -1912,6 +1919,12 @@ Run `revdep_details(,"")` for more info
 
 ```
 
+  There are binary versions available but the source versions are later:
+             binary source needs_compilation
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
+
+  Binaries will be installed
 
 
 installing the source package ‘reactome.db’
@@ -1923,6 +1936,12 @@ installing the source package ‘reactome.db’
 
 ```
 
+  There are binary versions available but the source versions are later:
+             binary source needs_compilation
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
+
+  Binaries will be installed
 
 
 installing the source package ‘reactome.db’
@@ -1984,13 +2003,13 @@ ERROR: compilation failed for package ‘CNPBayes’
 * installing *source* package ‘CNPBayes’ ...
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c miscfunctions.cpp -o miscfunctions.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c multibatch.cpp -o multibatch.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c multibatch_pooledvar.cpp -o multibatch_pooledvar.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c multibatch_reduced.cpp -o multibatch_reduced.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pooledvar_reduced.cpp -o pooledvar_reduced.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c triomodel.cpp -o triomodel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c miscfunctions.cpp -o miscfunctions.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c multibatch.cpp -o multibatch.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c multibatch_pooledvar.cpp -o multibatch_pooledvar.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c multibatch_reduced.cpp -o multibatch_reduced.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pooledvar_reduced.cpp -o pooledvar_reduced.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c triomodel.cpp -o triomodel.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o CNPBayes.so RcppExports.o miscfunctions.o multibatch.o multibatch_pooledvar.o multibatch_reduced.o pooledvar_reduced.o triomodel.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -2001,6 +2020,73 @@ ERROR: compilation failed for package ‘CNPBayes’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CNPBayes/old/CNPBayes.Rcheck/CNPBayes’
 
 ```
+# CollapsABEL
+
+<details>
+
+* Version: 0.10.11
+* Source code: https://github.com/cran/CollapsABEL
+* URL: https://bitbucket.org/kindlychung/collapsabel2/overview
+* BugReports: https://bitbucket.org/kindlychung/collapsabel2/issues
+* Date/Publication: 2016-12-11 20:35:07
+* Number of recursive dependencies: 108
+
+Run `revdep_details(,"CollapsABEL")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘CollapsABEL’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CollapsABEL/new/CollapsABEL.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘CollapsABEL’ ...
+** package ‘CollapsABEL’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘rJava’:
+ .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so
+  Reason: image not found
+Error: package ‘rJava’ could not be loaded
+Execution halted
+ERROR: lazy loading failed for package ‘CollapsABEL’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CollapsABEL/new/CollapsABEL.Rcheck/CollapsABEL’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘CollapsABEL’ ...
+** package ‘CollapsABEL’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘rJava’:
+ .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so
+  Reason: image not found
+Error: package ‘rJava’ could not be loaded
+Execution halted
+ERROR: lazy loading failed for package ‘CollapsABEL’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CollapsABEL/old/CollapsABEL.Rcheck/CollapsABEL’
+
+```
 # colorednoise
 
 <details>
@@ -2009,7 +2095,7 @@ ERROR: compilation failed for package ‘CNPBayes’
 * Source code: https://github.com/cran/colorednoise
 * BugReports: http://github.com/japilo/colorednoise/issues
 * Date/Publication: 2019-09-27 13:10:02 UTC
-* Number of recursive dependencies: 82
+* Number of recursive dependencies: 81
 
 Run `revdep_details(,"colorednoise")` for more info
 
@@ -2046,7 +2132,7 @@ ERROR: compilation failed for package ‘colorednoise’
 ** package ‘colorednoise’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/colorednoise/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/colorednoise/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/colorednoise/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘colorednoise’
@@ -2057,11 +2143,11 @@ ERROR: compilation failed for package ‘colorednoise’
 
 <details>
 
-* Version: 1.22.0
+* Version: 1.24.1
 * Source code: https://github.com/cran/COMPASS
 * BugReports: https://github.com/RGLab/COMPASS/issues
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 141
+* Date/Publication: 2019-12-04
+* Number of recursive dependencies: 136
 
 Run `revdep_details(,"COMPASS")` for more info
 
@@ -2123,22 +2209,22 @@ ERROR: compilation failed for package ‘COMPASS’
 * installing *source* package ‘COMPASS’ ...
 ** using staged installation
 ** libs
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c COMPASS_init.c -o COMPASS_init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CellCounts.cpp -o CellCounts.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CellCounts_character.cpp -o CellCounts_character.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c digamma.c -o digamma.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c mat2vec.c -o mat2vec.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c melt_dataframe.c -o melt_dataframe.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c melt_matrix.c -o melt_matrix.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c samplePuPs.cpp -o samplePuPs.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c transpose_list.c -o transpose_list.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c updatealphas_Exp.cpp -o updatealphas_Exp.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c updatealphau.cpp -o updatealphau.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c updatealphau_noPu_Exp.cpp -o updatealphau_noPu_Exp.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c updatebeta_RW.cpp -o updatebeta_RW.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c updategammak_noPu.cpp -o updategammak_noPu.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/COMPASS/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c utils.c -o utils.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c COMPASS_init.c -o COMPASS_init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CellCounts.cpp -o CellCounts.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CellCounts_character.cpp -o CellCounts_character.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c digamma.c -o digamma.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c mat2vec.c -o mat2vec.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c melt_dataframe.c -o melt_dataframe.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c melt_matrix.c -o melt_matrix.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c samplePuPs.cpp -o samplePuPs.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c transpose_list.c -o transpose_list.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c updatealphas_Exp.cpp -o updatealphas_Exp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c updatealphau.cpp -o updatealphau.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c updatealphau_noPu_Exp.cpp -o updatealphau_noPu_Exp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c updatebeta_RW.cpp -o updatebeta_RW.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c updategammak_noPu.cpp -o updategammak_noPu.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c utils.c -o utils.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o COMPASS.so COMPASS_init.o CellCounts.o CellCounts_character.o RcppExports.o digamma.o mat2vec.o melt_dataframe.o melt_matrix.o samplePuPs.o transpose_list.o updatealphas_Exp.o updatealphau.o updatealphau_noPu_Exp.o updatebeta_RW.o updategammak_noPu.o utils.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -2195,7 +2281,7 @@ ERROR: compilation failed for package ‘corrcoverage’
 ** package ‘corrcoverage’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/corrcoverage/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/corrcoverage/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/corrcoverage/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘corrcoverage’
@@ -2260,15 +2346,15 @@ ERROR: compilation failed for package ‘Countr’
 ** package ‘Countr’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c built_in_distributions.cpp -o built_in_distributions.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c conv_all.cpp -o conv_all.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c conv_dePril.cpp -o conv_dePril.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c conv_naive.cpp -o conv_naive.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c modifiedRenewal.cpp -o modifiedRenewal.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c series_hetwei.cpp -o series_hetwei.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c series_weibull.cpp -o series_weibull.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c utils.cpp -o utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c built_in_distributions.cpp -o built_in_distributions.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c conv_all.cpp -o conv_all.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c conv_dePril.cpp -o conv_dePril.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c conv_naive.cpp -o conv_naive.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c modifiedRenewal.cpp -o modifiedRenewal.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c series_hetwei.cpp -o series_hetwei.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c series_weibull.cpp -o series_weibull.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Countr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c utils.cpp -o utils.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o Countr.so RcppExports.o built_in_distributions.o conv_all.o conv_dePril.o conv_naive.o modifiedRenewal.o series_hetwei.o series_weibull.o utils.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -2287,7 +2373,7 @@ ERROR: compilation failed for package ‘Countr’
 * Source code: https://github.com/cran/cpr
 * URL: https://github.com/dewittpe/cpr/
 * Date/Publication: 2017-03-07 13:41:34
-* Number of recursive dependencies: 99
+* Number of recursive dependencies: 100
 
 Run `revdep_details(,"cpr")` for more info
 
@@ -2342,9 +2428,9 @@ ERROR: compilation failed for package ‘cpr’
 ** package ‘cpr’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c boehm.cpp -o boehm.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c bsplines.cpp -o bsplines.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c boehm.cpp -o boehm.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c bsplines.cpp -o bsplines.o
 bsplines.cpp:24:10: warning: unused variable 'a' [-Wunused-variable]
   double a = 0.0;
          ^
@@ -2352,11 +2438,11 @@ bsplines.cpp:25:10: warning: unused variable 'b' [-Wunused-variable]
   double b = 0.0;
          ^
 2 warnings generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c cpr.cpp -o cpr.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c diag_only.cpp -o diag_only.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c matrix_rank.cpp -o matrix_rank.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c registerDynamicSymbol.c -o registerDynamicSymbol.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c tensors.cpp -o tensors.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c cpr.cpp -o cpr.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c diag_only.cpp -o diag_only.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c matrix_rank.cpp -o matrix_rank.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c registerDynamicSymbol.c -o registerDynamicSymbol.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/cpr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c tensors.cpp -o tensors.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o cpr.so RcppExports.o boehm.o bsplines.o cpr.o diag_only.o matrix_rank.o registerDynamicSymbol.o tensors.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -2374,7 +2460,7 @@ ERROR: compilation failed for package ‘cpr’
 * Version: 2.2.1
 * Source code: https://github.com/cran/crawl
 * Date/Publication: 2018-09-14 19:20:10 UTC
-* Number of recursive dependencies: 97
+* Number of recursive dependencies: 110
 
 Run `revdep_details(,"crawl")` for more info
 
@@ -2423,15 +2509,15 @@ ERROR: compilation failed for package ‘crawl’
 ** package ‘crawl’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWN2LL.cpp -o CTCRWN2LL.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWN2LL_DRIFT.cpp -o CTCRWN2LL_DRIFT.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWPREDICT.cpp -o CTCRWPREDICT.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWPREDICT_DRIFT.cpp -o CTCRWPREDICT_DRIFT.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWSAMPLE.cpp -o CTCRWSAMPLE.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWSAMPLE_DRIFT.cpp -o CTCRWSAMPLE_DRIFT.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c SMM_MATS.cpp -o SMM_MATS.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWN2LL.cpp -o CTCRWN2LL.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWN2LL_DRIFT.cpp -o CTCRWN2LL_DRIFT.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWPREDICT.cpp -o CTCRWPREDICT.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWPREDICT_DRIFT.cpp -o CTCRWPREDICT_DRIFT.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWSAMPLE.cpp -o CTCRWSAMPLE.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CTCRWSAMPLE_DRIFT.cpp -o CTCRWSAMPLE_DRIFT.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c SMM_MATS.cpp -o SMM_MATS.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/crawl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o crawl.so CTCRWN2LL.o CTCRWN2LL_DRIFT.o CTCRWPREDICT.o CTCRWPREDICT_DRIFT.o CTCRWSAMPLE.o CTCRWSAMPLE_DRIFT.o RcppExports.o SMM_MATS.o init.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -2442,6 +2528,67 @@ ERROR: compilation failed for package ‘crawl’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/crawl/old/crawl.Rcheck/crawl’
 
 ```
+# cTRAP
+
+<details>
+
+* Version: 1.4.0
+* Source code: https://github.com/cran/cTRAP
+* URL: https://github.com/nuno-agostinho/cTRAP
+* BugReports: https://github.com/nuno-agostinho/cTRAP/issues
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 114
+
+Run `revdep_details(,"cTRAP")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > 
+    > ## Not run: 
+    > ##D # Download and load CMap perturbations to compare with
+    > ##D cellLine <- c("HepG2", "HUH7")
+    > ##D cmapMetadataCompounds <- filterCMapMetadata(
+    > ##D     "cmapMetadata.txt", cellLine=cellLine, timepoint="24 h",
+    > ##D     dosage="5 \u00B5M", perturbationType="Compound")
+    > ##D 
+    > ##D cmapPerturbationsCompounds <- prepareCMapPerturbations(
+    > ##D     cmapMetadataCompounds, "cmapZscores.gctx", "cmapGeneInfo.txt",
+    > ##D     "cmapCompoundInfo_drugs.txt", loadZscores=TRUE)
+    > ## End(Not run)
+    > perturbations <- cmapPerturbationsCompounds
+    > 
+    > # Rank similar CMap perturbations (by default, Spearman's and Pearson's
+    > # correlation are used, as well as GSEA with the top and bottom 150 genes of
+    > # the differential expression profile used as reference)
+    > rankSimilarPerturbations(diffExprStat, perturbations)
+    Subsetting data based on 8790 intersecting genes (65% of the 13451 input genes)...
+    Correlating against 22 CMap perturbations (2 cell lines; Spearman's correlation)...
+    New names:
+    ```
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  6.9Mb
+      sub-directories of 1Mb or more:
+        data   4.8Mb
+        doc    1.5Mb
+    ```
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 1 marked UTF-8 string
+    ```
+
 # DataVisualizations
 
 <details>
@@ -2451,7 +2598,7 @@ ERROR: compilation failed for package ‘crawl’
 * URL: http://www.deepbionics.org
 * BugReports: https://github.com/Mthrun/DataVisualizations/issues
 * Date/Publication: 2020-02-13 17:50:02 UTC
-* Number of recursive dependencies: 144
+* Number of recursive dependencies: 152
 
 Run `revdep_details(,"DataVisualizations")` for more info
 
@@ -2463,6 +2610,11 @@ Run `revdep_details(,"DataVisualizations")` for more info
     ```
     Installation failed.
     See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DataVisualizations/new/DataVisualizations.Rcheck/00install.out’ for details.
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘modes’
     ```
 
 ## Installation
@@ -2494,9 +2646,9 @@ ERROR: compilation failed for package ‘DataVisualizations’
 ** package ‘DataVisualizations’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DataVisualizations/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DataVisualizations/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DataVisualizations/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DataVisualizations/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c c_inPSphere2D.cpp -o c_inPSphere2D.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DataVisualizations/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DataVisualizations/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c c_quantile.cpp -o c_quantile.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DataVisualizations/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DataVisualizations/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c c_inPSphere2D.cpp -o c_inPSphere2D.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DataVisualizations/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c c_quantile.cpp -o c_quantile.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o DataVisualizations.so RcppExports.o c_inPSphere2D.o c_quantile.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -2516,7 +2668,7 @@ ERROR: compilation failed for package ‘DataVisualizations’
 * URL: https://www.depthproc.zstat.pl/, https://github.com/zzawadz/DepthProc
 * BugReports: https://github.com/zzawadz/DepthProc/issues
 * Date/Publication: 2020-02-19 21:00:03 UTC
-* Number of recursive dependencies: 116
+* Number of recursive dependencies: 115
 
 Run `revdep_details(,"DepthProc")` for more info
 
@@ -2553,7 +2705,7 @@ ERROR: compilation failed for package ‘DepthProc’
 ** package ‘DepthProc’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DepthProc/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DepthProc/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c Depth.cpp -o Depth.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DepthProc/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c Depth.cpp -o Depth.o
 clang: error: unsupported option '-fopenmp'
 make: *** [Depth.o] Error 1
 ERROR: compilation failed for package ‘DepthProc’
@@ -2569,7 +2721,7 @@ ERROR: compilation failed for package ‘DepthProc’
 * URL: http://dexterities.netlify.com
 * BugReports: https://github.com/jessekps/dexter/issues
 * Date/Publication: 2020-02-14 15:30:08 UTC
-* Number of recursive dependencies: 78
+* Number of recursive dependencies: 76
 
 Run `revdep_details(,"dexter")` for more info
 
@@ -2606,20 +2758,85 @@ ERROR: compilation failed for package ‘dexter’
 ** package ‘dexter’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dexter/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dexter/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dexter/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘dexter’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/dexter/old/dexter.Rcheck/dexter’
 
 ```
+# dialr
+
+<details>
+
+* Version: 0.3.0
+* Source code: https://github.com/cran/dialr
+* URL: https://socialresearchcentre.github.io/dialr, https://github.com/socialresearchcentre/dialr, https://github.com/socialresearchcentre/dialrjars, https://github.com/googlei18n/libphonenumber
+* BugReports: https://github.com/socialresearchcentre/dialr/issues
+* Date/Publication: 2019-06-27 07:40:10 UTC
+* Number of recursive dependencies: 58
+
+Run `revdep_details(,"dialr")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘dialr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/dialr/new/dialr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘dialr’ ...
+** package ‘dialr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dialr/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dialr/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dialr/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘dialr’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/dialr/new/dialr.Rcheck/dialr’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘dialr’ ...
+** package ‘dialr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dialr/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dialr/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dialr/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘dialr’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/dialr/old/dialr.Rcheck/dialr’
+
+```
 # DiffBind
 
 <details>
 
-* Version: 2.12.0
+* Version: 2.14.0
 * Source code: https://github.com/cran/DiffBind
-* Date/Publication: 2019-05-02
+* Date/Publication: 2019-10-29
 * Number of recursive dependencies: 165
 
 Run `revdep_details(,"DiffBind")` for more info
@@ -2631,20 +2848,10 @@ Run `revdep_details(,"DiffBind")` for more info
 *   R CMD check timed out
     
 
-*   checking whether package ‘DiffBind’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-      Warning: package ‘S4Vectors’ was built under R version 3.6.1
-      Warning: package ‘IRanges’ was built under R version 3.6.1
-      Warning: package ‘SummarizedExperiment’ was built under R version 3.6.1
-      Warning: package ‘BiocParallel’ was built under R version 3.6.1
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DiffBind/new/DiffBind.Rcheck/00install.out’ for details.
-    ```
-
 *   checking package dependencies ... NOTE
     ```
-    Package which this enhances but not available for checking: ‘XLConnect’
+    Packages which this enhances but not available for checking:
+      'rgl', 'XLConnect'
     ```
 
 *   checking R code for possible problems ... NOTE
@@ -2663,6 +2870,11 @@ Run `revdep_details(,"DiffBind")` for more info
       
     ```
 
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
+    ```
+
 *   checking compiled code ... NOTE
     ```
     File ‘DiffBind/libs/DiffBind.so’:
@@ -2676,27 +2888,25 @@ Run `revdep_details(,"DiffBind")` for more info
     See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
     ```
 
-# dmdScheme
+# DiversityOccupancy
 
 <details>
 
-* Version: 1.0.0
-* Source code: https://github.com/cran/dmdScheme
-* URL: https://exp-micro-ecol-hub.github.io/dmdScheme/, https://github.com/Exp-Micro-Ecol-Hub/dmdScheme
-* BugReports: https://github.com/rkrug/dmdScheme/issues
-* Date/Publication: 2020-01-10 17:20:03 UTC
-* Number of recursive dependencies: 88
+* Version: 1.0.6
+* Source code: https://github.com/cran/DiversityOccupancy
+* Date/Publication: 2017-03-02 18:32:36
+* Number of recursive dependencies: 95
 
-Run `revdep_details(,"dmdScheme")` for more info
+Run `revdep_details(,"DiversityOccupancy")` for more info
 
 </details>
 
-## Newly broken
+## In both
 
-*   checking whether package ‘dmdScheme’ can be installed ... ERROR
+*   checking whether package ‘DiversityOccupancy’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/dmdScheme/new/dmdScheme.Rcheck/00install.out’ for details.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DiversityOccupancy/new/DiversityOccupancy.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -2704,106 +2914,45 @@ Run `revdep_details(,"dmdScheme")` for more info
 ### Devel
 
 ```
-* installing *source* package ‘dmdScheme’ ...
-** package ‘dmdScheme’ successfully unpacked and MD5 sums checked
+* installing *source* package ‘DiversityOccupancy’ ...
+** package ‘DiversityOccupancy’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** R
+** data
+*** moving datasets to lazyload DB
 ** inst
 ** byte-compile and prepare package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-
-#############################################
-The cache will be in a temporary location and be deleted when you quit R.
-It is located at
-   /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpcqOepy/dmdScheme_e9c77a14635b
-To make it permanent, call
-   cache(createPermanent = TRUE)
-and restart R
-and a permanent cache will be created which will survive restarts.
-#############################################
-
-
-trying URL 'https://github.com/Exp-Micro-Ecol-Hub/dmdSchemeRepository/raw/master/schemes/dmdScheme_0.9.5.tar.gz'
-Content type 'application/octet-stream' length 27511 bytes (26 KB)
-==================================================
-downloaded 26 KB
-
-Scheme definition `/var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpcqOepy/filee9c7508729fa/dmdScheme_0.9.5.tar.gz, installed with
-name:    dmdScheme
-version: 0.9.5
-Error: package or namespace load failed for ‘dmdScheme’:
- .onAttach failed in attachNamespace() for 'dmdScheme', details:
-  call: NULL
-  error: No common type for `..1$microcosmVolume` <double> and `..2$microcosmVolume` <character>.
-Error: loading failed
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so
+  Reason: image not found
 Execution halted
-ERROR: loading failed
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/dmdScheme/new/dmdScheme.Rcheck/dmdScheme’
+ERROR: lazy loading failed for package ‘DiversityOccupancy’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DiversityOccupancy/new/DiversityOccupancy.Rcheck/DiversityOccupancy’
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘dmdScheme’ ...
-** package ‘dmdScheme’ successfully unpacked and MD5 sums checked
+* installing *source* package ‘DiversityOccupancy’ ...
+** package ‘DiversityOccupancy’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** R
+** data
+*** moving datasets to lazyload DB
 ** inst
 ** byte-compile and prepare package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-
-#############################################
-The cache will be in a temporary location and be deleted when you quit R.
-It is located at
-   /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpHmAQX2/dmdScheme_e9582bd6c7a3
-To make it permanent, call
-   cache(createPermanent = TRUE)
-and restart R
-and a permanent cache will be created which will survive restarts.
-#############################################
-
-
-trying URL 'https://github.com/Exp-Micro-Ecol-Hub/dmdSchemeRepository/raw/master/schemes/dmdScheme_0.9.5.tar.gz'
-Content type 'application/octet-stream' length 27511 bytes (26 KB)
-==================================================
-downloaded 26 KB
-
-Scheme definition `/var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpHmAQX2/filee95821ccb4d1/dmdScheme_0.9.5.tar.gz, installed with
-name:    dmdScheme
-version: 0.9.5
-Theme switched to dmdScheme_0.9.5
-** testing if installed package can be loaded from final location
-
-#############################################
-The cache will be in a temporary location and be deleted when you quit R.
-It is located at
-   /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmp9XOGjO/dmdScheme_e9946cdfbe25
-To make it permanent, call
-   cache(createPermanent = TRUE)
-and restart R
-and a permanent cache will be created which will survive restarts.
-#############################################
-
-
-trying URL 'https://github.com/Exp-Micro-Ecol-Hub/dmdSchemeRepository/raw/master/schemes/dmdScheme_0.9.5.tar.gz'
-Content type 'application/octet-stream' length 27511 bytes (26 KB)
-==================================================
-downloaded 26 KB
-
-Scheme definition `/var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmp9XOGjO/filee994553ca6fa/dmdScheme_0.9.5.tar.gz, installed with
-name:    dmdScheme
-version: 0.9.5
-Theme switched to dmdScheme_0.9.5
-** testing if installed package keeps a record of temporary installation path
-* DONE (dmdScheme)
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘DiversityOccupancy’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DiversityOccupancy/old/DiversityOccupancy.Rcheck/DiversityOccupancy’
 
 ```
 # dodgr
@@ -2815,7 +2964,7 @@ Theme switched to dmdScheme_0.9.5
 * URL: https://github.com/ATFutures/dodgr
 * BugReports: https://github.com/ATFutures/dodgr/issues
 * Date/Publication: 2019-10-10 14:00:02 UTC
-* Number of recursive dependencies: 94
+* Number of recursive dependencies: 92
 
 Run `revdep_details(,"dodgr")` for more info
 
@@ -2941,14 +3090,14 @@ ERROR: compilation failed for package ‘dodgr’
 ** package ‘dodgr’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/bheap.cpp -o heaps/bheap.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/fheap.cpp -o heaps/fheap.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/heap23.cpp -o heaps/heap23.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/radixheap.cpp -o heaps/radixheap.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/triheap_ext.cpp -o heaps/triheap_ext.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/triheap.cpp -o heaps/triheap.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dgraph.cpp -o dgraph.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pathfinders.cpp -o pathfinders.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/bheap.cpp -o heaps/bheap.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/fheap.cpp -o heaps/fheap.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/heap23.cpp -o heaps/heap23.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/radixheap.cpp -o heaps/radixheap.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/triheap_ext.cpp -o heaps/triheap_ext.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c heaps/triheap.cpp -o heaps/triheap.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dgraph.cpp -o dgraph.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pathfinders.cpp -o pathfinders.o
 In file included from pathfinders.cpp:1:
 In file included from ./pathfinders.h:7:
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/set:454:26: warning: the specified comparator type does not provide a const call operator [-Wuser-defined-warnings]
@@ -2964,12 +3113,12 @@ In file included from ./pathfinders.h:7:
      __attribute__((diagnose_if(__VA_ARGS__, "warning")))
                     ^           ~~~~~~~~~~~
 1 warning generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dodgr-to-sf.cpp -o dodgr-to-sf.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c flows.cpp -o flows.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dodgr-to-sf.cpp -o dodgr-to-sf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c flows.cpp -o flows.o
 In file included from flows.cpp:2:
 In file included from ./run_sp.h:9:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include/Rcpp.h:27:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include/RcppCommon.h:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:57:
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/set:454:26: warning: the specified comparator type does not provide a const call operator [-Wuser-defined-warnings]
     static_assert(sizeof(__diagnose_non_const_comparator<_Key, _Compare>()), "");
                          ^
@@ -2983,16 +3132,16 @@ In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noin
      __attribute__((diagnose_if(__VA_ARGS__, "warning")))
                     ^           ~~~~~~~~~~~
 1 warning generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fund-cycles.cpp -o fund-cycles.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c graph-contract.cpp -o graph-contract.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c graph.cpp -o graph.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c graph-sample.cpp -o graph-sample.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c run_sp.cpp -o run_sp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fund-cycles.cpp -o fund-cycles.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c graph-contract.cpp -o graph-contract.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c graph.cpp -o graph.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c graph-sample.cpp -o graph-sample.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c run_sp.cpp -o run_sp.o
 In file included from run_sp.cpp:2:
 In file included from ./run_sp.h:9:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include/Rcpp.h:27:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include/RcppCommon.h:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:57:
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/set:454:26: warning: the specified comparator type does not provide a const call operator [-Wuser-defined-warnings]
     static_assert(sizeof(__diagnose_non_const_comparator<_Key, _Compare>()), "");
                          ^
@@ -3006,14 +3155,14 @@ In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noin
      __attribute__((diagnose_if(__VA_ARGS__, "warning")))
                     ^           ~~~~~~~~~~~
 1 warning generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sc-as-network.cpp -o sc-as-network.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sf-as-network.cpp -o sf-as-network.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c turn_penalty.cpp -o turn_penalty.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sc-as-network.cpp -o sc-as-network.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sf-as-network.cpp -o sf-as-network.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c turn_penalty.cpp -o turn_penalty.o
 In file included from turn_penalty.cpp:1:
 In file included from ./turn_penalty.h:3:
 In file included from ./sc-as-network.h:2:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include/Rcpp.h:27:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dodgr/Rcpp/include/RcppCommon.h:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:57:
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/set:454:26: warning: the specified comparator type does not provide a const call operator [-Wuser-defined-warnings]
     static_assert(sizeof(__diagnose_non_const_comparator<_Key, _Compare>()), "");
                          ^
@@ -3081,7 +3230,7 @@ ERROR: compilation failed for package ‘downscaledl’
 ** package ‘downscaledl’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/downscaledl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/downscaledl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/downscaledl/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘downscaledl’
@@ -3097,7 +3246,7 @@ ERROR: compilation failed for package ‘downscaledl’
 * URL: https://github.com/stefvanbuuren/dscore, https://stefvanbuuren.name/dscore/, https://stefvanbuuren.name/dbook1/
 * BugReports: https://github.com/stefvanbuuren/dscore/issues
 * Date/Publication: 2020-02-23 22:10:02 UTC
-* Number of recursive dependencies: 92
+* Number of recursive dependencies: 90
 
 Run `revdep_details(,"dscore")` for more info
 
@@ -3134,7 +3283,7 @@ ERROR: compilation failed for package ‘dscore’
 ** package ‘dscore’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dscore/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dscore/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dscore/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘dscore’
@@ -3211,27 +3360,27 @@ ERROR: compilation failed for package ‘dtwclust’
 ** package ‘dtwclust’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/utils.cpp -o utils/utils.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/R-utils.cpp -o utils/R-utils.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/ParallelWorker.cpp -o utils/ParallelWorker.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/KahanSummer.cpp -o utils/KahanSummer.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/UndirectedGraph.cpp -o utils/UndirectedGraph.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/envelope.cpp -o utils/envelope.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c centroids/dba.cpp -o centroids/dba.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c centroids/sdtw-cent.cpp -o centroids/sdtw-cent.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distmat/distmat-loop.cpp -o distmat/distmat-loop.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distmat/distmat.cpp -o distmat/distmat.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distmat/fillers.cpp -o distmat/fillers.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distmat/dtw-lb.cpp -o distmat/dtw-lb.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c init.cpp -o init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/dtw-basic.cpp -o distances/dtw-basic.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/R-gateways.cpp -o distances/R-gateways.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/soft-dtw.cpp -o distances/soft-dtw.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/calculators.cpp -o distances/calculators.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/logGAK.cpp -o distances/logGAK.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/lbk.cpp -o distances/lbk.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/lbi.cpp -o distances/lbi.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c tadpole/tadpole.cpp -o tadpole/tadpole.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/utils.cpp -o utils/utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/R-utils.cpp -o utils/R-utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/ParallelWorker.cpp -o utils/ParallelWorker.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/KahanSummer.cpp -o utils/KahanSummer.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/UndirectedGraph.cpp -o utils/UndirectedGraph.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c utils/envelope.cpp -o utils/envelope.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c centroids/dba.cpp -o centroids/dba.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c centroids/sdtw-cent.cpp -o centroids/sdtw-cent.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distmat/distmat-loop.cpp -o distmat/distmat-loop.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distmat/distmat.cpp -o distmat/distmat.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distmat/fillers.cpp -o distmat/fillers.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distmat/dtw-lb.cpp -o distmat/dtw-lb.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c init.cpp -o init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/dtw-basic.cpp -o distances/dtw-basic.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/R-gateways.cpp -o distances/R-gateways.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/soft-dtw.cpp -o distances/soft-dtw.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/calculators.cpp -o distances/calculators.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/logGAK.cpp -o distances/logGAK.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/lbk.cpp -o distances/lbk.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c distances/lbi.cpp -o distances/lbi.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -O3 -c tadpole/tadpole.cpp -o tadpole/tadpole.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o dtwclust.so ./utils/utils.o ./utils/R-utils.o ./utils/ParallelWorker.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -3246,88 +3395,75 @@ ERROR: compilation failed for package ‘dtwclust’
 
 <details>
 
-* Version: 1.2.0
+* Version: 1.4.0
 * Source code: https://github.com/cran/DuoClustering2018
-* Date/Publication: 2019-05-07
-* Number of recursive dependencies: 137
+* Date/Publication: 2019-11-05
+* Number of recursive dependencies: 151
 
 Run `revdep_details(,"DuoClustering2018")` for more info
 
 </details>
 
-## In both
+## Newly broken
 
-*   checking whether package ‘DuoClustering2018’ can be installed ... ERROR
+*   checking whether package ‘DuoClustering2018’ can be installed ... WARNING
     ```
-    Installation failed.
+    Found the following significant warnings:
+      Warning: `select_()` is deprecated as of dplyr 0.7.0.
+      Warning: `filter_()` is deprecated as of dplyr 0.7.0.
     See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DuoClustering2018/new/DuoClustering2018.Rcheck/00install.out’ for details.
     ```
 
-## Installation
+*   checking whether the namespace can be loaded with stated dependencies ... NOTE
+    ```
+    Warning: `select_()` is deprecated as of dplyr 0.7.0.
+    Please use `select()` instead.
+    This warning is displayed once every 8 hours.
+    Call `lifecycle::last_warnings()` to see where this warning was generated.
+    Warning: `filter_()` is deprecated as of dplyr 0.7.0.
+    Please use `filter()` instead.
+    See vignette('programming') for more help
+    This warning is displayed once every 8 hours.
+    Call `lifecycle::last_warnings()` to see where this warning was generated.
+    
+    A namespace must be able to be loaded with just the base namespace
+    loaded: otherwise if the namespace gets loaded by a saved object, the
+    session will be unable to start.
+    
+    Probably some imports need to be declared in the NAMESPACE file.
+    ```
 
-### Devel
+## In both
 
-```
-* installing *source* package ‘DuoClustering2018’ ...
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmp0d8a6m/BiocFileCache
-Warning: `select_()` is deprecated as of dplyr 0.7.0.
-Please use `select()` instead.
-This warning is displayed once per session.
-Call `lifecycle::last_warnings()` to see where this warning was generated.
-Warning: `filter_()` is deprecated as of dplyr 0.7.0.
-Please use `filter()` instead.
-See vignette('programming') for more help
-This warning is displayed once per session.
-Call `lifecycle::last_warnings()` to see where this warning was generated.
-snapshotDate(): 2019-10-22
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmp0d8a6m/BiocFileCache
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmp0d8a6m/BiocFileCache
-Error: package or namespace load failed for ‘DuoClustering2018’:
- .onLoad failed in loadNamespace() for 'DuoClustering2018', details:
-  call: FUN(X[[i]], ...)
-  error: ‘duo_clustering_all_parameter_settings_v1’ not found in ExperimentHub
-Error: loading failed
-Execution halted
-ERROR: loading failed
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DuoClustering2018/new/DuoClustering2018.Rcheck/DuoClustering2018’
+*   R CMD check timed out
+    
 
-```
-### CRAN
+*   checking R code for possible problems ... NOTE
+    ```
+    ...
+    plot_timing: no visible binding for global variable ‘dataset’
+    plot_timing: no visible binding for global variable ‘method’
+    plot_timing: no visible binding for global variable ‘run’
+    plot_timing: no visible binding for global variable ‘k’
+    plot_timing: no visible binding for global variable ‘cluster’
+    plot_timing: no visible binding for global variable ‘trueclass’
+    plot_timing: no visible binding for global variable ‘est_k’
+    plot_timing: no visible binding for global variable ‘elapsed’
+    plot_timing: no visible binding for global variable ‘sce’
+    plot_timing: no visible binding for global variable ‘filtering’
+    plot_timing: no visible binding for global variable ‘truenclust’
+    plot_timing: no visible binding for global variable ‘median.elapsed’
+    plot_timing: no visible binding for global variable ‘med.t’
+    plot_timing: no visible binding for global variable ‘norm.time’
+    plot_timing: no visible binding for global variable ‘medianelapsed’
+    Undefined global functions or variables:
+      ARI ari.stab cell cluster data.wide dataset ds ds.norm elapsed
+      entropy est_k estnclust filtering k k_diff med.t medARI
+      median.elapsed median.stability medianARI medianelapsed method
+      norm.time run s s.norm s.true s.true.norm sce stability trueclass
+      truenclust
+    ```
 
-```
-* installing *source* package ‘DuoClustering2018’ ...
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpivM0Z1/BiocFileCache
-snapshotDate(): 2019-10-22
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpivM0Z1/BiocFileCache
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpivM0Z1/BiocFileCache
-Error: package or namespace load failed for ‘DuoClustering2018’:
- .onLoad failed in loadNamespace() for 'DuoClustering2018', details:
-  call: FUN(X[[i]], ...)
-  error: ‘duo_clustering_all_parameter_settings_v1’ not found in ExperimentHub
-Error: loading failed
-Execution halted
-ERROR: loading failed
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DuoClustering2018/old/DuoClustering2018.Rcheck/DuoClustering2018’
-
-```
 # dynfrail
 
 <details>
@@ -3335,7 +3471,7 @@ ERROR: loading failed
 * Version: 0.5.2
 * Source code: https://github.com/cran/dynfrail
 * Date/Publication: 2017-10-30 10:11:49 UTC
-* Number of recursive dependencies: 62
+* Number of recursive dependencies: 72
 
 Run `revdep_details(,"dynfrail")` for more info
 
@@ -3372,7 +3508,7 @@ ERROR: compilation failed for package ‘dynfrail’
 ** package ‘dynfrail’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dynfrail/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dynfrail/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dynfrail/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘dynfrail’
@@ -3383,10 +3519,10 @@ ERROR: compilation failed for package ‘dynfrail’
 
 <details>
 
-* Version: 2.8.3
+* Version: 2.10.0
 * Source code: https://github.com/cran/ELMER
-* Date/Publication: 2019-09-06
-* Number of recursive dependencies: 210
+* Date/Publication: 2019-11-06
+* Number of recursive dependencies: 212
 
 Run `revdep_details(,"ELMER")` for more info
 
@@ -3431,6 +3567,51 @@ Run `revdep_details(,"ELMER")` for more info
       DistanceTSS Hugo_Symbol ID Side TF mae melt stat_cor
     ```
 
+# ENCODExplorer
+
+<details>
+
+* Version: 2.12.1
+* Source code: https://github.com/cran/ENCODExplorer
+* BugReports: https://github.com/CharlesJB/ENCODExplorer/issues
+* Date/Publication: 2019-12-16
+* Number of recursive dependencies: 95
+
+Run `revdep_details(,"ENCODExplorer")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking R code for possible problems ... NOTE
+    ```
+    ...
+    clean_column: no visible binding for global variable ‘value’
+    createDesign: no visible binding for global variable ‘file_format’
+    createDesign: no visible binding for global variable ‘status’
+    createDesign: no visible binding for global variable ‘accession’
+    createDesign: no visible binding for global variable ‘controls’
+    createDesign : get_ctrl_design: no visible binding for global variable
+      ‘accession’
+    createDesign : get_ctrl_design: no visible binding for global variable
+      ‘href’
+    createDesign: no visible global function definition for ‘.’
+    createDesign: no visible binding for global variable ‘href’
+    createDesign: no visible binding for global variable ‘Experiment’
+    createDesign: no visible binding for global variable ‘Value’
+    downloadEncode: no visible binding for global variable ‘file_accession’
+    downloadEncode: no visible binding for global variable ‘file_format’
+    downloadEncode: no visible binding for global variable ‘accession’
+    shinyEncode: no visible binding for global variable ‘ui’
+    shinyEncode: no visible binding for global variable ‘server’
+    Undefined global functions or variables:
+      . Experiment Value accession col_name controls file_accession
+      file_format href server status ui value
+    ```
+
 # exuber
 
 <details>
@@ -3440,7 +3621,7 @@ Run `revdep_details(,"ELMER")` for more info
 * URL: https://github.com/kvasilopoulos/exuber
 * BugReports: https://github.com/kvasilopoulos/exuber/issues
 * Date/Publication: 2019-07-15 09:40:07 UTC
-* Number of recursive dependencies: 88
+* Number of recursive dependencies: 87
 
 Run `revdep_details(,"exuber")` for more info
 
@@ -3482,8 +3663,8 @@ ERROR: compilation failed for package ‘exuber’
 ** package ‘exuber’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/exuber/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/exuber/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/exuber/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/exuber/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rls_gsadf.cpp -o rls_gsadf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/exuber/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/exuber/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rls_gsadf.cpp -o rls_gsadf.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o exuber.so RcppExports.o rls_gsadf.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -3503,7 +3684,7 @@ ERROR: compilation failed for package ‘exuber’
 * URL: https://fable.tidyverts.org
 * BugReports: https://github.com/tidyverts/fable/issues
 * Date/Publication: 2020-01-29 11:00:03 UTC
-* Number of recursive dependencies: 98
+* Number of recursive dependencies: 99
 
 Run `revdep_details(,"fable")` for more info
 
@@ -3561,24 +3742,24 @@ ERROR: compilation failed for package ‘fable’
 ** package ‘fable’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fable/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c etsTargetFunction.cpp -o etsTargetFunction.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c etsTargetFunction.cpp -o etsTargetFunction.o
 In file included from etsTargetFunction.cpp:3:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fable/Rcpp/include/Rcpp.h:27:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fable/Rcpp/include/RcppCommon.h:128:
-/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fable/Rcpp/include/Rcpp/exceptions.h:109:53: warning: all paths through this function will call itself [-Winfinite-recursion]
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:128:
+/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/exceptions.h:109:53: warning: all paths through this function will call itself [-Winfinite-recursion]
     inline void warning(const std::string& message) {        // #nocov start
                                                     ^
 1 warning generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fable/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c etsTargetFunctionWrapper.cpp -o etsTargetFunctionWrapper.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c etsTargetFunctionWrapper.cpp -o etsTargetFunctionWrapper.o
 In file included from etsTargetFunctionWrapper.cpp:10:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fable/Rcpp/include/Rcpp.h:27:
-In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fable/Rcpp/include/RcppCommon.h:128:
-/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fable/Rcpp/include/Rcpp/exceptions.h:109:53: warning: all paths through this function will call itself [-Winfinite-recursion]
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:128:
+/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/exceptions.h:109:53: warning: all paths through this function will call itself [-Winfinite-recursion]
     inline void warning(const std::string& message) {        // #nocov start
                                                     ^
 1 warning generated.
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fable/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c etscalc.c -o etscalc.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fable/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c registerDynamicSymbol.c -o registerDynamicSymbol.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c etscalc.c -o etscalc.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c registerDynamicSymbol.c -o registerDynamicSymbol.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o fable.so etsTargetFunction.o etsTargetFunctionWrapper.o etscalc.o registerDynamicSymbol.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -3597,7 +3778,7 @@ ERROR: compilation failed for package ‘fable’
 * Source code: https://github.com/cran/fastLink
 * BugReports: https://github.com/kosukeimai/fastLink/issues
 * Date/Publication: 2018-11-12 16:50:02 UTC
-* Number of recursive dependencies: 74
+* Number of recursive dependencies: 72
 
 Run `revdep_details(,"fastLink")` for more info
 
@@ -3634,13 +3815,33 @@ ERROR: compilation failed for package ‘fastLink’
 ** package ‘fastLink’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fastLink/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fastLink/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fastLink/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fastLink/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fastLink/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘fastLink’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/fastLink/old/fastLink.Rcheck/fastLink’
 
 ```
+# fingertipsR
+
+<details>
+
+* Version: 1.0.2
+* Source code: https://github.com/cran/fingertipsR
+* URL: https://fingertips.phe.org.uk, https://github.com/ropensci/fingertipsR, https://docs.ropensci.org/fingertipsR/
+* BugReports: https://github.com/ropensci/fingertipsR/issues
+* Date/Publication: 2020-02-09 16:50:02 UTC
+* Number of recursive dependencies: 86
+
+Run `revdep_details(,"fingertipsR")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
 # fourierin
 
 <details>
@@ -3650,7 +3851,7 @@ ERROR: compilation failed for package ‘fastLink’
 * URL: http://github.com/gbasulto/fourierin
 * BugReports: https://github.com/gbasulto/fourierin/issues
 * Date/Publication: 2019-04-07 12:22:43 UTC
-* Number of recursive dependencies: 57
+* Number of recursive dependencies: 67
 
 Run `revdep_details(,"fourierin")` for more info
 
@@ -3712,9 +3913,9 @@ ERROR: compilation failed for package ‘fourierin’
 ** package ‘fourierin’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fourierin_1d.cpp -o fourierin_1d.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fourierin_2d.cpp -o fourierin_2d.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fourierin_1d.cpp -o fourierin_1d.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fourierin_2d.cpp -o fourierin_2d.o
 fourierin_2d.cpp:160:10: warning: local variable 'out' will be copied despite being returned by name [-Wreturn-std-move]
   return out;
          ^~~
@@ -3723,8 +3924,8 @@ fourierin_2d.cpp:160:10: note: call 'std::move' explicitly to avoid copying
          ^~~
          std::move(out)
 1 warning generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fourierin_cx_1d.cpp -o fourierin_cx_1d.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fourierin_cx_2d.cpp -o fourierin_cx_2d.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fourierin_cx_1d.cpp -o fourierin_cx_1d.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fourierin_cx_2d.cpp -o fourierin_cx_2d.o
 fourierin_cx_2d.cpp:157:10: warning: local variable 'out' will be copied despite being returned by name [-Wreturn-std-move]
   return out;
          ^~~
@@ -3733,7 +3934,7 @@ fourierin_cx_2d.cpp:157:10: note: call 'std::move' explicitly to avoid copying
          ^~~
          std::move(out)
 1 warning generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fourierin_cx_nd.cpp -o fourierin_cx_nd.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/fourierin/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fourierin_cx_nd.cpp -o fourierin_cx_nd.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o fourierin.so RcppExports.o fourierin_1d.o fourierin_2d.o fourierin_cx_1d.o fourierin_cx_2d.o fourierin_cx_nd.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -3753,7 +3954,7 @@ ERROR: compilation failed for package ‘fourierin’
 * URL: https://github.com/jinghuazhao/R
 * BugReports: https://github.com/jinghuazhao/R/issues
 * Date/Publication: 2020-02-02 15:10:02 UTC
-* Number of recursive dependencies: 132
+* Number of recursive dependencies: 141
 
 Run `revdep_details(,"gap")` for more info
 
@@ -3852,15 +4053,87 @@ ERROR: compilation failed for package ‘gap’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/gap/old/gap.Rcheck/gap’
 
 ```
+# GAPGOM
+
+<details>
+
+* Version: 
+* Source code: ???
+* URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+* BugReports: https://github.com/tidyverse/dplyr/issues
+* Number of recursive dependencies: 0
+
+Run `revdep_details(,"")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+  There are binary versions available but the source versions are later:
+                  binary source needs_compilation
+org.Ag.eg.db       3.8.2 3.10.0             FALSE
+org.At.tair.db     3.8.2 3.10.0             FALSE
+org.Bt.eg.db       3.8.2 3.10.0             FALSE
+org.Ce.eg.db       3.8.2 3.10.1             FALSE
+org.Cf.eg.db       3.8.2 3.10.0             FALSE
+org.Dr.eg.db       3.8.2 3.10.0             FALSE
+org.EcK12.eg.db    3.8.2 3.10.0             FALSE
+org.EcSakai.eg.db  3.8.2 3.10.0             FALSE
+org.Mmu.eg.db      3.8.2 3.10.0             FALSE
+org.Pf.plasmo.db   3.8.2 3.10.0             FALSE
+org.Pt.eg.db       3.8.2 3.10.0             FALSE
+org.Sc.sgd.db      3.8.2 3.10.0             FALSE
+org.Ss.eg.db       3.8.2 3.10.0             FALSE
+org.Xl.eg.db       3.8.2 3.10.0             FALSE
+
+
+
+installing the source packages ‘org.Ag.eg.db’, ‘org.At.tair.db’, ‘org.Bt.eg.db’, ‘org.Ce.eg.db’, ‘org.Cf.eg.db’, ‘org.Dr.eg.db’, ‘org.EcK12.eg.db’, ‘org.EcSakai.eg.db’, ‘org.Mmu.eg.db’, ‘org.Pf.plasmo.db’, ‘org.Pt.eg.db’, ‘org.Sc.sgd.db’, ‘org.Ss.eg.db’, ‘org.Xl.eg.db’
+
+
+
+```
+### CRAN
+
+```
+
+  There are binary versions available but the source versions are later:
+                  binary source needs_compilation
+org.Ag.eg.db       3.8.2 3.10.0             FALSE
+org.At.tair.db     3.8.2 3.10.0             FALSE
+org.Bt.eg.db       3.8.2 3.10.0             FALSE
+org.Ce.eg.db       3.8.2 3.10.1             FALSE
+org.Cf.eg.db       3.8.2 3.10.0             FALSE
+org.Dr.eg.db       3.8.2 3.10.0             FALSE
+org.EcK12.eg.db    3.8.2 3.10.0             FALSE
+org.EcSakai.eg.db  3.8.2 3.10.0             FALSE
+org.Mmu.eg.db      3.8.2 3.10.0             FALSE
+org.Pf.plasmo.db   3.8.2 3.10.0             FALSE
+org.Pt.eg.db       3.8.2 3.10.0             FALSE
+org.Sc.sgd.db      3.8.2 3.10.0             FALSE
+org.Ss.eg.db       3.8.2 3.10.0             FALSE
+org.Xl.eg.db       3.8.2 3.10.0             FALSE
+
+
+
+installing the source packages ‘org.Ag.eg.db’, ‘org.At.tair.db’, ‘org.Bt.eg.db’, ‘org.Ce.eg.db’, ‘org.Cf.eg.db’, ‘org.Dr.eg.db’, ‘org.EcK12.eg.db’, ‘org.EcSakai.eg.db’, ‘org.Mmu.eg.db’, ‘org.Pf.plasmo.db’, ‘org.Pt.eg.db’, ‘org.Sc.sgd.db’, ‘org.Ss.eg.db’, ‘org.Xl.eg.db’
+
+
+
+```
 # geneXtendeR
 
 <details>
 
-* Version: 1.10.0
+* Version: 1.12.0
 * Source code: https://github.com/cran/geneXtendeR
 * URL: https://github.com/Bohdan-Khomtchouk/geneXtendeR
 * BugReports: https://github.com/Bohdan-Khomtchouk/geneXtendeR/issues
-* Date/Publication: 2019-05-02
+* Date/Publication: 2019-11-02
 * Number of recursive dependencies: 112
 
 Run `revdep_details(,"geneXtendeR")` for more info
@@ -3871,17 +4144,6 @@ Run `revdep_details(,"geneXtendeR")` for more info
 
 *   R CMD check timed out
     
-
-*   checking whether package ‘geneXtendeR’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: package ‘rtracklayer’ was built under R version 3.6.1
-      Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-      Warning: package ‘S4Vectors’ was built under R version 3.6.1
-      Warning: package ‘IRanges’ was built under R version 3.6.1
-      Warning: package ‘AnnotationDbi’ was built under R version 3.6.1
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/geneXtendeR/new/geneXtendeR.Rcheck/00install.out’ for details.
-    ```
 
 *   checking installed package size ... NOTE
     ```
@@ -3946,7 +4208,7 @@ Run `revdep_details(,"geneXtendeR")` for more info
 * Version: 2.0
 * Source code: https://github.com/cran/GenomicMating
 * Date/Publication: 2018-07-01 23:00:03 UTC
-* Number of recursive dependencies: 81
+* Number of recursive dependencies: 92
 
 Run `revdep_details(,"GenomicMating")` for more info
 
@@ -3988,8 +4250,8 @@ ERROR: compilation failed for package ‘GenomicMating’
 ** package ‘GenomicMating’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/GenomicMating/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/GenomicMating/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c MatingPrograms.cpp -o MatingPrograms.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/GenomicMating/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/GenomicMating/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/GenomicMating/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c MatingPrograms.cpp -o MatingPrograms.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/GenomicMating/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o GenomicMating.so MatingPrograms.o RcppExports.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -4007,7 +4269,7 @@ ERROR: compilation failed for package ‘GenomicMating’
 * Version: 0.1.1
 * Source code: https://github.com/cran/geodiv
 * Date/Publication: 2020-02-13 14:40:08 UTC
-* Number of recursive dependencies: 77
+* Number of recursive dependencies: 75
 
 Run `revdep_details(,"geodiv")` for more info
 
@@ -4049,8 +4311,8 @@ ERROR: compilation failed for package ‘geodiv’
 ** package ‘geodiv’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/geodiv/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/geodiv/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/geodiv/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/geodiv/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sfd.cpp -o sfd.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/geodiv/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/geodiv/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sfd.cpp -o sfd.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o geodiv.so RcppExports.o sfd.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -4112,8 +4374,8 @@ ERROR: compilation failed for package ‘goldi’
 ** package ‘goldi’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/goldi/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/goldi/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/goldi/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/goldi/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c match.cpp -o match.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/goldi/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/goldi/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c match.cpp -o match.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o goldi.so RcppExports.o match.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -4124,166 +4386,6 @@ ERROR: compilation failed for package ‘goldi’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/goldi/old/goldi.Rcheck/goldi’
 
 ```
-# gQTLstats
-
-<details>
-
-* Version: 1.16.0
-* Source code: https://github.com/cran/gQTLstats
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 179
-
-Run `revdep_details(,"gQTLstats")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘gQTLstats’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/gQTLstats/new/gQTLstats.Rcheck/00install.out’ for details.
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘gQTLstats’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: package ‘AnnotationDbi’ was built under R version 3.6.1
-      Warning: package ‘IRanges’ was built under R version 3.6.1
-      Warning: package ‘S4Vectors’ was built under R version 3.6.1
-      Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/gQTLstats/old/gQTLstats.Rcheck/00install.out’ for details.
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 65.7Mb
-      sub-directories of 1Mb or more:
-        data        11.0Mb
-        doc          1.1Mb
-        registries  18.8Mb
-        vcf         33.8Mb
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    ...
-      ‘permScore_3’
-    storeToMaxAssocBySNP: no visible global function definition for ‘nth’
-    storeToMaxAssocBySNP: no visible binding for global variable ‘MAF’
-    storeToMaxAssocBySNP: no visible binding for global variable ‘probeid’
-    storeToMaxAssocBySNP: no visible binding for global variable ‘mindist’
-    tqbrowser: no visible global function definition for ‘experiments’
-    tqbrowser : server: no visible global function definition for
-      ‘experiments’
-    tqbrowser : server: no visible global function definition for
-      ‘TabixFile’
-    tqbrowser : server: no visible binding for global variable ‘assoc’
-    tqbrowser : server: no visible binding for global variable ‘stateid’
-    tqbrowser : server: no visible binding for global variable ‘state’
-    transTable: no visible binding for global variable ‘i’
-    tsByRank_sing: no visible binding for global variable ‘i’
-    tsByRank_sing : <anonymous>: no visible binding for global variable ‘i’
-    boxswarm,SnpToGeneQTL: no visible binding for global variable ‘g1’
-    Undefined global functions or variables:
-      DNAStringSetList MAF TabixFile TxDb assoc calls ch chisq criterion ex
-      exonsBy experiments g1 geom_boxplot gt i id maf mindist ml10fdr nth
-      permScore_1 permScore_2 permScore_3 probeid snp state stateid value x
-    ```
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘MultiAssayExperiment’
-    ```
-
-*   checking contents of ‘data’ directory ... NOTE
-    ```
-    ...
-      names
-      class
-          filterUsed
-        <environment: namespace:base>
-      x
-          class
-      package
-              [2]
-            [1]
-            [2]
-          names
-          out.attrs
-        [1]
-        [2]
-      [1]
-      [2]
-      names
-          row.names
-          class
-            names
-              names
-    ```
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 8 marked Latin-1 strings
-      Note: found 12 marked UTF-8 strings
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘gQTLstats’ ...
-** using staged installation
-** R
-** data
-** inst
-** byte-compile and prepare package for lazy loading
-Warning messages:
-1: package ‘AnnotationDbi’ was built under R version 3.6.1 
-2: package ‘IRanges’ was built under R version 3.6.1 
-3: package ‘S4Vectors’ was built under R version 3.6.1 
-4: package ‘GenomicRanges’ was built under R version 3.6.1 
-Error: object ‘rbind_all’ is not exported by 'namespace:dplyr'
-Execution halted
-ERROR: lazy loading failed for package ‘gQTLstats’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/gQTLstats/new/gQTLstats.Rcheck/gQTLstats’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘gQTLstats’ ...
-** using staged installation
-** R
-** data
-** inst
-** byte-compile and prepare package for lazy loading
-Warning messages:
-1: package ‘AnnotationDbi’ was built under R version 3.6.1 
-2: package ‘IRanges’ was built under R version 3.6.1 
-3: package ‘S4Vectors’ was built under R version 3.6.1 
-4: package ‘GenomicRanges’ was built under R version 3.6.1 
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-Warning: package ‘AnnotationDbi’ was built under R version 3.6.1
-Warning: package ‘IRanges’ was built under R version 3.6.1
-Warning: package ‘S4Vectors’ was built under R version 3.6.1
-Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-** testing if installed package can be loaded from final location
-Warning: package ‘AnnotationDbi’ was built under R version 3.6.1
-Warning: package ‘IRanges’ was built under R version 3.6.1
-Warning: package ‘S4Vectors’ was built under R version 3.6.1
-Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-** testing if installed package keeps a record of temporary installation path
-* DONE (gQTLstats)
-
-```
 # graphicalVAR
 
 <details>
@@ -4291,7 +4393,7 @@ Warning: package ‘GenomicRanges’ was built under R version 3.6.1
 * Version: 0.2.2
 * Source code: https://github.com/cran/graphicalVAR
 * Date/Publication: 2018-06-16 19:28:45 UTC
-* Number of recursive dependencies: 105
+* Number of recursive dependencies: 115
 
 Run `revdep_details(,"graphicalVAR")` for more info
 
@@ -4328,7 +4430,7 @@ ERROR: compilation failed for package ‘graphicalVAR’
 ** package ‘graphicalVAR’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/graphicalVAR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/graphicalVAR/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/graphicalVAR/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘graphicalVAR’
@@ -4341,7 +4443,7 @@ ERROR: compilation failed for package ‘graphicalVAR’
 
 * Version: 1.1.0
 * Source code: https://github.com/cran/grasp2db
-* Number of recursive dependencies: 98
+* Number of recursive dependencies: 99
 
 Run `revdep_details(,"grasp2db")` for more info
 
@@ -4416,7 +4518,7 @@ Run `revdep_details(,"grasp2db")` for more info
 * URL: https://robwschlegel.github.io/heatwaveR/index.html, https://github.com/robwschlegel/heatwaveR
 * BugReports: https://github.com/robwschlegel/heatwaveR/issues
 * Date/Publication: 2019-12-01 21:30:06 UTC
-* Number of recursive dependencies: 106
+* Number of recursive dependencies: 100
 
 Run `revdep_details(,"heatwaveR")` for more info
 
@@ -4453,219 +4555,21 @@ ERROR: compilation failed for package ‘heatwaveR’
 ** package ‘heatwaveR’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heatwaveR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heatwaveR/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heatwaveR/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘heatwaveR’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/heatwaveR/old/heatwaveR.Rcheck/heatwaveR’
 
 ```
-# heuristicsmineR
-
-<details>
-
-* Version: 0.2.1
-* Source code: https://github.com/cran/heuristicsmineR
-* URL: https://github.com/fmannhardt/heuristicsmineR
-* BugReports: https://github.com/fmannhardt/heuristicsmineR/issues
-* Date/Publication: 2019-05-14 21:00:17 UTC
-* Number of recursive dependencies: 91
-
-Run `revdep_details(,"heuristicsmineR")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘heuristicsmineR’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/heuristicsmineR/new/heuristicsmineR.Rcheck/00install.out’ for details.
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘edeaR’
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘heuristicsmineR’ ...
-** package ‘heuristicsmineR’ successfully unpacked and MD5 sums checked
-** using staged installation
-** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c count_length_two_loops.cpp -o count_length_two_loops.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c count_parallel_lifecycle.cpp -o count_parallel_lifecycle.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c count_precedence.cpp -o count_precedence.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c count_precedence_lifecycle.cpp -o count_precedence_lifecycle.o
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o heuristicsmineR.so RcppExports.o count_length_two_loops.o count_parallel_lifecycle.o count_precedence.o count_precedence_lifecycle.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/heuristicsmineR/new/heuristicsmineR.Rcheck/00LOCK-heuristicsmineR/00new/heuristicsmineR/libs
-** R
-** data
-*** moving datasets to lazyload DB
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘edeaR’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘heuristicsmineR’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/heuristicsmineR/new/heuristicsmineR.Rcheck/heuristicsmineR’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘heuristicsmineR’ ...
-** package ‘heuristicsmineR’ successfully unpacked and MD5 sums checked
-** using staged installation
-** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c count_length_two_loops.cpp -o count_length_two_loops.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c count_parallel_lifecycle.cpp -o count_parallel_lifecycle.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c count_precedence.cpp -o count_precedence.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/heuristicsmineR/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c count_precedence_lifecycle.cpp -o count_precedence_lifecycle.o
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o heuristicsmineR.so RcppExports.o count_length_two_loops.o count_parallel_lifecycle.o count_precedence.o count_precedence_lifecycle.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/heuristicsmineR/old/heuristicsmineR.Rcheck/00LOCK-heuristicsmineR/00new/heuristicsmineR/libs
-** R
-** data
-*** moving datasets to lazyload DB
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘edeaR’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘heuristicsmineR’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/heuristicsmineR/old/heuristicsmineR.Rcheck/heuristicsmineR’
-
-```
-# HMP16SData
-
-<details>
-
-* Version: 1.4.1
-* Source code: https://github.com/cran/HMP16SData
-* URL: https://github.com/waldronlab/HMP16SData
-* BugReports: https://github.com/waldronlab/HMP16SData/issues
-* Date/Publication: 2019-05-23
-* Number of recursive dependencies: 182
-
-Run `revdep_details(,"HMP16SData")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘HMP16SData’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HMP16SData/new/HMP16SData.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘HMP16SData’ ...
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Warning messages:
-1: package ‘SummarizedExperiment’ was built under R version 3.6.1 
-2: package ‘GenomicRanges’ was built under R version 3.6.1 
-3: package ‘S4Vectors’ was built under R version 3.6.1 
-4: package ‘IRanges’ was built under R version 3.6.1 
-5: package ‘BiocParallel’ was built under R version 3.6.1 
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-Warning: package ‘SummarizedExperiment’ was built under R version 3.6.1
-Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-Warning: package ‘S4Vectors’ was built under R version 3.6.1
-Warning: package ‘IRanges’ was built under R version 3.6.1
-Warning: package ‘BiocParallel’ was built under R version 3.6.1
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpIUH7vA/BiocFileCache
-Warning: `select_()` is deprecated as of dplyr 0.7.0.
-Please use `select()` instead.
-This warning is displayed once per session.
-Call `lifecycle::last_warnings()` to see where this warning was generated.
-Warning: `filter_()` is deprecated as of dplyr 0.7.0.
-Please use `filter()` instead.
-See vignette('programming') for more help
-This warning is displayed once per session.
-Call `lifecycle::last_warnings()` to see where this warning was generated.
-snapshotDate(): 2019-10-22
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpIUH7vA/BiocFileCache
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpIUH7vA/BiocFileCache
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpIUH7vA/BiocFileCache
-Error: package or namespace load failed for ‘HMP16SData’:
- .onLoad failed in loadNamespace() for 'HMP16SData', details:
-  call: function_list[[k]](value)
-  error: ‘V13’ not found in ExperimentHub
-Error: loading failed
-Execution halted
-ERROR: loading failed
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HMP16SData/new/HMP16SData.Rcheck/HMP16SData’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘HMP16SData’ ...
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Warning messages:
-1: package ‘SummarizedExperiment’ was built under R version 3.6.1 
-2: package ‘GenomicRanges’ was built under R version 3.6.1 
-3: package ‘S4Vectors’ was built under R version 3.6.1 
-4: package ‘IRanges’ was built under R version 3.6.1 
-5: package ‘BiocParallel’ was built under R version 3.6.1 
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-Warning: package ‘SummarizedExperiment’ was built under R version 3.6.1
-Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-Warning: package ‘S4Vectors’ was built under R version 3.6.1
-Warning: package ‘IRanges’ was built under R version 3.6.1
-Warning: package ‘BiocParallel’ was built under R version 3.6.1
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpXCBtqA/BiocFileCache
-snapshotDate(): 2019-10-22
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpXCBtqA/BiocFileCache
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpXCBtqA/BiocFileCache
-Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpXCBtqA/BiocFileCache
-Error: package or namespace load failed for ‘HMP16SData’:
- .onLoad failed in loadNamespace() for 'HMP16SData', details:
-  call: function_list[[k]](value)
-  error: ‘V13’ not found in ExperimentHub
-Error: loading failed
-Execution halted
-ERROR: loading failed
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HMP16SData/old/HMP16SData.Rcheck/HMP16SData’
-
-```
 # iCNV
 
 <details>
 
-* Version: 1.4.0
+* Version: 1.6.0
 * Source code: https://github.com/cran/iCNV
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 91
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 101
 
 Run `revdep_details(,"iCNV")` for more info
 
@@ -4692,11 +4596,6 @@ Run `revdep_details(,"iCNV")` for more info
 ** inst
 ** byte-compile and prepare package for lazy loading
 Error: package ‘BSgenome.Hsapiens.UCSC.hg19’ required by ‘CODEX’ could not be found
-In addition: Warning messages:
-1: package ‘Rsamtools’ was built under R version 3.6.1 
-2: package ‘S4Vectors’ was built under R version 3.6.1 
-3: package ‘IRanges’ was built under R version 3.6.1 
-4: package ‘GenomicRanges’ was built under R version 3.6.1 
 Execution halted
 ERROR: lazy loading failed for package ‘iCNV’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/iCNV/new/iCNV.Rcheck/iCNV’
@@ -4713,14 +4612,75 @@ ERROR: lazy loading failed for package ‘iCNV’
 ** inst
 ** byte-compile and prepare package for lazy loading
 Error: package ‘BSgenome.Hsapiens.UCSC.hg19’ required by ‘CODEX’ could not be found
-In addition: Warning messages:
-1: package ‘Rsamtools’ was built under R version 3.6.1 
-2: package ‘S4Vectors’ was built under R version 3.6.1 
-3: package ‘IRanges’ was built under R version 3.6.1 
-4: package ‘GenomicRanges’ was built under R version 3.6.1 
 Execution halted
 ERROR: lazy loading failed for package ‘iCNV’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/iCNV/old/iCNV.Rcheck/iCNV’
+
+```
+# ideal
+
+<details>
+
+* Version: 1.10.0
+* Source code: https://github.com/cran/ideal
+* URL: https://github.com/federicomarini/ideal, https://federicomarini.github.io/ideal/
+* BugReports: https://github.com/federicomarini/ideal/issues
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 199
+
+Run `revdep_details(,"ideal")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘ideal’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/ideal/new/ideal.Rcheck/00install.out’ for details.
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘TxDb.Hsapiens.UCSC.hg38.knownGene’
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘ideal’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+
+groupGOTerms: 	GOBPTerm, GOMFTerm, GOCCTerm environments built.
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘geneLenDataBase’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘ideal’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/ideal/new/ideal.Rcheck/ideal’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘ideal’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+
+groupGOTerms: 	GOBPTerm, GOMFTerm, GOCCTerm environments built.
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘geneLenDataBase’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘ideal’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/ideal/old/ideal.Rcheck/ideal’
 
 ```
 # idefix
@@ -4768,7 +4728,7 @@ ERROR: compilation failed for package ‘idefix’
 ** package ‘idefix’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/idefix/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/idefix/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c InfoDes_cpp.cpp -o InfoDes_cpp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/idefix/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c InfoDes_cpp.cpp -o InfoDes_cpp.o
 clang: error: unsupported option '-fopenmp'
 make: *** [InfoDes_cpp.o] Error 1
 ERROR: compilation failed for package ‘idefix’
@@ -4779,12 +4739,12 @@ ERROR: compilation failed for package ‘idefix’
 
 <details>
 
-* Version: 1.0.4
+* Version: 1.2.1
 * Source code: https://github.com/cran/infercnv
 * URL: https://github.com/broadinstitute/inferCNV/wiki
 * BugReports: https://github.com/broadinstitute/inferCNV/issues
-* Date/Publication: 2019-09-16
-* Number of recursive dependencies: 127
+* Date/Publication: 2019-11-15
+* Number of recursive dependencies: 126
 
 Run `revdep_details(,"infercnv")` for more info
 
@@ -4850,7 +4810,7 @@ ERROR: lazy loading failed for package ‘infercnv’
 * Source code: https://github.com/cran/iRF
 * URL: https://arxiv.org/abs/1706.08457
 * Date/Publication: 2017-07-26 04:57:45 UTC
-* Number of recursive dependencies: 74
+* Number of recursive dependencies: 60
 
 Run `revdep_details(,"iRF")` for more info
 
@@ -4887,11 +4847,149 @@ ERROR: compilation failed for package ‘iRF’
 ** package ‘iRF’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/iRF/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c ExportedFunctionsRIT.cpp -o ExportedFunctionsRIT.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c ExportedFunctionsRIT.cpp -o ExportedFunctionsRIT.o
 clang: error: unsupported option '-fopenmp'
 make: *** [ExportedFunctionsRIT.o] Error 1
 ERROR: compilation failed for package ‘iRF’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/iRF/old/iRF.Rcheck/iRF’
+
+```
+# lilikoi
+
+<details>
+
+* Version: 0.1.0
+* Source code: https://github.com/cran/lilikoi
+* URL: https://github.com/lanagarmire/lilikoi
+* BugReports: https://github.com/lanagarmire/lilikoi/issues
+* Date/Publication: 2018-07-30 11:10:03 UTC
+* Number of recursive dependencies: 146
+
+Run `revdep_details(,"lilikoi")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘lilikoi’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/lilikoi/new/lilikoi.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘lilikoi’ ...
+** package ‘lilikoi’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘lilikoi’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/lilikoi/new/lilikoi.Rcheck/lilikoi’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘lilikoi’ ...
+** package ‘lilikoi’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘lilikoi’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/lilikoi/old/lilikoi.Rcheck/lilikoi’
+
+```
+# LLSR
+
+<details>
+
+* Version: 0.0.2.19
+* Source code: https://github.com/cran/LLSR
+* URL: https://CRAN.R-project.org/package=LLSR
+* BugReports: https://github.com/diegofcoelho/LLSR/issues
+* Date/Publication: 2019-03-05 22:20:11 UTC
+* Number of recursive dependencies: 61
+
+Run `revdep_details(,"LLSR")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘LLSR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/LLSR/new/LLSR.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘LLSR’ ...
+** package ‘LLSR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘LLSR’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/LLSR/new/LLSR.Rcheck/LLSR’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘LLSR’ ...
+** package ‘LLSR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘LLSR’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/LLSR/old/LLSR.Rcheck/LLSR’
 
 ```
 # lpirfs
@@ -4902,7 +5000,7 @@ ERROR: compilation failed for package ‘iRF’
 * Source code: https://github.com/cran/lpirfs
 * BugReports: https://github.com/adaemmerp/lpirfs/issues
 * Date/Publication: 2019-11-25 09:20:06 UTC
-* Number of recursive dependencies: 106
+* Number of recursive dependencies: 104
 
 Run `revdep_details(,"lpirfs")` for more info
 
@@ -4939,7 +5037,7 @@ ERROR: compilation failed for package ‘lpirfs’
 ** package ‘lpirfs’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/lpirfs/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/lpirfs/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/lpirfs/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘lpirfs’
@@ -4966,9 +5064,10 @@ Run `revdep_details(,"")` for more info
 
 ```
 
-  There is a binary version available but the source version is later:
-     binary source needs_compilation
-nnet 7.3-12 7.3-13              TRUE
+  There are binary versions available but the source versions are later:
+             binary source needs_compilation
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
 
   Binaries will be installed
 
@@ -4982,9 +5081,10 @@ installing the source packages ‘hugene10sttranscriptcluster.db’, ‘pd.hugen
 
 ```
 
-  There is a binary version available but the source version is later:
-     binary source needs_compilation
-nnet 7.3-12 7.3-13              TRUE
+  There are binary versions available but the source versions are later:
+             binary source needs_compilation
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
 
   Binaries will be installed
 
@@ -4992,6 +5092,87 @@ nnet 7.3-12 7.3-13              TRUE
 installing the source packages ‘hugene10sttranscriptcluster.db’, ‘pd.hugene.1.0.st.v1’, ‘reactome.db’
 
 
+
+```
+# mbgraphic
+
+<details>
+
+* Version: 1.0.1
+* Source code: https://github.com/cran/mbgraphic
+* Date/Publication: 2019-04-28 19:20:03 UTC
+* Number of recursive dependencies: 101
+
+Run `revdep_details(,"mbgraphic")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘mbgraphic’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘mbgraphic’ ...
+** package ‘mbgraphic’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c cmasum.cpp -o cmasum.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c mbgraphic_init.c -o mbgraphic_init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c variableflip.cpp -o variableflip.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mbgraphic.so RcppExports.o cmasum.o mbgraphic_init.o variableflip.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/00LOCK-mbgraphic/00new/mbgraphic/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘mbgraphic’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/mbgraphic’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘mbgraphic’ ...
+** package ‘mbgraphic’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c cmasum.cpp -o cmasum.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c mbgraphic_init.c -o mbgraphic_init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c variableflip.cpp -o variableflip.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mbgraphic.so RcppExports.o cmasum.o mbgraphic_init.o variableflip.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mbgraphic/old/mbgraphic.Rcheck/00LOCK-mbgraphic/00new/mbgraphic/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘mbgraphic’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mbgraphic/old/mbgraphic.Rcheck/mbgraphic’
 
 ```
 # mfbvar
@@ -5094,33 +5275,33 @@ configure: WARNING: OpenMP unavailable and turned off.
 configure: creating ./config.status
 config.status: creating src/Makevars
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c auxmix.cpp -o auxmix.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c builders.cpp -o builders.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c dl_reg.cpp -o dl_reg.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c kf_cpp.cpp -o kf_cpp.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c max_eig_cpp.cpp -o max_eig_cpp.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c mcmc_csv.cpp -o mcmc_csv.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c mcmc_diffuse.cpp -o mcmc_diffuse.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c mcmc_fsv.cpp -o mcmc_fsv.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c mcmc_iw.cpp -o mcmc_iw.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c mvn_par.cpp -o mvn_par.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c plot_funs.cpp -o plot_funs.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c posteriors.cpp -o posteriors.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c progutils.cpp -o progutils.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c progutils_fsv.cpp -o progutils_fsv.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c rgig.cpp -o rgig.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c rmvn.cpp -o rmvn.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c rnd_numbers.cpp -o rnd_numbers.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c rsimsm_adaptive_cv.cpp -o rsimsm_adaptive_cv.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c rsimsm_adaptive_univariate.cpp -o rsimsm_adaptive_univariate.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c smoothing.cpp -o smoothing.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c update_csv.cpp -o update_csv.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c update_demean.cpp -o update_demean.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c update_dl.cpp -o update_dl.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c update_fsv.cpp -o update_fsv.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c update_ng.cpp -o update_ng.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c utils.cpp -o utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c auxmix.cpp -o auxmix.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c builders.cpp -o builders.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c dl_reg.cpp -o dl_reg.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c kf_cpp.cpp -o kf_cpp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c max_eig_cpp.cpp -o max_eig_cpp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c mcmc_csv.cpp -o mcmc_csv.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c mcmc_diffuse.cpp -o mcmc_diffuse.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c mcmc_fsv.cpp -o mcmc_fsv.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c mcmc_iw.cpp -o mcmc_iw.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c mvn_par.cpp -o mvn_par.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c plot_funs.cpp -o plot_funs.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c posteriors.cpp -o posteriors.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c progutils.cpp -o progutils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c progutils_fsv.cpp -o progutils_fsv.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c rgig.cpp -o rgig.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c rmvn.cpp -o rmvn.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c rnd_numbers.cpp -o rnd_numbers.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c rsimsm_adaptive_cv.cpp -o rsimsm_adaptive_cv.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c rsimsm_adaptive_univariate.cpp -o rsimsm_adaptive_univariate.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c smoothing.cpp -o smoothing.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c update_csv.cpp -o update_csv.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c update_demean.cpp -o update_demean.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c update_dl.cpp -o update_dl.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c update_fsv.cpp -o update_fsv.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c update_ng.cpp -o update_ng.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppProgress/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/stochvol/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mfbvar/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_DONT_USE_OPENMP -I../inst/include -fPIC  -Wall -O3 -c utils.cpp -o utils.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mfbvar.so RcppExports.o auxmix.o builders.o dl_reg.o kf_cpp.o max_eig_cpp.o mcmc_csv.o mcmc_diffuse.o mcmc_fsv.o mcmc_iw.o mvn_par.o plot_funs.o posteriors.o progutils.o progutils_fsv.o rgig.o rmvn.o rnd_numbers.o rsimsm_adaptive_cv.o rsimsm_adaptive_univariate.o smoothing.o update_csv.o update_demean.o update_dl.o update_fsv.o update_ng.o utils.o -DARMA_DONT_USE_OPENMP -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -5177,7 +5358,7 @@ ERROR: compilation failed for package ‘miceFast’
 ** package ‘miceFast’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/miceFast/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/miceFast/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c R_funs.cpp -o R_funs.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/miceFast/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c R_funs.cpp -o R_funs.o
 clang: error: unsupported option '-fopenmp'
 make: *** [R_funs.o] Error 1
 ERROR: compilation failed for package ‘miceFast’
@@ -5193,7 +5374,7 @@ ERROR: compilation failed for package ‘miceFast’
 * URL: http://github.com/gzt/MixMatrix/, https://gzt.github.io/MixMatrix/
 * BugReports: http://github.com/gzt/MixMatrix/issues
 * Date/Publication: 2019-11-14 22:30:03 UTC
-* Number of recursive dependencies: 79
+* Number of recursive dependencies: 78
 
 Run `revdep_details(,"MixMatrix")` for more info
 
@@ -5230,23 +5411,104 @@ ERROR: compilation failed for package ‘MixMatrix’
 ** package ‘MixMatrix’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/MixMatrix/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/MixMatrix/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/MixMatrix/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘MixMatrix’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/MixMatrix/old/MixMatrix.Rcheck/MixMatrix’
 
 ```
+# mleap
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/mleap
+* URL: https://github.com/rstudio/mleap
+* BugReports: https://github.com/rstudio/mleap/issues
+* Date/Publication: 2020-01-10 22:20:02 UTC
+* Number of recursive dependencies: 78
+
+Run `revdep_details(,"mleap")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘mleap’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mleap/new/mleap.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘mleap’ ...
+** package ‘mleap’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+Error: package or namespace load failed for ‘mleap’:
+ .onLoad failed in loadNamespace() for 'mleap', details:
+  call: NULL
+  error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so
+  Reason: image not found
+Error: loading failed
+Execution halted
+ERROR: loading failed
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mleap/new/mleap.Rcheck/mleap’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘mleap’ ...
+** package ‘mleap’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+Error: package or namespace load failed for ‘mleap’:
+ .onLoad failed in loadNamespace() for 'mleap', details:
+  call: NULL
+  error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so
+  Reason: image not found
+Error: loading failed
+Execution halted
+ERROR: loading failed
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mleap/old/mleap.Rcheck/mleap’
+
+```
 # momentuHMM
 
 <details>
 
-* Version: 1.5.0
+* Version: 1.5.1
 * Source code: https://github.com/cran/momentuHMM
 * URL: https://github.com/bmcclintock/momentuHMM
 * BugReports: https://github.com/bmcclintock/momentuHMM/issues
-* Date/Publication: 2019-12-18 02:10:11 UTC
-* Number of recursive dependencies: 173
+* Date/Publication: 2020-03-06 06:00:02 UTC
+* Number of recursive dependencies: 165
 
 Run `revdep_details(,"momentuHMM")` for more info
 
@@ -5292,12 +5554,12 @@ ERROR: compilation failed for package ‘momentuHMM’
 ** package ‘momentuHMM’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XBloop.cpp -o XBloop.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c getDM.cpp -o getDM.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c momentuHMM_init.c -o momentuHMM_init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c nLogLike.cpp -o nLogLike.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c trMatrix.cpp -o trMatrix.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XBloop.cpp -o XBloop.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c getDM.cpp -o getDM.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c momentuHMM_init.c -o momentuHMM_init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c nLogLike.cpp -o nLogLike.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c trMatrix.cpp -o trMatrix.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o momentuHMM.so RcppExports.o XBloop.o getDM.o momentuHMM_init.o nLogLike.o trMatrix.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -5308,33 +5570,6 @@ ERROR: compilation failed for package ‘momentuHMM’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/momentuHMM/old/momentuHMM.Rcheck/momentuHMM’
 
 ```
-# MonetDBLite
-
-<details>
-
-* Version: 0.6.0
-* Source code: https://github.com/cran/MonetDBLite
-* URL: https://github.com/hannesmuehleisen/MonetDBLite-R
-* BugReports: https://github.com/hannesmuehleisen/MonetDBLite-R/issues
-* Date/Publication: 2018-07-27 09:40:03 UTC
-* Number of recursive dependencies: 113
-
-Run `revdep_details(,"MonetDBLite")` for more info
-
-</details>
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.6Mb
-      sub-directories of 1Mb or more:
-        libs   5.3Mb
-    ```
-
 # morse
 
 <details>
@@ -5462,15 +5697,15 @@ ERROR: compilation failed for package ‘mrgsolve’
 ** package ‘mrgsolve’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c LSODA.cpp -o LSODA.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dataobject.cpp -o dataobject.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c datarecord.cpp -o datarecord.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c devtran.cpp -o devtran.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c housemodel-mread-source.cpp -o housemodel-mread-source.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c mrgsolve.cpp -o mrgsolve.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c mrgsolve_init.cpp -o mrgsolve_init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c odeproblem.cpp -o odeproblem.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c LSODA.cpp -o LSODA.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dataobject.cpp -o dataobject.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c datarecord.cpp -o datarecord.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c devtran.cpp -o devtran.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c housemodel-mread-source.cpp -o housemodel-mread-source.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c mrgsolve.cpp -o mrgsolve.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c mrgsolve_init.cpp -o mrgsolve_init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c odeproblem.cpp -o odeproblem.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mrgsolve.so LSODA.o RcppExports.o dataobject.o datarecord.o devtran.o housemodel-mread-source.o mrgsolve.o mrgsolve_init.o odeproblem.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -5481,78 +5716,77 @@ ERROR: compilation failed for package ‘mrgsolve’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mrgsolve/old/mrgsolve.Rcheck/mrgsolve’
 
 ```
-# msPurity
+# neuropsychology
 
 <details>
 
-* Version: 1.10.0
-* Source code: https://github.com/cran/msPurity
-* BugReports: https://github.com/computational-metabolomics/msPurity/issues/new
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 146
+* Version: 0.5.0
+* Source code: https://github.com/cran/neuropsychology
+* URL: https://github.com/neuropsychology/neuropsychology.R
+* BugReports: https://github.com/neuropsychology/neuropsychology.R/issues
+* Date/Publication: 2017-03-22 19:17:18 UTC
+* Number of recursive dependencies: 152
 
-Run `revdep_details(,"msPurity")` for more info
+Run `revdep_details(,"neuropsychology")` for more info
 
 </details>
 
 ## In both
 
-*   R CMD check timed out
-    
-
-*   checking for hidden files and directories ... NOTE
+*   checking whether package ‘neuropsychology’ can be installed ... ERROR
     ```
-    Found the following hidden files and directories:
-      .travis.yml
-    These were most likely included in error. See section ‘Package
-    structure’ in the ‘Writing R Extensions’ manual.
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/new/neuropsychology.Rcheck/00install.out’ for details.
     ```
 
-*   checking installed package size ... NOTE
-    ```
-      installed size is 15.3Mb
-      sub-directories of 1Mb or more:
-        doc       3.4Mb
-        extdata  11.1Mb
-    ```
+## Installation
 
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘dbplyr’
-      All declared Imports should be used.
-    Package in Depends field not imported from: ‘Rcpp’
-      These packages need to be imported from (in the NAMESPACE file)
-      for when this namespace is loaded but not attached.
-    Missing or unexported object: ‘stats::mean’
-    package 'methods' is used but not declared
-    ```
+### Devel
 
-*   checking R code for possible problems ... NOTE
-    ```
-    ...
-    xcmsGroupPurity: no visible global function definition for ‘median’
-    averageSpectra,purityD: no visible binding for global variable ‘i’
-    subtract,purityD: no visible binding for global variable ‘i’
-    validate,purityA: no visible global function definition for ‘head’
-    writeOut,purityD: no visible global function definition for ‘write.csv’
-    Undefined global functions or variables:
-      abline accession alli approxfun dev.off dnorm fix grpid head i idx
-      inPurity instrument instrument_type l_speakmetaFiltered legend
-      library_spectra_meta_id lines lower match_factor median mtch mtchi
-      na.omit name.y packageVersion parallel pass_flag pid plot png points
-      polarity precursor_mz purity q_con ra read.csv retention_time
-      sampclass<- sd spectraType spectrum_type text topn type variable
-      write.csv
-    Consider adding
-      importFrom("grDevices", "dev.off", "png")
-      importFrom("graphics", "abline", "legend", "lines", "plot", "points",
-                 "text")
-      importFrom("stats", "approxfun", "dnorm", "median", "na.omit", "sd")
-      importFrom("utils", "fix", "head", "packageVersion", "read.csv",
-                 "write.csv")
-    to your NAMESPACE file.
-    ```
+```
+* installing *source* package ‘neuropsychology’ ...
+** package ‘neuropsychology’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘neuropsychology’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/new/neuropsychology.Rcheck/neuropsychology’
 
+```
+### CRAN
+
+```
+* installing *source* package ‘neuropsychology’ ...
+** package ‘neuropsychology’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘neuropsychology’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/old/neuropsychology.Rcheck/neuropsychology’
+
+```
 # nlmixr
 
 <details>
@@ -5561,7 +5795,7 @@ Run `revdep_details(,"msPurity")` for more info
 * Source code: https://github.com/cran/nlmixr
 * URL: https://github.com/nlmixrdevelopment/nlmixr
 * Date/Publication: 2020-01-27 13:20:02 UTC
-* Number of recursive dependencies: 163
+* Number of recursive dependencies: 153
 
 Run `revdep_details(,"nlmixr")` for more info
 
@@ -5685,20 +5919,20 @@ $(SHLIB): $(OBJECTS)
 
 --------[end src/Makevars]--------
 ** libs
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c jj.c -o jj.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c jj.g.d_parser.c -o jj.g.d_parser.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c rprintf.c -o rprintf.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c merge3.c -o merge3.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c lbfgsR.c -o lbfgsR.o
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c neldermead.cpp -o neldermead.o
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c slice.cpp -o slice.o
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c RcppExportMod.cpp -o RcppExportMod.o
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c ode_cmt1.cpp -o ode_cmt1.o
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c resid.cpp -o resid.o
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c inner.cpp -o inner.o
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c saem.cpp -o saem.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c jj.c -o jj.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c jj.g.d_parser.c -o jj.g.d_parser.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c rprintf.c -o rprintf.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c merge3.c -o merge3.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c lbfgsR.c -o lbfgsR.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c neldermead.cpp -o neldermead.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c slice.cpp -o slice.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c RcppExportMod.cpp -o RcppExportMod.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c ode_cmt1.cpp -o ode_cmt1.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c resid.cpp -o resid.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c inner.cpp -o inner.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RxODE/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/lbfgsb3c/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("BH"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppEigen"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("StanHeaders"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("Rcpp"),"include"))'`" -isystem"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`"  -fPIC  -Wall -g -O2  -c saem.cpp -o saem.o
 clang++ -std=gnu++14 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o nlmixr.so jj.o jj.g.d_parser.o init.o rprintf.o merge3.o lbfgsR.o neldermead.o slice.o RcppExportMod.o ode_cmt1.o RcppExports.o resid.o inner.o saem.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -5707,6 +5941,73 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [nlmixr.so] Error 1
 ERROR: compilation failed for package ‘nlmixr’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/nlmixr/old/nlmixr.Rcheck/nlmixr’
+
+```
+# NobBS
+
+<details>
+
+* Version: 0.1.0
+* Source code: https://github.com/cran/NobBS
+* Date/Publication: 2020-03-03 10:40:02 UTC
+* Number of recursive dependencies: 24
+
+Run `revdep_details(,"NobBS")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘NobBS’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/NobBS/new/NobBS.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘NobBS’ ...
+** package ‘NobBS’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rjags', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/NobBS/rjags/libs/rjags.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/NobBS/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/NobBS/rjags/libs/rjags.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘NobBS’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/NobBS/new/NobBS.Rcheck/NobBS’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘NobBS’ ...
+** package ‘NobBS’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rjags', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/NobBS/rjags/libs/rjags.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/NobBS/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/NobBS/rjags/libs/rjags.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘NobBS’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/NobBS/old/NobBS.Rcheck/NobBS’
 
 ```
 # openair
@@ -5761,9 +6062,9 @@ ERROR: compilation failed for package ‘openair’
 ** package ‘openair’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/openair/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c cluster.cpp -o cluster.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/openair/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/openair/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rolling.cpp -o rolling.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c cluster.cpp -o cluster.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rolling.cpp -o rolling.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o openair.so cluster.o init.o rolling.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -5772,6 +6073,64 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [openair.so] Error 1
 ERROR: compilation failed for package ‘openair’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/openair/old/openair.Rcheck/openair’
+
+```
+# parcats
+
+<details>
+
+* Version: 0.0.1
+* Source code: https://github.com/cran/parcats
+* URL: https://erblast.github.io/parcats/
+* Date/Publication: 2019-12-02 16:10:03 UTC
+* Number of recursive dependencies: 111
+
+Run `revdep_details(,"parcats")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘parcats’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/parcats/new/parcats.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘parcats’ ...
+** package ‘parcats’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘parcats’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/parcats/new/parcats.Rcheck/parcats’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘parcats’ ...
+** package ‘parcats’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘parcats’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/parcats/old/parcats.Rcheck/parcats’
 
 ```
 # partition
@@ -5783,7 +6142,7 @@ ERROR: compilation failed for package ‘openair’
 * URL: https://uscbiostats.github.io/partition/, https://github.com/USCbiostats/partition
 * BugReports: https://github.com/USCbiostats/partition/issues
 * Date/Publication: 2019-12-12 06:30:03 UTC
-* Number of recursive dependencies: 81
+* Number of recursive dependencies: 80
 
 Run `revdep_details(,"partition")` for more info
 
@@ -5830,13 +6189,13 @@ ERROR: compilation failed for package ‘partition’
 ** package ‘partition’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c corr.cpp -o corr.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c icc.cpp -o icc.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c kmeans.cpp -o kmeans.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c minr2.cpp -o minr2.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pca.cpp -o pca.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c reduce_partition.cpp -o reduce_partition.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c corr.cpp -o corr.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c icc.cpp -o icc.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c kmeans.cpp -o kmeans.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c minr2.cpp -o minr2.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pca.cpp -o pca.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/partition/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c reduce_partition.cpp -o reduce_partition.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o partition.so RcppExports.o corr.o icc.o kmeans.o minr2.o pca.o reduce_partition.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -5847,51 +6206,6 @@ ERROR: compilation failed for package ‘partition’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/partition/old/partition.Rcheck/partition’
 
 ```
-# PathwaySplice
-
-<details>
-
-* Version: 1.8.0
-* Source code: https://github.com/cran/PathwaySplice
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 218
-
-Run `revdep_details(,"PathwaySplice")` for more info
-
-</details>
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking DESCRIPTION meta-information ... NOTE
-    ```
-    Malformed Description field: should contain one or more complete sentences.
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    compareResults2: no visible global function definition for 'ggplot'
-    compareResults2: no visible global function definition for 'aes'
-    compareResults2: no visible binding for global variable
-      'random_sampling_200k'
-    compareResults2: no visible binding for global variable 'PValue'
-    compareResults2: no visible binding for global variable 'PathwaySplice'
-    compareResults2: no visible global function definition for 'geom_point'
-    compareResults2: no visible global function definition for
-      'geom_smooth'
-    compareResults2: no visible global function definition for 'labs'
-    compareResults2: no visible global function definition for
-      'scale_colour_manual'
-    compareResults2: no visible global function definition for
-      'scale_shape_manual'
-    netplot: no visible global function definition for 'get.col.scale'
-    Undefined global functions or variables:
-      PValue PathwaySplice aes geom_point geom_smooth get.col.scale ggplot
-      labs random_sampling_200k scale_colour_manual scale_shape_manual
-    ```
-
 # pccc
 
 <details>
@@ -5945,10 +6259,10 @@ ERROR: compilation failed for package ‘pccc’
 ** package ‘pccc’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pccc/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pccc/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c ccc.cpp -o ccc.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pccc/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c get_codes.cpp -o get_codes.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pccc/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c pccc.cpp -o pccc.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c ccc.cpp -o ccc.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c get_codes.cpp -o get_codes.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -I../inst/include -DARMA_64BIT_WORD -fPIC  -Wall -O3 -c pccc.cpp -o pccc.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o pccc.so RcppExports.o ccc.o get_codes.o pccc.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -5959,14 +6273,82 @@ ERROR: compilation failed for package ‘pccc’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/pccc/old/pccc.Rcheck/pccc’
 
 ```
+# petro.One
+
+<details>
+
+* Version: 0.2.3
+* Source code: https://github.com/cran/petro.One
+* URL: https://github.com/f0nzie/petro.One
+* Date/Publication: 2019-01-13 16:20:03 UTC
+* Number of recursive dependencies: 91
+
+Run `revdep_details(,"petro.One")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘petro.One’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/petro.One/new/petro.One.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘petro.One’ ...
+** package ‘petro.One’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘petro.One’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/petro.One/new/petro.One.Rcheck/petro.One’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘petro.One’ ...
+** package ‘petro.One’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘petro.One’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/petro.One/old/petro.One.Rcheck/petro.One’
+
+```
 # phase1PRMD
 
 <details>
 
-* Version: 1.0.1
+* Version: 1.0.2
 * Source code: https://github.com/cran/phase1PRMD
-* Date/Publication: 2019-02-03 17:00:03 UTC
-* Number of recursive dependencies: 79
+* Date/Publication: 2020-03-09 06:50:03 UTC
+* Number of recursive dependencies: 84
 
 Run `revdep_details(,"phase1PRMD")` for more info
 
@@ -6070,7 +6452,7 @@ ERROR: compilation failed for package ‘phenofit’
 ** package ‘phenofit’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phenofit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phenofit/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phenofit/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘phenofit’
@@ -6138,13 +6520,13 @@ ERROR: compilation failed for package ‘phyr’
 ** package ‘phyr’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c binaryPGLMM.cpp -o binaryPGLMM.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c cor_phylo.cpp -o cor_phylo.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pcd.cpp -o pcd.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pglmm_binary.cpp -o pglmm_binary.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pglmm_gaussian.cpp -o pglmm_gaussian.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c psv.cpp -o psv.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c binaryPGLMM.cpp -o binaryPGLMM.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c cor_phylo.cpp -o cor_phylo.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pcd.cpp -o pcd.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pglmm_binary.cpp -o pglmm_binary.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pglmm_gaussian.cpp -o pglmm_gaussian.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/phyr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c psv.cpp -o psv.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o phyr.so RcppExports.o binaryPGLMM.o cor_phylo.o pcd.o pglmm_binary.o pglmm_gaussian.o psv.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -6164,7 +6546,7 @@ ERROR: compilation failed for package ‘phyr’
 * URL: https://jchiquet.github.io/PLNmodels/
 * BugReports: https://github.com/jchiquet/PLNmodels/issues
 * Date/Publication: 2020-01-27 21:10:02 UTC
-* Number of recursive dependencies: 111
+* Number of recursive dependencies: 112
 
 Run `revdep_details(,"PLNmodels")` for more info
 
@@ -6209,11 +6591,11 @@ ERROR: compilation failed for package ‘PLNmodels’
 ** package ‘PLNmodels’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/nloptr/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/nloptr/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c call_optimizers.cpp -o call_optimizers.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/nloptr/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gradients.cpp -o gradients.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/nloptr/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c nlopt_utils.cpp -o nlopt_utils.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/nloptr/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c optimizers.cpp -o optimizers.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/nloptr/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/nloptr/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c call_optimizers.cpp -o call_optimizers.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/nloptr/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gradients.cpp -o gradients.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/nloptr/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c nlopt_utils.cpp -o nlopt_utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PLNmodels/nloptr/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c optimizers.cpp -o optimizers.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o PLNmodels.so RcppExports.o call_optimizers.o gradients.o nlopt_utils.o optimizers.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -6233,7 +6615,7 @@ ERROR: compilation failed for package ‘PLNmodels’
 * URL: https://kingaa.github.io/pomp/
 * BugReports: https://github.com/kingaa/pomp/issues/
 * Date/Publication: 2020-02-20 21:00:03 UTC
-* Number of recursive dependencies: 54
+* Number of recursive dependencies: 66
 
 Run `revdep_details(,"pomp")` for more info
 
@@ -6406,7 +6788,7 @@ ERROR: compilation failed for package ‘poppr’
 * Source code: https://github.com/cran/PPforest
 * URL: https://github.com/natydasilva/PPforest
 * Date/Publication: 2018-06-11 18:46:17 UTC
-* Number of recursive dependencies: 96
+* Number of recursive dependencies: 88
 
 Run `revdep_details(,"PPforest")` for more info
 
@@ -6448,8 +6830,8 @@ ERROR: compilation failed for package ‘PPforest’
 ** package ‘PPforest’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PPforest/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PPforest/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PPforest/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PPforest/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c optim_index.cpp -o optim_index.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PPforest/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/PPforest/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c optim_index.cpp -o optim_index.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o PPforest.so RcppExports.o optim_index.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -6460,84 +6842,16 @@ ERROR: compilation failed for package ‘PPforest’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/PPforest/old/PPforest.Rcheck/PPforest’
 
 ```
-# processanimateR
-
-<details>
-
-* Version: 1.0.2
-* Source code: https://github.com/cran/processanimateR
-* URL: https://github.com/bupaverse/processanimateR/
-* BugReports: https://github.com/bupaverse/processanimateR/issues
-* Date/Publication: 2020-01-15 16:40:02 UTC
-* Number of recursive dependencies: 104
-
-Run `revdep_details(,"processanimateR")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘processanimateR’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/processanimateR/new/processanimateR.Rcheck/00install.out’ for details.
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘edeaR’
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘processanimateR’ ...
-** package ‘processanimateR’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘edeaR’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘processanimateR’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/processanimateR/new/processanimateR.Rcheck/processanimateR’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘processanimateR’ ...
-** package ‘processanimateR’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘edeaR’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘processanimateR’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/processanimateR/old/processanimateR.Rcheck/processanimateR’
-
-```
 # pRoloc
 
 <details>
 
-* Version: 1.24.1
+* Version: 1.26.0
 * Source code: https://github.com/cran/pRoloc
 * URL: https://github.com/lgatto/pRoloc
 * BugReports: https://github.com/lgatto/pRoloc/issues
-* Date/Publication: 2019-08-09
-* Number of recursive dependencies: 207
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 210
 
 Run `revdep_details(,"pRoloc")` for more info
 
@@ -6578,9 +6892,9 @@ ERROR: compilation failed for package ‘pRoloc’
 * installing *source* package ‘pRoloc’ ...
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pRoloc/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pRoloc/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pRoloc/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pRoloc/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dmvtCpp.cpp -o dmvtCpp.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pRoloc/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pRoloc/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pRoloc.cpp -o pRoloc.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pRoloc/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pRoloc/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dmvtCpp.cpp -o dmvtCpp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/pRoloc/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pRoloc.cpp -o pRoloc.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o pRoloc.so RcppExports.o dmvtCpp.o pRoloc.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -6589,91 +6903,6 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [pRoloc.so] Error 1
 ERROR: compilation failed for package ‘pRoloc’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/pRoloc/old/pRoloc.Rcheck/pRoloc’
-
-```
-# pRolocGUI
-
-<details>
-
-* Version: 1.18.0
-* Source code: https://github.com/cran/pRolocGUI
-* URL: http://ComputationalProteomicsUnit.github.io/pRolocGUI/
-* BugReports: https://github.com/ComputationalProteomicsUnit/pRolocGUI/issues
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 177
-
-Run `revdep_details(,"pRolocGUI")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘pRolocGUI’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/pRolocGUI/new/pRolocGUI.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘pRolocGUI’ ...
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error: package or namespace load failed for ‘MLInterfaces’ in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
- there is no package called ‘rda’
-Error: package ‘MLInterfaces’ could not be loaded
-In addition: Warning messages:
-1: package ‘pRoloc’ was built under R version 3.6.1 
-2: package ‘mzR’ was built under R version 3.6.1 
-3: In fun(libname, pkgname) :
-  mzR has been built against a different Rcpp version (1.0.2)
-than is installed on your system (1.0.3). This might lead to errors
-when loading mzR. If you encounter such issues, please send a report,
-including the output of sessionInfo() to the Bioc support forum at 
-https://support.bioconductor.org/. For details see also
-https://github.com/sneumann/mzR/wiki/mzR-Rcpp-compiler-linker-issue.
-4: package ‘S4Vectors’ was built under R version 3.6.1 
-5: package ‘MLInterfaces’ was built under R version 3.6.1 
-6: package ‘AnnotationDbi’ was built under R version 3.6.1 
-7: package ‘IRanges’ was built under R version 3.6.1 
-Execution halted
-ERROR: lazy loading failed for package ‘pRolocGUI’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/pRolocGUI/new/pRolocGUI.Rcheck/pRolocGUI’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘pRolocGUI’ ...
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error: package or namespace load failed for ‘MLInterfaces’ in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
- there is no package called ‘rda’
-Error: package ‘MLInterfaces’ could not be loaded
-In addition: Warning messages:
-1: package ‘pRoloc’ was built under R version 3.6.1 
-2: package ‘mzR’ was built under R version 3.6.1 
-3: In fun(libname, pkgname) :
-  mzR has been built against a different Rcpp version (1.0.2)
-than is installed on your system (1.0.3). This might lead to errors
-when loading mzR. If you encounter such issues, please send a report,
-including the output of sessionInfo() to the Bioc support forum at 
-https://support.bioconductor.org/. For details see also
-https://github.com/sneumann/mzR/wiki/mzR-Rcpp-compiler-linker-issue.
-4: package ‘S4Vectors’ was built under R version 3.6.1 
-5: package ‘MLInterfaces’ was built under R version 3.6.1 
-6: package ‘AnnotationDbi’ was built under R version 3.6.1 
-7: package ‘IRanges’ was built under R version 3.6.1 
-Execution halted
-ERROR: lazy loading failed for package ‘pRolocGUI’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/pRolocGUI/old/pRolocGUI.Rcheck/pRolocGUI’
 
 ```
 # psychonetrics
@@ -6685,7 +6914,7 @@ ERROR: lazy loading failed for package ‘pRolocGUI’
 * URL: http://psychonetrics.org/
 * BugReports: https://github.com/SachaEpskamp/psychonetrics/issues
 * Date/Publication: 2020-02-21 19:20:06 UTC
-* Number of recursive dependencies: 139
+* Number of recursive dependencies: 149
 
 Run `revdep_details(,"psychonetrics")` for more info
 
@@ -6722,11 +6951,205 @@ ERROR: compilation failed for package ‘psychonetrics’
 ** package ‘psychonetrics’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_USE_OPENMP -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/psychonetrics/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/psychonetrics/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/psychonetrics/pbv/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c 04_generalfit_loglik_fimlcpp.cpp -o 04_generalfit_loglik_fimlcpp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_USE_OPENMP -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/psychonetrics/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/psychonetrics/pbv/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c 04_generalfit_loglik_fimlcpp.cpp -o 04_generalfit_loglik_fimlcpp.o
 clang: error: unsupported option '-fopenmp'
 make: *** [04_generalfit_loglik_fimlcpp.o] Error 1
 ERROR: compilation failed for package ‘psychonetrics’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/psychonetrics/old/psychonetrics.Rcheck/psychonetrics’
+
+```
+# purrrlyr
+
+<details>
+
+* Version: 0.0.5
+* Source code: https://github.com/cran/purrrlyr
+* URL: https://github.com/hadley/purrrlyr
+* BugReports: https://github.com/hadley/purrrlyr/issues
+* Date/Publication: 2019-03-15 23:40:02 UTC
+* Number of recursive dependencies: 46
+
+Run `revdep_details(,"purrrlyr")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘purrrlyr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/purrrlyr/new/purrrlyr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘purrrlyr’ ...
+** package ‘purrrlyr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fast-copy.cpp -o fast-copy.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c map.c -o map.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rows-data.cpp -o rows-data.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rows-formatter.cpp -o rows-formatter.o
+In file included from rows-formatter.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/lexical_cast.hpp:21:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/detail/posix_features.hpp:18:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:654:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h:39:17: error: C++ requires a type specifier for all declarations
+int gethostuuid(uuid_t, const struct timespec *) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_NA);
+                ^
+In file included from rows-formatter.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/lexical_cast.hpp:21:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:661:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getsgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from rows-formatter.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/lexical_cast.hpp:21:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:663:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getwgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from rows-formatter.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/lexical_cast.hpp:21:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:726:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setsgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from rows-formatter.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/lexical_cast.hpp:21:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:728:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setwgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+5 errors generated.
+make: *** [rows-formatter.o] Error 1
+ERROR: compilation failed for package ‘purrrlyr’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/purrrlyr/new/purrrlyr.Rcheck/purrrlyr’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘purrrlyr’ ...
+** package ‘purrrlyr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fast-copy.cpp -o fast-copy.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c map.c -o map.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rows-data.cpp -o rows-data.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rows-formatter.cpp -o rows-formatter.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rows.cpp -o rows.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c utils.cpp -o utils.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c vector.c -o vector.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o purrrlyr.so fast-copy.o init.o map.o rows-data.o rows-formatter.o rows.o utils.o vector.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/purrrlyr/old/purrrlyr.Rcheck/00LOCK-purrrlyr/00new/purrrlyr/libs
+** R
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (purrrlyr)
+
+```
+# qdap
+
+<details>
+
+* Version: 2.3.6
+* Source code: https://github.com/cran/qdap
+* URL: http://trinker.github.com/qdap/
+* BugReports: http://github.com/trinker/qdap/issues
+* Date/Publication: 2020-01-09 18:30:06 UTC
+* Number of recursive dependencies: 100
+
+Run `revdep_details(,"qdap")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘qdap’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/qdap/new/qdap.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘qdap’ ...
+** package ‘qdap’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘qdap’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/qdap/new/qdap.Rcheck/qdap’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘qdap’ ...
+** package ‘qdap’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘qdap’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/qdap/old/qdap.Rcheck/qdap’
 
 ```
 # qgraph
@@ -6738,7 +7161,7 @@ ERROR: compilation failed for package ‘psychonetrics’
 * URL: http://sachaepskamp.com/qgraph
 * BugReports: https://github.com/SachaEpskamp/qgraph
 * Date/Publication: 2020-02-21 19:20:02 UTC
-* Number of recursive dependencies: 101
+* Number of recursive dependencies: 111
 
 Run `revdep_details(,"qgraph")` for more info
 
@@ -6775,7 +7198,7 @@ ERROR: compilation failed for package ‘qgraph’
 ** package ‘qgraph’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qgraph/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘qgraph’
@@ -6786,12 +7209,12 @@ ERROR: compilation failed for package ‘qgraph’
 
 <details>
 
-* Version: 1.5.2
+* Version: 2.0.0
 * Source code: https://github.com/cran/quanteda
 * URL: https://quanteda.io
 * BugReports: https://github.com/quanteda/quanteda/issues
-* Date/Publication: 2019-11-26 06:40:03 UTC
-* Number of recursive dependencies: 143
+* Date/Publication: 2020-02-26 15:50:09 UTC
+* Number of recursive dependencies: 140
 
 Run `revdep_details(,"quanteda")` for more info
 
@@ -6815,7 +7238,6 @@ Run `revdep_details(,"quanteda")` for more info
 ** using staged installation
 ** libs
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c ca_mt.cpp -o ca_mt.o
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c collocations_mt_.cpp -o collocations_mt_.o
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c dist_mt.cpp -o dist_mt.o
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c fcm_mt.cpp -o fcm_mt.o
@@ -6830,9 +7252,7 @@ clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDE
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_select_mt.cpp -o tokens_select_mt.o
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c utility.cpp -o utility.o
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c wordcloud.cpp -o wordcloud.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c wordfish_dense.cpp -o wordfish_dense.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c wordfish_mt.cpp -o wordfish_mt.o
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o quanteda.so RcppExports.o ca_mt.o collocations_mt_.o dist_mt.o fcm_mt.o kwic_mt.o tokens_chunk_mt.o tokens_compound_mt.o tokens_lookup_mt.o tokens_ngrams_mt.o tokens_recompile_mt.o tokens_replace_mt.o tokens_segment_mt.o tokens_select_mt.o utility.o wordcloud.o wordfish_dense.o wordfish_mt.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o quanteda.so RcppExports.o collocations_mt_.o dist_mt.o fcm_mt.o kwic_mt.o tokens_chunk_mt.o tokens_compound_mt.o tokens_lookup_mt.o tokens_ngrams_mt.o tokens_recompile_mt.o tokens_replace_mt.o tokens_segment_mt.o tokens_select_mt.o utility.o wordcloud.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
 ld: library not found for -lgfortran
@@ -6849,25 +7269,22 @@ ERROR: compilation failed for package ‘quanteda’
 ** package ‘quanteda’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c ca_mt.cpp -o ca_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c collocations_mt_.cpp -o collocations_mt_.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c dist_mt.cpp -o dist_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c fcm_mt.cpp -o fcm_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c kwic_mt.cpp -o kwic_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_chunk_mt.cpp -o tokens_chunk_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_compound_mt.cpp -o tokens_compound_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_lookup_mt.cpp -o tokens_lookup_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_ngrams_mt.cpp -o tokens_ngrams_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_recompile_mt.cpp -o tokens_recompile_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_replace_mt.cpp -o tokens_replace_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_segment_mt.cpp -o tokens_segment_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_select_mt.cpp -o tokens_select_mt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c utility.cpp -o utility.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c wordcloud.cpp -o wordcloud.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c wordfish_dense.cpp -o wordfish_dense.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c wordfish_mt.cpp -o wordfish_mt.o
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o quanteda.so RcppExports.o ca_mt.o collocations_mt_.o dist_mt.o fcm_mt.o kwic_mt.o tokens_chunk_mt.o tokens_compound_mt.o tokens_lookup_mt.o tokens_ngrams_mt.o tokens_recompile_mt.o tokens_replace_mt.o tokens_segment_mt.o tokens_select_mt.o utility.o wordcloud.o wordfish_dense.o wordfish_mt.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c collocations_mt_.cpp -o collocations_mt_.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c dist_mt.cpp -o dist_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c fcm_mt.cpp -o fcm_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c kwic_mt.cpp -o kwic_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_chunk_mt.cpp -o tokens_chunk_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_compound_mt.cpp -o tokens_compound_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_lookup_mt.cpp -o tokens_lookup_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_ngrams_mt.cpp -o tokens_ngrams_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_recompile_mt.cpp -o tokens_recompile_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_replace_mt.cpp -o tokens_replace_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_segment_mt.cpp -o tokens_segment_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c tokens_select_mt.cpp -o tokens_select_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c utility.cpp -o utility.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DARMA_64BIT_WORD=1 -fPIC  -Wall -O3 -c wordcloud.cpp -o wordcloud.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o quanteda.so RcppExports.o collocations_mt_.o dist_mt.o fcm_mt.o kwic_mt.o tokens_chunk_mt.o tokens_compound_mt.o tokens_lookup_mt.o tokens_ngrams_mt.o tokens_recompile_mt.o tokens_replace_mt.o tokens_segment_mt.o tokens_select_mt.o utility.o wordcloud.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
 ld: library not found for -lgfortran
@@ -6886,7 +7303,7 @@ ERROR: compilation failed for package ‘quanteda’
 * URL: https://github.com/wenjingwang/quokar
 * BugReports: https://github.com/wenjingwang/quokar/issues
 * Date/Publication: 2017-11-10 10:21:36 UTC
-* Number of recursive dependencies: 84
+* Number of recursive dependencies: 82
 
 Run `revdep_details(,"quokar")` for more info
 
@@ -7634,7 +8051,7 @@ ERROR: compilation failed for package ‘quokar’
 * Source code: https://github.com/cran/qwraps2
 * URL: https://github.com/dewittpe/qwraps2/
 * Date/Publication: 2019-12-02 20:40:13 UTC
-* Number of recursive dependencies: 77
+* Number of recursive dependencies: 76
 
 Run `revdep_details(,"qwraps2")` for more info
 
@@ -7677,9 +8094,9 @@ ERROR: compilation failed for package ‘qwraps2’
 ** package ‘qwraps2’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qwraps2/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qwraps2/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qwraps2/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qwraps2/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c logit.cpp -o logit.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qwraps2/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qwraps2/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c traprule.cpp -o traprule.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qwraps2/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qwraps2/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c logit.cpp -o logit.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/qwraps2/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c traprule.cpp -o traprule.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o qwraps2.so RcppExports.o logit.o traprule.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -7694,12 +8111,12 @@ ERROR: compilation failed for package ‘qwraps2’
 
 <details>
 
-* Version: 1.20.0
+* Version: 1.22.0
 * Source code: https://github.com/cran/Rariant
 * URL: https://github.com/juliangehring/Rariant
 * BugReports: https://support.bioconductor.org
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 163
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 167
 
 Run `revdep_details(,"Rariant")` for more info
 
@@ -7741,23 +8158,11 @@ Run `revdep_details(,"Rariant")` for more info
     Execution halted
     ```
 
-*   checking whether package ‘Rariant’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-      Warning: package ‘S4Vectors’ was built under R version 3.6.1
-      Warning: package ‘IRanges’ was built under R version 3.6.1
-      Warning: package ‘SummarizedExperiment’ was built under R version 3.6.1
-      Warning: package ‘BiocParallel’ was built under R version 3.6.1
-      Warning: package ‘Rsamtools’ was built under R version 3.6.1
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/Rariant/old/Rariant.Rcheck/00install.out’ for details.
-    ```
-
 *   checking installed package size ... NOTE
     ```
       installed size is  7.7Mb
       sub-directories of 1Mb or more:
-        doc       2.3Mb
+        doc       2.2Mb
         extdata   5.2Mb
     ```
 
@@ -7797,13 +8202,6 @@ Run `revdep_details(,"Rariant")` for more info
 ** R
 ** inst
 ** byte-compile and prepare package for lazy loading
-Warning messages:
-1: package ‘GenomicRanges’ was built under R version 3.6.1 
-2: package ‘S4Vectors’ was built under R version 3.6.1 
-3: package ‘IRanges’ was built under R version 3.6.1 
-4: package ‘SummarizedExperiment’ was built under R version 3.6.1 
-5: package ‘BiocParallel’ was built under R version 3.6.1 
-6: package ‘Rsamtools’ was built under R version 3.6.1 
 Error: object 'rbind_all' is not exported by 'namespace:dplyr'
 Execution halted
 ERROR: lazy loading failed for package ‘Rariant’
@@ -7818,43 +8216,85 @@ ERROR: lazy loading failed for package ‘Rariant’
 ** R
 ** inst
 ** byte-compile and prepare package for lazy loading
-Warning messages:
-1: package ‘GenomicRanges’ was built under R version 3.6.1 
-2: package ‘S4Vectors’ was built under R version 3.6.1 
-3: package ‘IRanges’ was built under R version 3.6.1 
-4: package ‘SummarizedExperiment’ was built under R version 3.6.1 
-5: package ‘BiocParallel’ was built under R version 3.6.1 
-6: package ‘Rsamtools’ was built under R version 3.6.1 
 ** help
 *** installing help indices
 ** building package indices
 ** installing vignettes
 ** testing if installed package can be loaded from temporary location
-Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-Warning: package ‘S4Vectors’ was built under R version 3.6.1
-Warning: package ‘IRanges’ was built under R version 3.6.1
-Warning: package ‘SummarizedExperiment’ was built under R version 3.6.1
-Warning: package ‘BiocParallel’ was built under R version 3.6.1
-Warning: package ‘Rsamtools’ was built under R version 3.6.1
 ** testing if installed package can be loaded from final location
-Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-Warning: package ‘S4Vectors’ was built under R version 3.6.1
-Warning: package ‘IRanges’ was built under R version 3.6.1
-Warning: package ‘SummarizedExperiment’ was built under R version 3.6.1
-Warning: package ‘BiocParallel’ was built under R version 3.6.1
-Warning: package ‘Rsamtools’ was built under R version 3.6.1
 ** testing if installed package keeps a record of temporary installation path
 * DONE (Rariant)
+
+```
+# rbridge
+
+<details>
+
+* Version: 1.0.2
+* Source code: https://github.com/cran/rbridge
+* Date/Publication: 2020-02-29 11:40:03 UTC
+* Number of recursive dependencies: 38
+
+Run `revdep_details(,"rbridge")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘rbridge’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rbridge/new/rbridge.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘rbridge’ ...
+** package ‘rbridge’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rbridge/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rbridge/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c Main_functions.cpp -o Main_functions.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rbridge/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rbridge/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o rbridge.so Main_functions.o RcppExports.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
+ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
+ld: library not found for -lgfortran
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [rbridge.so] Error 1
+ERROR: compilation failed for package ‘rbridge’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rbridge/new/rbridge.Rcheck/rbridge’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘rbridge’ ...
+** package ‘rbridge’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rbridge/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c Main_functions.cpp -o Main_functions.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rbridge/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o rbridge.so Main_functions.o RcppExports.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
+ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
+ld: library not found for -lgfortran
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [rbridge.so] Error 1
+ERROR: compilation failed for package ‘rbridge’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rbridge/old/rbridge.Rcheck/rbridge’
 
 ```
 # RcwlPipelines
 
 <details>
 
-* Version: 1.0.11
+* Version: 1.2.0
 * Source code: https://github.com/cran/RcwlPipelines
-* Date/Publication: 2019-09-04
-* Number of recursive dependencies: 122
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 121
 
 Run `revdep_details(,"RcwlPipelines")` for more info
 
@@ -7906,10 +8346,8 @@ Error: package or namespace load failed for ‘Rcwl’:
   error: cwltool is not found, Please install cwltool first!
 https://github.com/common-workflow-language/cwltool#install
 Error: package ‘Rcwl’ could not be loaded
-In addition: Warning messages:
-1: package ‘Rcwl’ was built under R version 3.6.1 
-2: package ‘S4Vectors’ was built under R version 3.6.1 
-3: In system("which cwltool", intern = TRUE) :
+In addition: Warning message:
+In system("which cwltool", intern = TRUE) :
   running command 'which cwltool' had status 1
 Execution halted
 ERROR: lazy loading failed for package ‘RcwlPipelines’
@@ -7930,14 +8368,83 @@ Error: package or namespace load failed for ‘Rcwl’:
   error: cwltool is not found, Please install cwltool first!
 https://github.com/common-workflow-language/cwltool#install
 Error: package ‘Rcwl’ could not be loaded
-In addition: Warning messages:
-1: package ‘Rcwl’ was built under R version 3.6.1 
-2: package ‘S4Vectors’ was built under R version 3.6.1 
-3: In system("which cwltool", intern = TRUE) :
+In addition: Warning message:
+In system("which cwltool", intern = TRUE) :
   running command 'which cwltool' had status 1
 Execution halted
 ERROR: lazy loading failed for package ‘RcwlPipelines’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RcwlPipelines/old/RcwlPipelines.Rcheck/RcwlPipelines’
+
+```
+# Rdrools
+
+<details>
+
+* Version: 1.1.1
+* Source code: https://github.com/cran/Rdrools
+* Date/Publication: 2018-12-08 15:00:13 UTC
+* Number of recursive dependencies: 73
+
+Run `revdep_details(,"Rdrools")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘Rdrools’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/Rdrools/new/Rdrools.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘Rdrools’ ...
+** package ‘Rdrools’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘rJava’:
+ .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so
+  Reason: image not found
+Error: package ‘rJava’ could not be loaded
+Execution halted
+ERROR: lazy loading failed for package ‘Rdrools’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/Rdrools/new/Rdrools.Rcheck/Rdrools’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘Rdrools’ ...
+** package ‘Rdrools’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘rJava’:
+ .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so
+  Reason: image not found
+Error: package ‘rJava’ could not be loaded
+Execution halted
+ERROR: lazy loading failed for package ‘Rdrools’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/Rdrools/old/Rdrools.Rcheck/Rdrools’
 
 ```
 # resautonet
@@ -7984,11 +8491,204 @@ ERROR: compilation failed for package ‘resautonet’
 ** package ‘resautonet’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/resautonet/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/resautonet/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/resautonet/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘resautonet’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/resautonet/old/resautonet.Rcheck/resautonet’
+
+```
+# RGMQL
+
+<details>
+
+* Version: 1.6.0
+* Source code: https://github.com/cran/RGMQL
+* URL: http://www.bioinformatics.deib.polimi.it/genomic_computing/GMQL/
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 76
+
+Run `revdep_details(,"RGMQL")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘RGMQL’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RGMQL/new/RGMQL.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘RGMQL’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘RGMQL’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RGMQL/new/RGMQL.Rcheck/RGMQL’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘RGMQL’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘RGMQL’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RGMQL/old/RGMQL.Rcheck/RGMQL’
+
+```
+# rmcfs
+
+<details>
+
+* Version: 1.3.1
+* Source code: https://github.com/cran/rmcfs
+* URL: https://home.ipipan.waw.pl/m.draminski/mcfs.html
+* Date/Publication: 2020-01-20 12:40:03 UTC
+* Number of recursive dependencies: 65
+
+Run `revdep_details(,"rmcfs")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘rmcfs’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rmcfs/new/rmcfs.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘rmcfs’ ...
+** package ‘rmcfs’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘rJava’:
+ .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so
+  Reason: image not found
+Error: package ‘rJava’ could not be loaded
+Execution halted
+ERROR: lazy loading failed for package ‘rmcfs’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rmcfs/new/rmcfs.Rcheck/rmcfs’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘rmcfs’ ...
+** package ‘rmcfs’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘rJava’:
+ .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so
+  Reason: image not found
+Error: package ‘rJava’ could not be loaded
+Execution halted
+ERROR: lazy loading failed for package ‘rmcfs’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rmcfs/old/rmcfs.Rcheck/rmcfs’
+
+```
+# rpcdsearch
+
+<details>
+
+* Version: 1.0
+* Source code: https://github.com/cran/rpcdsearch
+* Date/Publication: 2016-01-18 10:05:38
+* Number of recursive dependencies: 51
+
+Run `revdep_details(,"rpcdsearch")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘rpcdsearch’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rpcdsearch/new/rpcdsearch.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘rpcdsearch’ ...
+** package ‘rpcdsearch’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘rpcdsearch’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rpcdsearch/new/rpcdsearch.Rcheck/rpcdsearch’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘rpcdsearch’ ...
+** package ‘rpcdsearch’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘rpcdsearch’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rpcdsearch/old/rpcdsearch.Rcheck/rpcdsearch’
 
 ```
 # RSSL
@@ -8048,14 +8748,14 @@ ERROR: compilation failed for package ‘RSSL’
 ** package ‘RSSL’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c GRFClassifier.cpp -o GRFClassifier.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c Rsvm.c -o Rsvm.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ssl.cpp -o ssl.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c svm.cpp -o svm.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c svmlin_rcpp.cpp -o svmlin_rcpp.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c utils.cpp -o utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c GRFClassifier.cpp -o GRFClassifier.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c Rsvm.c -o Rsvm.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ssl.cpp -o ssl.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c svm.cpp -o svm.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c svmlin_rcpp.cpp -o svmlin_rcpp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RSSL/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c utils.cpp -o utils.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o RSSL.so GRFClassifier.o RcppExports.o Rsvm.o init.o ssl.o svm.o svmlin_rcpp.o utils.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -8064,6 +8764,69 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [RSSL.so] Error 1
 ERROR: compilation failed for package ‘RSSL’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RSSL/old/RSSL.Rcheck/RSSL’
+
+```
+# RtutoR
+
+<details>
+
+* Version: 1.2
+* Source code: https://github.com/cran/RtutoR
+* Date/Publication: 2018-09-14 07:50:07 UTC
+* Number of recursive dependencies: 120
+
+Run `revdep_details(,"RtutoR")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘RtutoR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RtutoR/new/RtutoR.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘RtutoR’ ...
+** package ‘RtutoR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘RtutoR’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RtutoR/new/RtutoR.Rcheck/RtutoR’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘RtutoR’ ...
+** package ‘RtutoR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘RtutoR’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RtutoR/old/RtutoR.Rcheck/RtutoR’
 
 ```
 # RxODE
@@ -8075,7 +8838,7 @@ ERROR: compilation failed for package ‘RSSL’
 * URL: https://nlmixrdevelopment.github.io/RxODE/
 * BugReports: https://github.com/nlmixrdevelopment/RxODE/issues
 * Date/Publication: 2020-01-10 23:20:06 UTC
-* Number of recursive dependencies: 121
+* Number of recursive dependencies: 132
 
 Run `revdep_details(,"RxODE")` for more info
 
@@ -8286,36 +9049,36 @@ all: $(SHLIB)
 
 --------[end src/Makevars]--------
 ** libs
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c call_dvode.c -o call_dvode.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c dop853.c -o dop853.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c tran.c -o tran.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c omegaChol.c -o omegaChol.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c init.c -o init.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c par_solve.c -o par_solve.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c cfode.c -o cfode.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c common.c -o common.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c corfailure.c -o corfailure.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c correction.c -o correction.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c daxpy.c -o daxpy.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c ddot.c -o ddot.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c dgefa.c -o dgefa.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c dgesl.c -o dgesl.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c dscal.c -o dscal.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c fnorm.c -o fnorm.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c idamax.c -o idamax.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c intdy.c -o intdy.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c lsoda.c -o lsoda.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c methodswitch.c -o methodswitch.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c orderswitch.c -o orderswitch.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c prja.c -o prja.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c scaleh.c -o scaleh.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c solsy.c -o solsy.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c stoda.c -o stoda.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c vmnorm.c -o vmnorm.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c strdup_printf.c -o strdup_printf.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c rprintf.c -o rprintf.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c lincmt.c -o lincmt.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c box.c -o box.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c call_dvode.c -o call_dvode.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c dop853.c -o dop853.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c tran.c -o tran.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c omegaChol.c -o omegaChol.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c init.c -o init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c par_solve.c -o par_solve.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c cfode.c -o cfode.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c common.c -o common.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c corfailure.c -o corfailure.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c correction.c -o correction.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c daxpy.c -o daxpy.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c ddot.c -o ddot.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c dgefa.c -o dgefa.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c dgesl.c -o dgesl.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c dscal.c -o dscal.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c fnorm.c -o fnorm.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c idamax.c -o idamax.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c intdy.c -o intdy.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c lsoda.c -o lsoda.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c methodswitch.c -o methodswitch.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c orderswitch.c -o orderswitch.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c prja.c -o prja.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c scaleh.c -o scaleh.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c solsy.c -o solsy.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c stoda.c -o stoda.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c vmnorm.c -o vmnorm.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c strdup_printf.c -o strdup_printf.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c rprintf.c -o rprintf.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c lincmt.c -o lincmt.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -O3 -c box.c -o box.o
 gfortran  -fPIC  -Wall -g -O2  -c dlsoda.f -o dlsoda.o
 dlsoda.f:705:0:
 
@@ -8355,14 +9118,14 @@ opkda2.f:650:0:
   650 |       INTEGER FUNCTION IXSAV (IPAR, IVALUE, ISET)
       | 
 Warning: '__result_ixsav' may be used uninitialized in this function [-Wmaybe-uninitialized]
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c WinDrive.cpp -o WinDrive.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c rxInv.cpp -o rxInv.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c rxData.cpp -o rxData.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c etTran.cpp -o etTran.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c et.cpp -o et.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c rxStack.cpp -o rxStack.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c cvPost.cpp -o cvPost.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c WinDrive.cpp -o WinDrive.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c rxInv.cpp -o rxInv.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c rxData.cpp -o rxData.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c etTran.cpp -o etTran.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c et.cpp -o et.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c rxStack.cpp -o rxStack.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/dparser/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/RxODE/PreciseSums/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -D_isRxODE_ -fPIC  -Wall -O3 -c cvPost.cpp -o cvPost.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o RxODE.so call_dvode.o dop853.o tran.o omegaChol.o init.o par_solve.o cfode.o common.o corfailure.o correction.o daxpy.o ddot.o dgefa.o dgesl.o dscal.o fnorm.o idamax.o intdy.o lsoda.o methodswitch.o orderswitch.o prja.o scaleh.o solsy.o stoda.o vmnorm.o strdup_printf.o rprintf.o lincmt.o box.o dlsoda.o opkda2.o RcppExports.o WinDrive.o rxInv.o rxData.o etTran.o et.o rxStack.o cvPost.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -8379,10 +9142,12 @@ ERROR: compilation failed for package ‘RxODE’
 
 <details>
 
-* Version: 0.8.1
+* Version: 0.8.2
 * Source code: https://github.com/cran/sarima
-* Date/Publication: 2019-05-12 23:30:03 UTC
-* Number of recursive dependencies: 70
+* URL: https://github.com/GeoBosh/sarima https://geobosh.github.io/sarima/
+* BugReports: https://github.com/GeoBosh/sarima/issues
+* Date/Publication: 2020-03-02 10:30:02 UTC
+* Number of recursive dependencies: 72
 
 Run `revdep_details(,"sarima")` for more info
 
@@ -8419,7 +9184,7 @@ ERROR: compilation failed for package ‘sarima’
 ** package ‘sarima’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sarima/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sarima/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c Kalman0b.cpp -o Kalman0b.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sarima/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c Kalman0b.cpp -o Kalman0b.o
 clang: error: unsupported option '-fopenmp'
 make: *** [Kalman0b.o] Error 1
 ERROR: compilation failed for package ‘sarima’
@@ -8484,15 +9249,15 @@ ERROR: compilation failed for package ‘scanstatistics’
 ** package ‘scanstatistics’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c probability_functions.cpp -o probability_functions.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_bayes_negbin.cpp -o scan_bayes_negbin.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_eb_negbin.cpp -o scan_eb_negbin.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_eb_poisson.cpp -o scan_eb_poisson.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_eb_zip.cpp -o scan_eb_zip.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_pb_perm.cpp -o scan_pb_perm.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_pb_poisson.cpp -o scan_pb_poisson.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_utility.cpp -o scan_utility.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c probability_functions.cpp -o probability_functions.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_bayes_negbin.cpp -o scan_bayes_negbin.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_eb_negbin.cpp -o scan_eb_negbin.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_eb_poisson.cpp -o scan_eb_poisson.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_eb_zip.cpp -o scan_eb_zip.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_pb_perm.cpp -o scan_pb_perm.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_pb_poisson.cpp -o scan_pb_poisson.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scanstatistics/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scan_utility.cpp -o scan_utility.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o scanstatistics.so RcppExports.o probability_functions.o scan_bayes_negbin.o scan_eb_negbin.o scan_eb_poisson.o scan_eb_zip.o scan_pb_perm.o scan_pb_poisson.o scan_utility.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -8507,11 +9272,11 @@ ERROR: compilation failed for package ‘scanstatistics’
 
 <details>
 
-* Version: 1.6.0
+* Version: 1.8.0
 * Source code: https://github.com/cran/scfind
 * URL: https://github.com/hemberg-lab/scfind
 * BugReports: https://support.bioconductor.org/t/scfind/
-* Date/Publication: 2019-05-02
+* Date/Publication: 2019-10-29
 * Number of recursive dependencies: 75
 
 Run `revdep_details(,"scfind")` for more info
@@ -8556,8 +9321,8 @@ ERROR: compilation failed for package ‘scfind’
 * installing *source* package ‘scfind’ ...
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scfind/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scfind/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c eliasFano.cpp -o eliasFano.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c eliasFano.cpp -o eliasFano.o
 eliasFano.cpp:8:9: warning: unused variable 'rem' [-Wunused-variable]
     int rem;
         ^
@@ -8572,16 +9337,72 @@ ERROR: compilation failed for package ‘scfind’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/scfind/old/scfind.Rcheck/scfind’
 
 ```
+# scGPS
+
+<details>
+
+* Version: 
+* Source code: ???
+* URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+* BugReports: https://github.com/tidyverse/dplyr/issues
+* Number of recursive dependencies: 0
+
+Run `revdep_details(,"")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+  There are binary versions available but the source versions are later:
+             binary source needs_compilation
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
+
+  Binaries will be installed
+  These will not be installed
+
+
+Package which is only available in source form, and may need
+  compilation of C/C++/Fortran: ‘WGCNA’
+installing the source package ‘reactome.db’
+
+
+
+```
+### CRAN
+
+```
+
+  There are binary versions available but the source versions are later:
+             binary source needs_compilation
+ggrepel       0.8.1  0.8.2              TRUE
+graphlayouts  0.5.0  0.6.0              TRUE
+
+  Binaries will be installed
+  These will not be installed
+
+
+Package which is only available in source form, and may need
+  compilation of C/C++/Fortran: ‘WGCNA’
+installing the source package ‘reactome.db’
+
+
+
+```
 # scmap
 
 <details>
 
-* Version: 1.6.0
+* Version: 1.8.0
 * Source code: https://github.com/cran/scmap
 * URL: https://github.com/hemberg-lab/scmap
 * BugReports: https://support.bioconductor.org/t/scmap/
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 81
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 93
 
 Run `revdep_details(,"scmap")` for more info
 
@@ -8621,8 +9442,8 @@ ERROR: compilation failed for package ‘scmap’
 * installing *source* package ‘scmap’ ...
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scmap/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scmap/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scmap/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scmap/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scmap.cpp -o scmap.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scmap/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/scmap/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c scmap.cpp -o scmap.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o scmap.so RcppExports.o scmap.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -8642,7 +9463,7 @@ ERROR: compilation failed for package ‘scmap’
 * URL: https://github.com/MGallow/SCPME
 * BugReports: https://github.com/MGallow/SCPME/issues
 * Date/Publication: 2018-08-13 09:00:09 UTC
-* Number of recursive dependencies: 86
+* Number of recursive dependencies: 84
 
 Run `revdep_details(,"SCPME")` for more info
 
@@ -8687,11 +9508,11 @@ ERROR: compilation failed for package ‘SCPME’
 ** package ‘SCPME’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ADMM.cpp -o ADMM.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CV.cpp -o CV.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CVP.cpp -o CVP.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c soft.cpp -o soft.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ADMM.cpp -o ADMM.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CV.cpp -o CV.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c CVP.cpp -o CVP.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SCPME/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c soft.cpp -o soft.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o SCPME.so ADMM.o CV.o CVP.o RcppExports.o soft.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -8711,18 +9532,28 @@ ERROR: compilation failed for package ‘SCPME’
 * URL: https://github.com/r-spatial/sf/, https://r-spatial.github.io/sf/
 * BugReports: https://github.com/r-spatial/sf/issues/
 * Date/Publication: 2020-01-28 11:20:07 UTC
-* Number of recursive dependencies: 137
+* Number of recursive dependencies: 131
 
 Run `revdep_details(,"sf")` for more info
 
 </details>
 
-## In both
+## Newly broken
 
 *   checking whether package ‘sf’ can be installed ... ERROR
     ```
     Installation failed.
     See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/sf/new/sf.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 16.9Mb
+      sub-directories of 1Mb or more:
+        doc     12.0Mb
+        sqlite   1.5Mb
     ```
 
 ## Installation
@@ -8735,10 +9566,124 @@ Run `revdep_details(,"sf")` for more info
 ** using staged installation
 configure: CC: clang
 configure: CXX: clang++ -std=gnu++11
-checking for gdal-config... no
-no
-configure: error: gdal-config not found or not executable.
-ERROR: configuration failed for package ‘sf’
+checking for gdal-config... /usr/local/bin/gdal-config
+checking gdal-config usability... yes
+configure: GDAL: 2.4.4
+checking GDAL version >= 2.0.1... yes
+checking for gcc... clang
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether clang accepts -g... yes
+checking for clang option to accept ISO C89... none needed
+checking how to run the C preprocessor... clang -E
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking gdal.h usability... yes
+checking gdal.h presence... yes
+checking for gdal.h... yes
+checking GDAL: linking with --libs only... yes
+checking GDAL: /usr/local/Cellar/gdal/2.4.4/share/gdal/pcs.csv readable... yes
+checking GDAL: checking whether PROJ is available for linking:... yes
+checking GDAL: checking whether PROJ is available fur running:... yes
+configure: pkg-config proj exists, will use it
+configure: using proj.h.
+configure: PROJ: 6.3.1
+checking PROJ: checking whether PROJ and sqlite3 are available for linking:... yes
+checking for geos-config... /usr/local/bin/geos-config
+checking geos-config usability... yes
+configure: GEOS: 3.8.0
+checking GEOS version >= 3.4.0... yes
+checking geos_c.h usability... yes
+checking geos_c.h presence... yes
+checking for geos_c.h... yes
+checking geos: linking with -L/usr/local/Cellar/geos/3.8.0/lib -lgeos_c... yes
+configure: Package CPP flags:  -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include
+configure: Package LIBS: -L/usr/local/Cellar/proj/6.3.1/lib -lproj   -L/usr/local/Cellar/gdal/2.4.4/lib -lgdal -L/usr/local/Cellar/geos/3.8.0/lib -lgeos_c
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bbox.cpp -o bbox.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal.cpp -o gdal.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_geom.cpp -o gdal_geom.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_read.cpp -o gdal_read.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_utils.cpp -o gdal_utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_write.cpp -o gdal_write.o
+In file included from gdal_write.cpp:5:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogrsf_frmts.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_feature.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_featurestyle.h:33:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_conv.h:36:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_vsi.h:62:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:654:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h:39:17: error: C++ requires a type specifier for all declarations
+int gethostuuid(uuid_t, const struct timespec *) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_NA);
+                ^
+In file included from gdal_write.cpp:5:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogrsf_frmts.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_feature.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_featurestyle.h:33:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_conv.h:36:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_vsi.h:62:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:661:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getsgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from gdal_write.cpp:5:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogrsf_frmts.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_feature.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_featurestyle.h:33:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_conv.h:36:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_vsi.h:62:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:663:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getwgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from gdal_write.cpp:5:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogrsf_frmts.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_feature.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_featurestyle.h:33:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_conv.h:36:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_vsi.h:62:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:726:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setsgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from gdal_write.cpp:5:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogrsf_frmts.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_feature.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_featurestyle.h:33:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_conv.h:36:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_vsi.h:62:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:728:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setwgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+5 errors generated.
+make: *** [gdal_write.o] Error 1
+ERROR: compilation failed for package ‘sf’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/sf/new/sf.Rcheck/sf’
 
 ```
@@ -8750,23 +9695,110 @@ ERROR: configuration failed for package ‘sf’
 ** using staged installation
 configure: CC: clang
 configure: CXX: clang++ -std=gnu++11
-checking for gdal-config... no
-no
-configure: error: gdal-config not found or not executable.
-ERROR: configuration failed for package ‘sf’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/sf/old/sf.Rcheck/sf’
+checking for gdal-config... /usr/local/bin/gdal-config
+checking gdal-config usability... yes
+configure: GDAL: 2.4.4
+checking GDAL version >= 2.0.1... yes
+checking for gcc... clang
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether clang accepts -g... yes
+checking for clang option to accept ISO C89... none needed
+checking how to run the C preprocessor... clang -E
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking gdal.h usability... yes
+checking gdal.h presence... yes
+checking for gdal.h... yes
+checking GDAL: linking with --libs only... yes
+checking GDAL: /usr/local/Cellar/gdal/2.4.4/share/gdal/pcs.csv readable... yes
+checking GDAL: checking whether PROJ is available for linking:... yes
+checking GDAL: checking whether PROJ is available fur running:... yes
+configure: pkg-config proj exists, will use it
+configure: using proj.h.
+configure: PROJ: 6.3.1
+checking PROJ: checking whether PROJ and sqlite3 are available for linking:... yes
+checking for geos-config... /usr/local/bin/geos-config
+checking geos-config usability... yes
+configure: GEOS: 3.8.0
+checking GEOS version >= 3.4.0... yes
+checking geos_c.h usability... yes
+checking geos_c.h presence... yes
+checking for geos_c.h... yes
+checking geos: linking with -L/usr/local/Cellar/geos/3.8.0/lib -lgeos_c... yes
+configure: Package CPP flags:  -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include
+configure: Package LIBS: -L/usr/local/Cellar/proj/6.3.1/lib -lproj   -L/usr/local/Cellar/gdal/2.4.4/lib -lgdal -L/usr/local/Cellar/geos/3.8.0/lib -lgeos_c
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bbox.cpp -o bbox.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal.cpp -o gdal.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_geom.cpp -o gdal_geom.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_read.cpp -o gdal_read.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_utils.cpp -o gdal_utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_write.cpp -o gdal_write.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c geos.cpp -o geos.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c hex.cpp -o hex.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ops.cpp -o ops.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c polygonize.cpp -o polygonize.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c proj.cpp -o proj.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c proj_info.cpp -o proj_info.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c raster2sf.cpp -o raster2sf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sfg.cpp -o sfg.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c signed_area.cpp -o signed_area.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c stars.cpp -o stars.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c wkb.cpp -o wkb.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c zm_range.cpp -o zm_range.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o sf.so RcppExports.o bbox.o gdal.o gdal_geom.o gdal_read.o gdal_utils.o gdal_write.o geos.o hex.o ops.o polygonize.o proj.o proj_info.o raster2sf.o sfg.o signed_area.o stars.o wkb.o zm_range.o -L/usr/local/Cellar/proj/6.3.1/lib -lproj -L/usr/local/Cellar/gdal/2.4.4/lib -lgdal -L/usr/local/Cellar/geos/3.8.0/lib -lgeos_c -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/sf/old/sf.Rcheck/00LOCK-sf/00new/sf/libs
+** R
+** demo
+** inst
+** byte-compile and prepare package for lazy loading
+in method for ‘dbWriteTable’ with signature ‘"PostgreSQLConnection","character","sf"’: no definition for class “PostgreSQLConnection”
+in method for ‘dbDataType’ with signature ‘"PostgreSQLConnection","sf"’: no definition for class “PostgreSQLConnection”
+in method for ‘coerce’ with signature ‘"Spatial","sf"’: no definition for class “Spatial”
+in method for ‘coerce’ with signature ‘"Spatial","sfc"’: no definition for class “Spatial”
+in method for ‘coerce’ with signature ‘"sf","Spatial"’: no definition for class “Spatial”
+in method for ‘coerce’ with signature ‘"sfc","Spatial"’: no definition for class “Spatial”
+in method for ‘coerce’ with signature ‘"XY","Spatial"’: no definition for class “Spatial”
+** help
+*** installing help indices
+*** copying figures
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (sf)
 
 ```
 # SimBIID
 
 <details>
 
-* Version: 0.1.3
+* Version: 0.1.4
 * Source code: https://github.com/cran/SimBIID
 * URL: https://github.com/tjmckinley/SimBIID
 * BugReports: https://github.com/tjmckinley/SimBIID/issues
-* Date/Publication: 2019-11-21 20:50:02 UTC
-* Number of recursive dependencies: 64
+* Date/Publication: 2020-03-03 11:40:05 UTC
+* Number of recursive dependencies: 62
 
 Run `revdep_details(,"SimBIID")` for more info
 
@@ -8813,13 +9845,13 @@ ERROR: compilation failed for package ‘SimBIID’
 ** package ‘SimBIID’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c adaptUpdate.cpp -o adaptUpdate.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bootstrapParticleFilter.cpp -o bootstrapParticleFilter.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bootstrapParticleFilterState.cpp -o bootstrapParticleFilterState.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c cholArma.cpp -o cholArma.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c mvrnormArma.cpp -o mvrnormArma.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pmcmc.cpp -o pmcmc.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c adaptUpdate.cpp -o adaptUpdate.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bootstrapParticleFilter.cpp -o bootstrapParticleFilter.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bootstrapParticleFilterState.cpp -o bootstrapParticleFilterState.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c cholArma.cpp -o cholArma.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c mvrnormArma.cpp -o mvrnormArma.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SimBIID/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pmcmc.cpp -o pmcmc.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o SimBIID.so RcppExports.o adaptUpdate.o bootstrapParticleFilter.o bootstrapParticleFilterState.o cholArma.o mvrnormArma.o pmcmc.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -8965,39 +9997,39 @@ ERROR: compilation failed for package ‘simts’
 ** package ‘simts’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c additional_moments.cpp -o additional_moments.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c analytical_matrix_derivatives.cpp -o analytical_matrix_derivatives.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c arima_gmwm.cpp -o arima_gmwm.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c armadillo_manipulations.cpp -o armadillo_manipulations.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c automatic_models.cpp -o automatic_models.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bootstrappers.cpp -o bootstrappers.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c complex_tools.cpp -o complex_tools.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c covariance_matrix.cpp -o covariance_matrix.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dwt.cpp -o dwt.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gen_process.cpp -o gen_process.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gmwm_logic.cpp -o gmwm_logic.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c guess_values.cpp -o guess_values.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c idf_example.cpp -o idf_example.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c inference.cpp -o inference.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c lm.cpp -o lm.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c model_selection.cpp -o model_selection.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c obj_mod.cpp -o obj_mod.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c objective_functions.cpp -o objective_functions.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c polyroot.cpp -o polyroot.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c process_to_wv.cpp -o process_to_wv.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c read_imu.cpp -o read_imu.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c robust_components.cpp -o robust_components.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rtoarmadillo.cpp -o rtoarmadillo.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rtruncated_normal.cpp -o rtruncated_normal.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sampler.cpp -o sampler.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sarma.cpp -o sarma.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c summary_inf_mod.cpp -o summary_inf_mod.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c transform_data.cpp -o transform_data.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ts_checks.cpp -o ts_checks.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ts_model_cpp.cpp -o ts_model_cpp.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c wave_variance.cpp -o wave_variance.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c wv_filters.cpp -o wv_filters.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c additional_moments.cpp -o additional_moments.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c analytical_matrix_derivatives.cpp -o analytical_matrix_derivatives.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c arima_gmwm.cpp -o arima_gmwm.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c armadillo_manipulations.cpp -o armadillo_manipulations.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c automatic_models.cpp -o automatic_models.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bootstrappers.cpp -o bootstrappers.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c complex_tools.cpp -o complex_tools.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c covariance_matrix.cpp -o covariance_matrix.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c dwt.cpp -o dwt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gen_process.cpp -o gen_process.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gmwm_logic.cpp -o gmwm_logic.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c guess_values.cpp -o guess_values.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c idf_example.cpp -o idf_example.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c inference.cpp -o inference.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c lm.cpp -o lm.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c model_selection.cpp -o model_selection.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c obj_mod.cpp -o obj_mod.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c objective_functions.cpp -o objective_functions.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c polyroot.cpp -o polyroot.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c process_to_wv.cpp -o process_to_wv.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c read_imu.cpp -o read_imu.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c robust_components.cpp -o robust_components.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rtoarmadillo.cpp -o rtoarmadillo.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rtruncated_normal.cpp -o rtruncated_normal.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sampler.cpp -o sampler.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sarma.cpp -o sarma.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c summary_inf_mod.cpp -o summary_inf_mod.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c transform_data.cpp -o transform_data.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ts_checks.cpp -o ts_checks.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ts_model_cpp.cpp -o ts_model_cpp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c wave_variance.cpp -o wave_variance.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/simts/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c wv_filters.cpp -o wv_filters.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o simts.so RcppExports.o additional_moments.o analytical_matrix_derivatives.o arima_gmwm.o armadillo_manipulations.o automatic_models.o bootstrappers.o complex_tools.o covariance_matrix.o dwt.o gen_process.o gmwm_logic.o guess_values.o idf_example.o inference.o lm.o model_selection.o obj_mod.o objective_functions.o polyroot.o process_to_wv.o read_imu.o robust_components.o rtoarmadillo.o rtruncated_normal.o sampler.o sarma.o summary_inf_mod.o transform_data.o ts_checks.o ts_model_cpp.o wave_variance.o wv_filters.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -9041,17 +10073,248 @@ Run `revdep_details(,"slider")` for more info
 ** using staged installation
 ** libs
 clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c block.c -o block.o
+block.c:23:22: warning: implicit declaration of function 'vec_chop' is invalid in C99 [-Wimplicit-function-declaration]
+  SEXP out = PROTECT(vec_chop(x, indices));
+                     ^
+block.c:23:22: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+  SEXP out = PROTECT(vec_chop(x, indices));
+                     ^~~~~~~~~~~~~~~~~~~~
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+2 warnings generated.
 clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c compare.c -o compare.o
 clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c hop.c -o hop.o
-hop.c:104:40: error: too many arguments to function call, expected 3, have 4
+hop.c:42:17: warning: implicit declaration of function 'vec_proxy' is invalid in C99 [-Wimplicit-function-declaration]
+  out = PROTECT(vec_proxy(out));
+                ^
+hop.c:42:17: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+  out = PROTECT(vec_proxy(out));
+                ^~~~~~~~~~~~~~
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+hop.c:95:11: warning: incompatible integer to pointer conversion assigning to 'SEXP' (aka 'struct SEXPREC *') from 'int' [-Wint-conversion]
+      elt = vec_proxy(elt);
+          ^ ~~~~~~~~~~~~~~
+hop.c:104:7: warning: implicit declaration of function 'vec_assign_impl' is invalid in C99 [-Wimplicit-function-declaration]
       vec_assign_impl(out, index, elt, false);
-      ~~~~~~~~~~~~~~~                  ^~~~~
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.0/include/stdbool.h:33:15: note: expanded from macro 'false'
-#define false 0
-              ^
-1 error generated.
-make: *** [hop.o] Error 1
-ERROR: compilation failed for package ‘slider’
+      ^
+hop.c:110:17: warning: implicit declaration of function 'vec_restore' is invalid in C99 [-Wimplicit-function-declaration]
+  out = PROTECT(vec_restore(out, ptype, r_int(size)));
+                ^
+hop.c:110:17: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+  out = PROTECT(vec_restore(out, ptype, r_int(size)));
+        ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+6 warnings generated.
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c index.c -o index.o
+index.c:74:19: warning: implicit declaration of function 'vec_proxy' is invalid in C99 [-Wimplicit-function-declaration]
+  out = PROTECT_N(vec_proxy(out), &n_prot);
+                  ^
+index.c:74:19: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+  out = PROTECT_N(vec_proxy(out), &n_prot);
+                  ^~~~~~~~~~~~~~
+./utils.h:6:40: note: expanded from macro 'PROTECT_N'
+#define PROTECT_N(x, n) (++*n, PROTECT(x))
+                                       ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+index.c:98:21: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+      elt = PROTECT(vec_proxy(elt));
+                    ^~~~~~~~~~~~~~
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+index.c:112:7: warning: implicit declaration of function 'vec_assign_impl' is invalid in C99 [-Wimplicit-function-declaration]
+      vec_assign_impl(out, out_index, elt, false);
+      ^
+index.c:125:19: warning: implicit declaration of function 'vec_restore' is invalid in C99 [-Wimplicit-function-declaration]
+  out = PROTECT_N(vec_restore(out, ptype, size_), &n_prot);
+                  ^
+index.c:125:19: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+  out = PROTECT_N(vec_restore(out, ptype, size_), &n_prot);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+./utils.h:6:40: note: expanded from macro 'PROTECT_N'
+#define PROTECT_N(x, n) (++*n, PROTECT(x))
+                                       ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+index.c:172:19: warning: implicit declaration of function 'vec_proxy' is invalid in C99 [-Wimplicit-function-declaration]
+  out = PROTECT_N(vec_proxy(out), &n_prot);
+                  ^
+index.c:172:19: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+  out = PROTECT_N(vec_proxy(out), &n_prot);
+                  ^~~~~~~~~~~~~~
+./utils.h:6:40: note: expanded from macro 'PROTECT_N'
+#define PROTECT_N(x, n) (++*n, PROTECT(x))
+                                       ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+index.c:202:21: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+      elt = PROTECT(vec_proxy(elt));
+                    ^~~~~~~~~~~~~~
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+index.c:212:7: warning: implicit declaration of function 'vec_assign_impl' is invalid in C99 [-Wimplicit-function-declaration]
+      vec_assign_impl(out, out_index, elt, false);
+      ^
+index.c:221:19: warning: implicit declaration of function 'vec_restore' is invalid in C99 [-Wimplicit-function-declaration]
+  out = PROTECT_N(vec_restore(out, ptype, size_), &n_prot);
+                  ^
+index.c:221:19: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+  out = PROTECT_N(vec_restore(out, ptype, size_), &n_prot);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+./utils.h:6:40: note: expanded from macro 'PROTECT_N'
+#define PROTECT_N(x, n) (++*n, PROTECT(x))
+                                       ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+12 warnings generated.
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c names.c -o names.o
+names.c:5:10: warning: implicit declaration of function 'vec_set_names' is invalid in C99 [-Wimplicit-function-declaration]
+  return vec_set_names(x, names);
+         ^
+names.c:5:10: warning: incompatible integer to pointer conversion returning 'int' from a function with result type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+  return vec_set_names(x, names);
+         ^~~~~~~~~~~~~~~~~~~~~~~
+names.c:10:10: warning: implicit declaration of function 'vec_names' is invalid in C99 [-Wimplicit-function-declaration]
+  return vec_names(x);
+         ^
+names.c:10:10: warning: incompatible integer to pointer conversion returning 'int' from a function with result type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+  return vec_names(x);
+         ^~~~~~~~~~~~
+4 warnings generated.
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c params.c -o params.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c slide-period.c -o slide-period.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c slide.c -o slide.o
+slide.c:97:9: warning: implicit declaration of function 'vec_proxy' is invalid in C99 [-Wimplicit-function-declaration]
+  out = vec_proxy(out);
+        ^
+slide.c:97:7: warning: incompatible integer to pointer conversion assigning to 'SEXP' (aka 'struct SEXPREC *') from 'int' [-Wint-conversion]
+  out = vec_proxy(out);
+      ^ ~~~~~~~~~~~~~~
+slide.c:144:11: warning: incompatible integer to pointer conversion assigning to 'SEXP' (aka 'struct SEXPREC *') from 'int' [-Wint-conversion]
+      elt = vec_proxy(elt);
+          ^ ~~~~~~~~~~~~~~
+slide.c:153:7: warning: implicit declaration of function 'vec_assign_impl' is invalid in C99 [-Wimplicit-function-declaration]
+      vec_assign_impl(out, index, elt, false);
+      ^
+slide.c:159:9: warning: implicit declaration of function 'vec_restore' is invalid in C99 [-Wimplicit-function-declaration]
+  out = vec_restore(out, ptype, r_int(size));
+        ^
+slide.c:159:7: warning: incompatible integer to pointer conversion assigning to 'SEXP' (aka 'struct SEXPREC *') from 'int' [-Wint-conversion]
+  out = vec_restore(out, ptype, r_int(size));
+      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6 warnings generated.
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c slider-vctrs.c -o slider-vctrs.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/new/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c utils.c -o utils.o
+utils.c:106:21: warning: implicit declaration of function 'vec_names' is invalid in C99 [-Wimplicit-function-declaration]
+    names = PROTECT(vec_names(x));
+                    ^
+utils.c:106:21: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+    names = PROTECT(vec_names(x));
+                    ^~~~~~~~~~~~
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+utils.c:110:21: warning: implicit declaration of function 'vec_names' is invalid in C99 [-Wimplicit-function-declaration]
+    names = PROTECT(vec_names(r_lst_get(x, 0)));
+                    ^
+utils.c:110:21: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+    names = PROTECT(vec_names(r_lst_get(x, 0)));
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:852:31: note: expanded from macro 'PROTECT'
+#define PROTECT(s)      Rf_protect(s)
+                                   ^
+/Library/Frameworks/R.framework/Resources/include/Rinternals.h:1618:21: note: passing argument to parameter here
+SEXP Rf_protect(SEXP);
+                    ^
+utils.c:114:10: warning: implicit declaration of function 'vec_set_names' is invalid in C99 [-Wimplicit-function-declaration]
+  return vec_set_names(out, names);
+         ^
+utils.c:114:10: warning: incompatible integer to pointer conversion returning 'int' from a function with result type 'SEXP' (aka 'struct SEXPREC *') [-Wint-conversion]
+  return vec_set_names(out, names);
+         ^~~~~~~~~~~~~~~~~~~~~~~~~
+utils.c:153:17: warning: implicit declaration of function 'vec_slice_impl' is invalid in C99 [-Wimplicit-function-declaration]
+    container = vec_slice_impl(x, window);
+                ^
+utils.c:153:15: warning: incompatible integer to pointer conversion assigning to 'SEXP' (aka 'struct SEXPREC *') from 'int' [-Wint-conversion]
+    container = vec_slice_impl(x, window);
+              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+utils.c:160:17: warning: implicit declaration of function 'vec_slice_impl' is invalid in C99 [-Wimplicit-function-declaration]
+    container = vec_slice_impl(VECTOR_ELT(x, 0), window);
+                ^
+utils.c:160:15: warning: incompatible integer to pointer conversion assigning to 'SEXP' (aka 'struct SEXPREC *') from 'int' [-Wint-conversion]
+    container = vec_slice_impl(VECTOR_ELT(x, 0), window);
+              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+utils.c:162:15: warning: incompatible integer to pointer conversion assigning to 'SEXP' (aka 'struct SEXPREC *') from 'int' [-Wint-conversion]
+    container = vec_slice_impl(VECTOR_ELT(x, 1), window);
+              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+utils.c:171:13: warning: implicit declaration of function 'vec_slice_impl' is invalid in C99 [-Wimplicit-function-declaration]
+    slice = vec_slice_impl(VECTOR_ELT(x, i), window);
+            ^
+utils.c:171:11: warning: incompatible integer to pointer conversion assigning to 'SEXP' (aka 'struct SEXPREC *') from 'int' [-Wint-conversion]
+    slice = vec_slice_impl(VECTOR_ELT(x, i), window);
+          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+13 warnings generated.
+clang -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o slider.so block.o compare.o hop.o index.o init.o names.o params.o slide-period.o slide.o slider-vctrs.o utils.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/slider/new/slider.Rcheck/00LOCK-slider/00new/slider/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+Error: package or namespace load failed for ‘slider’ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/slider/new/slider.Rcheck/00LOCK-slider/00new/slider/libs/slider.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/slider/new/slider.Rcheck/00LOCK-slider/00new/slider/libs/slider.so, 6): Symbol not found: _vec_assign_impl
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/slider/new/slider.Rcheck/00LOCK-slider/00new/slider/libs/slider.so
+  Expected in: flat namespace
+ in /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/slider/new/slider.Rcheck/00LOCK-slider/00new/slider/libs/slider.so
+Error: loading failed
+Execution halted
+ERROR: loading failed
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/slider/new/slider.Rcheck/slider’
 
 ```
@@ -9062,17 +10325,17 @@ ERROR: compilation failed for package ‘slider’
 ** package ‘slider’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c block.c -o block.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c compare.c -o compare.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c hop.c -o hop.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c index.c -o index.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c names.c -o names.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c params.c -o params.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c slide-period.c -o slide-period.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c slide.c -o slide.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c slider-vctrs.c -o slider-vctrs.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/slider/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c utils.c -o utils.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c block.c -o block.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c compare.c -o compare.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c hop.c -o hop.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c index.c -o index.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c names.c -o names.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c params.c -o params.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c slide-period.c -o slide-period.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c slide.c -o slide.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c slider-vctrs.c -o slider-vctrs.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/vctrs/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c utils.c -o utils.o
 clang -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o slider.so block.o compare.o hop.o index.o init.o names.o params.o slide-period.o slide.o slider-vctrs.o utils.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/slider/old/slider.Rcheck/00LOCK-slider/00new/slider/libs
 ** R
@@ -9096,7 +10359,7 @@ installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/slide
 * Version: 0.1.0
 * Source code: https://github.com/cran/SpaCCr
 * Date/Publication: 2016-11-23 09:38:35
-* Number of recursive dependencies: 58
+* Number of recursive dependencies: 55
 
 Run `revdep_details(,"SpaCCr")` for more info
 
@@ -9138,8 +10401,8 @@ ERROR: compilation failed for package ‘SpaCCr’
 ** package ‘SpaCCr’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SpaCCr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SpaCCr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SpaCCr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SpaCCr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c SpaCC.cpp -o SpaCC.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SpaCCr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/SpaCCr/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c SpaCC.cpp -o SpaCC.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o SpaCCr.so RcppExports.o SpaCC.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -9204,12 +10467,12 @@ ERROR: compilation failed for package ‘stcos’
 ** package ‘stcos’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bisquare_basis.cpp -o bisquare_basis.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c eig.cpp -o eig.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pinv.cpp -o pinv.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sample_Gamma0_VAR1.cpp -o sample_Gamma0_VAR1.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c seq_int.cpp -o seq_int.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bisquare_basis.cpp -o bisquare_basis.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c eig.cpp -o eig.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pinv.cpp -o pinv.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sample_Gamma0_VAR1.cpp -o sample_Gamma0_VAR1.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/stcos/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c seq_int.cpp -o seq_int.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o stcos.so RcppExports.o bisquare_basis.o eig.o pinv.o sample_Gamma0_VAR1.o seq_int.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -9224,12 +10487,12 @@ ERROR: compilation failed for package ‘stcos’
 
 <details>
 
-* Version: 2.12.6
+* Version: 2.14.1
 * Source code: https://github.com/cran/TCGAbiolinks
 * URL: https://github.com/BioinformaticsFMRP/TCGAbiolinks
 * BugReports: https://github.com/BioinformaticsFMRP/TCGAbiolinks/issues
-* Date/Publication: 2019-09-05
-* Number of recursive dependencies: 265
+* Date/Publication: 2020-02-27
+* Number of recursive dependencies: 264
 
 Run `revdep_details(,"TCGAbiolinks")` for more info
 
@@ -9240,56 +10503,96 @@ Run `revdep_details(,"TCGAbiolinks")` for more info
 *   R CMD check timed out
     
 
-*   checking for missing documentation entries ... WARNING
-    ```
-    Warning: package ‘maftools’ was built under R version 3.6.1
-    All user-level objects in a package should have documentation entries.
-    See chapter ‘Writing R documentation files’ in the ‘Writing R
-    Extensions’ manual.
-    ```
-
 *   checking installed package size ... NOTE
     ```
-      installed size is 96.5Mb
+      installed size is 103.8Mb
       sub-directories of 1Mb or more:
-        R      2.4Mb
-        data   3.7Mb
-        doc   90.1Mb
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    There are ::: calls to the package's namespace in its code. A package
-      almost never needs to use ::: for its own objects:
-      ‘move’
+        R      2.5Mb
+        data   4.0Mb
+        doc   97.0Mb
     ```
 
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      ‘minet’
+    GDCquery : <anonymous>: no visible binding for global variable
+      ‘submitter_id’
+    GDCquery : <anonymous>: no visible binding for global variable
+      ‘is_ffpe’
+    TCGAanalyze_DEA: no visible binding for global variable ‘barcode’
+    TCGAanalyze_DEA: no visible binding for global variable ‘clinical’
     TCGAquery_recount2: no visible binding for global variable ‘rse_gene’
     TCGAtumor_purity: no visible binding for global variable ‘Tumor.purity’
-    TCGAvisualize_SurvivalCoxNET: no visible global function definition for
-      ‘dNetInduce’
-    TCGAvisualize_SurvivalCoxNET: no visible global function definition for
-      ‘dNetPipeline’
-    TCGAvisualize_SurvivalCoxNET: no visible global function definition for
-      ‘dCommSignif’
-    TCGAvisualize_SurvivalCoxNET: no visible global function definition for
-      ‘visNet’
     TCGAvisualize_oncoprint: no visible binding for global variable ‘value’
+    TCGAvisualize_starburst: no visible global function definition for
+      ‘values’
     readExonQuantification: no visible binding for global variable ‘exon’
     readExonQuantification: no visible binding for global variable
       ‘coordinates’
-    readIDATDNAmethylation: no visible global function definition for
-      ‘openSesame’
+    readGeneExpressionQuantification : <anonymous>: no visible binding for
+      '<<-' assignment to ‘assay.list’
+    readGeneExpressionQuantification: no visible binding for global
+      variable ‘assay.list’
     Undefined global functions or variables:
-      Tumor.purity barcode c3net clinical coordinates dCommSignif
-      dNetInduce dNetPipeline exon knnmi.cross limmacontrasts.fit
-      limmamakeContrasts minet openSesame portions rse_gene value visNet
+      Tumor.purity assay.list barcode clinical coordinates exon is_ffpe
+      rse_gene submitter_id value values
     ```
 
+# TCGAbiolinksGUI
+
+<details>
+
+* Version: 1.12.0
+* Source code: https://github.com/cran/TCGAbiolinksGUI
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 298
+
+Run `revdep_details(,"TCGAbiolinksGUI")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘TCGAbiolinksGUI’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/TCGAbiolinksGUI/new/TCGAbiolinksGUI.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘TCGAbiolinksGUI’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called 'sesameData'
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘TCGAbiolinksGUI’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/TCGAbiolinksGUI/new/TCGAbiolinksGUI.Rcheck/TCGAbiolinksGUI’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘TCGAbiolinksGUI’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called 'sesameData'
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘TCGAbiolinksGUI’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/TCGAbiolinksGUI/old/TCGAbiolinksGUI.Rcheck/TCGAbiolinksGUI’
+
+```
 # telefit
 
 <details>
@@ -10367,9 +11670,9 @@ ERROR: compilation failed for package ‘telefit’
 ** package ‘telefit’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c GibbsSampler.cpp -o GibbsSampler.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RWSampler.cpp -o RWSampler.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c GibbsSampler.cpp -o GibbsSampler.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RWSampler.cpp -o RWSampler.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 In file included from RcppExports.cpp:6:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include/RcppEigen.h:25:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include/RcppEigenForward.h:30:
@@ -10505,8 +11808,8 @@ In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noin
     #pragma clang diagnostic pop
                              ^
 17 warnings generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c covs.cpp -o covs.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c distributions.cpp -o distributions.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c covs.cpp -o covs.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c distributions.cpp -o distributions.o
 In file included from distributions.cpp:1:
 In file included from ./distributions.h:8:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include/RcppEigen.h:25:
@@ -10659,7 +11962,7 @@ In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noin
     #pragma clang diagnostic pop
                              ^
 17 warnings generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c glm_gmrf.cpp -o glm_gmrf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c glm_gmrf.cpp -o glm_gmrf.o
 In file included from glm_gmrf.cpp:1:
 In file included from ./glm_gmrf.h:8:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include/RcppEigen.h:25:
@@ -10812,9 +12115,9 @@ In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noin
     #pragma clang diagnostic pop
                              ^
 17 warnings generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c mcstat.cpp -o mcstat.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c numAlg.cpp -o numAlg.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c stpglmmod.cpp -o stpglmmod.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c mcstat.cpp -o mcstat.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c numAlg.cpp -o numAlg.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c stpglmmod.cpp -o stpglmmod.o
 In file included from stpglmmod.cpp:9:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include/RcppEigen.h:25:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include/RcppEigenForward.h:30:
@@ -10950,7 +12253,7 @@ In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noin
     #pragma clang diagnostic pop
                              ^
 17 warnings generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c stpmod.cpp -o stpmod.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c stpmod.cpp -o stpmod.o
 In file included from stpmod.cpp:4:
 In file included from ./distributions.h:8:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include/RcppEigen.h:25:
@@ -11106,8 +12409,8 @@ stpmod.cpp:470:32: warning: private field 'R' is not used [-Wunused-private-fiel
         double CProposed_logdet, one, R;
                                       ^
 18 warnings generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c stpnotation.cpp -o stpnotation.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c svcMod.cpp -o svcMod.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c stpnotation.cpp -o stpnotation.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c svcMod.cpp -o svcMod.o
 In file included from svcMod.cpp:6:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include/RcppEigen.h:25:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include/RcppEigenForward.h:30:
@@ -11243,7 +12546,7 @@ In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noin
     #pragma clang diagnostic pop
                              ^
 17 warnings generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c svcPredict.cpp -o svcPredict.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c svcPredict.cpp -o svcPredict.o
 In file included from svcPredict.cpp:9:
 In file included from ./distributions.h:8:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include/RcppEigen.h:25:
@@ -11396,7 +12699,7 @@ In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noin
     #pragma clang diagnostic pop
                              ^
 17 warnings generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c transformations.cpp -o transformations.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/telefit/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c transformations.cpp -o transformations.o
 clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o telefit.so GibbsSampler.o RWSampler.o RcppExports.o covs.o distributions.o glm_gmrf.o mcstat.o numAlg.o stpglmmod.o stpmod.o stpnotation.o svcMod.o svcPredict.o transformations.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -11407,27 +12710,25 @@ ERROR: compilation failed for package ‘telefit’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/telefit/old/telefit.Rcheck/telefit’
 
 ```
-# vapour
+# textmining
 
 <details>
 
-* Version: 0.5.0
-* Source code: https://github.com/cran/vapour
-* URL: https://github.com/hypertidy/vapour
-* BugReports: https://github.com/hypertidy/vapour/issues
-* Date/Publication: 2020-01-30 09:20:02 UTC
-* Number of recursive dependencies: 64
+* Version: 0.0.1
+* Source code: https://github.com/cran/textmining
+* Date/Publication: 2016-09-26 00:56:23
+* Number of recursive dependencies: 106
 
-Run `revdep_details(,"vapour")` for more info
+Run `revdep_details(,"textmining")` for more info
 
 </details>
 
 ## In both
 
-*   checking whether package ‘vapour’ can be installed ... ERROR
+*   checking whether package ‘textmining’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/vapour/new/vapour.Rcheck/00install.out’ for details.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/textmining/new/textmining.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -11435,31 +12736,675 @@ Run `revdep_details(,"vapour")` for more info
 ### Devel
 
 ```
-* installing *source* package ‘vapour’ ...
-** package ‘vapour’ successfully unpacked and MD5 sums checked
+* installing *source* package ‘textmining’ ...
+** package ‘textmining’ successfully unpacked and MD5 sums checked
 ** using staged installation
-configure: CC: clang
-configure: CXX: clang++ -std=gnu++11
-checking for gdal-config... no
-no
-configure: error: gdal-config not found or not executable.
-ERROR: configuration failed for package ‘vapour’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/vapour/new/vapour.Rcheck/vapour’
+** R
+** byte-compile and prepare package for lazy loading
+Warning message:
+In fun(libname, pkgname) : couldn't connect to display ""
+Error: .onLoad failed in loadNamespace() for 'mallet', details:
+  call: NULL
+  error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘textmining’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/textmining/new/textmining.Rcheck/textmining’
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘vapour’ ...
-** package ‘vapour’ successfully unpacked and MD5 sums checked
+* installing *source* package ‘textmining’ ...
+** package ‘textmining’ successfully unpacked and MD5 sums checked
 ** using staged installation
-configure: CC: clang
-configure: CXX: clang++ -std=gnu++11
-checking for gdal-config... no
-no
-configure: error: gdal-config not found or not executable.
-ERROR: configuration failed for package ‘vapour’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/vapour/old/vapour.Rcheck/vapour’
+** R
+** byte-compile and prepare package for lazy loading
+Warning message:
+In fun(libname, pkgname) : couldn't connect to display ""
+Error: .onLoad failed in loadNamespace() for 'mallet', details:
+  call: NULL
+  error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so':
+  dlopen(/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so
+  Reason: image not found
+Execution halted
+ERROR: lazy loading failed for package ‘textmining’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/textmining/old/textmining.Rcheck/textmining’
+
+```
+# textreuse
+
+<details>
+
+* Version: 0.1.4
+* Source code: https://github.com/cran/textreuse
+* URL: https://github.com/ropensci/textreuse
+* BugReports: https://github.com/ropensci/textreuse/issues
+* Date/Publication: 2016-11-28 16:54:10
+* Number of recursive dependencies: 60
+
+Run `revdep_details(,"textreuse")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘textreuse’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/textreuse/new/textreuse.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘tm’
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘textreuse’ ...
+** package ‘textreuse’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c hash_string.cpp -o hash_string.o
+In file included from hash_string.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/functional/hash.hpp:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash.hpp:19:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash_fwd.hpp:13:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/workaround.hpp:41:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/detail/posix_features.hpp:18:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:654:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h:39:17: error: C++ requires a type specifier for all declarations
+int gethostuuid(uuid_t, const struct timespec *) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_NA);
+                ^
+In file included from hash_string.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/functional/hash.hpp:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash.hpp:19:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash_fwd.hpp:13:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/workaround.hpp:41:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:661:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getsgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from hash_string.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/functional/hash.hpp:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash.hpp:19:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash_fwd.hpp:13:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/workaround.hpp:41:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:663:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getwgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from hash_string.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/functional/hash.hpp:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash.hpp:19:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash_fwd.hpp:13:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/workaround.hpp:41:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:726:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setsgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from hash_string.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/functional/hash.hpp:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash.hpp:19:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash_fwd.hpp:13:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/workaround.hpp:41:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:728:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setwgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+5 errors generated.
+make: *** [hash_string.o] Error 1
+ERROR: compilation failed for package ‘textreuse’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/textreuse/new/textreuse.Rcheck/textreuse’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘textreuse’ ...
+** package ‘textreuse’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c hash_string.cpp -o hash_string.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c shingle_ngrams.cpp -o shingle_ngrams.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c skip_ngrams.cpp -o skip_ngrams.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sw_matrix.cpp -o sw_matrix.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o textreuse.so RcppExports.o hash_string.o shingle_ngrams.o skip_ngrams.o sw_matrix.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/textreuse/old/textreuse.Rcheck/00LOCK-textreuse/00new/textreuse/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (textreuse)
+
+```
+# tidyxl
+
+<details>
+
+* Version: 1.0.4
+* Source code: https://github.com/cran/tidyxl
+* URL: https://github.com/nacnudus/tidyxl
+* BugReports: https://github.com/nacnudus/tidyxl/issues
+* Date/Publication: 2019-01-02 11:30:04 UTC
+* Number of recursive dependencies: 74
+
+Run `revdep_details(,"tidyxl")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘tidyxl’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/tidyxl/new/tidyxl.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘tidyxl’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      ref.cpp:24:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      ref.cpp:35:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      ref.cpp:50:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      ref.cpp:61:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/tidyxl/old/tidyxl.Rcheck/00install.out’ for details.
+    ```
+
+*   checking compiled code ... WARNING
+    ```
+    File ‘tidyxl/libs/tidyxl.so’:
+      Found ‘_abort’, possibly from ‘abort’ (C)
+        Object: ‘xlex.o’
+    
+    Compiled code should not call entry points which might terminate R nor
+    write to stdout/stderr instead of to the console, nor use Fortran I/O
+    nor system RNGs.
+    
+    See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘tidyxl’ ...
+** package ‘tidyxl’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c border.cpp -o border.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c color.cpp -o color.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fill.cpp -o fill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c font.cpp -o font.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gradientFill.cpp -o gradientFill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gradientStop.cpp -o gradientStop.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c patternFill.cpp -o patternFill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ref.cpp -o ref.o
+ref.cpp:24:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+    for(iter = iter; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
+        ~~~~ ^ ~~~~
+ref.cpp:35:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+    for(iter = iter; (*iter >= '0' && *iter <= '9'); ++iter) {
+        ~~~~ ^ ~~~~
+ref.cpp:50:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      for(iter = iter; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
+          ~~~~ ^ ~~~~
+ref.cpp:61:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      for(iter = iter; (*iter >= '0' && *iter <= '9'); ++iter) {
+          ~~~~ ^ ~~~~
+4 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c shared_formula.cpp -o shared_formula.o
+In file included from shared_formula.cpp:2:
+In file included from ./shared_formula.h:5:
+In file included from ./ref_grammar.h:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl.hpp:20:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl/file_input.hpp:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:654:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h:39:17: error: C++ requires a type specifier for all declarations
+int gethostuuid(uuid_t, const struct timespec *) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_NA);
+                ^
+In file included from shared_formula.cpp:2:
+In file included from ./shared_formula.h:5:
+In file included from ./ref_grammar.h:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl.hpp:20:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl/file_input.hpp:12:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:661:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getsgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from shared_formula.cpp:2:
+In file included from ./shared_formula.h:5:
+In file included from ./ref_grammar.h:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl.hpp:20:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl/file_input.hpp:12:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:663:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getwgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from shared_formula.cpp:2:
+In file included from ./shared_formula.h:5:
+In file included from ./ref_grammar.h:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl.hpp:20:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl/file_input.hpp:12:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:726:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setsgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from shared_formula.cpp:2:
+In file included from ./shared_formula.h:5:
+In file included from ./ref_grammar.h:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl.hpp:20:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl/file_input.hpp:12:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:728:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setwgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from shared_formula.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:496:5: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::~__vector_base' requested here
+    vector() _NOEXCEPT_(is_nothrow_default_constructible<allocator_type>::value)
+    ^
+shared_formula.cpp:6:17: note: in instantiation of member function 'std::__1::vector<ref, std::__1::allocator<ref> >::vector' requested here
+shared_formula::shared_formula(
+                ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning and 5 errors generated.
+make: *** [shared_formula.o] Error 1
+ERROR: compilation failed for package ‘tidyxl’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/tidyxl/new/tidyxl.Rcheck/tidyxl’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘tidyxl’ ...
+** package ‘tidyxl’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c border.cpp -o border.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c color.cpp -o color.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fill.cpp -o fill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c font.cpp -o font.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gradientFill.cpp -o gradientFill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gradientStop.cpp -o gradientStop.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c patternFill.cpp -o patternFill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ref.cpp -o ref.o
+ref.cpp:24:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+    for(iter = iter; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
+        ~~~~ ^ ~~~~
+ref.cpp:35:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+    for(iter = iter; (*iter >= '0' && *iter <= '9'); ++iter) {
+        ~~~~ ^ ~~~~
+ref.cpp:50:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      for(iter = iter; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
+          ~~~~ ^ ~~~~
+ref.cpp:61:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      for(iter = iter; (*iter >= '0' && *iter <= '9'); ++iter) {
+          ~~~~ ^ ~~~~
+4 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c shared_formula.cpp -o shared_formula.o
+In file included from shared_formula.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:496:5: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::~__vector_base' requested here
+    vector() _NOEXCEPT_(is_nothrow_default_constructible<allocator_type>::value)
+    ^
+shared_formula.cpp:6:17: note: in instantiation of member function 'std::__1::vector<ref, std::__1::allocator<ref> >::vector' requested here
+shared_formula::shared_formula(
+                ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c stroke.cpp -o stroke.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c tidyxl.cpp -o tidyxl.o
+In file included from tidyxl.cpp:3:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/algorithm:644:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: (skipping 8 contexts in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+    ~vector()
+    ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<xlsxsheet> >::destroy<xlsxsheet>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::~__vector_base' requested here
+    ~vector()
+    ^
+./xlsxbook.h:9:7: note: in instantiation of member function 'std::__1::vector<xlsxsheet, std::__1::allocator<xlsxsheet> >::~vector' requested here
+class xlsxbook {
+      ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xf.cpp -o xf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlex.cpp -o xlex.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxbook.cpp -o xlsxbook.o
+In file included from xlsxbook.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: (skipping 1 context in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+    ~vector()
+    ^
+./shared_formula.h:8:7: note: in instantiation of member function 'std::__1::vector<ref, std::__1::allocator<ref> >::~vector' requested here
+class shared_formula {
+      ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<std::__1::__tree_node<std::__1::__value_type<int, shared_formula>, void *> > >::__destroy<std::__1::pair<const int, shared_formula> >' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:1854:24: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<std::__1::__tree_node<std::__1::__value_type<int, shared_formula>, void *> > >::destroy<std::__1::pair<const int, shared_formula> >' requested here
+        __node_traits::destroy(__na, _NodeTypes::__get_ptr(__nd->__value_));
+                       ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:1842:3: note: in instantiation of member function 'std::__1::__tree<std::__1::__value_type<int, shared_formula>, std::__1::__map_value_compare<int, std::__1::__value_type<int, shared_formula>, std::__1::less<int>, true>, std::__1::allocator<std::__1::__value_type<int, shared_formula> > >::destroy' requested here
+  destroy(__root());
+  ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/map:830:77: note: in instantiation of member function 'std::__1::__tree<std::__1::__value_type<int, shared_formula>, std::__1::__map_value_compare<int, std::__1::__value_type<int, shared_formula>, std::__1::less<int>, true>, std::__1::allocator<std::__1::__value_type<int, shared_formula> > >::~__tree' requested here
+    template <class, class, class, class> friend class _LIBCPP_TEMPLATE_VIS map;
+                                                                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxcell.cpp -o xlsxcell.o
+In file included from xlsxcell.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::~__vector_base' requested here
+    ~vector()
+    ^
+./shared_formula.h:8:7: note: in instantiation of member function 'std::__1::vector<ref, std::__1::allocator<ref> >::~vector' requested here
+class shared_formula {
+      ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxnames.cpp -o xlsxnames.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxsheet.cpp -o xlsxsheet.o
+In file included from xlsxsheet.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: (skipping 1 context in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+    ~vector()
+    ^
+./shared_formula.h:8:7: note: in instantiation of member function 'std::__1::vector<ref, std::__1::allocator<ref> >::~vector' requested here
+class shared_formula {
+      ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<std::__1::__tree_node<std::__1::__value_type<int, shared_formula>, void *> > >::__destroy<std::__1::pair<const int, shared_formula> >' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:1854:24: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<std::__1::__tree_node<std::__1::__value_type<int, shared_formula>, void *> > >::destroy<std::__1::pair<const int, shared_formula> >' requested here
+        __node_traits::destroy(__na, _NodeTypes::__get_ptr(__nd->__value_));
+                       ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:1842:3: note: in instantiation of member function 'std::__1::__tree<std::__1::__value_type<int, shared_formula>, std::__1::__map_value_compare<int, std::__1::__value_type<int, shared_formula>, std::__1::less<int>, true>, std::__1::allocator<std::__1::__value_type<int, shared_formula> > >::destroy' requested here
+  destroy(__root());
+  ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/map:830:77: note: in instantiation of member function 'std::__1::__tree<std::__1::__value_type<int, shared_formula>, std::__1::__map_value_compare<int, std::__1::__value_type<int, shared_formula>, std::__1::less<int>, true>, std::__1::allocator<std::__1::__value_type<int, shared_formula> > >::~__tree' requested here
+    template <class, class, class, class> friend class _LIBCPP_TEMPLATE_VIS map;
+                                                                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxstyles.cpp -o xlsxstyles.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxvalidation.cpp -o xlsxvalidation.o
+In file included from xlsxvalidation.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: (skipping 8 contexts in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+    ~vector()
+    ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<xlsxsheet> >::destroy<xlsxsheet>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::~__vector_base' requested here
+    ~vector()
+    ^
+./xlsxbook.h:9:7: note: in instantiation of member function 'std::__1::vector<xlsxsheet, std::__1::allocator<xlsxsheet> >::~vector' requested here
+class xlsxbook {
+      ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c zip.cpp -o zip.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o tidyxl.so RcppExports.o border.o color.o fill.o font.o gradientFill.o gradientStop.o patternFill.o ref.o shared_formula.o stroke.o tidyxl.o xf.o xlex.o xlsxbook.o xlsxcell.o xlsxnames.o xlsxsheet.o xlsxstyles.o xlsxvalidation.o zip.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/tidyxl/old/tidyxl.Rcheck/00LOCK-tidyxl/00new/tidyxl/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (tidyxl)
 
 ```
 # VarSelLCM
@@ -11470,7 +13415,7 @@ ERROR: configuration failed for package ‘vapour’
 * Source code: https://github.com/cran/VarSelLCM
 * URL: http://varsellcm.r-forge.r-project.org/
 * Date/Publication: 2018-08-29 10:24:28 UTC
-* Number of recursive dependencies: 62
+* Number of recursive dependencies: 73
 
 Run `revdep_details(,"VarSelLCM")` for more info
 
@@ -11539,31 +13484,31 @@ ERROR: compilation failed for package ‘VarSelLCM’
 ** package ‘VarSelLCM’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c Algorithm.cpp -o Algorithm.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c AlgorithmCategorical.cpp -o AlgorithmCategorical.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c AlgorithmContinuous.cpp -o AlgorithmContinuous.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c AlgorithmInteger.cpp -o AlgorithmInteger.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c AlgorithmMixed.cpp -o AlgorithmMixed.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c DataCategorical.cpp -o DataCategorical.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c DataContinuous.cpp -o DataContinuous.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c DataInteger.cpp -o DataInteger.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c DataMixed.cpp -o DataMixed.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ParamCategorical.cpp -o ParamCategorical.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ParamContinuous.cpp -o ParamContinuous.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ParamInteger.cpp -o ParamInteger.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ParamMixed.cpp -o ParamMixed.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c VarSelLCMmixte.cpp -o VarSelLCMmixte.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEM.cpp -o XEM.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c Algorithm.cpp -o Algorithm.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c AlgorithmCategorical.cpp -o AlgorithmCategorical.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c AlgorithmContinuous.cpp -o AlgorithmContinuous.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c AlgorithmInteger.cpp -o AlgorithmInteger.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c AlgorithmMixed.cpp -o AlgorithmMixed.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c DataCategorical.cpp -o DataCategorical.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c DataContinuous.cpp -o DataContinuous.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c DataInteger.cpp -o DataInteger.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c DataMixed.cpp -o DataMixed.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ParamCategorical.cpp -o ParamCategorical.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ParamContinuous.cpp -o ParamContinuous.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ParamInteger.cpp -o ParamInteger.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ParamMixed.cpp -o ParamMixed.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c VarSelLCMmixte.cpp -o VarSelLCMmixte.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEM.cpp -o XEM.o
 XEM.cpp:63:14: warning: unused variable 'indicebest' [-Wunused-variable]
       double indicebest = (loglikeSmall).max(index);
              ^
 1 warning generated.
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEMCategorical.cpp -o XEMCategorical.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEMContinuous.cpp -o XEMContinuous.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEMInteger.cpp -o XEMInteger.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEMMixed.cpp -o XEMMixed.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEMPen.cpp -o XEMPen.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEMCategorical.cpp -o XEMCategorical.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEMContinuous.cpp -o XEMContinuous.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEMInteger.cpp -o XEMInteger.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEMMixed.cpp -o XEMMixed.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/VarSelLCM/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c XEMPen.cpp -o XEMPen.o
 XEMPen.cpp:176:10: warning: unused variable 'repere' [-Wunused-variable]
      int repere=0;
          ^
@@ -11578,6 +13523,132 @@ ERROR: compilation failed for package ‘VarSelLCM’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/VarSelLCM/old/VarSelLCM.Rcheck/VarSelLCM’
 
 ```
+# vcfR
+
+<details>
+
+* Version: 1.10.0
+* Source code: https://github.com/cran/vcfR
+* URL: https://github.com/knausb/vcfR, https://knausb.github.io/vcfR_documentation/
+* Date/Publication: 2020-02-06 09:50:02 UTC
+* Number of recursive dependencies: 111
+
+Run `revdep_details(,"vcfR")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘vcfR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/vcfR/new/vcfR.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘vcfR’ ...
+** package ‘vcfR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vcfR/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c NM2winNM.cpp -o NM2winNM.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vcfR/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vcfR/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ad_frequency.cpp -o ad_frequency.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vcfR/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c deprecated_funcs.cpp -o deprecated_funcs.o
+In file included from deprecated_funcs.cpp:3:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zlib.h:34:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zconf.h:462:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:654:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h:39:17: error: C++ requires a type specifier for all declarations
+int gethostuuid(uuid_t, const struct timespec *) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_NA);
+                ^
+In file included from deprecated_funcs.cpp:3:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zlib.h:34:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zconf.h:462:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:661:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getsgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from deprecated_funcs.cpp:3:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zlib.h:34:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zconf.h:462:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:663:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getwgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from deprecated_funcs.cpp:3:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zlib.h:34:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zconf.h:462:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:726:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setsgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from deprecated_funcs.cpp:3:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zlib.h:34:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zconf.h:462:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:728:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setwgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+5 errors generated.
+make: *** [deprecated_funcs.o] Error 1
+ERROR: compilation failed for package ‘vcfR’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/vcfR/new/vcfR.Rcheck/vcfR’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘vcfR’ ...
+** package ‘vcfR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c NM2winNM.cpp -o NM2winNM.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ad_frequency.cpp -o ad_frequency.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c deprecated_funcs.cpp -o deprecated_funcs.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c extract_gt.cpp -o extract_gt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c freq_peak.cpp -o freq_peak.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gt_to_popsum.cpp -o gt_to_popsum.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c is_het.cpp -o is_het.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c masplit.cpp -o masplit.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pair_sort.cpp -o pair_sort.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rank_variants.cpp -o rank_variants.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c read_vcfR.cpp -o read_vcfR.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c seq_to_rects.cpp -o seq_to_rects.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c var_window.cpp -o var_window.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c vcfRCommon.cpp -o vcfRCommon.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c write_vcfR.cpp -o write_vcfR.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o vcfR.so NM2winNM.o RcppExports.o ad_frequency.o deprecated_funcs.o extract_gt.o freq_peak.o gt_to_popsum.o is_het.o masplit.o pair_sort.o rank_variants.o read_vcfR.o seq_to_rects.o var_window.o vcfRCommon.o write_vcfR.o -lz -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/vcfR/old/vcfR.Rcheck/00LOCK-vcfR/00new/vcfR/libs
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+Creating a generic function for ‘rbind’ from package ‘base’ in package ‘vcfR’
+Creating a generic function for ‘nrow’ from package ‘base’ in package ‘vcfR’
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (vcfR)
+
+```
 # vlad
 
 <details>
@@ -11586,7 +13657,7 @@ ERROR: compilation failed for package ‘VarSelLCM’
 * Source code: https://github.com/cran/vlad
 * BugReports: https://github.com/wittenberg/vlad/issues
 * Date/Publication: 2018-12-06 08:50:03 UTC
-* Number of recursive dependencies: 69
+* Number of recursive dependencies: 67
 
 Run `revdep_details(,"vlad")` for more info
 
@@ -11623,7 +13694,7 @@ ERROR: compilation failed for package ‘vlad’
 ** package ‘vlad’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vlad/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vlad/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vlad/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘vlad’
@@ -12127,7 +14198,7 @@ ERROR: compilation failed for package ‘walker’
 ** libs
 
 
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include/src" -DBOOST_DISABLE_ASSERTS -DEIGEN_NO_DEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/rstan/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -g -O2  -c Modules.cpp -o Modules.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include/src" -DBOOST_DISABLE_ASSERTS -DEIGEN_NO_DEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/rstan/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -g -O2  -c Modules.cpp -o Modules.o
 In file included from Modules.cpp:3:
 In file included from ./include/models.hpp:18:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/rstan/include/rstan/rstaninc.hpp:3:
@@ -12432,7 +14503,7 @@ In file included from Modules.cpp:3:
 31 warnings generated.
 
 
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include/src" -DBOOST_DISABLE_ASSERTS -DEIGEN_NO_DEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/rstan/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -g -O2  -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include/src" -DBOOST_DISABLE_ASSERTS -DEIGEN_NO_DEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/rstan/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -g -O2  -c RcppExports.cpp -o RcppExports.o
 In file included from RcppExports.cpp:5:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppEigen/include/RcppEigen.h:25:
 In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppEigen/include/RcppEigenForward.h:30:
@@ -12570,7 +14641,7 @@ In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noin
 17 warnings generated.
 
 
-clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include/src" -DBOOST_DISABLE_ASSERTS -DEIGEN_NO_DEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/rstan/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -g -O2  -c predict.cpp -o predict.o
+clang++ -std=gnu++14 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include/src" -DBOOST_DISABLE_ASSERTS -DEIGEN_NO_DEBUG -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/StanHeaders/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/rstan/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppArmadillo/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/walker/RcppEigen/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -g -O2  -c predict.cpp -o predict.o
 clang++ -std=gnu++14 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o walker.so Modules.o RcppExports.o predict.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
@@ -12588,7 +14659,7 @@ ERROR: compilation failed for package ‘walker’
 * Version: 1.0.1
 * Source code: https://github.com/cran/weibulltools
 * Date/Publication: 2019-01-29 16:10:03 UTC
-* Number of recursive dependencies: 107
+* Number of recursive dependencies: 109
 
 Run `revdep_details(,"weibulltools")` for more info
 
@@ -12625,7 +14696,7 @@ ERROR: compilation failed for package ‘weibulltools’
 ** package ‘weibulltools’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/weibulltools/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/weibulltools/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/weibulltools/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘weibulltools’
@@ -12636,11 +14707,11 @@ ERROR: compilation failed for package ‘weibulltools’
 
 <details>
 
-* Version: 1.16.0
+* Version: 1.18.0
 * Source code: https://github.com/cran/XBSeq
 * URL: https://github.com/Liuy12/XBSeq
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 129
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 127
 
 Run `revdep_details(,"XBSeq")` for more info
 
@@ -12650,17 +14721,6 @@ Run `revdep_details(,"XBSeq")` for more info
 
 *   R CMD check timed out
     
-
-*   checking whether package ‘XBSeq’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: package ‘S4Vectors’ was built under R version 3.6.1
-      Warning: package ‘IRanges’ was built under R version 3.6.1
-      Warning: package ‘GenomicRanges’ was built under R version 3.6.1
-      Warning: package ‘SummarizedExperiment’ was built under R version 3.6.1
-      Warning: package ‘BiocParallel’ was built under R version 3.6.1
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/XBSeq/new/XBSeq.Rcheck/00install.out’ for details.
-    ```
 
 *   checking whether the namespace can be loaded with stated dependencies ... NOTE
     ```
