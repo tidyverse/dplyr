@@ -6,12 +6,6 @@ SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right) {
   double left = REAL(s_left)[0], right = REAL(s_right)[0];
   SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
 
-  // Assume users know what they're doing with date/times. In the future
-  // should ensure that left and right are the correct class too.
-  if (!Rf_isNull(Rf_getAttrib(x, R_ClassSymbol)) && !Rf_inherits(x, "Date") && !Rf_inherits(x, "POSIXct")) {
-    Rf_warningcall(R_NilValue, "between() called on numeric vector with S3 class");
-  }
-
   int* p_out = LOGICAL(out);
   if (R_IsNA(left) || R_IsNA(right)) {
     for (R_xlen_t i=0; i<XLENGTH(out); i++, ++p_out) *p_out = NA_LOGICAL;
