@@ -124,7 +124,11 @@ group_map.data.frame <- function(.data, .f, ..., keep = FALSE) {
   .f <- as_group_map_function(.f)
 
   # call the function on each group
-  chunks <- group_split(.data, keep = isTRUE(keep))
+  chunks <- if (inherits(.data, "rowwise_df")) {
+    group_split(.data)
+  } else {
+    group_split(.data, keep = isTRUE(keep))
+  }
   keys  <- group_keys(.data)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
 
