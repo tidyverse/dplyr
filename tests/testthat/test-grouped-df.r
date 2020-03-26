@@ -172,6 +172,7 @@ test_that("validate_grouped_df() gives useful errors", {
       tibble(x = 1:10),
       tibble(other = list(1:2))
     )
+    new_grouped_df(10)
   })
 })
 

@@ -23,14 +23,6 @@ Error: Corrupt `grouped_df` using old (< 0.8.0) format
 i Strip off old grouping with `ungroup()`
 
 
-new_grouped_df()
-================
-
-> new_grouped_df(tibble(x = 1:10), tibble(other = list(1:2)))
-Error: `new_grouped_df()` incompatible argument
-* `groups` should be a data frame, and its last column be called `.rows`
-
-
 validate_grouped_df()
 =====================
 
@@ -48,4 +40,16 @@ Error: The `groups` attribute is not a data frame with its last column called `.
 
 > validate_grouped_df(df11)
 Error: The `groups` attribute is not a data frame with its last column called `.rows`
+
+
+new_grouped_df()
+================
+
+> new_grouped_df(tibble(x = 1:10), tibble(other = list(1:2)))
+Error: `new_grouped_df()` incompatible argument
+* `groups` should be a data frame, and its last column be called `.rows`
+
+> new_grouped_df(10)
+Error: `new_grouped_df()` incompatible argument
+* `x` is not a data frame
 
