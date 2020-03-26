@@ -129,7 +129,7 @@ df %>%
   summarise(n = n(), across(is.numeric, sd))
 ```
 
-Here `n` becomes `NA` because the standard deviation of 3 is `NA`. You probably want to compute `n()` last to avoid this problem:
+Here `n` becomes `NA` because `n` is numeric, so the `across()` computes its standard deviation, and the standard deviation of 3 (a constant) is `NA`. You probably want to compute `n()` last to avoid this problem:
 
 ```{r}
 df %>% 
