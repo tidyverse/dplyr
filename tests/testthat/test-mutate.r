@@ -16,6 +16,12 @@ test_that("mutations applied progressively", {
   expect_equal(df %>% mutate(y = x + 1, z = y + 1), tibble(x = 1, y = 2, z = 3))
   expect_equal(df %>% mutate(x = x + 1, x = x + 1), tibble(x = 3))
   expect_equal(df %>% mutate(x = 2, y = x), tibble(x = 2, y = 2))
+
+  df <- data.frame(x = 1, y = 2)
+  expect_equal(
+    df %>% mutate(x2 = x, x3 = x2 + 1),
+    df %>% mutate(x2 = x + 0, x3 = x2 + 1)
+  )
 })
 
 test_that("length-1 vectors are recycled (#152)", {
