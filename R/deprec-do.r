@@ -49,7 +49,7 @@
 #' }
 do <- function(.data, ...) {
   lifecycle::deprecate_warn("1.0.0", "do()",
-    details = "See ?do for translation help"
+    details = "See ?do for advice on how to update"
   )
 
   UseMethod("do")
