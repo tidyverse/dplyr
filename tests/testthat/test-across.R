@@ -147,6 +147,34 @@ test_that("monitoring cache - across() usage can depend on the group id", {
   )
 })
 
+test_that("monitoring cache - across() internal cache key depends on all inputs", {
+  df <- tibble(g = rep(1:2, each = 2), a = 1:4)
+  df <- group_by(df, g)
+
+  expect_identical(
+    mutate(df, tibble(x = across(is.numeric, mean)$a, y = across(is.numeric, max)$a)),
+    mutate(df, x = mean(a), y = max(a))
+  )
+})
+
+test_that("across() rejects non vectors", {
+  expect_error(
+    data.frame(x = 1) %>% summarise(across(everything(), ~sym("foo")))
+  )
+})
+
+test_that("across() uses tidy recycling rules", {
+  expect_equal(
+    data.frame(x = 1, y = 2) %>% summarise(across(everything(), ~rep(42, .))),
+    data.frame(x = rep(42, 2), y = rep(42, 2))
+  )
+
+  expect_error(
+    data.frame(x = 2, y = 3) %>% summarise(across(everything(), ~rep(42, .)))
+  )
+})
+
+
 # c_across ----------------------------------------------------------------
 
 test_that("selects and combines columns", {

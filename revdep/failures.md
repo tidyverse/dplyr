@@ -885,6 +885,79 @@ ERROR: compilation failed for package ‘BivRec’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/BivRec/old/BivRec.Rcheck/BivRec’
 
 ```
+# blorr
+
+<details>
+
+* Version: 0.2.2
+* Source code: https://github.com/cran/blorr
+* URL: URL: https://blorr.rsquaredacademy.com/, https://github.com/rsquaredacademy/blorr
+* BugReports: https://github.com/rsquaredacademy/blorr/issues
+* Date/Publication: 2020-02-03 11:40:02 UTC
+* Number of recursive dependencies: 165
+
+Run `revdep_details(,"blorr")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘blorr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/new/blorr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘blorr’ ...
+** package ‘blorr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/blorr/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/blorr/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c blr-pairs-cpp.cpp -o blr-pairs-cpp.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o blorr.so RcppExports.o blr-pairs-cpp.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/new/blorr.Rcheck/00LOCK-blorr/00new/blorr/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘blorr’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/new/blorr.Rcheck/blorr’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘blorr’ ...
+** package ‘blorr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c blr-pairs-cpp.cpp -o blr-pairs-cpp.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o blorr.so RcppExports.o blr-pairs-cpp.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/old/blorr.Rcheck/00LOCK-blorr/00new/blorr/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘blorr’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/blorr/old/blorr.Rcheck/blorr’
+
+```
 # BMSC
 
 <details>
@@ -1808,7 +1881,7 @@ ERROR: compilation failed for package ‘circumplex’
 * URL: https://github.com/mschubert/clustermq
 * BugReports: https://github.com/mschubert/clustermq/issues
 * Date/Publication: 2020-02-29 19:20:02 UTC
-* Number of recursive dependencies: 105
+* Number of recursive dependencies: 84
 
 Run `revdep_details(,"clustermq")` for more info
 
@@ -3449,7 +3522,7 @@ ERROR: compilation failed for package ‘dynfrail’
 * Version: 2.10.0
 * Source code: https://github.com/cran/ELMER
 * Date/Publication: 2019-11-06
-* Number of recursive dependencies: 216
+* Number of recursive dependencies: 212
 
 Run `revdep_details(,"ELMER")` for more info
 
@@ -3502,7 +3575,7 @@ Run `revdep_details(,"ELMER")` for more info
 * Source code: https://github.com/cran/ENCODExplorer
 * BugReports: https://github.com/CharlesJB/ENCODExplorer/issues
 * Date/Publication: 2019-12-16
-* Number of recursive dependencies: 121
+* Number of recursive dependencies: 95
 
 Run `revdep_details(,"ENCODExplorer")` for more info
 
@@ -3611,7 +3684,7 @@ ERROR: compilation failed for package ‘exuber’
 * URL: https://fable.tidyverts.org
 * BugReports: https://github.com/tidyverts/fable/issues
 * Date/Publication: 2020-01-29 11:00:03 UTC
-* Number of recursive dependencies: 97
+* Number of recursive dependencies: 99
 
 Run `revdep_details(,"fable")` for more info
 
@@ -4445,7 +4518,7 @@ Run `revdep_details(,"grasp2db")` for more info
 * URL: https://robwschlegel.github.io/heatwaveR/index.html, https://github.com/robwschlegel/heatwaveR
 * BugReports: https://github.com/robwschlegel/heatwaveR/issues
 * Date/Publication: 2019-12-01 21:30:06 UTC
-* Number of recursive dependencies: 105
+* Number of recursive dependencies: 100
 
 Run `revdep_details(,"heatwaveR")` for more info
 
@@ -4737,7 +4810,7 @@ ERROR: lazy loading failed for package ‘infercnv’
 * Source code: https://github.com/cran/iRF
 * URL: https://arxiv.org/abs/1706.08457
 * Date/Publication: 2017-07-26 04:57:45 UTC
-* Number of recursive dependencies: 82
+* Number of recursive dependencies: 60
 
 Run `revdep_details(,"iRF")` for more info
 
@@ -4790,7 +4863,7 @@ ERROR: compilation failed for package ‘iRF’
 * URL: https://github.com/lanagarmire/lilikoi
 * BugReports: https://github.com/lanagarmire/lilikoi/issues
 * Date/Publication: 2018-07-30 11:10:03 UTC
-* Number of recursive dependencies: 151
+* Number of recursive dependencies: 146
 
 Run `revdep_details(,"lilikoi")` for more info
 
@@ -4859,7 +4932,7 @@ ERROR: lazy loading failed for package ‘lilikoi’
 * URL: https://CRAN.R-project.org/package=LLSR
 * BugReports: https://github.com/diegofcoelho/LLSR/issues
 * Date/Publication: 2019-03-05 22:20:11 UTC
-* Number of recursive dependencies: 62
+* Number of recursive dependencies: 61
 
 Run `revdep_details(,"LLSR")` for more info
 
@@ -5643,6 +5716,77 @@ ERROR: compilation failed for package ‘mrgsolve’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mrgsolve/old/mrgsolve.Rcheck/mrgsolve’
 
 ```
+# neuropsychology
+
+<details>
+
+* Version: 0.5.0
+* Source code: https://github.com/cran/neuropsychology
+* URL: https://github.com/neuropsychology/neuropsychology.R
+* BugReports: https://github.com/neuropsychology/neuropsychology.R/issues
+* Date/Publication: 2017-03-22 19:17:18 UTC
+* Number of recursive dependencies: 152
+
+Run `revdep_details(,"neuropsychology")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘neuropsychology’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/new/neuropsychology.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘neuropsychology’ ...
+** package ‘neuropsychology’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘neuropsychology’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/new/neuropsychology.Rcheck/neuropsychology’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘neuropsychology’ ...
+** package ‘neuropsychology’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+Warning: namespace ‘caret’ is not available and has been replaced
+by .GlobalEnv when processing object ‘models’
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘neuropsychology’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/old/neuropsychology.Rcheck/neuropsychology’
+
+```
 # nlmixr
 
 <details>
@@ -5651,7 +5795,7 @@ ERROR: compilation failed for package ‘mrgsolve’
 * Source code: https://github.com/cran/nlmixr
 * URL: https://github.com/nlmixrdevelopment/nlmixr
 * Date/Publication: 2020-01-27 13:20:02 UTC
-* Number of recursive dependencies: 164
+* Number of recursive dependencies: 153
 
 Run `revdep_details(,"nlmixr")` for more info
 
@@ -5929,6 +6073,64 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [openair.so] Error 1
 ERROR: compilation failed for package ‘openair’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/openair/old/openair.Rcheck/openair’
+
+```
+# parcats
+
+<details>
+
+* Version: 0.0.1
+* Source code: https://github.com/cran/parcats
+* URL: https://erblast.github.io/parcats/
+* Date/Publication: 2019-12-02 16:10:03 UTC
+* Number of recursive dependencies: 111
+
+Run `revdep_details(,"parcats")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘parcats’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/parcats/new/parcats.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘parcats’ ...
+** package ‘parcats’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘parcats’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/parcats/new/parcats.Rcheck/parcats’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘parcats’ ...
+** package ‘parcats’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘recipes’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘parcats’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/parcats/old/parcats.Rcheck/parcats’
 
 ```
 # partition
@@ -6756,6 +6958,131 @@ ERROR: compilation failed for package ‘psychonetrics’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/psychonetrics/old/psychonetrics.Rcheck/psychonetrics’
 
 ```
+# purrrlyr
+
+<details>
+
+* Version: 0.0.5
+* Source code: https://github.com/cran/purrrlyr
+* URL: https://github.com/hadley/purrrlyr
+* BugReports: https://github.com/hadley/purrrlyr/issues
+* Date/Publication: 2019-03-15 23:40:02 UTC
+* Number of recursive dependencies: 46
+
+Run `revdep_details(,"purrrlyr")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘purrrlyr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/purrrlyr/new/purrrlyr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘purrrlyr’ ...
+** package ‘purrrlyr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fast-copy.cpp -o fast-copy.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c map.c -o map.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rows-data.cpp -o rows-data.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rows-formatter.cpp -o rows-formatter.o
+In file included from rows-formatter.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/lexical_cast.hpp:21:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/detail/posix_features.hpp:18:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:654:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h:39:17: error: C++ requires a type specifier for all declarations
+int gethostuuid(uuid_t, const struct timespec *) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_NA);
+                ^
+In file included from rows-formatter.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/lexical_cast.hpp:21:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:661:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getsgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from rows-formatter.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/lexical_cast.hpp:21:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:663:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getwgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from rows-formatter.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/lexical_cast.hpp:21:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:726:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setsgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from rows-formatter.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/lexical_cast.hpp:21:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/purrrlyr/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:728:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setwgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+5 errors generated.
+make: *** [rows-formatter.o] Error 1
+ERROR: compilation failed for package ‘purrrlyr’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/purrrlyr/new/purrrlyr.Rcheck/purrrlyr’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘purrrlyr’ ...
+** package ‘purrrlyr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fast-copy.cpp -o fast-copy.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c init.c -o init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c map.c -o map.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rows-data.cpp -o rows-data.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rows-formatter.cpp -o rows-formatter.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rows.cpp -o rows.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c utils.cpp -o utils.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -O3 -c vector.c -o vector.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o purrrlyr.so fast-copy.o init.o map.o rows-data.o rows-formatter.o rows.o utils.o vector.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/purrrlyr/old/purrrlyr.Rcheck/00LOCK-purrrlyr/00new/purrrlyr/libs
+** R
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (purrrlyr)
+
+```
 # qdap
 
 <details>
@@ -6887,7 +7214,7 @@ ERROR: compilation failed for package ‘qgraph’
 * URL: https://quanteda.io
 * BugReports: https://github.com/quanteda/quanteda/issues
 * Date/Publication: 2020-02-26 15:50:09 UTC
-* Number of recursive dependencies: 144
+* Number of recursive dependencies: 140
 
 Run `revdep_details(,"quanteda")` for more info
 
@@ -8056,7 +8383,7 @@ ERROR: lazy loading failed for package ‘RcwlPipelines’
 * Version: 1.1.1
 * Source code: https://github.com/cran/Rdrools
 * Date/Publication: 2018-12-08 15:00:13 UTC
-* Number of recursive dependencies: 78
+* Number of recursive dependencies: 73
 
 Run `revdep_details(,"Rdrools")` for more info
 
@@ -8511,7 +8838,7 @@ ERROR: lazy loading failed for package ‘RtutoR’
 * URL: https://nlmixrdevelopment.github.io/RxODE/
 * BugReports: https://github.com/nlmixrdevelopment/RxODE/issues
 * Date/Publication: 2020-01-10 23:20:06 UTC
-* Number of recursive dependencies: 120
+* Number of recursive dependencies: 132
 
 Run `revdep_details(,"RxODE")` for more info
 
@@ -8811,32 +9138,6 @@ ERROR: compilation failed for package ‘RxODE’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RxODE/old/RxODE.Rcheck/RxODE’
 
 ```
-# saotd
-
-<details>
-
-* Version: 0.2.0
-* Source code: https://github.com/cran/saotd
-* BugReports: https://github.com/evan-l-munson/saotd/issues
-* Date/Publication: 2019-04-04 16:30:03 UTC
-* Number of recursive dependencies: 110
-
-Run `revdep_details(,"saotd")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
-
-## In both
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 826 marked UTF-8 strings
-    ```
-
 # sarima
 
 <details>
@@ -9220,6 +9521,272 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [SCPME.so] Error 1
 ERROR: compilation failed for package ‘SCPME’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/SCPME/old/SCPME.Rcheck/SCPME’
+
+```
+# sf
+
+<details>
+
+* Version: 0.8-1
+* Source code: https://github.com/cran/sf
+* URL: https://github.com/r-spatial/sf/, https://r-spatial.github.io/sf/
+* BugReports: https://github.com/r-spatial/sf/issues/
+* Date/Publication: 2020-01-28 11:20:07 UTC
+* Number of recursive dependencies: 131
+
+Run `revdep_details(,"sf")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘sf’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/sf/new/sf.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 16.9Mb
+      sub-directories of 1Mb or more:
+        doc     12.0Mb
+        sqlite   1.5Mb
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘sf’ ...
+** package ‘sf’ successfully unpacked and MD5 sums checked
+** using staged installation
+configure: CC: clang
+configure: CXX: clang++ -std=gnu++11
+checking for gdal-config... /usr/local/bin/gdal-config
+checking gdal-config usability... yes
+configure: GDAL: 2.4.4
+checking GDAL version >= 2.0.1... yes
+checking for gcc... clang
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether clang accepts -g... yes
+checking for clang option to accept ISO C89... none needed
+checking how to run the C preprocessor... clang -E
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking gdal.h usability... yes
+checking gdal.h presence... yes
+checking for gdal.h... yes
+checking GDAL: linking with --libs only... yes
+checking GDAL: /usr/local/Cellar/gdal/2.4.4/share/gdal/pcs.csv readable... yes
+checking GDAL: checking whether PROJ is available for linking:... yes
+checking GDAL: checking whether PROJ is available fur running:... yes
+configure: pkg-config proj exists, will use it
+configure: using proj.h.
+configure: PROJ: 6.3.1
+checking PROJ: checking whether PROJ and sqlite3 are available for linking:... yes
+checking for geos-config... /usr/local/bin/geos-config
+checking geos-config usability... yes
+configure: GEOS: 3.8.0
+checking GEOS version >= 3.4.0... yes
+checking geos_c.h usability... yes
+checking geos_c.h presence... yes
+checking for geos_c.h... yes
+checking geos: linking with -L/usr/local/Cellar/geos/3.8.0/lib -lgeos_c... yes
+configure: Package CPP flags:  -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include
+configure: Package LIBS: -L/usr/local/Cellar/proj/6.3.1/lib -lproj   -L/usr/local/Cellar/gdal/2.4.4/lib -lgdal -L/usr/local/Cellar/geos/3.8.0/lib -lgeos_c
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bbox.cpp -o bbox.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal.cpp -o gdal.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_geom.cpp -o gdal_geom.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_read.cpp -o gdal_read.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_utils.cpp -o gdal_utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/sf/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_write.cpp -o gdal_write.o
+In file included from gdal_write.cpp:5:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogrsf_frmts.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_feature.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_featurestyle.h:33:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_conv.h:36:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_vsi.h:62:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:654:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h:39:17: error: C++ requires a type specifier for all declarations
+int gethostuuid(uuid_t, const struct timespec *) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_NA);
+                ^
+In file included from gdal_write.cpp:5:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogrsf_frmts.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_feature.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_featurestyle.h:33:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_conv.h:36:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_vsi.h:62:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:661:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getsgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from gdal_write.cpp:5:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogrsf_frmts.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_feature.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_featurestyle.h:33:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_conv.h:36:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_vsi.h:62:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:663:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getwgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from gdal_write.cpp:5:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogrsf_frmts.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_feature.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_featurestyle.h:33:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_conv.h:36:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_vsi.h:62:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:726:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setsgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from gdal_write.cpp:5:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogrsf_frmts.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_feature.h:35:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/ogr_featurestyle.h:33:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_conv.h:36:
+In file included from /usr/local/Cellar/gdal/2.4.4/include/cpl_vsi.h:62:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:728:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setwgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+5 errors generated.
+make: *** [gdal_write.o] Error 1
+ERROR: compilation failed for package ‘sf’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/sf/new/sf.Rcheck/sf’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘sf’ ...
+** package ‘sf’ successfully unpacked and MD5 sums checked
+** using staged installation
+configure: CC: clang
+configure: CXX: clang++ -std=gnu++11
+checking for gdal-config... /usr/local/bin/gdal-config
+checking gdal-config usability... yes
+configure: GDAL: 2.4.4
+checking GDAL version >= 2.0.1... yes
+checking for gcc... clang
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether clang accepts -g... yes
+checking for clang option to accept ISO C89... none needed
+checking how to run the C preprocessor... clang -E
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking gdal.h usability... yes
+checking gdal.h presence... yes
+checking for gdal.h... yes
+checking GDAL: linking with --libs only... yes
+checking GDAL: /usr/local/Cellar/gdal/2.4.4/share/gdal/pcs.csv readable... yes
+checking GDAL: checking whether PROJ is available for linking:... yes
+checking GDAL: checking whether PROJ is available fur running:... yes
+configure: pkg-config proj exists, will use it
+configure: using proj.h.
+configure: PROJ: 6.3.1
+checking PROJ: checking whether PROJ and sqlite3 are available for linking:... yes
+checking for geos-config... /usr/local/bin/geos-config
+checking geos-config usability... yes
+configure: GEOS: 3.8.0
+checking GEOS version >= 3.4.0... yes
+checking geos_c.h usability... yes
+checking geos_c.h presence... yes
+checking for geos_c.h... yes
+checking geos: linking with -L/usr/local/Cellar/geos/3.8.0/lib -lgeos_c... yes
+configure: Package CPP flags:  -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include
+configure: Package LIBS: -L/usr/local/Cellar/proj/6.3.1/lib -lproj   -L/usr/local/Cellar/gdal/2.4.4/lib -lgdal -L/usr/local/Cellar/geos/3.8.0/lib -lgeos_c
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c bbox.cpp -o bbox.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal.cpp -o gdal.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_geom.cpp -o gdal_geom.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_read.cpp -o gdal_read.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_utils.cpp -o gdal_utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gdal_write.cpp -o gdal_write.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c geos.cpp -o geos.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c hex.cpp -o hex.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ops.cpp -o ops.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c polygonize.cpp -o polygonize.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c proj.cpp -o proj.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c proj_info.cpp -o proj_info.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c raster2sf.cpp -o raster2sf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sfg.cpp -o sfg.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c signed_area.cpp -o signed_area.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c stars.cpp -o stars.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c wkb.cpp -o wkb.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I/usr/local/Cellar/proj/6.3.1/include -DHAVE_PROJ_H -I/usr/local/Cellar/gdal/2.4.4/include -I/usr/local/Cellar/geos/3.8.0/include -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c zm_range.cpp -o zm_range.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o sf.so RcppExports.o bbox.o gdal.o gdal_geom.o gdal_read.o gdal_utils.o gdal_write.o geos.o hex.o ops.o polygonize.o proj.o proj_info.o raster2sf.o sfg.o signed_area.o stars.o wkb.o zm_range.o -L/usr/local/Cellar/proj/6.3.1/lib -lproj -L/usr/local/Cellar/gdal/2.4.4/lib -lgdal -L/usr/local/Cellar/geos/3.8.0/lib -lgeos_c -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/sf/old/sf.Rcheck/00LOCK-sf/00new/sf/libs
+** R
+** demo
+** inst
+** byte-compile and prepare package for lazy loading
+in method for ‘dbWriteTable’ with signature ‘"PostgreSQLConnection","character","sf"’: no definition for class “PostgreSQLConnection”
+in method for ‘dbDataType’ with signature ‘"PostgreSQLConnection","sf"’: no definition for class “PostgreSQLConnection”
+in method for ‘coerce’ with signature ‘"Spatial","sf"’: no definition for class “Spatial”
+in method for ‘coerce’ with signature ‘"Spatial","sfc"’: no definition for class “Spatial”
+in method for ‘coerce’ with signature ‘"sf","Spatial"’: no definition for class “Spatial”
+in method for ‘coerce’ with signature ‘"sfc","Spatial"’: no definition for class “Spatial”
+in method for ‘coerce’ with signature ‘"XY","Spatial"’: no definition for class “Spatial”
+** help
+*** installing help indices
+*** copying figures
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (sf)
 
 ```
 # SimBIID
@@ -12212,6 +12779,634 @@ ERROR: lazy loading failed for package ‘textmining’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/textmining/old/textmining.Rcheck/textmining’
 
 ```
+# textreuse
+
+<details>
+
+* Version: 0.1.4
+* Source code: https://github.com/cran/textreuse
+* URL: https://github.com/ropensci/textreuse
+* BugReports: https://github.com/ropensci/textreuse/issues
+* Date/Publication: 2016-11-28 16:54:10
+* Number of recursive dependencies: 60
+
+Run `revdep_details(,"textreuse")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘textreuse’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/textreuse/new/textreuse.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘tm’
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘textreuse’ ...
+** package ‘textreuse’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c hash_string.cpp -o hash_string.o
+In file included from hash_string.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/functional/hash.hpp:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash.hpp:19:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash_fwd.hpp:13:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/workaround.hpp:41:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/detail/posix_features.hpp:18:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:654:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h:39:17: error: C++ requires a type specifier for all declarations
+int gethostuuid(uuid_t, const struct timespec *) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_NA);
+                ^
+In file included from hash_string.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/functional/hash.hpp:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash.hpp:19:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash_fwd.hpp:13:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/workaround.hpp:41:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:661:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getsgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from hash_string.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/functional/hash.hpp:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash.hpp:19:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash_fwd.hpp:13:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/workaround.hpp:41:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:663:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getwgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from hash_string.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/functional/hash.hpp:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash.hpp:19:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash_fwd.hpp:13:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/workaround.hpp:41:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:726:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setsgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from hash_string.cpp:2:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/functional/hash.hpp:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash.hpp:19:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/container_hash/hash_fwd.hpp:13:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/workaround.hpp:41:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config.hpp:57:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/platform/macos.hpp:28:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/BH/include/boost/config/detail/posix_features.hpp:18:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:728:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setwgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+5 errors generated.
+make: *** [hash_string.o] Error 1
+ERROR: compilation failed for package ‘textreuse’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/textreuse/new/textreuse.Rcheck/textreuse’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘textreuse’ ...
+** package ‘textreuse’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c hash_string.cpp -o hash_string.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c shingle_ngrams.cpp -o shingle_ngrams.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c skip_ngrams.cpp -o skip_ngrams.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/BH/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/textreuse/RcppProgress/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c sw_matrix.cpp -o sw_matrix.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o textreuse.so RcppExports.o hash_string.o shingle_ngrams.o skip_ngrams.o sw_matrix.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/textreuse/old/textreuse.Rcheck/00LOCK-textreuse/00new/textreuse/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (textreuse)
+
+```
+# tidyxl
+
+<details>
+
+* Version: 1.0.4
+* Source code: https://github.com/cran/tidyxl
+* URL: https://github.com/nacnudus/tidyxl
+* BugReports: https://github.com/nacnudus/tidyxl/issues
+* Date/Publication: 2019-01-02 11:30:04 UTC
+* Number of recursive dependencies: 74
+
+Run `revdep_details(,"tidyxl")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘tidyxl’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/tidyxl/new/tidyxl.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘tidyxl’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      ref.cpp:24:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      ref.cpp:35:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      ref.cpp:50:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      ref.cpp:61:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/tidyxl/old/tidyxl.Rcheck/00install.out’ for details.
+    ```
+
+*   checking compiled code ... WARNING
+    ```
+    File ‘tidyxl/libs/tidyxl.so’:
+      Found ‘_abort’, possibly from ‘abort’ (C)
+        Object: ‘xlex.o’
+    
+    Compiled code should not call entry points which might terminate R nor
+    write to stdout/stderr instead of to the console, nor use Fortran I/O
+    nor system RNGs.
+    
+    See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘tidyxl’ ...
+** package ‘tidyxl’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c border.cpp -o border.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c color.cpp -o color.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fill.cpp -o fill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c font.cpp -o font.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gradientFill.cpp -o gradientFill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gradientStop.cpp -o gradientStop.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c patternFill.cpp -o patternFill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ref.cpp -o ref.o
+ref.cpp:24:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+    for(iter = iter; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
+        ~~~~ ^ ~~~~
+ref.cpp:35:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+    for(iter = iter; (*iter >= '0' && *iter <= '9'); ++iter) {
+        ~~~~ ^ ~~~~
+ref.cpp:50:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      for(iter = iter; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
+          ~~~~ ^ ~~~~
+ref.cpp:61:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      for(iter = iter; (*iter >= '0' && *iter <= '9'); ++iter) {
+          ~~~~ ^ ~~~~
+4 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c shared_formula.cpp -o shared_formula.o
+In file included from shared_formula.cpp:2:
+In file included from ./shared_formula.h:5:
+In file included from ./ref_grammar.h:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl.hpp:20:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl/file_input.hpp:12:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:654:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h:39:17: error: C++ requires a type specifier for all declarations
+int gethostuuid(uuid_t, const struct timespec *) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_NA);
+                ^
+In file included from shared_formula.cpp:2:
+In file included from ./shared_formula.h:5:
+In file included from ./ref_grammar.h:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl.hpp:20:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl/file_input.hpp:12:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:661:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getsgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from shared_formula.cpp:2:
+In file included from ./shared_formula.h:5:
+In file included from ./ref_grammar.h:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl.hpp:20:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl/file_input.hpp:12:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:663:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getwgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from shared_formula.cpp:2:
+In file included from ./shared_formula.h:5:
+In file included from ./ref_grammar.h:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl.hpp:20:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl/file_input.hpp:12:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:726:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setsgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from shared_formula.cpp:2:
+In file included from ./shared_formula.h:5:
+In file included from ./ref_grammar.h:6:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl.hpp:20:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include/pegtl/file_input.hpp:12:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:728:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setwgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from shared_formula.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:496:5: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::~__vector_base' requested here
+    vector() _NOEXCEPT_(is_nothrow_default_constructible<allocator_type>::value)
+    ^
+shared_formula.cpp:6:17: note: in instantiation of member function 'std::__1::vector<ref, std::__1::allocator<ref> >::vector' requested here
+shared_formula::shared_formula(
+                ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning and 5 errors generated.
+make: *** [shared_formula.o] Error 1
+ERROR: compilation failed for package ‘tidyxl’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/tidyxl/new/tidyxl.Rcheck/tidyxl’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘tidyxl’ ...
+** package ‘tidyxl’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c border.cpp -o border.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c color.cpp -o color.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c fill.cpp -o fill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c font.cpp -o font.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gradientFill.cpp -o gradientFill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gradientStop.cpp -o gradientStop.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c patternFill.cpp -o patternFill.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ref.cpp -o ref.o
+ref.cpp:24:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+    for(iter = iter; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
+        ~~~~ ^ ~~~~
+ref.cpp:35:14: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+    for(iter = iter; (*iter >= '0' && *iter <= '9'); ++iter) {
+        ~~~~ ^ ~~~~
+ref.cpp:50:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      for(iter = iter; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
+          ~~~~ ^ ~~~~
+ref.cpp:61:16: warning: explicitly assigning value of variable of type 'std::string::const_iterator' (aka '__wrap_iter<const char *>') to itself [-Wself-assign-overloaded]
+      for(iter = iter; (*iter >= '0' && *iter <= '9'); ++iter) {
+          ~~~~ ^ ~~~~
+4 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c shared_formula.cpp -o shared_formula.o
+In file included from shared_formula.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:496:5: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::~__vector_base' requested here
+    vector() _NOEXCEPT_(is_nothrow_default_constructible<allocator_type>::value)
+    ^
+shared_formula.cpp:6:17: note: in instantiation of member function 'std::__1::vector<ref, std::__1::allocator<ref> >::vector' requested here
+shared_formula::shared_formula(
+                ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c stroke.cpp -o stroke.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c tidyxl.cpp -o tidyxl.o
+In file included from tidyxl.cpp:3:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/algorithm:644:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: (skipping 8 contexts in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+    ~vector()
+    ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<xlsxsheet> >::destroy<xlsxsheet>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::~__vector_base' requested here
+    ~vector()
+    ^
+./xlsxbook.h:9:7: note: in instantiation of member function 'std::__1::vector<xlsxsheet, std::__1::allocator<xlsxsheet> >::~vector' requested here
+class xlsxbook {
+      ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xf.cpp -o xf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlex.cpp -o xlex.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxbook.cpp -o xlsxbook.o
+In file included from xlsxbook.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: (skipping 1 context in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+    ~vector()
+    ^
+./shared_formula.h:8:7: note: in instantiation of member function 'std::__1::vector<ref, std::__1::allocator<ref> >::~vector' requested here
+class shared_formula {
+      ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<std::__1::__tree_node<std::__1::__value_type<int, shared_formula>, void *> > >::__destroy<std::__1::pair<const int, shared_formula> >' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:1854:24: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<std::__1::__tree_node<std::__1::__value_type<int, shared_formula>, void *> > >::destroy<std::__1::pair<const int, shared_formula> >' requested here
+        __node_traits::destroy(__na, _NodeTypes::__get_ptr(__nd->__value_));
+                       ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:1842:3: note: in instantiation of member function 'std::__1::__tree<std::__1::__value_type<int, shared_formula>, std::__1::__map_value_compare<int, std::__1::__value_type<int, shared_formula>, std::__1::less<int>, true>, std::__1::allocator<std::__1::__value_type<int, shared_formula> > >::destroy' requested here
+  destroy(__root());
+  ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/map:830:77: note: in instantiation of member function 'std::__1::__tree<std::__1::__value_type<int, shared_formula>, std::__1::__map_value_compare<int, std::__1::__value_type<int, shared_formula>, std::__1::less<int>, true>, std::__1::allocator<std::__1::__value_type<int, shared_formula> > >::~__tree' requested here
+    template <class, class, class, class> friend class _LIBCPP_TEMPLATE_VIS map;
+                                                                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxcell.cpp -o xlsxcell.o
+In file included from xlsxcell.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::~__vector_base' requested here
+    ~vector()
+    ^
+./shared_formula.h:8:7: note: in instantiation of member function 'std::__1::vector<ref, std::__1::allocator<ref> >::~vector' requested here
+class shared_formula {
+      ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxnames.cpp -o xlsxnames.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxsheet.cpp -o xlsxsheet.o
+In file included from xlsxsheet.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: (skipping 1 context in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+    ~vector()
+    ^
+./shared_formula.h:8:7: note: in instantiation of member function 'std::__1::vector<ref, std::__1::allocator<ref> >::~vector' requested here
+class shared_formula {
+      ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<std::__1::__tree_node<std::__1::__value_type<int, shared_formula>, void *> > >::__destroy<std::__1::pair<const int, shared_formula> >' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:1854:24: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<std::__1::__tree_node<std::__1::__value_type<int, shared_formula>, void *> > >::destroy<std::__1::pair<const int, shared_formula> >' requested here
+        __node_traits::destroy(__na, _NodeTypes::__get_ptr(__nd->__value_));
+                       ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:1842:3: note: in instantiation of member function 'std::__1::__tree<std::__1::__value_type<int, shared_formula>, std::__1::__map_value_compare<int, std::__1::__value_type<int, shared_formula>, std::__1::less<int>, true>, std::__1::allocator<std::__1::__value_type<int, shared_formula> > >::destroy' requested here
+  destroy(__root());
+  ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/map:830:77: note: in instantiation of member function 'std::__1::__tree<std::__1::__value_type<int, shared_formula>, std::__1::__map_value_compare<int, std::__1::__value_type<int, shared_formula>, std::__1::less<int>, true>, std::__1::allocator<std::__1::__value_type<int, shared_formula> > >::~__tree' requested here
+    template <class, class, class, class> friend class _LIBCPP_TEMPLATE_VIS map;
+                                                                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxstyles.cpp -o xlsxstyles.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c xlsxvalidation.cpp -o xlsxvalidation.o
+In file included from xlsxvalidation.cpp:1:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/r/headers.h:67:
+In file included from /Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map:408:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table:16:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:58: warning: destructor called on non-final 'ref' that has virtual functions but non-virtual destructor [-Wdelete-non-abstract-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1743:18: note: in instantiation of member function 'std::__1::allocator<ref>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1596:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::__destroy<ref>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<ref> >::destroy<ref>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<ref, std::__1::allocator<ref> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: (skipping 8 contexts in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+    ~vector()
+    ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:427:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<xlsxsheet> >::destroy<xlsxsheet>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:370:29: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:464:9: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::clear' requested here
+        clear();
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:550:5: note: in instantiation of member function 'std::__1::__vector_base<xlsxsheet, std::__1::allocator<xlsxsheet> >::~__vector_base' requested here
+    ~vector()
+    ^
+./xlsxbook.h:9:7: note: in instantiation of member function 'std::__1::vector<xlsxsheet, std::__1::allocator<xlsxsheet> >::~vector' requested here
+class xlsxbook {
+      ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1881:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/tidyxl/piton/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c zip.cpp -o zip.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o tidyxl.so RcppExports.o border.o color.o fill.o font.o gradientFill.o gradientStop.o patternFill.o ref.o shared_formula.o stroke.o tidyxl.o xf.o xlex.o xlsxbook.o xlsxcell.o xlsxnames.o xlsxsheet.o xlsxstyles.o xlsxvalidation.o zip.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/tidyxl/old/tidyxl.Rcheck/00LOCK-tidyxl/00new/tidyxl/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (tidyxl)
+
+```
 # VarSelLCM
 
 <details>
@@ -12326,6 +13521,132 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [VarSelLCM.so] Error 1
 ERROR: compilation failed for package ‘VarSelLCM’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/VarSelLCM/old/VarSelLCM.Rcheck/VarSelLCM’
+
+```
+# vcfR
+
+<details>
+
+* Version: 1.10.0
+* Source code: https://github.com/cran/vcfR
+* URL: https://github.com/knausb/vcfR, https://knausb.github.io/vcfR_documentation/
+* Date/Publication: 2020-02-06 09:50:02 UTC
+* Number of recursive dependencies: 111
+
+Run `revdep_details(,"vcfR")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘vcfR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/vcfR/new/vcfR.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘vcfR’ ...
+** package ‘vcfR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vcfR/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c NM2winNM.cpp -o NM2winNM.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vcfR/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vcfR/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ad_frequency.cpp -o ad_frequency.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/vcfR/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c deprecated_funcs.cpp -o deprecated_funcs.o
+In file included from deprecated_funcs.cpp:3:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zlib.h:34:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zconf.h:462:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:654:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h:39:17: error: C++ requires a type specifier for all declarations
+int gethostuuid(uuid_t, const struct timespec *) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_NA);
+                ^
+In file included from deprecated_funcs.cpp:3:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zlib.h:34:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zconf.h:462:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:661:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getsgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from deprecated_funcs.cpp:3:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zlib.h:34:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zconf.h:462:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:663:27: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      getwgroups_np(int *, uuid_t);
+                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from deprecated_funcs.cpp:3:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zlib.h:34:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zconf.h:462:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:726:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setsgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+In file included from deprecated_funcs.cpp:3:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zlib.h:34:
+In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/zconf.h:462:
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:728:31: error: unknown type name 'uuid_t'; did you mean 'uid_t'?
+int      setwgroups_np(int, const uuid_t);
+                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:31:31: note: 'uid_t' declared here
+typedef __darwin_uid_t        uid_t;
+                              ^
+5 errors generated.
+make: *** [deprecated_funcs.o] Error 1
+ERROR: compilation failed for package ‘vcfR’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/vcfR/new/vcfR.Rcheck/vcfR’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘vcfR’ ...
+** package ‘vcfR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c NM2winNM.cpp -o NM2winNM.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c ad_frequency.cpp -o ad_frequency.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c deprecated_funcs.cpp -o deprecated_funcs.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c extract_gt.cpp -o extract_gt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c freq_peak.cpp -o freq_peak.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c gt_to_popsum.cpp -o gt_to_popsum.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c is_het.cpp -o is_het.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c masplit.cpp -o masplit.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c pair_sort.cpp -o pair_sort.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c rank_variants.cpp -o rank_variants.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c read_vcfR.cpp -o read_vcfR.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c seq_to_rects.cpp -o seq_to_rects.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c var_window.cpp -o var_window.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c vcfRCommon.cpp -o vcfRCommon.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/revdep/dplyr/revdep/library.noindex/dplyr/old/Rcpp/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -O3 -c write_vcfR.cpp -o write_vcfR.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o vcfR.so NM2winNM.o RcppExports.o ad_frequency.o deprecated_funcs.o extract_gt.o freq_peak.o gt_to_popsum.o is_het.o masplit.o pair_sort.o rank_variants.o read_vcfR.o seq_to_rects.o var_window.o vcfRCommon.o write_vcfR.o -lz -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/vcfR/old/vcfR.Rcheck/00LOCK-vcfR/00new/vcfR/libs
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+Creating a generic function for ‘rbind’ from package ‘base’ in package ‘vcfR’
+Creating a generic function for ‘nrow’ from package ‘base’ in package ‘vcfR’
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (vcfR)
 
 ```
 # vlad
@@ -13338,7 +14659,7 @@ ERROR: compilation failed for package ‘walker’
 * Version: 1.0.1
 * Source code: https://github.com/cran/weibulltools
 * Date/Publication: 2019-01-29 16:10:03 UTC
-* Number of recursive dependencies: 114
+* Number of recursive dependencies: 109
 
 Run `revdep_details(,"weibulltools")` for more info
 

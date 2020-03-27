@@ -64,3 +64,9 @@ test_that("n_distinct handles expressions in na.rm (#3686)", {
   expect_equal(d %>% summarise(n = n_distinct(x, na.rm = TRUE || TRUE)) %>% pull(), 4)
 })
 
+test_that("n_distinct() respects .data (#5008)", {
+  expect_identical(
+    data.frame(x = 42) %>% summarise(n = n_distinct(.data$x)),
+    data.frame(n = 1L)
+  )
+})

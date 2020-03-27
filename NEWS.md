@@ -4,13 +4,14 @@
 
 * `bind_cols()` no longer converts to a tibble, returns a data frame if the input is a data frame.
 
-* `bind_rows()` and `combine()` use vctrs coercion rules.
+* `bind_rows()`, `*_join()`, `summarise()` and `mutate()` use vctrs coercion 
+  rules. There are two main user facing changes:
 
-    * Combining factor and character creates a character without warning, combining factors creates a factor with levels combined.
-
-    * For time columns, the time zone of the first argument is used.
-    
-    * Classed atomic vectors are no longer accepted, `vctrs::vec_is()` is required for all inputs.
+    * Combining factor and character vectors silently creates a character 
+      vector; previously it created a character vector with a warning.
+      
+    * Combining multiple factors creates a factor with combined levels;
+      previously it created a character vector with a warning.
 
 * `bind_rows()` and other functions use vctrs name repair, see `?vctrs::vec_as_names`.
 
@@ -52,7 +53,8 @@
   (e.g. `is.character`) to select variables by type (#4680). It also makes
   it possible to use `select()` and `rename()` to repair data frames with
   duplicated names (#4615) and prevents you from accidentally introducing
-  duplicate names (#4643).
+  duplicate names (#4643). This also means that dplyr now re-exports `any_of()`
+  and `all_of()` (#5036).
 
 * `slice()` gains a new set of helpers:
 
@@ -323,6 +325,9 @@
   with a deprecation message. The old argument name was a mistake because
   it prevents you from creating a new grouping var called `add` and
   it violates our naming conventions (#4137).
+
+* `intersect()`, `union()`, `setdiff()` and `setequal()` generics are now
+  imported from the generics package. This reduces a conflict with lubridate.
 
 * `order_by()` gives an informative hint if you accidentally call it instead
   of `arrange()` #3357.

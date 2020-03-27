@@ -104,7 +104,7 @@ starwars %>% summarise(
 )
 ```
 
-(One day this might could become an argument to `across()` but we're not yet sure how it would work.)
+(One day this might become an argument to `across()` but we're not yet sure how it would work.)
 
 
 ### Current column
@@ -129,7 +129,7 @@ df %>%
   summarise(n = n(), across(is.numeric, sd))
 ```
 
-Here `n` becomes `NA` because the standard deviation of 3 is `NA`. You probably want to compute `n()` last to avoid this problem:
+Here `n` becomes `NA` because `n` is numeric, so the `across()` computes its standard deviation, and the standard deviation of 3 (a constant) is `NA`. You probably want to compute `n()` last to avoid this problem:
 
 ```{r}
 df %>% 
@@ -281,7 +281,7 @@ There are a few exceptions to this rule:
     df %>% filter(rowAny(across(is.numeric, ~ .x > 0)))
     ```
     
-*   When used in a `mutate()`, all transformation performed by an `across()` 
+*   When used in a `mutate()`, all transformations performed by an `across()` 
     are applied at once. This is different to the behaviour of `mutate_if()`,
     `mutate_at()`, and `mutate_all()`, which apply the transformations one at 
     a time. We expect that you'll generally find the new behaviour less 

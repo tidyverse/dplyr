@@ -44,7 +44,7 @@ nest_by <- function(df, ...) {
 Row-wise operations require a special type of grouping where each group consists of a single row. You create this with `rowwise()`:
 
 ```{r}
-df <- tibble(x = 1:2, y = 3:4, z = 4:5)
+df <- tibble(x = 1:2, y = 3:4, z = 5:6)
 df %>% rowwise()
 ```
 
@@ -60,7 +60,7 @@ If you use `mutate()` with a regular data frame, it computes the mean of `x`, `y
 You can optionally supply "identifier" variables in your call to `rowwise()`. These variables are preserved when you call `summarise()`, so they behave somewhat similarly to the grouping variables passed to `group_by()`:
 
 ```{r}
-df <- tibble(name = c("Mara", "Hadley"), x = c(9, 1), y = 3:4, z = 4:5)
+df <- tibble(name = c("Mara", "Hadley"), x = 1:2, y = 3:4, z = 5:6)
 
 df %>% 
   rowwise() %>% 
@@ -78,8 +78,7 @@ df %>%
 `dplyr::summarise()` makes it really easy to summarise values across rows within one column. When combined with `rowwise()` it also makes it easy to summarise values across columns within one row. To see how, we'll start by making a little dataset:
 
 ```{r}
-df <- tibble(id = 1:6, w = runif(6), x = runif(6), y = runif(6), z = runif(6)) %>% 
-  mutate(across(everything(), ~ round(.x, 3)))
+df <- tibble(id = 1:6, w = 10:15, x = 20:25, y = 30:35, z = 40:45)
 df
 ```
 
@@ -130,81 +129,6 @@ bench::mark(
   df %>% rowwise() %>% mutate(m = sum(pick(x:z))),
   check = FALSE
 )
-```
-
-## Repeated function calls
-
-`rowwise()` doesn't work only with functions that return a length-1 vector (aka summary functions); it can work with any function if the result is a list. This means that `rowwise()` and `mutate()` provide an elegant way to call a function many times with varying arguments, storing the outputs alongside the inputs. 
-
-### Simulations
-
-I think this is particularly elegant way to perform simulations, because it lets you store simulated values along with the parameters that generated them. For example, imagine you have the following data frame that describes the properties of 3 samples from the uniform distribution:
-
-```{r}
-df <- tribble(
-  ~ n, ~ min, ~ max,
-    1,     0,     1,
-    2,    10,   100,
-    3,   100,  1000,
-)
-```
-
-You can supply these parameters to `runif()` by using `rowwise()` and `mutate()`:
-
-```{r}
-df %>% 
-  rowwise() %>% 
-  mutate(data = list(runif(n, min, max)))
-```
-
-Note the use of `list()` here - `runif()` returns multiple values and a `mutate()` expression has to return something of length 1. `list()` means that we'll get a list column where each row is a list containing multiple values. If you forget to use `list()`, dplyr will you a hint:
-
-```{r, error = TRUE}
-df %>% 
-  rowwise() %>% 
-  mutate(data = runif(n, min, max))
-```
-
-### Multiple combinations
-
-What if you want to call a function for every combination of inputs? You can use `expand.grid()` (or `tidyr::expand_grid()`) to generate the data frame and then repeat the same pattern as above:
-
-```{r}
-df <- expand.grid(mean = c(-1, 0, 1), sd = c(1, 10, 100))
-
-df %>% 
-  rowwise() %>% 
-  mutate(data = list(rnorm(10, mean, sd)))
-```
-
-### Varying functions
-
-In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because the columns in the input tibble will be less regular. But it's still possible, and it's a natural place to use `do.call()`:
-
-```{r}
-df <- rowwise(tribble(
-   ~rng,     ~params,
-   "runif",  list(n = 10), 
-   "rnorm",  list(n = 20),
-   "rpois",  list(n = 10, lambda = 5),
-))
-
-df %>% 
-  mutate(data = list(do.call(rng, params)))
-```
-
-```{r, include = FALSE, eval = FALSE}
-df <- rowwise(tribble(
-   ~rng,     ~params,
-   "runif",  list(min = -1, max = 1), 
-   "rnorm",  list(),
-   "rpois",  list(lambda = 5),
-))
-
-# Has to happen in separate function to avoid eager unquoting
-f <- function(rng, params) purrr::exec(rng, n = 10, !!!params)
-df %>% 
-  mutate(data = list(f(rng, params)))
 ```
 
 ## List-columns
@@ -267,7 +191,7 @@ gf %>% mutate(type = typeof(y), length = length(y))
 rf %>% mutate(type = typeof(y), length = length(y))
 ```
 
-They key difference is that when `mutate()` slices up the columns to pass to `length(y)` the grouped mutate uses `[` and the rowwise mutate used `[[`. The following code gives a flavour of the differences if you used a for loop:
+They key difference is that when `mutate()` slices up the columns to pass to `length(y)` the grouped mutate uses `[` and the rowwise mutate uses `[[`. The following code gives a flavour of the differences if you used a for loop:
 
 ```{r}
 # grouped
@@ -321,7 +245,7 @@ mods
 You could then summarise the model in a variety of ways:
 
 ```{r}
-mods %>% summarise(mse = sqrt(mean((pred - data$mpg) ^ 2)))
+mods %>% summarise(rmse = sqrt(mean((pred - data$mpg) ^ 2)))
 mods %>% summarise(rsq = summary(mod)$r.squared)
 mods %>% summarise(broom::glance(mod))
 ```
@@ -330,6 +254,82 @@ Or easily access the parameters of each model:
 
 ```{r}
 mods %>% summarise(broom::tidy(mod))
+```
+
+## Repeated function calls
+
+`rowwise()` doesn't just work with functions that return a length-1 vector (aka summary functions); it can work with any function if the result is a list. This means that `rowwise()` and `mutate()` provide an elegant way to call a function many times with varying arguments, storing the outputs alongside the inputs. 
+
+### Simulations
+
+I think this is particularly elegant way to perform simulations, because it lets you store simulated values along with the parameters that generated them. For example, imagine you have the following data frame that describes the properties of 3 samples from the uniform distribution:
+
+```{r}
+df <- tribble(
+  ~ n, ~ min, ~ max,
+    1,     0,     1,
+    2,    10,   100,
+    3,   100,  1000,
+)
+```
+
+You can supply these parameters to `runif()` by using `rowwise()` and `mutate()`:
+
+```{r}
+df %>% 
+  rowwise() %>% 
+  mutate(data = list(runif(n, min, max)))
+```
+
+Note the use of `list()` here - `runif()` returns multiple values and a `mutate()` expression has to return something of length 1. `list()` means that we'll get a list column where each row is a list containing multiple values. If you forget to use `list()`, dplyr will you a hint:
+
+```{r, error = TRUE}
+df %>% 
+  rowwise() %>% 
+  mutate(data = runif(n, min, max))
+```
+
+### Multiple combinations
+
+What if you want to call a function for every combination of inputs? You can use `expand.grid()` (or `tidyr::expand_grid()`) to generate the data frame and then repeat the same pattern as above:
+
+```{r}
+df <- expand.grid(mean = c(-1, 0, 1), sd = c(1, 10, 100))
+
+df %>% 
+  rowwise() %>% 
+  mutate(data = list(rnorm(10, mean, sd)))
+```
+
+### Varying functions
+
+In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because the columns in the input tibble will be less regular. But it's still possible, and it's a natural place to use `do.call()`:
+
+```{r}
+df <- tribble(
+   ~rng,     ~params,
+   "runif",  list(n = 10), 
+   "rnorm",  list(n = 20),
+   "rpois",  list(n = 10, lambda = 5),
+) %>%
+  rowwise()
+
+df %>% 
+  mutate(data = list(do.call(rng, params)))
+```
+
+```{r, include = FALSE, eval = FALSE}
+df <- rowwise(tribble(
+   ~rng,     ~params,
+   "runif",  list(min = -1, max = 1), 
+   "rnorm",  list(),
+   "rpois",  list(lambda = 5),
+))
+
+# Has to happen in separate function to avoid eager unquoting
+f <- function(rng, params) purrr::exec(rng, n = 10, !!!params)
+df %>% 
+  mutate(data = list(f(rng, params)))
 ```
 
 ## Previously

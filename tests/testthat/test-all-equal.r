@@ -27,15 +27,15 @@ test_that("data frames not equal if missing row", {
 test_that("data frames not equal if missing col", {
   expect_match(
     all_equal(mtcars, mtcars[, -1]),
-    "different number of columns : 11 vs 10"
+    "different number of columns: 11 vs 10"
   )
   expect_match(
     all_equal(iris, iris[, -1]),
-    "different number of columns : 5 vs 4"
+    "different number of columns: 5 vs 4"
   )
   expect_match(
     all_equal(df_all, df_all[, -1]),
-    "different number of columns : 7 vs 6"
+    "different number of columns: 7 vs 6"
   )
 })
 
@@ -163,7 +163,7 @@ test_that("ignore column order", {
 
   expect_equal(
     all_equal(tibble(a = 1, b = 2), tibble(a = 1), ignore_col_order = FALSE),
-    "- different number of columns : 2 vs 1"
+    "- different number of columns: 2 vs 1"
   )
 })
 

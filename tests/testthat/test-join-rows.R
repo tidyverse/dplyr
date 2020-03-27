@@ -29,3 +29,12 @@ test_that("full join contains all keys from both", {
   expect_equal(out$y, c(NA, 2L))
   expect_equal(out$y_extra, 1L)
 })
+
+test_that("join_rows() gives meaningful error message on incompatible types", {
+  verify_output(test_path("test-join-rows.txt"), {
+    join_rows(
+      data.frame(x = 1),
+      data.frame(x = factor("a"))
+    )
+  })
+})

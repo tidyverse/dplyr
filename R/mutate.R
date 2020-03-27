@@ -238,31 +238,30 @@ mutate_cols <- function(.data, ...) {
       # recycling it appropriately to match the group size
       #
       # TODO: reinject hybrid evaluation at the R level
+      chunks <- NULL
 
-      # skip chop/unchop when already known
+      # result after unchopping the chunks
+      result <- NULL
+
       if (quo_is_symbol(dots[[i]]) ){
         name <- as_string(quo_get_expr(dots[[i]]))
-        result <- NULL
 
         if (name %in% names(new_columns)) {
+          # already have result and chunks
           result <- new_columns[[name]]
+          chunks <- mask$get_resolved(name)
         } else if (name %in% names(.data)) {
+          # already have result but need to chop() and remember
           result <- .data[[name]]
+          chunks <- vec_chop(result, rows)
+          mask$set(name, chunks)
         }
-
-        if (!is.null(result)) {
-          if (not_named && is.data.frame(result)) {
-            new_columns[names(result)] <- result
-          } else {
-            new_name <- if (not_named) auto_named_dots[i] else dots_names[i]
-            new_columns[[new_name]] <- result
-          }
-          next
-        }
-
       }
 
-      chunks <- mask$eval_all_mutate(dots[[i]])
+      # evaluluate the chunks if needed
+      if (is.null(chunks)) {
+        chunks <- mask$eval_all_mutate(dots[[i]])
+      }
 
       mask$across_cache_reset()
 
@@ -276,7 +275,10 @@ mutate_cols <- function(.data, ...) {
         next
       }
 
-      result <- vec_unchop(chunks, rows)
+      # only unchop if needed
+      if (is.null(result)) {
+        result <- vec_unchop(chunks, rows)
+      }
 
       if (not_named && is.data.frame(result)) {
         new_columns[names(result)] <- result

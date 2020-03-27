@@ -21,7 +21,7 @@ test_that("cbind uses shallow copies", {
 })
 
 test_that("bind_cols handles lists (#1104)", {
-  exp <- data.frame(x = 1, y = "a", z = 2, stringsAsFactors = FALSE)
+  exp <- tibble(x = 1, y = "a", z = 2)
 
   l1 <- list(x = 1, y = "a")
   l2 <- list(z = 2)
@@ -31,12 +31,12 @@ test_that("bind_cols handles lists (#1104)", {
 })
 
 test_that("bind_cols handles empty argument list (#1963)", {
-  expect_equal(bind_cols(), data.frame())
+  expect_equal(bind_cols(), tibble())
 })
 
 test_that("bind_cols handles all-NULL values (#2303)", {
-  expect_identical(bind_cols(list(a = NULL, b = NULL)), data.frame())
-  expect_identical(bind_cols(NULL), data.frame())
+  expect_identical(bind_cols(list(a = NULL, b = NULL)), tibble())
+  expect_identical(bind_cols(NULL), tibble())
 })
 
 test_that("bind_cols repairs names", {
@@ -469,11 +469,11 @@ test_that("columns that are OBJECT but have NULL class are handled gracefully (#
 # Vectors ------------------------------------------------------------
 
 test_that("accepts named columns", {
-  expect_identical(bind_cols(a = 1:2, b = 3:4), data.frame(a = 1:2, b = 3:4))
+  expect_identical(bind_cols(a = 1:2, b = 3:4), tibble(a = 1:2, b = 3:4))
 })
 
 test_that("ignores NULL values", {
-  expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), data.frame(a = 1, b = 2))
+  expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), tibble(a = 1, b = 2))
 })
 
 test_that("bind_cols() handles unnamed list with name repair (#3402)", {
@@ -483,15 +483,44 @@ test_that("bind_cols() handles unnamed list with name repair (#3402)", {
   )
 })
 
-test_that("bind_rows handles typed lists (#3924)", {
+test_that("bind_cols() doesn't squash record types", {
+  df <- data.frame(x = 1)
+  posixlt <- as.POSIXlt(as.Date("1970-01-01"))
+
+  expect_identical(
+    bind_cols(df, y = posixlt),
+    new_data_frame(list(x = 1, y = posixlt))
+  )
+})
+
+test_that("bind_rows() only flattens list subclasses with explicit inheritance (#3924)", {
   df <- data.frame(x = 1, y = 2)
-  lst <- structure(list(df, df, df), class = "special_lst")
-  expect_equal(bind_rows(lst), bind_rows(df,df,df))
+
+  lst1 <- structure(list(df, df, df), class = "special_lst")
+  expect_error(bind_rows(lst1), "must be a data frame or a named atomic vector")
+
+  lst2 <- structure(list(df, df, df), class = c("special_lst", "list"))
+  expect_equal(bind_rows(lst2), bind_rows(df,df,df))
 })
 
 test_that("bind_rows() handles named list", {
   expect_equivalent(bind_rows(map(mtcars, mean)), summarise_all(mtcars, mean))
   expect_equivalent(bind_rows(!!!map(mtcars, mean)), summarise_all(mtcars, mean))
+})
+
+test_that("bind_rows() handles named S3 objects (#4931)", {
+  df <- tibble(x = "foo", y = "bar")
+  fct <- set_names(factor(c("a", "b")), c("x", "y"))
+
+  expect_identical(
+    bind_rows(df, fct),
+    tibble(x = c("foo", "a"), y = c("bar", "b"))
+  )
+
+  expect_identical(
+    bind_rows(fct, fct),
+    tibble(x = unname(fct)[c(1, 1)], y = unname(fct)[c(2, 2)])
+  )
 })
 
 test_that("bind_rows() correctly restores (#2457)", {
