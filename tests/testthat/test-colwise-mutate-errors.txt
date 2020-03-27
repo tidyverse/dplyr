@@ -4,7 +4,7 @@ column not found
 
 > mutate_at(tibble(), "test", ~1)
 Error: Can't subset columns that don't exist.
-x The column `test` doesn't exist.
+x Column `test` doesn't exist.
 
 
 not summarising grouping variables
@@ -14,7 +14,7 @@ not summarising grouping variables
 > tbl <- group_by(tbl, gr1)
 > summarise_at(tbl, vars(gr1), mean)
 Error: Can't subset columns that don't exist.
-x The column `gr1` doesn't exist.
+x Column `gr1` doesn't exist.
 
 
 improper additional arguments
