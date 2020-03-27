@@ -114,7 +114,7 @@ reconstruct_set <- function(out, x) {
 is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
   nc <- ncol(x)
   if (nc != ncol(y)) {
-    return(glue("- different number of columns : {nc} vs {ncol(y)}"))
+    return(glue("- different number of columns: {nc} vs {ncol(y)}"))
   }
 
   names_x <- names(x)

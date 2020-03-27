@@ -271,13 +271,6 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds) {
 
   SEXP groups = Rf_getAttrib(df, dplyr::symbols::groups);
 
-  if (Rf_isNull(groups)) {
-    SEXP vars = Rf_getAttrib(df, dplyr::symbols::vars);
-    if (!Rf_isNull(vars)){
-      return Rf_mkString("Corrupt grouped_df data using the old format");
-    }
-  }
-
   if (!Rf_inherits(groups, "data.frame") || XLENGTH(groups) < 1) {
     return Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`");
   }

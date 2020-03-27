@@ -53,7 +53,8 @@
   (e.g. `is.character`) to select variables by type (#4680). It also makes
   it possible to use `select()` and `rename()` to repair data frames with
   duplicated names (#4615) and prevents you from accidentally introducing
-  duplicate names (#4643).
+  duplicate names (#4643). This also means that dplyr now re-exports `any_of()`
+  and `all_of()` (#5036).
 
 * `slice()` gains a new set of helpers:
 

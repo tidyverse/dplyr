@@ -54,8 +54,8 @@ incompatible types across groups
 + 3, "foo", 2))
 Error: `mutate()` argument `val` must return compatible vectors across groups.
 i `val` is `ifelse(x < 3, "foo", 2)`.
-i Result type for group 1 (x = 1) : <character>.
-i Result type for group 3 (x = 3) : <double>.
+i Result type for group 1 (x = 1): <character>.
+i Result type for group 3 (x = 3): <double>.
 
 > tibble(a = 1:3, b = 4:6) %>% group_by(a) %>% mutate(if (a == 1) NULL else "foo")
 Error: `mutate()` argument `..1` must return compatible vectors across groups.
