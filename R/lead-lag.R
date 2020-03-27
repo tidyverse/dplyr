@@ -60,7 +60,7 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   }
   if (n == 0) return(x)
 
-  xlen <- length(x)
+  xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
   vec_c(
@@ -83,7 +83,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   }
   if (n == 0) return(x)
 
-  xlen <- length(x)
+  xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
   vec_c(
