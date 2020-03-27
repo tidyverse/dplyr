@@ -72,17 +72,17 @@ ntile <- function(x = row_number(), n) {
   if (len == 0L) {
     rep(NA_integer_, length(x))
   } else {
-    larger <- as.integer(len %% n)
-    smaller <- as.integer(n - larger)
+    n_larger <- as.integer(len %% n)
+    n_smaller <- as.integer(n - n_larger)
     size <- len / n
     larger_size <- as.integer(ceiling(size))
     smaller_size <- as.integer(floor(size))
 
-    larger_threshold <- larger_size * larger
+    larger_threshold <- larger_size * n_larger
     bins <- if_else(
       x <= larger_threshold,
       (x + (larger_size - 1L)) / larger_size,
-      (x + (- larger_threshold + smaller_size - 1L)) / smaller_size + larger
+      (x + (- larger_threshold + smaller_size - 1L)) / smaller_size + n_larger
     )
 
     as.integer(floor(bins))
