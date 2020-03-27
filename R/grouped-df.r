@@ -158,6 +158,16 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
 #' @rdname new_grouped_df
 #' @export
 validate_grouped_df <- function(x, check_bounds = FALSE) {
+  if (is.null(attr(x, "groups")) && !is.null(attr(x, "vars"))) {
+    abort(
+      c(
+        "Corrupt `grouped_df` using old (< 0.8.0) format",
+        i = "Strip off old grouping with `ungroup()`"
+      ),
+      class = "dplyr_grouped_df_corrupt"
+    )
+  }
+
   result <- .Call(`dplyr_validate_grouped_df`, x, check_bounds)
   if (!is.null(result)) {
     abort(result, class = "dplyr_grouped_df_corrupt")
