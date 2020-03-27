@@ -20,7 +20,8 @@
 #'   of all values less than or equal to the current rank.
 #'
 #' * `ntile()`: a rough rank, which breaks the input vector into
-#'   `n` buckets.
+#'   `n` buckets. The size of the buckets may differ by up to one,
+#'   larger buckets have lower rank.
 #'
 #' @name ranking
 #' @param x a vector of values to rank. Missing values are left as is.
@@ -35,7 +36,7 @@
 #' cume_dist(x)
 #'
 #' ntile(x, 2)
-#' ntile(runif(100), 10)
+#' ntile(1:8, 3)
 #'
 #' # row_number can be used with single table verbs without specifying x
 #' # (for data frames and databases that support windowing)
@@ -59,12 +60,22 @@ row_number <- function(x) {
 #' @export
 #' @rdname ranking
 ntile <- function(x = row_number(), n) {
+  # Avoid recomputation in default case:
+  # row_number(row_number(x)) == row_number(x)
+  if (!missing(x)) {
+    x <- row_number(x)
+  }
   len <- sum(!is.na(x))
 
   if (len == 0L) {
     rep(NA_integer_, length(x))
   } else {
-    as.integer(floor(n * (row_number(x) - 1) / len + 1))
+    larger <- len %% n
+    smaller <- n - larger
+    size <- len / n
+    bins <- cumsum(c(0, rep(ceiling(size), larger), rep(floor(size), smaller)))
+
+    .bincode(x, bins)
   }
 }
 

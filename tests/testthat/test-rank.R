@@ -83,3 +83,21 @@ test_that("lead/lag inside mutate handles expressions as value for default (#141
   expect_equal(res$leadn, lead(df$x, default = 1))
   expect_equal(res$lagn, lag(df$x, default = 1))
 })
+
+test_that("ntile puts large groups first (#4995) ", {
+  expect_equal(ntile(1, 5), 1)
+  expect_equal(ntile(1:2, 5), 1:2)
+  expect_equal(ntile(1:3, 5), 1:3)
+  expect_equal(ntile(1:4, 5), 1:4)
+  expect_equal(ntile(1:5, 5), 1:5)
+  expect_equal(ntile(1:6, 5), c(1, 1:5))
+
+  expect_equal(ntile(1, 7), 1)
+  expect_equal(ntile(1:2, 7), 1:2)
+  expect_equal(ntile(1:3, 7), 1:3)
+  expect_equal(ntile(1:4, 7), 1:4)
+  expect_equal(ntile(1:5, 7), 1:5)
+  expect_equal(ntile(1:6, 7), 1:6)
+  expect_equal(ntile(1:7, 7), 1:7)
+  expect_equal(ntile(1:8, 7), c(1, 1:7))
+})

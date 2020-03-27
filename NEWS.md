@@ -352,6 +352,8 @@
 * `rename_at()` and `rename_all()` call the function with a simple character
   vector, not a `dplyr_sel_vars` (#4459).
 
+* `ntile()` is now more consistent with database implementations if the buckets have irregular size (#4495).
+
 
 # dplyr 0.8.5 (2020-03-07)
 
