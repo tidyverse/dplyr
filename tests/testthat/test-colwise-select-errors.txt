@@ -22,3 +22,13 @@ colwise select()
 > df %>% select_all(list(tolower, toupper))
 Error: `.funs` must contain one renaming function, not 2
 
+> df %>% select_if(function(.x) 1)
+Error: `.p` is invalid.
+x `.p` should return a single logical.
+i `.p` returns a <double> for column `x`.
+
+> df %>% select_if(function(.x) c(TRUE, TRUE))
+Error: `.p` is invalid.
+x `.p` should return a single logical.
+i `.p` returns a size 2 <logical> for column `x`.
+

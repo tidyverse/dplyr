@@ -110,17 +110,15 @@
 
 ## rowwise()
 
-* New, experimental, `condense()` makes it easy to create and use list-columns.
-  It is similar to `summarise()` but it always returns a single row per group
-  and it wraps each new column in a list. It returns a `rowwise` tibble so you 
-  can work with list-columns without having to manually vectorise your code 
-  with purrr map functions (#4723).
-
 * `rowwise()` is no longer questioning; we now understand that it's an
   important tool when you don't have vectorised code. It now also allows you to
   specify additional variables that should be preserved in the output when 
   summarising (#4723). The rowwise-ness is preserved by all operations;
   you need to explicit drop it with `as_tibble()` or `group_by()`.
+
+* New, experimental, `nest_by()`. It has the same interface as `group_by()`,
+  but returns a rowwise data frame of grouping keys, supplemental with a 
+  list-column of data frames containing the rest of the data.
 
 ## vctrs
 
