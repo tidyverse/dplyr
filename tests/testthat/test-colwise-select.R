@@ -184,5 +184,7 @@ test_that("colwise select() / rename() give meaningful errors", {
 
     "# colwise select() "
     df %>% select_all(list(tolower, toupper))
+    df %>% select_if(function(.x) 1)
+    df %>% select_if(function(.x) c(TRUE, TRUE))
   })
 })
