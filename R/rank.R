@@ -73,9 +73,17 @@ ntile <- function(x = row_number(), n) {
     larger <- len %% n
     smaller <- n - larger
     size <- len / n
-    bins <- cumsum(c(0, rep(ceiling(size), larger), rep(floor(size), smaller)))
+    larger_size <- as.integer(ceiling(size))
+    smaller_size <- as.integer(floor(size))
 
-    .bincode(x, bins)
+    larger_threshold <- larger_size * larger
+    bins <- if_else(
+      x <= larger_threshold,
+      (x + (larger_size - 1)) / larger_size,
+      (x + (- larger_threshold + smaller_size - 1)) / smaller_size + larger
+    )
+
+    as.integer(floor(bins))
   }
 }
 
