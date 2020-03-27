@@ -489,6 +489,15 @@ test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {
   )
 })
 
+# mutate() semantics
+
+test_that("group_by() has mutate() semantics (#4984)", {
+  expect_equal(
+    tibble(a = 1, b = 2) %>% group_by(c = a * b, d = c + 1),
+    tibble(a = 1, b = 2) %>% mutate(c = a * b, d = c + 1) %>% group_by(c, d)
+  )
+})
+
 # Errors ------------------------------------------------------------------
 
 test_that("group_by() and ungroup() give meaningful error messages", {
