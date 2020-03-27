@@ -65,7 +65,7 @@ ntile <- function(x = row_number(), n) {
   if (!missing(x)) {
     x <- row_number(x)
   }
-  len <- sum(!is.na(x))
+  len <- length(x) - sum(is.na(x))
 
   n <- as.integer(floor(n))
 
