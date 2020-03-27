@@ -549,16 +549,17 @@
 <p><code><a href="../reference/context.html">cur_data()</a></code> returns the current group, excluding grouping variables. It’s useful to feed to functions that take a whole data frame. For example, the following code fits a linear model of <code>mass ~ height</code> to each species:</p>
 <div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/context.html">n</a></span>() <span class="kw">&gt;</span> <span class="fl">1</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/condense.html">condense</a></span>(<span class="kw">mod</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">mass</span> ~ <span class="no">height</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">cur_data</a></span>()))
-<span class="co">#&gt; # A tibble: 9 x 2</span>
-<span class="co">#&gt; # Rowwise:  species</span>
-<span class="co">#&gt;   species  mod   </span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;list&gt;</span>
-<span class="co">#&gt; 1 Droid    &lt;lm&gt;  </span>
-<span class="co">#&gt; 2 Gungan   &lt;lm&gt;  </span>
-<span class="co">#&gt; 3 Human    &lt;lm&gt;  </span>
-<span class="co">#&gt; 4 Kaminoan &lt;lm&gt;  </span>
-<span class="co">#&gt; # … with 5 more rows</span></pre></body></html></div>
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">mod</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">mass</span> ~ <span class="no">height</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">cur_data</a></span>())))
+<span class="co">#&gt; # A tibble: 58 x 15</span>
+<span class="co">#&gt; # Groups:   species [9]</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; # … with 54 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, mod &lt;list&gt;</span></pre></body></html></div>
 </div>
 <div id="cur_group-and-cur_group_id" class="section level3">
 <h3 class="hasAnchor">

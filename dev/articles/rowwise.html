@@ -432,7 +432,7 @@
 <h3 class="hasAnchor">
 <a href="#modelling" class="anchor"></a>Modelling</h3>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> data frames allow you to solve a variety of modelling problems in what I think is a particularly elegant way. We’ll start by creating a nested data frame:</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">by_cyl</span> <span class="kw">&lt;-</span> <span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu">nest_by</span>(<span class="no">cyl</span>)
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">by_cyl</span> <span class="kw">&lt;-</span> <span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/nest_by.html">nest_by</a></span>(<span class="no">cyl</span>)
 <span class="no">by_cyl</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>

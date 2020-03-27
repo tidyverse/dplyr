@@ -371,27 +371,27 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># Use num_range() to select variables with numeric suffixes</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>10</span>))
-<span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>) <span class='co'># Specify variable names explicitly</span></div><div class='output co'>#&gt;            V4        V5         V6
-#&gt; 1  0.24652883 0.9081668 0.66475312
-#&gt; 2  0.18412840 0.9468121 0.89771808
-#&gt; 3  0.86218673 0.1854821 0.89595629
-#&gt; 4  0.82439552 0.3193203 0.76630429
-#&gt; 5  0.67331838 0.7570699 0.12050246
-#&gt; 6  0.07503812 0.7163499 0.65170501
-#&gt; 7  0.61602271 0.7007200 0.36198336
-#&gt; 8  0.11967115 0.6614121 0.39265049
-#&gt; 9  0.41204564 0.5347339 0.02334295
-#&gt; 10 0.13677454 0.1579919 0.25767310</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>num_range</a></span>(<span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>"V"</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fl'>4</span>:<span class='fl'>6</span>)) <span class='co'># Or, specify the prefix used on a numeric range</span></div><div class='output co'>#&gt;            V4        V5         V6
-#&gt; 1  0.24652883 0.9081668 0.66475312
-#&gt; 2  0.18412840 0.9468121 0.89771808
-#&gt; 3  0.86218673 0.1854821 0.89595629
-#&gt; 4  0.82439552 0.3193203 0.76630429
-#&gt; 5  0.67331838 0.7570699 0.12050246
-#&gt; 6  0.07503812 0.7163499 0.65170501
-#&gt; 7  0.61602271 0.7007200 0.36198336
-#&gt; 8  0.11967115 0.6614121 0.39265049
-#&gt; 9  0.41204564 0.5347339 0.02334295
-#&gt; 10 0.13677454 0.1579919 0.25767310</div><div class='input'>
+<span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>) <span class='co'># Specify variable names explicitly</span></div><div class='output co'>#&gt;           V4        V5         V6
+#&gt; 1  0.3823125 0.5373544 0.67331838
+#&gt; 2  0.8410380 0.1888200 0.07503812
+#&gt; 3  0.7737547 0.7766504 0.61602271
+#&gt; 4  0.9469192 0.8409571 0.11967115
+#&gt; 5  0.2848865 0.5432356 0.41204564
+#&gt; 6  0.1411791 0.4061940 0.13677454
+#&gt; 7  0.6650340 0.2465288 0.90816676
+#&gt; 8  0.9153956 0.1841284 0.94681212
+#&gt; 9  0.1058376 0.8621867 0.18548210
+#&gt; 10 0.2313369 0.8243955 0.31932035</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>num_range</a></span>(<span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>"V"</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fl'>4</span>:<span class='fl'>6</span>)) <span class='co'># Or, specify the prefix used on a numeric range</span></div><div class='output co'>#&gt;           V4        V5         V6
+#&gt; 1  0.3823125 0.5373544 0.67331838
+#&gt; 2  0.8410380 0.1888200 0.07503812
+#&gt; 3  0.7737547 0.7766504 0.61602271
+#&gt; 4  0.9469192 0.8409571 0.11967115
+#&gt; 5  0.2848865 0.5432356 0.41204564
+#&gt; 6  0.1411791 0.4061940 0.13677454
+#&gt; 7  0.6650340 0.2465288 0.90816676
+#&gt; 8  0.9153956 0.1841284 0.94681212
+#&gt; 9  0.1058376 0.8621867 0.18548210
+#&gt; 10 0.2313369 0.8243955 0.31932035</div><div class='input'>
 <span class='co'># Select the existing grouping variables:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>, <span class='no'>eye_color</span>) <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='group_cols.html'>group_cols</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   gender, eye_color [23]</span><span>

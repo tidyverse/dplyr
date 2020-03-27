@@ -58,9 +58,6 @@
     <loc>https://dplyr.tidyverse.org/reference/compute.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/reference/condense.html</loc>
-  </url>
-  <url>
     <loc>https://dplyr.tidyverse.org/reference/context.html</loc>
   </url>
   <url>
@@ -182,6 +179,9 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/near.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/reference/nest_by.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/nest_join.html</loc>

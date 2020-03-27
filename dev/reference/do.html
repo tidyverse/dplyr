@@ -52,7 +52,7 @@
 do() is superseded as of dplyr 1.0.0, because its syntax never really
 felt like it belong with the rest of dplyr. It's replaced by a combination
 of summarise() (which can now produce multiple rows and multiple columns),
-condense() (which creates a rowwise tibble containing list-columns),
+nest_by() (which creates a rowwise tibble of nested data),
 and across() (which allows you to access the data for the &quot;current&quot; group)." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -200,7 +200,7 @@ and across() (which allows you to access the data for the &quot;current&quot; gr
 <p><code>do()</code> is superseded as of dplyr 1.0.0, because its syntax never really
 felt like it belong with the rest of dplyr. It's replaced by a combination
 of <code><a href='summarise.html'>summarise()</a></code> (which can now produce multiple rows and multiple columns),
-<code><a href='condense.html'>condense()</a></code> (which creates a <a href='rowwise.html'>rowwise</a> tibble containing list-columns),
+<code><a href='nest_by.html'>nest_by()</a></code> (which creates a <a href='rowwise.html'>rowwise</a> tibble of nested data),
 and <code><a href='across.html'>across()</a></code> (which allows you to access the data for the "current" group).</p>
     </div>
 
@@ -263,17 +263,18 @@ unnamed arguments.</p></td>
 #&gt; </span><span style='color: #555555;'>1</span><span>     4 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>2</span><span>     6 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>3</span><span>     8 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='condense.html'>condense</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>vs</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
-#&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
-#&gt;     cyl mean     
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>1</span><span>     4 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span>     6 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span>     8 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span></div><div class='input'>
-<span class='co'># do() with named arguments becomes condense()</span>
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>vs</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt;     cyl  mean
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4 0.909
+#&gt; </span><span style='color: #555555;'>2</span><span>     6 0.571
+#&gt; </span><span style='color: #555555;'>3</span><span>     8 0    </div><div class='input'>
+<span class='co'># do() with named arguments becomes nest_by() + mutate() &amp; list()</span>
 <span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
 <span class='co'># -&gt;</span>
-<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='condense.html'>condense</a></span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>))
+<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='nest_by.html'>nest_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)))
 <span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
 #&gt;     cyl    rsq
@@ -303,7 +304,7 @@ unnamed arguments.</p></td>
 #&gt; </span><span style='color: #555555;'>6</span><span> disp        -</span><span style='color: #BB0000;'>0.019</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>     0.009</span><span style='text-decoration: underline;'>32</span><span>  -</span><span style='color: #BB0000;'>2.11</span><span>  0.056</span><span style='text-decoration: underline;'>8</span><span>    </div><div class='input'><span class='co'># -&gt;</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"broom"</span>)) {
   <span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>tidy</a></span>(<span class='no'>mod</span>))
-}</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
+}</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: broom</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
 #&gt;     cyl term        estimate std.error statistic    p.value
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>

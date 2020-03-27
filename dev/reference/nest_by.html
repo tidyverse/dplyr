@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perform an operation with temporary groups — with_groups • dplyr</title>
+<title>Nest by one or more variables — nest_by • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +47,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Perform an operation with temporary groups — with_groups" />
+<meta property="og:title" content="Nest by one or more variables — nest_by" />
 <meta property="og:description" content="
-This is an experimental new function that allows you to modify the grouping
-variables for a single operation." />
+nest_by() is closely related to group_by(). However, instead of storing
+the group structure in the metadata, it makes it explicit in the data,
+giving each group key a single row with a list-column of data frames that
+contain all the other data." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -187,87 +189,118 @@ variables for a single operation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Perform an operation with temporary groups</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/groups-with.R'><code>R/groups-with.R</code></a></small>
-    <div class="hidden name"><code>with_groups.Rd</code></div>
+    <h1>Nest by one or more variables</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/nest_by.R'><code>R/nest_by.R</code></a></small>
+    <div class="hidden name"><code>nest_by.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
-<p>This is an experimental new function that allows you to modify the grouping
-variables for a single operation.</p>
+<p><code>nest_by()</code> is closely related to <code><a href='group_by.html'>group_by()</a></code>. However, instead of storing
+the group structure in the metadata, it makes it explicit in the data,
+giving each group key a single row with a list-column of data frames that
+contain all the other data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>with_groups</span>(<span class='no'>.data</span>, <span class='no'>.groups</span>, <span class='no'>.f</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>nest_by</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.key</span> <span class='kw'>=</span> <span class='st'>"data"</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>A data frame</p></td>
-    </tr>
-    <tr>
-      <th>.groups</th>
-      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; One or more variables
-to group by. Unlike <code><a href='group_by.html'>group_by()</a></code>, you can only group by existing variables,
-and you can use tidy-select syntax like <code><a href='https://rdrr.io/r/base/c.html'>c(x, y, z)</a></code> to select multiple
-variables.</p>
-<p>Use <code>NULL</code> to temporarily <strong>un</strong>group.</p></td>
-    </tr>
-    <tr>
-      <th>.f</th>
-      <td><p>Function to apply to regrouped data.
-Supports purrr-style <code>~</code> syntax</p></td>
+      <td><p>A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
+more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed on to <code>...</code>.</p></td>
+      <td><p>In <code><a href='group_by.html'>group_by()</a></code>, variables or computations to group by.
+In <code><a href='group_by.html'>ungroup()</a></code>, variables to remove from the grouping.</p></td>
+    </tr>
+    <tr>
+      <th>.key</th>
+      <td><p>Name of the list column</p></td>
+    </tr>
+    <tr>
+      <th>.keep</th>
+      <td><p>Should the grouping columns be kept in the list column.</p></td>
+    </tr>
+    <tr>
+      <th>.add</th>
+      <td><p>When <code>FALSE</code>, the default, <code><a href='group_by.html'>group_by()</a></code> will
+override existing groups. To add to the existing groups, use
+<code>.add = TRUE</code>.</p>
+<p>This argument was previously called <code>add</code>, but that prevented
+creating a new grouping variable called <code>add</code>, and conflicts with
+our naming conventions.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <code><a href='rowwise.html'>rowwise()</a></code> data frame. The output has the following properties:</p><ul>
+<li><p>The rows come from the underlying <code><a href='group_data.html'>group_keys()</a></code>.</p></li>
+<li><p>The columns are the grouping keys plus one list-column of data frames.</p></li>
+<li><p>Data frame attributes are <strong>not</strong> preserved, because <code>nest_by()</code>
+fundamentally creates a new data frame.</p></li>
+</ul>
+
+<p>A tbl with one row per unique combination of the grouping variables.
+The first columns are the grouping variables, followed by a list column of tibbles
+with matching rows of the remaining columns.</p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<p>This function is a <strong>generic</strong>, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.</p>
+<p>The following methods are currently available in loaded packages:
+dplyr (<code>data.frame</code>)
+.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>3</span>), <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>5</span>))
-<span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>with_groups</span>(<span class='no'>g</span>, <span class='no'>mutate</span>, <span class='kw'>x_mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 3</span><span>
-#&gt;       g      x x_mean
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1 0.043</span><span style='text-decoration: underline;'>8</span><span>  0.513
-#&gt; </span><span style='color: #555555;'>2</span><span>     1 0.982   0.513
-#&gt; </span><span style='color: #555555;'>3</span><span>     2 0.081</span><span style='text-decoration: underline;'>9</span><span>  0.312
-#&gt; </span><span style='color: #555555;'>4</span><span>     2 0.542   0.312
-#&gt; </span><span style='color: #555555;'>5</span><span>     3 0.610   0.610</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>with_groups</span>(<span class='no'>g</span>, ~ <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>.x</span>, <span class='kw'>x1</span> <span class='kw'>=</span> <span class='fu'><a href='nth.html'>first</a></span>(<span class='no'>x</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 3</span><span>
-#&gt;       g      x     x1
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1 0.043</span><span style='text-decoration: underline;'>8</span><span> 0.043</span><span style='text-decoration: underline;'>8</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span>     1 0.982  0.043</span><span style='text-decoration: underline;'>8</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span>     2 0.081</span><span style='text-decoration: underline;'>9</span><span> 0.081</span><span style='text-decoration: underline;'>9</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span>     2 0.542  0.081</span><span style='text-decoration: underline;'>9</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span>     3 0.610  0.610 </div><div class='input'>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>with_groups</span>(<span class='kw'>NULL</span>, <span class='no'>mutate</span>, <span class='kw'>x_mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 3</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   g [3]</span><span>
-#&gt;       g      x x_mean
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1 0.043</span><span style='text-decoration: underline;'>8</span><span>  0.452
-#&gt; </span><span style='color: #555555;'>2</span><span>     1 0.982   0.452
-#&gt; </span><span style='color: #555555;'>3</span><span>     2 0.081</span><span style='text-decoration: underline;'>9</span><span>  0.452
-#&gt; </span><span style='color: #555555;'>4</span><span>     2 0.542   0.452
-#&gt; </span><span style='color: #555555;'>5</span><span>     3 0.610   0.452</div><div class='input'>
-<span class='co'># NB: grouping can't be restored if you remove the grouping variables</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>with_groups</span>(<span class='kw'>NULL</span>, <span class='no'>mutate</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 1</span><span>
-#&gt;        x
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 0.043</span><span style='text-decoration: underline;'>8</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> 0.982 
-#&gt; </span><span style='color: #555555;'>3</span><span> 0.081</span><span style='text-decoration: underline;'>9</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> 0.542 
-#&gt; </span><span style='color: #555555;'>5</span><span> 0.610 </div></span></pre>
+    <pre class="examples"><div class='input'><span class='co'># After nesting, you get one row per group</span>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest_by</span>(<span class='no'>Species</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise:  Species</span><span>
+#&gt;   Species              data
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,4]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> setosa           </span><span style='color: #555555;'>[50 × 4]</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> versicolor       </span><span style='color: #555555;'>[50 × 4]</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> virginica        </span><span style='color: #555555;'>[50 × 4]</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest_by</span>(<span class='no'>species</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise:  species</span><span>
+#&gt;    species              data
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,13]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Aleena           </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span> Besalisk         </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 3</span><span> Cerean           </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 4</span><span> Chagrian         </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 5</span><span> Clawdite         </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 6</span><span> Droid            </span><span style='color: #555555;'>[6 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span> Dug              </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 8</span><span> Ewok             </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 9</span><span> Geonosian        </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'>10</span><span> Gungan           </span><span style='color: #555555;'>[3 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'>
+<span class='co'># The output is grouped by row, which makes modelling particularly easy</span>
+<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>nest_by</span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)))
+<span class='no'>models</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
+#&gt;     cyl            data model 
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,10]&gt;&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4       </span><span style='color: #555555;'>[11 × 10]</span><span> </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>2</span><span>     6        </span><span style='color: #555555;'>[7 × 10]</span><span> </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>3</span><span>     8       </span><span style='color: #555555;'>[14 × 10]</span><span> </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  </div><div class='input'>
+<span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>model</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
+#&gt;     cyl   rsq
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4 0.509
+#&gt; </span><span style='color: #555555;'>2</span><span>     6 0.465
+#&gt; </span><span style='color: #555555;'>3</span><span>     8 0.423</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

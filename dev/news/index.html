@@ -266,8 +266,8 @@
 <h2 class="hasAnchor">
 <a href="#rowwise" class="anchor"></a>rowwise()</h2>
 <ul>
-<li><p>New, experimental, <code><a href="../reference/condense.html">condense()</a></code> makes it easy to create and use list-columns. It is similar to <code><a href="../reference/summarise.html">summarise()</a></code> but it always returns a single row per group and it wraps each new column in a list. It returns a <code>rowwise</code> tibble so you can work with list-columns without having to manually vectorise your code with purrr map functions (<a href='https://github.com/tidyverse/dplyr/issues/4723'>#4723</a>).</p></li>
 <li><p><code><a href="../reference/rowwise.html">rowwise()</a></code> is no longer questioning; we now understand that it’s an important tool when you don’t have vectorised code. It now also allows you to specify additional variables that should be preserved in the output when summarising (<a href='https://github.com/tidyverse/dplyr/issues/4723'>#4723</a>). The rowwise-ness is preserved by all operations; you need to explicit drop it with <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code> or <code><a href="../reference/group_by.html">group_by()</a></code>.</p></li>
+<li><p>New, experimental, <code><a href="../reference/nest_by.html">nest_by()</a></code>. It has the same interface as <code><a href="../reference/group_by.html">group_by()</a></code>, but returns a rowwise data frame of grouping keys, supplemental with a list-column of data frames containing the rest of the data.</p></li>
 </ul>
 </div>
 <div id="vctrs" class="section level2">
