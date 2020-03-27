@@ -27,7 +27,7 @@ The value can be:
 \value{
 An object \emph{usually} of the same type as \code{.data}.
 \itemize{
-\item The rows come from the underlying \code{group_keys()}.
+\item The rows come from the underlying \code{\link[=group_keys]{group_keys()}}.
 \item The columns are a combination of the grouping keys and the summary
 expressions that you provide.
 \item If \code{x} is grouped by more than one variable, the output will be another
