@@ -248,11 +248,11 @@
   <span class="fu">summarise_mean</span>(<span class="no">is.numeric</span>)</pre></body></html></div>
 </li>
 <li>
-<p>When you have an env-variable that is a character vector, you need to use <code>all_of()</code> or <code>any_of()</code> depending on whether you want the function to error if a variable is not found.</p>
-<p>The following code uses <code>all_of()</code> to select all of the variables found in a character vector; then <code>!</code> plus <code>all_of()</code> to select all of the variables <em>not</em> found in a character vector:</p>
+<p>When you have an env-variable that is a character vector, you need to use <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of()</a></code> or <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">any_of()</a></code> depending on whether you want the function to error if a variable is not found.</p>
+<p>The following code uses <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of()</a></code> to select all of the variables found in a character vector; then <code>!</code> plus <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of()</a></code> to select all of the variables <em>not</em> found in a character vector:</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">vars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mpg"</span>, <span class="st">"vs"</span>)
-<span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="fu">all_of</span>(<span class="no">vars</span>))
-<span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(!<span class="fu">all_of</span>(<span class="no">vars</span>))</pre></body></html></div>
+<span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of</a></span>(<span class="no">vars</span>))
+<span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(!<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of</a></span>(<span class="no">vars</span>))</pre></body></html></div>
 </li>
 </ul>
 </div>

@@ -209,11 +209,11 @@ If you've never head of tidy evaluation before, start with
     <p>If you have a data frame with variables <code>apple</code>, <code>banana</code>, <code>cantelope</code>,
 <code>date</code>, <code>eggplant</code>, <code>fig</code>, <code>grape</code> you can:</p><ul>
 <li><p>Select individual variables with their name: e.g. <code><a href='https://rdrr.io/r/base/c.html'>c(apple, fig, grape)</a></code>.</p></li>
-<li><p>Select data-variables stored in a env-variable with <code>all_of()</code> (which
-will error if a variable is not found) or <code>any_of()</code> (which is
+<li><p>Select data-variables stored in a env-variable with <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>all_of()</a></code> (which
+will error if a variable is not found) or <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>any_of()</a></code> (which is
 relaxed and will silently drop missing variables), e.g.
-if <code>vars &lt;- c("apple", "fig", "peach")</code>, then <code>all_of(vars)</code> will
-error; <code>any_of(vars)</code> will select <code>apple</code> and <code>fig</code>.</p></li>
+if <code>vars &lt;- c("apple", "fig", "peach")</code>, then <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>all_of(vars)</a></code> will
+error; <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>any_of(vars)</a></code> will select <code>apple</code> and <code>fig</code>.</p></li>
 <li><p>Select contiguous variables with <code>:</code>, e.g. <code>apple:date</code>.</p></li>
 <li><p>Select variables with named-based helpers: e.g. <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with("a")</a></code>,
 <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains("g")</a></code>. See full list in <a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>tidyselect::select_helpers</a>.</p></li>
@@ -229,8 +229,8 @@ error; <code>any_of(vars)</code> will select <code>apple</code> and <code>fig</c
     <h2 class="hasAnchor" id="indirection"><a class="anchor" href="#indirection"></a>Indirection</h2>
 
     <p>There are two main cases:</p><ul>
-<li><p>If you have a character vector of column names, use <code>all_of()</code>
-or <code>any_of()</code>, depending on whether or not you want unknown variable
+<li><p>If you have a character vector of column names, use <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>all_of()</a></code>
+or <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>any_of()</a></code>, depending on whether or not you want unknown variable
 names to cause an error, e.g <code><a href='select.html'>select(df, all_of(vars))</a></code>,
 <code><a href='select.html'>select(df, -any_of(vars))</a></code>.</p></li>
 <li><p>If you you want the user to supply a tidyselect specification in a

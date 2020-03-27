@@ -1,6 +1,6 @@
 pandoc: 2.7.3
 pkgdown: 1.5.0.9000
-pkgdown_sha: c49a6a0e0341b58d645dfbce3d9592c1745b9c85
+pkgdown_sha: f016582515c195022dcc918c31c76daa3ce01e33
 articles:
   base: base.html
   colwise: colwise.html
@@ -11,7 +11,7 @@ articles:
   rowwise: rowwise.html
   two-table: two-table.html
   window-functions: window-functions.html
-last_built: 2020-03-25T19:04Z
+last_built: 2020-03-27T16:09Z
 urls:
   reference: https://dplyr.tidyverse.org/reference
   article: https://dplyr.tidyverse.org/articles

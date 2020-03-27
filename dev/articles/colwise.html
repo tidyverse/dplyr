@@ -245,7 +245,7 @@
 <span class="co">#&gt; 1         66       15              8        264     1358            896</span>
 <span class="co">#&gt; # … with 3 more variables: max_min_height &lt;int&gt;, max_min_mass &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   max_min_birth_year &lt;dbl&gt;</span></pre></body></html></div>
-<p>(One day this might could become an argument to <code><a href="../reference/across.html">across()</a></code> but we’re not yet sure how it would work.)</p>
+<p>(One day this might become an argument to <code><a href="../reference/across.html">across()</a></code> but we’re not yet sure how it would work.)</p>
 </div>
 <div id="current-column" class="section level3">
 <h3 class="hasAnchor">
@@ -254,7 +254,7 @@
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">3</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fl">3</span>:<span class="fl">5</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="fl">5</span>:<span class="fl">7</span>)
 <span class="no">mult</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="fl">100</span>)
 
-<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">all_of</span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">mult</span>)), ~ <span class="no">.x</span> * <span class="no">mult</span><span class="kw">[[</span><span class="fu"><a href="../reference/context.html">cur_column</a></span>()]]))
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">mult</span>)), ~ <span class="no">.x</span> * <span class="no">mult</span><span class="kw">[[</span><span class="fu"><a href="../reference/context.html">cur_column</a></span>()]]))
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;       x     y     z</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -272,7 +272,7 @@
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>(), <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">sd</span>))
 <span class="co">#&gt;    n x        y</span>
 <span class="co">#&gt; 1 NA 1 4.041452</span></pre></body></html></div>
-<p>Here <code>n</code> becomes <code>NA</code> because the standard deviation of 3 is <code>NA</code>. You probably want to compute <code><a href="../reference/context.html">n()</a></code> last to avoid this problem:</p>
+<p>Here <code>n</code> becomes <code>NA</code> because <code>n</code> is numeric, so the <code><a href="../reference/across.html">across()</a></code> computes its standard deviation, and the standard deviation of 3 (a constant) is <code>NA</code>. You probably want to compute <code><a href="../reference/context.html">n()</a></code> last to avoid this problem:</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">df</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">sd</span>), <span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>())
 <span class="co">#&gt;   x        y n</span>
@@ -435,7 +435,7 @@
 <span class="co">#&gt; 2 b         1     1</span></pre></body></html></div>
 </li>
 <li>
-<p>When used in a <code><a href="../reference/mutate.html">mutate()</a></code>, all transformation performed by an <code><a href="../reference/across.html">across()</a></code> are applied at once. This is different to the behaviour of <code><a href="../reference/mutate_all.html">mutate_if()</a></code>, <code><a href="../reference/mutate_all.html">mutate_at()</a></code>, and <code><a href="../reference/mutate_all.html">mutate_all()</a></code>, which apply the transformations one at a time. We expect that you’ll generally find the new behaviour less surprising:</p>
+<p>When used in a <code><a href="../reference/mutate.html">mutate()</a></code>, all transformations performed by an <code><a href="../reference/across.html">across()</a></code> are applied at once. This is different to the behaviour of <code><a href="../reference/mutate_all.html">mutate_if()</a></code>, <code><a href="../reference/mutate_all.html">mutate_at()</a></code>, and <code><a href="../reference/mutate_all.html">mutate_all()</a></code>, which apply the transformations one at a time. We expect that you’ll generally find the new behaviour less surprising:</p>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="fl">8</span>)
 <span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate_all.html">mutate_all</a></span>(~ <span class="no">.x</span> / <span class="no">y</span>)
 <span class="co">#&gt; # A tibble: 1 x 3</span>

@@ -606,7 +606,7 @@
 <p>In the first argument, <code>name</code> represents its own position <code>1</code>. In the second argument, <code>name</code> is evaluated in the surrounding context and represents the fifth column.</p>
 <p>For a long time, <code><a href="../reference/select.html">select()</a></code> used to only understand column positions. Counting from dplyr 0.6, it now understands column names as well. This makes it a bit easier to program with <code><a href="../reference/select.html">select()</a></code>:</p>
 <div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">vars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"name"</span>, <span class="st">"height"</span>)
-<span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">starwars</span>, <span class="fu">all_of</span>(<span class="no">vars</span>), <span class="st">"mass"</span>)
+<span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">starwars</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of</a></span>(<span class="no">vars</span>), <span class="st">"mass"</span>)
 <span class="co">#&gt; # A tibble: 87 x 3</span>
 <span class="co">#&gt;   name           height  mass</span>
 <span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;</span>

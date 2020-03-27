@@ -375,13 +375,13 @@
 <p>The final type of two-table verb is set operations. These expect the <code>x</code> and <code>y</code> inputs to have the same variables, and treat the observations like sets:</p>
 <ul>
 <li>
-<code><a href="../reference/setops.html">intersect(x, y)</a></code>: return only observations in both <code>x</code> and <code>y</code>
+<code><a href="https://rdrr.io/pkg/generics/man/setops.html">intersect(x, y)</a></code>: return only observations in both <code>x</code> and <code>y</code>
 </li>
 <li>
-<code><a href="../reference/setops.html">union(x, y)</a></code>: return unique observations in <code>x</code> and <code>y</code>
+<code><a href="https://rdrr.io/pkg/generics/man/setops.html">union(x, y)</a></code>: return unique observations in <code>x</code> and <code>y</code>
 </li>
 <li>
-<code><a href="../reference/setops.html">setdiff(x, y)</a></code>: return observations in <code>x</code>, but not in <code>y</code>.</li>
+<code><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff(x, y)</a></code>: return observations in <code>x</code>, but not in <code>y</code>.</li>
 </ul>
 <p>Given this simple data:</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r">(<span class="no">df1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">2</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1L</span>, <span class="fl">1L</span>)))
@@ -397,25 +397,25 @@
 <span class="co">#&gt; 1     1     1</span>
 <span class="co">#&gt; 2     2     2</span></pre></body></html></div>
 <p>The four possibilities are:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../reference/setops.html">intersect</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">intersect</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     1     1</span>
 <span class="co"># Note that we get 3 rows, not 4</span>
-<span class="fu"><a href="../reference/setops.html">union</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">union</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     1     1</span>
 <span class="co">#&gt; 2     2     1</span>
 <span class="co">#&gt; 3     2     2</span>
-<span class="fu"><a href="../reference/setops.html">setdiff</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     2     1</span>
-<span class="fu"><a href="../reference/setops.html">setdiff</a></span>(<span class="no">df2</span>, <span class="no">df1</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span>(<span class="no">df2</span>, <span class="no">df1</span>)
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>

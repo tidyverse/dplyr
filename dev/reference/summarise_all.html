@@ -284,7 +284,7 @@ selection is <strong>implicit</strong> (<code>all</code> and <code>if</code> sel
 <code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre><span class='no'>data</span> <span class='kw'>%&amp;gt;%</span>
   <span class='fu'>summarise_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='group_cols.html'>group_cols</a></span>(), <span class='no'>...</span>), <span class='no'>myoperation</span>)</pre>
 
-<p>Or remove <code><a href='group_data.html'>group_vars()</a></code> from the character vector of column names:</p><pre><span class='no'>nms</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'><a href='setops.html'>setdiff</a></span>(<span class='no'>nms</span>, <span class='fu'><a href='group_data.html'>group_vars</a></span>(<span class='no'>data</span>))
+<p>Or remove <code><a href='group_data.html'>group_vars()</a></code> from the character vector of column names:</p><pre><span class='no'>nms</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'><a href='https://rdrr.io/pkg/generics/man/setops.html'>setdiff</a></span>(<span class='no'>nms</span>, <span class='fu'><a href='group_data.html'>group_vars</a></span>(<span class='no'>data</span>))
 <span class='no'>data</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>summarise_at</span>(<span class='no'>nms</span>, <span class='no'>myoperation</span>)</pre></li>
 <li><p>Grouping variables covered by implicit selections are silently
 ignored by <code>summarise_all()</code> and <code>summarise_if()</code>.</p></li>
