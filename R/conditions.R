@@ -80,7 +80,7 @@ combine_details <- function(x, arg) {
   group <- as.integer(sub("^..", "", arg))
   keys <- group_keys(peek_mask()$full_data())[group, ]
   details <- group_labels_details(keys)
-  c(i = glue("Result type for group {group} ({details}) : <{vec_ptype_full(x)}>."))
+  c(i = glue("Result type for group {group} ({details}): <{vec_ptype_full(x)}>."))
 }
 
 stop_combine <- function(cnd, index, dots, fn = "summarise") {

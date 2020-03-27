@@ -163,8 +163,8 @@ group_modify.grouped_df <- function(.data, .f, ..., keep = FALSE) {
       abort("The result of .f should be a data frame")
     }
     if (any(bad <- names(res) %in% tbl_group_vars)) {
-      abort(sprintf(
-        "The returned data frame cannot contain the original grouping variables : ",
+      abort(paste0(
+        "The returned data frame cannot contain the original grouping variables: ",
         paste(names(res)[bad], collapse = ", ")
       ))
     }
