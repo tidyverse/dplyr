@@ -108,6 +108,14 @@ test_that("group_modify() works with additional arguments (#4509)", {
     targetdata
   )
 })
+
+test_that("group_map() does not warn about keep= for rowwise_df", {
+  expect_warning(
+    data.frame(x = 1) %>% rowwise() %>% group_walk(~ {}),
+    NA
+  )
+})
+
 test_that("group_map() give meaningful errors", {
   head1 <- function(d) head(d, 1)
 

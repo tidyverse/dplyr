@@ -14,5 +14,5 @@ Did you misspecify an argument?
 
 > df %>% group_by(x, y) %>% ungroup(z)
 Error: Can't subset columns that don't exist.
-x The column `z` doesn't exist.
+x Column `z` doesn't exist.
 
