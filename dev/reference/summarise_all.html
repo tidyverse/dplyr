@@ -374,8 +374,8 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; </span><span style='color: #555555;'>1</span><span> setosa               4.3             2.3              1               0.1
 #&gt; </span><span style='color: #555555;'>2</span><span> versic…              4.9             2                3               1  
 #&gt; </span><span style='color: #555555;'>3</span><span> virgin…              4.9             2.2              4.5             1.4
-#&gt; </span><span style='color: #555555;'># … with 4 more variables: Sepal.Length_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Sepal.Width_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   Petal.Length_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
+#&gt; </span><span style='color: #555555;'># … with 4 more variables: Sepal.Length_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Sepal.Width_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   Petal.Length_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
 <span class='no'>by_species</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='no'>min</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='no'>max</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 9</span><span>
 #&gt;   Species Sepal.Length_min Sepal.Length_max Sepal.Width_min Sepal.Width_max
@@ -383,8 +383,8 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; </span><span style='color: #555555;'>1</span><span> setosa               4.3              5.8             2.3             4.4
 #&gt; </span><span style='color: #555555;'>2</span><span> versic…              4.9              7               2               3.4
 #&gt; </span><span style='color: #555555;'>3</span><span> virgin…              4.9              7.9             2.2             3.8
-#&gt; </span><span style='color: #555555;'># … with 4 more variables: Petal.Length_min </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Length_max </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   Petal.Width_min </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_max </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
+#&gt; </span><span style='color: #555555;'># … with 4 more variables: Petal.Length_min </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Length_max </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   Petal.Width_min </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_max </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

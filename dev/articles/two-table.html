@@ -180,7 +180,7 @@
 <span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      American Airlines Inc.</span>
 <span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      JetBlue Airways       </span>
 <span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Delta Air Lines Inc.  </span>
-<span class="co">#&gt; # … with 3.368e+05 more rows</span></pre></body></html></div>
+<span class="co">#&gt; # … with 336,771 more rows</span></pre></body></html></div>
 <div id="controlling-how-the-tables-are-matched" class="section level3">
 <h3 class="hasAnchor">
 <a href="#controlling-how-the-tables-are-matched" class="anchor"></a>Controlling how the tables are matched</h3>
@@ -198,7 +198,7 @@
 <span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span>
 <span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6       39.0  27.0  61.6</span>
 <span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL       39.9  25.0  54.8</span>
-<span class="co">#&gt; # … with 3.368e+05 more rows, and 7 more variables: wind_dir &lt;dbl&gt;,</span>
+<span class="co">#&gt; # … with 336,771 more rows, and 7 more variables: wind_dir &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></pre></body></html></div>
 </li>
@@ -213,7 +213,7 @@
 <span class="co">#&gt; 3   2013     1     1     5 JFK    MIA   N619AA  AA        1990 Fixe…</span>
 <span class="co">#&gt; 4   2013     1     1     5 JFK    BQN   N804JB  B6        2012 Fixe…</span>
 <span class="co">#&gt; 5   2013     1     1     6 LGA    ATL   N668DN  DL        1991 Fixe…</span>
-<span class="co">#&gt; # … with 3.368e+05 more rows, and 6 more variables: manufacturer &lt;chr&gt;,</span>
+<span class="co">#&gt; # … with 336,771 more rows, and 6 more variables: manufacturer &lt;chr&gt;,</span>
 <span class="co">#&gt; #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span></pre></body></html></div>
 <p>Note that the year columns in the output are disambiguated with a suffix.</p>
 </li>
@@ -229,7 +229,7 @@
 <span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      Miam…  25.8 -80.3     8</span>
 <span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      &lt;NA&gt;   NA    NA      NA</span>
 <span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Hart…  33.6 -84.4  1026</span>
-<span class="co">#&gt; # … with 3.368e+05 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span>
+<span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span>
 <span class="co">#&gt; #   tzone &lt;chr&gt;</span>
 <span class="no">flights2</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"origin"</span> <span class="kw">=</span> <span class="st">"faa"</span>))
 <span class="co">#&gt; # A tibble: 336,776 x 15</span>
@@ -240,7 +240,7 @@
 <span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      John…  40.6 -73.8    13</span>
 <span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      John…  40.6 -73.8    13</span>
 <span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      La G…  40.8 -73.9    22</span>
-<span class="co">#&gt; # … with 3.368e+05 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span>
+<span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span>
 <span class="co">#&gt; #   tzone &lt;chr&gt;</span></pre></body></html></div>
 </li>
 </ul>
