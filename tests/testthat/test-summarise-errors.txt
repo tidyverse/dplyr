@@ -29,8 +29,8 @@ mixed types
 > tibble(id = 1:2, a = list(1, "2")) %>% group_by(id) %>% summarise(a = a[[1]])
 Error: `summarise()` argument `a` must return compatible vectors across groups.
 i `a` is `a[[1]]`.
-i Result type for group 1 (id = 1) : <double>.
-i Result type for group 2 (id = 2) : <character>.
+i Result type for group 1 (id = 1): <double>.
+i Result type for group 2 (id = 2): <character>.
 
 > tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[1]])
 Error: `summarise()` argument `a` must return compatible vectors across groups.

@@ -3,7 +3,7 @@ group_modify()
 ==============
 
 > mtcars %>% group_by(cyl) %>% group_modify(~data.frame(cyl = 19))
-Error: The returned data frame cannot contain the original grouping variables : 
+Error: The returned data frame cannot contain the original grouping variables: cyl
 
 > mtcars %>% group_by(cyl) %>% group_modify(~10)
 Error: The result of .f should be a data frame

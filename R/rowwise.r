@@ -22,6 +22,8 @@
 #'
 #'   **NB**: unlike `group_by()` you can not create new variables here but
 #'   instead you can select multiple variables with (e.g.) `everything()`.
+#' @seealso [nest_by()] for a convenient way of creating rowwwise data frames
+#'   with nested data.
 #' @export
 #' @examples
 #' df <- tibble(x = runif(6), y = runif(6), z = runif(6))
@@ -53,11 +55,6 @@
 #' params %>%
 #'   rowwise(sim) %>%
 #'   summarise(z = list(rnorm(n, mean, sd)))
-#'
-#' # Or use do() which do this automatically:
-#' params %>%
-#'   rowwise(sim) %>%
-#'   condense(z = rnorm(n, mean, sd))
 rowwise <- function(data, ...) {
   vars <- tidyselect::eval_select(expr(c(...)), data, include = group_vars(data))
   rowwise_df(data, vars)

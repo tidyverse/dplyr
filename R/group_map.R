@@ -124,7 +124,11 @@ group_map.data.frame <- function(.data, .f, ..., keep = FALSE) {
   .f <- as_group_map_function(.f)
 
   # call the function on each group
-  chunks <- group_split(.data, keep = isTRUE(keep))
+  chunks <- if (is_grouped_df(.data)) {
+    group_split(.data, keep = isTRUE(keep))
+  } else {
+    group_split(.data)
+  }
   keys  <- group_keys(.data)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
 
@@ -159,8 +163,8 @@ group_modify.grouped_df <- function(.data, .f, ..., keep = FALSE) {
       abort("The result of .f should be a data frame")
     }
     if (any(bad <- names(res) %in% tbl_group_vars)) {
-      abort(sprintf(
-        "The returned data frame cannot contain the original grouping variables : ",
+      abort(paste0(
+        "The returned data frame cannot contain the original grouping variables: ",
         paste(names(res)[bad], collapse = ", ")
       ))
     }

@@ -259,7 +259,7 @@ Inside dplyr verbs, you can access various properties of the "current" group usi
 ```{r cur_data}
 by_species %>%
   filter(n() > 1) %>% 
-  condense(mod = lm(mass ~ height, data = cur_data()))
+  mutate(mod = list(lm(mass ~ height, data = cur_data())))
 ```
 
 ### `cur_group()` and `cur_group_id()`
