@@ -52,8 +52,12 @@ test_that("n_distinct recycles length 1 vectors (#3685)", {
 })
 
 test_that("n_distinct() handles unnamed (#5069)", {
-  df <- data.frame(x = 1, y = 2)
-  expect_equal(n_distinct(df$x, df$y), 1L)
+  x <- iris$Sepal.Length
+  y <- iris$Sepal.Width
+  expect_equal(
+    n_distinct(iris$Sepal.Length, iris$Sepal.Width),
+    n_distinct(x, y)
+  )
 })
 
 test_that("n_distinct handles expressions in na.rm (#3686)", {
