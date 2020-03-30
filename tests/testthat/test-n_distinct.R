@@ -51,6 +51,11 @@ test_that("n_distinct recycles length 1 vectors (#3685)", {
   expect_equal(res$n5, c(3,2))
 })
 
+test_that("n_distinct() handles unnamed (#5069)", {
+  df <- data.frame(x = 1, y = 2)
+  expect_equal(n_distinct(df$x, df$y), 1L)
+})
+
 test_that("n_distinct handles expressions in na.rm (#3686)", {
   d <- tibble(x = c(1:4,NA))
   yes <- TRUE
