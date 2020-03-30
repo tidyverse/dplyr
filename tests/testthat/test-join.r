@@ -181,17 +181,14 @@ test_that("joins preserve groups", {
   gf1 <- tibble(a = 1:3) %>% group_by(a)
   gf2 <- tibble(a = rep(1:4, 2), b = 1) %>% group_by(b)
 
-  i <- count_regroups(out <- inner_join(gf1, gf2, by = "a"))
-  expect_equal(i, 1L)
+  out <- inner_join(gf1, gf2, by = "a")
   expect_equal(group_vars(out), "a")
 
-  i <- count_regroups(out <- semi_join(gf1, gf2, by = "a"))
-  expect_equal(i, 0L)
+  out <- semi_join(gf1, gf2, by = "a")
   expect_equal(group_vars(out), "a")
 
   # See comment in nest_join
-  i <- count_regroups(out <- nest_join(gf1, gf2, by = "a"))
-  expect_equal(i, 1L)
+  out <- nest_join(gf1, gf2, by = "a")
   expect_equal(group_vars(out), "a")
 })
 

@@ -458,13 +458,11 @@ test_that("filter() gives useful error messages", {
 test_that("filter preserves grouping", {
   gf <- group_by(tibble(g = c(1, 1, 1, 2, 2), x = 1:5), g)
 
-  i <- count_regroups(out <- filter(gf, x %in% c(3,4)))
-  expect_equal(i, 0L)
+  out <- filter(gf, x %in% c(3,4))
   expect_equal(group_vars(gf), "g")
   expect_equal(group_rows(out), list_of(1L, 2L))
 
-  i <- count_regroups(out <- filter(gf, x < 3))
-  expect_equal(i, 0L)
+  out <- filter(gf, x < 3)
   expect_equal(group_vars(gf), "g")
   expect_equal(group_rows(out), list_of(c(1L, 2L)))
 })
