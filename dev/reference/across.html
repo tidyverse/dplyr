@@ -212,17 +212,11 @@ semantics so you can easily select multiple variables. See
 
     <pre class="usage"><span class='fu'>across</span>(<span class='kw'>.cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='kw'>.fns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>.names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>c_across</span>(<span class='kw'>.cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>())</pre>
+<span class='fu'>c_across</span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>.cols</th>
-      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Columns to transform.
-Because <code>across()</code> is used within functions like <code><a href='summarise.html'>summarise()</a></code> and
-<code><a href='mutate.html'>mutate()</a></code>, you can't select or compute upon grouping variables.</p></td>
-    </tr>
     <tr>
       <th>.fns</th>
       <td><p>Functions to apply to each of the selected columns.
@@ -248,6 +242,12 @@ columns. This can use <code>{col}</code> to stand for the selected column name, 
 <code>{fn}</code> to stand for the name of the function being applied. The default
 (<code>NULL</code>) is equivalent to <code>"{col}"</code> for the single function case and
 <code>"{col}_{fn}"</code> for the case where a list is used for <code>.fns</code>.</p></td>
+    </tr>
+    <tr>
+      <th>cols, .cols</th>
+      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Columns to transform.
+Because <code>across()</code> is used within functions like <code><a href='summarise.html'>summarise()</a></code> and
+<code><a href='mutate.html'>mutate()</a></code>, you can't select or compute upon grouping variables.</p></td>
     </tr>
     </table>
 
