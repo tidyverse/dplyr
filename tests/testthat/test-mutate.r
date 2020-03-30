@@ -148,13 +148,11 @@ test_that("named data frames are packed (#2326, #3630)", {
 test_that("mutate preserves grouping", {
   gf <- group_by(tibble(x = 1:2, y = 2), x)
 
-  i <- count_regroups(out <- mutate(gf, x = 1))
-  expect_equal(i, 1L)
+  out <- mutate(gf, x = 1)
   expect_equal(group_vars(out), "x")
   expect_equal(nrow(group_data(out)), 1)
 
-  i <- count_regroups(out <- mutate(gf, z = 1))
-  expect_equal(i, 0)
+  out <- mutate(gf, z = 1)
   expect_equal(group_data(out), group_data(gf))
 })
 
