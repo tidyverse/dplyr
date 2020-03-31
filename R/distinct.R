@@ -138,7 +138,7 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 #' @export
 n_distinct <- function(..., na.rm = FALSE) {
   columns <- map(enquos(..., .named = TRUE), eval_tidy)
-  data <- tibble(!!!columns)
+  data <- as_tibble(columns, .name_repair = "minimal")
   if (isTRUE(na.rm)){
     data <- vec_slice(data, !reduce(map(data, vec_equal_na), `|`))
   }
