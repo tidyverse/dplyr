@@ -113,45 +113,24 @@ reference:
   - all_vars
   - vars
 
+news:
+  releases:
+  - text: "Version 0.8.4"
+    href: https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/
+  - text: "Version 0.8.3"
+    href: https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/
+  - text: "Version 0.8.2"
+    href: https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/
+  - text: "Version 0.8.1"
+    href: https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/
+  - text: "Version 0.8.0"
+    href: https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/
+  - text: "Version 0.7.5"
+    href: https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/
+
 navbar:
-  type: default
-  left:
-  - text: Intro
-    href: articles/dplyr.html
-  - text: Reference
-    href: reference/index.html
-  - text: Articles
-    menu:
-    - text: Two-table verbs
-      href: articles/two-table.html
-    - text: Window functions
-      href: articles/window-functions.html
-    - text: Databases with dbplyr
-      href: http://dbplyr.tidyverse.org/articles/dbplyr.html
-    - text: Programming with dplyr
-      href: articles/programming.html
-    - text: Compatibility
-      href: articles/compatibility.html
-  - text: News
-    menu:
-    - text: "Release notes"
-    - text: "Version 0.8.4"
-      href: https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/
-    - text: "Version 0.8.3"
-      href: https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/
-    - text: "Version 0.8.2"
-      href: https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/
-    - text: "Version 0.8.1"
-      href: https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/
-    - text: "Version 0.8.0"
-      href: https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/
-    - text: "Version 0.7.5"
-      href: https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/
-    - text: "Change log"
-      href: news/index.html
-  right:
-  - icon: fa-github fa-lg
-    href: https://github.com/tidyverse/dplyr
+  components:
+    home: ~
 
 development:
   mode: auto
