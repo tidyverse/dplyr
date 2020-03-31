@@ -324,15 +324,14 @@ join_mutate <- function(x, y, by, type,
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
   na_equal <- check_na_matches(na_matches)
 
-  x_in <- as_tibble(x, .name_repair = "minimal")
-  y_in <- as_tibble(y, .name_repair = "minimal")
+  y <- as_tibble(y, .name_repair = "minimal")
 
-  x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
+  x_key <- set_names(x[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y[vars$y$key], names(vars$y$key))
   rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal)
 
-  x_out <- set_names(x_in[vars$x$out], names(vars$x$out))
-  y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
+  x_out <- set_names(x[vars$x$out], names(vars$x$out))
+  y_out <- set_names(y[vars$y$out], names(vars$y$out))
 
   if (length(rows$y_extra) > 0L) {
     x_slicer <- c(rows$x, rep_along(rows$y_extra, NA_integer_))
@@ -342,7 +341,8 @@ join_mutate <- function(x, y, by, type,
     y_slicer <- rows$y
   }
 
-  out <- vec_slice(x_out, x_slicer)
+  out <- as_tibble(x_out)
+  out <- vec_slice(out, x_slicer)
   out[names(y_out)] <- vec_slice(y_out, y_slicer)
 
   if (!keep) {
@@ -355,7 +355,7 @@ join_mutate <- function(x, y, by, type,
     }
   }
 
-  dplyr_reconstruct(out, x)
+  dplyr_reconstruct(out, x_out)
 }
 
 join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
