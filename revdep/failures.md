@@ -271,7 +271,7 @@ Run `revdep_details(,"annotatr")` for more info
 * URL: https://github.com/apache/arrow/, https://arrow.apache.org/docs/r
 * BugReports: https://issues.apache.org/jira/projects/ARROW/issues
 * Date/Publication: 2020-02-14 12:20:05 UTC
-* Number of recursive dependencies: 52
+* Number of recursive dependencies: 53
 
 Run `revdep_details(,"arrow")` for more info
 
@@ -739,7 +739,7 @@ installing the source package ‘reactome.db’
 * URL: https://github.com/SandraCastroPearson/BivRec
 * BugReports: https://github.com/SandraCastroPearson/BivRec/issues
 * Date/Publication: 2020-01-15 00:20:11 UTC
-* Number of recursive dependencies: 52
+* Number of recursive dependencies: 53
 
 Run `revdep_details(,"BivRec")` for more info
 
@@ -1665,7 +1665,7 @@ ERROR: compilation failed for package ‘CaseBasedReasoning’
 * Version: 1.3.0
 * Source code: https://github.com/cran/CB2
 * Date/Publication: 2019-12-17 05:10:02 UTC
-* Number of recursive dependencies: 93
+* Number of recursive dependencies: 96
 
 Run `revdep_details(,"CB2")` for more info
 
@@ -1881,7 +1881,7 @@ ERROR: compilation failed for package ‘circumplex’
 * URL: https://github.com/mschubert/clustermq
 * BugReports: https://github.com/mschubert/clustermq/issues
 * Date/Publication: 2020-02-29 19:20:02 UTC
-* Number of recursive dependencies: 84
+* Number of recursive dependencies: 85
 
 Run `revdep_details(,"clustermq")` for more info
 
@@ -2244,7 +2244,7 @@ ERROR: compilation failed for package ‘COMPASS’
 * URL: https://annahutch.github.io/corrcoverage
 * BugReports: https://github.com/annahutch/corrcoverage/issues
 * Date/Publication: 2019-12-06 23:20:12 UTC
-* Number of recursive dependencies: 68
+* Number of recursive dependencies: 69
 
 Run `revdep_details(,"corrcoverage")` for more info
 
@@ -2774,7 +2774,7 @@ ERROR: compilation failed for package ‘dexter’
 * URL: https://socialresearchcentre.github.io/dialr, https://github.com/socialresearchcentre/dialr, https://github.com/socialresearchcentre/dialrjars, https://github.com/googlei18n/libphonenumber
 * BugReports: https://github.com/socialresearchcentre/dialr/issues
 * Date/Publication: 2019-06-27 07:40:10 UTC
-* Number of recursive dependencies: 58
+* Number of recursive dependencies: 59
 
 Run `revdep_details(,"dialr")` for more info
 
@@ -3193,7 +3193,7 @@ ERROR: compilation failed for package ‘dodgr’
 * Version: 1.0
 * Source code: https://github.com/cran/downscaledl
 * Date/Publication: 2019-10-24 16:20:10 UTC
-* Number of recursive dependencies: 43
+* Number of recursive dependencies: 44
 
 Run `revdep_details(,"downscaledl")` for more info
 
@@ -3471,7 +3471,7 @@ Run `revdep_details(,"DuoClustering2018")` for more info
 * Version: 0.5.2
 * Source code: https://github.com/cran/dynfrail
 * Date/Publication: 2017-10-30 10:11:49 UTC
-* Number of recursive dependencies: 72
+* Number of recursive dependencies: 75
 
 Run `revdep_details(,"dynfrail")` for more info
 
@@ -4134,7 +4134,7 @@ installing the source packages ‘org.Ag.eg.db’, ‘org.At.tair.db’, ‘org.
 * URL: https://github.com/Bohdan-Khomtchouk/geneXtendeR
 * BugReports: https://github.com/Bohdan-Khomtchouk/geneXtendeR/issues
 * Date/Publication: 2019-11-02
-* Number of recursive dependencies: 112
+* Number of recursive dependencies: 113
 
 Run `revdep_details(,"geneXtendeR")` for more info
 
@@ -4332,7 +4332,7 @@ ERROR: compilation failed for package ‘geodiv’
 * URL: https://github.com/Chris1221/goldi
 * BugReports: https://github.com/Chris1221/goldi/issues
 * Date/Publication: 2017-06-28 15:06:20 UTC
-* Number of recursive dependencies: 69
+* Number of recursive dependencies: 70
 
 Run `revdep_details(,"goldi")` for more info
 
@@ -4443,7 +4443,7 @@ ERROR: compilation failed for package ‘graphicalVAR’
 
 * Version: 1.1.0
 * Source code: https://github.com/cran/grasp2db
-* Number of recursive dependencies: 99
+* Number of recursive dependencies: 100
 
 Run `revdep_details(,"grasp2db")` for more info
 
@@ -4810,7 +4810,7 @@ ERROR: lazy loading failed for package ‘infercnv’
 * Source code: https://github.com/cran/iRF
 * URL: https://arxiv.org/abs/1706.08457
 * Date/Publication: 2017-07-26 04:57:45 UTC
-* Number of recursive dependencies: 60
+* Number of recursive dependencies: 61
 
 Run `revdep_details(,"iRF")` for more info
 
@@ -5950,7 +5950,7 @@ ERROR: compilation failed for package ‘nlmixr’
 * Version: 0.1.0
 * Source code: https://github.com/cran/NobBS
 * Date/Publication: 2020-03-03 10:40:02 UTC
-* Number of recursive dependencies: 24
+* Number of recursive dependencies: 25
 
 Run `revdep_details(,"NobBS")` for more info
 
@@ -6215,7 +6215,7 @@ ERROR: compilation failed for package ‘partition’
 * URL: https://github.com/CUD2V/pccc
 * BugReports: https://github.com/CUD2V/pccc/issues
 * Date/Publication: 2019-08-21 21:50:06 UTC
-* Number of recursive dependencies: 59
+* Number of recursive dependencies: 60
 
 Run `revdep_details(,"pccc")` for more info
 
@@ -6780,6 +6780,26 @@ ERROR: compilation failed for package ‘poppr’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/poppr/old/poppr.Rcheck/poppr’
 
 ```
+# portalr
+
+<details>
+
+* Version: 0.3.1
+* Source code: https://github.com/cran/portalr
+* URL: https://weecology.github.io/portalr/, https://github.com/weecology/portalr
+* BugReports: https://github.com/weecology/portalr/issues
+* Date/Publication: 2020-01-16 15:00:02 UTC
+* Number of recursive dependencies: 103
+
+Run `revdep_details(,"portalr")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
 # PPforest
 
 <details>
@@ -6967,7 +6987,7 @@ ERROR: compilation failed for package ‘psychonetrics’
 * URL: https://github.com/hadley/purrrlyr
 * BugReports: https://github.com/hadley/purrrlyr/issues
 * Date/Publication: 2019-03-15 23:40:02 UTC
-* Number of recursive dependencies: 46
+* Number of recursive dependencies: 47
 
 Run `revdep_details(,"purrrlyr")` for more info
 
@@ -8233,7 +8253,7 @@ ERROR: lazy loading failed for package ‘Rariant’
 * Version: 1.0.2
 * Source code: https://github.com/cran/rbridge
 * Date/Publication: 2020-02-29 11:40:03 UTC
-* Number of recursive dependencies: 38
+* Number of recursive dependencies: 39
 
 Run `revdep_details(,"rbridge")` for more info
 
@@ -8454,7 +8474,7 @@ ERROR: lazy loading failed for package ‘Rdrools’
 * Version: 1.0
 * Source code: https://github.com/cran/resautonet
 * Date/Publication: 2019-03-16 23:00:08 UTC
-* Number of recursive dependencies: 40
+* Number of recursive dependencies: 41
 
 Run `revdep_details(,"resautonet")` for more info
 
@@ -8506,7 +8526,7 @@ ERROR: compilation failed for package ‘resautonet’
 * Source code: https://github.com/cran/RGMQL
 * URL: http://www.bioinformatics.deib.polimi.it/genomic_computing/GMQL/
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 76
+* Number of recursive dependencies: 77
 
 Run `revdep_details(,"RGMQL")` for more info
 
@@ -8635,7 +8655,7 @@ ERROR: lazy loading failed for package ‘rmcfs’
 * Version: 1.0
 * Source code: https://github.com/cran/rpcdsearch
 * Date/Publication: 2016-01-18 10:05:38
-* Number of recursive dependencies: 51
+* Number of recursive dependencies: 52
 
 Run `revdep_details(,"rpcdsearch")` for more info
 
@@ -9147,7 +9167,7 @@ ERROR: compilation failed for package ‘RxODE’
 * URL: https://github.com/GeoBosh/sarima https://geobosh.github.io/sarima/
 * BugReports: https://github.com/GeoBosh/sarima/issues
 * Date/Publication: 2020-03-02 10:30:02 UTC
-* Number of recursive dependencies: 72
+* Number of recursive dependencies: 73
 
 Run `revdep_details(,"sarima")` for more info
 
@@ -9277,7 +9297,7 @@ ERROR: compilation failed for package ‘scanstatistics’
 * URL: https://github.com/hemberg-lab/scfind
 * BugReports: https://support.bioconductor.org/t/scfind/
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 75
+* Number of recursive dependencies: 76
 
 Run `revdep_details(,"scfind")` for more info
 
@@ -9532,7 +9552,7 @@ ERROR: compilation failed for package ‘SCPME’
 * URL: https://github.com/r-spatial/sf/, https://r-spatial.github.io/sf/
 * BugReports: https://github.com/r-spatial/sf/issues/
 * Date/Publication: 2020-01-28 11:20:07 UTC
-* Number of recursive dependencies: 131
+* Number of recursive dependencies: 145
 
 Run `revdep_details(,"sf")` for more info
 
@@ -9871,7 +9891,7 @@ ERROR: compilation failed for package ‘SimBIID’
 * URL: https://github.com/markvanderloo/simputation
 * BugReports: https://github.com/markvanderloo/simputation/issues
 * Date/Publication: 2019-05-20 17:10:03 UTC
-* Number of recursive dependencies: 94
+* Number of recursive dependencies: 95
 
 Run `revdep_details(,"simputation")` for more info
 
@@ -10049,7 +10069,7 @@ ERROR: compilation failed for package ‘simts’
 * URL: https://github.com/DavisVaughan/slider
 * BugReports: https://github.com/DavisVaughan/slider/issues
 * Date/Publication: 2020-02-23 17:10:02 UTC
-* Number of recursive dependencies: 59
+* Number of recursive dependencies: 60
 
 Run `revdep_details(,"slider")` for more info
 
@@ -10421,7 +10441,7 @@ ERROR: compilation failed for package ‘SpaCCr’
 * Source code: https://github.com/cran/stcos
 * URL: https://github.com/holans/ST-COS
 * Date/Publication: 2019-12-06 06:10:02 UTC
-* Number of recursive dependencies: 32
+* Number of recursive dependencies: 33
 
 Run `revdep_details(,"stcos")` for more info
 

@@ -13,6 +13,10 @@
 #' x <- rnorm(1e2)
 #' x[between(x, -1, 1)]
 between <- function(x, left, right) {
+  if (!is.null(attr(x, "class")) && !inherits(x, c("Date", "POSIXct"))) {
+    warn("between() called on numeric vector with S3 class");
+  }
+
   if (!is.double(x)) {
     x <- as.numeric(x)
   }
