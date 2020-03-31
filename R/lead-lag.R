@@ -42,6 +42,21 @@
 #' @name lead-lag
 NULL
 
+leadlag_default <- function(x, default) {
+  if (!identical(default, NA)) {
+    tryCatch(
+      vec_cast(default, x),
+      vctrs_error_incompatible_cast = function(cnd) {
+        abort(c(
+          glue("Incompatible type <{vec_ptype_full(default)}> for `default=`."),
+          i = glue("`x` is of type <{vec_ptype_full(x)}>.")
+        ))
+      }
+    )
+  }
+  default
+}
+
 #' @export
 #' @rdname lead-lag
 lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
@@ -63,6 +78,7 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
+  default <- leadlag_default(x, default)
   vec_c(
     vec_rep(default, n),
     vec_slice(x, seq_len(xlen - n))
@@ -86,6 +102,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
+  default <- leadlag_default(x, default)
   vec_c(
     vec_slice(x, -seq_len(n)),
     vec_rep(default, n)
