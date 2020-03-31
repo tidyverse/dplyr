@@ -145,10 +145,12 @@ test_that("distinct() handles auto splicing", {
 test_that("distinct preserves grouping", {
   gf <- group_by(tibble(x = c(1, 1, 2, 2), y = x), x)
 
-  out <- distinct(gf)
+  i <- count_regroups(out <- distinct(gf))
+  expect_equal(i, 0)
   expect_equal(group_vars(out), "x")
 
-  out <- distinct(gf, x = x + 2)
+  i <- count_regroups(out <- distinct(gf, x = x + 2))
+  expect_equal(i, 1)
   expect_equal(group_vars(out), "x")
 })
 
