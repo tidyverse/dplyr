@@ -293,6 +293,7 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
   name_var <- name %||% as_label(enexpr(y))
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""), keep = keep)
   y <- auto_copy(x, y, copy = copy)
+  y <- as_tibble(y, .name_repair = "minimal")
 
   x_key <- set_names(x[vars$x$key], names(vars$x$key))
   y_key <- set_names(y[vars$y$key], names(vars$y$key))
@@ -362,8 +363,11 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
   na_equal <- check_na_matches(na_matches)
 
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
+  x_in <- as_tibble(x, .name_repair = "minimal")
+  y_in <- as_tibble(y, .name_repair = "minimal")
+
+  x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
   idx <- switch(type,
     semi = vec_in(x_key, y_key, na_equal = na_equal),
