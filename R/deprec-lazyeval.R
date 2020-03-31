@@ -416,7 +416,7 @@ summarise_each_ <- function(tbl, funs, vars) {
   if (is_character(funs)) {
     funs <- funs_(funs)
   }
-  funs <- manip_at(tbl, vars, funs, enquo(funs), caller_env())
+  funs <- manip_at(tbl, vars, funs, enquo(funs), caller_env(), .caller = "summarise_each_")
   summarise(tbl, !!!funs)
 }
 
@@ -443,7 +443,7 @@ mutate_each_ <- function(tbl, funs, vars) {
       vars <- unname(vars)
     }
   }
-  funs <- manip_at(tbl, vars, funs, enquo(funs), caller_env())
+  funs <- manip_at(tbl, vars, funs, enquo(funs), caller_env(), .caller = "mutate_each_")
   mutate(tbl, !!!funs)
 }
 

@@ -51,7 +51,7 @@
 #' @export
 select_all <- function(.tbl, .funs = list(), ...) {
   lifecycle::signal_superseded("1.0.0", "select_all()")
-  funs <- as_fun_list(.funs, caller_env(), ...)
+  funs <- as_fun_list(.funs, caller_env(), ..., .caller = "select_all")
   vars <- tbl_vars(.tbl)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
@@ -60,7 +60,7 @@ select_all <- function(.tbl, .funs = list(), ...) {
 #' @export
 rename_all <- function(.tbl, .funs = list(), ...) {
   lifecycle::signal_superseded("1.0.0", "rename_with()")
-  funs <- as_fun_list(.funs, caller_env(), ...)
+  funs <- as_fun_list(.funs, caller_env(), ..., .caller = "rename_all")
   vars <- tbl_vars(.tbl)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)
@@ -69,9 +69,9 @@ rename_all <- function(.tbl, .funs = list(), ...) {
 #' @rdname select_all
 #' @export
 select_if <- function(.tbl, .predicate, .funs = list(), ...) {
-  funs <- as_fun_list(.funs, caller_env(), ...)
+  funs <- as_fun_list(.funs, caller_env(), ..., .caller = "select_if")
   if (!is_logical(.predicate)) {
-    .predicate <- as_fun_list(.predicate, caller_env())
+    .predicate <- as_fun_list(.predicate, caller_env(), .caller = "select_if", .caller_arg = ".predicate")
   }
   vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl)
@@ -80,9 +80,9 @@ select_if <- function(.tbl, .predicate, .funs = list(), ...) {
 #' @rdname select_all
 #' @export
 rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
-  funs <- as_fun_list(.funs, caller_env(), ...)
+  funs <- as_fun_list(.funs, caller_env(), ..., .caller = "rename_if")
   if (!is_logical(.predicate)) {
-    .predicate <- as_fun_list(.predicate, caller_env())
+    .predicate <- as_fun_list(.predicate, caller_env(), .caller = "rename_if", .caller_arg = ".predicate")
   }
   vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
@@ -93,7 +93,7 @@ rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
 #' @export
 select_at <- function(.tbl, .vars, .funs = list(), ...) {
   vars <- tbl_at_vars(.tbl, .vars, .include_group_vars = TRUE)
-  funs <- as_fun_list(.funs, caller_env(), ...)
+  funs <- as_fun_list(.funs, caller_env(), ..., .caller = "select_at")
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
 }
@@ -101,7 +101,7 @@ select_at <- function(.tbl, .vars, .funs = list(), ...) {
 #' @export
 rename_at <- function(.tbl, .vars, .funs = list(), ...) {
   vars <- tbl_at_vars(.tbl, .vars, .include_group_vars = TRUE)
-  funs <- as_fun_list(.funs, caller_env(), ...)
+  funs <- as_fun_list(.funs, caller_env(), ..., .caller = "rename_at")
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)
 }

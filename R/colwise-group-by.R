@@ -49,7 +49,7 @@
 #' iris %>% group_by(across(is.factor, as.character))
 group_by_all <- function(.tbl, .funs = list(), ..., .add = FALSE, .drop = group_by_drop_default(.tbl)) {
   lifecycle::signal_superseded("1.0.0", "group_by_all()", "across()")
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
+  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "group_by_all")
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
@@ -59,7 +59,7 @@ group_by_all <- function(.tbl, .funs = list(), ..., .add = FALSE, .drop = group_
 #' @export
 group_by_at <- function(.tbl, .vars, .funs = list(), ..., .add = FALSE, .drop = group_by_drop_default(.tbl)) {
   lifecycle::signal_superseded("1.0.0", "group_by_at()", "across()")
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "group_by_at")
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
@@ -69,7 +69,7 @@ group_by_at <- function(.tbl, .vars, .funs = list(), ..., .add = FALSE, .drop = 
 #' @export
 group_by_if <- function(.tbl, .predicate, .funs = list(), ..., .add = FALSE, .drop = group_by_drop_default(.tbl)) {
   lifecycle::signal_superseded("1.0.0", "group_by_if()", "across()")
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
+  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "group_by_if")
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   }

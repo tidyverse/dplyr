@@ -36,7 +36,7 @@
 #' # ->
 #' list(m1 = mean, m2 = "mean", m3 = ~ mean(.x, na.rm = TRUE))
 funs <- function(..., .args = list()) {
-  lifecycle::deprecate_warn("1.0.0", "funs()", details = paste_line(
+  lifecycle::deprecate_warn("0.8.0", "funs()", details = paste_line(
     "Please use a list of either functions or lambdas: ",
     "",
     "  # Simple named list: ",

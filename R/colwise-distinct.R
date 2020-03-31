@@ -43,7 +43,7 @@
 #' distinct(df, across(everything(), round))
 distinct_all <- function(.tbl, .funs = list(), ..., .keep_all = FALSE) {
   lifecycle::signal_superseded("1.0.0", "distinct_all()", "across()")
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
+  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "distinct_all")
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
@@ -53,7 +53,7 @@ distinct_all <- function(.tbl, .funs = list(), ..., .keep_all = FALSE) {
 #' @export
 distinct_at <- function(.tbl, .vars, .funs = list(), ..., .keep_all = FALSE) {
   lifecycle::signal_superseded("1.0.0", "distinct_at()", "across()")
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "distinct_at")
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
@@ -63,7 +63,7 @@ distinct_at <- function(.tbl, .vars, .funs = list(), ..., .keep_all = FALSE) {
 #' @export
 distinct_if <- function(.tbl, .predicate, .funs = list(), ..., .keep_all = FALSE) {
   lifecycle::signal_superseded("1.0.0", "distinct_if()", "across()")
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
+  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "distinct_if")
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   }
