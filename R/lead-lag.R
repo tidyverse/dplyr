@@ -44,12 +44,12 @@ NULL
 
 leadlag_default <- function(x, default) {
   if (!identical(default, NA)) {
-    tryCatch(
+    default <- tryCatch(
       vec_cast(default, x),
       vctrs_error_incompatible_cast = function(cnd) {
         abort(c(
-          glue("Incompatible type <{vec_ptype_full(default)}> for `default=`."),
-          i = glue("`x` is of type <{vec_ptype_full(x)}>.")
+          glue("Incompatible type for `default`."),
+          i = glue("<{vec_ptype_full(default)}> cannot be cast to type <{vec_ptype_full(x)}>.")
         ))
       }
     )
