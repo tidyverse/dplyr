@@ -68,7 +68,7 @@ dplyr_row_slice.data.frame <- function(data, i, ...) {
 
 #' @export
 dplyr_row_slice.grouped_df <- function(data, i, ..., preserve = FALSE) {
-  out <- vec_slice(data, i)
+  out <- vec_slice(as.data.frame(data), i)
 
   # Index into group_indices, then use that to restore the grouping structure
   groups <- group_data(data)
