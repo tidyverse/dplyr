@@ -177,21 +177,9 @@ add_computed_columns <- function(.data, vars) {
   needs_mutate <- have_name(vars) | !is_symbol
 
   if (any(needs_mutate)) {
-    out <- .data
-    col_names <- as.list(names(exprs_auto_name(vars)))
-
-    out_cols <- list()
-    # Process sequentially so we can keep the group names in order
-    # TODO: re-write so works with dbplyr too
-    for (i in which(needs_mutate)) {
-      cols <- mutate_cols(out, !!!vars[i])
-      out_cols[names(cols)] <- cols
-      col_names[[i]] <- names(cols)
-
-      out <- dplyr_col_modify(out, cols)
-    }
-
-    col_names <- unique(unlist(col_names))
+    cols <- mutate_cols(.data, !!!vars)
+    out <- dplyr_col_modify(.data, cols)
+    col_names <- names(cols)
   } else {
     out <- .data
     col_names <- names(exprs_auto_name(vars))
