@@ -120,6 +120,7 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
   out <- prep$data
   loc <- vec_unique_loc(as_tibble(out)[prep$vars])
 
+
   dplyr_row_slice(out[prep$keep], loc)
 }
 
@@ -136,8 +137,8 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 #' n_distinct(x)
 #' @export
 n_distinct <- function(..., na.rm = FALSE) {
-  # TODO: remove !!!list2() when tibble abandons `.data` masking
-  data <- tibble(!!!list2(...))
+  columns <- map(enquos(..., .named = TRUE), eval_tidy)
+  data <- as_tibble(columns, .name_repair = "minimal")
   if (isTRUE(na.rm)){
     data <- vec_slice(data, !reduce(map(data, vec_equal_na), `|`))
   }
