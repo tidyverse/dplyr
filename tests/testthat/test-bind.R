@@ -403,7 +403,7 @@ test_that("bind_cols infers classes from first result (#1692)", {
   expect_equal(class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame"))
   expect_equal(map_int(group_rows(res3), length), c(5, 5))
   expect_equal(class(bind_cols(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
-  expect_equal(class(bind_cols(d5, d1)), "data.frame")
+  expect_equal(class(bind_cols(d5, d1)), c("tbl_df", "tbl", "data.frame"))
 })
 
 test_that("bind_rows accepts data frame columns (#2015)", {

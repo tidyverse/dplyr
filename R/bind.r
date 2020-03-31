@@ -128,21 +128,34 @@ bind_rows <- function(..., .id = NULL) {
 #' @rdname bind
 bind_cols <- function(...) {
   dots <- list2(...)
-
   dots <- squash_if(dots, vec_is_list)
   dots <- discard(dots, is.null)
+
+  if (length(dots) == 0) {
+    return(tibble())
+  }
+
+  first <- dots[[1L]]
 
   # Strip names off of data frame components so that vec_cbind() unpacks them
   is_data_frame <- map_lgl(dots, is.data.frame)
   names(dots)[is_data_frame] <- ""
+  # And coerce to tibbles so dplyr can handle the container type
+  dots[is_data_frame] <- map(dots[is_data_frame], function(x) {
+    as_tibble(x, .name_repair = "minimal")
+  })
 
   out <- vec_cbind(!!!dots)
-  if (!any(map_lgl(dots, is.data.frame))) {
+
+  if (!any(is_data_frame)) {
+    # For backward compatibility
     out <- as_tibble(out)
+  } else {
+    if (is.data.frame(first)) {
+      out <- dplyr_reconstruct(out, first)
+    }
   }
-  if (length(dots) && is_tibble(first <- dots[[1L]])) {
-    out <- dplyr_reconstruct(out, first)
-  }
+
   out
 }
 
