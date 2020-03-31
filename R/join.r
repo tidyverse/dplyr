@@ -294,24 +294,28 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""), keep = keep)
   y <- auto_copy(x, y, copy = copy)
 
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
+  x_in <- as_tibble(x, .name_repair = "minimal")
+  y_in <- as_tibble(y, .name_repair = "minimal")
+
+  x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
   y_split <- vec_group_loc(y_key)
   matches <- vec_match(x_key, y_split$key)
   y_loc <- y_split$loc[matches]
 
-  out <- set_names(x[vars$x$out], names(vars$x$out))
+  out <- set_names(x_in[vars$x$out], names(vars$x$out))
 
   # Modify all columns in one step so that we only need to re-group once
   # Currently, this regroups too often, because it looks like we're always
   # changing the key vars because of the cast
   new_cols <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
 
-  y_out <- set_names(y[vars$y$out], names(vars$y$out))
+  y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
   new_cols[[name_var]] <- map(y_loc, vec_slice, x = y_out)
 
-  dplyr_col_modify(out, new_cols)
+  out <- dplyr_col_modify(out, new_cols)
+  dplyr_reconstruct(out, x)
 }
 
 # helpers -----------------------------------------------------------------
@@ -324,12 +328,15 @@ join_mutate <- function(x, y, by, type,
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
   na_equal <- check_na_matches(na_matches)
 
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
+  x_in <- as_tibble(x, .name_repair = "minimal")
+  y_in <- as_tibble(y, .name_repair = "minimal")
+
+  x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
   rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal)
 
-  x_out <- set_names(x[vars$x$out], names(vars$x$out))
-  y_out <- set_names(y[vars$y$out], names(vars$y$out))
+  x_out <- set_names(x_in[vars$x$out], names(vars$x$out))
+  y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
 
   if (length(rows$y_extra) > 0L) {
     x_slicer <- c(rows$x, rep_along(rows$y_extra, NA_integer_))
@@ -339,8 +346,7 @@ join_mutate <- function(x, y, by, type,
     y_slicer <- rows$y
   }
 
-  out <- as_tibble(x_out)
-  out <- vec_slice(out, x_slicer)
+  out <- vec_slice(x_out, x_slicer)
   out[names(y_out)] <- vec_slice(y_out, y_slicer)
 
   if (!keep) {
@@ -353,15 +359,18 @@ join_mutate <- function(x, y, by, type,
     }
   }
 
-  dplyr_reconstruct(out, x_out)
+  dplyr_reconstruct(out, x)
 }
 
 join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
   na_equal <- check_na_matches(na_matches)
 
-  x_key <- set_names(x[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y[vars$y$key], names(vars$y$key))
+  x_in <- as_tibble(x, .name_repair = "minimal")
+  y_in <- as_tibble(y, .name_repair = "minimal")
+
+  x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
+  y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
   idx <- switch(type,
     semi = vec_in(x_key, y_key, na_equal = na_equal),
