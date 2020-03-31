@@ -324,8 +324,8 @@ join_mutate <- function(x, y, by, type,
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
   na_equal <- check_na_matches(na_matches)
 
-  x_in <- as_tibble(x)
-  y_in <- as_tibble(y)
+  x_in <- as_tibble(x, .name_repair = "minimal")
+  y_in <- as_tibble(y, .name_repair = "minimal")
 
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
