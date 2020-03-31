@@ -63,9 +63,8 @@ params \%>\%
 params \%>\%
   rowwise(sim) \%>\%
   summarise(z = list(rnorm(n, mean, sd)))
-
-# Or use do() which do this automatically:
-params \%>\%
-  rowwise(sim) \%>\%
-  condense(z = rnorm(n, mean, sd))
+}
+\seealso{
+\code{\link[=nest_by]{nest_by()}} for a convenient way of creating rowwwise data frames
+with nested data.
 }
