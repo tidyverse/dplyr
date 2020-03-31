@@ -1,5 +1,5 @@
-release_date: Oct 7
-rel_release_date: days
+release_date: May 1
+rel_release_date: weeks
 my_news_url: https://github.com/tidyverse/dplyr/blob/master/NEWS.md
-release_version: 0.8.4
-release_details: Minor follow up release
+release_version: 1.0.0
+release_details: This is a major release. See https://www.tidyverse.org/blog/2020/03/dplyr-1-0-0-is-coming-soon/ for a detailed article about what's changed. 
