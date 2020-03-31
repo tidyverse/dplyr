@@ -29,7 +29,7 @@ as_fun_list <- function(.funs, .env, ..., .caller, .caller_arg = "...") {
           "'can\\'t contain quosures')"
         )
 
-        lifecycle::deprecate_soft(
+        lifecycle::deprecate_warn(
           "0.8.3", what,
           details = "Please use a one-sided formula, a function, or a function name",
           env = .env
