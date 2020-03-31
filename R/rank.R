@@ -20,7 +20,8 @@
 #'   of all values less than or equal to the current rank.
 #'
 #' * `ntile()`: a rough rank, which breaks the input vector into
-#'   `n` buckets.
+#'   `n` buckets. The size of the buckets may differ by up to one,
+#'   larger buckets have lower rank.
 #'
 #' @name ranking
 #' @param x a vector of values to rank. Missing values are left as is.
@@ -35,7 +36,7 @@
 #' cume_dist(x)
 #'
 #' ntile(x, 2)
-#' ntile(runif(100), 10)
+#' ntile(1:8, 3)
 #'
 #' # row_number can be used with single table verbs without specifying x
 #' # (for data frames and databases that support windowing)
@@ -59,12 +60,32 @@ row_number <- function(x) {
 #' @export
 #' @rdname ranking
 ntile <- function(x = row_number(), n) {
-  len <- sum(!is.na(x))
+  # Avoid recomputation in default case:
+  # row_number(row_number(x)) == row_number(x)
+  if (!missing(x)) {
+    x <- row_number(x)
+  }
+  len <- length(x) - sum(is.na(x))
+
+  n <- as.integer(floor(n))
 
   if (len == 0L) {
     rep(NA_integer_, length(x))
   } else {
-    as.integer(floor(n * (row_number(x) - 1) / len + 1))
+    n_larger <- as.integer(len %% n)
+    n_smaller <- as.integer(n - n_larger)
+    size <- len / n
+    larger_size <- as.integer(ceiling(size))
+    smaller_size <- as.integer(floor(size))
+
+    larger_threshold <- larger_size * n_larger
+    bins <- if_else(
+      x <= larger_threshold,
+      (x + (larger_size - 1L)) / larger_size,
+      (x + (- larger_threshold + smaller_size - 1L)) / smaller_size + n_larger
+    )
+
+    as.integer(floor(bins))
   }
 }
 
