@@ -26,6 +26,5 @@ incompatible default
 ====================
 
 > lag(c("1", "2", "3"), default = FALSE)
-Error: Incompatible type for `default`.
-i <logical> cannot be cast to type <character>.
+Error: Can't convert from `default` <logical> to `x` <character>.
 
