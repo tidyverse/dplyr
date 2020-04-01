@@ -221,6 +221,7 @@
 <p>Fix by prefixing with <code>dplyr::</code> as in <code><a href="../reference/mutate.html">dplyr::mutate(mtcars, x = dplyr::n())</a></code></p>
 </li>
 <li><p>The old data format for <code>grouped_df</code> is no longer supported. This may affect you if you have serialized grouped data frames to disk, e.g. with <code><a href="https://rdrr.io/r/base/readRDS.html">saveRDS()</a></code> or when using knitr caching.</p></li>
+<li><p><code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> are stricter about their inputs.</p></li>
 </ul>
 </div>
 <div id="new-features" class="section level2">
