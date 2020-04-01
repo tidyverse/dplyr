@@ -1,5 +1,10 @@
 ---
 title: "rowwise operations"
+description: >
+  In R, it's usually easier to do something for each column than for each row.
+  In this vignette you will learn how to use the `rowwise()` function to 
+  perform operations by row. Along the way, you'll learn about list-columns,
+  and see how you might perform simulations and modelling within dplyr verbs.
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{rowwise}

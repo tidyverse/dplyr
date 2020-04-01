@@ -113,6 +113,27 @@ reference:
   - all_vars
   - vars
 
+articles:
+- title: Get started
+  navbar: ~
+  contents:
+  - dplyr
+  - grouping
+  - two-table
+  - base
+
+- title: Automate
+  navbar: Automation
+  contents:
+  - colwise
+  - rowwise
+  - programming
+
+- title: Other
+  contents:
+  - window-functions
+  - compatibility
+
 news:
   releases:
   - text: "Version 0.8.4"

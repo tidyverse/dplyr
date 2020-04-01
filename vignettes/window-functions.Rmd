@@ -1,5 +1,9 @@
 ---
 title: "Window functions"
+description: >
+  Window functions are a useful family of functions that work with vectors
+  (returning an output the same size as the input), and combine naturally
+  with `mutate()` and `filter()`.
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Window functions}

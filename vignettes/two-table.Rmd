@@ -1,5 +1,11 @@
 ---
 title: "Two-table verbs"
+description: >
+  Most dplyr verbs work with a single data set, but most data analyses involve
+  multiple datasets. This vignette introduces you to the dplyr verbs that 
+  work with more one than data set, and introduces to the mutating joins
+  (which are used primarily to add new columns), filtering joins (which are
+  used to select rows), and the set operations.
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Two-table verbs}

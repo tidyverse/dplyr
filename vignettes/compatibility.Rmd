@@ -1,5 +1,8 @@
 ---
 title: "dplyr compatibility"
+description: >
+  A guide for package authors who need to work with multiple versions
+  of dplyr.
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{dplyr compatibility}
