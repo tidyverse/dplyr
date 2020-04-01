@@ -414,12 +414,12 @@
 <span class="co">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span>
 <span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span>
 <span class="no">rf</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">y2</span> <span class="kw">=</span> <span class="no">y</span>)
-<span class="co">#&gt; # A tibble: 2 x 3</span>
-<span class="co">#&gt; # Rowwise:  g</span>
-<span class="co">#&gt;       g y         y2       </span>
-<span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;list&gt;   </span>
-<span class="co">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span>
-<span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span>
+<span class="co">#&gt; Error: `mutate()` argument `y2` must be recyclable.</span>
+<span class="co">#&gt; ℹ `y2` is `y`.</span>
+<span class="co">#&gt; ℹ The error occured in row 1.</span>
+<span class="co">#&gt; ✖ `y2` can't be recycled to size 1.</span>
+<span class="co">#&gt; ℹ `y2` must be size 1, not 3.</span>
+<span class="co">#&gt; ℹ Did you mean: `y2 = list(y)` ?</span>
 <span class="no">rf</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">y2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">y</span>))
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt; # Rowwise:  g</span>

@@ -163,7 +163,7 @@
 <li>
 <code><a href="reference/arrange.html">arrange()</a></code> changes the ordering of the rows.</li>
 </ul>
-<p>These all combine naturally with <code><a href="reference/group_by.html">group_by()</a></code> which allows you to perform any operation “by group”. You can learn more about them in <code><a href="articles/dplyr.html">vignette("dplyr")</a></code>. As well as these single-table verbs, dplyr also provides a variety of two-table verbs, which you can learn about in <code><a href="articles/two-table.html">vignette("two-table")</a></code>.</p>
+<p>These all combine naturally with <code><a href="reference/group_by.html">group_by()</a></code> which allows you to perform any operation âby groupâ. You can learn more about them in <code><a href="articles/dplyr.html">vignette("dplyr")</a></code>. As well as these single-table verbs, dplyr also provides a variety of two-table verbs, which you can learn about in <code><a href="articles/two-table.html">vignette("two-table")</a></code>.</p>
 <p>If you are new to dplyr, the best place to start is the <a href="http://r4ds.had.co.nz/transform.html">data import chapter</a> in R for data science.</p>
 </div>
 <div id="backends" class="section level2">
@@ -208,11 +208,11 @@
 <span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender homeworld</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 &lt;NA&gt;   Tatooine </span>
-<span class="co">#&gt; 2 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 &lt;NA&gt;   Naboo    </span>
+<span class="co">#&gt; 2 R2-D2     96    32 &lt;NA&gt;       white, blâ¦ red               33 &lt;NA&gt;   Naboo    </span>
 <span class="co">#&gt; 3 R5-D4     97    32 &lt;NA&gt;       white, red red               NA &lt;NA&gt;   Tatooine </span>
 <span class="co">#&gt; 4 IG-88    200   140 none       metal      red               15 none   &lt;NA&gt;     </span>
 <span class="co">#&gt; 5 BB8       NA    NA none       none       black             NA none   &lt;NA&gt;     </span>
-<span class="co">#&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span>
+<span class="co">#&gt; # â¦ with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span>
 <span class="co">#&gt; #   starships &lt;list&gt;</span>
 
 <span class="no">starwars</span> <span class="kw">%&gt;%</span>
@@ -225,7 +225,7 @@
 <span class="co">#&gt; 3 R2-D2          &lt;NA&gt;       white, blue red      </span>
 <span class="co">#&gt; 4 Darth Vader    none       white       yellow   </span>
 <span class="co">#&gt; 5 Leia Organa    brown      light       brown    </span>
-<span class="co">#&gt; # … with 82 more rows</span>
+<span class="co">#&gt; # â¦ with 82 more rows</span>
 
 <span class="no">starwars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/mutate.html">mutate</a></span>(<span class="no">name</span>, <span class="kw">bmi</span> <span class="kw">=</span> <span class="no">mass</span> / ((<span class="no">height</span> / <span class="fl">100</span>)  ^ <span class="fl">2</span>)) <span class="kw">%&gt;%</span>
@@ -238,19 +238,19 @@
 <span class="co">#&gt; 3 R2-D2              96    32  34.7</span>
 <span class="co">#&gt; 4 Darth Vader       202   136  33.3</span>
 <span class="co">#&gt; 5 Leia Organa       150    49  21.8</span>
-<span class="co">#&gt; # … with 82 more rows</span>
+<span class="co">#&gt; # â¦ with 82 more rows</span>
 
 <span class="no">starwars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/arrange.html">arrange</a></span>(<span class="fu"><a href="reference/desc.html">desc</a></span>(<span class="no">mass</span>))
 <span class="co">#&gt; # A tibble: 87 x 13</span>
 <span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender homeworld</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herma… Nal Hutta</span>
-<span class="co">#&gt; 2 Grie…    216   159 none       brown, wh… green, y…       NA   male   Kalee    </span>
+<span class="co">#&gt; 1 Jabbâ¦    175  1358 &lt;NA&gt;       green-tanâ¦ orange         600   hermaâ¦ Nal Hutta</span>
+<span class="co">#&gt; 2 Grieâ¦    216   159 none       brown, whâ¦ green, yâ¦       NA   male   Kalee    </span>
 <span class="co">#&gt; 3 IG-88    200   140 none       metal      red             15   none   &lt;NA&gt;     </span>
-<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male   Tatooine </span>
-<span class="co">#&gt; 5 Tarf…    234   136 brown      brown      blue            NA   male   Kashyyyk </span>
-<span class="co">#&gt; # … with 82 more rows, and 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; 4 Dartâ¦    202   136 none       white      yellow          41.9 male   Tatooine </span>
+<span class="co">#&gt; 5 Tarfâ¦    234   136 brown      brown      blue            NA   male   Kashyyyk </span>
+<span class="co">#&gt; # â¦ with 82 more rows, and 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span>
 <span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
 <span class="no">starwars</span> <span class="kw">%&gt;%</span>
@@ -269,7 +269,7 @@
 <span class="co">#&gt; 3 Human       35  82.8</span>
 <span class="co">#&gt; 4 Kaminoan     2  88  </span>
 <span class="co">#&gt; 5 Mirialan     2  53.1</span>
-<span class="co">#&gt; # … with 3 more rows</span></pre></div>
+<span class="co">#&gt; # â¦ with 3 more rows</span></pre></div>
 </div>
 <div id="getting-help" class="section level2">
 <h2 class="hasAnchor">
