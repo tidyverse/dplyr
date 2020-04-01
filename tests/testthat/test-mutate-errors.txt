@@ -94,6 +94,14 @@ x `int` can't be recycled to size 1.
 i `int` must be size 1, not 5.
 i Did you mean: `int = list(1:5)` ?
 
+> tibble(y = list(1:3, "a")) %>% rowwise() %>% mutate(y2 = y)
+Error: `mutate()` argument `y2` must be recyclable.
+i `y2` is `y`.
+i The error occured in row 1.
+x `y2` can't be recycled to size 1.
+i `y2` must be size 1, not 3.
+i Did you mean: `y2 = list(y)` ?
+
 
 .data pronoun
 =============
