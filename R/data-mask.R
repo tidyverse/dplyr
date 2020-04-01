@@ -21,11 +21,11 @@ DataMask <- R6Class("DataMask",
       resolve_chunks <- if (inherits(data, "rowwise_df")) {
         function(index) {
           col <- .subset2(data, index)
-          if (is_list(col) && !is.data.frame(col)) {
-            map(vec_chop(col, rows), `[[`, 1L)
-          } else {
-            vec_chop(col, rows)
+          res <- vec_chop(col, rows)
+          if (vec_is_list(col)) {
+            res <- map(res, `[[`, 1L)
           }
+          res
         }
       } else if (is_grouped_df(data)) {
         function(index) vec_chop(.subset2(data, index), rows)
@@ -62,7 +62,7 @@ DataMask <- R6Class("DataMask",
     add = function(name, chunks) {
       if (inherits(private$data, "rowwise_df")){
         is_scalar_list <- function(.x) {
-          is.list(.x) && !is.data.frame(.x) && length(.x) == 1L
+          vec_is_list(.x) && length(.x) == 1L
         }
         if (all(map_lgl(chunks, is_scalar_list))) {
           chunks <- map(chunks, `[[`, 1L)
@@ -97,6 +97,22 @@ DataMask <- R6Class("DataMask",
       self$set(name, NULL)
       rm(list = name, envir = private$bindings)
     },
+
+    resolve = function(name) {
+      chunks <- self$get_resolved(name)
+
+      if (is.null(chunks)) {
+        chunks <- vec_chop(private$data[[name]], private$rows)
+        if (inherits(private$data, "rowwise_df") && vec_is_list(result)) {
+          self$set(name, map(chunks, `[[`, 1))
+        } else {
+          self$set(name, chunks)
+        }
+      }
+
+      chunks
+    },
+
 
     get_resolved = function(name) {
       private$resolved[[name]]

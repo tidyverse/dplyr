@@ -143,6 +143,15 @@ test_that("named data frames are packed (#2326, #3630)", {
   expect_equal(out, tibble(x = 1, y = tibble(a = 1)))
 })
 
+test_that("mutate() correctly handles symbols in rowwise data frames (#4992)", {
+  res <- tibble(g = 1:2, y = list(1:3, "a")) %>%
+    rowwise(g) %>%
+    mutate(l1 = length(y), y2 = y, l2 = length(y))
+  expect_equal(res$l1, c(3L, 1L))
+  expect_equal(res$l2, c(3L, 1L))
+  expect_equal(res$y, res$y)
+})
+
 # output types ------------------------------------------------------------
 
 test_that("mutate preserves grouping", {

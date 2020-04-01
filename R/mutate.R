@@ -251,10 +251,9 @@ mutate_cols <- function(.data, ...) {
           result <- new_columns[[name]]
           chunks <- mask$get_resolved(name)
         } else if (name %in% names(.data)) {
-          # already have result but need to chop() and remember
+          # column from the original data
           result <- .data[[name]]
-          chunks <- vec_chop(result, rows)
-          mask$set(name, chunks)
+          chunks <- mask$resolve(name)
         }
       }
 
