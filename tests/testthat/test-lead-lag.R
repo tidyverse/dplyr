@@ -76,5 +76,8 @@ test_that("lead() / lag() give meaningful errors", {
 
     "# ts"
     lag(ts(1:10))
+
+    "# incompatible default"
+    lag(c("1", "2", "3"), default = FALSE)
   })
 })
