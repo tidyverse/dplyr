@@ -102,12 +102,12 @@ DataMask <- R6Class("DataMask",
       chunks <- self$get_resolved(name)
 
       if (is.null(chunks)) {
-        chunks <- vec_chop(private$data[[name]], private$rows)
-        if (inherits(private$data, "rowwise_df") && vec_is_list(result)) {
-          self$set(name, map(chunks, `[[`, 1))
-        } else {
-          self$set(name, chunks)
+        column <- private$data[[name]]
+        chunks <- vec_chop(column, private$rows)
+        if (inherits(private$data, "rowwise_df") && vec_is_list(column)) {
+          chunks <- map(chunks, `[[`, 1)
         }
+        self$set(name, chunks)
       }
 
       chunks
