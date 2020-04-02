@@ -20,7 +20,8 @@
 <!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="dplyr &lt;-&gt; base R">
-<meta property="og:description" content="dplyr">
+<meta property="og:description" content="How does dplyr compare to base R? This vignette describes the main differences in philosophy, and shows the base R code most closely equivalent to each dplyr verb.
+">
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
@@ -58,7 +59,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -71,19 +72,28 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">colwise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">rowwise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider">
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -94,7 +104,7 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li class="dropdown-header">Release notes</li>
+<li class="dropdown-header">Releases</li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -113,14 +123,15 @@
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider">
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -294,38 +305,38 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     8</span>
-<span class="co">#&gt; 2     7</span>
-<span class="co">#&gt; 3     4</span>
-<span class="co">#&gt; 4     5</span>
+<span class="co">#&gt; 1     1</span>
+<span class="co">#&gt; 2     4</span>
+<span class="co">#&gt; 3    10</span>
+<span class="co">#&gt; 4     9</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span>(<span class="no">x</span>, <span class="kw">.keep_all</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     8     7</span>
-<span class="co">#&gt; 2     7     2</span>
-<span class="co">#&gt; 3     4    10</span>
-<span class="co">#&gt; 4     5     5</span>
+<span class="co">#&gt; 1     1     6</span>
+<span class="co">#&gt; 2     4     6</span>
+<span class="co">#&gt; 3    10     4</span>
+<span class="co">#&gt; 4     9     9</span>
 <span class="co">#&gt; # … with 6 more rows</span></pre></body></html></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">df</span>[<span class="st">"x"</span>]) <span class="co"># selected columns</span>
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     8</span>
-<span class="co">#&gt; 2     7</span>
-<span class="co">#&gt; 3     4</span>
-<span class="co">#&gt; 4     5</span>
+<span class="co">#&gt; 1     1</span>
+<span class="co">#&gt; 2     4</span>
+<span class="co">#&gt; 3    10</span>
+<span class="co">#&gt; 4     9</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="no">df</span>[!<span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(<span class="no">df</span>$<span class="no">x</span>), , <span class="kw">drop</span> <span class="kw">=</span> <span class="fl">FALSE</span>] <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     8     7</span>
-<span class="co">#&gt; 2     7     2</span>
-<span class="co">#&gt; 3     4    10</span>
-<span class="co">#&gt; 4     5     5</span>
+<span class="co">#&gt; 1     1     6</span>
+<span class="co">#&gt; 2     4     6</span>
+<span class="co">#&gt; 3    10     4</span>
+<span class="co">#&gt; 4     9     9</span>
 <span class="co">#&gt; # … with 6 more rows</span></pre></body></html></div>
 </div>
 <div id="filter-return-rows-with-matching-conditions" class="section level2">
@@ -420,20 +431,20 @@
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;       x     y     z    z2</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     8     7    15   225</span>
-<span class="co">#&gt; 2     7     2     9    81</span>
-<span class="co">#&gt; 3     4    10    14   196</span>
-<span class="co">#&gt; 4     5     5    10   100</span>
+<span class="co">#&gt; 1     1     6     7    49</span>
+<span class="co">#&gt; 2     4     6    10   100</span>
+<span class="co">#&gt; 3    10     4    14   196</span>
+<span class="co">#&gt; 4     1     2     3     9</span>
 <span class="co">#&gt; # … with 96 more rows</span></pre></body></html></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/transform.html">transform</a></span>(<span class="no">df</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="no">x</span> + <span class="no">y</span>, <span class="kw">z2</span> <span class="kw">=</span> (<span class="no">x</span> + <span class="no">y</span>) ^ <span class="fl">2</span>))
-<span class="co">#&gt;   x  y  z  z2</span>
-<span class="co">#&gt; 1 8  7 15 225</span>
-<span class="co">#&gt; 2 7  2  9  81</span>
-<span class="co">#&gt; 3 4 10 14 196</span>
-<span class="co">#&gt; 4 5  5 10 100</span>
-<span class="co">#&gt; 5 9  2 11 121</span>
-<span class="co">#&gt; 6 4  7 11 121</span></pre></body></html></div>
+<span class="co">#&gt;    x y  z  z2</span>
+<span class="co">#&gt; 1  1 6  7  49</span>
+<span class="co">#&gt; 2  4 6 10 100</span>
+<span class="co">#&gt; 3 10 4 14 196</span>
+<span class="co">#&gt; 4  1 2  3   9</span>
+<span class="co">#&gt; 5  9 9 18 324</span>
+<span class="co">#&gt; 6  3 3  6  36</span></pre></body></html></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">mtcars</span>$<span class="no">cyl2</span> <span class="kw">&lt;-</span> <span class="no">mtcars</span>$<span class="no">cyl</span> * <span class="fl">2</span>
 <span class="no">mtcars</span>$<span class="no">cyl4</span> <span class="kw">&lt;-</span> <span class="no">mtcars</span>$<span class="no">cyl2</span> * <span class="fl">2</span></pre></body></html></div>

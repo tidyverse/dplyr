@@ -20,7 +20,8 @@
 <!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Introduction to dplyr">
-<meta property="og:description" content="dplyr">
+<meta property="og:description" content="Start here if this is your first time using dplyr. You'll learn the basic    philosophy, the most important data manipulation verbs, and the pipe, `%&gt;%`,  which allows you to combine multiple verbs together to solve real problems.
+">
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
@@ -58,7 +59,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -71,19 +72,28 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">colwise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">rowwise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider">
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -94,7 +104,7 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li class="dropdown-header">Release notes</li>
+<li class="dropdown-header">Releases</li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -113,14 +123,15 @@
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider">
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -166,7 +177,6 @@
 <li><p>It uses efficient backends, so you spend less time waiting for the computer.</p></li>
 </ul>
 <p>This document introduces you to dplyr’s basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you’ve installed, read <code>vignette("dbplyr")</code> to learn more.</p>
-<p>All of the dplyr functions take a data frame (or tibble) as the first argument. Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so the result from one step is then “piped” into the next step. You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as “then”).</p>
 <div id="data-starwars" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-starwars" class="anchor"></a>Data: starwars</h2>
@@ -188,38 +198,42 @@
 <div id="single-table-verbs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single-table-verbs" class="anchor"></a>Single table verbs</h2>
-<p>dplyr aims to provide a function for each basic verb of data manipulation.</p>
+<p>dplyr aims to provide a function for each basic verb of data manipulation. These verbs can be organised into three categories based on the component of the dataset that they work with:</p>
+<ul>
+<li>Rows:
 <ul>
 <li>
-<p>row operations:</p>
-<ul>
+<code><a href="../reference/filter.html">filter()</a></code> chooses rows based on column values.</li>
 <li>
-<code><a href="../reference/filter.html">filter()</a></code> to choose cases based on their values.</li>
+<code><a href="../reference/slice.html">slice()</a></code> chooses rows based on location.</li>
 <li>
-<code><a href="../reference/arrange.html">arrange()</a></code> to reorder the cases.</li>
-<li>
-<code><a href="../reference/slice.html">slice()</a></code> to choose cases based on their position.</li>
+<code><a href="../reference/arrange.html">arrange()</a></code> changes the order of the rows.</li>
 </ul>
 </li>
-<li>
-<p>column operations:</p>
+<li>Columns:
 <ul>
 <li>
-<code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/rename.html">rename()</a></code> to select variables based on their names.</li>
+<code><a href="../reference/select.html">select()</a></code> changes whether or not a column is included.</li>
 <li>
-<code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/mutate.html">transmute()</a></code> to add new variables that are functions of existing variables.</li>
+<code><a href="../reference/rename.html">rename()</a></code> changes the name of columns.</li>
 <li>
-<code><a href="../reference/relocate.html">relocate()</a></code> to change the order of the variables.</li>
+<code><a href="../reference/mutate.html">mutate()</a></code> changes the values of columns and creates new columns.</li>
+<li>
+<code><a href="../reference/relocate.html">relocate()</a></code> changes the order of the columns.</li>
 </ul>
 </li>
-<li>
-<p>summarize operation:</p>
+<li>Groups of rows:
 <ul>
 <li>
-<code><a href="../reference/summarise.html">summarise()</a></code> to condense multiple values to a single value.</li>
+<code><a href="../reference/summarise.html">summarise()</a></code> collapses a group into a single row.</li>
 </ul>
 </li>
 </ul>
+<div id="the-pipe" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-pipe" class="anchor"></a>The pipe</h3>
+<p>All of the dplyr functions take a data frame (or tibble) as the first argument. Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so the result from one step is then “piped” into the next step. You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as “then”).</p>
+</div>
 <div id="filter-rows-with-filter" class="section level3">
 <h3 class="hasAnchor">
 <a href="#filter-rows-with-filter" class="anchor"></a>Filter rows with <code>filter()</code>

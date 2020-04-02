@@ -99,7 +99,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -112,19 +112,28 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">colwise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">rowwise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -135,7 +144,7 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
+    <li class="dropdown-header">Releases</li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -154,14 +163,15 @@
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -188,28 +198,42 @@
     </div>
 
     <div class="section ">
-      <h3>All vignettes</h3>
+      <h3>Get started</h3>
       <p class="section-desc"></p>
 
       <dl>
-        <dt><a href="base.html">dplyr &lt;-&gt; base R</a></dt>
-        <dd></dt>
-        <dt><a href="colwise.html">colwise operations</a></dt>
-        <dd></dt>
-        <dt><a href="compatibility.html">dplyr compatibility</a></dt>
-        <dd></dt>
         <dt><a href="dplyr.html">Introduction to dplyr</a></dt>
-        <dd></dt>
+        <dd><p>Start here if this is your first time using dplyr. Youâll learn the basic philosophy, the most important data manipulation verbs, and the pipe, <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code>, which allows you to combine multiple verbs together to solve real problems.</p></dt>
         <dt><a href="grouping.html">Grouped data</a></dt>
-        <dd></dt>
-        <dt><a href="programming.html">Programming with dplyr</a></dt>
-        <dd></dt>
-        <dt><a href="rowwise.html">rowwise operations</a></dt>
-        <dd></dt>
+        <dd><p>To unlock the full potential of dplyr, you need to understand how each verb interacts with grouping. This vignette shows you how to manipulate grouping, how each verb changes its behaviour when working with grouped data, and how you can access data about the âcurrentâ group from within a verb.</p></dt>
         <dt><a href="two-table.html">Two-table verbs</a></dt>
-        <dd></dt>
+        <dd><p>Most dplyr verbs work with a single data set, but most data analyses involve multiple datasets. This vignette introduces you to the dplyr verbs that work with more one than data set, and introduces to the mutating joins, filtering joins, and the set operations.</p></dt>
+        <dt><a href="base.html">dplyr &lt;-&gt; base R</a></dt>
+        <dd><p>How does dplyr compare to base R? This vignette describes the main differences in philosophy, and shows the base R code most closely equivalent to each dplyr verb.</p></dt>
+      </dl>
+    </div>
+    <div class="section ">
+      <h3>Automate</h3>
+      <p class="section-desc"></p>
+
+      <dl>
+        <dt><a href="colwise.html">colwise operations</a></dt>
+        <dd><p>Learn how to easily repeat the same operation across multiple columns using <code><a href="../reference/across.html">across()</a></code>.</p></dt>
+        <dt><a href="rowwise.html">rowwise operations</a></dt>
+        <dd><p>In R, itâs usually easier to do something for each column than for each row. In this vignette you will learn how to use the <code><a href="../reference/rowwise.html">rowwise()</a></code> function to perform operations by row. Along the way, youâll learn about list-columns, and see how you might perform simulations and modelling within dplyr verbs.</p></dt>
+        <dt><a href="programming.html">Programming with dplyr</a></dt>
+        <dd><p>Most dplyr verbs use âtidy evaluationâ, a special type of non-standard evaluation. In this vignette, youâll learn the two basic forms, data masking and tidy selection, and how you can program with them using either functions or for loops.</p></dt>
+      </dl>
+    </div>
+    <div class="section ">
+      <h3>Other</h3>
+      <p class="section-desc"></p>
+
+      <dl>
         <dt><a href="window-functions.html">Window functions</a></dt>
-        <dd></dt>
+        <dd><p>Window functions are a useful family of functions that work with vectors (returning an output the same size as the input), and combine naturally with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code>.</p></dt>
+        <dt><a href="compatibility.html">dplyr compatibility</a></dt>
+        <dd><p>A guide for package authors who need to work with multiple versions of dplyr.</p></dt>
       </dl>
     </div>
   </div>
