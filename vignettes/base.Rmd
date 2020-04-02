@@ -1,6 +1,10 @@
 ---
 title: "dplyr <-> base R"
 output: rmarkdown::html_vignette
+description: >
+  How does dplyr compare to base R? This vignette describes the main differences
+  in philosophy, and shows the base R code most closely equivalent to each
+  dplyr verb.
 vignette: >
   %\VignetteIndexEntry{From base R to dplyr}
   %\VignetteEngine{knitr::rmarkdown}

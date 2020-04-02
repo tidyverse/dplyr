@@ -1,6 +1,10 @@
 ---
 title: "Introduction to dplyr"
 output: rmarkdown::html_vignette
+description: >
+  Start here if this is your first time using dplyr. You'll learn the basic   
+  philosophy, the most important data manipulation verbs, and the pipe, `%>%`, 
+  which allows you to combine multiple verbs together to solve real problems.
 vignette: >
   %\VignetteIndexEntry{Introduction to dplyr}
   %\VignetteEngine{knitr::rmarkdown}
@@ -34,8 +38,6 @@ The dplyr package makes these steps fast and easy:
 
 This document introduces you to dplyr's basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you've installed, read `vignette("dbplyr")` to learn more.
 
-All of the dplyr functions take a data frame (or tibble) as the first argument.  Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so the result from one step is then "piped" into the next step.  You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"). 
-
 ## Data: starwars
 
 To explore the basic data manipulation verbs of dplyr, we'll use the dataset `starwars`. This dataset contains `r nrow(starwars)` characters and comes from the [Star Wars API](http://swapi.co), and is documented in `?starwars`
@@ -49,25 +51,26 @@ Note that `starwars` is a tibble, a modern reimagining of the data frame. It's p
 
 ## Single table verbs
 
-dplyr aims to provide a function for each basic verb of data manipulation.
+dplyr aims to provide a function for each basic verb of data manipulation. These verbs can be organised into three categories based on the component of the dataset that they work with:
 
-* row operations:
-
-  * `filter()` to choose cases based on their values.
-  * `arrange()` to reorder the cases.
-  * `slice()` to choose cases based on their position.
+* Rows:
+  * `filter()` chooses rows based on column values.
+  * `slice()` chooses rows based on location.
+  * `arrange()` changes the order of the rows.
   
-* column operations:
+* Columns:
+  * `select()` changes whether or not a column is included.
+  * `rename()` changes the name of columns.
+  * `mutate()` changes the values of columns and creates new columns.
+  * `relocate()` changes the order of the columns.
 
-  * `select()` and `rename()` to select variables based on their names.
-  * `mutate()` and `transmute()` to add new variables that are functions of existing variables.
-  * `relocate()` to change the order of the variables.
- 
-
-* summarize operation:
-
-  * `summarise()` to condense multiple values to a single value.
+* Groups of rows:
+  * `summarise()` collapses a group into a single row.
   
+### The pipe
+
+All of the dplyr functions take a data frame (or tibble) as the first argument.  Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so the result from one step is then "piped" into the next step.  You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"). 
+
 ### Filter rows with `filter()`
 
 `filter()` allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is `TRUE`.
