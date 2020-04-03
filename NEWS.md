@@ -39,6 +39,13 @@
 
 * `lead()` and `lag()` are stricter about their inputs. 
 
+* Extending data frames requires that the extra class or classes are added first, not last. 
+  Having the exta class at the end causes some vctrs operations to fail with a mesage like:
+  
+  ```
+  Input must be a vector, not a `<data.frame/...>` object
+  ```
+
 ## New features
 
 * The `cur_` functions (`cur_data()`, `cur_group()`, `cur_group_id()`, 
