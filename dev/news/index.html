@@ -232,6 +232,10 @@
 </li>
 <li><p>The old data format for <code>grouped_df</code> is no longer supported. This may affect you if you have serialized grouped data frames to disk, e.g.Â with <code><a href="https://rdrr.io/r/base/readRDS.html">saveRDS()</a></code> or when using knitr caching.</p></li>
 <li><p><code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> are stricter about their inputs.</p></li>
+<li>
+<p>Extending data frames requires that the extra class or classes are added first, not last. Having the exta class at the end causes some vctrs operations to fail with a mesage like:</p>
+<pre><code>Input must be a vector, not a `&lt;data.frame/...&gt;` object</code></pre>
+</li>
 </ul>
 </div>
 <div id="new-features" class="section level2">
@@ -569,12 +573,12 @@
 <li><p><code><a href="../reference/group_trim.html">group_trim()</a></code> drops unused levels of factors that are used as grouping variables.</p></li>
 <li>
 <p><code><a href="../reference/nest_join.html">nest_join()</a></code> creates a list column of the matching rows. <code><a href="../reference/nest_join.html">nest_join()</a></code> + <code><a href="https://tidyr.tidyverse.org/reference/nest.html">tidyr::unnest()</a></code> is equivalent to <code>inner_join</code> (<a href='https://github.com/tidyverse/dplyr/issues/3570'>#3570</a>).</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="no">band_members</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="no">band_members</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/nest_join.html">nest_join</a></span>(<span class="no">band_instruments</span>)</pre></div>
 </li>
 <li>
 <p><code><a href="../reference/group_nest.html">group_nest()</a></code> is similar to <code><a href="https://tidyr.tidyverse.org/reference/nest.html">tidyr::nest()</a></code> but focusing on the variables to nest by instead of the nested columns.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">species</span>, <span class="no">homeworld</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_nest.html">group_nest</a></span>()
 
@@ -583,7 +587,7 @@
 </li>
 <li>
 <p><code><a href="../reference/group_split.html">group_split()</a></code> is similar to <code><a href="https://rdrr.io/r/base/split.html">base::split()</a></code> but operating on existing groups when applied to a grouped data frame, or subject to the data mask on ungrouped data frames</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">species</span>, <span class="no">homeworld</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_split.html">group_split</a></span>()
 
@@ -592,7 +596,7 @@
 </li>
 <li>
 <p><code><a href="../reference/group_map.html">group_map()</a></code> and <code><a href="../reference/group_map.html">group_walk()</a></code> are purrr-like functions to iterate on groups of a grouped data frame, jointly identified by the data subset (exposed as <code>.x</code>) and the data key (a one row tibble, exposed as <code>.y</code>). <code><a href="../reference/group_map.html">group_map()</a></code> returns a grouped data frame that combines the results of the function, <code><a href="../reference/group_map.html">group_walk()</a></code> is only used for side effects and returns its input invisibly.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">mtcars</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">mtcars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">cyl</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_map.html">group_map</a></span>(~ <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">.x</span>, <span class="fl">2L</span>))</pre></div>
 </li>
@@ -605,7 +609,7 @@
 <ul>
 <li>
 <p><code><a href="../reference/group_by.html">group_by()</a></code> gains the <code>.drop</code> argument. When set to <code>FALSE</code> the groups are generated based on factor levels, hence some groups may be empty (<a href='https://github.com/tidyverse/dplyr/issues/341'>#341</a>).</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="co"># 3 groups</span>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="co"># 3 groups</span>
 <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(
   <span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">2</span>,
   <span class="kw">f</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))
@@ -620,7 +624,7 @@
 <span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">f</span>, <span class="no">x</span>, <span class="kw">.drop</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 <span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">x</span>, <span class="no">f</span>, <span class="kw">.drop</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></div>
 <p>The default behaviour drops the empty groups as in the previous versions.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(
+<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(
     <span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">2</span>,
     <span class="kw">f</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))
   ) <span class="kw">%&gt;%</span>
@@ -628,7 +632,7 @@
 </li>
 <li>
 <p><code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/slice.html">slice()</a></code> gain a <code>.preserve</code> argument to control which groups it should keep. The default <code><a href="../reference/filter.html">filter(.preserve = FALSE)</a></code> recalculates the grouping structure based on the resulting data, otherwise it is kept as is.</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(
+<div class="sourceCode" id="cb8"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(
   <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span>),
   <span class="kw">f</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>), <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))
 ) <span class="kw">%&gt;%</span>
@@ -660,7 +664,7 @@
 <li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> gain <code>...</code> (<a href='https://github.com/tidyverse/dplyr/issues/2888'>#2888</a>).</p></li>
 <li>
 <p>Scoped filter variants now support functions and purrr-like lambdas:</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/filter_all.html">filter_at</a></span>(<span class="fu"><a href="../reference/vars.html">vars</a></span>(<span class="no">hp</span>, <span class="no">vs</span>), ~ <span class="no">.</span> <span class="kw">%%</span> <span class="fl">2</span> <span class="kw">==</span> <span class="fl">0</span>)</pre></div>
+<div class="sourceCode" id="cb9"><pre class="r"><span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/filter_all.html">filter_at</a></span>(<span class="fu"><a href="../reference/vars.html">vars</a></span>(<span class="no">hp</span>, <span class="no">vs</span>), ~ <span class="no">.</span> <span class="kw">%%</span> <span class="fl">2</span> <span class="kw">==</span> <span class="fl">0</span>)</pre></div>
 </li>
 </ul>
 </div>
@@ -702,7 +706,7 @@
 <ul>
 <li>
 <p>The grouping metadata of grouped data frame has been reorganized in a single tidy tibble, that can be accessed with the new <code><a href="../reference/group_data.html">group_data()</a></code> function. The grouping tibble consists of one column per grouping variable, followed by a list column of the (1-based) indices of the groups. The new <code><a href="../reference/group_data.html">group_rows()</a></code> function retrieves that list of indices (<a href='https://github.com/tidyverse/dplyr/issues/3489'>#3489</a>).</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="co"># the grouping metadata, as a tibble</span>
+<div class="sourceCode" id="cb10"><pre class="r"><span class="co"># the grouping metadata, as a tibble</span>
 <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">starwars</span>, <span class="no">homeworld</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_data.html">group_data</a></span>()
 
@@ -941,7 +945,7 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>It is no longer necessary to create a remote âsrcâ. Instead you can work directly with the database connection returned by DBI. This reflects the maturity of the DBI ecosystem. Thanks largely to the work of Kirill Muller (funded by the R Consortium) DBI backends are now much more consistent, comprehensive, and easier to use. That means that thereâs no longer a need for a layer in between you and DBI.</p></li>
 </ul>
 <p>You can continue to use <code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code>, but I recommend a new style that makes the connection to DBI more clear:</p>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<div class="sourceCode" id="cb12"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
 
 <span class="no">con</span> <span class="kw">&lt;-</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(<span class="kw pkg">RSQLite</span><span class="kw ns">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html">SQLite</a></span>(), <span class="st">":memory:"</span>)
 <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html">dbWriteTable</a></span>(<span class="no">con</span>, <span class="st">"mtcars"</span>, <span class="no">mtcars</span>)
@@ -1616,7 +1620,7 @@ starwars %&gt;%
 <h2 class="hasAnchor">
 <a href="#piping" class="anchor"></a>Piping</h2>
 <p>dplyr now imports <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> from magrittr (<a href='https://github.com/tidyverse/dplyr/issues/330'>#330</a>). I recommend that you use this instead of <code>%.%</code> because it is easier to type (since you can hold down the shift key) and is more flexible. With you <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code>, you can control which argument on the RHS recieves the LHS by using the pronoun <code>.</code>. This makes <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> more useful with base R functions because they donât always take the data frame as the first argument. For example you could pipe <code>mtcars</code> to <code><a href="https://rdrr.io/r/stats/xtabs.html">xtabs()</a></code> with:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xtabs</span>( <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>vs, <span class="dt">data =</span> .)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xtabs</span>( <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>vs, <span class="dt">data =</span> .)</span></code></pre></div>
 <p>Thanks to <a href='https://github.com/smbache'>@smbache</a> for the excellent magrittr package. dplyr only provides <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> from magrittr, but it contains many other useful functions. To use them, load <code>magrittr</code> explicitly: <code><a href="https://rdrr.io/pkg/magrittr/man">library(magrittr)</a></code>. For more details, see <code>vignette("magrittr")</code>.</p>
 <p><code>%.%</code> will be deprecated in a future version of dplyr, but it wonât happen for a while. Iâve also deprecated <code>chain()</code> to encourage a single style of dplyr usage: please use <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> instead.</p>
 </div>
@@ -1625,11 +1629,11 @@ starwars %&gt;%
 <a href="#do" class="anchor"></a>Do</h2>
 <p><code><a href="../reference/do.html">do()</a></code> has been completely overhauled. There are now two ways to use it, either with multiple named arguments or a single unnamed arguments. <code><a href="../reference/group_by.html">group_by()</a></code> + <code><a href="../reference/do.html">do()</a></code> is equivalent to <code><a href="https://rdrr.io/pkg/plyr/man/dlply.html">plyr::dlply</a></code>, except it always returns a data frame.</p>
 <p>If you use named arguments, each argument becomes a list-variable in the output. A list-variable can contain any arbitrary R object so itâs particularly well suited for storing models.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>models &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">do</span>(<span class="dt">lm =</span> <span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> .))</span>
-<span id="cb14-3"><a href="#cb14-3"></a>models <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">rsq =</span> <span class="kw">summary</span>(lm)<span class="op">$</span>r.squared)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>models &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">do</span>(<span class="dt">lm =</span> <span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> .))</span>
+<span id="cb15-3"><a href="#cb15-3"></a>models <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">rsq =</span> <span class="kw">summary</span>(lm)<span class="op">$</span>r.squared)</span></code></pre></div>
 <p>If you use an unnamed argument, the result should be a data frame. This allows you to apply arbitrary functions to each group.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">do</span>(<span class="kw">head</span>(., <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">do</span>(<span class="kw">head</span>(., <span class="dv">1</span>))</span></code></pre></div>
 <p>Note the use of the <code>.</code> pronoun to refer to the data in the current group.</p>
 <p><code><a href="../reference/do.html">do()</a></code> also has an automatic progress bar. It appears if the computation takes longer than 5 seconds and lets you know (approximately) how much longer the job will take to complete.</p>
 </div>
