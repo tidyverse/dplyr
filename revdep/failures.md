@@ -6415,7 +6415,7 @@ ERROR: lazy loading failed for package ‘phase1PRMD’
 * URL: https://github.com/kongdd/phenofit
 * BugReports: https://github.com/kongdd/phenofit/issues
 * Date/Publication: 2019-06-07 08:00:08 UTC
-* Number of recursive dependencies: 87
+* Number of recursive dependencies: 88
 
 Run `revdep_details(,"phenofit")` for more info
 
@@ -6934,7 +6934,7 @@ ERROR: compilation failed for package ‘pRoloc’
 * URL: http://psychonetrics.org/
 * BugReports: https://github.com/SachaEpskamp/psychonetrics/issues
 * Date/Publication: 2020-02-21 19:20:06 UTC
-* Number of recursive dependencies: 149
+* Number of recursive dependencies: 152
 
 Run `revdep_details(,"psychonetrics")` for more info
 
