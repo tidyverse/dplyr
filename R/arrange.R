@@ -11,8 +11,10 @@
 #'
 #' @details
 #' ## Locales
-#' The sort order for character vectors will depend on the collating sequence
-#' of the locale in use: see [locales()].
+#' When `.method` is set to `"dplyr_auto"` or `"radix"`, the sort order for
+#' character vectors always follows the "C" locale. Otherwise, the sort order
+#' for character vectors will depend on the collating sequence of the locale
+#' in use: see [locales()].
 #'
 #' ## Missing values
 #' Unlike base sorting with `sort()`, `NA` are:
@@ -68,10 +70,18 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 
 #' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
 #'   grouped data frames only.
+#' @param .method The underlying method to sort with. If `"radix"`, `"shell"`,
+#'   or `"auto"`, the method is passed on to [order()] as is. If `"dplyr_auto"`,
+#'   the method will be set to `"radix"` if all of the columns to arrange by are
+#'   internally integer, double, logical, or character, otherwise the method will
+#'   be set to `"shell"`.
 #' @rdname arrange
 #' @export
-arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
+arrange.data.frame <- function(.data, ..., .by_group = FALSE,
+                               .method = c("dplyr_auto", "auto", "shell", "radix")) {
   dots <- enquos(...)
+  method <- arg_match(.method)
+
   if (length(dots) == 0L) {
     return(.data)
   }
@@ -80,13 +90,13 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
     dots <- c(quos(!!!groups(.data)), dots)
   }
 
-  loc <- arrange_rows(.data, dots)
+  loc <- arrange_rows(.data, dots, method)
   dplyr_row_slice(.data, loc)
 }
 
 # Helpers -----------------------------------------------------------------
 
-arrange_rows <- function(.data, dots) {
+arrange_rows <- function(.data, dots, method) {
 
   directions <- map_chr(dots, function(quosure) {
     if(quo_is_call(quosure, "desc")) "desc" else "asc"
@@ -137,5 +147,36 @@ arrange_rows <- function(.data, dots) {
     proxy
   })
 
-  exec("order", !!!proxies, decreasing = FALSE, na.last = TRUE)
+  method <- arrange_method(method, proxies)
+
+  exec("order", !!!proxies, decreasing = FALSE, na.last = TRUE, method = method)
+}
+
+arrange_method <- function(method, proxies) {
+  if (!identical(method, "dplyr_auto")) {
+    return(method)
+  }
+
+  all_radix <- all(map_lgl(proxies, use_radix))
+
+  if (all_radix) {
+    "radix"
+  } else {
+    "shell"
+  }
+}
+
+# More aggressive than `base::order(method = "auto")` in two ways:
+# - Uses `typeof()` rather than `is.*()` functions to operate at a level lower
+#   than S3 dispatch.
+# - Forces character vectors to use radix ordering, which forces the use of a
+#   C-locale, but is very fast.
+use_radix <- function(x) {
+  switch(typeof(x),
+    logical =,
+    integer =,
+    double =,
+    character = TRUE,
+    FALSE
+  )
 }

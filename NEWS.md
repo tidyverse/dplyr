@@ -2,6 +2,8 @@
 
 ## Breaking changes
 
+* The default options for `arrange()` no longer respect the currently used locale when sorting character vectors. A much faster radix sorting method is used instead. To force the locale to be respected, use `.method = "shell"`.
+
 * `bind_cols()` no longer converts to a tibble, returns a data frame if the input is a data frame.
 
 * `bind_rows()`, `*_join()`, `summarise()` and `mutate()` use vctrs coercion 

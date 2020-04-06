@@ -20,3 +20,11 @@ Error: arrange() failed at implicit mutate() step.
 i Could not create a temporary column for `..1`.
 i `..1` is `rep(x, 2)`.
 
+
+`.method` is validated
+======================
+
+> arrange(tibble(x = 1), .method = "dplyr")
+Error: `.method` must be one of "dplyr_auto", "auto", "shell", or "radix".
+Did you mean "dplyr_auto"?
+

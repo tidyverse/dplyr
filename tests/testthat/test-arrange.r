@@ -32,6 +32,9 @@ test_that("arrange() gives meaningful errors", {
       arrange(y)
     tibble(x = 1) %>%
       arrange(rep(x, 2))
+
+    "# `.method` is validated"
+    arrange(tibble(x = 1), .method = "dplyr")
   })
 })
 
@@ -76,13 +79,13 @@ test_that("arrange handles S4 classes #1105", {
   expect_equal(arrange(df, y), df[3:1, ])
 })
 
-test_that("arrange respects locale (#1280)", {
+test_that("arrange `.method` can be set to respect locale (#1280)", {
   df2 <- tibble(words = c("casa", "\u00e1rbol", "zona", "\u00f3rgano"))
 
-  res <- df2 %>% arrange(words)
+  res <- df2 %>% arrange(words, .method = "auto")
   expect_equal(res$words, sort(df2$words))
 
-  res <- df2 %>% arrange(desc(words))
+  res <- df2 %>% arrange(desc(words), .method = "auto")
   expect_equal(res$words, sort(df2$words, decreasing = TRUE))
 })
 
