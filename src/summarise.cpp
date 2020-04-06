@@ -22,19 +22,6 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private) {
   return chunks;
 }
 
-SEXP dplyr_vec_sizes(SEXP chunks) {
-  R_xlen_t n = XLENGTH(chunks);
-  SEXP res = PROTECT(Rf_allocVector(INTSXP, n));
-  int* p_res = INTEGER(res);
-
-  for (R_xlen_t i = 0; i < n; i++, ++p_res) {
-    *p_res = vctrs::short_vec_size(VECTOR_ELT(chunks, i));
-  }
-
-  UNPROTECT(1);
-  return res;
-}
-
 SEXP dplyr_summarise_recycle_chunks(SEXP chunks) {
   SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
   Rf_namesgets(res, dplyr::vectors::names_summarise_recycle_chunks);
