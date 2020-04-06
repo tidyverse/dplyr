@@ -178,12 +178,13 @@ summarise_cols <- function(.data, ...) {
       }
     }
 
-    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks)
+    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows())
     chunks <- recycle_info$chunks
     sizes <- recycle_info$sizes
 
     # materialize columns
     for (i in seq_along(dots)) {
+      if (is.null(chunks[[i]])) next
       result <- vec_c(!!!chunks[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {

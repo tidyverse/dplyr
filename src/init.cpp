@@ -87,7 +87,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 2},
   {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
 
-  {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 1},
+  {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 2},
 
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},

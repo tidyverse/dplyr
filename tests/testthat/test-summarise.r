@@ -73,7 +73,7 @@ test_that("preserved class, but not attributes", {
   expect_equal(attr(out, "res"), NULL)
 })
 
-test_that("works with  unquoted values", {
+test_that("works with unquoted values", {
   df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
   expect_equal(summarise(df, out = !!1), tibble(out = 1))
   expect_equal(summarise(df, out = !!quo(1)), tibble(out = 1))
@@ -84,6 +84,14 @@ test_that("formulas are evaluated in the right environment (#3019)", {
   out <- mtcars %>% summarise(fn = list(rlang::as_function(~ list(~foo, environment()))))
   out <- out$fn[[1]]()
   expect_identical(environment(out[[1]]), out[[2]])
+})
+
+test_that("data frame results with 0 columns are ignored (#5084)", {
+  df1 <- tibble(x = 1:2)
+  expect_equal(df1 %>% group_by(x) %>% summarise(data.frame()), df1)
+
+  df2 <- tibble(x = 1:2, y = 3:4)
+  expect_equal(df2 %>% group_by(x) %>% summarise(data.frame()), df1)
 })
 
 # grouping ----------------------------------------------------------------
