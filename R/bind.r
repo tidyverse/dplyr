@@ -116,7 +116,9 @@ bind_rows <- function(..., .id = NULL) {
   }
 
   dots <- map(dots, function(.x) if (is.data.frame(.x)) .x else tibble(!!!.x))
-
+  if (is.null(.id)) {
+    names(dots) <- NULL
+  }
   out <- vec_rbind(!!!dots, .names_to = .id)
   if (length(dots) && is_tibble(first <- dots[[1L]])) {
     out <- dplyr_reconstruct(out, first)
