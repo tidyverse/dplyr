@@ -183,7 +183,7 @@
 <p>Always condition on <code>&gt; current-version</code>, not <code>&gt;= next-version</code> because this will ensure that this branch is also used for the development version of the package. For example, if the current release is version “0.5.0”, the development version will be “0.5.0.9000”.</p>
 <p>Occasionally, you’ll run into a situation where the <code>NAMESPACE</code> has changed and you need to conditionally import different functions. This typically occurs when functions are moved from one package to another. We try out best to provide automatic fallbacks, but this is not always possible. Often you can work around the problem by avoiding <code>importFrom</code> and using <code>::</code> instead. Do this where possible:</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw">if</span> (<span class="kw pkg">utils</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span>(<span class="st">"dplyr"</span>) <span class="kw">&gt;</span> <span class="st">"0.5.0"</span>) {
-  <span class="kw pkg">dbplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dbplyr.tidyverse.org/reference/build_sql.html">build_sql</a></span>(<span class="no">...</span>)
+  <span class="kw pkg">dbplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/dbplyr/man/build_sql.html">build_sql</a></span>(<span class="no">...</span>)
 } <span class="kw">else</span> {
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">build_sql</span>(<span class="no">...</span>)
 }</pre></body></html></div>
