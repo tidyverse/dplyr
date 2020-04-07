@@ -276,10 +276,10 @@ expressions used to filter the data:</p><ul>
 <p>Because filtering expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped filtering:</p><pre>starwars %&gt;% filter(mass &gt; mean(mass, na.rm = TRUE))
+involved. Compare this ungrouped filtering:</p><pre>starwars %&amp;gt;% filter(mass &amp;gt; mean(mass, na.rm = TRUE))
 </pre>
 
-<p>With the grouped equivalent:</p><pre>starwars %&gt;% group_by(gender) %&gt;% filter(mass &gt; mean(mass, na.rm = TRUE))
+<p>With the grouped equivalent:</p><pre>starwars %&amp;gt;% group_by(gender) %&amp;gt;% filter(mass &amp;gt; mean(mass, na.rm = TRUE))
 </pre>
 
 <p>In the ungrouped version, <code>filter()</code> compares the value of <code>mass</code> in each row to
