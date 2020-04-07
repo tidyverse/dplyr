@@ -271,7 +271,7 @@ Run `revdep_details(,"annotatr")` for more info
 * URL: https://github.com/apache/arrow/, https://arrow.apache.org/docs/r
 * BugReports: https://issues.apache.org/jira/projects/ARROW/issues
 * Date/Publication: 2020-02-14 12:20:05 UTC
-* Number of recursive dependencies: 53
+* Number of recursive dependencies: 54
 
 Run `revdep_details(,"arrow")` for more info
 
@@ -1199,7 +1199,7 @@ ERROR: compilation failed for package ‘brunnermunzel’
 * URL: https://github.com/ianjonsen/bsam
 * BugReports: https://github.com/ianjonsen/bsam/issues
 * Date/Publication: 2017-07-01 02:50:50 UTC
-* Number of recursive dependencies: 63
+* Number of recursive dependencies: 62
 
 Run `revdep_details(,"bsam")` for more info
 
@@ -2964,7 +2964,7 @@ ERROR: lazy loading failed for package ‘DiversityOccupancy’
 * URL: https://github.com/ATFutures/dodgr
 * BugReports: https://github.com/ATFutures/dodgr/issues
 * Date/Publication: 2019-10-10 14:00:02 UTC
-* Number of recursive dependencies: 92
+* Number of recursive dependencies: 93
 
 Run `revdep_details(,"dodgr")` for more info
 
@@ -4518,7 +4518,7 @@ Run `revdep_details(,"grasp2db")` for more info
 * URL: https://robwschlegel.github.io/heatwaveR/index.html, https://github.com/robwschlegel/heatwaveR
 * BugReports: https://github.com/robwschlegel/heatwaveR/issues
 * Date/Publication: 2019-12-01 21:30:06 UTC
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 101
 
 Run `revdep_details(,"heatwaveR")` for more info
 
@@ -5184,7 +5184,7 @@ ERROR: lazy loading failed for package ‘mbgraphic’
 * URL: https://github.com/ankargren/mfbvar
 * BugReports: https://github.com/ankargren/mfbvar/issues
 * Date/Publication: 2020-01-09 13:40:02 UTC
-* Number of recursive dependencies: 81
+* Number of recursive dependencies: 82
 
 Run `revdep_details(,"mfbvar")` for more info
 
@@ -5508,7 +5508,7 @@ ERROR: loading failed
 * URL: https://github.com/bmcclintock/momentuHMM
 * BugReports: https://github.com/bmcclintock/momentuHMM/issues
 * Date/Publication: 2020-03-06 06:00:02 UTC
-* Number of recursive dependencies: 165
+* Number of recursive dependencies: 166
 
 Run `revdep_details(,"momentuHMM")` for more info
 
@@ -6415,7 +6415,7 @@ ERROR: lazy loading failed for package ‘phase1PRMD’
 * URL: https://github.com/kongdd/phenofit
 * BugReports: https://github.com/kongdd/phenofit/issues
 * Date/Publication: 2019-06-07 08:00:08 UTC
-* Number of recursive dependencies: 88
+* Number of recursive dependencies: 89
 
 Run `revdep_details(,"phenofit")` for more info
 
@@ -6789,7 +6789,7 @@ ERROR: compilation failed for package ‘poppr’
 * URL: https://weecology.github.io/portalr/, https://github.com/weecology/portalr
 * BugReports: https://github.com/weecology/portalr/issues
 * Date/Publication: 2020-01-16 15:00:02 UTC
-* Number of recursive dependencies: 103
+* Number of recursive dependencies: 104
 
 Run `revdep_details(,"portalr")` for more info
 
@@ -8403,7 +8403,7 @@ ERROR: lazy loading failed for package ‘RcwlPipelines’
 * Version: 1.1.1
 * Source code: https://github.com/cran/Rdrools
 * Date/Publication: 2018-12-08 15:00:13 UTC
-* Number of recursive dependencies: 73
+* Number of recursive dependencies: 74
 
 Run `revdep_details(,"Rdrools")` for more info
 
@@ -10069,7 +10069,7 @@ ERROR: compilation failed for package ‘simts’
 * URL: https://github.com/DavisVaughan/slider
 * BugReports: https://github.com/DavisVaughan/slider/issues
 * Date/Publication: 2020-02-23 17:10:02 UTC
-* Number of recursive dependencies: 60
+* Number of recursive dependencies: 61
 
 Run `revdep_details(,"slider")` for more info
 

@@ -1,46 +1,3 @@
-# aemo
-
-<details>
-
-* Version: 0.2.0
-* Source code: https://github.com/cran/aemo
-* Date/Publication: 2016-08-20 15:33:40
-* Number of recursive dependencies: 50
-
-Run `revdep_details(,"aemo")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Missing or unexported object: ‘dplyr::rbind_all’
-    ```
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > library(testthat)
-      > test_check("aemo")
-      Loading required package: aemo
-      ── 1. Failure: AEMO data URLs still correct (@test-aemo.R#34)  ─────────────────
-      GET(co_url)$status not equal to 200.
-      1/1 mismatches
-      [1] 404 - 200 == 204
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 5 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 1 ]
-      1. Failure: AEMO data URLs still correct (@test-aemo.R#34) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # AlphaBeta
 
 <details>
@@ -164,9 +121,9 @@ Run `revdep_details(,"AMR")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.8Mb
+      installed size is  6.5Mb
       sub-directories of 1Mb or more:
-        data   3.4Mb
+        data   4.0Mb
     ```
 
 # apyramid
@@ -367,7 +324,7 @@ Run `revdep_details(,"banR")` for more info
 * Source code: https://github.com/cran/BAwiR
 * URL: https://www.R-project.org, https://www.uv.es/vivigui, https://www.uv.es/vivigui/AppEuroACB.html
 * Date/Publication: 2020-03-24 08:50:02 UTC
-* Number of recursive dependencies: 125
+* Number of recursive dependencies: 126
 
 Run `revdep_details(,"BAwiR")` for more info
 
@@ -444,9 +401,9 @@ Run `revdep_details(,"bayesplot")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.5Mb
+      installed size is  6.6Mb
       sub-directories of 1Mb or more:
-        R     1.8Mb
+        R     1.9Mb
         doc   4.1Mb
     ```
 
@@ -484,71 +441,6 @@ Run `revdep_details(,"bdl")` for more info
       2. Failure: Proper data (@test-requests.R#127) 
       3. Failure: Proper data (@test-requests.R#179) 
       4. Failure: Proper data (@test-requests.R#244) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-# beadplexr
-
-<details>
-
-* Version: 0.3.0
-* Source code: https://github.com/cran/beadplexr
-* URL: https://gitlab.com/ustervbo/beadplexr
-* BugReports: https://gitlab.com/ustervbo/beadplexr/issues
-* Date/Publication: 2020-02-05 17:00:02 UTC
-* Number of recursive dependencies: 126
-
-Run `revdep_details(,"beadplexr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    
-    
-    Attaching package: ‘drc’
-    
-    The following objects are masked from ‘package:stats’:
-    
-        gaussian, getInitial
-    
-    > data(ryegrass)
-    > 
-    > ryegrass_m <-
-    +   fit_standard_curve(.data = ryegrass,
-    +                      .parameter = "rootl",
-    +                      .concentration = "conc")
-    > 
-    > sample_data <-
-    +   calculate_concentration(.data = ryegrass[sample(1:nrow(ryegrass), 5),],
-    +                           .model = ryegrass_m,
-    +                           .parameter = "rootl")
-    Error: Can't column-bind data frames with different row names.
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       2. tibble:::`$<-.tbl_df`(`*tmp*`, BeadID, value = c("A", "B"))
-       3. tibble:::tbl_subassign(...)
-       4. tibble:::vectbl_recycle_rhs(...)
-       5. base::tryCatch(...)
-       6. base:::tryCatchList(expr, classes, parentenv, handlers)
-       7. base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
-       8. value[[3L]](cond)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 397 | SKIPPED: 0 | WARNINGS: 6 | FAILED: 2 ]
-      1. Failure: Despeckle works (@test_despeckle.R#21) 
-      2. Error: ident_bead_pop() works (@test_identify_assay_analyte.R#39) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -917,7 +809,7 @@ Run `revdep_details(,"cattonum")` for more info
 * URL: https://github.com/shians/cellbench
 * BugReports: https://github.com/Shians/CellBench/issues
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 108
+* Number of recursive dependencies: 109
 
 Run `revdep_details(,"CellBench")` for more info
 
@@ -1096,7 +988,7 @@ Run `revdep_details(,"cheese")` for more info
 * URL: https://github.com/rubenarslan/codebook
 * BugReports: https://github.com/rubenarslan/codebook/issues
 * Date/Publication: 2020-01-09 16:20:07 UTC
-* Number of recursive dependencies: 176
+* Number of recursive dependencies: 177
 
 Run `revdep_details(,"codebook")` for more info
 
@@ -2130,11 +2022,11 @@ Run `revdep_details(,"DiagrammeR")` for more info
 
 <details>
 
-* Version: 0.0.5
+* Version: 0.0.6
 * Source code: https://github.com/cran/dials
 * URL: https://tidymodels.github.io/dials, https://github.com/tidymodels/dials
 * BugReports: https://github.com/tidymodels/dials/issues
-* Date/Publication: 2020-04-01 13:50:08 UTC
+* Date/Publication: 2020-04-03 15:40:05 UTC
 * Number of recursive dependencies: 64
 
 Run `revdep_details(,"dials")` for more info
@@ -2158,7 +2050,7 @@ Run `revdep_details(,"dials")` for more info
        27. dials:::check_new_names(res)
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 304 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 1 ]
+      [ OK: 315 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 1 ]
       1. Error: dplyr ops (@test_dplyr_set_compat.R#32) 
       
       Error: testthat unit tests failed
@@ -2212,7 +2104,7 @@ Run `revdep_details(,"disk.frame")` for more info
 * URL: https://graphdr.github.io/docxtools
 * BugReports: https://github.com/graphdr/docxtools/issues
 * Date/Publication: 2019-02-09 18:43:13 UTC
-* Number of recursive dependencies: 74
+* Number of recursive dependencies: 75
 
 Run `revdep_details(,"docxtools")` for more info
 
@@ -2277,7 +2169,7 @@ Run `revdep_details(,"docxtools")` for more info
 * URL: https://github.com/shaughnessyar/driftR
 * BugReports: https://github.com/shaughnessyar/driftR/issues
 * Date/Publication: 2018-06-13 22:03:03 UTC
-* Number of recursive dependencies: 68
+* Number of recursive dependencies: 69
 
 Run `revdep_details(,"driftR")` for more info
 
@@ -2534,7 +2426,7 @@ Run `revdep_details(,"egor")` for more info
 * URL: https://docs.ropensci.org/eia (website) https://github.com/ropensci/eia
 * BugReports: https://github.com/ropensci/eia/issues
 * Date/Publication: 2019-11-27 12:10:05 UTC
-* Number of recursive dependencies: 80
+* Number of recursive dependencies: 81
 
 Run `revdep_details(,"eia")` for more info
 
@@ -2886,7 +2778,7 @@ Run `revdep_details(,"esvis")` for more info
 * Version: 0.0.5
 * Source code: https://github.com/cran/expstudies
 * Date/Publication: 2019-06-14 11:20:03 UTC
-* Number of recursive dependencies: 52
+* Number of recursive dependencies: 53
 
 Run `revdep_details(,"expstudies")` for more info
 
@@ -2986,7 +2878,7 @@ Run `revdep_details(,"extdplyr")` for more info
 * Version: 0.4.0
 * Source code: https://github.com/cran/ezplot
 * Date/Publication: 2020-03-29 11:00:10 UTC
-* Number of recursive dependencies: 98
+* Number of recursive dependencies: 99
 
 Run `revdep_details(,"ezplot")` for more info
 
@@ -3254,7 +3146,7 @@ Run `revdep_details(,"fingertipscharts")` for more info
 * URL: https://cran.r-project.org/package=foieGras
 * BugReports: https://github.com/ianjonsen/foieGras/issues
 * Date/Publication: 2019-10-07 22:10:03 UTC
-* Number of recursive dependencies: 99
+* Number of recursive dependencies: 100
 
 Run `revdep_details(,"foieGras")` for more info
 
@@ -3327,7 +3219,7 @@ Run `revdep_details(,"foieGras")` for more info
 * Source code: https://github.com/cran/forecastML
 * URL: https://github.com/nredell/forecastML/
 * Date/Publication: 2020-02-28 22:40:12 UTC
-* Number of recursive dependencies: 92
+* Number of recursive dependencies: 93
 
 Run `revdep_details(,"forecastML")` for more info
 
@@ -3691,161 +3583,6 @@ Run `revdep_details(,"gender")` for more info
     Package suggested but not available for checking: ‘genderdata’
     ```
 
-# geomnet
-
-<details>
-
-* Version: 0.2.0
-* Source code: https://github.com/cran/geomnet
-* URL: http://github.com/sctyner/geomnet
-* BugReports: https://github.com/sctyner/geomnet/issues
-* Date/Publication: 2016-12-08 20:38:18
-* Number of recursive dependencies: 93
-
-Run `revdep_details(,"geomnet")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    ℹ The error occured in group 1: from_id = "A-", to_id = "A+".
-    ✖ could not find function "n"
-    Backtrace:
-         █
-      1. ├─(function (x, ...) ...
-      2. └─ggplot2:::print.ggplot(x)
-      3.   ├─ggplot2::ggplot_build(x)
-      4.   └─ggplot2:::ggplot_build.ggplot(x)
-      5.     └─ggplot2:::by_layer(function(l, d) l$compute_statistic(d, layout))
-      6.       └─ggplot2:::f(l = layers[[i]], d = data[[i]])
-      7.         └─l$compute_statistic(d, layout)
-      8.           └─ggplot2:::f(..., self = self)
-      9.             └─self$stat$compute_layer(data, params, layout)
-     10.               └─geomnet:::f(..., self = self)
-     11.                 └─self$compute_panel(...)
-     12.                   └─geomnet:::f(..., self = self)
-     13.                     └─self$compute_network(...)
-     14.                       └─geomnet:::f(...)
-     15.                         ├─dplyr::summarise(edges, wt = n())
-     16.        
-    Execution halted
-    ```
-
-# getTBinR
-
-<details>
-
-* Version: 0.7.0
-* Source code: https://github.com/cran/getTBinR
-* URL: https://www.samabbott.co.uk/getTBinR, https://github.com/seabbs/getTBinR
-* BugReports: https://github.com/seabbs/getTBinR/issues
-* Date/Publication: 2019-09-03 13:50:06 UTC
-* Number of recursive dependencies: 148
-
-Run `revdep_details(,"getTBinR")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Attributes: < Names: 2 string mismatches >
-      Attributes: < Length mismatch: comparison on first 2 components >
-      Attributes: < Component 1: Modes: character, externalptr >
-      Attributes: < Component 1: Lengths: 3, 1 >
-      Attributes: < Component 1: target is character, current is externalptr >
-      Attributes: < Component 2: Modes: numeric, character >
-      Attributes: < Component 2: Lengths: 1, 3 >
-      Attributes: < Component 2: target is numeric, current is character >
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 95 | SKIPPED: 50 | WARNINGS: 2 | FAILED: 1 ]
-      1. Failure: Variable search for a known variable returns expected results (@test-search_data_dict.R#28) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-# ggasym
-
-<details>
-
-* Version: 0.1.2
-* Source code: https://github.com/cran/ggasym
-* URL: https://github.com/jhrcook/ggasym https://jhrcook.github.io/ggasym/
-* BugReports: https://github.com/jhrcook/ggasym/issues
-* Date/Publication: 2019-11-21 17:00:02 UTC
-* Number of recursive dependencies: 101
-
-Run `revdep_details(,"ggasym")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-      g1    g2    val_1 val_2
-      <chr> <chr> <dbl> <dbl>
-    1 A     B         1    -1
-    2 A     C         2     0
-    3 B     C         3     1
-    > 
-    > tib <- asymmetrise(tib, g1, g2)
-    Warning: `...` must not be empty for ungrouped data frames.
-    Did you want `data = everything()`?
-    > ggplot(tib) +
-    + geom_asymmat(aes(x = g1, y = g2, fill_tl = val_1, fill_br = val_2)) +
-    +     scale_fill_tl_gradient(low = "lightpink", high = "tomato") +
-    +     scale_fill_br_gradient(low = "lightblue1", high = "dodgerblue") +
-    +     labs(fill_tl =  "top-left fill", fill_br = "bottom-right fill")
-    Warning: `...` must not be empty for ungrouped data frames.
-    Did you want `data = everything()`?
-    Error in check_all_combinations(data) : 
-      All combinations not present in data.
-     Use "asymmetrize(data, x, y)" to fix.
-    Calls: <Anonymous> ... <Anonymous> -> f -> <Anonymous> -> f -> check_all_combinations
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 99 | SKIPPED: 0 | WARNINGS: 20 | FAILED: 16 ]
-      1. Failure: properly determine if a df is grouped (@test-asymmetrise.R#63) 
-      2. Failure: properly determine if a df is grouped (@test-asymmetrise.R#67) 
-      3. Failure: adding all combinations (@test-asymmetrise.R#81) 
-      4. Failure: adding all combinations (@test-asymmetrise.R#82) 
-      5. Failure: columns are swapped (@test-asymmetrise.R#122) 
-      6. Failure: data frame is asymmeterized (@test-asymmetrise.R#139) 
-      7. Failure: data frame is asymmeterized (@test-asymmetrise.R#140) 
-      8. Failure: data frame is asymmeterized (@test-asymmetrise.R#142) 
-      9. Failure: data frame is asymmeterized (@test-asymmetrise.R#143) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘corrr’
-      All declared Imports should be used.
-    ```
-
 # ggedit
 
 <details>
@@ -4077,7 +3814,7 @@ Run `revdep_details(,"ggspatial")` for more info
 * URL: https://www.r4photobiology.info, https://bitbucket.org/aphalo/ggspectra
 * BugReports: https://bitbucket.org/aphalo/ggspectra
 * Date/Publication: 2020-01-16 16:30:02 UTC
-* Number of recursive dependencies: 73
+* Number of recursive dependencies: 74
 
 Run `revdep_details(,"ggspectra")` for more info
 
@@ -4497,69 +4234,6 @@ Run `revdep_details(,"idmodelr")` for more info
       Execution halted
     ```
 
-# implicitMeasures
-
-<details>
-
-* Version: 0.1.1
-* Source code: https://github.com/cran/implicitMeasures
-* Date/Publication: 2020-02-28 19:10:02 UTC
-* Number of recursive dependencies: 77
-
-Run `revdep_details(,"implicitMeasures")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    >  sciat1 <- sciat_data[[1]] # compute D for the first SC-IAT
-    >  d_sciat1 <- Dsciat(sciat1,
-    +                     mappingA = "test.sc_dark.Darkbad",
-    +                     mappingB = "test.sc_dark.Darkgood",
-    +                     non_response = "alert")
-    Error: Input must be a vector, not a `data.frame/sciat_clean` object.
-    Backtrace:
-         █
-      1. ├─implicitMeasures::Dsciat(...)
-      2. │ ├─dplyr::mutate(...)
-      3. │ └─dplyr:::mutate.data.frame(...)
-      4. │   └─dplyr:::mutate_cols(.data, ...)
-      5. │     └─DataMask$new(.data, caller_env())
-      6. │       └─.subset2(public_bind_env, "initialize")(...)
-      7. │         └─dplyr::group_rows(data)
-      8. │           ├─dplyr::group_data(.data)
-      9. │           └─dplyr:::group_data.data.frame(.data)
-     10. │             └─vctrs::vec_init(.data[, 0], 1)
-     11. └─vctrs:::stop_scalar_type(...)
-     12.   └─vctrs:::stop_vctrs(msg, "vctrs_error_scalar_type", actual = x)
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 45 | SKIPPED: 2 | WARNINGS: 0 | FAILED: 12 ]
-      1. Error: Dsciat returns the right object (@test-Dsciat.R#69) 
-      2. Error: IATrel results in a list of 2 elements with class IATrel (@test-IATrel_descript_d.R#36) 
-      3. Error: descript_d recognizies the class of the object for the SC-IAT (@test-IATrel_descript_d.R#61) 
-      4. Error: d_plot produces a ggplot fot the IAT (@test-d_distr_d_plot.R#23) 
-      5. Error: d_plot produces a ggplot fot the SC-IAT (@test-d_distr_d_plot.R#43) 
-      6. Error: d_distr produces a ggplot fot the IAT (@test-d_distr_d_plot.R#75) 
-      7. Error: d_distr produces a ggplot fot the SC-IAT (@test-d_distr_d_plot.R#95) 
-      8. Error: multi_dscore recognizes the correct class of the object (@test-multi_dscore_multi_dsciat.R#16) 
-      9. Error: multi_dscore results in a List of 2 (data.frame and list) (@test-multi_dscore_multi_dsciat.R#34) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # incadata
 
 <details>
@@ -4569,7 +4243,7 @@ Run `revdep_details(,"implicitMeasures")` for more info
 * URL: https://cancercentrum.bitbucket.io/incadata
 * BugReports: https://www.bitbucket.org/cancercentrum/incadata/issues
 * Date/Publication: 2019-05-05 20:30:04 UTC
-* Number of recursive dependencies: 66
+* Number of recursive dependencies: 67
 
 Run `revdep_details(,"incadata")` for more info
 
@@ -5015,11 +4689,11 @@ Run `revdep_details(,"janitor")` for more info
 
 <details>
 
-* Version: 0.3.7
+* Version: 0.3.8
 * Source code: https://github.com/cran/jstor
-* URL: https://github.com/ropensci/jstor, https://ropensci.github.io/jstor/
+* URL: https://github.com/ropensci/jstor, https://docs.ropensci.org/jstor
 * BugReports: https://github.com/ropensci/jstor/issues
-* Date/Publication: 2019-09-05 02:10:11 UTC
+* Date/Publication: 2020-04-03 14:10:23 UTC
 * Number of recursive dependencies: 68
 
 Run `revdep_details(,"jstor")` for more info
@@ -5060,20 +4734,30 @@ Run `revdep_details(,"jstor")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 230 | SKIPPED: 4 | WARNINGS: 1 | FAILED: 17 ]
+      [ OK: 232 | SKIPPED: 4 | WARNINGS: 1 | FAILED: 16 ]
       1. Failure: journal id is unified (@test-augment.R#75) 
-      2. Failure: authors are correct (@test-books.R#117) 
-      3. Error: subsetting ngrams works (@test-ngram.R#32) 
-      4. Failure: files with column names can be re-read (@test-re-import.R#212) 
-      5. Failure: files with column names can be re-read (@test-re-import.R#216) 
-      6. Failure: files with column names can be re-read (@test-re-import.R#220) 
-      7. Failure: files with column names can be re-read (@test-re-import.R#224) 
-      8. Failure: files with column names can be re-read (@test-re-import.R#228) 
-      9. Failure: files without column names can be re-read (@test-re-import.R#244) 
+      2. Error: subsetting ngrams works (@test-ngram.R#32) 
+      3. Failure: files with column names can be re-read (@test-re-import.R#212) 
+      4. Failure: files with column names can be re-read (@test-re-import.R#216) 
+      5. Failure: files with column names can be re-read (@test-re-import.R#220) 
+      6. Failure: files with column names can be re-read (@test-re-import.R#224) 
+      7. Failure: files with column names can be re-read (@test-re-import.R#228) 
+      8. Failure: files without column names can be re-read (@test-re-import.R#244) 
+      9. Failure: files without column names can be re-read (@test-re-import.R#248) 
       1. ...
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+## Newly fixed
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required and available but unsuitable version: ‘tibble’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # keyholder
@@ -5142,8 +4826,8 @@ Run `revdep_details(,"lans2r")` for more info
       ── 2. Failure: test that transformation safety checks are in place (@test-transf
       spread_data(bind_rows(a, b)) not equal to full_join(...).
       Names: 2 string mismatches
-      Component 3: Mean relative difference: 0.9182081
-      Component 4: Mean relative difference: 3.47511
+      Component 3: Mean relative difference: 1.015697
+      Component 4: Mean relative difference: 12.94108
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       [ OK: 142 | SKIPPED: 0 | WARNINGS: 7 | FAILED: 2 ]
@@ -5344,7 +5028,7 @@ Run `revdep_details(,"MIAmaxent")` for more info
 * URL: http://microbiome.github.io/microbiome
 * BugReports: https://github.com/microbiome/microbiome/issues
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 107
+* Number of recursive dependencies: 108
 
 Run `revdep_details(,"microbiome")` for more info
 
@@ -5903,49 +5587,6 @@ Run `revdep_details(,"ncmeta")` for more info
       Execution halted
     ```
 
-# ngsReports
-
-<details>
-
-* Version: 1.2.0
-* Source code: https://github.com/cran/ngsReports
-* URL: https://github.com/UofABioinformaticsHub/ngsReports
-* BugReports: https://github.com/UofABioinformaticsHub/ngsReports/issues
-* Date/Publication: 2019-10-29
-* Number of recursive dependencies: 159
-
-Run `revdep_details(,"ngsReports")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > overRep2Fasta(fdl, path = faOut)
-    Error: `summarise()` argument `nFiles` errored.
-    ℹ `nFiles` is `n()`.
-    ℹ The error occured in group 1: Sequence = "AAAAATATGGAACGCTTCACGAATTTGCGTCATCCTTGCGCAGGGGCCAT".
-    ✖ could not find function "n"
-    Backtrace:
-         █
-      1. ├─ngsReports::overRep2Fasta(fdl, path = faOut)
-      2. └─ngsReports::overRep2Fasta(fdl, path = faOut)
-      3.   ├─dplyr::summarise(...)
-      4.   ├─dplyr:::summarise.grouped_df(...)
-      5.   ├─base::NextMethod()
-      6.   └─dplyr:::summarise.data.frame(...)
-      7.     └─dplyr:::summarise_cols(.data, ...)
-      8.       └─base::tryCatch(...)
-      9.         └─base:::tryCatchList(expr, classes, parentenv, handlers)
-     10.           └─base:::tryCatchOne(...)
-     11.             └─value[[3L]](cond)
-     12.               └─dplyr:::stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
-     13.                 └─dplyr:::stop_dplyr(index, dots, fn, "errored", x = conditionMessage(e))
-    Execution halted
-    ```
-
 # nonmemica
 
 <details>
@@ -6028,45 +5669,6 @@ Run `revdep_details(,"omu")` for more info
      17. └─vctrs:::stop_scalar_type(...)
      18.   └─vc
     Execution halted
-    ```
-
-# opensensmapr
-
-<details>
-
-* Version: 0.5.1
-* Source code: https://github.com/cran/opensensmapr
-* URL: http://github.com/sensebox/opensensmapR
-* BugReports: http://github.com/sensebox/opensensmapR/issues
-* Date/Publication: 2019-03-10 20:50:21 UTC
-* Number of recursive dependencies: 95
-
-Run `revdep_details(,"opensensmapr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ── 7. Error: phenomena from a not sensebox data.frame returns error (@test_pheno
-      object 'boxes' not found
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 26 | SKIPPED: 35 | WARNINGS: 1 | FAILED: 7 ]
-      1. Error: osem_box_to_archive_name works for one box (@test_archive.R#23) 
-      2. Error: osem_box_to_archive_name works for multiple boxes (@test_archive.R#29) 
-      3. Error: osem_measurements_archive works for one box (@test_archive.R#41) 
-      4. Error: osem_measurements_archive fails for multiple boxes (@test_archive.R#47) 
-      5. Error: required box attributes are correctly parsed (@test_box.R#22) 
-      6. Error: summary.sensebox outputs all metrics for a single box 
-      7. Error: phenomena from a not sensebox data.frame returns error (@test_phenomena.R#30) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # Organism.dplyr
@@ -6153,12 +5755,12 @@ Run `revdep_details(,"Organism.dplyr")` for more info
 
 <details>
 
-* Version: 0.5.0
+* Version: 0.5.1
 * Source code: https://github.com/cran/padr
 * URL: https://github.com/EdwinTh/padr
 * BugReports: https://github.com/EdwinTh/padr/issues
-* Date/Publication: 2019-06-11 13:20:03 UTC
-* Number of recursive dependencies: 80
+* Date/Publication: 2020-04-03 09:50:02 UTC
+* Number of recursive dependencies: 69
 
 Run `revdep_details(,"padr")` for more info
 
@@ -6198,16 +5800,16 @@ Run `revdep_details(,"padr")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 569 | SKIPPED: 1 | WARNINGS: 3 | FAILED: 28 ]
-      1. Failure: fill_by_prevalent gives expected outcomes (@test_fill_functions.R#42) 
-      2. Failure: fill_by_prevalent gives expected outcomes (@test_fill_functions.R#43) 
-      3. Failure: fill_by_prevalent gives expected outcomes (@test_fill_functions.R#44) 
-      4. Failure: fill_by_prevalent gives expected outcomes (@test_fill_functions.R#45) 
-      5. Failure: break_above prevents large output (@test_pad.R#56) 
-      6. Failure: break_above prevents large output (@test_pad.R#58) 
-      7. Failure: gives correct output when start or end with datetime range (@test_pad.R#100) 
-      8. Failure: gives correct output when start or end with datetime range (@test_pad.R#102) 
-      9. Failure: pad_multiple pads correctly with one group var (@test_pad.R#120) 
+      [ OK: 573 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 24 ]
+      1. Failure: break_above prevents large output (@test_pad.R#56) 
+      2. Failure: break_above prevents large output (@test_pad.R#58) 
+      3. Failure: gives correct output when start or end with datetime range (@test_pad.R#100) 
+      4. Failure: gives correct output when start or end with datetime range (@test_pad.R#102) 
+      5. Failure: pad_multiple pads correctly with one group var (@test_pad.R#120) 
+      6. Failure: pad_multiple pads correctly with one group var (@test_pad.R#121) 
+      7. Failure: pad_multiple pads correctly with one group var (@test_pad.R#122) 
+      8. Failure: pad pads correctly with two group vars (@test_pad.R#130) 
+      9. Failure: pad pads correctly with two group vars (@test_pad.R#131) 
       1. ...
       
       Error: testthat unit tests failed
@@ -6378,7 +5980,7 @@ Run `revdep_details(,"PAST")` for more info
       3. │   ├─base::withVisible(eval(ei, envir))
       4. │   └─base::eval(ei, envir)
       5. │     └─base::eval(ei, envir)
-      6. └─PAST::load_GWAS_data(demo_association_file, demo_effects_file) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpJ77cZs/Rexb54b2cfd2132:11:0
+      6. └─PAST::load_GWAS_data(demo_association_file, demo_effects_file) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmprHINjW/Rexc9285a1e1f0:11:0
       7.   └─`%>%`(...)
       8.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
       9.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
@@ -6388,7 +5990,7 @@ Run `revdep_details(,"PAST")` for more info
      13.             └─function_list[[i]](value)
      14.               ├─dplyr::mutate(...)
      15.               └─dplyr:::mutate.data.frame(...)
-     16.
+     16. 
     Execution halted
     ```
 
@@ -6727,7 +6329,7 @@ Run `revdep_details(,"pmdplyr")` for more info
 * URL: https://weecology.github.io/portalr/, https://github.com/weecology/portalr
 * BugReports: https://github.com/weecology/portalr/issues
 * Date/Publication: 2020-01-16 15:00:02 UTC
-* Number of recursive dependencies: 103
+* Number of recursive dependencies: 104
 
 Run `revdep_details(,"portalr")` for more info
 
@@ -7104,47 +6706,11 @@ Run `revdep_details(,"qualmap")` for more info
       Execution halted
     ```
 
-# rabhit
+## In both
 
-<details>
-
-* Version: 0.1.4
-* Source code: https://github.com/cran/rabhit
-* URL: https://yaarilab.bitbucket.io/RAbHIT/
-* BugReports: https://bitbucket.org/yaarilab/haplotyper/issues
-* Date/Publication: 2020-01-29 20:20:02 UTC
-* Number of recursive dependencies: 109
-
-Run `revdep_details(,"rabhit")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
+*   checking package dependencies ... NOTE
     ```
-    ...
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Using `n` as weighting variable
-    Error: Column 'n' is already present in output
-     * Use `name = "new_name"` to pick a new name
-    Backtrace:
-         █
-      1. └─rabhit::deletionHeatmap(samplesHaplotype)
-      2.   └─`%>%`(...)
-      3.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5.       └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      6.         └─rabhit:::`_fseq`(`_lhs`)
-      7.           └─magrittr::freduce(value, `_function_list`)
-      8.             ├─base::withVisible(function_list[[k]](value))
-      9.             └─function_list[[k]](value)
-     10.               └─dplyr::count_(.)
-     11.                 └─dplyr::count(x, !!!vars, wt = !!wt, sort = sort, .drop = .drop)
-     12.                   └─dplyr::tally(out, wt = !!enquo(wt), sort = sort, name = name)
-     13.                     └─dplyr:::check_name(x, name)
-     14.                       └─dplyr:::glubort(...)
-    Execution halted
+    Package suggested but not available for checking: ‘tidycensus’
     ```
 
 # Rariant
@@ -7403,9 +6969,9 @@ Run `revdep_details(,"recipes")` for more info
 
 <details>
 
-* Version: 0.2.0
+* Version: 0.2.1
 * Source code: https://github.com/cran/rFIA
-* Date/Publication: 2020-01-09 17:50:05 UTC
+* Date/Publication: 2020-04-03 19:20:02 UTC
 * Number of recursive dependencies: 81
 
 Run `revdep_details(,"rFIA")` for more info
@@ -7440,6 +7006,16 @@ Run `revdep_details(,"rFIA")` for more info
     Error: distinct() must use existing variables
     ```
 
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.7Mb
+      sub-directories of 1Mb or more:
+        R      2.9Mb
+        data   1.9Mb
+    ```
+
 # RNeXML
 
 <details>
@@ -7449,7 +7025,7 @@ Run `revdep_details(,"rFIA")` for more info
 * URL: https://docs.ropensci.org/RNeXML, https://github.com/ropensci/RNeXML
 * BugReports: https://github.com/ropensci/RNeXML/issues
 * Date/Publication: 2020-03-01 05:50:02 UTC
-* Number of recursive dependencies: 134
+* Number of recursive dependencies: 135
 
 Run `revdep_details(,"RNeXML")` for more info
 
@@ -7827,7 +7403,7 @@ Run `revdep_details(,"saotd")` for more info
       Attributes: < Component "class": 1 string mismatch >
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 63 | SKIPPED: 0 | WARNINGS: 8 | FAILED: 5 ]
+      [ OK: 63 | SKIPPED: 0 | WARNINGS: 6 | FAILED: 5 ]
       1. Failure: bigrams are computed properly (@test_bigram.R#19) 
       2. Error: (unknown) (@test_number_topics.R#12) 
       3. Failure: Trigrams are computed properly (@test_trigram.R#21) 
@@ -8524,71 +8100,6 @@ Run `revdep_details(,"SIRItoGTFS")` for more info
     Execution halted
     ```
 
-# sjmisc
-
-<details>
-
-* Version: 2.8.3
-* Source code: https://github.com/cran/sjmisc
-* URL: https://strengejacke.github.io/sjmisc
-* BugReports: https://github.com/strengejacke/sjmisc/issues
-* Date/Publication: 2020-01-10 05:30:14 UTC
-* Number of recursive dependencies: 96
-
-Run `revdep_details(,"sjmisc")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    Error: Assigned data `group` must be compatible with existing data.
-    ℹ Error occurred for column `disp`.
-    ✖ No common type for <factor<dec08>> and <double>.
-    Backtrace:
-         █
-      1. └─`%>%`(...)
-      2.   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3.   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5.       └─`_fseq`(`_lhs`)
-      6.         └─magrittr::freduce(value, `_function_list`)
-      7.           └─function_list[[i]](value)
-      8.             ├─sjmisc::dicho(., disp, append = FALSE)
-      9.             └─sjmisc:::dicho.default(., disp, append = FALSE)
-     10.               └─sjmisc:::recode_fun(...)
-     11.                 ├─base::`[<-`(...)
-     12.                 └─tibble:::`[<-.tbl_df`(...)
-     13.                   └─tibble:::tbl_subassign(x, i, j, value, i_arg, j_arg, substitute(value))
-     14.                     └─tibble:::tbl_subassign_row(x, i, value, value_arg)
-     15
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       10. sjmisc:::recode_fun(...)
-       12. tibble:::`[<-.tbl_df`(...)
-       13. tibble:::tbl_subassign(x, i, j, value, i_arg, j_arg, substitute(value))
-       14. tibble:::tbl_subassign_row(x, i, value, value_arg)
-       15. base::tryCatch(...)
-       16. base:::tryCatchList(expr, classes, parentenv, handlers)
-       17. base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
-       18. value[[3L]](cond)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 154 | SKIPPED: 11 | WARNINGS: 1 | FAILED: 1 ]
-      1. Error: std, split_var (@test-splitvar.R#12) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # skimr
 
 <details>
@@ -8709,7 +8220,7 @@ Run `revdep_details(,"skynet")` for more info
 * URL: https://github.com/DavisVaughan/slider
 * BugReports: https://github.com/DavisVaughan/slider/issues
 * Date/Publication: 2020-02-23 17:10:02 UTC
-* Number of recursive dependencies: 60
+* Number of recursive dependencies: 61
 
 Run `revdep_details(,"slider")` for more info
 
@@ -9162,7 +8673,7 @@ Run `revdep_details(,"srvyr")` for more info
 * URL: http://stacomir.r-forge.r-project.org/
 * BugReports: https://github.com/MarionLegrandLogrami/stacomiR/issues
 * Date/Publication: 2020-03-18 15:20:13 UTC
-* Number of recursive dependencies: 103
+* Number of recursive dependencies: 104
 
 Run `revdep_details(,"stacomiR")` for more info
 
@@ -9397,62 +8908,10 @@ Run `revdep_details(,"stars")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 16.2Mb
+      installed size is 16.1Mb
       sub-directories of 1Mb or more:
         doc  10.3Mb
         nc    4.5Mb
-    ```
-
-# stplanr
-
-<details>
-
-* Version: 0.5.1
-* Source code: https://github.com/cran/stplanr
-* URL: https://github.com/ropensci/stplanr, https://docs.ropensci.org/stplanr/
-* BugReports: https://github.com/ropensci/stplanr/issues
-* Date/Publication: 2020-03-01 22:20:02 UTC
-* Number of recursive dependencies: 126
-
-Run `revdep_details(,"stplanr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > shortpath <- sum_network_routes(sln, 1, 35, sumvars = "length")
-    > plot(shortpath, col = "red", lwd = 4, add = TRUE)
-    > library(sf)
-    Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0
-    > sln_sf <- SpatialLinesNetwork(route_network_sf)
-    > plot(sln_sf)
-    > shortpath <- sum_network_routes(sln_sf, 1, 50, sumvars = "length")
-    Error: `new` must be a tibble
-    Backtrace:
-         █
-      1. └─stplanr::sum_network_routes(sln_sf, 1, 50, sumvars = "length")
-      2.   └─`%>%`(...)
-      3.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5.       └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      6.         └─stplanr:::`_fseq`(`_lhs`)
-      7.           └─magrittr::freduce(value, `_function_list`)
-      8.             └─function_list[[i]](value)
-      9.               └─dplyr::bind_cols(., routedata)
-     10.                 └─dplyr::dplyr_reconstruct(out, first)
-    Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.3Mb
-      sub-directories of 1Mb or more:
-        doc   3.0Mb
     ```
 
 # strapgod
@@ -9633,7 +9092,7 @@ Run `revdep_details(,"sugarbag")` for more info
 * URL: https://pkg.earo.me/sugrrants
 * BugReports: https://github.com/earowang/sugrrants/issues
 * Date/Publication: 2020-03-10 06:40:02 UTC
-* Number of recursive dependencies: 88
+* Number of recursive dependencies: 89
 
 Run `revdep_details(,"sugrrants")` for more info
 
@@ -9661,6 +9120,13 @@ Run `revdep_details(,"sugrrants")` for more info
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘plotly’
     ```
 
 # survivalAnalysis
@@ -10061,71 +9527,6 @@ Run `revdep_details(,"tibbleOne")` for more info
       All declared Imports should be used.
     ```
 
-# tidybayes
-
-<details>
-
-* Version: 2.0.2
-* Source code: https://github.com/cran/tidybayes
-* URL: http://mjskay.github.io/tidybayes, https://github.com/mjskay/tidybayes
-* BugReports: https://github.com/mjskay/tidybayes/issues/new
-* Date/Publication: 2020-03-19 15:10:02 UTC
-* Number of recursive dependencies: 194
-
-Run `revdep_details(,"tidybayes")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    ✖ Existing data has 12000 rows.
-    ✖ Element 1 of assigned data has 1000 rows.
-    ℹ Only vectors of size 1 are recycled.
-    Backtrace:
-         █
-      1. └─`%>%`(...)
-      2.   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3.   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5.       └─`_fseq`(`_lhs`)
-      6.         └─magrittr::freduce(value, `_function_list`)
-      7.           └─function_list[[i]](value)
-      8.             └─tidybayes::spread_draws(., b[i, j])
-      9.               └─base::lapply(...)
-     10.                 └─tidybayes:::FUN(X[[i]], ...)
-     11.                   └─tidybayes:::spread_draws_(...)
-     12.                     └─tidybayes:::spread_draws_long_(...)
-     13.                       ├─base::`[<-`(...)
-     14.                       └─tibble:::`[<-.tbl_df`(...)
-     15.
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 284 | SKIPPED: 111 | WARNINGS: 3 | FAILED: 35 ]
-      1. Error: compare_levels respects groups of input data frame (@test.compare_levels.R#180) 
-      2. Error: regular expressions for parameter names work on indexed parameters (@test.gather_draws.R#23) 
-      3. Error: gather_draws works on a combination of 0 and 1-dimensional values (with correct groups) (@test.gather_draws.R#31) 
-      4. Error: gather_variables works on the results of spread_draws with multiple variables and dimensions (@test.gather_variables.R#32) 
-      5. Error: (unknown) (@test.geom_interval.R#15) 
-      6. Error: (unknown) (@test.geom_pointinterval.R#14) 
-      7. Failure: spread_draws works on a simple variable with no dimensions (@test.spread_draws.R#70) 
-      8. Failure: spread_draws works on two variables with no dimensions and multiple chains (@test.spread_draws.R#85) 
-      9. Error: spread_draws works on a variable with one unnamed index 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # tidycells
 
 <details>
@@ -10189,6 +9590,13 @@ Run `revdep_details(,"tidycells")` for more info
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘plotly’
     ```
 
 # tidygraph
@@ -10263,7 +9671,7 @@ Run `revdep_details(,"tidygraph")` for more info
 * URL: https://github.com/colearendt/tidyjson
 * BugReports: https://github.com/colearendt/tidyjson/issues
 * Date/Publication: 2019-12-02 21:39:30
-* Number of recursive dependencies: 88
+* Number of recursive dependencies: 89
 
 Run `revdep_details(,"tidyjson")` for more info
 
@@ -10435,7 +9843,7 @@ Run `revdep_details(,"tidync")` for more info
 * URL: https://github.com/ianmcook/tidyquery
 * BugReports: https://github.com/ianmcook/tidyquery/issues
 * Date/Publication: 2020-01-20 18:50:03 UTC
-* Number of recursive dependencies: 61
+* Number of recursive dependencies: 62
 
 Run `revdep_details(,"tidyquery")` for more info
 
@@ -10725,7 +10133,7 @@ Run `revdep_details(,"tidystopwords")` for more info
 * URL: https://github.com/r-transit/tidytransit
 * BugReports: https://github.com/r-transit/tidytransit
 * Date/Publication: 2020-03-15 17:30:02 UTC
-* Number of recursive dependencies: 83
+* Number of recursive dependencies: 84
 
 Run `revdep_details(,"tidytransit")` for more info
 
@@ -10779,7 +10187,7 @@ Run `revdep_details(,"tidytransit")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.2Mb
+      installed size is  6.3Mb
       sub-directories of 1Mb or more:
         doc       1.3Mb
         extdata   4.4Mb
@@ -11541,7 +10949,7 @@ Run `revdep_details(,"treeplyr")` for more info
 * URL: https://www.tsbox.help
 * BugReports: https://github.com/christophsax/tsbox/issues
 * Date/Publication: 2019-08-06 06:40:02 UTC
-* Number of recursive dependencies: 92
+* Number of recursive dependencies: 93
 
 Run `revdep_details(,"tsbox")` for more info
 
@@ -11580,7 +10988,7 @@ Run `revdep_details(,"tsbox")` for more info
 * URL: https://tsibble.tidyverts.org
 * BugReports: https://github.com/tidyverts/tsibble/issues
 * Date/Publication: 2020-01-31 06:20:11 UTC
-* Number of recursive dependencies: 92
+* Number of recursive dependencies: 93
 
 Run `revdep_details(,"tsibble")` for more info
 
@@ -12030,7 +11438,7 @@ Run `revdep_details(,"vpc")` for more info
 * URL: https://docs.ropensci.org/weathercan, https://github.com/ropensci/weathercan
 * BugReports: https://github.com/ropensci/weathercan/issues
 * Date/Publication: 2020-02-05 14:10:02 UTC
-* Number of recursive dependencies: 128
+* Number of recursive dependencies: 129
 
 Run `revdep_details(,"weathercan")` for more info
 
@@ -12130,6 +11538,13 @@ Run `revdep_details(,"xpose")` for more info
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘plotly’
     ```
 
 # xrf
