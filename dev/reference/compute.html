@@ -247,9 +247,9 @@ details.</p></td>
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>Methods available in currently loaded packages:</p><ul>
-<li><p><code>compute()</code>: dbplyr (<code><a href='https://rdrr.io/pkg/dbplyr/man/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
-<li><p><code>collect()</code>: dbplyr (<code><a href='https://rdrr.io/pkg/dbplyr/man/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
-<li><p><code>collapse()</code>: dbplyr (<code><a href='https://rdrr.io/pkg/dbplyr/man/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
+<li><p><code>compute()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
+<li><p><code>collect()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
+<li><p><code>collapse()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -259,7 +259,7 @@ frame and uploads it to the remote source.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>dbplyr</span>)) {
-  <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/dbplyr/man/memdb_frame.html'>src_memdb</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>src_memdb</a></span>() <span class='kw'>%&gt;%</span>
     <span class='fu'><a href='copy_to.html'>copy_to</a></span>(<span class='no'>mtcars</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"mtcars2-cc"</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
   <span class='no'>remote</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars2</span> <span class='kw'>%&gt;%</span>

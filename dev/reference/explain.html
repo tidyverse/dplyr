@@ -241,7 +241,7 @@ diagnosing performance problems.</p>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"dbplyr"</span>)) {
 
-<span class='no'>lahman_s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/dbplyr/man/lahman.html'>lahman_sqlite</a></span>()
+<span class='no'>lahman_s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/lahman.html'>lahman_sqlite</a></span>()
 <span class='no'>batting</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='no'>lahman_s</span>, <span class='st'>"Batting"</span>)
 <span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'>show_query</span>()
 <span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'>explain</span>()
