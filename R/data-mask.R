@@ -13,7 +13,6 @@ DataMask <- R6Class("DataMask",
 
       private$data <- data
       private$caller <- caller
-      private$bindings <- env(empty_env())
       private$keys <- group_keys(data)
       private$group_vars <- group_vars(data)
 
@@ -51,9 +50,9 @@ DataMask <- R6Class("DataMask",
           res
       }
 
-      promises <- map(seq_len(ncol(data)), function(.x) expr(promise_fn(!!.x)))
-
-      env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
+      promises_args <- .Call(`dplyr_promises_args`, names_bindings, promise_fn)
+      fun <- new_function(promises_args, expr(environment()))
+      private$bindings <- fun()
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)

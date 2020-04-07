@@ -3,8 +3,10 @@ duplicated column name
 ======================
 
 > tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)
-Error: arrange() failed at implicit mutate() step. 
-x Can't bind data because some arguments have the same name
+# A tibble: 1 x 2
+      x     x
+  <dbl> <dbl>
+1     1     1
 
 
 error in mutate() step

@@ -68,6 +68,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_
 SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
 SEXP dplyr_group_keys(SEXP group_data);
+SEXP dplyr_promises_args(SEXP names_bindings, SEXP promise_fn);
 
 #define DPLYR_MASK_INIT()                                                          \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));         \
