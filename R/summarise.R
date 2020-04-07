@@ -150,6 +150,7 @@ summarise_cols <- function(.data, ...) {
 
   sizes <- 1L
   chunks <- vector("list", length(dots))
+  types <- vector("list", length(dots))
 
   tryCatch({
 
@@ -165,7 +166,7 @@ summarise_cols <- function(.data, ...) {
 
       mask$across_cache_reset()
 
-      result_type <- vec_ptype_common(!!!chunks[[i]])
+      result_type <- types[[i]] <- vec_ptype_common(!!!chunks[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
         # remember each result separately
@@ -178,19 +179,18 @@ summarise_cols <- function(.data, ...) {
       }
     }
 
-    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows())
+    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types)
     chunks <- recycle_info$chunks
     sizes <- recycle_info$sizes
 
     # materialize columns
     for (i in seq_along(dots)) {
-      if (is.null(chunks[[i]])) next
-      result <- vec_c(!!!chunks[[i]])
+      result <- vec_c(!!!chunks[[i]], .ptype = types[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
         cols[names(result)] <- result
       } else {
-        cols[[ auto_named_dots[i] ]] <-  result
+        cols[[ auto_named_dots[i] ]] <- result
       }
     }
 

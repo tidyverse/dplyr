@@ -22,54 +22,52 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private) {
   return chunks;
 }
 
-SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows) {
-  // first we identify useless chunks, i.e. chunks that give
-  // data frame results of 0 columns,
-  // and replace those with NULL
+bool is_useful_chunk(SEXP ptype) {
+  return !Rf_inherits(ptype, "data.frame") || XLENGTH(ptype) > 0;
+}
+
+bool has_useful_chunks(SEXP ptypes) {
+  R_len_t n = LENGTH(ptypes);
+
+  return false;
+}
+
+
+SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes) {
   R_len_t n_chunks = LENGTH(chunks);
-  R_len_t n_useful_chunks = 0;
-  for (R_len_t i = 0; i < n_chunks; i++) {
-    SEXP chunks_i = VECTOR_ELT(chunks, i);
-
-    bool keep = false;
-    R_xlen_t n_i = XLENGTH(chunks_i);
-    for (R_xlen_t j = 0; j < n_i; j++) {
-      SEXP chunks_i_j = VECTOR_ELT(chunks_i, j);
-      if (!Rf_inherits(chunks_i_j, "data.frame") || XLENGTH(chunks_i_j) > 0) {
-        keep = true;
-        n_useful_chunks++;
-        break;
-      }
-    }
-
-    if (!keep) {
-      SET_VECTOR_ELT(chunks, i, R_NilValue);
-    }
-  }
+  R_len_t n_groups = LENGTH(rows);
 
   SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
   Rf_namesgets(res, dplyr::vectors::names_summarise_recycle_chunks);
   SET_VECTOR_ELT(res, 0, chunks);
 
-  // special case when there are no useful chunks
-  if (n_useful_chunks == 0) {
+  SEXP useful = PROTECT(Rf_allocVector(LGLSXP, n_chunks));
+  int* p_useful = LOGICAL(useful);
+  int n_useful = 0;
+  for (R_len_t j = 0; j < n_chunks; j++) {
+    n_useful += p_useful[j] = is_useful_chunk(VECTOR_ELT(ptypes, j));
+  }
+
+  // early exit if there are no useful chunks, this includes
+  // when there are no chunks at all
+  if (n_useful == 0) {
     SET_VECTOR_ELT(res, 1, Rf_ScalarInteger(1));
-    UNPROTECT(1);
+    UNPROTECT(2);
     return res;
   }
-  R_len_t n = LENGTH(rows);
 
   bool all_one = true;
   int k = 1;
-  SEXP sizes = PROTECT(Rf_allocVector(INTSXP, n));
+  SEXP sizes = PROTECT(Rf_allocVector(INTSXP, n_groups));
   int* p_sizes = INTEGER(sizes);
-  for (R_xlen_t i = 0; i < n; i++, ++p_sizes) {
+  for (R_xlen_t i = 0; i < n_groups; i++, ++p_sizes) {
     R_len_t n_i = 1;
 
     R_len_t j = 0;
     for (; j < n_chunks; j++) {
       // skip useless chunks before looking for chunk size
-      for (; j < n_chunks && VECTOR_ELT(chunks, j) == R_NilValue; j++);
+      for (; j < n_chunks && !p_useful[j]; j++);
+      if (j == n_chunks) break;
 
       R_len_t n_i_j = vctrs::short_vec_size(VECTOR_ELT(VECTOR_ELT(chunks, j), i));
 
@@ -95,11 +93,12 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows) {
     // perform recycling
     for (int j = 0; j < n_chunks; j++){
       // skip useless chunks before recycling
-      for (; j < n_chunks && VECTOR_ELT(chunks, j) == R_NilValue; j++);
+      for (; j < n_chunks && !p_useful[j]; j++);
+      if (j == n_chunks) break;
 
       SEXP chunks_j = VECTOR_ELT(chunks, j);
       int* p_sizes = INTEGER(sizes);
-      for (int i = 0; i < n; i++, ++p_sizes) {
+      for (int i = 0; i < n_groups; i++, ++p_sizes) {
         SET_VECTOR_ELT(chunks_j, i,
           vctrs::short_vec_recycle(VECTOR_ELT(chunks_j, i), *p_sizes)
         );
@@ -109,6 +108,6 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows) {
     SET_VECTOR_ELT(res, 1, sizes);
   }
 
-  UNPROTECT(2);
+  UNPROTECT(3);
   return res;
 }

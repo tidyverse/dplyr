@@ -89,9 +89,13 @@ test_that("formulas are evaluated in the right environment (#3019)", {
 test_that("data frame results with 0 columns are ignored (#5084)", {
   df1 <- tibble(x = 1:2)
   expect_equal(df1 %>% group_by(x) %>% summarise(data.frame()), df1)
+  expect_equal(df1 %>% group_by(x) %>% summarise(data.frame(), y = 65), mutate(df1, y = 65))
+  expect_equal(df1 %>% group_by(x) %>% summarise(y = 65, data.frame()), mutate(df1, y = 65))
 
   df2 <- tibble(x = 1:2, y = 3:4)
   expect_equal(df2 %>% group_by(x) %>% summarise(data.frame()), df1)
+  expect_equal(df2 %>% group_by(x) %>% summarise(data.frame(), z = 98), mutate(df1, z = 98))
+  expect_equal(df2 %>% group_by(x) %>% summarise(z = 98, data.frame()), mutate(df1, z = 98))
 })
 
 # grouping ----------------------------------------------------------------
