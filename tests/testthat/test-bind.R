@@ -164,6 +164,13 @@ test_that("bind_rows puts data frames in order received even if no columns (#217
   expect_equal(res$y, c(NA, "b"))
 })
 
+test_that("bind_rows(.id= NULL) does not set names (#5089)", {
+  expect_equal(
+    attr(bind_rows(list(a = tibble(x = 1:2))), "row.names"),
+    1:2
+  )
+})
+
 # Column coercion --------------------------------------------------------------
 
 test_that("bind_rows promotes integer to numeric", {
