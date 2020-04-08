@@ -16,43 +16,22 @@ DataMask <- R6Class("DataMask",
       private$keys <- group_keys(data)
       private$group_vars <- group_vars(data)
 
-      # A function that returns all the chunks for a column
-      resolve_chunks <- if (inherits(data, "rowwise_df")) {
-        function(index) {
-          col <- .subset2(data, index)
-          res <- vec_chop(col, rows)
-          if (vec_is_list(col)) {
-            res <- map(res, `[[`, 1L)
-          }
-          res
-        }
-      } else if (is_grouped_df(data)) {
-        function(index) vec_chop(.subset2(data, index), rows)
-      } else {
-        # for ungrouped data frames, there is only one chunk that
-        # is made of the full column
-        function(index) list(.subset2(data, index))
-      }
-
-      private$used <- rep(FALSE, ncol(data))
-
       names_bindings <- chr_unserialise_unicode(names2(data))
+
+      # the list of chops for each column of data,
+      # only set as needed by $set() through the promises
       private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
 
-      promise_fn <- function(index, chunks = resolve_chunks(index), name = names_bindings[index]) {
-          # resolve the chunks and hold the slice for current group
-          res <- .subset2(chunks, self$get_current_group())
+      # tracking which column has been used
+      private$used <- logical(ncol(data))
+      private$which_used <- integer()
 
-          # track - not safe to directly use `index`
-          self$set(name, chunks)
-
-          # return result for current slice
-          res
-      }
-
-      promises_args <- .Call(`dplyr_promises_args`, names_bindings, promise_fn)
-      fun <- new_function(promises_args, expr(environment()))
-      private$bindings <- fun()
+      # environment with promises for each column
+      #
+      # a promise is only used once, within a group, and then
+      # the internal code "knows" which one has been used so it installs the
+      # right slice before evaluating the expression
+      private$bindings <- private$init_promises(names_bindings)
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
@@ -241,6 +220,43 @@ DataMask <- R6Class("DataMask",
     bindings = NULL,
     current_group = 0L,
     caller = NULL,
-    across_cache = list()
+    across_cache = list(),
+
+    init_promises = function(names_bindings) {
+      data <- private$data
+      rows <- private$rows
+      # A function that returns all the chunks for a column
+      resolve_chunks <- if (inherits(data, "rowwise_df")) {
+        function(index) {
+          col <- .subset2(data, index)
+          res <- vec_chop(col, rows)
+          if (vec_is_list(col)) {
+            res <- map(res, `[[`, 1L)
+          }
+          res
+        }
+      } else if (is_grouped_df(data)) {
+        function(index) vec_chop(.subset2(data, index), rows)
+      } else {
+        # for ungrouped data frames, there is only one chunk that
+        # is made of the full column
+        function(index) list(.subset2(data, index))
+      }
+
+      promise_fn <- function(index, chunks = resolve_chunks(index), name = names_bindings[index]) {
+        # resolve the chunks and hold the slice for current group
+        res <- .subset2(chunks, self$get_current_group())
+
+        # track - not safe to directly use `index`
+        self$set(name, chunks)
+
+        # return result for current slice
+        res
+      }
+      fun <- function() environment()
+      formals(fun) <- .Call(`dplyr_init_promises_formals`, names_bindings, promise_fn)
+      fun()
+    }
+
   )
 )

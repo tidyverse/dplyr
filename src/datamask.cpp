@@ -1,6 +1,6 @@
 #include "dplyr.h"
 
-SEXP dplyr_promises_args(SEXP names_bindings, SEXP promise_fn) {
+SEXP dplyr_init_promises_formals(SEXP names_bindings, SEXP promise_fn) {
   PROTECT_INDEX ipx;
   SEXP args = R_NilValue;
   PROTECT_WITH_INDEX(args, &ipx);
