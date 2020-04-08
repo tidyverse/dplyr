@@ -1,6 +1,6 @@
 > combine("a", 1)
-Error: No common type for `..1` <character> and `..2` <double>.
+Error: Can't combine `..1` <character> and `..2` <double>.
 
 > combine(factor("a"), 1L)
-Error: No common type for `..1` <factor<127a2>> and `..2` <integer>.
+Error: Can't combine `..1` <factor<127a2>> and `..2` <integer>.
 
