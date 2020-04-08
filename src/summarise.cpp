@@ -26,13 +26,6 @@ bool is_useful_chunk(SEXP ptype) {
   return !Rf_inherits(ptype, "data.frame") || XLENGTH(ptype) > 0;
 }
 
-bool has_useful_chunks(SEXP ptypes) {
-  R_len_t n = LENGTH(ptypes);
-
-  return false;
-}
-
-
 SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes) {
   R_len_t n_chunks = LENGTH(chunks);
   R_len_t n_groups = LENGTH(rows);
