@@ -200,20 +200,18 @@ summarise_cols <- function(.data, ...) {
     }
 
   },
-  rlang_error_data_pronoun_not_found = function(e) {
-    stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
-  },
-  dplyr_summarise_incompatible_combine = function(e) {
-    stop_combine(e, index = i, dots = dots, fn = "summarise")
-  },
-  dplyr_summarise_unsupported_type = function(cnd) {
-    stop_summarise_unsupported_type(result = cnd$result, index = i, dots = dots)
-  },
-  dplyr_summarise_incompatible_size = function(cnd) {
-    stop_summarise_incompatible_size(size = cnd$size, group = cnd$group, index = cnd$index, expected_size = cnd$expected_size, dots = dots)
-  },
-  simpleError = function(e) {
-    stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
+  error = function(e) {
+    if (inherits(e, "rlang_error_data_pronoun_not_found")) {
+      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
+    } else if (inherits(e, "dplyr_summarise_incompatible_combine")) {
+      stop_combine(e, index = i, dots = dots, fn = "summarise")
+    } else if (inherits(e, "dplyr_summarise_unsupported_type")) {
+      stop_summarise_unsupported_type(result = e$result, index = i, dots = dots)
+    } else if (inherits(e, "dplyr_summarise_incompatible_size")) {
+      stop_summarise_incompatible_size(size = e$size, group = e$group, index = e$index, expected_size = e$expected_size, dots = dots)
+    } else {
+      stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
+    }
   })
 
   list(new = cols, size = sizes)

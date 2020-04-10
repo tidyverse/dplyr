@@ -316,26 +316,22 @@ mutate_cols <- function(.data, ...) {
     }
 
   },
-  rlang_error_data_pronoun_not_found = function(e) {
-    stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
-  },
-  dplyr_mutate_incompatible_size = function(e) {
-    e$size <- vec_size(rows[[i]])
-    stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
-  },
-  dplyr_mutate_mixed_NULL = function(e) {
-    stop_mutate_mixed_NULL(index = i, dots = dots)
-  },
-  dplyr_mutate_not_vector = function(e) {
-    stop_mutate_not_vector(index = i, dots = dots, result = e$result)
-  },
-  dplyr_mutate_incompatible_combine = function(e) {
-    stop_combine(e, index = i, dots = dots, fn = "mutate")
-  },
-  simpleError = function(e) {
-    stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
-  }
-  )
+  error = function(e) {
+    if (inherits(e, "rlang_error_data_pronoun_not_found")) {
+      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+    } else if (inherits(e, "dplyr_mutate_incompatible_size")) {
+      e$size <- vec_size(rows[[i]])
+      stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
+    } else if (inherits(e, "dplyr_mutate_mixed_NULL")) {
+      stop_mutate_mixed_NULL(index = i, dots = dots)
+    } else if(inherits(e, "dplyr_mutate_not_vector")) {
+      stop_mutate_not_vector(index = i, dots = dots, result = e$result)
+    } else if(inherits(e, "dplyr_mutate_incompatible_combine")) {
+      stop_combine(e, index = i, dots = dots, fn = "mutate")
+    } else {
+      stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
+    }
+  })
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
   new_columns[is_zap] <- rep(list(NULL), sum(is_zap))
