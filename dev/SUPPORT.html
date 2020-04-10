@@ -17,22 +17,26 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="pkgdown.css" rel="stylesheet">
@@ -90,7 +94,7 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
         </div>
@@ -200,17 +204,17 @@
 <div id="getting-help-with-dplyr" class="section level1">
 
 <p>Thanks for using dplyr. Before filing an issue, there are a few places to explore and pieces to put together to make the process as smooth as possible.</p>
-<p>Start by making a minimal <strong>repr</strong>oducible <strong>ex</strong>ample using the <a href="http://reprex.tidyverse.org/">reprex</a> package. If you havenât heard of or used reprex before, youâre in for a treat! Seriously, reprex will make all of your R-question-asking endeavors easier (which is a pretty insane ROI for the five to ten minutes itâll take you to learn what itâs all about). For additional reprex pointers, check out the <a href="https://www.tidyverse.org/help/">Get help!</a> section of the tidyverse site.</p>
+<p>Start by making a minimal <strong>repr</strong>oducible <strong>ex</strong>ample using the <a href="http://reprex.tidyverse.org/">reprex</a> package. If you haven’t heard of or used reprex before, you’re in for a treat! Seriously, reprex will make all of your R-question-asking endeavors easier (which is a pretty insane ROI for the five to ten minutes it’ll take you to learn what it’s all about). For additional reprex pointers, check out the <a href="https://www.tidyverse.org/help/">Get help!</a> section of the tidyverse site.</p>
 <p>Armed with your reprex, the next step is to figure out <a href="https://www.tidyverse.org/help/#where-to-ask">where to ask</a>.</p>
 <ul>
-<li>If itâs a question: start with <a href="https://community.rstudio.com/">community.rstudio.com</a>, and/or StackOverflow. There are more people there to answer questions.<br>
+<li>If it’s a question: start with <a href="https://community.rstudio.com/">community.rstudio.com</a>, and/or StackOverflow. There are more people there to answer questions.<br>
 </li>
-<li>If itâs a bug: youâre in the right place, file an issue.<br>
+<li>If it’s a bug: you’re in the right place, file an issue.<br>
 </li>
-<li>If youâre not sure: let the community help you figure it out! If your problem <em>is</em> a bug or a feature request, you can easily return here and report it.</li>
+<li>If you’re not sure: let the community help you figure it out! If your problem <em>is</em> a bug or a feature request, you can easily return here and report it.</li>
 </ul>
-<p>Before opening a new issue, be sure to <a href="https://github.com/tidyverse/dplyr/issues">search issues and pull requests</a> to make sure the bug hasnât been reported and/or already fixed in the development version. By default, the search will be pre-populated with <code>is:issue is:open</code>. You can <a href="https://help.github.com/articles/searching-issues-and-pull-requests/">edit the qualifiers</a> (e.g.Â <code>is:pr</code>, <code>is:closed</code>) as needed. For example, youâd simply remove <code>is:open</code> to search <em>all</em> issues in the repo, open or closed.</p>
-<p>If you <em>are</em> in the right place, and need to file an issue, please review the <a href="https://www.tidyverse.org/contribute/#issues">âFile issuesâ</a> paragraph from the tidyverse contributing guidelines.</p>
+<p>Before opening a new issue, be sure to <a href="https://github.com/tidyverse/dplyr/issues">search issues and pull requests</a> to make sure the bug hasn’t been reported and/or already fixed in the development version. By default, the search will be pre-populated with <code>is:issue is:open</code>. You can <a href="https://help.github.com/articles/searching-issues-and-pull-requests/">edit the qualifiers</a> (e.g. <code>is:pr</code>, <code>is:closed</code>) as needed. For example, you’d simply remove <code>is:open</code> to search <em>all</em> issues in the repo, open or closed.</p>
+<p>If you <em>are</em> in the right place, and need to file an issue, please review the <a href="https://www.tidyverse.org/contribute/#issues">“File issues”</a> paragraph from the tidyverse contributing guidelines.</p>
 <p>Thanks for your help!</p>
 </div>
 

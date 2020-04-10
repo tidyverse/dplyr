@@ -17,22 +17,26 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -90,7 +94,7 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
         </div>
@@ -203,9 +207,9 @@
 
       <dl>
         <dt><a href="dplyr.html">Introduction to dplyr</a></dt>
-        <dd><p>Start here if this is your first time using dplyr. Youâll learn the basic philosophy, the most important data manipulation verbs, and the pipe, <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code>, which allows you to combine multiple verbs together to solve real problems.</p></dt>
+        <dd><p>Start here if this is your first time using dplyr. You’ll learn the basic philosophy, the most important data manipulation verbs, and the pipe, <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code>, which allows you to combine multiple verbs together to solve real problems.</p></dt>
         <dt><a href="grouping.html">Grouped data</a></dt>
-        <dd><p>To unlock the full potential of dplyr, you need to understand how each verb interacts with grouping. This vignette shows you how to manipulate grouping, how each verb changes its behaviour when working with grouped data, and how you can access data about the âcurrentâ group from within a verb.</p></dt>
+        <dd><p>To unlock the full potential of dplyr, you need to understand how each verb interacts with grouping. This vignette shows you how to manipulate grouping, how each verb changes its behaviour when working with grouped data, and how you can access data about the “current” group from within a verb.</p></dt>
         <dt><a href="two-table.html">Two-table verbs</a></dt>
         <dd><p>Most dplyr verbs work with a single data set, but most data analyses involve multiple datasets. This vignette introduces you to the dplyr verbs that work with more one than data set, and introduces to the mutating joins, filtering joins, and the set operations.</p></dt>
         <dt><a href="base.html">dplyr &lt;-&gt; base R</a></dt>
@@ -220,9 +224,9 @@
         <dt><a href="colwise.html">colwise operations</a></dt>
         <dd><p>Learn how to easily repeat the same operation across multiple columns using <code><a href="../reference/across.html">across()</a></code>.</p></dt>
         <dt><a href="rowwise.html">rowwise operations</a></dt>
-        <dd><p>In R, itâs usually easier to do something for each column than for each row. In this vignette you will learn how to use the <code><a href="../reference/rowwise.html">rowwise()</a></code> function to perform operations by row. Along the way, youâll learn about list-columns, and see how you might perform simulations and modelling within dplyr verbs.</p></dt>
+        <dd><p>In R, it’s usually easier to do something for each column than for each row. In this vignette you will learn how to use the <code><a href="../reference/rowwise.html">rowwise()</a></code> function to perform operations by row. Along the way, you’ll learn about list-columns, and see how you might perform simulations and modelling within dplyr verbs.</p></dt>
         <dt><a href="programming.html">Programming with dplyr</a></dt>
-        <dd><p>Most dplyr verbs use âtidy evaluationâ, a special type of non-standard evaluation. In this vignette, youâll learn the two basic forms, data masking and tidy selection, and how you can program with them using either functions or for loops.</p></dt>
+        <dd><p>Most dplyr verbs use “tidy evaluation”, a special type of non-standard evaluation. In this vignette, you’ll learn the two basic forms, data masking and tidy selection, and how you can program with them using either functions or for loops.</p></dt>
       </dl>
     </div>
     <div class="section ">

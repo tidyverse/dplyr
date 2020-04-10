@@ -12,10 +12,11 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../tidyverse.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../tidyverse-2.css" rel="stylesheet">
 <!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
@@ -50,7 +51,7 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
         </div>
@@ -305,38 +306,38 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     4</span>
-<span class="co">#&gt; 2     5</span>
-<span class="co">#&gt; 3    10</span>
-<span class="co">#&gt; 4     9</span>
+<span class="co">#&gt; 1     3</span>
+<span class="co">#&gt; 2     4</span>
+<span class="co">#&gt; 3     1</span>
+<span class="co">#&gt; 4     5</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span>(<span class="no">x</span>, <span class="kw">.keep_all</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     4     1</span>
-<span class="co">#&gt; 2     5     6</span>
-<span class="co">#&gt; 3    10    10</span>
-<span class="co">#&gt; 4     9     1</span>
+<span class="co">#&gt; 1     3     4</span>
+<span class="co">#&gt; 2     4     2</span>
+<span class="co">#&gt; 3     1     6</span>
+<span class="co">#&gt; 4     5     6</span>
 <span class="co">#&gt; # … with 6 more rows</span></pre></body></html></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">df</span>[<span class="st">"x"</span>]) <span class="co"># selected columns</span>
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     4</span>
-<span class="co">#&gt; 2     5</span>
-<span class="co">#&gt; 3    10</span>
-<span class="co">#&gt; 4     9</span>
+<span class="co">#&gt; 1     3</span>
+<span class="co">#&gt; 2     4</span>
+<span class="co">#&gt; 3     1</span>
+<span class="co">#&gt; 4     5</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="no">df</span>[!<span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(<span class="no">df</span>$<span class="no">x</span>), , <span class="kw">drop</span> <span class="kw">=</span> <span class="fl">FALSE</span>] <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     4     1</span>
-<span class="co">#&gt; 2     5     6</span>
-<span class="co">#&gt; 3    10    10</span>
-<span class="co">#&gt; 4     9     1</span>
+<span class="co">#&gt; 1     3     4</span>
+<span class="co">#&gt; 2     4     2</span>
+<span class="co">#&gt; 3     1     6</span>
+<span class="co">#&gt; 4     5     6</span>
 <span class="co">#&gt; # … with 6 more rows</span></pre></body></html></div>
 </div>
 <div id="filter-return-rows-with-matching-conditions" class="section level2">
@@ -431,20 +432,20 @@
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;       x     y     z    z2</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     4     1     5    25</span>
-<span class="co">#&gt; 2     5     6    11   121</span>
-<span class="co">#&gt; 3    10    10    20   400</span>
-<span class="co">#&gt; 4     9     1    10   100</span>
+<span class="co">#&gt; 1     3     4     7    49</span>
+<span class="co">#&gt; 2     4     2     6    36</span>
+<span class="co">#&gt; 3     1     6     7    49</span>
+<span class="co">#&gt; 4     4     1     5    25</span>
 <span class="co">#&gt; # … with 96 more rows</span></pre></body></html></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/transform.html">transform</a></span>(<span class="no">df</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="no">x</span> + <span class="no">y</span>, <span class="kw">z2</span> <span class="kw">=</span> (<span class="no">x</span> + <span class="no">y</span>) ^ <span class="fl">2</span>))
-<span class="co">#&gt;    x  y  z  z2</span>
-<span class="co">#&gt; 1  4  1  5  25</span>
-<span class="co">#&gt; 2  5  6 11 121</span>
-<span class="co">#&gt; 3 10 10 20 400</span>
-<span class="co">#&gt; 4  9  1 10 100</span>
-<span class="co">#&gt; 5  6  8 14 196</span>
-<span class="co">#&gt; 6  7  5 12 144</span></pre></body></html></div>
+<span class="co">#&gt;   x y  z  z2</span>
+<span class="co">#&gt; 1 3 4  7  49</span>
+<span class="co">#&gt; 2 4 2  6  36</span>
+<span class="co">#&gt; 3 1 6  7  49</span>
+<span class="co">#&gt; 4 4 1  5  25</span>
+<span class="co">#&gt; 5 4 4  8  64</span>
+<span class="co">#&gt; 6 5 6 11 121</span></pre></body></html></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">mtcars</span>$<span class="no">cyl2</span> <span class="kw">&lt;-</span> <span class="no">mtcars</span>$<span class="no">cyl</span> * <span class="fl">2</span>
 <span class="no">mtcars</span>$<span class="no">cyl4</span> <span class="kw">&lt;-</span> <span class="no">mtcars</span>$<span class="no">cyl2</span> * <span class="fl">2</span></pre></body></html></div>
