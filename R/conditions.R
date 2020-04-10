@@ -51,6 +51,10 @@ set_error_context <- function(index, dots, .dot_data = FALSE) {
   context_poke("error_expression", expr)
 }
 
+rethrow <- function(cnd, class) {
+  stop(`class<-`(cnd, c(class, "error", "condition")))
+}
+
 # Common ------------------------------------------------------------------
 
 stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE) {

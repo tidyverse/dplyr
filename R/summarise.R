@@ -166,7 +166,12 @@ summarise_cols <- function(.data, ...) {
 
       mask$across_cache_reset()
 
-      result_type <- types[[i]] <- vec_ptype_common(!!!chunks[[i]])
+      result_type <- types[[i]] <- tryCatch(
+        vec_ptype_common(!!!chunks[[i]]),
+        vctrs_error_incompatible_type = function(cnd) {
+          rethrow(cnd, "dplyr_summarise_incompatible_combine")
+        }
+      )
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
         # remember each result separately
@@ -198,7 +203,7 @@ summarise_cols <- function(.data, ...) {
   rlang_error_data_pronoun_not_found = function(e) {
     stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
   },
-  vctrs_error_incompatible_type = function(e) {
+  dplyr_summarise_incompatible_combine = function(e) {
     stop_combine(e, index = i, dots = dots, fn = "summarise")
   },
   dplyr_summarise_unsupported_type = function(cnd) {

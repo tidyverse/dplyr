@@ -287,7 +287,12 @@ mutate_cols <- function(.data, ...) {
 
       # only unchop if needed
       if (is.null(result)) {
-        result <- vec_unchop(chunks, rows)
+        result <- tryCatch(
+          vec_unchop(chunks, rows),
+          vctrs_error_incompatible_type = function(cnd) {
+            rethrow(cnd, "dplyr_mutate_incompatible_combine")
+          }
+        )
       }
 
       if (not_named && is.data.frame(result)) {
@@ -324,7 +329,7 @@ mutate_cols <- function(.data, ...) {
   dplyr_mutate_not_vector = function(e) {
     stop_mutate_not_vector(index = i, dots = dots, result = e$result)
   },
-  vctrs_error_incompatible_type = function(e) {
+  dplyr_mutate_incompatible_combine = function(e) {
     stop_combine(e, index = i, dots = dots, fn = "mutate")
   },
   simpleError = function(e) {
