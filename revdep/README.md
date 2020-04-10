@@ -10,7 +10,7 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Europe/Paris                 |
-|date     |2020-04-06                   |
+|date     |2020-04-10                   |
 
 # Dependencies
 
@@ -38,7 +38,7 @@
 |tibble     |2.1.3    |3.0.0       |*  |
 |tidyselect |1.0.0    |1.0.0       |   |
 |utf8       |1.1.4    |1.1.4       |   |
-|vctrs      |0.2.3    |0.2.99.9010 |*  |
+|vctrs      |0.2.3    |0.2.99.9011 |*  |
 
 # Revdeps
 
@@ -187,7 +187,7 @@
 |weibulltools                                       |1.0.1    |1         |        |         |
 |XBSeq                                              |1.18.0   |1         |        |2        |
 
-## New problems (185)
+## New problems (175)
 
 |package                                                  |version |error     |warning |note     |
 |:--------------------------------------------------------|:-------|:---------|:-------|:--------|
@@ -199,7 +199,6 @@
 |[banR](problems.md#banr)                                 |0.2.1   |__+1__    |        |         |
 |[BAwiR](problems.md#bawir)                               |1.2.2   |__+1__    |        |         |
 |[bayesplot](problems.md#bayesplot)                       |1.7.1   |__+1__    |        |1        |
-|[bdl](problems.md#bdl)                                   |1.0.2   |__+1__    |        |         |
 |[benchmarkfdrData2019](problems.md#benchmarkfdrdata2019) |1.0.0   |          |__+1__  |2 __+1__ |
 |[biclustermd](problems.md#biclustermd)                   |0.2.1   |__+1__    |        |1        |
 |[BiocSet](problems.md#biocset)                           |1.0.1   |__+1__    |        |         |
@@ -231,12 +230,10 @@
 |[dials](problems.md#dials)                               |0.0.6   |__+1__    |        |         |
 |[disk.frame](problems.md#diskframe)                      |0.3.4   |__+1__    |        |         |
 |[docxtools](problems.md#docxtools)                       |0.2.1   |__+2__    |        |         |
-|[driftR](problems.md#driftr)                             |1.1.0   |__+1__    |        |         |
 |[dupree](problems.md#dupree)                             |0.2.0   |__+1__    |        |         |
 |[eda4treeR](problems.md#eda4treer)                       |0.2.0   |__+1__    |        |1        |
 |[egor](problems.md#egor)                                 |0.20.03 |__+1__    |__+1__  |         |
 |[eia](problems.md#eia)                                   |0.3.4   |__+1__    |        |         |
-|[eph](problems.md#eph)                                   |0.3.0   |__+2__    |        |2        |
 |[epikit](problems.md#epikit)                             |0.1.0   |__+2__    |        |1        |
 |[episheet](problems.md#episheet)                         |0.4.0   |__+2__    |        |         |
 |[estatapi](problems.md#estatapi)                         |0.3.0   |__+1__    |        |         |
@@ -246,7 +243,6 @@
 |[ezplot](problems.md#ezplot)                             |0.4.0   |__+2__    |        |         |
 |[fabletools](problems.md#fabletools)                     |0.1.3   |__+2__    |        |         |
 |[finalfit](problems.md#finalfit)                         |1.0.0   |__+2__    |        |         |
-|[fingertipscharts](problems.md#fingertipscharts)         |0.0.10  |__+2__    |        |1        |
 |[foieGras](problems.md#foiegras)                         |0.4.0   |__+2__    |        |1        |
 |[forecastML](problems.md#forecastml)                     |0.8.0   |__+1__    |        |         |
 |[funrar](problems.md#funrar)                             |1.4.0   |__+1__    |        |         |
@@ -258,24 +254,22 @@
 |[ggedit](problems.md#ggedit)                             |0.3.0   |__+1__    |        |1        |
 |[ggformula](problems.md#ggformula)                       |0.9.4   |__+2__    |        |1        |
 |[ggRandomForests](problems.md#ggrandomforests)           |2.0.1   |__+1__    |        |1        |
-|[ggspatial](problems.md#ggspatial)                       |1.0.3   |__+1__    |        |1        |
 |[ggspectra](problems.md#ggspectra)                       |0.3.5   |__+1__    |        |         |
 |[gratia](problems.md#gratia)                             |0.3.1   |__+1__    |        |         |
 |[gtsummary](problems.md#gtsummary)                       |1.2.6   |__+1__    |        |         |
 |[HaDeX](problems.md#hadex)                               |1.1     |__+2__    |        |1        |
-|[heemod](problems.md#heemod)                             |0.11.0  |__+2__    |        |         |
+|[heemod](problems.md#heemod)                             |0.11.0  |__+2__    |        |1        |
 |[HMP16SData](problems.md#hmp16sdata)                     |1.6.0   |          |__+1__  |2 __+1__ |
 |[holodeck](problems.md#holodeck)                         |0.2.0   |__+1__    |        |         |
 |[IATscores](problems.md#iatscores)                       |0.2.4   |__+1__    |        |         |
 |[idmodelr](problems.md#idmodelr)                         |0.3.1   |__+1__    |        |         |
-|[incadata](problems.md#incadata)                         |0.8.2   |__+1__    |        |         |
 |[IncucyteDRC](problems.md#incucytedrc)                   |0.5.4   |__+1__    |        |         |
 |[INDperform](problems.md#indperform)                     |0.2.2   |__+2__    |        |1        |
 |[infer](problems.md#infer)                               |0.5.1   |__+1__    |        |1        |
 |[InjurySeverityScore](problems.md#injuryseverityscore)   |0.0.0.2 |__+1__    |        |         |
 |[ipumsr](problems.md#ipumsr)                             |0.4.2   |__+1__    |        |         |
 |[isomiRs](problems.md#isomirs)                           |1.14.0  |1 __+1__  |        |3        |
-|[janitor](problems.md#janitor)                           |1.2.1   |__+2__    |        |         |
+|[janitor](problems.md#janitor)                           |2.0.0   |__+1__    |        |         |
 |[jstor](problems.md#jstor)                               |0.3.8   |-1 __+2__ |        |         |
 |[keyholder](problems.md#keyholder)                       |0.1.4   |__+1__    |        |         |
 |[lans2r](problems.md#lans2r)                             |1.0.5   |__+1__    |        |         |
@@ -329,17 +323,13 @@
 |[sevenbridges](problems.md#sevenbridges)                 |1.16.1  |__+1__    |        |1        |
 |[silicate](problems.md#silicate)                         |0.3.0   |__+2__    |        |         |
 |[simglm](problems.md#simglm)                             |0.7.4   |__+1__    |        |         |
-|[SimplifyStats](problems.md#simplifystats)               |2.0.2   |__+2__    |        |         |
 |[simTool](problems.md#simtool)                           |1.1.5   |__+1__    |        |         |
 |[SIRItoGTFS](problems.md#siritogtfs)                     |0.2.4   |__+1__    |        |         |
 |[skimr](problems.md#skimr)                               |2.1     |__+2__    |        |         |
 |[skynet](problems.md#skynet)                             |1.3.0   |__+1__    |        |1        |
-|[spdplyr](problems.md#spdplyr)                           |0.3.0   |__+2__    |        |         |
 |[srvyr](problems.md#srvyr)                               |0.3.8   |__+2__    |__+1__  |         |
 |[stacomiR](problems.md#stacomir)                         |0.5.4.3 |2 __+1__  |5       |2        |
-|[stars](problems.md#stars)                               |0.4-0   |__+1__    |        |2 __+1__ |
 |[strapgod](problems.md#strapgod)                         |0.0.4   |__+1__    |        |         |
-|[stratamatch](problems.md#stratamatch)                   |0.1.4   |__+1__    |        |         |
 |[StratigrapheR](problems.md#stratigrapher)               |1.0.1   |__+1__    |        |         |
 |[sugarbag](problems.md#sugarbag)                         |0.1.2   |__+1__    |        |1        |
 |[sugrrants](problems.md#sugrrants)                       |0.2.6   |__+1__    |        |1        |
