@@ -329,7 +329,7 @@ mutate_cols <- function(.data, ...) {
     } else if(inherits(e, "dplyr_mutate_incompatible_combine")) {
       stop_combine(e, index = i, dots = dots, fn = "mutate")
     } else {
-      stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
+      stop_dplyr(i, dots, fn = "mutate", "errored", x = conditionMessage(e))
     }
   })
 

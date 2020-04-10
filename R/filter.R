@@ -129,7 +129,9 @@ filter_rows <- function(.data, ...) {
   tryCatch(
     mask$eval_all_filter(dots, env_filter),
     simpleError = function(e) {
-      stop_eval_tidy(e, index = env_filter$current_expression, dots = dots, fn = "filter")
+      stop_dplyr(env_filter$current_expression, dots, fn = "filter", "errored",
+        x = conditionMessage(e)
+      )
     }
   )
 }

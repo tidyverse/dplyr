@@ -74,12 +74,6 @@ stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_
   ))
 }
 
-stop_eval_tidy <- function(e, index, dots, fn) {
-  stop_dplyr(index, dots, fn, "errored",
-    x = conditionMessage(e)
-  )
-}
-
 combine_details <- function(x, arg) {
   group <- as.integer(sub("^..", "", arg))
   keys <- group_keys(peek_mask()$full_data())[group, ]
