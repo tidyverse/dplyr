@@ -1,5 +1,5 @@
 ---
-title: "rowwise operations"
+title: "Row-wise operations"
 description: >
   In R, it's usually easier to do something for each column than for each row.
   In this vignette you will learn how to use the `rowwise()` function to 
