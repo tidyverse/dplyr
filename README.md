@@ -31,8 +31,9 @@ perform any operation “by group”. You can learn more about them in
 provides a variety of two-table verbs, which you can learn about in
 `vignette("two-table")`.
 
-If you are new to dplyr, the best place to start is the [data import
-chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
+If you are new to dplyr, the best place to start is the [data
+transformation chapter](http://r4ds.had.co.nz/transform.html) in R for
+data science.
 
 ## Backends
 
@@ -62,8 +63,8 @@ install.packages("dplyr")
 
 ### Development version
 
-To get a bug fix, or use a feature from the development version, you can
-install dplyr from GitHub.
+To get a bug fix, or to use a feature from the development version, you
+can install dplyr from GitHub.
 
 ``` r
 # install.packages("devtools")
@@ -81,16 +82,16 @@ library(dplyr)
 
 starwars %>% 
   filter(species == "Droid")
-#> # A tibble: 5 x 13
-#>   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-#>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>  <chr>    
-#> 1 C-3PO    167    75 <NA>       gold       yellow           112 <NA>   Tatooine 
-#> 2 R2-D2     96    32 <NA>       white, bl… red               33 <NA>   Naboo    
-#> 3 R5-D4     97    32 <NA>       white, red red               NA <NA>   Tatooine 
-#> 4 IG-88    200   140 none       metal      red               15 none   <NA>     
-#> 5 BB8       NA    NA none       none       black             NA none   <NA>     
-#> # … with 4 more variables: species <chr>, films <list>, vehicles <list>,
-#> #   starships <list>
+#> # A tibble: 6 x 14
+#>   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr> 
+#> 1 C-3PO    167    75 <NA>       gold       yellow           112 none  mascu…
+#> 2 R2-D2     96    32 <NA>       white, bl… red               33 none  mascu…
+#> 3 R5-D4     97    32 <NA>       white, red red               NA none  mascu…
+#> 4 IG-88    200   140 none       metal      red               15 none  mascu…
+#> 5 R4-P…     96    NA none       silver, r… red, blue         NA none  femin…
+#> # … with 1 more row, and 5 more variables: homeworld <chr>, species <chr>,
+#> #   films <list>, vehicles <list>, starships <list>
 
 starwars %>% 
   select(name, ends_with("color"))
@@ -119,16 +120,16 @@ starwars %>%
 
 starwars %>% 
   arrange(desc(mass))
-#> # A tibble: 87 x 13
-#>   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-#>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>  <chr>    
-#> 1 Jabb…    175  1358 <NA>       green-tan… orange         600   herma… Nal Hutta
-#> 2 Grie…    216   159 none       brown, wh… green, y…       NA   male   Kalee    
-#> 3 IG-88    200   140 none       metal      red             15   none   <NA>     
-#> 4 Dart…    202   136 none       white      yellow          41.9 male   Tatooine 
-#> 5 Tarf…    234   136 brown      brown      blue            NA   male   Kashyyyk 
-#> # … with 82 more rows, and 4 more variables: species <chr>, films <list>,
-#> #   vehicles <list>, starships <list>
+#> # A tibble: 87 x 14
+#>   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr> 
+#> 1 Jabb…    175  1358 <NA>       green-tan… orange         600   herm… mascu…
+#> 2 Grie…    216   159 none       brown, wh… green, y…       NA   male  mascu…
+#> 3 IG-88    200   140 none       metal      red             15   none  mascu…
+#> 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#> 5 Tarf…    234   136 brown      brown      blue            NA   male  mascu…
+#> # … with 82 more rows, and 5 more variables: homeworld <chr>, species <chr>,
+#> #   films <list>, vehicles <list>, starships <list>
 
 starwars %>%
   group_by(species) %>%
@@ -136,12 +137,14 @@ starwars %>%
     n = n(),
     mass = mean(mass, na.rm = TRUE)
   ) %>%
-  filter(n > 1,
-         mass > 50)
+  filter(
+    n > 1,
+    mass > 50
+  )
 #> # A tibble: 8 x 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
-#> 1 Droid        5  69.8
+#> 1 Droid        6  69.8
 #> 2 Gungan       3  74  
 #> 3 Human       35  82.8
 #> 4 Kaminoan     2  88  
@@ -151,10 +154,11 @@ starwars %>%
 
 ## Getting help
 
-If you encounter a clear bug, please file a minimal reproducible example
-on [github](https://github.com/tidyverse/dplyr/issues). For questions
-and other discussion, please use
-[community.rstudio.com](https://community.rstudio.com/), or the
+If you encounter a clear bug, please file an issue with a minimal
+reproducible example on
+[GitHub](https://github.com/tidyverse/dplyr/issues). For questions and
+other discussion, please use
+[community.rstudio.com](https://community.rstudio.com/) or the
 [manipulatr mailing list](https://groups.google.com/group/manipulatr).
 
 -----
