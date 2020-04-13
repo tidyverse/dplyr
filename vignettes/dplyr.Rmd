@@ -103,7 +103,7 @@ starwars %>% arrange(desc(height))
 
 ###  Choose rows using their position with `slice()`
 
-slice() lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows. 
+`slice()` lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows. 
 
 We can get characters from row numbers 5 through 10.
 ```{r}
@@ -112,13 +112,13 @@ starwars %>% slice(5:10)
 
 It is accompanied by a number of helpers for common use cases:
 
-* slice_head() and slice_tail() select the first or last rows.  
+* `slice_head()` and `slice_tail()` select the first or last rows.  
 
 ```{r}
 starwars %>% slice_head(n = 3)
 ```
 
-* slice_sample() randomly selects rows.  Use the option prop to choose a certain proportion of the cases.
+* `slice_sample()` randomly selects rows.  Use the option prop to choose a certain proportion of the cases.
 
 ```{r}
 starwars %>% slice_sample(n = 5)
@@ -126,7 +126,7 @@ starwars %>% slice_sample(prop = 0.1)
 ```
 Use `replace = TRUE` to perform a bootstrap sample. If needed, you can weight the sample with the `weight` argument.
 
-* slice_min() and slice_max() select rows with highest or lowest values of a variable. Note that we first must choose  only the values which are not NA.
+* `slice_min()` and `slice_max()` select rows with highest or lowest values of a variable. Note that we first must choose  only the values which are not NA.
 
 ```{r}
 starwars %>% 
