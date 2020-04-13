@@ -1,5 +1,5 @@
 ---
-title: "colwise operations"
+title: "Column-wise operations"
 description: >
   Learn how to easily repeat the same operation across multiple
   columns using `across()`.
