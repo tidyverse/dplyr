@@ -285,7 +285,7 @@
 <h3 class="hasAnchor">
 <a href="#choose-rows-using-their-position-with-slice" class="anchor"></a>Choose rows using their position with <code>slice()</code>
 </h3>
-<p>slice() lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows.</p>
+<p><code><a href="../reference/slice.html">slice()</a></code> lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows.</p>
 <p>We can get characters from row numbers 5 through 10.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/slice.html">slice</a></span>(<span class="fl">5</span>:<span class="fl">10</span>)
 <span class="co">#&gt; # A tibble: 6 x 14</span>
@@ -299,7 +299,8 @@
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <p>It is accompanied by a number of helpers for common use cases:</p>
 <ul>
-<li>slice_head() and slice_tail() select the first or last rows.</li>
+<li>
+<code><a href="../reference/slice.html">slice_head()</a></code> and <code><a href="../reference/slice.html">slice_tail()</a></code> select the first or last rows.</li>
 </ul>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/slice.html">slice_head</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fl">3</span>)
 <span class="co">#&gt; # A tibble: 3 x 14</span>
@@ -311,7 +312,8 @@
 <span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
 <span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <ul>
-<li>slice_sample() randomly selects rows. Use the option prop to choose a certain proportion of the cases.</li>
+<li>
+<code><a href="../reference/slice.html">slice_sample()</a></code> randomly selects rows. Use the option prop to choose a certain proportion of the cases.</li>
 </ul>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/slice.html">slice_sample</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fl">5</span>)
 <span class="co">#&gt; # A tibble: 5 x 14</span>
@@ -335,7 +337,8 @@
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <p>Use <code>replace = TRUE</code> to perform a bootstrap sample. If needed, you can weight the sample with the <code>weight</code> argument.</p>
 <ul>
-<li>slice_min() and slice_max() select rows with highest or lowest values of a variable. Note that we first must choose only the values which are not NA.</li>
+<li>
+<code><a href="../reference/slice.html">slice_min()</a></code> and <code><a href="../reference/slice.html">slice_max()</a></code> select rows with highest or lowest values of a variable. Note that we first must choose only the values which are not NA.</li>
 </ul>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span>(!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">height</span>)) <span class="kw">%&gt;%</span>
@@ -422,7 +425,7 @@
 <a href="#add-new-columns-with-mutate" class="anchor"></a>Add new columns with <code>mutate()</code>
 </h3>
 <p>Besides selecting sets of existing columns, it’s often useful to add new columns that are functions of existing columns. This is the job of <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">height_m</span> <span class="kw">=</span>  <span class="no">height</span> / <span class="fl">100</span>)
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">height_m</span> <span class="kw">=</span> <span class="no">height</span> / <span class="fl">100</span>)
 <span class="co">#&gt; # A tibble: 87 x 15</span>
 <span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
@@ -446,9 +449,10 @@
 <span class="co">#&gt; # … with 83 more rows, and 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span>
 <span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <p><code><a href="../reference/mutate.html">dplyr::mutate()</a></code> is similar to the base <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>, but allows you to refer to columns that you’ve just created:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(
-  <span class="kw">height_m</span> <span class="kw">=</span> <span class="no">height</span> / <span class="fl">100</span>,
-  <span class="kw">BMI</span> <span class="kw">=</span> <span class="no">mass</span>/(<span class="no">height_m</span>^<span class="fl">2</span>)
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(
+    <span class="kw">height_m</span> <span class="kw">=</span> <span class="no">height</span> / <span class="fl">100</span>,
+    <span class="kw">BMI</span> <span class="kw">=</span> <span class="no">mass</span> / (<span class="no">height_m</span>^<span class="fl">2</span>)
   ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">BMI</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>())
 <span class="co">#&gt; # A tibble: 87 x 16</span>
@@ -462,10 +466,11 @@
 <span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;,</span>
 <span class="co">#&gt; #   height_m &lt;dbl&gt;</span></pre></body></html></div>
 <p>If you only want to keep the new variables, use <code><a href="../reference/mutate.html">transmute()</a></code>:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">transmute</a></span>(
-  <span class="kw">height_m</span> <span class="kw">=</span> <span class="no">height</span> / <span class="fl">100</span>,
-  <span class="kw">BMI</span> <span class="kw">=</span> <span class="no">mass</span>/(<span class="no">height_m</span>^<span class="fl">2</span>)
-)
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/mutate.html">transmute</a></span>(
+    <span class="kw">height_m</span> <span class="kw">=</span> <span class="no">height</span> / <span class="fl">100</span>,
+    <span class="kw">BMI</span> <span class="kw">=</span> <span class="no">mass</span> / (<span class="no">height_m</span>^<span class="fl">2</span>)
+  )
 <span class="co">#&gt; # A tibble: 87 x 2</span>
 <span class="co">#&gt;   height_m   BMI</span>
 <span class="co">#&gt;      &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -496,10 +501,7 @@
 <a href="#summarise-values-with-summarise" class="anchor"></a>Summarise values with <code>summarise()</code>
 </h3>
 <p>The last verb is <code><a href="../reference/summarise.html">summarise()</a></code>. It collapses a data frame to a single row.</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(
-    <span class="kw">height</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-  )
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">height</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
 <span class="co">#&gt; # A tibble: 1 x 1</span>
 <span class="co">#&gt;   height</span>
 <span class="co">#&gt;    &lt;dbl&gt;</span>
@@ -528,16 +530,17 @@
 <span class="no">a2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">a1</span>, <span class="no">height</span>, <span class="no">mass</span>)
 <span class="no">a3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="no">a2</span>,
   <span class="kw">height</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
-  <span class="kw">mass</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">mass</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></body></html></div>
+  <span class="kw">mass</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">mass</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+)</pre></body></html></div>
 <p>Or if you don’t want to name the intermediate results, you need to wrap the function calls inside each other:</p>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="../reference/summarise.html">summarise</a></span>(
   <span class="fu"><a href="../reference/select.html">select</a></span>(
     <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">starwars</span>, <span class="no">species</span>, <span class="no">sex</span>),
-      <span class="no">height</span>, <span class="no">mass</span>
-    ),
-    <span class="kw">height</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
-    <span class="kw">mass</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">mass</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-  )
+    <span class="no">height</span>, <span class="no">mass</span>
+  ),
+  <span class="kw">height</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
+  <span class="kw">mass</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">mass</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+)
 <span class="co">#&gt; Adding missing grouping variables: `species`, `sex`</span>
 <span class="co">#&gt; # A tibble: 41 x 4</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
@@ -635,8 +638,7 @@
 <h3 class="hasAnchor">
 <a href="#mutating-operations" class="anchor"></a>Mutating operations</h3>
 <p>Mutate semantics are quite different from selection semantics. Whereas <code><a href="../reference/select.html">select()</a></code> expects column names or positions, <code><a href="../reference/mutate.html">mutate()</a></code> expects <em>column vectors</em>. We will set up a smaller tibble to use for our examples.</p>
-<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">name</span>, <span class="no">height</span>, <span class="no">mass</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">name</span>, <span class="no">height</span>, <span class="no">mass</span>)</pre></body></html></div>
 <p>When we use <code><a href="../reference/select.html">select()</a></code>, the bare column names stand for their own positions in the tibble. For <code><a href="../reference/mutate.html">mutate()</a></code> on the other hand, column symbols represent the actual column vectors stored in the tibble. Consider what happens if we give a string or a number to <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
 <div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="no">df</span>, <span class="st">"height"</span>, <span class="fl">2</span>)
 <span class="co">#&gt; # A tibble: 87 x 5</span>
