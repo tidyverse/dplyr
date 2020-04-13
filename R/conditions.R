@@ -57,7 +57,7 @@ rethrow <- function(cnd, class) {
 
 # Common ------------------------------------------------------------------
 
-stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE) {
+stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE, class = NULL) {
   set_error_context(.index, dots, .dot_data = .dot_data)
   envir <- env(
     error_name = context_peek("error_name"), error_expression = context_peek("error_expression"),
@@ -71,7 +71,11 @@ stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_
     ...,
 
     .envir = envir
-  ))
+    ),
+    class = c(class, paste0("dplyr_error_", fn), "dplyr_error"),
+    error_name = context_peek("error_name"),
+    error_expression = context_peek("error_expression")
+  )
 }
 
 combine_details <- function(x, arg) {
@@ -90,7 +94,9 @@ stop_combine <- function(cnd, index, dots, fn = "summarise") {
 }
 
 stop_error_data_pronoun_not_found <- function(msg, index, dots, fn = "summarise") {
-  stop_dplyr(index, dots, fn, "errored", .dot_data = TRUE, x = msg)
+  stop_dplyr(index, dots, fn, "errored", .dot_data = TRUE, x = msg,
+    class = paste0("dplyr_error_", fn, "_data_pronoun_not_found")
+  )
 }
 
 err_vars <- function(x) {
@@ -209,12 +215,11 @@ stop_summarise_incompatible_size <- function(group, index, expected_size, size, 
 # arrange() ---------------------------------------------------------------
 
 stop_arrange_transmute <- function(cnd) {
-  name <- context_env[["error_name"]]
-
-  if (!is.null(name)) {
+  if (inherits(cnd, "dplyr_error_mutate")) {
     # error caught by mutate_cols()
+    name <- cnd$error_name
     index <- sub("^.*_", "", name)
-    error_expression <- context_env[["error_expression"]]
+    error_expression <- cnd$error_expression
 
     bullets <- c(
       i = glue("Could not create a temporary column for `..{index}`."),

@@ -4,8 +4,7 @@ duplicated column name
 
 > tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)
 Error: arrange() failed at implicit mutate() step. 
-i Could not create a temporary column for `....1`.
-i `....1` is `across(everything(), ~rep(42, .))`.
+x Can't bind data because some arguments have the same name
 
 
 error in mutate() step
