@@ -129,7 +129,7 @@ Use `replace = TRUE` to perform a bootstrap sample. If needed, you can weight th
 * `slice_min()` and `slice_max()` select rows with highest or lowest values of a variable. Note that we first must choose  only the values which are not NA.
 
 ```{r}
-starwars %>% 
+starwars %>%
   filter(!is.na(height)) %>%
   slice_max(height, n = 3)
 ```
@@ -168,13 +168,13 @@ starwars %>% rename(home_world = homeworld)
 Besides selecting sets of existing columns, it's often useful to add new columns that are functions of existing columns. This is the job of `mutate()`:
 
 ```{r}
-starwars %>% mutate(height_m =  height / 100)
+starwars %>% mutate(height_m = height / 100)
 ```
 
 We can't see the height in meters we just calculated, but we can fix that using a select command.
 
 ```{r}
-starwars %>% 
+starwars %>%
   mutate(height_m = height / 100) %>%
   select(height_m, height, everything())
 ```
@@ -182,9 +182,10 @@ starwars %>%
 `dplyr::mutate()` is similar to the base `transform()`, but allows you to refer to columns that you've just created:
 
 ```{r}
-starwars %>% mutate(
-  height_m = height / 100,
-  BMI = mass/(height_m^2)
+starwars %>%
+  mutate(
+    height_m = height / 100,
+    BMI = mass / (height_m^2)
   ) %>%
   select(BMI, everything())
 ```
@@ -192,10 +193,11 @@ starwars %>% mutate(
 If you only want to keep the new variables, use `transmute()`:
 
 ```{r}
-starwars %>% transmute(
-  height_m = height / 100,
-  BMI = mass/(height_m^2)
-)
+starwars %>%
+  transmute(
+    height_m = height / 100,
+    BMI = mass / (height_m^2)
+  )
 ```
 
 ### Change column order with `relocate()`
@@ -212,10 +214,7 @@ starwars %>% relocate(sex:homeworld, .before = height)
 The last verb is `summarise()`. It collapses a data frame to a single row.
 
 ```{r}
-starwars %>%
-  summarise(
-    height = mean(height, na.rm = TRUE)
-  )
+starwars %>% summarise(height = mean(height, na.rm = TRUE))
 ```
 
 It's not that useful until we learn the `group_by()` verb below.
@@ -245,7 +244,8 @@ a1 <- group_by(starwars, species, sex)
 a2 <- select(a1, height, mass)
 a3 <- summarise(a2,
   height = mean(height, na.rm = TRUE),
-  mass = mean(mass, na.rm = TRUE))
+  mass = mean(mass, na.rm = TRUE)
+)
 ```
 
 Or if you don't want to name the intermediate results, you need to wrap the function calls inside each other:
@@ -254,11 +254,11 @@ Or if you don't want to name the intermediate results, you need to wrap the func
 summarise(
   select(
     group_by(starwars, species, sex),
-      height, mass
-    ),
-    height = mean(height, na.rm = TRUE),
-    mass = mean(mass, na.rm = TRUE)
-  )
+    height, mass
+  ),
+  height = mean(height, na.rm = TRUE),
+  mass = mean(mass, na.rm = TRUE)
+)
 ```
 
 This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"):
@@ -270,7 +270,7 @@ starwars %>%
   summarise(
     height = mean(height, na.rm = TRUE),
     mass = mean(mass, na.rm = TRUE)
-  ) 
+  )
 ```
 
 ## Patterns of operations
@@ -348,8 +348,7 @@ Mutate semantics are quite different from selection semantics. Whereas
 We will set up a smaller tibble to use for our examples.
 
 ```{r}
-df <- starwars %>%
-  select(name, height, mass)
+df <- starwars %>% select(name, height, mass)
 ```
 
 When we use `select()`, the bare column names stand for their own
