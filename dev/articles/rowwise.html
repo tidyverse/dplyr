@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>rowwise operations • dplyr</title>
+<title>Row-wise operations • dplyr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -20,7 +20,7 @@
 <script src="../pkgdown.js"></script><link href="../tidyverse-2.css" rel="stylesheet">
 <!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="rowwise operations">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Row-wise operations">
 <meta property="og:description" content="In R, it's usually easier to do something for each column than for each row. In this vignette you will learn how to use the `rowwise()` function to  perform operations by row. Along the way, you'll learn about list-columns, and see how you might perform simulations and modelling within dplyr verbs.
 ">
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png">
@@ -84,10 +84,10 @@
     <li class="divider">
     <li class="dropdown-header">Automation</li>
     <li>
-      <a href="../articles/colwise.html">colwise operations</a>
+      <a href="../articles/colwise.html">Column-wise operations</a>
     </li>
     <li>
-      <a href="../articles/rowwise.html">rowwise operations</a>
+      <a href="../articles/rowwise.html">Row-wise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
@@ -155,7 +155,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>rowwise operations</h1>
+      <h1 data-toc-skip>Row-wise operations</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/master/vignettes/rowwise.Rmd"><code>vignettes/rowwise.Rmd</code></a></small>
@@ -242,7 +242,7 @@
 <span class="co">#&gt; 3     3    12    22    32    42</span>
 <span class="co">#&gt; 4     4    13    23    33    43</span>
 <span class="co">#&gt; # … with 2 more rows</span></pre></body></html></div>
-<p>Let’s say we want compute the sum of <code>w</code>, <code>x</code>, <code>y</code>, and <code>z</code> for each row. We start by making a rowwise data frame:</p>
+<p>Let’s say we want compute the sum of <code>w</code>, <code>x</code>, <code>y</code>, and <code>z</code> for each row. We start by making a row-wise data frame:</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">rf</span> <span class="kw">&lt;-</span> <span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>(<span class="no">id</span>)</pre></body></html></div>
 <p>We can then use <code><a href="../reference/mutate.html">mutate()</a></code> to add a new column to each row, or <code><a href="../reference/summarise.html">summarise()</a></code> to return just that one summary:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">rf</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">total</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">w</span>, <span class="no">x</span>, <span class="no">y</span>, <span class="no">z</span>)))
@@ -286,7 +286,7 @@
 <span class="co">#&gt; 3     3    12    22    32    42   108</span>
 <span class="co">#&gt; 4     4    13    23    33    43   112</span>
 <span class="co">#&gt; # … with 2 more rows</span></pre></body></html></div>
-<p>You could combine this with col-wise operations (see <code><a href="../articles/colwise.html">vignette("colwise")</a></code> for more details) to compute the proportion of the total for each column:</p>
+<p>You could combine this with column-wise operations (see <code><a href="../articles/colwise.html">vignette("colwise")</a></code> for more details) to compute the proportion of the total for each column:</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">rf</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">total</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="../reference/across.html">c_across</a></span>(<span class="no">w</span>:<span class="no">z</span>))) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">ungroup</a></span>() <span class="kw">%&gt;%</span>
@@ -366,7 +366,7 @@
 <span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span>
 <span class="co">#&gt; 2 &lt;int [2]&gt;     2</span>
 <span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></pre></body></html></div>
-<p>But wouldn’t it be nice if you could just write <code><a href="https://rdrr.io/r/base/length.html">length(x)</a></code> and dplyr would figure out that you wanted to compute the length of the element inside of <code>x</code>? Since you’re here, you might already be guessing at the answer: this is just another application of the rowwise pattern.</p>
+<p>But wouldn’t it be nice if you could just write <code><a href="https://rdrr.io/r/base/length.html">length(x)</a></code> and dplyr would figure out that you wanted to compute the length of the element inside of <code>x</code>? Since you’re here, you might already be guessing at the answer: this is just another application of the row-wise pattern.</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">df</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">l</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">x</span>))
@@ -382,7 +382,7 @@
 <h3 class="hasAnchor">
 <a href="#subsetting" class="anchor"></a>Subsetting</h3>
 <p>Before we continue on, I wanted to briefly mention the magic that makes this work. This isn’t something you’ll generally need to think about (it’ll just work), but it’s useful to know about when something goes wrong.</p>
-<p>There’s an important difference between a grouped data frame where each group happens to have one row, and a rowwise data frame where every group always has one row. Take these two data frames:</p>
+<p>There’s an important difference between a grouped data frame where each group happens to have one row, and a row-wise data frame where every group always has one row. Take these two data frames:</p>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">g</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">2</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fl">1</span>:<span class="fl">3</span>, <span class="st">"a"</span>))
 <span class="no">gf</span> <span class="kw">&lt;-</span> <span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">g</span>)
 <span class="no">rf</span> <span class="kw">&lt;-</span> <span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>(<span class="no">g</span>)</pre></body></html></div>
@@ -401,7 +401,7 @@
 <span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;chr&gt;      &lt;int&gt;</span>
 <span class="co">#&gt; 1     1 &lt;int [3]&gt; integer        3</span>
 <span class="co">#&gt; 2     2 &lt;chr [1]&gt; character      1</span></pre></body></html></div>
-<p>They key difference is that when <code><a href="../reference/mutate.html">mutate()</a></code> slices up the columns to pass to <code><a href="https://rdrr.io/r/base/length.html">length(y)</a></code> the grouped mutate uses <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> and the rowwise mutate uses <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code>. The following code gives a flavour of the differences if you used a for loop:</p>
+<p>They key difference is that when <code><a href="../reference/mutate.html">mutate()</a></code> slices up the columns to pass to <code><a href="https://rdrr.io/r/base/length.html">length(y)</a></code> the grouped mutate uses <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> and the row-wise mutate uses <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code>. The following code gives a flavour of the differences if you used a for loop:</p>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="co"># grouped</span>
 <span class="no">out1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">integer</a></span>(<span class="fl">2</span>)
 <span class="kw">for</span> (<span class="no">i</span> <span class="kw">in</span> <span class="fl">1</span>:<span class="fl">2</span>) {
@@ -598,8 +598,8 @@
 <h3 class="hasAnchor">
 <a href="#rowwise" class="anchor"></a><code>rowwise()</code>
 </h3>
-<p><code><a href="../reference/rowwise.html">rowwise()</a></code> was also questioning for quite some time, partly because I didn’t appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative, we recommended performing rowwise operations with the purrr <code>map()</code> functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite some knowledge of purrr functions.</p>
-<p>I was also resistant to <code><a href="../reference/rowwise.html">rowwise()</a></code> because I felt like automatically switching between <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> to <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code> was too magical in the same way that automatically <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>-ing results made <code><a href="../reference/do.html">do()</a></code> too magical. I’ve now persuaded myself that the rowwise magic is good magic partly because most people find the distinction between <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> and <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code> mystifying and <code><a href="../reference/rowwise.html">rowwise()</a></code> means that you don’t need to think about it.</p>
+<p><code><a href="../reference/rowwise.html">rowwise()</a></code> was also questioning for quite some time, partly because I didn’t appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative, we recommended performing row-wise operations with the purrr <code>map()</code> functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite some knowledge of purrr functions.</p>
+<p>I was also resistant to <code><a href="../reference/rowwise.html">rowwise()</a></code> because I felt like automatically switching between <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> to <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code> was too magical in the same way that automatically <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>-ing results made <code><a href="../reference/do.html">do()</a></code> too magical. I’ve now persuaded myself that the row-wise magic is good magic partly because most people find the distinction between <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> and <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code> mystifying and <code><a href="../reference/rowwise.html">rowwise()</a></code> means that you don’t need to think about it.</p>
 <p>Since <code><a href="../reference/rowwise.html">rowwise()</a></code> clearly is useful it is not longer questioning, and we expect it to be around for the long term.</p>
 </div>
 <div id="do" class="section level3">
