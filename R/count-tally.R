@@ -63,7 +63,7 @@
 #' # mutate() instead of summarise
 #' df %>% add_count(gender, wt = runs)
 #' df %>% add_tally(wt = runs)
-count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+count <- function(x, ..., wt, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
   if (!missing(...)) {
     out <- group_by(x, ..., .add = TRUE, .drop = .drop)
@@ -71,14 +71,23 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by
     out <- x
   }
 
-  out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
+  out <- if (missing(wt)) {
+    tally(out, sort = sort, name = name)
+  } else {
+    tally(out, wt = !!enquo(wt), sort = sort, name = name)
+  }
+
   dplyr_reconstruct(out, x)
 }
 
 #' @export
 #' @rdname count
-tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  n <- tally_n(x, {{ wt }})
+tally <- function(x, wt, sort = FALSE, name = NULL) {
+  n <- if (missing(wt)) {
+    tally_n(x)
+  } else {
+    tally_n(x, {{ wt }})
+  }
   name <- check_name(x, name)
   out <- summarise(x, !!name := !!n)
 
@@ -91,7 +100,7 @@ tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 #' @rdname count
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count <- function(x, ..., wt, sort = FALSE, name = NULL, .drop = deprecated()) {
   if (!missing(.drop)) {
     lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
   }
@@ -101,7 +110,11 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = depr
   } else {
     out <- x
   }
-  out <- add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
+  out <- if (missing(wt)) {
+    add_tally(out, sort = sort, name = name)
+  } else {
+    add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
+  }
 
   name <- check_name(x, name)
   x[[name]] <- out[[name]]
@@ -110,8 +123,12 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = depr
 
 #' @rdname count
 #' @export
-add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  n <- tally_n(x, {{ wt }})
+add_tally <- function(x, wt, sort = FALSE, name = NULL) {
+  n <- if (missing(wt)) {
+    tally_n(x)
+  } else {
+    tally_n(x, {{ wt }})
+  }
   name <- check_name(x, name)
   out <- mutate(x, !!name := !!n)
 
@@ -125,10 +142,15 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 # Helpers -----------------------------------------------------------------
 
 tally_n <- function(x, wt) {
-  wt <- enquo(wt)
-  if (quo_is_null(wt) && "n" %in% tbl_vars(x)) {
-    inform("Using `n` as weighting variable")
-    wt <- quo(n)
+  if (missing(wt)) {
+    if ("n" %in% tbl_vars(x)) {
+      inform("Using `n` as weighting variable")
+      wt <- quo(n)
+    } else {
+      wt <- quo(NULL)
+    }
+  } else {
+    wt <- enquo(wt)
   }
 
   if (quo_is_null(wt)) {
