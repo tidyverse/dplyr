@@ -113,7 +113,6 @@ DataMask <- R6Class("DataMask",
       chunks
     },
 
-
     get_resolved = function(name) {
       private$resolved[[name]]
     },

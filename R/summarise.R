@@ -139,6 +139,34 @@ summarise.rowwise_df <- function(.data, ...) {
   rowwise_df(out, group_vars(.data))
 }
 
+grouped_mean <- function(chunks, ...) {
+  # TODO: deal with ... and we need some information about the ptype
+  #       if we want to inject some C++ loop or at least decide
+  #       that we want to use .Internal(mean)
+  res <- map(chunks, mean, ...)
+  list(
+    chunks = res,
+    results = vec_c(!!!res),
+    sizes = 1L
+  )
+}
+
+hybrid_eval_summarise <- function(expr, mask, env = caller_env()) {
+  # TODO: this looks at the call to figure out hybridability
+  #       that is not really sustainable/extensible
+  if (is_call(expr, "mean")) {
+    # mean(x) becomes:
+    # function(x = mask$resolve("x"), y = mask$resolve("y")) grouped_mean(x)
+    expr[[1L]] <- grouped_mean
+    args <- map(set_names(mask$current_vars()), function(.x) expr(mask$resolve(!!.x)))
+    fn <- new_function(args, expr)
+    tryCatch(
+      fn(),
+      error = function(e) NULL
+    )
+  }
+}
+
 summarise_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
 
@@ -148,9 +176,10 @@ summarise_cols <- function(.data, ...) {
 
   cols <- list()
 
-  sizes <- 1L
   chunks <- vector("list", length(dots))
   types <- vector("list", length(dots))
+  results <- vector("list", length(dots))
+  sizes <- vector("list", length(dots))
 
   tryCatch({
 
@@ -158,34 +187,48 @@ summarise_cols <- function(.data, ...) {
     for (i in seq_along(dots)) {
       quo <- dots[[i]]
 
-      # a list in which each element is the result of
-      # evaluating the quosure in the "sliced data mask"
-      #
-      # TODO: reinject hybrid evaluation at the R level
-      chunks[[i]] <- mask$eval_all_summarise(quo)
-
+      hybrid_result <- hybrid_eval_summarise(quo_get_expr(quo), mask)
       mask$across_cache_reset()
 
-      result_type <- types[[i]] <- vec_ptype_common(!!!chunks[[i]])
-
-      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
-        # remember each result separately
-        map2(seq_along(result_type), names(result_type), function(j, nm) {
-          mask$add(nm, pluck(chunks[[i]], j))
-        })
+      if (is.null(hybrid_result)) {
+        # no result from hybrid, so proceed with standard
+        # evaluation to get the chunks
+        chunks[[i]] <- mask$eval_all_summarise(quo)
       } else {
-        # remember
-        mask$add(auto_named_dots[i], chunks[[i]])
+        chunks[[i]] <- hybrid_result$chunks
+        results[[i]] <- hybrid_result$results
+        sizes[[i]] <- hybrid_result$sizes
       }
+
+
+      result_type <- types[[i]] <- results[[i]] %||% vec_ptype_common(!!!chunks[[i]])
+
+      if (is.null(chunks[[i]])) {
+        # we have results[[i]] but not chunks[[i]] so no $add() ?
+      } else {
+        # only $add() the chunks if we have them, we might not have them
+        # if hybrid only gave $results and $sizes
+        if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
+          # remember each result separately
+          map2(seq_along(result_type), names(result_type), function(j, nm) {
+            mask$add(nm, pluck(chunks[[i]], j))
+          })
+        } else {
+          # remember
+          mask$add(auto_named_dots[i], chunks[[i]])
+        }
+      }
+
     }
 
-    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types)
+    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types, results, sizes)
     chunks <- recycle_info$chunks
     sizes <- recycle_info$sizes
+    results <- recycle_info$results
 
     # materialize columns
     for (i in seq_along(dots)) {
-      result <- vec_c(!!!chunks[[i]], .ptype = types[[i]])
+      result <- results[[i]] %||% vec_c(!!!chunks[[i]], .ptype = types[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
         cols[names(result)] <- result
