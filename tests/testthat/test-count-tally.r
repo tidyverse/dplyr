@@ -48,25 +48,20 @@ test_that("count() preserves with .drop", {
   expect_equal(out$n, c(0, 1, 0))
 })
 
+test_that("works with dbplyr", {
+  db <- dbplyr::memdb_frame(x = c(1, 1, 1, 2, 2))
+  df1 <- db %>% count(x) %>% as_tibble()
+  expect_equal(df1, tibble(x = c(1, 2), n = c(3, 2)))
+
+  df2 <- db %>% add_count(x) %>% as_tibble()
+  expect_equal(df2, tibble(x = c(1, 1, 1, 2, 2), n = c(3, 3, 3, 2, 2)))
+})
+
 # add_count ---------------------------------------------------------------
 
 test_that("must manually supply name when n column already present", {
   df <- data.frame(n = c(1, 1, 2, 2, 2))
   expect_named(add_count(df, n, name = "nn"), c("n", "nn"))
-})
-
-test_that("preserves input type", {
-  df <- data.frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
-  attr(df, "my_attr") <- 1
-
-  out <- df %>% add_count(val)
-  expect_s3_class(out, "data.frame", exact = TRUE)
-  expect_equal(attr(out, "my_attr"), 1)
-
-  out <- df %>% group_by(g) %>% add_count(val)
-  expect_s3_class(out, "grouped_df")
-  expect_equal(group_vars(out), "g")
-  expect_equal(attr(out, "my_attr"), 1)
 })
 
 test_that("can override output column", {

@@ -72,7 +72,10 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by
   }
 
   out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
-  dplyr_reconstruct(out, x)
+  if (is.data.frame(x)) {
+    out <- dplyr_reconstruct(out, x)
+  }
+  out
 }
 
 #' @export
@@ -102,10 +105,10 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = depr
     out <- x
   }
   out <- add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
-
-  name <- check_name(x, name)
-  x[[name]] <- out[[name]]
-  x
+  if (is.data.frame(x)) {
+    out <- dplyr_reconstruct(out, x)
+  }
+  out
 }
 
 #' @rdname count
