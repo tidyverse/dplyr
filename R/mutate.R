@@ -324,7 +324,7 @@ mutate_cols <- function(.data, ...) {
       stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
     } else if (inherits(e, "dplyr_mutate_mixed_NULL")) {
       stop_mutate_mixed_NULL(index = i, dots = dots)
-    } else if(inherits(e, "dplyr_mutate_not_vector")) {
+    } else if (inherits(e, "dplyr_mutate_not_vector")) {
       stop_mutate_not_vector(index = i, dots = dots, result = e$result)
     } else if(inherits(e, "dplyr_mutate_incompatible_combine")) {
       stop_combine(e, index = i, dots = dots, fn = "mutate")

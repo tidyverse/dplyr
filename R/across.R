@@ -143,7 +143,7 @@ c_across <- function(cols = everything()) {
 
   tryCatch(
     vec_c(!!!unname(cols)),
-    error = function(e){
+    error = function(e) {
       # when combining fails, do it again with the names
       # to get a more useful error message
       vec_c(!!!cols)
