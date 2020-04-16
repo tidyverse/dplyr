@@ -190,7 +190,7 @@ across_setup <- function(cols, fns, names, key) {
   }
 
   if (!is.list(fns)) {
-    abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
+    abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr:::error_across")
   }
 
   # handle formulas

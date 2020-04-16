@@ -142,7 +142,7 @@ stop_filter_named <- function(index, expr, name) {
 stop_summarise_unsupported_type <- function(result, index, dots) {
   # called from the C++ code
   if(missing(dots)) {
-    abort(class = "dplyr_summarise_unsupported_type", result = result)
+    abort(class = "dplyr:::summarise_unsupported_type", result = result)
   }
 
   stop_dplyr(index, dots, "summarise", "must be a vector",
@@ -156,7 +156,7 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
 stop_mutate_mixed_null <- function(index, dots) {
   # called from the C++ code
   if(missing(dots)) {
-    abort(class = "dplyr_mutate_mixed_null")
+    abort(class = "dplyr:::mutate_mixed_null")
   }
 
   stop_dplyr(index, dots, "mutate", "must return compatible vectors across groups",
@@ -170,7 +170,7 @@ stop_mutate_mixed_null <- function(index, dots) {
 stop_mutate_not_vector <- function(result, index, dots) {
   # called from the C++ code
   if(missing(dots)) {
-    abort(class = "dplyr_mutate_not_vector", result = result)
+    abort(class = "dplyr:::mutate_not_vector", result = result)
   }
 
   stop_dplyr(index, dots, "mutate", "must be a vector",
@@ -182,7 +182,7 @@ stop_mutate_not_vector <- function(result, index, dots) {
 stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
   # called from the C++ code
   if(missing(dots)) {
-    abort(class = "dplyr_mutate_incompatible_size", x_size = cnd)
+    abort(class = "dplyr:::mutate_incompatible_size", x_size = cnd)
   }
 
   stop_dplyr(index, dots, "mutate", "must be recyclable",
@@ -195,7 +195,7 @@ stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
 stop_summarise_incompatible_size <- function(group, index, expected_size, size, dots) {
   # called from the C++ code
   if(missing(dots)) {
-    abort(class = "dplyr_summarise_incompatible_size", size = size, group = group, index = index, expected_size = expected_size)
+    abort(class = "dplyr:::summarise_incompatible_size", size = size, group = group, index = index, expected_size = expected_size)
   }
 
   # so that cnd_bullet_cur_group_label() correctly reports the faulty group

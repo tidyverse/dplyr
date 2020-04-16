@@ -169,7 +169,7 @@ summarise_cols <- function(.data, ...) {
       result_type <- types[[i]] <- tryCatch(
         vec_ptype_common(!!!chunks[[i]]),
         vctrs_error_incompatible_type = function(cnd) {
-          abort(class = "dplyr_summarise_incompatible_combine", parent = cnd)
+          abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)
         }
       )
 
@@ -203,11 +203,11 @@ summarise_cols <- function(.data, ...) {
   error = function(e) {
     if (inherits(e, "rlang_error_data_pronoun_not_found")) {
       stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
-    } else if (inherits(e, "dplyr_summarise_incompatible_combine")) {
+    } else if (inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
       stop_combine(e$parent, index = i, dots = dots, fn = "summarise")
-    } else if (inherits(e, "dplyr_summarise_unsupported_type")) {
+    } else if (inherits(e, "dplyr:::summarise_unsupported_type")) {
       stop_summarise_unsupported_type(result = e$result, index = i, dots = dots)
-    } else if (inherits(e, "dplyr_summarise_incompatible_size")) {
+    } else if (inherits(e, "dplyr:::summarise_incompatible_size")) {
       stop_summarise_incompatible_size(size = e$size, group = e$group, index = e$index, expected_size = e$expected_size, dots = dots)
     } else {
       stop_dplyr(i, dots, fn = "summarise", "errored",

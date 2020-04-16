@@ -170,7 +170,7 @@ validate_grouped_df <- function(x, check_bounds = FALSE) {
 
   result <- .Call(`dplyr_validate_grouped_df`, x, check_bounds)
   if (!is.null(result)) {
-    abort(result, class = "dplyr_grouped_df_corrupt")
+    abort(result, class = "dplyr:::grouped_df_corrupt")
   }
   x
 }

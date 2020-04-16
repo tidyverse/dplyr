@@ -290,7 +290,7 @@ mutate_cols <- function(.data, ...) {
         result <- tryCatch(
           vec_unchop(chunks, rows),
           vctrs_error_incompatible_type = function(cnd) {
-            abort(class = "dplyr_mutate_incompatible_combine", parent = cnd)
+            abort(class = "dplyr:::error_mutate_incompatible_combine", parent = cnd)
           }
         )
       }
@@ -319,14 +319,14 @@ mutate_cols <- function(.data, ...) {
   error = function(e) {
     if (inherits(e, "rlang_error_data_pronoun_not_found")) {
       stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
-    } else if (inherits(e, "dplyr_mutate_incompatible_size")) {
+    } else if (inherits(e, "dplyr:::mutate_incompatible_size")) {
       e$size <- vec_size(rows[[i]])
       stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
-    } else if (inherits(e, "dplyr_mutate_mixed_null")) {
+    } else if (inherits(e, "dplyr:::mutate_mixed_null")) {
       stop_mutate_mixed_null(index = i, dots = dots)
-    } else if (inherits(e, "dplyr_mutate_not_vector")) {
+    } else if (inherits(e, "dplyr:::mutate_not_vector")) {
       stop_mutate_not_vector(index = i, dots = dots, result = e$result)
-    } else if(inherits(e, "dplyr_mutate_incompatible_combine")) {
+    } else if(inherits(e, "dplyr:::error_mutate_incompatible_combine")) {
       stop_combine(e$parent, index = i, dots = dots, fn = "mutate")
     } else {
       stop_dplyr(i, dots, fn = "mutate", "errored", x = conditionMessage(e))
