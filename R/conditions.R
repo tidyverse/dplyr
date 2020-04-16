@@ -68,7 +68,7 @@ stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_
 
     .envir = envir
     ),
-    class = c(class, paste0("dplyr_error_", fn), "dplyr_error"),
+    class = c(class, "dplyr_error"),
     error_name = context_peek("error_name"),
     error_expression = context_peek("error_expression")
   )
@@ -211,10 +211,11 @@ stop_summarise_incompatible_size <- function(group, index, expected_size, size, 
 # arrange() ---------------------------------------------------------------
 
 stop_arrange_transmute <- function(cnd) {
-  if (inherits(cnd, "dplyr_error_mutate")) {
+  error_name <- cnd$error_name
+
+  if (!is.null(error_name)) {
     # error caught by mutate_cols()
-    name <- cnd$error_name
-    index <- sub("^.*_", "", name)
+    index <- sub("^.*_", "", error_name)
     error_expression <- cnd$error_expression
 
     bullets <- c(
