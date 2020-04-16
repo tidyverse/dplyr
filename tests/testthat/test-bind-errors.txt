@@ -23,26 +23,26 @@ Error: Argument 2 must be a data frame or a named atomic vector
 > df2 <- tibble(a = 1L)
 > df3 <- tibble(a = 1)
 > bind_rows(df1, df2)
-Error: No common type for `..1$a` <factor<127a2>> and `..2$a` <integer>.
+Error: Can't combine `..1$a` <factor<127a2>> and `..2$a` <integer>.
 
 > bind_rows(df1, df3)
-Error: No common type for `..1$a` <factor<127a2>> and `..2$a` <double>.
+Error: Can't combine `..1$a` <factor<127a2>> and `..2$a` <double>.
 
 > df1 <- tibble(b = c(1, 2))
 > df2 <- tibble(b = c(1L, 2L))
 > df3 <- tibble(b = factor(c("A", "B")))
 > df4 <- tibble(b = c("C", "D"))
 > bind_rows(df1, df3)
-Error: No common type for `..1$b` <double> and `..2$b` <factor<4c40e>>.
+Error: Can't combine `..1$b` <double> and `..2$b` <factor<4c40e>>.
 
 > bind_rows(df1, df4)
-Error: No common type for `..1$b` <double> and `..2$b` <character>.
+Error: Can't combine `..1$b` <double> and `..2$b` <character>.
 
 > bind_rows(df2, df3)
-Error: No common type for `..1$b` <integer> and `..2$b` <factor<4c40e>>.
+Error: Can't combine `..1$b` <integer> and `..2$b` <factor<4c40e>>.
 
 > bind_rows(df2, df4)
-Error: No common type for `..1$b` <integer> and `..2$b` <character>.
+Error: Can't combine `..1$b` <integer> and `..2$b` <character>.
 
 
 unnamed vectors

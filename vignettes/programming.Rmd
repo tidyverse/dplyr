@@ -1,5 +1,10 @@
 ---
 title: "Programming with dplyr"
+description: >
+  Most dplyr verbs use "tidy evaluation", a special type of non-standard 
+  evaluation. In this vignette, you'll learn the two basic forms, data masking
+  and tidy selection, and how you can program with them using either functions
+  or for loops.
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Programming with dplyr}

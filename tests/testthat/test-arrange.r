@@ -66,8 +66,7 @@ test_that("arrange handles complex columns", {
   expect_equal(arrange(df, y), df[3:1, ])
 })
 
-test_that("arrange handles S4 classes #1105", {
-  skip("TODO: https://github.com/r-lib/vctrs/issues/776")
+test_that("arrange handles S4 classes (#1105)", {
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
   setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
   on.exit(removeClass("TestS4"))

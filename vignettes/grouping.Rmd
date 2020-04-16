@@ -1,5 +1,10 @@
 ---
 title: "Grouped data"
+description: >
+  To unlock the full potential of dplyr, you need to understand how each verb
+  interacts with grouping. This vignette shows you how to manipulate grouping,
+  how each verb changes its behaviour when working with grouped data, and 
+  how you can access data about the "current" group from within a verb.
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Grouped data}

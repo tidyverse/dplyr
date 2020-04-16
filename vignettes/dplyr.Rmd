@@ -1,6 +1,10 @@
 ---
 title: "Introduction to dplyr"
 output: rmarkdown::html_vignette
+description: >
+  Start here if this is your first time using dplyr. You'll learn the basic   
+  philosophy, the most important data manipulation verbs, and the pipe, `%>%`, 
+  which allows you to combine multiple verbs together to solve real problems.
 vignette: >
   %\VignetteIndexEntry{Introduction to dplyr}
   %\VignetteEngine{knitr::rmarkdown}
@@ -34,8 +38,6 @@ The dplyr package makes these steps fast and easy:
 
 This document introduces you to dplyr's basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you've installed, read `vignette("dbplyr")` to learn more.
 
-All of the dplyr functions take a data frame (or tibble) as the first argument.  Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so the result from one step is then "piped" into the next step.  You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"). 
-
 ## Data: starwars
 
 To explore the basic data manipulation verbs of dplyr, we'll use the dataset `starwars`. This dataset contains `r nrow(starwars)` characters and comes from the [Star Wars API](http://swapi.co), and is documented in `?starwars`
@@ -49,25 +51,26 @@ Note that `starwars` is a tibble, a modern reimagining of the data frame. It's p
 
 ## Single table verbs
 
-dplyr aims to provide a function for each basic verb of data manipulation.
+dplyr aims to provide a function for each basic verb of data manipulation. These verbs can be organised into three categories based on the component of the dataset that they work with:
 
-* row operations:
-
-  * `filter()` to choose cases based on their values.
-  * `arrange()` to reorder the cases.
-  * `slice()` to choose cases based on their position.
+* Rows:
+  * `filter()` chooses rows based on column values.
+  * `slice()` chooses rows based on location.
+  * `arrange()` changes the order of the rows.
   
-* column operations:
+* Columns:
+  * `select()` changes whether or not a column is included.
+  * `rename()` changes the name of columns.
+  * `mutate()` changes the values of columns and creates new columns.
+  * `relocate()` changes the order of the columns.
 
-  * `select()` and `rename()` to select variables based on their names.
-  * `mutate()` and `transmute()` to add new variables that are functions of existing variables.
-  * `relocate()` to change the order of the variables.
- 
-
-* summarize operation:
-
-  * `summarise()` to condense multiple values to a single value.
+* Groups of rows:
+  * `summarise()` collapses a group into a single row.
   
+### The pipe
+
+All of the dplyr functions take a data frame (or tibble) as the first argument. Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so the result from one step is then "piped" into the next step. You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"). 
+
 ### Filter rows with `filter()`
 
 `filter()` allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is `TRUE`.
@@ -100,7 +103,7 @@ starwars %>% arrange(desc(height))
 
 ###  Choose rows using their position with `slice()`
 
-slice() lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows. 
+`slice()` lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows. 
 
 We can get characters from row numbers 5 through 10.
 ```{r}
@@ -109,13 +112,13 @@ starwars %>% slice(5:10)
 
 It is accompanied by a number of helpers for common use cases:
 
-* slice_head() and slice_tail() select the first or last rows.  
+* `slice_head()` and `slice_tail()` select the first or last rows.
 
 ```{r}
 starwars %>% slice_head(n = 3)
 ```
 
-* slice_sample() randomly selects rows.  Use the option prop to choose a certain proportion of the cases.
+* `slice_sample()` randomly selects rows. Use the option prop to choose a certain proportion of the cases.
 
 ```{r}
 starwars %>% slice_sample(n = 5)
@@ -123,10 +126,10 @@ starwars %>% slice_sample(prop = 0.1)
 ```
 Use `replace = TRUE` to perform a bootstrap sample. If needed, you can weight the sample with the `weight` argument.
 
-* slice_min() and slice_max() select rows with highest or lowest values of a variable. Note that we first must choose  only the values which are not NA.
+* `slice_min()` and `slice_max()` select rows with highest or lowest values of a variable. Note that we first must choose  only the values which are not NA.
 
 ```{r}
-starwars %>% 
+starwars %>%
   filter(!is.na(height)) %>%
   slice_max(height, n = 3)
 ```
@@ -162,16 +165,16 @@ starwars %>% rename(home_world = homeworld)
 
 ### Add new columns with `mutate()`
 
-Besides selecting sets of existing columns, it's often useful to add new columns that are functions of existing columns.  This is the job of `mutate()`:
+Besides selecting sets of existing columns, it's often useful to add new columns that are functions of existing columns. This is the job of `mutate()`:
 
 ```{r}
-starwars %>% mutate(height_m =  height / 100)
+starwars %>% mutate(height_m = height / 100)
 ```
 
 We can't see the height in meters we just calculated, but we can fix that using a select command.
 
 ```{r}
-starwars %>% 
+starwars %>%
   mutate(height_m = height / 100) %>%
   select(height_m, height, everything())
 ```
@@ -179,9 +182,10 @@ starwars %>%
 `dplyr::mutate()` is similar to the base `transform()`, but allows you to refer to columns that you've just created:
 
 ```{r}
-starwars %>% mutate(
-  height_m = height / 100,
-  BMI = mass/(height_m^2)
+starwars %>%
+  mutate(
+    height_m = height / 100,
+    BMI = mass / (height_m^2)
   ) %>%
   select(BMI, everything())
 ```
@@ -189,10 +193,11 @@ starwars %>% mutate(
 If you only want to keep the new variables, use `transmute()`:
 
 ```{r}
-starwars %>% transmute(
-  height_m = height / 100,
-  BMI = mass/(height_m^2)
-)
+starwars %>%
+  transmute(
+    height_m = height / 100,
+    BMI = mass / (height_m^2)
+  )
 ```
 
 ### Change column order with `relocate()`
@@ -209,10 +214,7 @@ starwars %>% relocate(sex:homeworld, .before = height)
 The last verb is `summarise()`. It collapses a data frame to a single row.
 
 ```{r}
-starwars %>%
-  summarise(
-    height = mean(height, na.rm = TRUE)
-  )
+starwars %>% summarise(height = mean(height, na.rm = TRUE))
 ```
 
 It's not that useful until we learn the `group_by()` verb below.
@@ -242,7 +244,8 @@ a1 <- group_by(starwars, species, sex)
 a2 <- select(a1, height, mass)
 a3 <- summarise(a2,
   height = mean(height, na.rm = TRUE),
-  mass = mean(mass, na.rm = TRUE))
+  mass = mean(mass, na.rm = TRUE)
+)
 ```
 
 Or if you don't want to name the intermediate results, you need to wrap the function calls inside each other:
@@ -251,11 +254,11 @@ Or if you don't want to name the intermediate results, you need to wrap the func
 summarise(
   select(
     group_by(starwars, species, sex),
-      height, mass
-    ),
-    height = mean(height, na.rm = TRUE),
-    mass = mean(mass, na.rm = TRUE)
-  )
+    height, mass
+  ),
+  height = mean(height, na.rm = TRUE),
+  mass = mean(mass, na.rm = TRUE)
+)
 ```
 
 This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"):
@@ -267,7 +270,7 @@ starwars %>%
   summarise(
     height = mean(height, na.rm = TRUE),
     mass = mean(mass, na.rm = TRUE)
-  ) 
+  )
 ```
 
 ## Patterns of operations
@@ -345,8 +348,7 @@ Mutate semantics are quite different from selection semantics. Whereas
 We will set up a smaller tibble to use for our examples.
 
 ```{r}
-df <- starwars %>%
-  select(name, height, mass)
+df <- starwars %>% select(name, height, mass)
 ```
 
 When we use `select()`, the bare column names stand for their own

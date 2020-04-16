@@ -21,3 +21,10 @@ ts
 > lag(ts(1:10))
 Error: `x` must be a vector, not a ts object, do you want `stats::lag()`?
 
+
+incompatible default
+====================
+
+> lag(c("1", "2", "3"), default = FALSE)
+Error: Can't convert `default` <logical> to `x` <character>.
+

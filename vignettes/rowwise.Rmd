@@ -1,5 +1,10 @@
 ---
-title: "rowwise operations"
+title: "Row-wise operations"
+description: >
+  In R, it's usually easier to do something for each column than for each row.
+  In this vignette you will learn how to use the `rowwise()` function to 
+  perform operations by row. Along the way, you'll learn about list-columns,
+  and see how you might perform simulations and modelling within dplyr verbs.
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{rowwise}
@@ -82,7 +87,7 @@ df <- tibble(id = 1:6, w = 10:15, x = 20:25, y = 30:35, z = 40:45)
 df
 ```
 
-Let's say we want compute the sum of `w`, `x`, `y`, and `z` for each row. We start by making a rowwise data frame:
+Let's say we want compute the sum of `w`, `x`, `y`, and `z` for each row. We start by making a row-wise data frame:
 
 ```{r}
 rf <- df %>% rowwise(id)
@@ -102,7 +107,7 @@ rf %>% mutate(total = sum(c_across(w:z)))
 rf %>% mutate(total = sum(c_across(is.numeric)))
 ```
 
-You could combine this with col-wise operations (see `vignette("colwise")` for more details) to compute the proportion of the total for each column:
+You could combine this with column-wise operations (see `vignette("colwise")` for more details) to compute the proportion of the total for each column:
 
 ```{r}
 rf %>% 
@@ -164,7 +169,7 @@ df %>% mutate(l = sapply(x, length))
 df %>% mutate(l = purrr::map_int(x, length))
 ```
 
-But wouldn't it be nice if you could just write `length(x)` and dplyr would figure out that you wanted to compute the length of the element inside of `x`? Since you're here, you might already be guessing at the answer: this is just another application of the rowwise pattern.
+But wouldn't it be nice if you could just write `length(x)` and dplyr would figure out that you wanted to compute the length of the element inside of `x`? Since you're here, you might already be guessing at the answer: this is just another application of the row-wise pattern.
 
 ```{r}
 df %>% 
@@ -176,7 +181,7 @@ df %>%
 
 Before we continue on, I wanted to briefly mention the magic that makes this work. This isn't something you'll generally need to think about (it'll just work), but it's useful to know about when something goes wrong.
 
-There's an important difference between a grouped data frame where each group happens to have one row, and a rowwise data frame where every group always has one row. Take these two data frames:
+There's an important difference between a grouped data frame where each group happens to have one row, and a row-wise data frame where every group always has one row. Take these two data frames:
 
 ```{r}
 df <- tibble(g = 1:2, y = list(1:3, "a"))
@@ -191,7 +196,7 @@ gf %>% mutate(type = typeof(y), length = length(y))
 rf %>% mutate(type = typeof(y), length = length(y))
 ```
 
-They key difference is that when `mutate()` slices up the columns to pass to `length(y)` the grouped mutate uses `[` and the rowwise mutate uses `[[`. The following code gives a flavour of the differences if you used a for loop:
+They key difference is that when `mutate()` slices up the columns to pass to `length(y)` the grouped mutate uses `[` and the row-wise mutate uses `[[`. The following code gives a flavour of the differences if you used a for loop:
 
 ```{r}
 # grouped
@@ -336,9 +341,9 @@ df %>%
 
 ### `rowwise()`
 
-`rowwise()` was also questioning for quite some time, partly because I didn't appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative, we recommended performing rowwise operations with the purrr `map()` functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite some knowledge of purrr functions.
+`rowwise()` was also questioning for quite some time, partly because I didn't appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative, we recommended performing row-wise operations with the purrr `map()` functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite some knowledge of purrr functions.
 
-I was also resistant to `rowwise()` because I felt like automatically switching between `[` to `[[` was too magical in the same way that automatically `list()`-ing results made `do()` too magical. I've now persuaded myself that the rowwise magic is good magic partly because most people find the distinction between `[` and `[[` mystifying and `rowwise()` means that you don't need to think about it.
+I was also resistant to `rowwise()` because I felt like automatically switching between `[` to `[[` was too magical in the same way that automatically `list()`-ing results made `do()` too magical. I've now persuaded myself that the row-wise magic is good magic partly because most people find the distinction between `[` and `[[` mystifying and `rowwise()` means that you don't need to think about it.
 
 Since `rowwise()` clearly is useful it is not longer questioning, and we expect it to be around for the long term.
 
