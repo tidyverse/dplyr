@@ -150,8 +150,7 @@ test_that("returns UTF-8 column names (#2441)", {
 
   expect_equal(
     all_equal(df1, df2),
-    c( "not compatible: \n- Cols in y but not x: `\u798f`.\n- Cols in x but not y: `\u5e78`.\n"),
-    fixed = TRUE
+    c( "not compatible: \n- Cols in y but not x: `\u798f`.\n- Cols in x but not y: `\u5e78`.\n")
   )
 })
 
