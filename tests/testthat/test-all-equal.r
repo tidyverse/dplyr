@@ -162,7 +162,7 @@ test_that("ignore column order", {
 
   expect_equal(
     all_equal(tibble(a = 1, b = 2), tibble(a = 1), ignore_col_order = FALSE),
-    "- different number of columns: 2 vs 1"
+    glue("- different number of columns: 2 vs 1")
   )
 })
 
