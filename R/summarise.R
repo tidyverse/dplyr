@@ -169,7 +169,7 @@ summarise_cols <- function(.data, ...) {
       result_type <- types[[i]] <- tryCatch(
         vec_ptype_common(!!!chunks[[i]]),
         vctrs_error_incompatible_type = function(cnd) {
-          rethrow(cnd, "dplyr_summarise_incompatible_combine")
+          abort(class = "dplyr_summarise_incompatible_combine", parent = cnd)
         }
       )
 
@@ -204,7 +204,7 @@ summarise_cols <- function(.data, ...) {
     if (inherits(e, "rlang_error_data_pronoun_not_found")) {
       stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
     } else if (inherits(e, "dplyr_summarise_incompatible_combine")) {
-      stop_combine(e, index = i, dots = dots, fn = "summarise")
+      stop_combine(e$parent, index = i, dots = dots, fn = "summarise")
     } else if (inherits(e, "dplyr_summarise_unsupported_type")) {
       stop_summarise_unsupported_type(result = e$result, index = i, dots = dots)
     } else if (inherits(e, "dplyr_summarise_incompatible_size")) {

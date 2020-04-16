@@ -290,7 +290,7 @@ mutate_cols <- function(.data, ...) {
         result <- tryCatch(
           vec_unchop(chunks, rows),
           vctrs_error_incompatible_type = function(cnd) {
-            rethrow(cnd, "dplyr_mutate_incompatible_combine")
+            abort(class = "dplyr_mutate_incompatible_combine", parent = cnd)
           }
         )
       }
@@ -327,7 +327,7 @@ mutate_cols <- function(.data, ...) {
     } else if (inherits(e, "dplyr_mutate_not_vector")) {
       stop_mutate_not_vector(index = i, dots = dots, result = e$result)
     } else if(inherits(e, "dplyr_mutate_incompatible_combine")) {
-      stop_combine(e, index = i, dots = dots, fn = "mutate")
+      stop_combine(e$parent, index = i, dots = dots, fn = "mutate")
     } else {
       stop_dplyr(i, dots, fn = "mutate", "errored", x = conditionMessage(e))
     }
