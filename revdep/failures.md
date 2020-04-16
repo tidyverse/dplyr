@@ -7234,7 +7234,7 @@ ERROR: compilation failed for package ‘qgraph’
 * URL: https://quanteda.io
 * BugReports: https://github.com/quanteda/quanteda/issues
 * Date/Publication: 2020-02-26 15:50:09 UTC
-* Number of recursive dependencies: 140
+* Number of recursive dependencies: 153
 
 Run `revdep_details(,"quanteda")` for more info
 
@@ -12737,7 +12737,7 @@ ERROR: compilation failed for package ‘telefit’
 * Version: 0.0.1
 * Source code: https://github.com/cran/textmining
 * Date/Publication: 2016-09-26 00:56:23
-* Number of recursive dependencies: 106
+* Number of recursive dependencies: 100
 
 Run `revdep_details(,"textmining")` for more info
 
