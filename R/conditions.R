@@ -153,10 +153,10 @@ stop_summarise_unsupported_type <- function(result, index, dots) {
 
 # mutate() ----------------------------------------------------------------
 
-stop_mutate_mixed_NULL <- function(index, dots) {
+stop_mutate_mixed_null <- function(index, dots) {
   # called from the C++ code
   if(missing(dots)) {
-    abort(class = "dplyr_mutate_mixed_NULL")
+    abort(class = "dplyr_mutate_mixed_null")
   }
 
   stop_dplyr(index, dots, "mutate", "must return compatible vectors across groups",
