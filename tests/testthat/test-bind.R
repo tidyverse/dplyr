@@ -78,13 +78,8 @@ df_var <- tibble(
 test_that("bind_rows() equivalent to rbind()", {
   exp <- as_tibble(rbind(df_var, df_var, df_var))
   res <- bind_rows(df_var, df_var, df_var)
-  for(name in names(exp)) {
-    expect_equal(res[[name]], exp[[name]])
-  }
-  res <- bind_rows(df_var, df_var, df_var)
-  for(name in names(exp)) {
-    expect_equal(res[[name]], exp[[name]])
-  }
+
+  expect_equal(res, exp)
 })
 
 test_that("bind_rows reorders columns", {
