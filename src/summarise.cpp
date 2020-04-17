@@ -30,9 +30,10 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes, SEXP re
   R_len_t n_chunks = LENGTH(chunks);
   R_len_t n_groups = LENGTH(rows);
 
-  SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
+  SEXP res = PROTECT(Rf_allocVector(VECSXP, 3));
   Rf_namesgets(res, dplyr::vectors::names_summarise_recycle_chunks);
   SET_VECTOR_ELT(res, 0, chunks);
+  SET_VECTOR_ELT(res, 2, results);
 
   SEXP useful = PROTECT(Rf_allocVector(LGLSXP, n_chunks));
   int* p_useful = LOGICAL(useful);
@@ -67,10 +68,14 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes, SEXP re
       // assume that the chunk size is 1
       R_len_t n_i_j = 1;
       if (sizes_j == R_NilValue) {
-        // no size information, so get the size from chunks
-        n_i_j = vctrs::short_vec_size(VECTOR_ELT(VECTOR_ELT(chunks, j), i));
+        // no size information, so get the size from chunks if any
+        // otherwise it means 1
+        SEXP chunks_j = VECTOR_ELT(chunks, j);
+        if (chunks_j != R_NilValue) {
+          n_i_j = vctrs::short_vec_size(VECTOR_ELT(chunks_j, i));
+        }
       } else if (XLENGTH(sizes_j) == n_groups) {
-        // get from the sizes[[j]] if correct siuze, otherwise, leave 1
+        // get from the sizes[[j]] if correct size, otherwise, leave 1
         n_i_j = INTEGER(sizes_j)[i];
       }
 
@@ -99,13 +104,28 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes, SEXP re
       for (; j < n_chunks && !p_useful[j]; j++);
       if (j == n_chunks) break;
 
-      SEXP chunks_j = VECTOR_ELT(chunks, j);
-      if (chunks_j != R_NilValue) {
-        int* p_sizes = INTEGER(out_sizes);
-        for (int i = 0; i < n_groups; i++, ++p_sizes) {
-          SET_VECTOR_ELT(chunks_j, i,
-            vctrs::short_vec_recycle(VECTOR_ELT(chunks_j, i), *p_sizes)
-          );
+      SEXP results_j = VECTOR_ELT(results, j);
+      if (results_j != R_NilValue) {
+        // we already have a result
+        SEXP sizes_j = VECTOR_ELT(sizes, j);
+        if (sizes_j == R_NilValue) {
+          // this means chunks are size 1 and we need to recycle them
+          SET_VECTOR_ELT(results, j, vctrs::vec_rep_each(results_j, out_sizes));
+        }
+
+        // otherwise there are two possibilities:
+        // - the sizes do match and so there is nothing to do
+        // - they don't and this would have been stopped earlier by stop_summarise_incompatible_size()
+      } else {
+        // there were no results, so recycle the chunks
+        SEXP chunks_j = VECTOR_ELT(chunks, j);
+        if (chunks_j != R_NilValue) {
+          int* p_sizes = INTEGER(out_sizes);
+          for (int i = 0; i < n_groups; i++, ++p_sizes) {
+            SET_VECTOR_ELT(chunks_j, i,
+              vctrs::short_vec_recycle(VECTOR_ELT(chunks_j, i), *p_sizes)
+            );
+          }
         }
       }
     }

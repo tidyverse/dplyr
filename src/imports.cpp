@@ -56,4 +56,11 @@ SEXP short_vec_recycle(SEXP x, R_len_t n) {
   return vctrs_api().short_vec_recycle(x, n);
 }
 
+SEXP vec_rep_each(SEXP x, SEXP times) {
+  SEXP call = PROTECT(Rf_lang3(dplyr::symbols::vec_rep_each, x, times));
+  SEXP res = PROTECT(Rf_eval(call, dplyr::envs::ns_dplyr));
+  UNPROTECT(2);
+  return res;
+}
+
 }

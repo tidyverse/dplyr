@@ -37,10 +37,11 @@ SEXP get_names_expanded() {
 }
 
 SEXP get_names_summarise_recycle_chunks(){
-  SEXP names = Rf_allocVector(STRSXP, 2);
+  SEXP names = Rf_allocVector(STRSXP, 3);
   R_PreserveObject(names);
   SET_STRING_ELT(names, 0, Rf_mkChar("chunks"));
   SET_STRING_ELT(names, 1, Rf_mkChar("sizes"));
+  SET_STRING_ELT(names, 2, Rf_mkChar("results"));
   return names;
 }
 
@@ -57,6 +58,7 @@ SEXP symbols::resolved = Rf_install("resolved");
 SEXP symbols::bindings = Rf_install("bindings");
 SEXP symbols::which_used = Rf_install("which_used");
 SEXP symbols::dot_drop = Rf_install(".drop");
+SEXP symbols::vec_rep_each = Rf_install("vec_rep_each");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();

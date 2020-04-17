@@ -139,15 +139,37 @@ summarise.rowwise_df <- function(.data, ...) {
   rowwise_df(out, group_vars(.data))
 }
 
-grouped_mean <- function(chunks, ...) {
-  # TODO: deal with ... and we need some information about the ptype
-  #       if we want to inject some C++ loop or at least decide
-  #       that we want to use .Internal(mean)
-  res <- map(chunks, mean, ...)
+hybrid_quo_get_scalar_logical <- function(quo) {
+  if (identical(quo, quo(TRUE))) {
+    TRUE
+  } else if (identical(quo, quo(FALSE))) {
+    FALSE
+  } else {
+    stop("not a scalar logical quosure")
+  }
+}
+
+grouped_mean <- function(x, ...) {
+  args <- enquos(...)
+  if (length(args) == 0) {
+    na.rm <- FALSE
+  } else if (length(args) == 1 && names(args) == "na.rm") {
+    # if na.rm is anything else than TRUE or FALSE
+    # then we get an error, and jump back to standard evaluation
+    na.rm <- hybrid_quo_get_scalar_logical(args$na.rm)
+  } else {
+    stop("cannot handle")
+  }
+
+  # TODO: rewrite in C++
+  if (na.rm) {
+    x <- map(x, function(.x) .x[!is.na(.x)])
+  }
+  res <- map(x, function(.) .Internal(mean(.x)))
+
   list(
     chunks = res,
-    results = vec_c(!!!res),
-    sizes = 1L
+    results = vec_c(!!!res)
   )
 }
 
@@ -155,8 +177,8 @@ hybrid_eval_summarise <- function(expr, mask, env = caller_env()) {
   # TODO: this looks at the call to figure out hybridability
   #       that is not really sustainable/extensible
   if (is_call(expr, "mean")) {
-    # mean(x) becomes:
-    # function(x = mask$resolve("x"), y = mask$resolve("y")) grouped_mean(x)
+    # mean(x, ...) becomes:
+    # function(x = mask$resolve("x"), y = mask$resolve("y")) grouped_mean(x, ...)
     expr[[1L]] <- grouped_mean
     args <- map(set_names(mask$current_vars()), function(.x) expr(mask$resolve(!!.x)))
     fn <- new_function(args, expr)
@@ -195,28 +217,23 @@ summarise_cols <- function(.data, ...) {
         # evaluation to get the chunks
         chunks[[i]] <- mask$eval_all_summarise(quo)
       } else {
-        chunks[[i]] <- hybrid_result$chunks
-        results[[i]] <- hybrid_result$results
-        sizes[[i]] <- hybrid_result$sizes
+        chunks[i] <- list(hybrid_result$chunks)
+        results[i] <- list(hybrid_result$results)
+        sizes[i] <- list(hybrid_result$sizes)
       }
 
-
+      # result type
       result_type <- types[[i]] <- results[[i]] %||% vec_ptype_common(!!!chunks[[i]])
 
-      if (is.null(chunks[[i]])) {
-        # we have results[[i]] but not chunks[[i]] so no $add() ?
+      # adding the chunks to the mask
+      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
+        # remember each result separately
+        map2(seq_along(result_type), names(result_type), function(j, nm) {
+          mask$add(nm, pluck(chunks[[i]], j))
+        })
       } else {
-        # only $add() the chunks if we have them, we might not have them
-        # if hybrid only gave $results and $sizes
-        if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
-          # remember each result separately
-          map2(seq_along(result_type), names(result_type), function(j, nm) {
-            mask$add(nm, pluck(chunks[[i]], j))
-          })
-        } else {
-          # remember
-          mask$add(auto_named_dots[i], chunks[[i]])
-        }
+        # remember
+        mask$add(auto_named_dots[i], chunks[[i]])
       }
 
     }

@@ -26,6 +26,7 @@ struct symbols {
   static SEXP bindings;
   static SEXP which_used;
   static SEXP dot_drop;
+  static SEXP vec_rep_each;
 };
 
 struct vectors {
@@ -52,6 +53,7 @@ namespace vctrs {
 bool vec_is_vector(SEXP x) ;
 R_len_t short_vec_size(SEXP x) ;
 SEXP short_vec_recycle(SEXP x, R_len_t n);
+SEXP vec_rep_each(SEXP x, SEXP times);
 }
 
 SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr);
