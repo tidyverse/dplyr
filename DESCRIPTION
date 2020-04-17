@@ -69,4 +69,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Remotes:
     r-lib/rlang, 
-    r-lib/vctrs
+    r-lib/vctrs,
+    r-lib/testthat,
+    r-lib/waldo
