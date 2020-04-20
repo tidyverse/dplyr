@@ -109,6 +109,10 @@ DataMask <- R6Class("DataMask",
       rm(list = name, envir = private$bindings)
     },
 
+    args = function() {
+      map(set_names(self$current_vars()), function(.x) expr(self$resolve(!!.x)))
+    },
+
     resolve = function(name) {
       chunks <- self$get_resolved(name)
 

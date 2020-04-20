@@ -150,6 +150,7 @@ hybrid_quo_get_scalar_logical <- function(quo) {
 }
 
 grouped_mean <- function(x, ...) {
+  # TODO: do we want some dispatch based on x here
   args <- enquos(...)
   if (length(args) == 0) {
     na.rm <- FALSE
@@ -173,15 +174,14 @@ grouped_mean <- function(x, ...) {
   )
 }
 
-hybrid_eval_summarise <- function(expr, mask, env = caller_env()) {
+hybrid_eval_summarise <- function(expr, mask) {
   # TODO: this looks at the call to figure out hybridability
   #       that is not really sustainable/extensible
   if (is_call(expr, "mean")) {
     # mean(x, ...) becomes:
     # function(x = mask$resolve("x"), y = mask$resolve("y")) grouped_mean(x, ...)
     expr[[1L]] <- grouped_mean
-    args <- map(set_names(mask$current_vars()), function(.x) expr(mask$resolve(!!.x)))
-    fn <- new_function(args, expr)
+    fn <- new_function(mask$args(), expr)
     tryCatch(
       fn(),
       error = function(e) NULL
