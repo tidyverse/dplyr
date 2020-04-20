@@ -25,14 +25,25 @@ DataMask <- R6Class("DataMask",
           if (vec_is_list(col)) {
             res <- map(res, `[[`, 1L)
           }
+          attr(res, ".ptype") <- vec_ptype(col)
           res
         }
       } else if (is_grouped_df(data)) {
-        function(index) vec_chop(.subset2(data, index), rows)
+        function(index) {
+          col <- .subset2(data, index)
+          res <- vec_chop(col, rows)
+          attr(res, ".ptype") <- vec_ptype(col)
+          res
+        }
       } else {
         # for ungrouped data frames, there is only one chunk that
         # is made of the full column
-        function(index) list(.subset2(data, index))
+        function(index) {
+          col <- .subset2(data, index)
+          res <- list(col)
+          attr(res, ".ptype") <- vec_ptype(col)
+          res
+        }
       }
 
       private$used <- rep(FALSE, ncol(data))
@@ -107,6 +118,7 @@ DataMask <- R6Class("DataMask",
         if (inherits(private$data, "rowwise_df") && vec_is_list(column)) {
           chunks <- map(chunks, `[[`, 1)
         }
+        attr(chunks, ".ptype") <- vec_ptype(column)
         self$set(name, chunks)
       }
 
