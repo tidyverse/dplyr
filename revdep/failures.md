@@ -563,6 +563,71 @@ ERROR: lazy loading failed for package ‘BayesPostEst’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/BayesPostEst/old/BayesPostEst.Rcheck/BayesPostEst’
 
 ```
+# benchmarkfdrData2019
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/benchmarkfdrData2019
+* BugReports: https://github.com/stephaniehicks/benchmarkfdrData2019/issues
+* Date/Publication: 2019-11-05
+* Number of recursive dependencies: 120
+
+Run `revdep_details(,"benchmarkfdrData2019")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘benchmarkfdrData2019’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/benchmarkfdrData2019/new/benchmarkfdrData2019.Rcheck/00install.out’ for details.
+    ```
+
+*   checking for portable file names ... NOTE
+    ```
+    Found the following non-portable file paths:
+      benchmarkfdrData2019/inst/scripts/make-data/Simulations/simulations-varyinginformativeness-discrete.Rmd
+      benchmarkfdrData2019/inst/scripts/make-data/Simulations/simulations-varyinginformativeness-smooth.Rmd
+      benchmarkfdrData2019/inst/scripts/make-data/YeastInSilico/yeast-simulation-bimodalalternative-highpi0.Rmd
+    
+    Tarballs are only required to store paths of up to 100 bytes and cannot
+    store those of more than 256 bytes, with restrictions including to 100
+    bytes for the final component.
+    See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘benchmarkfdrData2019’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package ‘dbplyr’ required by ‘BiocFileCache’ could not be found
+Execution halted
+ERROR: lazy loading failed for package ‘benchmarkfdrData2019’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/benchmarkfdrData2019/new/benchmarkfdrData2019.Rcheck/benchmarkfdrData2019’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘benchmarkfdrData2019’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package ‘dbplyr’ required by ‘BiocFileCache’ could not be found
+Execution halted
+ERROR: lazy loading failed for package ‘benchmarkfdrData2019’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/benchmarkfdrData2019/old/benchmarkfdrData2019.Rcheck/benchmarkfdrData2019’
+
+```
 # BgeeDB
 
 <details>
@@ -1719,6 +1784,67 @@ ERROR: compilation failed for package ‘CB2’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CB2/old/CB2.Rcheck/CB2’
 
 ```
+# CellBench
+
+<details>
+
+* Version: 1.2.0
+* Source code: https://github.com/cran/CellBench
+* URL: https://github.com/shians/cellbench
+* BugReports: https://github.com/Shians/CellBench/issues
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 109
+
+Run `revdep_details(,"CellBench")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘CellBench’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CellBench/new/CellBench.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘CellBench’ ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘CellBench’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CellBench/new/CellBench.Rcheck/CellBench’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘CellBench’ ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘CellBench’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CellBench/old/CellBench.Rcheck/CellBench’
+
+```
 # ChIPseeker
 
 <details>
@@ -2659,6 +2785,61 @@ ERROR: compilation failed for package ‘DataVisualizations’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DataVisualizations/old/DataVisualizations.Rcheck/DataVisualizations’
 
 ```
+# depmap
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/depmap
+* Date/Publication: 2019-11-05
+* Number of recursive dependencies: 103
+
+Run `revdep_details(,"depmap")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘depmap’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/depmap/new/depmap.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘depmap’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘depmap’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/depmap/new/depmap.Rcheck/depmap’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘depmap’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘depmap’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/depmap/old/depmap.Rcheck/depmap’
+
+```
 # DepthProc
 
 <details>
@@ -2964,7 +3145,7 @@ ERROR: lazy loading failed for package ‘DiversityOccupancy’
 * URL: https://github.com/ATFutures/dodgr
 * BugReports: https://github.com/ATFutures/dodgr/issues
 * Date/Publication: 2019-10-10 14:00:02 UTC
-* Number of recursive dependencies: 93
+* Number of recursive dependencies: 94
 
 Run `revdep_details(,"dodgr")` for more info
 
@@ -3513,6 +3694,66 @@ clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘dynfrail’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/dynfrail/old/dynfrail.Rcheck/dynfrail’
+
+```
+# eda4treeR
+
+<details>
+
+* Version: 0.2.0
+* Source code: https://github.com/cran/eda4treeR
+* URL: https://github.com/MYaseen208/eda4treeR
+* Date/Publication: 2018-02-04 19:06:12 UTC
+* Number of recursive dependencies: 107
+
+Run `revdep_details(,"eda4treeR")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘eda4treeR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/eda4treeR/new/eda4treeR.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘eda4treeR’ ...
+** package ‘eda4treeR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘eda4treeR’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/eda4treeR/new/eda4treeR.Rcheck/eda4treeR’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘eda4treeR’ ...
+** package ‘eda4treeR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘eda4treeR’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/eda4treeR/old/eda4treeR.Rcheck/eda4treeR’
 
 ```
 # ELMER
@@ -4560,6 +4801,72 @@ clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘heatwaveR’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/heatwaveR/old/heatwaveR.Rcheck/heatwaveR’
+
+```
+# HMP16SData
+
+<details>
+
+* Version: 1.6.0
+* Source code: https://github.com/cran/HMP16SData
+* URL: https://github.com/waldronlab/HMP16SData
+* BugReports: https://github.com/waldronlab/HMP16SData/issues
+* Date/Publication: 2019-11-05
+* Number of recursive dependencies: 184
+
+Run `revdep_details(,"HMP16SData")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘HMP16SData’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HMP16SData/new/HMP16SData.Rcheck/00install.out’ for details.
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘curatedMetagenomicData’
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘HMP16SData’ ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘HMP16SData’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HMP16SData/new/HMP16SData.Rcheck/HMP16SData’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘HMP16SData’ ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘HMP16SData’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HMP16SData/old/HMP16SData.Rcheck/HMP16SData’
 
 ```
 # iCNV
@@ -5714,6 +6021,67 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [mrgsolve.so] Error 1
 ERROR: compilation failed for package ‘mrgsolve’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mrgsolve/old/mrgsolve.Rcheck/mrgsolve’
+
+```
+# muscData
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/muscData
+* URL: https://github.com/HelenaLC/muscData
+* BugReports: https://github.com/HelenaLC/muscData/issues
+* Date/Publication: 2019-11-05
+* Number of recursive dependencies: 95
+
+Run `revdep_details(,"muscData")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘muscData’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/muscData/new/muscData.Rcheck/00install.out’ for details.
+    ```
+
+*   checking for hidden files and directories ... NOTE
+    ```
+    Found the following hidden files and directories:
+      .BBSoptions
+    These were most likely included in error. See section ‘Package
+    structure’ in the ‘Writing R Extensions’ manual.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘muscData’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package ‘dbplyr’ required by ‘BiocFileCache’ could not be found
+Execution halted
+ERROR: lazy loading failed for package ‘muscData’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/muscData/new/muscData.Rcheck/muscData’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘muscData’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package ‘dbplyr’ required by ‘BiocFileCache’ could not be found
+Execution halted
+ERROR: lazy loading failed for package ‘muscData’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/muscData/old/muscData.Rcheck/muscData’
 
 ```
 # neuropsychology
@@ -7112,7 +7480,7 @@ installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/purrr
 * URL: http://trinker.github.com/qdap/
 * BugReports: http://github.com/trinker/qdap/issues
 * Date/Publication: 2020-01-09 18:30:06 UTC
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 99
 
 Run `revdep_details(,"qdap")` for more info
 
