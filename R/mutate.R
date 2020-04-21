@@ -295,7 +295,11 @@ mutate_cols <- function(.data, ...) {
 
         # remember each result separately
         map2(seq_along(result), names(result), function(i, nm) {
-          mask$add(nm, pluck(chunks, i))
+          chunks_i <- pluck(chunks, i)
+          if (inherits(data, "rowwise_df") && vec_is_list(result[[i]])) {
+            class(chunks_i) <- "dplyr_rowwise_simplify"
+          }
+          mask$set(nm, chunks_i)
         })
       } else {
         name <- if (not_named) auto_named_dots[i] else dots_names[i]
@@ -304,7 +308,10 @@ mutate_cols <- function(.data, ...) {
         new_columns[[name]] <- result
 
         # remember
-        mask$add(name, chunks)
+        if (inherits(.data, "rowwise_df") && vec_is_list(result)) {
+          class(chunks) <- "dplyr_rowwise_simplify"
+        }
+        mask$set(name, chunks)
       }
 
 

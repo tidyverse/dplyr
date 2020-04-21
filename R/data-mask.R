@@ -17,38 +17,90 @@ DataMask <- R6Class("DataMask",
       private$keys <- group_keys(data)
       private$group_vars <- group_vars(data)
 
-      # A function that returns all the chunks for a column
-      resolve_chunks <- if (inherits(data, "rowwise_df")) {
-        function(index) {
-          col <- .subset2(data, index)
-          res <- vec_chop(col, rows)
-          if (vec_is_list(col)) {
-            res <- map(res, `[[`, 1L)
-          }
-          res
-        }
-      } else if (is_grouped_df(data)) {
-        function(index) vec_chop(.subset2(data, index), rows)
-      } else {
-        # for ungrouped data frames, there is only one chunk that
-        # is made of the full column
-        function(index) list(.subset2(data, index))
-      }
-
       private$used <- rep(FALSE, ncol(data))
 
       names_bindings <- chr_unserialise_unicode(names2(data))
       private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
 
-      promise_fn <- function(index, chunks = resolve_chunks(index), name = names_bindings[index]) {
+      # promise_fn() is responsible for
+      # - materialize all the chunks for a given column as needed
+      # - tracking which one has been used
+
+      # it needs to handle 3 cases: grouped, rowwise and simple
+
+      promise_fn <- function(index) {
+        name <- names_bindings[index]
+      }
+
+      if (inherits(data, "grouped_df")) {
+        promise_fn <- function(index) {
+          name <- names_bindings[index]
+          column <- .subset2(data, index)
+
           # resolve the chunks and hold the slice for current group
+          chunks <- vec_chop(column, rows)
           res <- .subset2(chunks, self$get_current_group())
 
-          # track - not safe to directly use `index`
           self$set(name, chunks)
-
-          # return result for current slice
           res
+        }
+      } else if (inherits(data, "rowwise_df")) {
+        promise_fn <- function(index) {
+          # similar to grouped, with some extra work for list columns
+          name <- names_bindings[index]
+          column <- .subset2(data, index)
+
+          # resolve the chunks and hold the slice for current group
+          chunks <- vec_chop(column, rows)
+          res <- .subset2(chunks, self$get_current_group())
+
+          # deal with rowwise magic
+          if (vec_is_list(column)) {
+            # remember to do the rowwise magic
+            class(chunks) <- "dplyr_rowwise_simplify"
+
+            # do the rowwise magic for this time
+            res <- res[[1L]]
+          }
+
+          self$set(name, chunks)
+          res
+        }
+      } else {
+        promise_fn <- function(index) {
+          # much simpler, this is only used to tracked if the column has been used
+          name <- names_bindings[index]
+          column <- .subset2(data, index)
+          self$set(name, list(column))
+          column
+        }
+      }
+
+      promise_fn <- function(index) {
+        name <- names_bindings[index]
+        column <- .subset2(data, index)
+        chunks <- if (is_grouped_df(data) || inherits(data, "rowwise_df") ) {
+          vec_chop(column, rows)
+        } else {
+          list(column)
+        }
+
+        # resolve the chunks and hold the slice for current group
+        res <- .subset2(chunks, self$get_current_group())
+
+        # deal with rowwise magic
+        if (inherits(data, "rowwise_df") && vec_is_list(column)) {
+          # remember to do the rowwise magic
+          class(chunks) <- "dplyr_rowwise_simplify"
+
+          # do the rowwise magic for this time
+          res <- res[[1L]]
+        }
+
+        self$set(name, chunks)
+
+        # return result for current slice
+        res
       }
 
       promises <- map(seq_len(ncol(data)), function(.x) expr(promise_fn(!!.x)))
@@ -59,36 +111,23 @@ DataMask <- R6Class("DataMask",
       private$mask$.data <- as_data_pronoun(private$mask)
     },
 
-    add = function(name, chunks) {
-      if (inherits(private$data, "rowwise_df")){
-        is_scalar_list <- function(.x) {
-          vec_is_list(.x) && length(.x) == 1L
-        }
-        if (all(map_lgl(chunks, is_scalar_list))) {
-          chunks <- map(chunks, `[[`, 1L)
-        }
-      }
-
-      pos <- which(names(private$resolved) == name)
-      is_new_column <- length(pos) == 0L
-
-      if (is_new_column) {
-        pos <- length(private$resolved) + 1L
-        used <- FALSE
-      } else {
-        used <- private$used[[pos]]
-      }
-
-      if (!used) {
-        private$used[[pos]] <- TRUE
-        private$which_used <- c(private$which_used, pos)
-      }
-
-      private$resolved[[name]] <- chunks
-    },
-
     set = function(name, chunks) {
-      private$resolved[[name]] <- chunks
+      if (inherits(chunks, "dplyr_lazy_chunks")) {
+        result <- attr(chunks, "result")
+        indices <- attr(chunks, "indices")
+
+        promise <- function() {
+          resolved_chunks <- vec_chop(result, indices)
+          self$set(name, resolved_chunks)
+          .subset2(resolved_chunks, self$get_current_group())
+        }
+        env_bind_lazy(private$bindings, !!name := promise())
+
+        # so that it appears unresolved
+        chunks <- NULL
+      }
+
+      private$resolved[name] <- list(chunks)
       private$used <- !map_lgl(private$resolved, is.null)
       private$which_used <- which(private$used)
     },
@@ -104,9 +143,6 @@ DataMask <- R6Class("DataMask",
       if (is.null(chunks)) {
         column <- private$data[[name]]
         chunks <- vec_chop(column, private$rows)
-        if (inherits(private$data, "rowwise_df") && vec_is_list(column)) {
-          chunks <- map(chunks, `[[`, 1)
-        }
         self$set(name, chunks)
       }
 

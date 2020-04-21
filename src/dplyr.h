@@ -90,9 +90,15 @@ SEXP names_resolved = Rf_getAttrib(resolved, R_NamesSymbol);                    
 R_xlen_t n_resolved = XLENGTH(which_used);                                           \
 for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) {               \
   int idx_promise = p_which_used[i_resolved] - 1;                                    \
+  SEXP chunks_list = VECTOR_ELT(resolved, idx_promise);                              \
+  SEXP current_chunk = VECTOR_ELT(chunks_list, i);                                   \
+  if (inherits(chunks_list, "dplyr_rowwise_simplify")) {                             \
+    current_chunk = VECTOR_ELT(current_chunk, 0);                                    \
+  }                                                                                  \
   Rf_defineVar(                                                                      \
     Rf_installChar(STRING_ELT(names_resolved, idx_promise)),                         \
-    VECTOR_ELT(VECTOR_ELT(resolved, idx_promise), i), bindings                       \
+    current_chunk,                                                                   \
+    bindings                                                                         \
   );                                                                                 \
 }
 
