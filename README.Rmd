@@ -34,7 +34,7 @@ dplyr is a grammar of data manipulation, providing a consistent set of verbs tha
 
 These all combine naturally with `group_by()` which allows you to perform any operation "by group". You can learn more about them in `vignette("dplyr")`. As well as these single-table verbs, dplyr also provides a variety of two-table verbs, which you can learn about in `vignette("two-table")`.
 
-If you are new to dplyr, the best place to start is the [data import chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
+If you are new to dplyr, the best place to start is the [data transformation chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
 
 ## Backends
 
@@ -62,8 +62,8 @@ install.packages("dplyr")
 
 ### Development version
 
-To get a bug fix, or use a feature from the development version, you can install 
-dplyr from GitHub.
+To get a bug fix or to use a feature from the development version, you can install 
+the development version of dplyr from GitHub.
 
 ```{r, eval = FALSE}
 # install.packages("devtools")
@@ -98,13 +98,15 @@ starwars %>%
     n = n(),
     mass = mean(mass, na.rm = TRUE)
   ) %>%
-  filter(n > 1,
-         mass > 50)
+  filter(
+    n > 1,
+    mass > 50
+  )
 ```
 
 ## Getting help
 
-If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use [community.rstudio.com](https://community.rstudio.com/), or the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
+If you encounter a clear bug, please file an issue with a minimal reproducible example on [GitHub](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use [community.rstudio.com](https://community.rstudio.com/) or the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
 
 ---
 Please note that this project is released with a [Contributor Code of Conduct](https://dplyr.tidyverse.org/CODE_OF_CONDUCT).

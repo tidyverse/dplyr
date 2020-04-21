@@ -281,7 +281,7 @@ test_that("mutate() evaluates expression for empty groups", {
   expect_equal(count, 3L)
 })
 
-test_that("DataMask$add() forces chunks (#4677)", {
+test_that("DataMask$set() forces chunks (#4677)", {
   df <- tibble(bf10 = 0.244) %>%
     mutate(
       bf01 = 1 / bf10,

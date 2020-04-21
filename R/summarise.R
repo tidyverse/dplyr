@@ -229,11 +229,11 @@ summarise_cols <- function(.data, ...) {
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
         # remember each result separately
         map2(seq_along(result_type), names(result_type), function(j, nm) {
-          mask$add(nm, pluck(chunks[[i]], j))
+          mask$set(nm, pluck(chunks[[i]], j))
         })
       } else {
         # remember
-        mask$add(auto_named_dots[i], chunks[[i]])
+        mask$set(auto_named_dots[i], chunks[[i]])
       }
 
     }

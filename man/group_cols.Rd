@@ -14,7 +14,7 @@ finds the "current" data frames.}
 }
 \description{
 This selection helpers matches grouping variables. It can be used
-in \code{\link[=select]{select()}} or \link[=scoped]{vars()} selections.
+in \code{\link[=select]{select()}} or \code{\link[=vars]{vars()}} selections.
 }
 \examples{
 gdf <- iris \%>\% group_by(Species)
