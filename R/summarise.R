@@ -166,11 +166,10 @@ grouped_mean <- function(x, ...) {
   if (na.rm) {
     x <- map(x, function(.x) .x[!is.na(.x)])
   }
-  res <- map(x, function(.) .Internal(mean(.x)))
+  res <- map(x, function(.x) .Internal(mean(.x)))
 
   list(
-    chunks = res,
-    results = vec_c(!!!res)
+    x = vec_c(!!!res)
   )
 }
 
@@ -187,6 +186,10 @@ hybrid_eval_summarise <- function(expr, mask) {
       error = function(e) NULL
     )
   }
+}
+
+lazy_vec_chop <- function(x, sizes = NULL) {
+  structure(list(), x = x, sizes = sizes, class = "dplyr_lazy_vec_chop")
 }
 
 summarise_cols <- function(.data, ...) {
@@ -209,31 +212,47 @@ summarise_cols <- function(.data, ...) {
     for (i in seq_along(dots)) {
       quo <- dots[[i]]
 
-      hybrid_result <- hybrid_eval_summarise(quo_get_expr(quo), mask)
+      res <- hybrid_eval_summarise(quo_get_expr(quo), mask)
       mask$across_cache_reset()
+      standard <- is.null(res)
 
-      if (is.null(hybrid_result)) {
+      if (standard) {
         # no result from hybrid, so proceed with standard
         # evaluation to get the chunks
         chunks[[i]] <- mask$eval_all_summarise(quo)
+        types[[i]] <- vec_ptype_common(!!!chunks[[i]])
       } else {
-        chunks[i] <- list(hybrid_result$chunks)
-        results[i] <- list(hybrid_result$results)
-        sizes[i] <- list(hybrid_result$sizes)
+        # hybrid evaluation was successfull, so we have the result
+        # and we can deduce the type
+        #
+        # we however don't have the chunks, but we might never need them
+        # so we'll make them lazily later
+        results[[i]] <- res$x
+        types[[i]] <- vec_ptype(res$x)
+        sizes[i] <- list(res$sizes)
       }
 
-      # result type
-      result_type <- types[[i]] <- results[[i]] %||% vec_ptype_common(!!!chunks[[i]])
-
       # adding the chunks to the mask
-      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
+      type <- types[[i]]
+      not_named <- is.null(dots_names) || dots_names[i] == ""
+      if (not_named && is.data.frame(type)) {
+
         # remember each result separately
-        map2(seq_along(result_type), names(result_type), function(j, nm) {
-          mask$set(nm, pluck(chunks[[i]], j))
+        map2(seq_along(type), names(type), function(j, nm) {
+          slices <- if(standard) {
+            pluck(chunks[[i]], j)
+          } else {
+            lazy_vec_chop(res$x[[j]], res$sizes)
+          }
+          mask$set(nm, slices)
         })
       } else {
         # remember
-        mask$set(auto_named_dots[i], chunks[[i]])
+        if (standard) {
+          mask$set(auto_named_dots[i], chunks[[i]])
+        } else {
+          mask$set(auto_named_dots[i], lazy_vec_chop(res$x, res$sizes))
+        }
       }
 
     }

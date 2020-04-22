@@ -28,11 +28,7 @@ DataMask <- R6Class("DataMask",
 
       # it needs to handle 3 cases: grouped, rowwise and simple
 
-      promise_fn <- function(index) {
-        name <- names_bindings[index]
-      }
-
-      if (inherits(data, "grouped_df")) {
+     if (inherits(data, "grouped_df")) {
         promise_fn <- function(index) {
           name <- names_bindings[index]
           column <- .subset2(data, index)
@@ -76,35 +72,7 @@ DataMask <- R6Class("DataMask",
         }
       }
 
-      promise_fn <- function(index) {
-        name <- names_bindings[index]
-        column <- .subset2(data, index)
-        chunks <- if (is_grouped_df(data) || inherits(data, "rowwise_df") ) {
-          vec_chop(column, rows)
-        } else {
-          list(column)
-        }
-
-        # resolve the chunks and hold the slice for current group
-        res <- .subset2(chunks, self$get_current_group())
-
-        # deal with rowwise magic
-        if (inherits(data, "rowwise_df") && vec_is_list(column)) {
-          # remember to do the rowwise magic
-          class(chunks) <- "dplyr_rowwise_simplify"
-
-          # do the rowwise magic for this time
-          res <- res[[1L]]
-        }
-
-        self$set(name, chunks)
-
-        # return result for current slice
-        res
-      }
-
       promises <- map(seq_len(ncol(data)), function(.x) expr(promise_fn(!!.x)))
-
       env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
 
       private$mask <- new_data_mask(private$bindings)
@@ -112,16 +80,29 @@ DataMask <- R6Class("DataMask",
     },
 
     set = function(name, chunks) {
-      if (inherits(chunks, "dplyr_lazy_chunks")) {
-        result <- attr(chunks, "result")
-        indices <- attr(chunks, "indices")
+      if (inherits(chunks, "dplyr_lazy_vec_chop")) {
+        x <- attr(chunks, "x")
+        sizes <- attr(chunks, "sizes")
 
         promise <- function() {
-          resolved_chunks <- vec_chop(result, indices)
+          indices <- NULL
+          if (!is.null(sizes)) {
+            # would be useful to have something like vec_chop() but that
+            # would take a integer vector of sizes instead
+            n <- length(sizes)
+            indices <- vector(mode = "list", length = n)
+            k <- 1
+            for (i in seq_len(n)) {
+              indices[[i]] <- seq2(k, k + sizes[i] - 1)
+              k <- k + sizes[i]
+            }
+          }
+          resolved_chunks <- vec_chop(x, indices)
           self$set(name, resolved_chunks)
           .subset2(resolved_chunks, self$get_current_group())
         }
-        env_bind_lazy(private$bindings, !!name := promise())
+        # can't use env_bind_lazy() because it evaluates the previous promise if there is one
+        delayedAssign(name, promise(), assign.env = private$bindings)
 
         # so that it appears unresolved
         chunks <- NULL
@@ -138,7 +119,7 @@ DataMask <- R6Class("DataMask",
     },
 
     args = function() {
-      map(set_names(self$current_vars()), function(.x) expr(self$resolve(!!.x)))
+      map(set_names(self$current_vars()), function(.x) expr((!!self)$resolve(!!.x)))
     },
 
     resolve = function(name) {

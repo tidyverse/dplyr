@@ -51,7 +51,7 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes, SEXP re
   }
 
   bool all_one = true;
-  int k = 1;
+
   SEXP out_sizes = PROTECT(Rf_allocVector(INTSXP, n_groups));
   int* p_sizes = INTEGER(out_sizes);
   for (R_xlen_t i = 0; i < n_groups; i++, ++p_sizes) {
@@ -88,7 +88,6 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes, SEXP re
       }
     }
 
-    k = k + n_i;
     *p_sizes = n_i;
     if (n_i != 1) {
       all_one = false;
