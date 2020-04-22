@@ -271,7 +271,7 @@ Run `revdep_details(,"annotatr")` for more info
 * URL: https://github.com/apache/arrow/, https://arrow.apache.org/docs/r
 * BugReports: https://issues.apache.org/jira/projects/ARROW/issues
 * Date/Publication: 2020-02-14 12:20:05 UTC
-* Number of recursive dependencies: 54
+* Number of recursive dependencies: 58
 
 Run `revdep_details(,"arrow")` for more info
 
@@ -5734,7 +5734,7 @@ ERROR: compilation failed for package ‘MixMatrix’
 * URL: https://github.com/rstudio/mleap
 * BugReports: https://github.com/rstudio/mleap/issues
 * Date/Publication: 2020-01-10 22:20:02 UTC
-* Number of recursive dependencies: 78
+* Number of recursive dependencies: 81
 
 Run `revdep_details(,"mleap")` for more info
 
@@ -13105,7 +13105,7 @@ ERROR: compilation failed for package ‘telefit’
 * Version: 0.0.1
 * Source code: https://github.com/cran/textmining
 * Date/Publication: 2016-09-26 00:56:23
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 106
 
 Run `revdep_details(,"textmining")` for more info
 
