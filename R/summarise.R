@@ -144,7 +144,7 @@ grouped_mean <- function(x, na.rm = FALSE) {
   if (na.rm) {
     x <- map(x, function(.x) .x[!is.na(.x)])
   }
-  res <- map(x, function(.x) .Internal(mean(.x)))
+  res <- map(x, function(.x) mean.default(.x))
 
   vec_c(!!!res)
 }
