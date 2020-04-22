@@ -278,24 +278,24 @@ dplyr (<code>data.frame</code>)
     <pre class="examples"><div class='input'><span class='co'># After nesting, you get one row per group</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest_by</span>(<span class='no'>Species</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise:  Species</span><span>
-#&gt;   Species              data
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,4]&gt;&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> setosa           </span><span style='color: #555555;'>[50 × 4]</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> versicolor       </span><span style='color: #555555;'>[50 × 4]</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> virginica        </span><span style='color: #555555;'>[50 × 4]</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest_by</span>(<span class='no'>species</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
+#&gt;   Species                  data
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;tbl_df[,4]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> setosa               </span><span style='color: #555555;'>[50 × 4]</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> versicolor           </span><span style='color: #555555;'>[50 × 4]</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> virginica            </span><span style='color: #555555;'>[50 × 4]</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest_by</span>(<span class='no'>species</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise:  species</span><span>
-#&gt;    species              data
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,13]&gt;&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Aleena           </span><span style='color: #555555;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> Besalisk         </span><span style='color: #555555;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> Cerean           </span><span style='color: #555555;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> Chagrian         </span><span style='color: #555555;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> Clawdite         </span><span style='color: #555555;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> Droid            </span><span style='color: #555555;'>[6 × 13]</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> Dug              </span><span style='color: #555555;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> Ewok             </span><span style='color: #555555;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #555555;'> 9</span><span> Geonosian        </span><span style='color: #555555;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> Gungan           </span><span style='color: #555555;'>[3 × 13]</span><span>
+#&gt;    species                  data
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;tbl_df[,13]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Aleena               </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span> Besalisk             </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 3</span><span> Cerean               </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 4</span><span> Chagrian             </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 5</span><span> Clawdite             </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 6</span><span> Droid                </span><span style='color: #555555;'>[6 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span> Dug                  </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 8</span><span> Ewok                 </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'> 9</span><span> Geonosian            </span><span style='color: #555555;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #555555;'>10</span><span> Gungan               </span><span style='color: #555555;'>[3 × 13]</span><span>
 #&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'>
 <span class='co'># The output is grouped by row, which makes modelling particularly easy</span>
 <span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
@@ -303,11 +303,11 @@ dplyr (<code>data.frame</code>)
   <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)))
 <span class='no'>models</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
-#&gt;     cyl            data model 
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,10]&gt;&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     4       </span><span style='color: #555555;'>[11 × 10]</span><span> </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'>2</span><span>     6        </span><span style='color: #555555;'>[7 × 10]</span><span> </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'>3</span><span>     8       </span><span style='color: #555555;'>[14 × 10]</span><span> </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  </div><div class='input'>
+#&gt;     cyl                data model 
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;tbl_df[,10]&gt;&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4           </span><span style='color: #555555;'>[11 × 10]</span><span> </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>2</span><span>     6            </span><span style='color: #555555;'>[7 × 10]</span><span> </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>3</span><span>     8           </span><span style='color: #555555;'>[14 × 10]</span><span> </span><span style='color: #555555;'>&lt;lm&gt;</span><span>  </div><div class='input'>
 <span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>model</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise:  cyl</span><span>
 #&gt;     cyl   rsq
