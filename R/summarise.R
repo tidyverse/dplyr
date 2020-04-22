@@ -149,19 +149,7 @@ hybrid_quo_get_scalar_logical <- function(quo) {
   }
 }
 
-grouped_mean <- function(x, ...) {
-  # TODO: do we want some dispatch based on x here
-  args <- enquos(...)
-  if (length(args) == 0) {
-    na.rm <- FALSE
-  } else if (length(args) == 1 && names(args) == "na.rm") {
-    # if na.rm is anything else than TRUE or FALSE
-    # then we get an error, and jump back to standard evaluation
-    na.rm <- hybrid_quo_get_scalar_logical(args$na.rm)
-  } else {
-    stop("cannot handle")
-  }
-
+grouped_mean <- function(x, na.rm = FALSE) {
   # TODO: rewrite in C++
   if (na.rm) {
     x <- map(x, function(.x) .x[!is.na(.x)])
@@ -173,19 +161,39 @@ grouped_mean <- function(x, ...) {
   )
 }
 
+hybrid <- function(x) x
+
+peep <- function(args, expr) {
+  expr[[1L]] <- new_function(args, expr(match.call()))
+  node_cdr(eval(expr))
+}
+
 hybrid_eval_summarise <- function(expr, mask) {
-  # TODO: this looks at the call to figure out hybridability
-  #       that is not really sustainable/extensible
-  if (is_call(expr, "mean")) {
-    # mean(x, ...) becomes:
-    # function(x = mask$resolve("x"), y = mask$resolve("y")) grouped_mean(x, ...)
-    expr[[1L]] <- grouped_mean
-    fn <- new_function(mask$args(), expr)
-    tryCatch(
-      fn(),
-      error = function(e) NULL
-    )
+  fn <- new_function(mask$args(), NULL)
+  vars <- mask$current_vars()
+
+  if (is_call(expr, "hybrid")) {
+    body(fn) <- expr[[1L]]
+  } else if (is_call(expr, "mean")) {
+    args <- peep(formals(mean), expr)
+
+    # x must be a symbol that corresponds to a column in the mask
+    x <- node_car(args)
+    if (is_symbol(x) && as_string(x) %in% vars) {
+      node <- node_cdr(args)
+
+      if (is.null(node) || (node_tag(node) == sym("na.rm") && is_scalar_logical(node_car(node)))) {
+        expr[[1L]] <- grouped_mean
+        body(fn) <- expr
+      }
+    }
   }
+
+  tryCatch(
+    fn(),
+    error = function(cnd) NULL
+  )
+
 }
 
 lazy_vec_chop <- function(x, sizes = NULL) {
