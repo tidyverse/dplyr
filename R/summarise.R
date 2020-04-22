@@ -156,9 +156,7 @@ grouped_mean <- function(x, na.rm = FALSE) {
   }
   res <- map(x, function(.x) .Internal(mean(.x)))
 
-  list(
-    x = vec_c(!!!res)
-  )
+  vec_c(!!!res)
 }
 
 hybrid <- function(x) x
@@ -173,7 +171,7 @@ hybrid_eval_summarise <- function(expr, mask) {
   vars <- mask$current_vars()
 
   if (is_call(expr, "hybrid")) {
-    body(fn) <- expr[[1L]]
+    body(fn) <- node_cadr(expr)
   } else if (is_call(expr, "mean")) {
     args <- peep(formals(mean), expr)
 
@@ -189,11 +187,17 @@ hybrid_eval_summarise <- function(expr, mask) {
     }
   }
 
-  tryCatch(
-    fn(),
-    error = function(cnd) NULL
-  )
-
+  result <- fn()
+  if (!is.null(result) && !inherits(result, "hybrid_result")) {
+    if (vec_size(result) != length(mask$get_rows())) {
+      abort("incompatible sizes")
+    }
+    result <- structure(
+      list(x = result),
+      class = "hybrid_result"
+    )
+  }
+  result
 }
 
 lazy_vec_chop <- function(x, sizes = NULL) {
@@ -220,7 +224,12 @@ summarise_cols <- function(.data, ...) {
     for (i in seq_along(dots)) {
       quo <- dots[[i]]
 
-      res <- hybrid_eval_summarise(quo_get_expr(quo), mask)
+      res <- tryCatch(
+        hybrid_eval_summarise(quo_get_expr(quo), mask),
+        error = function(cnd) {
+          NULL
+        }
+      )
       mask$across_cache_reset()
       standard <- is.null(res)
 
