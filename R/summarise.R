@@ -170,6 +170,7 @@ hybrid_eval_summarise <- function(expr, mask) {
   fn <- new_function(mask$args(), NULL)
   vars <- mask$current_vars()
 
+  result <- NULL
   if (is_call(expr, "hybrid")) {
     body(fn) <- node_cadr(expr)
   } else if (is_call(expr, "mean")) {
@@ -185,9 +186,13 @@ hybrid_eval_summarise <- function(expr, mask) {
         body(fn) <- expr
       }
     }
+  } else if (is_call(expr, "n")) {
+    result <- list_sizes(mask$get_rows())
   }
 
-  result <- fn()
+  if (is.null(result)) {
+    result <- fn()
+  }
   if (!is.null(result) && !inherits(result, "hybrid_result")) {
     if (vec_size(result) != length(mask$get_rows())) {
       abort("incompatible sizes")
