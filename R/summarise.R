@@ -139,16 +139,6 @@ summarise.rowwise_df <- function(.data, ...) {
   rowwise_df(out, group_vars(.data))
 }
 
-hybrid_quo_get_scalar_logical <- function(quo) {
-  if (identical(quo, quo(TRUE))) {
-    TRUE
-  } else if (identical(quo, quo(FALSE))) {
-    FALSE
-  } else {
-    stop("not a scalar logical quosure")
-  }
-}
-
 grouped_mean <- function(x, na.rm = FALSE) {
   # TODO: rewrite in C++
   if (na.rm) {
