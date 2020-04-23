@@ -1,0 +1,109 @@
+> data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
+> data
+# A tibble: 3 x 3
+      a b         c
+  <int> <chr> <dbl>
+1     1 a       0.5
+2     2 b       1.5
+3     3 <NA>    2.5
+
+
+Insert
+======
+
+> rows_insert(data, tibble(a = 4, b = "z"))
+# A tibble: 4 x 3
+      a b         c
+  <dbl> <chr> <dbl>
+1     1 a       0.5
+2     2 b       1.5
+3     3 <NA>    2.5
+4     4 z      NA  
+
+> rows_insert(data, tibble(a = 3, b = "z"))
+Error: Attempting to insert duplicate rows.
+
+
+Update
+======
+
+> rows_update(data, tibble(a = 2:3, b = "z"))
+# A tibble: 3 x 3
+      a b         c
+  <int> <chr> <dbl>
+1     1 a       0.5
+2     2 z       1.5
+3     3 z       2.5
+
+> rows_update(data, tibble(b = "z", a = 2:3), by = "a")
+# A tibble: 3 x 3
+      a b         c
+  <int> <chr> <dbl>
+1     1 a       0.5
+2     2 z       1.5
+3     3 z       2.5
+
+
+Variants: patch and upsert
+==========================
+
+> rows_patch(data, tibble(a = 2:3, b = "z"))
+# A tibble: 3 x 3
+      a b         c
+  <int> <chr> <dbl>
+1     1 a       0.5
+2     2 b       1.5
+3     3 z       2.5
+
+> rows_upsert(data, tibble(a = 2:4, b = "z"))
+# A tibble: 4 x 3
+      a b         c
+  <int> <chr> <dbl>
+1     1 a       0.5
+2     2 z       1.5
+3     3 z       2.5
+4     4 z      NA  
+
+
+Delete and truncate
+===================
+
+> rows_delete(data, tibble(a = 2:4))
+# A tibble: 1 x 3
+      a b         c
+  <int> <chr> <dbl>
+1     1 a       0.5
+
+> rows_delete(data, tibble(a = 2:4, b = "b"))
+# A tibble: 1 x 3
+      a b         c
+  <int> <chr> <dbl>
+1     1 a       0.5
+
+> rows_delete(data, tibble(a = 2:4, b = "b"), by = c("a", "b"))
+# A tibble: 2 x 3
+      a b         c
+  <int> <chr> <dbl>
+1     1 a       0.5
+2     3 <NA>    2.5
+
+> rows_truncate(data)
+# A tibble: 0 x 3
+# ... with 3 variables: a <int>, b <chr>, c <dbl>
+
+
+Errors
+======
+
+> rows_insert(data, tibble(d = 4))
+Error: All columns in `y` must exist in `x`.
+
+> rows_insert(data, tibble(a = 4, b = "z"), key = "e")
+# A tibble: 4 x 3
+      a b         c
+  <dbl> <chr> <dbl>
+1     1 a       0.5
+2     2 b       1.5
+3     3 <NA>    2.5
+4     4 z      NA  
+
