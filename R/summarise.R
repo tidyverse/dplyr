@@ -109,7 +109,7 @@ summarise <- function(.data, ...) {
 summarize <- summarise
 
 #' @export
-summarise.data.frame <- function(.data, ...) {
+summarise.data.frame <- function(.data, ..., .groups = NULL) {
   cols <- summarise_cols(.data, ...)
 
   out <- group_keys(.data)
@@ -121,22 +121,55 @@ summarise.data.frame <- function(.data, ...) {
 }
 
 #' @export
-summarise.grouped_df <- function(.data, ...) {
+summarise.grouped_df <- function(.data, ..., .groups = NULL) {
   out <- NextMethod()
 
   group_vars <- group_vars(.data)
-  n <- length(group_vars)
-  if (n > 1) {
-    out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
+  if (is.null(.groups) || identical(.groups, "drop_last")) {
+    n <- length(group_vars)
+    if (n > 1) {
+      if (is.null(.groups)) {
+        inform(c(
+          glue("summarised tibble has groups: {new_groups}", new_groups = glue_collapse(group_vars[-n], sep = ", ")),
+          i = 'This message can be turned off using: summarise(..., .groups = "drop_last")'
+        ))
+      }
+      out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
+    }
+  } else if (identical(.groups, "keep")) {
+    out <- grouped_df(out, group_vars, group_by_drop_default(.data))
+  } else if (identical(.groups, "rowwise")) {
+    out <- rowwise_df(out, group_vars)
+  } else if(!identical(.groups, "drop")) {
+    abort(c(
+      'Unrecognised value for summarise(..., .groups=)',
+      i = 'Possible values are NULL (default), "drop_last", "drop", "keep", and "rowwise"'
+    ))
   }
 
   out
 }
 
 #' @export
-summarise.rowwise_df <- function(.data, ...) {
+summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   out <- NextMethod()
-  rowwise_df(out, group_vars(.data))
+
+  group_vars <- group_vars(.data)
+  if (is.null(.groups) || identical(.groups, "rowwise") || identical(.groups, "keep")) {
+    out <- rowwise_df(out, group_vars)
+  } else if(identical(.groups, "drop_last")) {
+    n <- length(group_vars)
+    if (n > 1) {
+      out <- rowwise_df(out, group_vars[-n])
+    }
+  } else if (!identical(.groups, "drop")) {
+    abort(c(
+      'Unrecognised value for summarise(..., .groups=)',
+      i = 'Possible values are NULL (default), "drop_last", "drop", "keep", and "rowwise"'
+    ))
+  }
+
+  out
 }
 
 summarise_cols <- function(.data, ...) {
