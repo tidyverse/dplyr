@@ -7,29 +7,27 @@
 \alias{rows_patch}
 \alias{rows_upsert}
 \alias{rows_delete}
-\alias{rows_truncate}
 \title{Manipulate individual rows}
 \usage{
-rows_insert(x, y, by = NULL, ..., copy = FALSE, inplace = NULL)
+rows_insert(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
 
-rows_update(x, y, by = NULL, ..., copy = FALSE, inplace = NULL)
+rows_update(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
 
-rows_patch(x, y, by = NULL, ..., copy = FALSE, inplace = NULL)
+rows_patch(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
 
-rows_upsert(x, y, by = NULL, ..., copy = FALSE, inplace = NULL)
+rows_upsert(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
 
-rows_delete(x, y, by = NULL, ..., copy = FALSE, inplace = NULL)
-
-rows_truncate(x, ..., copy = FALSE, inplace = NULL)
+rows_delete(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
 }
 \arguments{
-\item{x}{Target table object.}
+\item{x, y}{A pair of data frames or data frame extensions (e.g. a tibble).}
 
-\item{y}{Source table object. All columns in \code{y} must exist in \code{x}.}
+\item{by}{An unnamed character vector giving the key columns. The key
+values must uniquely identify each row (i.e. each combination of key
+values occurs at most once), and the key columns must exist in both \code{x}
+and \code{y}.
 
-\item{by}{Key columns as unnamed character vector.
-All columns in \code{by} must exist in \code{y} (and, by extension, in \code{x}).
-The default is the first column of \code{y}.}
+By default, we use the first column in \code{y}.}
 
 \item{...}{Other parameters passed onto methods.}
 
@@ -38,67 +36,45 @@ and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
 same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
-\item{inplace}{This argument is only relevant for mutable backends,
-e.g. databases or \pkg{dtplyr}.
-For data frames, these operations always return a modified copy
-of the data.
-An informative message is given if set to \code{TRUE}.
+\item{in_place}{Should \code{x} be modified in place? This argument is only
+relevant for mutable backends (e.g. databases, data.tables).
 
-For mutable backends, set to \code{FALSE} for running the operation
-without updating the data in place.
-In this mode, a modified version of \code{x} is returned, as for data frames.
-This allows verifying the results of an operation before actually
-applying it.
-Set to \code{TRUE} to perform the update on the remote table.
-The default is \code{FALSE} with an informative message.}
+When \code{TRUE}, a modified version of \code{x} is returned invisibly;
+when \code{FALSE}, a new object representing the resulting changes is returned.}
 }
 \value{
-A tbl object of the same structure as \code{x}.
-On mutable backends, same as \code{x} if \code{inplace = TRUE}.
+An object of the same type as \code{x}. The order of the rows and columns of \code{x}
+is preserved as much as possible. The output has the following properties:
+\itemize{
+\item \code{rows_update()} preserves rows as is; \code{rows_insert()} and \code{rows_upsert()}
+return all existing rows and potentially new rows; \code{rows_delete()} returns
+a subset of the rows.
+\item Columns are not modified.
+\item Groups are taken from \code{x}.
+\item Data frame attributes are taken from \code{x}.
+}
+
+If \code{in_place = TRUE}, the result will be returned invisibly.
 }
 \description{
-\lifecycle{experimental}
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 
-These methods provide a framework for manipulating individual rows
-in existing tables, modeled after the SQL operations
-\code{INSERT}, \code{UPDATE} and \code{DELETE}.
-All operations expect existing and new data to be compatible.
-
-\code{rows_insert()} adds new rows.
-This operation corresponds to \code{INSERT} in SQL.
-If \code{by} is non-empty, no two rows with the same values in the key columns
-are permitted.
-
-\code{rows_update()} updates existing rows.
-This operation corresponds to \code{UPDATE} in SQL.
-\code{by} is mandatory and defaults to the first column in \code{y}.
-No two rows with the same values may exist in the new data.
-Each row in the new data must have exactly one corresponding row
-in the existing data.
-
-\code{rows_patch()} replaces missing values in existing rows.
-This operation corresponds to \code{UPDATE} using \code{COALESCE} expressions in SQL.
-It is similar to \code{rows_update()}, leaves non-missing values untouched.
-\code{by} is mandatory and defaults to the first column in \code{y}.
-No two rows with the same values may exist in the new data.
-Each row in the new data must have exactly one corresponding row
-in the existing data.
-
-\code{rows_upsert()} updates matching rows and adds new rows for mismatches.
-This operation corresponds to \verb{INSERT ON DUPLICATE KEY UPDATE} or
-\verb{INSERT ON CONFLICT} in some SQL variants.
-\code{by} is mandatory and defaults to the first column in \code{y}.
-No two rows with the same values may exist in the new data.
-Each row in the new data must have exactly one corresponding row
-in the existing data.
-
-\code{rows_delete()} deletes existing rows.
-This operation corresponds to \code{DELETE} in SQL.
-\code{by} is mandatory and defaults to the first column in \code{y}.
-
-\code{rows_truncate()} removes all rows.
-This operation corresponds to \code{TRUNCATE} in SQL.
-\code{...} is ignored.
+These functions provide a framework for modifying rows in table using
+a second table of data. The two tables are matched \code{by} a set of key
+variables whose values must uniquely identify each row. The functions are
+inspired by SQL's \code{INSERT}, \code{UPDATE} and \code{DELETE}, and can optionally
+modified \code{in_place} for selected backends.
+\itemize{
+\item \code{rows_insert()} adds new rows (like \code{INSERT}); key values in \code{y} must
+not occur in \code{x}.
+\item \code{rows_update()} modifies existing rows (like \code{UPDATE}); key values in
+\code{y} must occur in \code{x}.
+\item \code{rows_patch()} works like \code{rows_update()} but only overwrites \code{NA} values.
+\item \code{rows_upsert()} inserts or updates depending on whether or not the the
+key value in \code{x} exists in \code{y}.
+\item \code{rows_delete()} deletes rows (like \code{DELETE}); key values in \code{y} must
+exist in \code{x}.
+}
 }
 \examples{
 data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
