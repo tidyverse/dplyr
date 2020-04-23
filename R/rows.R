@@ -73,6 +73,8 @@ NULL
 #' @rdname rows
 #' @export
 rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  ellipsis::check_dots_used()
+
   check_rows_args(x, y, by)
   UseMethod("rows_insert")
 }
@@ -101,6 +103,8 @@ rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @rdname rows
 #' @export
 rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  ellipsis::check_dots_used()
+
   check_rows_args(x, y, by)
   UseMethod("rows_update", x)
 }
@@ -121,6 +125,8 @@ rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @rdname rows
 #' @export
 rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  ellipsis::check_dots_used()
+
   check_rows_args(x, y, by)
   UseMethod("rows_patch", x)
 }
@@ -145,6 +151,8 @@ rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place =
 #' @rdname rows
 #' @export
 rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  ellipsis::check_dots_used()
+
   check_rows_args(x, y, by)
   UseMethod("rows_upsert", x)
 }
@@ -170,6 +178,8 @@ rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @rdname rows
 #' @export
 rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  ellipsis::check_dots_used()
+
   check_rows_args(x, y, by)
   UseMethod("rows_delete", x)
 }
@@ -195,6 +205,7 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @inheritParams rows_insert
 #' @export
 rows_truncate <- function(x, ..., copy = FALSE, in_place = FALSE) {
+  ellipsis::check_dots_used()
   UseMethod("rows_truncate", x)
 }
 
