@@ -272,6 +272,6 @@ df_key <- function(y, by) {
 
 df_inplace <- function(inplace) {
   if (is_true(inplace)) {
-    inform("`rows_...()` ignore `inplace` ignored for data frames.")
+    inform("`rows_...()` ignore `inplace` argument for data frames.")
   }
 }
