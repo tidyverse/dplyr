@@ -98,12 +98,6 @@ Errors
 > rows_insert(data, tibble(d = 4))
 Error: All columns in `y` must exist in `x`.
 
-> rows_insert(data, tibble(a = 4, b = "z"), key = "e")
-# A tibble: 4 x 3
-      a b         c
-  <dbl> <chr> <dbl>
-1     1 a       0.5
-2     2 b       1.5
-3     3 <NA>    2.5
-4     4 z      NA  
+> rows_insert(data, tibble(a = 4, b = "z"), by = "e")
+Error: All `by` columns must exist in `y`.
 

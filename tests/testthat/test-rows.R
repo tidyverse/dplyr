@@ -24,5 +24,5 @@ verify_output("test-rows.txt", {
 
   "# Errors"
   rows_insert(data, tibble(d = 4))
-  rows_insert(data, tibble(a = 4, b = "z"), key = "e")
+  rows_insert(data, tibble(a = 4, b = "z"), by = "e")
 })
