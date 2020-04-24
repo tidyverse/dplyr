@@ -7,7 +7,7 @@
 rows_truncate(x, ..., copy = FALSE, in_place = FALSE)
 }
 \arguments{
-\item{x}{A pair of data frames or data frame extensions (e.g. a tibble).}
+\item{x}{A data frame or data frame extension (e.g. a tibble).}
 
 \item{...}{Other parameters passed onto methods.}
 

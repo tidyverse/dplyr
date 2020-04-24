@@ -21,6 +21,7 @@
 #'
 #' @inheritParams left_join
 #' @param x,y A pair of data frames or data frame extensions (e.g. a tibble).
+#'   `y` must have the same columns of `x` or a subset.
 #' @param by An unnamed character vector giving the key columns. The key
 #'   values must uniquely identify each row (i.e. each combination of key
 #'   values occurs at most once), and the key columns must exist in both `x`
@@ -192,6 +193,7 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' `...` is ignored.
 #'
 #' @inheritParams rows_insert
+#' @param x A data frame or data frame extension (e.g. a tibble).
 #' @export
 rows_truncate <- function(x, ..., copy = FALSE, in_place = FALSE) {
   ellipsis::check_dots_used()

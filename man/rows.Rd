@@ -20,7 +20,8 @@ rows_upsert(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
 rows_delete(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
 }
 \arguments{
-\item{x, y}{A pair of data frames or data frame extensions (e.g. a tibble).}
+\item{x, y}{A pair of data frames or data frame extensions (e.g. a tibble).
+\code{y} must have the same columns of \code{x} or a subset.}
 
 \item{by}{An unnamed character vector giving the key columns. The key
 values must uniquely identify each row (i.e. each combination of key
