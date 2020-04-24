@@ -27,7 +27,8 @@ values must uniquely identify each row (i.e. each combination of key
 values occurs at most once), and the key columns must exist in both \code{x}
 and \code{y}.
 
-By default, we use the first column in \code{y}.}
+By default, we use the first column in \code{y}, since the first column is
+a reasonable place to put an identifier variable.}
 
 \item{...}{Other parameters passed onto methods.}
 
@@ -49,7 +50,7 @@ is preserved as much as possible. The output has the following properties:
 \item \code{rows_update()} preserves rows as is; \code{rows_insert()} and \code{rows_upsert()}
 return all existing rows and potentially new rows; \code{rows_delete()} returns
 a subset of the rows.
-\item Columns are not modified.
+\item Columns are not added, removed, or relocated, though the data may be updated.
 \item Groups are taken from \code{x}.
 \item Data frame attributes are taken from \code{x}.
 }
@@ -59,19 +60,19 @@ If \code{in_place = TRUE}, the result will be returned invisibly.
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 
-These functions provide a framework for modifying rows in table using
+These functions provide a framework for modifying rows in a table using
 a second table of data. The two tables are matched \code{by} a set of key
 variables whose values must uniquely identify each row. The functions are
-inspired by SQL's \code{INSERT}, \code{UPDATE} and \code{DELETE}, and can optionally
-modified \code{in_place} for selected backends.
+inspired by SQL's \code{INSERT}, \code{UPDATE}, and \code{DELETE}, and can optionally
+modify \code{in_place} for selected backends.
 \itemize{
 \item \code{rows_insert()} adds new rows (like \code{INSERT}); key values in \code{y} must
 not occur in \code{x}.
 \item \code{rows_update()} modifies existing rows (like \code{UPDATE}); key values in
 \code{y} must occur in \code{x}.
 \item \code{rows_patch()} works like \code{rows_update()} but only overwrites \code{NA} values.
-\item \code{rows_upsert()} inserts or updates depending on whether or not the the
-key value in \code{x} exists in \code{y}.
+\item \code{rows_upsert()} inserts or updates depending on whether or not the
+key value in \code{y} already exists in \code{x}.
 \item \code{rows_delete()} deletes rows (like \code{DELETE}); key values in \code{y} must
 exist in \code{x}.
 }
