@@ -210,7 +210,7 @@ rows_truncate.data.frame <- function(x, ..., copy = FALSE, in_place = FALSE) {
 check_key <- function(by, x, y) {
   if (is.null(by)) {
     by <- names(y)[[1]]
-    inform(glue("Matching `by = \"{by}\""))
+    inform(glue("Matching, by = \"{by}\""))
   }
 
   if (!is.character(by) || length(by) == 0) {
