@@ -44,7 +44,7 @@
 #' @param .groups Grouping structure of the result.
 #'
 #'   * "drop_last": dropping the last level of grouping. This was the
-#'   only supported option before version 1.0.0
+#'   only supported option before version 1.0.0.
 #'   * NULL (default): same as "drop_last" but with a message.
 #'   * "drop": All levels of grouping are dropped.
 #'   * "keep": Same grouping structure as `.data`.
@@ -138,10 +138,11 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
     n <- length(group_vars)
     if (n > 1) {
       if (is.null(.groups)) {
-        inform(c(
-          glue("summarised tibble has groups: {new_groups}", new_groups = glue_collapse(group_vars[-n], sep = ", ")),
-          i = 'Turn off this message by with `summarise(..., .groups = "drop_last")`'
-        ))
+        inform(
+          glue('Grouping by {new_groups} (`.groups = "drop_last")`',
+               new_groups = glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
+          )
+        )
       }
       out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
     }
@@ -168,7 +169,7 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
     out <- rowwise_df(out, group_vars)
   } else if (!identical(.groups, "drop")) {
     abort(c(
-      'Unrecognised value for summarise(..., .groups=)',
+      paste0("`.groups` can't be ", as_label(.groups)),
       i = 'Possible values are NULL (default), "drop", "keep", and "rowwise"'
     ))
   }

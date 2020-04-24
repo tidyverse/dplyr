@@ -1,4 +1,17 @@
 
+Messages about .groups=
+=======================
+
+> tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()
+Message: Grouping by 'x' (`.groups = "drop_last")`
+
+# A tibble: 1 x 2
+# Groups:   x [1]
+      x     y
+  <dbl> <dbl>
+1     1     2
+
+
 unsupported type
 ================
 

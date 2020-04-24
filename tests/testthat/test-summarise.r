@@ -178,10 +178,31 @@ test_that("named tibbles are packed (#2326)", {
   expect_equal(out$df, tibble(y = c(2L, 4L), z = c(3L, 3L)))
 })
 
+test_that("summarise(.groups=)", {
+  df <- data.frame(x = 1, y = 2)
+  gf <- df %>% group_by(x, y)
+  expect_equal(
+    expect_message(gf %>% summarise() %>% group_vars()),
+    "x"
+  )
+  expect_equal(gf %>% summarise(.groups = "drop_last") %>% group_vars(), "x")
+  expect_equal(gf %>% summarise(.groups = "drop") %>% group_vars(), character())
+  expect_equal(gf %>% summarise(.groups = "keep") %>% group_vars(), c("x", "y"))
+
+  rf <- df %>% rowwise(x, y)
+  expect_equal(rf %>% summarise(.groups = "drop") %>% group_vars(), character())
+  expect_equal(rf %>% summarise(.groups = "keep") %>% group_vars(), c("x", "y"))
+})
+
 # errors -------------------------------------------------------------------
 
 test_that("summarise() gives meaningful errors", {
   verify_output(test_path("test-summarise-errors.txt"), {
+    "# Messages about .groups="
+    tibble(x = 1, y = 2) %>%
+      group_by(x, y) %>%
+      summarise()
+
     "# unsupported type"
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       summarise(a = env(a = 1))
