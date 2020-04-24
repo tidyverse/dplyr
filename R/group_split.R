@@ -16,7 +16,7 @@
 #' typically a result of [group_by()]. In this case [group_split()] only uses
 #' the first argument, the grouped tibble, and warns when `...` is used.
 #'
-#' Because some of these groups may be empty, it is best paried with [group_keys()]
+#' Because some of these groups may be empty, it is best paired with [group_keys()]
 #' which identifies the representatives of each grouping variable for the group.
 #'
 #' @section Ungrouped data frames:
