@@ -3,19 +3,19 @@
 #' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
-#' These functions provide a framework for modifying rows in table using
+#' These functions provide a framework for modifying rows in a table using
 #' a second table of data. The two tables are matched `by` a set of key
 #' variables whose values must uniquely identify each row. The functions are
-#' inspired by SQL's `INSERT`, `UPDATE` and `DELETE`, and can optionally
-#' modified `in_place` for selected backends.
+#' inspired by SQL's `INSERT`, `UPDATE`, and `DELETE`, and can optionally
+#' modify `in_place` for selected backends.
 #'
 #' * `rows_insert()` adds new rows (like `INSERT`); key values in `y` must
 #'    not occur in `x`.
 #' * `rows_update()` modifies existing rows (like `UPDATE`); key values in
 #'   `y` must occur in `x`.
 #' * `rows_patch()` works like `rows_update()` but only overwrites `NA` values.
-#' * `rows_upsert()` inserts or updates depending on whether or not the the
-#'   key value in `x` exists in `y`.
+#' * `rows_upsert()` inserts or updates depending on whether or not the
+#'   key value in `y` already exists in `x`.
 #' * `rows_delete()` deletes rows (like `DELETE`); key values in `y` must
 #'   exist in `x`.
 #'
@@ -40,7 +40,7 @@
 #' * `rows_update()` preserves rows as is; `rows_insert()` and `rows_upsert()`
 #'   return all existing rows and potentially new rows; `rows_delete()` returns
 #'   a subset of the rows.
-#' * Columns are not modified.
+#' * Columns are not added, removed, or relocated, though the data may be updated.
 #' * Groups are taken from `x`.
 #' * Data frame attributes are taken from `x`.
 #'
