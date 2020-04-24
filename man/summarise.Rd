@@ -40,10 +40,8 @@ An object \emph{usually} of the same type as \code{.data}.
 \item The rows come from the underlying \code{\link[=group_keys]{group_keys()}}.
 \item The columns are a combination of the grouping keys and the summary
 expressions that you provide.
-\item If \code{x} is grouped by more than one variable, the output will be another
-\link{grouped_df} with the right-most group removed.
-\item If \code{x} is grouped by one variable, or is not grouped, the output will
-be a \link{tibble}.
+\item The grouping structure is controlled by the \verb{.groups=} argument, the
+output may be another \link{grouped_df}, a \link{tibble} or a \link{rowwise} data frame.
 \item Data frame attributes are \strong{not} preserved, because \code{summarise()}
 fundamentally creates a new data frame.
 }

@@ -57,10 +57,8 @@
 #' * The rows come from the underlying [group_keys()].
 #' * The columns are a combination of the grouping keys and the summary
 #'   expressions that you provide.
-#' * If `x` is grouped by more than one variable, the output will be another
-#'   [grouped_df] with the right-most group removed.
-#' * If `x` is grouped by one variable, or is not grouped, the output will
-#'   be a [tibble].
+#' * The grouping structure is controlled by the `.groups=` argument, the
+#'   output may be another [grouped_df], a [tibble] or a [rowwise] data frame.
 #' * Data frame attributes are **not** preserved, because `summarise()`
 #'   fundamentally creates a new data frame.
 #' @section Methods:
