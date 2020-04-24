@@ -77,6 +77,8 @@ df_var <- tibble(
 
 test_that("bind_rows() equivalent to rbind()", {
   exp <- as_tibble(rbind(df_var, df_var, df_var))
+  attr(exp$t, "tzone") <- ""
+
   res <- bind_rows(df_var, df_var, df_var)
 
   expect_equal(res, exp)
