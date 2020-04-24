@@ -216,7 +216,8 @@ check_key <- function(by, x, y) {
   if (!is.character(by) || length(by) == 0) {
     abort("`by` must be a character vector.")
   }
-  if (is_named(by)) {
+  # is_named(by) checks all(names2(by) != ""), we need any(...)
+  if (any(names2(by) != "")) {
     abort("`by` must be unnamed.")
   }
 
