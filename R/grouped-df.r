@@ -144,8 +144,6 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
     ))
   }
 
-  rownames(groups) <- NULL
-
   new_tibble(
     x,
     groups = groups,
