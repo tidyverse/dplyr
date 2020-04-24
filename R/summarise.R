@@ -140,7 +140,7 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
       if (is.null(.groups)) {
         inform(c(
           glue("summarised tibble has groups: {new_groups}", new_groups = glue_collapse(group_vars[-n], sep = ", ")),
-          i = 'This message can be turned off using: summarise(..., .groups = "drop_last")'
+          i = 'Turn off this message by with `summarise(..., .groups = "drop_last")`'
         ))
       }
       out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
