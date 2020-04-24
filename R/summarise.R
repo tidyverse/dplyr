@@ -142,7 +142,7 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
     out <- rowwise_df(out, group_vars)
   } else if(!identical(.groups, "drop")) {
     abort(c(
-      'Unrecognised value for summarise(..., .groups=)',
+      paste0("`.groups` can't be ", as_label(.groups)),
       i = 'Possible values are NULL (default), "drop_last", "drop", "keep", and "rowwise"'
     ))
   }
