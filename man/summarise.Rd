@@ -5,9 +5,9 @@
 \alias{summarize}
 \title{Summarise each group to fewer rows}
 \usage{
-summarise(.data, ...)
+summarise(.data, ..., .groups = NULL)
 
-summarize(.data, ...)
+summarize(.data, ..., .groups = NULL)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -22,6 +22,16 @@ The value can be:
 \item A vector of length 1, e.g. \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.
 \item A vector of length \code{n}, e.g. \code{quantile()}.
 \item A data frame, to add multiple columns from a single expression.
+}}
+
+\item{.groups}{Grouping structure of the result.
+\itemize{
+\item "drop_last": dropping the last level of grouping. This was the
+only supported option before version 1.0.0
+\item NULL (default): same as "drop_last" but with a message.
+\item "drop": All levels of grouping are dropped.
+\item "keep": Same grouping structure as \code{.data}.
+\item "rowwise": Result is \code{\link[=rowwise]{rowwise()}}(grouped by rows).
 }}
 }
 \value{

@@ -41,6 +41,15 @@
 #'   * A vector of length 1, e.g. `min(x)`, `n()`, or `sum(is.na(y))`.
 #'   * A vector of length `n`, e.g. `quantile()`.
 #'   * A data frame, to add multiple columns from a single expression.
+#' @param .groups Grouping structure of the result.
+#'
+#'   * "drop_last": dropping the last level of grouping. This was the
+#'   only supported option before version 1.0.0
+#'   * NULL (default): same as "drop_last" but with a message.
+#'   * "drop": All levels of grouping are dropped.
+#'   * "keep": Same grouping structure as `.data`.
+#'   * "rowwise": Result is [rowwise()](grouped by rows).
+#'
 #' @family single table verbs
 #' @return
 #' An object _usually_ of the same type as `.data`.
@@ -101,7 +110,7 @@
 #' var <- "mass"
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 #' # Learn more in ?dplyr_data_masking
-summarise <- function(.data, ...) {
+summarise <- function(.data, ..., .groups = NULL) {
   UseMethod("summarise")
 }
 #' @rdname summarise
@@ -157,15 +166,10 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   group_vars <- group_vars(.data)
   if (is.null(.groups) || identical(.groups, "rowwise") || identical(.groups, "keep")) {
     out <- rowwise_df(out, group_vars)
-  } else if(identical(.groups, "drop_last")) {
-    n <- length(group_vars)
-    if (n > 1) {
-      out <- rowwise_df(out, group_vars[-n])
-    }
   } else if (!identical(.groups, "drop")) {
     abort(c(
       'Unrecognised value for summarise(..., .groups=)',
-      i = 'Possible values are NULL (default), "drop_last", "drop", "keep", and "rowwise"'
+      i = 'Possible values are NULL (default), "drop", "keep", and "rowwise"'
     ))
   }
 
