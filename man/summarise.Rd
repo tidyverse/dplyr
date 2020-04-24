@@ -27,11 +27,11 @@ The value can be:
 \item{.groups}{Grouping structure of the result.
 \itemize{
 \item "drop_last": dropping the last level of grouping. This was the
-only supported option before version 1.0.0
+only supported option before version 1.0.0.
 \item NULL (default): same as "drop_last" but with a message.
 \item "drop": All levels of grouping are dropped.
 \item "keep": Same grouping structure as \code{.data}.
-\item "rowwise": Result is \code{\link[=rowwise]{rowwise()}}(grouped by rows).
+\item "rowwise": Each row is it's own group.
 }}
 }
 \value{

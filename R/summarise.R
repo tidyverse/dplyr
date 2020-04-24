@@ -48,7 +48,7 @@
 #'   * NULL (default): same as "drop_last" but with a message.
 #'   * "drop": All levels of grouping are dropped.
 #'   * "keep": Same grouping structure as `.data`.
-#'   * "rowwise": Result is [rowwise()](grouped by rows).
+#'   * "rowwise": Each row is it's own group.
 #'
 #' @family single table verbs
 #' @return
