@@ -74,27 +74,25 @@ NULL
 #' @export
 rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   ellipsis::check_dots_used()
-
-  check_rows_args(x, y, by)
   UseMethod("rows_insert")
 }
 
 #' @export
 rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  key <- check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  y_key <- df_key(y, by)
-  x_key <- df_key(x, names(y_key))
   df_in_place(in_place)
 
-  if (has_length(y_key)) {
-    idx <- vctrs::vec_match(y[y_key], x[x_key])
-    bad <- which(!is.na(idx))
-    if (has_length(bad)) {
-      abort(class = "dplyr_rows_insert_duplicate",
-        "Attempting to insert duplicate rows.",
-        location = bad
-      )
-    }
+  check_key_df(x, key, df_name = "x")
+  check_key_df(y, key, df_name = "y")
+
+  idx <- vctrs::vec_match(y[key], x[key])
+  bad <- which(!is.na(idx))
+  if (has_length(bad)) {
+    abort(class = "dplyr_rows_insert_duplicate",
+      "Attempting to insert duplicate rows.",
+      location = bad
+    )
   }
 
   vctrs::vec_rbind(x, y)
@@ -104,20 +102,19 @@ rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @export
 rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   ellipsis::check_dots_used()
-
-  check_rows_args(x, y, by)
   UseMethod("rows_update", x)
 }
 
 #' @export
 rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  key <- check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  y_key <- df_key(y, by)
-  x_key <- df_key(x, names(y_key))
   df_in_place(in_place)
 
-  idx <- vctrs::vec_match(y[y_key], x[x_key])
-  # FIXME: Check key in x? https://github.com/r-lib/vctrs/issues/1032
+  check_key_df(x, key, df_name = "x")
+  check_key_df(y, key, df_name = "y")
+  idx <- vctrs::vec_match(y[key], x[key])
+
   x[idx, names(y)] <- y
   x
 }
@@ -126,22 +123,18 @@ rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @export
 rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   ellipsis::check_dots_used()
-
-  check_rows_args(x, y, by)
   UseMethod("rows_patch", x)
 }
 
 #' @export
 rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  key <- check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  y_key <- df_key(y, by)
-  x_key <- df_key(x, names(y_key))
   df_in_place(in_place)
 
-  idx <- vctrs::vec_match(y[y_key], x[x_key])
-  # FIXME: Check key in x? https://github.com/r-lib/vctrs/issues/1032
-
-  # FIXME: Do we need vec_coalesce()
+  check_key_df(x, key, df_name = "x")
+  check_key_df(y, key, df_name = "y")
+  idx <- vctrs::vec_match(y[key], x[key])
   new_data <- map2(x[idx, names(y)], y, coalesce)
 
   x[idx, names(y)] <- new_data
@@ -152,48 +145,44 @@ rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place =
 #' @export
 rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   ellipsis::check_dots_used()
-
-  check_rows_args(x, y, by)
   UseMethod("rows_upsert", x)
 }
 
 #' @export
 rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  key <- check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  y_key <- df_key(y, by)
-  x_key <- df_key(x, names(y_key))
   df_in_place(in_place)
 
-  idx <- vctrs::vec_match(y[y_key], x[x_key])
-  # FIXME: Check key in x?
-
+  check_key_df(x, key, df_name = "x")
+  check_key_df(y, key, df_name = "y")
+  idx <- vctrs::vec_match(y[key], x[key])
   new <- is.na(idx)
   idx_existing <- idx[!new]
   idx_new <- idx[new]
 
-  x[idx_existing, names(y)] <- y[!new, ]
-  vctrs::vec_rbind(x, y[new, ])
+  x[idx_existing, names(y)] <- vec_slice(y, !new)
+  vctrs::vec_rbind(x, vec_slice(y, new))
 }
 
 #' @rdname rows
 #' @export
 rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   ellipsis::check_dots_used()
-
-  check_rows_args(x, y, by)
   UseMethod("rows_delete", x)
 }
 
 #' @export
 rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  key <- check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  y_key <- df_key(y, by)
-  x_key <- df_key(x, names(y_key))
   df_in_place(in_place)
 
-  idx <- vctrs::vec_match(y[y_key], x[x_key])
-  # FIXME: Check key in x? https://github.com/r-lib/vctrs/issues/1032
-  x[-idx[!is.na(idx)], ]
+  check_key_df(x, key, df_name = "x")
+  check_key_df(y, key, df_name = "y")
+  idx <- vctrs::vec_match(y[key], x[key])
+
+  dplyr_row_slice(x, -idx[!is.na(idx)])
 }
 
 #' rows_truncate
@@ -213,48 +202,39 @@ rows_truncate <- function(x, ..., copy = FALSE, in_place = FALSE) {
 rows_truncate.data.frame <- function(x, ..., copy = FALSE, in_place = FALSE) {
   df_in_place(in_place)
 
-  x[integer(), ]
+  dplyr_row_slice(x, integer())
 }
 
+# helpers -----------------------------------------------------------------
 
+check_key <- function(by, x, y) {
+  if (is.null(by)) {
+    by <- names(y)[[1]]
+    inform(glue("Matching `by = \"{by}\""))
+  }
 
-check_rows_args <- function(x, y, by) {
-  check_col_subset(y, x)
-  check_by(by, y)
-}
+  if (!is.character(by) || length(by) == 0) {
+    abort("`by` must be a character vector.")
+  }
+  if (is_named(by)) {
+    abort("`by` must be unnamed.")
+  }
 
-check_col_subset <- function(y, x) {
   bad <- setdiff(colnames(y), colnames(x))
   if (has_length(bad)) {
-    abort(class = "dplyr_rows_extra_column",
-      "All columns in `y` must exist in `x`.",
-      name = bad
-    )
+    abort("All columns in `y` must exist in `x`.")
   }
+
+  by
 }
 
-check_by <- function(by, y) {
-  if (!is.null(by) && !is.character(by)) {
-    abort("`by` must be `NULL` or a character vector.")
+check_key_df <- function(df, by, df_name) {
+  y_miss <- setdiff(by, colnames(df))
+  if (length(y_miss) > 0) {
+    abort(glue("All `by` columns must exist in `{df_name}`."))
   }
-  if (!is.null(names(by)) || any(names(by) != "")) {
-    abort("`by` must not have names.")
-  }
-  bad <- setdiff(by, colnames(y))
-  if (has_length(bad)) {
-    abort(class = "dplyr_rows_extra_column",
-      "All `by` columns must exist in `y`.",
-      name = bad
-    )
-  }
-}
-
-df_key <- function(y, by) {
-  if (is.null(by)) {
-    set_names(1L, names(y)[[1]])
-  } else {
-    idx <- match(by, names(y))
-    set_names(idx, by)
+  if (vctrs::vec_duplicate_any(df[by])) {
+    abort(glue("`{df_name}` key values are not unique"))
   }
 }
 

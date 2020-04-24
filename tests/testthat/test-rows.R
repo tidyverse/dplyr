@@ -23,6 +23,9 @@ verify_output("test-rows.txt", {
   rows_truncate(data)
 
   "# Errors"
+  rows_insert(data[c(1, 1), ], tibble(a = 3))
+  rows_insert(data, tibble(a = c(4, 4)))
+
   rows_insert(data, tibble(d = 4))
   rows_insert(data, tibble(a = 4, b = "z"), by = "e")
 })
