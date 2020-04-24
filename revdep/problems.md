@@ -69,54 +69,6 @@ Run `revdep_details(,"AMR")` for more info
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    ...
-    > plot(rsi_data)    # for percentages
-    Error: `vec_restore.ordered()` is implemented at C level.
-    This R function is purely indicative and should never be called.
-    Backtrace:
-         █
-      1. ├─graphics::plot(rsi_data)
-      2. ├─AMR:::plot.rsi(rsi_data)
-      3. │ ├─base::suppressWarnings(...)
-      4. │ │ └─base::withCallingHandlers(expr, warning = function(w) invokeRestart("muffleWarning"))
-      5. │ └─`%>%`(...)
-      6. │   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      7. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      8. │     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      9. │       └─AMR:::`_fseq`(`_lhs`)
-     10. │         └─magrittr::freduce(value, `_function_list`)
-     11. │           └─function_list[[i]](value)
-     12. │             ├─dplyr::group_by(., x)
-     13. │             └─dplyr:::group_by.data.frame(., x)
-     14. │               └─dplyr::grouped_df(groups$data, groups$group_names, .drop)
-     15. │                 └─dplyr:::compute_group
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 191 | SKIPPED: 10 | WARNINGS: 0 | FAILED: 14 ]
-      1. Error: counts work (@test-count.R#42) 
-      2. Error: ATC-group filtering works (@test-filter_ab_class.R#26) 
-      3. Error: joins work (@test-join_microorganisms.R#26) 
-      4. Error: joins work (@test-join_microorganisms.R#24) 
-      5. Error: (unknown) (@test-join_microorganisms.R#24) 
-      6. Error: keyantibiotics work (@test-key_antibiotics.R#25) 
-      7. Error: PCA works (@test-pca.R#26) 
-      8. Error: PCA works (@test-pca.R#24) 
-      9. Error: (unknown) (@test-pca.R#24) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 *   checking installed package size ... NOTE
     ```
       installed size is  6.1Mb
@@ -351,7 +303,7 @@ Run `revdep_details(,"BAwiR")` for more info
     Error: Assigned data `paste(df6[df6$Team == i, 3:6], " (", orders_cols, ")", sep = "")` must be compatible with row subscript `df6$Team == i`.
     ✖ 1 row must be assigned.
     ✖ Assigned data has 4 rows.
-    ℹ Only vectors of size 1 are recycled.
+    ℹ Row updates require a list value. Do you need `list()` or `as.list()`?
     Backtrace:
         █
      1. └─BAwiR::do_four_factors_df(df1, "Valencia")
@@ -409,75 +361,10 @@ Run `revdep_details(,"bayesplot")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.5Mb
+      installed size is  6.6Mb
       sub-directories of 1Mb or more:
         R     1.8Mb
         doc   4.1Mb
-    ```
-
-# benchmarkfdrData2019
-
-<details>
-
-* Version: 1.0.0
-* Source code: https://github.com/cran/benchmarkfdrData2019
-* BugReports: https://github.com/stephaniehicks/benchmarkfdrData2019/issues
-* Date/Publication: 2019-11-05
-* Number of recursive dependencies: 120
-
-Run `revdep_details(,"benchmarkfdrData2019")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘benchmarkfdrData2019’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: `select_()` is deprecated as of dplyr 0.7.0.
-      Warning: `filter_()` is deprecated as of dplyr 0.7.0.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/benchmarkfdrData2019/new/benchmarkfdrData2019.Rcheck/00install.out’ for details.
-    ```
-
-*   checking whether the namespace can be loaded with stated dependencies ... NOTE
-    ```
-    Warning: `select_()` is deprecated as of dplyr 0.7.0.
-    Please use `select()` instead.
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Warning: `filter_()` is deprecated as of dplyr 0.7.0.
-    Please use `filter()` instead.
-    See vignette('programming') for more help
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    
-    A namespace must be able to be loaded with just the base namespace
-    loaded: otherwise if the namespace gets loaded by a saved object, the
-    session will be unable to start.
-    
-    Probably some imports need to be declared in the NAMESPACE file.
-    ```
-
-## In both
-
-*   checking for portable file names ... NOTE
-    ```
-    Found the following non-portable file paths:
-      benchmarkfdrData2019/inst/scripts/make-data/Simulations/simulations-varyinginformativeness-discrete.Rmd
-      benchmarkfdrData2019/inst/scripts/make-data/Simulations/simulations-varyinginformativeness-smooth.Rmd
-      benchmarkfdrData2019/inst/scripts/make-data/YeastInSilico/yeast-simulation-bimodalalternative-highpi0.Rmd
-    
-    Tarballs are only required to store paths of up to 100 bytes and cannot
-    store those of more than 256 bytes, with restrictions including to 100
-    bytes for the final component.
-    See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Package in Depends field not imported from: ‘SummarizedExperiment’
-      These packages need to be imported from (in the NAMESPACE file)
-      for when this namespace is loaded but not attached.
     ```
 
 # BiocSet
@@ -610,12 +497,12 @@ Run `revdep_details(,"brazilmaps")` for more info
 
 <details>
 
-* Version: 0.2.4
+* Version: 0.2.5
 * Source code: https://github.com/cran/broom.mixed
 * URL: http://github.com/bbolker/broom.mixed
 * BugReports: http://github.com/bbolker/broom.mixed/issues
-* Date/Publication: 2019-02-21 23:50:03 UTC
-* Number of recursive dependencies: 144
+* Date/Publication: 2020-04-19 04:50:08 UTC
+* Number of recursive dependencies: 146
 
 Run `revdep_details(,"broom.mixed")` for more info
 
@@ -623,37 +510,12 @@ Run `revdep_details(,"broom.mixed")` for more info
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    ...
-    Error: Column name `term` must not be duplicated.
-    Backtrace:
-         █
-      1. ├─generics::tidy(rstan_example, conf.int = TRUE, pars = "theta")
-      2. └─broom.mixed:::tidy.stanfit(rstan_example, conf.int = TRUE, pars = "theta")
-      3.   ├─fix_data_frame(ret) %>% reorder_cols()
-      4.   │ └─base::eval(lhs, parent, parent)
-      5.   │   └─base::eval(lhs, parent, parent)
-      6.   └─broom::fix_data_frame(ret)
-      7.     ├─tibble::as_tibble(ret)
-      8.     └─tibble:::as_tibble.data.frame(ret)
-      9.       └─tibble:::lst_to_tibble(unclass(x), .rows, .name_repair)
-     10.         └─tibble:::set_repaired_names(x, .name_repair)
-     11.           ├─rlang::set_names(...)
-     12.           └─tibble:::repaired_names(...)
-     13.             └─tibble:::subclass_name_repair_errors(...)
-     14.               └─base::tryCatch(...)
-     15.                 └─base:::tryCatchList(expr, classes, parentenv, handlers)
-     16.                   └─base:::tryCatchOne(...)
-     17.         
-    Execution halted
-    ```
-
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/test-all.R’ failed.
     Last 13 lines of output:
+      x[1]: "(Intercept)"
       y[1]: "1"
       
       x[2]: "sin(2 * pi * Time)"
@@ -663,9 +525,8 @@ Run `revdep_details(,"broom.mixed")` for more info
       y[3]: "3"
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 193 | SKIPPED: 0 | WARNINGS: 7 | FAILED: 2 ]
-      1. Error: tidy returns indexes if requested on rstanarm fits (@test-mcmc.R#21) 
-      2. Failure: basic gls tidying (@test-nlme.R#146) 
+      [ OK: 233 | SKIPPED: 0 | WARNINGS: 13 | FAILED: 1 ]
+      1. Failure: basic gls tidying (@test-nlme.R#146) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -674,6 +535,14 @@ Run `revdep_details(,"broom.mixed")` for more info
 *   checking dependencies in R code ... NOTE
     ```
     Missing or unexported object: ‘dplyr::as.tbl_cube’
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘broom.mixed’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/broom.mixed/old/broom.mixed.Rcheck/00install.out’ for details.
     ```
 
 ## In both
@@ -720,113 +589,6 @@ Run `revdep_details(,"cattonum")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# CellBench
-
-<details>
-
-* Version: 1.2.0
-* Source code: https://github.com/cran/CellBench
-* URL: https://github.com/shians/cellbench
-* BugReports: https://github.com/Shians/CellBench/issues
-* Date/Publication: 2019-10-29
-* Number of recursive dependencies: 109
-
-Run `revdep_details(,"CellBench")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      ── 4. Failure: make_combinations works properly (@test-utils.R#148)  ───────────
-      make_combinations(horse = data.frame(x, y), shoe = z) not equal to tibble::tibble(...).
-      Component "x": 4 string mismatches
-      Component "y": 4 string mismatches
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 97 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 4 ]
-      1. Failure: make_combinations works properly (@test-utils.R#121) 
-      2. Failure: make_combinations works properly (@test-utils.R#130) 
-      3. Failure: make_combinations works properly (@test-utils.R#139) 
-      4. Failure: make_combinations works properly (@test-utils.R#148) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.1Mb
-      sub-directories of 1Mb or more:
-        case-study   1.6Mb
-        doc          2.3Mb
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    cellbench_case_study: no visible global function definition for
-      ‘browseURL’
-    Undefined global functions or variables:
-      browseURL
-    Consider adding
-      importFrom("utils", "browseURL")
-    to your NAMESPACE file.
-    ```
-
-*   checking for unstated dependencies in vignettes ... NOTE
-    ```
-    '::' or ':::' import not declared from: ‘DrImpute’
-    ```
-
-# cheese
-
-<details>
-
-* Version: 0.0.3
-* Source code: https://github.com/cran/cheese
-* URL: https://github.com/zajichek/cheese
-* Date/Publication: 2020-02-12 10:50:02 UTC
-* Number of recursive dependencies: 96
-
-Run `revdep_details(,"cheese")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > heart_disease %>%
-    +     descriptives()
-    Error: Can't combine `length$.value` <integer> and `count$.value` <table>.
-    Backtrace:
-         █
-      1. ├─heart_disease %>% descriptives()
-      2. │ ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3. │ └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5. │     └─`_fseq`(`_lhs`)
-      6. │       └─magrittr::freduce(value, `_function_list`)
-      7. │         ├─base::withVisible(function_list[[k]](value))
-      8. │         └─function_list[[k]](value)
-      9. │           └─cheese::descriptives(.)
-     10. │             └─`%>%`(...)
-     11. │               ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-     12. │               └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-     13. │                 └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-     14. │                   └─cheese:::`_fseq`(`_lhs`)
-     15. │                     └─magrittr::freduce(value, `_funct
-    Execution halted
     ```
 
 # codebook
@@ -934,45 +696,6 @@ Run `revdep_details(,"codified")` for more info
       All declared Imports should be used.
     ```
 
-# cogmapr
-
-<details>
-
-* Version: 0.9.1
-* Source code: https://github.com/cran/cogmapr
-* URL: https://frdvnw.gitlab.io/cogmapr/
-* BugReports: https://gitlab.com/FrdVnW/cogmapr/issues
-* Date/Publication: 2019-04-11 21:57:07 UTC
-* Number of recursive dependencies: 87
-
-Run `revdep_details(,"cogmapr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > 
-      > test_check("cogmapr")
-      ── 1. Failure: The functions are reactive to options (@test-cogmapr.R#55)  ─────
-      ConceptTest(project, c("Belgium", "Québec"), "indegree", output = "raw.data") inherits from `vctrs_list_of/vctrs_vctr` not `list`.
-      
-      ── 2. Failure: The functions are reactive to options (@test-cogmapr.R#60)  ─────
-      RelationshipTest(...) inherits from `vctrs_list_of/vctrs_vctr` not `list`.
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 20 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 2 ]
-      1. Failure: The functions are reactive to options (@test-cogmapr.R#55) 
-      2. Failure: The functions are reactive to options (@test-cogmapr.R#60) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # CollapseLevels
 
 <details>
@@ -1014,49 +737,6 @@ Run `revdep_details(,"CollapseLevels")` for more info
     Execution halted
     ```
 
-# collateral
-
-<details>
-
-* Version: 0.4.2
-* Source code: https://github.com/cran/collateral
-* URL: https://rensa.co/collateral/index.html, https://github.com/rensa/collateral
-* BugReports: https://github.com/rensa/collateral/issues
-* Date/Publication: 2018-11-19 18:00:23 UTC
-* Number of recursive dependencies: 94
-
-Run `revdep_details(,"collateral")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    Warning: All elements of `...` must be named.
-    Did you want `data = c(car, disp, wt)`?
-    Error: Input must be a vector, not a `quietly_mapped` object.
-    Backtrace:
-         █
-      1. ├─`%>%`(...)
-      2. │ ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3. │ └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5. │     └─`_fseq`(`_lhs`)
-      6. │       └─magrittr::freduce(value, `_function_list`)
-      7. │         ├─base::withVisible(function_list[[k]](value))
-      8. │         └─function_list[[k]](value)
-      9. │           ├─dplyr::mutate(., qlog = map_quietly(data, ~log(.$wt)))
-     10. │           └─dplyr:::mutate.data.frame(., qlog = map_quietly(data, ~log(.$wt)))
-     11. │             └─dplyr:::mutate_cols(.data, ...)
-     12. │               ├─base::tryCatch(...)
-     13. │               │ └─base:::tryCatchList(expr, classes, parentenv, handlers)
-     14. │               │   ├─base:::tryCatchOne(...)
-     15. │               │   │ └─base:::doTryCatch
-    Execution halted
-    ```
-
 # comperes
 
 <details>
@@ -1074,49 +754,23 @@ Run `revdep_details(,"comperes")` for more info
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    ...
-    > 
-    > to_pairgames(cr_data)
-    Error: Can't combine `..1` <longcr<>> and `..2` <data.frame<>>.
-    Backtrace:
-         █
-      1. ├─comperes::to_pairgames(cr_data)
-      2. │ └─`%>%`(...)
-      3. │   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      4. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5. │     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      6. │       └─comperes:::`_fseq`(`_lhs`)
-      7. │         └─magrittr::freduce(value, `_function_list`)
-      8. │           └─function_list[[i]](value)
-      9. │             ├─tidyr::nest(., data = -.data$game)
-     10. │             └─tidyr:::nest.tbl_df(., data = -.data$game)
-     11. │               └─vctrs::vec_cbind(u_keys, new_data_frame(out, n = nrow(u_keys)))
-     12. └─vctrs::vec_default_ptype2(x = x, y = y, x_arg = x_arg, y_arg = y_arg)
-     13.   └─vctrs::stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg)
-     14.     └─vctrs:::stop_incompatible_type_combine(...)
-     15.       └─vctrs:::stop_incomp
-    Execution halted
-    ```
-
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ── 5. Failure: get_matchups works (@test-utils.R#177)  ─────────────────────────
+      Attributes: < Component "class": Lengths (4, 1) differ (string compare on first 1) >
+      Attributes: < Component "class": 1 string mismatch >
+      
+      ── 2. Failure: get_matchups works (@test-utils.R#177)  ─────────────────────────
       `output` not equal to `output_ref`.
       Attributes: < Component "class": Lengths (4, 3) differ (string compare on first 3) >
       Attributes: < Component "class": 3 string mismatches >
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 257 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 5 ]
-      1. Error: to_pairgames works (@test-pairgames.R#28) 
-      2. Error: to_pairgames handles NA and NaN (@test-pairgames.R#46) 
-      3. Error: to_pairgames doesn't change pairgames (@test-pairgames.R#50) 
-      4. Failure: as_widecr.default throws an error if no column is matched (@test-results-widecr.R#133) 
-      5. Failure: get_matchups works (@test-utils.R#177) 
+      [ OK: 260 | SKIPPED: 0 | WARNINGS: 3 | FAILED: 2 ]
+      1. Failure: as_widecr.default throws an error if no column is matched (@test-results-widecr.R#133) 
+      2. Failure: get_matchups works (@test-utils.R#177) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -1184,7 +838,7 @@ Run `revdep_details(,"crplyr")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 110 | SKIPPED: 23 | WARNINGS: 8 | FAILED: 15 ]
+      [ OK: 110 | SKIPPED: 23 | WARNINGS: 12 | FAILED: 16 ]
       1. Failure: group_by errors if assigned columns not in dataset (@test-group-by.R#22) 
       2. Failure: group_by errors if assigned columns not in dataset (@test-group-by.R#23) 
       3. Error: group_by hidden variables (@test-group-by.R#29) 
@@ -1192,8 +846,8 @@ Run `revdep_details(,"crplyr")` for more info
       5. Error: summarize makes a cube request (@test-summarize.R#16) 
       6. Error: summarize can handle multiple measures (@test-summarize.R#24) 
       7. Error: summarize after filter (@test-summarize.R#40) 
-      8. Error: summarize after filter (@test-summarize.R#3) 
-      9. Error: (unknown) (@test-summarize.R#3) 
+      8. Error: group_by and summarize (@test-summarize.R#50) 
+      9. Error: group_by and summarize (@test-summarize.R#3) 
       1. ...
       
       Error: testthat unit tests failed
@@ -1261,79 +915,6 @@ Run `revdep_details(,"cTRAP")` for more info
       Note: found 1 marked UTF-8 string
     ```
 
-# cursory
-
-<details>
-
-* Version: 1.0.0
-* Source code: https://github.com/cran/cursory
-* URL: https://github.com/halpo/cursory
-* BugReports: https://github.com/halpo/cursory/issues
-* Date/Publication: 2019-08-22 08:40:02 UTC
-* Number of recursive dependencies: 62
-
-Run `revdep_details(,"cursory")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Error: `vec_restore.factor()` is implemented at C level.
-    This R function is purely indicative and should never be called.
-    Backtrace:
-         █
-      1. ├─cursory::table_1(iris, Species)
-      2. │ └─`%>%`(...)
-      3. │   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      4. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5. │     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      6. │       └─cursory:::`_fseq`(`_lhs`)
-      7. │         └─magrittr::freduce(value, `_function_list`)
-      8. │           ├─base::withVisible(function_list[[k]](value))
-      9. │           └─function_list[[k]](value)
-     10. │             └─dplyr::mutate_at(., "Variable", dontrepeat)
-     11. │               ├─dplyr::mutate(.tbl, !!!funs)
-     12. │               └─dplyr:::mutate.data.frame(.tbl, !!!funs)
-     13. │                 └─dplyr:::mutate_cols(.data, ...)
-     14. │                   ├─base::tryCatch(...)
-     15. │                   │ └─b
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Backtrace:
-        1. cursory::table_1(...)
-       35. vctrs:::vec_restore.factor(x = x, to = to, n = n)
-       36. vctrs:::stop_native_implementation("vec_restore.factor")
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 112 | SKIPPED: 0 | WARNINGS: 2 | FAILED: 3 ]
-      1. Error: confidence intervals in grouped data frame operations. (@ci.R#126) 
-      2. Error: dontrepeat in a tbl (@dontrepeat.R#66) 
-      3. Error: table_1 (@table_1.R#54) 
-      
-      Error: testthat unit tests failed
-      In addition: Warning message:
-      call dbDisconnect() when finished working with a connection 
-      Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘tibble’
-      All declared Imports should be used.
-    ```
-
 # cutpointr
 
 <details>
@@ -1354,26 +935,26 @@ Run `revdep_details(,"cutpointr")` for more info
 *   checking examples ... ERROR
     ```
     ...
-    Assuming the positive class has higher x values
-    Error: Can't combine `..1` <cutpointr<>> and `..2` <tbl_df<>>.
+    ℹ Convert all inputs to the same class to avoid this warning.
+    ℹ See <https://vctrs.r-lib.org/reference/faq-warning-convert-inputs.html>.
+    ℹ Falling back to <data.frame>.
+    Warning: Can't combine <data.frame> and <tbl_df>.
+    ℹ Convert all inputs to the same class to avoid this warning.
+    ℹ See <https://vctrs.r-lib.org/reference/faq-warning-convert-inputs.html>.
+    ℹ Falling back to <data.frame>.
+    Error: `new` must be a tibble
     Backtrace:
          █
-      1. ├─`%>%`(...)
-      2. │ ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3. │ └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5. │     └─`_fseq`(`_lhs`)
-      6. │       └─magrittr::freduce(value, `_function_list`)
-      7. │         └─function_list[[i]](value)
-      8. │           └─cutpointr::add_metric(., list(ppv, npv))
-      9. │             └─dplyr::bind_cols(object, met)
-     10. │               └─vctrs::vec_cbind(!!!dots)
-     11. └─vctrs::vec_default_ptype2(x = x, y = y, x_arg = x_arg, y_arg = y_arg)
-     12.   └─vctrs::stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg)
-     13.     └─vctrs:::stop_incompatible_type_combine(...)
-     14.       └─vctrs:::stop_incompatible_type_impl(...)
-     15.         └─vctrs:::stop_incompatible(...)
-     16.           └─vctrs:::stop_vctrs(...)
+      1. └─`%>%`(...)
+      2.   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
+      3.   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+      5.       └─`_fseq`(`_lhs`)
+      6.         └─magrittr::freduce(value, `_function_list`)
+      7.           └─function_list[[i]](value)
+      8.             └─cutpointr::add_metric(., list(ppv, npv))
+      9.               └─dplyr::bind_cols(object, met)
+     10.                 └─dplyr::dplyr_reconstruct(out, first)
     Execution halted
     ```
 
@@ -1383,16 +964,16 @@ Run `revdep_details(,"cutpointr")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 127 | SKIPPED: 0 | WARNINGS: 14 | FAILED: 18 ]
-      1. Error: Plotting with bootstrapping is silent (@test-cutpointr.R#103) 
-      2. Error: no duplicate column names are returned (@test-cutpointr.R#163) 
-      3. Error: Metric colnames that are already in cutpointr are modified (@test-cutpointr.R#262) 
-      4. Failure: Bootstrap returns plausible results (@test-cutpointr.R#350) 
-      5. Failure: Bootstrap returns plausible results (@test-cutpointr.R#352) 
-      6. Failure: Bootstrap returns plausible results (@test-cutpointr.R#354) 
-      7. Failure: Bootstrap returns plausible results (@test-cutpointr.R#356) 
-      8. Failure: Bootstrap returns plausible results (@test-cutpointr.R#362) 
-      9. Failure: Bootstrap returns plausible results (@test-cutpointr.R#364) 
+      [ OK: 444 | SKIPPED: 0 | WARNINGS: 1633 | FAILED: 17 ]
+      1. Error: Results for constrained metrics are equal to results by OptimalCutpoints (@test-cutpointr.R#588) 
+      2. Failure: LOESS smoothing does not return warnings or errors (@test-cutpointr.R#681) 
+      3. Failure: LOESS smoothing does not return warnings or errors (@test-cutpointr.R#696) 
+      4. Failure: LOESS smoothing does not return warnings or errors (@test-cutpointr.R#704) 
+      5. Failure: LOESS smoothing does not return warnings or errors (@test-cutpointr.R#718) 
+      6. Failure: LOESS smoothing does not return warnings or errors (@test-cutpointr.R#729) 
+      7. Error: multi_cutpointr runs without errors (@test-cutpointr.R#776) 
+      8. Error: plot_cutpointr runs (@test-cutpointr.R#848) 
+      9. Error: add_metric adds metrics correctly (@test-cutpointr.R#1240) 
       1. ...
       
       Error: testthat unit tests failed
@@ -1557,12 +1138,12 @@ Run `revdep_details(,"dbparser")` for more info
 
 <details>
 
-* Version: 1.4.2
+* Version: 1.4.3
 * Source code: https://github.com/cran/dbplyr
 * URL: https://dbplyr.tidyverse.org/, https://github.com/tidyverse/dbplyr
 * BugReports: https://github.com/tidyverse/dbplyr/issues
-* Date/Publication: 2019-06-17 20:00:04 UTC
-* Number of recursive dependencies: 69
+* Date/Publication: 2020-04-19 09:40:03 UTC
+* Number of recursive dependencies: 68
 
 Run `revdep_details(,"dbplyr")` for more info
 
@@ -1570,68 +1151,34 @@ Run `revdep_details(,"dbplyr")` for more info
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    ...
-     7 0.0995 0.181
-     8 0.108  0.526
-     9 0.122  0.724
-    10 0.126  0.173
-    # … with more rows
-    > df %>% arrange(x) %>% show_query()
-    <SQL>
-    SELECT *
-    FROM `dbplyr_005`
-    ORDER BY `x`
-    > 
-    > mtcars_db <- tbl_memdb(mtcars)
-    > mtcars_db %>% count(cyl) %>% show_query()
-    Warning: The `add` argument of `group_by()` is deprecated as of dplyr 1.0.0.
-    Please use the `.add` argument instead.
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Error in UseMethod("group_data") : 
-      no applicable method for 'group_data' applied to an object of class "c('tbl_SQLiteConnection', 'tbl_dbi', 'tbl_sql', 'tbl_lazy', 'tbl')"
-    Calls: %>% ... <Anonymous> -> <Anonymous> -> group_rows -> group_data
-    Execution halted
-    ```
-
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+        8. dplyr::group_by(., z = x + y)
+       10. dplyr::group_by_prepare(.data, !!!dots, .add = .add)
+       11. dplyr:::add_computed_columns(.data, new_groups)
+       12. dplyr:::mutate_cols(.data, !!!vars)
+       13. DataMask$new(.data, caller_env())
+       14. .subset2(public_bind_env, "initialize")(...)
+       15. dplyr::group_rows(data)
+       16. dplyr::group_data(.data)
+      
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 636 | SKIPPED: 12 | WARNINGS: 4 | FAILED: 10 ]
-      1.  Failure: quoting for rendering ordered grouped table (@test-verb-arrange.R#17) 
-      2.  Failure: can copy to from remote sources (@test-verb-copy-to.R#12) 
-      3.  Failure: can copy to from remote sources (@test-verb-copy-to.R#18) 
-      4.  Error: unnamed results bound together by row (@test-verb-do.R#25) 
-      5.  Error: group_by can perform mutate (@test-verb-group_by.R#31) 
-      6.  Failure: joining over arbitrary predicates (@test-verb-joins.R#41) 
-      7.  Failure: join generates correct sql (@test-verb-joins.R#108) 
-      8.  Failure: semi join generates correct sql (@test-verb-joins.R#119) 
-      9.  Failure: set ops generates correct sql (@test-verb-joins.R#131) 
-      10. Failure: missing columns filled with NULL (@test-verb-set-ops.R#16) 
+      [ OK: 638 | SKIPPED: 8 | WARNINGS: 0 | FAILED: 1 ]
+      1. Error: group_by can perform mutate (@test-verb-group_by.R#41) 
       
       Error: testthat unit tests failed
       Execution halted
     ```
 
-*   checking Rd cross-references ... WARNING
-    ```
-    Package unavailable to check Rd xrefs: ‘dtplyr’
-    Missing link or links in documentation object 'join.tbl_sql.Rd':
-      ‘join.tbl_df’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
 ## Newly fixed
 
-*   checking Rd cross-references ... NOTE
+*   checking whether package ‘dbplyr’ can be installed ... ERROR
     ```
-    Package unavailable to check Rd xrefs: ‘dtplyr’
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/dbplyr/old/dbplyr.Rcheck/00install.out’ for details.
     ```
 
 # ddpcr
@@ -1724,16 +1271,6 @@ Run `revdep_details(,"DEGreport")` for more info
       Execution halted
     ```
 
-## In both
-
-*   checking for hidden files and directories ... NOTE
-    ```
-    Found the following hidden files and directories:
-      .travis.yml
-    These were most likely included in error. See section ‘Package
-    structure’ in the ‘Writing R Extensions’ manual.
-    ```
-
 *   checking R code for possible problems ... NOTE
     ```
     ...
@@ -1760,46 +1297,22 @@ Run `revdep_details(,"DEGreport")` for more info
     to your NAMESPACE file.
     ```
 
-# depmap
+## Newly fixed
 
-<details>
-
-* Version: 1.0.0
-* Source code: https://github.com/cran/depmap
-* Date/Publication: 2019-11-05
-* Number of recursive dependencies: 103
-
-Run `revdep_details(,"depmap")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘depmap’ can be installed ... WARNING
+*   checking whether package ‘DEGreport’ can be installed ... ERROR
     ```
-    Found the following significant warnings:
-      Warning: `select_()` is deprecated as of dplyr 0.7.0.
-      Warning: `filter_()` is deprecated as of dplyr 0.7.0.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/depmap/new/depmap.Rcheck/00install.out’ for details.
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DEGreport/old/DEGreport.Rcheck/00install.out’ for details.
     ```
 
-*   checking whether the namespace can be loaded with stated dependencies ... NOTE
+## In both
+
+*   checking for hidden files and directories ... NOTE
     ```
-    Warning: `select_()` is deprecated as of dplyr 0.7.0.
-    Please use `select()` instead.
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Warning: `filter_()` is deprecated as of dplyr 0.7.0.
-    Please use `filter()` instead.
-    See vignette('programming') for more help
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    
-    A namespace must be able to be loaded with just the base namespace
-    loaded: otherwise if the namespace gets loaded by a saved object, the
-    session will be unable to start.
-    
-    Probably some imports need to be declared in the NAMESPACE file.
+    Found the following hidden files and directories:
+      .travis.yml
+    These were most likely included in error. See section ‘Package
+    structure’ in the ‘Writing R Extensions’ manual.
     ```
 
 # DiagrammeR
@@ -1919,44 +1432,6 @@ Run `revdep_details(,"dials")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# disk.frame
-
-<details>
-
-* Version: 0.3.4
-* Source code: https://github.com/cran/disk.frame
-* URL: https://diskframe.com
-* BugReports: https://github.com/xiaodaigh/disk.frame/issues
-* Date/Publication: 2020-02-26 14:50:06 UTC
-* Number of recursive dependencies: 101
-
-Run `revdep_details(,"disk.frame")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘disk.frame-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: hard_arrange
-    > ### Title: Perform a hard arrange
-    > ### Aliases: hard_arrange hard_arrange.data.frame hard_arrange.disk.frame
-    > 
-    > ### ** Examples
-    > 
-    > iris.df = as.disk.frame(iris, nchunks = 2)
-    > 
-    > # arrange iris.df by specifies and ensure rows with the same specifies are in the same chunk
-    > iris_hard.df = hard_arrange(iris.df, Species)
-    Error in `[.data.table`(split_values, , name) : 
-      j (the 2nd argument inside [...]) is a single symbol but column name 'name' is not found. Perhaps you intended DT[, ..name]. This difference to data.frame is deliberate and explained in FAQ 1.1.
-    Calls: hard_arrange ... resolve.list -> signalConditionsASAP -> signalConditions
-    Execution halted
     ```
 
 # docxtools
@@ -2095,96 +1570,6 @@ Run `revdep_details(,"DuoClustering2018")` for more info
       median.elapsed median.stability medianARI medianelapsed method
       norm.time run s s.norm s.true s.true.norm sce stability trueclass
       truenclust
-    ```
-
-# dupree
-
-<details>
-
-* Version: 0.2.0
-* Source code: https://github.com/cran/dupree
-* URL: https://github.com/russHyde/dupree
-* BugReports: https://github.com/russHyde/dupree/issues
-* Date/Publication: 2019-11-10 19:00:02 UTC
-* Number of recursive dependencies: 64
-
-Run `revdep_details(,"dupree")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Attributes: < Component "class": 3 string mismatches >
-      Attributes: < Component 2: Modes: list, numeric >
-      Attributes: < Component 2: names for target but not for current >
-      Attributes: < Component 2: Attributes: < Modes: list, NULL > >
-      Attributes: < Component 2: Attributes: < names for target but not for current > >
-      Attributes: < Component 2: Attributes: < current is not list-like > >
-      ...
-      block with a single code symbol
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 24 | SKIPPED: 1 | WARNINGS: 6 | FAILED: 1 ]
-      1. Failure: summarise_enumerated_blocks (@test_dupree_code_enumeration.R#128) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-# eda4treeR
-
-<details>
-
-* Version: 0.2.0
-* Source code: https://github.com/cran/eda4treeR
-* URL: https://github.com/MYaseen208/eda4treeR
-* Date/Publication: 2018-02-04 19:06:12 UTC
-* Number of recursive dependencies: 107
-
-Run `revdep_details(,"eda4treeR")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    +  dplyr::summarize(Mean=mean(Mean))
-    Error: Corrupt `grouped_df` using old (< 0.8.0) format
-    ℹ Strip off old grouping with `ungroup()`
-    Backtrace:
-         █
-      1. └─DataExam3.1.1 %>% dplyr::group_by(SeedLot) %>% dplyr::summarize(Mean = mean(Mean))
-      2.   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3.   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5.       └─`_fseq`(`_lhs`)
-      6.         └─magrittr::freduce(value, `_function_list`)
-      7.           └─function_list[[i]](value)
-      8.             ├─dplyr::group_by(., SeedLot)
-      9.             └─dplyr:::group_by.data.frame(., SeedLot)
-     10.               └─dplyr::group_by_prepare(.data, ..., .add = .add)
-     11.                 ├─generics::setdiff(group_names, tbl_vars(out))
-     12.                 ├─generics:::setdiff.default(group_names, tbl_vars(out))
-     13.                 │ └─base::setdiff(x, y, ...)
-     14.                 │   └─base::as.vector(y)
-     15.
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘dae’ ‘dplyr’
-      All declared Imports should be used.
     ```
 
 # egor
@@ -2409,69 +1794,6 @@ Run `revdep_details(,"expstudies")` for more info
       Execution halted
     ```
 
-# extdplyr
-
-<details>
-
-* Version: 0.1.4
-* Source code: https://github.com/cran/extdplyr
-* Date/Publication: 2017-02-27 08:15:28
-* Number of recursive dependencies: 40
-
-Run `revdep_details(,"extdplyr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    ℹ `pct` is `n()`.
-    ℹ The error occured in group 1: agegp = "25-34", alcgp = "0-39g/day".
-    ✖ could not find function "n"
-    Backtrace:
-         █
-      1. └─extdplyr::pct_routine(esoph, agegp, alcgp)
-      2.   └─extdplyr::pct_routine_(...)
-      3.     └─extdplyr::tally_pct_(grouped, wt = wt, ret_name = ret_name, rebase = rebase)
-      4.       ├─`%>%`(...)
-      5.       │ └─base::eval(lhs, parent, parent)
-      6.       │   └─base::eval(lhs, parent, parent)
-      7.       ├─dplyr::summarise_(data, .dots = named_expr(ret_name, expr))
-      8.       └─dplyr:::summarise_.tbl_df(...)
-      9.         ├─dplyr::summarise(.data, !!!dots)
-     10.         ├─dplyr:::summarise.grouped_df(.data, !!!dots)
-     11.         ├─base::NextMethod()
-     12.         └─dplyr:::summarise.data.frame(.data, !!!dots)
-     13.           └─dplyr:::summarise_cols(.data, ...)
-     14.             └─base::tryCatch(...)
-     15.               └─base:::tryCatchList(
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        1. extdplyr::ind_to_char_(...)
-        3. dplyr:::group_by_.data.frame(ret, .dots = dplyr::groups(data))
-        5. dplyr:::group_by.data.frame(.data, !!!dots, .add = add, .drop = .drop)
-        6. dplyr::group_by_prepare(.data, ..., .add = .add)
-       11. dplyr::tbl_vars(out)
-       15. dplyr:::group_vars.data.frame(x)
-       18. dplyr:::group_data.grouped_df(x)
-       19. dplyr::validate_grouped_df(.data)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 19 | SKIPPED: 0 | WARNINGS: 2 | FAILED: 1 ]
-      1. Error: ind_to_char_ works with grouped_df, tbl_df, tbl, data.frame (@test_grp_routine.R#74) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # ezplot
 
 <details>
@@ -2604,11 +1926,11 @@ Run `revdep_details(,"fabletools")` for more info
 
 <details>
 
-* Version: 1.0.0
+* Version: 1.0.1
 * Source code: https://github.com/cran/finalfit
 * URL: https://github.com/ewenharrison/finalfit
 * BugReports: https://github.com/ewenharrison/finalfit/issues
-* Date/Publication: 2020-02-20 21:30:03 UTC
+* Date/Publication: 2020-04-21 11:50:02 UTC
 * Number of recursive dependencies: 113
 
 Run `revdep_details(,"finalfit")` for more info
@@ -2620,26 +1942,26 @@ Run `revdep_details(,"finalfit")` for more info
 *   checking examples ... ERROR
     ```
     ...
-    +     c("<40 years", "Adjacent structures", "Yes")
-    +    )) -> newdata
-    Error: `vec_restore.factor()` is implemented at C level.
-    This R function is purely indicative and should never be called.
-    Backtrace:
-         █
-      1. ├─`%>%`(...)
-      2. │ ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3. │ └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5. │     └─`_fseq`(`_lhs`)
-      6. │       └─magrittr::freduce(value, `_function_list`)
-      7. │         ├─base::withVisible(function_list[[k]](value))
-      8. │         └─function_list[[k]](value)
-      9. │           └─finalfit::finalfit_newdata(...)
-     10. │             └─.data %>% dplyr::select(dependent, explanatory) %>% dplyr::slice(0)
-     11. │               ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-     12. │               └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-     13. │                 └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-     14. │                   └─fi
+      mort_5yr mort_5yr.num   n
+    1    Alive            1 511
+    2     Died            2 404
+    3     <NA>           NA  14
+    
+    $counts[[19]]
+      sex.factor2 age.factor2   n
+    1           M   <60 years 204
+    2           M   60+ years 241
+    3           F   <60 years 210
+    4           F   60+ years 274
+    
+    
+    > 
+    > # Select a tibble and expand
+    > out$counts[[9]] %>%
+    +   print(n = Inf)
+    Error in print.default(m, ..., quote = quote, right = right, max = max) : 
+      invalid 'na.print' specification
+    Calls: %>% ... print -> print.data.frame -> print -> print.default
     Execution halted
     ```
 
@@ -2648,21 +1970,29 @@ Run `revdep_details(,"finalfit")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      Backtrace:
+        1. testthat::expect_is(...)
+       15. vctrs::vec_default_cast(...)
+       16. vctrs::stop_incompatible_cast(...)
+       17. vctrs:::stop_incompatible_type_convert(...)
+       18. vctrs:::stop_incompatible_type_impl(...)
+       19. vctrs:::stop_incompatible(...)
+       20. vctrs:::stop_vctrs(...)
+      
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 67 | SKIPPED: 0 | WARNINGS: 6 | FAILED: 64 ]
-      1. Error: finalfit.lm with metrics gives data.frame (@test_all_in_one.R#4) 
-      2. Error: finalfit.lmer with metrics gives data.frame (@test_all_in_one.R#8) 
-      3. Error: finalfit.glm with metrics gives data.frame (@test_all_in_one.R#12) 
-      4. Error: finalfit mixed with metrics gives data.frame (@test_all_in_one.R#16) 
-      5. Error: finalfit.coxph gives dataframe (@test_all_in_one.R#20) 
-      6. Error: finalfit.glm with ff_remove_ref gives data.frame 
-      7. Error: finalfit.lm with metrics gives data.frame (@test_all_in_one.R#32) 
-      8. Error: finalfit.lm with metrics gives data.frame (@test_all_in_one.R#36) 
-      9. Error: finalfit.lmer with metrics gives data.frame (@test_all_in_one.R#40) 
-      1. ...
+      [ OK: 130 | SKIPPED: 0 | WARNINGS: 16 | FAILED: 1 ]
+      1. Error: ff_columns_totals gives data.frame (@test_ffs.R#4) 
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘finalfit’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/finalfit/old/finalfit.Rcheck/00install.out’ for details.
     ```
 
 # foieGras
@@ -2777,45 +2107,6 @@ Run `revdep_details(,"forecastML")` for more info
       Execution halted
     ```
 
-# funrar
-
-<details>
-
-* Version: 1.4.0
-* Source code: https://github.com/cran/funrar
-* URL: https://rekyt.github.io/funrar/
-* BugReports: https://github.com/Rekyt/funrar/issues
-* Date/Publication: 2020-03-05 14:50:02 UTC
-* Number of recursive dependencies: 89
-
-Run `revdep_details(,"funrar")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 267 | SKIPPED: 0 | WARNINGS: 1 | FAILED: 11 ]
-      1. Failure: Correct Di computation with different comm. without abundance (@test-distinctiveness.R#177) 
-      2. Failure: Relative distinctiveness can be computed (@test-distinctiveness.R#319) 
-      3. Failure: Relative distinctiveness can be computed (@test-distinctiveness.R#327) 
-      4. Failure: Correct Scarcity computation (@test-scarcity.R#118) 
-      5. Failure: Correct Scarcity computation (@test-scarcity.R#125) 
-      6. Failure: Conversion from matrix to tidy data.frame works (@test-tidy_matrix.R#75) 
-      7. Failure: Conversion from matrix to tidy data.frame works (@test-tidy_matrix.R#78) 
-      8. Failure: Conversion from sparse & dense matrices to tidy data.frame (@test-tidy_matrix.R#103) 
-      9. Failure: Conversion from sparse & dense matrices to tidy data.frame (@test-tidy_matrix.R#106) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # fuzzyjoin
 
 <details>
@@ -2915,8 +2206,8 @@ Run `revdep_details(,"fxtract")` for more info
       2. ├─(function () ...
       3. │ └─dplyr::bind_rows(done_df, error_df, not_done_df)
       4. │   └─vctrs::vec_rbind(!!!dots, .names_to = .id)
-      5. └─vctrs::vec_default_ptype2(x = x, y = y, x_arg = x_arg, y_arg = y_arg)
-      6.   └─vctrs::stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg)
+      5. └─vctrs::vec_default_ptype2(...)
+      6.   └─vctrs::stop_incompatible_type(...)
       7.     └─vctrs:::stop_incompatible_type_combine(...)
       8.       └─vctrs:::stop_incompatible_type_impl(...)
       9.         └─vctrs:::stop_incompatible(...)
@@ -3162,78 +2453,6 @@ Run `revdep_details(,"ggedit")` for more info
       All declared Imports should be used.
     ```
 
-# ggformula
-
-<details>
-
-* Version: 0.9.4
-* Source code: https://github.com/cran/ggformula
-* URL: https://github.com/ProjectMOSAIC/ggformula
-* BugReports: https://github.com/ProjectMOSAIC/ggformula/issues
-* Date/Publication: 2020-03-04 09:40:08 UTC
-* Number of recursive dependencies: 180
-
-Run `revdep_details(,"ggformula")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    Error: Corrupt `grouped_df` using old (< 0.8.0) format
-    ℹ Strip off old grouping with `ungroup()`
-    Backtrace:
-         █
-      1. └─`%>%`(...)
-      2.   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3.   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5.       └─`_fseq`(`_lhs`)
-      6.         └─magrittr::freduce(value, `_function_list`)
-      7.           ├─base::withVisible(function_list[[k]](value))
-      8.           └─function_list[[k]](value)
-      9.             ├─dplyr::filter(., city == "Chicago", year == 2016, month <= 4)
-     10.             └─dplyr:::filter.data.frame(...)
-     11.               └─dplyr:::filter_rows(.data, ...)
-     12.                 └─DataMask$new(.data, caller_env())
-     13.                   └─.subset2(public_bind_env, "initialize")(...)
-     14.                     └─dplyr::group_rows(data)
-     15.                       ├─dplyr::group_data(.data)
-     16.             
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Backtrace:
-        1. ggformula::gf_linerange(...)
-        5. ggplot2:::fortify.grouped_df(data)
-        7. dplyr:::group_indices.data.frame(model)
-        8. dplyr::group_rows(.data)
-       10. dplyr:::group_data.grouped_df(.data)
-       11. dplyr::validate_grouped_df(.data)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 0 | SKIPPED: 110 | WARNINGS: 4 | FAILED: 2 ]
-      1. Error: gf_area() & gf_ribbon() (@test-layer-factory.R#54) 
-      2. Error: gf_linerange() and gf_pointrange() 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘quantreg’
-    ```
-
 # ggRandomForests
 
 <details>
@@ -3361,45 +2580,6 @@ Run `revdep_details(,"gratia")` for more info
       Execution halted
     ```
 
-# gtsummary
-
-<details>
-
-* Version: 1.2.6
-* Source code: https://github.com/cran/gtsummary
-* URL: https://github.com/ddsjoberg/gtsummary, http://www.danieldsjoberg.com/gtsummary/
-* BugReports: https://github.com/ddsjoberg/gtsummary/issues
-* Date/Publication: 2020-02-13 14:40:05 UTC
-* Number of recursive dependencies: 141
-
-Run `revdep_details(,"gtsummary")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ``%>%`(...)` threw an error.
-      Message: object 'Time' not found
-      Class:   simpleError/error/condition
-      Backtrace:
-       1. stats::model.frame(...)
-       2. stats::model.frame.default(...)
-       3. [ base::eval(...) ] with 1 more call
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 343 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 2 ]
-      1. Failure: combine_terms works without error (@test-combine_terms.R#55) 
-      2. Failure: combine_terms works without error (@test-combine_terms.R#97) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # HaDeX
 
 <details>
@@ -3470,65 +2650,6 @@ Run `revdep_details(,"HaDeX")` for more info
     Namespaces in Imports field not imported from:
       ‘DT’ ‘gsubfn’ ‘stringr’
       All declared Imports should be used.
-    ```
-
-# HMP16SData
-
-<details>
-
-* Version: 1.6.0
-* Source code: https://github.com/cran/HMP16SData
-* URL: https://github.com/waldronlab/HMP16SData
-* BugReports: https://github.com/waldronlab/HMP16SData/issues
-* Date/Publication: 2019-11-05
-* Number of recursive dependencies: 184
-
-Run `revdep_details(,"HMP16SData")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘HMP16SData’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: `select_()` is deprecated as of dplyr 0.7.0.
-      Warning: `filter_()` is deprecated as of dplyr 0.7.0.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HMP16SData/new/HMP16SData.Rcheck/00install.out’ for details.
-    ```
-
-*   checking whether the namespace can be loaded with stated dependencies ... NOTE
-    ```
-    Warning: `select_()` is deprecated as of dplyr 0.7.0.
-    Please use `select()` instead.
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Warning: `filter_()` is deprecated as of dplyr 0.7.0.
-    Please use `filter()` instead.
-    See vignette('programming') for more help
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    
-    A namespace must be able to be loaded with just the base namespace
-    loaded: otherwise if the namespace gets loaded by a saved object, the
-    session will be unable to start.
-    
-    Probably some imports need to be declared in the NAMESPACE file.
-    ```
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘curatedMetagenomicData’
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 19.1Mb
-      sub-directories of 1Mb or more:
-        doc       1.5Mb
-        extdata  17.4Mb
     ```
 
 # holodeck
@@ -3763,53 +2884,6 @@ Run `revdep_details(,"INDperform")` for more info
         help   1.6Mb
     ```
 
-# infer
-
-<details>
-
-* Version: 0.5.1
-* Source code: https://github.com/cran/infer
-* URL: https://github.com/tidymodels/infer, https://infer.netlify.com/
-* BugReports: https://github.com/tidymodels/infer/issues
-* Date/Publication: 2019-11-19 10:30:02 UTC
-* Number of recursive dependencies: 115
-
-Run `revdep_details(,"infer")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      gen_iris12 %>% calculate(stat = "count") not equal to `%>%`(...).
-      Attributes: < Names: 1 string mismatch >
-      Attributes: < Length mismatch: comparison on first 2 components >
-      Attributes: < Component 2: Modes: logical, numeric >
-      Attributes: < Component 2: Lengths: 1, 10 >
-      Attributes: < Component 2: target is logical, current is numeric >
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 339 | SKIPPED: 60 | WARNINGS: 21 | FAILED: 3 ]
-      1. Failure: chi-square matches chisq.test value (@test-calculate.R#219) 
-      2. Failure: chi-square matches chisq.test value (@test-calculate.R#236) 
-      3. Failure: calc_impl.count works (@test-calculate.R#473) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘lifecycle’
-      All declared Imports should be used.
-    ```
-
 # InjurySeverityScore
 
 <details>
@@ -3877,8 +2951,8 @@ Run `revdep_details(,"ipumsr")` for more info
     Last 13 lines of output:
       Backtrace:
         1. testthat::expect_warning(bound <- ipums_bind_rows(test1, test2))
-        9. vctrs::vec_default_ptype2(x = x, y = y, x_arg = x_arg, y_arg = y_arg)
-       10. vctrs::stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg)
+        9. vctrs::vec_default_ptype2(...)
+       10. vctrs::stop_incompatible_type(...)
        11. vctrs:::stop_incompatible_type_combine(...)
        12. vctrs:::stop_incompatible_type_impl(...)
        13. vctrs:::stop_incompatible(...)
@@ -3908,30 +2982,6 @@ Run `revdep_details(,"isomiRs")` for more info
 
 ## Newly broken
 
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       19. base::tryCatch(...)
-       20. base:::tryCatchList(expr, classes, parentenv, handlers)
-       21. base:::tryCatchOne(...)
-       22. value[[3L]](cond)
-       23. dplyr:::stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
-       24. dplyr:::stop_dplyr(index, dots, fn, "errored", x = conditionMessage(e))
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 24 | SKIPPED: 0 | WARNINGS: 2 | FAILED: 3 ]
-      1. Error: counts (@test_basic.R#13) 
-      2. Error: accesor (@test_basic.R#41) 
-      3. Error: matrix (@test_calculus.R#23) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
 *   checking examples ... ERROR
     ```
     ...
@@ -3958,17 +3008,26 @@ Run `revdep_details(,"isomiRs")` for more info
     Execution halted
     ```
 
-*   checking package dependencies ... NOTE
+*   checking tests ...
     ```
-    Package suggested but not available for checking: ‘targetscan.Hs.eg.db’
-    ```
-
-*   checking for hidden files and directories ... NOTE
-    ```
-    Found the following hidden files and directories:
-      .travis.yml
-    These were most likely included in error. See section ‘Package
-    structure’ in the ‘Writing R Extensions’ manual.
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+       19. base::tryCatch(...)
+       20. base:::tryCatchList(expr, classes, parentenv, handlers)
+       21. base:::tryCatchOne(...)
+       22. value[[3L]](cond)
+       23. dplyr:::stop_eval_tidy(e, index = i, dots = dots, fn = "summarise")
+       24. dplyr:::stop_dplyr(index, dots, fn, "errored", x = conditionMessage(e))
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      [ OK: 24 | SKIPPED: 0 | WARNINGS: 2 | FAILED: 3 ]
+      1. Error: counts (@test_basic.R#13) 
+      2. Error: accesor (@test_basic.R#41) 
+      3. Error: matrix (@test_calculus.R#23) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 *   checking R code for possible problems ... NOTE
@@ -3995,6 +3054,29 @@ Run `revdep_details(,"isomiRs")` for more info
       targetscan.Hs.egTARGETSFULL targetscan.Mm.egMIRBASE2FAMILY
       targetscan.Mm.egMIRNA targetscan.Mm.egTARGETS
       targetscan.Mm.egTARGETSFULL total
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘isomiRs’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/isomiRs/old/isomiRs.Rcheck/00install.out’ for details.
+    ```
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘targetscan.Hs.eg.db’
+    ```
+
+*   checking for hidden files and directories ... NOTE
+    ```
+    Found the following hidden files and directories:
+      .travis.yml
+    These were most likely included in error. See section ‘Package
+    structure’ in the ‘Writing R Extensions’ manual.
     ```
 
 # janitor
@@ -4056,26 +3138,26 @@ Run `revdep_details(,"jstor")` for more info
 *   checking examples ... ERROR
     ```
     ...
-    Processing files for book_chapter with functions jst_get_book
-    Error: Can't combine `..1` <jstor_import_spec<>> and `..2` <tbl_df<>>.
+    Error: `new` must be a tibble
     Backtrace:
          █
-      1. ├─jstor::jst_import_zip(...)
-      2. │ └─`%>%`(...)
-      3. │   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      4. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5. │     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      6. │       └─jstor:::`_fseq`(`_lhs`)
-      7. │         └─magrittr::freduce(value, `_function_list`)
-      8. │           ├─base::withVisible(function_list[[k]](value))
-      9. │           └─function_list[[k]](value)
-     10. │             └─purrr::walk(...)
-     11. │               └─purrr::map(.x, .f, ...)
-     12. │                 └─jstor:::.f(.x[[i]], ...)
-     13. │                   └─`%>%`(...)
-     14. │                     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-     15. │                     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-     16. │                       └─base
+      1. └─jstor::jst_import_zip(...)
+      2.   └─`%>%`(...)
+      3.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
+      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+      5.       └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+      6.         └─jstor:::`_fseq`(`_lhs`)
+      7.           └─magrittr::freduce(value, `_function_list`)
+      8.             ├─base::withVisible(function_list[[k]](value))
+      9.             └─function_list[[k]](value)
+     10.               └─purrr::walk(...)
+     11.                 └─purrr::map(.x, .f, ...)
+     12.                   └─jstor:::.f(.x[[i]], ...)
+     13.                     └─`%>%`(...)
+     14.                       ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
+     15.                       └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+     16.                         └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+     17.                          
     Execution halted
     ```
 
@@ -4085,7 +3167,7 @@ Run `revdep_details(,"jstor")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 232 | SKIPPED: 4 | WARNINGS: 1 | FAILED: 16 ]
+      [ OK: 232 | SKIPPED: 4 | WARNINGS: 5 | FAILED: 16 ]
       1. Failure: journal id is unified (@test-augment.R#75) 
       2. Error: subsetting ngrams works (@test-ngram.R#32) 
       3. Failure: files with column names can be re-read (@test-re-import.R#212) 
@@ -4177,8 +3259,8 @@ Run `revdep_details(,"lans2r")` for more info
       ── 2. Failure: test that transformation safety checks are in place (@test-transf
       spread_data(bind_rows(a, b)) not equal to full_join(...).
       Names: 2 string mismatches
-      Component 3: Mean relative difference: 1.024629
-      Component 4: Mean relative difference: 8.320651
+      Component 3: Mean relative difference: 0.9523799
+      Component 4: Mean relative difference: 3.999909
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       [ OK: 142 | SKIPPED: 0 | WARNINGS: 7 | FAILED: 2 ]
@@ -4226,52 +3308,6 @@ Run `revdep_details(,"LexisNexisTools")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# mason
-
-<details>
-
-* Version: 0.2.6
-* Source code: https://github.com/cran/mason
-* URL: https://github.com/lwjohnst86/mason
-* BugReports: https://github.com/lwjohnst86/mason/issues
-* Date/Publication: 2018-07-05 12:20:02 UTC
-* Number of recursive dependencies: 67
-
-Run `revdep_details(,"mason")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Component "estimate": Mean relative difference: 1.999997
-      Component "std.error": Mean relative difference: 0.2627753
-      Component "statistic": Mean relative difference: 1.789258
-      Component "p.value": Mean relative difference: 1.333262
-      Component "conf.low": Mean relative difference: 1.751052
-      Component "conf.high": Mean relative difference: 1.316709
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 76 | SKIPPED: 1 | WARNINGS: 7 | FAILED: 3 ]
-      1. Failure: (for glm bi) results are equal to real results (no covar) (@test-glm-binomial.R#59) 
-      2. Failure: (for glm bi) results are equal to real results (with covar) (@test-glm-binomial.R#73) 
-      3. Failure: (for glm) results are equal to real results (with covar + int) (@test-glm-binomial.R#88) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Packages unavailable to check Rd xrefs: ‘ggplot2’, ‘pander’, ‘pixiedust’
     ```
 
 # metamicrobiomeR
@@ -4502,15 +3538,6 @@ Run `revdep_details(,"mosaic")` for more info
     New names:
     ```
 
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘fastR’
-    
-    Package which this enhances but not available for checking: ‘manipulate’
-    ```
-
 *   checking installed package size ... NOTE
     ```
       installed size is 12.1Mb
@@ -4522,6 +3549,23 @@ Run `revdep_details(,"mosaic")` for more info
 *   checking Rd cross-references ... NOTE
     ```
     Package unavailable to check Rd xrefs: ‘cubature’
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘mosaic’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mosaic/old/mosaic.Rcheck/00install.out’ for details.
+    ```
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘fastR’
+    
+    Package which this enhances but not available for checking: ‘manipulate’
     ```
 
 # mosaicData
@@ -4635,65 +3679,12 @@ Run `revdep_details(,"MSstatsTMT")` for more info
       Execution halted
     ```
 
-# muscData
+## Newly fixed
 
-<details>
-
-* Version: 1.0.0
-* Source code: https://github.com/cran/muscData
-* URL: https://github.com/HelenaLC/muscData
-* BugReports: https://github.com/HelenaLC/muscData/issues
-* Date/Publication: 2019-11-05
-* Number of recursive dependencies: 95
-
-Run `revdep_details(,"muscData")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘muscData’ can be installed ... WARNING
+*   checking whether package ‘MSstatsTMT’ can be installed ... ERROR
     ```
-    Found the following significant warnings:
-      Warning: `select_()` is deprecated as of dplyr 0.7.0.
-      Warning: `filter_()` is deprecated as of dplyr 0.7.0.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/muscData/new/muscData.Rcheck/00install.out’ for details.
-    ```
-
-*   checking whether the namespace can be loaded with stated dependencies ... NOTE
-    ```
-    Warning: `select_()` is deprecated as of dplyr 0.7.0.
-    Please use `select()` instead.
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Warning: `filter_()` is deprecated as of dplyr 0.7.0.
-    Please use `filter()` instead.
-    See vignette('programming') for more help
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    
-    A namespace must be able to be loaded with just the base namespace
-    loaded: otherwise if the namespace gets loaded by a saved object, the
-    session will be unable to start.
-    
-    Probably some imports need to be declared in the NAMESPACE file.
-    ```
-
-## In both
-
-*   checking for hidden files and directories ... NOTE
-    ```
-    Found the following hidden files and directories:
-      .BBSoptions
-    These were most likely included in error. See section ‘Package
-    structure’ in the ‘Writing R Extensions’ manual.
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Package in Depends field not imported from: ‘SingleCellExperiment’
-      These packages need to be imported from (in the NAMESPACE file)
-      for when this namespace is loaded but not attached.
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/MSstatsTMT/old/MSstatsTMT.Rcheck/00install.out’ for details.
     ```
 
 # naniar
@@ -4716,26 +3707,26 @@ Run `revdep_details(,"naniar")` for more info
 *   checking examples ... ERROR
     ```
     ...
-    +   add_shadow(Ozone, Solar.R) %>%
-    +   add_label_shadow()
-    Error: Can't combine `..1` <data.frame<>> and `..2` <shadow<>>.
+    +    ggplot(aes(x = air_temp_c,
+    +               fill = humidity_NA)) +
+    +        geom_histogram()
+    Warning: Can't combine <tbl_df> and <shadow>.
+    ℹ Convert all inputs to the same class to avoid this warning.
+    ℹ See <https://vctrs.r-lib.org/reference/faq-warning-convert-inputs.html>.
+    ℹ Falling back to <data.frame>.
+    Error: `new` must be a tibble
     Backtrace:
          █
-      1. ├─airquality %>% add_shadow(Ozone, Solar.R) %>% add_label_shadow()
-      2. │ ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3. │ └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5. │     └─`_fseq`(`_lhs`)
-      6. │       └─magrittr::freduce(value, `_function_list`)
-      7. │         └─function_list[[i]](value)
-      8. │           └─naniar::add_shadow(., Ozone, Solar.R)
-      9. │             ├─dplyr::bind_cols(data, shadow_df) %>% dplyr::as_tibble()
-     10. │             │ └─base::eval(lhs, parent, parent)
-     11. │             │   └─base::eval(lhs, parent, parent)
-     12. │             └─dplyr::bind_cols(data, shadow_df)
-     13. │               └─vctrs::vec_cbind(!!!dots)
-     14. └─vctrs::vec_default_ptype2(x = x, y = y, x_arg = x_arg, y_arg = y_arg)
-     15.   └─vctrs::stop
+      1. └─oceanbuoys %>% bind_shadow() %>% ggplot(aes(x = air_temp_c, fill = humidity_NA))
+      2.   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
+      3.   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+      5.       └─`_fseq`(`_lhs`)
+      6.         └─magrittr::freduce(value, `_function_list`)
+      7.           └─function_list[[i]](value)
+      8.             └─naniar::bind_shadow(.)
+      9.               └─dplyr::bind_cols(data, data_shadow)
+     10.                 └─dplyr::dplyr_reconstruct(out, first)
     Execution halted
     ```
 
@@ -4744,20 +3735,20 @@ Run `revdep_details(,"naniar")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-        5.         ├─testthat::with_reporter(...)
-        6.         │ ├─base::withRestarts(...)
-        7.         │ │ └─base:::withOneRestart(expr, restarts[[1L]])
-        8.         │ │   └─base:::doWithOneRestart(return(expr), restart)
-        9.         │ └─base::force(code)
-       10.         └─base::lapply(...)
-       11.           └─testthat:::FUN(X[[i]], ...)
-       12.             ├─testthat::with_reporter(...)
-       13.             │ ├─base::withRestarts(...)
-       14.             │ │ └─base:::withOneRestart(expr, restarts[[1L]])
-       15.             │ │   └─base:::doWithOneRestart(return(expr), restart)
-       16.             │ └─base::force(code)
-       17.             └─testthat::source_file(...)
-       18.               └─testthat:::t
+      `new` must be a tibble
+      Backtrace:
+       1. naniar::bind_shadow(df)
+       2. dplyr::bind_cols(data, data_shadow)
+       3. dplyr::dplyr_reconstruct(out, first)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      [ OK: 523 | SKIPPED: 22 | WARNINGS: 46 | FAILED: 4 ]
+      1. Error: (unknown) (@test-add-label-shadow.R#41) 
+      2. Failure: prop_miss_case returns same as mean_ (@test-prop-cases-not-zero.R#53) 
+      3. Error: (unknown) (@test-shadow-identifiers.R#10) 
+      4. Error: (unknown) (@test-special-missing-values.R#14) 
+      
+      Error: testthat unit tests failed
       Execution halted
     ```
 
@@ -4857,10 +3848,7 @@ Run `revdep_details(,"nonmemica")` for more info
 *   checking examples ... ERROR
     ```
     ...
-      symbol: character
-      label : character
-      guide : character
-    >>.
+    Error: Can't convert <spec> to <data.frame>.
     Backtrace:
          █
       1. ├─1001 %>% meta
@@ -4876,7 +3864,10 @@ Run `revdep_details(,"nonmemica")` for more info
      11. │             ├─nonmemica::meta(as.character(x), ...)
      12. │             └─nonmemica:::meta.character(as.character(x), ...)
      13. │               └─dplyr::bind_rows(y, z)
-     14. │                 └─vctrs::vec_rbind(!!!
+     14. │                 └─vctrs::vec_rbind(!!!dots, .names_to = .id)
+     15. └─vctrs::vec_default_cast(...)
+     16.   └─vctrs::stop_incompatible_cast(...)
+     17.     └─vctrs:::stop_incompatible_type_
     Execution halted
     ```
 
@@ -4921,86 +3912,6 @@ Run `revdep_details(,"omu")` for more info
      17. └─vctrs:::stop_scalar_type(...)
      18.   └─vc
     Execution halted
-    ```
-
-# Organism.dplyr
-
-<details>
-
-* Version: 1.14.0
-* Source code: https://github.com/cran/Organism.dplyr
-* Date/Publication: 2019-10-29
-* Number of recursive dependencies: 118
-
-Run `revdep_details(,"Organism.dplyr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking S3 generic/method consistency ... WARNING
-    ```
-    src_tbls:
-      function(x, ...)
-    src_tbls.src_organism:
-      function(x)
-    
-    See section ‘Generic functions and methods’ in the ‘Writing R
-    Extensions’ manual.
-    ```
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ── 2. Error: (unknown) (@test-src_organism-select.R#3)  ────────────────────────
-      there is no package called 'TxDb.Hsapiens.UCSC.hg38.knownGene'
-      Backtrace:
-       1. base::suppressPackageStartupMessages(...)
-       3. base::library(TxDb.Hsapiens.UCSC.hg38.knownGene)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 38 | SKIPPED: 0 | WARNINGS: 4 | FAILED: 2 ]
-      1. Error: (unknown) (@test-GenomicFeatures-extractors.R#3) 
-      2. Error: (unknown) (@test-src_organism-select.R#3) 
-      
-      Error: testthat unit tests failed
-      In addition: Warning message:
-      call dbDisconnect() when finished working with a connection 
-      Execution halted
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘TxDb.Hsapiens.UCSC.hg38.knownGene’
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Unexported objects imported by ':::' calls:
-      ‘AnnotationDbi:::smartKeys’ ‘GenomicFeatures:::.exons_with_3utr’
-      ‘GenomicFeatures:::.exons_with_5utr’
-      ‘GenomicFeatures:::get_TxDb_seqinfo0’
-      ‘S4Vectors:::extract_data_frame_rows’
-      See the note in ?`:::` about the use of this operator.
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    .toGRanges: no visible binding for global variable ‘.’
-    intronsByTranscript,src_organism: no visible binding for global
-      variable ‘.’
-    orgPackageName,src_organism: no visible binding for global variable
-      ‘name’
-    orgPackageName,src_organism: no visible binding for global variable
-      ‘organism’
-    orgPackageName,src_organism: no visible binding for global variable
-      ‘OrgDb’
-    Undefined global functions or variables:
-      . OrgDb name organism
     ```
 
 # padr
@@ -5088,11 +3999,11 @@ Run `revdep_details(,"pammtools")` for more info
 *   checking examples ... ERROR
     ```
     ...
-      tz_var: character
-      t     : integer
-      tz    : integer
-      LL    : integer
-    >>.
+    > gg_laglead(simdf_elra)
+    Error: Can't convert <LL_df> to <LL_df>.
+    ✖ Some attributes are incompatible.
+    ℹ The author of the class should implement vctrs methods.
+    ℹ See <https://vctrs.r-lib.org/reference/faq-error-incompatible-attributes.html>.
     Backtrace:
          █
       1. ├─pammtools::gg_laglead(simdf_elra)
@@ -5102,8 +4013,8 @@ Run `revdep_details(,"pammtools")` for more info
       5. │   └─purrr::map2_dfr(...)
       6. │     └─dplyr::bind_rows(res, .id = .id)
       7. │       └─vctrs::vec_rbind(!!!dots, .names_to = .id)
-      8. └─vctrs::vec_default_cast(x = x, to = to, x_arg = x_arg, to_arg = to_arg)
-      9.   └─vctrs::stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
+      8. └─vctrs::vec_default_cast(...)
+      9.   └─vctrs::stop_incompatible_cast(...)
      10.     └─vctrs:::stop_incompatible_type_convert(...)
      11.       └─vctrs:::stop_incompatible_type_impl(...)
      12.         └─vctrs:::stop_incompatible(...)
@@ -5117,7 +4028,7 @@ Run `revdep_details(,"pammtools")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 229 | SKIPPED: 0 | WARNINGS: 2 | FAILED: 16 ]
+      [ OK: 240 | SKIPPED: 0 | WARNINGS: 7 | FAILED: 14 ]
       1. Error: cumulative hazard functions work for PAM (@test-add-functions.R#101) 
       2. Failure: adding terms works for PAM (@test-add-functions.R#145) 
       3. Failure: adding terms works for PAM (@test-add-functions.R#150) 
@@ -5131,76 +4042,6 @@ Run `revdep_details(,"pammtools")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# panelr
-
-<details>
-
-* Version: 0.7.2
-* Source code: https://github.com/cran/panelr
-* URL: https://panelr.jacob-long.com
-* BugReports: https://github.com/jacob-long/panelr
-* Date/Publication: 2020-03-08 22:10:02 UTC
-* Number of recursive dependencies: 168
-
-Run `revdep_details(,"panelr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘panelr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: are_varying
-    > ### Title: Check if variables are constant or variable over time.
-    > ### Aliases: are_varying
-    > 
-    > ### ** Examples
-    > 
-    > 
-    > wages <- panel_data(WageData, id = id, wave = t)
-    Warning: The `add` argument of `group_by()` is deprecated as of dplyr 1.0.0.
-    Please use the `.add` argument instead.
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    > wages %>% are_varying(occ, ind, fem, blk)
-    Error in if (get_wave(data) %in% dots) NULL else get_wave(data) : 
-      argument is of length zero
-    Calls: %>% ... freduce -> withVisible -> <Anonymous> -> are_varying
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 22 | SKIPPED: 0 | WARNINGS: 1 | FAILED: 17 ]
-      1. Failure: dplyr functions return panel_data objects (@test-utils.R#29) 
-      2. Error: widen_panel works (@test-utils.R#46) 
-      3. Error: long_panel works (basic case) (@test-utils.R#72) 
-      4. Error: long_panel works (unbalanced data) (@test-utils.R#96) 
-      5. Error: long_panel works (unbalanced data, numeric waves not begin w/ 1) (@test-utils.R#120) 
-      6. Error: long_panel works (character periods) (@test-utils.R#146) 
-      7. Error: long_panel works (beginning label) (@test-utils.R#171) 
-      8. Error: long_panel works (beginning label/character periods) (@test-utils.R#198) 
-      9. Error: long_panel works (prefix and suffix/character periods) (@test-utils.R#225) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘AER’
     ```
 
 # PAST
@@ -5232,7 +4073,7 @@ Run `revdep_details(,"PAST")` for more info
       3. │   ├─base::withVisible(eval(ei, envir))
       4. │   └─base::eval(ei, envir)
       5. │     └─base::eval(ei, envir)
-      6. └─PAST::load_GWAS_data(demo_association_file, demo_effects_file) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpZFiXMR/Rex92ce57cae7f1:11:0
+      6. └─PAST::load_GWAS_data(demo_association_file, demo_effects_file) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpGCABXb/Rex93ec268e6cc6:11:0
       7.   └─`%>%`(...)
       8.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
       9.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
@@ -5322,52 +4163,6 @@ Run `revdep_details(,"photosynthesis")` for more info
     ```
     Namespace in Imports field not imported from: ‘tidyr’
       All declared Imports should be used.
-    ```
-
-# pixiedust
-
-<details>
-
-* Version: 0.8.6
-* Source code: https://github.com/cran/pixiedust
-* URL: https://github.com/nutterb/pixiedust
-* BugReports: https://github.com/nutterb/pixiedust/issues
-* Date/Publication: 2019-01-11 16:40:03 UTC
-* Number of recursive dependencies: 65
-
-Run `revdep_details(,"pixiedust")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 503 | SKIPPED: 120 | WARNINGS: 3 | FAILED: 10 ]
-      1.  Failure: lowercase color (@test-colors.R#8) 
-      2.  Failure: dust with glance_foot (@test-dust.R#79) 
-      3.  Failure: dust with glance_foot and col_pairs a divisor of total_cols (@test-dust.R#85) 
-      4.  Failure: glance_foot by column (@test-glance_foot.R#18) 
-      5.  Failure: glance_foot by row (@test-glance_foot.R#23) 
-      6.  Failure: glance_foot with subset of stats (@test-glance_foot.R#28) 
-      7.  Failure: medley_model (@test-medley.R#17) 
-      8.  Failure: print.dust for markdown output (@test-print.dust-explicit.R#12) 
-      9.  Failure: print.dust for latex output with hhline = FALSE (@test-print.dust-explicit.R#26) 
-      10. Failure: print.dust for latex output with hhline = TRUE (@test-print.dust-explicit.R#33) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘Hmisc’
     ```
 
 # pmdplyr
@@ -5598,45 +4393,6 @@ Run `revdep_details(,"PupillometryR")` for more info
     Namespaces in Imports field not imported from:
       ‘data.table’ ‘fractal’ ‘mgcv’
       All declared Imports should be used.
-    ```
-
-# purrr
-
-<details>
-
-* Version: 0.3.3
-* Source code: https://github.com/cran/purrr
-* URL: http://purrr.tidyverse.org, https://github.com/tidyverse/purrr
-* BugReports: https://github.com/tidyverse/purrr/issues
-* Date/Publication: 2019-10-18 12:40:05 UTC
-* Number of recursive dependencies: 56
-
-Run `revdep_details(,"purrr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-          is_null
-      
-      > 
-      > test_check("purrr")
-      ── 1. Failure: can flatten to a data frame with named lists (@test-flatten.R#82)
-      flatten_dfc(list(1)) not equal to tibble::tibble(V1 = 1).
-      Names: 1 string mismatch
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 768 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 1 ]
-      1. Failure: can flatten to a data frame with named lists (@test-flatten.R#82) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # purrrlyr
@@ -6171,71 +4927,6 @@ Run `revdep_details(,"RNeXML")` for more info
       Execution halted
     ```
 
-*   checking whether the namespace can be unloaded cleanly ... WARNING
-    ```
-    ---- unloading
-    Error in .mergeMethodsTable(generic, mtable, tt, attach) : 
-      trying to get slot "defined" from an object of a basic class ("environment") with no slots
-    Calls: unloadNamespace ... <Anonymous> -> .updateMethodsInTable -> .mergeMethodsTable
-    Execution halted
-    ```
-
-# rsample
-
-<details>
-
-* Version: 0.0.6
-* Source code: https://github.com/cran/rsample
-* URL: https://tidymodels.github.io/rsample, https://github.com/tidymodels/rsample
-* BugReports: https://github.com/tidymodels/rsample/issues
-* Date/Publication: 2020-03-31 19:50:02 UTC
-* Number of recursive dependencies: 98
-
-Run `revdep_details(,"rsample")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘rsample-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: bootstraps
-    > ### Title: Bootstrap Sampling
-    > ### Aliases: bootstraps
-    > 
-    > ### ** Examples
-    > 
-    > bootstraps(mtcars, times = 2)
-    # Bootstrap sampling 
-    # A tibble: 2 x 2
-      splits          id        
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 540 | SKIPPED: 1 | WARNINGS: 0 | FAILED: 11 ]
-      1. Error: apparent (@test_boot.R#28) 
-      2. Error: strata (@test_boot.R#61) 
-      3. Failure: rsplit labels (@test_boot.R#89) 
-      4. Error: (unknown) 
-      5. Failure: rsplit labels (@test_group.R#104) 
-      6. Failure: rsplit labels (@test_mc.R#86) 
-      7. Failure: rsplit labels (@test_nesting.R#71) 
-      8. Failure: rsplit labels (@test_rolling.R#102) 
-      9. Failure: rsplit labels (@test_validation.R#90) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # RSQL
 
 <details>
@@ -6326,6 +5017,14 @@ Run `revdep_details(,"rstatix")` for more info
     Execution halted
     ```
 
+## Newly fixed
+
+*   checking whether package ‘rstatix’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rstatix/old/rstatix.Rcheck/00install.out’ for details.
+    ```
+
 # RTD
 
 <details>
@@ -6410,45 +5109,6 @@ Run `revdep_details(,"ruler")` for more info
       Execution halted
     ```
 
-# RWDataPlyr
-
-<details>
-
-* Version: 0.6.3
-* Source code: https://github.com/cran/RWDataPlyr
-* URL: https://github.com/BoulderCodeHub/RWDataPlyr
-* BugReports: https://github.com/BoulderCodeHub/RWDataPlyr/issues
-* Date/Publication: 2020-03-03 05:40:02 UTC
-* Number of recursive dependencies: 57
-
-Run `revdep_details(,"RWDataPlyr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 645 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 14 ]
-      1. Failure: apply_eval works as expected (@test_apply_eval.R#23) 
-      2. Failure: apply_summary works as expected (@test_apply_summary.R#24) 
-      3. Failure: apply_summary errors correctly (@test_apply_summary.R#124) 
-      4. Failure: 'all' keyword gets all data (@test_rdf_aggregate.R#141) 
-      5. Failure: `cpp` parameters don't change results (@test_rdf_aggregate.R#314) 
-      6. Failure: functions match (@test_rdf_to_tbl2.R#31) 
-      7. Failure: different versions match (@test_rdf_to_tbl2.R#38) 
-      8. Failure: methods match (@test_rdf_to_tbl2.R#65) 
-      9. Failure: methods match (@test_rdf_to_tbl2.R#66) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # sampler
 
 <details>
@@ -6519,7 +5179,7 @@ Run `revdep_details(,"saotd")` for more info
       Attributes: < Component "class": 1 string mismatch >
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 63 | SKIPPED: 0 | WARNINGS: 8 | FAILED: 5 ]
+      [ OK: 63 | SKIPPED: 0 | WARNINGS: 6 | FAILED: 5 ]
       1. Failure: bigrams are computed properly (@test_bigram.R#19) 
       2. Error: (unknown) (@test_number_topics.R#12) 
       3. Failure: Trigrams are computed properly (@test_trigram.R#21) 
@@ -6530,11 +5190,17 @@ Run `revdep_details(,"saotd")` for more info
       Execution halted
     ```
 
-## In both
-
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 826 marked UTF-8 strings
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘saotd’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/saotd/old/saotd.Rcheck/00install.out’ for details.
     ```
 
 # scFeatureFilter
@@ -6630,34 +5296,6 @@ Run `revdep_details(,"seplyr")` for more info
      13.               └─dplyr:::stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
      14.                 └─dplyr:::stop_dplyr(index, dots, fn, "errored", x = conditionMessage(e))
     Execution halted
-    ```
-
-# sergeant
-
-<details>
-
-* Version: 0.5.2
-* Source code: https://github.com/cran/sergeant
-* URL: https://github.com/hrbrmstr/sergeant
-* BugReports: https://github.com/hrbrmstr/sergeant/issues
-* Date/Publication: 2017-07-17 22:36:26 UTC
-* Number of recursive dependencies: 62
-
-Run `revdep_details(,"sergeant")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking S3 generic/method consistency ... WARNING
-    ```
-    src_tbls:
-      function(x, ...)
-    src_tbls.src_drill:
-      function(x)
-    
-    See section ‘Generic functions and methods’ in the ‘Writing R
-    Extensions’ manual.
     ```
 
 # sevenbridges
@@ -7079,6 +5717,14 @@ Run `revdep_details(,"simglm")` for more info
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘simglm’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/simglm/old/simglm.Rcheck/00install.out’ for details.
     ```
 
 # simTool
@@ -7538,51 +6184,25 @@ Run `revdep_details(,"srvyr")` for more info
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    ...
-    Error: Can't combine `..1` <svyby<>> and `..2` <data.frame<>>.
-    Backtrace:
-         █
-      1. ├─`%>%`(...)
-      2. │ ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3. │ └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5. │     └─`_fseq`(`_lhs`)
-      6. │       └─magrittr::freduce(value, `_function_list`)
-      7. │         ├─base::withVisible(function_list[[k]](value))
-      8. │         └─function_list[[k]](value)
-      9. │           ├─srvyr::cascade(...)
-     10. │           └─srvyr:::cascade.grouped_svy(...)
-     11. │             └─base::lapply(...)
-     12. │               └─srvyr:::FUN(X[[i]], ...)
-     13. │                 ├─dplyr::summarise(group_by(.data, !!!rlang::syms(ggg)), !!!dots)
-     14. │                 └─srvyr:::summarise.grouped_svy(...)
-     15. │                   └─base::lapply(...)
-     16. │                     └─srvyr:::FUN(X[[i]], ...)
-     17. │ 
-    Execution halted
-    ```
-
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-        5.         ├─testthat::with_reporter(...)
-        6.         │ ├─base::withRestarts(...)
-        7.         │ │ └─base:::withOneRestart(expr, restarts[[1L]])
-        8.         │ │   └─base:::doWithOneRestart(return(expr), restart)
-        9.         │ └─base::force(code)
-       10.         └─base::lapply(...)
-       11.           └─testthat:::FUN(X[[i]], ...)
-       12.             ├─testthat::with_reporter(...)
-       13.             │ ├─base::withRestarts(...)
-       14.             │ │ └─base:::withOneRestart(expr, restarts[[1L]])
-       15.             │ │   └─base:::doWithOneRestart(return(expr), restart)
-       16.             │ └─base::force(code)
-       17.             └─testthat::source_file(...)
-       18.               └─testthat:::te
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      [ OK: 226 | SKIPPED: 0 | WARNINGS: 37 | FAILED: 9 ]
+      1. Error: DB backed survey tests - RSQLite (@test_database.R#70) 
+      2. Failure: ungrouped proportion works correctly 
+      3. Failure: median/ratio with CIs respect level parameter (grouped) 
+      4. Failure: survey_var works for ungrouped surveys - with se (@test_survey_statistics.r#359) 
+      5. Failure: survey_var works for ungrouped surveys - with ci (@test_survey_statistics.r#374) 
+      6. Failure: survey_var works for ungrouped surveys - with vartype=NULL (@test_survey_statistics.r#388) 
+      7. Failure: survey_var works for grouped surveys - with se (@test_survey_statistics.r#403) 
+      8. Failure: survey_var works for grouped surveys - with ci (@test_survey_statistics.r#419) 
+      9. Failure: survey_var works for grouped surveys - with vartype=NULL (@test_survey_statistics.r#433) 
+      
+      Error: testthat unit tests failed
       Execution halted
     ```
 
@@ -7821,6 +6441,34 @@ Run `revdep_details(,"strapgod")` for more info
       Execution halted
     ```
 
+## Newly fixed
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > ### Title: Create a bootstrapped tibble
+    > ### Aliases: bootstrapify
+    > 
+    > ### ** Examples
+    > 
+    > library(dplyr)
+    
+    Attaching package: ‘dplyr’
+    
+    The following objects are masked from ‘package:stats’:
+    
+        filter, lag
+    
+    The following objects are masked from ‘package:base’:
+    
+        intersect, setdiff, setequal, union
+    
+    > library(broom)
+    Error: package or namespace load failed for ‘broom’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+     namespace ‘tibble’ 2.1.3 is already loaded, but >= 3.0.0 is required
+    Execution halted
+    ```
+
 # StratigrapheR
 
 <details>
@@ -7912,45 +6560,6 @@ Run `revdep_details(,"sugarbag")` for more info
       All declared Imports should be used.
     ```
 
-# sugrrants
-
-<details>
-
-* Version: 0.2.6
-* Source code: https://github.com/cran/sugrrants
-* URL: https://pkg.earo.me/sugrrants
-* BugReports: https://github.com/earowang/sugrrants/issues
-* Date/Publication: 2020-03-10 06:40:02 UTC
-* Number of recursive dependencies: 89
-
-Run `revdep_details(,"sugrrants")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Component "Date_Time": Mean absolute difference: 29919.72
-      Component "Time": Mean relative difference: 0.7226727
-      Component "Sensor_ID": Mean relative difference: 0.7892755
-      Component "Sensor_Name": 66944 string mismatches
-      Component "Hourly_Counts": Mean relative difference: 1.152078
-      Component ".Time": Mean relative difference: 0.0209727
-      Component ".Hourly_Counts": Mean relative difference: 0.01471554
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 37 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 2 ]
-      1. Failure: The tsibble data (@test-calendar.R#126) 
-      2. Failure: The output (@test-calendar.R#225) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # survminer
 
 <details>
@@ -7994,13 +6603,19 @@ Run `revdep_details(,"survminer")` for more info
     Execution halted
     ```
 
-## In both
-
 *   checking installed package size ... NOTE
     ```
       installed size is  5.6Mb
       sub-directories of 1Mb or more:
         doc   5.1Mb
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘survminer’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/survminer/old/survminer.Rcheck/00install.out’ for details.
     ```
 
 # tabr
@@ -8066,58 +6681,6 @@ Run `revdep_details(,"tabr")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# taxadb
-
-<details>
-
-* Version: 0.1.0
-* Source code: https://github.com/cran/taxadb
-* URL: https://docs.ropensci.org/taxadb, https://github.com/ropensci/taxadb
-* BugReports: https://github.com/ropensci/taxadb/issues
-* Date/Publication: 2020-02-19 07:50:02 UTC
-* Number of recursive dependencies: 77
-
-Run `revdep_details(,"taxadb")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       20. dbplyr:::group_by.tbl_lazy(x, ..., .add = TRUE, .drop = .drop)
-       21. dplyr::group_by_prepare(.data, .dots = dots, add = add)
-       22. dplyr:::add_computed_columns(.data, new_groups)
-       23. dplyr:::mutate_cols(.data, !!!vars)
-       24. DataMask$new(.data, caller_env())
-       25. .subset2(public_bind_env, "initialize")(...)
-       26. dplyr::group_rows(data)
-       27. dplyr::group_data(.data)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 63 | SKIPPED: 4 | WARNINGS: 1 | FAILED: 1 ]
-      1. Error: we can handle more intensive comparisons: ITIS test (@test-get_names.R#71) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Packages suggested but not available for checking: 'MonetDBLite', 'duckdb'
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘RSQLite’
-      All declared Imports should be used.
     ```
 
 # textreuse
@@ -8501,45 +7064,6 @@ Run `revdep_details(,"tidyjson")` for more info
       Execution halted
     ```
 
-# tidylog
-
-<details>
-
-* Version: 1.0.0
-* Source code: https://github.com/cran/tidylog
-* URL: https://github.com/elbersb/tidylog/
-* BugReports: https://github.com/elbersb/tidylog/issues
-* Date/Publication: 2020-01-07 14:10:02 UTC
-* Number of recursive dependencies: 50
-
-Run `revdep_details(,"tidylog")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Did you misspecify an argument?
-      Backtrace:
-        1. testthat::expect_message(...)
-        6. tidylog::ungroup(mtcars, mpg)
-        7. tidylog:::log_group_by(...)
-        9. dplyr:::ungroup.data.frame(.data, ...)
-       10. ellipsis::check_dots_empty()
-       11. ellipsis:::action_dots(...)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 261 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 1 ]
-      1. Error: ungroup (@test_group_by.R#38) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # tidymv
 
 <details>
@@ -8608,45 +7132,6 @@ Run `revdep_details(,"tidync")` for more info
     See section 'Cross-references' in the 'Writing R Extensions' manual.
     ```
 
-# tidyquery
-
-<details>
-
-* Version: 0.2.0
-* Source code: https://github.com/cran/tidyquery
-* URL: https://github.com/ianmcook/tidyquery
-* BugReports: https://github.com/ianmcook/tidyquery/issues
-* Date/Publication: 2020-01-20 18:50:03 UTC
-* Number of recursive dependencies: 62
-
-Run `revdep_details(,"tidyquery")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > library(tidyquery)
-      > 
-      > test_check("tidyquery")
-      ── 1. Failure: Aggregate example query #24 returns expected result (@test-aggreg
-      query("SELECT min_age, round(AVG(list_price), 2) AS avg_list_price,\n              0.21 AS tax_rate, round(AVG(list_price) * 1.21, 2) AS avg_list_price_with_tax\n            FROM games\n            GROUP BY min_age;") not equal to `%>%`(...).
-      Names: 2 string mismatches
-      Component 3: Mean relative difference: 0.9903537
-      Component 4: Mean relative difference: 102.6667
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 214 | SKIPPED: 0 | WARNINGS: 1 | FAILED: 1 ]
-      1. Failure: Aggregate example query #24 returns expected result (@test-aggregate.R#279) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # tidyqwi
 
 <details>
@@ -8705,7 +7190,6 @@ Run `revdep_details(,"tidyr")` for more info
 *   checking examples ... ERROR
     ```
     ...
-    Error : Can't combine `..1$y` <character> and `..2$y` <integer>.
     > df %>% unchop(y, ptype = tibble(y = integer()))
     Error: Can't convert `y` <character> to `y` <integer>.
     Backtrace:
@@ -8720,11 +7204,12 @@ Run `revdep_details(,"tidyr")` for more info
       8. │         └─function_list[[k]](value)
       9. │           └─tidyr::unchop(., y, ptype = tibble(y = integer()))
      10. │             └─vctrs::vec_rbind(!!!x, .ptype = ptype)
-     11. └─vctrs::vec_default_cast(x = x, to = to, x_arg = x_arg, to_arg = to_arg)
-     12.   └─vctrs::stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
+     11. └─vctrs::vec_default_cast(...)
+     12.   └─vctrs::stop_incompatible_cast(...)
      13.     └─vctrs:::stop_incompatible_type_convert(...)
      14.       └─vctrs:::stop_incompatible_type_impl(...)
-     15.         └─vctrs:::sto
+     15.         └─vctrs:::stop_incompatible(...)
+     16.           └─vctrs:::stop_vctrs(...)
     Execution halted
     ```
 
@@ -8882,8 +7367,8 @@ Run `revdep_details(,"tidystopwords")` for more info
      1. ├─tidystopwords::generate_stoplist(lang_name = "English")
      2. │ └─dplyr::bind_rows(stoplist_db, ling_filter_db)
      3. │   └─vctrs::vec_rbind(!!!dots, .names_to = .id)
-     4. └─vctrs::vec_default_ptype2(x = x, y = y, x_arg = x_arg, y_arg = y_arg)
-     5.   └─vctrs::stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg)
+     4. └─vctrs::vec_default_ptype2(...)
+     5.   └─vctrs::stop_incompatible_type(...)
      6.     └─vctrs:::stop_incompatible_type_combine(...)
      7.       └─vctrs:::stop_incompatible_type_impl(...)
      8.         └─vctrs:::stop_incompatible(...)
@@ -8896,60 +7381,6 @@ Run `revdep_details(,"tidystopwords")` for more info
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 229801 marked UTF-8 strings
-    ```
-
-# tidytransit
-
-<details>
-
-* Version: 0.7.0
-* Source code: https://github.com/cran/tidytransit
-* URL: https://github.com/r-transit/tidytransit
-* BugReports: https://github.com/r-transit/tidytransit
-* Date/Publication: 2020-03-15 17:30:02 UTC
-* Number of recursive dependencies: 84
-
-Run `revdep_details(,"tidytransit")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       1. base::`[<-`(...)
-       2. tibble:::`[<-.tbl_df`(...)
-       3. tibble:::tbl_subassign(x, i, j, value, i_arg, j_arg, substitute(value))
-       4. tibble:::vectbl_recycle_rhs(...)
-       5. base::tryCatch(...)
-       6. base:::tryCatchList(expr, classes, parentenv, handlers)
-       7. base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
-       8. value[[3L]](cond)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 106 | SKIPPED: 9 | WARNINGS: 0 | FAILED: 1 ]
-      1. Error: travel_times from stop with departures from transfer stops (@test-raptor.R#210) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  6.2Mb
-      sub-directories of 1Mb or more:
-        doc       1.3Mb
-        extdata   4.4Mb
-    ```
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 62 marked UTF-8 strings
     ```
 
 # tidyxl
@@ -9508,105 +7939,6 @@ Run `revdep_details(,"TimeSeriesExperiment")` for more info
       . freq
     ```
 
-# TPP
-
-<details>
-
-* Version: 3.14.1
-* Source code: https://github.com/cran/TPP
-* Date/Publication: 2020-01-31
-* Number of recursive dependencies: 95
-
-Run `revdep_details(,"TPP")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    
-    Filtering fold changes in treatment group: Panobinostat_2
-      Column 7 between 0.4 and 0.6 -> 15 out of 261 proteins passed
-      Column 9 between 0 and 0.3 -> 221 out of 261 proteins passed
-      Column 10 between 0 and 0.2 -> 225 out of 261 proteins passed
-    10 out of 261 proteins passed in total.
-    
-    Experiment with most remaining proteins after filtering: Vehicle_1
-    -> NormP contains 22 proteins.
-    -----------------------------------
-    Computing normalization coefficients:
-    1. Computing fold change medians for proteins in normP.
-    2. Fitting melting curves to medians.
-    -> Experiment with best model fit: Vehicle_1 (R2: 0.9919)
-    3. Computing normalization coefficients
-    Creating QC plots to illustrate median curve fits.
-    -----------------------------------
-    Normalizing all proteins in all experiments.
-    Normalization successfully completed!
-    
-    New names:
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 169 | SKIPPED: 1 | WARNINGS: 255 | FAILED: 26 ]
-      1. Error: NPARC_allok (@test_analyzeTPPTR.R#14) 
-      2. Error: NPARC_allok_output (@test_analyzeTPPTR.R#34) 
-      3. Error: NPARC_allok_plot (@test_analyzeTPPTR.R#61) 
-      4. Error: NPARC_allok_files (@test_analyzeTPPTR.R#94) 
-      5. Error: (unknown) (@test_compute_spline_auc.R#12) 
-      6. Error: (unknown) (@test_create_spline_plots.R#12) 
-      7. Error: (unknown) (@test_evalSplineModel.R#12) 
-      8. Error: (unknown) (@test_extract_fit_factors.R#12) 
-      9. Error: (unknown) (@test_invoke_spline_prediction.R#11) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 13.5Mb
-      sub-directories of 1Mb or more:
-        data           1.9Mb
-        example_data   8.0Mb
-        test_data      1.9Mb
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘broom’
-      All declared Imports should be used.
-    Unexported objects imported by ':::' calls:
-      ‘doParallel:::.options’ ‘mefa:::rep.data.frame’
-      See the note in ?`:::` about the use of this operator.
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    File ‘TPP/R/TPP.R’:
-      .onLoad calls:
-        packageStartupMessage(msgText, "\n")
-    
-    See section ‘Good practice’ in '?.onAttach'.
-    
-    plot_fSta_distribution: no visible binding for global variable
-      ‘..density..’
-    plot_pVal_distribution: no visible binding for global variable
-      ‘..density..’
-    Undefined global functions or variables:
-      ..density..
-    ```
-
 # tree.bins
 
 <details>
@@ -9753,13 +8085,13 @@ Run `revdep_details(,"tsibble")` for more info
 *   checking examples ... ERROR
     ```
     ...
-      fruit: character
-      year : double
-    >> and `..2` <tbl_ts<
-      year : double
-      fruit: character
-      kilo : integer
-    >>.
+    > # gaps as default `NA`
+    > fill_gaps(harvest, .full = TRUE)
+    Warning: Can't combine <tbl_df> and <tbl_ts>.
+    ℹ Convert all inputs to the same class to avoid this warning.
+    ℹ See <https://vctrs.r-lib.org/reference/faq-warning-convert-inputs.html>.
+    ℹ Falling back to <data.frame>.
+    Error: Can't convert <tbl_ts> to <data.frame>.
     Backtrace:
          █
       1. ├─tsibble::fill_gaps(harvest, .full = TRUE)
@@ -9767,9 +8099,9 @@ Run `revdep_details(,"tsibble")` for more info
       3. │ ├─dplyr::group_by(bind_rows(as_tibble(gap_data), .data), !!!grps)
       4. │ └─dplyr::bind_rows(as_tibble(gap_data), .data)
       5. │   └─vctrs::vec_rbind(!!!dots, .names_to = .id)
-      6. └─vctrs::vec_default_ptype2(x = x, y = y, x_arg = x_arg, y_arg = y_arg)
-      7.   └─vctrs::stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg)
-      8.     └─vctrs:::stop_incompatible_type_combine(...)
+      6. └─vctrs::vec_default_cast(...)
+      7.   └─vctrs::stop_incompatible_cast(...)
+      8.     └─vctrs:::stop_incompatible_type_convert(...)
       9.       └─vctrs:::stop_incompatible_type_impl(...)
      10.         └─vctrs:::stop_incompatible(...)
      11.           └─vctrs:::stop_vctrs(...)
@@ -9782,7 +8114,7 @@ Run `revdep_details(,"tsibble")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 505 | SKIPPED: 2 | WARNINGS: 2 | FAILED: 47 ]
+      [ OK: 505 | SKIPPED: 2 | WARNINGS: 16 | FAILED: 47 ]
       1. Error: 4 day interval (@test-append.R#27) 
       2. Error: (unknown) (@test-append.R#31) 
       3. Error: (unknown) (@test-bind.R#11) 
@@ -9844,48 +8176,6 @@ Run `revdep_details(,"unpivotr")` for more info
       Execution halted
     ```
 
-# ushr
-
-<details>
-
-* Version: 0.2.2
-* Source code: https://github.com/cran/ushr
-* URL: https://github.com/SineadMorris/ushr
-* Date/Publication: 2020-03-23 02:50:02 UTC
-* Number of recursive dependencies: 70
-
-Run `revdep_details(,"ushr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    Joining, by = "id"
-    Error: Assigned data `values` must be compatible with existing data.
-    ℹ Error occurred for column `ShortLifespan`.
-    ✖ Can't convert <character> to <double>.
-    Backtrace:
-         █
-      1. └─ushr::summarize_model(model_output, data = simulated_data)
-      2.   └─`%>%`(...)
-      3.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5.       └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      6.         └─ushr:::`_fseq`(`_lhs`)
-      7.           └─magrittr::freduce(value, `_function_list`)
-      8.             ├─base::withVisible(function_list[[k]](value))
-      9.             └─function_list[[k]](value)
-     10.               └─base::replace(., is.na(.), "")
-     11.                 ├─base::`[<-`(`*tmp*`, list, value = "")
-     12.                 └─tibble:::`[<-.tbl_df`(`*tmp*`, list, value = "")
-     13.                   └─tibble:::tbl_subassign_matrix(x, j, value, j_arg, substitute(value))
-     14.        
-    Execution halted
-    ```
-
 # valr
 
 <details>
@@ -9935,20 +8225,28 @@ Run `revdep_details(,"valr")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 387 | SKIPPED: 3 | WARNINGS: 2 | FAILED: 43 ]
+      [ OK: 414 | SKIPPED: 3 | WARNINGS: 26 | FAILED: 24 ]
       1. Error: absdist calculation is correct (@test_absdist.r#22) 
       2. Error: self absdist is 0 (@test_absdist.r#35) 
       3. Error: x ivls without matching y-ivls chroms are reported with absdist = NA (@test_absdist.r#56) 
       4. Error: ensure that absdist is calculated with respect to input tbls issue#108 (@test_absdist.r#87) 
-      5. Error: complement with covering interval (@test_complement.r#12) 
-      6. Error: complement with middle interval (@test_complement.r#30) 
-      7. Error: complement adds final interval (@test_complement.r#49) 
-      8. Error: multiple chroms (@test_complement.r#69) 
-      9. Error: multiple chroms, chr1 is covered (@test_complement.r#88) 
+      5. Error: non-overlapping genome chroms are in output (#78) (@test_complement.r#174) 
+      6. Error: `x` intervals not in genome are ignored (#78) (@test_complement.r#191) 
+      7. Error: nothing is covered (@test_complement.r#241) 
+      8. Error: expr arguments do not need to be x and/or y (@test_glyph.r#31) 
+      9. Error: mismatched groups are dropped by two table verbs (@test_groups.r#34) 
       1. ...
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘valr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/valr/old/valr.Rcheck/00install.out’ for details.
     ```
 
 # vcfR
@@ -10077,52 +8375,6 @@ Creating a generic function for ‘nrow’ from package ‘base’ in package �
 * DONE (vcfR)
 
 ```
-# viafr
-
-<details>
-
-* Version: 0.1.0
-* Source code: https://github.com/cran/viafr
-* URL: https://github.com/stefanieschneider/viafr
-* BugReports: https://github.com/stefanieschneider/viafr/issues
-* Date/Publication: 2019-07-01 11:40:03 UTC
-* Number of recursive dependencies: 55
-
-Run `revdep_details(,"viafr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       55. dplyr:::tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars)
-       59. dplyr:::tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars)
-       61. dplyr:::pull.data.frame(.tbl, tibble_vars[[i]])
-       62. tidyselect::vars_pull(names(.data), !!enquo(var))
-       63. tidyselect:::pull_as_location2(loc, n, vars)
-       71. vctrs::vec_as_location2(i, n = n, names = names, arg = "var")
-       72. vctrs:::result_get(...)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 36 | SKIPPED: 0 | WARNINGS: 31 | FAILED: 2 ]
-      1. Error: query list (@test_search.R#4) 
-      2. Error: valid query (@test_search.R#33) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 2 marked UTF-8 strings
-    ```
-
 # vpc
 
 <details>
@@ -10183,52 +8435,6 @@ Run `revdep_details(,"vpc")` for more info
       Execution halted
     ```
 
-# weathercan
-
-<details>
-
-* Version: 0.3.3
-* Source code: https://github.com/cran/weathercan
-* URL: https://docs.ropensci.org/weathercan, https://github.com/ropensci/weathercan
-* BugReports: https://github.com/ropensci/weathercan/issues
-* Date/Publication: 2020-02-05 14:10:02 UTC
-* Number of recursive dependencies: 129
-
-Run `revdep_details(,"weathercan")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 330 | SKIPPED: 17 | WARNINGS: 4 | FAILED: 39 ]
-      1. Error: weather_interp (hour) interpolates particular columns (@test_01_interpolate.R#182) 
-      2. Error: weather_interp (hour) interpolates 'all' (@test_01_interpolate.R#202) 
-      3. Error: weather_interp (hour) fails on character columns (@test_01_interpolate.R#219) 
-      4. Error: weather_interp (hour) quiet (@test_01_interpolate.R#228) 
-      5. Failure: weather_interp (day) interpolates particular columns (@test_01_interpolate.R#265) 
-      6. Failure: weather_interp (day) interpolates particular columns (@test_01_interpolate.R#265) 
-      7. Error: weather_interp (day) interpolates particular columns (@test_01_interpolate.R#270) 
-      8. Error: weather_interp (day) interpolates 'all' (@test_01_interpolate.R#289) 
-      9. Error: weather_interp (day) skips character columns (@test_01_interpolate.R#313) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 72 marked UTF-8 strings
-    ```
-
 # xpose
 
 <details>
@@ -10249,12 +8455,6 @@ Run `revdep_details(,"xpose")` for more info
 *   checking examples ... ERROR
     ```
     ...
-      rse     : character
-      fixed   : character
-      diagonal: character
-      m       : character
-      n       : character
-    >>.
     Backtrace:
          █
       1. ├─xpose::prm_table(xpdb_ex_pk, .problem = 1)
@@ -10268,7 +8468,13 @@ Run `revdep_details(,"xpose")` for more info
       9. │       └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
      10. │         └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
      11. │           └─xpose:::`_fseq`(`_lhs`)
-     12. │             └─magrittr::freduce(value
+     12. │             └─magrittr::freduce(value, `_function_list`)
+     13. │               └─function_list[[i]](value)
+     14. │                 └─dplyr::bind_rows(header, .)
+     15. │                   └─vctrs::vec_rbind(!!!dots, .names_to = .id)
+     16. └─vctrs::vec_default_cast(...)
+     17.   └─vctrs::stop_incompatible_cast(...)
+     18.     └─vctrs:::stop_inco
     Execution halted
     ```
 
@@ -10278,7 +8484,7 @@ Run `revdep_details(,"xpose")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 416 | SKIPPED: 6 | WARNINGS: 15 | FAILED: 10 ]
+      [ OK: 416 | SKIPPED: 6 | WARNINGS: 21 | FAILED: 10 ]
       1.  Error: (unknown) (@test-console_outputs.R#4) 
       2.  Error: (unknown) (@test-edits.R#17) 
       3.  Failure: fetch_data can get simple data (@test-fetch_data.R#39) 
@@ -10347,54 +8553,6 @@ Run `revdep_details(,"yamlet")` for more info
 </details>
 
 ## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    Error: `vec_restore.factor()` is implemented at C level.
-    This R function is purely indicative and should never be called.
-    Backtrace:
-         █
-      1. ├─utils::example(print.dg)
-      2. │ └─base::source(...)
-      3. │   ├─base::withVisible(eval(ei, envir))
-      4. │   └─base::eval(ei, envir)
-      5. │     └─base::eval(ei, envir)
-      6. ├─`%>%`(...) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmpl1S5Eo/Rex1618512a429e:19:0
-      7. │ ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      8. │ └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      9. │   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-     10. │     └─`_fseq`(`_lhs`)
-     11. │       └─magrittr::freduce(value, `_function_list`)
-     12. │         └─function_list[[i]](value)
-     13. │           ├─dplyr::filter(., !is.na(conc))
-     14. │           ├─yamlet:::filter.decorated(., !is.na(conc))
-     15. │           │ └─yamlet::as_decorated(NextMethod())
-     16. │           
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > test_check("yamlet")
-      ── 1. Error: dplyr filter does not drop attributes (@test-yamlet.R#255)  ───────
-      `vec_restore.factor()` is implemented at C level.
-      This R function is purely indicative and should never be called.
-      Backtrace:
-        1. testthat::expect_true(...)
-       25. vctrs:::vec_restore.factor(x = x, to = to, n = n)
-       26. vctrs:::stop_native_implementation("vec_restore.factor")
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 127 | SKIPPED: 3 | WARNINGS: 59 | FAILED: 1 ]
-      1. Error: dplyr filter does not drop attributes (@test-yamlet.R#255) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
 
 *   checking Rd cross-references ... WARNING
     ```
