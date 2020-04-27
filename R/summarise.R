@@ -149,36 +149,35 @@ grouped_mean <- function(x, na.rm = FALSE) {
   vec_c(!!!res)
 }
 
-hybrid <- function(x) x
+hybrid_functions <- env(
+  empty_env(),
+  mean = function(x, ...) {
+    call <- match.call()
+    mask <- peek_mask()
+    vars <- mask$current_vars()
 
-peep <- function(args, expr) {
-  expr[[1L]] <- new_function(args, expr(match.call()))
-  node_cdr(eval(expr))
-}
+    stopifnot(is_symbol(call$x) && as_string(call$x) %in% vars)
+    if (identical(names(call), c("", "x"))) {
+      grouped_mean(x, na.rm = TRUE)
+    } else if(identical(names(call), c("", "x", "na.rm"))) {
+      na.rm <- call$na.rm
+      stopifnot(is_scalar_logical(na.rm))
+      grouped_mean(x, na.rm = na.rm)
+    }
+  },
+  n = function() {
+    list_sizes(peek_mask()$get_rows())
+  }
+)
+
 
 hybrid_eval_summarise <- function(expr, mask) {
-  fn <- new_function(mask$args(), NULL)
-  vars <- mask$current_vars()
-
-  result <- NULL
   if (is_call(expr, "hybrid")) {
-    body(fn) <- node_cadr(expr)
-  } else if (is_call(expr, "mean")) {
-    args <- peep(formals(mean), expr)
-
-    # x must be a symbol that corresponds to a column in the mask
-    x <- node_car(args)
-    if (is_symbol(x) && as_string(x) %in% vars) {
-      node <- node_cdr(args)
-
-      if (is.null(node) || (node_tag(node) == sym("na.rm") && is_scalar_logical(node_car(node)))) {
-        expr[[1L]] <- grouped_mean
-        body(fn) <- expr
-      }
-    }
-  } else if (is_call(expr, "n")) {
-    result <- list_sizes(mask$get_rows())
+    fn <- new_function(mask$args(), node_cadr(expr))
+  } else {
+    fn <- new_function(mask$args(), expr, env = hybrid_functions)
   }
+  result <- fn()
 
   if (is.null(result)) {
     result <- fn()
