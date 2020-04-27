@@ -56,6 +56,11 @@
 #'   rowwise(sim) %>%
 #'   summarise(z = list(rnorm(n, mean, sd)))
 rowwise <- function(data, ...) {
+  UseMethod("rowwise")
+}
+
+#' @export
+rowwise.data.frame <- function(data, ...) {
   vars <- tidyselect::eval_select(expr(c(...)), data, include = group_vars(data))
   rowwise_df(data, vars)
 }
