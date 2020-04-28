@@ -135,9 +135,9 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
   if (is.null(.groups) || identical(.groups, "drop_last")) {
     n <- length(group_vars)
     if (n > 1) {
-      if (is.null(.groups)) {
+      if (is.null(.groups) && is_reference(topenv(caller_env()), global_env())) {
         inform(
-          glue('Grouping by {new_groups} (`.groups = "drop_last")`',
+          glue('Regrouping by {new_groups} (`.groups = "drop_last")`',
                new_groups = glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
           )
         )
