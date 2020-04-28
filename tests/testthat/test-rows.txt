@@ -12,7 +12,7 @@ Insert
 ======
 
 > rows_insert(data, tibble(a = 4, b = "z"))
-Message: Matching `by = "a"
+Message: Matching, by = "a"
 
 # A tibble: 4 x 3
       a b         c
@@ -23,7 +23,7 @@ Message: Matching `by = "a"
 4     4 z      NA  
 
 > rows_insert(data, tibble(a = 3, b = "z"))
-Message: Matching `by = "a"
+Message: Matching, by = "a"
 
 Error: Attempting to insert duplicate rows.
 
@@ -32,7 +32,7 @@ Update
 ======
 
 > rows_update(data, tibble(a = 2:3, b = "z"))
-Message: Matching `by = "a"
+Message: Matching, by = "a"
 
 # A tibble: 3 x 3
       a b         c
@@ -54,7 +54,7 @@ Variants: patch and upsert
 ==========================
 
 > rows_patch(data, tibble(a = 2:3, b = "z"))
-Message: Matching `by = "a"
+Message: Matching, by = "a"
 
 # A tibble: 3 x 3
       a b         c
@@ -64,7 +64,7 @@ Message: Matching `by = "a"
 3     3 z       2.5
 
 > rows_upsert(data, tibble(a = 2:4, b = "z"))
-Message: Matching `by = "a"
+Message: Matching, by = "a"
 
 # A tibble: 4 x 3
       a b         c
@@ -79,7 +79,7 @@ Delete and truncate
 ===================
 
 > rows_delete(data, tibble(a = 2:4))
-Message: Matching `by = "a"
+Message: Matching, by = "a"
 
 # A tibble: 1 x 3
       a b         c
@@ -87,7 +87,7 @@ Message: Matching `by = "a"
 1     1 a       0.5
 
 > rows_delete(data, tibble(a = 2:4, b = "b"))
-Message: Matching `by = "a"
+Message: Matching, by = "a"
 
 # A tibble: 1 x 3
       a b         c
@@ -110,17 +110,17 @@ Errors
 ======
 
 > rows_insert(data[c(1, 1), ], tibble(a = 3))
-Message: Matching `by = "a"
+Message: Matching, by = "a"
 
 Error: `x` key values are not unique
 
 > rows_insert(data, tibble(a = c(4, 4)))
-Message: Matching `by = "a"
+Message: Matching, by = "a"
 
 Error: `y` key values are not unique
 
 > rows_insert(data, tibble(d = 4))
-Message: Matching `by = "d"
+Message: Matching, by = "d"
 
 Error: All columns in `y` must exist in `x`.
 
