@@ -80,12 +80,12 @@ rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 
 #' @export
 rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
-  key <- check_key(by, x, y)
+  key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  df_in_place(in_place)
+  rows_df_in_place(in_place)
 
-  check_key_df(x, key, df_name = "x")
-  check_key_df(y, key, df_name = "y")
+  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(y, key, df_name = "y")
 
   idx <- vctrs::vec_match(y[key], x[key])
   bad <- which(!is.na(idx))
@@ -108,12 +108,12 @@ rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 
 #' @export
 rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
-  key <- check_key(by, x, y)
+  key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  df_in_place(in_place)
+  rows_df_in_place(in_place)
 
-  check_key_df(x, key, df_name = "x")
-  check_key_df(y, key, df_name = "y")
+  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(y, key, df_name = "y")
   idx <- vctrs::vec_match(y[key], x[key])
 
   bad <- which(is.na(idx))
@@ -137,12 +137,12 @@ rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 
 #' @export
 rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
-  key <- check_key(by, x, y)
+  key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  df_in_place(in_place)
+  rows_df_in_place(in_place)
 
-  check_key_df(x, key, df_name = "x")
-  check_key_df(y, key, df_name = "y")
+  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(y, key, df_name = "y")
   idx <- vctrs::vec_match(y[key], x[key])
 
   bad <- which(is.na(idx))
@@ -168,12 +168,12 @@ rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 
 #' @export
 rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
-  key <- check_key(by, x, y)
+  key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  df_in_place(in_place)
+  rows_df_in_place(in_place)
 
-  check_key_df(x, key, df_name = "x")
-  check_key_df(y, key, df_name = "y")
+  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(y, key, df_name = "y")
   idx <- vctrs::vec_match(y[key], x[key])
   new <- is.na(idx)
   idx_existing <- idx[!new]
@@ -192,12 +192,12 @@ rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 
 #' @export
 rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
-  key <- check_key(by, x, y)
+  key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  df_in_place(in_place)
+  rows_df_in_place(in_place)
 
-  check_key_df(x, key, df_name = "x")
-  check_key_df(y, key, df_name = "y")
+  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(y, key, df_name = "y")
 
   extra_cols <- setdiff(names(y), key)
   if (has_length(extra_cols)) {
@@ -221,7 +221,7 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 
 # helpers -----------------------------------------------------------------
 
-check_key <- function(by, x, y) {
+rows_check_key <- function(by, x, y) {
   if (is.null(by)) {
     by <- names(y)[[1]]
     inform(glue("Matching, by = \"{by}\""),
@@ -245,7 +245,7 @@ check_key <- function(by, x, y) {
   by
 }
 
-check_key_df <- function(df, by, df_name) {
+rows_check_key_df <- function(df, by, df_name) {
   y_miss <- setdiff(by, colnames(df))
   if (length(y_miss) > 0) {
     abort(glue("All `by` columns must exist in `{df_name}`."))
@@ -255,7 +255,7 @@ check_key_df <- function(df, by, df_name) {
   }
 }
 
-df_in_place <- function(in_place) {
+rows_df_in_place <- function(in_place) {
   if (is_true(in_place)) {
     abort("Data frames only support `in_place = FALSE`")
   }
