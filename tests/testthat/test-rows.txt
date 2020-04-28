@@ -89,6 +89,8 @@ Message: Matching, by = "a"
 > rows_delete(data, tibble(a = 2:4, b = "b"))
 Message: Matching, by = "a"
 
+Message: Ignoring extra columns: b
+
 # A tibble: 1 x 3
       a b         c
   <int> <chr> <dbl>

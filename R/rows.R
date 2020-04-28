@@ -181,6 +181,14 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 
   check_key_df(x, key, df_name = "x")
   check_key_df(y, key, df_name = "y")
+
+  extra_cols <- setdiff(names(y), key)
+  if (has_length(extra_cols)) {
+    inform(glue("Ignoring extra columns: ", commas(tick_if_needed(extra_cols))),
+      class = c("dplyr_message_delete_extra_cols", "dplyr_message")
+    )
+  }
+
   idx <- vctrs::vec_match(y[key], x[key])
 
   dplyr_row_slice(x, -idx[!is.na(idx)])
