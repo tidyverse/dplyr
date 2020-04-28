@@ -116,6 +116,14 @@ rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
   check_key_df(y, key, df_name = "y")
   idx <- vctrs::vec_match(y[key], x[key])
 
+  bad <- which(is.na(idx))
+  if (has_length(bad)) {
+    abort(class = "dplyr_rows_update_missing",
+      "Attempting to update missing rows.",
+      location = bad
+    )
+  }
+
   x[idx, names(y)] <- y
   x
 }
@@ -136,6 +144,15 @@ rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place =
   check_key_df(x, key, df_name = "x")
   check_key_df(y, key, df_name = "y")
   idx <- vctrs::vec_match(y[key], x[key])
+
+  bad <- which(is.na(idx))
+  if (has_length(bad)) {
+    abort(class = "dplyr_rows_patch_missing",
+      "Attempting to patch missing rows.",
+      location = bad
+    )
+  }
+
   new_data <- map2(x[idx, names(y)], y, coalesce)
 
   x[idx, names(y)] <- new_data
@@ -191,28 +208,15 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 
   idx <- vctrs::vec_match(y[key], x[key])
 
-  dplyr_row_slice(x, -idx[!is.na(idx)])
-}
+  bad <- which(is.na(idx))
+  if (has_length(bad)) {
+    abort(class = "dplyr_rows_delete_missing",
+      "Attempting to delete missing rows.",
+      location = bad
+    )
+  }
 
-#' rows_truncate
-#'
-#' `rows_truncate()` removes all rows.
-#' This operation corresponds to `TRUNCATE` in SQL.
-#' `...` is ignored.
-#'
-#' @inheritParams rows_insert
-#' @param x A data frame or data frame extension (e.g. a tibble).
-#' @export
-rows_truncate <- function(x, ..., copy = FALSE, in_place = FALSE) {
-  ellipsis::check_dots_used()
-  UseMethod("rows_truncate", x)
-}
-
-#' @export
-rows_truncate.data.frame <- function(x, ..., copy = FALSE, in_place = FALSE) {
-  df_in_place(in_place)
-
-  dplyr_row_slice(x, integer())
+  dplyr_row_slice(x, -idx)
 }
 
 # helpers -----------------------------------------------------------------

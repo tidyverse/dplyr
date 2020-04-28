@@ -41,6 +41,9 @@ Message: Matching, by = "a"
 2     2 z       1.5
 3     3 z       2.5
 
+> rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))
+Error: Attempting to update missing rows.
+
 > rows_update(data, tibble(b = "z", a = 2:3), by = "a")
 # A tibble: 3 x 3
       a b         c
@@ -63,6 +66,9 @@ Message: Matching, by = "a"
 2     2 b       1.5
 3     3 z       2.5
 
+> rows_patch(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))
+Error: Attempting to patch missing rows.
+
 > rows_upsert(data, tibble(a = 2:4, b = "z"))
 Message: Matching, by = "a"
 
@@ -78,7 +84,7 @@ Message: Matching, by = "a"
 Delete and truncate
 ===================
 
-> rows_delete(data, tibble(a = 2:4))
+> rows_delete(data, tibble(a = 2:3))
 Message: Matching, by = "a"
 
 # A tibble: 1 x 3
@@ -86,7 +92,12 @@ Message: Matching, by = "a"
   <int> <chr> <dbl>
 1     1 a       0.5
 
-> rows_delete(data, tibble(a = 2:4, b = "b"))
+> rows_delete(data, tibble(a = 2:4))
+Message: Matching, by = "a"
+
+Error: Attempting to delete missing rows.
+
+> rows_delete(data, tibble(a = 2:3, b = "b"))
 Message: Matching, by = "a"
 
 Message: Ignoring extra columns: b
@@ -96,16 +107,8 @@ Message: Ignoring extra columns: b
   <int> <chr> <dbl>
 1     1 a       0.5
 
-> rows_delete(data, tibble(a = 2:4, b = "b"), by = c("a", "b"))
-# A tibble: 2 x 3
-      a b         c
-  <int> <chr> <dbl>
-1     1 a       0.5
-2     3 <NA>    2.5
-
-> rows_truncate(data)
-# A tibble: 0 x 3
-# ... with 3 variables: a <int>, b <chr>, c <dbl>
+> rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b"))
+Error: Attempting to delete missing rows.
 
 
 Errors
