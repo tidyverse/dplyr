@@ -96,7 +96,7 @@ rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
     )
   }
 
-  vctrs::vec_rbind(x, y)
+  rows_bind(x, y)
 }
 
 #' @rdname rows
@@ -180,7 +180,7 @@ rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
   idx_new <- idx[new]
 
   x[idx_existing, names(y)] <- vec_slice(y, !new)
-  vctrs::vec_rbind(x, vec_slice(y, new))
+  rows_bind(x, vec_slice(y, new))
 }
 
 #' @rdname rows
@@ -259,4 +259,8 @@ rows_df_in_place <- function(in_place) {
   if (is_true(in_place)) {
     abort("Data frames only support `in_place = FALSE`")
   }
+}
+
+rows_bind <- function(x, y) {
+  dplyr_reconstruct(vctrs::vec_rbind(x, y), x)
 }
