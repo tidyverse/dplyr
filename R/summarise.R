@@ -41,7 +41,7 @@
 #'   * A vector of length 1, e.g. `min(x)`, `n()`, or `sum(is.na(y))`.
 #'   * A vector of length `n`, e.g. `quantile()`.
 #'   * A data frame, to add multiple columns from a single expression.
-#' @param .groups Grouping structure of the result.
+#' @param .groups \Sexpr[results=rd]{lifecycle::badge("experimental")} Grouping structure of the result.
 #'
 #'   * "drop_last": dropping the last level of grouping. This was the
 #'   only supported option before version 1.0.0.

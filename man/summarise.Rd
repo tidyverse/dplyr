@@ -24,7 +24,7 @@ The value can be:
 \item A data frame, to add multiple columns from a single expression.
 }}
 
-\item{.groups}{Grouping structure of the result.
+\item{.groups}{\Sexpr[results=rd]{lifecycle::badge("experimental")} Grouping structure of the result.
 \itemize{
 \item "drop_last": dropping the last level of grouping. This was the
 only supported option before version 1.0.0.
