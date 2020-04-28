@@ -139,16 +139,6 @@ summarise.rowwise_df <- function(.data, ...) {
   rowwise_df(out, group_vars(.data))
 }
 
-grouped_mean <- function(x, na.rm = FALSE) {
-  # TODO: rewrite in C++
-  if (na.rm) {
-    x <- map(x, function(.x) .x[!is.na(.x)])
-  }
-  res <- map(x, function(.x) mean.default(.x))
-
-  vec_c(!!!res)
-}
-
 hybrid_functions <- env(
   empty_env(),
   mean = function(x, ...) {
@@ -158,11 +148,11 @@ hybrid_functions <- env(
 
     stopifnot(is_symbol(call$x) && as_string(call$x) %in% vars)
     if (identical(names(call), c("", "x"))) {
-      grouped_mean(x, na.rm = TRUE)
+      funs::grouped_mean(x, na.rm = TRUE)
     } else if(identical(names(call), c("", "x", "na.rm"))) {
       na.rm <- call$na.rm
       stopifnot(is_scalar_logical(na.rm))
-      grouped_mean(x, na.rm = na.rm)
+      funs::grouped_mean(x, na.rm = na.rm)
     }
   },
   n = function() {
