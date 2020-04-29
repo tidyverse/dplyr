@@ -186,7 +186,7 @@
 <span class="co">#&gt; Joining, by = "carrier"</span>
 <span class="co">#&gt; # A tibble: 336,776 x 9</span>
 <span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name                  </span>
-<span class="co">#&gt; * &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                 </span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                 </span>
 <span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      United Air Lines Inc. </span>
 <span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      United Air Lines Inc. </span>
 <span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      American Airlines Inc.</span>
@@ -204,7 +204,7 @@
 <span class="co">#&gt; Joining, by = c("year", "month", "day", "hour", "origin")</span>
 <span class="co">#&gt; # A tibble: 336,776 x 18</span>
 <span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier  temp  dewp humid</span>
-<span class="co">#&gt; * &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA       39.0  28.0  64.4</span>
 <span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8</span>
 <span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span>
@@ -219,7 +219,7 @@
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">flights2</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">planes</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"tailnum"</span>)
 <span class="co">#&gt; # A tibble: 336,776 x 16</span>
 <span class="co">#&gt;   year.x month   day  hour origin dest  tailnum carrier year.y type </span>
-<span class="co">#&gt; *  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1   2013     1     1     5 EWR    IAH   N14228  UA        1999 Fixe…</span>
 <span class="co">#&gt; 2   2013     1     1     5 LGA    IAH   N24211  UA        1998 Fixe…</span>
 <span class="co">#&gt; 3   2013     1     1     5 JFK    MIA   N619AA  AA        1990 Fixe…</span>
@@ -235,7 +235,7 @@
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">flights2</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dest"</span> <span class="kw">=</span> <span class="st">"faa"</span>))
 <span class="co">#&gt; # A tibble: 336,776 x 15</span>
 <span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span>
-<span class="co">#&gt; * &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Geor…  30.0 -95.3    97</span>
 <span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      Geor…  30.0 -95.3    97</span>
 <span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      Miam…  25.8 -80.3     8</span>
@@ -246,7 +246,7 @@
 <span class="no">flights2</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"origin"</span> <span class="kw">=</span> <span class="st">"faa"</span>))
 <span class="co">#&gt; # A tibble: 336,776 x 15</span>
 <span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span>
-<span class="co">#&gt; * &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Newa…  40.7 -74.2    18</span>
 <span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      La G…  40.8 -73.9    22</span>
 <span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      John…  40.6 -73.8    13</span>
@@ -289,7 +289,7 @@
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;       x     y     a b    </span>
-<span class="co">#&gt; * &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1     1     2    10 a    </span>
 <span class="co">#&gt; 2     2     1    NA &lt;NA&gt;</span></pre></body></html></div>
 </li>
@@ -299,14 +299,14 @@
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;       x     y     a b    </span>
-<span class="co">#&gt; * &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1     1     2    10 a    </span>
 <span class="co">#&gt; 2     3    NA    10 a</span>
 <span class="no">df2</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">df1</span>)
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;       x     a b         y</span>
-<span class="co">#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt;</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     1    10 a         2</span>
 <span class="co">#&gt; 2     3    10 a        NA</span></pre></body></html></div>
 </li>
@@ -316,7 +316,7 @@
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt;       x     y     a b    </span>
-<span class="co">#&gt; * &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1     1     2    10 a    </span>
 <span class="co">#&gt; 2     2     1    NA &lt;NA&gt; </span>
 <span class="co">#&gt; 3     3    NA    10 a</span></pre></body></html></div>
@@ -335,7 +335,7 @@
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 5 x 3</span>
 <span class="co">#&gt;       x     y z    </span>
-<span class="co">#&gt; * &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1     1     1 a    </span>
 <span class="co">#&gt; 2     1     1 b    </span>
 <span class="co">#&gt; 3     1     2 a    </span>
@@ -360,7 +360,7 @@
   <span class="fu"><a href="../reference/count.html">count</a></span>(<span class="no">tailnum</span>, <span class="kw">sort</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; # A tibble: 722 x 2</span>
 <span class="co">#&gt;   tailnum     n</span>
-<span class="co">#&gt; * &lt;chr&gt;   &lt;int&gt;</span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1 &lt;NA&gt;     2512</span>
 <span class="co">#&gt; 2 N725MQ    575</span>
 <span class="co">#&gt; 3 N722MQ    513</span>
