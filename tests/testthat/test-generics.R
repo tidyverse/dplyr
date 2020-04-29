@@ -50,3 +50,38 @@ test_that("doesn't expand row names", {
 
   expect_equal(.row_names_info(out, 1), -10)
 })
+
+# dplyr_reconstruct -------------------------------------------------------
+
+test_that("classes are restored", {
+  expect_identical(
+    dplyr_reconstruct(tibble(), data.frame()),
+    data.frame()
+  )
+  expect_identical(
+    dplyr_reconstruct(tibble(), tibble()),
+    tibble()
+  )
+  expect_identical(
+    dplyr_reconstruct(tibble(), new_data_frame(class = "foo")),
+    new_data_frame(class = "foo")
+  )
+})
+
+test_that("attributes of `template` are kept", {
+  expect_identical(
+    dplyr_reconstruct(new_tibble(list(), nrow = 1), new_data_frame(foo = 1)),
+    new_data_frame(n = 1L, foo = 1)
+  )
+})
+
+test_that("row names", {
+  data <- vec_rbind(tibble(a = 1), tibble(a = 2))
+  template <- tibble()
+  expect <- tibble(a = c(1, 2))
+
+  expect_identical(
+    .row_names_info(dplyr_reconstruct(data, template), type = 0L),
+    .row_names_info(expect, type = 0L)
+  )
+})
