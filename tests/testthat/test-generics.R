@@ -75,13 +75,18 @@ test_that("attributes of `template` are kept", {
   )
 })
 
-test_that("row names", {
+test_that("compact row names are retained", {
   data <- vec_rbind(tibble(a = 1), tibble(a = 2))
   template <- tibble()
+
+  x <- dplyr_reconstruct(data, template)
   expect <- tibble(a = c(1, 2))
 
+  expect_identical(x, expect)
+
+  # Explicitly ensure internal row name structure is identical
   expect_identical(
-    .row_names_info(dplyr_reconstruct(data, template), type = 0L),
+    .row_names_info(x, type = 0L),
     .row_names_info(expect, type = 0L)
   )
 })
