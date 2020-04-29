@@ -1,3 +1,6 @@
+# To turn on warnings from tibble::`names<-()`
+local_options(lifecycle_verbosity = "error")
+
 test_that("empty arrange() returns input", {
   df <- tibble(x = 1:10, y = 1:10)
   gf <- group_by(df, x)
