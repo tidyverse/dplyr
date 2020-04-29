@@ -158,22 +158,12 @@ dplyr_reconstruct <- function(data, template) {
 
 #' @export
 dplyr_reconstruct.data.frame <- function(data, template) {
-  attr_old <- attributes(template)
-  attr_new <- attributes(data)
+  attrs <- attributes(template)
 
-  to_copy <- setdiff(names(attr_old), c("class", "row.names", "names", ".drop"))
-  attr_new[to_copy] <- attr_old[to_copy]
+  attrs$names <- names(data)
+  attrs$row.names <- .row_names_info(data, type = 0L)
 
-  # `new_data_frame()` will add the `"data.frame"` class
-  class <- setdiff(class(template), "data.frame")
-  attr_new[["class"]] <- NULL
-  if (is.integer(attr_new[["row.names"]])) {
-    attr_new[["row.names"]] <- NULL
-  }
-
-  size <- vec_size(data)
-
-  data <- exec(new_data_frame, x = data, n = size, class = class, !!! attr_new)
+  attributes(data) <- attrs
 
   data
 }
