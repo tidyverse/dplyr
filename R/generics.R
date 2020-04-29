@@ -167,9 +167,7 @@ dplyr_reconstruct.data.frame <- function(data, template) {
   # `new_data_frame()` will add the `"data.frame"` class
   class <- setdiff(class(template), "data.frame")
   attr_new[["class"]] <- NULL
-  if (is.integer(attr_new[["row.names"]])) {
-    attr_new[["row.names"]] <- NULL
-  }
+  attr_new[["row.names"]] <- .row_names_info(data, 0L)
 
   size <- vec_size(data)
 
