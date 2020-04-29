@@ -1,5 +1,5 @@
 # To turn on warnings from tibble::`names<-()`
-local_options(lifecycle_verbosity = "error")
+local_options(lifecycle_verbosity = "warning")
 
 test_that("empty arrange() returns input", {
   df <- tibble(x = 1:10, y = 1:10)
