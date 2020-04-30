@@ -5,11 +5,32 @@
 #'
 #' `nest_by()` is closely related to [group_by()]. However, instead of storing
 #' the group structure in the metadata, it makes it explicit in the data,
-#' giving each group key a single row with a list-column of data frames that
-#' contain all the other data.
+#' giving each group key a single row along with a list-column of data frames
+#' that contain all the other data.
+#'
+#' It returns a [rowwise] data frame, which makes operations on the grouped
+#' data particularly elegant. See `vignette("rowwise")` for more details.
+#'
+#' @details
+#' Note that is `df %>% nest_by(x, y)` is roughly equivalent to
+#'
+#' ```
+#' df %>%
+#'   group_by(x, y) %>%
+#'   summarise(data = list(cur_data())) %>%
+#'   rowwise()
+#' ```
+#'
+#' If you want to unnest a nested data frame, you can either use
+#' `tidy::unnest()` or take advantage of `summarise()`s mutli-row behaviour:
+#'
+#' ```
+#' nested %>%
+#'   summarise(data)
+#' ```
 #'
 #' @return
-#' A [rowwise()] data frame. The output has the following properties:
+#' A [rowwise] data frame. The output has the following properties:
 #'
 #' * The rows come from the underlying [group_keys()].
 #' * The columns are the grouping keys plus one list-column of data frames.
@@ -43,6 +64,14 @@
 #' models
 #'
 #' models %>% summarise(rsq = summary(model)$r.squared)
+#' # This particularly elegant with the broom functions
+#' if (requireNamespace("broom", quietly = TRUE)) {
+#'   models %>% summarise(broom::glance(model))
+#'   models %>% summarise(broom::tidy(model))
+#' }
+#'
+#' # Note that you can also summarise to unnest the data
+#' models %>% summarise(data)
 nest_by <- function(.data, ..., .key = "data", .keep = FALSE, .add = FALSE) {
   UseMethod("nest_by")
 }

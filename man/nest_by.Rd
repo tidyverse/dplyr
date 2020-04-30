@@ -27,7 +27,7 @@ creating a new grouping variable called \code{add}, and conflicts with
 our naming conventions.}
 }
 \value{
-A \code{\link[=rowwise]{rowwise()}} data frame. The output has the following properties:
+A \link{rowwise} data frame. The output has the following properties:
 \itemize{
 \item The rows come from the underlying \code{\link[=group_keys]{group_keys()}}.
 \item The columns are the grouping keys plus one list-column of data frames.
@@ -44,8 +44,23 @@ with matching rows of the remaining columns.
 
 \code{nest_by()} is closely related to \code{\link[=group_by]{group_by()}}. However, instead of storing
 the group structure in the metadata, it makes it explicit in the data,
-giving each group key a single row with a list-column of data frames that
-contain all the other data.
+giving each group key a single row along with a list-column of data frames
+that contain all the other data.
+
+It returns a \link{rowwise} data frame, which makes operations on the grouped
+data particularly elegant. See \code{vignette("rowwise")} for more details.
+}
+\details{
+Note that is \code{df \%>\% nest_by(x, y)} is roughly equivalent to\preformatted{df \%>\%
+  group_by(x, y) \%>\%
+  summarise(data = list(cur_data())) \%>\%
+  rowwise()
+}
+
+If you want to unnest a nested data frame, you can either use
+\code{tidy::unnest()} or take advantage of \code{summarise()}s mutli-row behaviour:\preformatted{nested \%>\%
+  summarise(data)
+}
 }
 \section{Methods}{
 
@@ -69,5 +84,13 @@ models <- mtcars \%>\%
 models
 
 models \%>\% summarise(rsq = summary(model)$r.squared)
+# This particularly elegant with the broom functions
+if (requireNamespace("broom", quietly = TRUE)) {
+  models \%>\% summarise(broom::glance(model))
+  models \%>\% summarise(broom::tidy(model))
+}
+
+# Note that you can also summarise to unnest the data
+models \%>\% summarise(data)
 }
 \keyword{internal}
