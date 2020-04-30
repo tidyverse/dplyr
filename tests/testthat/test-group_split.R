@@ -101,4 +101,29 @@ test_that("group_split() on a rowwise df returns a list of tibbles", {
   expect_identical(group_split(rdf), expect)
 })
 
+test_that("group_split() internally uses dplyr_row_slice()", {
+  df <- new_tibble(list(x = c(1, 2, 2)), nrow = 3L, class = "foo_df")
+
+  local_methods(
+    dplyr_row_slice.foo_df = function(x, i, ...) {
+      signal("", class = "dplyr_row_slice_called")
+      NextMethod()
+    }
+  )
+
+  expect_condition(group_split(df), class = "dplyr_row_slice_called")
+})
+
+test_that("group_split(keep = FALSE) internally uses [", {
+  df <- new_tibble(list(x = c(1, 2)), nrow = 2L, class = "foo_df")
+
+  local_methods(
+    `[.foo_df` = function(x, i, ...) {
+      signal("", class = "[_called")
+      NextMethod()
+    }
+  )
+
+  expect_condition(group_split(df, x, keep = FALSE), class = "[_called")
+})
 
