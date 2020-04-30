@@ -112,15 +112,7 @@ group_split.grouped_df <- function(.tbl, ..., keep = TRUE) {
 group_split_impl <- function(data, grouped_data) {
   indices <- group_rows(grouped_data)
 
-  n <- length(indices)
-
-  out <- vector("list", n)
-
-  for (i in seq_len(n)) {
-    index <- indices[[i]]
-    out[[i]] <- dplyr_row_slice(data, index)
-  }
-
+  out <- map(indices, dplyr_row_slice, data = data)
   out <- new_list_of(out, ptype = vec_ptype(data))
 
   out
