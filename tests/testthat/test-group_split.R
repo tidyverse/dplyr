@@ -80,3 +80,25 @@ test_that("group_split() respects .drop", {
     group_split(f, .drop = TRUE)
   expect_identical(length(chunks), 1L)
 })
+
+test_that("group_split() on a bare data frame returns bare data frames", {
+  df <- data.frame(x = 1:2)
+  expect <- list_of(vec_slice(df, 1), vec_slice(df, 2))
+  expect_identical(group_split(df, x), expect)
+})
+
+test_that("group_split() on a grouped df returns a list of tibbles", {
+  df <- tibble(x = 1:2)
+  gdf <- group_by(df, x)
+  expect <- list_of(vec_slice(df, 1), vec_slice(df, 2))
+  expect_identical(group_split(gdf), expect)
+})
+
+test_that("group_split() on a rowwise df returns a list of tibbles", {
+  df <- tibble(x = 1:2)
+  rdf <- rowwise(df)
+  expect <- list_of(vec_slice(df, 1), vec_slice(df, 2))
+  expect_identical(group_split(rdf), expect)
+})
+
+
