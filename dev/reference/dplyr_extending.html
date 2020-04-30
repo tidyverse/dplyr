@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extending dplyr — dplyr_extending • dplyr</title>
+<title>Extending dplyr with new data frame subclasses — dplyr_extending • dplyr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -51,17 +51,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Extending dplyr — dplyr_extending" />
+<meta property="og:title" content="Extending dplyr with new data frame subclasses — dplyr_extending" />
 <meta property="og:description" content="
 These three functions, along with names&amp;lt;- and 1d numeric [
-(i.e. x[loc]), provide a minimal interface for extending dplyr to work
-with a new subclass of data frame. dplyr_rows_slice() and
-dplyr_cols_modify() represented specialised uses of [; their focus
-makes them much easier to implement. dplyr_reconstruct() is a fall-back
-for verbs that can't be implemented in terms of simpler row/col operation.
-These functions are experimental and are stop-gap measure until more general
-tools become available in vctrs, but may still be useful in the short-term
-if you have a data frame class that you want to work with dplyr." />
+(i.e. x[loc]) methods, provide a minimal interface for extending dplyr
+to work with new data frame subclasses. This means that for simple cases
+you should only need to provide a couple of methods, rather than a method
+for every dplyr verb.
+These functions are a stop-gap measure until we figure out how to solve
+the problem more generally, but it's likely that any code you write to
+implement them will find a home in what comes next." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -208,7 +207,7 @@ if you have a data frame class that you want to work with dplyr." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extending dplyr</h1>
+    <h1>Extending dplyr with new data frame subclasses</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/generics.R'><code>R/generics.R</code></a></small>
     <div class="hidden name"><code>dplyr_extending.Rd</code></div>
     </div>
@@ -216,14 +215,13 @@ if you have a data frame class that you want to work with dplyr." />
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
 <p>These three functions, along with <code>names&lt;-</code> and 1d numeric <code>[</code>
-(i.e. <code>x[loc]</code>), provide a minimal interface for extending dplyr to work
-with a new subclass of data frame. <code>dplyr_rows_slice()</code> and
-<code>dplyr_cols_modify()</code> represented specialised uses of <code>[</code>; their focus
-makes them much easier to implement. <code>dplyr_reconstruct()</code> is a fall-back
-for verbs that can't be implemented in terms of simpler row/col operation.</p>
-<p>These functions are experimental and are stop-gap measure until more general
-tools become available in vctrs, but may still be useful in the short-term
-if you have a data frame class that you want to work with dplyr.</p>
+(i.e. <code>x[loc]</code>) methods, provide a minimal interface for extending dplyr
+to work with new data frame subclasses. This means that for simple cases
+you should only need to provide a couple of methods, rather than a method
+for every dplyr verb.</p>
+<p>These functions are a stop-gap measure until we figure out how to solve
+the problem more generally, but it's likely that any code you write to
+implement them will find a home in what comes next.</p>
     </div>
 
     <pre class="usage"><span class='fu'>dplyr_row_slice</span>(<span class='no'>data</span>, <span class='no'>i</span>, <span class='no'>...</span>)
@@ -254,6 +252,35 @@ an existing column.</p></td>
       <td><p>Template to use for restoring attributes</p></td>
     </tr>
     </table>
+
+    <h2 class="hasAnchor" id="basic-advice"><a class="anchor" href="#basic-advice"></a>Basic advice</h2>
+
+    <p>This section gives you basic advice if you want to extend dplyr to work with
+your custom data frame subclass, and you want the dplyr methods to behave
+in basically the same way.</p><ul>
+<li><p>If you have data frame attributes that don't depend on the rows or columns
+(and should unconditionally be preserved), you don't need to do anything.</p></li>
+<li><p>If you have <strong>scalar</strong> attributes that depend on <strong>rows</strong>, implement a
+<code>dplyr_reconstruct()</code> method. Your method should recompute the attribute
+depending on rows now present.</p></li>
+<li><p>If you have <strong>scalar</strong> attributes that depend on <strong>columns</strong>, implement a
+<code>dplyr_reconstruct()</code> method and a 1d <code>[</code> method. For example, if your
+class requires that certain columns be present, your method should return
+a data.frame or tibble when those columns are removed.</p></li>
+<li><p>If your attributes are <strong>vectorised</strong> over <strong>rows</strong>, implement a
+<code>dplyr_row_slice()</code> method. This gives you access to <code>i</code> so you can
+modify the row attribute accordingly. You'll also need to think carefully
+about how to recompute the attribute in <code>dplyr_reconstruct()</code>, and
+you will need to carefully verify the behaviour of each verb, and provide
+additional methods as needed.</p></li>
+<li><p>If your attributes that are <strong>vectorised</strong> over <strong>columns</strong>, implement
+<code>dplyr_col_modify()</code>, 1d <code>[</code>, and <code>names&lt;-</code> methods. All of these methods
+know which columns are being modified, so you can update the column
+attribute according. You'll also need to think carefully about how to
+recompute the attribute in <code>dplyr_reconstruct()</code>, and you will need to
+carefully verify the behaviour of each verb, and provide additional
+methods as needed.</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="current-usage"><a class="anchor" href="#current-usage"></a>Current usage</h2>
 
