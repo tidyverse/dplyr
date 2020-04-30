@@ -4,20 +4,20 @@ unsupported type
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = env(a = 1))
 Error: Problem with `summarise()` input `a`.
-x `a` must be a vector, not an environment.
+x Input `a` must be a vector, not an environment.
 i Input `a` is `env(a = 1)`.
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = env(
 +   a = 1))
 Error: Problem with `summarise()` input `a`.
-x `a` must be a vector, not an environment.
+x Input `a` must be a vector, not an environment.
 i Input `a` is `env(a = 1)`.
 i The error occured in group 1: x = 1, y = 1.
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% rowwise() %>% summarise(a = lm(
 +   y ~ x))
 Error: Problem with `summarise()` input `a`.
-x `a` must be a vector, not a `lm` object.
+x Input `a` must be a vector, not a `lm` object.
 i Input `a` is `lm(y ~ x)`.
 i Did you mean: `a = list(lm(y ~ x))` ?
 i The error occured in row 1.
@@ -28,14 +28,14 @@ mixed types
 
 > tibble(id = 1:2, a = list(1, "2")) %>% group_by(id) %>% summarise(a = a[[1]])
 Error: Problem with `summarise()` input `a`.
-x `a` must return compatible vectors across groups
+x Input `a` must return compatible vectors across groups
 i Input `a` is `a[[1]]`.
 i Result type for group 1 (id = 1): <double>.
 i Result type for group 2 (id = 2): <character>.
 
 > tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[1]])
 Error: Problem with `summarise()` input `a`.
-x `a` must return compatible vectors across groups
+x Input `a` must return compatible vectors across groups
 i Input `a` is `a[[1]]`.
 
 
@@ -44,20 +44,20 @@ incompatible size
 
 > tibble(z = 1) %>% summarise(x = 1:3, y = 1:2)
 Error: Problem with `summarise()` input `y`.
-x `y` must be size 3 or 1, not 2.
+x Input `y` must be size 3 or 1, not 2.
 i Input `y` is `1:2`.
 i An earlier column had size 3.
 
 > tibble(z = 1:2) %>% group_by(z) %>% summarise(x = 1:3, y = 1:2)
 Error: Problem with `summarise()` input `y`.
-x `y` must be size 3 or 1, not 2.
+x Input `y` must be size 3 or 1, not 2.
 i Input `y` is `1:2`.
 i An earlier column had size 3.
 i The error occured in group 1: z = 1.
 
 > tibble(z = c(1, 3)) %>% group_by(z) %>% summarise(x = seq_len(z), y = 1:2)
 Error: Problem with `summarise()` input `y`.
-x `y` must be size 3 or 1, not 2.
+x Input `y` must be size 3 or 1, not 2.
 i Input `y` is `1:2`.
 i An earlier column had size 3.
 i The error occured in group 2: z = 3.

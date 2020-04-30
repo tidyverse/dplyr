@@ -20,7 +20,7 @@ incompatible column type
 
 > tibble(x = 1) %>% mutate(y = mean)
 Error: Problem with `mutate()` input `y`.
-x `y` must be a vector, not a function.
+x Input `y` must be a vector, not a function.
 i Input `y` is `mean`.
 
 
@@ -30,18 +30,18 @@ Unsupported type
 > df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
 > df %>% mutate(out = env(a = 1))
 Error: Problem with `mutate()` input `out`.
-x `out` must be a vector, not an environment.
+x Input `out` must be a vector, not an environment.
 i Input `out` is `env(a = 1)`.
 
 > df %>% group_by(g) %>% mutate(out = env(a = 1))
 Error: Problem with `mutate()` input `out`.
-x `out` must be a vector, not an environment.
+x Input `out` must be a vector, not an environment.
 i Input `out` is `env(a = 1)`.
 i The error occured in group 1: g = 1.
 
 > df %>% rowwise() %>% mutate(out = rnorm)
 Error: Problem with `mutate()` input `out`.
-x `out` must be a vector, not a function.
+x Input `out` must be a vector, not a function.
 i Input `out` is `rnorm`.
 i Did you mean: `out = list(rnorm)` ?
 i The error occured in row 1.
@@ -53,7 +53,7 @@ incompatible types across groups
 > data.frame(x = rep(1:5, each = 3)) %>% group_by(x) %>% mutate(val = ifelse(x <
 + 3, "foo", 2))
 Error: Problem with `mutate()` input `val`.
-x `val` must return compatible vectors across groups
+x Input `val` must return compatible vectors across groups
 i Input `val` is `ifelse(x < 3, "foo", 2)`.
 i Result type for group 1 (x = 1): <character>.
 i Result type for group 3 (x = 3): <double>.
@@ -70,37 +70,37 @@ incompatible size
 
 > data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)
 Error: Problem with `mutate()` input `int`.
-x `int` can't be recycled to size 4.
+x Input `int` can't be recycled to size 4.
 i Input `int` is `1:5`.
-i `int` must be size 4 or 1, not 5.
+i Input `int` must be size 4 or 1, not 5.
 
 > data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)
 Error: Problem with `mutate()` input `int`.
-x `int` can't be recycled to size 2.
+x Input `int` can't be recycled to size 2.
 i Input `int` is `1:5`.
-i `int` must be size 2 or 1, not 5.
+i Input `int` must be size 2 or 1, not 5.
 i The error occured in group 1: x = 2.
 
 > data.frame(x = c(2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)
 Error: Problem with `mutate()` input `int`.
-x `int` can't be recycled to size 1.
+x Input `int` can't be recycled to size 1.
 i Input `int` is `1:5`.
-i `int` must be size 1, not 5.
+i Input `int` must be size 1, not 5.
 i The error occured in group 1: x = 2.
 
 > data.frame(x = c(2, 2, 3, 3)) %>% rowwise() %>% mutate(int = 1:5)
 Error: Problem with `mutate()` input `int`.
-x `int` can't be recycled to size 1.
+x Input `int` can't be recycled to size 1.
 i Input `int` is `1:5`.
-i `int` must be size 1, not 5.
+i Input `int` must be size 1, not 5.
 i Did you mean: `int = list(1:5)` ?
 i The error occured in row 1.
 
 > tibble(y = list(1:3, "a")) %>% rowwise() %>% mutate(y2 = y)
 Error: Problem with `mutate()` input `y2`.
-x `y2` can't be recycled to size 1.
+x Input `y2` can't be recycled to size 1.
 i Input `y2` is `y`.
-i `y2` must be size 1, not 3.
+i Input `y2` must be size 1, not 3.
 i Did you mean: `y2 = list(y)` ?
 i The error occured in row 1.
 
