@@ -1,18 +1,50 @@
-#' Extending dplyr
+#' Extending dplyr with new data frame subclasses
 #'
 #' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
 #' These three functions, along with `names<-` and 1d numeric `[`
-#' (i.e. `x[loc]`), provide a minimal interface for extending dplyr to work
-#' with a new subclass of data frame. `dplyr_rows_slice()` and
-#' `dplyr_cols_modify()` represented specialised uses of `[`; their focus
-#' makes them much easier to implement. `dplyr_reconstruct()` is a fall-back
-#' for verbs that can't be implemented in terms of simpler row/col operation.
+#' (i.e. `x[loc]`) methods, provide a minimal interface for extending dplyr
+#' to work with new data frame subclasses. This means that for simple cases
+#' you should only need to provide a couple of methods, rather than a method
+#' for every dplyr verb.
 #'
-#' These functions are experimental and are stop-gap measure until more general
-#' tools become available in vctrs, but may still be useful in the short-term
-#' if you have a data frame class that you want to work with dplyr.
+#' These functions are a stop-gap measure until we figure out how to solve
+#' the problem more generally, but it's likely that any code you write to
+#' implement them will find a home in what comes next.
+#'
+#' # Basic advice
+#'
+#' This section gives you basic advice if you want to extend dplyr to work with
+#' your custom data frame subclass, and you want the dplyr methods to behave
+#' in basically the same way.
+#'
+#' * If you have data frame attributes that don't depend on the rows or columns
+#'   (and should unconditionally be preserved), you don't need to do anything.
+#'
+#' * If you have __scalar__ attributes that depend on __rows__, implement a
+#'   `dplyr_reconstruct()` method. Your method should recompute the attribute
+#'   depending on rows now present.
+#'
+#' * If you have __scalar__ attributes that depend on __columns__, implement a
+#'   `dplyr_reconstruct()` method and a 1d `[` method. For example, if your
+#'   class requires that certain columns be present, your method should return
+#'   a data.frame or tibble when those columns are removed.
+#'
+#' * If your attributes are __vectorised__ over __rows__, implement a
+#'   `dplyr_row_slice()` method. This gives you access to `i` so you can
+#'   modify the row attribute accordingly. You'll also need to think carefully
+#'   about how to recompute the attribute in `dplyr_reconstruct()`, and
+#'   you will need to carefully verify the behaviour of each verb, and provide
+#'   additional methods as needed.
+#'
+#' * If your attributes that are __vectorised__ over __columns__, implement
+#'   `dplyr_col_modify()`, 1d `[`, and `names<-` methods. All of these methods
+#'   know which columns are being modified, so you can update the column
+#'   attribute according. You'll also need to think carefully about how to
+#'   recompute the attribute in `dplyr_reconstruct()`, and you will need to
+#'   carefully verify the behaviour of each verb, and provide additional
+#'   methods as needed.
 #'
 #' # Current usage
 #'
@@ -63,7 +95,7 @@ dplyr_row_slice <- function(data, i, ...) {
 
 #' @export
 dplyr_row_slice.data.frame <- function(data, i, ...) {
-  vec_slice(data, i)
+  dplyr_reconstruct(vec_slice(data, i), data)
 }
 
 #' @export
@@ -102,13 +134,14 @@ dplyr_col_modify <- function(data, cols) {
 
 #' @export
 dplyr_col_modify.data.frame <- function(data, cols) {
-  # Implement from first principles to avoiding edge cases in [.data.frame
-  # and [.tibble in 2.1.3 and earlier
+  # Must be implemented from first principles to avoiding edge cases in
+  # [.data.frame and [.tibble (2.1.3 and earlier).
 
   # Apply tidyverse recycling rules
   cols <- vec_recycle_common(!!!cols, .size = nrow(data))
 
   out <- vec_data(data)
+  attr(out, "row.names") <- .row_names_info(data, 0L)
 
   nms <- as_utf8_character(names2(cols))
   names(out) <- as_utf8_character(names2(out))
@@ -118,13 +151,7 @@ dplyr_col_modify.data.frame <- function(data, cols) {
     out[[nm]] <- cols[[i]]
   }
 
-  # Restore attributes (apart from names)
-  attr <- attributes(data)
-  attr$names <- names(out)
-  attr$row.names <- .row_names_info(data, 0L)
-  attributes(out) <- attr
-
-  out
+  dplyr_reconstruct.data.frame(out, data)
 }
 
 #' @export
@@ -149,22 +176,16 @@ dplyr_col_modify.rowwise_df <- function(data, cols) {
 #' @export
 #' @rdname dplyr_extending
 dplyr_reconstruct <- function(data, template) {
-  if (!is_tibble(data)) {
-    abort("`new` must be a tibble")
-  }
-
   UseMethod("dplyr_reconstruct", template)
 }
 
 #' @export
 dplyr_reconstruct.data.frame <- function(data, template) {
   attrs <- attributes(template)
-
   attrs$names <- names(data)
   attrs$row.names <- .row_names_info(data, type = 0L)
 
   attributes(data) <- attrs
-
   data
 }
 
