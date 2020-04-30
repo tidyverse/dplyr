@@ -143,6 +143,7 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
       "`groups` should be a data frame, and its last column be called `.rows`"
     ))
   }
+
   new_tibble(
     x,
     groups = groups,
