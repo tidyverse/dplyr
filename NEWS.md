@@ -301,7 +301,8 @@
   the whole we believe those failures to either reflect unexpected behaviour
   or tests that need to be strengthened (#2751).
 
-* `count()` and `add_count()` now preserve the type of the input (#4086).
+* `count()` and `add_count()` do a better job of preserving input class
+  and attributes (#4086).
 
 * `distinct()` errors if you request it use variables that don't exist
   (this was previously a warning) (#4656).

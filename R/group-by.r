@@ -177,9 +177,15 @@ add_computed_columns <- function(.data, vars) {
   needs_mutate <- have_name(vars) | !is_symbol
 
   if (any(needs_mutate)) {
-    cols <- mutate_cols(.data, !!!vars)
-    out <- dplyr_col_modify(.data, cols)
-    col_names <- names(cols)
+    # TODO: use less of a hack
+    if (inherits(.data, "data.frame")) {
+      cols <- mutate_cols(.data, !!!vars)
+      out <- dplyr_col_modify(.data, cols)
+      col_names <- names(cols)
+    } else {
+      out <- mutate(.data, !!!vars)
+      col_names <- names(exprs_auto_name(vars))
+    }
   } else {
     out <- .data
     col_names <- names(exprs_auto_name(vars))
