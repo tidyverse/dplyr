@@ -48,7 +48,7 @@ Suggests:
     callr,
     covr,
     DBI,
-    dbplyr,
+    dbplyr (>= 1.4.3),
     knitr,
     Lahman,
     lobstr,
