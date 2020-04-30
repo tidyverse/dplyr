@@ -64,10 +64,9 @@
 #' rows_upsert(data, tibble(a = 2:4, b = "z"))
 #'
 #' # Delete and truncate
-#' rows_delete(data, tibble(a = 2:4))
-#' rows_delete(data, tibble(a = 2:4, b = "b"))
-#' rows_delete(data, tibble(a = 2:4, b = "b"), by = c("a", "b"))
-#' rows_truncate(data)
+#' rows_delete(data, tibble(a = 2:3))
+#' rows_delete(data, tibble(a = 2:3, b = "b"))
+#' try(rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b")))
 NULL
 
 
