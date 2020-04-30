@@ -120,17 +120,15 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
 }
 
 filter_rows <- function(.data, ...) {
-  dots <- enquos(...)
-  check_filter(dots)
-
+  dots <- check_filter(enquos(...))
   mask <- DataMask$new(.data, caller_env())
 
   env_filter <- env()
   tryCatch(
     mask$eval_all_filter(dots, env_filter),
     simpleError = function(e) {
-      stop_dplyr(env_filter$current_expression, dots, fn = "filter", "errored",
-        x = conditionMessage(e)
+      stop_dplyr(env_filter$current_expression, dots, fn = "filter",
+        problem = conditionMessage(e)
       )
     }
   )
@@ -150,4 +148,6 @@ check_filter <- function(dots) {
     }
 
   }
+
+  dots
 }

@@ -210,8 +210,7 @@ summarise_cols <- function(.data, ...) {
     } else if (inherits(e, "dplyr:::summarise_incompatible_size")) {
       stop_summarise_incompatible_size(size = e$size, group = e$group, index = e$index, expected_size = e$expected_size, dots = dots)
     } else {
-      stop_dplyr(i, dots, fn = "summarise", "errored",
-        x = conditionMessage(e)
+      stop_dplyr(i, dots, fn = "summarise", problem = conditionMessage(e)
       )
     }
   })
