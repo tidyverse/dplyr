@@ -72,15 +72,27 @@
 #'
 #' # Note that you can also summarise to unnest the data
 #' models %>% summarise(data)
-nest_by <- function(.data, ..., .key = "data", .keep = FALSE, .add = FALSE) {
+nest_by <- function(.data, ..., .key = "data", .keep = FALSE) {
   UseMethod("nest_by")
 }
 
 #' @export
-nest_by.data.frame <- function(.data, ..., .key = "data", .keep = FALSE, .add = FALSE) {
-  data <- group_by(.data, ..., .add = .add)
+nest_by.data.frame <- function(.data, ..., .key = "data", .keep = FALSE) {
+  .data <- group_by(.data, ...)
+  nest_by.grouped_df(.data, .key = .key, .keep = .keep)
+}
 
-  keys <- group_keys(data)
-  keys <- mutate(keys, !!.key := group_split(data, keep = .keep))
-  rowwise(keys, tidyselect::all_of(group_vars(data)))
+#' @export
+nest_by.grouped_df <- function(.data, ..., .key = "data", .keep = FALSE) {
+  if (!missing(...)) {
+    abort(c(
+      "Can't re-group while nesting",
+      i = "Either `ungroup()` first or don't supply arguments to `nest_by()"
+    ))
+  }
+
+  vars <- group_vars(.data)
+  keys <- group_keys(.data)
+  keys <- mutate(keys, !!.key := group_split(.env$.data, keep = .keep))
+  rowwise(keys, tidyselect::all_of(vars))
 }

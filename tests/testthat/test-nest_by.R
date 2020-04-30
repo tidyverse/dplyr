@@ -13,17 +13,16 @@ test_that("can control key col", {
   expect_named(out, c("g", "key"))
 })
 
-test_that("overrides grouping by default", {
+test_that("nest_by() inherits grouping", {
   df <- data.frame(g1 = 1:2, g2 = 1:2, x = 1:2, y = 1:2)
 
   expect_equal(
-    df %>% group_by(g1) %>% nest_by(g2) %>% group_vars(),
-    "g2"
+    df %>% group_by(g1) %>% nest_by() %>% group_vars(),
+    "g1"
   )
-  expect_equal(
-    df %>% group_by(g1) %>% nest_by(g2, .add = TRUE) %>% group_vars(),
-    c("g1", "g2")
-  )
+
+  # And you can't have it both ways
+  expect_error(df %>% group_by(g1) %>% nest_by("g2"), "re-group")
 })
 
 test_that("can control whether grouping data in list-col", {
