@@ -204,7 +204,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
         order(x, decreasing = TRUE), smaller_ranks(desc(x), size$n)
       ),
       prop = function(x, n) head(
-        order(x, decreasing = TRUE), smaller_ranks(desc(x), size$prop)
+        order(x, decreasing = TRUE), smaller_ranks(desc(x), size$prop * n)
       )
     )
   } else {
