@@ -75,7 +75,10 @@ group_split.data.frame <- function(.tbl, ..., keep = TRUE) {
   data <- .tbl
   grouped_data <- group_by(.tbl, ...)
 
-  data <- group_split_col_slice(data, grouped_data, keep)
+  if (!keep) {
+    cols <- group_vars(grouped_data)
+    data <- drop_cols(data, cols)
+  }
 
   group_split_impl(data, grouped_data)
 }
@@ -104,7 +107,10 @@ group_split.grouped_df <- function(.tbl, ..., keep = TRUE) {
   grouped_data <- .tbl
   data <- as_tibble(grouped_data)
 
-  data <- group_split_col_slice(data, grouped_data, keep)
+  if (!keep) {
+    cols <- group_vars(grouped_data)
+    data <- drop_cols(data, cols)
+  }
 
   group_split_impl(data, grouped_data)
 }
@@ -118,17 +124,8 @@ group_split_impl <- function(data, grouped_data) {
   out
 }
 
-group_split_col_slice <- function(data, grouped_data, keep) {
-  if (isTRUE(keep)) {
-    return(data)
-  }
-
-  remove <- group_vars(grouped_data)
-
-  cols <- names(data)
-  cols <- setdiff(cols, remove)
-
-  data <- data[cols]
-
-  data
+drop_cols <- function(data, cols) {
+  keep <- names(data)
+  keep <- setdiff(keep, cols)
+  data[keep]
 }
