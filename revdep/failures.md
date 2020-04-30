@@ -1337,7 +1337,7 @@ ERROR: lazy loading failed for package ‘bsam’
 * URL: https://github.com/BUStools/BUSpaRse
 * BugReports: https://github.com/BUStools/BUSpaRse/issues
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 153
+* Number of recursive dependencies: 137
 
 Run `revdep_details(,"BUSpaRse")` for more info
 
@@ -2084,7 +2084,7 @@ installing the source package ‘reactome.db’
 * URL: https://github.com/scristia/CNPBayes
 * BugReports: https://github.com/scristia/CNPBayes/issues
 * Date/Publication: 2019-01-05
-* Number of recursive dependencies: 162
+* Number of recursive dependencies: 161
 
 Run `revdep_details(,"CNPBayes")` for more info
 
@@ -2273,7 +2273,7 @@ ERROR: compilation failed for package ‘colorednoise’
 * Source code: https://github.com/cran/COMPASS
 * BugReports: https://github.com/RGLab/COMPASS/issues
 * Date/Publication: 2019-12-04
-* Number of recursive dependencies: 136
+* Number of recursive dependencies: 132
 
 Run `revdep_details(,"COMPASS")` for more info
 
@@ -3018,7 +3018,7 @@ ERROR: lazy loading failed for package ‘dialr’
 * Version: 2.14.0
 * Source code: https://github.com/cran/DiffBind
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 165
+* Number of recursive dependencies: 157
 
 Run `revdep_details(,"DiffBind")` for more info
 
@@ -3579,7 +3579,7 @@ ERROR: compilation failed for package ‘dtwclust’
 * Version: 1.4.0
 * Source code: https://github.com/cran/DuoClustering2018
 * Date/Publication: 2019-11-05
-* Number of recursive dependencies: 151
+* Number of recursive dependencies: 158
 
 Run `revdep_details(,"DuoClustering2018")` for more info
 
@@ -3763,7 +3763,7 @@ ERROR: lazy loading failed for package ‘eda4treeR’
 * Version: 2.10.0
 * Source code: https://github.com/cran/ELMER
 * Date/Publication: 2019-11-06
-* Number of recursive dependencies: 212
+* Number of recursive dependencies: 221
 
 Run `revdep_details(,"ELMER")` for more info
 
@@ -3816,7 +3816,7 @@ Run `revdep_details(,"ELMER")` for more info
 * Source code: https://github.com/cran/ENCODExplorer
 * BugReports: https://github.com/CharlesJB/ENCODExplorer/issues
 * Date/Publication: 2019-12-16
-* Number of recursive dependencies: 95
+* Number of recursive dependencies: 96
 
 Run `revdep_details(,"ENCODExplorer")` for more info
 
@@ -4684,7 +4684,7 @@ ERROR: compilation failed for package ‘graphicalVAR’
 
 * Version: 1.1.0
 * Source code: https://github.com/cran/grasp2db
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 118
 
 Run `revdep_details(,"grasp2db")` for more info
 
@@ -4812,7 +4812,7 @@ ERROR: compilation failed for package ‘heatwaveR’
 * URL: https://github.com/waldronlab/HMP16SData
 * BugReports: https://github.com/waldronlab/HMP16SData/issues
 * Date/Publication: 2019-11-05
-* Number of recursive dependencies: 184
+* Number of recursive dependencies: 178
 
 Run `revdep_details(,"HMP16SData")` for more info
 
@@ -4933,7 +4933,7 @@ ERROR: lazy loading failed for package ‘iCNV’
 * URL: https://github.com/federicomarini/ideal, https://federicomarini.github.io/ideal/
 * BugReports: https://github.com/federicomarini/ideal/issues
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 199
+* Number of recursive dependencies: 190
 
 Run `revdep_details(,"ideal")` for more info
 
@@ -5051,7 +5051,7 @@ ERROR: compilation failed for package ‘idefix’
 * URL: https://github.com/broadinstitute/inferCNV/wiki
 * BugReports: https://github.com/broadinstitute/inferCNV/issues
 * Date/Publication: 2019-11-15
-* Number of recursive dependencies: 126
+* Number of recursive dependencies: 124
 
 Run `revdep_details(,"infercnv")` for more info
 
@@ -6032,7 +6032,7 @@ ERROR: compilation failed for package ‘mrgsolve’
 * URL: https://github.com/HelenaLC/muscData
 * BugReports: https://github.com/HelenaLC/muscData/issues
 * Date/Publication: 2019-11-05
-* Number of recursive dependencies: 95
+* Number of recursive dependencies: 230
 
 Run `revdep_details(,"muscData")` for more info
 
@@ -7239,7 +7239,7 @@ ERROR: compilation failed for package ‘PPforest’
 * URL: https://github.com/lgatto/pRoloc
 * BugReports: https://github.com/lgatto/pRoloc/issues
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 210
+* Number of recursive dependencies: 218
 
 Run `revdep_details(,"pRoloc")` for more info
 
@@ -8682,7 +8682,7 @@ ERROR: compilation failed for package ‘rbridge’
 * Version: 1.2.0
 * Source code: https://github.com/cran/RcwlPipelines
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 121
+* Number of recursive dependencies: 120
 
 Run `revdep_details(,"RcwlPipelines")` for more info
 
@@ -9526,6 +9526,38 @@ ERROR: compilation failed for package ‘RxODE’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RxODE/old/RxODE.Rcheck/RxODE’
 
 ```
+# saotd
+
+<details>
+
+* Version: 0.2.0
+* Source code: https://github.com/cran/saotd
+* BugReports: https://github.com/evan-l-munson/saotd/issues
+* Date/Publication: 2019-04-04 16:30:03 UTC
+* Number of recursive dependencies: 118
+
+Run `revdep_details(,"saotd")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 826 marked UTF-8 strings
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘saotd’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/saotd/old/saotd.Rcheck/00install.out’ for details.
+    ```
+
 # sarima
 
 <details>
@@ -9665,7 +9697,7 @@ ERROR: compilation failed for package ‘scanstatistics’
 * URL: https://github.com/hemberg-lab/scfind
 * BugReports: https://support.bioconductor.org/t/scfind/
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 76
+* Number of recursive dependencies: 70
 
 Run `revdep_details(,"scfind")` for more info
 
@@ -9790,7 +9822,7 @@ installing the source package ‘reactome.db’
 * URL: https://github.com/hemberg-lab/scmap
 * BugReports: https://support.bioconductor.org/t/scmap/
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 93
+* Number of recursive dependencies: 87
 
 Run `revdep_details(,"scmap")` for more info
 
@@ -10880,7 +10912,7 @@ ERROR: compilation failed for package ‘stcos’
 * URL: https://github.com/BioinformaticsFMRP/TCGAbiolinks
 * BugReports: https://github.com/BioinformaticsFMRP/TCGAbiolinks/issues
 * Date/Publication: 2020-02-27
-* Number of recursive dependencies: 264
+* Number of recursive dependencies: 267
 
 Run `revdep_details(,"TCGAbiolinks")` for more info
 
@@ -10933,7 +10965,7 @@ Run `revdep_details(,"TCGAbiolinks")` for more info
 * Version: 1.12.0
 * Source code: https://github.com/cran/TCGAbiolinksGUI
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 298
+* Number of recursive dependencies: 301
 
 Run `revdep_details(,"TCGAbiolinksGUI")` for more info
 
@@ -15099,7 +15131,7 @@ ERROR: compilation failed for package ‘weibulltools’
 * Source code: https://github.com/cran/XBSeq
 * URL: https://github.com/Liuy12/XBSeq
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 127
+* Number of recursive dependencies: 111
 
 Run `revdep_details(,"XBSeq")` for more info
 
