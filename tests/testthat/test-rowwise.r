@@ -57,3 +57,18 @@ test_that("rowwise has decent print method", {
     rf
   })
 })
+
+test_that("rowwise captures group_vars", {
+  df <- group_by(tibble(g = 1:2, x = 1:2), g)
+  rw <- rowwise(df)
+  expect_equal(group_vars(rw), "g")
+
+  # but can't regroup
+  expect_error(rowwise(df, x), "Can't re-group")
+})
+
+test_that("can re-rowwise", {
+  rf1 <- rowwise(tibble(x = 1:5, y = 1:5), "x")
+  rf2 <- rowwise(rf1, y)
+  expect_equal(group_vars(rf2), "y")
+})
