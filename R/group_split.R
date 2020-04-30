@@ -72,11 +72,12 @@ group_split <- function(.tbl, ..., keep = TRUE) {
 
 #' @export
 group_split.data.frame <- function(.tbl, ..., keep = TRUE) {
-  if (dots_n(...)) {
-    group_split(group_by(.tbl, ...), keep = keep)
-  } else {
-    new_list_of(list(.tbl), ptype = .tbl[0L, ])
-  }
+  data <- .tbl
+  grouped_data <- group_by(.tbl, ...)
+
+  data <- group_split_col_slice(data, grouped_data, keep)
+
+  group_split_impl(data, grouped_data)
 }
 
 #' @export
@@ -87,10 +88,13 @@ group_split.rowwise_df <- function(.tbl, ..., keep = TRUE) {
   if (!missing(keep)) {
     warn("keep is ignored in group_split(<rowwise_df>)")
   }
-  new_list_of(
-    map(seq_len(nrow(.tbl)), vec_slice, x = .tbl),
-    ptype = vec_slice(.tbl, 0L)
-  )
+
+  grouped_data <- .tbl
+  data <- as_tibble(.tbl)
+
+  data <- group_split_col_slice(data, grouped_data, keep = TRUE)
+
+  group_split_impl(data, grouped_data)
 }
 
 #' @export
@@ -99,13 +103,42 @@ group_split.grouped_df <- function(.tbl, ..., keep = TRUE) {
     warn("... is ignored in group_split(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_split()")
   }
 
-  data <- as_tibble(.tbl)
-  if (!isTRUE(keep)) {
-    data <- data[, setdiff(names(data), group_vars(.tbl))]
+  grouped_data <- .tbl
+  data <- as_tibble(grouped_data)
+
+  data <- group_split_col_slice(data, grouped_data, keep)
+
+  group_split_impl(data, grouped_data)
+}
+
+group_split_impl <- function(data, grouped_data) {
+  indices <- group_rows(grouped_data)
+
+  n <- length(indices)
+
+  out <- vector("list", n)
+
+  for (i in seq_len(n)) {
+    index <- indices[[i]]
+    out[[i]] <- dplyr_row_slice(data, index)
   }
 
-  new_list_of(
-    map(group_rows(.tbl), vec_slice, x = data),
-    ptype = vec_slice(data, 0L)
-  )
+  out <- new_list_of(out, ptype = vec_ptype(data))
+
+  out
+}
+
+group_split_col_slice <- function(data, grouped_data, keep) {
+  if (isTRUE(keep)) {
+    return(data)
+  }
+
+  remove <- group_vars(grouped_data)
+
+  cols <- names(data)
+  cols <- setdiff(cols, remove)
+
+  data <- data[cols]
+
+  data
 }
