@@ -92,8 +92,6 @@ group_split.rowwise_df <- function(.tbl, ..., keep = TRUE) {
   grouped_data <- .tbl
   data <- as_tibble(.tbl)
 
-  data <- group_split_col_slice(data, grouped_data, keep = TRUE)
-
   group_split_impl(data, grouped_data)
 }
 
