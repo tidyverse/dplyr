@@ -271,7 +271,7 @@ Run `revdep_details(,"annotatr")` for more info
 * URL: https://github.com/apache/arrow/, https://arrow.apache.org/docs/r
 * BugReports: https://issues.apache.org/jira/projects/ARROW/issues
 * Date/Publication: 2020-02-14 12:20:05 UTC
-* Number of recursive dependencies: 54
+* Number of recursive dependencies: 58
 
 Run `revdep_details(,"arrow")` for more info
 
@@ -561,6 +561,71 @@ Error: .onLoad failed in loadNamespace() for 'rjags', details:
 Execution halted
 ERROR: lazy loading failed for package ‘BayesPostEst’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/BayesPostEst/old/BayesPostEst.Rcheck/BayesPostEst’
+
+```
+# benchmarkfdrData2019
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/benchmarkfdrData2019
+* BugReports: https://github.com/stephaniehicks/benchmarkfdrData2019/issues
+* Date/Publication: 2019-11-05
+* Number of recursive dependencies: 120
+
+Run `revdep_details(,"benchmarkfdrData2019")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘benchmarkfdrData2019’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/benchmarkfdrData2019/new/benchmarkfdrData2019.Rcheck/00install.out’ for details.
+    ```
+
+*   checking for portable file names ... NOTE
+    ```
+    Found the following non-portable file paths:
+      benchmarkfdrData2019/inst/scripts/make-data/Simulations/simulations-varyinginformativeness-discrete.Rmd
+      benchmarkfdrData2019/inst/scripts/make-data/Simulations/simulations-varyinginformativeness-smooth.Rmd
+      benchmarkfdrData2019/inst/scripts/make-data/YeastInSilico/yeast-simulation-bimodalalternative-highpi0.Rmd
+    
+    Tarballs are only required to store paths of up to 100 bytes and cannot
+    store those of more than 256 bytes, with restrictions including to 100
+    bytes for the final component.
+    See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘benchmarkfdrData2019’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package ‘dbplyr’ required by ‘BiocFileCache’ could not be found
+Execution halted
+ERROR: lazy loading failed for package ‘benchmarkfdrData2019’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/benchmarkfdrData2019/new/benchmarkfdrData2019.Rcheck/benchmarkfdrData2019’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘benchmarkfdrData2019’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package ‘dbplyr’ required by ‘BiocFileCache’ could not be found
+Execution halted
+ERROR: lazy loading failed for package ‘benchmarkfdrData2019’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/benchmarkfdrData2019/old/benchmarkfdrData2019.Rcheck/benchmarkfdrData2019’
 
 ```
 # BgeeDB
@@ -1272,7 +1337,7 @@ ERROR: lazy loading failed for package ‘bsam’
 * URL: https://github.com/BUStools/BUSpaRse
 * BugReports: https://github.com/BUStools/BUSpaRse/issues
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 153
+* Number of recursive dependencies: 137
 
 Run `revdep_details(,"BUSpaRse")` for more info
 
@@ -1719,6 +1784,67 @@ ERROR: compilation failed for package ‘CB2’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CB2/old/CB2.Rcheck/CB2’
 
 ```
+# CellBench
+
+<details>
+
+* Version: 1.2.0
+* Source code: https://github.com/cran/CellBench
+* URL: https://github.com/shians/cellbench
+* BugReports: https://github.com/Shians/CellBench/issues
+* Date/Publication: 2019-10-29
+* Number of recursive dependencies: 109
+
+Run `revdep_details(,"CellBench")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘CellBench’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CellBench/new/CellBench.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘CellBench’ ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘CellBench’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CellBench/new/CellBench.Rcheck/CellBench’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘CellBench’ ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘CellBench’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/CellBench/old/CellBench.Rcheck/CellBench’
+
+```
 # ChIPseeker
 
 <details>
@@ -1958,7 +2084,7 @@ installing the source package ‘reactome.db’
 * URL: https://github.com/scristia/CNPBayes
 * BugReports: https://github.com/scristia/CNPBayes/issues
 * Date/Publication: 2019-01-05
-* Number of recursive dependencies: 162
+* Number of recursive dependencies: 161
 
 Run `revdep_details(,"CNPBayes")` for more info
 
@@ -2147,7 +2273,7 @@ ERROR: compilation failed for package ‘colorednoise’
 * Source code: https://github.com/cran/COMPASS
 * BugReports: https://github.com/RGLab/COMPASS/issues
 * Date/Publication: 2019-12-04
-* Number of recursive dependencies: 136
+* Number of recursive dependencies: 132
 
 Run `revdep_details(,"COMPASS")` for more info
 
@@ -2659,6 +2785,61 @@ ERROR: compilation failed for package ‘DataVisualizations’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DataVisualizations/old/DataVisualizations.Rcheck/DataVisualizations’
 
 ```
+# depmap
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/depmap
+* Date/Publication: 2019-11-05
+* Number of recursive dependencies: 103
+
+Run `revdep_details(,"depmap")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘depmap’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/depmap/new/depmap.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘depmap’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘depmap’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/depmap/new/depmap.Rcheck/depmap’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘depmap’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘depmap’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/depmap/old/depmap.Rcheck/depmap’
+
+```
 # DepthProc
 
 <details>
@@ -2837,7 +3018,7 @@ ERROR: lazy loading failed for package ‘dialr’
 * Version: 2.14.0
 * Source code: https://github.com/cran/DiffBind
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 165
+* Number of recursive dependencies: 157
 
 Run `revdep_details(,"DiffBind")` for more info
 
@@ -2964,7 +3145,7 @@ ERROR: lazy loading failed for package ‘DiversityOccupancy’
 * URL: https://github.com/ATFutures/dodgr
 * BugReports: https://github.com/ATFutures/dodgr/issues
 * Date/Publication: 2019-10-10 14:00:02 UTC
-* Number of recursive dependencies: 93
+* Number of recursive dependencies: 94
 
 Run `revdep_details(,"dodgr")` for more info
 
@@ -3398,7 +3579,7 @@ ERROR: compilation failed for package ‘dtwclust’
 * Version: 1.4.0
 * Source code: https://github.com/cran/DuoClustering2018
 * Date/Publication: 2019-11-05
-* Number of recursive dependencies: 151
+* Number of recursive dependencies: 158
 
 Run `revdep_details(,"DuoClustering2018")` for more info
 
@@ -3515,6 +3696,66 @@ ERROR: compilation failed for package ‘dynfrail’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/dynfrail/old/dynfrail.Rcheck/dynfrail’
 
 ```
+# eda4treeR
+
+<details>
+
+* Version: 0.2.0
+* Source code: https://github.com/cran/eda4treeR
+* URL: https://github.com/MYaseen208/eda4treeR
+* Date/Publication: 2018-02-04 19:06:12 UTC
+* Number of recursive dependencies: 107
+
+Run `revdep_details(,"eda4treeR")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘eda4treeR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/eda4treeR/new/eda4treeR.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘eda4treeR’ ...
+** package ‘eda4treeR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘eda4treeR’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/eda4treeR/new/eda4treeR.Rcheck/eda4treeR’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘eda4treeR’ ...
+** package ‘eda4treeR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘eda4treeR’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/eda4treeR/old/eda4treeR.Rcheck/eda4treeR’
+
+```
 # ELMER
 
 <details>
@@ -3522,7 +3763,7 @@ ERROR: compilation failed for package ‘dynfrail’
 * Version: 2.10.0
 * Source code: https://github.com/cran/ELMER
 * Date/Publication: 2019-11-06
-* Number of recursive dependencies: 212
+* Number of recursive dependencies: 221
 
 Run `revdep_details(,"ELMER")` for more info
 
@@ -3575,7 +3816,7 @@ Run `revdep_details(,"ELMER")` for more info
 * Source code: https://github.com/cran/ENCODExplorer
 * BugReports: https://github.com/CharlesJB/ENCODExplorer/issues
 * Date/Publication: 2019-12-16
-* Number of recursive dependencies: 95
+* Number of recursive dependencies: 96
 
 Run `revdep_details(,"ENCODExplorer")` for more info
 
@@ -4443,7 +4684,7 @@ ERROR: compilation failed for package ‘graphicalVAR’
 
 * Version: 1.1.0
 * Source code: https://github.com/cran/grasp2db
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 118
 
 Run `revdep_details(,"grasp2db")` for more info
 
@@ -4562,6 +4803,72 @@ ERROR: compilation failed for package ‘heatwaveR’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/heatwaveR/old/heatwaveR.Rcheck/heatwaveR’
 
 ```
+# HMP16SData
+
+<details>
+
+* Version: 1.6.0
+* Source code: https://github.com/cran/HMP16SData
+* URL: https://github.com/waldronlab/HMP16SData
+* BugReports: https://github.com/waldronlab/HMP16SData/issues
+* Date/Publication: 2019-11-05
+* Number of recursive dependencies: 178
+
+Run `revdep_details(,"HMP16SData")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘HMP16SData’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HMP16SData/new/HMP16SData.Rcheck/00install.out’ for details.
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘curatedMetagenomicData’
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘HMP16SData’ ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘HMP16SData’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HMP16SData/new/HMP16SData.Rcheck/HMP16SData’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘HMP16SData’ ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘dbplyr’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘HMP16SData’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HMP16SData/old/HMP16SData.Rcheck/HMP16SData’
+
+```
 # iCNV
 
 <details>
@@ -4626,7 +4933,7 @@ ERROR: lazy loading failed for package ‘iCNV’
 * URL: https://github.com/federicomarini/ideal, https://federicomarini.github.io/ideal/
 * BugReports: https://github.com/federicomarini/ideal/issues
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 199
+* Number of recursive dependencies: 190
 
 Run `revdep_details(,"ideal")` for more info
 
@@ -4744,7 +5051,7 @@ ERROR: compilation failed for package ‘idefix’
 * URL: https://github.com/broadinstitute/inferCNV/wiki
 * BugReports: https://github.com/broadinstitute/inferCNV/issues
 * Date/Publication: 2019-11-15
-* Number of recursive dependencies: 126
+* Number of recursive dependencies: 124
 
 Run `revdep_details(,"infercnv")` for more info
 
@@ -5427,7 +5734,7 @@ ERROR: compilation failed for package ‘MixMatrix’
 * URL: https://github.com/rstudio/mleap
 * BugReports: https://github.com/rstudio/mleap/issues
 * Date/Publication: 2020-01-10 22:20:02 UTC
-* Number of recursive dependencies: 78
+* Number of recursive dependencies: 81
 
 Run `revdep_details(,"mleap")` for more info
 
@@ -5714,6 +6021,67 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [mrgsolve.so] Error 1
 ERROR: compilation failed for package ‘mrgsolve’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/mrgsolve/old/mrgsolve.Rcheck/mrgsolve’
+
+```
+# muscData
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/muscData
+* URL: https://github.com/HelenaLC/muscData
+* BugReports: https://github.com/HelenaLC/muscData/issues
+* Date/Publication: 2019-11-05
+* Number of recursive dependencies: 230
+
+Run `revdep_details(,"muscData")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘muscData’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/muscData/new/muscData.Rcheck/00install.out’ for details.
+    ```
+
+*   checking for hidden files and directories ... NOTE
+    ```
+    Found the following hidden files and directories:
+      .BBSoptions
+    These were most likely included in error. See section ‘Package
+    structure’ in the ‘Writing R Extensions’ manual.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘muscData’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package ‘dbplyr’ required by ‘BiocFileCache’ could not be found
+Execution halted
+ERROR: lazy loading failed for package ‘muscData’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/muscData/new/muscData.Rcheck/muscData’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘muscData’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package ‘dbplyr’ required by ‘BiocFileCache’ could not be found
+Execution halted
+ERROR: lazy loading failed for package ‘muscData’
+* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/muscData/old/muscData.Rcheck/muscData’
 
 ```
 # neuropsychology
@@ -6871,7 +7239,7 @@ ERROR: compilation failed for package ‘PPforest’
 * URL: https://github.com/lgatto/pRoloc
 * BugReports: https://github.com/lgatto/pRoloc/issues
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 210
+* Number of recursive dependencies: 218
 
 Run `revdep_details(,"pRoloc")` for more info
 
@@ -7112,7 +7480,7 @@ installing to /Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/purrr
 * URL: http://trinker.github.com/qdap/
 * BugReports: http://github.com/trinker/qdap/issues
 * Date/Publication: 2020-01-09 18:30:06 UTC
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 99
 
 Run `revdep_details(,"qdap")` for more info
 
@@ -8314,7 +8682,7 @@ ERROR: compilation failed for package ‘rbridge’
 * Version: 1.2.0
 * Source code: https://github.com/cran/RcwlPipelines
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 121
+* Number of recursive dependencies: 120
 
 Run `revdep_details(,"RcwlPipelines")` for more info
 
@@ -9158,6 +9526,38 @@ ERROR: compilation failed for package ‘RxODE’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/RxODE/old/RxODE.Rcheck/RxODE’
 
 ```
+# saotd
+
+<details>
+
+* Version: 0.2.0
+* Source code: https://github.com/cran/saotd
+* BugReports: https://github.com/evan-l-munson/saotd/issues
+* Date/Publication: 2019-04-04 16:30:03 UTC
+* Number of recursive dependencies: 118
+
+Run `revdep_details(,"saotd")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 826 marked UTF-8 strings
+    ```
+
+## Newly fixed
+
+*   checking whether package ‘saotd’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/saotd/old/saotd.Rcheck/00install.out’ for details.
+    ```
+
 # sarima
 
 <details>
@@ -9297,7 +9697,7 @@ ERROR: compilation failed for package ‘scanstatistics’
 * URL: https://github.com/hemberg-lab/scfind
 * BugReports: https://support.bioconductor.org/t/scfind/
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 76
+* Number of recursive dependencies: 70
 
 Run `revdep_details(,"scfind")` for more info
 
@@ -9422,7 +9822,7 @@ installing the source package ‘reactome.db’
 * URL: https://github.com/hemberg-lab/scmap
 * BugReports: https://support.bioconductor.org/t/scmap/
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 93
+* Number of recursive dependencies: 87
 
 Run `revdep_details(,"scmap")` for more info
 
@@ -10512,7 +10912,7 @@ ERROR: compilation failed for package ‘stcos’
 * URL: https://github.com/BioinformaticsFMRP/TCGAbiolinks
 * BugReports: https://github.com/BioinformaticsFMRP/TCGAbiolinks/issues
 * Date/Publication: 2020-02-27
-* Number of recursive dependencies: 264
+* Number of recursive dependencies: 267
 
 Run `revdep_details(,"TCGAbiolinks")` for more info
 
@@ -10565,7 +10965,7 @@ Run `revdep_details(,"TCGAbiolinks")` for more info
 * Version: 1.12.0
 * Source code: https://github.com/cran/TCGAbiolinksGUI
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 298
+* Number of recursive dependencies: 301
 
 Run `revdep_details(,"TCGAbiolinksGUI")` for more info
 
@@ -12737,7 +13137,7 @@ ERROR: compilation failed for package ‘telefit’
 * Version: 0.0.1
 * Source code: https://github.com/cran/textmining
 * Date/Publication: 2016-09-26 00:56:23
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 106
 
 Run `revdep_details(,"textmining")` for more info
 
@@ -14731,7 +15131,7 @@ ERROR: compilation failed for package ‘weibulltools’
 * Source code: https://github.com/cran/XBSeq
 * URL: https://github.com/Liuy12/XBSeq
 * Date/Publication: 2019-10-29
-* Number of recursive dependencies: 127
+* Number of recursive dependencies: 111
 
 Run `revdep_details(,"XBSeq")` for more info
 

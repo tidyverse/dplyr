@@ -56,9 +56,26 @@
 #'   rowwise(sim) %>%
 #'   summarise(z = list(rnorm(n, mean, sd)))
 rowwise <- function(data, ...) {
-  vars <- tidyselect::eval_select(expr(c(...)), data, include = group_vars(data))
+  UseMethod("rowwise")
+}
+
+#' @export
+rowwise.data.frame <- function(data, ...) {
+  vars <- tidyselect::eval_select(expr(c(...)), data)
   rowwise_df(data, vars)
 }
+
+#' @export
+rowwise.grouped_df <- function(data, ...) {
+  if (!missing(...)) {
+    abort(c(
+      "Can't re-group when creating rowwise data",
+      i = "Either first `ungroup()` or call `rowwise()` without arguments"
+    ))
+  }
+  rowwise_df(data, group_vars(data))
+}
+
 
 # Constructor + helper ----------------------------------------------------
 

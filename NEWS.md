@@ -53,6 +53,8 @@
   about the "current" group in dplyr verbs. They are inspired by 
   data.table's `.SD`, `.GRP`, `.BY`, and `.I`.
 
+* The `rows_` functions (`rows_insert()`, `rows_update()`, `rows_upsert()`, `rows_patch()`, `rows_delete()`) provide a new API to insert and delete rows from a second data frame or table. Support for updating mutable backends is planned (#4654).
+
 * `mutate()` and `summarise()` create multiple columns from a single expression
   if you return a data frame (#2326).
 

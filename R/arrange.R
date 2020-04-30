@@ -123,7 +123,7 @@ arrange_rows <- function(.data, dots) {
   # and then mimic vctrs:::order_proxy
   #
   # should really be map2(quosures, directions, ...)
-  proxies <- map2(unname(data), directions, function(column, direction) {
+  proxies <- map2(data, directions, function(column, direction) {
     proxy <- vec_proxy_compare(column, relax = TRUE)
     desc <- identical(direction, "desc")
     if (is.data.frame(proxy)) {
@@ -137,5 +137,5 @@ arrange_rows <- function(.data, dots) {
     proxy
   })
 
-  exec("order", !!!proxies, decreasing = FALSE, na.last = TRUE)
+  exec("order", !!!unname(proxies), decreasing = FALSE, na.last = TRUE)
 }

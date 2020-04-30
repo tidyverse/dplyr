@@ -39,7 +39,7 @@ The primary use case for \code{\link[=group_split]{group_split()}} is with alrea
 typically a result of \code{\link[=group_by]{group_by()}}. In this case \code{\link[=group_split]{group_split()}} only uses
 the first argument, the grouped tibble, and warns when \code{...} is used.
 
-Because some of these groups may be empty, it is best paried with \code{\link[=group_keys]{group_keys()}}
+Because some of these groups may be empty, it is best paired with \code{\link[=group_keys]{group_keys()}}
 which identifies the representatives of each grouping variable for the group.
 }
 
