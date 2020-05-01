@@ -140,9 +140,16 @@ c_across <- function(cols = everything()) {
   mask <- peek_mask()
 
   cols <- mask$current_cols(vars)
-  cols <- unname(cols)
 
-  vec_c(!!!cols)
+  # TODO: adapt after: https://github.com/r-lib/vctrs/issues/232
+  tryCatch(
+    vec_c(!!!unname(cols)),
+    error = function(e) {
+      # when combining fails, do it again with the names
+      # to get a more useful error message
+      vec_c(!!!cols)
+    }
+  )
 }
 
 # TODO: The usage of a cache in `across_setup()` and `c_across_setup()` is a stopgap solution, and
@@ -184,7 +191,7 @@ across_setup <- function(cols, fns, names, key) {
   }
 
   if (!is.list(fns)) {
-    abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
+    abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr:::error_across")
   }
 
   # handle formulas

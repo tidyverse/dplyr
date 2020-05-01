@@ -287,7 +287,12 @@ mutate_cols <- function(.data, ...) {
 
       # only unchop if needed
       if (is.null(result)) {
-        result <- vec_unchop(chunks, rows)
+        result <- tryCatch(
+          vec_unchop(chunks, rows),
+          vctrs_error_incompatible_type = function(cnd) {
+            abort(class = "dplyr:::error_mutate_incompatible_combine", parent = cnd)
+          }
+        )
       }
 
       if (not_named && is.data.frame(result)) {
@@ -311,26 +316,22 @@ mutate_cols <- function(.data, ...) {
     }
 
   },
-  rlang_error_data_pronoun_not_found = function(e) {
-    stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
-  },
-  dplyr_mutate_incompatible_size = function(e) {
-    e$size <- vec_size(rows[[i]])
-    stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
-  },
-  dplyr_mutate_mixed_NULL = function(e) {
-    stop_mutate_mixed_NULL(index = i, dots = dots)
-  },
-  dplyr_mutate_not_vector = function(e) {
-    stop_mutate_not_vector(index = i, dots = dots, result = e$result)
-  },
-  vctrs_error_incompatible_type = function(e) {
-    stop_combine(e, index = i, dots = dots, fn = "mutate")
-  },
-  simpleError = function(e) {
-    stop_eval_tidy(e, index = i, dots = dots, fn = "mutate")
-  }
-  )
+  error = function(e) {
+    if (inherits(e, "rlang_error_data_pronoun_not_found")) {
+      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
+    } else if (inherits(e, "dplyr:::mutate_incompatible_size")) {
+      e$size <- vec_size(rows[[i]])
+      stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
+    } else if (inherits(e, "dplyr:::mutate_mixed_null")) {
+      stop_mutate_mixed_null(index = i, dots = dots)
+    } else if (inherits(e, "dplyr:::mutate_not_vector")) {
+      stop_mutate_not_vector(index = i, dots = dots, result = e$result)
+    } else if(inherits(e, "dplyr:::error_mutate_incompatible_combine")) {
+      stop_combine(e$parent, index = i, dots = dots, fn = "mutate")
+    } else {
+      stop_dplyr(i, dots, fn = "mutate", problem = conditionMessage(e))
+    }
+  })
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
   new_columns[is_zap] <- rep(list(NULL), sum(is_zap))
