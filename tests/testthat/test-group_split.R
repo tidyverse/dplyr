@@ -57,7 +57,7 @@ test_that("group_split / bind_rows round trip", {
 })
 
 test_that("group_split() works if no grouping column", {
-  expect_identical(group_split(iris), list_of(iris))
+  expect_identical(group_split(iris), list_of(as_tibble(iris)))
 })
 
 test_that("group_split(keep=FALSE) does not try to remove virtual grouping columns (#4045)", {
@@ -81,9 +81,10 @@ test_that("group_split() respects .drop", {
   expect_identical(length(chunks), 1L)
 })
 
-test_that("group_split() on a bare data frame returns bare data frames", {
+test_that("group_split() on a bare data frame returns bare tibbles", {
   df <- data.frame(x = 1:2)
-  expect <- list_of(vec_slice(df, 1), vec_slice(df, 2))
+  tib <- as_tibble(df)
+  expect <- list_of(vec_slice(tib, 1), vec_slice(tib, 2))
   expect_identical(group_split(df, x), expect)
 })
 
@@ -101,29 +102,28 @@ test_that("group_split() on a rowwise df returns a list of tibbles", {
   expect_identical(group_split(rdf), expect)
 })
 
+test_that("group_split() works with subclasses implementing group_by() / ungroup()", {
+  local_foo_df()
+
+  df <- list(x = c(1, 2, 2))
+  df <- new_tibble(df, nrow = 3L, class = "foo_df")
+
+  expect <- list_of(vec_slice(df, 1), vec_slice(df, 2:3))
+
+  expect_identical(group_split(df, x), expect)
+})
+
 test_that("group_split() internally uses dplyr_row_slice()", {
-  df <- new_tibble(list(x = c(1, 2, 2)), nrow = 3L, class = "foo_df")
+  local_foo_df()
+
+  df <- list(x = c(1, 2, 2))
+  df <- new_tibble(df, nrow = 3L, class = "foo_df")
 
   local_methods(
     dplyr_row_slice.foo_df = function(x, i, ...) {
-      signal("", class = "dplyr_row_slice_called")
-      NextMethod()
+      abort(class = "dplyr_row_slice_called")
     }
   )
 
-  expect_condition(group_split(df), class = "dplyr_row_slice_called")
+  expect_error(group_split(df, x), class = "dplyr_row_slice_called")
 })
-
-test_that("group_split(keep = FALSE) internally uses [", {
-  df <- new_tibble(list(x = c(1, 2)), nrow = 2L, class = "foo_df")
-
-  local_methods(
-    `[.foo_df` = function(x, i, ...) {
-      signal("", class = "[_called")
-      NextMethod()
-    }
-  )
-
-  expect_condition(group_split(df, x, keep = FALSE), class = "[_called")
-})
-
