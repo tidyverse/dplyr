@@ -72,15 +72,8 @@ group_split <- function(.tbl, ..., keep = TRUE) {
 
 #' @export
 group_split.data.frame <- function(.tbl, ..., keep = TRUE) {
-  data <- .tbl
-  grouped_data <- group_by(.tbl, ...)
-
-  if (!keep) {
-    cols <- group_vars(grouped_data)
-    data <- drop_cols(data, cols)
-  }
-
-  group_split_impl(data, grouped_data)
+  data <- group_by(.tbl, ...)
+  group_split_impl(data, keep = keep)
 }
 
 #' @export
@@ -92,10 +85,7 @@ group_split.rowwise_df <- function(.tbl, ..., keep = TRUE) {
     warn("keep is ignored in group_split(<rowwise_df>)")
   }
 
-  grouped_data <- .tbl
-  data <- as_tibble(.tbl)
-
-  group_split_impl(data, grouped_data)
+  group_split_impl(.tbl, keep = TRUE)
 }
 
 #' @export
@@ -104,28 +94,25 @@ group_split.grouped_df <- function(.tbl, ..., keep = TRUE) {
     warn("... is ignored in group_split(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_split()")
   }
 
-  grouped_data <- .tbl
-  data <- as_tibble(grouped_data)
+  group_split_impl(.tbl, keep = keep)
+}
 
-  if (!keep) {
-    cols <- group_vars(grouped_data)
-    data <- drop_cols(data, cols)
+group_split_impl <- function(data, keep) {
+  out <- ungroup(data)
+  indices <- group_rows(data)
+
+  if (!isTRUE(keep)) {
+    remove <- group_vars(data)
+    keep <- names(out)
+    keep <- setdiff(keep, remove)
+    out <- out[keep]
   }
 
-  group_split_impl(data, grouped_data)
+  dplyr_chop(out, indices)
 }
 
-group_split_impl <- function(data, grouped_data) {
-  indices <- group_rows(grouped_data)
-
+dplyr_chop <- function(data, indices) {
   out <- map(indices, dplyr_row_slice, data = data)
   out <- new_list_of(out, ptype = vec_ptype(data))
-
   out
-}
-
-drop_cols <- function(data, cols) {
-  keep <- names(data)
-  keep <- setdiff(keep, cols)
-  data[keep]
 }
