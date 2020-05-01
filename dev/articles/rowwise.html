@@ -426,12 +426,12 @@
 <span class="co">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span>
 <span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span>
 <span class="no">rf</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">y2</span> <span class="kw">=</span> <span class="no">y</span>)
-<span class="co">#&gt; Error: `mutate()` argument `y2` must be recyclable.</span>
-<span class="co">#&gt; ℹ `y2` is `y`.</span>
-<span class="co">#&gt; ℹ The error occured in row 1.</span>
-<span class="co">#&gt; ✖ `y2` can't be recycled to size 1.</span>
-<span class="co">#&gt; ℹ `y2` must be size 1, not 3.</span>
+<span class="co">#&gt; Error: Problem with `mutate()` input `y2`.</span>
+<span class="co">#&gt; ✖ Input `y2` can't be recycled to size 1.</span>
+<span class="co">#&gt; ℹ Input `y2` is `y`.</span>
+<span class="co">#&gt; ℹ Input `y2` must be size 1, not 3.</span>
 <span class="co">#&gt; ℹ Did you mean: `y2 = list(y)` ?</span>
+<span class="co">#&gt; ℹ The error occured in row 1.</span>
 <span class="no">rf</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">y2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">y</span>))
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt; # Rowwise:  g</span>
@@ -542,12 +542,12 @@
 <div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">df</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="no">n</span>, <span class="no">min</span>, <span class="no">max</span>))
-<span class="co">#&gt; Error: `mutate()` argument `data` must be recyclable.</span>
-<span class="co">#&gt; ℹ `data` is `runif(n, min, max)`.</span>
-<span class="co">#&gt; ℹ The error occured in row 2.</span>
-<span class="co">#&gt; ✖ `data` can't be recycled to size 1.</span>
-<span class="co">#&gt; ℹ `data` must be size 1, not 2.</span>
-<span class="co">#&gt; ℹ Did you mean: `data = list(runif(n, min, max))` ?</span></pre></body></html></div>
+<span class="co">#&gt; Error: Problem with `mutate()` input `data`.</span>
+<span class="co">#&gt; ✖ Input `data` can't be recycled to size 1.</span>
+<span class="co">#&gt; ℹ Input `data` is `runif(n, min, max)`.</span>
+<span class="co">#&gt; ℹ Input `data` must be size 1, not 2.</span>
+<span class="co">#&gt; ℹ Did you mean: `data = list(runif(n, min, max))` ?</span>
+<span class="co">#&gt; ℹ The error occured in row 2.</span></pre></body></html></div>
 </div>
 <div id="multiple-combinations" class="section level3">
 <h3 class="hasAnchor">
