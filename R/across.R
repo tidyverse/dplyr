@@ -141,6 +141,7 @@ c_across <- function(cols = everything()) {
 
   cols <- mask$current_cols(vars)
 
+  # TODO: adapt after: https://github.com/r-lib/vctrs/issues/232
   tryCatch(
     vec_c(!!!unname(cols)),
     error = function(e) {
