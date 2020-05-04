@@ -45,10 +45,14 @@
 #'
 #'   * "drop_last": dropping the last level of grouping. This was the
 #'   only supported option before version 1.0.0.
-#'   * NULL (default): same as "drop_last" but with a message.
 #'   * "drop": All levels of grouping are dropped.
 #'   * "keep": Same grouping structure as `.data`.
 #'   * "rowwise": Each row is it's own group.
+#'
+#'   When `.groups` is not specified, you either get "drop_last"
+#'   when all the results are size 1, or "keep" if the size varies.
+#'   In addition, a message informs you of that choice, unless the
+#'   option "dplyr.summarise.inform" is set to `FALSE`.
 #'
 #' @family single table verbs
 #' @return
@@ -134,17 +138,26 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
   out <- group_keys(.data)
 
   all_one <- identical(cols$size, 1L)
+  default <- is.null(.groups)
+  if (default) {
+    if (all_one) {
+      .groups <- "drop_last"
+    } else {
+      .groups <- "keep"
+    }
+  }
+  summarise_inform <- default && is_reference(topenv(caller_env()), global_env()) && !identical(getOption("dplyr.summarise.inform"), FALSE)
+
   if (!all_one) {
     out <- vec_slice(out, rep(seq_len(nrow(out)), cols$size))
   }
-
   out <- dplyr_col_modify(out, cols$new)
 
   group_vars <- group_vars(.data)
-  if (is.null(.groups) || identical(.groups, "drop_last")) {
+  if (identical(.groups, "drop_last")) {
     n <- length(group_vars)
     if (n > 1) {
-      if (is.null(.groups) && is_reference(topenv(caller_env()), global_env())) {
+      if (summarise_inform) {
         inform(
           glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
                new_groups = glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
@@ -152,8 +165,19 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
         )
       }
       out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
+    } else {
+      if (summarise_inform) {
+        inform('`summarise()` ungrouping (override with `.groups` argument)')
+      }
     }
   } else if (identical(.groups, "keep")) {
+    if (summarise_inform) {
+      inform(
+        glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
+          new_groups = glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
+        )
+      )
+    }
     out <- grouped_df(out, group_vars, group_by_drop_default(.data))
   } else if (identical(.groups, "rowwise")) {
     out <- rowwise_df(out, group_vars)
