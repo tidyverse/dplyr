@@ -37,7 +37,7 @@ Imports:
     magrittr (>= 1.5),
     methods,
     R6,
-    rlang (>= 0.4.5.9000),
+    rlang (>= 0.4.6),
     tibble (>= 2.1.3),
     tidyselect (>= 1.0.0),
     utils,
@@ -68,5 +68,4 @@ LazyData: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Remotes:
-    r-lib/rlang, 
     r-lib/vctrs
