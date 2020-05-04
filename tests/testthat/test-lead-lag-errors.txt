@@ -26,5 +26,5 @@ incompatible default
 ====================
 
 > lag(c("1", "2", "3"), default = FALSE)
-Error: Can't combine `default` <character> and `x` <logical>.
+Error: Can't combine `default` <logical> and `x` <character>.
 
