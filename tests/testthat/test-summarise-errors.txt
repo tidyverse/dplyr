@@ -4,7 +4,7 @@ Messages about .groups=
 
 > eval_bare(expr(tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()), env(
 +   global_env()))
-Message: Regrouping by 'x' (`.groups = "drop_last")`
+Message: `summarise()` regrouping by 'x' (override with `.groups` argument)
 
 # A tibble: 1 x 2
 # Groups:   x [1]

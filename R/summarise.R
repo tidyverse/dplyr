@@ -129,7 +129,16 @@ summarise.data.frame <- function(.data, ..., .groups = NULL) {
 
 #' @export
 summarise.grouped_df <- function(.data, ..., .groups = NULL) {
-  out <- NextMethod()
+  cols <- summarise_cols(.data, ...)
+
+  out <- group_keys(.data)
+
+  all_one <- identical(cols$size, 1L)
+  if (!all_one) {
+    out <- vec_slice(out, rep(seq_len(nrow(out)), cols$size))
+  }
+
+  out <- dplyr_col_modify(out, cols$new)
 
   group_vars <- group_vars(.data)
   if (is.null(.groups) || identical(.groups, "drop_last")) {
@@ -137,7 +146,7 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
     if (n > 1) {
       if (is.null(.groups) && is_reference(topenv(caller_env()), global_env())) {
         inform(
-          glue('Regrouping by {new_groups} (`.groups = "drop_last")`',
+          glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
                new_groups = glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
           )
         )
@@ -160,7 +169,15 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
 
 #' @export
 summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
-  out <- NextMethod()
+  cols <- summarise_cols(.data, ...)
+
+  out <- group_keys(.data)
+  all_one <- identical(cols$size, 1L)
+  if (!identical(cols$size, 1L)) {
+    out <- vec_slice(out, rep(seq_len(nrow(out)), cols$size))
+  }
+
+  out <- dplyr_col_modify(out, cols$new)
 
   group_vars <- group_vars(.data)
   if (is.null(.groups) || identical(.groups, "rowwise") || identical(.groups, "keep")) {
