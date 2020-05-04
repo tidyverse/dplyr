@@ -301,6 +301,8 @@
   the whole we believe those failures to either reflect unexpected behaviour
   or tests that need to be strengthened (#2751).
 
+* `coalesce()` now uses vctrs recycling and common type coercion rules (#5186).
+
 * `count()` and `add_count()` do a better job of preserving input class
   and attributes (#4086).
 
