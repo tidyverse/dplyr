@@ -63,10 +63,11 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
-  default <- vec_cast(default, x, x_arg = "default", to_arg = "x")
+  inputs <- vec_cast_common(default = default, x = x)
+
   vec_c(
-    vec_rep(default, n),
-    vec_slice(x, seq_len(xlen - n))
+    vec_rep(inputs$default, n),
+    vec_slice(inputs$x, seq_len(xlen - n))
   )
 }
 
@@ -87,9 +88,9 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
-  default <- vec_cast(default, x, x_arg = "default", to_arg = "x")
+  inputs <- vec_cast_common(default = default, x = x)
   vec_c(
-    vec_slice(x, -seq_len(n)),
-    vec_rep(default, n)
+    vec_slice(inputs$x, -seq_len(n)),
+    vec_rep(inputs$default, n)
   )
 }
