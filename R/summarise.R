@@ -186,7 +186,7 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   group_vars <- group_vars(.data)
   if (is.null(.groups) || identical(.groups, "rowwise") || identical(.groups, "keep")) {
     if (verbose) {
-      inform("summarise() regrouping by rows (override with `.groups` argument", .env)
+      inform("summarise() regrouping by rows (override with `.groups` argument)")
     }
     out <- rowwise_df(out, group_vars)
   } else if (!identical(.groups, "drop")) {

@@ -183,6 +183,10 @@ test_that("summarise(.groups=)", {
     expr(data.frame(x = 1, y = 2) %>% group_by(x, y) %>% summarise()),
     env(global_env())
   ))
+  expect_message(eval_bare(
+    expr(data.frame(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()),
+    env(global_env())
+  ))
 
   df <- data.frame(x = 1, y = 2)
   gf <- df %>% group_by(x, y)
@@ -205,6 +209,14 @@ test_that("summarise() gives meaningful errors", {
       expr(
         tibble(x = 1, y = 2) %>%
           group_by(x, y) %>%
+          summarise()
+      ),
+      env(global_env())
+    )
+    eval_bare(
+      expr(
+        tibble(x = 1, y = 2) %>%
+          rowwise(x, y) %>%
           summarise()
       ),
       env(global_env())

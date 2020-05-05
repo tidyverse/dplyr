@@ -12,6 +12,16 @@ Message: `summarise()` regrouping by 'x' (override with `.groups` argument)
   <dbl> <dbl>
 1     1     2
 
+> eval_bare(expr(tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()), env(
++   global_env()))
+Message: summarise() regrouping by rows (override with `.groups` argument)
+
+# A tibble: 1 x 2
+# Rowwise:  x, y
+      x     y
+  <dbl> <dbl>
+1     1     2
+
 
 unsupported type
 ================
