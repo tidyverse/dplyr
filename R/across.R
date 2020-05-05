@@ -158,7 +158,7 @@ c_across <- function(cols = everything()) {
 # to do any required "set up" work (like the `eval_select()` call) a single
 # time per top-level call, rather than once per group.
 across_setup <- function(cols, fns, names, key) {
-  mask <- peek_mask(fun = "across()")
+  mask <- peek_mask("across()")
 
   value <- mask$across_cache_get(key)
   if (!is.null(value)) {
@@ -220,7 +220,7 @@ across_setup <- function(cols, fns, names, key) {
 }
 
 c_across_setup <- function(cols, key) {
-  mask <- peek_mask(fun = "c_across()")
+  mask <- peek_mask("c_across()")
 
   value <- mask$across_cache_get(key)
   if (!is.null(value)) {
