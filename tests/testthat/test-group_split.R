@@ -12,7 +12,7 @@ test_that("group_split() keeps the grouping variables by default", {
 
 test_that("group_split() can discard the grouping variables with keep = FALSE", {
   tbl <- tibble(x = 1:4, g = factor(rep(c("a", "b"), each = 2)))
-  res <- group_split(tbl, g, keep = FALSE)
+  res <- group_split(tbl, g, .keep = FALSE)
 
   expect_identical(res, list_of(tbl[1:2, 1, drop = FALSE], tbl[3:4,1, drop = FALSE]))
   expect_is(res, "vctrs_list_of")
@@ -71,7 +71,7 @@ test_that("group_split(keep=FALSE) does not try to remove virtual grouping colum
     iris3,
     groups = tibble(.bootstrap = 1:2, .rows := rows)
   )
-  res <- group_split(df, keep = FALSE)
+  res <- group_split(df, .keep = FALSE)
 
   expect_identical(
     res,

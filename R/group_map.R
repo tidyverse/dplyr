@@ -125,7 +125,7 @@ group_map.data.frame <- function(.data, .f, ..., keep = FALSE) {
 
   # call the function on each group
   chunks <- if (is_grouped_df(.data)) {
-    group_split(.data, keep = isTRUE(keep))
+    group_split(.data, .keep = isTRUE(keep))
   } else {
     group_split(.data)
   }
