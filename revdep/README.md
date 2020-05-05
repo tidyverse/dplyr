@@ -10,7 +10,7 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Europe/Paris                 |
-|date     |2020-05-04                   |
+|date     |2020-05-05                   |
 
 # Dependencies
 
@@ -28,7 +28,7 @@
 |glue       |1.4.0    |1.4.0       |   |
 |lifecycle  |0.2.0    |0.2.0       |   |
 |magrittr   |1.5      |1.5         |   |
-|pillar     |1.4.3    |1.4.3       |   |
+|pillar     |1.4.3    |1.4.4       |*  |
 |pkgconfig  |2.0.3    |2.0.3       |   |
 |plogr      |0.2.0    |NA          |*  |
 |purrr      |0.3.4    |0.3.4       |   |
@@ -42,7 +42,7 @@
 
 # Revdeps
 
-## Failed to check (144)
+## Failed to check (143)
 
 |package                                            |version  |error     |warning |note     |
 |:--------------------------------------------------|:--------|:---------|:-------|:--------|
@@ -131,7 +131,6 @@
 |morse                                              |3.2.5    |1         |        |         |
 |mrgsolve                                           |0.10.1   |1         |        |         |
 |muscData                                           |1.0.0    |1         |        |1        |
-|neuropsychology                                    |0.5.0    |1         |        |         |
 |nlmixr                                             |1.1.1-5  |1         |        |         |
 |NobBS                                              |0.1.0    |1         |        |         |
 |openair                                            |2.7-0    |1         |        |         |
@@ -191,12 +190,12 @@
 |weibulltools                                       |1.0.1    |1         |        |         |
 |XBSeq                                              |1.18.0   |1         |        |2        |
 
-## New problems (97)
+## New problems (93)
 
 |package                                        |version |error    |warning |note     |
 |:----------------------------------------------|:-------|:--------|:-------|:--------|
 |[AlphaBeta](problems.md#alphabeta)             |1.2.0   |__+1__   |        |2        |
-|[apyramid](problems.md#apyramid)               |0.1.1   |__+2__   |        |1        |
+|[apyramid](problems.md#apyramid)               |0.1.1   |__+2__   |        |         |
 |[areal](problems.md#areal)                     |0.1.5   |__+1__   |        |         |
 |[banR](problems.md#banr)                       |0.2.1   |__+1__   |        |         |
 |[BAwiR](problems.md#bawir)                     |1.2.3   |__+1__   |        |         |
@@ -221,7 +220,6 @@
 |[expstudies](problems.md#expstudies)           |0.0.5   |__+1__   |        |         |
 |[ezplot](problems.md#ezplot)                   |0.4.1   |__+2__   |        |         |
 |[fabletools](problems.md#fabletools)           |0.1.3   |__+2__   |        |         |
-|[finalfit](problems.md#finalfit)               |1.0.1   |__+1__   |        |         |
 |[foieGras](problems.md#foiegras)               |0.4.0   |__+2__   |        |1        |
 |[forecastML](problems.md#forecastml)           |0.8.0   |__+1__   |        |         |
 |[fuzzyjoin](problems.md#fuzzyjoin)             |0.1.5   |__+1__   |        |         |
@@ -230,7 +228,6 @@
 |[gemini](problems.md#gemini)                   |1.2.0   |__+1__   |        |2        |
 |[gender](problems.md#gender)                   |0.5.3   |__+1__   |        |1        |
 |[ggedit](problems.md#ggedit)                   |0.3.0   |__+1__   |        |1        |
-|[ggRandomForests](problems.md#ggrandomforests) |2.0.1   |__+1__   |        |1        |
 |[gratia](problems.md#gratia)                   |0.3.1   |__+1__   |        |         |
 |[HaDeX](problems.md#hadex)                     |1.1     |__+2__   |        |1        |
 |[holodeck](problems.md#holodeck)               |0.2.0   |__+1__   |        |         |
@@ -250,7 +247,7 @@
 |[MSstatsTMT](problems.md#msstatstmt)           |1.6.0   |__+2__   |        |         |
 |[ncdfgeom](problems.md#ncdfgeom)               |1.1.0   |__+1__   |        |         |
 |[ncmeta](problems.md#ncmeta)                   |0.2.0   |__+1__   |        |         |
-|[nonmemica](problems.md#nonmemica)             |0.9.1   |__+1__   |        |         |
+|[neuropsychology](problems.md#neuropsychology) |0.5.0   |__+1__   |        |1        |
 |[padr](problems.md#padr)                       |0.5.1   |__+2__   |        |         |
 |[pammtools](problems.md#pammtools)             |0.2.2   |__+2__   |        |         |
 |[PAST](problems.md#past)                       |1.4.1   |__+1__   |2       |1        |
@@ -275,7 +272,6 @@
 |[stacomiR](problems.md#stacomir)               |0.5.4.3 |2 __+1__ |5       |2        |
 |[strapgod](problems.md#strapgod)               |0.0.4   |__+1__   |        |         |
 |[StratigrapheR](problems.md#stratigrapher)     |1.0.1   |__+1__   |        |         |
-|[sugarbag](problems.md#sugarbag)               |0.1.2   |__+1__   |        |1        |
 |[tidycells](problems.md#tidycells)             |0.2.2   |__+2__   |        |         |
 |[tidygraph](problems.md#tidygraph)             |1.1.2   |__+1__   |__+2__  |         |
 |[tidyjson](problems.md#tidyjson)               |0.2.4   |__+2__   |        |         |
@@ -288,7 +284,6 @@
 |[treeplyr](problems.md#treeplyr)               |0.1.7   |__+1__   |        |         |
 |[tsibble](problems.md#tsibble)                 |0.8.6   |__+2__   |        |1        |
 |[unpivotr](problems.md#unpivotr)               |0.5.1   |__+1__   |        |         |
-|[valr](problems.md#valr)                       |0.5.0   |__+2__   |        |         |
 |[vpc](problems.md#vpc)                         |1.1.0   |1 __+1__ |        |         |
 |[xpose](problems.md#xpose)                     |0.4.8   |__+2__   |        |         |
 |[yamlet](problems.md#yamlet)                   |0.4.6   |         |__+1__  |-1       |

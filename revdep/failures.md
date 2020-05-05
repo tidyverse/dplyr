@@ -3789,7 +3789,7 @@ Run `revdep_details(,"ENCODExplorer")` for more info
 * URL: https://github.com/kvasilopoulos/exuber
 * BugReports: https://github.com/kvasilopoulos/exuber/issues
 * Date/Publication: 2019-07-15 09:40:07 UTC
-* Number of recursive dependencies: 87
+* Number of recursive dependencies: 91
 
 Run `revdep_details(,"exuber")` for more info
 
@@ -6009,77 +6009,6 @@ Error: package ‘dbplyr’ required by ‘BiocFileCache’ could not be found
 Execution halted
 ERROR: lazy loading failed for package ‘muscData’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/muscData/old/muscData.Rcheck/muscData’
-
-```
-# neuropsychology
-
-<details>
-
-* Version: 0.5.0
-* Source code: https://github.com/cran/neuropsychology
-* URL: https://github.com/neuropsychology/neuropsychology.R
-* BugReports: https://github.com/neuropsychology/neuropsychology.R/issues
-* Date/Publication: 2017-03-22 19:17:18 UTC
-* Number of recursive dependencies: 153
-
-Run `revdep_details(,"neuropsychology")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘neuropsychology’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/new/neuropsychology.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘neuropsychology’ ...
-** package ‘neuropsychology’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-Warning: namespace ‘caret’ is not available and has been replaced
-by .GlobalEnv when processing object ‘models’
-Warning: namespace ‘caret’ is not available and has been replaced
-by .GlobalEnv when processing object ‘models’
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘recipes’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘neuropsychology’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/new/neuropsychology.Rcheck/neuropsychology’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘neuropsychology’ ...
-** package ‘neuropsychology’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-Warning: namespace ‘caret’ is not available and has been replaced
-by .GlobalEnv when processing object ‘models’
-Warning: namespace ‘caret’ is not available and has been replaced
-by .GlobalEnv when processing object ‘models’
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘recipes’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘neuropsychology’
-* removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/old/neuropsychology.Rcheck/neuropsychology’
 
 ```
 # nlmixr
