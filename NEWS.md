@@ -81,6 +81,8 @@
 * `summarise()` can create summaries of greater than length 1 if you use a
   summary function that returns multiple values.
 
+* `summarise()` gains a `.groups=` argument to control the grouping structure. 
+
 * New `relocate()` verb makes it easy to move columns around within a data 
   frame (#4598).
   
