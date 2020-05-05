@@ -49,7 +49,7 @@ as_group_map_function <- function(.f) {
 #'   that identifies the group
 #'
 #' @param ... Additional arguments passed on to `.f`
-#' @param keep are the grouping variables kept in `.x`
+#' @param .keep are the grouping variables kept in `.x`
 #'
 #' @return
 #'  - `group_modify()` returns a grouped tibble. In that case `.f` must return a data frame.
