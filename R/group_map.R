@@ -142,20 +142,19 @@ group_map.data.frame <- function(.data, .f, ..., keep = FALSE) {
 
 #' @rdname group_map
 #' @export
-group_modify <- function(.data, .f, ..., keep = FALSE) {
+group_modify <- function(.data, .f, ..., .keep = FALSE) {
   UseMethod("group_modify")
 }
 
 #' @export
-group_modify.data.frame <- function(.data, .f, ..., keep = FALSE) {
+group_modify.data.frame <- function(.data, .f, ..., .keep = FALSE) {
   .f <- as_group_map_function(.f)
   .f(.data, group_keys(.data), ...)
 }
 
 #' @export
-group_modify.grouped_df <- function(.data, .f, ..., keep = FALSE) {
+group_modify.grouped_df <- function(.data, .f, ..., .keep = FALSE) {
   tbl_group_vars <- group_vars(.data)
-
   .f <- as_group_map_function(.f)
   fun <- function(.x, .y){
     res <- .f(.x, .y, ...)
@@ -170,7 +169,7 @@ group_modify.grouped_df <- function(.data, .f, ..., keep = FALSE) {
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   }
-  chunks <- group_map(.data, fun, keep = keep)
+  chunks <- group_map(.data, fun, keep = .keep)
   res <- if (length(chunks) > 0L) {
     bind_rows(!!!chunks)
   } else {
