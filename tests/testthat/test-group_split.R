@@ -10,7 +10,7 @@ test_that("group_split() keeps the grouping variables by default", {
   expect_identical(attr(res, "ptype"), tibble(x = integer(), g = factor(levels = c("a", "b"))))
 })
 
-test_that("group_split() can discard the grouping variables with keep = FALSE", {
+test_that("group_split() can discard the grouping variables with .keep = FALSE", {
   tbl <- tibble(x = 1:4, g = factor(rep(c("a", "b"), each = 2)))
   res <- group_split(tbl, g, .keep = FALSE)
 
