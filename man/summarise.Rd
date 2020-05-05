@@ -28,11 +28,15 @@ The value can be:
 \itemize{
 \item "drop_last": dropping the last level of grouping. This was the
 only supported option before version 1.0.0.
-\item NULL (default): same as "drop_last" but with a message.
 \item "drop": All levels of grouping are dropped.
 \item "keep": Same grouping structure as \code{.data}.
 \item "rowwise": Each row is it's own group.
-}}
+}
+
+When \code{.groups} is not specified, you either get "drop_last"
+when all the results are size 1, or "keep" if the size varies.
+In addition, a message informs you of that choice, unless the
+option "dplyr.summarise.inform" is set to \code{FALSE}.}
 }
 \value{
 An object \emph{usually} of the same type as \code{.data}.

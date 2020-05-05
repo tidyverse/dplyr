@@ -121,49 +121,58 @@ summarize <- summarise
 
 #' @export
 summarise.data.frame <- function(.data, ..., .groups = NULL) {
-  summarise_cols(.data, ...)$out
+  cols <- summarise_cols(.data, ...)
+  out <- summarise_build(.data, cols)
+  summarise_regroup(out,
+    .data = .data, .cols = cols,
+    .groups = .groups, .env = caller_env()
+  )
 }
 
-#' @export
-summarise.grouped_df <- function(.data, ..., .groups = NULL) {
-  results <- summarise_cols(.data, ...)
-  out <- results$out
-  all_one <- results$all_one
+summarise_inform <- function(message, .env) {
+  if (is_reference(topenv(.env), global_env()) && !identical(getOption("dplyr.summarise.inform"), FALSE)) {
+    inform(message)
+  }
+}
 
+summarise_regroup <- function(out, .data, .cols, .groups, .env) {
+  UseMethod("summarise_regroup", .data)
+}
+
+summarise_regroup.data.frame <- function(out, .data, .cols, .groups, .env) {
+  out
+}
+
+summarise_regroup.grouped_df <- function(out, .data, .cols, .groups, .env) {
   default <- is.null(.groups)
   if (default) {
-    if (all_one) {
+    if (.cols$all_one) {
       .groups <- "drop_last"
     } else {
       .groups <- "keep"
     }
   }
-  summarise_inform <- default && is_reference(topenv(caller_env()), global_env()) && !identical(getOption("dplyr.summarise.inform"), FALSE)
 
   group_vars <- group_vars(.data)
   if (identical(.groups, "drop_last")) {
     n <- length(group_vars)
     if (n > 1) {
-      if (summarise_inform) {
-        inform(
-          glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
-               new_groups = glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
-          )
-        )
+      if (default) {
+        summarise_inform(glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
+          new_groups = glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
+        ), .env)
       }
       out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
     } else {
-      if (summarise_inform) {
-        inform('`summarise()` ungrouping (override with `.groups` argument)')
+      if (default) {
+        summarise_inform('`summarise()` ungrouping (override with `.groups` argument)', .env)
       }
     }
   } else if (identical(.groups, "keep")) {
-    if (summarise_inform) {
-      inform(
-        glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
-          new_groups = glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-        )
-      )
+    if (default) {
+      summarise_inform(glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
+        new_groups = glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
+      ), .env)
     }
     out <- grouped_df(out, group_vars, group_by_drop_default(.data))
   } else if (identical(.groups, "rowwise")) {
@@ -178,11 +187,12 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
   out
 }
 
-#' @export
-summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
-  out <- summarise_cols(.data, ...)$out
+summarise_regroup.rowwise_df <- function(out, .data, .cols, .groups, .env) {
   group_vars <- group_vars(.data)
   if (is.null(.groups) || identical(.groups, "rowwise") || identical(.groups, "keep")) {
+    if (is.null(.groups)) {
+      summarise_inform("summarise() regrouping by rows (override with `.groups` argument", .env)
+    }
     out <- rowwise_df(out, group_vars)
   } else if (!identical(.groups, "drop")) {
     abort(c(
@@ -270,11 +280,14 @@ summarise_cols <- function(.data, ...) {
     }
   })
 
-  all_one <- identical(sizes, 1L)
-  out <- group_keys(.data)
-  if (!all_one) {
-    out <- vec_slice(out, rep(seq_len(nrow(out)), sizes))
-  }
-  out <- dplyr_col_modify(out, cols)
-  list(out = out, new = cols, size = sizes, all_one = identical(sizes ,1L))
+  list(new = cols, size = sizes, all_one = identical(sizes ,1L))
 }
+
+summarise_build <- function(.data, cols) {
+  out <- group_keys(.data)
+  if (!cols$all_one) {
+    out <- vec_slice(out, rep(seq_len(nrow(out)), cols$size))
+  }
+  dplyr_col_modify(out, cols$new)
+}
+
