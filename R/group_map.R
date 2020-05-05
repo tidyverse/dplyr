@@ -115,17 +115,17 @@ as_group_map_function <- function(.f) {
 #'   group_modify(~ head(.x, 2L))
 #'
 #' @export
-group_map <- function(.data, .f, ..., keep = FALSE) {
+group_map <- function(.data, .f, ..., .keep = FALSE) {
   UseMethod("group_map")
 }
 
 #' @export
-group_map.data.frame <- function(.data, .f, ..., keep = FALSE) {
+group_map.data.frame <- function(.data, .f, ..., .keep = FALSE) {
   .f <- as_group_map_function(.f)
 
   # call the function on each group
   chunks <- if (is_grouped_df(.data)) {
-    group_split(.data, .keep = isTRUE(keep))
+    group_split(.data, .keep = isTRUE(.keep))
   } else {
     group_split(.data)
   }
@@ -169,7 +169,7 @@ group_modify.grouped_df <- function(.data, .f, ..., .keep = FALSE) {
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   }
-  chunks <- group_map(.data, fun, keep = .keep)
+  chunks <- group_map(.data, fun, .keep = .keep)
   res <- if (length(chunks) > 0L) {
     bind_rows(!!!chunks)
   } else {
