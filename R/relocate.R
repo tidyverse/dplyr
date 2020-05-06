@@ -56,7 +56,7 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   has_after <- !quo_is_null(.after)
 
   if (has_before && has_after) {
-    abort("Must supply only one of `.before` and `.after`")
+    abort("Must supply only one of `.before` and `.after`.")
   } else if (has_before) {
     where <- min(unname(tidyselect::eval_select(.before, .data)))
     to_move <- c(setdiff(to_move, where), where)

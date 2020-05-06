@@ -3,10 +3,10 @@ group_modify()
 ==============
 
 > mtcars %>% group_by(cyl) %>% group_modify(~data.frame(cyl = 19))
-Error: The returned data frame cannot contain the original grouping variables: cyl
+Error: The returned data frame cannot contain the original grouping variables: cyl.
 
 > mtcars %>% group_by(cyl) %>% group_modify(~10)
-Error: The result of .f should be a data frame
+Error: The result of .f should be a data frame.
 
 > iris %>% group_by(Species) %>% group_modify(head1)
 Error in as_group_map_function(.f): The function must accept at least two arguments. You can use ... to absorb unused components

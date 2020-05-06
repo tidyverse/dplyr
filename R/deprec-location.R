@@ -29,7 +29,7 @@ location <- function(df) {
   check_pkg("lobstr", "compute package locations")
 
   if (!is.data.frame(df)) {
-    abort("location() is meant for data frames")
+    abort("`location()` is meant for data frames.")
   }
 
   attrs <- attributes(df)

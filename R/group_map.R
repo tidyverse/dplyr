@@ -160,12 +160,12 @@ group_modify.grouped_df <- function(.data, .f, ..., keep = FALSE) {
   fun <- function(.x, .y){
     res <- .f(.x, .y, ...)
     if (!inherits(res, "data.frame")) {
-      abort("The result of .f should be a data frame")
+      abort("The result of .f should be a data frame.")
     }
     if (any(bad <- names(res) %in% tbl_group_vars)) {
-      abort(paste0(
-        "The returned data frame cannot contain the original grouping variables: ",
-        paste(names(res)[bad], collapse = ", ")
+      abort(glue(
+        "The returned data frame cannot contain the original grouping variables: {names}.",
+        names = paste(names(res)[bad], collapse = ", ")
       ))
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)

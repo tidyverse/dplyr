@@ -29,7 +29,7 @@
 #' coalesce(!!!vecs)
 coalesce <- function(...) {
   if (missing(..1)) {
-    abort("At least one argument must be supplied")
+    abort("At least one argument must be supplied.")
   }
 
   values <- list2(...)

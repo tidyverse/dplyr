@@ -1,3 +1,3 @@
 > coalesce(1:2, 1:3)
-Error: Argument 2 must be length 2 (length of `x`) or one, not 3
+Error: Argument 2 must be length 2 (length of `x`) or one, not 3.
 

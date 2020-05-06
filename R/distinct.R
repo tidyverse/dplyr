@@ -91,8 +91,8 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
   missing_vars <- setdiff(distinct_vars, names(.data))
   if (length(missing_vars) > 0) {
     abort(c(
-      "distinct() must use existing variables",
-      glue("`{missing_vars}` not found in `.data`")
+      "distinct() must use existing variables.",
+      x = glue("`{missing_vars}` not found in `.data`.")
     ))
   }
 

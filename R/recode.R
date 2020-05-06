@@ -178,7 +178,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
 recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- list2(...)
   if (length(values) == 0) {
-    abort("No replacements provided")
+    abort("No replacements provided.")
   }
 
   if (!all(have_name(values))) {
@@ -218,7 +218,7 @@ find_template <- function(values, .default = NULL, .missing = NULL) {
   x <- compact(c(values, .default, .missing))
 
   if (length(x) == 0) {
-    abort("No replacements provided")
+    abort("No replacements provided.")
   }
 
   x[[1]]

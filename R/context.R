@@ -112,7 +112,7 @@ context_peek_bare <- function(name) {
 }
 context_peek <- function(name, fun, location = "dplyr verbs") {
   context_peek_bare(name) %||%
-    abort(glue("{fun} must only be used inside {location}"))
+    abort(glue("`{fun}` must only be used inside {location}."))
 }
 context_local <- function(name, value, frame = caller_env()) {
   old <- context_poke(name, value)
