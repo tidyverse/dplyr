@@ -71,15 +71,23 @@ group_split <- function(.tbl, ..., .keep = TRUE) {
 }
 
 #' @export
-group_split.data.frame <- function(.tbl, ..., .keep = TRUE) {
+group_split.data.frame <- function(.tbl, ..., .keep = TRUE, keep) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )")
+    .keep <- keep
+  }
   data <- group_by(.tbl, ...)
   group_split_impl(data, .keep = .keep)
 }
 
 #' @export
-group_split.rowwise_df <- function(.tbl, ..., .keep = TRUE) {
+group_split.rowwise_df <- function(.tbl, ..., .keep = TRUE, keep) {
   if (dots_n(...)) {
     warn("... is ignored in group_split(<rowwise_df>), please use as_tibble() %>% group_split(...)")
+  }
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )")
+    .keep <- keep
   }
   if (!missing(.keep)) {
     warn(".keep is ignored in group_split(<rowwise_df>)")
@@ -89,7 +97,11 @@ group_split.rowwise_df <- function(.tbl, ..., .keep = TRUE) {
 }
 
 #' @export
-group_split.grouped_df <- function(.tbl, ..., .keep = TRUE) {
+group_split.grouped_df <- function(.tbl, ..., .keep = TRUE, keep) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )")
+    .keep <- keep
+  }
   if (dots_n(...)) {
     warn("... is ignored in group_split(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_split()")
   }

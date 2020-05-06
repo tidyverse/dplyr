@@ -120,7 +120,11 @@ group_map <- function(.data, .f, ..., .keep = FALSE) {
 }
 
 #' @export
-group_map.data.frame <- function(.data, .f, ..., .keep = FALSE) {
+group_map.data.frame <- function(.data, .f, ..., .keep = FALSE, keep) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_map(keep = )", "group_map(.keep = )")
+    .keep <- keep
+  }
   .f <- as_group_map_function(.f)
 
   # call the function on each group
@@ -147,13 +151,21 @@ group_modify <- function(.data, .f, ..., .keep = FALSE) {
 }
 
 #' @export
-group_modify.data.frame <- function(.data, .f, ..., .keep = FALSE) {
+group_modify.data.frame <- function(.data, .f, ..., .keep = FALSE, keep) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_modify(keep = )", "group_modify(.keep = )")
+    .keep <- keep
+  }
   .f <- as_group_map_function(.f)
   .f(.data, group_keys(.data), ...)
 }
 
 #' @export
-group_modify.grouped_df <- function(.data, .f, ..., .keep = FALSE) {
+group_modify.grouped_df <- function(.data, .f, ..., .keep = FALSE, keep) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_modify(keep = )", "group_modify(.keep = )")
+    .keep <- keep
+  }
   tbl_group_vars <- group_vars(.data)
   .f <- as_group_map_function(.f)
   fun <- function(.x, .y){
