@@ -4,3 +4,9 @@ x Problem with `across()` input `.fns`.
 i Input `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
 i Input `res` is `across(is.numeric, 42)`.
 
+> across()
+Error: `across()` must only be used inside dplyr verbs.
+
+> c_across()
+Error: `c_across()` must only be used inside dplyr verbs.
+
