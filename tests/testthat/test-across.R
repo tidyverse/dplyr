@@ -112,7 +112,6 @@ test_that("across() gives meaningful messages", {
     tibble(x = 1) %>%
       summarise(res = across(is.numeric, 42))
 
-    "# outside context"
     across()
     c_across()
   })

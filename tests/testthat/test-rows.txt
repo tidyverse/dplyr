@@ -117,12 +117,12 @@ Errors
 > rows_insert(data[c(1, 1), ], tibble(a = 3))
 Message: Matching, by = "a"
 
-Error: `x` key values are not unique
+Error: `x` key values are not unique.
 
 > rows_insert(data, tibble(a = c(4, 4)))
 Message: Matching, by = "a"
 
-Error: `y` key values are not unique
+Error: `y` key values are not unique.
 
 > rows_insert(data, tibble(d = 4))
 Message: Matching, by = "d"

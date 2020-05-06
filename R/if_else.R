@@ -29,7 +29,7 @@
 #' # Attributes are taken from the `true` vector,
 if_else <- function(condition, true, false, missing = NULL) {
   if (!is.logical(condition)) {
-    bad_args("condition", "must be a logical vector, not {friendly_type_of(condition)}")
+    bad_args("condition", "must be a logical vector, not {friendly_type_of(condition)}.")
   }
 
   out <- true[rep(NA_integer_, length(condition))]

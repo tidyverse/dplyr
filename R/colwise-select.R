@@ -108,7 +108,7 @@ rename_at <- function(.tbl, .vars, .funs = list(), ...) {
 
 vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
   if (length(funs) > 1) {
-    bad_args(".funs", "must contain one renaming function, not {length(funs)}")
+    bad_args(".funs", "must contain one renaming function, not {length(funs)}.")
   } else if (length(funs) == 1) {
     fun <- funs[[1]]
     if (is_quosure(fun)) {
@@ -122,7 +122,7 @@ vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
   } else if (!strict) {
     syms <- syms(vars)
   } else {
-    bad_args(".funs", "must specify a renaming function")
+    bad_args(".funs", "must specify a renaming function.")
   }
 
   group_vars <- group_vars(tbl)

@@ -4,5 +4,5 @@ Please use `tbl()` directly with a database connection
 This warning is displayed once every 8 hours.
 Call `lifecycle::last_warnings()` to see where this warning was generated.
 
-Error: `path` must already exist, unless `create` = TRUE
+Error: `path` must already exist, unless `create` = TRUE.
 

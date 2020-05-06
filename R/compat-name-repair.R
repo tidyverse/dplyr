@@ -109,9 +109,9 @@ strip_pos <- function(name) {
 describe_repair <- function(orig_name, name) {
   if(length(orig_name) != length(name)) {
     abort(c(
-      "`orig_name` and `name` have different sizes",
-      i = glue("`orig_name` is of size {length(orig_name)}"),
-      i = glue("`name`      is of size {length(name)}")
+      "`orig_name` and `name` have different sizes.",
+      i = glue("`orig_name` is of size {length(orig_name)}."),
+      i = glue("`name`      is of size {length(name)}.")
     ))
   }
 
@@ -134,8 +134,8 @@ describe_repair <- function(orig_name, name) {
 re_match <- function(text, pattern, perl = TRUE, ...) {
   if (!is.character(pattern) || length(pattern) != 1L || is.na(pattern)) {
     abort(c(
-      "incompatible `pattern`",
-      i = "`pattern` should be a scalar string"
+      "incompatible `pattern`.",
+      i = "`pattern` should be a scalar string."
     ))
   }
   text <- as.character(text)
