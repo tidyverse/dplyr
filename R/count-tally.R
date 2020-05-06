@@ -144,10 +144,10 @@ tally_n <- function(x, wt) {
 check_name <- function(df, name) {
   if (is.null(name)) {
     if ("n" %in% tbl_vars(df)) {
-      glubort(
-        "Column 'n' is already present in output.\n",
-        "* Use `name = \"new_name\"` to pick a new name."
-      )
+      abort(c(
+        "Column `n` is already present in output.",
+        i = "Use `name = \"new_name\"` to pick a new name."
+      ))
     }
     return("n")
   }
