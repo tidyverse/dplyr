@@ -66,7 +66,7 @@ standardise_join_by <- function(by, x_names, y_names) {
     # TODO: check lengths
     by <- by[c("x", "y")]
   } else {
-    bad_args("by", "must be a (named) character vector, list, or NULL, not {friendly_type_of(by)}")
+    bad_args("by", "must be a (named) character vector, list, or NULL, not {friendly_type_of(by)}.")
   }
 
   check_join_vars(by$x, x_names)
@@ -124,7 +124,7 @@ standardise_join_suffix <- function(x) {
   }
 
   if (any(is.na(x))) {
-    bad_args("suffix", "can't be NA")
+    bad_args("suffix", "can't be NA.")
   }
 
   list(x = x[[1]], y = x[[2]])

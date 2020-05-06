@@ -1,5 +1,5 @@
 > recode(factor("a"), a = 5, .missing = 10)
-Error: `.missing` is not supported for factors
+Error: `.missing` is not supported for factors.
 
 > recode("a", b = 5, "c")
 Error: Argument 3 must be named, not unnamed

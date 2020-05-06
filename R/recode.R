@@ -186,7 +186,7 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
     bad_pos_args(bad, "must be named, not unnamed")
   }
   if (!is.null(.missing)) {
-    bad_args(".missing", "is not supported for factors")
+    bad_args(".missing", "is not supported for factors.")
   }
 
   n <- length(levels(.x))

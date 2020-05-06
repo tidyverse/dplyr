@@ -33,7 +33,7 @@ order_by <- function(order_by, call) {
     if (is_symbol(expr)) {
       bad_args("call",
         "must be a function call, not a symbol.\n",
-        "* Did you mean `arrange({as_label(enquo(order_by))}, {expr})` ?"
+        "* Did you mean `arrange({as_label(enquo(order_by))}, {expr})`?"
       )
     } else {
       type <- friendly_type_of(expr)
