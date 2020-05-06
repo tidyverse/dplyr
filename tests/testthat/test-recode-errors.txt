@@ -2,10 +2,10 @@
 Error: `.missing` is not supported for factors.
 
 > recode("a", b = 5, "c")
-Error: Argument 3 must be named, not unnamed
+Error: Argument 3 must be named, not unnamed.
 
 > recode(factor("a"), b = 5, "c")
-Error: Argument 3 must be named, not unnamed
+Error: Argument 3 must be named, not unnamed.
 
 
 no replacement
