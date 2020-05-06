@@ -1,11 +1,13 @@
 > df %>% distinct(aa, x)
-Error: distinct() must use existing variables.
+Error: `distinct()` must use existing variables.
 x `aa` not found in `.data`.
 
 > df %>% distinct(aa, bb)
-Error in format_error_bullets(x[-1]): nms %in% c("i", "x", "") are not all TRUE
+Error: `distinct()` must use existing variables.
+x `aa` not found in `.data`.
+x `bb` not found in `.data`.
 
 > df %>% distinct(.data$aa)
-Error: distinct() must use existing variables.
+Error: `distinct()` must use existing variables.
 x `aa` not found in `.data`.
 
