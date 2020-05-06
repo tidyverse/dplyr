@@ -210,6 +210,7 @@
 <span class="no">df</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">m</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x</span>, <span class="no">y</span>, <span class="no">z</span>)))
+<span class="co">#&gt; summarise() regrouping by rows (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 2 x 1</span>
 <span class="co">#&gt; # Rowwise: </span>
 <span class="co">#&gt;       m</span>
@@ -220,6 +221,7 @@
 <span class="no">df</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>(<span class="no">name</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">m</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x</span>, <span class="no">y</span>, <span class="no">z</span>)))
+<span class="co">#&gt; summarise() regrouping by rows (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 2 x 2</span>
 <span class="co">#&gt; # Rowwise:  name</span>
 <span class="co">#&gt;   name       m</span>
@@ -256,6 +258,7 @@
 <span class="co">#&gt; 4     4    13    23    33    43   112</span>
 <span class="co">#&gt; # … with 2 more rows</span>
 <span class="no">rf</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">total</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">w</span>, <span class="no">x</span>, <span class="no">y</span>, <span class="no">z</span>)))
+<span class="co">#&gt; summarise() regrouping by rows (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 6 x 2</span>
 <span class="co">#&gt; # Rowwise:  id</span>
 <span class="co">#&gt;      id total</span>
@@ -445,6 +448,7 @@
 <a href="#modelling" class="anchor"></a>Modelling</h3>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> data frames allow you to solve a variety of modelling problems in what I think is a particularly elegant way. We’ll start by creating a nested data frame:</p>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">by_cyl</span> <span class="kw">&lt;-</span> <span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/nest_by.html">nest_by</a></span>(<span class="no">cyl</span>)
+<span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span>
 <span class="no">by_cyl</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
@@ -476,6 +480,7 @@
 <span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;   &lt;dbl [14]&gt;</span></pre></body></html></div>
 <p>You could then summarise the model in a variety of ways:</p>
 <div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">mods</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">rmse</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>((<span class="no">pred</span> - <span class="no">data</span>$<span class="no">mpg</span>) ^ <span class="fl">2</span>)))
+<span class="co">#&gt; summarise() regrouping by rows (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
 <span class="co">#&gt;     cyl  rmse</span>
@@ -484,6 +489,7 @@
 <span class="co">#&gt; 2     6 0.985</span>
 <span class="co">#&gt; 3     8 1.87</span>
 <span class="no">mods</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">rsq</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">mod</span>)$<span class="no">r.squared</span>)
+<span class="co">#&gt; summarise() regrouping by rows (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
 <span class="co">#&gt;     cyl   rsq</span>
@@ -492,6 +498,7 @@
 <span class="co">#&gt; 2     6 0.465</span>
 <span class="co">#&gt; 3     8 0.423</span>
 <span class="no">mods</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw pkg">broom</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/broom/man/reexports.html">glance</a></span>(<span class="no">mod</span>))
+<span class="co">#&gt; summarise() regrouping by rows (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 3 x 12</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
 <span class="co">#&gt;     cyl r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC</span>
@@ -502,6 +509,7 @@
 <span class="co">#&gt; # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</span></pre></body></html></div>
 <p>Or easily access the parameters of each model:</p>
 <div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">mods</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw pkg">broom</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/broom/man/reexports.html">tidy</a></span>(<span class="no">mod</span>))
+<span class="co">#&gt; summarise() regrouping by rows (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
 <span class="co">#&gt;     cyl term        estimate std.error statistic    p.value</span>
@@ -624,6 +632,7 @@
 <div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="no">mtcars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">cyl</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="../reference/context.html">cur_data</a></span>(), <span class="fl">1</span>))
+<span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 3 x 11</span>
 <span class="co">#&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
 <span class="co">#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -647,6 +656,7 @@
 <div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="no">mtcars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">cyl</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">nrows</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="fu"><a href="../reference/context.html">cur_data</a></span>()))
+<span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;     cyl nrows</span>
 <span class="co">#&gt; * &lt;dbl&gt; &lt;int&gt;</span>

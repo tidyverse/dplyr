@@ -216,7 +216,6 @@
 
 <span class="no">by_sex_gender</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/count.html">tally</a></span>(<span class="kw">sort</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; # A tibble: 6 x 3</span>
-<span class="co">#&gt; # Groups:   sex [5]</span>
 <span class="co">#&gt;   sex    gender        n</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt;</span>
 <span class="co">#&gt; 1 male   masculine    60</span>
@@ -313,9 +312,8 @@
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">homeworld</span>, <span class="kw">.add</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/count.html">tally</a></span>()
 <span class="co">#&gt; # A tibble: 58 x 3</span>
-<span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   species  homeworld       n</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;       &lt;int&gt;</span>
+<span class="co">#&gt; * &lt;chr&gt;    &lt;chr&gt;       &lt;int&gt;</span>
 <span class="co">#&gt; 1 Aleena   Aleen Minor     1</span>
 <span class="co">#&gt; 2 Besalisk Ojom            1</span>
 <span class="co">#&gt; 3 Cerean   Cerea           1</span>
@@ -359,6 +357,7 @@
     <span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>(),
     <span class="kw">height</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
   )
+<span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 38 x 3</span>
 <span class="co">#&gt;   species      n height</span>
 <span class="co">#&gt; * &lt;chr&gt;    &lt;int&gt;  &lt;dbl&gt;</span>
@@ -367,19 +366,35 @@
 <span class="co">#&gt; 3 Cerean       1    198</span>
 <span class="co">#&gt; 4 Chagrian     1    196</span>
 <span class="co">#&gt; # … with 34 more rows</span></pre></body></html></div>
-<p>For historical reasons, <code><a href="../reference/summarise.html">summarise()</a></code> removes the grouping variable on the right hand side:</p>
+<p>The <code>.groups=</code> argument controls the grouping structure of the output. The historical behaviour of removing the right hand side grouping variable corresponds to <code>.groups = "drop_last"</code> without a message or <code>.groups = NULL</code> with a message (the default).</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">by_sex_gender</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>()) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_data.html">group_vars</a></span>()
+<span class="co">#&gt; `summarise()` regrouping by 'sex' (override with `.groups` argument)</span>
+<span class="co">#&gt; [1] "sex"</span>
+
+<span class="no">by_sex_gender</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>(), <span class="kw">.groups</span> <span class="kw">=</span> <span class="st">"drop_last"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span>()
 <span class="co">#&gt; [1] "sex"</span></pre></body></html></div>
-<p>If there’s only one grouping variable, the output will be ungrouped (i.e. a regular tibble).</p>
+<p>Since version 1.0.0 the groups may also be kept (<code>.groups = "keep"</code>) or dropped (<code>.groups = "drop"</code>).</p>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">by_sex_gender</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>(), <span class="kw">.groups</span> <span class="kw">=</span> <span class="st">"keep"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span>()
+<span class="co">#&gt; [1] "sex"    "gender"</span>
+
+<span class="no">by_sex_gender</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">n</a></span>(), <span class="kw">.groups</span> <span class="kw">=</span> <span class="st">"drop"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span>()
+<span class="co">#&gt; character(0)</span></pre></body></html></div>
+<p>When the output no longer have grouping variables, it becomes ungrouped (i.e. a regular tibble).</p>
 </div>
 <div id="select-rename-and-relocate" class="section level3">
 <h3 class="hasAnchor">
 <a href="#select-rename-and-relocate" class="anchor"></a><code>select()</code>, <code>rename()</code>, and <code>relocate()</code>
 </h3>
 <p><code><a href="../reference/rename.html">rename()</a></code> and <code><a href="../reference/relocate.html">relocate()</a></code> behave identically with grouped and ungrouped data because they only affect the name or position of existing columns. Grouped <code><a href="../reference/select.html">select()</a></code> is almost identical to ungrouped select, except that it always includes the grouping variables:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">mass</span>)
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">mass</span>)
 <span class="co">#&gt; Adding missing grouping variables: `species`</span>
 <span class="co">#&gt; # A tibble: 87 x 2</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
@@ -397,7 +412,7 @@
 <a href="#arrange" class="anchor"></a><code>arrange()</code>
 </h3>
 <p>Grouped <code><a href="../reference/arrange.html">arrange()</a></code> is the same as ungrouped <code><a href="../reference/arrange.html">arrange()</a></code>, unless you set <code>.by_group = TRUE</code>, in which case it will order first by the grouping variables.</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/arrange.html">arrange</a></span>(<span class="fu"><a href="../reference/desc.html">desc</a></span>(<span class="no">mass</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/relocate.html">relocate</a></span>(<span class="no">species</span>, <span class="no">mass</span>)
 <span class="co">#&gt; # A tibble: 87 x 14</span>
@@ -431,7 +446,7 @@
 <a href="#mutate-and-transmute" class="anchor"></a><code>mutate()</code> and <code>transmute()</code>
 </h3>
 <p>In simple cases with vectorised functions, grouped and ungrouped <code><a href="../reference/mutate.html">mutate()</a></code> give the same results. They differ when used with summary functions:</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="co"># Subtract off global mean</span>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="co"># Subtract off global mean</span>
 <span class="no">starwars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">name</span>, <span class="no">homeworld</span>, <span class="no">mass</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">standard_mass</span> <span class="kw">=</span> <span class="no">mass</span> - <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">mass</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
@@ -459,7 +474,7 @@
 <span class="co">#&gt; 4 Darth Vader    Tatooine    136         50.6 </span>
 <span class="co">#&gt; # … with 83 more rows</span></pre></body></html></div>
 <p>Or with window functions like <code><a href="../reference/ranking.html">min_rank()</a></code>:</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="co"># Overall rank</span>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="co"># Overall rank</span>
 <span class="no">starwars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">name</span>, <span class="no">homeworld</span>, <span class="no">height</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">rank</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ranking.html">min_rank</a></span>(<span class="no">height</span>))
@@ -492,7 +507,7 @@
 <a href="#filter" class="anchor"></a><code>filter()</code>
 </h3>
 <p>A grouped <code><a href="../reference/filter.html">filter()</a></code> effectively does a <code><a href="../reference/mutate.html">mutate()</a></code> to generate a logical variable, and then only keeps the rows where the variable is <code>TRUE</code>. This means that grouped filters can be used with summary functions. For example, we can find the tallest character of each species:</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">name</span>, <span class="no">species</span>, <span class="no">height</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="no">height</span> <span class="kw">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">height</span>))
 <span class="co">#&gt; # A tibble: 35 x 3</span>
@@ -505,7 +520,7 @@
 <span class="co">#&gt; 4 Bossk                 Trandoshan        190</span>
 <span class="co">#&gt; # … with 31 more rows</span></pre></body></html></div>
 <p>You can also use <code><a href="../reference/filter.html">filter()</a></code> to remove entire groups. For example, the following code eliminates all groups that only have a single member:</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/context.html">n</a></span>() <span class="kw">!=</span> <span class="fl">1</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/count.html">tally</a></span>()
 <span class="co">#&gt; # A tibble: 9 x 2</span>
@@ -521,7 +536,7 @@
 <h3 class="hasAnchor">
 <a href="#slice-and-friends" class="anchor"></a><code>slice()</code> and friends</h3>
 <p><code><a href="../reference/slice.html">slice()</a></code> and friends (<code><a href="../reference/slice.html">slice_head()</a></code>, <code><a href="../reference/slice.html">slice_tail()</a></code>, <code><a href="../reference/slice.html">slice_sample()</a></code>, <code><a href="../reference/slice.html">slice_min()</a></code> and <code><a href="../reference/slice.html">slice_max()</a></code>) select rows within a group. For example, we can select the first observation within each species:</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/relocate.html">relocate</a></span>(<span class="no">species</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/slice.html">slice</a></span>(<span class="fl">1</span>)
 <span class="co">#&gt; # A tibble: 38 x 14</span>
@@ -535,7 +550,7 @@
 <span class="co">#&gt; # … with 34 more rows, and 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></pre></body></html></div>
 <p>Similarly, we can use <code><a href="../reference/slice.html">slice_min()</a></code> to select the smallest <code>n</code> values of a variable:</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span>(!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">height</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/slice.html">slice_min</a></span>(<span class="no">height</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="fl">2</span>)
 <span class="co">#&gt; # A tibble: 48 x 14</span>
@@ -559,7 +574,7 @@
 <a href="#cur_data" class="anchor"></a><code>cur_data()</code>
 </h3>
 <p><code><a href="../reference/context.html">cur_data()</a></code> returns the current group, excluding grouping variables. It’s useful to feed to functions that take a whole data frame. For example, the following code fits a linear model of <code>mass ~ height</code> to each species:</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/context.html">n</a></span>() <span class="kw">&gt;</span> <span class="fl">1</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">mod</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">mass</span> ~ <span class="no">height</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">cur_data</a></span>())))
 <span class="co">#&gt; # A tibble: 58 x 15</span>
@@ -578,7 +593,7 @@
 <a href="#cur_group-and-cur_group_id" class="anchor"></a><code>cur_group()</code> and <code>cur_group_id()</code>
 </h3>
 <p><code><a href="../reference/context.html">cur_group_id()</a></code> gives a unique numeric identifier for the current group. This is sometimes useful if you want to index into an external data structure.</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">by_species</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/arrange.html">arrange</a></span>(<span class="no">species</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">name</span>, <span class="no">species</span>, <span class="no">homeworld</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="fu"><a href="../reference/context.html">cur_group_id</a></span>())

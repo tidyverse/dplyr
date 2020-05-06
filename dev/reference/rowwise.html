@@ -303,7 +303,7 @@ with nested data.</p></div>
 <span class='co'># Here I supply variables to preserve after the summary</span>
 <span class='no'>params</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>rowwise</span>(<span class='no'>sim</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>, <span class='no'>mean</span>, <span class='no'>sd</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 2</span><span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>, <span class='no'>mean</span>, <span class='no'>sd</span>))</div><div class='output co'>#&gt; <span class='message'>summarise() regrouping by rows (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise:  sim</span><span>
 #&gt;     sim      z
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -316,7 +316,7 @@ with nested data.</p></div>
 <span class='co'># If you want one row per simulation, put the results in a list()</span>
 <span class='no'>params</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>rowwise</span>(<span class='no'>sim</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>, <span class='no'>mean</span>, <span class='no'>sd</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>, <span class='no'>mean</span>, <span class='no'>sd</span>)))</div><div class='output co'>#&gt; <span class='message'>summarise() regrouping by rows (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise:  sim</span><span>
 #&gt;     sim z        
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   

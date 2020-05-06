@@ -240,8 +240,10 @@
 <p>Finally, <code><a href="../reference/ranking.html">ntile()</a></code> divides the data up into <code>n</code> evenly sized buckets. It’s a coarse ranking, and it can be used in with <code><a href="../reference/mutate.html">mutate()</a></code> to divide the data into buckets for further summary. For example, we could use <code><a href="../reference/ranking.html">ntile()</a></code> to divide the players within a team into four ranked groups, and calculate the average number of games within each group.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">by_team_player</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">batting</span>, <span class="no">teamID</span>, <span class="no">playerID</span>)
 <span class="no">by_team</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="no">by_team_player</span>, <span class="kw">G</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">G</span>))
+<span class="co">#&gt; `summarise()` regrouping by 'teamID' (override with `.groups` argument)</span>
 <span class="no">by_team_quartile</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">by_team</span>, <span class="kw">quartile</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ranking.html">ntile</a></span>(<span class="no">G</span>, <span class="fl">4</span>))
 <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="no">by_team_quartile</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">G</span>))
+<span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;   quartile `mean(G)`</span>
 <span class="co">#&gt; *    &lt;int&gt;     &lt;dbl&gt;</span>

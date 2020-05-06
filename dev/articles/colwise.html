@@ -196,6 +196,7 @@
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">species</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/context.html">n</a></span>() <span class="kw">&gt;</span> <span class="fl">1</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">sex</span>, <span class="no">gender</span>, <span class="no">homeworld</span>), ~ <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">.x</span>))))
+<span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 9 x 4</span>
 <span class="co">#&gt;   species    sex gender homeworld</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;  &lt;int&gt;     &lt;int&gt;</span>
@@ -209,6 +210,7 @@
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">homeworld</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/context.html">n</a></span>() <span class="kw">&gt;</span> <span class="fl">1</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, ~ <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">.x</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)))
+<span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 10 x 4</span>
 <span class="co">#&gt;   homeworld height  mass birth_year</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span>
@@ -222,6 +224,7 @@
 <span class="no">df</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">g</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">sum</span>))
+<span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;       g     x     y</span>
 <span class="co">#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
