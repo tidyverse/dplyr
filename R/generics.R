@@ -151,7 +151,7 @@ dplyr_col_modify.data.frame <- function(data, cols) {
     out[[nm]] <- cols[[i]]
   }
 
-  dplyr_reconstruct.data.frame(out, data)
+  dplyr_reconstruct(out, data)
 }
 
 #' @export
