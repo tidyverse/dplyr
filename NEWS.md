@@ -366,8 +366,6 @@
 
 * `ntile()` is now more consistent with database implementations if the buckets have irregular size (#4495).
 
-* Support for R 3.2.* has been dropped. The minimal R version supported is now 3.3.0
-
 # dplyr 0.8.5 (2020-03-07)
 
 * Maintenance release for compatibility with R-devel.
