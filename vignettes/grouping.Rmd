@@ -147,15 +147,33 @@ by_species %>%
   )
 ```
 
-For historical reasons, `summarise()` removes the grouping variable on the right hand side:
+The `.groups=` argument controls the grouping structure of the output. The historical behaviour of
+removing the right hand side grouping variable corresponds to `.groups = "drop_last"` without a 
+message or `.groups = NULL` with a message (the default). 
 
 ```{r}
 by_sex_gender %>% 
   summarise(n = n()) %>% 
   group_vars()
+
+by_sex_gender %>% 
+  summarise(n = n(), .groups = "drop_last") %>% 
+  group_vars()
 ```
 
-If there's only one grouping variable, the output will be ungrouped (i.e. a regular tibble).
+Since version 1.0.0 the groups may also be kept (`.groups = "keep"`) or dropped (`.groups = "drop"`). 
+
+```{r}
+by_sex_gender %>% 
+  summarise(n = n(), .groups = "keep") %>% 
+  group_vars()
+
+by_sex_gender %>% 
+  summarise(n = n(), .groups = "drop") %>% 
+  group_vars()
+```
+
+When the output no longer have grouping variables, it becomes ungrouped (i.e. a regular tibble). 
 
 ### `select()`, `rename()`, and `relocate()`
 

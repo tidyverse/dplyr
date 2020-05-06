@@ -41,6 +41,19 @@
 #'   * A vector of length 1, e.g. `min(x)`, `n()`, or `sum(is.na(y))`.
 #'   * A vector of length `n`, e.g. `quantile()`.
 #'   * A data frame, to add multiple columns from a single expression.
+#' @param .groups \Sexpr[results=rd]{lifecycle::badge("experimental")} Grouping structure of the result.
+#'
+#'   * "drop_last": dropping the last level of grouping. This was the
+#'   only supported option before version 1.0.0.
+#'   * "drop": All levels of grouping are dropped.
+#'   * "keep": Same grouping structure as `.data`.
+#'   * "rowwise": Each row is it's own group.
+#'
+#'   When `.groups` is not specified, you either get "drop_last"
+#'   when all the results are size 1, or "keep" if the size varies.
+#'   In addition, a message informs you of that choice, unless the
+#'   option "dplyr.summarise.inform" is set to `FALSE`.
+#'
 #' @family single table verbs
 #' @return
 #' An object _usually_ of the same type as `.data`.
@@ -48,10 +61,8 @@
 #' * The rows come from the underlying [group_keys()].
 #' * The columns are a combination of the grouping keys and the summary
 #'   expressions that you provide.
-#' * If `x` is grouped by more than one variable, the output will be another
-#'   [grouped_df] with the right-most group removed.
-#' * If `x` is grouped by one variable, or is not grouped, the output will
-#'   be a [tibble].
+#' * The grouping structure is controlled by the `.groups=` argument, the
+#'   output may be another [grouped_df], a [tibble] or a [rowwise] data frame.
 #' * Data frame attributes are **not** preserved, because `summarise()`
 #'   fundamentally creates a new data frame.
 #' @section Methods:
@@ -101,7 +112,7 @@
 #' var <- "mass"
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 #' # Learn more in ?dplyr_data_masking
-summarise <- function(.data, ...) {
+summarise <- function(.data, ..., .groups = NULL) {
   UseMethod("summarise")
 }
 #' @rdname summarise
@@ -109,34 +120,83 @@ summarise <- function(.data, ...) {
 summarize <- summarise
 
 #' @export
-summarise.data.frame <- function(.data, ...) {
+summarise.data.frame <- function(.data, ..., .groups = NULL) {
   cols <- summarise_cols(.data, ...)
+  summarise_build(.data, cols)
+}
 
-  out <- group_keys(.data)
-  if (!identical(cols$size, 1L)) {
-    out <- vec_slice(out, rep(seq_len(nrow(out)), cols$size))
-  }
-
-  dplyr_col_modify(out, cols$new)
+summarise_verbose <- function(.groups, .env) {
+  is.null(.groups) && is_reference(topenv(.env), global_env()) && !identical(getOption("dplyr.summarise.inform"), FALSE)
 }
 
 #' @export
-summarise.grouped_df <- function(.data, ...) {
-  out <- NextMethod()
+summarise.grouped_df <- function(.data, ..., .groups = NULL) {
+  cols <- summarise_cols(.data, ...)
+  out <- summarise_build(.data, cols)
+  verbose <- summarise_verbose(.groups, caller_env())
+
+  if (is.null(.groups)) {
+    if (cols$all_one) {
+      .groups <- "drop_last"
+    } else {
+      .groups <- "keep"
+    }
+  }
 
   group_vars <- group_vars(.data)
-  n <- length(group_vars)
-  if (n > 1) {
-    out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
+  if (identical(.groups, "drop_last")) {
+    n <- length(group_vars)
+    if (n > 1) {
+      if (verbose) {
+        inform(glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
+          new_groups = glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
+        ))
+      }
+      out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
+    } else {
+      if (verbose) {
+        inform('`summarise()` ungrouping (override with `.groups` argument)')
+      }
+    }
+  } else if (identical(.groups, "keep")) {
+    if (verbose) {
+      inform(glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
+        new_groups = glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
+      ))
+    }
+    out <- grouped_df(out, group_vars, group_by_drop_default(.data))
+  } else if (identical(.groups, "rowwise")) {
+    out <- rowwise_df(out, group_vars)
+  } else if(!identical(.groups, "drop")) {
+    abort(c(
+      paste0("`.groups` can't be ", as_label(.groups)),
+      i = 'Possible values are NULL (default), "drop_last", "drop", "keep", and "rowwise"'
+    ))
   }
 
   out
 }
 
 #' @export
-summarise.rowwise_df <- function(.data, ...) {
-  out <- NextMethod()
-  rowwise_df(out, group_vars(.data))
+summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
+  cols <- summarise_cols(.data, ...)
+  out <- summarise_build(.data, cols)
+  verbose <- summarise_verbose(.groups, caller_env())
+
+  group_vars <- group_vars(.data)
+  if (is.null(.groups) || identical(.groups, "rowwise") || identical(.groups, "keep")) {
+    if (verbose) {
+      inform("summarise() regrouping by rows (override with `.groups` argument)")
+    }
+    out <- rowwise_df(out, group_vars)
+  } else if (!identical(.groups, "drop")) {
+    abort(c(
+      paste0("`.groups` can't be ", as_label(.groups)),
+      i = 'Possible values are NULL (default), "drop", "keep", and "rowwise"'
+    ))
+  }
+
+  out
 }
 
 summarise_cols <- function(.data, ...) {
@@ -200,20 +260,29 @@ summarise_cols <- function(.data, ...) {
     }
 
   },
-  error = function(e) {
-    if (inherits(e, "rlang_error_data_pronoun_not_found")) {
-      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
-    } else if (inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
-      stop_combine(e$parent, index = i, dots = dots, fn = "summarise")
-    } else if (inherits(e, "dplyr:::summarise_unsupported_type")) {
-      stop_summarise_unsupported_type(result = e$result, index = i, dots = dots)
-    } else if (inherits(e, "dplyr:::summarise_incompatible_size")) {
-      stop_summarise_incompatible_size(size = e$size, group = e$group, index = e$index, expected_size = e$expected_size, dots = dots)
-    } else {
-      stop_dplyr(i, dots, fn = "summarise", problem = conditionMessage(e)
-      )
-    }
-  })
+    error = function(e) {
+      if (inherits(e, "rlang_error_data_pronoun_not_found")) {
+        stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
+      } else if (inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
+        stop_combine(e$parent, index = i, dots = dots, fn = "summarise")
+      } else if (inherits(e, "dplyr:::summarise_unsupported_type")) {
+        stop_summarise_unsupported_type(result = e$result, index = i, dots = dots)
+      } else if (inherits(e, "dplyr:::summarise_incompatible_size")) {
+        stop_summarise_incompatible_size(size = e$size, group = e$group, index = e$index, expected_size = e$expected_size, dots = dots)
+      } else {
+        stop_dplyr(i, dots, fn = "summarise", problem = conditionMessage(e)
+        )
+      }
+    })
 
-  list(new = cols, size = sizes)
+  list(new = cols, size = sizes, all_one = identical(sizes ,1L))
 }
+
+summarise_build <- function(.data, cols) {
+  out <- group_keys(.data)
+  if (!cols$all_one) {
+    out <- vec_slice(out, rep(seq_len(nrow(out)), cols$size))
+  }
+  dplyr_col_modify(out, cols$new)
+}
+
