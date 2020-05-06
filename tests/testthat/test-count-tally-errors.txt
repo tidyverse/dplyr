@@ -3,19 +3,19 @@
 Message: Using `n` as weighting variable
 
 Error: Column 'n' is already present in output.
- * Use `name = "new_name"` to pick a new name
+ * Use `name = "new_name"` to pick a new name.
 
 > df <- data.frame(g = c(1, 2, 2, 2), n = c(1:4))
 > count(df, g)
 Message: Using `n` as weighting variable
 
 Error: Column 'n' is already present in output.
- * Use `name = "new_name"` to pick a new name
+ * Use `name = "new_name"` to pick a new name.
 
 > df <- data.frame(n = c(1, 1, 2, 2, 2))
 > count(df, n)
 Message: Using `n` as weighting variable
 
 Error: Column 'n' is already present in output.
- * Use `name = "new_name"` to pick a new name
+ * Use `name = "new_name"` to pick a new name.
 

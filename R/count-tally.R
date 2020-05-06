@@ -146,7 +146,7 @@ check_name <- function(df, name) {
     if ("n" %in% tbl_vars(df)) {
       glubort(
         "Column 'n' is already present in output.\n",
-        "* Use `name = \"new_name\"` to pick a new name"
+        "* Use `name = \"new_name\"` to pick a new name."
       )
     }
     return("n")
