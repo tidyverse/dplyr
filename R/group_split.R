@@ -71,7 +71,7 @@ group_split <- function(.tbl, ..., .keep = TRUE) {
 }
 
 #' @export
-group_split.data.frame <- function(.tbl, ..., .keep = TRUE, keep) {
+group_split.data.frame <- function(.tbl, ..., .keep = TRUE, keep = deprecated()) {
   if (!missing(keep)) {
     lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )")
     .keep <- keep
@@ -81,7 +81,7 @@ group_split.data.frame <- function(.tbl, ..., .keep = TRUE, keep) {
 }
 
 #' @export
-group_split.rowwise_df <- function(.tbl, ..., .keep = TRUE, keep) {
+group_split.rowwise_df <- function(.tbl, ..., .keep = TRUE, keep = deprecated()) {
   if (dots_n(...)) {
     warn("... is ignored in group_split(<rowwise_df>), please use as_tibble() %>% group_split(...)")
   }
@@ -97,7 +97,7 @@ group_split.rowwise_df <- function(.tbl, ..., .keep = TRUE, keep) {
 }
 
 #' @export
-group_split.grouped_df <- function(.tbl, ..., .keep = TRUE, keep) {
+group_split.grouped_df <- function(.tbl, ..., .keep = TRUE, keep = deprecated()) {
   if (!missing(keep)) {
     lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )")
     .keep <- keep
