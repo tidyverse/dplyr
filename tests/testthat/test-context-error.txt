@@ -5,7 +5,7 @@ Error: `n()` must only be used inside dplyr verbs.
 Error: `cur_data()` must only be used inside dplyr verbs.
 
 > cur_column()
-Error: `cur_column()` must only be used inside across().
+Error: `cur_column()` must only be used inside `across()`.
 
 > cur_group()
 Error: `cur_group()` must only be used inside dplyr verbs.

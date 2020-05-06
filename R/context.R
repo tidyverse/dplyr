@@ -121,7 +121,7 @@ context_local <- function(name, value, frame = caller_env()) {
 }
 
 peek_column <- function() {
-  context_peek("column", "cur_column()", "across()")
+  context_peek("column", "cur_column()", "`across()`")
 }
 local_column <- function(x, frame = caller_env()) {
   context_local("column", x, frame = frame)
