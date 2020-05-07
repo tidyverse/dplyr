@@ -49,7 +49,6 @@ test_that("count() preserves with .drop", {
 })
 
 test_that("works with dbplyr", {
-  skip("until dbplyr knows about .groups=")
   db <- dbplyr::memdb_frame(x = c(1, 1, 1, 2, 2))
   df1 <- db %>% count(x) %>% as_tibble()
   expect_equal(df1, tibble(x = c(1, 2), n = c(3, 2)))
@@ -91,6 +90,15 @@ test_that("tally uses variable named n as default wt.", {
   df <- tibble(n = 1:3)
   expect_message(res <- df %>% tally(name = "nn"), "Using `n` as weighting variable")
   expect_named(res, "nn")
+})
+
+test_that("tally() does .groups = 'drop_last' (#5199) ", {
+  res <- expect_message(
+    data.frame(x = 1, y = 2, z = 3) %>%
+      group_by(x, y) %>%
+      tally(wt = z),
+    NA)
+  expect_equal(group_vars(res), "x")
 })
 
 # add_tally ---------------------------------------------------------------

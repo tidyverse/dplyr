@@ -83,7 +83,12 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by
 tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
   name <- check_name(x, name)
-  out <- summarise(x, !!name := !!n, .groups = "drop")
+
+  out <- local({
+    old.options <- options(dplyr.summarise.inform = FALSE)
+    on.exit(options(old.options))
+    summarise(x, !!name := !!n)
+  })
 
   if (sort) {
     arrange(out, desc(!!sym(name)))
