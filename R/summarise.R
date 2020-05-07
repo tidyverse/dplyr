@@ -150,19 +150,19 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
       if (verbose) {
         inform(glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
           new_groups = glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
-        ), class = "dplyr:::summarise_groups_information")
+        ))
       }
       out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
     } else {
       if (verbose) {
-        inform('`summarise()` ungrouping (override with `.groups` argument)', class = "dplyr:::summarise_groups_information")
+        inform('`summarise()` ungrouping (override with `.groups` argument)')
       }
     }
   } else if (identical(.groups, "keep")) {
     if (verbose) {
       inform(glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
         new_groups = glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-      ), class = "dplyr:::summarise_groups_information")
+      ))
     }
     out <- grouped_df(out, group_vars, group_by_drop_default(.data))
   } else if (identical(.groups, "rowwise")) {
@@ -186,7 +186,7 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   group_vars <- group_vars(.data)
   if (is.null(.groups) || identical(.groups, "rowwise") || identical(.groups, "keep")) {
     if (verbose) {
-      inform("summarise() regrouping by rows (override with `.groups` argument)", class = "dplyr:::summarise_groups_information")
+      inform("summarise() regrouping by rows (override with `.groups` argument)")
     }
     out <- rowwise_df(out, group_vars)
   } else if (!identical(.groups, "drop")) {
