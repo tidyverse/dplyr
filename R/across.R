@@ -137,19 +137,10 @@ c_across <- function(cols = everything()) {
   key <- key_deparse(sys.call())
   vars <- c_across_setup({{ cols }}, key = key)
 
-  mask <- peek_mask()
+  mask <- peek_mask("c_across()")
 
   cols <- mask$current_cols(vars)
-
-  # TODO: adapt after: https://github.com/r-lib/vctrs/issues/232
-  tryCatch(
-    vec_c(!!!unname(cols)),
-    error = function(e) {
-      # when combining fails, do it again with the names
-      # to get a more useful error message
-      vec_c(!!!cols)
-    }
-  )
+  vec_c(!!!cols, .name_spec = zap())
 }
 
 # TODO: The usage of a cache in `across_setup()` and `c_across_setup()` is a stopgap solution, and
