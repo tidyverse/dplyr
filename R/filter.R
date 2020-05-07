@@ -111,10 +111,6 @@ filter <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  if (missing(...)) {
-    return(.data)
-  }
-
   loc <- filter_rows(.data, ...)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
