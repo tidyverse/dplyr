@@ -49,7 +49,7 @@ as_group_map_function <- function(.f) {
 #'   that identifies the group
 #'
 #' @param ... Additional arguments passed on to `.f`
-#' @param keep are the grouping variables kept in `.x`
+#' @param .keep are the grouping variables kept in `.x`
 #'
 #' @return
 #'  - `group_modify()` returns a grouped tibble. In that case `.f` must return a data frame.
@@ -115,17 +115,21 @@ as_group_map_function <- function(.f) {
 #'   group_modify(~ head(.x, 2L))
 #'
 #' @export
-group_map <- function(.data, .f, ..., keep = FALSE) {
+group_map <- function(.data, .f, ..., .keep = FALSE) {
   UseMethod("group_map")
 }
 
 #' @export
-group_map.data.frame <- function(.data, .f, ..., keep = FALSE) {
+group_map.data.frame <- function(.data, .f, ..., .keep = FALSE, keep = deprecated()) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_map(keep = )", "group_map(.keep = )")
+    .keep <- keep
+  }
   .f <- as_group_map_function(.f)
 
   # call the function on each group
   chunks <- if (is_grouped_df(.data)) {
-    group_split(.data, keep = isTRUE(keep))
+    group_split(.data, .keep = isTRUE(.keep))
   } else {
     group_split(.data)
   }
@@ -142,20 +146,27 @@ group_map.data.frame <- function(.data, .f, ..., keep = FALSE) {
 
 #' @rdname group_map
 #' @export
-group_modify <- function(.data, .f, ..., keep = FALSE) {
+group_modify <- function(.data, .f, ..., .keep = FALSE) {
   UseMethod("group_modify")
 }
 
 #' @export
-group_modify.data.frame <- function(.data, .f, ..., keep = FALSE) {
+group_modify.data.frame <- function(.data, .f, ..., .keep = FALSE, keep = deprecated()) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_modify(keep = )", "group_modify(.keep = )")
+    .keep <- keep
+  }
   .f <- as_group_map_function(.f)
   .f(.data, group_keys(.data), ...)
 }
 
 #' @export
-group_modify.grouped_df <- function(.data, .f, ..., keep = FALSE) {
+group_modify.grouped_df <- function(.data, .f, ..., .keep = FALSE, keep = deprecated()) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_modify(keep = )", "group_modify(.keep = )")
+    .keep <- keep
+  }
   tbl_group_vars <- group_vars(.data)
-
   .f <- as_group_map_function(.f)
   fun <- function(.x, .y){
     res <- .f(.x, .y, ...)
@@ -170,7 +181,7 @@ group_modify.grouped_df <- function(.data, .f, ..., keep = FALSE) {
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   }
-  chunks <- group_map(.data, fun, keep = keep)
+  chunks <- group_map(.data, fun, .keep = .keep)
   res <- if (length(chunks) > 0L) {
     bind_rows(!!!chunks)
   } else {
