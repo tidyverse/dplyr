@@ -92,6 +92,15 @@ test_that("tally uses variable named n as default wt.", {
   expect_named(res, "nn")
 })
 
+test_that("tally() does .groups = 'drop_last' (#5199) ", {
+  res <- expect_message(
+    data.frame(x = 1, y = 2, z = 3) %>%
+      group_by(x, y) %>%
+      tally(wt = z),
+    NA)
+  expect_equal(group_vars(res), "x")
+})
+
 # add_tally ---------------------------------------------------------------
 
 test_that("can add tallies of a variable", {

@@ -87,7 +87,7 @@ tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   out <- local({
     old.options <- options(dplyr.summarise.inform = FALSE)
     on.exit(options(old.options))
-    ungroup(summarise(x, !!name := !!n))
+    summarise(x, !!name := !!n)
   })
 
   if (sort) {
