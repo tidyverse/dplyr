@@ -69,7 +69,7 @@ examples.
 Note that except for \code{:}, \code{-} and \code{c()}, all complex expressions
 are evaluated outside the data frame context. This is to prevent
 accidental matching of data frame variables when you refer to
-variables from the calling environment.
+objects in your environment.
 }
 
 \section{Methods}{
