@@ -260,7 +260,9 @@ rows_check_key_df <- function(df, by, df_name) {
     abort(glue("All `by` columns must exist in `{df_name}`."))
   }
   if (vctrs::vec_duplicate_any(df[by])) {
-    abort(glue("`{df_name}` key values are not unique."))
+    abort(class = "dplyr_rows_duplicate",
+      glue("`{df_name}` key values are not unique.")
+    )
   }
 }
 

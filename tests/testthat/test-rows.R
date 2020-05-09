@@ -10,6 +10,11 @@ test_that("rows_insert()", {
     rows_insert(data, tibble(a = 3, b = "z")),
     class = "dplyr_rows_insert_duplicate"
   )
+
+  expect_error(
+    rows_insert(data, tibble(a = 4, b = c("y", "z"))),
+    class = "dplyr_rows_duplicate"
+  )
 })
 
 test_that("rows_update()", {
