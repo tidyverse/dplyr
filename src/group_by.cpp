@@ -106,7 +106,7 @@ Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& posit
 
 inline R_xlen_t expanders_size(const std::vector<Expander*> expanders) {
   R_xlen_t n = 0;
-  for (int i = 0; i < expanders.size(); i++) {
+  for (size_t i = 0; i < expanders.size(); i++) {
     n += expanders[i]->size();
   }
   return n;
@@ -226,7 +226,7 @@ private:
 };
 
 Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, R_xlen_t index, R_xlen_t start, R_xlen_t end) {
-  if (depth == positions.size()) {
+  if (depth == (int)positions.size()) {
     return new LeafExpander(data, positions, depth, index, start, end);
   } else if (Rf_isFactor(data[depth])) {
     return new FactorExpander(data, positions, depth, index, start, end);
