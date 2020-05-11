@@ -33,20 +33,7 @@ mini-language that makes it easy to refer to variables based on their name
 (e.g. \code{a:f} selects all columns from \code{a} on the left to \code{f} on the
 right). You can also use predicate functions like \link{is.numeric} to select
 variables based on their properties.
-}
-\section{Methods}{
-
-This function is a \strong{generic}, which means that packages can provide
-implementations (methods) for other classes. See the documentation of
-individual methods for extra arguments and differences in behaviour.
-
-The following methods are currently available in loaded packages:
-\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
-}
-
-\section{Overview of selection features}{
-
-
+\subsection{Overview of selection features:}{
 
 Tidyverse selections implement a dialect of R where operators make
 it easy to select variables:
@@ -88,7 +75,16 @@ This helper selects variables with a function:
 \item \code{\link[tidyselect:where]{where()}}: Applies a function to all variables and selects those
 for which the function returns \code{TRUE}.
 }
+}
+}
+\section{Methods}{
 
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+The following methods are currently available in loaded packages:
+\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 }
 
 \section{Simple examples}{
