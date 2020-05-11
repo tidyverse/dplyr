@@ -1,3 +1,7 @@
+# Fix S4 dispatch in dbplyr
+setOldClass(c("sql", "character"))
+setOldClass(c("ident", "sql", "character"))
+
 #' Source for database backends
 #'
 #' @description
