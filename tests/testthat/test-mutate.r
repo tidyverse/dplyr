@@ -306,7 +306,7 @@ test_that(".keep = 'used' not affected by across()", {
   # This must evaluate every column in order to figure out if should
   # be included in the set or not, but that shouldn't be counted for
   # the purposes of "used" variables
-  out <- mutate(df, across(is.numeric, identity), .keep = "unused")
+  out <- mutate(df, across(where(is.numeric), identity), .keep = "unused")
   expect_named(out, names(df))
 })
 

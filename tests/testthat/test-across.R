@@ -89,7 +89,7 @@ test_that("across() avoids simple argument name collisions with ... (#4965)", {
 test_that("across() works sequentially (#4907)", {
   df <- tibble(a = 1)
   expect_equal(
-    mutate(df, x = ncol(across(where(is.numeric))), y = ncol(across(is.numeric))),
+    mutate(df, x = ncol(across(where(is.numeric))), y = ncol(across(where(is.numeric)))),
     tibble(a = 1, x = 1L, y = 2L)
   )
   expect_equal(
