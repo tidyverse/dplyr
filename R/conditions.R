@@ -34,7 +34,7 @@ or_1 <- function(x) {
 
 # Common ------------------------------------------------------------------
 
-stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE) {
+stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE, parent = NULL) {
   error_name <- arg_name(dots, .index)
   error_expression  <- if (.dot_data) {
     deparse(quo_get_expr(dots[[.index]]))
@@ -61,7 +61,8 @@ stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_
     bullets,
     class = "dplyr_error",
     error_name = error_name, error_expression = error_expression,
-    index = .index, dots = dots, fn = fn
+    index = .index, dots = dots, fn = fn,
+    parent = parent
   )
 }
 
