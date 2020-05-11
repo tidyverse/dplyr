@@ -26,31 +26,31 @@ test_that("across() correctly names output columns", {
     c("x", "id_y", "id_z", "id_s")
   )
   expect_named(
-    summarise(gf, across(is.numeric, mean)),
+    summarise(gf, across(where(is.numeric), mean)),
     c("x", "y", "z")
   )
   expect_named(
-    summarise(gf, across(is.numeric, mean, .names = "mean_{col}")),
+    summarise(gf, across(where(is.numeric), mean, .names = "mean_{col}")),
     c("x", "mean_y", "mean_z")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean = mean, sum = sum))),
+    summarise(gf, across(where(is.numeric), list(mean = mean, sum = sum))),
     c("x", "y_mean", "y_sum", "z_mean", "z_sum")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean = mean, sum))),
+    summarise(gf, across(where(is.numeric), list(mean = mean, sum))),
     c("x", "y_mean", "y_2", "z_mean", "z_2")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean, sum = sum))),
+    summarise(gf, across(where(is.numeric), list(mean, sum = sum))),
     c("x", "y_1", "y_sum", "z_1", "z_sum")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean, sum))),
+    summarise(gf, across(where(is.numeric), list(mean, sum))),
     c("x", "y_1", "y_2", "z_1", "z_2")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean = mean, sum = sum), .names = "{fn}_{col}")),
+    summarise(gf, across(where(is.numeric), list(mean = mean, sum = sum), .names = "{fn}_{col}")),
     c("x", "mean_y", "sum_y", "mean_z", "sum_z")
   )
 })
@@ -89,15 +89,15 @@ test_that("across() avoids simple argument name collisions with ... (#4965)", {
 test_that("across() works sequentially (#4907)", {
   df <- tibble(a = 1)
   expect_equal(
-    mutate(df, x = ncol(across(is.numeric)), y = ncol(across(is.numeric))),
+    mutate(df, x = ncol(across(where(is.numeric))), y = ncol(across(is.numeric))),
     tibble(a = 1, x = 1L, y = 2L)
   )
   expect_equal(
-    mutate(df, a = "x", y = ncol(across(is.numeric))),
+    mutate(df, a = "x", y = ncol(across(where(is.numeric)))),
     tibble(a = "x", y = 0L)
   )
   expect_equal(
-    mutate(df, x = 1, y = ncol(across(is.numeric))),
+    mutate(df, x = 1, y = ncol(across(where(is.numeric)))),
     tibble(a = 1, x = 1, y = 2L)
   )
 })
@@ -110,7 +110,7 @@ test_that("across() retains original ordering", {
 test_that("across() gives meaningful messages", {
   verify_output(test_path("test-across-errors.txt"), {
     tibble(x = 1) %>%
-      summarise(res = across(is.numeric, 42))
+      summarise(res = across(where(is.numeric), 42))
 
     across()
     c_across()
@@ -120,7 +120,7 @@ test_that("across() gives meaningful messages", {
 test_that("monitoring cache - across() can be used twice in the same expression", {
   df <- tibble(a = 1, b = 2)
   expect_equal(
-    mutate(df, x = ncol(across(is.numeric)) + ncol(across(a))),
+    mutate(df, x = ncol(across(where(is.numeric))) + ncol(across(a))),
     tibble(a = 1, b = 2, x = 3)
   )
 })
@@ -128,7 +128,7 @@ test_that("monitoring cache - across() can be used twice in the same expression"
 test_that("monitoring cache - across() can be used in separate expressions", {
   df <- tibble(a = 1, b = 2)
   expect_equal(
-    mutate(df, x = ncol(across(is.numeric)), y = ncol(across(a))),
+    mutate(df, x = ncol(across(where(is.numeric))), y = ncol(across(a))),
     tibble(a = 1, b = 2, x = 2, y = 1)
   )
 })
@@ -155,7 +155,7 @@ test_that("monitoring cache - across() internal cache key depends on all inputs"
   df <- group_by(df, g)
 
   expect_identical(
-    mutate(df, tibble(x = across(is.numeric, mean)$a, y = across(is.numeric, max)$a)),
+    mutate(df, tibble(x = across(where(is.numeric), mean)$a, y = across(where(is.numeric), max)$a)),
     mutate(df, x = mean(a), y = max(a))
   )
 })
