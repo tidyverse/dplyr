@@ -346,16 +346,11 @@ slice.default <- function(.data, ..., .preserve = FALSE) {
 #' @export
 #' @rdname se-deprecated
 slice_ <- function(.data, ..., .dots = list()) {
-  lazy_deprec("slice", hint = FALSE)
   UseMethod("slice_")
 }
 #' @export
 slice_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  slice(.data, !!!dots)
-}
-#' @export
-slice_.tbl_df <- function(.data, ..., .dots = list()) {
+  lazy_deprec("slice", hint = FALSE)
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   slice(.data, !!!dots)
 }
