@@ -198,5 +198,5 @@ dplyr_reconstruct.grouped_df <- function(data, template) {
 #' @export
 dplyr_reconstruct.rowwise_df <- function(data, template) {
   group_vars <- intersect(group_vars(template), names(data))
-  rowwise(grouped_df(data, group_vars))
+  rowwise_df(data, group_vars)
 }
