@@ -52,6 +52,6 @@ nest_by.data.frame <- function(.data, ..., .key = "data", .keep = FALSE, .add = 
   data <- group_by(.data, ..., .add = .add)
 
   keys <- group_keys(data)
-  keys <- mutate(keys, !!.key := group_split(data, keep = .keep))
+  keys <- mutate(keys, !!.key := group_split(data, .keep = .keep))
   rowwise(keys, tidyselect::all_of(group_vars(data)))
 }

@@ -34,7 +34,7 @@ or_1 <- function(x) {
 
 # Common ------------------------------------------------------------------
 
-stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE) {
+stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE, parent = NULL) {
   error_name <- arg_name(dots, .index)
   error_expression  <- if (.dot_data) {
     deparse(quo_get_expr(dots[[.index]]))
@@ -61,7 +61,8 @@ stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_
     bullets,
     class = "dplyr_error",
     error_name = error_name, error_expression = error_expression,
-    index = .index, dots = dots, fn = fn
+    index = .index, dots = dots, fn = fn,
+    parent = parent
   )
 }
 
@@ -117,10 +118,10 @@ stop_filter_incompatible_type <- function(index, dots, index_column_name, result
 
 stop_filter_named <- function(index, expr, name) {
   abort(glue_c(
-    "Problem with `filter()` input `..{index}`",
-    x = "Input `..{index}` is named",
+    "Problem with `filter()` input `..{index}`.",
+    x = "Input `..{index}` is named.",
     i = "This usually means that you've used `=` instead of `==`.",
-    i = "Did you mean `{name} == {as_label(expr)}` ?"
+    i = "Did you mean `{name} == {as_label(expr)}`?"
   ))
 }
 
@@ -147,7 +148,7 @@ stop_mutate_mixed_null <- function(index, dots) {
   }
 
   stop_dplyr(index, dots, "mutate",
-    problem = "`{error_name}` must return compatible vectors across groups",
+    problem = "`{error_name}` must return compatible vectors across groups.",
     i = "Cannot combine NULL and non NULL results.",
     .show_group_details = FALSE,
     cnd_bullet_rowwise_unlist()

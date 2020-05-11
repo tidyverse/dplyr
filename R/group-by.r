@@ -160,8 +160,8 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   unknown <- setdiff(group_names, tbl_vars(out))
   if (length(unknown) > 0) {
     abort(c(
-      "Must group by variables found in `.data`",
-      glue("Column `{unknown}` is not found")
+      "Must group by variables found in `.data`.",
+      glue("Column `{unknown}` is not found.")
     ))
   }
 

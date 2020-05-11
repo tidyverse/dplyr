@@ -38,9 +38,9 @@ check_length_val <- function(length_x, n, header, reason = NULL, .abort = abort)
   }
 
   if (n == 1) {
-    glubort(header, "must be length 1{reason}, not {commas(length_x)}", .abort = .abort)
+    glubort(header, "must be length 1{reason}, not {commas(length_x)}.", .abort = .abort)
   } else {
-    glubort(header, "must be length {n}{reason} or one, not {commas(length_x)}", .abort = .abort)
+    glubort(header, "must be length {n}{reason} or one, not {commas(length_x)}.", .abort = .abort)
   }
 }
 
@@ -49,7 +49,7 @@ check_type <- function(x, template, header) {
     return()
   }
 
-  glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}")
+  glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}.")
 }
 
 check_class <- function(x, template, header) {
@@ -63,5 +63,5 @@ check_class <- function(x, template, header) {
 
   exp_classes <- fmt_classes(template)
   out_classes <- fmt_classes(x)
-  glubort(header, "must have class `{exp_classes}`, not class `{out_classes}`")
+  glubort(header, "must have class `{exp_classes}`, not class `{out_classes}`.")
 }

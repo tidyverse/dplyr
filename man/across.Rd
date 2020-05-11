@@ -42,14 +42,16 @@ A tibble with one column for each column in \code{.cols} and each function in \c
 \code{across()} makes it easy to apply the same transformation to multiple
 columns, allowing you to use \code{\link[=select]{select()}} semantics inside in \code{\link[=summarise]{summarise()}} and
 \code{\link[=mutate]{mutate()}}. \code{across()} supersedes the family of "scoped variants" like
-\code{summarise_at()}, \code{summarise_if()}, and \code{summarise_all()}.
-
-See \code{vignette("colwise")} for more details.
+\code{summarise_at()}, \code{summarise_if()}, and \code{summarise_all()}. See
+\code{vignette("colwise")} for more details.
 
 \code{c_across()} is designed to work with \code{\link[=rowwise]{rowwise()}} to make it easy to
-perform rowwise aggregations; it works like \code{c()} but uses tidy select
-semantics so you can easily select multiple variables. See
-\code{vignette("rowwise")} for more details.
+perform row-wise aggregations. It has two differences from \code{c()}:
+\itemize{
+\item It uses tidy select semantics so you can easily select multiple variables.
+See \code{vignette("rowwise")} for more details.
+\item It uses \code{\link[vctrs:vec_c]{vctrs::vec_c()}} in order to give safer outputs.
+}
 }
 \examples{
 # across() -----------------------------------------------------------------

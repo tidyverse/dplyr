@@ -4,14 +4,16 @@
 #' `across()` makes it easy to apply the same transformation to multiple
 #' columns, allowing you to use [select()] semantics inside in [summarise()] and
 #' [mutate()]. `across()` supersedes the family of "scoped variants" like
-#' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
-#'
-#' See `vignette("colwise")` for more details.
+#' `summarise_at()`, `summarise_if()`, and `summarise_all()`. See
+#' `vignette("colwise")` for more details.
 #'
 #' `c_across()` is designed to work with [rowwise()] to make it easy to
-#' perform rowwise aggregations; it works like `c()` but uses tidy select
-#' semantics so you can easily select multiple variables. See
-#' `vignette("rowwise")` for more details.
+#' perform row-wise aggregations. It has two differences from `c()`:
+#'
+#' * It uses tidy select semantics so you can easily select multiple variables.
+#'   See `vignette("rowwise")` for more details.
+#'
+#' * It uses [vctrs::vec_c()] in order to give safer outputs.
 #'
 #' @param cols,.cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
@@ -137,19 +139,10 @@ c_across <- function(cols = everything()) {
   key <- key_deparse(sys.call())
   vars <- c_across_setup({{ cols }}, key = key)
 
-  mask <- peek_mask()
+  mask <- peek_mask("c_across()")
 
   cols <- mask$current_cols(vars)
-
-  # TODO: adapt after: https://github.com/r-lib/vctrs/issues/232
-  tryCatch(
-    vec_c(!!!unname(cols)),
-    error = function(e) {
-      # when combining fails, do it again with the names
-      # to get a more useful error message
-      vec_c(!!!cols)
-    }
-  )
+  vec_c(!!!cols, .name_spec = zap())
 }
 
 # TODO: The usage of a cache in `across_setup()` and `c_across_setup()` is a stopgap solution, and
@@ -158,7 +151,7 @@ c_across <- function(cols = everything()) {
 # to do any required "set up" work (like the `eval_select()` call) a single
 # time per top-level call, rather than once per group.
 across_setup <- function(cols, fns, names, key) {
-  mask <- peek_mask()
+  mask <- peek_mask("across()")
 
   value <- mask$across_cache_get(key)
   if (!is.null(value)) {
@@ -191,7 +184,9 @@ across_setup <- function(cols, fns, names, key) {
   }
 
   if (!is.list(fns)) {
-    abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr:::error_across")
+    abort(c("Problem with `across()` input `.fns`.",
+      i = "Input `.fns` must be NULL, a function, a formula, or a list of functions/formulas."
+    ))
   }
 
   # handle formulas
@@ -220,7 +215,7 @@ across_setup <- function(cols, fns, names, key) {
 }
 
 c_across_setup <- function(cols, key) {
-  mask <- peek_mask()
+  mask <- peek_mask("c_across()")
 
   value <- mask$across_cache_get(key)
   if (!is.null(value)) {

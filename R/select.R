@@ -37,7 +37,7 @@
 #' Note that except for `:`, `-` and `c()`, all complex expressions
 #' are evaluated outside the data frame context. This is to prevent
 #' accidental matching of data frame variables when you refer to
-#' variables from the calling environment.
+#' objects in your environment.
 #' @inheritParams arrange
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
 #'   expressions separated by commas. Variable names can be used as if they

@@ -111,10 +111,6 @@ filter <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  if (missing(...)) {
-    return(.data)
-  }
-
   loc <- filter_rows(.data, ...)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
@@ -127,9 +123,7 @@ filter_rows <- function(.data, ...) {
   tryCatch(
     mask$eval_all_filter(dots, env_filter),
     simpleError = function(e) {
-      stop_dplyr(env_filter$current_expression, dots, fn = "filter",
-        problem = conditionMessage(e)
-      )
+      stop_dplyr(env_filter$current_expression, dots, fn = "filter", problem = conditionMessage(e))
     }
   )
 }

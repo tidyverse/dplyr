@@ -167,7 +167,7 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 #' @export
 slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   if (missing(order_by)) {
-    abort("argument `order_by` is missing, with no default")
+    abort("argument `order_by` is missing, with no default.")
   }
 
   size <- check_slice_size(n, prop)
@@ -194,7 +194,7 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 #' @export
 slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   if (missing(order_by)) {
-    abort("argument `order_by` is missing, with no default")
+    abort("argument `order_by` is missing, with no default.")
   }
 
   size <- check_slice_size(n, prop)
@@ -265,10 +265,7 @@ slice_rows <- function(.data, ...) {
     } else if (is.numeric(res)) {
       res <- vec_cast(res, integer())
     } else if (!is.integer(res)) {
-      abort(
-        "slice() expressions should return indices (positive or negative integers)",
-        "dplyr_slice_incompatible"
-      )
+      abort("`slice()` expressions should return indices (positive or negative integers).")
     }
 
     if (length(res) == 0L) {
@@ -278,10 +275,7 @@ slice_rows <- function(.data, ...) {
     } else if (all(res <= 0, na.rm = TRUE)) {
       res <- setdiff(seq_along(current_rows), -res)
     } else {
-      abort(
-        "slice() expressions should return either all positive or all negative",
-        "dplyr_slice_ambiguous"
-      )
+      abort("`slice()` expressions should return either all positive or all negative.")
     }
 
     slice_indices[[group]] <- current_rows[res]
@@ -295,10 +289,10 @@ check_slice_size <- function(n, prop) {
     list(type = "n", n = 1L)
   } else if (!missing(n) && missing(prop)) {
     if (!is.numeric(n) || length(n) != 1) {
-      abort("`n` must be a single number")
+      abort("`n` must be a single number.")
     }
     if (is.na(n) || n < 0) {
-      abort("`n` must be a non-missing positive number")
+      abort("`n` must be a non-missing positive number.")
     }
 
     list(type = "n", n = n)
@@ -307,11 +301,11 @@ check_slice_size <- function(n, prop) {
       abort("`prop` must be a single number")
     }
     if (is.na(prop) || prop < 0) {
-      abort("`prop` must be a non-missing positive number")
+      abort("`prop` must be a non-missing positive number.")
     }
     list(type = "prop", prop = prop)
   } else {
-    abort("Must supply exactly one of `n` and `prop` arguments")
+    abort("Must supply exactly one of `n` and `prop` arguments.")
   }
 }
 

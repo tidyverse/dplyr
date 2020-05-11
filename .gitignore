@@ -21,3 +21,5 @@ vignettes/*.R
 /issues
 /.drake
 bench-libs
+doc
+Meta

@@ -41,7 +41,7 @@ Imports:
     tibble (>= 2.1.3),
     tidyselect (>= 1.0.0),
     utils,
-    vctrs (>= 0.2.99.9010)
+    vctrs (>= 0.2.99.9011)
 Suggests: 
     bench,
     broom,

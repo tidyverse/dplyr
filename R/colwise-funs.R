@@ -26,12 +26,12 @@ as_fun_list <- function(.funs, .env, ..., .caller, .caller_arg = "...") {
       if (is_quosure(.x)) {
         what <- paste0(
           "dplyr::", .caller, "(", .caller_arg, " = ",
-          "'can\\'t contain quosures')"
+          "'can\\'t contain quosures.')"
         )
 
         lifecycle::deprecate_warn(
           "0.8.3", what,
-          details = "Please use a one-sided formula, a function, or a function name",
+          details = "Please use a one-sided formula, a function, or a function name.",
           env = .env
         )
         .x <- new_formula(NULL, quo_squash(.x), quo_get_env(.x))
@@ -73,7 +73,7 @@ as_fun <- function(.x, .env, .args) {
 
   if (is_call(expr, c("function", "~"))) {
     top_level <- as_string(expr[[1]])
-    bad_args(quo_text(expr), "must be a function name (quoted or unquoted) or an unquoted call, not `{top_level}`")
+    bad_args(quo_text(expr), "must be a function name (quoted or unquoted) or an unquoted call, not `{top_level}`.")
   }
 
   if (is_call(expr) && !is_call(expr, c("::", ":::"))) {

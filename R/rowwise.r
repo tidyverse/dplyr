@@ -69,8 +69,8 @@ rowwise.data.frame <- function(data, ...) {
 rowwise.grouped_df <- function(data, ...) {
   if (!missing(...)) {
     abort(c(
-      "Can't re-group when creating rowwise data",
-      i = "Either first `ungroup()` or call `rowwise()` without arguments"
+      "Can't re-group when creating rowwise data.",
+      i = "Either first `ungroup()` or call `rowwise()` without arguments."
     ))
   }
   rowwise_df(data, group_vars(data))
@@ -86,7 +86,7 @@ rowwise_df <- function(data, group_vars) {
 
 new_rowwise_df <- function(data, group_data) {
   if (!is_tibble(group_data) || has_name(group_data, ".rows")) {
-    abort("`group_data` must be a tibble without a `.rows` column")
+    abort("`group_data` must be a tibble without a `.rows` column.")
   }
 
   nrow <- nrow(data)

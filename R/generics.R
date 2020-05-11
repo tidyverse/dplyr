@@ -87,7 +87,7 @@ NULL
 #' @param i A numeric or logical vector that indexes the rows of `.data`.
 dplyr_row_slice <- function(data, i, ...) {
   if (!is.numeric(i) && !is.logical(i)) {
-    abort("`i` must be an numeric or logical vector")
+    abort("`i` must be an numeric or logical vector.")
   }
 
   UseMethod("dplyr_row_slice")
@@ -151,7 +151,7 @@ dplyr_col_modify.data.frame <- function(data, cols) {
     out[[nm]] <- cols[[i]]
   }
 
-  dplyr_reconstruct.data.frame(out, data)
+  dplyr_reconstruct(out, data)
 }
 
 #' @export

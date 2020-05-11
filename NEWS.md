@@ -81,6 +81,8 @@
 * `summarise()` can create summaries of greater than length 1 if you use a
   summary function that returns multiple values.
 
+* `summarise()` gains a `.groups=` argument to control the grouping structure. 
+
 * New `relocate()` verb makes it easy to move columns around within a data 
   frame (#4598).
   
@@ -365,7 +367,6 @@
   vector, not a `dplyr_sel_vars` (#4459).
 
 * `ntile()` is now more consistent with database implementations if the buckets have irregular size (#4495).
-
 
 # dplyr 0.8.5 (2020-03-07)
 
