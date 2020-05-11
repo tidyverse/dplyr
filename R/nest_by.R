@@ -4,15 +4,16 @@
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
 #' `nest_by()` is closely related to [group_by()]. However, instead of storing
-#' the group structure in the metadata, it makes it explicit in the data,
+#' the group structure in the metadata, it is made explicit in the data,
 #' giving each group key a single row along with a list-column of data frames
 #' that contain all the other data.
 #'
-#' It returns a [rowwise] data frame, which makes operations on the grouped
-#' data particularly elegant. See `vignette("rowwise")` for more details.
+#' `nest_by()` returns a [rowwise] data frame, which makes operations on the
+#' grouped data particularly elegant. See `vignette("rowwise")` for more
+#' details.
 #'
 #' @details
-#' Note that is `df %>% nest_by(x, y)` is roughly equivalent to
+#' Note that `df %>% nest_by(x, y)` is roughly equivalent to
 #'
 #' ```
 #' df %>%
@@ -22,7 +23,7 @@
 #' ```
 #'
 #' If you want to unnest a nested data frame, you can either use
-#' `tidy::unnest()` or take advantage of `summarise()`s mutli-row behaviour:
+#' `tidyr::unnest()` or take advantage of `summarise()`s multi-row behaviour:
 #'
 #' ```
 #' nested %>%
@@ -64,7 +65,7 @@
 #' models
 #'
 #' models %>% summarise(rsq = summary(model)$r.squared)
-#' # This particularly elegant with the broom functions
+#' # This is particularly elegant with the broom functions
 #' if (requireNamespace("broom", quietly = TRUE)) {
 #'   models %>% summarise(broom::glance(model))
 #'   models %>% summarise(broom::tidy(model))

@@ -35,22 +35,23 @@ with matching rows of the remaining columns.
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 
 \code{nest_by()} is closely related to \code{\link[=group_by]{group_by()}}. However, instead of storing
-the group structure in the metadata, it makes it explicit in the data,
+the group structure in the metadata, it is made explicit in the data,
 giving each group key a single row along with a list-column of data frames
 that contain all the other data.
 
-It returns a \link{rowwise} data frame, which makes operations on the grouped
-data particularly elegant. See \code{vignette("rowwise")} for more details.
+\code{nest_by()} returns a \link{rowwise} data frame, which makes operations on the
+grouped data particularly elegant. See \code{vignette("rowwise")} for more
+details.
 }
 \details{
-Note that is \code{df \%>\% nest_by(x, y)} is roughly equivalent to\preformatted{df \%>\%
+Note that \code{df \%>\% nest_by(x, y)} is roughly equivalent to\preformatted{df \%>\%
   group_by(x, y) \%>\%
   summarise(data = list(cur_data())) \%>\%
   rowwise()
 }
 
 If you want to unnest a nested data frame, you can either use
-\code{tidy::unnest()} or take advantage of \code{summarise()}s mutli-row behaviour:\preformatted{nested \%>\%
+\code{tidyr::unnest()} or take advantage of \code{summarise()}s multi-row behaviour:\preformatted{nested \%>\%
   summarise(data)
 }
 }
@@ -76,7 +77,7 @@ models <- mtcars \%>\%
 models
 
 models \%>\% summarise(rsq = summary(model)$r.squared)
-# This particularly elegant with the broom functions
+# This is particularly elegant with the broom functions
 if (requireNamespace("broom", quietly = TRUE)) {
   models \%>\% summarise(broom::glance(model))
   models \%>\% summarise(broom::tidy(model))
