@@ -5,8 +5,9 @@
 #' method on a data frame or tbl: this will take care of capturing
 #' the unevaluated expressions for you.
 #'
-#' See [group_data()] for the accessor functions that retrieve various metadata
-#' from a `grouped_df`.
+#' These functions are designed for programmatic use. For data analysis
+#' purposes see [group_data()] for the accessor functions that retrieve
+#' various metadata from a grouped data frames.
 #'
 #' @keywords internal
 #' @param data a tbl or data frame.

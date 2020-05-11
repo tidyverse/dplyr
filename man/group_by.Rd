@@ -31,9 +31,9 @@ what the default value is for this argument.}
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }
 \value{
-A \link[=grouped_df]{grouped data frame}, unless the combination of \code{...} and \code{add}
-yields a non empty set of grouping columns, a regular (ungrouped) data frame
-otherwise.
+A grouped data frame with class \code{\link{grouped_df}},
+unless the combination of \code{...} and \code{add} yields a empty set of
+grouping columns, in which case a tibble will be returned.
 }
 \description{
 Most data operations are done on groups defined by variables.

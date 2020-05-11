@@ -24,6 +24,8 @@
 #'   instead you can select multiple variables with (e.g.) `everything()`.
 #' @seealso [nest_by()] for a convenient way of creating rowwwise data frames
 #'   with nested data.
+#' @return A row-wise data frame with class `rowwise_df`. Note that a
+#'   `rowwise_df` is implicitly grouped by row, but is not a `grouped_df`.
 #' @export
 #' @examples
 #' df <- tibble(x = runif(6), y = runif(6), z = runif(6))

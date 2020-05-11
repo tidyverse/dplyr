@@ -18,9 +18,9 @@
 #'   our naming conventions.
 #' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
 #'   what the default value is for this argument.
-#' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
-#'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
-#'   otherwise.
+#' @return A grouped data frame with class [`grouped_df`][grouped_df],
+#'   unless the combination of `...` and `add` yields a empty set of
+#'   grouping columns, in which case a tibble will be returned.
 #' @section Methods:
 #' These function are **generic**s, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
