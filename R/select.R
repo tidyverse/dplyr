@@ -8,6 +8,9 @@
 #' right). You can also use predicate functions like [is.numeric] to select
 #' variables based on their properties.
 #'
+#'
+#' ## Overview of selection features
+#'
 #' ```{r, child = system.file("man", "overview.Rmd", package = "tidyselect")}
 #' ```
 #'

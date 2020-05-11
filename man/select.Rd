@@ -33,7 +33,7 @@ mini-language that makes it easy to refer to variables based on their name
 (e.g. \code{a:f} selects all columns from \code{a} on the left to \code{f} on the
 right). You can also use predicate functions like \link{is.numeric} to select
 variables based on their properties.
-\subsection{Overview of selection features:}{
+\subsection{Overview of selection features}{
 
 Tidyverse selections implement a dialect of R where operators make
 it easy to select variables:
