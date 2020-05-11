@@ -41,7 +41,12 @@ rename <- function(.data, ...) {
 
 #' @export
 rename.data.frame <- function(.data, ...) {
-  loc <- tidyselect::eval_rename(expr(c(...)), .data, name_spec = "{inner}")
+  loc <- tidyselect::eval_rename(expr(c(...)), .data, name_spec = function(outer, inner) {
+    abort(c(
+      glue("Problem with `rename()` input `{outer}`"),
+      x = glue("Input `{outer}` is a named vector")
+    ))
+  })
   # eval_rename() only returns changes
   names <- names(.data)
   names[loc] <- names(loc)

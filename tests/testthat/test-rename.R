@@ -35,6 +35,16 @@ test_that("can rename with duplicate columns", {
   expect_named(df %>% rename(x2 = 2), c("x", "x2", "y"))
 })
 
+test_that("rename() aborts when outer and inner names are used (#5207)", {
+  expect_error(rename(data.frame(old = 1), new = c(dud = "old")))
+})
+
+test_that("rename() give meaningful errors", {
+  verify_output(test_path("test-rename-errors.txt"), {
+    rename(data.frame(old = 1), new = c(dud = "old"))
+  })
+})
+
 # rename_with -------------------------------------------------------------
 
 test_that("can select columns", {

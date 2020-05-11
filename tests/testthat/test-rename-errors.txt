@@ -1,0 +1,4 @@
+> rename(data.frame(old = 1), new = c(dud = "old"))
+Error: Problem with `rename()` input `new`
+x Input `new` is a named vector
+
