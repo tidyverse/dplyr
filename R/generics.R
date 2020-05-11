@@ -191,12 +191,12 @@ dplyr_reconstruct.data.frame <- function(data, template) {
 
 #' @export
 dplyr_reconstruct.grouped_df <- function(data, template) {
-  group_vars <- intersect(group_vars(template), names(data))
+  group_vars <- group_intersect(template, data)
   grouped_df(data, group_vars, drop = group_by_drop_default(template))
 }
 
 #' @export
 dplyr_reconstruct.rowwise_df <- function(data, template) {
-  group_vars <- intersect(group_vars(template), names(data))
+  group_vars <- group_intersect(template, data)
   rowwise_df(data, group_vars)
 }
