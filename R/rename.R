@@ -41,7 +41,7 @@ rename <- function(.data, ...) {
 
 #' @export
 rename.data.frame <- function(.data, ...) {
-  loc <- tidyselect::eval_rename(expr(c(...)), .data)
+  loc <- tidyselect::eval_rename(expr(c(...)), .data, name_spec = "{inner}")
   # eval_rename() only returns changes
   names <- names(.data)
   names[loc] <- names(loc)
