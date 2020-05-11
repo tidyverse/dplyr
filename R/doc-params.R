@@ -61,13 +61,13 @@
 #' # Dot-dot-dot (...)
 #'
 #' When this modifier is applied to `...`, there is one other useful technique
-#' which solves the problem of creating a new variable with a name supplied
-#' by the user. Use `!!var := expression`. (Note the use of `:=` instead of
-#' `=`).
+#' which solves the problem of creating a new variable with a name supplied by
+#' the user. Use the interpolation syntax from the glue package: `"{var}" :=
+#' expression`. (Note the use of `:=` instead of `=` to enable this syntax).
 #'
 #' ```
 #' var_name <- "l100km"
-#' mtcars %>% mutate(!!var_name := 235 / mpg)
+#' mtcars %>% mutate("{var_name}" := 235 / mpg)
 #' ```
 #'
 #' Note that `...` automatically provides indirection, so you can use it as is
