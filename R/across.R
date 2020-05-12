@@ -82,6 +82,9 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key)
 
   vars <- setup$vars
+  if (length(vars) == 0L) {
+    return(new_tibble(list(), nrow = 1L))
+  }
   fns <- setup$fns
   names <- setup$names
 
