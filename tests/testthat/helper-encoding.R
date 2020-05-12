@@ -29,30 +29,25 @@ get_alien_lang_string <- function() {
 }
 
 with_non_utf8_encoding <- function(code) {
-  old_encoding <- set_non_utf8_encoding()
-  on.exit(set_encoding(old_encoding), add = TRUE)
+  if (.Platform$OS.type != "windows") {
+    old_encoding <- set_non_utf8_encoding()
+    on.exit(Sys.setlocale("LC_CTYPE", old_encoding))
+  }
   code
 }
 
 set_non_utf8_encoding <- function() {
-  if (.Platform$OS.type == "windows") return(NULL)
+  old_encoding <- Sys.getlocale("LC_CTYPE")
   tryCatch(
-    locale <- set_encoding("en_US.ISO88591"),
+    Sys.setlocale("LC_CTYPE", "en_US.ISO88591"),
     warning = function(e) {
       tryCatch(
-        locale <<- set_encoding("fr_CH.ISO8859-15"),
+        Sys.setlocale("LC_CTYPE", "fr_CH.ISO8859-15"),
         warning = function(w) {
           testthat::skip("Cannot set latin-1 encoding")
         }
       )
     }
   )
-  locale
-}
-
-set_encoding <- function(encoding) {
-  if (is.null(encoding)) return(NULL)
-  locale <- Sys.getlocale("LC_CTYPE")
-  Sys.setlocale("LC_CTYPE", encoding)
-  locale
+  old_encoding
 }
