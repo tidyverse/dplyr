@@ -63,6 +63,11 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
 
+     - name: Install macOS dependencies
+         if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'devel'
+         run: |
+           brew install mariadb-connector-c
+
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
