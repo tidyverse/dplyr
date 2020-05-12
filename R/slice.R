@@ -149,7 +149,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
   size <- check_slice_size(n, prop)
   idx <- switch(size$type,
     n =    function(n) seq2(max(n - size$n + 1, 1), n),
-    prop = function(n) seq2(max(n - size$prop * n + 1, 1), n)
+    prop = function(n) seq2(max(ceiling(n - size$prop * n) + 1, 1), n)
   )
   slice(.data, idx(dplyr::n()))
 }
