@@ -28,31 +28,41 @@ get_alien_lang_string <- function() {
   lang_strings$different[[1L]]
 }
 
-with_non_utf8_encoding <- function(code) {
-  old_encoding <- set_non_utf8_encoding()
-  on.exit(set_encoding(old_encoding), add = TRUE)
-  code
-}
-
-set_non_utf8_encoding <- function() {
-  if (.Platform$OS.type == "windows") return(NULL)
-  tryCatch(
-    locale <- set_encoding("en_US.ISO88591"),
-    warning = function(e) {
-      tryCatch(
-        locale <<- set_encoding("fr_CH.ISO8859-15"),
-        warning = function(w) {
-          testthat::skip("Cannot set latin-1 encoding")
-        }
-      )
-    }
+try_encoding <- function(enc) {
+  orig_encoding <- Sys.getlocale("LC_CTYPE")
+  on.exit(Sys.setlocale("LC_CTYPE", orig_encoding), add = TRUE)
+  tryCatch({
+    Sys.setlocale("LC_CTYPE", enc)
+    TRUE
+  },
+  warning = function(w) FALSE,
+  error = function(e) FALSE
   )
-  locale
 }
 
-set_encoding <- function(encoding) {
-  if (is.null(encoding)) return(NULL)
-  locale <- Sys.getlocale("LC_CTYPE")
-  Sys.setlocale("LC_CTYPE", encoding)
-  locale
+non_utf8_encoding <- function(enc = NULL) {
+  if (!l10n_info()$`UTF-8`) {
+    return(Sys.getlocale("LC_CTYPE"))
+  }
+  enc <- enc %||% c(
+    "en_US.ISO8859-1",
+    "en_US.ISO8859-15",
+    "fr_CH.ISO8859-1",
+    "fr_CH.ISO8859-15"
+  )
+  available <- vapply(enc, try_encoding, logical(1))
+  if (any(available)) {
+    enc[available][1]
+  } else {
+    NULL
+  }
+}
+
+local_non_utf8_encoding <- function(enc = NULL, env = parent.frame()) {
+  non_utf8 <- non_utf8_encoding(enc)
+  if (is.null(non_utf8)) {
+    skip("Can't set a non-UTF-8 encoding")
+  } else {
+    withr::local_locale(c(LC_CTYPE = non_utf8), .local_envir = env)
+  }
 }
