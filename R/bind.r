@@ -96,18 +96,18 @@ bind_rows <- function(..., .id = NULL) {
   for (i in seq_along(dots)) {
     .x <- dots[[i]]
     if (!is.data.frame(.x) && !vec_is(.x)) {
-      abort(glue("Argument {i} must be a data frame or a named atomic vector"))
+      abort(glue("Argument {i} must be a data frame or a named atomic vector."))
     }
 
     if (is.null(names(.x))) {
-      abort(glue("Argument {i} must have names"))
+      abort(glue("Argument {i} must have names."))
     }
   }
 
   if (!is_null(.id)) {
     if (!is_string(.id)) {
       bad_args(".id", "must be a scalar string, ",
-        "not {friendly_type_of(.id)} of length {length(.id)}"
+        "not {friendly_type_of(.id)} of length {length(.id)}."
       )
     }
     if (!is_named(dots)) {

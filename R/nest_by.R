@@ -94,6 +94,6 @@ nest_by.grouped_df <- function(.data, ..., .key = "data", .keep = FALSE) {
 
   vars <- group_vars(.data)
   keys <- group_keys(.data)
-  keys <- mutate(keys, !!.key := group_split(.env$.data, keep = .keep))
+  keys <- mutate(keys, !!.key := group_split(.env$.data, .keep = .keep))
   rowwise(keys, tidyselect::all_of(vars))
 }

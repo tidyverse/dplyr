@@ -27,14 +27,14 @@ void reduce_lgl(SEXP reduced, SEXP x, int n) {
   }
 }
 
-void filter_check_size(SEXP res, int i, R_xlen_t n) {
+void filter_check_size(SEXP res, int i, R_xlen_t n, SEXP quos) {
   R_xlen_t nres = vctrs::short_vec_size(res);
   if (nres != n && nres != 1) {
-    dplyr::stop_filter_incompatible_size(i, nres, n);
+    dplyr::stop_filter_incompatible_size(i, quos, nres, n);
   }
 }
 
-void filter_check_type(SEXP res, R_xlen_t i) {
+void filter_check_type(SEXP res, R_xlen_t i, SEXP quos) {
   if (TYPEOF(res) == LGLSXP) return;
 
   if (Rf_inherits(res, "data.frame")) {
@@ -47,11 +47,11 @@ void filter_check_type(SEXP res, R_xlen_t i) {
         SEXP colnames = PROTECT(Rf_getAttrib(res, R_NamesSymbol));
         SEXP colnames_j = PROTECT(Rf_allocVector(STRSXP, 1));
         SET_STRING_ELT(colnames_j, 0, STRING_ELT(colnames, j));
-        dplyr::stop_filter_incompatible_type(i, colnames_j, res_j);
+        dplyr::stop_filter_incompatible_type(i, quos, colnames_j, res_j);
       }
     }
   } else {
-    dplyr::stop_filter_incompatible_type(i, R_NilValue, res);
+    dplyr::stop_filter_incompatible_type(i, quos, R_NilValue, res);
   }
 }
 
@@ -73,8 +73,8 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, SEXP env_fil
 
     SEXP res = PROTECT(rlang::eval_tidy(VECTOR_ELT(quos, i), mask, caller));
 
-    filter_check_size(res, i, n);
-    filter_check_type(res, i);
+    filter_check_size(res, i, n, quos);
+    filter_check_type(res, i, quos);
 
     if (TYPEOF(res) == LGLSXP) {
       reduce_lgl(reduced, res, n);

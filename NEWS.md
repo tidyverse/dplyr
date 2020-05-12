@@ -81,6 +81,8 @@
 * `summarise()` can create summaries of greater than length 1 if you use a
   summary function that returns multiple values.
 
+* `summarise()` gains a `.groups=` argument to control the grouping structure. 
+
 * New `relocate()` verb makes it easy to move columns around within a data 
   frame (#4598).
   
@@ -301,7 +303,10 @@
   the whole we believe those failures to either reflect unexpected behaviour
   or tests that need to be strengthened (#2751).
 
-* `count()` and `add_count()` now preserve the type of the input (#4086).
+* `coalesce()` now uses vctrs recycling and common type coercion rules (#5186).
+
+* `count()` and `add_count()` do a better job of preserving input class
+  and attributes (#4086).
 
 * `distinct()` errors if you request it use variables that don't exist
   (this was previously a warning) (#4656).
@@ -362,7 +367,6 @@
   vector, not a `dplyr_sel_vars` (#4459).
 
 * `ntile()` is now more consistent with database implementations if the buckets have irregular size (#4495).
-
 
 # dplyr 0.8.5 (2020-03-07)
 

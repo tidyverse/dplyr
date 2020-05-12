@@ -6,8 +6,8 @@ test_that(".before and .after relocate individual cols", {
 
 test_that("can move blocks of variables", {
   df <- tibble(x = 1, a = "a", y = 2, b = "a")
-  expect_named(relocate(df, is.character), c("a", "b", "x", "y"))
-  expect_named(relocate(df, is.character, .after = is.numeric), c("x", "y", "a", "b"))
+  expect_named(relocate(df, where(is.character)), c("a", "b", "x", "y"))
+  expect_named(relocate(df, where(is.character), .after = where(is.numeric)), c("x", "y", "a", "b"))
 })
 
 test_that("don't lose non-contiguous variables", {

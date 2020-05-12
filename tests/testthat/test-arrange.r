@@ -5,11 +5,11 @@ test_that("empty arrange() returns input", {
   df <- tibble(x = 1:10, y = 1:10)
   gf <- group_by(df, x)
 
-  expect_reference(arrange(df), df)
-  expect_reference(arrange(gf), gf)
+  expect_identical(arrange(df), df)
+  expect_identical(arrange(gf), gf)
 
-  expect_reference(arrange(df, !!!list()), df)
-  expect_reference(arrange(gf, !!!list()), gf)
+  expect_identical(arrange(df, !!!list()), df)
+  expect_identical(arrange(gf, !!!list()), gf)
 })
 
 test_that("can sort empty data frame", {
@@ -133,4 +133,20 @@ test_that("arrange() supports across() (#4679)", {
     df %>% arrange(across(y)),
     df %>% arrange(y)
   )
+})
+
+test_that("arrange() with empty dots still calls dplyr_row_slice()", {
+  tbl <- new_tibble(list(x = 1), nrow = 1L)
+  foo <- structure(tbl, class = c("foo_df", class(tbl)))
+
+  local_methods(
+    # `foo_df` always loses class when row slicing
+    dplyr_row_slice.foo_df = function(data, i, ...) {
+      out <- NextMethod()
+      new_tibble(out, nrow = nrow(out))
+    }
+  )
+
+  expect_s3_class(arrange(foo), class(tbl), exact = TRUE)
+  expect_s3_class(arrange(foo, x), class(tbl), exact = TRUE)
 })

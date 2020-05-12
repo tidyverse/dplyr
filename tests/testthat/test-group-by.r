@@ -62,6 +62,7 @@ test_that("local group_by preserves variable types", {
     t = Sys.time() + 1:2,
     c = letters[1:2]
   )
+  attr(df_var$t, "tzone") <- ""
 
   for (var in names(df_var)) {
     expected <- tibble(!!var := sort(unique(df_var[[var]])), n = 1L)

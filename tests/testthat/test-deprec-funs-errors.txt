@@ -3,8 +3,8 @@
 + })
 Error: `function(si) {
     mp[si]
-}` must be a function name (quoted or unquoted) or an unquoted call, not `function`
+}` must be a function name (quoted or unquoted) or an unquoted call, not `function`.
 
 > funs(~mp[.])
-Error: `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`
+Error: `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`.
 

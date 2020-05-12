@@ -33,7 +33,7 @@
 #'
 #' @param .tbl A tbl
 #' @param ... Grouping specification, forwarded to [group_by()]
-#' @param keep Should the grouping columns be kept
+#' @param .keep Should the grouping columns be kept
 #' @return
 #' - [group_split()] returns a list of tibbles. Each tibble contains the rows of `.tbl` for the associated group and
 #'  all the columns, including the grouping variables.
@@ -66,46 +66,65 @@
 #'
 #' iris %>%
 #'   group_keys(Species)
-group_split <- function(.tbl, ..., keep = TRUE) {
+group_split <- function(.tbl, ..., .keep = TRUE) {
   UseMethod("group_split")
 }
 
 #' @export
-group_split.data.frame <- function(.tbl, ..., keep = TRUE) {
-  if (dots_n(...)) {
-    group_split(group_by(.tbl, ...), keep = keep)
-  } else {
-    new_list_of(list(.tbl), ptype = .tbl[0L, ])
+group_split.data.frame <- function(.tbl, ..., .keep = TRUE, keep = deprecated()) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )")
+    .keep <- keep
   }
+  data <- group_by(.tbl, ...)
+  group_split_impl(data, .keep = .keep)
 }
 
 #' @export
-group_split.rowwise_df <- function(.tbl, ..., keep = TRUE) {
+group_split.rowwise_df <- function(.tbl, ..., .keep = TRUE, keep = deprecated()) {
   if (dots_n(...)) {
     warn("... is ignored in group_split(<rowwise_df>), please use as_tibble() %>% group_split(...)")
   }
   if (!missing(keep)) {
-    warn("keep is ignored in group_split(<rowwise_df>)")
+    lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )")
+    .keep <- keep
   }
-  new_list_of(
-    map(seq_len(nrow(.tbl)), vec_slice, x = .tbl),
-    ptype = vec_slice(.tbl, 0L)
-  )
+  if (!missing(.keep)) {
+    warn(".keep is ignored in group_split(<rowwise_df>)")
+  }
+
+  group_split_impl(.tbl, .keep = TRUE)
 }
 
 #' @export
-group_split.grouped_df <- function(.tbl, ..., keep = TRUE) {
+group_split.grouped_df <- function(.tbl, ..., .keep = TRUE, keep = deprecated()) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )")
+    .keep <- keep
+  }
   if (dots_n(...)) {
     warn("... is ignored in group_split(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_split()")
   }
 
-  data <- as_tibble(.tbl)
-  if (!isTRUE(keep)) {
-    data <- data[, setdiff(names(data), group_vars(.tbl))]
+  group_split_impl(.tbl, .keep = .keep)
+}
+
+group_split_impl <- function(data, .keep) {
+  out <- ungroup(data)
+  indices <- group_rows(data)
+
+  if (!isTRUE(.keep)) {
+    remove <- group_vars(data)
+    .keep <- names(out)
+    .keep <- setdiff(.keep, remove)
+    out <- out[.keep]
   }
 
-  new_list_of(
-    map(group_rows(.tbl), vec_slice, x = data),
-    ptype = vec_slice(data, 0L)
-  )
+  dplyr_chop(out, indices)
+}
+
+dplyr_chop <- function(data, indices) {
+  out <- map(indices, dplyr_row_slice, data = data)
+  out <- new_list_of(out, ptype = vec_ptype(data))
+  out
 }

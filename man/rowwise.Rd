@@ -16,6 +16,10 @@ combination uniquely identify each row.
 \strong{NB}: unlike \code{group_by()} you can not create new variables here but
 instead you can select multiple variables with (e.g.) \code{everything()}.}
 }
+\value{
+A row-wise data frame with class \code{rowwise_df}. Note that a
+\code{rowwise_df} is implicitly grouped by row, but is not a \code{grouped_df}.
+}
 \description{
 \code{rowwise()} allows you to compute on a data frame a row-at-a-time.
 This is most useful when a vectorised function doesn't exist.

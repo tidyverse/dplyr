@@ -1,18 +1,18 @@
 > n()
-Error: n() must only be used inside dplyr verbs
+Error: `n()` must only be used inside dplyr verbs.
 
 > cur_data()
-Error: cur_data() must only be used inside dplyr verbs
+Error: `cur_data()` must only be used inside dplyr verbs.
 
 > cur_column()
-Error: cur_column() must only be used inside across()
+Error: `cur_column()` must only be used inside `across()`.
 
 > cur_group()
-Error: cur_group() must only be used inside dplyr verbs
+Error: `cur_group()` must only be used inside dplyr verbs.
 
 > cur_group_id()
-Error: cur_group_id() must only be used inside dplyr verbs
+Error: `cur_group_id()` must only be used inside dplyr verbs.
 
 > cur_group_rows()
-Error: cur_group_rows() must only be used inside dplyr verbs
+Error: `cur_group_rows()` must only be used inside dplyr verbs.
 

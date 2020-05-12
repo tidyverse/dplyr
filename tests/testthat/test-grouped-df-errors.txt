@@ -1,6 +1,6 @@
 > grouped_df(data.frame(x = 1), "y", FALSE)
-Error: `vars` missing from `data`: `y`
+Error: `vars` missing from `data`: `y`.
 
 > grouped_df(data.frame(x = 1), 1)
-Error: `vars` must be a character vector
+Error: `vars` must be a character vector.
 

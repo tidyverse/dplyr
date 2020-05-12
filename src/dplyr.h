@@ -37,8 +37,8 @@ struct vectors {
   static SEXP names_summarise_recycle_chunks;
 };
 
-void stop_filter_incompatible_size(R_xlen_t i, R_xlen_t nres, R_xlen_t n);
-void stop_filter_incompatible_type(R_xlen_t i, SEXP column_name, SEXP result);
+void stop_filter_incompatible_size(R_xlen_t i, SEXP quos, R_xlen_t nres, R_xlen_t n);
+void stop_filter_incompatible_type(R_xlen_t i, SEXP quos, SEXP column_name, SEXP result);
 void stop_summarise_unsupported_type(SEXP result);
 void stop_summarise_incompatible_size(int index_group, int index_expression, int expected_size, int size);
 

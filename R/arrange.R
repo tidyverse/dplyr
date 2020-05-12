@@ -72,9 +72,6 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 #' @export
 arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
   dots <- enquos(...)
-  if (length(dots) == 0L) {
-    return(.data)
-  }
 
   if (.by_group) {
     dots <- c(quos(!!!groups(.data)), dots)
@@ -87,6 +84,10 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
 # Helpers -----------------------------------------------------------------
 
 arrange_rows <- function(.data, dots) {
+  if (length(dots) == 0L) {
+    out <- seq_len(nrow(.data))
+    return(out)
+  }
 
   directions <- map_chr(dots, function(quosure) {
     if(quo_is_call(quosure, "desc")) "desc" else "asc"
@@ -112,8 +113,8 @@ arrange_rows <- function(.data, dots) {
   #
   #       revisit when we have something like mutate_one() to
   #       evaluate one quosure in the data mask
-  tryCatch({
-    data <- transmute(ungroup(.data), !!!quosures)
+  data <- tryCatch({
+    transmute(ungroup(.data), !!!quosures)
   }, error = function(cnd) {
     stop_arrange_transmute(cnd)
   })

@@ -260,13 +260,13 @@ rows_check_key_df <- function(df, by, df_name) {
     abort(glue("All `by` columns must exist in `{df_name}`."))
   }
   if (vctrs::vec_duplicate_any(df[by])) {
-    abort(glue("`{df_name}` key values are not unique"))
+    abort(glue("`{df_name}` key values are not unique."))
   }
 }
 
 rows_df_in_place <- function(in_place) {
   if (is_true(in_place)) {
-    abort("Data frames only support `in_place = FALSE`")
+    abort("Data frames only support `in_place = FALSE`.")
   }
 }
 

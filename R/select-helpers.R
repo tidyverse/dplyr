@@ -41,7 +41,7 @@ group_cols_legacy <- function(vars = NULL) {
   if (is_sel_vars(vars)) {
     matches <- match(vars %@% groups, vars)
     if (anyNA(matches)) {
-      abort("Can't find the grouping variables")
+      abort("Can't find the grouping variables.")
     }
     matches
   } else {

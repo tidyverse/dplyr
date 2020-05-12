@@ -7,9 +7,9 @@ void stop_mutate_recycle(R_len_t n_result_i) {
   Rf_eval(call, dplyr::envs::ns_dplyr);
 }
 
-void stop_mutate_mixed_NULL() {
-  SEXP sym_stop_mutate_mixed_NULL = Rf_install("stop_mutate_mixed_NULL");
-  SEXP call = Rf_lang1(sym_stop_mutate_mixed_NULL);
+void stop_mutate_mixed_null() {
+  SEXP sym_stop_mutate_mixed_null = Rf_install("stop_mutate_mixed_null");
+  SEXP call = Rf_lang1(sym_stop_mutate_mixed_null);
   Rf_eval(call, dplyr::envs::ns_dplyr);
 }
 
@@ -37,7 +37,7 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
       seen_null = true;
 
       if (seen_vec) {
-        dplyr::stop_mutate_mixed_NULL();
+        dplyr::stop_mutate_mixed_null();
       }
 
     } else if (vctrs::vec_is_vector(result_i)) {
@@ -67,7 +67,7 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
     for (int i = 0; i < ngroups; i++) {
       if (Rf_isNull(VECTOR_ELT(chunks, i))) {
         DPLYR_MASK_SET_GROUP(i);
-        dplyr::stop_mutate_mixed_NULL();
+        dplyr::stop_mutate_mixed_null();
       }
     }
   }

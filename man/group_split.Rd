@@ -4,14 +4,14 @@
 \alias{group_split}
 \title{Split data frame by groups}
 \usage{
-group_split(.tbl, ..., keep = TRUE)
+group_split(.tbl, ..., .keep = TRUE)
 }
 \arguments{
 \item{.tbl}{A tbl}
 
 \item{...}{Grouping specification, forwarded to \code{\link[=group_by]{group_by()}}}
 
-\item{keep}{Should the grouping columns be kept}
+\item{.keep}{Should the grouping columns be kept}
 }
 \value{
 \itemize{

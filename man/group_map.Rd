@@ -6,9 +6,9 @@
 \alias{group_walk}
 \title{Apply a function to each group}
 \usage{
-group_map(.data, .f, ..., keep = FALSE)
+group_map(.data, .f, ..., .keep = FALSE)
 
-group_modify(.data, .f, ..., keep = FALSE)
+group_modify(.data, .f, ..., .keep = FALSE)
 
 group_walk(.data, .f, ...)
 }
@@ -31,7 +31,7 @@ that identifies the group
 
 \item{...}{Additional arguments passed on to \code{.f}}
 
-\item{keep}{are the grouping variables kept in \code{.x}}
+\item{.keep}{are the grouping variables kept in \code{.x}}
 }
 \value{
 \itemize{
