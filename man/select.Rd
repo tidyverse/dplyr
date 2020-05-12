@@ -33,45 +33,50 @@ mini-language that makes it easy to refer to variables based on their name
 (e.g. \code{a:f} selects all columns from \code{a} on the left to \code{f} on the
 right). You can also use predicate functions like \link{is.numeric} to select
 variables based on their properties.
-}
-\section{Useful functions}{
+\subsection{Overview of selection features}{
 
-As well as using existing functions like \code{:} and \code{c()}, there are
-a number of special functions that only work inside \code{select()}:
+Tidyverse selections implement a dialect of R where operators make
+it easy to select variables:
 \itemize{
-\item \code{\link[=any_of]{any_of()}}, \code{\link[=all_of]{all_of()}}.
-\item \code{\link[=starts_with]{starts_with()}}, \code{\link[=ends_with]{ends_with()}}, \code{\link[=contains]{contains()}}, \code{\link[=matches]{matches()}}.
-\item \code{\link[=num_range]{num_range()}}.
-\item \code{\link[=group_cols]{group_cols()}}, \code{\link[=last_col]{last_col()}}.
-\item \code{\link[=everything]{everything()}}.
+\item \code{:} for selecting a range of consecutive variables.
+\item \code{!} for taking the complement of a set of variables.
+\item \code{&} and \code{|} for selecting the intersection or the union of two
+sets of variables.
+\item \code{c()} for combining selections.
 }
 
-You can also use predicate functions (functions that return a single \code{TRUE}
-or \code{FALSE}) like \code{is.numeric}, \code{is.character}, and \code{is.factor}
-to select variables of specific types.
-
-Selections can be combined using Boolean algebra:
+In addition, you can use \strong{selection helpers}. Some helpers select specific
+columns:
 \itemize{
-\item \code{starts_with("a") & ends_with("x")}: variables with names that start with "a" and end with "x"
-\item \code{starts_with("a") | starts_with("b")}: variables with names that start with "a" or "b"
-\item \code{!starts_with("a")}: variables with names that do not start with "a"
+\item \code{\link[tidyselect:everything]{everything()}}: Matches all variables.
+\item \code{\link[tidyselect:last_col]{last_col()}}: Select last variable, possibly with an offset.
 }
 
-To remove variables from a selection, use \code{&} and \code{!}:
+These helpers select variables by matching patterns in their names:
 \itemize{
-\item \code{starts_with("a") & !ends_width("x")}: variables with names that start with "a" and do not end with "x"
-\item \code{is.numeric & !c(a, b, c)}: numeric variables except, for \code{a}, \code{b}, \code{c}.
+\item \code{\link[tidyselect:starts_with]{starts_with()}}: Starts with a prefix.
+\item \code{\link[tidyselect:ends_with]{ends_with()}}: Ends with a suffix.
+\item \code{\link[tidyselect:contains]{contains()}}: Contains a literal string.
+\item \code{\link[tidyselect:matches]{matches()}}: Matches a regular expression.
+\item \code{\link[tidyselect:num_range]{num_range()}}: Matches a numerical range like x01, x02, x03.
 }
 
-See \link[tidyselect:select_helpers]{select helpers} for more details and
-examples.
-
-Note that except for \code{:}, \code{-} and \code{c()}, all complex expressions
-are evaluated outside the data frame context. This is to prevent
-accidental matching of data frame variables when you refer to
-objects in your environment.
+These helpers select variables from a character vector:
+\itemize{
+\item \code{\link[tidyselect:all_of]{all_of()}}: Matches variable names in a character vector. All
+names must be present, otherwise an out-of-bounds error is
+thrown.
+\item \code{\link[tidyselect:any_of]{any_of()}}: Same as \code{all_of()}, except that no error is thrown
+for names that don't exist.
 }
 
+This helper selects variables with a function:
+\itemize{
+\item \code{\link[tidyselect:where]{where()}}: Applies a function to all variables and selects those
+for which the function returns \code{TRUE}.
+}
+}
+}
 \section{Methods}{
 
 This function is a \strong{generic}, which means that packages can provide
@@ -82,44 +87,144 @@ The following methods are currently available in loaded packages:
 \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 }
 
-\examples{
-select(starwars, starts_with("h"))
-select(starwars, ends_with("color"))
-select(starwars, !contains("s"))
-select(starwars, starts_with("h") & ends_with("color"))
-select(starwars, is.numeric)
+\section{Examples}{
 
-# Optionally, rename individual variables as they are selected,
-# in the format `new_name = old_name`
-select(starwars, character_name = name, character_height = height)
 
-# Use num_range() to select variables with numeric suffixes
-df <- as.data.frame(matrix(runif(100), nrow = 10))
-select(df, V4:V6) # Specify variable names explicitly
-select(df, num_range(prefix = "V", range = 4:6)) # Or, specify the prefix used on a numeric range
+Here we show the usage for the basic selection operators. See the
+specific help pages to learn about helpers like \code{\link[=starts_with]{starts_with()}}.
 
-# Select the existing grouping variables:
-starwars \%>\% group_by(gender, eye_color) \%>\% select(group_cols())
+The selection language can be used in functions like
+\code{dplyr::select()} or \code{tidyr::pivot_longer()}. Let's first attach
+the tidyverse:\if{html}{\out{<div class="r">}}\preformatted{library(tidyverse)
 
-# Using select() semantics in across()
-starwars \%>\% summarise(across(.cols = height:mass, .fns = ~mean(.x, na.rm = TRUE)))
+# For better printing
+iris <- as_tibble(iris)
+}\if{html}{\out{</div>}}
 
-# Use `{{ }}` inside functions to tunnel data-variables through
-# function arguments. See ?dplyr_tidy_eval for more information.
-averages <- function(data, vars) {
-  data \%>\%
-    select({{ vars }}) \%>\%
-    lapply(mean, na.rm = TRUE)
+Select variables by name:\if{html}{\out{<div class="r">}}\preformatted{starwars \%>\% select(height)
+#> # A tibble: 87 x 1
+#>   height
+#>    <int>
+#> 1    172
+#> 2    167
+#> 3     96
+#> 4    202
+#> # ... with 83 more rows
+
+iris \%>\% pivot_longer(Sepal.Length)
+#> # A tibble: 150 x 6
+#>   Sepal.Width Petal.Length Petal.Width Species name         value
+#>         <dbl>        <dbl>       <dbl> <fct>   <chr>        <dbl>
+#> 1         3.5          1.4         0.2 setosa  Sepal.Length   5.1
+#> 2         3            1.4         0.2 setosa  Sepal.Length   4.9
+#> 3         3.2          1.3         0.2 setosa  Sepal.Length   4.7
+#> 4         3.1          1.5         0.2 setosa  Sepal.Length   4.6
+#> # ... with 146 more rows
+}\if{html}{\out{</div>}}
+
+Select multiple variables by separating them with commas. Note how
+the order of columns is determined by the order of inputs:\if{html}{\out{<div class="r">}}\preformatted{starwars \%>\% select(homeworld, height, mass)
+#> # A tibble: 87 x 3
+#>   homeworld height  mass
+#>   <chr>      <int> <dbl>
+#> 1 Tatooine     172    77
+#> 2 Tatooine     167    75
+#> 3 Naboo         96    32
+#> 4 Tatooine     202   136
+#> # ... with 83 more rows
+}\if{html}{\out{</div>}}
+
+Functions like \code{tidyr::pivot_longer()} don't take variables with
+dots. In this case use \code{c()} to select multiple variables:\if{html}{\out{<div class="r">}}\preformatted{iris \%>\% pivot_longer(c(Sepal.Length, Petal.Length))
+#> # A tibble: 300 x 5
+#>   Sepal.Width Petal.Width Species name         value
+#>         <dbl>       <dbl> <fct>   <chr>        <dbl>
+#> 1         3.5         0.2 setosa  Sepal.Length   5.1
+#> 2         3.5         0.2 setosa  Petal.Length   1.4
+#> 3         3           0.2 setosa  Sepal.Length   4.9
+#> 4         3           0.2 setosa  Petal.Length   1.4
+#> # ... with 296 more rows
+}\if{html}{\out{</div>}}
+\subsection{Operators:}{
+
+The \code{:} operator selects a range of consecutive variables:\if{html}{\out{<div class="r">}}\preformatted{starwars \%>\% select(name:mass)
+#> # A tibble: 87 x 3
+#>   name           height  mass
+#>   <chr>           <int> <dbl>
+#> 1 Luke Skywalker    172    77
+#> 2 C-3PO             167    75
+#> 3 R2-D2              96    32
+#> 4 Darth Vader       202   136
+#> # ... with 83 more rows
+}\if{html}{\out{</div>}}
+
+The \code{!} operator negates a selection:\if{html}{\out{<div class="r">}}\preformatted{starwars \%>\% select(!(name:mass))
+#> # A tibble: 87 x 11
+#>   hair_color skin_color eye_color birth_year sex   gender homeworld species
+#>   <chr>      <chr>      <chr>          <dbl> <chr> <chr>  <chr>     <chr>  
+#> 1 blond      fair       blue            19   male  mascu~ Tatooine  Human  
+#> 2 <NA>       gold       yellow         112   none  mascu~ Tatooine  Droid  
+#> 3 <NA>       white, bl~ red             33   none  mascu~ Naboo     Droid  
+#> 4 none       white      yellow          41.9 male  mascu~ Tatooine  Human  
+#> # ... with 83 more rows, and 3 more variables: films <list>, vehicles <list>,
+#> #   starships <list>
+
+iris \%>\% select(!c(Sepal.Length, Petal.Length))
+#> # A tibble: 150 x 3
+#>   Sepal.Width Petal.Width Species
+#>         <dbl>       <dbl> <fct>  
+#> 1         3.5         0.2 setosa 
+#> 2         3           0.2 setosa 
+#> 3         3.2         0.2 setosa 
+#> 4         3.1         0.2 setosa 
+#> # ... with 146 more rows
+
+iris \%>\% select(!ends_with("Width"))
+#> # A tibble: 150 x 3
+#>   Sepal.Length Petal.Length Species
+#>          <dbl>        <dbl> <fct>  
+#> 1          5.1          1.4 setosa 
+#> 2          4.9          1.4 setosa 
+#> 3          4.7          1.3 setosa 
+#> 4          4.6          1.5 setosa 
+#> # ... with 146 more rows
+}\if{html}{\out{</div>}}
+
+\code{&} and \code{|} take the intersection or the union of two selections:\if{html}{\out{<div class="r">}}\preformatted{iris \%>\% select(starts_with("Petal") & ends_with("Width"))
+#> # A tibble: 150 x 1
+#>   Petal.Width
+#>         <dbl>
+#> 1         0.2
+#> 2         0.2
+#> 3         0.2
+#> 4         0.2
+#> # ... with 146 more rows
+
+iris \%>\% select(starts_with("Petal") | ends_with("Width"))
+#> # A tibble: 150 x 3
+#>   Petal.Length Petal.Width Sepal.Width
+#>          <dbl>       <dbl>       <dbl>
+#> 1          1.4         0.2         3.5
+#> 2          1.4         0.2         3  
+#> 3          1.3         0.2         3.2
+#> 4          1.5         0.2         3.1
+#> # ... with 146 more rows
+}\if{html}{\out{</div>}}
+
+To take the difference between two selections, combine the \code{&} and
+\code{!} operators:\if{html}{\out{<div class="r">}}\preformatted{iris \%>\% select(starts_with("Petal") & !ends_with("Width"))
+#> # A tibble: 150 x 1
+#>   Petal.Length
+#>          <dbl>
+#> 1          1.4
+#> 2          1.4
+#> 3          1.3
+#> 4          1.5
+#> # ... with 146 more rows
+}\if{html}{\out{</div>}}
 }
-starwars \%>\% averages(height)
-starwars \%>\% averages(c(height, mass))
-
-
-# Modifying the order of variables --------------------------
-# As of dplyr 1.0.0, use relocate(), not select():
-starwars \%>\% select(name:birth_year) \%>\% relocate(birth_year, .before = 1)
-starwars \%>\% select(name:birth_year) \%>\% relocate(name, .after = last_col())
 }
+
 \seealso{
 Other single table verbs: 
 \code{\link{arrange}()},

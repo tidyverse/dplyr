@@ -61,13 +61,13 @@
 #' # Dot-dot-dot (...)
 #'
 #' When this modifier is applied to `...`, there is one other useful technique
-#' which solves the problem of creating a new variable with a name supplied
-#' by the user. Use `!!var := expression`. (Note the use of `:=` instead of
-#' `=`).
+#' which solves the problem of creating a new variable with a name supplied by
+#' the user. Use the interpolation syntax from the glue package: `"{var}" :=
+#' expression`. (Note the use of `:=` instead of `=` to enable this syntax).
 #'
 #' ```
 #' var_name <- "l100km"
-#' mtcars %>% mutate(!!var_name := 235 / mpg)
+#' mtcars %>% mutate("{var_name}" := 235 / mpg)
 #' ```
 #'
 #' Note that `...` automatically provides indirection, so you can use it as is
@@ -90,39 +90,20 @@ NULL
 #'
 #' @description
 #' This page the describes the `<tidy-select>` argument modifier which indicates
-#' the argument uses tidy evaluation with **tidy selection**. Tidy selection
-#' provides a concise DSL for selecting variables based on their names.
-#' If you've never head of tidy evaluation before, start with
-#' `vignette("programming")`.
+#' the argument supports **tidy selections**. Tidy selection provides a concise
+#' dialect of R for selecting variables based on their names or properties.
 #'
-#' # General usage
+#' Tidy selection is a variant of tidy evaluation. This means that inside
+#' functions, tidy-select arguments require special attention, as described in
+#' the Indirection section. If you've never head of tidy evaluation before,
+#' start with `vignette("programming")`.
 #'
-#' If you have a data frame with variables `apple`, `banana`, `cantelope`,
-#' `date`, `eggplant`, `fig`, `grape` you can:
 #'
-#' * Select individual variables with their name: e.g. `c(apple, fig, grape)`.
+#' # Overview of selection features
 #'
-#' * Select data-variables stored in a env-variable with `all_of()` (which
-#'   will error if a variable is not found) or `any_of()` (which is
-#'   relaxed and will silently drop missing variables), e.g.
-#'   if `vars <- c("apple", "fig", "peach")`, then `all_of(vars)` will
-#'   error; `any_of(vars)` will select `apple` and `fig`.
+#' ```{r, child = "man/rmd/overview.Rmd"}
+#' ```
 #'
-#' * Select contiguous variables with `:`, e.g. `apple:date`.
-#'
-#' * Select variables with named-based helpers: e.g. `ends_with("a")`,
-#'   `contains("g")`. See full list in [tidyselect::select_helpers].
-#'
-#' * Select variables of a given type with a `is` function: `is.numeric`,
-#'   `is.factor`, `is.character`, etc.
-#'
-#' * Invert a selection with `!`: `!is.numeric`, or `!contains("x")`.
-#'
-#' * Create logical combination with `|` and `&`:
-#'   `starts_with("a") | starts_with("b")`, `contains("x") & is.numeric`
-#'
-#' * Remove variables from a collection with `&` and `!`:
-#'   `is.numeric & !starts_with("a")`
 #'
 #' # Indirection
 #'
