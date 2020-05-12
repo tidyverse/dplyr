@@ -47,7 +47,7 @@ filter(players, G > lag(G))
 # For each player, compute avg change in games played per year
 mutate(players, G_change = (G - lag(G)) / (yearID - lag(yearID)))
 
-# For each player, find all where they played more games than average
+# For each player, find all years where they played more games than they did on average
 filter(players, G > mean(G))
 # For each, player compute a z score based on number of games played
 mutate(players, G_z = (G - mean(G)) / sd(G))
