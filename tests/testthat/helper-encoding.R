@@ -30,24 +30,21 @@ get_alien_lang_string <- function() {
 
 with_non_utf8_encoding <- function(code) {
   if (.Platform$OS.type != "windows") {
-    old_encoding <- set_non_utf8_encoding()
+    old_encoding <- Sys.getlocale("LC_CTYPE")
     on.exit(Sys.setlocale("LC_CTYPE", old_encoding))
+
+    tryCatch(
+      Sys.setlocale("LC_CTYPE", "en_US.ISO88591"),
+      warning = function(e) {
+        tryCatch(
+          Sys.setlocale("LC_CTYPE", "fr_CH.ISO8859-15"),
+          warning = function(w) {
+            testthat::skip("Cannot set latin-1 encoding")
+          }
+        )
+      }
+    )
+
   }
   code
-}
-
-set_non_utf8_encoding <- function() {
-  old_encoding <- Sys.getlocale("LC_CTYPE")
-  tryCatch(
-    Sys.setlocale("LC_CTYPE", "en_US.ISO88591"),
-    warning = function(e) {
-      tryCatch(
-        Sys.setlocale("LC_CTYPE", "fr_CH.ISO8859-15"),
-        warning = function(w) {
-          testthat::skip("Cannot set latin-1 encoding")
-        }
-      )
-    }
-  )
-  old_encoding
 }
