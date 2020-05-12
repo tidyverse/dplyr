@@ -243,7 +243,7 @@
 <span class="co">#&gt; `summarise()` regrouping by 'teamID' (override with `.groups` argument)</span>
 <span class="no">by_team_quartile</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">by_team</span>, <span class="kw">quartile</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ranking.html">ntile</a></span>(<span class="no">G</span>, <span class="fl">4</span>))
 <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="no">by_team_quartile</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">G</span>))
-<span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span>
+<span class="co">#&gt; `summarise()` ungroup (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;   quartile `mean(G)`</span>
 <span class="co">#&gt; *    &lt;int&gt;     &lt;dbl&gt;</span>
