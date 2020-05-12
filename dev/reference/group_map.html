@@ -99,7 +99,7 @@ be used to iterate on grouped tibbles." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -212,9 +212,9 @@ be used to iterate on grouped tibbles." />
 be used to iterate on grouped tibbles.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_map</span>(<span class='no'>.data</span>, <span class='no'>.f</span>, <span class='no'>...</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>group_map</span>(<span class='no'>.data</span>, <span class='no'>.f</span>, <span class='no'>...</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>group_modify</span>(<span class='no'>.data</span>, <span class='no'>.f</span>, <span class='no'>...</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>group_modify</span>(<span class='no'>.data</span>, <span class='no'>.f</span>, <span class='no'>...</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>group_walk</span>(<span class='no'>.data</span>, <span class='no'>.f</span>, <span class='no'>...</span>)</pre>
 
@@ -242,7 +242,7 @@ that identifies the group</p></li>
       <td><p>Additional arguments passed on to <code>.f</code></p></td>
     </tr>
     <tr>
-      <th>keep</th>
+      <th>.keep</th>
       <td><p>are the grouping variables kept in <code>.x</code></p></td>
     </tr>
     </table>

@@ -53,7 +53,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -216,6 +216,7 @@
 
 <span class="no">by_sex_gender</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/count.html">tally</a></span>(<span class="kw">sort</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; # A tibble: 6 x 3</span>
+<span class="co">#&gt; # Groups:   sex [5]</span>
 <span class="co">#&gt;   sex    gender        n</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt;</span>
 <span class="co">#&gt; 1 male   masculine    60</span>
@@ -312,8 +313,9 @@
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">homeworld</span>, <span class="kw">.add</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/count.html">tally</a></span>()
 <span class="co">#&gt; # A tibble: 58 x 3</span>
+<span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   species  homeworld       n</span>
-<span class="co">#&gt; * &lt;chr&gt;    &lt;chr&gt;       &lt;int&gt;</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;       &lt;int&gt;</span>
 <span class="co">#&gt; 1 Aleena   Aleen Minor     1</span>
 <span class="co">#&gt; 2 Besalisk Ojom            1</span>
 <span class="co">#&gt; 3 Cerean   Cerea           1</span>

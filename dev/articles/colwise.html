@@ -53,7 +53,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -187,6 +187,16 @@
 <p>Here are a couple of examples of <code><a href="../reference/across.html">across()</a></code> in conjunction with its favourite verb, <code><a href="../reference/summarise.html">summarise()</a></code>. But you can use <code><a href="../reference/across.html">across()</a></code> with any dplyr verb, as you’ll see a little later.</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.character</span>, ~ <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">.x</span>))))
+<span class="co">#&gt; Warning: Predicate functions must be wrapped in `where()`.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   # Bad</span>
+<span class="co">#&gt;   data %&gt;% select(is.character)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   # Good</span>
+<span class="co">#&gt;   data %&gt;% select(where(is.character))</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ℹ Please update your code.</span>
+<span class="co">#&gt; This message is displayed once per session.</span>
 <span class="co">#&gt; # A tibble: 1 x 8</span>
 <span class="co">#&gt;    name hair_color skin_color eye_color   sex gender homeworld species</span>
 <span class="co">#&gt;   &lt;int&gt;      &lt;int&gt;      &lt;int&gt;     &lt;int&gt; &lt;int&gt;  &lt;int&gt;     &lt;int&gt;   &lt;int&gt;</span>
@@ -210,6 +220,16 @@
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">homeworld</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/context.html">n</a></span>() <span class="kw">&gt;</span> <span class="fl">1</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, ~ <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">.x</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)))
+<span class="co">#&gt; Warning: Predicate functions must be wrapped in `where()`.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   # Bad</span>
+<span class="co">#&gt;   data %&gt;% select(is.numeric)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   # Good</span>
+<span class="co">#&gt;   data %&gt;% select(where(is.numeric))</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ℹ Please update your code.</span>
+<span class="co">#&gt; This message is displayed once per session.</span>
 <span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 10 x 4</span>
 <span class="co">#&gt;   homeworld height  mass birth_year</span>
@@ -269,7 +289,7 @@
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">3</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fl">3</span>:<span class="fl">5</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="fl">5</span>:<span class="fl">7</span>)
 <span class="no">mult</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="fl">100</span>)
 
-<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">mult</span>)), ~ <span class="no">.x</span> * <span class="no">mult</span><span class="kw">[[</span><span class="fu"><a href="../reference/context.html">cur_column</a></span>()]]))
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">mult</span>)), ~ <span class="no">.x</span> * <span class="no">mult</span><span class="kw">[[</span><span class="fu"><a href="../reference/context.html">cur_column</a></span>()]]))
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;       x     y     z</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -321,7 +341,7 @@
 </li>
 <li>
 <p>Find all rows where no variable has missing values:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), ~ !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">.x</span>)))
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span>(), ~ !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">.x</span>)))
 <span class="co">#&gt; # A tibble: 29 x 14</span>
 <span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
@@ -337,7 +357,7 @@
 <ul>
 <li>
 <p>Find all distinct</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains</a></span>(<span class="st">"color"</span>)))
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span>(<span class="st">"color"</span>)))
 <span class="co">#&gt; # A tibble: 67 x 3</span>
 <span class="co">#&gt;   hair_color skin_color  eye_color</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span>
@@ -349,7 +369,7 @@
 </li>
 <li>
 <p>Count all combinations of variables with a given pattern:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/count.html">count</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains</a></span>(<span class="st">"color"</span>)), <span class="kw">sort</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/count.html">count</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span>(<span class="st">"color"</span>)), <span class="kw">sort</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; # A tibble: 67 x 4</span>
 <span class="co">#&gt;   hair_color skin_color eye_color     n</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;int&gt;</span>
@@ -409,7 +429,7 @@
 <ol style="list-style-type: decimal">
 <li>For <code>_if()</code>, the old second argument.</li>
 <li>For <code>_at()</code>, the old second argument, with the call to <code><a href="../reference/vars.html">vars()</a></code> removed.</li>
-<li>For <code>_all()</code>, <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything()</a></code>.</li>
+<li>For <code>_all()</code>, <code><a href="https://tidyselect.r-lib.org/reference/everything.html">everything()</a></code>.</li>
 </ol>
 <p>The subsequent arguments can be copied as is.</p>
 </li>
@@ -419,13 +439,13 @@
 <span class="co"># -&gt;</span>
 <span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="no">is.numeric</span>, <span class="no">mean</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
 
-<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate_all.html">mutate_at</a></span>(<span class="fu"><a href="../reference/vars.html">vars</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(<span class="st">"y"</span>))), <span class="no">mean</span>)
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate_all.html">mutate_at</a></span>(<span class="fu"><a href="../reference/vars.html">vars</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span>(<span class="st">"y"</span>))), <span class="no">mean</span>)
 <span class="co"># -&gt;</span>
-<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(<span class="st">"y"</span>)), <span class="no">mean</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span>(<span class="st">"y"</span>)), <span class="no">mean</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
 
 <span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate_all.html">mutate_all</a></span>(<span class="no">mean</span>)
 <span class="co"># -&gt;</span>
-<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), <span class="no">mean</span>))</pre></body></html></div>
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span>(), <span class="no">mean</span>))</pre></body></html></div>
 <p>There are a few exceptions to this rule:</p>
 <ul>
 <li><p><code>rename_*()</code> and <code>select_*()</code> follow a different pattern. They already have select semantics, so are generally used in a different way that doesn’t have a direct equivalent with <code><a href="../reference/across.html">across()</a></code>; use the new <code><a href="../reference/rename.html">rename_with()</a></code> instead.</p></li>
@@ -458,7 +478,7 @@
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1   0.5     1     8</span>
 
-<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">everything</a></span>(), ~ <span class="no">.x</span> / <span class="no">y</span>))
+<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span>(), ~ <span class="no">.x</span> / <span class="no">y</span>))
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;       x     y     z</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>

@@ -100,7 +100,7 @@ by group_by(), ungroup(), or as_tibble()." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -229,10 +229,14 @@ by <code><a href='group_by.html'>group_by()</a></code>, <code><a href='group_by.
 when calling <code><a href='summarise.html'>summarise()</a></code>. This is typically a set of variables whose
 combination uniquely identify each row.</p>
 <p><strong>NB</strong>: unlike <code><a href='group_by.html'>group_by()</a></code> you can not create new variables here but
-instead you can select multiple variables with (e.g.) <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything()</a></code>.</p></td>
+instead you can select multiple variables with (e.g.) <code><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything()</a></code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A row-wise data frame with class <code>rowwise_df</code>. Note that a
+<code>rowwise_df</code> is implicitly grouped by row, but is not a <code>grouped_df</code>.</p>
     <h2 class="hasAnchor" id="list-columns"><a class="anchor" href="#list-columns"></a>List-columns</h2>
 
     

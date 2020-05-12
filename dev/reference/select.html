@@ -56,7 +56,46 @@
 mini-language that makes it easy to refer to variables based on their name
 (e.g. a:f selects all columns from a on the left to f on the
 right). You can also use predicate functions like is.numeric to select
-variables based on their properties." />
+variables based on their properties.Overview of selection features
+
+
+Tidyverse selections implement a dialect of R where operators make
+it easy to select variables:
+: for selecting a range of consecutive variables.
+! for taking the complement of a set of variables.
+&amp;amp; and | for selecting the intersection or the union of two
+sets of variables.
+c() for combining selections.
+
+
+In addition, you can use selection helpers. Some helpers select specific
+columns:
+everything(): Matches all variables.
+last_col(): Select last variable, possibly with an offset.
+
+
+These helpers select variables by matching patterns in their names:
+starts_with(): Starts with a prefix.
+ends_with(): Ends with a suffix.
+contains(): Contains a literal string.
+matches(): Matches a regular expression.
+num_range(): Matches a numerical range like x01, x02, x03.
+
+
+These helpers select variables from a character vector:
+all_of(): Matches variable names in a character vector. All
+names must be present, otherwise an out-of-bounds error is
+thrown.
+any_of(): Same as all_of(), except that no error is thrown
+for names that don't exist.
+
+
+This helper selects variables with a function:
+where(): Applies a function to all variables and selects those
+for which the function returns TRUE.
+
+
+" />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -101,7 +140,7 @@ variables based on their properties." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -213,7 +252,46 @@ variables based on their properties." />
 mini-language that makes it easy to refer to variables based on their name
 (e.g. <code>a:f</code> selects all columns from <code>a</code> on the left to <code>f</code> on the
 right). You can also use predicate functions like <a href='https://rdrr.io/r/base/numeric.html'>is.numeric</a> to select
-variables based on their properties.</p>
+variables based on their properties.</p><h3>Overview of selection features</h3>
+
+
+<p>Tidyverse selections implement a dialect of R where operators make
+it easy to select variables:</p><ul>
+<li><p><code>:</code> for selecting a range of consecutive variables.</p></li>
+<li><p><code>!</code> for taking the complement of a set of variables.</p></li>
+<li><p><code>&amp;</code> and <code>|</code> for selecting the intersection or the union of two
+sets of variables.</p></li>
+<li><p><code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> for combining selections.</p></li>
+</ul>
+
+<p>In addition, you can use <strong>selection helpers</strong>. Some helpers select specific
+columns:</p><ul>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything()</a></code>: Matches all variables.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/everything.html'>last_col()</a></code>: Select last variable, possibly with an offset.</p></li>
+</ul>
+
+<p>These helpers select variables by matching patterns in their names:</p><ul>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with()</a></code>: Starts with a prefix.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with()</a></code>: Ends with a suffix.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains()</a></code>: Contains a literal string.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>matches()</a></code>: Matches a regular expression.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>num_range()</a></code>: Matches a numerical range like x01, x02, x03.</p></li>
+</ul>
+
+<p>These helpers select variables from a character vector:</p><ul>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>all_of()</a></code>: Matches variable names in a character vector. All
+names must be present, otherwise an out-of-bounds error is
+thrown.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>any_of()</a></code>: Same as <code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>all_of()</a></code>, except that no error is thrown
+for names that don't exist.</p></li>
+</ul>
+
+<p>This helper selects variables with a function:</p><ul>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/where.html'>where()</a></code>: Applies a function to all variables and selects those
+for which the function returns <code>TRUE</code>.</p></li>
+</ul>
+
+
     </div>
 
     <pre class="usage"><span class='fu'>select</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
@@ -247,39 +325,6 @@ order. Columns will be renamed if <code>new_name = old_name</code> form is used.
 <li><p>Groups are maintained; you can't select off grouping variables.</p></li>
 </ul>
 
-    <h2 class="hasAnchor" id="useful-functions"><a class="anchor" href="#useful-functions"></a>Useful functions</h2>
-
-    
-
-<p>As well as using existing functions like <code>:</code> and <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code>, there are
-a number of special functions that only work inside <code>select()</code>:</p><ul>
-<li><p><code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>any_of()</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>all_of()</a></code>.</p></li>
-<li><p><code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with()</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with()</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains()</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>matches()</a></code>.</p></li>
-<li><p><code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>num_range()</a></code>.</p></li>
-<li><p><code><a href='group_cols.html'>group_cols()</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>last_col()</a></code>.</p></li>
-<li><p><code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything()</a></code>.</p></li>
-</ul>
-
-<p>You can also use predicate functions (functions that return a single <code>TRUE</code>
-or <code>FALSE</code>) like <code>is.numeric</code>, <code>is.character</code>, and <code>is.factor</code>
-to select variables of specific types.</p>
-<p>Selections can be combined using Boolean algebra:</p><ul>
-<li><p><code>starts_with("a") &amp; ends_with("x")</code>: variables with names that start with "a" and end with "x"</p></li>
-<li><p><code>starts_with("a") | starts_with("b")</code>: variables with names that start with "a" or "b"</p></li>
-<li><p><code>!starts_with("a")</code>: variables with names that do not start with "a"</p></li>
-</ul>
-
-<p>To remove variables from a selection, use <code>&amp;</code> and <code>!</code>:</p><ul>
-<li><p><code>starts_with("a") &amp; !ends_width("x")</code>: variables with names that start with "a" and do not end with "x"</p></li>
-<li><p><code>is.numeric &amp; !c(a, b, c)</code>: numeric variables except, for <code>a</code>, <code>b</code>, <code>c</code>.</p></li>
-</ul>
-
-<p>See <a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>select helpers</a> for more details and
-examples.</p>
-<p>Note that except for <code>:</code>, <code>-</code> and <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code>, all complex expressions
-are evaluated outside the data frame context. This is to prevent
-accidental matching of data frame variables when you refer to
-variables from the calling environment.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -290,6 +335,131 @@ individual methods for extra arguments and differences in behaviour.</p>
 <p>The following methods are currently available in loaded packages:
 dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>), utils (<code><a href='https://rdrr.io/r/utils/select.list.html'>list</a></code>)
 .</p>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+
+    
+
+
+<p>Here we show the usage for the basic selection operators. See the
+specific help pages to learn about helpers like <code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with()</a></code>.</p>
+<p>The selection language can be used in functions like
+<code>dplyr::select()</code> or <code><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>tidyr::pivot_longer()</a></code>. Let's first attach
+the tidyverse:<div class="r"></p><pre><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyverse</span>)
+
+<span class='co'># For better printing</span>
+<span class='no'>iris</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>iris</span>)</pre><p></div></p>
+<p>Select variables by name:<div class="r"></p><pre><span class='no'>starwars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>select</span>(<span class='no'>height</span>)
+<span class='co'>#&amp;gt; # A tibble: 87 x 1</span>
+<span class='co'>#&amp;gt;   height</span>
+<span class='co'>#&amp;gt;    &amp;lt;int&amp;gt;</span>
+<span class='co'>#&amp;gt; 1    172</span>
+<span class='co'>#&amp;gt; 2    167</span>
+<span class='co'>#&amp;gt; 3     96</span>
+<span class='co'>#&amp;gt; 4    202</span>
+<span class='co'>#&amp;gt; # ... with 83 more rows</span>
+
+<span class='no'>iris</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>pivot_longer</span>(<span class='no'>Sepal.Length</span>)
+<span class='co'>#&amp;gt; # A tibble: 150 x 6</span>
+<span class='co'>#&amp;gt;   Sepal.Width Petal.Length Petal.Width Species name         value</span>
+<span class='co'>#&amp;gt;         &amp;lt;dbl&amp;gt;        &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt; &amp;lt;fct&amp;gt;   &amp;lt;chr&amp;gt;        &amp;lt;dbl&amp;gt;</span>
+<span class='co'>#&amp;gt; 1         3.5          1.4         0.2 setosa  Sepal.Length   5.1</span>
+<span class='co'>#&amp;gt; 2         3            1.4         0.2 setosa  Sepal.Length   4.9</span>
+<span class='co'>#&amp;gt; 3         3.2          1.3         0.2 setosa  Sepal.Length   4.7</span>
+<span class='co'>#&amp;gt; 4         3.1          1.5         0.2 setosa  Sepal.Length   4.6</span>
+<span class='co'>#&amp;gt; # ... with 146 more rows</span></pre><p></div></p>
+<p>Select multiple variables by separating them with commas. Note how
+the order of columns is determined by the order of inputs:<div class="r"></p><pre><span class='no'>starwars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>select</span>(<span class='no'>homeworld</span>, <span class='no'>height</span>, <span class='no'>mass</span>)
+<span class='co'>#&amp;gt; # A tibble: 87 x 3</span>
+<span class='co'>#&amp;gt;   homeworld height  mass</span>
+<span class='co'>#&amp;gt;   &amp;lt;chr&amp;gt;      &amp;lt;int&amp;gt; &amp;lt;dbl&amp;gt;</span>
+<span class='co'>#&amp;gt; 1 Tatooine     172    77</span>
+<span class='co'>#&amp;gt; 2 Tatooine     167    75</span>
+<span class='co'>#&amp;gt; 3 Naboo         96    32</span>
+<span class='co'>#&amp;gt; 4 Tatooine     202   136</span>
+<span class='co'>#&amp;gt; # ... with 83 more rows</span></pre><p></div></p>
+<p>Functions like <code><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>tidyr::pivot_longer()</a></code> don't take variables with
+dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> to select multiple variables:<div class="r"></p><pre><span class='no'>iris</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>pivot_longer</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>Sepal.Length</span>, <span class='no'>Petal.Length</span>))
+<span class='co'>#&amp;gt; # A tibble: 300 x 5</span>
+<span class='co'>#&amp;gt;   Sepal.Width Petal.Width Species name         value</span>
+<span class='co'>#&amp;gt;         &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt; &amp;lt;fct&amp;gt;   &amp;lt;chr&amp;gt;        &amp;lt;dbl&amp;gt;</span>
+<span class='co'>#&amp;gt; 1         3.5         0.2 setosa  Sepal.Length   5.1</span>
+<span class='co'>#&amp;gt; 2         3.5         0.2 setosa  Petal.Length   1.4</span>
+<span class='co'>#&amp;gt; 3         3           0.2 setosa  Sepal.Length   4.9</span>
+<span class='co'>#&amp;gt; 4         3           0.2 setosa  Petal.Length   1.4</span>
+<span class='co'>#&amp;gt; # ... with 296 more rows</span></pre><p></div></p><h3>Operators:</h3>
+
+
+<p>The <code>:</code> operator selects a range of consecutive variables:<div class="r"></p><pre><span class='no'>starwars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>select</span>(<span class='no'>name</span>:<span class='no'>mass</span>)
+<span class='co'>#&amp;gt; # A tibble: 87 x 3</span>
+<span class='co'>#&amp;gt;   name           height  mass</span>
+<span class='co'>#&amp;gt;   &amp;lt;chr&amp;gt;           &amp;lt;int&amp;gt; &amp;lt;dbl&amp;gt;</span>
+<span class='co'>#&amp;gt; 1 Luke Skywalker    172    77</span>
+<span class='co'>#&amp;gt; 2 C-3PO             167    75</span>
+<span class='co'>#&amp;gt; 3 R2-D2              96    32</span>
+<span class='co'>#&amp;gt; 4 Darth Vader       202   136</span>
+<span class='co'>#&amp;gt; # ... with 83 more rows</span></pre><p></div></p>
+<p>The <code>!</code> operator negates a selection:<div class="r"></p><pre><span class='no'>starwars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>select</span>(!(<span class='no'>name</span>:<span class='no'>mass</span>))
+<span class='co'>#&amp;gt; # A tibble: 87 x 11</span>
+<span class='co'>#&amp;gt;   hair_color skin_color eye_color birth_year sex   gender homeworld species</span>
+<span class='co'>#&amp;gt;   &amp;lt;chr&amp;gt;      &amp;lt;chr&amp;gt;      &amp;lt;chr&amp;gt;          &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;  </span>
+<span class='co'>#&amp;gt; 1 blond      fair       blue            19   male  mascu~ Tatooine  Human  </span>
+<span class='co'>#&amp;gt; 2 &amp;lt;NA&amp;gt;       gold       yellow         112   none  mascu~ Tatooine  Droid  </span>
+<span class='co'>#&amp;gt; 3 &amp;lt;NA&amp;gt;       white, bl~ red             33   none  mascu~ Naboo     Droid  </span>
+<span class='co'>#&amp;gt; 4 none       white      yellow          41.9 male  mascu~ Tatooine  Human  </span>
+<span class='co'>#&amp;gt; # ... with 83 more rows, and 3 more variables: films &amp;lt;list&amp;gt;, vehicles &amp;lt;list&amp;gt;,</span>
+<span class='co'>#&amp;gt; #   starships &amp;lt;list&amp;gt;</span>
+
+<span class='no'>iris</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>select</span>(!<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>Sepal.Length</span>, <span class='no'>Petal.Length</span>))
+<span class='co'>#&amp;gt; # A tibble: 150 x 3</span>
+<span class='co'>#&amp;gt;   Sepal.Width Petal.Width Species</span>
+<span class='co'>#&amp;gt;         &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt; &amp;lt;fct&amp;gt;  </span>
+<span class='co'>#&amp;gt; 1         3.5         0.2 setosa </span>
+<span class='co'>#&amp;gt; 2         3           0.2 setosa </span>
+<span class='co'>#&amp;gt; 3         3.2         0.2 setosa </span>
+<span class='co'>#&amp;gt; 4         3.1         0.2 setosa </span>
+<span class='co'>#&amp;gt; # ... with 146 more rows</span>
+
+<span class='no'>iris</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'>select</span>(!<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span>(<span class='st'>"Width"</span>))
+<span class='co'>#&amp;gt; # A tibble: 150 x 3</span>
+<span class='co'>#&amp;gt;   Sepal.Length Petal.Length Species</span>
+<span class='co'>#&amp;gt;          &amp;lt;dbl&amp;gt;        &amp;lt;dbl&amp;gt; &amp;lt;fct&amp;gt;  </span>
+<span class='co'>#&amp;gt; 1          5.1          1.4 setosa </span>
+<span class='co'>#&amp;gt; 2          4.9          1.4 setosa </span>
+<span class='co'>#&amp;gt; 3          4.7          1.3 setosa </span>
+<span class='co'>#&amp;gt; 4          4.6          1.5 setosa </span>
+<span class='co'>#&amp;gt; # ... with 146 more rows</span></pre><p></div></p>
+<p><code>&amp;</code> and <code>|</code> take the intersection or the union of two selections:<div class="r"></p><pre>iris %&amp;gt;% select(starts_with("Petal") &amp;amp; ends_with("Width"))
+#&amp;gt; # A tibble: 150 x 1
+#&amp;gt;   Petal.Width
+#&amp;gt;         &amp;lt;dbl&amp;gt;
+#&amp;gt; 1         0.2
+#&amp;gt; 2         0.2
+#&amp;gt; 3         0.2
+#&amp;gt; 4         0.2
+#&amp;gt; # ... with 146 more rows
+
+iris %&amp;gt;% select(starts_with("Petal") | ends_with("Width"))
+#&amp;gt; # A tibble: 150 x 3
+#&amp;gt;   Petal.Length Petal.Width Sepal.Width
+#&amp;gt;          &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;
+#&amp;gt; 1          1.4         0.2         3.5
+#&amp;gt; 2          1.4         0.2         3  
+#&amp;gt; 3          1.3         0.2         3.2
+#&amp;gt; 4          1.5         0.2         3.1
+#&amp;gt; # ... with 146 more rows
+</pre><p></div></p>
+<p>To take the difference between two selections, combine the <code>&amp;</code> and
+<code>!</code> operators:<div class="r"></p><pre>iris %&amp;gt;% select(starts_with("Petal") &amp;amp; !ends_with("Width"))
+#&amp;gt; # A tibble: 150 x 1
+#&amp;gt;   Petal.Length
+#&amp;gt;          &amp;lt;dbl&amp;gt;
+#&amp;gt; 1          1.4
+#&amp;gt; 2          1.4
+#&amp;gt; 3          1.3
+#&amp;gt; 4          1.5
+#&amp;gt; # ... with 146 more rows
+</pre><p></div></p>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
@@ -300,178 +470,6 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <code><a href='slice.html'>slice</a>()</code>,
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"h"</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 3</span><span>
-#&gt;    height hair_color    homeworld
-#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'> 1</span><span>    172 blond         Tatooine 
-#&gt; </span><span style='color: #555555;'> 2</span><span>    167 </span><span style='color: #BB0000;'>NA</span><span>            Tatooine 
-#&gt; </span><span style='color: #555555;'> 3</span><span>     96 </span><span style='color: #BB0000;'>NA</span><span>            Naboo    
-#&gt; </span><span style='color: #555555;'> 4</span><span>    202 none          Tatooine 
-#&gt; </span><span style='color: #555555;'> 5</span><span>    150 brown         Alderaan 
-#&gt; </span><span style='color: #555555;'> 6</span><span>    178 brown, grey   Tatooine 
-#&gt; </span><span style='color: #555555;'> 7</span><span>    165 brown         Tatooine 
-#&gt; </span><span style='color: #555555;'> 8</span><span>     97 </span><span style='color: #BB0000;'>NA</span><span>            Tatooine 
-#&gt; </span><span style='color: #555555;'> 9</span><span>    183 black         Tatooine 
-#&gt; </span><span style='color: #555555;'>10</span><span>    182 auburn, white Stewjon  
-#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with</a></span>(<span class='st'>"color"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
-#&gt;    hair_color    skin_color  eye_color
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'> 1</span><span> blond         fair        blue     
-#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #BB0000;'>NA</span><span>            gold        yellow   
-#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>            white, blue red      
-#&gt; </span><span style='color: #555555;'> 4</span><span> none          white       yellow   
-#&gt; </span><span style='color: #555555;'> 5</span><span> brown         light       brown    
-#&gt; </span><span style='color: #555555;'> 6</span><span> brown, grey   light       blue     
-#&gt; </span><span style='color: #555555;'> 7</span><span> brown         light       blue     
-#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #BB0000;'>NA</span><span>            white, red  red      
-#&gt; </span><span style='color: #555555;'> 9</span><span> black         light       brown    
-#&gt; </span><span style='color: #555555;'>10</span><span> auburn, white fair        blue-gray
-#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, !<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"s"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 7</span><span>
-#&gt;    name             height hair_color    eye_color birth_year gender   homeworld
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker      172 blond         blue            19   masculi… Tatooine 
-#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO               167 </span><span style='color: #BB0000;'>NA</span><span>            yellow         112   masculi… Tatooine 
-#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                96 </span><span style='color: #BB0000;'>NA</span><span>            red             33   masculi… Naboo    
-#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader         202 none          yellow          41.9 masculi… Tatooine 
-#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa         150 brown         brown           19   feminine Alderaan 
-#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars           178 brown, grey   blue            52   masculi… Tatooine 
-#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun l…    165 brown         blue            47   feminine Tatooine 
-#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                97 </span><span style='color: #BB0000;'>NA</span><span>            red             </span><span style='color: #BB0000;'>NA</span><span>   masculi… Tatooine 
-#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklight…    183 black         brown           24   masculi… Tatooine 
-#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi      182 auburn, white blue-gray       57   masculi… Stewjon  
-#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"h"</span>) <span class='kw'>&amp;</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>ends_with</a></span>(<span class='st'>"color"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 1</span><span>
-#&gt;    hair_color   
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        
-#&gt; </span><span style='color: #555555;'> 1</span><span> blond        
-#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #BB0000;'>NA</span><span>           
-#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>           
-#&gt; </span><span style='color: #555555;'> 4</span><span> none         
-#&gt; </span><span style='color: #555555;'> 5</span><span> brown        
-#&gt; </span><span style='color: #555555;'> 6</span><span> brown, grey  
-#&gt; </span><span style='color: #555555;'> 7</span><span> brown        
-#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #BB0000;'>NA</span><span>           
-#&gt; </span><span style='color: #555555;'> 9</span><span> black        
-#&gt; </span><span style='color: #555555;'>10</span><span> auburn, white
-#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='no'>is.numeric</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
-#&gt;    height  mass birth_year
-#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>    172    77       19  
-#&gt; </span><span style='color: #555555;'> 2</span><span>    167    75      112  
-#&gt; </span><span style='color: #555555;'> 3</span><span>     96    32       33  
-#&gt; </span><span style='color: #555555;'> 4</span><span>    202   136       41.9
-#&gt; </span><span style='color: #555555;'> 5</span><span>    150    49       19  
-#&gt; </span><span style='color: #555555;'> 6</span><span>    178   120       52  
-#&gt; </span><span style='color: #555555;'> 7</span><span>    165    75       47  
-#&gt; </span><span style='color: #555555;'> 8</span><span>     97    32       </span><span style='color: #BB0000;'>NA</span><span>  
-#&gt; </span><span style='color: #555555;'> 9</span><span>    183    84       24  
-#&gt; </span><span style='color: #555555;'>10</span><span>    182    77       57  
-#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
-<span class='co'># Optionally, rename individual variables as they are selected,</span>
-<span class='co'># in the format `new_name = old_name`</span>
-<span class='fu'>select</span>(<span class='no'>starwars</span>, <span class='kw'>character_name</span> <span class='kw'>=</span> <span class='no'>name</span>, <span class='kw'>character_height</span> <span class='kw'>=</span> <span class='no'>height</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 2</span><span>
-#&gt;    character_name     character_height
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker                  172
-#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                           167
-#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                            96
-#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader                     202
-#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa                     150
-#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars                       178
-#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars              165
-#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                            97
-#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter               183
-#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi                  182
-#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
-<span class='co'># Use num_range() to select variables with numeric suffixes</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>10</span>))
-<span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>) <span class='co'># Specify variable names explicitly</span></div><div class='output co'>#&gt;            V4         V5         V6
-#&gt; 1  0.09347633 0.58883843 0.61910649
-#&gt; 2  0.45980079 0.08148829 0.33753305
-#&gt; 3  0.56838655 0.74753070 0.65079497
-#&gt; 4  0.35348889 0.32998415 0.30790391
-#&gt; 5  0.63402214 0.24618046 0.01695481
-#&gt; 6  0.17635642 0.04398338 0.03748926
-#&gt; 7  0.92547428 0.21633754 0.37799359
-#&gt; 8  0.23290282 0.76802358 0.29402637
-#&gt; 9  0.33601364 0.82610630 0.78646655
-#&gt; 10 0.14908573 0.97283678 0.93246912</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>num_range</a></span>(<span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>"V"</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fl'>4</span>:<span class='fl'>6</span>)) <span class='co'># Or, specify the prefix used on a numeric range</span></div><div class='output co'>#&gt;            V4         V5         V6
-#&gt; 1  0.09347633 0.58883843 0.61910649
-#&gt; 2  0.45980079 0.08148829 0.33753305
-#&gt; 3  0.56838655 0.74753070 0.65079497
-#&gt; 4  0.35348889 0.32998415 0.30790391
-#&gt; 5  0.63402214 0.24618046 0.01695481
-#&gt; 6  0.17635642 0.04398338 0.03748926
-#&gt; 7  0.92547428 0.21633754 0.37799359
-#&gt; 8  0.23290282 0.76802358 0.29402637
-#&gt; 9  0.33601364 0.82610630 0.78646655
-#&gt; 10 0.14908573 0.97283678 0.93246912</div><div class='input'>
-<span class='co'># Select the existing grouping variables:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>, <span class='no'>eye_color</span>) <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='group_cols.html'>group_cols</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 2</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   gender, eye_color [23]</span><span>
-#&gt;    gender    eye_color
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'> 1</span><span> masculine blue     
-#&gt; </span><span style='color: #555555;'> 2</span><span> masculine yellow   
-#&gt; </span><span style='color: #555555;'> 3</span><span> masculine red      
-#&gt; </span><span style='color: #555555;'> 4</span><span> masculine yellow   
-#&gt; </span><span style='color: #555555;'> 5</span><span> feminine  brown    
-#&gt; </span><span style='color: #555555;'> 6</span><span> masculine blue     
-#&gt; </span><span style='color: #555555;'> 7</span><span> feminine  blue     
-#&gt; </span><span style='color: #555555;'> 8</span><span> masculine red      
-#&gt; </span><span style='color: #555555;'> 9</span><span> masculine brown    
-#&gt; </span><span style='color: #555555;'>10</span><span> masculine blue-gray
-#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
-<span class='co'># Using select() semantics in across()</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='kw'>.cols</span> <span class='kw'>=</span> <span class='no'>height</span>:<span class='no'>mass</span>, <span class='kw'>.fns</span> <span class='kw'>=</span> ~<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
-#&gt;   height  mass
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>   174.  97.3</div><div class='input'>
-<span class='co'># Use `{{ }}` inside functions to tunnel data-variables through</span>
-<span class='co'># function arguments. See ?dplyr_tidy_eval for more information.</span>
-<span class='no'>averages</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>data</span>, <span class='no'>vars</span>) {
-  <span class='no'>data</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>select</span>({{ <span class='no'>vars</span> }}) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-}
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>averages</span>(<span class='no'>height</span>)</div><div class='output co'>#&gt; $height
-#&gt; [1] 174.358
-#&gt; </div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>averages</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>height</span>, <span class='no'>mass</span>))</div><div class='output co'>#&gt; $height
-#&gt; [1] 174.358
-#&gt; 
-#&gt; $mass
-#&gt; [1] 97.31186
-#&gt; </div><div class='input'>
-
-<span class='co'># Modifying the order of variables --------------------------</span>
-<span class='co'># As of dplyr 1.0.0, use relocate(), not select():</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='no'>name</span>:<span class='no'>birth_year</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='relocate.html'>relocate</a></span>(<span class='no'>birth_year</span>, <span class='kw'>.before</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 7</span><span>
-#&gt;    birth_year name               height  mass hair_color    skin_color eye_color
-#&gt;         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'> 1</span><span>       19   Luke Skywalker        172    77 blond         fair       blue     
-#&gt; </span><span style='color: #555555;'> 2</span><span>      112   C-3PO                 167    75 </span><span style='color: #BB0000;'>NA</span><span>            gold       yellow   
-#&gt; </span><span style='color: #555555;'> 3</span><span>       33   R2-D2                  96    32 </span><span style='color: #BB0000;'>NA</span><span>            white, bl… red      
-#&gt; </span><span style='color: #555555;'> 4</span><span>       41.9 Darth Vader           202   136 none          white      yellow   
-#&gt; </span><span style='color: #555555;'> 5</span><span>       19   Leia Organa           150    49 brown         light      brown    
-#&gt; </span><span style='color: #555555;'> 6</span><span>       52   Owen Lars             178   120 brown, grey   light      blue     
-#&gt; </span><span style='color: #555555;'> 7</span><span>       47   Beru Whitesun lars    165    75 brown         light      blue     
-#&gt; </span><span style='color: #555555;'> 8</span><span>       </span><span style='color: #BB0000;'>NA</span><span>   R5-D4                  97    32 </span><span style='color: #BB0000;'>NA</span><span>            white, red red      
-#&gt; </span><span style='color: #555555;'> 9</span><span>       24   Biggs Darklighter     183    84 black         light      brown    
-#&gt; </span><span style='color: #555555;'>10</span><span>       57   Obi-Wan Kenobi        182    77 auburn, white fair       blue-gray
-#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='no'>name</span>:<span class='no'>birth_year</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='relocate.html'>relocate</a></span>(<span class='no'>name</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>last_col</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 7</span><span>
-#&gt;    height  mass hair_color    skin_color  eye_color birth_year name             
-#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            
-#&gt; </span><span style='color: #555555;'> 1</span><span>    172    77 blond         fair        blue            19   Luke Skywalker   
-#&gt; </span><span style='color: #555555;'> 2</span><span>    167    75 </span><span style='color: #BB0000;'>NA</span><span>            gold        yellow         112   C-3PO            
-#&gt; </span><span style='color: #555555;'> 3</span><span>     96    32 </span><span style='color: #BB0000;'>NA</span><span>            white, blue red             33   R2-D2            
-#&gt; </span><span style='color: #555555;'> 4</span><span>    202   136 none          white       yellow          41.9 Darth Vader      
-#&gt; </span><span style='color: #555555;'> 5</span><span>    150    49 brown         light       brown           19   Leia Organa      
-#&gt; </span><span style='color: #555555;'> 6</span><span>    178   120 brown, grey   light       blue            52   Owen Lars        
-#&gt; </span><span style='color: #555555;'> 7</span><span>    165    75 brown         light       blue            47   Beru Whitesun la…
-#&gt; </span><span style='color: #555555;'> 8</span><span>     97    32 </span><span style='color: #BB0000;'>NA</span><span>            white, red  red             </span><span style='color: #BB0000;'>NA</span><span>   R5-D4            
-#&gt; </span><span style='color: #555555;'> 9</span><span>    183    84 black         light       brown           24   Biggs Darklighter
-#&gt; </span><span style='color: #555555;'>10</span><span>    182    77 auburn, white fair        blue-gray       57   Obi-Wan Kenobi   
-#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

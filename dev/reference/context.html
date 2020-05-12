@@ -110,7 +110,7 @@ groups." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -302,7 +302,7 @@ groups.</p>
 #&gt; </span><span style='color: #555555;'>1</span><span> a     </span><span style='color: #555555;'>&lt;tibble [1 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>2</span><span> b     </span><span style='color: #555555;'>&lt;tibble [2 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>3</span><span> c     </span><span style='color: #555555;'>&lt;tibble [3 × 2]&gt;</span><span></div><div class='input'>
-<span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), ~ <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'>cur_column</span>(), <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>.x</span>, <span class='fl'>2</span>))))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
+<span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), ~ <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'>cur_column</span>(), <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>.x</span>, <span class='fl'>2</span>))))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   g [3]</span><span>
 #&gt;   g     x      y     
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 

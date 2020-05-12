@@ -99,7 +99,7 @@ where operations are performed &quot;by group&quot;. ungroup() removes grouping.
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -252,9 +252,9 @@ what the default value is for this argument.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <a href='grouped_df.html'>grouped data frame</a>, unless the combination of <code>...</code> and <code>add</code>
-yields a non empty set of grouping columns, a regular (ungrouped) data frame
-otherwise.</p>
+    <p>A grouped data frame with class <code><a href='grouped_df.html'>grouped_df</a></code>,
+unless the combination of <code>...</code> and <code>add</code> yields a empty set of
+grouping columns, in which case a tibble will be returned.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     

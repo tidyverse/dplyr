@@ -53,7 +53,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -171,7 +171,7 @@
 <p>Most dplyr verbs use <strong>tidy evaluation</strong> in some way. Tidy evaluation is a special type of non-standard evaluation used throughout the tidyverse. There are two basic forms found in dplyr:</p>
 <ul>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code>, <code><a href="../reference/count.html">count()</a></code>, <code><a href="../reference/filter.html">filter()</a></code>, <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/mutate.html">mutate()</a></code>, and <code><a href="../reference/summarise.html">summarise()</a></code> use <strong>data masking</strong> so that you can use data variables as if they were variables in the environment (i.e. you write <code>my_variable</code> not <code>df$myvariable</code>).</p></li>
-<li><p><code><a href="../reference/across.html">across()</a></code>, <code><a href="../reference/relocate.html">relocate()</a></code>, <code><a href="../reference/rename.html">rename()</a></code>, <code><a href="../reference/select.html">select()</a></code>, and <code><a href="../reference/pull.html">pull()</a></code> use <strong>tidy selection</strong> so you can easily choose variables based on their position, name, or type (e.g. <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with("x")</a></code> or <code>is.numeric</code>).</p></li>
+<li><p><code><a href="../reference/across.html">across()</a></code>, <code><a href="../reference/relocate.html">relocate()</a></code>, <code><a href="../reference/rename.html">rename()</a></code>, <code><a href="../reference/select.html">select()</a></code>, and <code><a href="../reference/pull.html">pull()</a></code> use <strong>tidy selection</strong> so you can easily choose variables based on their position, name, or type (e.g. <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with("x")</a></code> or <code>is.numeric</code>).</p></li>
 </ul>
 <p>To determine whether a function argument uses data masking or tidy selection, look at the documentation: in the arguments list, you’ll see <code>&lt;data-masking&gt;</code> or <code>&lt;tidy-select&gt;</code>.</p>
 <p>Data masking and tidy selection make interactive data exploration fast and fluid, but they add some new challenges when you attempt to use them indirectly such as in a for loop or a function. This vignette shows you how to overcome those challenges. We’ll first go over the basics of data masking and tidy selection, talk about how to use them indirectly, and then show you a number of recipes to solve common problems.</p>
@@ -259,14 +259,24 @@
 <span class="no">mtcars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">cyl</span>) <span class="kw">%&gt;%</span>
   <span class="fu">summarise_mean</span>(<span class="no">is.numeric</span>)
+<span class="co">#&gt; Warning: Predicate functions must be wrapped in `where()`.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   # Bad</span>
+<span class="co">#&gt;   data %&gt;% select(is.numeric)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   # Good</span>
+<span class="co">#&gt;   data %&gt;% select(where(is.numeric))</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ℹ Please update your code.</span>
+<span class="co">#&gt; This message is displayed once per session.</span>
 <span class="co">#&gt; `summarise()` ungrouping (override with `.groups` argument)</span></pre></body></html></div>
 </li>
 <li>
-<p>When you have an env-variable that is a character vector, you need to use <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of()</a></code> or <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">any_of()</a></code> depending on whether you want the function to error if a variable is not found.</p>
-<p>The following code uses <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of()</a></code> to select all of the variables found in a character vector; then <code>!</code> plus <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of()</a></code> to select all of the variables <em>not</em> found in a character vector:</p>
+<p>When you have an env-variable that is a character vector, you need to use <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of()</a></code> or <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">any_of()</a></code> depending on whether you want the function to error if a variable is not found.</p>
+<p>The following code uses <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of()</a></code> to select all of the variables found in a character vector; then <code>!</code> plus <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of()</a></code> to select all of the variables <em>not</em> found in a character vector:</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">vars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mpg"</span>, <span class="st">"vs"</span>)
-<span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of</a></span>(<span class="no">vars</span>))
-<span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(!<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">all_of</a></span>(<span class="no">vars</span>))</pre></body></html></div>
+<span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span>(<span class="no">vars</span>))
+<span class="no">mtcars</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(!<span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span>(<span class="no">vars</span>))</pre></body></html></div>
 </li>
 </ul>
 </div>

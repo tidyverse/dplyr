@@ -99,7 +99,7 @@ function." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -214,7 +214,7 @@ function.</p>
 
     <pre class="usage"><span class='fu'>rename</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
 
-<span class='fu'>rename_with</span>(<span class='no'>.data</span>, <span class='no'>.fn</span>, <span class='kw'>.cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), <span class='no'>...</span>)</pre>
+<span class='fu'>rename_with</span>(<span class='no'>.data</span>, <span class='no'>.fn</span>, <span class='kw'>.cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -302,7 +302,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa 
 #&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='fu'>rename_with</span>(<span class='no'>iris</span>, <span class='no'>toupper</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='fu'>rename_with</span>(<span class='no'>iris</span>, <span class='no'>toupper</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width PETAL.LENGTH PETAL.WIDTH Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 

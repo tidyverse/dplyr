@@ -100,7 +100,7 @@ vignette(&quot;programming&quot;)." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -259,10 +259,9 @@ pronoun, e.g. <code><a href='summarise.html'>summarise(df, mean = mean(.data[[va
     <h2 class="hasAnchor" id="dot-dot-dot-"><a class="anchor" href="#dot-dot-dot-"></a>Dot-dot-dot (...)</h2>
 
     <p>When this modifier is applied to <code>...</code>, there is one other useful technique
-which solves the problem of creating a new variable with a name supplied
-by the user. Use <code>!!var := expression</code>. (Note the use of <code>:=</code> instead of
-<code>=</code>).</p><pre><span class='no'>var_name</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='st'>"l100km"</span>
-<span class='no'>mtcars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(!!<span class='no'>var_name</span> <span class='kw'>:=</span> <span class='fl'>235</span> / <span class='no'>mpg</span>)</pre>
+which solves the problem of creating a new variable with a name supplied by
+the user. Use the interpolation syntax from the glue package: <code>"{var}" := expression</code>. (Note the use of <code>:=</code> instead of <code>=</code> to enable this syntax).</p><pre><span class='no'>var_name</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='st'>"l100km"</span>
+<span class='no'>mtcars</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='st'>"{var_name}"</span> <span class='kw'>:=</span> <span class='fl'>235</span> / <span class='no'>mpg</span>)</pre>
 
 <p>Note that <code>...</code> automatically provides indirection, so you can use it as is
 (i.e. without embracing) inside a function:</p><pre><span class='no'>grouped_mean</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw'>function</span>(<span class='no'>df</span>, <span class='no'>var</span>, <span class='no'>...</span>) {

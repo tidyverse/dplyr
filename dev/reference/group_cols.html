@@ -98,7 +98,7 @@ in select() or vars() selections." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -264,7 +264,7 @@ variables outside selection contexts.</p></div>
 #&gt; </span><span style='color: #555555;'> 9</span><span>        0.044      0.029</span><span style='text-decoration: underline;'>0</span><span>       0.014</span><span style='text-decoration: underline;'>0</span><span>       0.002 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>        0.049      0.031        0.015        0.001 setosa 
 #&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='co'># -&gt; No longer necessary with across()</span>
-<span class='no'>gdf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>everything</a></span>(), ~ <span class='no'>.</span> / <span class='fl'>100</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+<span class='no'>gdf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), ~ <span class='no'>.</span> / <span class='fl'>100</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  

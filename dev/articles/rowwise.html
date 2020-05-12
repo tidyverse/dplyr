@@ -53,7 +53,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -280,6 +280,16 @@
 <span class="co">#&gt; 4     4    13    23    33    43   112</span>
 <span class="co">#&gt; # … with 2 more rows</span>
 <span class="no">rf</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">total</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="../reference/across.html">c_across</a></span>(<span class="no">is.numeric</span>)))
+<span class="co">#&gt; Warning: Predicate functions must be wrapped in `where()`.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   # Bad</span>
+<span class="co">#&gt;   data %&gt;% select(is.numeric)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   # Good</span>
+<span class="co">#&gt;   data %&gt;% select(where(is.numeric))</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ℹ Please update your code.</span>
+<span class="co">#&gt; This message is displayed once per session.</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt; # Rowwise:  id</span>
 <span class="co">#&gt;      id     w     x     y     z total</span>

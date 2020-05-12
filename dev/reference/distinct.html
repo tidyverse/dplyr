@@ -98,7 +98,7 @@ to unique.data.frame() but considerably faster." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -330,7 +330,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 9</span><span>     6
 #&gt; </span><span style='color: #555555;'>10</span><span>     5</div><div class='input'>
 <span class='co'># use across() to access select()-style semantics</span>
-<span class='fu'>distinct</span>(<span class='no'>starwars</span>, <span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"color"</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 67 x 3</span><span>
+<span class='fu'>distinct</span>(<span class='no'>starwars</span>, <span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span>(<span class='st'>"color"</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 67 x 3</span><span>
 #&gt;    hair_color    skin_color  eye_color
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
 #&gt; </span><span style='color: #555555;'> 1</span><span> blond         fair        blue     

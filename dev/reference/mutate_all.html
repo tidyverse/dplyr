@@ -106,7 +106,7 @@ _if affects variables selected with a predicate function:
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -420,7 +420,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># You can also supply selection helpers to _at() functions but you have</span>
 <span class='co'># to quote them with vars():</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>matches</a></span>(<span class='st'>"Sepal"</span>)), <span class='no'>log</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>matches</a></span>(<span class='st'>"Sepal"</span>)), <span class='no'>log</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>         1.63        1.25          1.4         0.2 setosa 
@@ -433,7 +433,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; </span><span style='color: #555555;'> 8</span><span>         1.61        1.22          1.5         0.2 setosa 
 #&gt; </span><span style='color: #555555;'> 9</span><span>         1.48        1.06          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>         1.59        1.13          1.5         0.1 setosa 
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>matches</a></span>(<span class='st'>"Sepal"</span>), <span class='no'>log</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>matches</a></span>(<span class='st'>"Sepal"</span>), <span class='no'>log</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>         1.63        1.25          1.4         0.2 setosa 
@@ -521,7 +521,16 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa 
 #&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.double</span>, <span class='no'>as.integer</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>is.double</span>, <span class='no'>as.integer</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Predicate functions must be wrapped in `where()`.</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>  # Bad</span>
+#&gt; <span class='warning'>  data %&gt;% select(is.double)</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>  # Good</span>
+#&gt; <span class='warning'>  data %&gt;% select(where(is.double))</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Please update your code.</span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>This message is displayed once per session.</span><span></span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>            5           3            1           0 setosa 

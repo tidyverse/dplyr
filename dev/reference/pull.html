@@ -99,7 +99,7 @@ name the output." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@ nicer in pipes, it also works with remote data frames, and it can optionally
 name the output.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pull</span>(<span class='no'>.data</span>, <span class='kw'>var</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>pull</span>(<span class='no'>.data</span>, <span class='kw'>var</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -241,6 +241,10 @@ names and column locations).</p></td>
       <th>name</th>
       <td><p>An optional parameter that specifies the column to be used
 as names for a named vector. Specified in a similar manner as <code>var</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>For use by methods.</p></td>
     </tr>
     </table>
 
