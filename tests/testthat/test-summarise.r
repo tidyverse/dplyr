@@ -43,7 +43,7 @@ test_that("works with grouped empty data frames", {
   )
   expect_equal(
     df %>% rowwise(x) %>% summarise(y = 1L),
-    rowwise(tibble(x = integer(), y = integer()), x)
+    group_by(tibble(x = integer(), y = integer()), x)
   )
 })
 
