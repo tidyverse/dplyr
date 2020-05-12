@@ -177,6 +177,23 @@ test_that("across() uses tidy recycling rules", {
   )
 })
 
+test_that("across(<empty set>) returns a data frame with 1 row (#5204)", {
+  df <- tibble(x = 1:42)
+  expect_equal(
+    mutate(df, across(c(), as.factor)),
+    df
+  )
+  expect_equal(
+    mutate(df, y = across(c(), as.factor))$y,
+    tibble::new_tibble(list(), nrow = 42)
+  )
+  mutate(df, {
+    res <- across(c(), as.factor)
+    expect_equal(nrow(res), 1L)
+    res
+  })
+})
+
 
 # c_across ----------------------------------------------------------------
 
