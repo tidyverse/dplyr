@@ -125,10 +125,6 @@ summarise.data.frame <- function(.data, ..., .groups = NULL) {
   summarise_build(.data, cols)
 }
 
-summarise_verbose <- function(.groups, .env) {
-  is.null(.groups) && is_reference(topenv(.env), global_env()) && !identical(getOption("dplyr.summarise.inform"), FALSE)
-}
-
 #' @export
 summarise.grouped_df <- function(.data, ..., .groups = NULL) {
   cols <- summarise_cols(.data, ...)
@@ -148,21 +144,19 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
     n <- length(group_vars)
     if (n > 1) {
       if (verbose) {
-        inform(glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
-          new_groups = glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
-        ))
+        new_groups <- glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
+        summarise_inform("regrouping by {new_groups}")
       }
       out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
     } else {
       if (verbose) {
-        inform('`summarise()` ungrouping (override with `.groups` argument)')
+        summarise_inform("ungroup")
       }
     }
   } else if (identical(.groups, "keep")) {
     if (verbose) {
-      inform(glue('`summarise()` regrouping by {new_groups} (override with `.groups` argument)',
-        new_groups = glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-      ))
+      new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
+      summarise_inform("regrouping by {new_groups}")
     }
     out <- grouped_df(out, group_vars, group_by_drop_default(.data))
   } else if (identical(.groups, "rowwise")) {
@@ -184,10 +178,13 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   verbose <- summarise_verbose(.groups, caller_env())
 
   group_vars <- group_vars(.data)
-  if (is.null(.groups) || identical(.groups, "rowwise") || identical(.groups, "keep")) {
+  if (is.null(.groups) || identical(.groups, "keep")) {
     if (verbose) {
-      inform("summarise() regrouping by rows (override with `.groups` argument)")
+      new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
+      summarise_inform("grouping by {new_groups}")
     }
+    out <- grouped_df(out, group_vars)
+  } else if (identical(.groups, "rowwise")) {
     out <- rowwise_df(out, group_vars)
   } else if (!identical(.groups, "drop")) {
     abort(c(
@@ -285,3 +282,17 @@ summarise_build <- function(.data, cols) {
   dplyr_col_modify(out, cols$new)
 }
 
+
+# messaging ---------------------------------------------------------------
+
+summarise_verbose <- function(.groups, .env) {
+  is.null(.groups) &&
+    is_reference(topenv(.env), global_env()) &&
+    !identical(getOption("dplyr.summarise.inform"), FALSE)
+}
+
+summarise_inform <- function(..., .env = parent.frame()) {
+  inform(paste0(
+    "`summarise()` ", glue(..., .envir = .env), " (override with `.groups` argument)"
+  ))
+}

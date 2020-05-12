@@ -25,8 +25,9 @@ test_that("rowwise status preserved by major verbs", {
   expect_s3_class(out, "rowwise_df")
   expect_equal(group_vars(out), "x")
 
+  # Except for summarise
   out <- summarise(rf, z = mean(x, y))
-  expect_s3_class(out, "rowwise_df")
+  expect_s3_class(out, "grouped_df")
   expect_equal(group_vars(out), "x")
 })
 

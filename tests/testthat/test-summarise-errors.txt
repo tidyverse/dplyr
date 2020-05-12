@@ -14,10 +14,10 @@ Message: `summarise()` regrouping by 'x' (override with `.groups` argument)
 
 > eval_bare(expr(tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()), env(
 +   global_env()))
-Message: summarise() regrouping by rows (override with `.groups` argument)
+Message: `summarise()` grouping by 'x', 'y' (override with `.groups` argument)
 
 # A tibble: 1 x 2
-# Rowwise:  x, y
+# Groups:   x, y [1]
       x     y
   <dbl> <dbl>
 1     1     2
