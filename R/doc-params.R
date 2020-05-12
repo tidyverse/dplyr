@@ -101,7 +101,7 @@ NULL
 #'
 #' # Overview of selection features
 #'
-#' ```{r, child = system.file("man", "overview.Rmd", package = "tidyselect")}
+#' ```{r, child = "man/rmd/overview.Rmd"}
 #' ```
 #'
 #'

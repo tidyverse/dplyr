@@ -87,12 +87,11 @@ The following methods are currently available in loaded packages:
 \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 }
 
-\section{Simple examples}{
-
+\section{Examples}{
 
 
 Here we show the usage for the basic selection operators. See the
-specific help pages to learn about helpers like \code{\link[tidyselect:starts_with]{starts_with()}}.
+specific help pages to learn about helpers like \code{\link[=starts_with]{starts_with()}}.
 
 The selection language can be used in functions like
 \code{dplyr::select()} or \code{tidyr::pivot_longer()}. Let's first attach
@@ -224,7 +223,6 @@ To take the difference between two selections, combine the \code{&} and
 #> # ... with 146 more rows
 }\if{html}{\out{</div>}}
 }
-
 }
 
 \seealso{
