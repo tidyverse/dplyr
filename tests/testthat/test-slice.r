@@ -204,13 +204,13 @@ test_that("functions silently truncate results", {
 test_that("proportion computed correctly", {
   df <- data.frame(x = 1:10)
 
-  expect_equal(df %>% slice_head(prop = 0.1) %>% nrow(), 1)
-  expect_equal(df %>% slice_tail(prop = 0.1) %>% nrow(), 1)
-  expect_equal(df %>% slice_sample(prop = 0.1) %>% nrow(), 1)
-  expect_equal(df %>% slice_min(x, prop = 0.1) %>% nrow(), 1)
-  expect_equal(df %>% slice_max(x, prop = 0.1) %>% nrow(), 1)
-  expect_equal(df %>% slice_min(x, prop = 0.1, with_ties = FALSE) %>% nrow(), 1)
-  expect_equal(df %>% slice_max(x, prop = 0.1, with_ties = FALSE) %>% nrow(), 1)
+  expect_equal(df %>% slice_head(prop = 0.11) %>% nrow(), 1)
+  expect_equal(df %>% slice_tail(prop = 0.11) %>% nrow(), 1)
+  expect_equal(df %>% slice_sample(prop = 0.11) %>% nrow(), 1)
+  expect_equal(df %>% slice_min(x, prop = 0.11) %>% nrow(), 1)
+  expect_equal(df %>% slice_max(x, prop = 0.11) %>% nrow(), 1)
+  expect_equal(df %>% slice_min(x, prop = 0.11, with_ties = FALSE) %>% nrow(), 1)
+  expect_equal(df %>% slice_max(x, prop = 0.11, with_ties = FALSE) %>% nrow(), 1)
 })
 
 test_that("min and max return ties by default", {
