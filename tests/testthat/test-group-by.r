@@ -210,28 +210,28 @@ test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
 })
 
 test_that(paste0("group_by handles encodings for native strings (#1507)"), {
-  with_non_utf8_encoding({
-    special <- get_native_lang_string()
+  local_non_utf8_encoding()
 
-    df <- data.frame(x = 1:3, Eng = 2:4)
+  special <- get_native_lang_string()
 
-    for (names_converter in c(enc2native, enc2utf8)) {
-      for (dots_converter in c(enc2native, enc2utf8)) {
-        names(df) <- names_converter(c(special, "Eng"))
-        res <- group_by(df, !!!syms(dots_converter(special)))
-        expect_equal(names(res), names(df))
-        expect_equal(group_vars(res), special)
-      }
-    }
+  df <- data.frame(x = 1:3, Eng = 2:4)
 
-    for (names_converter in c(enc2native, enc2utf8)) {
+  for (names_converter in c(enc2native, enc2utf8)) {
+    for (dots_converter in c(enc2native, enc2utf8)) {
       names(df) <- names_converter(c(special, "Eng"))
-
-      res <- group_by(df, !!!special)
-      expect_equal(names(res), c(names(df), deparse(special)))
-      expect_equal(groups(res), list(as.name(enc2native(deparse(special)))))
+      res <- group_by(df, !!!syms(dots_converter(special)))
+      expect_equal(names(res), names(df))
+      expect_equal(group_vars(res), special)
     }
-  })
+  }
+
+  for (names_converter in c(enc2native, enc2utf8)) {
+    names(df) <- names_converter(c(special, "Eng"))
+
+    res <- group_by(df, !!!special)
+    expect_equal(names(res), c(names(df), deparse(special)))
+    expect_equal(groups(res), list(as.name(enc2native(deparse(special)))))
+  }
 })
 
 test_that("group_by handles raw columns (#1803)", {

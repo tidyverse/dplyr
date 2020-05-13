@@ -236,13 +236,13 @@ test_that("mutate() to UTF-8 column names", {
 })
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
-  with_non_utf8_encoding({
-    df <- tibble(a = "1", b = "2")
-    names(df) <- c("a", enc2native("\u4e2d"))
+  local_non_utf8_encoding()
 
-    res <- df %>% mutate_all(as.numeric)
-    expect_equal(names(res), as_utf8_character(names(df)))
-  })
+  df <- tibble(a = "1", b = "2")
+  names(df) <- c("a", enc2native("\u4e2d"))
+
+  res <- df %>% mutate_all(as.numeric)
+  expect_equal(names(res), as_utf8_character(names(df)))
 })
 
 test_that("mutate coerces results from one group with all NA values (#1463) ", {
