@@ -125,7 +125,15 @@ select.data.frame <- function(.data, ...) {
   loc <- tidyselect::eval_select(expr(c(...)), .data)
   loc <- ensure_group_vars(loc, .data, notify = TRUE)
 
-  set_names(.data[loc], names(loc))
+  out <- set_names(.data[loc], names(loc))
+  if (!inherits(out, "data.frame")) {
+    abort(c("select() could not reconstruct data frame.",
+      x = "`.data[<integer>]` did not make a data frame.",
+      i = glue("`.data` is of classes <{classes}>", classes = glue_collapse(class(.data), sep = "/")),
+      i = glue("`.data[loc]` is of classes <{classes}>", classes = glue_collapse(class(out), sep = "/"))
+    ))
+  }
+  out
 }
 
 
