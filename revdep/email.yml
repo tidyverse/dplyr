@@ -1,7 +1,12 @@
-release_date: May 15
-rel_release_date: one week
+release_date: May 29
+rel_release_date: two weeks
 my_news_url: https://github.com/tidyverse/dplyr/blob/master/NEWS.md
 release_version: 1.0.0
-release_details: >
-  Please see <https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-package-dev/>
+release_details: |
+  We've pushed back the package release by two weeks, just to give everyone
+  a little more time. Please see the recent blog post,
+  <https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-package-dev/>,
   for details of common problems and how to get help if you need it.
+
+  Apologies if this email is repetitive; we don't currently have any way to
+  track packages that are fixed on GitHub but not on CRAN.
