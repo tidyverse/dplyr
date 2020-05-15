@@ -182,9 +182,9 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
     if (verbose) {
       if (length(group_vars)) {
         new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-        summarise_inform("regrouping output by rows: {new_groups}")
+        summarise_inform("regrouping output by {new_groups}")
       } else {
-        summarise_inform("regrouping output by rows")
+        summarise_inform("ungrouping output")
       }
     }
     out <- grouped_df(out, group_vars)
