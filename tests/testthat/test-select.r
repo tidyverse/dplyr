@@ -131,3 +131,25 @@ test_that("select works on NA names (#3601)", {
   colnames(df) <- c(NA,"y","z")
   expect_identical(select(df, y)$y, 2)
 })
+
+test_that("select() aborts when `[` implementation is broken", {
+  local_methods(
+    "[.dplyr_test_select" = function(x, ...) {
+      unclass(x)
+    }
+  )
+  df <- new_tibble(list(), nrow = 0L, class = "dplyr_test_select")
+  expect_error(select(df, everything()))
+})
+
+test_that("select() gives useful error messages", {
+  verify_output(test_path("test-select-errors.txt"), {
+    local_methods(
+      "[.dplyr_test_select" = function(x, ...) {
+        unclass(x)
+      }
+    )
+    df <- new_tibble(list(), nrow = 0L, class = "dplyr_test_select")
+    select(df, everything())
+  })
+})
