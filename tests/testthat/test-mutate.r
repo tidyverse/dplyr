@@ -344,6 +344,16 @@ test_that("can use .before and .after to control column position", {
   expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
 })
 
+test_that("mutate() aborts when `[` implementation is broken", {
+  local_methods(
+    "[.dplyr_test_mutate" = function(x, ...) {
+      unclass(x)
+    }
+  )
+  df <- new_tibble(list(x = 1), nrow = 1L, class = "dplyr_test_mutate")
+  expect_error(mutate(df, x  = 2, .keep = "none"))
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {
@@ -403,5 +413,14 @@ test_that("mutate() give meaningful errors", {
     tibble(a = 1:3) %>%
       group_by(a) %>%
       mutate(c = .data$b)
+
+    "# incorrect [ implementation"
+    local_methods(
+      "[.dplyr_test_mutate" = function(x, ...) {
+        unclass(x)
+      }
+    )
+    df <- new_tibble(list(x = 1), nrow = 1L, class = "dplyr_test_mutate")
+    mutate(df, x  = 2, .keep = "none")
   })
 })
