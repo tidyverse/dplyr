@@ -1,9 +1,7 @@
-> local_methods([.dplyr_test_select = function(x, ...) {
-+   unclass(x)
-+ })
-+ df <- new_tibble(list(), nrow = 0L, class = "dplyr_test_select")
-+ select(df, everything())
-Error: <text>:1:15: unexpected '['
-1: local_methods([
-                  ^
+> df <- new_tibble(list(), nrow = 0L, class = "dplyr_test_select")
+> select(df, everything())
+Error: `select()` could not reconstruct data frame.
+x `.data[<int>]` did not make a data frame.
+i `.data` is of classes <dplyr_test_select/tbl_df/tbl/data.frame>.
+i `.data[<int>]` is of classes <list>.
 

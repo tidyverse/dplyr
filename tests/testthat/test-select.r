@@ -143,12 +143,13 @@ test_that("select() aborts when `[` implementation is broken", {
 })
 
 test_that("select() gives useful error messages", {
+  local_methods(
+    "[.dplyr_test_select" = function(x, ...) {
+      unclass(x)
+    }
+  )
+
   verify_output(test_path("test-select-errors.txt"), {
-    local_methods(
-      "[.dplyr_test_select" = function(x, ...) {
-        unclass(x)
-      }
-    )
     df <- new_tibble(list(), nrow = 0L, class = "dplyr_test_select")
     select(df, everything())
   })

@@ -357,6 +357,12 @@ test_that("mutate() aborts when `[` implementation is broken", {
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {
+  local_methods(
+    "[.dplyr_test_mutate" = function(x, ...) {
+      unclass(x)
+    }
+  )
+
   verify_output(test_path("test-mutate-errors.txt"), {
     tbl <- tibble(x = 1:2, y = 1:2)
 
@@ -415,11 +421,6 @@ test_that("mutate() give meaningful errors", {
       mutate(c = .data$b)
 
     "# incorrect [ implementation"
-    local_methods(
-      "[.dplyr_test_mutate" = function(x, ...) {
-        unclass(x)
-      }
-    )
     df <- new_tibble(list(x = 1), nrow = 1L, class = "dplyr_test_mutate")
     mutate(df, x  = 2, .keep = "none")
   })
