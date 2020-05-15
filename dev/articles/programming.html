@@ -216,7 +216,7 @@
 <span class="no">mtcars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">cyl</span>) <span class="kw">%&gt;%</span>
   <span class="fu">var_summary</span>(<span class="no">mpg</span>)
-<span class="co">#&gt; `summarise()` ungroup (override with `.groups` argument)</span></pre></body></html></div>
+<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span></pre></body></html></div>
 </li>
 <li>
 <p>When you have an env-variable that is a character vector, you need to index into the <code>.data</code> pronoun with <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code>, like <code><a href="../reference/summarise.html">summarise(df, mean = mean(.data[[var]]))</a></code>.</p>
@@ -269,7 +269,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ℹ Please update your code.</span>
 <span class="co">#&gt; This message is displayed once per session.</span>
-<span class="co">#&gt; `summarise()` ungroup (override with `.groups` argument)</span></pre></body></html></div>
+<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span></pre></body></html></div>
 </li>
 <li>
 <p>When you have an env-variable that is a character vector, you need to use <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of()</a></code> or <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">any_of()</a></code> depending on whether you want the function to error if a variable is not found.</p>
@@ -366,7 +366,7 @@
 }
 
 <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu">my_summarise</span>(<span class="no">homeworld</span>)
-<span class="co">#&gt; `summarise()` ungroup (override with `.groups` argument)</span>
+<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 49 x 3</span>
 <span class="co">#&gt;   homeworld    mass height</span>
 <span class="co">#&gt; * &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;</span>
@@ -376,7 +376,7 @@
 <span class="co">#&gt; 4 Bestine IV    110   180 </span>
 <span class="co">#&gt; # … with 45 more rows</span>
 <span class="no">starwars</span> <span class="kw">%&gt;%</span> <span class="fu">my_summarise</span>(<span class="no">sex</span>, <span class="no">gender</span>)
-<span class="co">#&gt; `summarise()` regrouping by 'sex' (override with `.groups` argument)</span>
+<span class="co">#&gt; `summarise()` regrouping output by 'sex' (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 6 x 4</span>
 <span class="co">#&gt; # Groups:   sex [5]</span>
 <span class="co">#&gt;   sex            gender      mass height</span>
@@ -399,7 +399,7 @@
 <span class="no">starwars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">species</span>) <span class="kw">%&gt;%</span>
   <span class="fu">my_summarise</span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">mass</span>, <span class="no">height</span>))
-<span class="co">#&gt; `summarise()` ungroup (override with `.groups` argument)</span>
+<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 38 x 3</span>
 <span class="co">#&gt;   species   mass height</span>
 <span class="co">#&gt; * &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span>
