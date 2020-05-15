@@ -180,8 +180,12 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   group_vars <- group_vars(.data)
   if (is.null(.groups) || identical(.groups, "keep")) {
     if (verbose) {
-      new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-      summarise_inform("grouping output by {new_groups}")
+      if (length(group_vars)) {
+        new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
+        summarise_inform("regrouping output by rows: {new_groups}")
+      } else {
+        summarise_inform("regrouping output by rows")
+      }
     }
     out <- grouped_df(out, group_vars)
   } else if (identical(.groups, "rowwise")) {
