@@ -213,10 +213,10 @@ test_that("summarise() gives meaningful errors", {
 
     "# unsupported type"
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-      summarise(a = env(a = 1))
+      summarise(a = rlang::env(a = 1))
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       group_by(x, y) %>%
-      summarise(a = env(a = 1))
+      summarise(a = rlang::env(a = 1))
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       rowwise() %>%
       summarise(a = lm(y ~ x))
