@@ -262,13 +262,13 @@ The first columns are the grouping variables, followed by a list column of tibbl
 with matching rows of the remaining columns.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that <code>df %&gt;% nest_by(x, y)</code> is roughly equivalent to</p><pre><span class='no'>df</span> <span class='kw'>%&amp;gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>x</span>, <span class='no'>y</span>) <span class='kw'>%&amp;gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='context.html'>cur_data</a></span>())) <span class='kw'>%&amp;gt;%</span>
+    <p>Note that <code>df %&gt;% nest_by(x, y)</code> is roughly equivalent to</p><pre><span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>x</span>, <span class='no'>y</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='context.html'>cur_data</a></span>())) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='rowwise.html'>rowwise</a></span>()</pre>
 
 <p>If you want to unnest a nested data frame, you can either use
-<code><a href='https://tidyr.tidyverse.org/reference/nest.html'>tidyr::unnest()</a></code> or take advantage of <code><a href='summarise.html'>summarise()</a></code>s multi-row behaviour:</p><pre><span class='no'>nested</span> <span class='kw'>%&amp;gt;%</span>
+<code><a href='https://tidyr.tidyverse.org/reference/nest.html'>tidyr::unnest()</a></code> or take advantage of <code><a href='summarise.html'>summarise()</a></code>s multi-row behaviour:</p><pre><span class='no'>nested</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='no'>data</span>)</pre>
 
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>

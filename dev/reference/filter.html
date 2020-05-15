@@ -280,11 +280,9 @@ expressions used to filter the data:</p><ul>
 <p>Because filtering expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped filtering:</p><pre>starwars %&amp;gt;% filter(mass &amp;gt; mean(mass, na.rm = TRUE))
-</pre>
+involved. Compare this ungrouped filtering:</p><pre><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</pre>
 
-<p>With the grouped equivalent:</p><pre>starwars %&amp;gt;% group_by(gender) %&amp;gt;% filter(mass &amp;gt; mean(mass, na.rm = TRUE))
-</pre>
+<p>With the grouped equivalent:</p><pre><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</pre>
 
 <p>In the ungrouped version, <code>filter()</code> compares the value of <code>mass</code> in each row to
 the global average (taken over the whole data set), keeping only the rows with
