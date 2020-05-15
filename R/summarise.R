@@ -145,18 +145,18 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
     if (n > 1) {
       if (verbose) {
         new_groups <- glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
-        summarise_inform("regrouping by {new_groups}")
+        summarise_inform("regrouping output by {new_groups}")
       }
       out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
     } else {
       if (verbose) {
-        summarise_inform("ungroup")
+        summarise_inform("ungrouping output")
       }
     }
   } else if (identical(.groups, "keep")) {
     if (verbose) {
       new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-      summarise_inform("regrouping by {new_groups}")
+      summarise_inform("regrouping output by {new_groups}")
     }
     out <- grouped_df(out, group_vars, group_by_drop_default(.data))
   } else if (identical(.groups, "rowwise")) {
@@ -181,7 +181,7 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   if (is.null(.groups) || identical(.groups, "keep")) {
     if (verbose) {
       new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-      summarise_inform("grouping by {new_groups}")
+      summarise_inform("grouping output by {new_groups}")
     }
     out <- grouped_df(out, group_vars)
   } else if (identical(.groups, "rowwise")) {

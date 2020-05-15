@@ -216,7 +216,32 @@ test_that("summarise() gives meaningful errors", {
     eval_bare(
       expr(
         tibble(x = 1, y = 2) %>%
+          group_by(x) %>%
+          summarise()
+      ),
+      env(global_env())
+    )
+    eval_bare(
+      expr(
+        tibble(x = 1, y = 2) %>%
+          group_by(x, y) %>%
+          summarise(z = c(2,2))
+      ),
+      env(global_env())
+    )
+
+    eval_bare(
+      expr(
+        tibble(x = 1, y = 2) %>%
           rowwise(x, y) %>%
+          summarise()
+      ),
+      env(global_env())
+    )
+    eval_bare(
+      expr(
+        tibble(x = 1, y = 2) %>%
+          rowwise() %>%
           summarise()
       ),
       env(global_env())
