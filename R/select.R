@@ -125,19 +125,26 @@ select.data.frame <- function(.data, ...) {
   loc <- tidyselect::eval_select(expr(c(...)), .data)
   loc <- ensure_group_vars(loc, .data, notify = TRUE)
 
-  out <- set_names(.data[loc], names(loc))
-  if (!inherits(out, "data.frame")) {
-    abort(c("select() could not reconstruct data frame.",
-      x = "`.data[<integer>]` did not make a data frame.",
-      i = glue("`.data` is of classes <{classes}>", classes = glue_collapse(class(.data), sep = "/")),
-      i = glue("`.data[loc]` is of classes <{classes}>", classes = glue_collapse(class(out), sep = "/"))
-    ))
-  }
-  out
+  dplyr_select(.data, loc, names(loc), "select()")
 }
 
 
 # Helpers -----------------------------------------------------------------
+
+dplyr_select <- function(.data, loc, names = NULL, fn = "select()") {
+  out <- .data[loc]
+  if (!is.null(names)) {
+    names(out) <- names
+  }
+  if (!inherits(out, "data.frame")) {
+    abort(c(glue("`{fn}` could not reconstruct data frame."),
+      x = glue("`.data[<{vec_ptype_abbr(loc)}>]` did not make a data frame."),
+      i = glue("`.data` is of classes <{classes}>", classes = glue_collapse(class(.data), sep = "/")),
+      i = glue("`.data[<{vec_ptype_abbr(loc)}>]` is of classes <{classes}>", classes = glue_collapse(class(out), sep = "/"))
+    ))
+  }
+  out
+}
 
 ensure_group_vars <- function(loc, data, notify = TRUE) {
   group_loc <- match(group_vars(data), names(data))
