@@ -203,49 +203,13 @@ test_that("summarise(.groups=)", {
 # errors -------------------------------------------------------------------
 
 test_that("summarise() gives meaningful errors", {
-  verify_output(test_path("test-summarise-errors.txt"), {
+  verify_output(env = env(global_env()), test_path("test-summarise-errors.txt"), {
     "# Messages about .groups="
-    eval_bare(
-      expr(
-        tibble(x = 1, y = 2) %>%
-          group_by(x, y) %>%
-          summarise()
-      ),
-      env(global_env())
-    )
-    eval_bare(
-      expr(
-        tibble(x = 1, y = 2) %>%
-          group_by(x) %>%
-          summarise()
-      ),
-      env(global_env())
-    )
-    eval_bare(
-      expr(
-        tibble(x = 1, y = 2) %>%
-          group_by(x, y) %>%
-          summarise(z = c(2,2))
-      ),
-      env(global_env())
-    )
-
-    eval_bare(
-      expr(
-        tibble(x = 1, y = 2) %>%
-          rowwise(x, y) %>%
-          summarise()
-      ),
-      env(global_env())
-    )
-    eval_bare(
-      expr(
-        tibble(x = 1, y = 2) %>%
-          rowwise() %>%
-          summarise()
-      ),
-      env(global_env())
-    )
+    ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()
+    ignored <- tibble(x = 1, y = 2) %>% group_by(x) %>% summarise()
+    ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2,2))
+    ignored <- tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()
+    ignored <- tibble(x = 1, y = 2) %>% rowwise() %>% summarise()
 
     "# unsupported type"
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
