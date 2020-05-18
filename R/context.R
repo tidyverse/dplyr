@@ -127,6 +127,12 @@ local_column <- function(x, frame = caller_env()) {
   context_local("column", x, frame = frame)
 }
 
+#' Current instance of dplyr's DataMask
+#'
+#' @param fun Name of the caller function, only used by error messages
+#' @return A DataMask object
+#'
+#' @export
 peek_mask <- function(fun = "peek_mask()") {
   context_peek("mask", fun)
 }
