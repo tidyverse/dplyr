@@ -205,3 +205,11 @@ test_that("group column names reflect renamed duplicate columns (#2330)", {
   # expect_equal(group_vars(out), c("x", "y.x"))
 })
 
+test_that("rowwise group structure is updated after a join (#5227)", {
+  df1 <- rowwise(tibble(x = 1:2))
+  df2 <- tibble(x = c(1:2, 2L))
+
+  x <- left_join(df1, df2, by = "x")
+
+  expect_identical(group_rows(x), list_of(1L, 2L, 3L))
+})

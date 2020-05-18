@@ -14,11 +14,11 @@ test_that("inputs are recycled", {
   gf <- group_by(tibble(a = 1:2), a)
   expect_equal(
     gf %>% summarise(x = 1, y = 1:3, z = 1),
-    tibble(a = rep(1:2, each = 3), x = 1, y = c(1:3, 1:3), z = 1)
+    tibble(a = rep(1:2, each = 3), x = 1, y = c(1:3, 1:3), z = 1) %>% group_by(a)
   )
   expect_equal(
     gf %>% summarise(x = seq_len(a), y = 1),
-    tibble(a = c(1L, 2L, 2L), x = c(1L, 1L, 2L), y = 1)
+    tibble(a = c(1L, 2L, 2L), x = c(1L, 1L, 2L), y = 1) %>% group_by(a)
   )
 })
 
@@ -43,7 +43,7 @@ test_that("works with grouped empty data frames", {
   )
   expect_equal(
     df %>% rowwise(x) %>% summarise(y = 1L),
-    rowwise(tibble(x = integer(), y = integer()), x)
+    group_by(tibble(x = integer(), y = integer()), x)
   )
 })
 
@@ -178,16 +178,45 @@ test_that("named tibbles are packed (#2326)", {
   expect_equal(out$df, tibble(y = c(2L, 4L), z = c(3L, 3L)))
 })
 
+test_that("summarise(.groups=)", {
+  expect_message(eval_bare(
+    expr(data.frame(x = 1, y = 2) %>% group_by(x, y) %>% summarise()),
+    env(global_env())
+  ))
+  expect_message(eval_bare(
+    expr(data.frame(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()),
+    env(global_env())
+  ))
+
+  df <- data.frame(x = 1, y = 2)
+  gf <- df %>% group_by(x, y)
+  expect_equal(gf %>% summarise() %>% group_vars(), "x")
+  expect_equal(gf %>% summarise(.groups = "drop_last") %>% group_vars(), "x")
+  expect_equal(gf %>% summarise(.groups = "drop") %>% group_vars(), character())
+  expect_equal(gf %>% summarise(.groups = "keep") %>% group_vars(), c("x", "y"))
+
+  rf <- df %>% rowwise(x, y)
+  expect_equal(rf %>% summarise(.groups = "drop") %>% group_vars(), character())
+  expect_equal(rf %>% summarise(.groups = "keep") %>% group_vars(), c("x", "y"))
+})
+
 # errors -------------------------------------------------------------------
 
 test_that("summarise() gives meaningful errors", {
-  verify_output(test_path("test-summarise-errors.txt"), {
+  verify_output(env = env(global_env()), test_path("test-summarise-errors.txt"), {
+    "# Messages about .groups="
+    ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()
+    ignored <- tibble(x = 1, y = 2) %>% group_by(x) %>% summarise()
+    ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2,2))
+    ignored <- tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()
+    ignored <- tibble(x = 1, y = 2) %>% rowwise() %>% summarise()
+
     "# unsupported type"
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-      summarise(a = env(a = 1))
+      summarise(a = rlang::env(a = 1))
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       group_by(x, y) %>%
-      summarise(a = env(a = 1))
+      summarise(a = rlang::env(a = 1))
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       rowwise() %>%
       summarise(a = lm(y ~ x))

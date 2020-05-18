@@ -28,7 +28,7 @@ test_that("group_map() can return arbitrary objects", {
 test_that("group_map() works on ungrouped data frames (#4067)", {
   expect_identical(
     group_map(mtcars, ~ head(.x, 2L)),
-    list(head(mtcars, 2L))
+    list(head(as_tibble(mtcars), 2L))
   )
 })
 
@@ -109,7 +109,7 @@ test_that("group_modify() works with additional arguments (#4509)", {
   )
 })
 
-test_that("group_map() does not warn about keep= for rowwise_df", {
+test_that("group_map() does not warn about .keep= for rowwise_df", {
   expect_warning(
     data.frame(x = 1) %>% rowwise() %>% group_walk(~ {}),
     NA

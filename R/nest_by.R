@@ -4,12 +4,34 @@
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
 #' `nest_by()` is closely related to [group_by()]. However, instead of storing
-#' the group structure in the metadata, it makes it explicit in the data,
-#' giving each group key a single row with a list-column of data frames that
-#' contain all the other data.
+#' the group structure in the metadata, it is made explicit in the data,
+#' giving each group key a single row along with a list-column of data frames
+#' that contain all the other data.
+#'
+#' `nest_by()` returns a [rowwise] data frame, which makes operations on the
+#' grouped data particularly elegant. See `vignette("rowwise")` for more
+#' details.
+#'
+#' @details
+#' Note that `df %>% nest_by(x, y)` is roughly equivalent to
+#'
+#' ```
+#' df %>%
+#'   group_by(x, y) %>%
+#'   summarise(data = list(cur_data())) %>%
+#'   rowwise()
+#' ```
+#'
+#' If you want to unnest a nested data frame, you can either use
+#' `tidyr::unnest()` or take advantage of `summarise()`s multi-row behaviour:
+#'
+#' ```
+#' nested %>%
+#'   summarise(data)
+#' ```
 #'
 #' @return
-#' A [rowwise()] data frame. The output has the following properties:
+#' A [rowwise] data frame. The output has the following properties:
 #'
 #' * The rows come from the underlying [group_keys()].
 #' * The columns are the grouping keys plus one list-column of data frames.
@@ -43,15 +65,35 @@
 #' models
 #'
 #' models %>% summarise(rsq = summary(model)$r.squared)
-nest_by <- function(.data, ..., .key = "data", .keep = FALSE, .add = FALSE) {
+#' # This is particularly elegant with the broom functions
+#' if (requireNamespace("broom", quietly = TRUE)) {
+#'   models %>% summarise(broom::glance(model))
+#'   models %>% summarise(broom::tidy(model))
+#' }
+#'
+#' # Note that you can also summarise to unnest the data
+#' models %>% summarise(data)
+nest_by <- function(.data, ..., .key = "data", .keep = FALSE) {
   UseMethod("nest_by")
 }
 
 #' @export
-nest_by.data.frame <- function(.data, ..., .key = "data", .keep = FALSE, .add = FALSE) {
-  data <- group_by(.data, ..., .add = .add)
+nest_by.data.frame <- function(.data, ..., .key = "data", .keep = FALSE) {
+  .data <- group_by(.data, ...)
+  nest_by.grouped_df(.data, .key = .key, .keep = .keep)
+}
 
-  keys <- group_keys(data)
-  keys <- mutate(keys, !!.key := group_split(data, keep = .keep))
-  rowwise(keys, tidyselect::all_of(group_vars(data)))
+#' @export
+nest_by.grouped_df <- function(.data, ..., .key = "data", .keep = FALSE) {
+  if (!missing(...)) {
+    abort(c(
+      "Can't re-group while nesting",
+      i = "Either `ungroup()` first or don't supply arguments to `nest_by()"
+    ))
+  }
+
+  vars <- group_vars(.data)
+  keys <- group_keys(.data)
+  keys <- mutate(keys, !!.key := group_split(.env$.data, .keep = .keep))
+  rowwise(keys, tidyselect::all_of(vars))
 }

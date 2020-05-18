@@ -1,0 +1,17 @@
+
+```{r, include = FALSE}
+options(
+  tibble.print_min = 4,
+  tibble.max_extra_cols = 8,
+  digits = 2,
+  crayon.enabled = FALSE,
+  cli.unicode = FALSE
+)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(tidyverse)
+```

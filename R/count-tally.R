@@ -72,7 +72,10 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by
   }
 
   out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
-  dplyr_reconstruct(out, x)
+  if (is.data.frame(x)) {
+    out <- dplyr_reconstruct(out, x)
+  }
+  out
 }
 
 #' @export
@@ -80,7 +83,12 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by
 tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
   name <- check_name(x, name)
-  out <- summarise(x, !!name := !!n)
+
+  out <- local({
+    old.options <- options(dplyr.summarise.inform = FALSE)
+    on.exit(options(old.options))
+    summarise(x, !!name := !!n)
+  })
 
   if (sort) {
     arrange(out, desc(!!sym(name)))
@@ -102,10 +110,10 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = depr
     out <- x
   }
   out <- add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
-
-  name <- check_name(x, name)
-  x[[name]] <- out[[name]]
-  x
+  if (is.data.frame(x)) {
+    out <- dplyr_reconstruct(out, x)
+  }
+  out
 }
 
 #' @rdname count
@@ -141,16 +149,16 @@ tally_n <- function(x, wt) {
 check_name <- function(df, name) {
   if (is.null(name)) {
     if ("n" %in% tbl_vars(df)) {
-      glubort(
-        "Column 'n' is already present in output\n",
-        "* Use `name = \"new_name\"` to pick a new name"
-      )
+      abort(c(
+        "Column `n` is already present in output.",
+        i = "Use `name = \"new_name\"` to pick a new name."
+      ))
     }
     return("n")
   }
 
   if (!is.character(name) || length(name) != 1) {
-    abort("`name` must be a single string")
+    abort("`name` must be a single string.")
   }
 
   name

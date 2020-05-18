@@ -12,11 +12,11 @@ error in mutate() step
 
 > tibble(x = 1) %>% arrange(y)
 Error: arrange() failed at implicit mutate() step. 
-i Could not create a temporary column for `..1`.
+x Could not create a temporary column for `..1`.
 i `..1` is `y`.
 
 > tibble(x = 1) %>% arrange(rep(x, 2))
 Error: arrange() failed at implicit mutate() step. 
-i Could not create a temporary column for `..1`.
+x Could not create a temporary column for `..1`.
 i `..1` is `rep(x, 2)`.
 

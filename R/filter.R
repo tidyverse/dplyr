@@ -111,25 +111,19 @@ filter <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  if (missing(...)) {
-    return(.data)
-  }
-
   loc <- filter_rows(.data, ...)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
 filter_rows <- function(.data, ...) {
-  dots <- enquos(...)
-  check_filter(dots)
-
+  dots <- check_filter(enquos(...))
   mask <- DataMask$new(.data, caller_env())
 
   env_filter <- env()
   tryCatch(
     mask$eval_all_filter(dots, env_filter),
     simpleError = function(e) {
-      stop_eval_tidy(e, index = env_filter$current_expression, dots = dots, fn = "filter")
+      stop_dplyr(env_filter$current_expression, dots, fn = "filter", problem = conditionMessage(e))
     }
   )
 }
@@ -148,4 +142,6 @@ check_filter <- function(dots) {
     }
 
   }
+
+  dots
 }

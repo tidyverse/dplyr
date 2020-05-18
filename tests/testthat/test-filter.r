@@ -97,8 +97,8 @@ test_that("filter handles $ correctly (#278)", {
 })
 
 test_that("filter() returns the input data if no parameters are given", {
-  expect_reference(filter(mtcars), mtcars)
-  expect_reference(filter(mtcars, !!!list()), mtcars)
+  expect_identical(filter(mtcars), mtcars)
+  expect_identical(filter(mtcars, !!!list()), mtcars)
 })
 
 test_that("$ does not end call traversing. #502", {
@@ -467,4 +467,20 @@ test_that("filter preserves grouping", {
   expect_equal(i, 0L)
   expect_equal(group_vars(gf), "g")
   expect_equal(group_rows(out), list_of(c(1L, 2L)))
+})
+
+test_that("filter() with empty dots still calls dplyr_row_slice()", {
+  tbl <- new_tibble(list(x = 1), nrow = 1L)
+  foo <- structure(tbl, class = c("foo_df", class(tbl)))
+
+  local_methods(
+    # `foo_df` always loses class when row slicing
+    dplyr_row_slice.foo_df = function(data, i, ...) {
+      out <- NextMethod()
+      new_tibble(out, nrow = nrow(out))
+    }
+  )
+
+  expect_s3_class(filter(foo), class(tbl), exact = TRUE)
+  expect_s3_class(filter(foo, x == 1), class(tbl), exact = TRUE)
 })

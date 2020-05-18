@@ -1,5 +1,5 @@
 > join_rows(data.frame(x = 1), data.frame(x = factor("a")))
-Error: Can't join on `x$x` x `y$x` because of incompatible types. 
+Error: Can't join on `x$x` x `y$x` because of incompatible types.
 i `x$x` is of type <double>>.
 i `y$x` is of type <factor<127a2>>>.
 

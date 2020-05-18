@@ -41,8 +41,8 @@ standardise_join_by <- function(by, x_names, y_names) {
     by <- intersect(x_names, y_names)
     if (length(by) == 0) {
       abort(c(
-        "`by` must be supplied when `x` and `y` have no common variables",
-        i = "use by = character()` to perform a cross-join"
+        "`by` must be supplied when `x` and `y` have no common variables.",
+        i = "use by = character()` to perform a cross-join."
       ))
     }
     by_quoted <- encodeString(by, quote = '"')
@@ -66,7 +66,7 @@ standardise_join_by <- function(by, x_names, y_names) {
     # TODO: check lengths
     by <- by[c("x", "y")]
   } else {
-    bad_args("by", "must be a (named) character vector, list, or NULL, not {friendly_type_of(by)}")
+    bad_args("by", "must be a (named) character vector, list, or NULL, not {friendly_type_of(by)}.")
   }
 
   check_join_vars(by$x, x_names)
@@ -77,30 +77,30 @@ standardise_join_by <- function(by, x_names, y_names) {
 
 check_join_vars <- function(vars, names) {
   if (!is.character(vars)) {
-    abort("join columns must be character vectors")
+    abort("join columns must be character vectors.")
   }
 
   na <- is.na(vars)
   if (any(na)) {
     abort(glue_c(
-      "Join columns must be not NA",
-      x = "Problem at position {err_vars(na)}"
+      "Join columns must be not NA.",
+      x = "Problem at position {err_vars(na)}."
     ))
   }
 
   dup <- duplicated(vars)
   if (any(dup)) {
     abort(glue_c(
-      "Join columns must be unique",
-      x = "Problem at position {err_vars(dup)}"
+      "Join columns must be unique.",
+      x = "Problem at position {err_vars(dup)}."
     ))
   }
 
   missing <- setdiff(vars, names)
   if (length(missing) > 0) {
     abort(glue_c(
-      "Join columns must be present in data",
-      x = "Problem with {err_vars(missing)}"
+      "Join columns must be present in data.",
+      x = "Problem with {err_vars(missing)}."
     ))
   }
 }
@@ -109,8 +109,8 @@ check_duplicate_vars <- function(vars, input) {
   dup <- duplicated(vars)
   if (any(dup)) {
     abort(glue_c(
-      "Input columns in `{input}` must be unique",
-      x = "Problem with {err_vars(vars[dup])}"
+      "Input columns in `{input}` must be unique.",
+      x = "Problem with {err_vars(vars[dup])}."
     ))
   }
 }
@@ -118,13 +118,13 @@ check_duplicate_vars <- function(vars, input) {
 standardise_join_suffix <- function(x) {
   if (!is.character(x) || length(x) != 2) {
     abort(glue_c(
-      "`suffix` must be a character vector of length 2",
-      i = "suffix is {friendly_type_of(x)} of length {length(x)}"
+      "`suffix` must be a character vector of length 2.",
+      i = "suffix is {friendly_type_of(x)} of length {length(x)}."
     ))
   }
 
   if (any(is.na(x))) {
-    bad_args("suffix", "can't be NA")
+    bad_args("suffix", "can't be NA.")
   }
 
   list(x = x[[1]], y = x[[2]])

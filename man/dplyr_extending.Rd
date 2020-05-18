@@ -5,7 +5,7 @@
 \alias{dplyr_row_slice}
 \alias{dplyr_col_modify}
 \alias{dplyr_reconstruct}
-\title{Extending dplyr}
+\title{Extending dplyr with new data frame subclasses}
 \usage{
 dplyr_row_slice(data, i, ...)
 
@@ -28,16 +28,45 @@ an existing column.}
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 
 These three functions, along with \verb{names<-} and 1d numeric \code{[}
-(i.e. \code{x[loc]}), provide a minimal interface for extending dplyr to work
-with a new subclass of data frame. \code{dplyr_rows_slice()} and
-\code{dplyr_cols_modify()} represented specialised uses of \code{[}; their focus
-makes them much easier to implement. \code{dplyr_reconstruct()} is a fall-back
-for verbs that can't be implemented in terms of simpler row/col operation.
+(i.e. \code{x[loc]}) methods, provide a minimal interface for extending dplyr
+to work with new data frame subclasses. This means that for simple cases
+you should only need to provide a couple of methods, rather than a method
+for every dplyr verb.
 
-These functions are experimental and are stop-gap measure until more general
-tools become available in vctrs, but may still be useful in the short-term
-if you have a data frame class that you want to work with dplyr.
+These functions are a stop-gap measure until we figure out how to solve
+the problem more generally, but it's likely that any code you write to
+implement them will find a home in what comes next.
 }
+\section{Basic advice}{
+This section gives you basic advice if you want to extend dplyr to work with
+your custom data frame subclass, and you want the dplyr methods to behave
+in basically the same way.
+\itemize{
+\item If you have data frame attributes that don't depend on the rows or columns
+(and should unconditionally be preserved), you don't need to do anything.
+\item If you have \strong{scalar} attributes that depend on \strong{rows}, implement a
+\code{dplyr_reconstruct()} method. Your method should recompute the attribute
+depending on rows now present.
+\item If you have \strong{scalar} attributes that depend on \strong{columns}, implement a
+\code{dplyr_reconstruct()} method and a 1d \code{[} method. For example, if your
+class requires that certain columns be present, your method should return
+a data.frame or tibble when those columns are removed.
+\item If your attributes are \strong{vectorised} over \strong{rows}, implement a
+\code{dplyr_row_slice()} method. This gives you access to \code{i} so you can
+modify the row attribute accordingly. You'll also need to think carefully
+about how to recompute the attribute in \code{dplyr_reconstruct()}, and
+you will need to carefully verify the behaviour of each verb, and provide
+additional methods as needed.
+\item If your attributes that are \strong{vectorised} over \strong{columns}, implement
+\code{dplyr_col_modify()}, 1d \code{[}, and \verb{names<-} methods. All of these methods
+know which columns are being modified, so you can update the column
+attribute according. You'll also need to think carefully about how to
+recompute the attribute in \code{dplyr_reconstruct()}, and you will need to
+carefully verify the behaviour of each verb, and provide additional
+methods as needed.
+}
+}
+
 \section{Current usage}{
 \itemize{
 \item \code{arrange()}, \code{filter()}, \code{slice()}, \code{semi_join()}, and \code{anti_join()}

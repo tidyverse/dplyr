@@ -169,7 +169,7 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE) {
     out
   } else {
     bad_args(".vars", "must be a character/numeric vector or a `vars()` object, ",
-      "not {friendly_type_of(vars)}"
+      "not {friendly_type_of(vars)}."
     )
   }
 }
@@ -202,7 +202,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
 
   if (is_fun_list(.p) || is_list(.p)) {
     if (length(.p) != 1) {
-      bad_args(".predicate", "must have length 1, not {length(.p)}")
+      bad_args(".predicate", "must have length 1, not {length(.p)}.")
     }
     .p <- .p[[1]]
   }

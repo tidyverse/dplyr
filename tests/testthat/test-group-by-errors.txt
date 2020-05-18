@@ -1,7 +1,7 @@
 > df <- tibble(x = 1, y = 2)
 > df %>% group_by(unknown)
-Error: Must group by variables found in `.data`
-* Column `unknown` is not found
+Error: Must group by variables found in `.data`.
+* Column `unknown` is not found.
 
 > df %>% ungroup(x)
 Error: `...` is not empty.

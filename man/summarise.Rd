@@ -5,9 +5,9 @@
 \alias{summarize}
 \title{Summarise each group to fewer rows}
 \usage{
-summarise(.data, ...)
+summarise(.data, ..., .groups = NULL)
 
-summarize(.data, ...)
+summarize(.data, ..., .groups = NULL)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -23,6 +23,20 @@ The value can be:
 \item A vector of length \code{n}, e.g. \code{quantile()}.
 \item A data frame, to add multiple columns from a single expression.
 }}
+
+\item{.groups}{\Sexpr[results=rd]{lifecycle::badge("experimental")} Grouping structure of the result.
+\itemize{
+\item "drop_last": dropping the last level of grouping. This was the
+only supported option before version 1.0.0.
+\item "drop": All levels of grouping are dropped.
+\item "keep": Same grouping structure as \code{.data}.
+\item "rowwise": Each row is it's own group.
+}
+
+When \code{.groups} is not specified, you either get "drop_last"
+when all the results are size 1, or "keep" if the size varies.
+In addition, a message informs you of that choice, unless the
+option "dplyr.summarise.inform" is set to \code{FALSE}.}
 }
 \value{
 An object \emph{usually} of the same type as \code{.data}.
@@ -30,10 +44,8 @@ An object \emph{usually} of the same type as \code{.data}.
 \item The rows come from the underlying \code{\link[=group_keys]{group_keys()}}.
 \item The columns are a combination of the grouping keys and the summary
 expressions that you provide.
-\item If \code{x} is grouped by more than one variable, the output will be another
-\link{grouped_df} with the right-most group removed.
-\item If \code{x} is grouped by one variable, or is not grouped, the output will
-be a \link{tibble}.
+\item The grouping structure is controlled by the \verb{.groups=} argument, the
+output may be another \link{grouped_df}, a \link{tibble} or a \link{rowwise} data frame.
 \item Data frame attributes are \strong{not} preserved, because \code{summarise()}
 fundamentally creates a new data frame.
 }

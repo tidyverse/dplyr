@@ -2,11 +2,13 @@ comment: false
 
 coverage:
   status:
-    patch:
-      default:
-        target: 0
-        threshold: 100
     project:
       default:
-        target: 70
-        threshold: 100
+        target: auto
+        threshold: 1%
+        informational: true
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+        informational: true

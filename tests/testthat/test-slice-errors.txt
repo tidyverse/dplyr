@@ -3,37 +3,37 @@ Incompatible type
 =================
 
 > slice(df, TRUE)
-Error: slice() expressions should return indices (positive or negative integers)
+Error: `slice()` expressions should return indices (positive or negative integers).
 
 > slice(df, FALSE)
-Error: slice() expressions should return indices (positive or negative integers)
+Error: `slice()` expressions should return indices (positive or negative integers).
 
 
 Mix of positive and negative integers
 =====================================
 
 > mtcars %>% slice(c(-1, 2))
-Error: slice() expressions should return either all positive or all negative
+Error: `slice()` expressions should return either all positive or all negative.
 
 > mtcars %>% slice(c(2:3, -1))
-Error: slice() expressions should return either all positive or all negative
+Error: `slice()` expressions should return either all positive or all negative.
 
 
 n and prop are carefully validated
 ==================================
 
 > check_slice_size(n = 1, prop = 1)
-Error: Must supply exactly one of `n` and `prop` arguments
+Error: Must supply exactly one of `n` and `prop` arguments.
 
 > check_slice_size(n = "a")
-Error: `n` must be a single number
+Error: `n` must be a single number.
 
 > check_slice_size(prop = "a")
 Error: `prop` must be a single number
 
 > check_slice_size(n = -1)
-Error: `n` must be a non-missing positive number
+Error: `n` must be a non-missing positive number.
 
 > check_slice_size(prop = -1)
-Error: `prop` must be a non-missing positive number
+Error: `prop` must be a non-missing positive number.
 
