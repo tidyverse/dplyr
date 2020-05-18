@@ -1,6 +1,6 @@
 > df <- new_tibble(list(), nrow = 0L, class = "dplyr_test_select")
 > select(df, everything())
-Error: `select()` could not reconstruct data frame.
+Error: could not reconstruct data frame.
 x `.data[<int>]` did not make a data frame.
 i `.data` is of classes <dplyr_test_select/tbl_df/tbl/data.frame>.
 i `.data[<int>]` is of classes <list>.
