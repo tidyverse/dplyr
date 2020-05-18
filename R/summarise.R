@@ -200,51 +200,6 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   out
 }
 
-hybrid_functions <- env(
-  empty_env(),
-  mean = function(x, ...) {
-    call <- match.call()
-    mask <- peek_mask()
-    vars <- mask$current_vars()
-
-    stopifnot(is_symbol(call$x) && as_string(call$x) %in% vars)
-    if (identical(names(call), c("", "x"))) {
-      funs::grouped_mean(x, na.rm = TRUE)
-    } else if(identical(names(call), c("", "x", "na.rm"))) {
-      na.rm <- call$na.rm
-      stopifnot(is_scalar_logical(na.rm))
-      funs::grouped_mean(x, na.rm = na.rm)
-    }
-  },
-  n = function() {
-    list_sizes(peek_mask()$get_rows())
-  }
-)
-
-
-hybrid_eval_summarise <- function(expr, mask) {
-  if (is_call(expr, "hybrid")) {
-    fn <- new_function(mask$args(), node_cadr(expr))
-  } else {
-    fn <- new_function(mask$args(), expr, env = hybrid_functions)
-  }
-  result <- fn()
-
-  if (is.null(result)) {
-    result <- fn()
-  }
-  if (!is.null(result) && !inherits(result, "hybrid_result")) {
-    if (vec_size(result) != length(mask$get_rows())) {
-      abort("incompatible sizes")
-    }
-    result <- structure(
-      list(x = result),
-      class = "hybrid_result"
-    )
-  }
-  result
-}
-
 lazy_vec_chop <- function(x, sizes = NULL) {
   structure(list(), x = x, sizes = sizes, class = "dplyr_lazy_vec_chop")
 }
@@ -270,7 +225,7 @@ summarise_cols <- function(.data, ...) {
       quo <- dots[[i]]
 
       res <- tryCatch(
-        hybrid_eval_summarise(quo_get_expr(quo), mask),
+        funs::eval_summarise(quo_get_expr(quo), mask),
         error = function(cnd) {
           NULL
         }
