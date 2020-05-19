@@ -134,7 +134,7 @@ select.data.frame <- function(.data, ...) {
 dplyr_col_select <- function(.data, loc, names = NULL) {
   out <- .data[loc]
   if (!inherits(out, "data.frame")) {
-    abort(c(glue("could not reconstruct data frame."),
+    abort(c(glue("Can't reconstruct data frame."),
       x = glue("`.data[<{vec_ptype_abbr(loc)}>]` did not make a data frame."),
       i = glue("`.data` is of classes <{classes}>.", classes = glue_collapse(class(.data), sep = "/")),
       i = glue("`.data[<{vec_ptype_abbr(loc)}>]` is of classes <{classes}>.", classes = glue_collapse(class(out), sep = "/"))
