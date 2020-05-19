@@ -46,6 +46,8 @@
   Input must be a vector, not a `<data.frame/...>` object
   ```
 
+* `right_join()` no longer sorts the rows of the resulting tibble according to the order of the RHS `by` argument in tibble `y`.
+
 ## New features
 
 * The `cur_` functions (`cur_data()`, `cur_group()`, `cur_group_id()`, 
