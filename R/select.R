@@ -148,8 +148,14 @@ dplyr_col_select <- function(.data, loc, names = NULL) {
   if (length(out) != length(loc)) {
     abort(c(
       "Can't reconstruct data frame.",
-      x = glue("`.data[i]` has {length(out)} columns, but `i` has size {length(loc)}."),
-      i = glue("`.data` is of classes <{classes}>.", classes = glue_collapse(class(.data), sep = "/"))
+      x = glue("The `[` method for class <{classes_data}> must return a data frame with {length(loc)} column{s}.",
+        classes_data = glue_collapse(class(.data), sep = "/"),
+        s = if(length(loc) == 1) "" else "s"
+      ),
+      i = glue("It returned a <{classes_out}> of {length(out)} column{s}.",
+        classes_out = glue_collapse(class(out), sep = "/"),
+        s = if(length(out) == 1) "" else "s"
+      )
     ))
   }
   if (!is.null(names)) {

@@ -132,6 +132,6 @@ i It returned a <list>.
 > df <- new_tibble(list(x = 2), nrow = 1L, class = "dplyr_test_mutate_wrong_size")
 > mutate(df, x = 2, .keep = "none")
 Error: Can't reconstruct data frame.
-x `.data[i]` has 0 columns, but `i` has size 1.
-i `.data` is of classes <dplyr_test_mutate_wrong_size/tbl_df/tbl/data.frame>.
+x The `[` method for class <dplyr_test_mutate_wrong_size/tbl_df/tbl/data.frame> must return a data frame with 1 columns.
+i It returned a <data.frame> of 0 columns.
 
