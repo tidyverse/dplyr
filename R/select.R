@@ -132,12 +132,21 @@ select.data.frame <- function(.data, ...) {
 # Helpers -----------------------------------------------------------------
 
 dplyr_col_select <- function(.data, loc, names = NULL) {
+  loc <- vec_as_location(loc, n = ncol(.data), names = names(.data))
   out <- .data[loc]
   if (!inherits(out, "data.frame")) {
-    abort(c(glue("Can't reconstruct data frame."),
-      x = glue("`.data[<{vec_ptype_abbr(loc)}>]` did not make a data frame."),
+    abort(c(
+      "Can't reconstruct data frame.",
+      x = "`.data[loc]` did not make a data frame.",
       i = glue("`.data` is of classes <{classes}>.", classes = glue_collapse(class(.data), sep = "/")),
-      i = glue("`.data[<{vec_ptype_abbr(loc)}>]` has class <{classes}>.", classes = glue_collapse(class(out), sep = "/"))
+      i = glue("`.data[loc]` has class <{classes}>.", classes = glue_collapse(class(out), sep = "/"))
+    ))
+  }
+  if (length(out) != length(loc)) {
+    abort(c(
+      "Can't reconstruct data frame.",
+      x = glue("`.data[loc]` has {length(out)} columns, but `loc` has size {length(loc)}."),
+      i = glue("`.data` is of classes <{classes}>.", classes = glue_collapse(class(.data), sep = "/"))
     ))
   }
   if (!is.null(names)) {

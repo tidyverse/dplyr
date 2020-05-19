@@ -125,8 +125,14 @@ incorrect [ implementation
 
 > df <- new_tibble(list(x = 1), nrow = 1L, class = "dplyr_test_mutate")
 > mutate(df, x = 2, .keep = "none")
-Error: could not reconstruct data frame.
-x `.data[<chr>]` did not make a data frame.
+Error: Can't reconstruct data frame.
+x `.data[loc]` did not make a data frame.
 i `.data` is of classes <dplyr_test_mutate/tbl_df/tbl/data.frame>.
-i `.data[<chr>]` is of classes <list>.
+i `.data[loc]` has class <list>.
+
+> df <- new_tibble(list(x = 2), nrow = 1L, class = "dplyr_test_mutate_wrong_size")
+> mutate(df, x = 2, .keep = "none")
+Error: Can't reconstruct data frame.
+x `.data[loc]` has 0 columns, but `loc` has size 1.
+i `.data` is of classes <dplyr_test_mutate_wrong_size/tbl_df/tbl/data.frame>.
 

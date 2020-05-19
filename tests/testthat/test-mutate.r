@@ -360,6 +360,9 @@ test_that("mutate() give meaningful errors", {
   local_methods(
     "[.dplyr_test_mutate" = function(x, ...) {
       unclass(x)
+    },
+    "[.dplyr_test_mutate_wrong_size" = function(x, ...) {
+      data.frame()
     }
   )
 
@@ -422,6 +425,9 @@ test_that("mutate() give meaningful errors", {
 
     "# incorrect [ implementation"
     df <- new_tibble(list(x = 1), nrow = 1L, class = "dplyr_test_mutate")
+    mutate(df, x  = 2, .keep = "none")
+
+    df <- new_tibble(list(x = 2), nrow = 1L, class = "dplyr_test_mutate_wrong_size")
     mutate(df, x  = 2, .keep = "none")
   })
 })
