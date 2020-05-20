@@ -258,17 +258,7 @@
 }
 <span class="no">mtcars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">cyl</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">summarise_mean</span>(<span class="no">is.numeric</span>)
-<span class="co">#&gt; Warning: Predicate functions must be wrapped in `where()`.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Bad</span>
-<span class="co">#&gt;   data %&gt;% select(is.numeric)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Good</span>
-<span class="co">#&gt;   data %&gt;% select(where(is.numeric))</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; ℹ Please update your code.</span>
-<span class="co">#&gt; This message is displayed once per session.</span>
+  <span class="fu">summarise_mean</span>(<span class="fu">where</span>(<span class="no">is.numeric</span>))
 <span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span></pre></body></html></div>
 </li>
 <li>

@@ -286,16 +286,7 @@ Because <code>across()</code> is used within functions like <code><a href='summa
 #&gt; </span><span style='color: #555555;'>2</span><span> versicolor         5.94        2.77
 #&gt; </span><span style='color: #555555;'>3</span><span> virginica          6.59        2.97</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'>across</span>(<span class='no'>is.factor</span>, <span class='no'>as.character</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Predicate functions must be wrapped in `where()`.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Bad</span>
-#&gt; <span class='warning'>  data %&gt;% select(is.factor)</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>  # Good</span>
-#&gt; <span class='warning'>  data %&gt;% select(where(is.factor))</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Please update your code.</span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>This message is displayed once per session.</span><span></span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'>across</span>(<span class='fu'>where</span>(<span class='no'>is.factor</span>), <span class='no'>as.character</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
