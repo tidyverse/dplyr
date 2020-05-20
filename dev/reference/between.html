@@ -241,7 +241,18 @@ appropriate SQL for remote tables.</p>
 #&gt; [43] -0.96767371  0.79245114 -0.93697260  0.86130054  0.62163991  0.48472168
 #&gt; [49] -0.44727427  0.54609708  0.24288873  0.16851210  0.23906467  0.23632142
 #&gt; [55] -0.25911917  0.64904570  0.84197042  0.26416593  0.09731070 -0.98868279
-#&gt; [61]  0.37043223</div></pre>
+#&gt; [61]  0.37043223</div><div class='input'>
+<span class='co'>## Or on a tibble using filter</span>
+<span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>starwars</span>, <span class='fu'>between</span>(<span class='no'>height</span>, <span class='fl'>100</span>, <span class='fl'>150</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 14</span><span>
+#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> Leia…    150    49 brown      light      brown             19 fema… femin…
+#&gt; </span><span style='color: #555555;'>2</span><span> Mon …    150    </span><span style='color: #BB0000;'>NA</span><span> auburn     fair       blue              48 fema… femin…
+#&gt; </span><span style='color: #555555;'>3</span><span> Watto    137    </span><span style='color: #BB0000;'>NA</span><span> black      blue, grey yellow            </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>4</span><span> Sebu…    112    40 none       grey, red  orange            </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>5</span><span> Gasg…    122    </span><span style='color: #BB0000;'>NA</span><span> none       white, bl… black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
