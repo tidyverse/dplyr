@@ -190,12 +190,12 @@
 }</pre></body></html></div>
 <p>This will generate an <code>R CMD check</code> NOTE (because the one of the functions will always be missing), but this is ok. Simply explain that you get the note because you have written a wrapper to make sure your code is backward compatible.</p>
 <p>Sometimes it’s not possible to avoid <code>importFrom()</code>. For example you might be importing a generic so that you can define a method for it. In this case, you can take advantage of a little-known feature in the <code>NAMESPACE</code> file: you can include <code>if</code> statements.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r">#' @rawNamespace
-#' if (utils::packageVersion("dplyr") &gt; "0.5.0") {
-#'   importFrom("dbplyr", "build_sql")
-#' } else {
-#'   importFrom("dplyr", "build_sql")
-#' }</pre></body></html></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co">#' @rawNamespace</span>
+<span class="co">#' if (utils::packageVersion("dplyr") &gt; "0.5.0") {</span>
+<span class="co">#'   importFrom("dbplyr", "build_sql")</span>
+<span class="co">#' } else {</span>
+<span class="co">#'   importFrom("dplyr", "build_sql")</span>
+<span class="co">#' }</span></pre></body></html></div>
 </div>
 <div id="dplyr-0-6-0" class="section level2">
 <h2 class="hasAnchor">

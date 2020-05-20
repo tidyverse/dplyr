@@ -262,7 +262,7 @@
 <a href="#types-of-join" class="anchor"></a>Types of join</h3>
 <p>There are four types of mutating join, which differ in their behaviour when a match is not found. We’ll illustrate each with a simple example:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">df1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fl">2</span>:<span class="fl">1</span>)
-<span class="no">df2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>), <span class="kw">a</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">b</span> <span class="kw">=</span> <span class="st">"a"</span>)</pre></body></html></div>
+<span class="no">df2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>, <span class="fl">1</span>), <span class="kw">a</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">b</span> <span class="kw">=</span> <span class="st">"a"</span>)</pre></body></html></div>
 <ul>
 <li>
 <p><code><a href="../reference/mutate-joins.html">inner_join(x, y)</a></code> only includes observations that match in both <code>x</code> and <code>y</code>.</p>
@@ -294,7 +294,7 @@
 <span class="co">#&gt; 2     2     1    NA &lt;NA&gt;</span></pre></body></html></div>
 </li>
 <li>
-<p><code><a href="../reference/mutate-joins.html">right_join(x, y)</a></code> includes all observations in <code>y</code>. It’s equivalent to <code><a href="../reference/mutate-joins.html">left_join(y, x)</a></code>, but the columns will be ordered differently.</p>
+<p><code><a href="../reference/mutate-joins.html">right_join(x, y)</a></code> includes all observations in <code>y</code>. It’s equivalent to <code><a href="../reference/mutate-joins.html">left_join(y, x)</a></code>, but the columns and rows will be ordered differently.</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">df1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">right_join</a></span>(<span class="no">df2</span>)
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
@@ -307,8 +307,8 @@
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;       x     a b         y</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     1    10 a         2</span>
-<span class="co">#&gt; 2     3    10 a        NA</span></pre></body></html></div>
+<span class="co">#&gt; 1     3    10 a        NA</span>
+<span class="co">#&gt; 2     1    10 a         2</span></pre></body></html></div>
 </li>
 <li>
 <p><code><a href="../reference/mutate-joins.html">full_join()</a></code> includes all observations from <code>x</code> and <code>y</code>.</p>

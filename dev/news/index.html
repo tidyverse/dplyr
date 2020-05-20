@@ -240,6 +240,7 @@
 <p>Extending data frames requires that the extra class or classes are added first, not last. Having the exta class at the end causes some vctrs operations to fail with a mesage like:</p>
 <pre><code>Input must be a vector, not a `&lt;data.frame/...&gt;` object</code></pre>
 </li>
+<li><p><code><a href="../reference/mutate-joins.html">right_join()</a></code> no longer sorts the rows of the resulting tibble according to the order of the RHS <code>by</code> argument in tibble <code>y</code>.</p></li>
 </ul>
 </div>
 <div id="new-features" class="section level2">
