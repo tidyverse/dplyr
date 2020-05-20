@@ -225,7 +225,7 @@ summarise_cols <- function(.data, ...) {
       quo <- dots[[i]]
 
       res <- tryCatch(
-        funs::eval_summarise(quo_get_expr(quo)),
+        funs::eval_summarise(quo),
         error = function(cnd) {
           NULL
         }
