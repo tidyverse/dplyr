@@ -34,7 +34,7 @@
 #'
 #' distinct_if(df, is.numeric)
 #' # ->
-#' distinct(df, across(is.numeric))
+#' distinct(df, across(where(is.numeric)))
 #'
 #' # You can supply a function that will be applied before extracting the distinct values
 #' # The variables of the sorted tibble keep their original values.

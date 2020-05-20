@@ -100,7 +100,7 @@
 #' starwars %>%
 #'   summarise_if(is.numeric, mean, na.rm = TRUE)
 #' starwars %>%
-#'   summarise(across(is.numeric, ~ mean(.x, na.rm = TRUE)))
+#'   summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
 #'
 #' by_species <- iris %>%
 #'   group_by(Species)
@@ -221,15 +221,15 @@ summarize_at <- summarise_at
 #' # returns TRUE or FALSE) to determine the relevant subset of
 #' # columns. Here we divide all the numeric columns by 100:
 #' starwars %>% mutate_if(is.numeric, scale2, na.rm = TRUE)
-#' starwars %>% mutate(across(is.numeric, ~ scale2(.x, na.rm = TRUE)))
+#' starwars %>% mutate(across(where(is.numeric), ~ scale2(.x, na.rm = TRUE)))
 #'
 #' # mutate_if() is particularly useful for transforming variables from
 #' # one type to another
 #' iris %>% mutate_if(is.factor, as.character)
 #' iris %>% mutate_if(is.double, as.integer)
 #' # ->
-#' iris %>% mutate(across(is.factor, as.character))
-#' iris %>% mutate(across(is.double, as.integer))
+#' iris %>% mutate(across(where(is.factor), as.character))
+#' iris %>% mutate(across(where(is.double), as.integer))
 #'
 #' # Multiple transformations ----------------------------------------
 #'
@@ -242,7 +242,7 @@ summarize_at <- summarise_at
 #' # ->
 #' iris %>%
 #'   as_tibble() %>%
-#'   mutate(across(is.numeric, list(scale = scale2, log = log)))
+#'   mutate(across(where(is.numeric), list(scale = scale2, log = log)))
 #'
 #' # When there's only one function in the list, it modifies existing
 #' # variables in place. Give it a name to instead create new variables:

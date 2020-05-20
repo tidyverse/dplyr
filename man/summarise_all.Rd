@@ -140,7 +140,7 @@ starwars \%>\%
 starwars \%>\%
   summarise_if(is.numeric, mean, na.rm = TRUE)
 starwars \%>\%
-  summarise(across(is.numeric, ~ mean(.x, na.rm = TRUE)))
+  summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
 
 by_species <- iris \%>\%
   group_by(Species)

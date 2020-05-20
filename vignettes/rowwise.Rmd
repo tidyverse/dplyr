@@ -104,7 +104,7 @@ Of course, if you have a lot of variables, it's going to be tedious to type in e
 
 ```{r}
 rf %>% mutate(total = sum(c_across(w:z)))
-rf %>% mutate(total = sum(c_across(is.numeric)))
+rf %>% mutate(total = sum(c_across(where(is.numeric))))
 ```
 
 You could combine this with column-wise operations (see `vignette("colwise")` for more details) to compute the proportion of the total for each column:
@@ -121,8 +121,8 @@ rf %>%
 The `rowwise()` approach will work for any summary function. But if you need greater speed, it's worth looking for a built-in row-wise variant of your summary function. These are more efficient because they operate on the data frame as whole; they don't split it into rows, compute the summary, and then join the results back together again.
 
 ```{r}
-df %>% mutate(total = rowSums(across(is.numeric)))
-df %>% mutate(mean = rowMeans(across(is.numeric)))
+df %>% mutate(total = rowSums(across(where(is.numeric))))
+df %>% mutate(mean = rowMeans(across(where(is.numeric))))
 ```
 
 **NB**: I use `df` (not `rf`) and `across()` (not `c_across()`) here because `rowMeans()` and `rowSums()` take a multi-row data frame as input.
