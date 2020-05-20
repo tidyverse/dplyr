@@ -60,7 +60,7 @@ to \code{df \%>\% summarise(n = n())}. Supply \code{wt} to perform weighted coun
 switching the summary from from \code{n = n()} to \code{n = sum(wt)}.
 
 \code{add_count()} are \code{add_tally()} are equivalents to \code{count()} and \code{tally()}
-the use \code{mutate()} instead of \code{summarise()} so that they add a new column
+but use \code{mutate()} instead of \code{summarise()} so that they add a new column
 with group-wise counts.
 }
 \examples{
