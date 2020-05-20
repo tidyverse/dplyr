@@ -88,7 +88,7 @@ There are four types of mutating join, which differ in their behaviour when a ma
 
 ```{r}
 df1 <- tibble(x = c(1, 2), y = 2:1)
-df2 <- tibble(x = c(1, 3), a = 10, b = "a")
+df2 <- tibble(x = c(3, 1), a = 10, b = "a")
 ```
 
   * `inner_join(x, y)` only includes observations that match in both `x` and `y`.
@@ -106,7 +106,7 @@ df2 <- tibble(x = c(1, 3), a = 10, b = "a")
     ```
   
   * `right_join(x, y)` includes all observations in `y`. It's equivalent to 
-    `left_join(y, x)`, but the columns will be ordered differently.
+    `left_join(y, x)`, but the columns and rows will be ordered differently.
   
     ```{r}
     df1 %>% right_join(df2)
