@@ -132,25 +132,33 @@ test_that("select works on NA names (#3601)", {
   expect_identical(select(df, y)$y, 2)
 })
 
-test_that("select() aborts when `[` implementation is broken", {
-  local_methods(
-    "[.dplyr_test_select" = function(x, ...) {
-      unclass(x)
-    }
-  )
-  df <- new_tibble(list(), nrow = 0L, class = "dplyr_test_select")
-  expect_error(select(df, everything()))
-})
 
-test_that("select() gives useful error messages", {
+# dplyr_col_select() ------------------------------------------------------
+
+test_that("dplyr_col_select() aborts when `[` implementation is broken", {
   local_methods(
-    "[.dplyr_test_select" = function(x, ...) {
+    "[.dplyr_test_broken_operator" = function(x, ...) {
       unclass(x)
+    },
+    "[.dplyr_test_operator_wrong_size" = function(x, ...) {
+      data.frame()
     }
   )
+  df1 <- new_tibble(list(x = 1), nrow = 1L, class = "dplyr_test_broken_operator")
+  expect_error(dplyr_col_select(df1, 1:2))
+  expect_error(dplyr_col_select(df1, 0))
+
+  df2 <- new_tibble(list(x = 1), nrow = 1L, class = "dplyr_test_operator_wrong_size")
+  expect_error(dplyr_col_select(d2f, 1:2))
 
   verify_output(test_path("test-select-errors.txt"), {
-    df <- new_tibble(list(), nrow = 0L, class = "dplyr_test_select")
-    select(df, everything())
+    "# from vctrs"
+    dplyr_col_select(df1, 2)
+
+    "# not returning a data frame"
+    dplyr_col_select(df1, 1)
+
+    "# unexpected number of columns"
+    dplyr_col_select(df2, 1)
   })
 })

@@ -131,39 +131,6 @@ select.data.frame <- function(.data, ...) {
 
 # Helpers -----------------------------------------------------------------
 
-dplyr_col_select <- function(.data, loc, names = NULL) {
-  loc <- vec_as_location(loc, n = ncol(.data), names = names(.data))
-  out <- .data[loc]
-  if (!inherits(out, "data.frame")) {
-    abort(c(
-      "Can't reconstruct data frame.",
-      x = glue("The `[` method for class <{classes_data}> must return a data frame.",
-        classes_data = glue_collapse(class(.data), sep = "/")
-      ),
-      i = glue("It returned a <{classes_out}>.",
-        classes_out = glue_collapse(class(out), sep = "/")
-      )
-    ))
-  }
-  if (length(out) != length(loc)) {
-    abort(c(
-      "Can't reconstruct data frame.",
-      x = glue("The `[` method for class <{classes_data}> must return a data frame with {length(loc)} column{s}.",
-        classes_data = glue_collapse(class(.data), sep = "/"),
-        s = if(length(loc) == 1) "" else "s"
-      ),
-      i = glue("It returned a <{classes_out}> of {length(out)} column{s}.",
-        classes_out = glue_collapse(class(out), sep = "/"),
-        s = if(length(out) == 1) "" else "s"
-      )
-    ))
-  }
-  if (!is.null(names)) {
-    names(out) <- names
-  }
-  out
-}
-
 ensure_group_vars <- function(loc, data, notify = TRUE) {
   group_loc <- match(group_vars(data), names(data))
   missing <- setdiff(group_loc, loc)
