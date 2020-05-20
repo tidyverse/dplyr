@@ -187,7 +187,7 @@
 <span class="co"># For each player, compute avg change in games played per year</span>
 <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="no">players</span>, <span class="kw">G_change</span> <span class="kw">=</span> (<span class="no">G</span> - <span class="fu"><a href="../reference/lead-lag.html">lag</a></span>(<span class="no">G</span>)) / (<span class="no">yearID</span> - <span class="fu"><a href="../reference/lead-lag.html">lag</a></span>(<span class="no">yearID</span>)))
 
-<span class="co"># For each player, find all where they played more games than average</span>
+<span class="co"># For each player, find all years where they played more games than they did on average</span>
 <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="no">players</span>, <span class="no">G</span> <span class="kw">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">G</span>))
 <span class="co"># For each, player compute a z score based on number of games played</span>
 <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="no">players</span>, <span class="kw">G_z</span> <span class="kw">=</span> (<span class="no">G</span> - <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">G</span>)) / <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span>(<span class="no">G</span>))</pre></body></html></div>
