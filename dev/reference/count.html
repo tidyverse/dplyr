@@ -59,7 +59,7 @@ count() is paired with tally(), a lower-level helper that is equivalent
 to df %&amp;gt;% summarise(n = n()). Supply wt to perform weighted counts,
 switching the summary from from n = n() to n = sum(wt).
 add_count() are add_tally() are equivalents to count() and tally()
-the use mutate() instead of summarise() so that they add a new column
+but use mutate() instead of summarise() so that they add a new column
 with group-wise counts." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -220,7 +220,7 @@ with group-wise counts." />
 to <code>df %&gt;% summarise(n = n())</code>. Supply <code>wt</code> to perform weighted counts,
 switching the summary from from <code>n = n()</code> to <code>n = sum(wt)</code>.</p>
 <p><code>add_count()</code> are <code>add_tally()</code> are equivalents to <code>count()</code> and <code>tally()</code>
-the use <code><a href='mutate.html'>mutate()</a></code> instead of <code><a href='summarise.html'>summarise()</a></code> so that they add a new column
+but use <code><a href='mutate.html'>mutate()</a></code> instead of <code><a href='summarise.html'>summarise()</a></code> so that they add a new column
 with group-wise counts.</p>
     </div>
 
