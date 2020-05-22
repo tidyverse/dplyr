@@ -258,27 +258,11 @@ slice_rows <- function(.data, ...) {
 
   for (group in seq_along(rows)) {
     current_rows <- rows[[group]]
-    res <- chunks[[group]]
-
-    if (is.logical(res) && all(is.na(res))) {
-      res <- integer()
-    } else if (is.numeric(res)) {
-      res <- vec_cast(res, integer())
-    } else if (!is.integer(res)) {
-      abort("`slice()` expressions should return indices (positive or negative integers).")
-    }
-
-    if (length(res) == 0L) {
-      # nothing to do
-    } else if (all(res >= 0, na.rm = TRUE)) {
-      res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
-    } else if (all(res <= 0, na.rm = TRUE)) {
-      res <- setdiff(seq_along(current_rows), -res)
-    } else {
-      abort("`slice()` expressions should return either all positive or all negative.")
-    }
-
-    slice_indices[[group]] <- current_rows[res]
+    loc <- num_as_location(
+      vec_as_subscript(chunks[[group]], logical = "error", numeric = "cast", character = "error"),
+      n = length(current_rows), missing = "propagate"
+    )
+    slice_indices[[group]] <- current_rows[loc]
   }
 
   vec_c(!!!slice_indices, .ptype = integer())
