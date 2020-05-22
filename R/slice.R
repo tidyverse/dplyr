@@ -260,7 +260,7 @@ slice_rows <- function(.data, ...) {
     current_rows <- rows[[group]]
     loc <- num_as_location(
       vec_as_subscript(chunks[[group]], logical = "error", numeric = "cast", character = "error"),
-      n = length(current_rows), missing = "propagate"
+      n = length(current_rows), missing = "propagate", zero = "remove", negative = "invert"
     )
     slice_indices[[group]] <- current_rows[loc]
   }
