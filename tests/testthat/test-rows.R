@@ -8,7 +8,7 @@ test_that("rows_insert()", {
 
   expect_error(
     rows_insert(data, tibble(a = 3, b = "z")),
-    class = "dplyr_rows_insert_duplicate"
+    class = "dplyr:::error_rows_insert_duplicate"
   )
 })
 
@@ -22,7 +22,7 @@ test_that("rows_update()", {
 
   expect_error(
     rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b")),
-    class = "dplyr_rows_update_missing"
+    class = "dplyr:::error_rows_update_missing"
   )
 
   expect_silent(
@@ -43,7 +43,7 @@ test_that("rows_patch()", {
 
   expect_error(
     rows_patch(data, tibble(a = 2:3, b = "z"), by = c("a", "b")),
-    class = "dplyr_rows_patch_missing"
+    class = "dplyr:::error_rows_patch_missing"
   )
 
   expect_silent(
@@ -73,7 +73,7 @@ test_that("rows_delete()", {
 
   expect_error(
     rows_delete(data, tibble(a = 2:4)),
-    class = "dplyr_rows_delete_missing"
+    class = "dplyr:::error_rows_delete_missing"
   )
 
   expect_identical(
@@ -83,7 +83,7 @@ test_that("rows_delete()", {
 
   expect_error(
     rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b")),
-    class = "dplyr_rows_delete_missing"
+    class = "dplyr:::error_rows_delete_missing"
   )
 })
 
