@@ -1,6 +1,6 @@
 #' Starwars characters
 #'
-#' This data comes from SWAPI, the Star Wars API, <http://swapi.co/>
+#' This data comes from SWAPI, the Star Wars API, <http://swapi.dev/>
 #'
 #' @format A tibble with 87 rows and 13 variables:
 #' \describe{

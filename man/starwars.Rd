@@ -25,7 +25,7 @@ A tibble with 87 rows and 13 variables:
 starwars
 }
 \description{
-This data comes from SWAPI, the Star Wars API, \url{http://swapi.co/}
+This data comes from SWAPI, the Star Wars API, \url{http://swapi.dev/}
 }
 \examples{
 starwars
