@@ -40,7 +40,7 @@ This document introduces you to dplyr's basic set of tools, and shows you how to
 
 ## Data: starwars
 
-To explore the basic data manipulation verbs of dplyr, we'll use the dataset `starwars`. This dataset contains `r nrow(starwars)` characters and comes from the [Star Wars API](http://swapi.co), and is documented in `?starwars`
+To explore the basic data manipulation verbs of dplyr, we'll use the dataset `starwars`. This dataset contains `r nrow(starwars)` characters and comes from the [Star Wars API](http://swapi.dev), and is documented in `?starwars`
 
 ```{r}
 dim(starwars)
