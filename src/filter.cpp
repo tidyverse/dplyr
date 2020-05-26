@@ -80,6 +80,7 @@ void filter_check_type(SEXP res, R_xlen_t i, SEXP quos) {
         SEXP colnames_j = PROTECT(Rf_allocVector(STRSXP, 1));
         SET_STRING_ELT(colnames_j, 0, STRING_ELT(colnames, j));
         dplyr::stop_filter_incompatible_type(i, quos, colnames_j, res_j);
+        UNPROTECT(2);
       }
     }
   } else {
