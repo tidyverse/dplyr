@@ -114,7 +114,7 @@ arrange_rows <- function(.data, dots) {
   #       revisit when we have something like mutate_one() to
   #       evaluate one quosure in the data mask
   data <- tryCatch({
-    transmute(ungroup(.data), !!!quosures)
+    transmute(new_data_frame(.data), !!!quosures)
   }, error = function(cnd) {
     stop_arrange_transmute(cnd)
   })

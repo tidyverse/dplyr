@@ -150,3 +150,16 @@ test_that("arrange() with empty dots still calls dplyr_row_slice()", {
   expect_s3_class(arrange(foo), class(tbl), exact = TRUE)
   expect_s3_class(arrange(foo, x), class(tbl), exact = TRUE)
 })
+
+test_that("can arrange() with unruly class", {
+  local_methods(
+    `[.dplyr_foobar` = function(x, i, ...) new_dispatched_quux(vec_slice(x, i)),
+    dplyr_row_slice.dplyr_foobar = function(x, i, ...) x[i, ]
+  )
+
+  df <- foobar(data.frame(x = 1:3))
+  expect_identical(
+    arrange(df, desc(x)),
+    quux(data.frame(x = 3:1, dispatched = TRUE))
+  )
+})

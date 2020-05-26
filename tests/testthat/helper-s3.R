@@ -36,3 +36,11 @@ new_ctor <- function(base_class) {
 foobar <- new_ctor("dplyr_foobar")
 foobaz <- new_ctor("dplyr_foobaz")
 quux <- new_ctor("dplyr_quux")
+
+# For testing reconstructing methods that break invariants by adding
+# new columns
+new_dispatched_quux <- function(x) {
+  out <- quux(x)
+  out$dispatched <- rep(TRUE, nrow(out))
+  out
+}
