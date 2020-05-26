@@ -86,7 +86,7 @@ int* p_current_group = INTEGER(current_group)
 SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);            \
 SEXP which_used = Rf_findVarInFrame(env_private, dplyr::symbols::which_used);        \
 int* p_which_used = INTEGER(which_used);                                             \
-SEXP names_resolved = Rf_getAttrib(resolved, R_NamesSymbol);                         \
+SEXP names_resolved = PROTECT(Rf_getAttrib(resolved, R_NamesSymbol));                \
 R_xlen_t n_resolved = XLENGTH(which_used);                                           \
 for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) {               \
   int idx_promise = p_which_used[i_resolved] - 1;                                    \
@@ -94,7 +94,8 @@ for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) {          
     Rf_installChar(STRING_ELT(names_resolved, idx_promise)),                         \
     VECTOR_ELT(VECTOR_ELT(resolved, idx_promise), i), bindings                       \
   );                                                                                 \
-}
+}                                                                                    \
+UNPROTECT(1)
 
 
 #define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
