@@ -1,5 +1,37 @@
 #include "dplyr.h"
 
+namespace dplyr {
+void stop_filter_incompatible_size(R_xlen_t i, SEXP quos, R_xlen_t nres, R_xlen_t n) {
+  SEXP s_index_expression = PROTECT(Rf_ScalarInteger(i + 1));
+
+  SEXP s_expected_size = PROTECT(Rf_ScalarInteger(n));
+  SEXP s_size = PROTECT(Rf_ScalarInteger(nres));
+  SEXP sym_stop_filter_incompatible_size = Rf_install("stop_filter_incompatible_size");
+
+  SEXP call = PROTECT(Rf_lang5(sym_stop_filter_incompatible_size,
+    s_index_expression, quos, s_size, s_expected_size
+  ));
+  Rf_eval(call, dplyr::envs::ns_dplyr);
+
+  // for rchk
+  UNPROTECT(4);
+}
+
+void stop_filter_incompatible_type(R_xlen_t i, SEXP quos, SEXP column_name, SEXP result){
+  SEXP s_index_expression = PROTECT(Rf_ScalarInteger(i + 1));
+  SEXP sym_stop_filter_incompatible_type = Rf_install("stop_filter_incompatible_type");
+
+  SEXP call = PROTECT(Rf_lang5(sym_stop_filter_incompatible_type,
+    s_index_expression, quos, column_name, result
+  ));
+  Rf_eval(call, dplyr::envs::ns_dplyr);
+
+  // for rchk
+  UNPROTECT(2);
+}
+
+}
+
 bool all_lgl_columns(SEXP data) {
   R_xlen_t nc = XLENGTH(data);
 

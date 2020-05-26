@@ -3,20 +3,23 @@
 namespace dplyr {
 void stop_mutate_recycle(R_len_t n_result_i) {
   SEXP sym_stop_mutate_recycle_incompatible_size = Rf_install("stop_mutate_recycle_incompatible_size");
-  SEXP call = Rf_lang2(sym_stop_mutate_recycle_incompatible_size, Rf_ScalarInteger(n_result_i));
+  SEXP call = PROTECT(Rf_lang2(sym_stop_mutate_recycle_incompatible_size, Rf_ScalarInteger(n_result_i)));
   Rf_eval(call, dplyr::envs::ns_dplyr);
+  UNPROTECT(1);
 }
 
 void stop_mutate_mixed_null() {
   SEXP sym_stop_mutate_mixed_null = Rf_install("stop_mutate_mixed_null");
-  SEXP call = Rf_lang1(sym_stop_mutate_mixed_null);
+  SEXP call = PROTECT(Rf_lang1(sym_stop_mutate_mixed_null));
   Rf_eval(call, dplyr::envs::ns_dplyr);
+  UNPROTECT(1);
 }
 
 void stop_mutate_not_vector(SEXP result) {
   SEXP sym_stop_mutate_not_vector = Rf_install("stop_mutate_not_vector");
-  SEXP call = Rf_lang2(sym_stop_mutate_not_vector, result);
+  SEXP call = PROTECT(Rf_lang2(sym_stop_mutate_not_vector, result));
   Rf_eval(call, dplyr::envs::ns_dplyr);
+  UNPROTECT(1);
 }
 }
 
