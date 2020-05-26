@@ -2,15 +2,59 @@ context("count-tally")
 
 # count -------------------------------------------------------------------
 
-test_that("must manually supply name when n column already present", {
-  df <- data.frame(n = c(1, 1, 2, 2, 2))
-  expect_named(count(df, n, name = "nn"), c("n", "nn"))
+test_that("informs if n column already present, unless overridden", {
+  df1 <- tibble(n = c(1, 1, 2, 2, 2))
+  expect_message(out <- count(df1, n), "already present")
+  expect_named(out, c("n", "nn"))
 
-  df <- data.frame(g = c(1, 2, 2, 2), n = c(1:4))
-  expect_named(count(df, g, name = "n"), c("g", "n"))
+  # not a good idea, but supported
+  expect_message(out <- count(df1, n, name = "n"), NA)
+  expect_named(out, "n")
+
+  expect_message(out <- count(df1, n, name = "nn"), NA)
+  expect_named(out, c("n", "nn"))
+
+  df2 <- tibble(n = c(1, 1, 2, 2, 2), nn = 1:5)
+  expect_message(out <- count(df2, n), "already present")
+  expect_named(out, c("n", "nn"))
+
+  expect_message(out <- count(df2, n, nn), "already present")
+  expect_named(out, c("n", "nn", "nnn"))
 })
 
-test_that("count preserves type of input", {
+test_that("name must be string", {
+  df <- tibble(x = c(1, 2))
+  expect_error(count(df, x, name = 1), "string")
+  expect_error(count(df, x, name = letters), "string")
+})
+
+test_that("weights by n if present, unless overridden", {
+  df <- tibble(g = c(1, 2), n = c(1, 3))
+  expect_message(out <- count(df, g), "weighting variable")
+  expect_equal(out, tibble(g = c(1, 2), n = c(1, 3)))
+
+  expect_message(out <- count(df, g, wt = 1), NA)
+  expect_equal(out, tibble(g = c(1, 2), n = c(1, 1)))
+})
+
+test_that("output includes empty levels with .drop = FALSE", {
+  df <- tibble(f = factor("b", levels = c("a", "b", "c")))
+  out <- count(df, f, .drop = FALSE)
+  expect_equal(out$n, c(0, 1, 0))
+
+  out <- count(group_by(df, f, .drop = FALSE))
+  expect_equal(out$n, c(0, 1, 0))
+})
+
+test_that("ouput preserves grouping", {
+  df <- tibble(g = c(1, 2, 2, 2))
+  exp <- tibble(g = c(1, 2), n = c(1, 3))
+
+  expect_equal(df %>% count(g), exp)
+  expect_equal(df %>% group_by(g) %>% count(), exp %>% group_by(g))
+})
+
+test_that("output preserves class & attributes where possible", {
   df <- data.frame(g = c(1, 2, 2, 2))
   attr(df, "my_attr") <- 1
 
@@ -21,31 +65,8 @@ test_that("count preserves type of input", {
   out <- df %>% group_by(g) %>% count()
   expect_s3_class(out, "grouped_df")
   expect_equal(group_vars(out), "g")
-  # TODO: currently lost by summarise
-  # expect_equal(attr(out, "my_attr"), 1)
-})
-
-test_that("grouped count includes group", {
-  df <- data.frame(g = c(1, 2, 2, 2))
-
-  res <- df %>% group_by(g) %>% count()
-  expect_equal(names(res), c("g", "n"))
-  expect_equal(res$n, c(1, 3))
-  expect_equal(group_vars(res), "g")
-})
-
-test_that("can override variable name", {
-  df <- data.frame(g = c(1, 1, 2, 2, 2))
-  expect_named(count(df, g, name = "xxx"), c("g", "xxx"))
-})
-
-test_that("count() preserves with .drop", {
-  df <- tibble(f = factor("b", levels = c("a", "b", "c")))
-  out <- count(df, f, .drop = FALSE)
-  expect_equal(out$n, c(0, 1, 0))
-
-  out <- count(group_by(df, f, .drop = FALSE))
-  expect_equal(out$n, c(0, 1, 0))
+  # summarise() currently drops attributes
+  expect_equal(attr(out, "my_attr"), NULL)
 })
 
 test_that("works with dbplyr", {
@@ -57,73 +78,61 @@ test_that("works with dbplyr", {
   expect_equal(df2, tibble(x = c(1, 1, 1, 2, 2), n = c(3, 3, 3, 2, 2)))
 })
 
-# add_count ---------------------------------------------------------------
+test_that("can chain together multiple counts", {
+  verify_output(test_path("test-count-tally.txt"), {
+    df <- data.frame(g = c(1, 1, 2, 2), n = 1:4)
+    df %>% count(g)
+    df %>% count(g, wt = n) %>% count()
 
-test_that("must manually supply name when n column already present", {
-  df <- data.frame(n = c(1, 1, 2, 2, 2))
-  expect_named(add_count(df, n, name = "nn"), c("n", "nn"))
-})
-
-test_that("can override output column", {
-  df <- data.frame(g = c(1, 1, 2, 2, 2), x = c(3, 2, 5, 5, 5))
-  expect_named(add_count(df, g, name = "xxx"), c("g", "x", "xxx"))
-})
-
-test_that(".drop is deprecated",  {
-  df <- tibble(f = factor("b", levels = c("a", "b", "c")))
-  expect_warning(out <- add_count(df, f, .drop = FALSE), "deprecated")
+    df %>% count(n)
+  })
 })
 
 # tally -------------------------------------------------------------------
+
+test_that("tally can sort output", {
+  gf <- group_by(tibble(x = c(1, 1, 2, 2, 2)), x)
+  out <- tally(gf, sort = TRUE)
+  expect_equal(out, tibble(x = c(2, 1), n = c(3, 2)))
+})
 
 test_that("weighted tally drops NAs (#1145)", {
   df <- tibble(x = c(1, 1, NA))
   expect_equal(tally(df, x)$n, 2)
 })
 
-test_that("can override output column", {
-  df <- data.frame(g = c(1, 1, 2, 2, 2), x = c(3, 2, 5, 5, 5))
-  expect_named(tally(df, name = "xxx"), "xxx")
-})
+test_that("tally() drops last group (#5199) ", {
+  df <- data.frame(x = 1, y = 2, z = 3)
 
-test_that("tally uses variable named n as default wt.", {
-  df <- tibble(n = 1:3)
-  expect_message(res <- df %>% tally(name = "nn"), "Using `n` as weighting variable")
-  expect_named(res, "nn")
-})
-
-test_that("tally() does .groups = 'drop_last' (#5199) ", {
-  res <- expect_message(
-    data.frame(x = 1, y = 2, z = 3) %>%
-      group_by(x, y) %>%
-      tally(wt = z),
-    NA)
+  res <- expect_message(df %>% group_by(x, y) %>% tally(wt = z), NA)
   expect_equal(group_vars(res), "x")
+})
+
+# add_count ---------------------------------------------------------------
+
+test_that("ouput preserves grouping", {
+  df <- tibble(g = c(1, 2, 2, 2))
+  exp <- tibble(g = c(1, 2, 2, 2), n = c(1, 3, 3, 3))
+
+  expect_equal(df %>% add_count(g), exp)
+  expect_equal(df %>% group_by(g) %>% add_count(), exp %>% group_by(g))
+})
+
+test_that(".drop is deprecated",  {
+  local_options(lifecycle_verbosity = "warning")
+
+  df <- tibble(f = factor("b", levels = c("a", "b", "c")))
+  expect_warning(out <- add_count(df, f, .drop = FALSE), "deprecated")
 })
 
 # add_tally ---------------------------------------------------------------
 
 test_that("can add tallies of a variable", {
-  df <- data.frame(a = c(1, 1, 2, 2, 2))
-
-  out <- df %>% group_by(a) %>% add_tally()
-  expect_equal(names(out), c("a", "n"))
-  expect_equal(out$a, df$a)
-  expect_equal(out$n, c(2, 2, 3, 3, 3))
-
-  out <- df %>% group_by(a) %>% add_tally(sort = TRUE)
-  expect_equal(out$n, c(3, 3, 3, 2, 2))
-})
-
-test_that("add_tally respects and preserves existing groups", {
-  df <- data.frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
-  res <- df %>% group_by(val) %>% add_tally()
-  expect_equal(res$n, c(3, 3, 3, 1))
-  expect_equal(group_vars(res), "val")
-
-  res <- df %>% group_by(g, val) %>% add_tally()
-  expect_equal(res$n, c(1, 2, 2, 1))
-  expect_equal(group_vars(res), c("g", "val"))
+  df <- tibble(a = c(2, 1, 1))
+  expect_equal(
+    df %>% group_by(a) %>% add_tally(),
+    group_by(tibble(a = c(2, 1, 1), n = c(1, 2, 2)), a)
+  )
 })
 
 test_that("add_tally can be given a weighting variable", {
@@ -139,20 +148,4 @@ test_that("add_tally can be given a weighting variable", {
 test_that("can override output column", {
   df <- data.frame(g = c(1, 1, 2, 2, 2), x = c(3, 2, 5, 5, 5))
   expect_named(add_tally(df, name = "xxx"), c("g", "x", "xxx"))
-})
-
-
-# Errors ------------------------------------------------------------------
-
-test_that("count() give meaningful errors", {
-  verify_output(test_path("test-count-tally-errors.txt"), {
-    df <- data.frame(n = c(1, 1, 2, 2, 2))
-    add_count(df, n)
-
-    df <- data.frame(g = c(1, 2, 2, 2), n = c(1:4))
-    count(df, g)
-
-    df <- data.frame(n = c(1, 1, 2, 2, 2))
-    count(df, n)
-  })
 })

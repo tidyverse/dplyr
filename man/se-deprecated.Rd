@@ -69,13 +69,13 @@ summarize_(.data, ..., .dots = list())
 
 \item{vars}{Various meanings depending on the verb.}
 
-\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> If omitted, will count the
-number of rows. If specified, will perform a "weighted" count by summing
-the (non-missing) values of variable \code{wt}.
+\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> Either a expression
+or a numeric constant. If an expression, will perform a "weighted"
+count by summing the (non-missing) values of variable \code{wt}; if a
+numeric constant will
 
-If omitted, and column \code{n} exists, it will automatically be used as a
-weighting variable, although you will have to specify \code{name} to provide
-a new name for the output.}
+The default is to weight by column \code{n}, if it exists, otherwise count
+each row as 1L}
 
 \item{sort}{If \code{TRUE}, will show the largest groups at the top.}
 
