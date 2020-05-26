@@ -16,7 +16,6 @@ struct symbols {
   static SEXP groups;
   static SEXP levels;
   static SEXP ptype;
-  static SEXP vars;
   static SEXP current_group;
   static SEXP current_expression;
   static SEXP rows;
@@ -30,7 +29,6 @@ struct symbols {
 
 struct vectors {
   static SEXP classes_vctrs_list_of;
-  static SEXP classes_tbl_df;
   static SEXP empty_int_vector;
 
   static SEXP names_expanded;
@@ -89,7 +87,6 @@ for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) {          
   Rf_defineVar(name_idx, VECTOR_ELT(VECTOR_ELT(resolved, idx_promise), i), bindings); \
 }                                                                                     \
 UNPROTECT(3)
-
 
 #define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
 

@@ -13,15 +13,6 @@ SEXP get_classes_vctrs_list_of() {
   return klasses;
 }
 
-SEXP get_classes_tbl_df() {
-  SEXP klasses = Rf_allocVector(STRSXP, 3);
-  R_PreserveObject(klasses);
-  SET_STRING_ELT(klasses, 0, Rf_mkChar("tbl_df"));
-  SET_STRING_ELT(klasses, 1, Rf_mkChar("tbl"));
-  SET_STRING_ELT(klasses, 2, Rf_mkChar("data.frame"));
-  return klasses;
-}
-
 SEXP get_empty_int_vector() {
   SEXP x = Rf_allocVector(INTSXP, 0);
   R_PreserveObject(x);
@@ -47,7 +38,6 @@ SEXP get_names_summarise_recycle_chunks(){
 SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::levels = Rf_install("levels");
 SEXP symbols::groups = Rf_install("groups");
-SEXP symbols::vars = Rf_install("vars");
 SEXP symbols::current_group = Rf_install("current_group");
 SEXP symbols::current_expression = Rf_install("current_expression");
 SEXP symbols::rows = Rf_install("rows");
@@ -59,7 +49,6 @@ SEXP symbols::which_used = Rf_install("which_used");
 SEXP symbols::dot_drop = Rf_install(".drop");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
-SEXP vectors::classes_tbl_df = get_classes_tbl_df();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
 
 SEXP vectors::names_expanded = get_names_expanded();
