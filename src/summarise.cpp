@@ -1,5 +1,32 @@
 #include "dplyr.h"
 
+namespace dplyr {
+
+void stop_summarise_unsupported_type(SEXP result) {
+  SEXP sym_stop_summarise_unsupported_type = Rf_install("stop_summarise_unsupported_type");
+  SEXP call = PROTECT(Rf_lang2(sym_stop_summarise_unsupported_type, result));
+  Rf_eval(call, dplyr::envs::ns_dplyr);
+
+  // for rchk
+  UNPROTECT(1);
+}
+
+void stop_summarise_incompatible_size(int index_group, int index_expression, int expected_size, int size) {
+  SEXP s_size = PROTECT(Rf_ScalarInteger(size));
+  SEXP s_expected_size = PROTECT(Rf_ScalarInteger(expected_size));
+  SEXP s_index_group = PROTECT(Rf_ScalarInteger(index_group + 1));
+  SEXP s_index_expression = PROTECT(Rf_ScalarInteger(index_expression + 1));
+  SEXP sym_stop_summarise_incompatible_size = Rf_install("stop_summarise_incompatible_size");
+  SEXP call = PROTECT(Rf_lang5(sym_stop_summarise_incompatible_size, s_index_group, s_index_expression, s_expected_size, s_size));
+  Rf_eval(call, dplyr::envs::ns_dplyr);
+
+  // for rchk
+  UNPROTECT(5);
+}
+
+}
+
+
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private) {
   DPLYR_MASK_INIT();
 
