@@ -253,12 +253,19 @@ lazy data frame (e.g. from dbplyr or dtplyr).</p></td>
     </tr>
     <tr>
       <th>wt</th>
-      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; If omitted, will count the
-number of rows. If specified, will perform a "weighted" count by summing
-the (non-missing) values of variable <code>wt</code>.</p>
-<p>If omitted, and column <code>n</code> exists, it will automatically be used as a
-weighting variable, although you will have to specify <code>name</code> to provide
-a new name for the output.</p></td>
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Frequency weights.
+Can be a variable (or combination of variables) or <code>NULL</code>. <code>wt</code>
+is computed once for each unique combination of the counted
+variables.</p><ul>
+<li><p>If a variable, <code>count()</code> will compute <code><a href='https://rdrr.io/r/base/sum.html'>sum(wt)</a></code> for each unique
+combination.</p></li>
+<li><p>If <code>NULL</code>, the default, the computation depends on whether a
+column of frequency counts <code>n</code> exists in the data frame. If it
+exists, the counts are computed with <code><a href='https://rdrr.io/r/base/sum.html'>sum(n)</a></code> for each unique
+combination. Otherwise, <code><a href='context.html'>n()</a></code> is used to compute the counts.
+Supply <code>wt = n()</code> to force this behaviour even if you have an
+<code>n</code> column in the data frame.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>sort</th>
