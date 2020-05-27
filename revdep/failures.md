@@ -1383,7 +1383,7 @@ ERROR: compilation failed for package ‘carat’
 * Source code: https://github.com/cran/CaseBasedReasoning
 * BugReports: https://github.com/sipemu/case-based-reasoning/issues
 * Date/Publication: 2018-06-12 10:34:11 UTC
-* Number of recursive dependencies: 127
+* Number of recursive dependencies: 128
 
 Run `revdep_details(,"CaseBasedReasoning")` for more info
 
@@ -12652,7 +12652,7 @@ ERROR: compilation failed for package ‘telefit’
 * URL: https://github.com/bassam-abulnoor/TestDimorph
 * BugReports: https://github.com/bassam-abulnoor/TestDimorph/issues
 * Date/Publication: 2020-04-23 12:40:02 UTC
-* Number of recursive dependencies: 179
+* Number of recursive dependencies: 185
 
 Run `revdep_details(,"TestDimorph")` for more info
 
@@ -12710,6 +12710,64 @@ Calls: <Anonymous> ... namespaceImport -> loadNamespace -> library.dynam -> dyn.
 Execution halted
 ERROR: lazy loading failed for package ‘TestDimorph’
 * removing ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/TestDimorph/old/TestDimorph.Rcheck/TestDimorph’
+
+```
+# tidybulk
+
+<details>
+
+* Version: 
+* Source code: ???
+* URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+* BugReports: https://github.com/tidyverse/dplyr/issues
+* Number of recursive dependencies: 0
+
+Run `revdep_details(,"")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+  There are binary versions available but the source versions are later:
+              binary  source needs_compilation
+GO.db         3.11.1  3.11.4             FALSE
+httpuv         1.5.2 1.5.3.1              TRUE
+nlme         3.1-147 3.1-148              TRUE
+org.Hs.eg.db  3.11.1  3.11.4             FALSE
+org.Rn.eg.db  3.11.1  3.11.4             FALSE
+reticulate      1.15    1.16              TRUE
+
+  Binaries will be installed
+
+
+installing the source packages ‘GO.db’, ‘org.Hs.eg.db’, ‘org.Rn.eg.db’
+
+
+
+```
+### CRAN
+
+```
+
+  There are binary versions available but the source versions are later:
+              binary  source needs_compilation
+GO.db         3.11.1  3.11.4             FALSE
+httpuv         1.5.2 1.5.3.1              TRUE
+nlme         3.1-147 3.1-148              TRUE
+org.Hs.eg.db  3.11.1  3.11.4             FALSE
+org.Rn.eg.db  3.11.1  3.11.4             FALSE
+reticulate      1.15    1.16              TRUE
+
+  Binaries will be installed
+
+
+installing the source packages ‘GO.db’, ‘org.Hs.eg.db’, ‘org.Rn.eg.db’
+
+
 
 ```
 # ToxicoGx
@@ -13783,7 +13841,7 @@ ERROR: compilation failed for package ‘walker’
 * Version: 1.0.1
 * Source code: https://github.com/cran/weibulltools
 * Date/Publication: 2019-01-29 16:10:03 UTC
-* Number of recursive dependencies: 109
+* Number of recursive dependencies: 110
 
 Run `revdep_details(,"weibulltools")` for more info
 

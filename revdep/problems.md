@@ -39,6 +39,8 @@ Run `revdep_details(,"AlphaBeta")` for more info
     Execution halted
     ```
 
+## In both
+
 *   checking top-level files ... NOTE
     ```
     File
@@ -57,14 +59,6 @@ Run `revdep_details(,"AlphaBeta")` for more info
     plotPedigree: no visible binding for global variable ‘V2’
     Undefined global functions or variables:
       V1 V2 delta.t div.obs meth
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘AlphaBeta’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/AlphaBeta/old/AlphaBeta.Rcheck/00install.out’ for details.
     ```
 
 # amt
@@ -103,14 +97,6 @@ Run `revdep_details(,"amt")` for more info
        diff| Component "sl_": Names: 1 string mismatch
        diff| Component "ta_": Names: 1 string mismatch 
       Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘amt’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/amt/old/amt.Rcheck/00install.out’ for details.
     ```
 
 # bayesplot
@@ -156,88 +142,10 @@ Run `revdep_details(,"bayesplot")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.6Mb
+      installed size is  6.5Mb
       sub-directories of 1Mb or more:
-        R     1.9Mb
+        R     1.8Mb
         doc   4.1Mb
-    ```
-
-# bigrquery
-
-<details>
-
-* Version: 1.3.1
-* Source code: https://github.com/cran/bigrquery
-* URL: https://github.com/rstats-db/bigrquery
-* BugReports: https://github.com/rstats-db/bigrquery/issues
-* Date/Publication: 2020-05-15 16:00:02 UTC
-* Number of recursive dependencies: 63
-
-Run `revdep_details(,"bigrquery")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      ── 3. Failure: %||% translates to IFNULL (@test-dplyr.R#140)  ──────────────────
-      sql$select[[2]] not equal to "IFNULL(`x`, 2)".
-      1/1 mismatches
-      x[1]: "IFNULL(\"x\", 2)"
-      y[1]: "IFNULL(`x`, 2)"
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 100 | SKIPPED: 58 | WARNINGS: 0 | FAILED: 3 ]
-      1. Failure: casting uses bigquery types (@test-dplyr.R#129) 
-      2. Failure: casting uses bigquery types (@test-dplyr.R#130) 
-      3. Failure: %||% translates to IFNULL (@test-dplyr.R#140) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-# biotmle
-
-<details>
-
-* Version: 1.12.0
-* Source code: https://github.com/cran/biotmle
-* URL: https://code.nimahejazi.org/biotmle
-* BugReports: https://github.com/nhejazi/biotmle/issues
-* Date/Publication: 2020-04-27
-* Number of recursive dependencies: 143
-
-Run `revdep_details(,"biotmle")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > library(biotmle)
-      biotmle v1.12.0: Targeted Learning with Moderated Statistics for Biomarker
-      Discovery
-      > 
-      > test_check("biotmle")
-      ── 1. Failure: biomarkertmle output is consistent using example data (@test-biom
-      assay(biomarkerTMLEout)[1, c(17, 83, 117)] not equal to c(360.7073, 375.9316, 319.3649).
-      names for target but not for current
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 12 | SKIPPED: 0 | WARNINGS: 1 | FAILED: 1 ]
-      1. Failure: biomarkertmle output is consistent using example data (@test-biomarkertmle.R#33) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # blorr
@@ -541,53 +449,6 @@ Run `revdep_details(,"cvms")` for more info
       Execution halted
     ```
 
-## Newly fixed
-
-*   checking whether package ‘cvms’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/cvms/old/cvms.Rcheck/00install.out’ for details.
-    ```
-
-# datastepr
-
-<details>
-
-* Version: 0.0.2
-* Source code: https://github.com/cran/datastepr
-* URL: https://github.com/bramtayl/datastepr
-* BugReports: https://github.com/bramtayl/datastepr/issues
-* Date/Publication: 2016-08-20 10:31:35
-* Number of recursive dependencies: 57
-
-Run `revdep_details(,"datastepr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Attributes: < Component "class": Lengths (3, 1) differ (string compare on first 1) >
-      Attributes: < Component "class": 1 string mismatch >
-      
-      ── 2. Failure: datastep (@test.R#19)  ──────────────────────────────────────────
-      step$results not equal to data.frame(y = 2:11, x = 1:10).
-      Attributes: < Component "class": Lengths (3, 1) differ (string compare on first 1) >
-      Attributes: < Component "class": 1 string mismatch >
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 3 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 2 ]
-      1. Failure: datastep (@test.R#2) 
-      2. Failure: datastep (@test.R#19) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # ddpcr
 
 <details>
@@ -678,6 +539,16 @@ Run `revdep_details(,"DEGreport")` for more info
       Execution halted
     ```
 
+## In both
+
+*   checking for hidden files and directories ... NOTE
+    ```
+    Found the following hidden files and directories:
+      .travis.yml
+    These were most likely included in error. See section ‘Package
+    structure’ in the ‘Writing R Extensions’ manual.
+    ```
+
 *   checking R code for possible problems ... NOTE
     ```
     ...
@@ -709,63 +580,6 @@ Run `revdep_details(,"DEGreport")` for more info
     Package unavailable to check Rd xrefs: ‘fdrtool’
     ```
 
-## Newly fixed
-
-*   checking whether package ‘DEGreport’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/DEGreport/old/DEGreport.Rcheck/00install.out’ for details.
-    ```
-
-## In both
-
-*   checking for hidden files and directories ... NOTE
-    ```
-    Found the following hidden files and directories:
-      .travis.yml
-    These were most likely included in error. See section ‘Package
-    structure’ in the ‘Writing R Extensions’ manual.
-    ```
-
-# dials
-
-<details>
-
-* Version: 0.0.6
-* Source code: https://github.com/cran/dials
-* URL: https://tidymodels.github.io/dials, https://github.com/tidymodels/dials
-* BugReports: https://github.com/tidymodels/dials/issues
-* Date/Publication: 2020-04-03 15:40:05 UTC
-* Number of recursive dependencies: 64
-
-Run `revdep_details(,"dials")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        1. testthat::expect_true(set_test(set_1 %>% arrange(id)))
-       10. dplyr::arrange(., id)
-       18. dplyr:::arrange_rows(.data, dots)
-       19. base::tryCatch(...)
-       20. base:::tryCatchList(expr, classes, parentenv, handlers)
-       21. base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
-       22. value[[3L]](cond)
-       23. dplyr:::stop_arrange_transmute(cnd)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 323 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 1 ]
-      1. Error: dplyr ops (@test_dplyr_set_compat.R#58) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # disk.frame
 
 <details>
@@ -782,19 +596,6 @@ Run `revdep_details(,"disk.frame")` for more info
 </details>
 
 ## Newly broken
-
-*   checking S3 generic/method consistency ... WARNING
-    ```
-    pull:
-      function(.data, var, name, ...)
-    pull.disk.frame:
-      function(.data, var)
-    
-    See section ‘Generic functions and methods’ in the ‘Writing R
-    Extensions’ manual.
-    ```
-
-## In both
 
 *   checking examples ... ERROR
     ```
@@ -815,6 +616,17 @@ Run `revdep_details(,"disk.frame")` for more info
       j (the 2nd argument inside [...]) is a single symbol but column name 'name' is not found. Perhaps you intended DT[, ..name]. This difference to data.frame is deliberate and explained in FAQ 1.1.
     Calls: hard_arrange ... resolve.list -> signalConditionsASAP -> signalConditions
     Execution halted
+    ```
+
+*   checking S3 generic/method consistency ... WARNING
+    ```
+    pull:
+      function(.data, var, name, ...)
+    pull.disk.frame:
+      function(.data, var)
+    
+    See section ‘Generic functions and methods’ in the ‘Writing R
+    Extensions’ manual.
     ```
 
 # DLMtool
@@ -933,14 +745,6 @@ Run `revdep_details(,"docxtools")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘docxtools’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/docxtools/old/docxtools.Rcheck/00install.out’ for details.
     ```
 
 # driftR
@@ -1063,7 +867,7 @@ Run `revdep_details(,"easyr")` for more info
       
       
       The downloaded binary packages are in
-      	/var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmp2lvwBT/downloaded_packages
+      	/var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpDqpnvS/downloaded_packages
       ══ testthat results  ═══════════════════════════════════════════════════════════
       [ OK: 286 | SKIPPED: 1 | WARNINGS: 0 | FAILED: 2 ]
       1. Failure: works as expected (@test_bindf-joinf.R#57) 
@@ -1081,7 +885,7 @@ Run `revdep_details(,"easyr")` for more info
 * Source code: https://github.com/cran/eda4treeR
 * URL: https://github.com/MYaseen208/eda4treeR
 * Date/Publication: 2018-02-04 19:06:12 UTC
-* Number of recursive dependencies: 107
+* Number of recursive dependencies: 108
 
 Run `revdep_details(,"eda4treeR")` for more info
 
@@ -1115,19 +919,13 @@ Run `revdep_details(,"eda4treeR")` for more info
     Execution halted
     ```
 
+## In both
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
       ‘dae’ ‘dplyr’
       All declared Imports should be used.
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘eda4treeR’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/eda4treeR/old/eda4treeR.Rcheck/00install.out’ for details.
     ```
 
 # egor
@@ -1163,14 +961,6 @@ Run `revdep_details(,"egor")` for more info
     Extensions’ manual.
     ```
 
-## Newly fixed
-
-*   checking whether package ‘egor’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/egor/old/egor.Rcheck/00install.out’ for details.
-    ```
-
 # episheet
 
 <details>
@@ -1187,30 +977,6 @@ Run `revdep_details(,"episheet")` for more info
 </details>
 
 ## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 6 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 9 ]
-      1. Error: Test risk_ratio returns exected estimate (@test-risk.R#16) 
-      2. Error: Test risk_ratio returns exected lci (@test-risk.R#21) 
-      3. Error: Test risk_ratio returns exected uci (@test-risk.R#26) 
-      4. Error: Test risk_diff returns exected estimate (@test-risk.R#31) 
-      5. Error: Test risk_diff returns exected lci (@test-risk.R#36) 
-      6. Error: Test risk_diff returns exected uci (@test-risk.R#41) 
-      7. Error: rrmh returns expected value (@test-stratified_risk.R#6) 
-      8. Error: lci return expected value (@test-stratified_risk.R#13) 
-      9. Error: uci return expected value (@test-stratified_risk.R#28) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
 
 *   checking examples ... ERROR
     ```
@@ -1236,6 +1002,28 @@ Run `revdep_details(,"episheet")` for more info
     Backtrace:
     █
     Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      [ OK: 6 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 9 ]
+      1. Error: Test risk_ratio returns exected estimate (@test-risk.R#16) 
+      2. Error: Test risk_ratio returns exected lci (@test-risk.R#21) 
+      3. Error: Test risk_ratio returns exected uci (@test-risk.R#26) 
+      4. Error: Test risk_diff returns exected estimate (@test-risk.R#31) 
+      5. Error: Test risk_diff returns exected lci (@test-risk.R#36) 
+      6. Error: Test risk_diff returns exected uci (@test-risk.R#41) 
+      7. Error: rrmh returns expected value (@test-stratified_risk.R#6) 
+      8. Error: lci return expected value (@test-stratified_risk.R#13) 
+      9. Error: uci return expected value (@test-stratified_risk.R#28) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # expstudies
@@ -1340,14 +1128,6 @@ Run `revdep_details(,"fabletools")` for more info
       Execution halted
     ```
 
-## Newly fixed
-
-*   checking whether package ‘fabletools’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/fabletools/old/fabletools.Rcheck/00install.out’ for details.
-    ```
-
 # fingertipscharts
 
 <details>
@@ -1412,19 +1192,13 @@ Run `revdep_details(,"fingertipscharts")` for more info
       Execution halted
     ```
 
+## In both
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
       ‘curl’ ‘mapproj’
       All declared Imports should be used.
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘fingertipscharts’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/fingertipscharts/old/fingertipscharts.Rcheck/00install.out’ for details.
     ```
 
 # foieGras
@@ -1492,84 +1266,13 @@ Run `revdep_details(,"foieGras")` for more info
       Execution halted
     ```
 
+## In both
+
 *   checking installed package size ... NOTE
     ```
       installed size is 13.7Mb
       sub-directories of 1Mb or more:
         libs  12.4Mb
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘foieGras’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/foieGras/old/foieGras.Rcheck/00install.out’ for details.
-    ```
-
-# gemini
-
-<details>
-
-* Version: 1.2.0
-* Source code: https://github.com/cran/gemini
-* BugReports: https://github.com/sellerslab/gemini/issues
-* Date/Publication: 2020-04-27
-* Number of recursive dependencies: 69
-
-Run `revdep_details(,"gemini")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > library(testthat)
-      > library(gemini)
-      > 
-      > test_check("gemini")
-      ── 1. Failure: Input object is reproducible (@test_data.R#31)  ─────────────────
-      `Input.new` not equal to `Input`.
-      Component "sample.annot": Attributes: < Component "row.names": Mean relative difference: 0.5454545 >
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 6 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 1 ]
-      1. Failure: Input object is reproducible (@test_data.R#31) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking for hidden files and directories ... NOTE
-    ```
-    Found the following hidden files and directories:
-      .github
-    These were most likely included in error. See section ‘Package
-    structure’ in the ‘Writing R Extensions’ manual.
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    gemini_boxplot : <anonymous>: no visible binding for global variable
-      ‘.’
-    gemini_boxplot: no visible binding for global variable ‘.’
-    gemini_boxplot : <anonymous>: no visible binding for global variable
-      ‘gi’
-    gemini_boxplot : <anonymous>: no visible binding for global variable
-      ‘hj’
-    gemini_boxplot: no visible binding for global variable ‘label’
-    gemini_boxplot: no visible binding for global variable ‘y’
-    gemini_calculate_lfc: no visible binding for global variable ‘.’
-    update_s_pb: no visible binding for global variable ‘.’
-    update_tau_pb: no visible binding for global variable ‘.’
-    Undefined global functions or variables:
-      . gi hj label y
     ```
 
 # geometr
@@ -1662,14 +1365,6 @@ Run `revdep_details(,"geomnet")` for more info
     Execution halted
     ```
 
-## Newly fixed
-
-*   checking whether package ‘geomnet’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/geomnet/old/geomnet.Rcheck/00install.out’ for details.
-    ```
-
 # getTBinR
 
 <details>
@@ -1679,7 +1374,7 @@ Run `revdep_details(,"geomnet")` for more info
 * URL: https://www.samabbott.co.uk/getTBinR, https://github.com/seabbs/getTBinR
 * BugReports: https://github.com/seabbs/getTBinR/issues
 * Date/Publication: 2019-09-03 13:50:06 UTC
-* Number of recursive dependencies: 148
+* Number of recursive dependencies: 149
 
 Run `revdep_details(,"getTBinR")` for more info
 
@@ -1707,14 +1402,6 @@ Run `revdep_details(,"getTBinR")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘getTBinR’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/getTBinR/old/getTBinR.Rcheck/00install.out’ for details.
     ```
 
 # ggedit
@@ -1760,18 +1447,12 @@ Run `revdep_details(,"ggedit")` for more info
     Execution halted
     ```
 
+## In both
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘magrittr’
       All declared Imports should be used.
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘ggedit’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/ggedit/old/ggedit.Rcheck/00install.out’ for details.
     ```
 
 # gratia
@@ -1811,14 +1492,6 @@ Run `revdep_details(,"gratia")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘gratia’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/gratia/old/gratia.Rcheck/00install.out’ for details.
     ```
 
 # HaDeX
@@ -1884,19 +1557,13 @@ Run `revdep_details(,"HaDeX")` for more info
       Execution halted
     ```
 
+## In both
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
       ‘DT’ ‘gsubfn’ ‘stringr’
       All declared Imports should be used.
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘HaDeX’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/HaDeX/old/HaDeX.Rcheck/00install.out’ for details.
     ```
 
 # healthcareai
@@ -1942,67 +1609,6 @@ Run `revdep_details(,"healthcareai")` for more info
     Execution halted
     ```
 
-## Newly fixed
-
-*   checking whether package ‘healthcareai’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/healthcareai/old/healthcareai.Rcheck/00install.out’ for details.
-    ```
-
-# HMP16SData
-
-<details>
-
-* Version: 1.8.0
-* Source code: https://github.com/cran/HMP16SData
-* URL: https://github.com/waldronlab/HMP16SData
-* BugReports: https://github.com/waldronlab/HMP16SData/issues
-* Date/Publication: 2020-05-07
-* Number of recursive dependencies: 178
-
-Run `revdep_details(,"HMP16SData")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    snapshotDate(): 2020-04-27
-    see ?HMP16SData and browseVignettes('HMP16SData') for documentation
-    downloading 1 resources
-    retrieving 1 resource
-    Warning: download failed
-      web resource path: ‘https://experimenthub.bioconductor.org/fetch/1117’
-      local file path: ‘/var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpPenK4N/BiocFileCache/3c856ed1961_1117’
-      reason: Internal Server Error (HTTP 500).
-    Warning: bfcadd() failed; resource removed
-      rid: BFC3
-      fpath: ‘https://experimenthub.bioconductor.org/fetch/1117’
-      reason: download failed
-    Warning: download failed
-      hub path: ‘https://experimenthub.bioconductor.org/fetch/1117’
-      cache resource: ‘EH1117 : 1117’
-      reason: bfcadd() failed; see warnings()
-    Error: failed to load resource
-      name: EH1117
-      title: V13
-      reason: 1 resources failed to download
-    Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 19.1Mb
-      sub-directories of 1Mb or more:
-        doc       1.5Mb
-        extdata  17.4Mb
-    ```
-
 # idmodelr
 
 <details>
@@ -2042,14 +1648,6 @@ Run `revdep_details(,"idmodelr")` for more info
       Execution halted
     ```
 
-## Newly fixed
-
-*   checking whether package ‘idmodelr’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/idmodelr/old/idmodelr.Rcheck/00install.out’ for details.
-    ```
-
 # isomiRs
 
 <details>
@@ -2066,37 +1664,13 @@ Run `revdep_details(,"isomiRs")` for more info
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    ...
-      tibble::lst(mean, median)
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Error: `.data` must be a data frame without row names.
-    Backtrace:
-         █
-      1. └─isomiRs::IsomirDataSeqFromFiles(fn_list, coldata = de)
-      2.   └─isomiRs::IsomirDataSeqFromRawData(rawData, coldata, ...)
-      3.     └─isomiRs:::IsoCountsFromMatrix(rawdata, coldata)
-      4.       └─`%>%`(...)
-      5.         ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      6.         └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      7.           └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      8.             └─isomiRs:::`_fseq`(`_lhs`)
-      9.               └─magrittr::freduce(value, `_function_list`)
-     10.                 └─function_list[[i]](value)
-     11.                   └─tibble::column_to_rownames(., "uid")
-    Execution halted
-    ```
-
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      ℹ The error occured in group 1: merge = "one_groupcontrol_1", cluster = 1, xaxis = "control_1", colored = "one_group".
+      Backtrace:
         1. testthat::expect_equal(unique(.cluster_exp(gene)), c(1, 2))
         5. isomiRs:::.cluster_exp(gene)
         6. DEGreport::degPatterns(ma, meta, time = "xaxis", minc = 0, plot = FALSE)
@@ -2105,13 +1679,52 @@ Run `revdep_details(,"isomiRs")` for more info
        16. dplyr:::summarise_cols(.data, ...)
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 24 | SKIPPED: 0 | WARNINGS: 2 | FAILED: 3 ]
-      1. Error: counts (@test_basic.R#13) 
-      2. Error: accesor (@test_basic.R#41) 
-      3. Error: matrix (@test_calculus.R#23) 
+      [ OK: 27 | SKIPPED: 0 | WARNINGS: 2 | FAILED: 1 ]
+      1. Error: matrix (@test_calculus.R#23) 
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    ...
+    Joining, by = "merge"
+    Error: Problem with `summarise()` input `n_genes`.
+    ✖ could not find function "n"
+    ℹ Input `n_genes` is `n()`.
+    ℹ The error occured in group 1: merge = "one_groupcontrol", cluster = 1, xaxis = "control", colored = "one_group".
+    Backtrace:
+         █
+      1. └─isomiRs::isoNetwork(...)
+      2.   └─isomiRs:::.viz_mirna_gene_enrichment(...)
+      3.     └─isomiRs:::.cluster_exp(...)
+      4.       └─DEGreport::degPatterns(ma, meta, time = "xaxis", minc = 0, plot = FALSE)
+      5.         └─`%>%`(...)
+      6.           ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
+      7.           └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+      8.             └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+      9.               └─DEGreport:::`_fseq`(`_lhs`)
+     10.                 └─magrittr::freduce(value, `_function_list`)
+     11.                   └─function_list[[i]](value)
+     12.                     ├─dplyr::summarise(., abundance = median(value), n_genes = n())
+     13.       
+    Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘targetscan.Hs.eg.db’
+    ```
+
+*   checking for hidden files and directories ... NOTE
+    ```
+    Found the following hidden files and directories:
+      .travis.yml
+    These were most likely included in error. See section ‘Package
+    structure’ in the ‘Writing R Extensions’ manual.
     ```
 
 *   checking R code for possible problems ... NOTE
@@ -2138,29 +1751,6 @@ Run `revdep_details(,"isomiRs")` for more info
       targetscan.Hs.egTARGETSFULL targetscan.Mm.egMIRBASE2FAMILY
       targetscan.Mm.egMIRNA targetscan.Mm.egTARGETS
       targetscan.Mm.egTARGETSFULL total
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘isomiRs’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/isomiRs/old/isomiRs.Rcheck/00install.out’ for details.
-    ```
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘targetscan.Hs.eg.db’
-    ```
-
-*   checking for hidden files and directories ... NOTE
-    ```
-    Found the following hidden files and directories:
-      .travis.yml
-    These were most likely included in error. See section ‘Package
-    structure’ in the ‘Writing R Extensions’ manual.
     ```
 
 # lans2r
@@ -2190,8 +1780,8 @@ Run `revdep_details(,"lans2r")` for more info
       ── 2. Failure: test that transformation safety checks are in place (@test-transf
       spread_data(bind_rows(a, b)) not equal to full_join(...).
       Names: 2 string mismatches
-      Component 3: Mean relative difference: 0.962192
-      Component 4: Mean relative difference: 5.089891
+      Component 3: Mean relative difference: 1.070624
+      Component 4: Mean relative difference: 7.339997
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       [ OK: 142 | SKIPPED: 0 | WARNINGS: 7 | FAILED: 2 ]
@@ -2200,14 +1790,6 @@ Run `revdep_details(,"lans2r")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘lans2r’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/lans2r/old/lans2r.Rcheck/00install.out’ for details.
     ```
 
 # LexisNexisTools
@@ -2360,14 +1942,6 @@ Run `revdep_details(,"MSstatsTMT")` for more info
       Execution halted
     ```
 
-## Newly fixed
-
-*   checking whether package ‘MSstatsTMT’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/MSstatsTMT/old/MSstatsTMT.Rcheck/00install.out’ for details.
-    ```
-
 # neuropsychology
 
 <details>
@@ -2377,7 +1951,7 @@ Run `revdep_details(,"MSstatsTMT")` for more info
 * URL: https://github.com/neuropsychology/neuropsychology.R
 * BugReports: https://github.com/neuropsychology/neuropsychology.R/issues
 * Date/Publication: 2017-03-22 19:17:18 UTC
-* Number of recursive dependencies: 153
+* Number of recursive dependencies: 154
 
 Run `revdep_details(,"neuropsychology")` for more info
 
@@ -2411,19 +1985,13 @@ Run `revdep_details(,"neuropsychology")` for more info
     Execution halted
     ```
 
+## In both
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
       ‘htmlTable’ ‘lme4’ ‘stringi’
       All declared Imports should be used.
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘neuropsychology’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/neuropsychology/old/neuropsychology.Rcheck/00install.out’ for details.
     ```
 
 # ngsReports
@@ -2469,20 +2037,14 @@ Run `revdep_details(,"ngsReports")` for more info
     Execution halted
     ```
 
+## In both
+
 *   checking installed package size ... NOTE
     ```
       installed size is  6.1Mb
       sub-directories of 1Mb or more:
         R     2.0Mb
         doc   3.0Mb
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘ngsReports’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/ngsReports/old/ngsReports.Rcheck/00install.out’ for details.
     ```
 
 # opentripplanner
@@ -2535,11 +2097,11 @@ Run `revdep_details(,"opentripplanner")` for more info
 
 <details>
 
-* Version: 0.2.2
+* Version: 0.2.3
 * Source code: https://github.com/cran/pammtools
 * URL: https://github.com/adibender/pammtools
 * BugReports: https://github.com/adibender/pammtools/issues
-* Date/Publication: 2020-03-12 21:00:02 UTC
+* Date/Publication: 2020-05-27 10:00:03 UTC
 * Number of recursive dependencies: 101
 
 Run `revdep_details(,"pammtools")` for more info
@@ -2548,91 +2110,27 @@ Run `revdep_details(,"pammtools")` for more info
 
 ## Newly broken
 
-*   checking examples ... ERROR
+*   checking for code/documentation mismatches ... WARNING
     ```
-    ...
-    Error: `vars` must be a character vector.
-    Backtrace:
-         █
-      1. └─tumor %>% group_by(sex) %>% make_newdata()
-      2.   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      3.   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5.       └─`_fseq`(`_lhs`)
-      6.         └─magrittr::freduce(value, `_function_list`)
-      7.           ├─base::withVisible(function_list[[k]](value))
-      8.           └─function_list[[k]](value)
-      9.             ├─pammtools::make_newdata(.)
-     10.             └─pammtools:::make_newdata.default(.)
-     11.               ├─sample_info(rest) %>% ungroup()
-     12.               │ └─base::eval(lhs, parent, parent)
-     13.               │   └─base::eval(lhs, parent, parent)
-     14.               ├─pammtools::sample_info(rest)
-     15.               └─pammtools:::sample_info.data.frame(rest)
-     16.                 ├─base::suppressMessages(...)
-     17.                 
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 242 | SKIPPED: 0 | WARNINGS: 2 | FAILED: 13 ]
-      1. Error: cumulative hazard functions work for PAM (@test-add-functions.R#101) 
-      2. Failure: adding terms works for PAM (@test-add-functions.R#145) 
-      3. Failure: adding terms works for PAM (@test-add-functions.R#150) 
-      4. Failure: adding terms works for PAM (@test-add-functions.R#152) 
-      5. Failure: adding terms works for PAM (@test-add-functions.R#155) 
-      6. Failure: adding terms works for PAM (@test-add-functions.R#157) 
-      7. Error: survival probabilities functions work for PAM (@test-add-functions.R#236) 
-      8. Error: Cumulative effects are calculated correctly (@test-cumulative-effect.R#102) 
-      9. Error: Sample info returned for data frame (@test-interval-functions.R#23) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘pammtools’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/pammtools/old/pammtools.Rcheck/00install.out’ for details.
-    ```
-
-# parcats
-
-<details>
-
-* Version: 0.0.1
-* Source code: https://github.com/cran/parcats
-* URL: https://erblast.github.io/parcats/
-* Date/Publication: 2019-12-02 16:10:03 UTC
-* Number of recursive dependencies: 111
-
-Run `revdep_details(,"parcats")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘magrittr’ ‘tibble’
-      All declared Imports should be used.
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘parcats’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/parcats/old/parcats.Rcheck/00install.out’ for details.
+    Codoc mismatches from documentation object 'dplyr_verbs':
+    group_by.ped
+      Code: function(.data, ..., .add = FALSE)
+      Docs: function(.data, ..., add = FALSE)
+      Argument names in code not in docs:
+        .add
+      Argument names in docs not in code:
+        add
+      Mismatches in argument names:
+        Position: 3 Code: .add Docs: add
+    group_by.nested_fdf
+      Code: function(.data, ..., .add = FALSE)
+      Docs: function(.data, ..., add = FALSE)
+      Argument names in code not in docs:
+        .add
+      Argument names in docs not in code:
+        add
+      Mismatches in argument names:
+        Position: 3 Code: .add Docs: add
     ```
 
 # PAST
@@ -2665,7 +2163,7 @@ Run `revdep_details(,"PAST")` for more info
       3. │   ├─base::withVisible(eval(ei, envir))
       4. │   └─base::eval(ei, envir)
       5. │     └─base::eval(ei, envir)
-      6. └─PAST::load_GWAS_data(demo_association_file, demo_effects_file) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpxHYnPr/Rex25506d8686da:11:0
+      6. └─PAST::load_GWAS_data(demo_association_file, demo_effects_file) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmp0AwMtx/Rex48b41a906992:11:0
       7.   └─`%>%`(...)
       8.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
       9.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
@@ -2790,16 +2288,6 @@ Run `revdep_details(,"pmdplyr")` for more info
 
 ## Newly broken
 
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'join.Rd':
-      ‘[dplyr]{join.tbl_df}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
-## In both
-
 *   checking examples ... ERROR
     ```
     ...
@@ -2848,6 +2336,14 @@ Run `revdep_details(,"pmdplyr")` for more info
       Execution halted
     ```
 
+*   checking Rd cross-references ... WARNING
+    ```
+    Missing link or links in documentation object 'join.Rd':
+      ‘[dplyr]{join.tbl_df}’
+    
+    See section 'Cross-references' in the 'Writing R Extensions' manual.
+    ```
+
 # rabhit
 
 <details>
@@ -2889,14 +2385,6 @@ Run `revdep_details(,"rabhit")` for more info
      12.                   └─dplyr::tally(out, wt = !!enquo(wt), sort = sort, name = name)
      13.                     └─dplyr:::check_name(x, name)
     Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘rabhit’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rabhit/old/rabhit.Rcheck/00install.out’ for details.
     ```
 
 # Rariant
@@ -3034,18 +2522,12 @@ Run `revdep_details(,"ratPASTA")` for more info
       Execution halted
     ```
 
+## In both
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘hms’
       All declared Imports should be used.
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘ratPASTA’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/ratPASTA/old/ratPASTA.Rcheck/00install.out’ for details.
     ```
 
 # RCMIP5
@@ -3124,14 +2606,6 @@ Run `revdep_details(,"rsample")` for more info
       Execution halted
     ```
 
-## Newly fixed
-
-*   checking whether package ‘rsample’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/rsample/old/rsample.Rcheck/00install.out’ for details.
-    ```
-
 # saotd
 
 <details>
@@ -3159,7 +2633,7 @@ Run `revdep_details(,"saotd")` for more info
       Attributes: < Component "class": 1 string mismatch >
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 63 | SKIPPED: 0 | WARNINGS: 8 | FAILED: 5 ]
+      [ OK: 63 | SKIPPED: 0 | WARNINGS: 7 | FAILED: 5 ]
       1. Failure: bigrams are computed properly (@test_bigram.R#19) 
       2. Error: (unknown) (@test_number_topics.R#12) 
       3. Failure: Trigrams are computed properly (@test_trigram.R#21) 
@@ -3170,17 +2644,11 @@ Run `revdep_details(,"saotd")` for more info
       Execution halted
     ```
 
+## In both
+
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 826 marked UTF-8 strings
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘saotd’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/saotd/old/saotd.Rcheck/00install.out’ for details.
     ```
 
 # SCORPIUS
@@ -3256,7 +2724,7 @@ ERROR: lazy loading failed for package ‘SCORPIUS’
 * URL: https://github.com/hrbrmstr/sergeant
 * BugReports: https://github.com/hrbrmstr/sergeant/issues
 * Date/Publication: 2017-07-17 22:36:26 UTC
-* Number of recursive dependencies: 62
+* Number of recursive dependencies: 63
 
 Run `revdep_details(,"sergeant")` for more info
 
@@ -3324,7 +2792,7 @@ Run `revdep_details(,"sevenbridges")` for more info
     ```
       installed size is 12.3Mb
       sub-directories of 1Mb or more:
-        R     2.0Mb
+        R     2.1Mb
         doc   9.5Mb
     ```
 
@@ -3363,14 +2831,6 @@ Run `revdep_details(,"simglm")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘simglm’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/simglm/old/simglm.Rcheck/00install.out’ for details.
     ```
 
 # SIRItoGTFS
@@ -3462,38 +2922,6 @@ Run `revdep_details(,"skynet")` for more info
       All declared Imports should be used.
     ```
 
-# srvyr
-
-<details>
-
-* Version: 0.3.9
-* Source code: https://github.com/cran/srvyr
-* URL: http://gdfe.co/srvyr, https://github.com/gergness/srvyr
-* BugReports: https://github.com/gergness/srvyr/issues
-* Date/Publication: 2020-05-04 05:20:12 UTC
-* Number of recursive dependencies: 86
-
-Run `revdep_details(,"srvyr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking for code/documentation mismatches ... WARNING
-    ```
-    Codoc mismatches from documentation object 'summarise':
-    summarise
-      Code: function(.data, ..., .groups = NULL)
-      Docs: function(.data, ...)
-      Argument names in code not in docs:
-        .groups
-    summarize
-      Code: function(.data, ..., .groups = NULL)
-      Docs: function(.data, ...)
-      Argument names in code not in docs:
-        .groups
-    ```
-
 # strapgod
 
 <details>
@@ -3516,29 +2944,21 @@ Run `revdep_details(,"strapgod")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      Component 4: Mean relative difference: 0.6814662
       Component 5: Attributes: < target is NULL, current is list >
       Component 5: target is numeric, current is factor
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 146 | SKIPPED: 0 | WARNINGS: 3 | FAILED: 7 ]
+      [ OK: 147 | SKIPPED: 0 | WARNINGS: 3 | FAILED: 6 ]
       1. Failure: bind_rows() fails sadly (@test-dplyr-compat.R#341) 
       2. Failure: bind_cols() works (@test-dplyr-compat.R#354) 
       3. Failure: bind_cols() works (@test-dplyr-compat.R#366) 
-      4. Failure: bind_cols() works (@test-dplyr-compat.R#374) 
-      5. Error: group_modify() (@test-dplyr-group-funs.R#43) 
-      6. Failure: group_map() (@test-dplyr-group-funs.R#66) 
-      7. Failure: group_walk() (@test-dplyr-group-funs.R#106) 
+      4. Error: group_modify() (@test-dplyr-group-funs.R#43) 
+      5. Failure: group_map() (@test-dplyr-group-funs.R#66) 
+      6. Failure: group_walk() (@test-dplyr-group-funs.R#106) 
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘strapgod’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/strapgod/old/strapgod.Rcheck/00install.out’ for details.
     ```
 
 # StratigrapheR
@@ -3548,7 +2968,7 @@ Run `revdep_details(,"strapgod")` for more info
 * Version: 1.0.1
 * Source code: https://github.com/cran/StratigrapheR
 * Date/Publication: 2020-03-20 13:50:06 UTC
-* Number of recursive dependencies: 123
+* Number of recursive dependencies: 124
 
 Run `revdep_details(,"StratigrapheR")` for more info
 
@@ -3625,129 +3045,13 @@ Run `revdep_details(,"survminer")` for more info
     Execution halted
     ```
 
+## In both
+
 *   checking installed package size ... NOTE
     ```
       installed size is  5.6Mb
       sub-directories of 1Mb or more:
         doc   5.1Mb
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘survminer’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/survminer/old/survminer.Rcheck/00install.out’ for details.
-    ```
-
-# tidybulk
-
-<details>
-
-* Version: 1.0.0
-* Source code: https://github.com/cran/tidybulk
-* Date/Publication: 2020-04-27
-* Number of recursive dependencies: 244
-
-Run `revdep_details(,"tidybulk")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-         mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-       <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-     1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-     2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-     3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-     4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-     5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-     6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-     7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-     8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-     9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-    10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-    # … with 22 more rows
-    > 
-    > # It changes how it acts with the other dplyr verbs:
-    > by_cyl %>% summarise(
-    +   disp = mean(disp),
-    +   hp = mean(hp)
-    + )
-    # A tibble: 3 x 3
-        cyl  disp    hp
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 110 | SKIPPED: 0 | WARNINGS: 7 | FAILED: 10 ]
-      1.  Error: Only scaled counts - no object (@test-bulk_methods.R#65) 
-      2.  Error: Only differential trancript abundance - no object (@test-bulk_methods.R#185) 
-      3.  Error: Only differential trancript abundance - no object - with contrasts (@test-bulk_methods.R#321) 
-      4.  Error: Get differential trancript abundance - no object (@test-bulk_methods.R#350) 
-      5.  Error: Add differential trancript abundance - no object (@test-bulk_methods.R#376) 
-      6.  Error: Get reduced dimensions tSNE - no object (@test-bulk_methods.R#866) 
-      7.  Error: Add reduced dimensions tSNE - no object (@test-bulk_methods.R#899) 
-      8.  Error: tidybulk SummarizedExperiment normalisation manual (@test-bulk_methods_SummarizedExperiment.R#29) 
-      9.  Error: tidybulk SummarizedExperiment normalisation (@test-bulk_methods_SummarizedExperiment.R#50) 
-      10. Error: Add differential trancript abundance - SummarizedExperiment (@test-bulk_methods_SummarizedExperiment.R#162) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  8.4Mb
-      sub-directories of 1Mb or more:
-        data   7.1Mb
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Missing object imported by a ':::' call: ‘dplyr:::flatten_bindable’
-    package 'methods' is used but not declared
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    ...
-    tidybulk,RangedSummarizedExperiment: no visible binding for global
-      variable ‘.’
-    tidybulk,RangedSummarizedExperiment: no visible binding for global
-      variable ‘feature’
-    tidybulk,SummarizedExperiment: no visible binding for global variable
-      ‘.’
-    tidybulk,SummarizedExperiment: no visible binding for global variable
-      ‘feature’
-    Undefined global functions or variables:
-      (Intercept) . .a .abundance_scaled GeneID Status X_cibersort Y assay
-      buildIdx cluster cluster kmeans cmdscale.out correlation counts
-      data_base egsea egsea.base ensembl_id entrez
-      error_if_parameters_not_match feature genes item1 lowly_abundant m
-      med med.rank multiplier my_n n_aggr name pathway rc read count
-      ref_genome rotated dimensions rotation sample 1 sample 2 sample a
-      sample b sample_idx samples sdev seurat_clusters temp tot tot_filt
-      transcript tt_columns value variable x
-    Consider adding
-      importFrom("base", "sample")
-      importFrom("stats", "kmeans")
-    to your NAMESPACE file.
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘tidybulk’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/tidybulk/old/tidybulk.Rcheck/00install.out’ for details.
     ```
 
 # tidyjson
@@ -3793,6 +3097,8 @@ Run `revdep_details(,"tidyjson")` for more info
     Execution halted
     ```
 
+## In both
+
 *   checking tests ...
     ```
      ERROR
@@ -3813,47 +3119,6 @@ Run `revdep_details(,"tidyjson")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘tidyjson’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/tidyjson/old/tidyjson.Rcheck/00install.out’ for details.
-    ```
-
-# tidyr
-
-<details>
-
-* Version: 1.1.0
-* Source code: https://github.com/cran/tidyr
-* URL: https://tidyr.tidyverse.org, https://github.com/tidyverse/tidyr
-* BugReports: https://github.com/tidyverse/tidyr/issues
-* Date/Publication: 2020-05-20 13:10:02 UTC
-* Number of recursive dependencies: 61
-
-Run `revdep_details(,"tidyr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 24 marked UTF-8 strings
-    ```
-
-## Newly fixed
-
-*   checking package dependencies ... ERROR
-    ```
-    Packages required and available but unsuitable versions:
-      'tidyselect', 'vctrs'
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
     ```
 
 # tidyRSS
@@ -4005,7 +3270,7 @@ Run `revdep_details(,"tidystopwords")` for more info
 * Source code: https://github.com/cran/timeOmics
 * BugReports: https://github.com/abodein/timeOmics/issues
 * Date/Publication: 2020-04-27
-* Number of recursive dependencies: 120
+* Number of recursive dependencies: 121
 
 Run `revdep_details(,"timeOmics")` for more info
 
@@ -4061,6 +3326,16 @@ Run `revdep_details(,"timeOmics")` for more info
       Execution halted
     ```
 
+## In both
+
+*   checking for hidden files and directories ... NOTE
+    ```
+    Found the following hidden files and directories:
+      .travis.yml
+    These were most likely included in error. See section ‘Package
+    structure’ in the ‘Writing R Extensions’ manual.
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Package in Depends field not imported from: ‘lmms’
@@ -4092,24 +3367,6 @@ Run `revdep_details(,"timeOmics")` for more info
       importFrom("stats", "cor", "median", "na.omit", "pnorm", "sd")
     to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
     contains 'methods').
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘timeOmics’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/timeOmics/old/timeOmics.Rcheck/00install.out’ for details.
-    ```
-
-## In both
-
-*   checking for hidden files and directories ... NOTE
-    ```
-    Found the following hidden files and directories:
-      .travis.yml
-    These were most likely included in error. See section ‘Package
-    structure’ in the ‘Writing R Extensions’ manual.
     ```
 
 # TPP
@@ -4175,6 +3432,8 @@ Run `revdep_details(,"TPP")` for more info
       Execution halted
     ```
 
+## In both
+
 *   checking installed package size ... NOTE
     ```
       installed size is 13.4Mb
@@ -4209,14 +3468,6 @@ Run `revdep_details(,"TPP")` for more info
       ..density..
     ```
 
-## Newly fixed
-
-*   checking whether package ‘TPP’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/TPP/old/TPP.Rcheck/00install.out’ for details.
-    ```
-
 # tree.bins
 
 <details>
@@ -4237,18 +3488,18 @@ Run `revdep_details(,"tree.bins")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      Component 2: Attributes: < Component "row.names": target is character, current is numeric >
-      Testing that the df is the same
+      Items of 'old' not found in column names: [Categories]. Consider skip_absent=TRUE.
+      Backtrace:
+       1. test.df.adj.Nei[, !(names(test.df.adj.Nei) %in% "Neighborhood")]
+       1. data.table::as.data.table(.)
+       9. data.table::setnames(., "Categories", "Neighborhood")
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 9 | SKIPPED: 0 | WARNINGS: 1 | FAILED: 4 ]
+      [ OK: 11 | SKIPPED: 0 | WARNINGS: 1 | FAILED: 2 ]
       1. Error: Test to see if lookup tables and joins are performed correctly (@test-bin.oth.R#63) 
-      2. Failure: Testing for 2 predictors,
-                one will provide a null list and the other will recategorize the variable. (@test-tree.bins.R#127) 
-      3. Error: Testing for 2 predictors,
+      2. Error: Testing for 2 predictors,
                 both will recategorize the variable.
                 Recategorized variable will contain multiple leaves. (@test-tree.bins.R#169) 
-      4. Failure: Check for correct classes and that order does not affect y (SalePrice here) (@test-tree.bins.R#239) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -4324,14 +3575,14 @@ Run `revdep_details(,"trelliscopejs")` for more info
 *   checking examples ... ERROR
     ```
     ...
-      Calling 'structure(NULL, *)' is deprecated, as NULL cannot have attributes.
-      Consider 'structure(list(), *)' instead.
-    Warning in structure(x, class = unique(c("AsIs", oldClass(x)))) :
-      Calling 'structure(NULL, *)' is deprecated, as NULL cannot have attributes.
-      Consider 'structure(list(), *)' instead.
-    Warning in structure(x, class = unique(c("AsIs", oldClass(x)))) :
-      Calling 'structure(NULL, *)' is deprecated, as NULL cannot have attributes.
-      Consider 'structure(list(), *)' instead.
+    +     )),
+    +     panel = map_plot(data, ~
+    +       figure(., xlab = "City mpg", ylab = "Highway mpg",
+    +         xlim = c(9, 47), ylim = c(7, 37)) %>%
+    +         ly_points(cty, hwy,
+    +           hover = list(year, model))
+    +     )
+    +   )
     > 
     > trelliscope(mpg_cog, name = "city_vs_highway_mpg", nrow = 1, ncol = 2)
     Error: Input must be a vector, not a `grouped_df/tbl_df/tbl/data.frame/cognostics` object.
@@ -4360,21 +3611,13 @@ Run `revdep_details(,"trelliscopejs")` for more info
        55. rlang:::branch_uncollapse_pipe(trace)
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 0 | SKIPPED: 0 | WARNINGS: 224 | FAILED: 3 ]
+      [ OK: 0 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 3 ]
       1. Error: examples run without barfing (@test-trelliscope.R#22) 
       2. Error: examples run without barfing (@test-trelliscope.R#3) 
       3. Error: (unknown) (@test-trelliscope.R#3) 
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-## Newly fixed
-
-*   checking whether package ‘trelliscopejs’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/revdep/dplyr/revdep/checks.noindex/trelliscopejs/old/trelliscopejs.Rcheck/00install.out’ for details.
     ```
 
 # vcfR
