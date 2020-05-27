@@ -140,8 +140,8 @@ dplyr_col_modify.data.frame <- function(data, cols) {
   # Apply tidyverse recycling rules
   cols <- vec_recycle_common(!!!cols, .size = nrow(data))
 
-  out <- vec_data(data)
-  attr(out, "row.names") <- .row_names_info(data, 0L)
+  # Transform to list to avoid stripping inner names with `[[<-`
+  out <- as.list(dplyr_vec_data(data))
 
   nms <- as_utf8_character(names2(cols))
   names(out) <- as_utf8_character(names2(out))
@@ -150,6 +150,9 @@ dplyr_col_modify.data.frame <- function(data, cols) {
     nm <- nms[[i]]
     out[[nm]] <- cols[[i]]
   }
+
+  # Transform back to data frame before reconstruction
+  out <- new_data_frame(out, n = nrow(data))
 
   dplyr_reconstruct(out, data)
 }

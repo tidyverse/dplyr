@@ -51,6 +51,29 @@ test_that("doesn't expand row names", {
   expect_equal(.row_names_info(out, 1), -10)
 })
 
+test_that("reconstruct method gets a data frame", {
+  seen_df <- NULL
+
+  local_methods(
+    dplyr_reconstruct.dplyr_foobar = function(data, template) {
+      if (is.data.frame(data)) {
+        seen_df <<- TRUE
+      }
+      NextMethod()
+    }
+  )
+
+  df <- foobar(data.frame(x = 1))
+
+  seen_df <- FALSE
+  dplyr_col_modify(df, list(y = 2))
+  expect_true(seen_df)
+
+  seen_df <- FALSE
+  dplyr_row_slice(df, 1)
+  expect_true(seen_df)
+})
+
 # dplyr_reconstruct -------------------------------------------------------
 
 test_that("classes are restored", {
