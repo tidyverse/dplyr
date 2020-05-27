@@ -28,13 +28,20 @@ lazy data frame (e.g. from dbplyr or dtplyr).}
 
 \item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Variables to group by.}
 
-\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> Either a expression
-or a numeric constant. If an expression, will perform a "weighted"
-count by summing the (non-missing) values of variable \code{wt}; if a
-numeric constant will
-
-The default is to weight by column \code{n}, if it exists, otherwise count
-each row as 1L}
+\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> Frequency weights.
+Can be a variable (or combination of variables) or \code{NULL}. \code{wt}
+is computed once for each unique combination of the counted
+variables.
+\itemize{
+\item If a variable, \code{count()} will compute \code{sum(wt)} for each unique
+combination.
+\item If \code{NULL}, the default, the computation depends on whether a
+column of frequency counts \code{n} exists in the data frame. If it
+exists, the counts are computed with \code{sum(n)} for each unique
+combination. Otherwise, \code{n()} is used to compute the counts.
+Supply \code{wt = n()} to force this behaviour even if you have an
+\code{n} column in the data frame.
+}}
 
 \item{sort}{If \code{TRUE}, will show the largest groups at the top.}
 

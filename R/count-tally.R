@@ -15,13 +15,20 @@
 #' @param x A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param ... <[`data-masking`][dplyr_data_masking]> Variables to group by.
-#' @param wt <[`data-masking`][dplyr_data_masking]> Either a expression
-#'   or a numeric constant. If an expression, will perform a "weighted"
-#'   count by summing the (non-missing) values of variable `wt`; if a
-#'   numeric constant will
+#' @param wt <[`data-masking`][dplyr_data_masking]> Frequency weights.
+#'   Can be a variable (or combination of variables) or `NULL`. `wt`
+#'   is computed once for each unique combination of the counted
+#'   variables.
 #'
-#'   The default is to weight by column `n`, if it exists, otherwise count
-#'   each row as 1L
+#'   * If a variable, `count()` will compute `sum(wt)` for each unique
+#'     combination.
+#'
+#'   * If `NULL`, the default, the computation depends on whether a
+#'     column of frequency counts `n` exists in the data frame. If it
+#'     exists, the counts are computed with `sum(n)` for each unique
+#'     combination. Otherwise, `n()` is used to compute the counts.
+#'     Supply `wt = n()` to force this behaviour even if you have an
+#'     `n` column in the data frame.
 #' @param sort If `TRUE`, will show the largest groups at the top.
 #' @param name The name of the new column in the output.
 #'
@@ -144,10 +151,8 @@ tally_n <- function(x, wt) {
     wt <- quo(n)
   }
 
-  if (quo_is_null(wt)) {
+  if (quo_is_null(wt) || identical(quo_get_expr(wt), expr(n()))) {
     expr(n())
-  } else if (is.numeric(quo_get_expr(wt))) {
-    expr(!!quo_get_expr(wt) * n())
   } else {
     expr(sum(!!wt, na.rm = TRUE))
   }

@@ -33,7 +33,7 @@ test_that("weights by n if present, unless overridden", {
   expect_message(out <- count(df, g), "weighting variable")
   expect_equal(out, tibble(g = c(1, 2), n = c(1, 3)))
 
-  expect_message(out <- count(df, g, wt = 1), NA)
+  expect_message(out <- count(df, g, wt = n()), NA)
   expect_equal(out, tibble(g = c(1, 2), n = c(1, 1)))
 })
 
