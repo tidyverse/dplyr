@@ -114,3 +114,20 @@ dplyr_vec_data <- function(x) {
     out
   }
 }
+
+# Until vctrs::new_data_frame() forwards row names automatically
+dplyr_new_data_frame <- function(x = data.frame(),
+                                 n = NULL,
+                                 ...,
+                                 row.names = NULL,
+                                 class = NULL) {
+  row.names <- row.names %||% .row_names_info(x, type = 0L)
+
+  new_data_frame(
+    x,
+    n = n,
+    ...,
+    row.names = row.names,
+    class = class
+  )
+}
