@@ -34,7 +34,6 @@
   
   Fix by prefixing with `dplyr::` as in `dplyr::mutate(mtcars, x = dplyr::n())`
   
-
 * The old data format for `grouped_df` is no longer supported. This may affect you if you have serialized grouped data frames to disk, e.g. with `saveRDS()` or when using knitr caching.
 
 * `lead()` and `lag()` are stricter about their inputs. 
@@ -45,6 +44,8 @@
   ```
   Input must be a vector, not a `<data.frame/...>` object
   ```
+
+* `right_join()` no longer sorts the rows of the resulting tibble according to the order of the RHS `by` argument in tibble `y`.
 
 ## New features
 
@@ -60,8 +61,8 @@
 
 * `select()` and `rename()` use the latest version of the tidyselect interface.
   Practically, this means that you can now combine selections using Boolean
-  logic (i.e. `!`, `&` and `|`), and use predicate functions 
-  (e.g. `is.character`) to select variables by type (#4680). It also makes
+  logic (i.e. `!`, `&` and `|`), and use predicate functions with `where()` 
+  (e.g. `where(is.character)`) to select variables by type (#4680). It also makes
   it possible to use `select()` and `rename()` to repair data frames with
   duplicated names (#4615) and prevents you from accidentally introducing
   duplicate names (#4643). This also means that dplyr now re-exports `any_of()`

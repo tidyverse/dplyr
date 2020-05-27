@@ -62,6 +62,8 @@ test_that("no arg group_indices() is deprecated", {
 })
 
 test_that("group_indices(...) is deprecated", {
+  skip("Non-deterministic failures")
+
   df <- tibble(x = 1, y = 2)
   expect_warning(out <- df %>% group_indices(x), "deprecated")
   expect_equal(out, 1)

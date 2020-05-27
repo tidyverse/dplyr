@@ -94,7 +94,7 @@ new_rowwise_df <- function(data, group_data) {
 
   nrow <- nrow(data)
 
-  group_data <- new_tibble(vec_data(group_data), nrow = nrow) # strip attributes
+  group_data <- new_tibble(dplyr_vec_data(group_data), nrow = nrow) # strip attributes
   group_data$.rows <- new_list_of(as.list(seq_len(nrow)), ptype = integer())
   new_tibble(data, groups = group_data, nrow = nrow, class = "rowwise_df")
 }
@@ -112,7 +112,7 @@ tbl_sum.rowwise_df <- function(x) {
 
 #' @export
 as_tibble.rowwise_df <- function(x, ...) {
-  new_tibble(vec_data(x), nrow = nrow(x))
+  new_tibble(dplyr_vec_data(x), nrow = nrow(x))
 }
 
 #' @importFrom tibble is_tibble

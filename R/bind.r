@@ -120,7 +120,7 @@ bind_rows <- function(..., .id = NULL) {
     names(dots) <- NULL
   }
   out <- vec_rbind(!!!dots, .names_to = .id)
-  if (length(dots) && is_tibble(first <- dots[[1L]])) {
+  if (length(dots) && is.data.frame(first <- dots[[1L]])) {
     out <- dplyr_reconstruct(out, first)
   }
   out
@@ -142,7 +142,7 @@ bind_cols <- function(...) {
   if (!any(map_lgl(dots, is.data.frame))) {
     out <- as_tibble(out)
   }
-  if (length(dots) && is_tibble(first <- dots[[1L]])) {
+  if (length(dots) && is.data.frame(first <- dots[[1L]])) {
     out <- dplyr_reconstruct(out, first)
   }
   out

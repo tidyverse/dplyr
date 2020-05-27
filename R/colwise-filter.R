@@ -55,7 +55,7 @@
 #' filter_if(mtcars, ~ all(floor(.) == .), all_vars(. != 0))
 #' # ->
 #' is_int <- function(x) all(floor(x) == x)
-#' filter(mtcars, across(is_int, ~ .x != 0))
+#' filter(mtcars, across(where(is_int), ~ .x != 0))
 filter_all <- function(.tbl, .vars_predicate, .preserve = FALSE) {
   lifecycle::signal_superseded("1.0.0", "filter_all()", "across()")
   syms <- syms(tbl_vars(.tbl))

@@ -266,7 +266,7 @@ setNames(iris, toupper(names(iris)))
 iris %>% select(1:3)
 iris %>% select(Species, Sepal.Length)
 iris %>% select(starts_with("Petal"))
-iris %>% select(is.factor)
+iris %>% select(where(is.factor))
 ```
 
 Subsetting variables by position is straightforward in base R:

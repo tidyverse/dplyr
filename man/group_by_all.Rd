@@ -81,7 +81,7 @@ mtcars \%>\% group_by(across())
 # Group by variables selected with a predicate:
 group_by_if(iris, is.factor)
 # ->
-iris \%>\% group_by(across(is.factor))
+iris \%>\% group_by(across(where(is.factor)))
 
 # Group by variables selected by name:
 group_by_at(mtcars, vars(vs, am))
@@ -97,5 +97,5 @@ d \%>\% group_by(across(everything(), as.factor))
 
 group_by_if(iris, is.factor, as.character)
 # ->
-iris \%>\% group_by(across(is.factor, as.character))
+iris \%>\% group_by(across(where(is.factor), as.character))
 }

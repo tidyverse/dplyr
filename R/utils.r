@@ -102,3 +102,15 @@ paste_line <- function(...) {
 abort_if_not <- function(...) {
   tryCatch(stopifnot(...), simpleError = function(e) abort(e))
 }
+
+# Until fixed upstream. `vec_data()` should not return lists from data
+# frames.
+dplyr_vec_data <- function(x) {
+  out <- vec_data(x)
+
+  if (is.data.frame(x)) {
+    new_data_frame(out, n = nrow(x))
+  } else {
+    out
+  }
+}

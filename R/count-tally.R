@@ -9,7 +9,7 @@
 #' switching the summary from from `n = n()` to `n = sum(wt)`.
 #'
 #' `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
-#' the use `mutate()` instead of `summarise()` so that they add a new column
+#' but use `mutate()` instead of `summarise()` so that they add a new column
 #' with group-wise counts.
 #'
 #' @param x A data frame, data frame extension (e.g. a tibble), or a

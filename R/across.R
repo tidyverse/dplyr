@@ -45,7 +45,7 @@
 #'   summarise(across(starts_with("Sepal"), mean))
 #' iris %>%
 #'   as_tibble() %>%
-#'   mutate(across(is.factor, as.character))
+#'   mutate(across(where(is.factor), as.character))
 #'
 #' # A purrr-style formula
 #' iris %>%

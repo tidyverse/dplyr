@@ -11,6 +11,8 @@ status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/
 status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R-CMD-check)
 [![Codecov test
 coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
+[![R build
+status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions)
 <!-- badges: end -->
 
 ## Overview
@@ -63,8 +65,8 @@ install.packages("dplyr")
 
 ### Development version
 
-To get a bug fix, or to use a feature from the development version, you
-can install dplyr from GitHub.
+To get a bug fix or to use a feature from the development version, you
+can install the development version of dplyr from GitHub.
 
 ``` r
 # install.packages("devtools")

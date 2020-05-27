@@ -12,6 +12,9 @@
 #'
 #' x <- rnorm(1e2)
 #' x[between(x, -1, 1)]
+#'
+#' ## Or on a tibble using filter
+#' filter(starwars, between(height, 100, 150))
 between <- function(x, left, right) {
   if (!is.null(attr(x, "class")) && !inherits(x, c("Date", "POSIXct"))) {
     warn("between() called on numeric vector with S3 class");

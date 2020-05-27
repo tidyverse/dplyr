@@ -187,11 +187,11 @@ mutate.data.frame <- function(.data, ...,
   } else if (keep == "unused") {
     unused <- c(names(.data)[!attr(cols, "used")])
     keep <- intersect(names(out), c(unused, names(cols)))
-    out[keep]
+    dplyr_col_select(out, keep)
   } else if (keep == "used") {
     used <- names(.data)[attr(cols, "used")]
     keep <- intersect(names(out), c(used, names(cols)))
-    out[keep]
+    dplyr_col_select(out, keep)
   } else if (keep == "none") {
     keep <- c(
       # ensure group vars present
@@ -199,7 +199,7 @@ mutate.data.frame <- function(.data, ...,
       # cols might contain NULLs
       intersect(names(cols), names(out))
     )
-    out[keep]
+    dplyr_col_select(out, keep)
   }
 }
 
