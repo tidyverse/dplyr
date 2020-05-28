@@ -204,7 +204,7 @@ lazy_vec_chop <- function(x, sizes = NULL) {
   structure(list(), x = x, sizes = sizes, class = "dplyr_lazy_vec_chop")
 }
 
-summarise_cols_one <- function(quo, mask) {
+summarise_cols_one <- function(quo, mask, name, splice = FALSE) {
   # if (quo_is_call(quo, "across")) {
   #   # intercept the setup so that we can loop right here
   #   across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
@@ -215,40 +215,30 @@ summarise_cols_one <- function(quo, mask) {
   #
   # }
 
-  hybrid_res <- tryCatch(
-    funs::eval_summarise(quo),
-    error = function(cnd) {
-      NULL
+  # try hybrid evaluation first
+  tryCatch({
+    hybrid_res <- funs::eval_summarise(quo)
+
+    if(!is.null(hybrid_res)) {
+      return(list(
+        x = hybrid_res$x,
+        ptype = hybrid_res$ptype %||% vec_ptype(hybrid_res$x),
+        sizes = hybrid_res$sizes,
+        standard = FALSE
+      ))
     }
-  )
-  standard <- is.null(hybrid_res)
+    }, error = function(cnd) NULL)
 
-  if (standard) {
-    # no result from hybrid, so proceed with standard
-    # evaluation to get the chunks
-    chunks <- mask$eval_all_summarise(quo)
-    type <- tryCatch(
-      vec_ptype_common(!!!chunks),
-      vctrs_error_incompatible_type = function(cnd) {
-        abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)
-      })
+  # no result from hybrid, so proceed with standard
+  # evaluation to get the chunks
+  chunks <- mask$eval_all_summarise(quo)
+  type <- tryCatch(
+    vec_ptype_common(!!!chunks),
+    vctrs_error_incompatible_type = function(cnd) {
+      abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)
+    })
 
-    return(list(chunks = chunks, ptype = type, standard = TRUE))
-  } else {
-    # hybrid evaluation was successfull, so we have the result
-    # and we can deduce the type
-    #
-    # we however don't have the chunks, but we might never need them
-    # so we'll make them lazily later
-
-    return(list(
-      x = hybrid_res$x,
-      ptype = hybrid_res$ptype %||% vec_ptype(hybrid_res$x),
-      sizes = hybrid_res$sizes,
-      standard = FALSE
-    ))
-  }
-
+  list(chunks = chunks, ptype = type, standard = TRUE)
 }
 
 summarise_cols <- function(.data, ...) {
@@ -257,8 +247,6 @@ summarise_cols <- function(.data, ...) {
   dots <- enquos(...)
   dots_names <- names(dots)
   auto_named_dots <- names(enquos(..., .named = TRUE))
-
-  cols <- list()
 
   chunks <- vector("list", length(dots))
   types <- vector("list", length(dots))
@@ -273,7 +261,7 @@ summarise_cols <- function(.data, ...) {
 
       not_named <- is.null(dots_names) || dots_names[i] == ""
       quo <- dots[[i]]
-      res <- summarise_cols_one(quo, mask)
+      res <- summarise_cols_one(quo, mask, )
 
       standard <- res$standard
       types[[i]] <- ptype <- res$ptype
@@ -308,6 +296,8 @@ summarise_cols <- function(.data, ...) {
     results <- recycle_info$results
 
     # materialize columns
+    cols <- list()
+
     for (i in seq_along(dots)) {
       result <- results[[i]] %||% vec_c(!!!chunks[[i]], .ptype = types[[i]])
 
