@@ -5571,7 +5571,7 @@ ERROR: compilation failed for package ‘heatwaveR’
 * URL: https://github.com/federicomarini/ideal, https://federicomarini.github.io/ideal/
 * BugReports: https://github.com/federicomarini/ideal/issues
 * Date/Publication: 2020-04-27
-* Number of recursive dependencies: 187
+* Number of recursive dependencies: 197
 
 Run `revdep_details(,"ideal")` for more info
 

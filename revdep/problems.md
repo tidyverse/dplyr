@@ -99,118 +99,6 @@ Run `revdep_details(,"amt")` for more info
       Execution halted
     ```
 
-# bayesplot
-
-<details>
-
-* Version: 1.7.1
-* Source code: https://github.com/cran/bayesplot
-* URL: https://mc-stan.org/bayesplot
-* BugReports: https://github.com/stan-dev/bayesplot/issues/
-* Date/Publication: 2019-12-01 23:00:26 UTC
-* Number of recursive dependencies: 143
-
-Run `revdep_details(,"bayesplot")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 1010 | SKIPPED: 35 | WARNINGS: 15 | FAILED: 12 ]
-      1. Failure: mcmc_intervals_data computes quantiles (@test-mcmc-intervals.R#24) 
-      2. Failure: mcmc_intervals_data computes quantiles (@test-mcmc-intervals.R#25) 
-      3. Failure: ppc_intervals_data does math correctly (@test-ppc-intervals.R#60) 
-      4. Failure: ppc_intervals_data does math correctly (@test-ppc-intervals.R#61) 
-      5. Failure: ppc_intervals_data does math correctly (@test-ppc-intervals.R#62) 
-      6. Failure: ppc_intervals_data does math correctly (@test-ppc-intervals.R#63) 
-      7. Failure: ppc_intervals_data does math correctly (@test-ppc-intervals.R#64) 
-      8. Failure: ppc_intervals_data does math correctly (@test-ppc-intervals.R#76) 
-      9. Failure: ppc_intervals_data does math correctly (@test-ppc-intervals.R#77) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  6.5Mb
-      sub-directories of 1Mb or more:
-        R     1.8Mb
-        doc   4.1Mb
-    ```
-
-# blorr
-
-<details>
-
-* Version: 0.2.2
-* Source code: https://github.com/cran/blorr
-* URL: URL: https://blorr.rsquaredacademy.com/, https://github.com/rsquaredacademy/blorr
-* BugReports: https://github.com/rsquaredacademy/blorr/issues
-* Date/Publication: 2020-02-03 11:40:02 UTC
-* Number of recursive dependencies: 167
-
-Run `revdep_details(,"blorr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘blorr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: blr_decile_capture_rate
-    > ### Title: Event rate by decile
-    > ### Aliases: blr_decile_capture_rate
-    > 
-    > ### ** Examples
-    > 
-    > model <- glm(honcomp ~ female + read + science, data = hsb2,
-    +              family = binomial(link = 'logit'))
-    > gt <- blr_gains_table(model)
-    New names:
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-                           Added/                                                  
-      Step    Variable    Removed        AIC           BIC           C(p)       
-      ----------------------------------------------------------------------
-         1       x6       addition     18869.627     18885.434    18865.6270    
-         2       x1       addition     18571.376     18595.087    18565.3760    
-         3       x3       addition     18016.724     18048.338    18008.7240    
-         4       x2       addition     16642.374     16681.891    16632.3740    
-         5       x5       addition     16640.883     16688.304    16628.8830    
-         6       x6       removal      16639.219     16678.736    16629.2190    
-      ----------------------------------------------------------------------══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 75 | SKIPPED: 28 | WARNINGS: 1 | FAILED: 1 ]
-      1. Error: output from blr_gains_table is as expected (@test-blr-gains-table.R#9) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘lmtest’
-    ```
-
 # BMSC
 
 <details>
@@ -867,7 +755,7 @@ Run `revdep_details(,"easyr")` for more info
       
       
       The downloaded binary packages are in
-      	/var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpDqpnvS/downloaded_packages
+      	/var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpZ3Qqhi/downloaded_packages
       ══ testthat results  ═══════════════════════════════════════════════════════════
       [ OK: 286 | SKIPPED: 1 | WARNINGS: 0 | FAILED: 2 ]
       1. Failure: works as expected (@test_bindf-joinf.R#57) 
@@ -1652,10 +1540,10 @@ Run `revdep_details(,"idmodelr")` for more info
 
 <details>
 
-* Version: 1.16.0
+* Version: 1.16.1
 * Source code: https://github.com/cran/isomiRs
 * BugReports: https://github.com/lpantano/isomiRs/issues
-* Date/Publication: 2020-04-27
+* Date/Publication: 2020-05-26
 * Number of recursive dependencies: 148
 
 Run `revdep_details(,"isomiRs")` for more info
@@ -1780,8 +1668,8 @@ Run `revdep_details(,"lans2r")` for more info
       ── 2. Failure: test that transformation safety checks are in place (@test-transf
       spread_data(bind_rows(a, b)) not equal to full_join(...).
       Names: 2 string mismatches
-      Component 3: Mean relative difference: 1.070624
-      Component 4: Mean relative difference: 7.339997
+      Component 3: Mean relative difference: 0.9281371
+      Component 4: Mean relative difference: 7.749237
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       [ OK: 142 | SKIPPED: 0 | WARNINGS: 7 | FAILED: 2 ]
@@ -2041,7 +1929,7 @@ Run `revdep_details(,"ngsReports")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.1Mb
+      installed size is  6.2Mb
       sub-directories of 1Mb or more:
         R     2.0Mb
         doc   3.0Mb
@@ -2163,7 +2051,7 @@ Run `revdep_details(,"PAST")` for more info
       3. │   ├─base::withVisible(eval(ei, envir))
       4. │   └─base::eval(ei, envir)
       5. │     └─base::eval(ei, envir)
-      6. └─PAST::load_GWAS_data(demo_association_file, demo_effects_file) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmp0AwMtx/Rex48b41a906992:11:0
+      6. └─PAST::load_GWAS_data(demo_association_file, demo_effects_file) /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//Rtmpo6QVx8/Rex350b4cf16ce3:11:0
       7.   └─`%>%`(...)
       8.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
       9.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
@@ -2332,7 +2220,7 @@ Run `revdep_details(,"pmdplyr")` for more info
        21. dplyr:::stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
        22. dplyr:::stop_dplyr(...)
       
-      Error: C stack usage  7971424 is too close to the limit
+      Error: C stack usage  7971360 is too close to the limit
       Execution halted
     ```
 
@@ -2364,26 +2252,26 @@ Run `revdep_details(,"rabhit")` for more info
 *   checking examples ... ERROR
     ```
     ...
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Using `n` as weighting variable
-    Error: Column `n` is already present in output.
-    ℹ Use `name = "new_name"` to pick a new name.
+    [46] 0.50 0.50 1.00 1.00 1.00 1.00 1.00 0.50  NaN 0.50 0.25 1.00 1.00 1.00 0.50
+    [61] 1.00 0.50 0.50 0.50 1.00 1.00 1.00 0.50  NaN  NaN 0.50 1.50 1.00 1.00
+     [1] 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+    [16] 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+    [31] 1.00 0.75 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 0.50 1.00 1.00 1.00
+    [46] 1.00 1.00 1.00 1.00 1.00 1.00 1.00 0.50  NaN 1.00 0.75 1.00 1.00 1.00 1.00
+    [61] 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  NaN  NaN 1.00 1.50 1.00 1.00
+    Error: Can't combine `..1$SUBJECT` <logical> and `..2$SUBJECT` <character>.
     Backtrace:
          █
-      1. └─rabhit::deletionHeatmap(samplesHaplotype)
-      2.   └─`%>%`(...)
-      3.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5.       └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      6.         └─rabhit:::`_fseq`(`_lhs`)
-      7.           └─magrittr::freduce(value, `_function_list`)
-      8.             ├─base::withVisible(function_list[[k]](value))
-      9.             └─function_list[[k]](value)
-     10.               └─dplyr::count_(.)
-     11.                 └─dplyr::count(x, !!!vars, wt = !!wt, sort = sort, .drop = .drop)
-     12.                   └─dplyr::tally(out, wt = !!enquo(wt), sort = sort, name = name)
-     13.                     └─dplyr:::check_name(x, name)
+      1. ├─rabhit::hapDendo(samplesHaplotype)
+      2. │ └─dplyr::bind_rows(haplo_db_clust_texture, tmp_point)
+      3. │   └─vctrs::vec_rbind(!!!dots, .names_to = .id)
+      4. ├─vctrs:::vec_ptype2.data.frame.grouped_df(...)
+      5. │ └─vctrs:::gdf_ptype2(x, y, ...)
+      6. │   └─vctrs::df_ptype2(x, y, ...)
+      7. └─vctrs::vec_default_ptype2(...)
+      8.   └─vctrs::stop_incompatible_type(...)
+      9.     └─vctrs:::stop_incompatible(...)
+     10.       └─vctrs:::stop_vctrs(...)
     Execution halted
     ```
 
@@ -2792,7 +2680,7 @@ Run `revdep_details(,"sevenbridges")` for more info
     ```
       installed size is 12.3Mb
       sub-directories of 1Mb or more:
-        R     2.1Mb
+        R     2.0Mb
         doc   9.5Mb
     ```
 
@@ -2944,7 +2832,7 @@ Run `revdep_details(,"strapgod")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      Component 4: Mean relative difference: 0.6814662
+      Component 4: Mean relative difference: 0.6802195
       Component 5: Attributes: < target is NULL, current is list >
       Component 5: target is numeric, current is factor
       
@@ -3002,67 +2890,15 @@ Run `revdep_details(,"StratigrapheR")` for more info
     Execution halted
     ```
 
-# survminer
-
-<details>
-
-* Version: 0.4.6
-* Source code: https://github.com/cran/survminer
-* URL: http://www.sthda.com/english/rpkgs/survminer/
-* BugReports: https://github.com/kassambara/survminer/issues
-* Date/Publication: 2019-09-03 23:00:02 UTC
-* Number of recursive dependencies: 119
-
-Run `revdep_details(,"survminer")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Error: `x` must be a vector, not a `grouped_df/tbl_df/tbl/data.frame/surv_group_by` object.
-    Backtrace:
-         █
-      1. └─survminer::ggsurvplot_facet(...)
-      2.   └─grouped.d %>% tibble::add_column(fit = sf)
-      3.     ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
-      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      5.       └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
-      6.         └─survminer:::`_fseq`(`_lhs`)
-      7.           └─magrittr::freduce(value, `_function_list`)
-      8.             ├─base::withVisible(function_list[[k]](value))
-      9.             └─function_list[[k]](value)
-     10.               └─tibble::add_column(., fit = sf)
-     11.                 ├─base::`[<-`(...)
-     12.                 └─dplyr:::`[<-.grouped_df`(...)
-     13.                   └─dplyr::grouped_df(out, group_intersect(x, out), group_by_drop_default(x))
-     14.                     └─dplyr:::compute_groups(data, vars, drop = drop)
-     15.                    
-    Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.6Mb
-      sub-directories of 1Mb or more:
-        doc   5.1Mb
-    ```
-
 # tidyjson
 
 <details>
 
-* Version: 0.2.4
+* Version: 0.3.0
 * Source code: https://github.com/cran/tidyjson
 * URL: https://github.com/colearendt/tidyjson
 * BugReports: https://github.com/colearendt/tidyjson/issues
-* Date/Publication: 2019-12-02 21:39:30
+* Date/Publication: 2020-05-28 13:40:02 UTC
 * Number of recursive dependencies: 89
 
 Run `revdep_details(,"tidyjson")` for more info
@@ -3074,48 +2910,46 @@ Run `revdep_details(,"tidyjson")` for more info
 *   checking examples ... ERROR
     ```
     ...
-    > # Stack names
-    > '{"first": "bob", "last": "jones"}' %>%
-    +   gather_object %>%
-    +   append_values_string
-    # A tbl_json: 2 x 3 tibble with a "JSON" attribute
-      `attr(., "JSON")` document.id name  string
-      <chr>                   <int> <chr> <chr> 
-    1 "\"bob\""                   1 first bob   
-    2 "\"jones\""                 1 last  jones 
     > 
-    > # This is most useful when data is stored in name-value pairs
-    > # For example, tags in recipes:
-    > recipes <- c('{"name": "pie", "tags": {"apple": 10, "pie": 2, "flour": 5}}',
-    +              '{"name": "cookie", "tags": {"chocolate": 2, "cookie": 1}}')
-    > recipes %>%
-    +   spread_values(name = jstring(name)) %>%
-    +   enter_object(tags) %>%
-    +   gather_object("tag") %>%
-    +   append_values_number("count")
-    Error: nrow(df) not equal to length(json.list)
+    > key_employees %>% glimpse
+    Rows: 527
+    Columns: 8
+    $ name              <chr> "OutSmart Power Systems", "Firewall Script", "Firew…
+    $ array.index       <int> 1, 1, 2, 3, 1, 2, 1, 2, 3, 4, 5, 1, 1, 2, 3, 1, 1, …
+    $ is_past           <lgl> FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FAL…
+    $ title             <chr> "Board Observer", "", "", "Founder", "CEO", "CBO", …
+    $ person.first_name <chr> "Jeffrey", "Ron", "Brandon", "Daniel", "Miguel", "M…
+    $ person.last_name  <chr> "Weiss", "Myers", "Farber", "Blake Saltman", "Olive…
+    $ person.permalink  <chr> "jeffrey-weiss", "ron-myers", "brandon-farber", "da…
+    $ ..JSON            <list> [[FALSE, "Board Observer", ["Jeffrey", "Weiss", "j…
+    > 
+    > # Show the top 10 titles
+    > key_employees %>%
+    +   filter(!is_past) %>%
+    +   count(title) %>%
+    +   arrange(desc(n)) %>%
+    +   top_n(10)
+    Error: json.list is not a list or json.list is not an atomic vector without attributes
     Execution halted
     ```
-
-## In both
 
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+       16. dplyr:::mutate.data.frame(.data, ..., .keep = "none")
+       17. dplyr:::dplyr_col_select(out, keep)
+      
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 182 | SKIPPED: 2 | WARNINGS: 0 | FAILED: 39 ]
-      1. Failure: has correct complete structure with simple input (@test-append_values.R#7) 
-      2. Failure: recursive works as expected (@test-append_values.R#191) 
-      3. Failure: recursive works as expected (@test-append_values.R#206) 
-      4. Error: filter removes records with missing path (@test-enter_object.R#52) 
-      5. Error: works if no paths exist (@test-enter_object.R#71) 
-      6. Failure: works in a simple case (@test-gather_object.R#7) 
-      7. Failure: works with compound values (@test-gather_object.R#31) 
-      8. Failure: column.name works and doesn't clobber existing name (@test-gather_object.R#80) 
-      9. Failure: preserves a NULL column (@test-gather_object.R#100) 
-      1. ...
+      [ OK: 302 | SKIPPED: 18 | WARNINGS: 0 | FAILED: 7 ]
+      1. Error: simple array works (@test-json_structure.R#54) 
+      2. Error: seq works for a deeply nested sequence (@test-json_structure.R#145) 
+      3. Error: imputes document.id when not present (@test-json_structure.R#168) 
+      4. Error: imputed document.id works (@test-json_structure.R#181) 
+      5. Error: dplyr::transmute works (@test-tbl_json.R#552) 
+      6. Error: dplyr::transmute works (@test-tbl_json.R#601) 
+      7. Error: dplyr::transmute works with programming (@test-tbl_json.R#720) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -3436,7 +3270,7 @@ Run `revdep_details(,"TPP")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.4Mb
+      installed size is 13.5Mb
       sub-directories of 1Mb or more:
         data           1.9Mb
         example_data   8.0Mb
@@ -3553,71 +3387,6 @@ Run `revdep_details(,"treeplyr")` for more info
      4.   └─treeplyr:::group_by_.treedata(...)
      5.     └─dplyr::grouped_df(groups$data, groups$groups)
     Execution halted
-    ```
-
-# trelliscopejs
-
-<details>
-
-* Version: 0.2.4
-* Source code: https://github.com/cran/trelliscopejs
-* URL: https://github.com/hafen/trelliscopejs
-* BugReports: https://github.com/hafen/trelliscopejs/issues
-* Date/Publication: 2020-02-10 22:40:02 UTC
-* Number of recursive dependencies: 100
-
-Run `revdep_details(,"trelliscopejs")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    +     )),
-    +     panel = map_plot(data, ~
-    +       figure(., xlab = "City mpg", ylab = "Highway mpg",
-    +         xlim = c(9, 47), ylim = c(7, 37)) %>%
-    +         ly_points(cty, hwy,
-    +           hover = list(year, model))
-    +     )
-    +   )
-    > 
-    > trelliscope(mpg_cog, name = "city_vs_highway_mpg", nrow = 1, ncol = 2)
-    Error: Input must be a vector, not a `grouped_df/tbl_df/tbl/data.frame/cognostics` object.
-    Backtrace:
-        █
-     1. ├─trelliscopejs::trelliscope(...)
-     2. ├─trelliscopejs:::trelliscope.data.frame(...)
-     3. │ └─trelliscopejs:::cog_df_info(...)
-     4. │   └─dplyr::bind_cols(cogs)
-     5. │     └─vctrs::vec_cbind(!!!dots)
-     6. └─vctrs:::stop_scalar_type(...)
-     7.   └─vctrs:::stop_vctrs(msg, "vctrs_error_scalar_type", actual = x)
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       47. testthat:::failure_summary(result, self$n_fail)
-       50. testthat:::format.expectation(x)
-       51. testthat:::format_with_trace(x)
-       53. rlang:::format.rlang_trace(...)
-       54. rlang:::trace_format_branch(x, max_frames, dir, srcrefs)
-       55. rlang:::branch_uncollapse_pipe(trace)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 0 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 3 ]
-      1. Error: examples run without barfing (@test-trelliscope.R#22) 
-      2. Error: examples run without barfing (@test-trelliscope.R#3) 
-      3. Error: (unknown) (@test-trelliscope.R#3) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # vcfR
