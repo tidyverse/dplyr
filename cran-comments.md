@@ -1,7 +1,5 @@
 ## Release summary
 
-This is an minor release
-
 ## Test environments
 
 * local mac OS install, R 4.0.0
@@ -23,7 +21,7 @@ We checked 2397 reverse dependencies (2104 from CRAN + 293 from BioConductor), c
  * We saw 54 new problems
  * We failed to check 92 packages
 
-Issues with CRAN packages are summarised below.
+Newly failing R packages are listed below. We have been working on this release for nearly two months now, and every maintainer has been notified at least 3 times, the last several times with an explicit offer of help if needed. Unfortunately I don't think there's anything more we can do from our end, but we're happy to keep working with the maintainers on fixes.
 
 ### New problems
 
