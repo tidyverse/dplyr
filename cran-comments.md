@@ -20,7 +20,7 @@ R CMD check succeeded
 
 We checked 2397 reverse dependencies (2104 from CRAN + 293 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 57 new problems
+ * We saw 54 new problems
  * We failed to check 92 packages
 
 Issues with CRAN packages are summarised below.
@@ -28,7 +28,6 @@ Issues with CRAN packages are summarised below.
 ### New problems
 
 * amt
-* blorr
 * BMSC
 * cattonum
 * CollapseLevels
@@ -73,14 +72,12 @@ Issues with CRAN packages are summarised below.
 * skynet
 * strapgod
 * StratigrapheR
-* survminer
 * tidyjson
 * tidyRSS
 * tidystats
 * tidystopwords
 * tree.bins
 * treeplyr
-* trelliscopejs
 * vcfR
 * vpc
 * yamlet
