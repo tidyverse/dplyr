@@ -179,6 +179,13 @@ dplyr_col_modify.rowwise_df <- function(data, cols) {
 #' @export
 #' @rdname dplyr_extending
 dplyr_reconstruct <- function(data, template) {
+  # Strip attributes before dispatch to make it easier to implement
+  # methods and prevent unexpected leaking of irrelevant attributes.
+  data <- dplyr_new_data_frame(data)
+  return(dplyr_reconstruct_dispatch(data, template))
+  UseMethod("dplyr_reconstruct", template)
+}
+dplyr_reconstruct_dispatch <- function(data, template) {
   UseMethod("dplyr_reconstruct", template)
 }
 

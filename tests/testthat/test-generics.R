@@ -113,3 +113,21 @@ test_that("compact row names are retained", {
     .row_names_info(expect, type = 0L)
   )
 })
+
+test_that("dplyr_reconstruct() strips attributes before dispatch", {
+  local_methods(
+    dplyr_reconstruct.dplyr_foobar = function(data, template) {
+      out <<- data
+    }
+  )
+
+  df <- foobar(data.frame(x = 1), foo = "bar")
+  out <- NULL
+  dplyr_reconstruct(df, df)
+  expect_identical(out, data.frame(x = 1))
+
+  df <- foobar(data.frame(x = 1, row.names = "a"), foo = "bar")
+  out <- NULL
+  dplyr_reconstruct(df, df)
+  expect_identical(out, data.frame(x = 1, row.names = "a"))
+})
