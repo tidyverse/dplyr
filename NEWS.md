@@ -1,4 +1,4 @@
-# dplyr 1.0.0 (in development)
+# dplyr 1.0.0
 
 ## Breaking changes
 
