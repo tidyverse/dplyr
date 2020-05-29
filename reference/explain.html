@@ -8,21 +8,35 @@
 
 <title>Explain details of a tbl — explain • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,36 +52,37 @@
 
 
 <meta property="og:title" content="Explain details of a tbl — explain" />
-
 <meta property="og:description" content="This is a generic function which gives more details about an object than
 print(), and is more focused on human readable output than
 str()." />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,16 +97,16 @@ str()." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -104,19 +119,28 @@ str()." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">Column-wise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">Row-wise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -127,7 +151,10 @@ str()." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
+    <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
@@ -143,14 +170,15 @@ str()." />
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -167,6 +195,7 @@ str()." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -178,17 +207,15 @@ str()." />
     </div>
 
     <div class="ref-description">
-    
     <p>This is a generic function which gives more details about an object than
-<code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>, and is more focused on human readable output than
-<code><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str()</a></code>.</p>
-    
+<code><a href='https://rdrr.io/r/base/print.html'>print()</a></code>, and is more focused on human readable output than
+<code><a href='https://rdrr.io/r/utils/str.html'>str()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>explain</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='fu'>show_query</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -201,22 +228,22 @@ str()." />
       <td><p>Other parameters possibly used by generic</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The first argument, invisibly.</p>
-    
     <h2 class="hasAnchor" id="databases"><a class="anchor" href="#databases"></a>Databases</h2>
 
     
-    <p>Explaining a <code>tbl_sql</code> will run the SQL <code>EXPLAIN</code> command which
+
+<p>Explaining a <code>tbl_sql</code> will run the SQL <code>EXPLAIN</code> command which
 will describe the query plan. This requires a little bit of knowledge about
 how <code>EXPLAIN</code> works for your database, but is very useful for
 diagnosing performance problems.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"dbplyr"</span>)) {
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"dbplyr"</span>)) {
 
 <span class='no'>lahman_s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/lahman.html'>lahman_sqlite</a></span>()
 <span class='no'>batting</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='no'>lahman_s</span>, <span class='st'>"Batting"</span>)
@@ -232,7 +259,7 @@ diagnosing performance problems.</p>
 
 <span class='co'># Joins will use indexes in both tables</span>
 <span class='no'>teams</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='no'>lahman_s</span>, <span class='st'>"Teams"</span>)
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='join.html'>left_join</a></span>(<span class='no'>teams</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"yearID"</span>, <span class='st'>"teamID"</span>)) <span class='kw'>%&gt;%</span> <span class='fu'>explain</span>()
+<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate-joins.html'>left_join</a></span>(<span class='no'>teams</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"yearID"</span>, <span class='st'>"teamID"</span>)) <span class='kw'>%&gt;%</span> <span class='fu'>explain</span>()
 }</div><div class='output co'>#&gt; <span class='message'>Creating table: AllstarFull</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Appearances</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsManagers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsPlayers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsShareManagers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsSharePlayers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Batting</span></div><div class='output co'>#&gt; <span class='message'>Creating table: BattingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: CollegePlaying</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Fielding</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingOF</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: HallOfFame</span></div><div class='output co'>#&gt; <span class='message'>Creating table: LahmanData</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Managers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: ManagersHalf</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Master</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Parks</span></div><div class='output co'>#&gt; <span class='message'>Creating table: People</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Pitching</span></div><div class='output co'>#&gt; <span class='message'>Creating table: PitchingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Salaries</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Schools</span></div><div class='output co'>#&gt; <span class='message'>Creating table: SeriesPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Teams</span></div><div class='output co'>#&gt; <span class='message'>Creating table: TeamsFranchises</span></div><div class='output co'>#&gt; <span class='message'>Creating table: TeamsHalf</span></div><div class='output co'>#&gt; &lt;SQL&gt;
 #&gt; SELECT *
 #&gt; FROM `Batting`
@@ -241,30 +268,28 @@ diagnosing performance problems.</p>
 #&gt; FROM `Batting`
 #&gt; 
 #&gt; &lt;PLAN&gt;
-#&gt;   selectid order from             detail
-#&gt; 1        0     0    0 SCAN TABLE Batting
+#&gt;   id parent notused             detail
+#&gt; 1  2      0       0 SCAN TABLE Batting
 #&gt; &lt;SQL&gt;
 #&gt; SELECT *
 #&gt; FROM `Batting`
 #&gt; WHERE (`lgID` = 'NL' AND `yearID` = 2000)
 #&gt; 
 #&gt; &lt;PLAN&gt;
-#&gt;   selectid order from
-#&gt; 1        0     0    0
-#&gt;                                                       detail
-#&gt; 1 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)
+#&gt;   id parent notused                                                     detail
+#&gt; 1  3      0       0 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)
 #&gt; &lt;SQL&gt;
 #&gt; SELECT *
 #&gt; FROM `Batting`
 #&gt; WHERE (`lgID` = 'NL' OR `yearID` = 2000.0)
 #&gt; 
 #&gt; &lt;PLAN&gt;
-#&gt;   selectid order from
-#&gt; 1        0     0    0
-#&gt; 2        0     0    0
-#&gt;                                                       detail
-#&gt; 1     SEARCH TABLE Batting USING INDEX Batting_lgID (lgID=?)
-#&gt; 2 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)
+#&gt;   id parent notused                                                     detail
+#&gt; 1  4      0       0                                             MULTI-INDEX OR
+#&gt; 2  5      4       0                                                    INDEX 1
+#&gt; 3 11      5       0     SEARCH TABLE Batting USING INDEX Batting_lgID (lgID=?)
+#&gt; 4 16      4       0                                                    INDEX 2
+#&gt; 5 22     16       0 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)
 #&gt; &lt;SQL&gt;
 #&gt; SELECT `LHS`.`playerID` AS `playerID`, `LHS`.`yearID` AS `yearID`, `LHS`.`stint` AS `stint`, `LHS`.`teamID` AS `teamID`, `LHS`.`lgID` AS `lgID.x`, `LHS`.`G` AS `G.x`, `LHS`.`AB` AS `AB.x`, `LHS`.`R` AS `R.x`, `LHS`.`H` AS `H.x`, `LHS`.`X2B` AS `X2B.x`, `LHS`.`X3B` AS `X3B.x`, `LHS`.`HR` AS `HR.x`, `LHS`.`RBI` AS `RBI`, `LHS`.`SB` AS `SB.x`, `LHS`.`CS` AS `CS.x`, `LHS`.`BB` AS `BB.x`, `LHS`.`SO` AS `SO.x`, `LHS`.`IBB` AS `IBB`, `LHS`.`HBP` AS `HBP.x`, `LHS`.`SH` AS `SH`, `LHS`.`SF` AS `SF.x`, `LHS`.`GIDP` AS `GIDP`, `RHS`.`lgID` AS `lgID.y`, `RHS`.`franchID` AS `franchID`, `RHS`.`divID` AS `divID`, `RHS`.`Rank` AS `Rank`, `RHS`.`G` AS `G.y`, `RHS`.`Ghome` AS `Ghome`, `RHS`.`W` AS `W`, `RHS`.`L` AS `L`, `RHS`.`DivWin` AS `DivWin`, `RHS`.`WCWin` AS `WCWin`, `RHS`.`LgWin` AS `LgWin`, `RHS`.`WSWin` AS `WSWin`, `RHS`.`R` AS `R.y`, `RHS`.`AB` AS `AB.y`, `RHS`.`H` AS `H.y`, `RHS`.`X2B` AS `X2B.y`, `RHS`.`X3B` AS `X3B.y`, `RHS`.`HR` AS `HR.y`, `RHS`.`BB` AS `BB.y`, `RHS`.`SO` AS `SO.y`, `RHS`.`SB` AS `SB.y`, `RHS`.`CS` AS `CS.y`, `RHS`.`HBP` AS `HBP.y`, `RHS`.`SF` AS `SF.y`, `RHS`.`RA` AS `RA`, `RHS`.`ER` AS `ER`, `RHS`.`ERA` AS `ERA`, `RHS`.`CG` AS `CG`, `RHS`.`SHO` AS `SHO`, `RHS`.`SV` AS `SV`, `RHS`.`IPouts` AS `IPouts`, `RHS`.`HA` AS `HA`, `RHS`.`HRA` AS `HRA`, `RHS`.`BBA` AS `BBA`, `RHS`.`SOA` AS `SOA`, `RHS`.`E` AS `E`, `RHS`.`DP` AS `DP`, `RHS`.`FP` AS `FP`, `RHS`.`name` AS `name`, `RHS`.`park` AS `park`, `RHS`.`attendance` AS `attendance`, `RHS`.`BPF` AS `BPF`, `RHS`.`PPF` AS `PPF`, `RHS`.`teamIDBR` AS `teamIDBR`, `RHS`.`teamIDlahman45` AS `teamIDlahman45`, `RHS`.`teamIDretro` AS `teamIDretro`
 #&gt; FROM `Batting` AS `LHS`
@@ -273,27 +298,20 @@ diagnosing performance problems.</p>
 #&gt; 
 #&gt; 
 #&gt; &lt;PLAN&gt;
-#&gt;   selectid order from
-#&gt; 1        0     0    0
-#&gt; 2        0     1    1
+#&gt;   id parent notused
+#&gt; 1  4      0       0
+#&gt; 2  6      0       0
 #&gt;                                                          detail
 #&gt; 1                                     SCAN TABLE Batting AS LHS
-#&gt; 2 SEARCH TABLE Teams AS RHS USING INDEX Teams_yearID (yearID=?)</div></pre>
+#&gt; 2 SEARCH TABLE Teams AS RHS USING INDEX Teams_yearID (yearID=?)</div><div class='input'><span class='co'># }</span></div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#databases">Databases</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -306,6 +324,7 @@ diagnosing performance problems.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -328,6 +347,8 @@ diagnosing performance problems.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

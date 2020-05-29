@@ -8,21 +8,35 @@
 
 <title>Function reference • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,32 +52,34 @@
 
 
 <meta property="og:title" content="Function reference" />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -78,16 +94,16 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -100,19 +116,28 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">Column-wise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">Row-wise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -123,7 +148,10 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
+    <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
@@ -139,14 +167,15 @@
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -163,6 +192,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -182,98 +212,425 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-basic-single-table-verbs" class="hasAnchor"><a href="#section-basic-single-table-verbs" class="anchor"></a>Basic single-table verbs</h2>
+          <h2 id="section-one-table-verbs" class="hasAnchor"><a href="#section-one-table-verbs" class="anchor"></a>One table verbs</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
-        
-        <td>
-          <p><code><a href="filter.html">filter()</a></code> </p>
-        </td>
-        <td><p>Return rows with matching conditions</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="arrange.html">arrange()</a></code> </p>
         </td>
-        <td><p>Arrange rows by variables</p></td>
+        <td><p>Arrange rows by column values</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="select.html">select()</a></code> <code><a href="select.html">rename()</a></code> </p>
+          <p><code><a href="count.html">count()</a></code> <code><a href="count.html">tally()</a></code> <code><a href="count.html">add_count()</a></code> <code><a href="count.html">add_tally()</a></code> </p>
         </td>
-        <td><p>Select/rename variables by name</p></td>
+        <td><p>Count observations by group</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="pull.html">pull()</a></code> </p>
+          <p><code><a href="distinct.html">distinct()</a></code> </p>
         </td>
-        <td><p>Pull out a single variable</p></td>
+        <td><p>Subset distinct/unique rows</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="filter.html">filter()</a></code> </p>
+        </td>
+        <td><p>Subset rows using column values</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="mutate.html">mutate()</a></code> <code><a href="mutate.html">transmute()</a></code> </p>
         </td>
-        <td><p>Create or transform variables</p></td>
+        <td><p>Create, modify, and delete columns</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pull.html">pull()</a></code> </p>
+        </td>
+        <td><p>Extract a single column</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="relocate.html">relocate()</a></code> </p>
+        </td>
+        <td><p>Change column order</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rename.html">rename()</a></code> <code><a href="rename.html">rename_with()</a></code> </p>
+        </td>
+        <td><p>Rename columns</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="select.html">select()</a></code> </p>
+        </td>
+        <td><p>Subset columns using their names and types</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="summarise.html">summarise()</a></code> <code><a href="summarise.html">summarize()</a></code> </p>
         </td>
-        <td><p>Reduce multiple values down to a single value</p></td>
+        <td><p>Summarise each group to fewer rows</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="slice.html">slice()</a></code> <code><a href="slice.html">slice_head()</a></code> <code><a href="slice.html">slice_tail()</a></code> <code><a href="slice.html">slice_min()</a></code> <code><a href="slice.html">slice_max()</a></code> <code><a href="slice.html">slice_sample()</a></code> </p>
+        </td>
+        <td><p>Subset rows using their positions</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-two-table-verbs" class="hasAnchor"><a href="#section-two-table-verbs" class="anchor"></a>Two table verbs</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="bind.html">bind_rows()</a></code> <code><a href="bind.html">bind_cols()</a></code> </p>
+        </td>
+        <td><p>Efficiently bind multiple data frames by row and column</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="reexports.html">reexports</a></code> </p>
+        </td>
+        <td><p>Objects exported from other packages</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mutate-joins.html">inner_join()</a></code> <code><a href="mutate-joins.html">left_join()</a></code> <code><a href="mutate-joins.html">right_join()</a></code> <code><a href="mutate-joins.html">full_join()</a></code> </p>
+        </td>
+        <td><p>Mutating joins</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="nest_join.html">nest_join()</a></code> </p>
+        </td>
+        <td><p>Nest join</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="filter-joins.html">semi_join()</a></code> <code><a href="filter-joins.html">anti_join()</a></code> </p>
+        </td>
+        <td><p>Filtering joins</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-grouping" class="hasAnchor"><a href="#section-grouping" class="anchor"></a>Grouping</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="group_by.html">group_by()</a></code> <code><a href="group_by.html">ungroup()</a></code> </p>
         </td>
         <td><p>Group by one or more variables</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="group_cols.html">group_cols()</a></code> </p>
+        </td>
+        <td><p>Select grouping variables</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rowwise.html">rowwise()</a></code> </p>
+        </td>
+        <td><p>Group input by rows</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-other-single-table-verbs" class="hasAnchor"><a href="#section-other-single-table-verbs" class="anchor"></a>Other single-table verbs</h2>
+          <h2 id="section-vector-functions" class="hasAnchor"><a href="#section-vector-functions" class="anchor"></a>Vector functions</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
-          <p><code><a href="distinct.html">distinct()</a></code> </p>
+          <p><code><a href="across.html">across()</a></code> <code><a href="across.html">c_across()</a></code> </p>
         </td>
-        <td><p>Select distinct/unique rows</p></td>
+        <td><p>Apply a function (or a set of functions) to a set of columns</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="do.html">do()</a></code> </p>
+          <p><code><a href="between.html">between()</a></code> </p>
         </td>
-        <td><p>Do anything</p></td>
+        <td><p>Do values in a numeric vector fall in specified range?</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="sample.html">sample_n()</a></code> <code><a href="sample.html">sample_frac()</a></code> </p>
+          <p><code><a href="case_when.html">case_when()</a></code> </p>
+        </td>
+        <td><p>A general vectorised if</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="coalesce.html">coalesce()</a></code> </p>
+        </td>
+        <td><p>Find first non-missing element</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cumall.html">cumall()</a></code> <code><a href="cumall.html">cumany()</a></code> <code><a href="cumall.html">cummean()</a></code> </p>
+        </td>
+        <td><p>Cumulativate versions of any, all, and mean</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="desc.html">desc()</a></code> </p>
+        </td>
+        <td><p>Descending order</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="if_else.html">if_else()</a></code> </p>
+        </td>
+        <td><p>Vectorised if</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lead-lag.html">lag()</a></code> <code><a href="lead-lag.html">lead()</a></code> </p>
+        </td>
+        <td><p>Compute lagged or leading values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="order_by.html">order_by()</a></code> </p>
+        </td>
+        <td><p>A helper function for ordering window function output</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="context.html">n()</a></code> <code><a href="context.html">cur_data()</a></code> <code><a href="context.html">cur_group()</a></code> <code><a href="context.html">cur_group_id()</a></code> <code><a href="context.html">cur_group_rows()</a></code> <code><a href="context.html">cur_column()</a></code> </p>
+        </td>
+        <td><p>Context dependent expressions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="n_distinct.html">n_distinct()</a></code> </p>
+        </td>
+        <td><p>Efficiently count the number of unique values in a set of vector</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="na_if.html">na_if()</a></code> </p>
+        </td>
+        <td><p>Convert values to NA</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="near.html">near()</a></code> </p>
+        </td>
+        <td><p>Compare two numeric vectors</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="nth.html">nth()</a></code> <code><a href="nth.html">first()</a></code> <code><a href="nth.html">last()</a></code> </p>
+        </td>
+        <td><p>Extract the first, last or nth value from a vector</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ranking.html">row_number()</a></code> <code><a href="ranking.html">ntile()</a></code> <code><a href="ranking.html">min_rank()</a></code> <code><a href="ranking.html">dense_rank()</a></code> <code><a href="ranking.html">percent_rank()</a></code> <code><a href="ranking.html">cume_dist()</a></code> </p>
+        </td>
+        <td><p>Windowed rank functions.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="recode.html">recode()</a></code> <code><a href="recode.html">recode_factor()</a></code> </p>
+        </td>
+        <td><p>Recode values</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="band_members.html">band_members</a></code> <code><a href="band_members.html">band_instruments</a></code> <code><a href="band_members.html">band_instruments2</a></code> </p>
+        </td>
+        <td><p>Band membership</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="starwars.html">starwars</a></code> </p>
+        </td>
+        <td><p>Starwars characters</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="storms.html">storms</a></code> </p>
+        </td>
+        <td><p>Storm tracks data</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-remote-tables" class="hasAnchor"><a href="#section-remote-tables" class="anchor"></a>Remote tables</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="auto_copy.html">auto_copy()</a></code> </p>
+        </td>
+        <td><p>Copy tables to same source, if necessary</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="compute.html">compute()</a></code> <code><a href="compute.html">collect()</a></code> <code><a href="compute.html">collapse()</a></code> </p>
+        </td>
+        <td><p>Force computation of a database query</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="copy_to.html">copy_to()</a></code> </p>
+        </td>
+        <td><p>Copy a local data frame to a remote src</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ident.html">ident()</a></code> </p>
+        </td>
+        <td><p>Flag a character vector as SQL identifiers</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="explain.html">explain()</a></code> <code><a href="explain.html">show_query()</a></code> </p>
+        </td>
+        <td><p>Explain details of a tbl</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tbl.html">tbl()</a></code> <code><a href="tbl.html">is.tbl()</a></code> </p>
+        </td>
+        <td><p>Create a table from a data source</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sql.html">sql()</a></code> </p>
+        </td>
+        <td><p>SQL escaping.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-experimental" class="hasAnchor"><a href="#section-experimental" class="anchor"></a>Experimental</h2>
+          <p class="section-desc"><p>Experimental functions are a testing ground for new approaches that we believe to be worthy of greater exposure. There is no guarantee that these functions will stay around in the future, so please reach out if you find them useful.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="group_map.html">group_map()</a></code> <code><a href="group_map.html">group_modify()</a></code> <code><a href="group_map.html">group_walk()</a></code> </p>
+        </td>
+        <td><p>Apply a function to each group</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="group_trim.html">group_trim()</a></code> </p>
+        </td>
+        <td><p>Trim grouping structure</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="group_split.html">group_split()</a></code> </p>
+        </td>
+        <td><p>Split data frame by groups</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="with_groups.html">with_groups()</a></code> </p>
+        </td>
+        <td><p>Perform an operation with temporary groups</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-questioning" class="hasAnchor"><a href="#section-questioning" class="anchor"></a>Questioning</h2>
+          <p class="section-desc"><p>We have our doubts about questioning functions. We’re not certain that they’re inadequate, or we don’t have a good replacement in mind, but these functions are at risk of removal in the future.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="all_equal.html">all_equal()</a></code> </p>
+        </td>
+        <td><p>Flexible equality comparison for data frames</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-superseded" class="hasAnchor"><a href="#section-superseded" class="anchor"></a>Superseded</h2>
+          <p class="section-desc"><p>Superseded functions have been replaced by new approaches that we believe to be superior, but we don’t want to force you to change until you’re ready, so the existing functions will stay around for several years.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="sample_n.html">sample_n()</a></code> <code><a href="sample_n.html">sample_frac()</a></code> </p>
         </td>
         <td><p>Sample n rows from a table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="slice.html">slice()</a></code> </p>
-        </td>
-        <td><p>Choose rows by position</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-single-table-helpers" class="hasAnchor"><a href="#section-single-table-helpers" class="anchor"></a>Single-table helpers</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="tally.html">tally()</a></code> <code><a href="tally.html">count()</a></code> <code><a href="tally.html">add_tally()</a></code> <code><a href="tally.html">add_count()</a></code> </p>
-        </td>
-        <td><p>Count/tally observations by group</p></td>
       </tr><tr>
         
         <td>
@@ -319,12 +676,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="select_all.html">select_all()</a></code> <code><a href="select_all.html">rename_all()</a></code> <code><a href="select_all.html">select_if()</a></code> <code><a href="select_all.html">rename_if()</a></code> <code><a href="select_all.html">select_at()</a></code> <code><a href="select_all.html">rename_at()</a></code> </p>
-        </td>
-        <td><p>Select and rename a selection of variables</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="summarise_all.html">summarise_all()</a></code> <code><a href="summarise_all.html">summarise_if()</a></code> <code><a href="summarise_all.html">summarise_at()</a></code> <code><a href="summarise_all.html">summarize_all()</a></code> <code><a href="summarise_all.html">summarize_if()</a></code> <code><a href="summarise_all.html">summarize_at()</a></code> </p>
         </td>
         <td><p>Summarise multiple columns</p></td>
@@ -340,302 +691,18 @@
           <p><code><a href="vars.html">vars()</a></code> </p>
         </td>
         <td><p>Select variables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="funs.html">funs()</a></code> </p>
-        </td>
-        <td><p>Create a list of functions calls.</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-two-table-verbs" class="hasAnchor"><a href="#section-two-table-verbs" class="anchor"></a>Two-table verbs</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="all_equal.html">all_equal()</a></code> <code><a href="all_equal.html">all.equal(<i>&lt;tbl_df&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Flexible equality comparison for data frames</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bind.html">bind_rows()</a></code> <code><a href="bind.html">bind_cols()</a></code> </p>
-        </td>
-        <td><p>Efficiently bind multiple data frames by row and column</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="setops.html">intersect()</a></code> <code><a href="setops.html">union()</a></code> <code><a href="setops.html">union_all()</a></code> <code><a href="setops.html">setdiff()</a></code> <code><a href="setops.html">setequal()</a></code> </p>
-        </td>
-        <td><p>Set operations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="join.html">inner_join()</a></code> <code><a href="join.html">left_join()</a></code> <code><a href="join.html">right_join()</a></code> <code><a href="join.html">full_join()</a></code> <code><a href="join.html">semi_join()</a></code> <code><a href="join.html">nest_join()</a></code> <code><a href="join.html">anti_join()</a></code> </p>
-        </td>
-        <td><p>Join two tbls together</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="join.tbl_df.html">nest_join(<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="join.tbl_df.html">inner_join(<i>&lt;tbl_df&gt;</i>)</a></code> <code><a href="join.tbl_df.html">nest_join(<i>&lt;tbl_df&gt;</i>)</a></code> <code><a href="join.tbl_df.html">left_join(<i>&lt;tbl_df&gt;</i>)</a></code> <code><a href="join.tbl_df.html">right_join(<i>&lt;tbl_df&gt;</i>)</a></code> <code><a href="join.tbl_df.html">full_join(<i>&lt;tbl_df&gt;</i>)</a></code> <code><a href="join.tbl_df.html">semi_join(<i>&lt;tbl_df&gt;</i>)</a></code> <code><a href="join.tbl_df.html">anti_join(<i>&lt;tbl_df&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Join data frame tbls</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-remote-tables" class="hasAnchor"><a href="#section-remote-tables" class="anchor"></a>Remote tables</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="auto_copy.html">auto_copy()</a></code> </p>
-        </td>
-        <td><p>Copy tables to same source, if necessary</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="compute.html">compute()</a></code> <code><a href="compute.html">collect()</a></code> <code><a href="compute.html">collapse()</a></code> </p>
-        </td>
-        <td><p>Force computation of a database query</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="copy_to.html">copy_to()</a></code> </p>
-        </td>
-        <td><p>Copy a local data frame to a remote src</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ident.html">ident()</a></code> </p>
-        </td>
-        <td><p>Flag a character vector as SQL identifiers</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="explain.html">explain()</a></code> <code><a href="explain.html">show_query()</a></code> </p>
-        </td>
-        <td><p>Explain details of a tbl</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tbl.html">tbl()</a></code> <code><a href="tbl.html">is.tbl()</a></code> <code><a href="tbl.html">as.tbl()</a></code> </p>
-        </td>
-        <td><p>Create a table from a data source</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="src_dbi.html">src_mysql()</a></code> <code><a href="src_dbi.html">src_postgres()</a></code> <code><a href="src_dbi.html">src_sqlite()</a></code> </p>
-        </td>
-        <td><p>Source for database backends</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sql.html">sql()</a></code> </p>
-        </td>
-        <td><p>SQL escaping.</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-metadata" class="hasAnchor"><a href="#section-metadata" class="anchor"></a>Metadata</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="groups.html">groups()</a></code> <code><a href="groups.html">group_vars()</a></code> </p>
-        </td>
-        <td><p>Return grouping variables</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-vector-functions" class="hasAnchor"><a href="#section-vector-functions" class="anchor"></a>Vector functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="between.html">between()</a></code> </p>
-        </td>
-        <td><p>Do values in a numeric vector fall in specified range?</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="case_when.html">case_when()</a></code> </p>
-        </td>
-        <td><p>A general vectorised if</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="coalesce.html">coalesce()</a></code> </p>
-        </td>
-        <td><p>Find first non-missing element</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cumall.html">cumall()</a></code> <code><a href="cumall.html">cumany()</a></code> <code><a href="cumall.html">cummean()</a></code> </p>
-        </td>
-        <td><p>Cumulativate versions of any, all, and mean</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="desc.html">desc()</a></code> </p>
-        </td>
-        <td><p>Descending order</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="if_else.html">if_else()</a></code> </p>
-        </td>
-        <td><p>Vectorised if</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lead-lag.html">lead()</a></code> <code><a href="lead-lag.html">lag()</a></code> </p>
-        </td>
-        <td><p>Lead and lag.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="order_by.html">order_by()</a></code> </p>
-        </td>
-        <td><p>A helper function for ordering window function output</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="n.html">n()</a></code> </p>
-        </td>
-        <td><p>The number of observations in the current group.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="n_distinct.html">n_distinct()</a></code> </p>
-        </td>
-        <td><p>Efficiently count the number of unique values in a set of vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="na_if.html">na_if()</a></code> </p>
-        </td>
-        <td><p>Convert values to NA</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="near.html">near()</a></code> </p>
-        </td>
-        <td><p>Compare two numeric vectors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nth.html">nth()</a></code> <code><a href="nth.html">first()</a></code> <code><a href="nth.html">last()</a></code> </p>
-        </td>
-        <td><p>Extract the first, last or nth value from a vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ranking.html">row_number()</a></code> <code><a href="ranking.html">ntile()</a></code> <code><a href="ranking.html">min_rank()</a></code> <code><a href="ranking.html">dense_rank()</a></code> <code><a href="ranking.html">percent_rank()</a></code> <code><a href="ranking.html">cume_dist()</a></code> </p>
-        </td>
-        <td><p>Windowed rank functions.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="recode.html">recode()</a></code> <code><a href="recode.html">recode_factor()</a></code> </p>
-        </td>
-        <td><p>Recode values</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="band_members.html">band_members</a></code> <code><a href="band_members.html">band_instruments</a></code> <code><a href="band_members.html">band_instruments2</a></code> </p>
-        </td>
-        <td><p>Band membership</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nasa.html">nasa</a></code> </p>
-        </td>
-        <td><p>NASA spatio-temporal data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="starwars.html">starwars</a></code> </p>
-        </td>
-        <td><p>Starwars characters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="storms.html">storms</a></code> </p>
-        </td>
-        <td><p>Storm tracks data</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-other-backends" class="hasAnchor"><a href="#section-other-backends" class="anchor"></a>Other backends</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="tbl_cube.html">tbl_cube()</a></code> </p>
-        </td>
-        <td><p>A data cube tbl</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="as.table.tbl_cube.html">as.table(<i>&lt;tbl_cube&gt;</i>)</a></code> <code><a href="as.table.tbl_cube.html">as.data.frame(<i>&lt;tbl_cube&gt;</i>)</a></code> <code><a href="as.table.tbl_cube.html">as_tibble(<i>&lt;tbl_cube&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Coerce a <code>tbl_cube</code> to other data structures</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="as.tbl_cube.html">as.tbl_cube()</a></code> </p>
-        </td>
-        <td><p>Coerce an existing data structure into a <code>tbl_cube</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rowwise.html">rowwise()</a></code> </p>
-        </td>
-        <td><p>Group input by rows</p></td>
       </tr>
     </tbody>
     </table>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-basic-single-table-verbs">Basic single-table verbs</a></li>
-      <li><a href="#section-other-single-table-verbs">Other single-table verbs</a></li>
-      <li><a href="#section-single-table-helpers">Single-table helpers</a></li>
-      <li><a href="#section-two-table-verbs">Two-table verbs</a></li>
-      <li><a href="#section-remote-tables">Remote tables</a></li>
-      <li><a href="#section-metadata">Metadata</a></li>
-      <li><a href="#section-vector-functions">Vector functions</a></li>
-      <li><a href="#section-data">Data</a></li>
-      <li><a href="#section-other-backends">Other backends</a></li>
-    </ul>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -648,6 +715,7 @@
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -670,6 +738,8 @@
 </script>
 
 
+
   </body>
 </html>
+
 

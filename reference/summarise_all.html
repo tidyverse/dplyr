@@ -8,21 +8,35 @@
 
 <title>Summarise multiple columns — summarise_all • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,41 +52,46 @@
 
 
 <meta property="og:title" content="Summarise multiple columns — summarise_all" />
-
-<meta property="og:description" content="The scoped variants of summarise() make it easy to apply the same
+<meta property="og:description" content="
+Scoped verbs (_if, _at, _all) have been superseded by the use of
+across() in an existing verb. See vignette(&quot;colwise&quot;) for details.
+The scoped variants of summarise() make it easy to apply the same
 transformation to multiple variables.
 There are three variants.
 summarise_all() affects every variable
 summarise_at() affects variables selected with a character vector or
 vars()
 summarise_if() affects variables selected with a predicate function
-" />
 
+" />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -87,16 +106,16 @@ summarise_if() affects variables selected with a predicate function
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -109,19 +128,28 @@ summarise_if() affects variables selected with a predicate function
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">Column-wise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">Row-wise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -132,7 +160,10 @@ summarise_if() affects variables selected with a predicate function
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
+    <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
@@ -148,14 +179,15 @@ summarise_if() affects variables selected with a predicate function
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -172,6 +204,7 @@ summarise_if() affects variables selected with a predicate function
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -183,8 +216,10 @@ summarise_if() affects variables selected with a predicate function
     </div>
 
     <div class="ref-description">
-    
-    <p>The <a href='scoped.html'>scoped</a> variants of <code><a href='summarise.html'>summarise()</a></code> make it easy to apply the same
+    <p><a href='https://www.tidyverse.org/lifecycle/#superseded'><img src='figures/lifecycle-superseded.svg' alt='Superseded lifecycle'></a></p>
+<p>Scoped verbs (<code>_if</code>, <code>_at</code>, <code>_all</code>) have been superseded by the use of
+<code><a href='across.html'>across()</a></code> in an existing verb. See <code><a href='../articles/colwise.html'>vignette("colwise")</a></code> for details.</p>
+<p>The <a href='scoped.html'>scoped</a> variants of <code><a href='summarise.html'>summarise()</a></code> make it easy to apply the same
 transformation to multiple variables.
 There are three variants.</p><ul>
 <li><p><code>summarise_all()</code> affects every variable</p></li>
@@ -192,7 +227,7 @@ There are three variants.</p><ul>
 vars()</p></li>
 <li><p><code>summarise_if()</code> affects variables selected with a predicate function</p></li>
 </ul>
-    
+
     </div>
 
     <pre class="usage"><span class='fu'>summarise_all</span>(<span class='no'>.tbl</span>, <span class='no'>.funs</span>, <span class='no'>...</span>)
@@ -206,7 +241,7 @@ vars()</p></li>
 <span class='fu'>summarize_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='no'>.funs</span>, <span class='no'>...</span>)
 
 <span class='fu'>summarize_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='no'>.funs</span>, <span class='no'>...</span>, <span class='kw'>.cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -221,7 +256,7 @@ vars()</p></li>
     <tr>
       <th>...</th>
       <td><p>Additional arguments for the function calls in
-<code>.funs</code>. These are evaluated only once, with <a href='https://rlang.r-lib.org/reference/tidy-dots.html'>tidy dots</a> support.</p></td>
+<code>.funs</code>. These are evaluated only once, with <a href='https://rlang.r-lib.org/reference/dyn-dots.html'>tidy dots</a> support.</p></td>
     </tr>
     <tr>
       <th>.predicate</th>
@@ -243,147 +278,135 @@ positions, or <code>NULL</code>.</p></td>
 dplyr's terminology and is deprecated.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data frame. By default, the newly created columns have the shortest
 names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).</p>
-    
     <h2 class="hasAnchor" id="grouping-variables"><a class="anchor" href="#grouping-variables"></a>Grouping variables</h2>
 
     
-    <p>If applied on a grouped tibble, these operations are <em>not</em> applied
+
+
+<p>If applied on a grouped tibble, these operations are <em>not</em> applied
 to the grouping variables. The behaviour depends on whether the
 selection is <strong>implicit</strong> (<code>all</code> and <code>if</code> selections) or
 <strong>explicit</strong> (<code>at</code> selections).</p><ul>
 <li><p>Grouping variables covered by explicit selections in
 <code>summarise_at()</code> are always an error. Add <code>-group_cols()</code> to the
-<code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre>data %&gt;%
-  summarise_at(vars(-group_cols(), ...), myoperation)
-</pre>
-    <p>Or remove <code><a href='groups.html'>group_vars()</a></code> from the character vector of column names:</p><pre>nms &lt;- setdiff(nms, group_vars(data))
-data %&gt;% summarise_at(vars, myoperation)
-</pre></li>
+<code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre><span class='no'>data</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>summarise_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='group_cols.html'>group_cols</a></span>(), <span class='no'>...</span>), <span class='no'>myoperation</span>)</pre>
+
+<p>Or remove <code><a href='group_data.html'>group_vars()</a></code> from the character vector of column names:</p><pre><span class='no'>nms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/generics/man/setops.html'>setdiff</a></span>(<span class='no'>nms</span>, <span class='fu'><a href='group_data.html'>group_vars</a></span>(<span class='no'>data</span>))
+<span class='no'>data</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_at</span>(<span class='no'>nms</span>, <span class='no'>myoperation</span>)</pre></li>
 <li><p>Grouping variables covered by implicit selections are silently
 ignored by <code>summarise_all()</code> and <code>summarise_if()</code>.</p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="naming"><a class="anchor" href="#naming"></a>Naming</h2>
 
     
-    <p>The names of the created columns is derived from the names of the
+
+
+<p>The names of the new columns are derived from the names of the
 input variables and the names of the functions.</p><ul>
-<li><p>if there is only one unnamed function, the names of the input variables
-are used to name the created columns</p></li>
-<li><p>if there is only one unnamed variable, the names of the functions
-are used to name the created columns.</p></li>
-<li><p>otherwise in the most general case, the created names are created by
-concatenating the names of the input variables and the names of the functions.</p></li>
+<li><p>if there is only one unnamed function (i.e. if <code>.funs</code> is an unnamed list
+of length one),
+the names of the input variables are used to name the new columns;</p></li>
+<li><p>for <code>_at</code> functions, if there is only one unnamed variable (i.e.,
+if <code>.vars</code> is of the form <code><a href='vars.html'>vars(a_single_column)</a></code>) and <code>.funs</code> has length
+greater than one,
+the names of the functions are used to name the new columns;</p></li>
+<li><p>otherwise, the new names are created by
+concatenating the names of the input variables and the names of the
+functions, separated with an underscore <code>"_"</code>.</p></li>
 </ul>
-    <p>The names of the functions here means the names of the list of functions
-that is supplied. When needed and not supplied, the name of a function
-is the prefix "fn" followed by the index of this function within the
-unnamed functions in the list. Ultimately, names are made
-unique.</p>
+
+<p>The <code>.funs</code> argument can be a named or unnamed list.
+If a function is unnamed and the name cannot be derived automatically,
+a name of the form "fn#" is used.
+Similarly, <code><a href='vars.html'>vars()</a></code> accepts named and unnamed arguments.
+If a variable in <code>.vars</code> is named, a new column by that name will be created.</p>
+<p>Name collisions in the new columns are disambiguated using a unique suffix.</p>
+    <h2 class="hasAnchor" id="life-cycle"><a class="anchor" href="#life-cycle"></a>Life cycle</h2>
+
     
+
+
+<p>The functions are maturing, because the naming scheme and the
+disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='scoped.html'>The other scoped verbs</a>, <code><a href='vars.html'>vars()</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>by_species</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>)
-
-
-<span class='co'># The _at() variants directly support strings:</span>
+    <pre class="examples"><div class='input'><span class='co'># The _at() variants directly support strings:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise_at</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+  <span class='fu'>summarise_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 2</span><span>
 #&gt;   height  mass
-#&gt;    &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1   174.  97.3</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   174.  97.3</div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), ~ <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
+#&gt;   height  mass
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   174.  97.3</div><div class='input'>
 <span class='co'># You can also supply selection helpers to _at() functions but you have</span>
 <span class='co'># to quote them with vars():</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>height</span>:<span class='no'>mass</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+  <span class='fu'>summarise_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>height</span>:<span class='no'>mass</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
 #&gt;   height  mass
-#&gt;    &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1   174.  97.3</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   174.  97.3</div><div class='input'><span class='co'># -&gt;</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='no'>height</span>:<span class='no'>mass</span>, ~ <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
+#&gt;   height  mass
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   174.  97.3</div><div class='input'>
 <span class='co'># The _if() variants apply a predicate function (a function that</span>
 <span class='co'># returns TRUE or FALSE) to determine the relevant subset of</span>
 <span class='co'># columns. Here we apply mean() to the numeric columns:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise_if</span>(<span class='no'>is.numeric</span>, <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+  <span class='fu'>summarise_if</span>(<span class='no'>is.numeric</span>, <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   height  mass birth_year
-#&gt;    &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-#&gt; 1   174.  97.3       87.6</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   174.  97.3       87.6</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'>where</span>(<span class='no'>is.numeric</span>), ~ <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt;   height  mass birth_year
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   174.  97.3       87.6</div><div class='input'>
+<span class='no'>by_species</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>)
+
 <span class='co'># If you want to apply multiple transformations, pass a list of</span>
 <span class='co'># functions. When there are multiple functions, they create new</span>
 <span class='co'># variables instead of modifying the variables in place:</span>
 <span class='no'>by_species</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>min</span>, <span class='no'>max</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
+  <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>min</span>, <span class='no'>max</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 9</span><span>
 #&gt;   Species Sepal.Length_fn1 Sepal.Width_fn1 Petal.Length_fn1 Petal.Width_fn1
-#&gt;   &lt;fct&gt;              &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
-#&gt; 1 setosa               4.3             2.3              1               0.1
-#&gt; 2 versic…              4.9             2                3               1  
-#&gt; 3 virgin…              4.9             2.2              4.5             1.4
-#&gt; # … with 4 more variables: Sepal.Length_fn2 &lt;dbl&gt;, Sepal.Width_fn2 &lt;dbl&gt;,
-#&gt; #   Petal.Length_fn2 &lt;dbl&gt;, Petal.Width_fn2 &lt;dbl&gt;</div><div class='input'>
-<span class='co'># Note how the new variables include the function name, in order to</span>
-<span class='co'># keep things distinct. Passing purrr-style lambdas often creates</span>
-<span class='co'># better default names:</span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> setosa               4.3             2.3              1               0.1
+#&gt; </span><span style='color: #555555;'>2</span><span> versic…              4.9             2                3               1  
+#&gt; </span><span style='color: #555555;'>3</span><span> virgin…              4.9             2.2              4.5             1.4
+#&gt; </span><span style='color: #555555;'># … with 4 more variables: Sepal.Length_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Sepal.Width_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   Petal.Length_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_fn2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
 <span class='no'>by_species</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;   Species Sepal.Length_min Sepal.Width_min Petal.Length_min Petal.Width_min
-#&gt;   &lt;fct&gt;              &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
-#&gt; 1 setosa               4.3             2.3              1               0.1
-#&gt; 2 versic…              4.9             2                3               1  
-#&gt; 3 virgin…              4.9             2.2              4.5             1.4
-#&gt; # … with 4 more variables: Sepal.Length_max &lt;dbl&gt;, Sepal.Width_max &lt;dbl&gt;,
-#&gt; #   Petal.Length_max &lt;dbl&gt;, Petal.Width_max &lt;dbl&gt;</div><div class='input'>
-<span class='co'># When that's not good enough, you can also supply the names explicitly:</span>
-<span class='no'>by_species</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='no'>min</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='no'>max</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;   Species Sepal.Length_min Sepal.Width_min Petal.Length_min Petal.Width_min
-#&gt;   &lt;fct&gt;              &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
-#&gt; 1 setosa               4.3             2.3              1               0.1
-#&gt; 2 versic…              4.9             2                3               1  
-#&gt; 3 virgin…              4.9             2.2              4.5             1.4
-#&gt; # … with 4 more variables: Sepal.Length_max &lt;dbl&gt;, Sepal.Width_max &lt;dbl&gt;,
-#&gt; #   Petal.Length_max &lt;dbl&gt;, Petal.Width_max &lt;dbl&gt;</div><div class='input'>
-<span class='co'># When there's only one function in the list, it modifies existing</span>
-<span class='co'># variables in place. Give it a name to create new variables instead:</span>
-<span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>med</span> <span class='kw'>=</span> <span class='no'>median</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;   Species    Sepal.Length_med Sepal.Width_med Petal.Length_med Petal.Width_med
-#&gt;   &lt;fct&gt;                 &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
-#&gt; 1 setosa                  5               3.4             1.5              0.2
-#&gt; 2 versicolor              5.9             2.8             4.35             1.3
-#&gt; 3 virginica               6.5             3               5.55             2  </div><div class='input'><span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>Q3</span> <span class='kw'>=</span> <span class='no'>quantile</span>), <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fl'>0.75</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;   Species    Sepal.Length_Q3 Sepal.Width_Q3 Petal.Length_Q3 Petal.Width_Q3
-#&gt;   &lt;fct&gt;                &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
-#&gt; 1 setosa                 5.2           3.68            1.58            0.3
-#&gt; 2 versicolor             6.3           3               4.6             1.5
-#&gt; 3 virginica              6.9           3.18            5.88            2.3</div></pre>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='no'>min</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='no'>max</span>)))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 9</span><span>
+#&gt;   Species Sepal.Length_min Sepal.Length_max Sepal.Width_min Sepal.Width_max
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> setosa               4.3              5.8             2.3             4.4
+#&gt; </span><span style='color: #555555;'>2</span><span> versic…              4.9              7               2               3.4
+#&gt; </span><span style='color: #555555;'>3</span><span> virgin…              4.9              7.9             2.2             3.8
+#&gt; </span><span style='color: #555555;'># … with 4 more variables: Petal.Length_min </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Length_max </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   Petal.Width_min </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Petal.Width_max </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#grouping-variables">Grouping variables</a></li>
-
-      <li><a href="#naming">Naming</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -396,6 +419,7 @@ unique.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -418,6 +442,8 @@ unique.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

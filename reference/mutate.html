@@ -6,23 +6,37 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create or transform variables — mutate • dplyr</title>
+<title>Create, modify, and delete columns — mutate • dplyr</title>
+
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,38 +51,39 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Create or transform variables — mutate" />
-
+<meta property="og:title" content="Create, modify, and delete columns — mutate" />
 <meta property="og:description" content="mutate() adds new variables and preserves existing ones;
-transmute() adds new variables and drops existing ones.  Both
-functions preserve the number of rows of the input.
-New variables overwrite existing variables of the same name." />
-
+transmute() adds new variables and drops existing ones.
+New variables overwrite existing variables of the same name.
+Variables can be removed by setting their value to NULL." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -83,16 +98,16 @@ New variables overwrite existing variables of the same name." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -105,19 +120,28 @@ New variables overwrite existing variables of the same name." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">Column-wise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">Row-wise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -128,7 +152,10 @@ New variables overwrite existing variables of the same name." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
+    <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
@@ -144,14 +171,15 @@ New variables overwrite existing variables of the same name." />
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -168,381 +196,329 @@ New variables overwrite existing variables of the same name." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create or transform variables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/manip.r'><code>R/manip.r</code></a></small>
+    <h1>Create, modify, and delete columns</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/mutate.R'><code>R/mutate.R</code></a></small>
     <div class="hidden name"><code>mutate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p><code>mutate()</code> adds new variables and preserves existing ones;
-<code>transmute()</code> adds new variables and drops existing ones.  Both
-functions preserve the number of rows of the input.
-New variables overwrite existing variables of the same name.</p>
-    
+<code>transmute()</code> adds new variables and drops existing ones.
+New variables overwrite existing variables of the same name.
+Variables can be removed by setting their value to <code>NULL</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>mutate</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>mutate</span>(
+  <span class='no'>.data</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"used"</span>, <span class='st'>"unused"</span>, <span class='st'>"none"</span>),
+  <span class='kw'>.before</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>.after</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)
+
 <span class='fu'>transmute</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>A tbl. All main verbs are S3 generics and provide methods
-for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://www.rdocumentation.org/packages/dtplyr/topics/tbl_dt'>dtplyr::tbl_dt()</a></code> and <code><a href='https://dbplyr.tidyverse.org/reference/src_dbi.html'>dbplyr::tbl_dbi()</a></code>.</p></td>
+      <td><p>A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
+more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Name-value pairs of expressions, each with length 1 or the same
-length as the number of rows in the group (if using <code><a href='group_by.html'>group_by()</a></code>) or in the entire
-input (if not using groups). The name of each argument will be the name of
-a new variable, and the value will be its corresponding value.  Use a <code>NULL</code>
-value in <code>mutate</code> to drop a variable.  New variables overwrite existing variables
-of the same name.</p>
-<p>The arguments in <code>...</code> are automatically <a href='https://rlang.r-lib.org/reference/quotation.html'>quoted</a> and
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. They support <a href='https://rlang.r-lib.org/reference/quasiquotation.html'>unquoting</a> and
-splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
-these concepts.</p></td>
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Name-value pairs.
+The name gives the name of the column in the output.</p>
+<p>The value can be:</p><ul>
+<li><p>A vector of length 1, which will be recycled to the correct length.</p></li>
+<li><p>A vector the same length as the current group (or the whole data frame
+if ungrouped).</p></li>
+<li><p><code>NULL</code>, to remove the column.</p></li>
+<li><p>A data frame or tibble, to create multiple columns in the output.</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>.keep</th>
+      <td><p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a>
+
+This is an experimental argument that allows you to control which columns
+from <code>.data</code> are retained in the output:</p><ul>
+<li><p><code>"all"</code>, the default, retains all variables.</p></li>
+<li><p><code>"used"</code> keeps any variables used to make new variables; it's useful
+for checking your work as it displays inputs and outputs side-by-side.</p></li>
+<li><p><code>"unused"</code> keeps only existing variables <strong>not</strong> used to make new
+variables.</p></li>
+<li><p><code>"none"</code>, only keeps grouping keys (like <code>transmute()</code>).</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>.before, .after</th>
+      <td><p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a>
+
+&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Optionally, control where new columns
+should appear (the default is to add to the right hand side). See
+<code><a href='relocate.html'>relocate()</a></code> for more details.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same class as <code>.data</code>.</p>
-    
-    <h2 class="hasAnchor" id="useful-functions-available-in-calculations-of-variables"><a class="anchor" href="#useful-functions-available-in-calculations-of-variables"></a>Useful functions available in calculations of variables</h2>
+    <p>An object of the same type as <code>.data</code>. The output has the following
+properties:</p><ul>
+<li><p>Rows are not affected.</p></li>
+<li><p>Existing columns will be preserved according to the <code>.keep</code> argument.
+New columns will be placed according to the <code>.before</code> and <code>.after</code>
+arguments. If <code>.keep = "none"</code> (as in <code>transmute()</code>), the output order
+is determined only by <code>...</code>, not the order of existing columns.</p></li>
+<li><p>Columns given value <code>NULL</code> will be removed</p></li>
+<li><p>Groups will be recomputed if a grouping variable is mutated.</p></li>
+<li><p>Data frame attributes are preserved.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="useful-mutate-functions"><a class="anchor" href="#useful-mutate-functions"></a>Useful mutate functions</h2>
 
     
-    <ul>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/Arithmetic'>+</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/Arithmetic'>-</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log()</a></code>, etc., for their usual mathematical meanings</p></li>
+
+<ul>
+<li><p><code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code>, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>, <code><a href='https://rdrr.io/r/base/Log.html'>log()</a></code>, etc., for their usual mathematical meanings</p></li>
 <li><p><code><a href='lead-lag.html'>lead()</a></code>, <code><a href='lead-lag.html'>lag()</a></code></p></li>
 <li><p><code><a href='ranking.html'>dense_rank()</a></code>, <code><a href='ranking.html'>min_rank()</a></code>, <code><a href='ranking.html'>percent_rank()</a></code>, <code><a href='ranking.html'>row_number()</a></code>,
 <code><a href='ranking.html'>cume_dist()</a></code>, <code><a href='ranking.html'>ntile()</a></code></p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/cumsum'>cumsum()</a></code>, <code><a href='cumall.html'>cummean()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cumsum'>cummin()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cumsum'>cummax()</a></code>, <code><a href='cumall.html'>cumany()</a></code>, <code><a href='cumall.html'>cumall()</a></code></p></li>
+<li><p><code><a href='https://rdrr.io/r/base/cumsum.html'>cumsum()</a></code>, <code><a href='cumall.html'>cummean()</a></code>, <code><a href='https://rdrr.io/r/base/cumsum.html'>cummin()</a></code>, <code><a href='https://rdrr.io/r/base/cumsum.html'>cummax()</a></code>, <code><a href='cumall.html'>cumany()</a></code>, <code><a href='cumall.html'>cumall()</a></code></p></li>
 <li><p><code><a href='na_if.html'>na_if()</a></code>, <code><a href='coalesce.html'>coalesce()</a></code></p></li>
 <li><p><code><a href='if_else.html'>if_else()</a></code>, <code><a href='recode.html'>recode()</a></code>, <code><a href='case_when.html'>case_when()</a></code></p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="grouped-tibbles"><a class="anchor" href="#grouped-tibbles"></a>Grouped tibbles</h2>
 
     
-    <p>Because mutating expressions are computed within groups, they may
+
+
+<p>Because mutating expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped mutate:</p><pre>starwars %&gt;%
-  mutate(mass / mean(mass, na.rm = TRUE)) %&gt;%
-  pull()
-</pre>
-    <p>With the grouped equivalent:</p><pre>starwars %&gt;%
-  group_by(gender) %&gt;%
-  mutate(mass / mean(mass, na.rm = TRUE)) %&gt;%
-  pull()
-</pre>
-    <p>The former normalises <code>mass</code> by the global average whereas the
-latter normalises by the averages within gender levels.</p>
-<p>Note that you can't overwrite a grouping variable within
-<code>mutate()</code>.</p>
-<p><code>mutate()</code> does not evaluate the expressions when the group is empty.</p>
-    
-    <h2 class="hasAnchor" id="scoped-mutation-and-transmutation"><a class="anchor" href="#scoped-mutation-and-transmutation"></a>Scoped mutation and transmutation</h2>
+involved. Compare this ungrouped mutate:</p><pre><span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</pre>
+
+<p>With the grouped equivalent:</p><pre><span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</pre>
+
+<p>The former normalises <code>mass</code> by the global average whereas the
+latter normalises by the averages within species levels.</p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <p>The three <a href='scoped.html'>scoped</a> variants of <code>mutate()</code> (<code><a href='mutate_all.html'>mutate_all()</a></code>,
-<code><a href='mutate_all.html'>mutate_if()</a></code> and <code><a href='mutate_all.html'>mutate_at()</a></code>) and the three variants of
-<code>transmute()</code> (<code><a href='mutate_all.html'>transmute_all()</a></code>, <code><a href='mutate_all.html'>transmute_if()</a></code>,
-<code><a href='mutate_all.html'>transmute_at()</a></code>) make it easy to apply a transformation to a
-selection of variables.</p>
-    
-    <h2 class="hasAnchor" id="tidy-data"><a class="anchor" href="#tidy-data"></a>Tidy data</h2>
 
-    
-    <p>When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code>.</p>
-    
+<p>These function are <strong>generic</strong>s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.</p>
+<p>Methods available in currently loaded packages:</p><ul>
+<li><p><code>mutate()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>)
+.</p></li>
+<li><p><code>transmute()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
+.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other single table verbs: <code><a href='arrange.html'>arrange</a></code>,
-  <code><a href='filter.html'>filter</a></code>, <code><a href='select.html'>select</a></code>,
-  <code><a href='slice.html'>slice</a></code>, <code><a href='summarise.html'>summarise</a></code></p></div>
-    
+    <div class='dont-index'><p>Other single table verbs: 
+<code><a href='arrange.html'>arrange</a>()</code>,
+<code><a href='filter.html'>filter</a>()</code>,
+<code><a href='rename.html'>rename</a>()</code>,
+<code><a href='select.html'>select</a>()</code>,
+<code><a href='slice.html'>slice</a>()</code>,
+<code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Newly created variables are available immediately</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
-  <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>,
-  <span class='kw'>cyl4</span> <span class='kw'>=</span> <span class='no'>cyl2</span> * <span class='fl'>2</span>
-)</div><div class='output co'>#&gt; # A tibble: 32 x 13
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  cyl2  cyl4
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4    12    24
-#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4    12    24
-#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1     8    16
-#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1    12    24
-#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2    16    32
-#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1    12    24
-#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4    16    32
-#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2     8    16
-#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2     8    16
-#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4    12    24
-#&gt; # … with 22 more rows</div><div class='input'>
-<span class='co'># You can also use mutate() to remove variables and</span>
-<span class='co'># modify existing variables</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
-  <span class='kw'>mpg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>disp</span> <span class='kw'>=</span> <span class='no'>disp</span> * <span class='fl'>0.0163871</span> <span class='co'># convert to litres</span>
-)</div><div class='output co'>#&gt; # A tibble: 32 x 10
-#&gt;      cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1     6  2.62   110  3.9   2.62  16.5     0     1     4     4
-#&gt;  2     6  2.62   110  3.9   2.88  17.0     0     1     4     4
-#&gt;  3     4  1.77    93  3.85  2.32  18.6     1     1     4     1
-#&gt;  4     6  4.23   110  3.08  3.22  19.4     1     0     3     1
-#&gt;  5     8  5.90   175  3.15  3.44  17.0     0     0     3     2
-#&gt;  6     6  3.69   105  2.76  3.46  20.2     1     0     3     1
-#&gt;  7     8  5.90   245  3.21  3.57  15.8     0     0     3     4
-#&gt;  8     4  2.40    62  3.69  3.19  20       1     0     4     2
-#&gt;  9     4  2.31    95  3.92  3.15  22.9     1     0     4     2
-#&gt; 10     6  2.75   123  3.92  3.44  18.3     1     0     4     4
-#&gt; # … with 22 more rows</div><div class='input'>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(
+  <span class='kw'>mass2</span> <span class='kw'>=</span> <span class='no'>mass</span> * <span class='fl'>2</span>,
+  <span class='kw'>mass2_squared</span> <span class='kw'>=</span> <span class='no'>mass2</span> * <span class='no'>mass2</span>
+)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 4</span><span>
+#&gt;    name                mass mass2 mass2_squared
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker        77   154         </span><span style='text-decoration: underline;'>23</span><span>716
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                 75   150         </span><span style='text-decoration: underline;'>22</span><span>500
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                 32    64          </span><span style='text-decoration: underline;'>4</span><span>096
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader          136   272         </span><span style='text-decoration: underline;'>73</span><span>984
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa           49    98          </span><span style='text-decoration: underline;'>9</span><span>604
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars            120   240         </span><span style='text-decoration: underline;'>57</span><span>600
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars    75   150         </span><span style='text-decoration: underline;'>22</span><span>500
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                 32    64          </span><span style='text-decoration: underline;'>4</span><span>096
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter     84   168         </span><span style='text-decoration: underline;'>28</span><span>224
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi        77   154         </span><span style='text-decoration: underline;'>23</span><span>716
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
+<span class='co'># As well as adding new variables, you can use mutate() to</span>
+<span class='co'># remove variables and modify existing variables.</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>height</span>, <span class='no'>mass</span>, <span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(
+  <span class='kw'>mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>height</span> <span class='kw'>=</span> <span class='no'>height</span> * <span class='fl'>0.0328084</span> <span class='co'># convert to feet</span>
+)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
+#&gt;    name               height homeworld
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker       5.64 Tatooine 
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                5.48 Tatooine 
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                3.15 Naboo    
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader          6.63 Tatooine 
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa          4.92 Alderaan 
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars            5.84 Tatooine 
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars   5.41 Tatooine 
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                3.18 Tatooine 
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter    6.00 Tatooine 
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi       5.97 Stewjon  
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
+<span class='co'># Use across() with mutate() to apply a transformation</span>
+<span class='co'># to multiple columns in a tibble.</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>homeworld</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(<span class='fu'><a href='across.html'>across</a></span>(-<span class='no'>name</span>, <span class='no'>as.factor</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
+#&gt;    name               homeworld species
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker     Tatooine  Human  
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO              Tatooine  Droid  
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2              Naboo     Droid  
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader        Tatooine  Human  
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa        Alderaan  Human  
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars          Tatooine  Human  
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars Tatooine  Human  
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4              Tatooine  Droid  
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter  Tatooine  Human  
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi     Stewjon   Human  
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='co'># see more in ?across</span>
 
-<span class='co'># window functions are useful for grouped mutates</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>mutate</span>(<span class='kw'>rank</span> <span class='kw'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>mpg</span>)))</div><div class='output co'>#&gt; # A tibble: 32 x 12
-#&gt; # Groups:   cyl [3]
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  rank
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4     2
-#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4     2
-#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1     8
-#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1     1
-#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2     2
-#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1     6
-#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4    11
-#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2     7
-#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2     8
-#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4     5
-#&gt; # … with 22 more rows</div><div class='input'><span class='co'># see `vignette("window-functions")` for more details</span>
+<span class='co'># Window functions are useful for grouped mutates:</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(<span class='kw'>rank</span> <span class='kw'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>mass</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   homeworld [49]</span><span>
+#&gt;    name                mass homeworld  rank
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker        77 Tatooine      5
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                 75 Tatooine      6
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                 32 Naboo         6
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader          136 Tatooine      1
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa           49 Alderaan      2
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars            120 Tatooine      2
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars    75 Tatooine      6
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                 32 Tatooine      8
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter     84 Tatooine      3
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi        77 Stewjon       1
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='co'># see `vignette("window-functions")` for more details</span>
 
-<span class='co'># You can drop variables by setting them to NULL</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>cyl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt;     mpg  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1  21.0 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2  21.0 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3  22.8 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4  21.4 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 5  18.7 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; 6  18.1 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; 7  14.3 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; 8  24.4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; 9  22.8 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; 10 19.2 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; 11 17.8 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 12 16.4 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 13 17.3 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 14 15.2 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; 15 10.4 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; 16 10.4 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; 17 14.7 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; 18 32.4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; 19 30.4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; 20 33.9  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; 21 21.5 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; 22 15.5 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; 23 15.2 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; 24 13.3 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; 25 19.2 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; 26 27.3  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; 27 26.0 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; 28 30.4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; 29 15.8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; 30 19.7 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; 31 15.0 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; 32 21.4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'>
-<span class='co'># mutate() vs transmute --------------------------</span>
-<span class='co'># mutate() keeps all existing variables</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span>(<span class='kw'>displ_l</span> <span class='kw'>=</span> <span class='no'>disp</span> / <span class='fl'>61.0237</span>)</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb  displ_l
-#&gt; 1  21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4 2.621932
-#&gt; 2  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4 2.621932
-#&gt; 3  22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1 1.769804
-#&gt; 4  21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1 4.227866
-#&gt; 5  18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2 5.899347
-#&gt; 6  18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1 3.687092
-#&gt; 7  14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4 5.899347
-#&gt; 8  24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2 2.403984
-#&gt; 9  22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2 2.307300
-#&gt; 10 19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4 2.746474
-#&gt; 11 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4 2.746474
-#&gt; 12 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3 4.519556
-#&gt; 13 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3 4.519556
-#&gt; 14 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3 4.519556
-#&gt; 15 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4 7.734700
-#&gt; 16 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4 7.538055
-#&gt; 17 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4 7.210313
-#&gt; 18 32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1 1.289663
-#&gt; 19 30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2 1.240502
-#&gt; 20 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1 1.165121
-#&gt; 21 21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1 1.968088
-#&gt; 22 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2 5.211090
-#&gt; 23 15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2 4.981671
-#&gt; 24 13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4 5.735477
-#&gt; 25 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2 6.554830
-#&gt; 26 27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1 1.294579
-#&gt; 27 26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2 1.971365
-#&gt; 28 30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2 1.558411
-#&gt; 29 15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4 5.751864
-#&gt; 30 19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6 2.376126
-#&gt; 31 15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8 4.932510
-#&gt; 32 21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2 1.982836</div><div class='input'>
-<span class='co'># transmute keeps only the variables you create</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>transmute</span>(<span class='kw'>displ_l</span> <span class='kw'>=</span> <span class='no'>disp</span> / <span class='fl'>61.0237</span>)</div><div class='output co'>#&gt;     displ_l
-#&gt; 1  2.621932
-#&gt; 2  2.621932
-#&gt; 3  1.769804
-#&gt; 4  4.227866
-#&gt; 5  5.899347
-#&gt; 6  3.687092
-#&gt; 7  5.899347
-#&gt; 8  2.403984
-#&gt; 9  2.307300
-#&gt; 10 2.746474
-#&gt; 11 2.746474
-#&gt; 12 4.519556
-#&gt; 13 4.519556
-#&gt; 14 4.519556
-#&gt; 15 7.734700
-#&gt; 16 7.538055
-#&gt; 17 7.210313
-#&gt; 18 1.289663
-#&gt; 19 1.240502
-#&gt; 20 1.165121
-#&gt; 21 1.968088
-#&gt; 22 5.211090
-#&gt; 23 4.981671
-#&gt; 24 5.735477
-#&gt; 25 6.554830
-#&gt; 26 1.294579
-#&gt; 27 1.971365
-#&gt; 28 1.558411
-#&gt; 29 5.751864
-#&gt; 30 2.376126
-#&gt; 31 4.932510
-#&gt; 32 1.982836</div><div class='input'>
-
+<span class='co'># By default, new columns are placed on the far right.</span>
+<span class='co'># Experimental: you can override with `.before` or `.after`</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt;       x     y     z
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2     3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.before</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt;       z     x     y
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     3     1     2</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='no'>x</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt;       x     z     y
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     3     2</div><div class='input'>
+<span class='co'># By default, mutate() keeps all columns from the input data.</span>
+<span class='co'># Experimental: You can override with `.keep`</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"a"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"b"</span>)
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"all"</span>) <span class='co'># the default</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 5</span><span>
+#&gt;       x     y a     b         z
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2 a     b         3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"used"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt;       x     y     z
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2     3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"unused"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt;   a     b         z
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> a     b         3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"none"</span>) <span class='co'># same as transmute()</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
+#&gt;       z
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     3</div><div class='input'>
+<span class='co'># Grouping ----------------------------------------</span>
 <span class='co'># The mutate operation may yield different results on grouped</span>
 <span class='co'># tibbles because the expressions are computed within groups.</span>
 <span class='co'># The following normalises `mass` by the global average:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span>(<span class='no'>mass</span> / <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pull.html'>pull</a></span>()</div><div class='output co'>#&gt;  [1]  0.7912704  0.7707179  0.3288397  1.3975685  0.5035357  1.2331487
-#&gt;  [7]  0.7707179  0.3288397  0.8632041  0.7912704  0.8632041         NA
-#&gt; [13]  1.1509388  0.8220991  0.7604417 13.9551329  0.7912704  1.1303863
-#&gt; [19]  0.1746961  0.7707179  0.8036019  1.4386735  1.1612150  0.8118229
-#&gt; [25]  0.8118229  0.8529279         NA         NA  0.2055248  0.6987843
-#&gt; [31]  0.9145853  0.9248615         NA  0.6782318  0.8426516         NA
-#&gt; [37]         NA         NA  0.4110496         NA         NA  0.8220991
-#&gt; [43]         NA  0.5651932  0.4624308         NA  0.6679556  0.8632041
-#&gt; [49]  0.8426516  0.8940328         NA  0.5138120         NA         NA
-#&gt; [55]  0.8220991         NA  0.8734803         NA         NA  0.8220991
-#&gt; [61]  0.5775246  0.5138120         NA  0.8220991         NA  0.8118229
-#&gt; [67]  0.5651932  1.0481764  0.9043091         NA         NA  0.1541436
-#&gt; [73]         NA  0.4932595         NA  0.5857456  1.6339220  1.3975685
-#&gt; [79]  0.8118229  0.4932595  0.8220991         NA         NA         NA
-#&gt; [85]         NA         NA  0.4624308</div><div class='input'>
-<span class='co'># Whereas this normalises `mass` by the averages within gender</span>
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
+#&gt;    name                mass species mass_norm
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker        77 Human       0.791
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                 75 Droid       0.771
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                 32 Droid       0.329
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader          136 Human       1.40 
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa           49 Human       0.504
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars            120 Human       1.23 
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars    75 Human       0.771
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                 32 Droid       0.329
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter     84 Human       0.863
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi        77 Human       0.791
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
+<span class='co'># Whereas this normalises `mass` by the averages within species</span>
 <span class='co'># levels:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span>(<span class='no'>mass</span> / <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pull.html'>pull</a></span>()</div><div class='output co'>#&gt;  [1] 0.9505639 1.6187050 0.6906475 1.6789181 0.9070715 1.4813984 1.3883747
-#&gt;  [8] 0.6906475 1.0369788 0.9505639 1.0369788        NA 1.3826385 0.9875989
-#&gt; [15] 0.9135290 1.0000000 0.9505639 1.3579485 0.2098648 0.9258740 0.9653779
-#&gt; [22] 1.0000000 1.3949834 0.9752539 0.9752539 1.0246339        NA        NA
-#&gt; [29] 0.2468997 0.8394591 1.0987038 1.1110488        NA 0.8147691 1.0122889
-#&gt; [36]        NA        NA        NA 0.4937995        NA        NA 0.9875989
-#&gt; [43]        NA 1.0181414 0.5555244        NA 0.8024241 1.0369788 1.0122889
-#&gt; [50] 1.0740138        NA 0.9255831        NA        NA 0.9875989        NA
-#&gt; [57] 1.0493238        NA        NA 0.9875989 1.0403554 0.9255831        NA
-#&gt; [64] 0.9875989        NA 0.9752539 1.0181414 1.2591886 1.0863588        NA
-#&gt; [71]        NA 0.1851748        NA 0.5925593        NA 1.0551648 1.9628528
-#&gt; [78] 1.6789181 0.9752539 0.8885598 0.9875989        NA        NA        NA
-#&gt; [85]        NA        NA 0.8330248</div><div class='input'>
-<span class='co'># Note that you can't overwrite grouping variables:</span>
-<span class='no'>gdf</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='fu'>mutate</span>(<span class='no'>gdf</span>, <span class='kw'>cyl</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>100</span>))</div><div class='output co'>#&gt; Error : Column `cyl` can't be modified because it's a grouping variable</div><div class='input'>
-
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   species [38]</span><span>
+#&gt;    name                mass species mass_norm
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker        77 Human       0.930
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO                 75 Droid       1.08 
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2                 32 Droid       0.459
+#&gt; </span><span style='color: #555555;'> 4</span><span> Darth Vader          136 Human       1.64 
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia Organa           49 Human       0.592
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen Lars            120 Human       1.45 
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru Whitesun lars    75 Human       0.906
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4                 32 Droid       0.459
+#&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter     84 Human       1.01 
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi        77 Human       0.930
+#&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
+<span class='co'># Indirection ----------------------------------------</span>
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
-<span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
-<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>prod</span> <span class='kw'>=</span> <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>1</span>]]]] * <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>2</span>]]]])</div><div class='output co'>#&gt; # A tibble: 87 x 14
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Luke…    172    77 blond      fair       blue            19   male  
-#&gt;  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
-#&gt;  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
-#&gt;  4 Dart…    202   136 none       white      yellow          41.9 male  
-#&gt;  5 Leia…    150    49 brown      light      brown           19   female
-#&gt;  6 Owen…    178   120 brown, gr… light      blue            52   male  
-#&gt;  7 Beru…    165    75 brown      light      blue            47   female
-#&gt;  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
-#&gt;  9 Bigg…    183    84 black      light      brown           24   male  
-#&gt; 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  
-#&gt; # … with 77 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, prod &lt;dbl&gt;</div><div class='input'>
-<span class='co'># For more complex cases, knowledge of tidy evaluation and the</span>
-<span class='co'># unquote operator `!!` is required. See https://tidyeval.tidyverse.org/</span>
-<span class='co'>#</span>
-<span class='co'># One useful and simple tidy eval technique is to use `!!` to</span>
-<span class='co'># bypass the data frame and its columns. Here is how to divide the</span>
-<span class='co'># column `mass` by an object of the same name:</span>
-<span class='no'>mass</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
-<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>mass</span> <span class='kw'>=</span> <span class='no'>mass</span> / !!<span class='no'>mass</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 13
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Luke…    172  0.77 blond      fair       blue            19   male  
-#&gt;  2 C-3PO    167  0.75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
-#&gt;  3 R2-D2     96  0.32 &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
-#&gt;  4 Dart…    202  1.36 none       white      yellow          41.9 male  
-#&gt;  5 Leia…    150  0.49 brown      light      brown           19   female
-#&gt;  6 Owen…    178  1.2  brown, gr… light      blue            52   male  
-#&gt;  7 Beru…    165  0.75 brown      light      blue            47   female
-#&gt;  8 R5-D4     97  0.32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
-#&gt;  9 Bigg…    183  0.84 black      light      brown           24   male  
-#&gt; 10 Obi-…    182  0.77 auburn, w… fair       blue-gray       57   male  
-#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div></pre>
+<span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
+<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>prod</span> <span class='kw'>=</span> <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>1</span>]]]] * <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>2</span>]]]])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 15</span><span>
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Leia…    150    49 brown      light      brown           19   fema… femin…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Beru…    165    75 brown      light      blue            47   fema… femin…
+#&gt; </span><span style='color: #555555;'> 8</span><span> R5-D4     97    32 </span><span style='color: #BB0000;'>NA</span><span>         white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 77 more rows, and 6 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, prod </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='co'># Learn more in ?dplyr_data_masking</span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#useful-functions-available-in-calculations-of-variables">Useful functions available in calculations of variables</a></li>
-
-      <li><a href="#grouped-tibbles">Grouped tibbles</a></li>
-
-      <li><a href="#scoped-mutation-and-transmutation">Scoped mutation and transmutation</a></li>
-
-      <li><a href="#tidy-data">Tidy data</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -555,6 +531,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -577,6 +554,8 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 </script>
 
 
+
   </body>
 </html>
+
 

@@ -1,14 +1,17 @@
-pandoc: '2.2'
-pkgdown: 1.3.0
-pkgdown_sha: ~
+pandoc: 2.7.3
+pkgdown: 1.5.1.9000
+pkgdown_sha: d68907726c41b8f6595dd440e1a573db08d0ae72
 articles:
+  base: base.html
+  colwise: colwise.html
   compatibility: compatibility.html
   dplyr: dplyr.html
-  dplyr_0.8.0: future/dplyr_0.8.0.html
-  dplyr_0.8.0_new_hybrid: future/dplyr_0.8.0_new_hybrid.html
+  grouping: grouping.html
   programming: programming.html
+  rowwise: rowwise.html
   two-table: two-table.html
   window-functions: window-functions.html
+last_built: 2020-05-29T16:04Z
 urls:
   reference: https://dplyr.tidyverse.org/reference
   article: https://dplyr.tidyverse.org/articles

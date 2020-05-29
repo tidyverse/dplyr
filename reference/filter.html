@@ -6,23 +6,37 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Return rows with matching conditions — filter • dplyr</title>
+<title>Subset rows using column values — filter • dplyr</title>
+
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,37 +51,40 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Return rows with matching conditions — filter" />
-
-<meta property="og:description" content="Use filter() to choose rows/cases where conditions are true. Unlike
-base subsetting with [, rows where the condition evaluates to NA are
-dropped." />
-
+<meta property="og:title" content="Subset rows using column values — filter" />
+<meta property="og:description" content="The filter() function is used to subset a data frame,
+retaining all rows that satisfy your conditions.
+To be retained, the row must produce a value of TRUE for all conditions.
+Note that when a condition evaluates to NA
+the row will be dropped, unlike base subsetting with [." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,16 +99,16 @@ dropped." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -104,19 +121,28 @@ dropped." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">Column-wise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">Row-wise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -127,7 +153,10 @@ dropped." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
+    <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
@@ -143,14 +172,15 @@ dropped." />
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -167,285 +197,258 @@ dropped." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Return rows with matching conditions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/manip.r'><code>R/manip.r</code></a></small>
+    <h1>Subset rows using column values</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/filter.R'><code>R/filter.R</code></a></small>
     <div class="hidden name"><code>filter.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-    <p>Use <code>filter()</code> to choose rows/cases where conditions are true. Unlike
-base subsetting with <code>[</code>, rows where the condition evaluates to <code>NA</code> are
-dropped.</p>
-    
+    <p>The <code>filter()</code> function is used to subset a data frame,
+retaining all rows that satisfy your conditions.
+To be retained, the row must produce a value of <code>TRUE</code> for all conditions.
+Note that when a condition evaluates to <code>NA</code>
+the row will be dropped, unlike base subsetting with <code>[</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>filter</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>A tbl. All main verbs are S3 generics and provide methods
-for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://www.rdocumentation.org/packages/dtplyr/topics/tbl_dt'>dtplyr::tbl_dt()</a></code> and <code><a href='https://dbplyr.tidyverse.org/reference/src_dbi.html'>dbplyr::tbl_dbi()</a></code>.</p></td>
+      <td><p>A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
+more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Logical predicates defined in terms of the variables in <code>.data</code>.
-Multiple conditions are combined with <code>&amp;</code>. Only rows where the
-condition evaluates to <code>TRUE</code> are kept.</p>
-<p>The arguments in <code>...</code> are automatically <a href='https://rlang.r-lib.org/reference/quotation.html'>quoted</a> and
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. They support <a href='https://rlang.r-lib.org/reference/quasiquotation.html'>unquoting</a> and
-splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
-these concepts.</p></td>
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Expressions that return a
+logical value, and are defined in terms of the variables in <code>.data</code>.
+If multiple expressions are included, they are combined with the <code>&amp;</code> operator.
+Only rows for which all conditions evaluate to <code>TRUE</code> are kept.</p></td>
     </tr>
     <tr>
       <th>.preserve</th>
-      <td><p>when <code>FALSE</code> (the default), the grouping structure
-is recalculated based on the resulting data, otherwise it is kept as is.</p></td>
+      <td><p>Relevant when the <code>.data</code> input is grouped.
+If <code>.preserve = FALSE</code> (the default), the grouping structure
+is recalculated based on the resulting data, otherwise the grouping is kept as is.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same class as <code>.data</code>.</p>
-    
+    <p>An object of the same type as <code>.data</code>. The output has the following properties:</p><ul>
+<li><p>Rows are a subset of the input, but appear in the same order.</p></li>
+<li><p>Columns are not modified.</p></li>
+<li><p>The number of groups may be reduced (if <code>.preserve</code> is not <code>TRUE</code>).</p></li>
+<li><p>Data frame attributes are preserved.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that dplyr is not yet smart enough to optimise filtering optimisation
-on grouped datasets that don't need grouped calculations. For this reason,
-filtering is often considerably faster on <code><a href='group_by.html'>ungroup()</a></code>ed data.</p>
-    
+    <p>The <code>filter()</code> function is used to subset the rows of
+<code>.data</code>, applying the expressions in <code>...</code> to the column values to determine which
+rows should be retained. It can be applied to both grouped and ungrouped data (see <code><a href='group_by.html'>group_by()</a></code> and
+<code><a href='group_by.html'>ungroup()</a></code>). However, dplyr is not yet smart enough to optimise the filtering
+operation on grouped datasets that do not need grouped calculations. For this
+reason, filtering is often considerably faster on ungrouped data.</p>
     <h2 class="hasAnchor" id="useful-filter-functions"><a class="anchor" href="#useful-filter-functions"></a>Useful filter functions</h2>
 
     
-    <ul>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/Comparison'>==</a></code>, <code>&gt;</code>, <code>&gt;=</code> etc</p></li>
-<li><p><code>&amp;</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/Logic'>|</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/Logic'>!</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/Logic'>xor()</a></code></p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na()</a></code></p></li>
+
+
+<p>There are many functions and operators that are useful when constructing the
+expressions used to filter the data:</p><ul>
+<li><p><code><a href='https://rdrr.io/r/base/Comparison.html'>==</a></code>, <code>&gt;</code>, <code>&gt;=</code> etc</p></li>
+<li><p><code>&amp;</code>, <code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code>, <code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code>, <code><a href='https://rdrr.io/r/base/Logic.html'>xor()</a></code></p></li>
+<li><p><code><a href='https://rdrr.io/r/base/NA.html'>is.na()</a></code></p></li>
 <li><p><code><a href='between.html'>between()</a></code>, <code><a href='near.html'>near()</a></code></p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="grouped-tibbles"><a class="anchor" href="#grouped-tibbles"></a>Grouped tibbles</h2>
 
     
-    <p>Because filtering expressions are computed within groups, they may
+
+
+<p>Because filtering expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped filtering:</p><pre>starwars %&gt;% filter(mass &gt; mean(mass, na.rm = TRUE))
-</pre>
-    <p>With the grouped equivalent:</p><pre>starwars %&gt;% group_by(gender) %&gt;% filter(mass &gt; mean(mass, na.rm = TRUE))
-</pre>
-    <p>The former keeps rows with <code>mass</code> greater than the global average
-whereas the latter keeps rows with <code>mass</code> greater than the gender
-average.</p>
-<p>It is valid to use grouping variables in filter expressions.</p>
-<p>When applied on a grouped tibble, <code>filter()</code> automatically <a href='arrange.html'>rearranges</a>
-the tibble by groups for performance reasons.</p>
-    
-    <h2 class="hasAnchor" id="tidy-data"><a class="anchor" href="#tidy-data"></a>Tidy data</h2>
+involved. Compare this ungrouped filtering:</p><pre><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</pre>
+
+<p>With the grouped equivalent:</p><pre><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</pre>
+
+<p>In the ungrouped version, <code>filter()</code> compares the value of <code>mass</code> in each row to
+the global average (taken over the whole data set), keeping only the rows with
+<code>mass</code> greater than this global average. In contrast, the grouped version calculates
+the average mass separately for each <code>gender</code> group, and keeps rows with <code>mass</code> greater
+than the relevant within-gender average.</p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <p>When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code>.</p>
-    
-    <h2 class="hasAnchor" id="scoped-filtering"><a class="anchor" href="#scoped-filtering"></a>Scoped filtering</h2>
 
-    
-    <p>The three <a href='scoped.html'>scoped</a> variants (<code><a href='filter_all.html'>filter_all()</a></code>, <code><a href='filter_all.html'>filter_if()</a></code> and
-<code><a href='filter_all.html'>filter_at()</a></code>) make it easy to apply a filtering condition to a
-selection of variables.</p>
-    
+<p>This function is a <strong>generic</strong>, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.</p>
+<p>The following methods are currently available in loaded packages:
+dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>, <code>ts</code>)
+.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='filter_all.html'>filter_all()</a></code>, <code><a href='filter_all.html'>filter_if()</a></code> and <code><a href='filter_all.html'>filter_at()</a></code>.</p>
-<p>Other single table verbs: <code><a href='arrange.html'>arrange</a></code>,
-  <code><a href='mutate.html'>mutate</a></code>, <code><a href='select.html'>select</a></code>,
-  <code><a href='slice.html'>slice</a></code>, <code><a href='summarise.html'>summarise</a></code></p></div>
-    
+    <div class='dont-index'><p>Other single table verbs: 
+<code><a href='arrange.html'>arrange</a>()</code>,
+<code><a href='mutate.html'>mutate</a>()</code>,
+<code><a href='rename.html'>rename</a>()</code>,
+<code><a href='select.html'>select</a>()</code>,
+<code><a href='slice.html'>slice</a>()</code>,
+<code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Human"</span>)</div><div class='output co'>#&gt; # A tibble: 35 x 13
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Luke…    172    77 blond      fair       blue            19   male  
-#&gt;  2 Dart…    202   136 none       white      yellow          41.9 male  
-#&gt;  3 Leia…    150    49 brown      light      brown           19   female
-#&gt;  4 Owen…    178   120 brown, gr… light      blue            52   male  
-#&gt;  5 Beru…    165    75 brown      light      blue            47   female
-#&gt;  6 Bigg…    183    84 black      light      brown           24   male  
-#&gt;  7 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  
-#&gt;  8 Anak…    188    84 blond      fair       blue            41.9 male  
-#&gt;  9 Wilh…    180    NA auburn, g… fair       blue            64   male  
-#&gt; 10 Han …    180    80 brown      fair       brown           29   male  
-#&gt; # … with 25 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 13
-#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
-#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma… Nal Hutta
-#&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-#&gt; #   starships &lt;list&gt;</div><div class='input'>
-<span class='co'># Multiple criteria</span>
-<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>&amp;</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 13
-#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
-#&gt; 1 Nien…    160    68 none       grey       black             NA male   Sullust  
-#&gt; 2 Gasg…    122    NA none       white, bl… black             NA male   Troiken  
-#&gt; 3 Kit …    196    87 none       green      black             NA male   Glee Ans…
-#&gt; 4 Plo …    188    80 none       orange     black             22 male   Dorin    
-#&gt; 5 Lama…    229    88 none       grey       black             NA male   Kamino   
-#&gt; 6 Taun…    213    NA none       grey       black             NA female Kamino   
-#&gt; 7 Shaa…    178    57 none       red, blue… black             NA female Shili    
-#&gt; 8 Tion…    206    80 none       grey       black             NA male   Utapau   
-#&gt; 9 BB8       NA    NA none       none       black             NA none   &lt;NA&gt;     
-#&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-#&gt; #   starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>|</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 13
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Dart…    202   136 none       white      yellow          41.9 male  
-#&gt;  2 Gree…    173    74 &lt;NA&gt;       green      black           44   male  
-#&gt;  3 IG-88    200   140 none       metal      red             15   none  
-#&gt;  4 Bossk    190   113 none       green      red             53   male  
-#&gt;  5 Lobot    175    79 none       light      blue            37   male  
-#&gt;  6 Ackb…    180    83 none       brown mot… orange          41   male  
-#&gt;  7 Nien…    160    68 none       grey       black           NA   male  
-#&gt;  8 Nute…    191    90 none       mottled g… red             NA   male  
-#&gt;  9 Jar …    196    66 none       orange     orange          52   male  
-#&gt; 10 Roos…    224    82 none       grey       orange          NA   male  
-#&gt; # … with 28 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
-<span class='co'># Multiple arguments are equivalent to and</span>
-<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span>, <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 13
-#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
-#&gt; 1 Nien…    160    68 none       grey       black             NA male   Sullust  
-#&gt; 2 Gasg…    122    NA none       white, bl… black             NA male   Troiken  
-#&gt; 3 Kit …    196    87 none       green      black             NA male   Glee Ans…
-#&gt; 4 Plo …    188    80 none       orange     black             22 male   Dorin    
-#&gt; 5 Lama…    229    88 none       grey       black             NA male   Kamino   
-#&gt; 6 Taun…    213    NA none       grey       black             NA female Kamino   
-#&gt; 7 Shaa…    178    57 none       red, blue… black             NA female Shili    
-#&gt; 8 Tion…    206    80 none       grey       black             NA male   Utapau   
-#&gt; 9 BB8       NA    NA none       none       black             NA none   &lt;NA&gt;     
-#&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-#&gt; #   starships &lt;list&gt;</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='co'># Filtering by one criterion</span>
+<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Human"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 35 x 14</span><span>
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> Leia…    150    49 brown      light      brown           19   fema… femin…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Beru…    165    75 brown      light      blue            47   fema… femin…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'> 8</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Han …    180    80 brown      fair       brown           29   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 25 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 14</span><span>
+#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> Jabb…    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>         green-tan… orange           600 herm… mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
+<span class='co'># Filtering by multiple criteria within a single logical expression</span>
+<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>&amp;</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 14</span><span>
+#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> Nien…    160    68 none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>2</span><span> Gasg…    122    </span><span style='color: #BB0000;'>NA</span><span> none       white, bl… black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>3</span><span> Kit …    196    87 none       green      black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>4</span><span> Plo …    188    80 none       orange     black             22 male  mascu…
+#&gt; </span><span style='color: #555555;'>5</span><span> Lama…    229    88 none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>6</span><span> Taun…    213    </span><span style='color: #BB0000;'>NA</span><span> none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…
+#&gt; </span><span style='color: #555555;'>7</span><span> Shaa…    178    57 none       red, blue… black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…
+#&gt; </span><span style='color: #555555;'>8</span><span> Tion…    206    80 none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>9</span><span> BB8       </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> none       none       black             </span><span style='color: #BB0000;'>NA</span><span> none  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>|</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 14</span><span>
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> Gree…    173    74 </span><span style='color: #BB0000;'>NA</span><span>         green      black           44   male  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> IG-88    200   140 none       metal      red             15   none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Bossk    190   113 none       green      red             53   male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Lobot    175    79 none       light      blue            37   male  mascu…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Ackb…    180    83 none       brown mot… orange          41   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Nien…    160    68 none       grey       black           </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'> 8</span><span> Nute…    191    90 none       mottled g… red             </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Jar …    196    66 none       orange     orange          52   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Roos…    224    82 none       grey       orange          </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 28 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
+<span class='co'># When multiple expressions are used, they are combined using &amp;</span>
+<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span>, <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 14</span><span>
+#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> Nien…    160    68 none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>2</span><span> Gasg…    122    </span><span style='color: #BB0000;'>NA</span><span> none       white, bl… black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>3</span><span> Kit …    196    87 none       green      black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>4</span><span> Plo …    188    80 none       orange     black             22 male  mascu…
+#&gt; </span><span style='color: #555555;'>5</span><span> Lama…    229    88 none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>6</span><span> Taun…    213    </span><span style='color: #BB0000;'>NA</span><span> none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…
+#&gt; </span><span style='color: #555555;'>7</span><span> Shaa…    178    57 none       red, blue… black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…
+#&gt; </span><span style='color: #555555;'>8</span><span> Tion…    206    80 none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>9</span><span> BB8       </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> none       none       black             </span><span style='color: #BB0000;'>NA</span><span> none  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 
 <span class='co'># The filtering operation may yield different results on grouped</span>
 <span class='co'># tibbles because the expressions are computed within groups.</span>
 <span class='co'>#</span>
 <span class='co'># The following filters rows where `mass` is greater than the</span>
 <span class='co'># global average:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 13
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Dart…    202   136 none       white      yellow          41.9 male  
-#&gt;  2 Owen…    178   120 brown, gr… light      blue            52   male  
-#&gt;  3 Chew…    228   112 brown      unknown    blue           200   male  
-#&gt;  4 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herma…
-#&gt;  5 Jek …    180   110 brown      fair       blue            NA   male  
-#&gt;  6 IG-88    200   140 none       metal      red             15   none  
-#&gt;  7 Bossk    190   113 none       green      red             53   male  
-#&gt;  8 Dext…    198   102 none       brown      yellow          NA   male  
-#&gt;  9 Grie…    216   159 none       brown, wh… green, y…       NA   male  
-#&gt; 10 Tarf…    234   136 brown      brown      blue            NA   male  
-#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
-#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 14</span><span>
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> Chew…    228   112 brown      unknown    blue           200   male  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Jabb…    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>         green-tan… orange         600   herm… mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Jek …    180   110 brown      fair       blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'> 6</span><span> IG-88    200   140 none       metal      red             15   none  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Bossk    190   113 none       green      red             53   male  mascu…
+#&gt; </span><span style='color: #555555;'> 8</span><span> Dext…    198   102 none       brown      yellow          </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Grie…    216   159 none       brown, wh… green, y…       </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Tarf…    234   136 brown      brown      blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># Whereas this keeps rows with `mass` greater than the gender</span>
 <span class='co'># average:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 25 x 13
-#&gt; # Groups:   gender [3]
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
-#&gt;  2 Dart…    202   136 none       white      yellow          41.9 male  
-#&gt;  3 Owen…    178   120 brown, gr… light      blue            52   male  
-#&gt;  4 Beru…    165    75 brown      light      blue            47   female
-#&gt;  5 Bigg…    183    84 black      light      brown           24   male  
-#&gt;  6 Anak…    188    84 blond      fair       blue            41.9 male  
-#&gt;  7 Chew…    228   112 brown      unknown    blue           200   male  
-#&gt;  8 Jek …    180   110 brown      fair       blue            NA   male  
-#&gt;  9 Bossk    190   113 none       green      red             53   male  
-#&gt; 10 Ackb…    180    83 none       brown mot… orange          41   male  
-#&gt; # … with 15 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 14 x 14</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   gender [2]</span><span>
+#&gt;    name  height   mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Dart…    202  136   none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> Owen…    178  120   brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> Beru…    165   75   brown      light      blue            47   fema… femin…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Chew…    228  112   brown      unknown    blue           200   male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Jabb…    175 </span><span style='text-decoration: underline;'>1</span><span>358   </span><span style='color: #BB0000;'>NA</span><span>         green-tan… orange         600   herm… mascu…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Jek …    180  110   brown      fair       blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> IG-88    200  140   none       metal      red             15   none  mascu…
+#&gt; </span><span style='color: #555555;'> 8</span><span> Bossk    190  113   none       green      red             53   male  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Ayla…    178   55   none       blue       hazel           48   fema… femin…
+#&gt; </span><span style='color: #555555;'>10</span><span> Lumi…    170   56.2 black      yellow     blue            58   fema… femin…
+#&gt; </span><span style='color: #555555;'>11</span><span> Zam …    168   55   blonde     fair, gre… yellow          </span><span style='color: #BB0000;'>NA</span><span>   fema… femin…
+#&gt; </span><span style='color: #555555;'>12</span><span> Shaa…    178   57   none       red, blue… black           </span><span style='color: #BB0000;'>NA</span><span>   fema… femin…
+#&gt; </span><span style='color: #555555;'>13</span><span> Grie…    216  159   none       brown, wh… green, y…       </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'>14</span><span> Tarf…    234  136   brown      brown      blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 
-<span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
-<span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
-<span class='no'>cond</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>80</span>, <span class='fl'>150</span>)
+<span class='co'># To refer to column names that are stored as strings, use the `.data` pronoun:</span>
+<span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
+<span class='no'>cond</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>80</span>, <span class='fl'>150</span>)
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>filter</span>(
     <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>1</span>]]]] <span class='kw'>&gt;</span> <span class='no'>cond</span><span class='kw'>[[</span><span class='fl'>1</span>]],
     <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>2</span>]]]] <span class='kw'>&gt;</span> <span class='no'>cond</span><span class='kw'>[[</span><span class='fl'>2</span>]]
-  )</div><div class='output co'>#&gt; # A tibble: 21 x 13
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Dart…    202   136 none       white      yellow          41.9 male  
-#&gt;  2 Owen…    178   120 brown, gr… light      blue            52   male  
-#&gt;  3 Bigg…    183    84 black      light      brown           24   male  
-#&gt;  4 Anak…    188    84 blond      fair       blue            41.9 male  
-#&gt;  5 Chew…    228   112 brown      unknown    blue           200   male  
-#&gt;  6 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herma…
-#&gt;  7 Jek …    180   110 brown      fair       blue            NA   male  
-#&gt;  8 IG-88    200   140 none       metal      red             15   none  
-#&gt;  9 Bossk    190   113 none       green      red             53   male  
-#&gt; 10 Ackb…    180    83 none       brown mot… orange          41   male  
-#&gt; # … with 11 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
-<span class='co'># For more complex cases, knowledge of tidy evaluation and the</span>
-<span class='co'># unquote operator `!!` is required. See https://tidyeval.tidyverse.org/</span>
-<span class='co'>#</span>
-<span class='co'># One useful and simple tidy eval technique is to use `!!` to bypass</span>
-<span class='co'># the data frame and its columns. Here is how to filter the columns</span>
-<span class='co'># `mass` and `height` relative to objects of the same names:</span>
-<span class='no'>mass</span> <span class='kw'>&lt;-</span> <span class='fl'>80</span>
-<span class='no'>height</span> <span class='kw'>&lt;-</span> <span class='fl'>150</span>
-<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>mass</span> <span class='kw'>&gt;</span> !!<span class='no'>mass</span>, <span class='no'>height</span> <span class='kw'>&gt;</span> !!<span class='no'>height</span>)</div><div class='output co'>#&gt; # A tibble: 21 x 13
-#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
-#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-#&gt;  1 Dart…    202   136 none       white      yellow          41.9 male  
-#&gt;  2 Owen…    178   120 brown, gr… light      blue            52   male  
-#&gt;  3 Bigg…    183    84 black      light      brown           24   male  
-#&gt;  4 Anak…    188    84 blond      fair       blue            41.9 male  
-#&gt;  5 Chew…    228   112 brown      unknown    blue           200   male  
-#&gt;  6 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herma…
-#&gt;  7 Jek …    180   110 brown      fair       blue            NA   male  
-#&gt;  8 IG-88    200   140 none       metal      red             15   none  
-#&gt;  9 Bossk    190   113 none       green      red             53   male  
-#&gt; 10 Ackb…    180    83 none       brown mot… orange          41   male  
-#&gt; # … with 11 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div></pre>
+  )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 21 x 14</span><span>
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Chew…    228   112 brown      unknown    blue           200   male  mascu…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Jabb…    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>         green-tan… orange         600   herm… mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Jek …    180   110 brown      fair       blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
+#&gt; </span><span style='color: #555555;'> 8</span><span> IG-88    200   140 none       metal      red             15   none  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bossk    190   113 none       green      red             53   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Ackb…    180    83 none       brown mot… orange          41   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 11 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='co'># Learn more in ?dplyr_data_masking</span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#useful-filter-functions">Useful filter functions</a></li>
-
-      <li><a href="#grouped-tibbles">Grouped tibbles</a></li>
-
-      <li><a href="#tidy-data">Tidy data</a></li>
-
-      <li><a href="#scoped-filtering">Scoped filtering</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -458,6 +461,7 @@ selection of variables.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -480,6 +484,8 @@ selection of variables.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

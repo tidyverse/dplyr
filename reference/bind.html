@@ -8,21 +8,35 @@
 
 <title>Efficiently bind multiple data frames by row and column — bind • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,36 +52,37 @@
 
 
 <meta property="og:title" content="Efficiently bind multiple data frames by row and column — bind" />
-
 <meta property="og:description" content="This is an efficient implementation of the common pattern of
 do.call(rbind, dfs) or do.call(cbind, dfs) for binding many
 data frames into one." />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,16 +97,16 @@ data frames into one." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -104,19 +119,28 @@ data frames into one." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">Column-wise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">Row-wise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -127,7 +151,10 @@ data frames into one." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
+    <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
@@ -143,14 +170,15 @@ data frames into one." />
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -167,28 +195,27 @@ data frames into one." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Efficiently bind multiple data frames by row and column</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/bind.r'><code>R/bind.r</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/rbind.R'><code>R/rbind.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/bind.r'><code>R/bind.r</code></a></small>
     <div class="hidden name"><code>bind.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>This is an efficient implementation of the common pattern of
-<code><a href='https://www.rdocumentation.org/packages/base/topics/do.call'>do.call(rbind, dfs)</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/do.call'>do.call(cbind, dfs)</a></code> for binding many
+<code><a href='https://rdrr.io/r/base/do.call.html'>do.call(rbind, dfs)</a></code> or <code><a href='https://rdrr.io/r/base/do.call.html'>do.call(cbind, dfs)</a></code> for binding many
 data frames into one.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>bind_rows</span>(<span class='no'>...</span>, <span class='kw'>.id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>bind_cols</span>(<span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -201,7 +228,7 @@ frame, or a list of data frames.</p>
 columns will be filled with NA.</p>
 <p>When column-binding, rows are matched by position, so all data
 frames must have the same number of rows. To match by value, not
-position, see <a href='join.html'>join</a>.</p></td>
+position, see <a href='mutate-joins.html'>mutate-joins</a>.</p></td>
     </tr>
     <tr>
       <th>.id</th>
@@ -214,215 +241,210 @@ names of the list. If no names are found a numeric sequence is
 used instead.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>bind_rows()</code> and <code>bind_cols()</code> return the same type as
 the first input, either a data frame, <code>tbl_df</code>, or <code>grouped_df</code>.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The output of <code>bind_rows()</code> will contain a column if that column
 appears in any of the inputs.</p>
-    
-    <h2 class="hasAnchor" id="deprecated-functions"><a class="anchor" href="#deprecated-functions"></a>Deprecated functions</h2>
-
-    
-    <p><code>rbind_list()</code> and <code>rbind_all()</code> have been deprecated. Instead use
-<code>bind_rows()</code>.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>one</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span>[<span class='fl'>1</span>:<span class='fl'>4</span>, ]
-<span class='no'>two</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span>[<span class='fl'>11</span>:<span class='fl'>14</span>, ]
+    <pre class="examples"><div class='input'><span class='no'>one</span> <span class='kw'>&lt;-</span> <span class='no'>starwars</span>[<span class='fl'>1</span>:<span class='fl'>4</span>, ]
+<span class='no'>two</span> <span class='kw'>&lt;-</span> <span class='no'>starwars</span>[<span class='fl'>9</span>:<span class='fl'>12</span>, ]
 
 <span class='co'># You can supply data frames as arguments:</span>
-<span class='fu'>bind_rows</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt;    mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 5 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 6 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 7 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 8 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</div><div class='input'>
+<span class='fu'>bind_rows</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 8 x 14</span><span>
+#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'>2</span><span> C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'>3</span><span> R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'>4</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'>5</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>6</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'>7</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'>8</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># The contents of lists are spliced automatically:</span>
-<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt;    mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 5 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 6 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 7 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 8 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/split'>split</a></span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>$<span class='no'>cyl</span>))</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1  22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 2  24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; 3  22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; 4  32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; 5  30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; 6  33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; 7  21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; 8  27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; 9  26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; 10 30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; 11 21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
-#&gt; 12 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 13 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 14 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 15 18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; 16 19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; 17 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 18 19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; 19 18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; 20 14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; 21 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 22 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 23 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; 24 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; 25 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; 26 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; 27 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; 28 15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; 29 13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; 30 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; 31 15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; 32 15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>two</span>, <span class='no'>one</span>))</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1  21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3  22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4  21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 5  17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 6  16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 7  17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 8  15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; 9  17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 10 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 11 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 12 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; 13 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 14 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 15 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 16 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</div><div class='input'>
+<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 14</span><span>
+#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'>2</span><span> C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'>3</span><span> R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'>4</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'>5</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>6</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'>7</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'>8</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>$<span class='no'>homeworld</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 77 x 14</span><span>
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Leia…    150    49 brown      light      brown             19 fema… femin…
+#&gt; </span><span style='color: #555555;'> 2</span><span> Bail…    191    </span><span style='color: #BB0000;'>NA</span><span> black      tan        brown             67 male  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> Raym…    188    79 brown      light      brown             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Ratt…     79    15 none       grey, blue unknown           </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Lobot    175    79 none       light      blue              37 male  mascu…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Jek …    180   110 brown      fair       blue              </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Nute…    191    90 none       mottled g… red               </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'> 8</span><span> Ki-A…    198    82 white      pale       yellow            92 male  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Mas …    196    </span><span style='color: #BB0000;'>NA</span><span> none       blue       blue              </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Mon …    150    </span><span style='color: #BB0000;'>NA</span><span> auburn     fair       blue              48 fema… femin…
+#&gt; </span><span style='color: #555555;'># … with 67 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>two</span>, <span class='no'>one</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 16 x 14</span><span>
+#&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'> 2</span><span> C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'> 3</span><span> R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'> 4</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 5</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'> 6</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'> 7</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'> 8</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
+#&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
+#&gt; </span><span style='color: #555555;'>10</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+#&gt; </span><span style='color: #555555;'>11</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'>12</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
+#&gt; </span><span style='color: #555555;'>13</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
+#&gt; </span><span style='color: #555555;'>14</span><span> C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none  mascu…
+#&gt; </span><span style='color: #555555;'>15</span><span> R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none  mascu…
+#&gt; </span><span style='color: #555555;'>16</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 
 <span class='co'># In addition to data frames, you can supply vectors. In the rows</span>
 <span class='co'># direction, the vectors represent rows and should have inner</span>
 <span class='co'># names:</span>
 <span class='fu'>bind_rows</span>(
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>4</span>)
-)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;       a     b
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     2
-#&gt; 2     3     4</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2
+#&gt; </span><span style='color: #555555;'>2</span><span>     3     4</div><div class='input'>
 <span class='co'># You can mix vectors and data frames:</span>
 <span class='fu'>bind_rows</span>(
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
   <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>:<span class='fl'>4</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>5</span>:<span class='fl'>6</span>),
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>8</span>)
-)</div><div class='output co'>#&gt; # A tibble: 4 x 2
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
 #&gt;       a     b
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     2
-#&gt; 2     3     5
-#&gt; 3     4     6
-#&gt; 4     7     8</div><div class='input'>
-
-<span class='co'># Note that for historical reasons, lists containing vectors are</span>
-<span class='co'># always treated as data frames. Thus their vectors are treated as</span>
-<span class='co'># columns rather than rows, and their inner names are ignored:</span>
-<span class='no'>ll</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-  <span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>2</span>),
-  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>4</span>)
-)
-<span class='fu'>bind_rows</span>(<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
-#&gt;       a     b
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     3
-#&gt; 2     2     4</div><div class='input'>
-<span class='co'># You can circumvent that behaviour with explicit splicing:</span>
-<span class='fu'>bind_rows</span>(!!!<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
-#&gt;       A     B
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     2
-#&gt; 2     3     4</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2
+#&gt; </span><span style='color: #555555;'>2</span><span>     3     5
+#&gt; </span><span style='color: #555555;'>3</span><span>     4     6
+#&gt; </span><span style='color: #555555;'>4</span><span>     7     8</div><div class='input'>
 
 <span class='co'># When you supply a column name with the `.id` argument, a new</span>
 <span class='co'># column is created to link each row to its original data frame</span>
-<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt;   id  mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1  1 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2  1 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3  1 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4  1 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 5  2 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 6  2 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 7  2 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 8  2 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt;   id  mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1  a 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2  a 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3  a 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4  a 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 5  b 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 6  b 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 7  b 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 8  b 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</div><div class='input'><span class='fu'>bind_rows</span>(<span class='st'>"group 1"</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='st'>"group 2"</span> <span class='kw'>=</span> <span class='no'>two</span>, <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"groups"</span>)</div><div class='output co'>#&gt;    groups  mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1 group 1 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2 group 1 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3 group 1 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4 group 1 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 5 group 2 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 6 group 2 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 7 group 2 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 8 group 2 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</div><div class='input'>
+<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
+#&gt;   id    name  height  mass hair_color skin_color eye_color birth_year sex  
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 1     Luke…    172    77 blond      fair       blue            19   male 
+#&gt; </span><span style='color: #555555;'>2</span><span> 1     C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none 
+#&gt; </span><span style='color: #555555;'>3</span><span> 1     R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none 
+#&gt; </span><span style='color: #555555;'>4</span><span> 1     Dart…    202   136 none       white      yellow          41.9 male 
+#&gt; </span><span style='color: #555555;'>5</span><span> 2     Bigg…    183    84 black      light      brown           24   male 
+#&gt; </span><span style='color: #555555;'>6</span><span> 2     Obi-…    182    77 auburn, w… fair       blue-gray       57   male 
+#&gt; </span><span style='color: #555555;'>7</span><span> 2     Anak…    188    84 blond      fair       blue            41.9 male 
+#&gt; </span><span style='color: #555555;'>8</span><span> 2     Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male 
+#&gt; </span><span style='color: #555555;'># … with 6 more variables: gender </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
+#&gt;   id    name  height  mass hair_color skin_color eye_color birth_year sex  
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> a     Luke…    172    77 blond      fair       blue            19   male 
+#&gt; </span><span style='color: #555555;'>2</span><span> a     C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none 
+#&gt; </span><span style='color: #555555;'>3</span><span> a     R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none 
+#&gt; </span><span style='color: #555555;'>4</span><span> a     Dart…    202   136 none       white      yellow          41.9 male 
+#&gt; </span><span style='color: #555555;'>5</span><span> b     Bigg…    183    84 black      light      brown           24   male 
+#&gt; </span><span style='color: #555555;'>6</span><span> b     Obi-…    182    77 auburn, w… fair       blue-gray       57   male 
+#&gt; </span><span style='color: #555555;'>7</span><span> b     Anak…    188    84 blond      fair       blue            41.9 male 
+#&gt; </span><span style='color: #555555;'>8</span><span> b     Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male 
+#&gt; </span><span style='color: #555555;'># … with 6 more variables: gender </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='st'>"group 1"</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='st'>"group 2"</span> <span class='kw'>=</span> <span class='no'>two</span>, <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"groups"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
+#&gt;   groups name  height  mass hair_color skin_color eye_color birth_year sex  
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> group… Luke…    172    77 blond      fair       blue            19   male 
+#&gt; </span><span style='color: #555555;'>2</span><span> group… C-3PO    167    75 </span><span style='color: #BB0000;'>NA</span><span>         gold       yellow         112   none 
+#&gt; </span><span style='color: #555555;'>3</span><span> group… R2-D2     96    32 </span><span style='color: #BB0000;'>NA</span><span>         white, bl… red             33   none 
+#&gt; </span><span style='color: #555555;'>4</span><span> group… Dart…    202   136 none       white      yellow          41.9 male 
+#&gt; </span><span style='color: #555555;'>5</span><span> group… Bigg…    183    84 black      light      brown           24   male 
+#&gt; </span><span style='color: #555555;'>6</span><span> group… Obi-…    182    77 auburn, w… fair       blue-gray       57   male 
+#&gt; </span><span style='color: #555555;'>7</span><span> group… Anak…    188    84 blond      fair       blue            41.9 male 
+#&gt; </span><span style='color: #555555;'>8</span><span> group… Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male 
+#&gt; </span><span style='color: #555555;'># … with 6 more variables: gender </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># Columns don't need to match when row-binding</span>
-<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>))</div><div class='output co'>#&gt;    x  y
-#&gt; 1  1 NA
-#&gt; 2  2 NA
-#&gt; 3  3 NA
-#&gt; 4 NA  1
-#&gt; 5 NA  2
-#&gt; 6 NA  3
-#&gt; 7 NA  4</div><span class='co'># NOT RUN {</span>
+<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 7 x 2</span><span>
+#&gt;       x     y
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>     2    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     3    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     1
+#&gt; </span><span style='color: #555555;'>5</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     2
+#&gt; </span><span style='color: #555555;'>6</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     3
+#&gt; </span><span style='color: #555555;'>7</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     4</div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Rows do need to match when column-binding</span>
-<span class='fu'>bind_cols</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>))
-<span class='co'># }</span><div class='input'>
-<span class='fu'>bind_cols</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb mpg1 cyl1 disp1 hp1 drat1
-#&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4 17.8    6 167.6 123  3.92
-#&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4 16.4    8 275.8 180  3.07
-#&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1 17.3    8 275.8 180  3.07
-#&gt; 4 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1 15.2    8 275.8 180  3.07
-#&gt;    wt1 qsec1 vs1 am1 gear1 carb1
-#&gt; 1 3.44  18.9   1   0     4     4
-#&gt; 2 4.07  17.4   0   0     3     3
-#&gt; 3 3.73  17.6   0   0     3     3
-#&gt; 4 3.78  18.0   0   0     3     3</div><div class='input'><span class='fu'>bind_cols</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb mpg1 cyl1 disp1 hp1 drat1
-#&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4 17.8    6 167.6 123  3.92
-#&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4 16.4    8 275.8 180  3.07
-#&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1 17.3    8 275.8 180  3.07
-#&gt; 4 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1 15.2    8 275.8 180  3.07
-#&gt;    wt1 qsec1 vs1 am1 gear1 carb1
-#&gt; 1 3.44  18.9   1   0     4     4
-#&gt; 2 4.07  17.4   0   0     3     3
-#&gt; 3 3.73  17.6   0   0     3     3
-#&gt; 4 3.78  18.0   0   0     3     3</div></pre>
+<span class='fu'>bind_cols</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>))
+}
+
+<span class='fu'>bind_cols</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* name -&gt; name...1</span>
+#&gt; <span class='message'>* height -&gt; height...2</span>
+#&gt; <span class='message'>* mass -&gt; mass...3</span>
+#&gt; <span class='message'>* hair_color -&gt; hair_color...4</span>
+#&gt; <span class='message'>* skin_color -&gt; skin_color...5</span>
+#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 28</span><span>
+#&gt;   name...1 height...2 mass...3 hair_color...4 skin_color...5 eye_color...6
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        
+#&gt; </span><span style='color: #555555;'>1</span><span> Luke Sk…        172       77 blond          fair           blue         
+#&gt; </span><span style='color: #555555;'>2</span><span> C-3PO           167       75 </span><span style='color: #BB0000;'>NA</span><span>             gold           yellow       
+#&gt; </span><span style='color: #555555;'>3</span><span> R2-D2            96       32 </span><span style='color: #BB0000;'>NA</span><span>             white, blue    red          
+#&gt; </span><span style='color: #555555;'>4</span><span> Darth V…        202      136 none           white          yellow       
+#&gt; </span><span style='color: #555555;'># … with 22 more variables: birth_year...7 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, sex...8 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   gender...9 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld...10 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species...11 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   films...12 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles...13 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships...14 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   name...15 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, height...16 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, mass...17 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, hair_color...18 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   skin_color...19 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, eye_color...20 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, birth_year...21 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   sex...22 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, gender...23 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld...24 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   species...25 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films...26 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles...27 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   starships...28 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* name -&gt; name...1</span>
+#&gt; <span class='message'>* height -&gt; height...2</span>
+#&gt; <span class='message'>* mass -&gt; mass...3</span>
+#&gt; <span class='message'>* hair_color -&gt; hair_color...4</span>
+#&gt; <span class='message'>* skin_color -&gt; skin_color...5</span>
+#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 28</span><span>
+#&gt;   name...1 height...2 mass...3 hair_color...4 skin_color...5 eye_color...6
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        
+#&gt; </span><span style='color: #555555;'>1</span><span> Luke Sk…        172       77 blond          fair           blue         
+#&gt; </span><span style='color: #555555;'>2</span><span> C-3PO           167       75 </span><span style='color: #BB0000;'>NA</span><span>             gold           yellow       
+#&gt; </span><span style='color: #555555;'>3</span><span> R2-D2            96       32 </span><span style='color: #BB0000;'>NA</span><span>             white, blue    red          
+#&gt; </span><span style='color: #555555;'>4</span><span> Darth V…        202      136 none           white          yellow       
+#&gt; </span><span style='color: #555555;'># … with 22 more variables: birth_year...7 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, sex...8 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   gender...9 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld...10 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species...11 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   films...12 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles...13 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships...14 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   name...15 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, height...16 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, mass...17 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, hair_color...18 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   skin_color...19 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, eye_color...20 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, birth_year...21 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   sex...22 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, gender...23 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld...24 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   species...25 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films...26 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles...27 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   starships...28 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#deprecated-functions">Deprecated functions</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -435,6 +457,7 @@ appears in any of the inputs.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -457,6 +480,8 @@ appears in any of the inputs.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

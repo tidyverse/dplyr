@@ -6,23 +6,37 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Grouping data — group_rows • dplyr</title>
+<title>Grouping metadata — group_data • dplyr</title>
+
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,35 +51,53 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Grouping data — group_rows" />
+<meta property="og:title" content="Grouping metadata — group_data" />
+<meta property="og:description" content="
 
-<meta property="og:description" content="Grouping data" />
+group_data() returns a data frame that defines the grouping structure.
+The columns give the values of the grouping variables. The last column,
+always called .rows, is a list of integer vectors that gives the
+location of the rows in each group. You can retrieve just the grouping
+data with group_data(), and just the locations with group_rows().
+group_indices() returns an integer vector the same length as .data
+that gives the group that each row belongs to (cf. group_rows() which
+returns the rows which each group contains).
+group_vars() gives names of grouping variables as character vector;
+groups() gives the names as a list of symbols.
+group_size() gives the size of each group, and n_groups() gives the
+total number of groups.
 
+
+See context for equivalent functions that return values for the current
+group." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,16 +112,16 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -102,19 +134,28 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">Column-wise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">Row-wise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -125,7 +166,10 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
+    <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
@@ -141,14 +185,15 @@
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -165,88 +210,99 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Grouping data</h1>
+    <h1>Grouping metadata</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/group_data.R'><code>R/group_data.R</code></a></small>
     <div class="hidden name"><code>group_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Grouping data</p>
-    
+<ul>
+<li><p><code>group_data()</code> returns a data frame that defines the grouping structure.
+The columns give the values of the grouping variables. The last column,
+always called <code>.rows</code>, is a list of integer vectors that gives the
+location of the rows in each group. You can retrieve just the grouping
+data with <code>group_data()</code>, and just the locations with <code>group_rows()</code>.</p></li>
+<li><p><code>group_indices()</code> returns an integer vector the same length as <code>.data</code>
+that gives the group that each row belongs to (cf. <code>group_rows()</code> which
+returns the rows which each group contains).</p></li>
+<li><p><code>group_vars()</code> gives names of grouping variables as character vector;
+<code>groups()</code> gives the names as a list of symbols.</p></li>
+<li><p><code>group_size()</code> gives the size of each group, and <code>n_groups()</code> gives the
+total number of groups.</p></li>
+</ul>
+
+<p>See <a href='context.html'>context</a> for equivalent functions that return values for the <em>current</em>
+group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_rows</span>(<span class='no'>.data</span>)
+    <pre class="usage"><span class='fu'>group_data</span>(<span class='no'>.data</span>)
 
-<span class='fu'>group_data</span>(<span class='no'>.data</span>)</pre>
-    
+<span class='fu'>group_keys</span>(<span class='no'>.tbl</span>, <span class='no'>...</span>)
+
+<span class='fu'>group_rows</span>(<span class='no'>.data</span>)
+
+<span class='fu'>group_indices</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
+
+<span class='fu'>group_vars</span>(<span class='no'>x</span>)
+
+<span class='fu'>groups</span>(<span class='no'>x</span>)
+
+<span class='fu'>group_size</span>(<span class='no'>x</span>)
+
+<span class='fu'>n_groups</span>(<span class='no'>x</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.data</th>
-      <td><p>a tibble</p></td>
+      <th>.data, .tbl, x</th>
+      <td><p>A data frame or extension (like a tibble or grouped
+tibble).</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Use of <code>...</code> is now deprecated; please use <code><a href='group_by.html'>group_by()</a></code> first
+instead.</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>group_data()</code> return a tibble with one row per group. The last column, always called <code>.rows</code>
-is a list of integer vectors indicating the rows for each group.
-If <code>.data</code> is a grouped data frame the first columns are the grouping variables.
-<code>group_rows()</code> just returns the list of indices.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other grouping functions: <code><a href='group_by_all.html'>group_by_all</a></code>,
-  <code><a href='group_by.html'>group_by</a></code>, <code><a href='group_indices.html'>group_indices</a></code>,
-  <code><a href='group_split.html'>group_keys</a></code>, <code><a href='group_map.html'>group_map</a></code>,
-  <code><a href='group_nest.html'>group_nest</a></code>, <code><a href='group_size.html'>group_size</a></code>,
-  <code><a href='group_trim.html'>group_trim</a></code>, <code><a href='groups.html'>groups</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>))
-
-<span class='co'># one row</span>
-<span class='fu'>group_data</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 1
-#&gt;   .rows    
-#&gt;   &lt;list&gt;   
-#&gt; 1 &lt;int [4]&gt;</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; [[1]]
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>))
+<span class='fu'>group_vars</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; character(0)</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[1]&gt;
+#&gt; [[1]]
 #&gt; [1] 1 2 3 4
-#&gt; </div><div class='input'>
-<span class='co'># 2 rows, one for each group</span>
-<span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>,<span class='no'>x</span>) <span class='kw'>%&gt;%</span> <span class='fu'>group_data</span>()</div><div class='output co'>#&gt; # A tibble: 2 x 2
-#&gt;       x .rows    
-#&gt;   &lt;dbl&gt; &lt;list&gt;   
-#&gt; 1     1 &lt;int [2]&gt;
-#&gt; 2     2 &lt;int [2]&gt;</div><div class='input'><span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>,<span class='no'>x</span>) <span class='kw'>%&gt;%</span> <span class='fu'>group_rows</span>()</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 1</span><span>
+#&gt;         .rows
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;int&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>         </span><span style='color: #555555;'>[4]</span><span></div><div class='input'>
+<span class='no'>gf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>, <span class='no'>x</span>)
+<span class='fu'>group_vars</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; [1] "x"</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[2]&gt;
+#&gt; [[1]]
 #&gt; [1] 1 2
 #&gt; 
 #&gt; [[2]]
 #&gt; [1] 3 4
-#&gt; </div><div class='input'>
-</div></pre>
+#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
+#&gt;       x       .rows
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;int&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1         </span><span style='color: #555555;'>[2]</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>     2         </span><span style='color: #555555;'>[2]</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -259,6 +315,7 @@ If <code>.data</code> is a grouped data frame the first columns are the grouping
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -281,6 +338,8 @@ If <code>.data</code> is a grouped data frame the first columns are the grouping
 </script>
 
 
+
   </body>
 </html>
+
 

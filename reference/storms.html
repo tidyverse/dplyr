@@ -8,21 +8,35 @@
 
 <title>Storm tracks data — storms • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,37 +52,38 @@
 
 
 <meta property="og:title" content="Storm tracks data — storms" />
-
 <meta property="og:description" content="This data is a subset of the NOAA Atlantic hurricane database best track
 data, http://www.nhc.noaa.gov/data/#hurdat. The data includes the
 positions and attributes of 198 tropical storms, measured every six hours
 during the lifetime of a storm." />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -83,16 +98,16 @@ during the lifetime of a storm." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -105,19 +120,28 @@ during the lifetime of a storm." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">Column-wise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">Row-wise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -128,7 +152,10 @@ during the lifetime of a storm." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
+    <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
@@ -144,14 +171,15 @@ during the lifetime of a storm." />
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -168,6 +196,7 @@ during the lifetime of a storm." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -179,19 +208,18 @@ during the lifetime of a storm." />
     </div>
 
     <div class="ref-description">
-    
     <p>This data is a subset of the NOAA Atlantic hurricane database best track
 data, <a href='http://www.nhc.noaa.gov/data/#hurdat'>http://www.nhc.noaa.gov/data/#hurdat</a>. The data includes the
 positions and attributes of 198 tropical storms, measured every six hours
 during the lifetime of a storm.</p>
-    
     </div>
 
     <pre class="usage"><span class='no'>storms</span></pre>
-        
+
+
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A tibble with 10,010 observations and 13 variables:</p><dl class='dl-horizontal'>
+    <p>A tibble with 10,010 observations and 13 variables:</p><dl>
 <dt>name</dt><dd><p>Storm Name</p></dd>
 <dt>year,month,day</dt><dd><p>Date of report</p></dd>
 <dt>hour</dt><dd><p>Hour of report (in UTC)</p></dd>
@@ -204,43 +232,37 @@ or Hurricane)</p></dd>
 <dt>pressure</dt><dd><p>Air pressure at the storm's center (in millibars)</p></dd>
 <dt>ts_diameter</dt><dd><p>Diameter of the area experiencing tropical storm strength winds (34 knots or above)</p></dd>
 <dt>hu_diameter</dt><dd><p>Diameter of the area experiencing hurricane strength winds (64 knots or above)</p></dd>
+
 </dl>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>The script to create the storms data set: <a href='https://github.com/tidyverse/dplyr/blob/master/data-raw/storms.R'>https://github.com/tidyverse/dplyr/blob/master/data-raw/storms.R</a></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>storms</span></div><div class='output co'>#&gt; # A tibble: 10,010 x 13
+    <pre class="examples"><div class='input'><span class='no'>storms</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10,010 x 13</span><span>
 #&gt;    name   year month   day  hour   lat  long status category  wind pressure
-#&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;ord&gt;    &lt;int&gt;    &lt;int&gt;
-#&gt;  1 Amy    1975     6    27     0  27.5 -79   tropi… -1          25     1013
-#&gt;  2 Amy    1975     6    27     6  28.5 -79   tropi… -1          25     1013
-#&gt;  3 Amy    1975     6    27    12  29.5 -79   tropi… -1          25     1013
-#&gt;  4 Amy    1975     6    27    18  30.5 -79   tropi… -1          25     1013
-#&gt;  5 Amy    1975     6    28     0  31.5 -78.8 tropi… -1          25     1012
-#&gt;  6 Amy    1975     6    28     6  32.4 -78.7 tropi… -1          25     1012
-#&gt;  7 Amy    1975     6    28    12  33.3 -78   tropi… -1          25     1011
-#&gt;  8 Amy    1975     6    28    18  34   -77   tropi… -1          30     1006
-#&gt;  9 Amy    1975     6    29     0  34.4 -75.8 tropi… 0           35     1004
-#&gt; 10 Amy    1975     6    29     6  34   -74.8 tropi… 0           40     1002
-#&gt; # … with 10,000 more rows, and 2 more variables: ts_diameter &lt;dbl&gt;,
-#&gt; #   hu_diameter &lt;dbl&gt;</div></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27     0  27.5 -</span><span style='color: #BB0000;'>79</span><span>   tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
+#&gt; </span><span style='color: #555555;'> 2</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27     6  28.5 -</span><span style='color: #BB0000;'>79</span><span>   tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
+#&gt; </span><span style='color: #555555;'> 3</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27    12  29.5 -</span><span style='color: #BB0000;'>79</span><span>   tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
+#&gt; </span><span style='color: #555555;'> 4</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27    18  30.5 -</span><span style='color: #BB0000;'>79</span><span>   tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
+#&gt; </span><span style='color: #555555;'> 5</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28     0  31.5 -</span><span style='color: #BB0000;'>78.8</span><span> tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>012
+#&gt; </span><span style='color: #555555;'> 6</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28     6  32.4 -</span><span style='color: #BB0000;'>78.7</span><span> tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>012
+#&gt; </span><span style='color: #555555;'> 7</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28    12  33.3 -</span><span style='color: #BB0000;'>78</span><span>   tropi… -1          25     </span><span style='text-decoration: underline;'>1</span><span>011
+#&gt; </span><span style='color: #555555;'> 8</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28    18  34   -</span><span style='color: #BB0000;'>77</span><span>   tropi… -1          30     </span><span style='text-decoration: underline;'>1</span><span>006
+#&gt; </span><span style='color: #555555;'> 9</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    29     0  34.4 -</span><span style='color: #BB0000;'>75.8</span><span> tropi… 0           35     </span><span style='text-decoration: underline;'>1</span><span>004
+#&gt; </span><span style='color: #555555;'>10</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    29     6  34   -</span><span style='color: #BB0000;'>74.8</span><span> tropi… 0           40     </span><span style='text-decoration: underline;'>1</span><span>002
+#&gt; </span><span style='color: #555555;'># … with 10,000 more rows, and 2 more variables: ts_diameter </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   hu_diameter </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -253,6 +275,7 @@ or Hurricane)</p></dd>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -275,6 +298,8 @@ or Hurricane)</p></dd>
 </script>
 
 
+
   </body>
 </html>
+
 

@@ -8,21 +8,35 @@
 
 <title>Source for database backends — src_dbi • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,41 +52,38 @@
 
 
 <meta property="og:title" content="Source for database backends — src_dbi" />
-
-<meta property="og:description" content="For backward compatibility dplyr provides three srcs for popular
-open source databases:
-src_mysql() connects to a MySQL or MariaDB database using RMySQL::MySQL().
-src_postgres() connects to PostgreSQL using RPostgreSQL::PostgreSQL()
-src_sqlite() to connect to a SQLite database using RSQLite::SQLite().
-" />
-
-<meta property="og:description" content="However, modern best practice is to use tbl() directly on an DBIConnection." />
-
+<meta property="og:description" content="
+These functions have been deprecated; instead please use tbl()
+directly on an DBIConnection. See https://dbplyr.tidyverse.org/ for
+more details." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -87,16 +98,16 @@ src_sqlite() to connect to a SQLite database using RSQLite::SQLite().
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -109,19 +120,28 @@ src_sqlite() to connect to a SQLite database using RSQLite::SQLite().
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/grouping.html">Grouped data</a>
+    </li>
+    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="../articles/window-functions.html">Window functions</a>
+      <a href="../articles/base.html">dplyr &lt;-&gt; base R</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Automation</li>
+    <li>
+      <a href="../articles/colwise.html">Column-wise operations</a>
     </li>
     <li>
-      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+      <a href="../articles/rowwise.html">Row-wise operations</a>
     </li>
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/compatibility.html">Compatibility</a>
+      <a href="../articles/index.html">More...</a>
     </li>
   </ul>
 </li>
@@ -132,7 +152,10 @@ src_sqlite() to connect to a SQLite database using RSQLite::SQLite().
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
+    <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
@@ -148,14 +171,15 @@ src_sqlite() to connect to a SQLite database using RSQLite::SQLite().
     <li>
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../news/index.html">Change log</a>
+      <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -172,37 +196,44 @@ src_sqlite() to connect to a SQLite database using RSQLite::SQLite().
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Source for database backends</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/src_dbi.R'><code>R/src_dbi.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/deprec-dbi.R'><code>R/deprec-dbi.R</code></a></small>
     <div class="hidden name"><code>src_dbi.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-    <p>For backward compatibility dplyr provides three srcs for popular
-open source databases:</p><ul>
-<li><p><code>src_mysql()</code> connects to a MySQL or MariaDB database using <code><a href='https://www.rdocumentation.org/packages/RMySQL/topics/MySQLDriver-class'>RMySQL::MySQL()</a></code>.</p></li>
-<li><p><code>src_postgres()</code> connects to PostgreSQL using <code><a href='https://www.rdocumentation.org/packages/RPostgreSQL/topics/PostgreSQL'>RPostgreSQL::PostgreSQL()</a></code></p></li>
-<li><p><code>src_sqlite()</code> to connect to a SQLite database using <code><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLite'>RSQLite::SQLite()</a></code>.</p></li>
-</ul>
-
-    <p>However, modern best practice is to use <code><a href='tbl.html'>tbl()</a></code> directly on an <code>DBIConnection</code>.</p>
-    
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>These functions have been deprecated; instead please use <code><a href='tbl.html'>tbl()</a></code>
+directly on an <code>DBIConnection</code>. See <a href='https://dbplyr.tidyverse.org/'>https://dbplyr.tidyverse.org/</a> for
+more details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>src_mysql</span>(<span class='no'>dbname</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>username</span> <span class='kw'>=</span> <span class='st'>"root"</span>,
-  <span class='kw'>password</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>src_mysql</span>(
+  <span class='no'>dbname</span>,
+  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>0L</span>,
+  <span class='kw'>username</span> <span class='kw'>=</span> <span class='st'>"root"</span>,
+  <span class='kw'>password</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='no'>...</span>
+)
 
-<span class='fu'>src_postgres</span>(<span class='kw'>dbname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>port</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>password</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>src_postgres</span>(
+  <span class='kw'>dbname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>port</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>password</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)
 
 <span class='fu'>src_sqlite</span>(<span class='no'>path</span>, <span class='kw'>create</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -217,7 +248,7 @@ open source databases:</p><ul>
     <tr>
       <th>...</th>
       <td><p>for the src, other arguments passed on to the underlying
-database connector, <code><a href='https://www.rdocumentation.org/packages/DBI/topics/dbConnect'>DBI::dbConnect()</a></code>. For the tbl, included for
+database connector, <code><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>DBI::dbConnect()</a></code>. For the tbl, included for
 compatibility with the generic, but otherwise ignored.</p></td>
     </tr>
     <tr>
@@ -227,7 +258,7 @@ compatibility with the generic, but otherwise ignored.</p></td>
 scripts as it is easy to accidentally expose valuable credentials.
 Instead, retrieve them from environment variables, or use database
 specific credential scores. For example, with MySQL you can set up <code>my.cnf</code>
-as described in <code><a href='https://www.rdocumentation.org/packages/RMySQL/topics/MySQLDriver-class'>RMySQL::MySQL()</a></code>.</p></td>
+as described in <code><a href='https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.html'>RMySQL::MySQL()</a></code>.</p></td>
     </tr>
     <tr>
       <th>path</th>
@@ -242,94 +273,46 @@ as described in <code><a href='https://www.rdocumentation.org/packages/RMySQL/to
 <code>path</code> does exist.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An S3 object with class <code>src_dbi</code>, <code>src_sql</code>, <code>src</code>.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>All data manipulation on SQL tbls are lazy: they will not actually
-run the query or retrieve the data unless you ask for it: they all return
-a new <code>tbl_dbi</code> object. Use <code><a href='compute.html'>compute()</a></code> to run the query and save the
-results in a temporary in the database, or use <code><a href='compute.html'>collect()</a></code> to retrieve the
-results to R. You can see the query with <code><a href='explain.html'>show_query()</a></code>.</p>
-<p>For best performance, the database should have an index on the variables
-that you are grouping by. Use <code><a href='explain.html'>explain()</a></code> to check that the database is using
-the indexes that you expect.</p>
-<p>There is one exception: <code><a href='do.html'>do()</a></code> is not lazy since it must pull the data
-into R.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Basic connection using DBI -------------------------------------------</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>dbplyr</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>dbplyr</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
 
-<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/DBI/topics/dbConnect'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/RSQLite/topics/SQLite'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
+<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
 <span class='fu'><a href='copy_to.html'>copy_to</a></span>(<span class='no'>con</span>, <span class='no'>mtcars</span>)
 
-<span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/DBI/topics/dbListTables'>dbListTables</a></span>(<span class='no'>con</span>)
-
 <span class='co'># To retrieve a single table from a source, use `tbl()`</span>
-<span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"mtcars"</span>)
+<span class='no'>mtcars</span> <span class='kw'>&lt;-</span> <span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"mtcars"</span>)
+<span class='no'>mtcars</span>
 
 <span class='co'># You can also use pass raw SQL if you want a more sophisticated query</span>
 <span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='fu'><a href='sql.html'>sql</a></span>(<span class='st'>"SELECT * FROM mtcars WHERE cyl == 8"</span>))
-
-<span class='co'># To show off the full features of dplyr's database integration,</span>
-<span class='co'># we'll use the Lahman database. lahman_sqlite() takes care of</span>
-<span class='co'># creating the database.</span>
-<span class='no'>lahman_p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/lahman.html'>lahman_sqlite</a></span>()
-<span class='no'>batting</span> <span class='kw'>&lt;-</span> <span class='no'>lahman_p</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Batting"</span>)
-<span class='no'>batting</span>
-
-<span class='co'># Basic data manipulation verbs work in the same way as with a tibble</span>
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>&gt;</span> <span class='fl'>2005</span>, <span class='no'>G</span> <span class='kw'>&gt;</span> <span class='fl'>130</span>)
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>:<span class='no'>lgID</span>)
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>playerID</span>, <span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>yearID</span>))
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>G</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>G</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>())
-
-<span class='co'># There are a few exceptions. For example, databases give integer results</span>
-<span class='co'># when dividing one integer by another. Multiply by 1 to fix the problem</span>
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>:<span class='no'>lgID</span>, <span class='no'>AB</span>, <span class='no'>R</span>, <span class='no'>G</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='mutate.html'>mutate</a></span>(
-   <span class='kw'>R_per_game1</span> <span class='kw'>=</span> <span class='no'>R</span> / <span class='no'>G</span>,
-   <span class='kw'>R_per_game2</span> <span class='kw'>=</span> <span class='no'>R</span> * <span class='fl'>1.0</span> / <span class='no'>G</span>
- )
-
-<span class='co'># All operations are lazy: they don't do anything until you request the</span>
-<span class='co'># data, either by `print()`ing it (which shows the first ten rows),</span>
-<span class='co'># or by `collect()`ing the results locally.</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>recent</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>batting</span>, <span class='no'>yearID</span> <span class='kw'>&gt;</span> <span class='fl'>2010</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='fu'><a href='compute.html'>collect</a></span>(<span class='no'>recent</span>))
-
-<span class='co'># You can see the query that dplyr creates with show_query()</span>
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>G</span> <span class='kw'>&gt;</span> <span class='fl'>0</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>playerID</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='explain.html'>show_query</a></span>()
-}</div><div class='output co'>#&gt; &lt;SQL&gt;
-#&gt; SELECT `playerID`, COUNT() AS `n`
-#&gt; FROM `Batting`
-#&gt; WHERE (`G` &gt; 0.0)
-#&gt; GROUP BY `playerID`</div></pre>
+}</div><div class='output co'>#&gt; <span style='color: #555555;'># Source:   SQL [?? x 11]</span><span>
+#&gt; </span><span style='color: #555555;'># Database: sqlite 3.30.1 [:memory:]</span><span>
+#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #555555;'> 2</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
+#&gt; </span><span style='color: #555555;'> 4</span><span>  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
+#&gt; </span><span style='color: #555555;'> 5</span><span>  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
+#&gt; </span><span style='color: #555555;'> 6</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 7</span><span>  10.4     8  460    215  3     5.42  17.8     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+#&gt; </span><span style='color: #555555;'> 9</span><span>  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+#&gt; </span><span style='color: #555555;'>10</span><span>  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
+#&gt; </span><span style='color: #555555;'># … with more rows</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -342,6 +325,7 @@ into R.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -364,6 +348,8 @@ into R.</p>
 </script>
 
 
+
   </body>
 </html>
+
 
