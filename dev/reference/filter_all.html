@@ -103,7 +103,7 @@ with all_vars() or any_vars() and should mention the pronoun
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
         </div>
       </div>
     </div>
@@ -156,6 +156,9 @@ with all_vars() or any_vars() and should mention the pronoun
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -278,10 +281,10 @@ into account to determine filtered rows.</p>
 <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate intersection&gt;
 #&gt; <span style='font-weight: bold;'>&lt;quosure&gt;</span><span>
 #&gt; expr: </span><span style='color: #0000BB;'>^is.na(.)</span><span>
-#&gt; env:  </span><span style='color: #0000BB;'>0x7fd61dadc278</span><span></div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
+#&gt; env:  </span><span style='color: #0000BB;'>0x7facfe28e438</span><span></div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
 #&gt; </span><span style='font-weight: bold;'>&lt;quosure&gt;</span><span>
 #&gt; expr: </span><span style='color: #0000BB;'>^is.na(.)</span><span>
-#&gt; env:  </span><span style='color: #0000BB;'>0x7fd61dadc278</span><span></div><div class='input'>
+#&gt; env:  </span><span style='color: #0000BB;'>0x7facfe28e438</span><span></div><div class='input'>
 
 <span class='co'># You can take the intersection of the replicated expressions:</span>
 <span class='fu'>filter_all</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='no'>.</span> <span class='kw'>&gt;</span> <span class='fl'>150</span>))</div><div class='output co'>#&gt;  [1] mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb

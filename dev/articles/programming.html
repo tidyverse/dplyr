@@ -53,7 +53,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9003</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
         </div>
       </div>
     </div>
@@ -106,6 +106,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -238,7 +241,7 @@
 <a href="#the-tidyselect-dsl" class="anchor"></a>The tidyselect DSL</h3>
 <p>Underneath all functions that use tidy selection is the <a href="http://tidyselect.r-lib.org/">tidyselect</a> package. It provides a miniature domain specific language that makes it easy to select columns by name, position, or type. For example:</p>
 <ul>
-<li><p><code><a href="../reference/select.html">select(df, 1)</a></code> selects the first column; <code><a href="../reference/select.html">select(1, last_col())</a></code> selects the last column.</p></li>
+<li><p><code><a href="../reference/select.html">select(df, 1)</a></code> selects the first column; <code><a href="../reference/select.html">select(df, last_col())</a></code> selects the last column.</p></li>
 <li><p><code><a href="../reference/select.html">select(df, c(a, b, c))</a></code> selects columns <code>a</code>, <code>b</code>, and <code>c</code>.</p></li>
 <li><p><code><a href="../reference/select.html">select(df, starts_with("a"))</a></code> selects all columns whose name starts with “a”; <code><a href="../reference/select.html">select(df, ends_with("z"))</a></code> selects all columns whose name ends with “z”.</p></li>
 <li><p><code><a href="../reference/select.html">select(df, is.numeric)</a></code> selects all numeric columns.</p></li>
