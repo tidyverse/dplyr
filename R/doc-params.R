@@ -3,7 +3,7 @@
 #' @description
 #' This page the describes the `<data-masking>` argument modifier which
 #' indicates that the argument uses tidy evaluation with **data masking**.
-#' If you've never head of tidy evaluation before, start with
+#' If you've never heard of tidy evaluation before, start with
 #' `vignette("programming")`.
 #'
 #' # Key terms
