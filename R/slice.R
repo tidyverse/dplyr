@@ -62,7 +62,7 @@
 #' @export
 #' @examples
 #' mtcars %>% slice(1L)
-#' # Similar to tail(mtcars, 1):
+#' # Similar to head(mtcars, 1):
 #' mtcars %>% slice(n())
 #' mtcars %>% slice(5:n())
 #' # Rows can be dropped with negative indices:
