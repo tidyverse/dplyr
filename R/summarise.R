@@ -288,11 +288,15 @@ summarise_cols <- function(.data, ...) {
       )
 
       # keep results and update mask
-      walk2(names(results), results, function(name, result) {
+      names_results <- names(results)
+
+      for (j in seq_along(results)) {
+        name <- names_results[j]
+        result <- results[[j]]
+
         all_results[[name]] <- result
         mask$set(name, result$chunks)
-      })
-
+      }
     }
 
     # perhaps recycle results
