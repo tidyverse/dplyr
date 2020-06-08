@@ -212,7 +212,6 @@ summarise_cols_one <- function(quo, mask, name, splice = FALSE) {
   #     across_setup({{ .cols }}, fns = .fns, names = .names, key = key)
   #   }
   #   setup <- eval_tidy(quo_get_expr(quo), env = env(caller_env(), across = across))
-  #
   # }
 
   # try hybrid evaluation first
@@ -220,25 +219,49 @@ summarise_cols_one <- function(quo, mask, name, splice = FALSE) {
     hybrid_res <- funs::eval_summarise(quo)
 
     if(!is.null(hybrid_res)) {
-      return(list(
-        x = hybrid_res$x,
-        ptype = hybrid_res$ptype %||% vec_ptype(hybrid_res$x),
-        sizes = hybrid_res$sizes,
-        standard = FALSE
-      ))
+      x <- hybrid_res$x
+      ptype <- hybrid_res$ptype %||% vec_ptype(x)
+      sizes <- hybrid_res$sizes
+
+      if (splice && is.data.frame(ptype)) {
+        return(set_names(
+          map(seq_along(ptype), function(i) {
+            list(chunks = lazy_vec_chop(x[[i]], sizes), ptype = ptype[[i]], x = x[[i]], sizes = sizes)
+          }),
+          names(ptype)
+        ))
+      } else {
+        return(list2(
+          !!name := list(chunks = lazy_vec_chop(x, sizes), ptype = ptype, x = x, sizes = sizes)
+        ))
+      }
     }
-    }, error = function(cnd) NULL)
+  }, error = function(cnd) NULL)
 
   # no result from hybrid, so proceed with standard
   # evaluation to get the chunks
   chunks <- mask$eval_all_summarise(quo)
-  type <- tryCatch(
+  ptype <- tryCatch(
     vec_ptype_common(!!!chunks),
     vctrs_error_incompatible_type = function(cnd) {
       abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)
-    })
+    }
+  )
 
-  list(chunks = chunks, ptype = type, standard = TRUE)
+  if (splice && is.data.frame(ptype)) {
+    # a list of results - one for each column in type
+    set_names(
+      map(seq_along(ptype), function(i) {
+        list(chunks = pluck(chunks, i), ptype = ptype[[i]], x = NULL, sizes = NULL)
+      }),
+      names(ptype)
+    )
+  } else {
+    # a list of one result
+    list2(
+      !!name := list(chunks = chunks, ptype = ptype, x = NULL, sizes = NULL)
+    )
+  }
 }
 
 summarise_cols <- function(.data, ...) {
@@ -248,10 +271,7 @@ summarise_cols <- function(.data, ...) {
   dots_names <- names(dots)
   auto_named_dots <- names(enquos(..., .named = TRUE))
 
-  chunks <- vector("list", length(dots))
-  types <- vector("list", length(dots))
-  results <- vector("list", length(dots))
-  sizes <- vector("list", length(dots))
+  all_results <- list()
 
   tryCatch({
 
@@ -259,53 +279,35 @@ summarise_cols <- function(.data, ...) {
     for (i in seq_along(dots)) {
       mask$across_cache_reset()
 
-      not_named <- is.null(dots_names) || dots_names[i] == ""
-      quo <- dots[[i]]
-      res <- summarise_cols_one(quo, mask, )
+      # get the list of results from this quosure
+      results <- summarise_cols_one(
+        quo = dots[[i]],
+        mask = mask,
+        name = auto_named_dots[i],
+        splice = is.null(dots_names) || dots_names[i] == ""
+      )
 
-      standard <- res$standard
-      types[[i]] <- ptype <- res$ptype
-      chunks[i] <- list(res$chunks)
-      results[i] <- list(res$x)
-      sizes[i] <- list(res$sizes)
-
-      if (not_named && is.data.frame(ptype)) {
-        # remember each result separately
-        map2(seq_along(ptype), names(ptype), function(j, nm) {
-          slices <- if(standard) {
-            pluck(chunks[[i]], j)
-          } else {
-            lazy_vec_chop(results[[i]][[j]], sizes[[i]])
-          }
-          mask$set(nm, slices)
-        })
-      } else {
-        # remember
-        if (standard) {
-          mask$set(auto_named_dots[i], chunks[[i]])
-        } else {
-          mask$set(auto_named_dots[i], lazy_vec_chop(results[[i]], sizes[[i]]))
-        }
-      }
+      # keep results and update mask
+      walk2(names(results), results, function(name, result) {
+        all_results[[name]] <- result
+        mask$set(name, result$chunks)
+      })
 
     }
 
-    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types, results, sizes)
-    chunks <- recycle_info$chunks
-    sizes <- recycle_info$sizes
+    # perhaps recycle results
+    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, mask$get_rows(), all_results)
     results <- recycle_info$results
+    sizes <- recycle_info$sizes
 
     # materialize columns
     cols <- list()
 
-    for (i in seq_along(dots)) {
-      result <- results[[i]] %||% vec_c(!!!chunks[[i]], .ptype = types[[i]])
-
-      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
-        cols[names(result)] <- result
-      } else {
-        cols[[ auto_named_dots[i] ]] <- result
-      }
+    names_results <- names(results)
+    for (i in seq_along(results)) {
+      results_i <- results[[i]]
+      name <- names_results[i]
+      cols[[name]] <- results_i$x %||% vec_c(!!!results_i$chunks, .ptype = results_i$type)
     }
 
   },
