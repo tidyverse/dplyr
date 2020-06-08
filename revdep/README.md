@@ -10,7 +10,7 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Europe/Paris                 |
-|date     |2020-05-27                   |
+|date     |2020-05-28                   |
 
 # Dependencies
 
@@ -174,14 +174,12 @@
 |weibulltools                                       |1.0.1    |1         |        |       |
 |XBSeq                                              |1.20.0   |1         |        |3      |
 
-## New problems (68)
+## New problems (64)
 
 |package                                          |version |error    |warning |note |
 |:------------------------------------------------|:-------|:--------|:-------|:----|
 |[AlphaBeta](problems.md#alphabeta)               |1.2.0   |__+1__   |        |2    |
 |[amt](problems.md#amt)                           |0.1.1   |__+1__   |        |     |
-|[bayesplot](problems.md#bayesplot)               |1.7.1   |__+1__   |        |1    |
-|[blorr](problems.md#blorr)                       |0.2.2   |__+2__   |        |1    |
 |[BMSC](problems.md#bmsc)                         |0.2.0   |__+1__   |        |1    |
 |[cattonum](problems.md#cattonum)                 |0.0.4   |__+1__   |        |     |
 |[circRNAprofiler](problems.md#circrnaprofiler)   |1.2.0   |1 __+1__ |        |1    |
@@ -209,7 +207,7 @@
 |[HaDeX](problems.md#hadex)                       |1.1     |__+2__   |        |1    |
 |[healthcareai](problems.md#healthcareai)         |2.4.0   |__+1__   |        |     |
 |[idmodelr](problems.md#idmodelr)                 |0.3.1   |__+1__   |        |     |
-|[isomiRs](problems.md#isomirs)                   |1.16.0  |1 __+1__ |        |3    |
+|[isomiRs](problems.md#isomirs)                   |1.16.1  |1 __+1__ |        |3    |
 |[lans2r](problems.md#lans2r)                     |1.0.5   |__+1__   |        |     |
 |[LexisNexisTools](problems.md#lexisnexistools)   |0.3.0   |__+1__   |        |     |
 |[mmetrics](problems.md#mmetrics)                 |0.3.0   |__+1__   |        |1    |
@@ -233,8 +231,7 @@
 |[skynet](problems.md#skynet)                     |1.3.0   |__+1__   |        |1    |
 |[strapgod](problems.md#strapgod)                 |0.0.4   |__+1__   |        |     |
 |[StratigrapheR](problems.md#stratigrapher)       |1.0.1   |__+1__   |        |     |
-|[survminer](problems.md#survminer)               |0.4.6   |__+1__   |        |1    |
-|[tidyjson](problems.md#tidyjson)                 |0.2.4   |1 __+1__ |        |     |
+|[tidyjson](problems.md#tidyjson)                 |0.3.0   |__+2__   |        |     |
 |[tidyRSS](problems.md#tidyrss)                   |2.0.1   |__+1__   |        |     |
 |[tidystats](problems.md#tidystats)               |0.4     |__+1__   |        |2    |
 |[tidystopwords](problems.md#tidystopwords)       |0.9.0   |__+1__   |        |1    |
@@ -242,7 +239,6 @@
 |[TPP](problems.md#tpp)                           |3.16.0  |__+2__   |        |3    |
 |[tree.bins](problems.md#treebins)                |0.1.1   |__+1__   |        |1    |
 |[treeplyr](problems.md#treeplyr)                 |0.1.7   |__+1__   |        |     |
-|[trelliscopejs](problems.md#trelliscopejs)       |0.2.4   |__+2__   |        |     |
 |[vcfR](problems.md#vcfr)                         |1.10.0  |__+2__   |        |     |
 |[vpc](problems.md#vpc)                           |1.2.0   |__+2__   |        |     |
 |[yamlet](problems.md#yamlet)                     |0.4.7   |         |__+1__  |-1   |
