@@ -89,6 +89,7 @@ test_that("cummean is not confused by FP error (#1387)", {
 
 test_that("cummean is consistent with cumsum() and seq_along() (#5287)", {
   x <- 1:5
+  expect_equal(cummean(x), c(1, 1.5, 2, 2.5, 3))
   expect_equal(cummean(x), cumsum(x) / seq_along(x))
 })
 
