@@ -1,3 +1,9 @@
+# dplyr 1.0.0.9000
+
+## Minor improvements and bug fixes
+
+* cummean() no longer has off-by-one indexing problem (#5287).
+
 # dplyr 1.0.0
 
 ## Breaking changes
