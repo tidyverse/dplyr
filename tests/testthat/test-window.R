@@ -91,6 +91,8 @@ test_that("cummean is consistent with cumsum() and seq_along() (#5287)", {
   x <- 1:5
   expect_equal(cummean(x), c(1, 1.5, 2, 2.5, 3))
   expect_equal(cummean(x), cumsum(x) / seq_along(x))
+
+  expect_equal(cummean(numeric()), numeric())
 })
 
 test_that("order_by() returns correct value", {

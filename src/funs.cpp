@@ -105,8 +105,8 @@ SEXP dplyr_cummean(SEXP x) {
   double* p_out = REAL(out);
   double* p_x = REAL(x);
 
-  double sum = *p_out++ = *p_x++;
-  for (R_xlen_t i = 1; i < n; i++, ++p_x, ++p_out) {
+  double sum = 0.0;
+  for (R_xlen_t i = 0; i < n; i++, ++p_x, ++p_out) {
     sum += *p_x;
     *p_out = sum / (i + 1.0);
   }
