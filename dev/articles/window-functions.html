@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../tidyverse-2.css" rel="stylesheet">
+<!--optional theme--><link href="../.css" rel="stylesheet">
 <!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Window functions">
@@ -231,15 +232,15 @@
 <span class="co">#&gt; [1] 0.0 0.0 0.5 0.5 0.5</span></pre></body></html></div>
 <p>These are useful if you want to select (for example) the top 10% of records within each group. For example:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="no">players</span>, <span class="fu"><a href="../reference/ranking.html">cume_dist</a></span>(<span class="fu"><a href="../reference/desc.html">desc</a></span>(<span class="no">G</span>)) <span class="kw">&lt;</span> <span class="fl">0.1</span>)
-<span class="co">#&gt; # A tibble: 1,037 x 7</span>
-<span class="co">#&gt; # Groups:   playerID [945]</span>
+<span class="co">#&gt; # A tibble: 1,047 x 7</span>
+<span class="co">#&gt; # Groups:   playerID [954]</span>
 <span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1 aaronha01   1963 ML1      161   631   121   201</span>
 <span class="co">#&gt; 2 aaronha01   1968 ATL      160   606    84   174</span>
 <span class="co">#&gt; 3 abbotji01   1991 CAL       34     0     0     0</span>
 <span class="co">#&gt; 4 abernte02   1965 CHN       84    18     1     3</span>
-<span class="co">#&gt; # … with 1,033 more rows</span></pre></body></html></div>
+<span class="co">#&gt; # … with 1,043 more rows</span></pre></body></html></div>
 <p>Finally, <code><a href="../reference/ranking.html">ntile()</a></code> divides the data up into <code>n</code> evenly sized buckets. It’s a coarse ranking, and it can be used in with <code><a href="../reference/mutate.html">mutate()</a></code> to divide the data into buckets for further summary. For example, we could use <code><a href="../reference/ranking.html">ntile()</a></code> to divide the players within a team into four ranked groups, and calculate the average number of games within each group.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">by_team_player</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">batting</span>, <span class="no">teamID</span>, <span class="no">playerID</span>)
 <span class="no">by_team</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="no">by_team_player</span>, <span class="kw">G</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">G</span>))
@@ -250,10 +251,10 @@
 <span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;   quartile `mean(G)`</span>
 <span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1        1      26.9</span>
-<span class="co">#&gt; 2        2      97.7</span>
-<span class="co">#&gt; 3        3     272. </span>
-<span class="co">#&gt; 4        4     976.</span></pre></body></html></div>
+<span class="co">#&gt; 1        1      26.7</span>
+<span class="co">#&gt; 2        2      97.0</span>
+<span class="co">#&gt; 3        3     270. </span>
+<span class="co">#&gt; 4        4     975.</span></pre></body></html></div>
 <p>All ranking functions rank from lowest to highest so that small input values get small ranks. Use <code><a href="../reference/desc.html">desc()</a></code> to rank from highest to lowest.</p>
 </div>
 <div id="lead-and-lag" class="section level2">
@@ -328,7 +329,7 @@
 <p>You can also use this idea to select the records with the highest (<code>x == max(x)</code>) or lowest value (<code>x == min(x)</code>) for a field, but the ranking functions give you more control over ties, and allow you to select any number of records.</p>
 <p>Recycled aggregates are also useful in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code>. For example, with the batting data, we could compute the “career year”, the number of years a player has played since they entered the league:</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="no">players</span>, <span class="kw">career_year</span> <span class="kw">=</span> <span class="no">yearID</span> - <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="no">yearID</span>) + <span class="fl">1</span>)
-<span class="co">#&gt; # A tibble: 19,834 x 8</span>
+<span class="co">#&gt; # A tibble: 19,978 x 8</span>
 <span class="co">#&gt; # Groups:   playerID [1,359]</span>
 <span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H career_year</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span>
@@ -336,10 +337,10 @@
 <span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189           2</span>
 <span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200           3</span>
 <span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198           4</span>
-<span class="co">#&gt; # … with 19,830 more rows</span></pre></body></html></div>
+<span class="co">#&gt; # … with 19,974 more rows</span></pre></body></html></div>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="no">players</span>, <span class="kw">G_z</span> <span class="kw">=</span> (<span class="no">G</span> - <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">G</span>)) / <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span>(<span class="no">G</span>))
-<span class="co">#&gt; # A tibble: 19,834 x 8</span>
+<span class="co">#&gt; # A tibble: 19,978 x 8</span>
 <span class="co">#&gt; # Groups:   playerID [1,359]</span>
 <span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H    G_z</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span>
@@ -347,7 +348,7 @@
 <span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189  0.519</span>
 <span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200  0.519</span>
 <span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198  0.411</span>
-<span class="co">#&gt; # … with 19,830 more rows</span></pre></body></html></div>
+<span class="co">#&gt; # … with 19,974 more rows</span></pre></body></html></div>
 </div>
   </div>
 
