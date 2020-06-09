@@ -136,6 +136,8 @@ articles:
 
 news:
   releases:
+  - text: "Version 1.0.0"
+    href: https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/
   - text: "Version 0.8.4"
     href: https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/
   - text: "Version 0.8.3"

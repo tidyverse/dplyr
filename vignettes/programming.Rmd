@@ -132,7 +132,7 @@ Data masking makes it easy to compute on values within a dataset. Tidy selection
 Underneath all functions that use tidy selection is the [tidyselect](http://tidyselect.r-lib.org/) package. It provides a miniature domain specific language that makes it easy to select columns by name, position, or type. For example:
 
 * `select(df, 1)` selects the first column; 
-  `select(1, last_col())` selects the last column.
+  `select(df, last_col())` selects the last column.
   
 * `select(df, c(a, b, c))` selects columns `a`, `b`, and `c`.
 

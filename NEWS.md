@@ -1,4 +1,4 @@
-# dplyr 1.0.0.9000
+# dplyr (development version)
 
 ## Minor improvements and bug fixes
 
