@@ -163,3 +163,17 @@ test_that("can arrange() with unruly class", {
     quux(data.frame(x = 3:1, dispatched = TRUE))
   )
 })
+
+test_that("arrange() preserves the call stack on error (#5308)", {
+  foobar <- function() stop("foo")
+
+  stack <- NULL
+  expect_error(
+    withCallingHandlers(
+      error = function(...) stack <<- sys.calls(),
+      arrange(mtcars, foobar())
+    )
+  )
+
+  expect_true(some(stack, is_call, "foobar"))
+})
