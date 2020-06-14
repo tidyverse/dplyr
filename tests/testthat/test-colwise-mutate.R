@@ -326,6 +326,16 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
   expect_identical(res, expected)
 })
 
+test_that("_if isn't tripped up by columns named 'i' (#5330)", {
+  test_df <- tibble(i = c("a", "b"), j = c(1, 2))
+
+  result_df <- test_df %>%
+    mutate_if(is.character, as.factor)
+
+  expect_equal(result_df$i, as.factor(test_df$i))
+  expect_equal(result_df$j, test_df$j)
+})
+
 # Errors --------------------------------------------
 
 test_that("colwise mutate gives meaningful error messages", {
