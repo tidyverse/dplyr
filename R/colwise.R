@@ -216,7 +216,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   selected <- new_logical(n)
 
   for (i in seq_len(n)) {
-    column <- pull(.tbl, tibble_vars[[i]])
+    column <- pull(.tbl, tibble_vars[[.env$i]])
     cond <- eval_tidy(.p(column, ...))
     if (!is.logical(cond) || length(cond) != 1) {
       abort(c(
