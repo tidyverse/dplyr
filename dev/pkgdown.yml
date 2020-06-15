@@ -11,7 +11,7 @@ articles:
   rowwise: rowwise.html
   two-table: two-table.html
   window-functions: window-functions.html
-last_built: 2020-06-15T08:10Z
+last_built: 2020-06-15T12:13Z
 urls:
   reference: https://dplyr.tidyverse.org/reference
   article: https://dplyr.tidyverse.org/articles

@@ -531,7 +531,7 @@
 <div id="simulations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#simulations" class="anchor"></a>Simulations</h3>
-<p>I think this is particularly elegant way to perform simulations, because it lets you store simulated values along with the parameters that generated them. For example, imagine you have the following data frame that describes the properties of 3 samples from the uniform distribution:</p>
+<p>I think this is a particularly elegant way to perform simulations, because it lets you store simulated values along with the parameters that generated them. For example, imagine you have the following data frame that describes the properties of 3 samples from the uniform distribution:</p>
 <div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
   ~ <span class="no">n</span>, ~ <span class="no">min</span>, ~ <span class="no">max</span>,
     <span class="fl">1</span>,     <span class="fl">0</span>,     <span class="fl">1</span>,
@@ -549,7 +549,7 @@
 <span class="co">#&gt; 1     1     0     1 &lt;dbl [1]&gt;</span>
 <span class="co">#&gt; 2     2    10   100 &lt;dbl [2]&gt;</span>
 <span class="co">#&gt; 3     3   100  1000 &lt;dbl [3]&gt;</span></pre></body></html></div>
-<p>Note the use of <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> here - <code><a href="https://rdrr.io/r/stats/Uniform.html">runif()</a></code> returns multiple values and a <code><a href="../reference/mutate.html">mutate()</a></code> expression has to return something of length 1. <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> means that we’ll get a list column where each row is a list containing multiple values. If you forget to use <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>, dplyr will you a hint:</p>
+<p>Note the use of <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> here - <code><a href="https://rdrr.io/r/stats/Uniform.html">runif()</a></code> returns multiple values and a <code><a href="../reference/mutate.html">mutate()</a></code> expression has to return something of length 1. <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> means that we’ll get a list column where each row is a list containing multiple values. If you forget to use <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>, dplyr will give you a hint:</p>
 <div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">df</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="no">n</span>, <span class="no">min</span>, <span class="no">max</span>))
@@ -666,7 +666,7 @@
 <span class="co">#&gt; 1     4    11</span>
 <span class="co">#&gt; 2     6     7</span>
 <span class="co">#&gt; 3     8    14</span></pre></body></html></div>
-<p>If needed (unlike here), you can wrap the results in list yourself.</p>
+<p>If needed (unlike here), you can wrap the results in a list yourself.</p>
 </li>
 </ul>
 <p>The addition of <code><a href="../reference/context.html">cur_data()</a></code>/<code><a href="../reference/across.html">across()</a></code> and the increased scope of <code><a href="../reference/summarise.html">summarise()</a></code> means that <code><a href="../reference/do.html">do()</a></code> is no longer needed, so it is now superseded.</p>
