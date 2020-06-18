@@ -6,7 +6,7 @@
 #' `mutate()`
 #'
 #' * `n()` gives the current group size.
-#' * `cur_data()` gives the current data for the current group (exclusing
+#' * `cur_data()` gives the current data for the current group (excluding
 #'   grouping variables)
 #' * `cur_group()` gives the group keys, a tibble with one row and one column
 #'   for each grouping variable.
