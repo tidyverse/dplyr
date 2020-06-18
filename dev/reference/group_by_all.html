@@ -219,36 +219,36 @@ mutate semantics." />
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#superseded'><img src='figures/lifecycle-superseded.svg' alt='Superseded lifecycle'></a></p>
 <p>Scoped verbs (<code>_if</code>, <code>_at</code>, <code>_all</code>) have been superseded by the use of
-<code><a href='across.html'>across()</a></code> in an existing verb. See <code><a href='../articles/colwise.html'>vignette("colwise")</a></code> for details.</p>
-<p>These <a href='scoped.html'>scoped</a> variants of <code><a href='group_by.html'>group_by()</a></code> group a data frame by a
-selection of variables. Like <code><a href='group_by.html'>group_by()</a></code>, they have optional
-<a href='mutate.html'>mutate</a> semantics.</p>
+<code><a href='https://dplyr.tidyverse.org/reference/across.html'>across()</a></code> in an existing verb. See <code>vignette("colwise")</code> for details.</p>
+<p>These <a href='https://dplyr.tidyverse.org/reference/scoped.html'>scoped</a> variants of <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code> group a data frame by a
+selection of variables. Like <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code>, they have optional
+<a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a> semantics.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_by_all</span>(
-  <span class='no'>.tbl</span>,
-  <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='no'>...</span>,
-  <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.tbl</span>)
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_all</a></span>(
+  <span class='kw'>.tbl</span>,
+  .funs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>...</span>,
+  .add = <span class='fl'>FALSE</span>,
+  .drop = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='kw'>.tbl</span>)
 )
 
-<span class='fu'>group_by_at</span>(
-  <span class='no'>.tbl</span>,
-  <span class='no'>.vars</span>,
-  <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='no'>...</span>,
-  <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.tbl</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_at</a></span>(
+  <span class='kw'>.tbl</span>,
+  <span class='kw'>.vars</span>,
+  .funs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>...</span>,
+  .add = <span class='fl'>FALSE</span>,
+  .drop = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='kw'>.tbl</span>)
 )
 
-<span class='fu'>group_by_if</span>(
-  <span class='no'>.tbl</span>,
-  <span class='no'>.predicate</span>,
-  <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='no'>...</span>,
-  <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.tbl</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_if</a></span>(
+  <span class='kw'>.tbl</span>,
+  <span class='kw'>.predicate</span>,
+  .funs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>...</span>,
+  .add = <span class='fl'>FALSE</span>,
+  .drop = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='kw'>.tbl</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -269,16 +269,16 @@ selection of variables. Like <code><a href='group_by.html'>group_by()</a></code>
     </tr>
     <tr>
       <th>.add</th>
-      <td><p>See <code><a href='group_by.html'>group_by()</a></code></p></td>
+      <td><p>See <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code></p></td>
     </tr>
     <tr>
       <th>.drop</th>
-      <td><p>When <code>.drop = TRUE</code>, empty groups are dropped. See <code><a href='group_by_drop_default.html'>group_by_drop_default()</a></code> for
+      <td><p>When <code>.drop = TRUE</code>, empty groups are dropped. See <code><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default()</a></code> for
 what the default value is for this argument.</p></td>
     </tr>
     <tr>
       <th>.vars</th>
-      <td><p>A list of columns generated by <code><a href='vars.html'>vars()</a></code>,
+      <td><p>A list of columns generated by <code><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars()</a></code>,
 a character vector of column names, a numeric vector of column
 positions, or <code>NULL</code>.</p></td>
     </tr>
@@ -302,7 +302,7 @@ the selection.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Group a data frame by all variables:</span>
-<span class='fu'>group_by_all</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_all</a></span>(<span class='kw'>mtcars</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb [32]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -317,7 +317,7 @@ the selection.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='fu'><a href='across.html'>across</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb [32]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -333,7 +333,7 @@ the selection.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
 <span class='co'># Group by variables selected with a predicate:</span>
-<span class='fu'>group_by_if</span>(<span class='no'>iris</span>, <span class='no'>is.factor</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_if</a></span>(<span class='kw'>iris</span>, <span class='kw'>is.factor</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
@@ -348,7 +348,7 @@ the selection.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
 #&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'>where</span>(<span class='no'>is.factor</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+<span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='fu'>where</span>(<span class='kw'>is.factor</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
@@ -364,7 +364,7 @@ the selection.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
 #&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'>
 <span class='co'># Group by variables selected by name:</span>
-<span class='fu'>group_by_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>vs</span>, <span class='no'>am</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_at</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='kw'>vs</span>, <span class='kw'>am</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   vs, am [4]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -379,7 +379,7 @@ the selection.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>vs</span>, <span class='no'>am</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>vs</span>, <span class='kw'>am</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   vs, am [4]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -396,8 +396,8 @@ the selection.</p>
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
 <span class='co'># Like group_by(), the scoped variants have optional mutate</span>
 <span class='co'># semantics. This provide a shortcut for group_by() + mutate():</span>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>), <span class='kw'>y</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>))
-<span class='fu'>group_by_all</span>(<span class='no'>d</span>, <span class='no'>as.factor</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
+<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>), y=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>))
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_all</a></span>(<span class='kw'>d</span>, <span class='kw'>as.factor</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   x, y [4]</span><span>
 #&gt;   x     y    
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>
@@ -405,7 +405,7 @@ the selection.</p>
 #&gt; </span><span style='color: #555555;'>2</span><span> 1     2    
 #&gt; </span><span style='color: #555555;'>3</span><span> 2     1    
 #&gt; </span><span style='color: #555555;'>4</span><span> 2     2    </div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), <span class='no'>as.factor</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
+<span class='kw'>d</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), <span class='kw'>as.factor</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   x, y [4]</span><span>
 #&gt;   x     y    
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>
@@ -413,7 +413,7 @@ the selection.</p>
 #&gt; </span><span style='color: #555555;'>2</span><span> 1     2    
 #&gt; </span><span style='color: #555555;'>3</span><span> 2     1    
 #&gt; </span><span style='color: #555555;'>4</span><span> 2     2    </div><div class='input'>
-<span class='fu'>group_by_if</span>(<span class='no'>iris</span>, <span class='no'>is.factor</span>, <span class='no'>as.character</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_if</a></span>(<span class='kw'>iris</span>, <span class='kw'>is.factor</span>, <span class='kw'>as.character</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
@@ -428,7 +428,7 @@ the selection.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
 #&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'>where</span>(<span class='no'>is.factor</span>), <span class='no'>as.character</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+<span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='fu'>where</span>(<span class='kw'>is.factor</span>), <span class='kw'>as.character</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  

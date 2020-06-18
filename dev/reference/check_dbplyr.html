@@ -225,16 +225,16 @@ these functions generate the code you need to work with both dplyr 0.5.0
 dplyr 0.7.0.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_dbplyr</span>()
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/check_dbplyr.html'>check_dbplyr</a></span>()
 
-<span class='fu'>wrap_dbplyr_obj</span>(<span class='no'>obj_name</span>)</pre>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/check_dbplyr.html'>wrap_dbplyr_obj</a></span>(<span class='kw'>obj_name</span>)</pre>
 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"dbplyr"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
-<span class='fu'>wrap_dbplyr_obj</span>(<span class='st'>"build_sql"</span>)
-<span class='fu'>wrap_dbplyr_obj</span>(<span class='st'>"base_agg"</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"dbplyr"</span>, quietly = <span class='fl'>TRUE</span>)) {
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/check_dbplyr.html'>wrap_dbplyr_obj</a></span>(<span class='st'>"build_sql"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/check_dbplyr.html'>wrap_dbplyr_obj</a></span>(<span class='st'>"base_agg"</span>)
 }</div><div class='output co'>#&gt; base_agg &lt;- function () 
 #&gt; {
 #&gt;     if (utils::packageVersion("dplyr") &gt; "0.5.0") {

@@ -223,93 +223,93 @@ once for each matching row in x." />
     <div class="ref-description">
     <p>The mutating joins add columns from <code>y</code> to <code>x</code>, matching rows based on the
 keys:</p><ul>
-<li><p><code>inner_join()</code>: includes all rows in <code>x</code> and <code>y</code>.</p></li>
-<li><p><code>left_join()</code>: includes all rows in <code>x</code>.</p></li>
-<li><p><code>right_join()</code>: includes all rows in <code>y</code>.</p></li>
-<li><p><code>full_join()</code>: includes all rows in <code>x</code> or <code>y</code>.</p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join()</a></code>: includes all rows in <code>x</code> and <code>y</code>.</p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join()</a></code>: includes all rows in <code>x</code>.</p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>right_join()</a></code>: includes all rows in <code>y</code>.</p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join()</a></code>: includes all rows in <code>x</code> or <code>y</code>.</p></li>
 </ul>
 
 <p>If a row in <code>x</code> matches multiple rows in <code>y</code>, all the rows in <code>y</code> will be returned
 once for each matching row in <code>x</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>inner_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, copy = <span class='fl'>FALSE</span>, suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>inner_join</span>(
-  <span class='no'>x</span>,
-  <span class='no'>y</span>,
-  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
-  <span class='no'>...</span>,
-  <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>y</span>,
+  by = <span class='kw'>NULL</span>,
+  copy = <span class='fl'>FALSE</span>,
+  suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='kw'>...</span>,
+  na_matches = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>)
 )
 
-<span class='fu'>left_join</span>(
-  <span class='no'>x</span>,
-  <span class='no'>y</span>,
-  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
-  <span class='no'>...</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
-
-<span class='co'># S3 method for data.frame</span>
-<span class='fu'>left_join</span>(
-  <span class='no'>x</span>,
-  <span class='no'>y</span>,
-  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
-  <span class='no'>...</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>)
-)
-
-<span class='fu'>right_join</span>(
-  <span class='no'>x</span>,
-  <span class='no'>y</span>,
-  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
-  <span class='no'>...</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>y</span>,
+  by = <span class='kw'>NULL</span>,
+  copy = <span class='fl'>FALSE</span>,
+  suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='kw'>...</span>,
+  keep = <span class='fl'>FALSE</span>
 )
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>right_join</span>(
-  <span class='no'>x</span>,
-  <span class='no'>y</span>,
-  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
-  <span class='no'>...</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>y</span>,
+  by = <span class='kw'>NULL</span>,
+  copy = <span class='fl'>FALSE</span>,
+  suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='kw'>...</span>,
+  keep = <span class='fl'>FALSE</span>,
+  na_matches = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>)
 )
 
-<span class='fu'>full_join</span>(
-  <span class='no'>x</span>,
-  <span class='no'>y</span>,
-  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
-  <span class='no'>...</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>right_join</a></span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>y</span>,
+  by = <span class='kw'>NULL</span>,
+  copy = <span class='fl'>FALSE</span>,
+  suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='kw'>...</span>,
+  keep = <span class='fl'>FALSE</span>
 )
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>full_join</span>(
-  <span class='no'>x</span>,
-  <span class='no'>y</span>,
-  <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
-  <span class='no'>...</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>right_join</a></span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>y</span>,
+  by = <span class='kw'>NULL</span>,
+  copy = <span class='fl'>FALSE</span>,
+  suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='kw'>...</span>,
+  keep = <span class='fl'>FALSE</span>,
+  na_matches = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>)
+)
+
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join</a></span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>y</span>,
+  by = <span class='kw'>NULL</span>,
+  copy = <span class='fl'>FALSE</span>,
+  suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='kw'>...</span>,
+  keep = <span class='fl'>FALSE</span>
+)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join</a></span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>y</span>,
+  by = <span class='kw'>NULL</span>,
+  copy = <span class='fl'>FALSE</span>,
+  suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>),
+  <span class='kw'>...</span>,
+  keep = <span class='fl'>FALSE</span>,
+  na_matches = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -358,15 +358,15 @@ Should be a character vector of length 2.</p></td>
       <th>na_matches</th>
       <td><p>Should <code>NA</code> and <code>NaN</code> values match one another?</p>
 <p>The default, <code>"na"</code>, treats two <code>NA</code> or <code>NaN</code> values as equal, like
-<code>%in%</code>, <code><a href='https://rdrr.io/r/base/match.html'>match()</a></code>, <code><a href='https://rdrr.io/r/base/merge.html'>merge()</a></code>.</p>
+<code><a href='https://rdrr.io/r/base/match.html'>%in%</a></code>, <code><a href='https://rdrr.io/r/base/match.html'>match()</a></code>, <code><a href='https://rdrr.io/r/base/merge.html'>merge()</a></code>.</p>
 <p>Use <code>"never"</code> to always treat two <code>NA</code> or <code>NaN</code> values as different, like
 joins for database sources, similarly to <code><a href='https://rdrr.io/r/base/merge.html'>merge(incomparables = FALSE)</a></code>.</p></td>
     </tr>
     <tr>
       <th>keep</th>
       <td><p>Should the join keys from both <code>x</code> and <code>y</code> be preserved in the
-output? Only applies to <code><a href='nest_join.html'>nest_join()</a></code>, <code>left_join()</code>, <code>right_join()</code>, and
-<code>full_join()</code>.</p></td>
+output? Only applies to <code><a href='https://dplyr.tidyverse.org/reference/nest_join.html'>nest_join()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>right_join()</a></code>, and
+<code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join()</a></code>.</p></td>
     </tr>
     </table>
 
@@ -374,10 +374,10 @@ output? Only applies to <code><a href='nest_join.html'>nest_join()</a></code>, <
 
     <p>An object of the same type as <code>x</code>. The order of the rows and columns of <code>x</code>
 is preserved as much as possible. The output has the following properties:</p><ul>
-<li><p>For <code>inner_join()</code>, a subset of <code>x</code> rows.
-For <code>left_join()</code>, all <code>x</code> rows.
-For <code>right_join()</code>, a subset of <code>x</code> rows, followed by unmatched <code>y</code> rows.
-For <code>full_join()</code>, all <code>x</code> rows, followed by unmatched <code>y</code> rows.</p></li>
+<li><p>For <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join()</a></code>, a subset of <code>x</code> rows.
+For <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join()</a></code>, all <code>x</code> rows.
+For <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>right_join()</a></code>, a subset of <code>x</code> rows, followed by unmatched <code>y</code> rows.
+For <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join()</a></code>, all <code>x</code> rows, followed by unmatched <code>y</code> rows.</p></li>
 <li><p>For all joins, rows will be duplicated if one or more rows in <code>x</code> matches
 multiple rows in <code>y</code>.</p></li>
 <li><p>Output columns include all <code>x</code> columns and all <code>y</code> columns. If columns in
@@ -396,38 +396,38 @@ added to disambiguate.</p></li>
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>Methods available in currently loaded packages:</p><ul>
-<li><p><code>inner_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join()</a></code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>data.frame</a></code>)
 .</p></li>
-<li><p><code>left_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join()</a></code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>data.frame</a></code>)
 .</p></li>
-<li><p><code>right_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>right_join()</a></code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>data.frame</a></code>)
 .</p></li>
-<li><p><code>full_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join()</a></code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>data.frame</a></code>)
 .</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other joins: 
-<code><a href='filter-joins.html'>filter-joins</a></code>,
-<code><a href='nest_join.html'>nest_join</a>()</code></p></div>
+<code><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>filter-joins</a></code>,
+<code><a href='https://dplyr.tidyverse.org/reference/nest_join.html'>nest_join</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>inner_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 3</span><span>
+    <pre class="examples"><div class='input'><span class='kw'>band_members</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span>(<span class='kw'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 3</span><span>
 #&gt;   name  band    plays 
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> John  Beatles guitar
-#&gt; </span><span style='color: #555555;'>2</span><span> Paul  Beatles bass  </div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>left_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> Paul  Beatles bass  </div><div class='input'><span class='kw'>band_members</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span>(<span class='kw'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   name  band    plays 
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>    
 #&gt; </span><span style='color: #555555;'>2</span><span> John  Beatles guitar
-#&gt; </span><span style='color: #555555;'>3</span><span> Paul  Beatles bass  </div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> Paul  Beatles bass  </div><div class='input'><span class='kw'>band_members</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>right_join</a></span>(<span class='kw'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   name  band    plays 
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> John  Beatles guitar
 #&gt; </span><span style='color: #555555;'>2</span><span> Paul  Beatles bass  
-#&gt; </span><span style='color: #555555;'>3</span><span> Keith </span><span style='color: #BB0000;'>NA</span><span>      guitar</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> Keith </span><span style='color: #BB0000;'>NA</span><span>      guitar</div><div class='input'><span class='kw'>band_members</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join</a></span>(<span class='kw'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;   name  band    plays 
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>    
@@ -435,14 +435,14 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'>3</span><span> Paul  Beatles bass  
 #&gt; </span><span style='color: #555555;'>4</span><span> Keith </span><span style='color: #BB0000;'>NA</span><span>      guitar</div><div class='input'>
 <span class='co'># To suppress the message about joining variables, supply `by`</span>
-<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>inner_join</span>(<span class='no'>band_instruments</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"name"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 3</span><span>
+<span class='kw'>band_members</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span>(<span class='kw'>band_instruments</span>, by = <span class='st'>"name"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 3</span><span>
 #&gt;   name  band    plays 
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> John  Beatles guitar
 #&gt; </span><span style='color: #555555;'>2</span><span> Paul  Beatles bass  </div><div class='input'><span class='co'># This is good practice in production code</span>
 
 <span class='co'># Use a named `by` if the join variables have different names</span>
-<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+<span class='kw'>band_members</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join</a></span>(<span class='kw'>band_instruments2</span>, by = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span> = <span class='st'>"artist"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;   name  band    plays 
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>    
@@ -450,8 +450,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'>3</span><span> Paul  Beatles bass  
 #&gt; </span><span style='color: #555555;'>4</span><span> Keith </span><span style='color: #BB0000;'>NA</span><span>      guitar</div><div class='input'><span class='co'># By default, the join keys from `x` and `y` are coalesced in the output; use</span>
 <span class='co'># `keep = TRUE` to keep the join keys from both `x` and `y`</span>
-<span class='no'>band_members</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>), <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 4</span><span>
+<span class='kw'>band_members</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join</a></span>(<span class='kw'>band_instruments2</span>, by = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span> = <span class='st'>"artist"</span>), keep = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 4</span><span>
 #&gt;   name  band    artist plays 
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    
@@ -460,9 +460,9 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'>4</span><span> </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>      Keith  guitar</div><div class='input'>
 <span class='co'># If a row in `x` matches multiple rows in `y`, all the rows in `y` will be</span>
 <span class='co'># returned once for each matching row in `x`</span>
-<span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)
-<span class='no'>df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"first"</span>, <span class='st'>"second"</span>, <span class='st'>"third"</span>))
-<span class='no'>df1</span> <span class='kw'>%&gt;%</span> <span class='fu'>left_join</span>(<span class='no'>df2</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
+<span class='kw'>df1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>)
+<span class='kw'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>), y = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"first"</span>, <span class='st'>"second"</span>, <span class='st'>"third"</span>))
+<span class='kw'>df1</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span>(<span class='kw'>df2</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
 #&gt;       x y     
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span>     1 first 
@@ -471,14 +471,14 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'>4</span><span>     3 </span><span style='color: #BB0000;'>NA</span><span>    </div><div class='input'>
 <span class='co'># By default, NAs match other NAs so that there are two</span>
 <span class='co'># rows in the output of this join:</span>
-<span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='no'>df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>), <span class='kw'>z</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='fu'>left_join</span>(<span class='no'>df1</span>, <span class='no'>df2</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt;    x y z
+<span class='kw'>df1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>), y = <span class='fl'>2</span>)
+<span class='kw'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>), z = <span class='fl'>3</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span>(<span class='kw'>df1</span>, <span class='kw'>df2</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt;    x y z
 #&gt; 1  1 2 3
 #&gt; 2 NA 2 3</div><div class='input'>
 <span class='co'># You can optionally request that NAs don't match, giving a</span>
 <span class='co'># a result that more closely resembles SQL joins</span>
-<span class='fu'>left_join</span>(<span class='no'>df1</span>, <span class='no'>df2</span>, <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='st'>"never"</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt;    x y  z
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span>(<span class='kw'>df1</span>, <span class='kw'>df2</span>, na_matches = <span class='st'>"never"</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "x"</span></div><div class='output co'>#&gt;    x y  z
 #&gt; 1  1 2  3
 #&gt; 2 NA 2 NA</div></span></pre>
   </div>

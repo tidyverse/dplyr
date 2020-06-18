@@ -215,13 +215,13 @@ for schema.table." />
     </div>
 
     <div class="ref-description">
-    <p><code>ident()</code> takes unquoted strings and flags them as identifiers.
-<code>ident_q()</code> assumes its input has already been quoted, and ensures
+    <p><code><a href='https://dbplyr.tidyverse.org/reference/ident.html'>ident()</a></code> takes unquoted strings and flags them as identifiers.
+<code><a href='https://dbplyr.tidyverse.org/reference/ident.html'>ident_q()</a></code> assumes its input has already been quoted, and ensures
 it does not get quoted again. This is currently used only for
 for <code>schema.table</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ident</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://dbplyr.tidyverse.org/reference/ident.html'>ident</a></span>(<span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -235,8 +235,8 @@ for <code>schema.table</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Identifiers are escaped with "</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"dbplyr"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
-  <span class='fu'>ident</span>(<span class='st'>"x"</span>)
+<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"dbplyr"</span>, quietly = <span class='fl'>TRUE</span>)) {
+  <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/ident.html'>ident</a></span>(<span class='st'>"x"</span>)
 }</div><div class='output co'>#&gt; &lt;IDENT&gt; x</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

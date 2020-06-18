@@ -226,32 +226,32 @@ groups." />
 
     <div class="ref-description">
     <p>These functions return information about the "current" group or "current"
-variable, so only work inside specific contexts like <code><a href='summarise.html'>summarise()</a></code> and
-<code><a href='mutate.html'>mutate()</a></code></p><ul>
-<li><p><code>n()</code> gives the current group size.</p></li>
-<li><p><code>cur_data()</code> gives the current data for the current group (exclusing
+variable, so only work inside specific contexts like <code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise()</a></code> and
+<code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code></p><ul>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/context.html'>n()</a></code> gives the current group size.</p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_data()</a></code> gives the current data for the current group (exclusing
 grouping variables)</p></li>
-<li><p><code>cur_group()</code> gives the group keys, a tibble with one row and one column
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group()</a></code> gives the group keys, a tibble with one row and one column
 for each grouping variable.</p></li>
-<li><p><code>cur_group_id()</code> gives a unique numeric identifier for the current group.</p></li>
-<li><p><code>cur_column()</code> gives the name of the current column (in <code><a href='across.html'>across()</a></code> only).</p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group_id()</a></code> gives a unique numeric identifier for the current group.</p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_column()</a></code> gives the name of the current column (in <code><a href='https://dplyr.tidyverse.org/reference/across.html'>across()</a></code> only).</p></li>
 </ul>
 
-<p>See <code><a href='group_data.html'>group_data()</a></code> for equivalent functions that return values for all
+<p>See <code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_data()</a></code> for equivalent functions that return values for all
 groups.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>n</span>()
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span>()
 
-<span class='fu'>cur_data</span>()
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_data</a></span>()
 
-<span class='fu'>cur_group</span>()
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group</a></span>()
 
-<span class='fu'>cur_group_id</span>()
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group_id</a></span>()
 
-<span class='fu'>cur_group_rows</span>()
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group_rows</a></span>()
 
-<span class='fu'>cur_column</span>()</pre>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_column</a></span>()</pre>
 
 
     <h2 class="hasAnchor" id="data-table"><a class="anchor" href="#data-table"></a>data.table</h2>
@@ -259,28 +259,28 @@ groups.</p>
     
 
 <p>If you're familiar with data.table:</p><ul>
-<li><p><code>cur_data()</code> &lt;-&gt; <code>.SD</code></p></li>
-<li><p><code>cur_group_id()</code> &lt;-&gt; <code>.GRP</code></p></li>
-<li><p><code>cur_group()</code> &lt;-&gt; <code>.BY</code></p></li>
-<li><p><code>cur_group_rows()</code> &lt;-&gt; <code>.I</code></p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_data()</a></code> &lt;-&gt; <code>.SD</code></p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group_id()</a></code> &lt;-&gt; <code>.GRP</code></p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group()</a></code> &lt;-&gt; <code>.BY</code></p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group_rows()</a></code> &lt;-&gt; <code>.I</code></p></li>
 </ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
-  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='fl'>1</span>:<span class='fl'>3</span>)),
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>),
-  <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>)
+    <pre class="examples"><div class='input'><span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
+  g = <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>], <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>)),
+  x = <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>),
+  y = <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>)
 )
-<span class='no'>gf</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>)
+<span class='kw'>gf</span> <span class='op'>&lt;-</span> <span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>g</span>)
 
-<span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>n</span>())</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 2</span><span>
+<span class='kw'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(n = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span>())</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;   g         n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> a         1
 #&gt; </span><span style='color: #555555;'>2</span><span> b         2
 #&gt; </span><span style='color: #555555;'>3</span><span> c         3</div><div class='input'>
-<span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'>cur_group_id</span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 4</span><span>
+<span class='kw'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(id = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group_id</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 4</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   g [3]</span><span>
 #&gt;   g         x      y    id
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
@@ -289,7 +289,7 @@ groups.</p>
 #&gt; </span><span style='color: #555555;'>3</span><span> c     0.382 0.749      3
 #&gt; </span><span style='color: #555555;'>4</span><span> b     0.893 0.913      2
 #&gt; </span><span style='color: #555555;'>5</span><span> c     0.844 0.204      3
-#&gt; </span><span style='color: #555555;'>6</span><span> a     0.730 0.472      1</div><div class='input'><span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>row</span> <span class='kw'>=</span> <span class='fu'>cur_group_rows</span>())</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'g' (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 2</span><span>
+#&gt; </span><span style='color: #555555;'>6</span><span> a     0.730 0.472      1</div><div class='input'><span class='kw'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(row = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group_rows</a></span>())</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'g' (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   g [3]</span><span>
 #&gt;   g       row
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
@@ -298,18 +298,18 @@ groups.</p>
 #&gt; </span><span style='color: #555555;'>3</span><span> b         4
 #&gt; </span><span style='color: #555555;'>4</span><span> c         2
 #&gt; </span><span style='color: #555555;'>5</span><span> c         3
-#&gt; </span><span style='color: #555555;'>6</span><span> c         5</div><div class='input'><span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'>cur_group</span>()))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #555555;'>6</span><span> c         5</div><div class='input'><span class='kw'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(data = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_group</a></span>()))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;   g     data            
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>          
 #&gt; </span><span style='color: #555555;'>1</span><span> a     </span><span style='color: #555555;'>&lt;tibble [1 × 1]&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>2</span><span> b     </span><span style='color: #555555;'>&lt;tibble [1 × 1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> c     </span><span style='color: #555555;'>&lt;tibble [1 × 1]&gt;</span><span></div><div class='input'><span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'>cur_data</span>()))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> c     </span><span style='color: #555555;'>&lt;tibble [1 × 1]&gt;</span><span></div><div class='input'><span class='kw'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(data = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_data</a></span>()))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;   g     data            
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>          
 #&gt; </span><span style='color: #555555;'>1</span><span> a     </span><span style='color: #555555;'>&lt;tibble [1 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>2</span><span> b     </span><span style='color: #555555;'>&lt;tibble [2 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>3</span><span> c     </span><span style='color: #555555;'>&lt;tibble [3 × 2]&gt;</span><span></div><div class='input'>
-<span class='no'>gf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), ~ <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'>cur_column</span>(), <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>.x</span>, <span class='fl'>2</span>))))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
+<span class='kw'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>cur_column</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='kw'>.x</span>, <span class='fl'>2</span>))))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   g [3]</span><span>
 #&gt;   g     x      y     
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 

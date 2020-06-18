@@ -214,14 +214,14 @@ function." />
     </div>
 
     <div class="ref-description">
-    <p><code>rename()</code> changes the names of individual variables using
-<code>new_name = old_name</code> syntax; <code>rename_with()</code> renames columns using a
+    <p><code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename()</a></code> changes the names of individual variables using
+<code>new_name = old_name</code> syntax; <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with()</a></code> renames columns using a
 function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rename</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)
 
-<span class='fu'>rename_with</span>(<span class='no'>.data</span>, <span class='no'>.fn</span>, <span class='kw'>.cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with</a></span>(<span class='kw'>.data</span>, <span class='kw'>.fn</span>, .cols = <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -234,9 +234,9 @@ more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>For <code>rename()</code>: &lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Use
+      <td><p>For <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename()</a></code>: &lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html'>tidy-select</a></code>&gt; Use
 <code>new_name = old_name</code> to rename selected variables.</p>
-<p>For <code>rename_with()</code>: additional arguments passed onto <code>.fn</code>.</p></td>
+<p>For <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with()</a></code>: additional arguments passed onto <code>.fn</code>.</p></td>
     </tr>
     <tr>
       <th>.fn</th>
@@ -245,7 +245,7 @@ return a character vector the same length as the input.</p></td>
     </tr>
     <tr>
       <th>.cols</th>
-      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Columns to rename;
+      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html'>tidy-select</a></code>&gt; Columns to rename;
 defaults to all columns.</p></td>
     </tr>
     </table>
@@ -273,16 +273,16 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
-<code><a href='arrange.html'>arrange</a>()</code>,
-<code><a href='filter.html'>filter</a>()</code>,
-<code><a href='mutate.html'>mutate</a>()</code>,
-<code><a href='select.html'>select</a>()</code>,
-<code><a href='slice.html'>slice</a>()</code>,
-<code><a href='summarise.html'>summarise</a>()</code></p></div>
+<code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a>()</code>,
+<code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a>()</code>,
+<code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a>()</code>,
+<code><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a>()</code>,
+<code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a>()</code>,
+<code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>iris</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>iris</span>) <span class='co'># so it prints a little nicer</span>
-<span class='fu'>rename</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 150 x 5</span><span>
+    <pre class="examples"><div class='input'><span class='kw'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='kw'>iris</span>) <span class='co'># so it prints a little nicer</span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span>(<span class='kw'>iris</span>, petal_length = <span class='kw'>Petal.Length</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width petal_length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
@@ -296,7 +296,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
 #&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'>
-<span class='fu'>rename_with</span>(<span class='no'>iris</span>, <span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with</a></span>(<span class='kw'>iris</span>, <span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    SEPAL.LENGTH SEPAL.WIDTH PETAL.LENGTH PETAL.WIDTH SPECIES
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
@@ -309,7 +309,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa 
 #&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='fu'>rename_with</span>(<span class='no'>iris</span>, <span class='no'>toupper</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with</a></span>(<span class='kw'>iris</span>, <span class='kw'>toupper</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width PETAL.LENGTH PETAL.WIDTH Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
@@ -322,7 +322,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa 
 #&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='fu'>rename_with</span>(<span class='no'>iris</span>, ~ <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span>(<span class='st'>"."</span>, <span class='st'>"_"</span>, <span class='no'>.x</span>, <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with</a></span>(<span class='kw'>iris</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span>(<span class='st'>"."</span>, <span class='st'>"_"</span>, <span class='kw'>.x</span>, fixed = <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    sepal_length sepal_width petal_length petal_width species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 

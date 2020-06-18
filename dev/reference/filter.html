@@ -216,14 +216,14 @@ the row will be dropped, unlike base subsetting with [." />
     </div>
 
     <div class="ref-description">
-    <p>The <code>filter()</code> function is used to subset a data frame,
+    <p>The <code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter()</a></code> function is used to subset a data frame,
 retaining all rows that satisfy your conditions.
 To be retained, the row must produce a value of <code>TRUE</code> for all conditions.
 Note that when a condition evaluates to <code>NA</code>
-the row will be dropped, unlike base subsetting with <code>[</code>.</p>
+the row will be dropped, unlike base subsetting with <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>filter</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .preserve = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -236,7 +236,7 @@ more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Expressions that return a
+      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_data_masking.html'>data-masking</a></code>&gt; Expressions that return a
 logical value, and are defined in terms of the variables in <code>.data</code>.
 If multiple expressions are included, they are combined with the <code>&amp;</code> operator.
 Only rows for which all conditions evaluate to <code>TRUE</code> are kept.</p></td>
@@ -260,10 +260,10 @@ is recalculated based on the resulting data, otherwise the grouping is kept as i
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>filter()</code> function is used to subset the rows of
+    <p>The <code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter()</a></code> function is used to subset the rows of
 <code>.data</code>, applying the expressions in <code>...</code> to the column values to determine which
-rows should be retained. It can be applied to both grouped and ungrouped data (see <code><a href='group_by.html'>group_by()</a></code> and
-<code><a href='group_by.html'>ungroup()</a></code>). However, dplyr is not yet smart enough to optimise the filtering
+rows should be retained. It can be applied to both grouped and ungrouped data (see <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code> and
+<code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup()</a></code>). However, dplyr is not yet smart enough to optimise the filtering
 operation on grouped datasets that do not need grouped calculations. For this
 reason, filtering is often considerably faster on ungrouped data.</p>
     <h2 class="hasAnchor" id="useful-filter-functions"><a class="anchor" href="#useful-filter-functions"></a>Useful filter functions</h2>
@@ -276,7 +276,7 @@ expressions used to filter the data:</p><ul>
 <li><p><code><a href='https://rdrr.io/r/base/Comparison.html'>==</a></code>, <code>&gt;</code>, <code>&gt;=</code> etc</p></li>
 <li><p><code>&amp;</code>, <code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code>, <code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code>, <code><a href='https://rdrr.io/r/base/Logic.html'>xor()</a></code></p></li>
 <li><p><code><a href='https://rdrr.io/r/base/NA.html'>is.na()</a></code></p></li>
-<li><p><code><a href='between.html'>between()</a></code>, <code><a href='near.html'>near()</a></code></p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/between.html'>between()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/near.html'>near()</a></code></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="grouped-tibbles"><a class="anchor" href="#grouped-tibbles"></a>Grouped tibbles</h2>
@@ -287,11 +287,11 @@ expressions used to filter the data:</p><ul>
 <p>Because filtering expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped filtering:</p><pre><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</pre>
+involved. Compare this ungrouped filtering:</p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>mass</span>, na.rm = <span class='fl'>TRUE</span>))</pre>
 
-<p>With the grouped equivalent:</p><pre><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</pre>
+<p>With the grouped equivalent:</p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>gender</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>mass</span>, na.rm = <span class='fl'>TRUE</span>))</pre>
 
-<p>In the ungrouped version, <code>filter()</code> compares the value of <code>mass</code> in each row to
+<p>In the ungrouped version, <code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter()</a></code> compares the value of <code>mass</code> in each row to
 the global average (taken over the whole data set), keeping only the rows with
 <code>mass</code> greater than this global average. In contrast, the grouped version calculates
 the average mass separately for each <code>gender</code> group, and keeps rows with <code>mass</code> greater
@@ -309,16 +309,16 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
-<code><a href='arrange.html'>arrange</a>()</code>,
-<code><a href='mutate.html'>mutate</a>()</code>,
-<code><a href='rename.html'>rename</a>()</code>,
-<code><a href='select.html'>select</a>()</code>,
-<code><a href='slice.html'>slice</a>()</code>,
-<code><a href='summarise.html'>summarise</a>()</code></p></div>
+<code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a>()</code>,
+<code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a>()</code>,
+<code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a>()</code>,
+<code><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a>()</code>,
+<code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a>()</code>,
+<code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Filtering by one criterion</span>
-<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Human"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 35 x 14</span><span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>starwars</span>, <span class='kw'>species</span> <span class='op'>==</span> <span class='st'>"Human"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 35 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
@@ -332,14 +332,14 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 9</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
 #&gt; </span><span style='color: #555555;'>10</span><span> Han …    180    80 brown      fair       brown           29   male  mascu…
 #&gt; </span><span style='color: #555555;'># … with 25 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 14</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>starwars</span>, <span class='kw'>mass</span> <span class='op'>&gt;</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 14</span><span>
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Jabb…    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>         green-tan… orange           600 herm… mascu…
 #&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># Filtering by multiple criteria within a single logical expression</span>
-<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>&amp;</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 14</span><span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>starwars</span>, <span class='kw'>hair_color</span> <span class='op'>==</span> <span class='st'>"none"</span> <span class='op'>&amp;</span> <span class='kw'>eye_color</span> <span class='op'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 14</span><span>
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Nien…    160    68 none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
@@ -352,7 +352,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'>8</span><span> Tion…    206    80 none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
 #&gt; </span><span style='color: #555555;'>9</span><span> BB8       </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> none       none       black             </span><span style='color: #BB0000;'>NA</span><span> none  mascu…
 #&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>|</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 14</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>starwars</span>, <span class='kw'>hair_color</span> <span class='op'>==</span> <span class='st'>"none"</span> <span class='op'>|</span> <span class='kw'>eye_color</span> <span class='op'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
@@ -368,7 +368,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'># … with 28 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># When multiple expressions are used, they are combined using &amp;</span>
-<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span>, <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 14</span><span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>starwars</span>, <span class='kw'>hair_color</span> <span class='op'>==</span> <span class='st'>"none"</span>, <span class='kw'>eye_color</span> <span class='op'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 14</span><span>
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Nien…    160    68 none       grey       black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
@@ -388,7 +388,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <span class='co'>#</span>
 <span class='co'># The following filters rows where `mass` is greater than the</span>
 <span class='co'># global average:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 14</span><span>
+<span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>mass</span>, na.rm = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> Dart…    202   136 none       white      yellow          41.9 male  mascu…
@@ -405,7 +405,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># Whereas this keeps rows with `mass` greater than the gender</span>
 <span class='co'># average:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span> <span class='fu'>filter</span>(<span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 14 x 14</span><span>
+<span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>gender</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>mass</span>, na.rm = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 14 x 14</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   gender [2]</span><span>
 #&gt;    name  height   mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
@@ -427,12 +427,12 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 
 <span class='co'># To refer to column names that are stored as strings, use the `.data` pronoun:</span>
-<span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
-<span class='no'>cond</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>80</span>, <span class='fl'>150</span>)
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>filter</span>(
-    <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>1</span>]]]] <span class='kw'>&gt;</span> <span class='no'>cond</span><span class='kw'>[[</span><span class='fl'>1</span>]],
-    <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>2</span>]]]] <span class='kw'>&gt;</span> <span class='no'>cond</span><span class='kw'>[[</span><span class='fl'>2</span>]]
+<span class='kw'>vars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
+<span class='kw'>cond</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>80</span>, <span class='fl'>150</span>)
+<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(
+    <span class='kw'>.data</span>[[<span class='kw'>vars</span>[[<span class='fl'>1</span>]]]] <span class='op'>&gt;</span> <span class='kw'>cond</span>[[<span class='fl'>1</span>]],
+    <span class='kw'>.data</span>[[<span class='kw'>vars</span>[[<span class='fl'>2</span>]]]] <span class='op'>&gt;</span> <span class='kw'>cond</span>[[<span class='fl'>2</span>]]
   )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 21 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 

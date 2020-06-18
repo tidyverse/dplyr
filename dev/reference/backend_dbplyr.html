@@ -223,68 +223,68 @@ implementations in dbplyr typically just call the standard DBI S4
 method.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>db_desc</span>(<span class='no'>x</span>)
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_desc</a></span>(<span class='kw'>x</span>)
 
-<span class='fu'>sql_translate_env</span>(<span class='no'>con</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>sql_translate_env</a></span>(<span class='kw'>con</span>)
 
-<span class='fu'>db_list_tables</span>(<span class='no'>con</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_list_tables</a></span>(<span class='kw'>con</span>)
 
-<span class='fu'>db_has_table</span>(<span class='no'>con</span>, <span class='no'>table</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_has_table</a></span>(<span class='kw'>con</span>, <span class='kw'>table</span>)
 
-<span class='fu'>db_data_type</span>(<span class='no'>con</span>, <span class='no'>fields</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_data_type</a></span>(<span class='kw'>con</span>, <span class='kw'>fields</span>)
 
-<span class='fu'>db_save_query</span>(<span class='no'>con</span>, <span class='no'>sql</span>, <span class='no'>name</span>, <span class='kw'>temporary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_save_query</a></span>(<span class='kw'>con</span>, <span class='kw'>sql</span>, <span class='kw'>name</span>, temporary = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_begin</span>(<span class='no'>con</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_begin</a></span>(<span class='kw'>con</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_commit</span>(<span class='no'>con</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_commit</a></span>(<span class='kw'>con</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_rollback</span>(<span class='no'>con</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_rollback</a></span>(<span class='kw'>con</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_write_table</span>(<span class='no'>con</span>, <span class='no'>table</span>, <span class='no'>types</span>, <span class='no'>values</span>, <span class='kw'>temporary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_write_table</a></span>(<span class='kw'>con</span>, <span class='kw'>table</span>, <span class='kw'>types</span>, <span class='kw'>values</span>, temporary = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_create_table</span>(<span class='no'>con</span>, <span class='no'>table</span>, <span class='no'>types</span>, <span class='kw'>temporary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_create_table</a></span>(<span class='kw'>con</span>, <span class='kw'>table</span>, <span class='kw'>types</span>, temporary = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_insert_into</span>(<span class='no'>con</span>, <span class='no'>table</span>, <span class='no'>values</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_insert_into</a></span>(<span class='kw'>con</span>, <span class='kw'>table</span>, <span class='kw'>values</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_create_indexes</span>(<span class='no'>con</span>, <span class='no'>table</span>, <span class='kw'>indexes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>unique</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_create_indexes</a></span>(<span class='kw'>con</span>, <span class='kw'>table</span>, indexes = <span class='kw'>NULL</span>, unique = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_create_index</span>(<span class='no'>con</span>, <span class='no'>table</span>, <span class='no'>columns</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>unique</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_create_index</a></span>(<span class='kw'>con</span>, <span class='kw'>table</span>, <span class='kw'>columns</span>, name = <span class='kw'>NULL</span>, unique = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_drop_table</span>(<span class='no'>con</span>, <span class='no'>table</span>, <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_drop_table</a></span>(<span class='kw'>con</span>, <span class='kw'>table</span>, force = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_analyze</span>(<span class='no'>con</span>, <span class='no'>table</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_analyze</a></span>(<span class='kw'>con</span>, <span class='kw'>table</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_explain</span>(<span class='no'>con</span>, <span class='no'>sql</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_explain</a></span>(<span class='kw'>con</span>, <span class='kw'>sql</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_query_fields</span>(<span class='no'>con</span>, <span class='no'>sql</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_query_fields</a></span>(<span class='kw'>con</span>, <span class='kw'>sql</span>, <span class='kw'>...</span>)
 
-<span class='fu'>db_query_rows</span>(<span class='no'>con</span>, <span class='no'>sql</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_query_rows</a></span>(<span class='kw'>con</span>, <span class='kw'>sql</span>, <span class='kw'>...</span>)
 
-<span class='fu'>sql_select</span>(
-  <span class='no'>con</span>,
-  <span class='no'>select</span>,
-  <span class='no'>from</span>,
-  <span class='kw'>where</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>having</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>order_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>limit</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>distinct</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>sql_select</a></span>(
+  <span class='kw'>con</span>,
+  <span class='kw'>select</span>,
+  <span class='kw'>from</span>,
+  where = <span class='kw'>NULL</span>,
+  group_by = <span class='kw'>NULL</span>,
+  having = <span class='kw'>NULL</span>,
+  order_by = <span class='kw'>NULL</span>,
+  limit = <span class='kw'>NULL</span>,
+  distinct = <span class='fl'>FALSE</span>,
+  <span class='kw'>...</span>
 )
 
-<span class='fu'>sql_subquery</span>(<span class='no'>con</span>, <span class='no'>from</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>random_table_name</span>(), <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>sql_subquery</a></span>(<span class='kw'>con</span>, <span class='kw'>from</span>, name = <span class='fu'>random_table_name</span>(), <span class='kw'>...</span>)
 
-<span class='fu'>sql_join</span>(<span class='no'>con</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>vars</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"inner"</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>sql_join</a></span>(<span class='kw'>con</span>, <span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>vars</span>, type = <span class='st'>"inner"</span>, by = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
 
-<span class='fu'>sql_semi_join</span>(<span class='no'>con</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>anti</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>sql_semi_join</a></span>(<span class='kw'>con</span>, <span class='kw'>x</span>, <span class='kw'>y</span>, anti = <span class='fl'>FALSE</span>, by = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
 
-<span class='fu'>sql_set_op</span>(<span class='no'>con</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>method</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>sql_set_op</a></span>(<span class='kw'>con</span>, <span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>method</span>)
 
-<span class='fu'>sql_escape_string</span>(<span class='no'>con</span>, <span class='no'>x</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>sql_escape_string</a></span>(<span class='kw'>con</span>, <span class='kw'>x</span>)
 
-<span class='fu'>sql_escape_ident</span>(<span class='no'>con</span>, <span class='no'>x</span>)</pre>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>sql_escape_ident</a></span>(<span class='kw'>con</span>, <span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -306,33 +306,33 @@ method.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Usually a logical value indicating success. Most failures should generate
-an error. However, <code>db_has_table()</code> should return <code>NA</code> if
+an error. However, <code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_has_table()</a></code> should return <code>NA</code> if
 temporary tables cannot be listed with <code><a href='https://dbi.r-dbi.org/reference/dbListTables.html'>DBI::dbListTables()</a></code> (due to backend
 API limitations for example). As a result, you methods will rely on the
 backend to throw an error if a table exists when it shouldn't.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A few backend methods do not call the standard DBI S4 methods including</p><ul>
-<li><p><code>db_data_type()</code>: Calls <code><a href='https://dbi.r-dbi.org/reference/dbDataType.html'>DBI::dbDataType()</a></code> for every field
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_data_type()</a></code>: Calls <code><a href='https://dbi.r-dbi.org/reference/dbDataType.html'>DBI::dbDataType()</a></code> for every field
 (e.g. data frame column) and returns a vector of corresponding SQL data
 types</p></li>
-<li><p><code>db_save_query()</code>: Builds and executes a
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_save_query()</a></code>: Builds and executes a
 <code>CREATE [TEMPORARY] TABLE &lt;table&gt; ...</code> SQL command.</p></li>
-<li><p><code>db_create_index()</code>: Builds and executes a
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_create_index()</a></code>: Builds and executes a
 <code>CREATE INDEX &lt;name&gt; ON &lt;table&gt;</code> SQL command.</p></li>
-<li><p><code>db_drop_table()</code>: Builds and executes a
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_drop_table()</a></code>: Builds and executes a
 <code>DROP TABLE [IF EXISTS]  &lt;table&gt;</code> SQL command.</p></li>
-<li><p><code>db_analyze()</code>: Builds and executes an
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_analyze()</a></code>: Builds and executes an
 <code>ANALYZE &lt;table&gt;</code> SQL command.</p></li>
 </ul>
 
-<p>Currently, <code><a href='copy_to.html'>copy_to()</a></code> is the only user of <code>db_begin()</code>, <code>db_commit()</code>,
-<code>db_rollback()</code>, <code>db_write_table()</code>, <code>db_create_indexes()</code>, <code>db_drop_table()</code> and
-<code>db_analyze()</code>. If you find yourself overriding many of these
-functions it may suggest that you should just override <code><a href='copy_to.html'>copy_to()</a></code>
+<p>Currently, <code><a href='https://dplyr.tidyverse.org/reference/copy_to.html'>copy_to()</a></code> is the only user of <code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_begin()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_commit()</a></code>,
+<code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_rollback()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_write_table()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_create_indexes()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_drop_table()</a></code> and
+<code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_analyze()</a></code>. If you find yourself overriding many of these
+functions it may suggest that you should just override <code><a href='https://dplyr.tidyverse.org/reference/copy_to.html'>copy_to()</a></code>
 instead.</p>
-<p><code>db_create_table()</code> and <code>db_insert_into()</code> have been deprecated
-in favour of <code>db_write_table()</code>.</p>
+<p><code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_create_table()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_insert_into()</a></code> have been deprecated
+in favour of <code><a href='https://dplyr.tidyverse.org/reference/backend_dbplyr.html'>db_write_table()</a></code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
