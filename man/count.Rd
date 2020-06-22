@@ -5,6 +5,7 @@
 \alias{tally}
 \alias{add_count}
 \alias{add_tally}
+\alias{guess_wt}
 \title{Count observations by group}
 \usage{
 count(
@@ -16,11 +17,13 @@ count(
   .drop = group_by_drop_default(x)
 )
 
-tally(x, wt = NULL, sort = FALSE, name = NULL)
+tally(x, wt = guess_wt(), sort = FALSE, name = NULL)
 
 add_count(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated())
 
-add_tally(x, wt = NULL, sort = FALSE, name = NULL)
+add_tally(x, wt = guess_wt(), sort = FALSE, name = NULL)
+
+guess_wt()
 }
 \arguments{
 \item{x}{A data frame, data frame extension (e.g. a tibble), or a
@@ -33,15 +36,14 @@ Can be a variable (or combination of variables) or \code{NULL}. \code{wt}
 is computed once for each unique combination of the counted
 variables.
 \itemize{
-\item If a variable, \code{count()} will compute \code{sum(wt)} for each unique
-combination.
-\item If \code{NULL}, the default, the computation depends on whether a
-column of frequency counts \code{n} exists in the data frame. If it
-exists, the counts are computed with \code{sum(n)} for each unique
-combination. Otherwise, \code{n()} is used to compute the counts.
-Supply \code{wt = n()} to force this behaviour even if you have an
-\code{n} column in the data frame.
-}}
+\item If a variable, \code{count()} will \code{sum(wt)} for each group.
+\item If \code{NULL}, will count the number of rows in each group.
+\item If \code{guess_wt()}, will use \code{wt = sum(n)} if column \code{n} exists; otherwise
+will use \code{wt = NULL}
+}
+
+For historical reasons, \code{count()} defaults to \code{NULL}, and \code{tally()}
+defaults to \code{auto()}.}
 
 \item{sort}{If \code{TRUE}, will show the largest groups at the top.}
 
