@@ -1,8 +1,6 @@
 # dplyr (development version)
 
-## Minor improvements and bug fixes
-
-* cummean() no longer has off-by-one indexing problem (#5287).
+* `cummean()` no longer has off-by-one indexing problem (@cropgen, #5287).
 
 # dplyr 1.0.0
 
