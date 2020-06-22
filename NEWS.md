@@ -1,10 +1,12 @@
 # dplyr (development version)
 
-## Minor improvements and bug fixes
+* `count()` now displays the correct the hint to force a count, `wt = n()` 
+  (#5324).
 
 * `coalesce()` now supports data frames correctly (#5326).
 
 * `cummean()` no longer has off-by-one indexing problem (#5287).
+* `cummean()` no longer has off-by-one indexing problem (@cropgen, #5287).
 
 # dplyr 1.0.0
 
