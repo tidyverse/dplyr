@@ -146,7 +146,7 @@ tally_n <- function(x, wt) {
   if (quo_is_null(wt) && "n" %in% tbl_vars(x) && !"n" %in% group_vars(x)) {
     inform(c(
       "Using `n` as weighting variable",
-      i = "Quiet this message with `wt = n` or count rows with `wt = 1`"
+      i = "Quiet this message with `wt = n` or count rows with `wt = n()`"
     ))
     wt <- quo(n)
   }

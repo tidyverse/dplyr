@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `count()` now displays the correct the hint to force a count, `wt = n()` 
+  (#5324).
+
 * `cummean()` no longer has off-by-one indexing problem (@cropgen, #5287).
 
 # dplyr 1.0.0
