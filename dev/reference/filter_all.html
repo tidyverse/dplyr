@@ -285,10 +285,10 @@ into account to determine filtered rows.</p>
 <span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>all_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>.</span>))</div><div class='output co'>#&gt; &lt;predicate intersection&gt;
 #&gt; <span style='font-weight: bold;'>&lt;quosure&gt;</span><span>
 #&gt; expr: </span><span style='color: #0000BB;'>^is.na(.)</span><span>
-#&gt; env:  </span><span style='color: #0000BB;'>0x7ffe8556f308</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>any_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
+#&gt; env:  </span><span style='color: #0000BB;'>0x7ff5c4c0ca18</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>any_vars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
 #&gt; </span><span style='font-weight: bold;'>&lt;quosure&gt;</span><span>
 #&gt; expr: </span><span style='color: #0000BB;'>^is.na(.)</span><span>
-#&gt; env:  </span><span style='color: #0000BB;'>0x7ffe8556f308</span><span></div><div class='input'>
+#&gt; env:  </span><span style='color: #0000BB;'>0x7ff5c4c0ca18</span><span></div><div class='input'>
 
 <span class='co'># You can take the intersection of the replicated expressions:</span>
 <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter_all.html'>filter_all</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>all_vars</a></span>(<span class='kw'>.</span> <span class='op'>&gt;</span> <span class='fl'>150</span>))</div><div class='output co'>#&gt;  [1] mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb
