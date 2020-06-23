@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `count()` no longer automatically weights by column `n` if present.
+* `count()` no longer automatically weights by column `n` if present (#5298).  
   `count()` and `tally()` now have clearly different defaults for `wt`.
 
 * `count()` now displays the correct the hint to force a count, `wt = NULL` 
