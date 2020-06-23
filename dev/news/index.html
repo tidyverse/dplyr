@@ -213,13 +213,11 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#dplyr-development-version" class="anchor"></a>dplyr (development version)<small> Unreleased </small>
 </h1>
-<div id="minor-improvements-and-bug-fixes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#minor-improvements-and-bug-fixes" class="anchor"></a>Minor improvements and bug fixes</h2>
 <ul>
-<li>cummean() no longer has off-by-one indexing problem (<a href='https://github.com/tidyverse/dplyr/issues/5287'>#5287</a>).</li>
+<li><p><code><a href="https://dplyr.tidyverse.org/reference/count.html">count()</a></code> now displays the correct the hint to force a count, <code>wt = n()</code> (<a href='https://github.com/tidyverse/dplyr/issues/5324'>#5324</a>).</p></li>
+<li><p><code><a href="https://dplyr.tidyverse.org/reference/coalesce.html">coalesce()</a></code> now supports data frames correctly (<a href='https://github.com/tidyverse/dplyr/issues/5326'>#5326</a>).</p></li>
+<li><p><code><a href="https://dplyr.tidyverse.org/reference/cumall.html">cummean()</a></code> no longer has off-by-one indexing problem (<a href='https://github.com/cropgen'>@cropgen</a>, <a href='https://github.com/tidyverse/dplyr/issues/5287'>#5287</a>).</p></li>
 </ul>
-</div>
 </div>
     <div id="dplyr-100" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.0">
@@ -412,9 +410,9 @@
 <li><p><code>vignette("programming")</code> has been completely rewritten to reflect our latest vocabulary, the most recent rlang features, and our current recommendations. It should now be substantially easier to program with dplyr.</p></li>
 </ul>
 </div>
-<div id="minor-improvements-and-bug-fixes-1" class="section level2">
+<div id="minor-improvements-and-bug-fixes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-improvements-and-bug-fixes-1" class="anchor"></a>Minor improvements and bug fixes</h2>
+<a href="#minor-improvements-and-bug-fixes" class="anchor"></a>Minor improvements and bug fixes</h2>
 <ul>
 <li><p>dplyr now has a rudimentary, experimental, and stop-gap, extension mechanism documented in <code><a href="https://dplyr.tidyverse.org/reference/dplyr_extending.html">?dplyr_extending</a></code></p></li>
 <li><p>dplyr no longer provides a <code>all.equal.tbl_df()</code> method. It never should have done so in the first place because it owns neither the generic nor the class. It also provided a problematic implementation because, by default, it ignored the order of the rows and the columns which is usually important. This is likely to cause new test failures in downstream packages; but on the whole we believe those failures to either reflect unexpected behaviour or tests that need to be strengthened (<a href='https://github.com/tidyverse/dplyr/issues/2751'>#2751</a>).</p></li>
@@ -1298,9 +1296,9 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-<div id="minor-improvements-and-bug-fixes-2" class="section level2">
+<div id="minor-improvements-and-bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-improvements-and-bug-fixes-2" class="anchor"></a>Minor improvements and bug fixes</h2>
+<a href="#minor-improvements-and-bug-fixes-1" class="anchor"></a>Minor improvements and bug fixes</h2>
 <div id="single-table-verbs" class="section level3">
 <h3 class="hasAnchor">
 <a href="#single-table-verbs" class="anchor"></a>Single table verbs</h3>
@@ -1572,9 +1570,9 @@ starwars %&gt;%
 <li><p><code>show_sql()</code> and <code>explain_sql()</code> and matching global options <code>dplyr.show_sql</code> and <code>dplyr.explain_sql</code> have been removed. Instead use <code><a href="https://dplyr.tidyverse.org/reference/explain.html">show_query()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/explain.html">explain()</a></code>.</p></li>
 </ul>
 </div>
-<div id="minor-improvements-and-bug-fixes-3" class="section level2">
+<div id="minor-improvements-and-bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-improvements-and-bug-fixes-3" class="anchor"></a>Minor improvements and bug fixes</h2>
+<a href="#minor-improvements-and-bug-fixes-2" class="anchor"></a>Minor improvements and bug fixes</h2>
 <ul>
 <li><p>Main verbs now have individual documentation pages (<a href='https://github.com/tidyverse/dplyr/issues/519'>#519</a>).</p></li>
 <li><p><code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> is simply re-exported from magrittr, instead of creating a local copy (<a href='https://github.com/tidyverse/dplyr/issues/496'>#496</a>, thanks to <a href='https://github.com/jimhester'>@jimhester</a>)</p></li>
