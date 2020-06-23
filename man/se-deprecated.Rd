@@ -70,18 +70,11 @@ summarize_(.data, ..., .dots = list())
 \item{vars}{Various meanings depending on the verb.}
 
 \item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> Frequency weights.
-Can be a variable (or combination of variables) or \code{NULL}. \code{wt}
-is computed once for each unique combination of the counted
-variables.
+Can be \code{NULL} or a variable:
 \itemize{
-\item If a variable, \code{count()} will \code{sum(wt)} for each group.
-\item If \code{NULL}, will count the number of rows in each group.
-\item If \code{guess_wt()}, will use \code{wt = sum(n)} if column \code{n} exists; otherwise
-will use \code{wt = NULL}
-}
-
-For historical reasons, \code{count()} defaults to \code{NULL}, and \code{tally()}
-defaults to \code{auto()}.}
+\item If \code{NULL} (the default), counts the number of rows in each group.
+\item If a variable, computes \code{sum(wt)} for each group.
+}}
 
 \item{sort}{If \code{TRUE}, will show the largest groups at the top.}
 

@@ -1,10 +1,12 @@
 # dplyr (development version)
 
-* `count()` no longer automatically weights by column `n` if present (#5298).  
-  `count()` and `tally()` now have clearly different defaults for `wt`.
-
-* `count()` now displays the correct the hint to force a count, `wt = NULL` 
-  (#5324).
+* `count()` and `tally()` no longer automatically weights by column `n` if 
+  present (#5298). dplyr 1.0.0 introduced this behaviour because of Hadley's
+  faulty memory. Historically `tally()` automatically weighted and `count()` 
+  did not, but this behaviour was accidentally changed in 0.8.2 (#4408) so that 
+  neither automatically weighted by `n`. Since 0.8.2 is almost a year old,
+  and the automatically weighting behaviour was a little confusing anyway,
+  we've removed it from both `count()` and `tally()`.
 
 * `coalesce()` now supports data frames correctly (#5326).
 

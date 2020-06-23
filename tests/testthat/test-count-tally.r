@@ -79,22 +79,6 @@ test_that("can only explicitly chain together multiple tallies", {
   })
 })
 
-test_that("tally() automatically weights; count() does not", {
-  df <- tibble(g = c(1, 2), n = c(1, 3))
-  out <- count(df, g)
-  expect_equal(out, tibble(g = c(1, 2), n = c(1, 1)))
-
-  expect_message(out <- tally(group_by(df, g)), "weighting variable")
-  expect_equal(out, tibble(g = c(1, 2), n = c(1, 3)))
-
-  # But can override the defaults
-  expect_message(out <- count(df, g, wt = guess_wt()), "weighting variable")
-  expect_equal(out, tibble(g = c(1, 2), n = c(1, 3)))
-
-  out <- tally(group_by(df, g), wt = NULL)
-  expect_equal(out, tibble(g = c(1, 2), n = c(1, 1)))
-})
-
 # tally -------------------------------------------------------------------
 
 test_that("tally can sort output", {

@@ -16,19 +16,10 @@
 #'   lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param ... <[`data-masking`][dplyr_data_masking]> Variables to group by.
 #' @param wt <[`data-masking`][dplyr_data_masking]> Frequency weights.
-#'   Can be a variable (or combination of variables) or `NULL`. `wt`
-#'   is computed once for each unique combination of the counted
-#'   variables.
+#'   Can be `NULL` or a variable:
 #'
-#'   * If a variable, `count()` will `sum(wt)` for each group.
-#'
-#'   * If `NULL`, will count the number of rows in each group.
-#'
-#'   * If `guess_wt()`, will use `wt = sum(n)` if column `n` exists; otherwise
-#'     will use `wt = NULL`
-#'
-#'   For historical reasons, `count()` defaults to `NULL`, and `tally()`
-#'   defaults to `auto()`.
+#'   * If `NULL` (the default), counts the number of rows in each group.
+#'   * If a variable, computes `sum(wt)` for each group.
 #' @param sort If `TRUE`, will show the largest groups at the top.
 #' @param name The name of the new column in the output.
 #'
@@ -89,7 +80,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by
 
 #' @export
 #' @rdname count
-tally <- function(x, wt = guess_wt(), sort = FALSE, name = NULL) {
+tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
   name <- check_name(name, group_vars(x))
 
@@ -127,7 +118,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = depr
 
 #' @rdname count
 #' @export
-add_tally <- function(x, wt = guess_wt(), sort = FALSE, name = NULL) {
+add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
   name <- check_name(name, tbl_vars(x))
   out <- mutate(x, !!name := !!n)
@@ -139,30 +130,10 @@ add_tally <- function(x, wt = guess_wt(), sort = FALSE, name = NULL) {
   }
 }
 
-#' @export
-#' @rdname count
-guess_wt <- function() {
-  abort(c(
-    "guess_wt() is a special helper used only within count/tally()",
-    "It should never be run directly"
-  ))
-}
-
 # Helpers -----------------------------------------------------------------
 
 tally_n <- function(x, wt) {
   wt <- enquo(wt)
-  if (identical(quo_get_expr(wt), expr(guess_wt()))) {
-    if ("n" %in% tbl_vars(x) && !"n" %in% group_vars(x)) {
-      inform(c(
-        "Using `n` as weighting variable",
-        i = "Quiet this message with `wt = n` or count rows with `wt = NULL`"
-      ))
-      wt <- quo(n)
-    } else {
-      wt <- quo(NULL)
-    }
-  }
 
   if (quo_is_null(wt) || identical(quo_get_expr(wt), expr(n()))) {
     expr(n())
