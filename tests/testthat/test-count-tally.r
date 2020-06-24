@@ -79,6 +79,11 @@ test_that("can only explicitly chain together multiple tallies", {
   })
 })
 
+test_that("wt = n() is deprecated", {
+  df <- data.frame(x = 1:3)
+  expect_warning(count(df, wt = n()), "`wt = n()`", fixed = TRUE)
+})
+
 # tally -------------------------------------------------------------------
 
 test_that("tally can sort output", {

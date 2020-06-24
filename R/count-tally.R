@@ -135,7 +135,16 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 tally_n <- function(x, wt) {
   wt <- enquo(wt)
 
-  if (quo_is_null(wt) || identical(quo_get_expr(wt), expr(n()))) {
+  if (is_call(quo_get_expr(wt), "n", n = 0)) {
+    # Provided only by dplyr 1.0.0. See #5349 for discussion.
+    warn(c(
+      "`wt = n()` is deprecated",
+      i = "You can now omit the `wt` argument"
+    ))
+    wt <- quo(NULL)
+  }
+
+  if (quo_is_null(wt)) {
     expr(n())
   } else {
     expr(sum(!!wt, na.rm = TRUE))

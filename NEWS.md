@@ -7,6 +7,8 @@
   neither automatically weighted by `n`. Since 0.8.2 is almost a year old,
   and the automatically weighting behaviour was a little confusing anyway,
   we've removed it from both `count()` and `tally()`.
+  
+    Use of `wt = n()` is now deprecated; now just omit the `wt` argument.
 
 * `coalesce()` now supports data frames correctly (#5326).
 
