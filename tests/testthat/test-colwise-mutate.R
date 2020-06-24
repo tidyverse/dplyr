@@ -349,7 +349,7 @@ test_that("colwise mutate gives meaningful error messages", {
     summarise_at(tbl, vars(gr1), mean)
 
     "# improper additional arguments"
-    mutate_all(mtcars, round, 0, 0)
+    mutate_all(mtcars, length, 0, 0)
     mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
   })
 })
