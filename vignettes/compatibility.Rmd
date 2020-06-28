@@ -283,7 +283,7 @@ mutate_at(starwars, vars(height, mass), as.character)
 summarise_at(mtcars, vars(starts_with("d")), mean)
 ```
 
-Note that intead of a `vars()` selection, you can also supply
+Note that instead of a `vars()` selection, you can also supply
 character vectors of column names:
 
 ```{r, eval = FALSE}

@@ -134,7 +134,7 @@ df1 %>% left_join(df2)
 
 ## Filtering joins
 
-Filtering joins match obserations in the same way as mutating joins, but affect the observations, not the variables. There are two types:
+Filtering joins match observations in the same way as mutating joins, but affect the observations, not the variables. There are two types:
 
 * `semi_join(x, y)` __keeps__ all observations in `x` that have a match in `y`.
 * `anti_join(x, y)` __drops__ all observations in `x` that have a match in `y`.

@@ -6,7 +6,7 @@
 #' `df %>% group_by(a, b) %>% summarise(n = n())`.
 #' `count()` is paired with `tally()`, a lower-level helper that is equivalent
 #' to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
-#' switching the summary from from `n = n()` to `n = sum(wt)`.
+#' switching the summary from `n = n()` to `n = sum(wt)`.
 #'
 #' `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
 #' but use `mutate()` instead of `summarise()` so that they add a new column
