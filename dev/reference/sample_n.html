@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -232,15 +228,15 @@ It was easier to remove the deprecated .env argument.
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#superseded'><img src='figures/lifecycle-superseded.svg' alt='Superseded lifecycle'></a>
 
-<code><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_frac()</a></code> have been superseded in favour of
-<code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_sample()</a></code>. While they will not be deprecated in the near future,
+<code>sample_n()</code> and <code>sample_frac()</code> have been superseded in favour of
+<code><a href='slice.html'>slice_sample()</a></code>. While they will not be deprecated in the near future,
 retirement means that we will only perform critical bug fixes, so we recommend
 moving to the newer alternative.</p>
 <p>These functions were superseded because we realised it was more convenient to
 have two mutually exclusive arguments to one function, rather than two
 separate functions. This also made it to clean up a few other smaller
-design issues with <code><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n()</a></code>/<code>sample_frac</code>:</p><ul>
-<li><p>The connection to <code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice()</a></code> was not obvious.</p></li>
+design issues with <code>sample_n()</code>/<code>sample_frac</code>:</p><ul>
+<li><p>The connection to <code><a href='slice.html'>slice()</a></code> was not obvious.</p></li>
 <li><p>The name of the first argument, <code>tbl</code>, is inconsistent with other
 single table verbs which use <code>.data</code>.</p></li>
 <li><p>The <code>size</code> argument uses tidy evaluation, which is surprising and
@@ -251,9 +247,9 @@ undocumented.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n</a></span>(<span class='kw'>tbl</span>, <span class='kw'>size</span>, replace = <span class='fl'>FALSE</span>, weight = <span class='kw'>NULL</span>, .env = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>sample_n</span>(<span class='no'>tbl</span>, <span class='no'>size</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_frac</a></span>(<span class='kw'>tbl</span>, size = <span class='fl'>1</span>, replace = <span class='fl'>FALSE</span>, weight = <span class='kw'>NULL</span>, .env = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>sample_frac</span>(<span class='no'>tbl</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -264,9 +260,9 @@ undocumented.</p></li>
     </tr>
     <tr>
       <th>size</th>
-      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html'>tidy-select</a></code>&gt;
-For <code><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n()</a></code>, the number of rows to select.
-For <code><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_frac()</a></code>, the fraction of rows to select.
+      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt;
+For <code>sample_n()</code>, the number of rows to select.
+For <code>sample_frac()</code>, the fraction of rows to select.
 If <code>tbl</code> is grouped, <code>size</code> applies to each group.</p></td>
     </tr>
     <tr>
@@ -275,7 +271,7 @@ If <code>tbl</code> is grouped, <code>size</code> applies to each group.</p></td
     </tr>
     <tr>
       <th>weight</th>
-      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html'>tidy-select</a></code>&gt; Sampling weights.
+      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Sampling weights.
 This must evaluate to a vector of non-negative numbers the same length as
 the input. Weights are automatically standardised to sum to 1.</p></td>
     </tr>
@@ -291,10 +287,10 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>by_cyl</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>)
+    <pre class="examples"><div class='input'><span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>)
 
 <span class='co'># sample_n() -&gt; slice_sample() ----------------------------------------------</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n</a></span>(<span class='kw'>mtcars</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt;                   mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='fu'>sample_n</span>(<span class='no'>mtcars</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt;                   mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Lotus Europa     30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
 #&gt; Dodge Challenger 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
 #&gt; Valiant          18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
@@ -304,7 +300,7 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 #&gt; Merc 280         19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
 #&gt; Mazda RX4        21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Merc 450SE       16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; Toyota Corolla   33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n</a></span>(<span class='kw'>mtcars</span>, <span class='fl'>50</span>, replace = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                          mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Toyota Corolla   33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</div><div class='input'><span class='fu'>sample_n</span>(<span class='no'>mtcars</span>, <span class='fl'>50</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                          mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Pontiac Firebird...1    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
 #&gt; Toyota Corona           21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
 #&gt; Camaro Z28...3          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
@@ -354,7 +350,7 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 #&gt; Valiant...47            18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
 #&gt; Datsun 710...48         22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
 #&gt; Chrysler Imperial...49  14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; Cadillac Fleetwood...50 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n</a></span>(<span class='kw'>mtcars</span>, <span class='fl'>10</span>, weight = <span class='kw'>mpg</span>)</div><div class='output co'>#&gt;                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Cadillac Fleetwood...50 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</div><div class='input'><span class='fu'>sample_n</span>(<span class='no'>mtcars</span>, <span class='fl'>10</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='no'>mpg</span>)</div><div class='output co'>#&gt;                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Porsche 914-2     26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
 #&gt; Toyota Corona     21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
 #&gt; Merc 450SL        17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
@@ -369,7 +365,7 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 <span class='co'># * explicitly name the `n` argument,</span>
 <span class='co'># * the `weight` argument is now `weight_by`.</span>
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_sample</a></span>(<span class='kw'>mtcars</span>, n = <span class='fl'>10</span>)</div><div class='output co'>#&gt;                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='fu'><a href='slice.html'>slice_sample</a></span>(<span class='no'>mtcars</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt;                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Camaro Z28        13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
 #&gt; Chrysler Imperial 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
 #&gt; AMC Javelin       15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
@@ -379,7 +375,7 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 #&gt; Porsche 914-2     26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
 #&gt; Lotus Europa      30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
 #&gt; Toyota Corolla    33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Ferrari Dino      19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_sample</a></span>(<span class='kw'>mtcars</span>, n = <span class='fl'>50</span>, replace = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                        mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Ferrari Dino      19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</div><div class='input'><span class='fu'><a href='slice.html'>slice_sample</a></span>(<span class='no'>mtcars</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                        mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Merc 450SLC           15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
 #&gt; Merc 240D...2         24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
 #&gt; Toyota Corolla...3    33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
@@ -429,7 +425,7 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 #&gt; AMC Javelin...47      15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
 #&gt; Honda Civic...48      30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
 #&gt; Fiat 128...49         32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Ford Pantera L...50   15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_sample</a></span>(<span class='kw'>mtcars</span>, n = <span class='fl'>10</span>, weight_by = <span class='kw'>mpg</span>)</div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Ford Pantera L...50   15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</div><div class='input'><span class='fu'><a href='slice.html'>slice_sample</a></span>(<span class='no'>mtcars</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>weight_by</span> <span class='kw'>=</span> <span class='no'>mpg</span>)</div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Toyota Corolla 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
 #&gt; Merc 450SLC    15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
 #&gt; Fiat X1-9      27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
@@ -445,7 +441,7 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 <span class='co'># the other slice helpers like slice_head()</span>
 
 <span class='co'># sample_frac() -&gt; slice_sample() -------------------------------------------</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_frac</a></span>(<span class='kw'>mtcars</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='fu'>sample_frac</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
 #&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
@@ -477,7 +473,7 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 #&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
 #&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
 #&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_frac</a></span>(<span class='kw'>mtcars</span>, replace = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</div><div class='input'><span class='fu'>sample_frac</span>(<span class='no'>mtcars</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
 #&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
 #&gt; Mazda RX4 Wag...3   21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
@@ -513,7 +509,7 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 <span class='co'># Changes:</span>
 <span class='co'># * use prop = 1 to randomly sample all rows</span>
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_sample</a></span>(<span class='kw'>mtcars</span>, prop = <span class='fl'>1</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='fu'><a href='slice.html'>slice_sample</a></span>(<span class='no'>mtcars</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
 #&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
 #&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
@@ -545,7 +541,7 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 #&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
 #&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
 #&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_sample</a></span>(<span class='kw'>mtcars</span>, prop = <span class='fl'>1</span>, replace = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                          mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</div><div class='input'><span class='fu'><a href='slice.html'>slice_sample</a></span>(<span class='no'>mtcars</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                          mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Honda Civic...1         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
 #&gt; Merc 280C...2           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
 #&gt; Camaro Z28...3          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
@@ -577,7 +573,8 @@ the input. Weights are automatically standardised to sum to 1.</p></td>
 #&gt; Mazda RX4 Wag...29      21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Valiant                 18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
 #&gt; Hornet 4 Drive...31     21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Pontiac Firebird        19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</div><div class='input'></div></pre>
+#&gt; Pontiac Firebird        19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

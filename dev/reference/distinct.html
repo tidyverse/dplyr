@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -217,7 +213,7 @@ to unique.data.frame() but considerably faster." />
 to <code><a href='https://rdrr.io/r/base/unique.html'>unique.data.frame()</a></code> but considerably faster.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .keep_all = <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>distinct</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,7 +226,7 @@ more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_data_masking.html'>data-masking</a></code>&gt; Optional variables to use
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Optional variables to use
 when determining uniqueness. If there are multiple rows for a given
 combination of inputs, only the first row will be preserved. If omitted,
 will use all variables.</p></td>
@@ -249,7 +245,7 @@ first row of values.</p></td>
 properties:</p><ul>
 <li><p>Rows are a subset of the input but appear in the same order.</p></li>
 <li><p>Columns are not modified if <code>...</code> is empty or <code>.keep_all</code> is <code>TRUE</code>.
-Otherwise, <code><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct()</a></code> first calls <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code> to create new columns.</p></li>
+Otherwise, <code>distinct()</code> first calls <code><a href='mutate.html'>mutate()</a></code> to create new columns.</p></li>
 <li><p>Groups are not modified.</p></li>
 <li><p>Data frame attributes are preserved.</p></li>
 </ul>
@@ -266,12 +262,12 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 .</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
-  x = <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>10</span>, <span class='fl'>100</span>, rep = <span class='fl'>TRUE</span>),
-  y = <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>10</span>, <span class='fl'>100</span>, rep = <span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>10</span>, <span class='fl'>100</span>, <span class='kw'>rep</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>10</span>, <span class='fl'>100</span>, <span class='kw'>rep</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 )
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>df</span>)</div><div class='output co'>#&gt; [1] 100</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>(<span class='kw'>df</span>))</div><div class='output co'>#&gt; [1] 69</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>(<span class='kw'>df</span>, <span class='kw'>x</span>, <span class='kw'>y</span>))</div><div class='output co'>#&gt; [1] 69</div><div class='input'>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>(<span class='kw'>df</span>, <span class='kw'>x</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 1</span><span>
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; [1] 100</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='fu'>distinct</span>(<span class='no'>df</span>))</div><div class='output co'>#&gt; [1] 69</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>x</span>, <span class='no'>y</span>))</div><div class='output co'>#&gt; [1] 69</div><div class='input'>
+<span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>x</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 1</span><span>
 #&gt;        x
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>     6
@@ -283,7 +279,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 7</span><span>     7
 #&gt; </span><span style='color: #555555;'> 8</span><span>    10
 #&gt; </span><span style='color: #555555;'> 9</span><span>     5
-#&gt; </span><span style='color: #555555;'>10</span><span>     3</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>(<span class='kw'>df</span>, <span class='kw'>y</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 1</span><span>
+#&gt; </span><span style='color: #555555;'>10</span><span>     3</div><div class='input'><span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 1</span><span>
 #&gt;        y
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>     3
@@ -297,7 +293,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 9</span><span>     2
 #&gt; </span><span style='color: #555555;'>10</span><span>     7</div><div class='input'>
 <span class='co'># You can choose to keep all other variables as well</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>(<span class='kw'>df</span>, <span class='kw'>x</span>, .keep_all = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 2</span><span>
+<span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>x</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 2</span><span>
 #&gt;        x     y
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>     6     3
@@ -309,7 +305,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 7</span><span>     7     6
 #&gt; </span><span style='color: #555555;'> 8</span><span>    10     3
 #&gt; </span><span style='color: #555555;'> 9</span><span>     5     6
-#&gt; </span><span style='color: #555555;'>10</span><span>     3     6</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>(<span class='kw'>df</span>, <span class='kw'>y</span>, .keep_all = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 2</span><span>
+#&gt; </span><span style='color: #555555;'>10</span><span>     3     6</div><div class='input'><span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>y</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 2</span><span>
 #&gt;        x     y
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>     6     3
@@ -323,7 +319,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 9</span><span>     7     2
 #&gt; </span><span style='color: #555555;'>10</span><span>     9     7</div><div class='input'>
 <span class='co'># You can also use distinct on computed variables</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>(<span class='kw'>df</span>, diff = <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='kw'>x</span> <span class='op'>-</span> <span class='kw'>y</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 1</span><span>
+<span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='kw'>diff</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>x</span> - <span class='no'>y</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 1</span><span>
 #&gt;     diff
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>     3
@@ -337,7 +333,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 9</span><span>     6
 #&gt; </span><span style='color: #555555;'>10</span><span>     5</div><div class='input'>
 <span class='co'># use across() to access select()-style semantics</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>(<span class='kw'>starwars</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span>(<span class='st'>"color"</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 67 x 3</span><span>
+<span class='fu'>distinct</span>(<span class='no'>starwars</span>, <span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>contains</a></span>(<span class='st'>"color"</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 67 x 3</span><span>
 #&gt;    hair_color    skin_color  eye_color
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
 #&gt; </span><span style='color: #555555;'> 1</span><span> blond         fair        blue     
@@ -354,17 +350,18 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <span class='co'># Grouping -------------------------------------------------</span>
 <span class='co'># The same behaviour applies for grouped data frames,</span>
 <span class='co'># except that the grouping variables are always included</span>
-<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
-  g = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
-  x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>)
-) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>g</span>)
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
+  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>)
+) <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>)
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   g [2]</span><span>
 #&gt;       g     x
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1     1
 #&gt; </span><span style='color: #555555;'>2</span><span>     2     2
-#&gt; </span><span style='color: #555555;'>3</span><span>     2     1</div><div class='input'></div></span></pre>
+#&gt; </span><span style='color: #555555;'>3</span><span>     2     1</div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

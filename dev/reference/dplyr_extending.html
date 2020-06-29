@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -221,7 +217,7 @@ implement them will find a home in what comes next." />
 
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
-<p>These three functions, along with <code>names&lt;-</code> and 1d numeric <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>
+<p>These three functions, along with <code>names&lt;-</code> and 1d numeric <code>[</code>
 (i.e. <code>x[loc]</code>) methods, provide a minimal interface for extending dplyr
 to work with new data frame subclasses. This means that for simple cases
 you should only need to provide a couple of methods, rather than a method
@@ -231,11 +227,11 @@ the problem more generally, but it's likely that any code you write to
 implement them will find a home in what comes next.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_row_slice</a></span>(<span class='kw'>data</span>, <span class='kw'>i</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>dplyr_row_slice</span>(<span class='no'>data</span>, <span class='no'>i</span>, <span class='no'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_col_modify</a></span>(<span class='kw'>data</span>, <span class='kw'>cols</span>)
+<span class='fu'>dplyr_col_modify</span>(<span class='no'>data</span>, <span class='no'>cols</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_reconstruct</a></span>(<span class='kw'>data</span>, <span class='kw'>template</span>)</pre>
+<span class='fu'>dplyr_reconstruct</span>(<span class='no'>data</span>, <span class='no'>template</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -268,23 +264,23 @@ in basically the same way.</p><ul>
 <li><p>If you have data frame attributes that don't depend on the rows or columns
 (and should unconditionally be preserved), you don't need to do anything.</p></li>
 <li><p>If you have <strong>scalar</strong> attributes that depend on <strong>rows</strong>, implement a
-<code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_reconstruct()</a></code> method. Your method should recompute the attribute
+<code>dplyr_reconstruct()</code> method. Your method should recompute the attribute
 depending on rows now present.</p></li>
 <li><p>If you have <strong>scalar</strong> attributes that depend on <strong>columns</strong>, implement a
-<code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_reconstruct()</a></code> method and a 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> method. For example, if your
+<code>dplyr_reconstruct()</code> method and a 1d <code>[</code> method. For example, if your
 class requires that certain columns be present, your method should return
 a data.frame or tibble when those columns are removed.</p></li>
 <li><p>If your attributes are <strong>vectorised</strong> over <strong>rows</strong>, implement a
-<code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_row_slice()</a></code> method. This gives you access to <code>i</code> so you can
+<code>dplyr_row_slice()</code> method. This gives you access to <code>i</code> so you can
 modify the row attribute accordingly. You'll also need to think carefully
-about how to recompute the attribute in <code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_reconstruct()</a></code>, and
+about how to recompute the attribute in <code>dplyr_reconstruct()</code>, and
 you will need to carefully verify the behaviour of each verb, and provide
 additional methods as needed.</p></li>
 <li><p>If your attributes that are <strong>vectorised</strong> over <strong>columns</strong>, implement
-<code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_col_modify()</a></code>, 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>, and <code>names&lt;-</code> methods. All of these methods
+<code>dplyr_col_modify()</code>, 1d <code>[</code>, and <code>names&lt;-</code> methods. All of these methods
 know which columns are being modified, so you can update the column
 attribute according. You'll also need to think carefully about how to
-recompute the attribute in <code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_reconstruct()</a></code>, and you will need to
+recompute the attribute in <code>dplyr_reconstruct()</code>, and you will need to
 carefully verify the behaviour of each verb, and provide additional
 methods as needed.</p></li>
 </ul>
@@ -293,27 +289,27 @@ methods as needed.</p></li>
 
     
 <ul>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>semi_join()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>anti_join()</a></code>
+<li><p><code><a href='arrange.html'>arrange()</a></code>, <code><a href='filter.html'>filter()</a></code>, <code><a href='slice.html'>slice()</a></code>, <code><a href='filter-joins.html'>semi_join()</a></code>, and <code><a href='filter-joins.html'>anti_join()</a></code>
 work by generating a vector of row indices, and then subsetting
-with <code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_row_slice()</a></code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code> generates a list of new column value (using <code>NULL</code> to indicate
-when columns should be deleted), then passes that to <code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_col_modify()</a></code>.
-<code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>transmute()</a></code> does the same then uses 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> to select the columns.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise()</a></code> works similarly to <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code> but the data modified by
-<code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_col_modify()</a></code> comes from <code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_data()</a></code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/select.html'>select()</a></code> uses 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> to select columns, then <code>names&lt;-</code> to rename them.
-<code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename()</a></code> just uses <code>names&lt;-</code>. <code><a href='https://dplyr.tidyverse.org/reference/relocate.html'>relocate()</a></code> just uses 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>right_join()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join()</a></code>
-coerces <code>x</code> to a tibble, modify the rows, then uses <code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_reconstruct()</a></code>
+with <code>dplyr_row_slice()</code>.</p></li>
+<li><p><code><a href='mutate.html'>mutate()</a></code> generates a list of new column value (using <code>NULL</code> to indicate
+when columns should be deleted), then passes that to <code>dplyr_col_modify()</code>.
+<code><a href='mutate.html'>transmute()</a></code> does the same then uses 1d <code>[</code> to select the columns.</p></li>
+<li><p><code><a href='summarise.html'>summarise()</a></code> works similarly to <code><a href='mutate.html'>mutate()</a></code> but the data modified by
+<code>dplyr_col_modify()</code> comes from <code><a href='group_data.html'>group_data()</a></code>.</p></li>
+<li><p><code><a href='select.html'>select()</a></code> uses 1d <code>[</code> to select columns, then <code>names&lt;-</code> to rename them.
+<code><a href='rename.html'>rename()</a></code> just uses <code>names&lt;-</code>. <code><a href='relocate.html'>relocate()</a></code> just uses 1d <code>[</code>.</p></li>
+<li><p><code><a href='mutate-joins.html'>inner_join()</a></code>, <code><a href='mutate-joins.html'>left_join()</a></code>, <code><a href='mutate-joins.html'>right_join()</a></code>, and <code><a href='mutate-joins.html'>full_join()</a></code>
+coerces <code>x</code> to a tibble, modify the rows, then uses <code>dplyr_reconstruct()</code>
 to convert back to the same type as <code>x</code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/nest_join.html'>nest_join()</a></code> uses <code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_col_modify()</a></code> to cast the key variables to
+<li><p><code><a href='nest_join.html'>nest_join()</a></code> uses <code>dplyr_col_modify()</code> to cast the key variables to
 common type and add the nested-df that <code>y</code> becomes.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct()</a></code> does a <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code> if any expressions are present, then
-uses 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> to select variables to keep, then <code><a href='https://dplyr.tidyverse.org/reference/dplyr_extending.html'>dplyr_row_slice()</a></code> to
+<li><p><code><a href='distinct.html'>distinct()</a></code> does a <code><a href='mutate.html'>mutate()</a></code> if any expressions are present, then
+uses 1d <code>[</code> to select variables to keep, then <code>dplyr_row_slice()</code> to
 select distinct rows.</p></li>
 </ul>
 
-<p>Note that <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup()</a></code> don't use any these generics and
+<p>Note that <code><a href='group_by.html'>group_by()</a></code> and <code><a href='group_by.html'>ungroup()</a></code> don't use any these generics and
 you'll need to provide methods directly.</p>
 
   </div>

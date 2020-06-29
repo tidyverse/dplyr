@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -231,39 +227,39 @@ group." />
     <div class="ref-description">
     
 <ul>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_data()</a></code> returns a data frame that defines the grouping structure.
+<li><p><code>group_data()</code> returns a data frame that defines the grouping structure.
 The columns give the values of the grouping variables. The last column,
 always called <code>.rows</code>, is a list of integer vectors that gives the
 location of the rows in each group. You can retrieve just the grouping
-data with <code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_data()</a></code>, and just the locations with <code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_rows()</a></code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_indices()</a></code> returns an integer vector the same length as <code>.data</code>
-that gives the group that each row belongs to (cf. <code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_rows()</a></code> which
+data with <code>group_data()</code>, and just the locations with <code>group_rows()</code>.</p></li>
+<li><p><code>group_indices()</code> returns an integer vector the same length as <code>.data</code>
+that gives the group that each row belongs to (cf. <code>group_rows()</code> which
 returns the rows which each group contains).</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_vars()</a></code> gives names of grouping variables as character vector;
-<code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>groups()</a></code> gives the names as a list of symbols.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_size()</a></code> gives the size of each group, and <code><a href='https://dplyr.tidyverse.org/reference/group_data.html'>n_groups()</a></code> gives the
+<li><p><code>group_vars()</code> gives names of grouping variables as character vector;
+<code>groups()</code> gives the names as a list of symbols.</p></li>
+<li><p><code>group_size()</code> gives the size of each group, and <code>n_groups()</code> gives the
 total number of groups.</p></li>
 </ul>
 
-<p>See <a href='https://dplyr.tidyverse.org/reference/context.html'>context</a> for equivalent functions that return values for the <em>current</em>
+<p>See <a href='context.html'>context</a> for equivalent functions that return values for the <em>current</em>
 group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_data</a></span>(<span class='kw'>.data</span>)
+    <pre class="usage"><span class='fu'>group_data</span>(<span class='no'>.data</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_keys</a></span>(<span class='kw'>.tbl</span>, <span class='kw'>...</span>)
+<span class='fu'>group_keys</span>(<span class='no'>.tbl</span>, <span class='no'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_rows</a></span>(<span class='kw'>.data</span>)
+<span class='fu'>group_rows</span>(<span class='no'>.data</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_indices</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)
+<span class='fu'>group_indices</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_vars</a></span>(<span class='kw'>x</span>)
+<span class='fu'>group_vars</span>(<span class='no'>x</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>groups</a></span>(<span class='kw'>x</span>)
+<span class='fu'>groups</span>(<span class='no'>x</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_size</a></span>(<span class='kw'>x</span>)
+<span class='fu'>group_size</span>(<span class='no'>x</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>n_groups</a></span>(<span class='kw'>x</span>)</pre>
+<span class='fu'>n_groups</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -275,29 +271,29 @@ tibble).</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Use of <code>...</code> is now deprecated; please use <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code> first
+      <td><p>Use of <code>...</code> is now deprecated; please use <code><a href='group_by.html'>group_by()</a></code> first
 instead.</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>))
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_vars</a></span>(<span class='kw'>df</span>)</div><div class='output co'>#&gt; character(0)</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_rows</a></span>(<span class='kw'>df</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[1]&gt;
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>))
+<span class='fu'>group_vars</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; character(0)</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[1]&gt;
 #&gt; [[1]]
 #&gt; [1] 1 2 3 4
-#&gt; </div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_data</a></span>(<span class='kw'>df</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 1</span><span>
+#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;         .rows
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;int&gt;&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>         </span><span style='color: #555555;'>[4]</span><span></div><div class='input'>
-<span class='kw'>gf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>df</span>, <span class='kw'>x</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_vars</a></span>(<span class='kw'>gf</span>)</div><div class='output co'>#&gt; [1] "x"</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_rows</a></span>(<span class='kw'>gf</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[2]&gt;
+<span class='no'>gf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>, <span class='no'>x</span>)
+<span class='fu'>group_vars</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; [1] "x"</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[2]&gt;
 #&gt; [[1]]
 #&gt; [1] 1 2
 #&gt; 
 #&gt; [[2]]
 #&gt; [1] 3 4
-#&gt; </div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_data</a></span>(<span class='kw'>gf</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
+#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='no'>gf</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;       x       .rows
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;int&gt;&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1         </span><span style='color: #555555;'>[2]</span><span>

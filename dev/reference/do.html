@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -218,14 +214,14 @@ and across() (which allows you to access the data for the &quot;current&quot; gr
 
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#superseded'><img src='figures/lifecycle-superseded.svg' alt='Superseded lifecycle'></a></p>
-<p><code><a href='https://dplyr.tidyverse.org/reference/do.html'>do()</a></code> is superseded as of dplyr 1.0.0, because its syntax never really
+<p><code>do()</code> is superseded as of dplyr 1.0.0, because its syntax never really
 felt like it belong with the rest of dplyr. It's replaced by a combination
-of <code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise()</a></code> (which can now produce multiple rows and multiple columns),
-<code><a href='https://dplyr.tidyverse.org/reference/nest_by.html'>nest_by()</a></code> (which creates a <a href='https://dplyr.tidyverse.org/reference/rowwise.html'>rowwise</a> tibble of nested data),
-and <code><a href='https://dplyr.tidyverse.org/reference/across.html'>across()</a></code> (which allows you to access the data for the "current" group).</p>
+of <code><a href='summarise.html'>summarise()</a></code> (which can now produce multiple rows and multiple columns),
+<code><a href='nest_by.html'>nest_by()</a></code> (which creates a <a href='rowwise.html'>rowwise</a> tibble of nested data),
+and <code><a href='across.html'>across()</a></code> (which allows you to access the data for the "current" group).</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/do.html'>do</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>do</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -247,8 +243,8 @@ unnamed arguments.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># do() with unnamed arguments becomes summarise()</span>
 <span class='co'># . becomes across()</span>
-<span class='kw'>by_cyl</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>)
-<span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/do.html'>do</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>.</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 11</span><span>
+<span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>)
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>.</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -258,7 +254,7 @@ unnamed arguments.</p></td>
 #&gt; </span><span style='color: #555555;'>4</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
 #&gt; </span><span style='color: #555555;'>5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
 #&gt; </span><span style='color: #555555;'>6</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(), <span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='across.html'>across</a></span>(), <span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -267,7 +263,7 @@ unnamed arguments.</p></td>
 #&gt; </span><span style='color: #555555;'>3</span><span>     6  21    160    110  3.9   2.62  16.5     0     1     4     4
 #&gt; </span><span style='color: #555555;'>4</span><span>     6  21    160    110  3.9   2.88  17.0     0     1     4     4
 #&gt; </span><span style='color: #555555;'>5</span><span>     8  18.7  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt; </span><span style='color: #555555;'>6</span><span>     8  14.3  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_head</a></span>(n = <span class='fl'>2</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
+#&gt; </span><span style='color: #555555;'>6</span><span>     8  14.3  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -278,26 +274,26 @@ unnamed arguments.</p></td>
 #&gt; </span><span style='color: #555555;'>5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
 #&gt; </span><span style='color: #555555;'>6</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'>
 <span class='co'># Can refer to variables directly</span>
-<span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/do.html'>do</a></span>(mean = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>.</span><span class='op'>$</span><span class='kw'>vs</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.</span>$<span class='no'>vs</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise: </span><span>
 #&gt;     cyl mean     
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   
 #&gt; </span><span style='color: #555555;'>1</span><span>     4 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>2</span><span>     6 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>3</span><span>     8 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(mean = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>vs</span>))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>vs</span>))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;     cyl  mean
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     4 0.909
 #&gt; </span><span style='color: #555555;'>2</span><span>     6 0.571
 #&gt; </span><span style='color: #555555;'>3</span><span>     8 0    </div><div class='input'>
 <span class='co'># do() with named arguments becomes nest_by() + mutate() &amp; list()</span>
-<span class='kw'>models</span> <span class='op'>&lt;-</span> <span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/do.html'>do</a></span>(mod = <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>mpg</span> <span class='op'>~</span> <span class='kw'>disp</span>, data = <span class='kw'>.</span>))
+<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
 <span class='co'># -&gt;</span>
-<span class='kw'>models</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/nest_by.html'>nest_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(mod = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>mpg</span> <span class='op'>~</span> <span class='kw'>disp</span>, data = <span class='kw'>data</span>)))
-<span class='kw'>models</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(rsq = <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>mod</span>)<span class='op'>$</span><span class='kw'>r.squared</span>)</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='nest_by.html'>nest_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)))
+<span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     cyl    rsq
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -305,9 +301,9 @@ unnamed arguments.</p></td>
 #&gt; </span><span style='color: #555555;'>2</span><span>     6 0.010</span><span style='text-decoration: underline;'>6</span><span>
 #&gt; </span><span style='color: #555555;'>3</span><span>     8 0.270 </div><div class='input'>
 <span class='co'># use broom to turn models into data</span>
-<span class='kw'>models</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/do.html'>do</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  var = <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='kw'>.</span><span class='op'>$</span><span class='kw'>mod</span>)),
-  <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>.</span><span class='op'>$</span><span class='kw'>mod</span>)))
+<span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  <span class='kw'>var</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>.</span>$<span class='no'>mod</span>)),
+  <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>.</span>$<span class='no'>mod</span>)))
 )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 5</span><span>
 #&gt; </span><span style='color: #555555;'># Rowwise: </span><span>
 #&gt;   var         Estimate Std..Error t.value   Pr...t..
@@ -318,8 +314,8 @@ unnamed arguments.</p></td>
 #&gt; </span><span style='color: #555555;'>4</span><span> disp         0.003</span><span style='text-decoration: underline;'>61</span><span>    0.015</span><span style='text-decoration: underline;'>6</span><span>    0.232 0.826     
 #&gt; </span><span style='color: #555555;'>5</span><span> (Intercept) 22.0        3.35      6.59  0.000</span><span style='text-decoration: underline;'>025</span><span>9 
 #&gt; </span><span style='color: #555555;'>6</span><span> disp        -</span><span style='color: #BB0000;'>0.019</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>     0.009</span><span style='text-decoration: underline;'>32</span><span>  -</span><span style='color: #BB0000;'>2.11</span><span>  0.056</span><span style='text-decoration: underline;'>8</span><span>    </div><div class='input'><span class='co'># -&gt;</span>
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"broom"</span>)) {
-  <span class='kw'>models</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>broom</span>::<span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>(<span class='kw'>mod</span>))
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"broom"</span>)) {
+  <span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>tidy</a></span>(<span class='no'>mod</span>))
 }</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: broom</span></div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     cyl term        estimate std.error statistic    p.value

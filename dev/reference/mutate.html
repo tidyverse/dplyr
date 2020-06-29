@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -215,24 +211,24 @@ Variables can be removed by setting their value to NULL." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code> adds new variables and preserves existing ones;
-<code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>transmute()</a></code> adds new variables and drops existing ones.
+    <p><code>mutate()</code> adds new variables and preserves existing ones;
+<code>transmute()</code> adds new variables and drops existing ones.
 New variables overwrite existing variables of the same name.
 Variables can be removed by setting their value to <code>NULL</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>mutate</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(
-  <span class='kw'>.data</span>,
-  <span class='kw'>...</span>,
-  .keep = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"used"</span>, <span class='st'>"unused"</span>, <span class='st'>"none"</span>),
-  .before = <span class='kw'>NULL</span>,
-  .after = <span class='kw'>NULL</span>
+<span class='fu'>mutate</span>(
+  <span class='no'>.data</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"used"</span>, <span class='st'>"unused"</span>, <span class='st'>"none"</span>),
+  <span class='kw'>.before</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>.after</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>transmute</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>transmute</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,7 +241,7 @@ more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_data_masking.html'>data-masking</a></code>&gt; Name-value pairs.
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Name-value pairs.
 The name gives the name of the column in the output.</p>
 <p>The value can be:</p><ul>
 <li><p>A vector of length 1, which will be recycled to the correct length.</p></li>
@@ -266,16 +262,16 @@ from <code>.data</code> are retained in the output:</p><ul>
 for checking your work as it displays inputs and outputs side-by-side.</p></li>
 <li><p><code>"unused"</code> keeps only existing variables <strong>not</strong> used to make new
 variables.</p></li>
-<li><p><code>"none"</code>, only keeps grouping keys (like <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>transmute()</a></code>).</p></li>
+<li><p><code>"none"</code>, only keeps grouping keys (like <code>transmute()</code>).</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>.before, .after</th>
       <td><p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a>
 
-&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html'>tidy-select</a></code>&gt; Optionally, control where new columns
+&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Optionally, control where new columns
 should appear (the default is to add to the right hand side). See
-<code><a href='https://dplyr.tidyverse.org/reference/relocate.html'>relocate()</a></code> for more details.</p></td>
+<code><a href='relocate.html'>relocate()</a></code> for more details.</p></td>
     </tr>
     </table>
 
@@ -286,7 +282,7 @@ properties:</p><ul>
 <li><p>Rows are not affected.</p></li>
 <li><p>Existing columns will be preserved according to the <code>.keep</code> argument.
 New columns will be placed according to the <code>.before</code> and <code>.after</code>
-arguments. If <code>.keep = "none"</code> (as in <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>transmute()</a></code>), the output order
+arguments. If <code>.keep = "none"</code> (as in <code>transmute()</code>), the output order
 is determined only by <code>...</code>, not the order of existing columns.</p></li>
 <li><p>Columns given value <code>NULL</code> will be removed</p></li>
 <li><p>Groups will be recomputed if a grouping variable is mutated.</p></li>
@@ -299,12 +295,12 @@ is determined only by <code>...</code>, not the order of existing columns.</p></
 
 <ul>
 <li><p><code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code>, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>, <code><a href='https://rdrr.io/r/base/Log.html'>log()</a></code>, etc., for their usual mathematical meanings</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/lead-lag.html'>lead()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/lead-lag.html'>lag()</a></code></p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/ranking.html'>dense_rank()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/ranking.html'>min_rank()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/ranking.html'>percent_rank()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/ranking.html'>row_number()</a></code>,
-<code><a href='https://dplyr.tidyverse.org/reference/ranking.html'>cume_dist()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/ranking.html'>ntile()</a></code></p></li>
-<li><p><code><a href='https://rdrr.io/r/base/cumsum.html'>cumsum()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cummean()</a></code>, <code><a href='https://rdrr.io/r/base/cumsum.html'>cummin()</a></code>, <code><a href='https://rdrr.io/r/base/cumsum.html'>cummax()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumany()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumall()</a></code></p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/na_if.html'>na_if()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/coalesce.html'>coalesce()</a></code></p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when()</a></code></p></li>
+<li><p><code><a href='lead-lag.html'>lead()</a></code>, <code><a href='lead-lag.html'>lag()</a></code></p></li>
+<li><p><code><a href='ranking.html'>dense_rank()</a></code>, <code><a href='ranking.html'>min_rank()</a></code>, <code><a href='ranking.html'>percent_rank()</a></code>, <code><a href='ranking.html'>row_number()</a></code>,
+<code><a href='ranking.html'>cume_dist()</a></code>, <code><a href='ranking.html'>ntile()</a></code></p></li>
+<li><p><code><a href='https://rdrr.io/r/base/cumsum.html'>cumsum()</a></code>, <code><a href='cumall.html'>cummean()</a></code>, <code><a href='https://rdrr.io/r/base/cumsum.html'>cummin()</a></code>, <code><a href='https://rdrr.io/r/base/cumsum.html'>cummax()</a></code>, <code><a href='cumall.html'>cumany()</a></code>, <code><a href='cumall.html'>cumall()</a></code></p></li>
+<li><p><code><a href='na_if.html'>na_if()</a></code>, <code><a href='coalesce.html'>coalesce()</a></code></p></li>
+<li><p><code><a href='if_else.html'>if_else()</a></code>, <code><a href='recode.html'>recode()</a></code>, <code><a href='case_when.html'>case_when()</a></code></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="grouped-tibbles"><a class="anchor" href="#grouped-tibbles"></a>Grouped tibbles</h2>
@@ -315,14 +311,14 @@ is determined only by <code>...</code>, not the order of existing columns.</p></
 <p>Because mutating expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped mutate:</p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>name</span>, <span class='kw'>mass</span>, <span class='kw'>species</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(mass_norm = <span class='kw'>mass</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>mass</span>, na.rm = <span class='fl'>TRUE</span>))</pre>
+involved. Compare this ungrouped mutate:</p><pre><span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</pre>
 
-<p>With the grouped equivalent:</p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>name</span>, <span class='kw'>mass</span>, <span class='kw'>species</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>species</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(mass_norm = <span class='kw'>mass</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>mass</span>, na.rm = <span class='fl'>TRUE</span>))</pre>
+<p>With the grouped equivalent:</p><pre><span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</pre>
 
 <p>The former normalises <code>mass</code> by the global average whereas the
 latter normalises by the averages within species levels.</p>
@@ -334,29 +330,29 @@ latter normalises by the averages within species levels.</p>
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>Methods available in currently loaded packages:</p><ul>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>)
+<li><p><code>mutate()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>)
 .</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>transmute()</a></code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
+<li><p><code>transmute()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 .</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
-<code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a>()</code></p></div>
+<code><a href='arrange.html'>arrange</a>()</code>,
+<code><a href='filter.html'>filter</a>()</code>,
+<code><a href='rename.html'>rename</a>()</code>,
+<code><a href='select.html'>select</a>()</code>,
+<code><a href='slice.html'>slice</a>()</code>,
+<code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Newly created variables are available immediately</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>name</span>, <span class='kw'>mass</span>) <span class='op'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(
-  mass2 = <span class='kw'>mass</span> <span class='op'>*</span> <span class='fl'>2</span>,
-  mass2_squared = <span class='kw'>mass2</span> <span class='op'>*</span> <span class='kw'>mass2</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(
+  <span class='kw'>mass2</span> <span class='kw'>=</span> <span class='no'>mass</span> * <span class='fl'>2</span>,
+  <span class='kw'>mass2_squared</span> <span class='kw'>=</span> <span class='no'>mass2</span> * <span class='no'>mass2</span>
 )</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 4</span><span>
 #&gt;    name                mass mass2 mass2_squared
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -373,11 +369,11 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># As well as adding new variables, you can use mutate() to</span>
 <span class='co'># remove variables and modify existing variables.</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>name</span>, <span class='kw'>height</span>, <span class='kw'>mass</span>, <span class='kw'>homeworld</span>) <span class='op'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(
-  mass = <span class='kw'>NULL</span>,
-  height = <span class='kw'>height</span> <span class='op'>*</span> <span class='fl'>0.0328084</span> <span class='co'># convert to feet</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>height</span>, <span class='no'>mass</span>, <span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(
+  <span class='kw'>mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>height</span> <span class='kw'>=</span> <span class='no'>height</span> * <span class='fl'>0.0328084</span> <span class='co'># convert to feet</span>
 )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
 #&gt;    name               height homeworld
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
@@ -394,9 +390,9 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># Use across() with mutate() to apply a transformation</span>
 <span class='co'># to multiple columns in a tibble.</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>name</span>, <span class='kw'>homeworld</span>, <span class='kw'>species</span>) <span class='op'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='op'>-</span><span class='kw'>name</span>, <span class='kw'>as.factor</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>homeworld</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(<span class='fu'><a href='across.html'>across</a></span>(-<span class='no'>name</span>, <span class='no'>as.factor</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
 #&gt;    name               homeworld species
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker     Tatooine  Human  
@@ -412,10 +408,10 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'><span class='co'># see more in ?across</span>
 
 <span class='co'># Window functions are useful for grouped mutates:</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>name</span>, <span class='kw'>mass</span>, <span class='kw'>homeworld</span>) <span class='op'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>homeworld</span>) <span class='op'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(rank = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/ranking.html'>min_rank</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span>(<span class='kw'>mass</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>homeworld</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>mutate</span>(<span class='kw'>rank</span> <span class='kw'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>mass</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   homeworld [49]</span><span>
 #&gt;    name                mass homeworld  rank
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
@@ -433,30 +429,30 @@ individual methods for extra arguments and differences in behaviour.</p>
 
 <span class='co'># By default, new columns are placed on the far right.</span>
 <span class='co'># Experimental: you can override with `.before` or `.after`</span>
-<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fl'>1</span>, y = <span class='fl'>2</span>)
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(z = <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>y</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       x     y     z
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1     2     3</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(z = <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>y</span>, .before = <span class='fl'>1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2     3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.before</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       z     x     y
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     3     1     2</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(z = <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>y</span>, .after = <span class='kw'>x</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     3     1     2</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='no'>x</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       x     z     y
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1     3     2</div><div class='input'>
 <span class='co'># By default, mutate() keeps all columns from the input data.</span>
 <span class='co'># Experimental: You can override with `.keep`</span>
-<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fl'>1</span>, y = <span class='fl'>2</span>, a = <span class='st'>"a"</span>, b = <span class='st'>"b"</span>)
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(z = <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>y</span>, .keep = <span class='st'>"all"</span>) <span class='co'># the default</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 5</span><span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"a"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"b"</span>)
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"all"</span>) <span class='co'># the default</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 5</span><span>
 #&gt;       x     y a     b         z
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1     2 a     b         3</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(z = <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>y</span>, .keep = <span class='st'>"used"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2 a     b         3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"used"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       x     y     z
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1     2     3</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(z = <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>y</span>, .keep = <span class='st'>"unused"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2     3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"unused"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   a     b         z
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> a     b         3</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(z = <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>y</span>, .keep = <span class='st'>"none"</span>) <span class='co'># same as transmute()</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> a     b         3</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> + <span class='no'>y</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='st'>"none"</span>) <span class='co'># same as transmute()</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;       z
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     3</div><div class='input'>
@@ -464,9 +460,9 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='co'># The mutate operation may yield different results on grouped</span>
 <span class='co'># tibbles because the expressions are computed within groups.</span>
 <span class='co'># The following normalises `mass` by the global average:</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>name</span>, <span class='kw'>mass</span>, <span class='kw'>species</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(mass_norm = <span class='kw'>mass</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>mass</span>, na.rm = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
 #&gt;    name                mass species mass_norm
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker        77 Human       0.791
@@ -482,10 +478,10 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># Whereas this normalises `mass` by the averages within species</span>
 <span class='co'># levels:</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>name</span>, <span class='kw'>mass</span>, <span class='kw'>species</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>species</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(mass_norm = <span class='kw'>mass</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>mass</span>, na.rm = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>, <span class='no'>mass</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>mass_norm</span> <span class='kw'>=</span> <span class='no'>mass</span> / <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mass</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 4</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   species [38]</span><span>
 #&gt;    name                mass species mass_norm
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -502,8 +498,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
 <span class='co'># Indirection ----------------------------------------</span>
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
-<span class='kw'>vars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>starwars</span>, prod = <span class='kw'>.data</span>[[<span class='kw'>vars</span>[[<span class='fl'>1</span>]]]] <span class='op'>*</span> <span class='kw'>.data</span>[[<span class='kw'>vars</span>[[<span class='fl'>2</span>]]]])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 15</span><span>
+<span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
+<span class='fu'>mutate</span>(<span class='no'>starwars</span>, <span class='kw'>prod</span> <span class='kw'>=</span> <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>1</span>]]]] * <span class='no'>.data</span><span class='kw'>[[</span><span class='no'>vars</span><span class='kw'>[[</span><span class='fl'>2</span>]]]])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 15</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
@@ -517,7 +513,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Bigg…    183    84 black      light      brown           24   male  mascu…
 #&gt; </span><span style='color: #555555;'>10</span><span> Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
 #&gt; </span><span style='color: #555555;'># … with 77 more rows, and 6 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, prod </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='co'># Learn more in ?dplyr_data_masking</span></div></span></pre>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, prod </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'># Learn more in ?dplyr_data_masking
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

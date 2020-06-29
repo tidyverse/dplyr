@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -220,26 +216,26 @@ function." />
 
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#superseded'><img src='figures/lifecycle-superseded.svg' alt='Superseded lifecycle'></a></p>
-<p><code><a href='https://dplyr.tidyverse.org/reference/select_all.html'>rename_if()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/select_all.html'>rename_at()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/select_all.html'>rename_all()</a></code> have been superseded by
-<code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with()</a></code>. The matching select statements have been superseded by the
-combination of a <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select()</a></code> + <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with()</a></code>.</p>
-<p>These functions were superseded because <code><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if()</a></code> and friends were
-superseded by <code><a href='https://dplyr.tidyverse.org/reference/across.html'>across()</a></code>. <code><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_if()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/select_all.html'>rename_if()</a></code> already use tidy
-selection so they can't be replaced by <code><a href='https://dplyr.tidyverse.org/reference/across.html'>across()</a></code> and instead we need a new
+<p><code>rename_if()</code>, <code>rename_at()</code>, and <code>rename_all()</code> have been superseded by
+<code><a href='rename.html'>rename_with()</a></code>. The matching select statements have been superseded by the
+combination of a <code><a href='select.html'>select()</a></code> + <code><a href='rename.html'>rename_with()</a></code>.</p>
+<p>These functions were superseded because <code><a href='mutate_all.html'>mutate_if()</a></code> and friends were
+superseded by <code><a href='across.html'>across()</a></code>. <code>select_if()</code> and <code>rename_if()</code> already use tidy
+selection so they can't be replaced by <code><a href='across.html'>across()</a></code> and instead we need a new
 function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_all</a></span>(<span class='kw'>.tbl</span>, .funs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>select_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>rename_all</a></span>(<span class='kw'>.tbl</span>, .funs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>...</span>)
+<span class='fu'>rename_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_if</a></span>(<span class='kw'>.tbl</span>, <span class='kw'>.predicate</span>, .funs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>...</span>)
+<span class='fu'>select_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>rename_if</a></span>(<span class='kw'>.tbl</span>, <span class='kw'>.predicate</span>, .funs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>...</span>)
+<span class='fu'>rename_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_at</a></span>(<span class='kw'>.tbl</span>, <span class='kw'>.vars</span>, .funs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>...</span>)
+<span class='fu'>select_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>rename_at</a></span>(<span class='kw'>.tbl</span>, <span class='kw'>.vars</span>, .funs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>...</span>)</pre>
+<span class='fu'>rename_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -267,7 +263,7 @@ functions and strings representing function names.</p></td>
     </tr>
     <tr>
       <th>.vars</th>
-      <td><p>A list of columns generated by <code><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars()</a></code>,
+      <td><p>A list of columns generated by <code><a href='vars.html'>vars()</a></code>,
 a character vector of column names, a numeric vector of column
 positions, or <code>NULL</code>.</p></td>
     </tr>
@@ -275,9 +271,9 @@ positions, or <code>NULL</code>.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>mtcars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='kw'>mtcars</span>) <span class='co'># for nicer printing</span>
+    <pre class="examples"><div class='input'><span class='no'>mtcars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>mtcars</span>) <span class='co'># for nicer printing</span>
 
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>rename_all</a></span>(<span class='kw'>toupper</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>rename_all</span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
@@ -291,7 +287,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with</a></span>(<span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
@@ -306,8 +302,8 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
 <span class='co'># NB: the transformation comes first in rename_with</span>
-<span class='kw'>is_whole</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span>(<span class='kw'>x</span>) <span class='op'>==</span> <span class='kw'>x</span>)
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>rename_if</a></span>(<span class='kw'>is_whole</span>, <span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='no'>is_whole</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span>(<span class='no'>x</span>) <span class='kw'>==</span> <span class='no'>x</span>)
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>rename_if</span>(<span class='no'>is_whole</span>, <span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt;      mpg   CYL  disp    HP  drat    wt  qsec    VS    AM  GEAR  CARB
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
@@ -321,7 +317,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with</a></span>(<span class='kw'>toupper</span>, <span class='fu'>where</span>(<span class='kw'>is_whole</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>, <span class='fu'>where</span>(<span class='no'>is_whole</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt;      mpg   CYL  disp    HP  drat    wt  qsec    VS    AM  GEAR  CARB
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
@@ -335,7 +331,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>rename_at</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='kw'>mpg</span><span class='op'>:</span><span class='kw'>hp</span>), <span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>rename_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>mpg</span>:<span class='no'>hp</span>), <span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt;      MPG   CYL  DISP    HP  drat    wt  qsec    vs    am  gear  carb
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
@@ -349,7 +345,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with</a></span>(<span class='kw'>toupper</span>, <span class='kw'>mpg</span><span class='op'>:</span><span class='kw'>hp</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>, <span class='no'>mpg</span>:<span class='no'>hp</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt;      MPG   CYL  DISP    HP  drat    wt  qsec    vs    am  gear  carb
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
@@ -365,7 +361,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
 <span class='co'># You now must select() and then rename</span>
 
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_all</a></span>(<span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select_all</span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
@@ -379,7 +375,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with</a></span>(<span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
@@ -394,7 +390,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
 <span class='co'># Selection drops unselected variables:</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_if</a></span>(<span class='kw'>is_whole</span>, <span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 6</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select_if</span>(<span class='no'>is_whole</span>, <span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 6</span><span>
 #&gt;      CYL    HP    VS    AM  GEAR  CARB
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>     6   110     0     1     4     4
@@ -408,7 +404,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'> 9</span><span>     4    95     1     0     4     2
 #&gt; </span><span style='color: #555555;'>10</span><span>     6   123     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='fu'>where</span>(<span class='kw'>is_whole</span>)) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with</a></span>(<span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 6</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='fu'>where</span>(<span class='no'>is_whole</span>)) <span class='kw'>%&gt;%</span> <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 6</span><span>
 #&gt;      CYL    HP    VS    AM  GEAR  CARB
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>     6   110     0     1     4     4
@@ -422,7 +418,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'> 9</span><span>     4    95     1     0     4     2
 #&gt; </span><span style='color: #555555;'>10</span><span>     6   123     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_at</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span>(<span class='st'>"ar"</span>), <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"c"</span>)), <span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 10</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>select_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>contains</a></span>(<span class='st'>"ar"</span>), <span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>starts_with</a></span>(<span class='st'>"c"</span>)), <span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 10</span><span>
 #&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  CARB
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4
@@ -436,9 +432,9 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     2
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='op'>!</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span>(<span class='st'>"ar"</span>) <span class='op'>|</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"c"</span>)) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename_with</a></span>(<span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 10</span><span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='select.html'>select</a></span>(!<span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>contains</a></span>(<span class='st'>"ar"</span>) <span class='kw'>|</span> <span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>starts_with</a></span>(<span class='st'>"c"</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rename.html'>rename_with</a></span>(<span class='no'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 10</span><span>
 #&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  CARB
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4

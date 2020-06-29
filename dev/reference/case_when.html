@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -214,12 +210,12 @@ If no cases match, NA is returned." />
     </div>
 
     <div class="ref-description">
-    <p>This function allows you to vectorise multiple <code><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else()</a></code>
+    <p>This function allows you to vectorise multiple <code><a href='if_else.html'>if_else()</a></code>
 statements. It is an R equivalent of the SQL <code>CASE WHEN</code> statement.
 If no cases match, <code>NA</code> is returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(<span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>case_when</span>(<span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,12 +241,12 @@ input or output vectors, with the type (and attributes) of the first
 RHS. Inconsistent lengths or types will generate an error.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>35</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz buzz"</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz"</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"buzz"</span>,
-  <span class='fl'>TRUE</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='kw'>x</span>)
+    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fl'>50</span>
+<span class='fu'>case_when</span>(
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>35</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"fizz buzz"</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>5</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"fizz"</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>7</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"buzz"</span>,
+  <span class='fl'>TRUE</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>x</span>)
 )</div><div class='output co'>#&gt;  [1] "1"         "2"         "3"         "4"         "fizz"      "6"        
 #&gt;  [7] "buzz"      "8"         "9"         "fizz"      "11"        "12"       
 #&gt; [13] "13"        "buzz"      "fizz"      "16"        "17"        "18"       
@@ -262,20 +258,20 @@ RHS. Inconsistent lengths or types will generate an error.</p>
 #&gt; [49] "buzz"      "fizz"     </div><div class='input'>
 <span class='co'># Like an if statement, the arguments are evaluated in order, so you must</span>
 <span class='co'># proceed from the most specific to the most general. This won't work:</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-  <span class='fl'>TRUE</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='kw'>x</span>),
-  <span class='kw'>x</span> <span class='op'>%%</span>  <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz"</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span>  <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"buzz"</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>35</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz buzz"</span>
+<span class='fu'>case_when</span>(
+  <span class='fl'>TRUE</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>x</span>),
+  <span class='no'>x</span> <span class='kw'>%%</span>  <span class='fl'>5</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"fizz"</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span>  <span class='fl'>7</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"buzz"</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>35</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"fizz buzz"</span>
 )</div><div class='output co'>#&gt;  [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10" "11" "12" "13" "14" "15"
 #&gt; [16] "16" "17" "18" "19" "20" "21" "22" "23" "24" "25" "26" "27" "28" "29" "30"
 #&gt; [31] "31" "32" "33" "34" "35" "36" "37" "38" "39" "40" "41" "42" "43" "44" "45"
 #&gt; [46] "46" "47" "48" "49" "50"</div><div class='input'>
 <span class='co'># If none of the cases match, NA is used:</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-  <span class='kw'>x</span> <span class='op'>%%</span>  <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz"</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span>  <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"buzz"</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>35</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz buzz"</span>
+<span class='fu'>case_when</span>(
+  <span class='no'>x</span> <span class='kw'>%%</span>  <span class='fl'>5</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"fizz"</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span>  <span class='fl'>7</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"buzz"</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>35</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"fizz buzz"</span>
 )</div><div class='output co'>#&gt;  [1] NA     NA     NA     NA     "fizz" NA     "buzz" NA     NA     "fizz"
 #&gt; [11] NA     NA     NA     "buzz" "fizz" NA     NA     NA     NA     "fizz"
 #&gt; [21] "buzz" NA     NA     NA     "fizz" NA     NA     "buzz" NA     "fizz"
@@ -283,13 +279,13 @@ RHS. Inconsistent lengths or types will generate an error.</p>
 #&gt; [41] NA     "buzz" NA     NA     "fizz" NA     NA     NA     "buzz" "fizz"</div><div class='input'>
 <span class='co'># Note that NA values in the vector x do not get special treatment. If you want</span>
 <span class='co'># to explicitly handle NA values you can use the `is.na` function:</span>
-<span class='kw'>x</span>[<span class='fl'>2</span><span class='op'>:</span><span class='fl'>4</span>] <span class='op'>&lt;-</span> <span class='fl'>NA_real_</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>35</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz buzz"</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz"</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"buzz"</span>,
-  <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>x</span>) <span class='op'>~</span> <span class='st'>"nope"</span>,
-  <span class='fl'>TRUE</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='kw'>x</span>)
+<span class='no'>x</span>[<span class='fl'>2</span>:<span class='fl'>4</span>] <span class='kw'>&lt;-</span> <span class='fl'>NA_real_</span>
+<span class='fu'>case_when</span>(
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>35</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"fizz buzz"</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>5</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"fizz"</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>7</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"buzz"</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>x</span>) ~ <span class='st'>"nope"</span>,
+  <span class='fl'>TRUE</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>x</span>)
 )</div><div class='output co'>#&gt;  [1] "1"         "nope"      "nope"      "nope"      "fizz"      "6"        
 #&gt;  [7] "buzz"      "8"         "9"         "fizz"      "11"        "12"       
 #&gt; [13] "13"        "buzz"      "fizz"      "16"        "17"        "18"       
@@ -302,51 +298,51 @@ RHS. Inconsistent lengths or types will generate an error.</p>
 <span class='co'># All RHS values need to be of the same type. Inconsistent types will throw an error.</span>
 <span class='co'># This applies also to NA values used in RHS: NA is logical, use</span>
 <span class='co'># typed values like NA_real_, NA_complex, NA_character_, NA_integer_ as appropriate.</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>35</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>NA_character_</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz"</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"buzz"</span>,
-  <span class='fl'>TRUE</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='kw'>x</span>)
+<span class='fu'>case_when</span>(
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>35</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='fl'>NA_character_</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>5</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"fizz"</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>7</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"buzz"</span>,
+  <span class='fl'>TRUE</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>x</span>)
 )</div><div class='output co'>#&gt;  [1] "1"    NA     NA     NA     "fizz" "6"    "buzz" "8"    "9"    "fizz"
 #&gt; [11] "11"   "12"   "13"   "buzz" "fizz" "16"   "17"   "18"   "19"   "fizz"
 #&gt; [21] "buzz" "22"   "23"   "24"   "fizz" "26"   "27"   "buzz" "29"   "fizz"
 #&gt; [31] "31"   "32"   "33"   "34"   NA     "36"   "37"   "38"   "39"   "fizz"
-#&gt; [41] "41"   "buzz" "43"   "44"   "fizz" "46"   "47"   "48"   "buzz" "fizz"</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>35</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>35</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>5</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>7</span>,
-  <span class='fl'>TRUE</span> <span class='op'>~</span> <span class='fl'>NA_real_</span>
+#&gt; [41] "41"   "buzz" "43"   "44"   "fizz" "46"   "47"   "48"   "buzz" "fizz"</div><div class='input'><span class='fu'>case_when</span>(
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>35</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='fl'>35</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>5</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='fl'>5</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>7</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='fl'>7</span>,
+  <span class='fl'>TRUE</span> ~ <span class='fl'>NA_real_</span>
 )</div><div class='output co'>#&gt;  [1] NA NA NA NA  5 NA  7 NA NA  5 NA NA NA  7  5 NA NA NA NA  5  7 NA NA NA  5
 #&gt; [26] NA NA  7 NA  5 NA NA NA NA 35 NA NA NA NA  5 NA  7 NA NA  5 NA NA NA  7  5</div><div class='input'>
 <span class='co'># case_when() evaluates all RHS expressions, and then constructs its</span>
 <span class='co'># result by extracting the selected (via the LHS expressions) parts.</span>
 <span class='co'># In particular NaN are produced in this case:</span>
-<span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='op'>-</span><span class='fl'>2</span>, <span class='fl'>2</span>, by = <span class='fl'>.5</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-  <span class='kw'>y</span> <span class='op'>&gt;=</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='kw'>y</span>),
-  <span class='fl'>TRUE</span>   <span class='op'>~</span> <span class='kw'>y</span>
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>.5</span>)
+<span class='fu'>case_when</span>(
+  <span class='no'>y</span> <span class='kw'>&gt;=</span> <span class='fl'>0</span> ~ <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>y</span>),
+  <span class='fl'>TRUE</span>   ~ <span class='no'>y</span>
 )</div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; [1] -2.0000000 -1.5000000 -1.0000000 -0.5000000  0.0000000  0.7071068  1.0000000
 #&gt; [8]  1.2247449  1.4142136</div><div class='input'>
 <span class='co'># This throws an error as NA is logical not numeric</span>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>35</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>35</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>5</span>,
-  <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>7</span>,
-  <span class='fl'>TRUE</span> <span class='op'>~</span> <span class='fl'>NA</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>case_when</span>(
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>35</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='fl'>35</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>5</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='fl'>5</span>,
+  <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>7</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='fl'>7</span>,
+  <span class='fl'>TRUE</span> ~ <span class='fl'>NA</span>
 )
 }
 
 <span class='co'># case_when is particularly useful inside mutate when you want to</span>
 <span class='co'># create a new variable that relies on a complex combination of existing</span>
 <span class='co'># variables</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>name</span><span class='op'>:</span><span class='kw'>mass</span>, <span class='kw'>gender</span>, <span class='kw'>species</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(
-    type = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-      <span class='kw'>height</span> <span class='op'>&gt;</span> <span class='fl'>200</span> <span class='op'>|</span> <span class='kw'>mass</span> <span class='op'>&gt;</span> <span class='fl'>200</span> <span class='op'>~</span> <span class='st'>"large"</span>,
-      <span class='kw'>species</span> <span class='op'>==</span> <span class='st'>"Droid"</span>        <span class='op'>~</span> <span class='st'>"robot"</span>,
-      <span class='fl'>TRUE</span>                      <span class='op'>~</span> <span class='st'>"other"</span>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>name</span>:<span class='no'>mass</span>, <span class='no'>gender</span>, <span class='no'>species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(
+    <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>case_when</span>(
+      <span class='no'>height</span> <span class='kw'>&gt;</span> <span class='fl'>200</span> <span class='kw'>|</span> <span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fl'>200</span> ~ <span class='st'>"large"</span>,
+      <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Droid"</span>        ~ <span class='st'>"robot"</span>,
+      <span class='fl'>TRUE</span>                      ~ <span class='st'>"other"</span>
     )
   )</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 6</span><span>
 #&gt;    name               height  mass gender    species type 
@@ -366,19 +362,19 @@ RHS. Inconsistent lengths or types will generate an error.</p>
 <span class='co'># `case_when()` is not a tidy eval function. If you'd like to reuse</span>
 <span class='co'># the same patterns, extract the `case_when()` call in a normal</span>
 <span class='co'># function:</span>
-<span class='kw'>case_character_type</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>height</span>, <span class='kw'>mass</span>, <span class='kw'>species</span>) {
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-    <span class='kw'>height</span> <span class='op'>&gt;</span> <span class='fl'>200</span> <span class='op'>|</span> <span class='kw'>mass</span> <span class='op'>&gt;</span> <span class='fl'>200</span> <span class='op'>~</span> <span class='st'>"large"</span>,
-    <span class='kw'>species</span> <span class='op'>==</span> <span class='st'>"Droid"</span>        <span class='op'>~</span> <span class='st'>"robot"</span>,
-    <span class='fl'>TRUE</span>                      <span class='op'>~</span> <span class='st'>"other"</span>
+<span class='no'>case_character_type</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>height</span>, <span class='no'>mass</span>, <span class='no'>species</span>) {
+  <span class='fu'>case_when</span>(
+    <span class='no'>height</span> <span class='kw'>&gt;</span> <span class='fl'>200</span> <span class='kw'>|</span> <span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fl'>200</span> ~ <span class='st'>"large"</span>,
+    <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Droid"</span>        ~ <span class='st'>"robot"</span>,
+    <span class='fl'>TRUE</span>                      ~ <span class='st'>"other"</span>
   )
 }
 
 <span class='fu'>case_character_type</span>(<span class='fl'>150</span>, <span class='fl'>250</span>, <span class='st'>"Droid"</span>)</div><div class='output co'>#&gt; [1] "large"</div><div class='input'><span class='fu'>case_character_type</span>(<span class='fl'>150</span>, <span class='fl'>150</span>, <span class='st'>"Droid"</span>)</div><div class='output co'>#&gt; [1] "robot"</div><div class='input'>
 <span class='co'># Such functions can be used inside `mutate()` as well:</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(type = <span class='fu'>case_character_type</span>(<span class='kw'>height</span>, <span class='kw'>mass</span>, <span class='kw'>species</span>)) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span>(<span class='kw'>type</span>)</div><div class='output co'>#&gt;  [1] "other" "robot" "robot" "large" "other" "other" "other" "robot" "other"
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>case_character_type</span>(<span class='no'>height</span>, <span class='no'>mass</span>, <span class='no'>species</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pull.html'>pull</a></span>(<span class='no'>type</span>)</div><div class='output co'>#&gt;  [1] "other" "robot" "robot" "large" "other" "other" "other" "robot" "other"
 #&gt; [10] "other" "other" "other" "large" "other" "other" "large" "other" "other"
 #&gt; [19] "other" "other" "other" "robot" "other" "other" "other" "other" "other"
 #&gt; [28] "other" "other" "other" "other" "other" "other" "other" "large" "large"
@@ -392,17 +388,17 @@ RHS. Inconsistent lengths or types will generate an error.</p>
 <span class='co'># like to use a pattern only under certain conditions. Here we'll</span>
 <span class='co'># take advantage of the fact that `if` returns `NULL` when there is</span>
 <span class='co'># no `else` clause:</span>
-<span class='kw'>case_character_type</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>height</span>, <span class='kw'>mass</span>, <span class='kw'>species</span>, <span class='kw'>robots</span> = <span class='fl'>TRUE</span>) {
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-    <span class='kw'>height</span> <span class='op'>&gt;</span> <span class='fl'>200</span> <span class='op'>|</span> <span class='kw'>mass</span> <span class='op'>&gt;</span> <span class='fl'>200</span>      <span class='op'>~</span> <span class='st'>"large"</span>,
-    <span class='co'>if</span> (<span class='kw'>robots</span>) <span class='kw'>species</span> <span class='op'>==</span> <span class='st'>"Droid"</span> <span class='op'>~</span> <span class='st'>"robot"</span>,
-    <span class='fl'>TRUE</span>                           <span class='op'>~</span> <span class='st'>"other"</span>
+<span class='no'>case_character_type</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>height</span>, <span class='no'>mass</span>, <span class='no'>species</span>, <span class='no'>robots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) {
+  <span class='fu'>case_when</span>(
+    <span class='no'>height</span> <span class='kw'>&gt;</span> <span class='fl'>200</span> <span class='kw'>|</span> <span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fl'>200</span>      ~ <span class='st'>"large"</span>,
+    <span class='kw'>if</span> (<span class='no'>robots</span>) <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Droid"</span> ~ <span class='st'>"robot"</span>,
+    <span class='fl'>TRUE</span>                           ~ <span class='st'>"other"</span>
   )
 }
 
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(type = <span class='fu'>case_character_type</span>(<span class='kw'>height</span>, <span class='kw'>mass</span>, <span class='kw'>species</span>, robots = <span class='fl'>FALSE</span>)) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span>(<span class='kw'>type</span>)</div><div class='output co'>#&gt;  [1] "other" "other" "other" "large" "other" "other" "other" "other" "other"
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>case_character_type</span>(<span class='no'>height</span>, <span class='no'>mass</span>, <span class='no'>species</span>, <span class='kw'>robots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pull.html'>pull</a></span>(<span class='no'>type</span>)</div><div class='output co'>#&gt;  [1] "other" "other" "other" "large" "other" "other" "other" "other" "other"
 #&gt; [10] "other" "other" "other" "large" "other" "other" "large" "other" "other"
 #&gt; [19] "other" "other" "other" "other" "other" "other" "other" "other" "other"
 #&gt; [28] "other" "other" "other" "other" "other" "other" "other" "large" "large"

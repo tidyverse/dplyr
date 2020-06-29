@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -215,15 +211,15 @@ validate_grouped_df() validates the attributes of a grouped_df." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://dplyr.tidyverse.org/reference/new_grouped_df.html'>new_grouped_df()</a></code> is a constructor designed to be high-performance so only
+    <p><code>new_grouped_df()</code> is a constructor designed to be high-performance so only
 check types, not values. This means it is the caller's responsibility
 to create valid values, and hence this is for expert use only.</p>
-<p><code><a href='https://dplyr.tidyverse.org/reference/new_grouped_df.html'>validate_grouped_df()</a></code> validates the attributes of a <code>grouped_df</code>.</p>
+<p><code>validate_grouped_df()</code> validates the attributes of a <code>grouped_df</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/new_grouped_df.html'>new_grouped_df</a></span>(<span class='kw'>x</span>, <span class='kw'>groups</span>, <span class='kw'>...</span>, class = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>())
+    <pre class="usage"><span class='fu'>new_grouped_df</span>(<span class='no'>x</span>, <span class='no'>groups</span>, <span class='no'>...</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/new_grouped_df.html'>validate_grouped_df</a></span>(<span class='kw'>x</span>, check_bounds = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>validate_grouped_df</span>(<span class='no'>x</span>, <span class='kw'>check_bounds</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -255,19 +251,20 @@ a list of 1 based integer vectors that all are between 1 and the number of rows 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># 5 bootstrap samples</span>
-<span class='kw'>tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/new_grouped_df.html'>new_grouped_df</a></span>(
-  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>)),
-  groups = <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='st'>".rows"</span> <span class='op'>:=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>replicate</a></span>(<span class='fl'>5</span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, replace = <span class='fl'>TRUE</span>), simplify = <span class='fl'>FALSE</span>))
+<span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='fu'>new_grouped_df</span>(
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>)),
+  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='st'>".rows"</span> <span class='kw'>:=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>replicate</a></span>(<span class='fl'>5</span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))
 )
 <span class='co'># mean of each bootstrap sample</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>tbl</span>, x = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>x</span>))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 1</span><span>
+<span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='no'>tbl</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 1</span><span>
 #&gt;        x
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> -</span><span style='color: #BB0000;'>0.559</span><span>
 #&gt; </span><span style='color: #555555;'>2</span><span> -</span><span style='color: #BB0000;'>0.332</span><span>
 #&gt; </span><span style='color: #555555;'>3</span><span> -</span><span style='color: #BB0000;'>0.656</span><span>
 #&gt; </span><span style='color: #555555;'>4</span><span> -</span><span style='color: #BB0000;'>0.223</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> -</span><span style='color: #BB0000;'>0.269</span><span></div><div class='input'></div></span></pre>
+#&gt; </span><span style='color: #555555;'>5</span><span> -</span><span style='color: #BB0000;'>0.269</span><span></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

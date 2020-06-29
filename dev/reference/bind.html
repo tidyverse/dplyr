@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -219,9 +215,9 @@ data frames into one." />
 data frames into one.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='kw'>...</span>, .id = <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>bind_rows</span>(<span class='no'>...</span>, <span class='kw'>.id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_cols</a></span>(<span class='kw'>...</span>)</pre>
+<span class='fu'>bind_cols</span>(<span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -235,14 +231,14 @@ frame, or a list of data frames.</p>
 columns will be filled with NA.</p>
 <p>When column-binding, rows are matched by position, so all data
 frames must have the same number of rows. To match by value, not
-position, see <a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>mutate-joins</a>.</p></td>
+position, see <a href='mutate-joins.html'>mutate-joins</a>.</p></td>
     </tr>
     <tr>
       <th>.id</th>
       <td><p>Data frame identifier.</p>
 <p>When <code>.id</code> is supplied, a new column of identifiers is
 created to link each row to its original data frame. The labels
-are taken from the named arguments to <code><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows()</a></code>. When a
+are taken from the named arguments to <code>bind_rows()</code>. When a
 list of data frames is supplied, the labels are taken from the
 names of the list. If no names are found a numeric sequence is
 used instead.</p></td>
@@ -251,19 +247,19 @@ used instead.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_cols()</a></code> return the same type as
+    <p><code>bind_rows()</code> and <code>bind_cols()</code> return the same type as
 the first input, either a data frame, <code>tbl_df</code>, or <code>grouped_df</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The output of <code><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows()</a></code> will contain a column if that column
+    <p>The output of <code>bind_rows()</code> will contain a column if that column
 appears in any of the inputs.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>one</span> <span class='op'>&lt;-</span> <span class='kw'>starwars</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, ]
-<span class='kw'>two</span> <span class='op'>&lt;-</span> <span class='kw'>starwars</span>[<span class='fl'>9</span><span class='op'>:</span><span class='fl'>12</span>, ]
+    <pre class="examples"><div class='input'><span class='no'>one</span> <span class='kw'>&lt;-</span> <span class='no'>starwars</span>[<span class='fl'>1</span>:<span class='fl'>4</span>, ]
+<span class='no'>two</span> <span class='kw'>&lt;-</span> <span class='no'>starwars</span>[<span class='fl'>9</span>:<span class='fl'>12</span>, ]
 
 <span class='co'># You can supply data frames as arguments:</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='kw'>one</span>, <span class='kw'>two</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 8 x 14</span><span>
+<span class='fu'>bind_rows</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 8 x 14</span><span>
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
@@ -277,7 +273,7 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># The contents of lists are spliced automatically:</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>one</span>, <span class='kw'>two</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 14</span><span>
+<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 14</span><span>
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
@@ -289,7 +285,7 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'>7</span><span> Anak…    188    84 blond      fair       blue            41.9 male  mascu…
 #&gt; </span><span style='color: #555555;'>8</span><span> Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male  mascu…
 #&gt; </span><span style='color: #555555;'># … with 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='kw'>starwars</span>, <span class='kw'>starwars</span><span class='op'>$</span><span class='kw'>homeworld</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 77 x 14</span><span>
+#&gt; </span><span style='color: #555555;'>#   vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>starwars</span>, <span class='no'>starwars</span>$<span class='no'>homeworld</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 77 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> Leia…    150    49 brown      light      brown             19 fema… femin…
@@ -303,7 +299,7 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Mas …    196    </span><span style='color: #BB0000;'>NA</span><span> none       blue       blue              </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
 #&gt; </span><span style='color: #555555;'>10</span><span> Mon …    150    </span><span style='color: #BB0000;'>NA</span><span> auburn     fair       blue              48 fema… femin…
 #&gt; </span><span style='color: #555555;'># … with 67 more rows, and 5 more variables: homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>one</span>, <span class='kw'>two</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>two</span>, <span class='kw'>one</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 16 x 14</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>two</span>, <span class='no'>one</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 16 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> Luke…    172    77 blond      fair       blue            19   male  mascu…
@@ -328,19 +324,19 @@ appears in any of the inputs.</p>
 <span class='co'># In addition to data frames, you can supply vectors. In the rows</span>
 <span class='co'># direction, the vectors represent rows and should have inner</span>
 <span class='co'># names:</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(a = <span class='fl'>1</span>, b = <span class='fl'>2</span>),
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(a = <span class='fl'>3</span>, b = <span class='fl'>4</span>)
+<span class='fu'>bind_rows</span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>4</span>)
 )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;       a     b
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1     2
 #&gt; </span><span style='color: #555555;'>2</span><span>     3     4</div><div class='input'>
 <span class='co'># You can mix vectors and data frames:</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(a = <span class='fl'>1</span>, b = <span class='fl'>2</span>),
-  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>3</span><span class='op'>:</span><span class='fl'>4</span>, b = <span class='fl'>5</span><span class='op'>:</span><span class='fl'>6</span>),
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(a = <span class='fl'>7</span>, b = <span class='fl'>8</span>)
+<span class='fu'>bind_rows</span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>:<span class='fl'>4</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>5</span>:<span class='fl'>6</span>),
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
 #&gt;       a     b
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -351,7 +347,7 @@ appears in any of the inputs.</p>
 
 <span class='co'># When you supply a column name with the `.id` argument, a new</span>
 <span class='co'># column is created to link each row to its original data frame</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>one</span>, <span class='kw'>two</span>), .id = <span class='st'>"id"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
+<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
 #&gt;   id    name  height  mass hair_color skin_color eye_color birth_year sex  
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> 1     Luke…    172    77 blond      fair       blue            19   male 
@@ -363,7 +359,7 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'>7</span><span> 2     Anak…    188    84 blond      fair       blue            41.9 male 
 #&gt; </span><span style='color: #555555;'>8</span><span> 2     Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male 
 #&gt; </span><span style='color: #555555;'># … with 6 more variables: gender </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(a = <span class='kw'>one</span>, b = <span class='kw'>two</span>), .id = <span class='st'>"id"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
 #&gt;   id    name  height  mass hair_color skin_color eye_color birth_year sex  
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> a     Luke…    172    77 blond      fair       blue            19   male 
@@ -375,7 +371,7 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'>7</span><span> b     Anak…    188    84 blond      fair       blue            41.9 male 
 #&gt; </span><span style='color: #555555;'>8</span><span> b     Wilh…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, g… fair       blue            64   male 
 #&gt; </span><span style='color: #555555;'># … with 6 more variables: gender </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='st'>"group 1"</span> = <span class='kw'>one</span>, <span class='st'>"group 2"</span> = <span class='kw'>two</span>, .id = <span class='st'>"groups"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
+#&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_rows</span>(<span class='st'>"group 1"</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='st'>"group 2"</span> <span class='kw'>=</span> <span class='no'>two</span>, <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"groups"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 15</span><span>
 #&gt;   groups name  height  mass hair_color skin_color eye_color birth_year sex  
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> group… Luke…    172    77 blond      fair       blue            19   male 
@@ -389,7 +385,7 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'># … with 6 more variables: gender </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   films </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, starships </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># Columns don't need to match when row-binding</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(y = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 7 x 2</span><span>
+<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 7 x 2</span><span>
 #&gt;       x     y
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1    </span><span style='color: #BB0000;'>NA</span><span>
@@ -398,12 +394,12 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'>4</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     1
 #&gt; </span><span style='color: #555555;'>5</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     2
 #&gt; </span><span style='color: #555555;'>6</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     3
-#&gt; </span><span style='color: #555555;'>7</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     4</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+#&gt; </span><span style='color: #555555;'>7</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     4</div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Rows do need to match when column-binding</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_cols</a></span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(y = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>))
+<span class='fu'>bind_cols</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>))
 }
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_cols</a></span>(<span class='kw'>one</span>, <span class='kw'>two</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+<span class='fu'>bind_cols</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* name -&gt; name...1</span>
 #&gt; <span class='message'>* height -&gt; height...2</span>
 #&gt; <span class='message'>* mass -&gt; mass...3</span>
@@ -423,7 +419,7 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'>#   skin_color...19 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, eye_color...20 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, birth_year...21 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   sex...22 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, gender...23 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, homeworld...24 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   species...25 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, films...26 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>, vehicles...27 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   starships...28 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_cols</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>one</span>, <span class='kw'>two</span>))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; </span><span style='color: #555555;'>#   starships...28 </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='fu'>bind_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* name -&gt; name...1</span>
 #&gt; <span class='message'>* height -&gt; height...2</span>
 #&gt; <span class='message'>* mass -&gt; mass...3</span>

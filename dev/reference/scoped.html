@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -243,27 +239,27 @@ of a predicate function, you can also supply a logical vector.
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#superseded'><img src='figures/lifecycle-superseded.svg' alt='Superseded lifecycle'></a></p>
 <p>Scoped verbs (<code>_if</code>, <code>_at</code>, <code>_all</code>) have been superseded by the use of
-<code><a href='https://dplyr.tidyverse.org/reference/across.html'>across()</a></code> in an existing verb. See <code>vignette("colwise")</code> for details.</p>
+<code><a href='across.html'>across()</a></code> in an existing verb. See <code><a href='../articles/colwise.html'>vignette("colwise")</a></code> for details.</p>
 <p>The variants suffixed with <code>_if</code>, <code>_at</code> or <code>_all</code> apply an
 expression (sometimes several) to all variables within a specified
 subset. This subset can contain all variables (<code>_all</code> variants), a
-<code><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars()</a></code> selection (<code>_at</code> variants), or variables selected with a
+<code><a href='vars.html'>vars()</a></code> selection (<code>_at</code> variants), or variables selected with a
 predicate (<code>_if</code> variants).</p>
 <p>The verbs with scoped variants are:</p><ul>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>transmute()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise()</a></code>. See <code><a href='https://dplyr.tidyverse.org/reference/summarise_all.html'>summarise_all()</a></code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter()</a></code>. See <code><a href='https://dplyr.tidyverse.org/reference/filter_all.html'>filter_all()</a></code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code>. See <code><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_all()</a></code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select()</a></code>. See <code><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_all()</a></code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange()</a></code>. See <code><a href='https://dplyr.tidyverse.org/reference/arrange_all.html'>arrange_all()</a></code></p></li>
+<li><p><code><a href='mutate.html'>mutate()</a></code>, <code><a href='mutate.html'>transmute()</a></code> and <code><a href='summarise.html'>summarise()</a></code>. See <code><a href='summarise_all.html'>summarise_all()</a></code>.</p></li>
+<li><p><code><a href='filter.html'>filter()</a></code>. See <code><a href='filter_all.html'>filter_all()</a></code>.</p></li>
+<li><p><code><a href='group_by.html'>group_by()</a></code>. See <code><a href='group_by_all.html'>group_by_all()</a></code>.</p></li>
+<li><p><code><a href='rename.html'>rename()</a></code> and <code><a href='select.html'>select()</a></code>. See <code><a href='select_all.html'>select_all()</a></code>.</p></li>
+<li><p><code><a href='arrange.html'>arrange()</a></code>. See <code><a href='arrange_all.html'>arrange_all()</a></code></p></li>
 </ul>
 
 <p>There are three kinds of scoped variants. They differ in the scope
 of the variable selection on which operations are applied:</p><ul>
 <li><p>Verbs suffixed with <code>_all()</code> apply an operation on all variables.</p></li>
 <li><p>Verbs suffixed with <code>_at()</code> apply an operation on a subset of
-variables specified with the quoting function <code><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars()</a></code>. This
-quoting function accepts <code><a href='https://tidyselect.r-lib.org/reference/vars_select.html'>tidyselect::vars_select()</a></code> helpers like
-<code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with()</a></code>. Instead of a <code><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars()</a></code> selection, you can also
+variables specified with the quoting function <code><a href='vars.html'>vars()</a></code>. This
+quoting function accepts <code><a href='https://rdrr.io/pkg/tidyselect/man/vars_select.html'>tidyselect::vars_select()</a></code> helpers like
+<code><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>starts_with()</a></code>. Instead of a <code><a href='vars.html'>vars()</a></code> selection, you can also
 supply an <a href='https://rlang.r-lib.org/reference/is_integerish.html'>integerish</a> vector of column
 positions or a character vector of column names.</p></li>
 <li><p>Verbs suffixed with <code>_if()</code> apply an operation on the subset of
@@ -287,7 +283,7 @@ of a predicate function, you can also supply a logical vector.</p></li>
     </tr>
     <tr>
       <th>.vars</th>
-      <td><p>A list of columns generated by <code><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars()</a></code>,
+      <td><p>A list of columns generated by <code><a href='vars.html'>vars()</a></code>,
 a character vector of column names, a numeric vector of column
 positions, or <code>NULL</code>.</p></td>
     </tr>
@@ -313,27 +309,27 @@ functions and strings representing function names.</p></td>
 
 <p>Most of these operations also apply on the grouping variables when
 they are part of the selection. This includes:</p><ul>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/arrange_all.html'>arrange_all()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/arrange_all.html'>arrange_at()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/arrange_all.html'>arrange_if()</a></code></p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/distinct_all.html'>distinct_all()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/distinct_all.html'>distinct_at()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/distinct_all.html'>distinct_if()</a></code></p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/filter_all.html'>filter_all()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/filter_all.html'>filter_at()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/filter_all.html'>filter_if()</a></code></p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_all()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_at()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/group_by_all.html'>group_by_if()</a></code></p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_all()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_at()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_if()</a></code></p></li>
+<li><p><code><a href='arrange_all.html'>arrange_all()</a></code>, <code><a href='arrange_all.html'>arrange_at()</a></code>, and <code><a href='arrange_all.html'>arrange_if()</a></code></p></li>
+<li><p><code><a href='distinct_all.html'>distinct_all()</a></code>, <code><a href='distinct_all.html'>distinct_at()</a></code>, and <code><a href='distinct_all.html'>distinct_if()</a></code></p></li>
+<li><p><code><a href='filter_all.html'>filter_all()</a></code>, <code><a href='filter_all.html'>filter_at()</a></code>, and <code><a href='filter_all.html'>filter_if()</a></code></p></li>
+<li><p><code><a href='group_by_all.html'>group_by_all()</a></code>, <code><a href='group_by_all.html'>group_by_at()</a></code>, and <code><a href='group_by_all.html'>group_by_if()</a></code></p></li>
+<li><p><code><a href='select_all.html'>select_all()</a></code>, <code><a href='select_all.html'>select_at()</a></code>, and <code><a href='select_all.html'>select_if()</a></code></p></li>
 </ul>
 
 <p>This is not the case for summarising and mutating variants where
 operations are <em>not</em> applied on grouping variables. The behaviour
 depends on whether the selection is <strong>implicit</strong> (<code>all</code> and <code>if</code>
 selections) or <strong>explicit</strong> (<code>at</code> selections). Grouping variables
-covered by explicit selections (with <code><a href='https://dplyr.tidyverse.org/reference/summarise_all.html'>summarise_at()</a></code>,
-<code><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_at()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>transmute_at()</a></code>) are always an error. For
+covered by explicit selections (with <code><a href='summarise_all.html'>summarise_at()</a></code>,
+<code><a href='mutate_all.html'>mutate_at()</a></code>, and <code><a href='mutate_all.html'>transmute_at()</a></code>) are always an error. For
 implicit selections, the grouping variables are always ignored. In
 this case, the level of verbosity depends on the kind of operation:</p><ul>
-<li><p>Summarising operations (<code><a href='https://dplyr.tidyverse.org/reference/summarise_all.html'>summarise_all()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/summarise_all.html'>summarise_if()</a></code>)
+<li><p>Summarising operations (<code><a href='summarise_all.html'>summarise_all()</a></code> and <code><a href='summarise_all.html'>summarise_if()</a></code>)
 ignore grouping variables silently because it is obvious that
 operations are not applied on grouping variables.</p></li>
 <li><p>On the other hand it isn't as obvious in the case of mutating
-operations (<code><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_all()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>transmute_all()</a></code>, and
-<code><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>transmute_if()</a></code>). For this reason, they issue a message
+operations (<code><a href='mutate_all.html'>mutate_all()</a></code>, <code><a href='mutate_all.html'>mutate_if()</a></code>, <code><a href='mutate_all.html'>transmute_all()</a></code>, and
+<code><a href='mutate_all.html'>transmute_if()</a></code>). For this reason, they issue a message
 indicating which grouping variables are ignored.</p></li>
 </ul>
 

@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -213,23 +209,23 @@ of cumulative functions." />
     </div>
 
     <div class="ref-description">
-    <p>dplyr provides <code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumall()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumany()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cummean()</a></code> to complete R's set
+    <p>dplyr provides <code>cumall()</code>, <code>cumany()</code>, and <code>cummean()</code> to complete R's set
 of cumulative functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumall</a></span>(<span class='kw'>x</span>)
+    <pre class="usage"><span class='fu'>cumall</span>(<span class='no'>x</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumany</a></span>(<span class='kw'>x</span>)
+<span class='fu'>cumany</span>(<span class='no'>x</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cummean</a></span>(<span class='kw'>x</span>)</pre>
+<span class='fu'>cummean</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>For <code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumall()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumany()</a></code>, a logical vector; for
-<code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cummean()</a></code> an integer or numeric vector.</p></td>
+      <td><p>For <code>cumall()</code> and <code>cumany()</code>, a logical vector; for
+<code>cummean()</code> an integer or numeric vector.</p></td>
     </tr>
     </table>
 
@@ -241,36 +237,37 @@ of cumulative functions.</p>
     
 
 
-<p>These are particularly useful in conjunction with <code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter()</a></code>:</p><ul>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumall(x)</a></code>: all cases until the first <code>FALSE</code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumall(!x)</a></code>: all cases until the first <code>TRUE</code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumany(x)</a></code>: all cases after the first <code>TRUE</code>.</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumany(!x)</a></code>: all cases after the first <code>FALSE</code>.</p></li>
+<p>These are particularly useful in conjunction with <code><a href='filter.html'>filter()</a></code>:</p><ul>
+<li><p><code>cumall(x)</code>: all cases until the first <code>FALSE</code>.</p></li>
+<li><p><code>cumall(!x)</code>: all cases until the first <code>TRUE</code>.</p></li>
+<li><p><code>cumany(x)</code>: all cases after the first <code>TRUE</code>.</p></li>
+<li><p><code>cumany(!x)</code>: all cases after the first <code>FALSE</code>.</p></li>
 </ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># `cummean()` returns a numeric/integer vector of the same length</span>
 <span class='co'># as the input vector.</span>
-<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>2</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cummean</a></span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='kw'>x</span>) <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>2</span>)
+<span class='fu'>cummean</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='no'>x</span>) / <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'>
 <span class='co'># `cumall()` and `cumany()` return logicals</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumall</a></span>(<span class='kw'>x</span> <span class='op'>&lt;</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE FALSE FALSE</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumany</a></span>(<span class='kw'>x</span> <span class='op'>==</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] FALSE  TRUE  TRUE  TRUE  TRUE</div><div class='input'>
+<span class='fu'>cumall</span>(<span class='no'>x</span> <span class='kw'>&lt;</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE FALSE FALSE</div><div class='input'><span class='fu'>cumany</span>(<span class='no'>x</span> <span class='kw'>==</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] FALSE  TRUE  TRUE  TRUE  TRUE</div><div class='input'>
 <span class='co'># `cumall()` vs. `cumany()`</span>
-<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  date = <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-01"</span>) <span class='op'>+</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>6</span>,
-  balance = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100</span>, <span class='fl'>50</span>, <span class='fl'>25</span>, <span class='op'>-</span><span class='fl'>25</span>, <span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>30</span>, <span class='fl'>120</span>)
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  <span class='kw'>date</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-01"</span>) + <span class='fl'>0</span>:<span class='fl'>6</span>,
+  <span class='kw'>balance</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100</span>, <span class='fl'>50</span>, <span class='fl'>25</span>, -<span class='fl'>25</span>, -<span class='fl'>50</span>, <span class='fl'>30</span>, <span class='fl'>120</span>)
 )
 <span class='co'># all rows after first overdraft</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumany</a></span>(<span class='kw'>balance</span> <span class='op'>&lt;</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt;         date balance
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'>cumany</span>(<span class='no'>balance</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt;         date balance
 #&gt; 1 2020-01-04     -25
 #&gt; 2 2020-01-05     -50
 #&gt; 3 2020-01-06      30
 #&gt; 4 2020-01-07     120</div><div class='input'><span class='co'># all rows until first overdraft</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/cumall.html'>cumall</a></span>(<span class='op'>!</span>(<span class='kw'>balance</span> <span class='op'>&lt;</span> <span class='fl'>0</span>)))</div><div class='output co'>#&gt;         date balance
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'>cumall</span>(!(<span class='no'>balance</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>)))</div><div class='output co'>#&gt;         date balance
 #&gt; 1 2020-01-01     100
 #&gt; 2 2020-01-02      50
-#&gt; 3 2020-01-03      25</div><div class='input'></div></pre>
+#&gt; 3 2020-01-03      25</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

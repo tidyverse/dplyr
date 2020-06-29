@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../.css" rel="stylesheet">
-
-
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -236,55 +232,55 @@ with NSE verbs. Thus, the underscored versions are now superfluous.</p>
 <p>Unquoting triggers immediate evaluation of its operand and inlines
 the result within the captured expression. This result can be a
 value or an expression to be evaluated later with the rest of the
-argument. See <code>vignette("programming")</code> for more information.</p>
+argument. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>add_count_</a></span>(<span class='kw'>x</span>, <span class='kw'>vars</span>, wt = <span class='kw'>NULL</span>, sort = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>add_count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>add_tally_</a></span>(<span class='kw'>x</span>, <span class='kw'>wt</span>, sort = <span class='fl'>FALSE</span>)
+<span class='fu'>add_tally_</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>arrange_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>arrange_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>count_</a></span>(<span class='kw'>x</span>, <span class='kw'>vars</span>, wt = <span class='kw'>NULL</span>, sort = <span class='fl'>FALSE</span>, .drop = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='kw'>x</span>))
+<span class='fu'>count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>x</span>))
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>distinct_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, <span class='kw'>.dots</span>, .keep_all = <span class='fl'>FALSE</span>)
+<span class='fu'>distinct_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='no'>.dots</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>do_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>do_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>filter_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>filter_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>funs_</a></span>(<span class='kw'>dots</span>, args = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), env = <span class='fu'>base_env</span>())
+<span class='fu'>funs_</span>(<span class='no'>dots</span>, <span class='kw'>args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>base_env</span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>group_by_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), add = <span class='fl'>FALSE</span>)
+<span class='fu'>group_by_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>group_indices_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>group_indices_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>mutate_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>mutate_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>tally_</a></span>(<span class='kw'>x</span>, <span class='kw'>wt</span>, sort = <span class='fl'>FALSE</span>)
+<span class='fu'>tally_</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>transmute_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>transmute_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>rename_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>rename_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>rename_vars_</a></span>(<span class='kw'>vars</span>, <span class='kw'>args</span>)
+<span class='fu'>rename_vars_</span>(<span class='no'>vars</span>, <span class='no'>args</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>select_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>select_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>select_vars_</a></span>(<span class='kw'>vars</span>, <span class='kw'>args</span>, include = <span class='fu'>chr</span>(), exclude = <span class='fu'>chr</span>())
+<span class='fu'>select_vars_</span>(<span class='no'>vars</span>, <span class='no'>args</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>chr</span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>slice_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>slice_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>summarise_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>summarise_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>summarize_</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
+<span class='fu'>summarize_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A <code><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl()</a></code></p></td>
+      <td><p>A <code><a href='tbl.html'>tbl()</a></code></p></td>
     </tr>
     <tr>
       <th>vars</th>
@@ -292,16 +288,16 @@ argument. See <code>vignette("programming")</code> for more information.</p>
     </tr>
     <tr>
       <th>wt</th>
-      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_data_masking.html'>data-masking</a></code>&gt; Frequency weights.
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Frequency weights.
 Can be a variable (or combination of variables) or <code>NULL</code>. <code>wt</code>
 is computed once for each unique combination of the counted
 variables.</p><ul>
-<li><p>If a variable, <code><a href='https://dplyr.tidyverse.org/reference/count.html'>count()</a></code> will compute <code><a href='https://rdrr.io/r/base/sum.html'>sum(wt)</a></code> for each unique
+<li><p>If a variable, <code><a href='count.html'>count()</a></code> will compute <code><a href='https://rdrr.io/r/base/sum.html'>sum(wt)</a></code> for each unique
 combination.</p></li>
 <li><p>If <code>NULL</code>, the default, the computation depends on whether a
 column of frequency counts <code>n</code> exists in the data frame. If it
 exists, the counts are computed with <code><a href='https://rdrr.io/r/base/sum.html'>sum(n)</a></code> for each unique
-combination. Otherwise, <code><a href='https://dplyr.tidyverse.org/reference/context.html'>n()</a></code> is used to compute the counts.
+combination. Otherwise, <code><a href='context.html'>n()</a></code> is used to compute the counts.
 Supply <code>wt = n()</code> to force this behaviour even if you have an
 <code>n</code> column in the data frame.</p></li>
 </ul></td>
@@ -316,7 +312,7 @@ Supply <code>wt = n()</code> to force this behaviour even if you have an
     </tr>
     <tr>
       <th>.drop</th>
-      <td><p>When <code>.drop = TRUE</code>, empty groups are dropped. See <code><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default()</a></code> for
+      <td><p>When <code>.drop = TRUE</code>, empty groups are dropped. See <code><a href='group_by_drop_default.html'>group_by_drop_default()</a></code> for
 what the default value is for this argument.</p></td>
     </tr>
     <tr>
@@ -339,7 +335,7 @@ first row of values.</p></td>
     </tr>
     <tr>
       <th>add</th>
-      <td><p>When <code>FALSE</code>, the default, <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code> will
+      <td><p>When <code>FALSE</code>, the default, <code><a href='group_by.html'>group_by()</a></code> will
 override existing groups. To add to the existing groups, use
 <code>.add = TRUE</code>.</p>
 <p>This argument was previously called <code>add</code>, but that prevented
