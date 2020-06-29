@@ -36,6 +36,7 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
 
   if (type == "right" || type == "full") {
     miss_x <- !vec_in(y_key, x_key, na_equal = na_equal)
+    miss_x[is.na(miss_x)] <- TRUE
 
     if (any(miss_x)) {
       y_extra <- seq_len(vec_size(y_key))[miss_x]

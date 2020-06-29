@@ -134,6 +134,19 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
 
   out <- anti_join(df1, df2, by = "a", na_matches = "never")
   expect_equal(out, tibble(a = NA_integer_))
+
+  dat1 <- tibble(
+    name = c("a", "c"),
+    var1 = c(1, 2)
+  )
+  dat3 <- tibble(
+    name = c("a", NA_character_),
+    var3 = c(5, 6)
+  )
+  expect_equal(
+    full_join(dat1, dat3, by = "name", na_matches = "never"),
+    tibble(name = c("a", "c", NA), var1 = c(1, 2, NA), var3 = c(5, NA, 6))
+  )
 })
 
 # nest_join ---------------------------------------------------------------
