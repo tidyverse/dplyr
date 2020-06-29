@@ -16,8 +16,9 @@
 #'   This argument was previously called `add`, but that prevented
 #'   creating a new grouping variable called `add`, and conflicts with
 #'   our naming conventions.
-#' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
-#'   what the default value is for this argument.
+#' @param .drop Drop groups formed by factor levels that don't appear in the
+#'   data? The default is `TRUE` except when `.data` has been previously
+#'   grouped with `.drop = FALSE`. See [group_by_drop_default()] for details.
 #' @return A grouped data frame with class [`grouped_df`][grouped_df],
 #'   unless the combination of `...` and `add` yields a empty set of
 #'   grouping columns, in which case a tibble will be returned.
