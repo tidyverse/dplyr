@@ -2,8 +2,15 @@
 
 * New function `cur_data_all()` similar to `cur_data()` but includes the grouping variables (#5342). 
 
-* `count()` now displays the correct hint to force a count, `wt = n()` 
-  (#5324).
+* `count()` and `tally()` no longer automatically weights by column `n` if 
+  present (#5298). dplyr 1.0.0 introduced this behaviour because of Hadley's
+  faulty memory. Historically `tally()` automatically weighted and `count()` 
+  did not, but this behaviour was accidentally changed in 0.8.2 (#4408) so that 
+  neither automatically weighted by `n`. Since 0.8.2 is almost a year old,
+  and the automatically weighting behaviour was a little confusing anyway,
+  we've removed it from both `count()` and `tally()`.
+  
+    Use of `wt = n()` is now deprecated; now just omit the `wt` argument.
 
 * `coalesce()` now supports data frames correctly (#5326).
 

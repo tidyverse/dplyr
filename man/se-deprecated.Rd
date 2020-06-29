@@ -70,26 +70,19 @@ summarize_(.data, ..., .dots = list())
 \item{vars}{Various meanings depending on the verb.}
 
 \item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> Frequency weights.
-Can be a variable (or combination of variables) or \code{NULL}. \code{wt}
-is computed once for each unique combination of the counted
-variables.
+Can be \code{NULL} or a variable:
 \itemize{
-\item If a variable, \code{count()} will compute \code{sum(wt)} for each unique
-combination.
-\item If \code{NULL}, the default, the computation depends on whether a
-column of frequency counts \code{n} exists in the data frame. If it
-exists, the counts are computed with \code{sum(n)} for each unique
-combination. Otherwise, \code{n()} is used to compute the counts.
-Supply \code{wt = n()} to force this behaviour even if you have an
-\code{n} column in the data frame.
+\item If \code{NULL} (the default), counts the number of rows in each group.
+\item If a variable, computes \code{sum(wt)} for each group.
 }}
 
 \item{sort}{If \code{TRUE}, will show the largest groups at the top.}
 
 \item{.data}{A data frame.}
 
-\item{.drop}{When \code{.drop = TRUE}, empty groups are dropped. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for
-what the default value is for this argument.}
+\item{.drop}{Drop groups formed by factor levels that don't appear in the
+data? The default is \code{TRUE} except when \code{.data} has been previously
+grouped with \code{.drop = FALSE}. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for details.}
 
 \item{.keep_all}{If \code{TRUE}, keep all variables in \code{.data}.
 If a combination of \code{...} is not distinct, this keeps the
