@@ -295,7 +295,7 @@ their own positions in the tibble. The following calls are completely
 equivalent from dplyr's point of view:
 
 ```{r}
-# `year` represents the integer 1
+# `name` represents the integer 1
 select(starwars, name)
 select(starwars, 1)
 ```
