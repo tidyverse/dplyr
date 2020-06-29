@@ -273,8 +273,9 @@ selection of variables. Like <code><a href='https://dplyr.tidyverse.org/referenc
     </tr>
     <tr>
       <th>.drop</th>
-      <td><p>When <code>.drop = TRUE</code>, empty groups are dropped. See <code><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default()</a></code> for
-what the default value is for this argument.</p></td>
+      <td><p>Drop groups formed by factor levels that don't appear in the
+data? The default is <code>TRUE</code> except when <code>.data</code> has been previously
+grouped with <code>.drop = FALSE</code>. See <code><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default()</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>.vars</th>
