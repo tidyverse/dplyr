@@ -227,7 +227,7 @@ mutate_cols <- function(.data, ...) {
     return(NULL)
   }
 
-  new_columns <- list()
+  new_columns <- set_names(list(), character())
 
   tryCatch({
     for (i in seq_along(dots)) {
