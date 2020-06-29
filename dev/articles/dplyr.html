@@ -617,7 +617,7 @@
 <p>One of the appealing features of dplyr is that you can refer to columns from the tibble as if they were regular variables. However, the syntactic uniformity of referring to bare column names hides semantical differences across the verbs. A column symbol supplied to <code><a href="../reference/select.html">select()</a></code> does not have the same meaning as the same symbol supplied to <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
 <p>Selecting operations expect column names and positions. Hence, when you call <code><a href="../reference/select.html">select()</a></code> with bare variable names, they actually represent their own positions in the tibble. The following calls are completely equivalent from dplyr’s point of view:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="co"># `year` represents the integer 1</span>
+<span class="co"># `name` represents the integer 1</span>
 <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">starwars</span>, <span class="kw">name</span>)
 <span class="co">#&gt; # A tibble: 87 x 1</span>
 <span class="co">#&gt;   name          </span>
