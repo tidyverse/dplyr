@@ -9,8 +9,6 @@
   we've removed it from both `count()` and `tally()`.
   
     Use of `wt = n()` is now deprecated; now just omit the `wt` argument.
-* `count()` now displays the correct hint to force a count, `wt = n()` 
-  (#5324).
 
 * `coalesce()` now supports data frames correctly (#5326).
 
