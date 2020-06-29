@@ -62,6 +62,10 @@ test_that("bind_cols unpacks tibbles", {
   )
 })
 
+test_that("bind_cols() treats data frames with 0 columns as NULL", {
+  df <- data.frame(x = 1:3)
+  expect_equal(bind_cols(df, data.frame()), df)
+})
 
 # rows --------------------------------------------------------------------
 

@@ -132,7 +132,7 @@ bind_cols <- function(...) {
   dots <- list2(...)
 
   dots <- squash_if(dots, vec_is_list)
-  dots <- discard(dots, is.null)
+  dots <- discard(dots, function(.) is.null(.) || (is.data.frame(.) && ncol(.) == 0))
 
   # Strip names off of data frame components so that vec_cbind() unpacks them
   is_data_frame <- map_lgl(dots, is.data.frame)
