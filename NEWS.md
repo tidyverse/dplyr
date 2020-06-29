@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* New function `cur_data_all()` similar to `cur_data()` but includes the grouping variables (#5342). 
+
 * `count()` now displays the correct hint to force a count, `wt = n()` 
   (#5324).
 

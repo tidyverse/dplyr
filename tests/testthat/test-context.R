@@ -28,7 +28,7 @@ test_that("cur_group_idx() gives unique id", {
 })
 
 
-test_that("cur_data() gives current data without groups", {
+test_that("cur_data() gives current data without groups, cur_data_all() includes groups", {
   df <- tibble(x = c("b", "a", "b"), y = 1:3)
   gf <- group_by(df, x)
 
@@ -40,6 +40,10 @@ test_that("cur_data() gives current data without groups", {
   expect_equal(
     gf %>% summarise(x = list(cur_data())) %>% pull(),
     list(tibble(y = 2L), tibble(y = c(1L, 3L)))
+  )
+  expect_equal(
+    gf %>% summarise(x = list(cur_data_all())) %>% pull(),
+    list(tibble(x = "a", y = 2L), tibble(x = "b", y = c(1L, 3L)))
   )
 })
 
@@ -58,11 +62,17 @@ test_that("cur_group_rows() retrieves row position in original data", {
   )
 })
 
-test_that("cur_data() works sequentially", {
+test_that("cur_data() and cur_data_all() work sequentially", {
   df <- tibble(a = 1)
   expect_equal(
     mutate(df, x = ncol(cur_data()), y = ncol(cur_data())),
     tibble(a = 1, x = 1, y = 2)
+  )
+
+  gf <- tibble(a = 1, b = 2) %>% group_by(a)
+  expect_equal(
+    mutate(gf, x = ncol(cur_data_all()), y = ncol(cur_data_all())),
+    group_by(tibble(a = 1, b = 2, x = 2, y = 3), a)
   )
 })
 
@@ -71,6 +81,7 @@ test_that("give useful error messages when not applicable", {
     n()
 
     cur_data()
+    cur_data_all()
 
     cur_column()
     cur_group()
