@@ -53,8 +53,8 @@ as_group_map_function <- function(.f) {
 #'
 #' @return
 #'  - `group_modify()` returns a grouped tibble. In that case `.f` must return a data frame.
-#'  - `group_map()` returns a list of results from calling `.f` on each group
-#'  - `group_walk()` calls `.f` for side effects and returns the input `.tbl`, invisibly
+#'  - `group_map()` returns a list of results from calling `.f` on each group.
+#'  - `group_walk()` calls `.f` for side effects and returns the input `.tbl`, invisibly.
 #'
 #' @examples
 #'
