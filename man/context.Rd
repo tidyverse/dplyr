@@ -15,7 +15,7 @@ n()
 
 cur_data()
 
-cur_data_all(group_vars = FALSE)
+cur_data_all()
 
 cur_group()
 
