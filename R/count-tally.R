@@ -6,7 +6,7 @@
 #' `df %>% group_by(a, b) %>% summarise(n = n())`.
 #' `count()` is paired with `tally()`, a lower-level helper that is equivalent
 #' to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
-#' switching the summary from from `n = n()` to `n = sum(wt)`.
+#' switching the summary from `n = n()` to `n = sum(wt)`.
 #'
 #' `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
 #' but use `mutate()` instead of `summarise()` so that they add a new column
@@ -146,7 +146,7 @@ tally_n <- function(x, wt) {
   if (quo_is_null(wt) && "n" %in% tbl_vars(x) && !"n" %in% group_vars(x)) {
     inform(c(
       "Using `n` as weighting variable",
-      i = "Quiet this message with `wt = n` or count rows with `wt = 1`"
+      i = "Quiet this message with `wt = n` or count rows with `wt = n()`"
     ))
     wt <- quo(n)
   }

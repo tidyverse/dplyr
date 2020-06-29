@@ -95,7 +95,7 @@ NULL
 #'
 #' Tidy selection is a variant of tidy evaluation. This means that inside
 #' functions, tidy-select arguments require special attention, as described in
-#' the Indirection section. If you've never head of tidy evaluation before,
+#' the Indirection section. If you've never heard of tidy evaluation before,
 #' start with `vignette("programming")`.
 #'
 #'
