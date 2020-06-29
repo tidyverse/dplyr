@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* New function `cur_data_all()` similar to `cur_data()` but includes the grouping variables (#5342). 
+
 * `count()` and `tally()` no longer automatically weights by column `n` if 
   present (#5298). dplyr 1.0.0 introduced this behaviour because of Hadley's
   faulty memory. Historically `tally()` automatically weighted and `count()` 

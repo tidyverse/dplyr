@@ -4,6 +4,9 @@ Error: `n()` must only be used inside dplyr verbs.
 > cur_data()
 Error: `cur_data()` must only be used inside dplyr verbs.
 
+> cur_data_all()
+Error: `cur_data_all()` must only be used inside dplyr verbs.
+
 > cur_column()
 Error: `cur_column()` must only be used inside `across()`.
 
