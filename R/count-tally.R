@@ -6,7 +6,7 @@
 #' `df %>% group_by(a, b) %>% summarise(n = n())`.
 #' `count()` is paired with `tally()`, a lower-level helper that is equivalent
 #' to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
-#' switching the summary from from `n = n()` to `n = sum(wt)`.
+#' switching the summary from `n = n()` to `n = sum(wt)`.
 #'
 #' `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
 #' but use `mutate()` instead of `summarise()` so that they add a new column
@@ -15,13 +15,20 @@
 #' @param x A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param ... <[`data-masking`][dplyr_data_masking]> Variables to group by.
-#' @param wt <[`data-masking`][dplyr_data_masking]> If omitted, will count the
-#'   number of rows. If specified, will perform a "weighted" count by summing
-#'   the (non-missing) values of variable `wt`.
+#' @param wt <[`data-masking`][dplyr_data_masking]> Frequency weights.
+#'   Can be a variable (or combination of variables) or `NULL`. `wt`
+#'   is computed once for each unique combination of the counted
+#'   variables.
 #'
-#'   If omitted, and column `n` exists, it will automatically be used as a
-#'   weighting variable, although you will have to specify `name` to provide
-#'   a new name for the output.
+#'   * If a variable, `count()` will compute `sum(wt)` for each unique
+#'     combination.
+#'
+#'   * If `NULL`, the default, the computation depends on whether a
+#'     column of frequency counts `n` exists in the data frame. If it
+#'     exists, the counts are computed with `sum(n)` for each unique
+#'     combination. Otherwise, `n()` is used to compute the counts.
+#'     Supply `wt = n()` to force this behaviour even if you have an
+#'     `n` column in the data frame.
 #' @param sort If `TRUE`, will show the largest groups at the top.
 #' @param name The name of the new column in the output.
 #'
@@ -72,6 +79,8 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by
   }
 
   out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
+
+  # Ensure grouping is transient
   if (is.data.frame(x)) {
     out <- dplyr_reconstruct(out, x)
   }
@@ -82,7 +91,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by
 #' @rdname count
 tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
-  name <- check_name(x, name)
+  name <- check_name(name, group_vars(x))
 
   out <- local({
     old.options <- options(dplyr.summarise.inform = FALSE)
@@ -120,7 +129,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = depr
 #' @export
 add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
-  name <- check_name(x, name)
+  name <- check_name(name, tbl_vars(x))
   out <- mutate(x, !!name := !!n)
 
   if (sort) {
@@ -134,31 +143,42 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 tally_n <- function(x, wt) {
   wt <- enquo(wt)
-  if (quo_is_null(wt) && "n" %in% tbl_vars(x)) {
-    inform("Using `n` as weighting variable")
+  if (quo_is_null(wt) && "n" %in% tbl_vars(x) && !"n" %in% group_vars(x)) {
+    inform(c(
+      "Using `n` as weighting variable",
+      i = "Quiet this message with `wt = n` or count rows with `wt = n()`"
+    ))
     wt <- quo(n)
   }
 
-  if (quo_is_null(wt)) {
-    quo(n())
+  if (quo_is_null(wt) || identical(quo_get_expr(wt), expr(n()))) {
+    expr(n())
   } else {
-    quo(sum(!!wt, na.rm = TRUE))
+    expr(sum(!!wt, na.rm = TRUE))
   }
 }
 
-check_name <- function(df, name) {
+check_name <- function(name, vars) {
   if (is.null(name)) {
-    if ("n" %in% tbl_vars(df)) {
-      abort(c(
-        "Column `n` is already present in output.",
+    name <- n_name(vars)
+
+    if (name != "n") {
+      inform(glue_c(
+        "Storing counts in `{name}`, as `n` already present in input",
         i = "Use `name = \"new_name\"` to pick a new name."
       ))
     }
-    return("n")
+  } else if (!is.character(name) || length(name) != 1) {
+    abort("`name` must be a single string.")
   }
 
-  if (!is.character(name) || length(name) != 1) {
-    abort("`name` must be a single string.")
+  name
+}
+
+n_name <- function(x) {
+  name <- "n"
+  while (name %in% x) {
+    name <- paste0("n", name)
   }
 
   name

@@ -267,7 +267,7 @@ mods %>% summarise(broom::tidy(mod))
 
 ### Simulations
 
-I think this is particularly elegant way to perform simulations, because it lets you store simulated values along with the parameters that generated them. For example, imagine you have the following data frame that describes the properties of 3 samples from the uniform distribution:
+I think this is a particularly elegant way to perform simulations, because it lets you store simulated values along with the parameters that generated them. For example, imagine you have the following data frame that describes the properties of 3 samples from the uniform distribution:
 
 ```{r}
 df <- tribble(
@@ -286,7 +286,7 @@ df %>%
   mutate(data = list(runif(n, min, max)))
 ```
 
-Note the use of `list()` here - `runif()` returns multiple values and a `mutate()` expression has to return something of length 1. `list()` means that we'll get a list column where each row is a list containing multiple values. If you forget to use `list()`, dplyr will you a hint:
+Note the use of `list()` here - `runif()` returns multiple values and a `mutate()` expression has to return something of length 1. `list()` means that we'll get a list column where each row is a list containing multiple values. If you forget to use `list()`, dplyr will give you a hint:
 
 ```{r, error = TRUE}
 df %>% 
@@ -388,6 +388,6 @@ We've questioned the need for `do()` for quite some time, because it never felt 
       summarise(nrows = nrow(cur_data()))
     ```
 
-    If needed (unlike here), you can wrap the results in list yourself.
+    If needed (unlike here), you can wrap the results in a list yourself.
 
 The addition of `cur_data()`/`across()` and the increased scope of `summarise()` means that `do()` is no longer needed, so it is now superseded.

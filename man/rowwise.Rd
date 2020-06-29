@@ -70,6 +70,6 @@ params \%>\%
   summarise(z = list(rnorm(n, mean, sd)))
 }
 \seealso{
-\code{\link[=nest_by]{nest_by()}} for a convenient way of creating rowwwise data frames
+\code{\link[=nest_by]{nest_by()}} for a convenient way of creating rowwise data frames
 with nested data.
 }

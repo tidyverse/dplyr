@@ -1,156 +1,176 @@
 ## Release summary
 
-This is an minor release
-
 ## Test environments
 
-* local mac OS install, R 3.6.0
-* ubuntu 14.04 (on travis-ci), R-devel, R 3.6.0, R 3.5.2, R 3.4.4, R 3.3.3, R 3.2.5.
-* mac OS 10.3.3 (on travis-ci) R 3.6.0
+* local mac OS install, R 4.0.0
+* ubuntu 16.04 (on github actions), R-devel, R 4.0.0, R 3.6.3, 3.5.3, R 3.4.4, R 3.3.3
+* mac OS 10.15.4 (on github actions) R-devel, R 3.6.0
+* Microsoft Windows Server 2019 10.0.17763 (on github actions) R 4.0.0
 * win-builder (devel)
 
 ## R CMD check results
 
-0 ERRORs | 0 WARNINGs | 1 NOTE
+0 errors v | 0 warnings v | 0 notes v
 
-*   checking installed package size ... NOTE
-    installed size is  8.4Mb
-    sub-directories of 1Mb or more:
-      libs   6.1Mb
+R CMD check succeeded
 
 ## revdepcheck results
 
-We checked 1983 reverse dependencies (1765 from CRAN + 218 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 2397 reverse dependencies (2104 from CRAN + 293 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 8 new problems
- * We failed to check 82 packages
+ * We saw 54 new problems
+ * We failed to check 92 packages
 
-Issues with CRAN packages are summarised below.
+Newly failing R packages are listed below. We have been working on this release for nearly two months now, and every maintainer has been notified at least 3 times, the last several times with an explicit offer of help if needed. Unfortunately I don't think there's anything more we can do from our end, but we're happy to keep working with the maintainers on fixes.
 
 ### New problems
 
-## Missing or unexported object: ‘dplyr::rbind_all’
-
-aemo
-boxr
-ggvis
-gQTLstats
-mlVAR
-Rariant
-
-Emails or pull requests sent. The `rbind_all()` function has finally been 
-removed after being deprecated for a long time. 
-
-## Unexported objects imported by ':::' calls: ‘dplyr:::compat_lazy_dots’ ‘dplyr:::find_var’
-
-dbplyr
-
-Pull request sent. 
-
-## explore
-
-Package `explore` fails because of this fix: 
-
-* `group_by()` does not create an arbitrary NA group when grouping by factors with `drop = TRUE` (#4460).
-
-We've sent a pull request. 
-
-## checking S3 generic/method consistency ... WARNING
-
-group_modify() formals have changed, this affects package egor, pull request sent
-
-## Already fixed
-
-broomExtra development version appears to work, the failures of packages
-ggstatsplot and groupedstats are related. 
-
-## Other issues
-
-- Packages DeLorean, geneXtendeR, MonetDBLite, OncoSimulR, perturbatr, sigmajs timed out
-- Package MXM had a NOTE about install size
-- Packages rgho and TCGAutils failed because of a remote api call
+* amt
+* BMSC
+* cattonum
+* CollapseLevels
+* cvms
+* ddpcr
+* disk.frame
+* DLMtool
+* docxtools
+* driftR
+* easyr
+* eda4treeR
+* egor
+* episheet
+* expstudies
+* fabletools
+* fingertipscharts
+* foieGras
+* geometr
+* geomnet
+* getTBinR
+* ggedit
+* gratia
+* HaDeX
+* healthcareai
+* idmodelr
+* lans2r
+* LexisNexisTools
+* mmetrics
+* neuropsychology
+* opentripplanner
+* pammtools
+* photosynthesis
+* pmdplyr
+* rabhit
+* ratPASTA
+* RCMIP5
+* rsample
+* saotd
+* sergeant
+* simglm
+* SIRItoGTFS
+* skynet
+* strapgod
+* StratigrapheR
+* tidyjson
+* tidyRSS
+* tidystats
+* tidystopwords
+* tree.bins
+* treeplyr
+* vcfR
+* vpc
+* yamlet
 
 ### Failed to check
 
 * ACDm                 (NA)
 * ADMMsigma            (NA)
 * airGR                (NA)
+* arrow                (NA)
 * BAS                  (NA)
+* bayesammi            (NA)
 * BayesPostEst         (NA)
+* bigsnpr              (NA)
+* BivRec               (NA)
+* bkmr                 (NA)
 * BMTME                (NA)
 * BradleyTerryScalable (NA)
 * brunnermunzel        (NA)
 * bsam                 (NA)
+* carat                (NA)
 * CaseBasedReasoning   (NA)
 * CB2                  (NA)
 * circumplex           (NA)
 * clustermq            (NA)
 * colorednoise         (NA)
+* concurve             (NA)
 * corrcoverage         (NA)
 * Countr               (NA)
 * cpr                  (NA)
 * crawl                (NA)
+* dann                 (NA)
 * DataVisualizations   (NA)
-* DeLorean             (NA)
 * DepthProc            (NA)
 * dexter               (NA)
 * dodgr                (NA)
+* downscaledl          (NA)
+* dscore               (NA)
 * dtwclust             (NA)
 * dynfrail             (NA)
 * exuber               (NA)
 * fable                (NA)
 * fastLink             (NA)
-* fingertipsR          (NA)
 * fourierin            (NA)
-* FSelectorRcpp        (NA)
 * gap                  (NA)
+* gastempt             (NA)
 * GenomicMating        (NA)
+* geodiv               (NA)
 * goldi                (NA)
 * graphicalVAR         (NA)
 * heatwaveR            (NA)
 * idefix               (NA)
 * iRF                  (NA)
+* joineRML             (NA)
 * lpirfs               (NA)
 * mfbvar               (NA)
 * miceFast             (NA)
 * MixMatrix            (NA)
 * momentuHMM           (NA)
+* MonetDBLite          (NA)
 * morse                (NA)
 * mrgsolve             (NA)
-* nlmixr               (NA)
-* oceanis              (NA)
+* NobBS                (NA)
 * openair              (NA)
 * partition            (NA)
 * pccc                 (NA)
 * phase1PRMD           (NA)
 * phenofit             (NA)
+* phyr                 (NA)
 * PLNmodels            (NA)
 * pomp                 (NA)
-* poppr                (NA)
 * PPforest             (NA)
+* psychmeta            (NA)
 * psychonetrics        (NA)
+* qgraph               (NA)
 * quanteda             (NA)
 * quokar               (NA)
 * qwraps2              (NA)
+* rbridge              (NA)
+* registr              (NA)
 * resautonet           (NA)
-* rgho                 (NA)
 * RSSL                 (NA)
 * RxODE                (NA)
 * sarima               (NA)
 * scanstatistics       (NA)
+* SCORPIUS             (NA)
 * SCPME                (NA)
-* sf                   (NA)
-* sigminer             (NA)
 * SimBIID              (NA)
-* simputation          (NA)
 * simts                (NA)
 * SpaCCr               (NA)
 * stcos                (NA)
 * telefit              (NA)
-* vapour               (NA)
+* TestDimorph          (NA)
+* ToxicoGx             (NA)
 * VarSelLCM            (NA)
 * vlad                 (NA)
 * walker               (NA)
 * weibulltools         (NA)
-* WHO                  (NA)
-* windfarmGA           (NA)

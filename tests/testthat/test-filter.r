@@ -484,3 +484,16 @@ test_that("filter() with empty dots still calls dplyr_row_slice()", {
   expect_s3_class(filter(foo), class(tbl), exact = TRUE)
   expect_s3_class(filter(foo, x == 1), class(tbl), exact = TRUE)
 })
+
+test_that("can filter() with unruly class", {
+  local_methods(
+    `[.dplyr_foobar` = function(x, i, ...) new_dispatched_quux(vec_slice(x, i)),
+    dplyr_row_slice.dplyr_foobar = function(x, i, ...) x[i, ]
+  )
+
+  df <- foobar(data.frame(x = 1:3))
+  expect_identical(
+    filter(df, x <= 2),
+    quux(data.frame(x = 1:2, dispatched = TRUE))
+  )
+})

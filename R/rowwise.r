@@ -23,7 +23,7 @@
 #'
 #'   **NB**: unlike `group_by()` you can not create new variables here but
 #'   instead you can select multiple variables with (e.g.) `everything()`.
-#' @seealso [nest_by()] for a convenient way of creating rowwwise data frames
+#' @seealso [nest_by()] for a convenient way of creating rowwise data frames
 #'   with nested data.
 #' @return A row-wise data frame with class `rowwise_df`. Note that a
 #'   `rowwise_df` is implicitly grouped by row, but is not a `grouped_df`.
@@ -94,7 +94,7 @@ new_rowwise_df <- function(data, group_data) {
 
   nrow <- nrow(data)
 
-  group_data <- new_tibble(vec_data(group_data), nrow = nrow) # strip attributes
+  group_data <- new_tibble(dplyr_vec_data(group_data), nrow = nrow) # strip attributes
   group_data$.rows <- new_list_of(as.list(seq_len(nrow)), ptype = integer())
   new_tibble(data, groups = group_data, nrow = nrow, class = "rowwise_df")
 }
@@ -112,7 +112,7 @@ tbl_sum.rowwise_df <- function(x) {
 
 #' @export
 as_tibble.rowwise_df <- function(x, ...) {
-  new_tibble(vec_data(x), nrow = nrow(x))
+  new_tibble(dplyr_vec_data(x), nrow = nrow(x))
 }
 
 #' @importFrom tibble is_tibble

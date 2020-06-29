@@ -28,13 +28,20 @@ lazy data frame (e.g. from dbplyr or dtplyr).}
 
 \item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Variables to group by.}
 
-\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> If omitted, will count the
-number of rows. If specified, will perform a "weighted" count by summing
-the (non-missing) values of variable \code{wt}.
-
-If omitted, and column \code{n} exists, it will automatically be used as a
-weighting variable, although you will have to specify \code{name} to provide
-a new name for the output.}
+\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> Frequency weights.
+Can be a variable (or combination of variables) or \code{NULL}. \code{wt}
+is computed once for each unique combination of the counted
+variables.
+\itemize{
+\item If a variable, \code{count()} will compute \code{sum(wt)} for each unique
+combination.
+\item If \code{NULL}, the default, the computation depends on whether a
+column of frequency counts \code{n} exists in the data frame. If it
+exists, the counts are computed with \code{sum(n)} for each unique
+combination. Otherwise, \code{n()} is used to compute the counts.
+Supply \code{wt = n()} to force this behaviour even if you have an
+\code{n} column in the data frame.
+}}
 
 \item{sort}{If \code{TRUE}, will show the largest groups at the top.}
 
@@ -57,7 +64,7 @@ group transiently, so the output has the same groups as the input.
 \code{df \%>\% group_by(a, b) \%>\% summarise(n = n())}.
 \code{count()} is paired with \code{tally()}, a lower-level helper that is equivalent
 to \code{df \%>\% summarise(n = n())}. Supply \code{wt} to perform weighted counts,
-switching the summary from from \code{n = n()} to \code{n = sum(wt)}.
+switching the summary from \code{n = n()} to \code{n = sum(wt)}.
 
 \code{add_count()} are \code{add_tally()} are equivalents to \code{count()} and \code{tally()}
 but use \code{mutate()} instead of \code{summarise()} so that they add a new column

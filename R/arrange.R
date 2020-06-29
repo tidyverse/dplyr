@@ -1,11 +1,11 @@
 #' Arrange rows by column values
 #'
 #' @description
-#' `arrange()` order the rows of a data frame rows by the values of selected
+#' `arrange()` orders the rows of a data frame by the values of selected
 #' columns.
 #'
 #' Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
-#' need to explicit mention grouping variables (or use  `by_group = TRUE`)
+#' need to explicitly mention grouping variables (or use  `by_group = TRUE`)
 #' in order to group by them, and functions of variables are evaluated
 #' once per data frame, not once per group.
 #'
@@ -114,7 +114,7 @@ arrange_rows <- function(.data, dots) {
   #       revisit when we have something like mutate_one() to
   #       evaluate one quosure in the data mask
   data <- tryCatch({
-    transmute(ungroup(.data), !!!quosures)
+    transmute(new_data_frame(.data), !!!quosures)
   }, error = function(cnd) {
     stop_arrange_transmute(cnd)
   })

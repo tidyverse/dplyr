@@ -51,6 +51,29 @@ test_that("doesn't expand row names", {
   expect_equal(.row_names_info(out, 1), -10)
 })
 
+test_that("reconstruct method gets a data frame", {
+  seen_df <- NULL
+
+  local_methods(
+    dplyr_reconstruct.dplyr_foobar = function(data, template) {
+      if (is.data.frame(data)) {
+        seen_df <<- TRUE
+      }
+      NextMethod()
+    }
+  )
+
+  df <- foobar(data.frame(x = 1))
+
+  seen_df <- FALSE
+  dplyr_col_modify(df, list(y = 2))
+  expect_true(seen_df)
+
+  seen_df <- FALSE
+  dplyr_row_slice(df, 1)
+  expect_true(seen_df)
+})
+
 # dplyr_reconstruct -------------------------------------------------------
 
 test_that("classes are restored", {
@@ -89,4 +112,22 @@ test_that("compact row names are retained", {
     .row_names_info(x, type = 0L),
     .row_names_info(expect, type = 0L)
   )
+})
+
+test_that("dplyr_reconstruct() strips attributes before dispatch", {
+  local_methods(
+    dplyr_reconstruct.dplyr_foobar = function(data, template) {
+      out <<- data
+    }
+  )
+
+  df <- foobar(data.frame(x = 1), foo = "bar")
+  out <- NULL
+  dplyr_reconstruct(df, df)
+  expect_identical(out, data.frame(x = 1))
+
+  df <- foobar(data.frame(x = 1, row.names = "a"), foo = "bar")
+  out <- NULL
+  dplyr_reconstruct(df, df)
+  expect_identical(out, data.frame(x = 1, row.names = "a"))
 })
