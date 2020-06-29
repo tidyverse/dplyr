@@ -61,7 +61,7 @@ df %&amp;gt;% count(a, b) is roughly equivalent to
 df %&amp;gt;% group_by(a, b) %&amp;gt;% summarise(n = n()).
 count() is paired with tally(), a lower-level helper that is equivalent
 to df %&amp;gt;% summarise(n = n()). Supply wt to perform weighted counts,
-switching the summary from from n = n() to n = sum(wt).
+switching the summary from n = n() to n = sum(wt).
 add_count() are add_tally() are equivalents to count() and tally()
 but use mutate() instead of summarise() so that they add a new column
 with group-wise counts." />
@@ -225,7 +225,7 @@ with group-wise counts." />
 <code>df %&gt;% group_by(a, b) %&gt;% summarise(n = n())</code>.
 <code><a href='https://dplyr.tidyverse.org/reference/count.html'>count()</a></code> is paired with <code><a href='https://dplyr.tidyverse.org/reference/count.html'>tally()</a></code>, a lower-level helper that is equivalent
 to <code>df %&gt;% summarise(n = n())</code>. Supply <code>wt</code> to perform weighted counts,
-switching the summary from from <code>n = n()</code> to <code>n = sum(wt)</code>.</p>
+switching the summary from <code>n = n()</code> to <code>n = sum(wt)</code>.</p>
 <p><code><a href='https://dplyr.tidyverse.org/reference/count.html'>add_count()</a></code> are <code><a href='https://dplyr.tidyverse.org/reference/count.html'>add_tally()</a></code> are equivalents to <code><a href='https://dplyr.tidyverse.org/reference/count.html'>count()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/count.html'>tally()</a></code>
 but use <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code> instead of <code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise()</a></code> so that they add a new column
 with group-wise counts.</p>
