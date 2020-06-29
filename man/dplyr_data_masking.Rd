@@ -6,7 +6,7 @@
 \description{
 This page the describes the \verb{<data-masking>} argument modifier which
 indicates that the argument uses tidy evaluation with \strong{data masking}.
-If you've never head of tidy evaluation before, start with
+If you've never heard of tidy evaluation before, start with
 \code{vignette("programming")}.
 }
 \section{Key terms}{
