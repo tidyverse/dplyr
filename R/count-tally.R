@@ -16,19 +16,10 @@
 #'   lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param ... <[`data-masking`][dplyr_data_masking]> Variables to group by.
 #' @param wt <[`data-masking`][dplyr_data_masking]> Frequency weights.
-#'   Can be a variable (or combination of variables) or `NULL`. `wt`
-#'   is computed once for each unique combination of the counted
-#'   variables.
+#'   Can be `NULL` or a variable:
 #'
-#'   * If a variable, `count()` will compute `sum(wt)` for each unique
-#'     combination.
-#'
-#'   * If `NULL`, the default, the computation depends on whether a
-#'     column of frequency counts `n` exists in the data frame. If it
-#'     exists, the counts are computed with `sum(n)` for each unique
-#'     combination. Otherwise, `n()` is used to compute the counts.
-#'     Supply `wt = n()` to force this behaviour even if you have an
-#'     `n` column in the data frame.
+#'   * If `NULL` (the default), counts the number of rows in each group.
+#'   * If a variable, computes `sum(wt)` for each group.
 #' @param sort If `TRUE`, will show the largest groups at the top.
 #' @param name The name of the new column in the output.
 #'
@@ -143,15 +134,17 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 tally_n <- function(x, wt) {
   wt <- enquo(wt)
-  if (quo_is_null(wt) && "n" %in% tbl_vars(x) && !"n" %in% group_vars(x)) {
-    inform(c(
-      "Using `n` as weighting variable",
-      i = "Quiet this message with `wt = n` or count rows with `wt = n()`"
+
+  if (is_call(quo_get_expr(wt), "n", n = 0)) {
+    # Provided only by dplyr 1.0.0. See #5349 for discussion.
+    warn(c(
+      "`wt = n()` is deprecated",
+      i = "You can now omit the `wt` argument"
     ))
-    wt <- quo(n)
+    wt <- quo(NULL)
   }
 
-  if (quo_is_null(wt) || identical(quo_get_expr(wt), expr(n()))) {
+  if (quo_is_null(wt)) {
     expr(n())
   } else {
     expr(sum(!!wt, na.rm = TRUE))
