@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -219,22 +223,22 @@ better of performing the comparisons directly, yourself, in order to
 generate more informative test failures.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bench_tbls</span>(<span class='no'>tbls</span>, <span class='no'>op</span>, <span class='no'>...</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bench_compare.html'>bench_tbls</a></span>(<span class='kw'>tbls</span>, <span class='kw'>op</span>, <span class='kw'>...</span>, times = <span class='fl'>10</span>)
 
-<span class='fu'>compare_tbls</span>(<span class='no'>tbls</span>, <span class='no'>op</span>, <span class='kw'>ref</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compare</span> <span class='kw'>=</span> <span class='no'>equal_data_frame</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bench_compare.html'>compare_tbls</a></span>(<span class='kw'>tbls</span>, <span class='kw'>op</span>, ref = <span class='kw'>NULL</span>, compare = <span class='kw'>equal_data_frame</span>, <span class='kw'>...</span>)
 
-<span class='fu'>compare_tbls2</span>(<span class='no'>tbls_x</span>, <span class='no'>tbls_y</span>, <span class='no'>op</span>, <span class='kw'>ref</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compare</span> <span class='kw'>=</span> <span class='no'>equal_data_frame</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bench_compare.html'>compare_tbls2</a></span>(<span class='kw'>tbls_x</span>, <span class='kw'>tbls_y</span>, <span class='kw'>op</span>, ref = <span class='kw'>NULL</span>, compare = <span class='kw'>equal_data_frame</span>, <span class='kw'>...</span>)
 
-<span class='fu'>eval_tbls</span>(<span class='no'>tbls</span>, <span class='no'>op</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bench_compare.html'>eval_tbls</a></span>(<span class='kw'>tbls</span>, <span class='kw'>op</span>)
 
-<span class='fu'>eval_tbls2</span>(<span class='no'>tbls_x</span>, <span class='no'>tbls_y</span>, <span class='no'>op</span>)</pre>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bench_compare.html'>eval_tbls2</a></span>(<span class='kw'>tbls_x</span>, <span class='kw'>tbls_y</span>, <span class='kw'>op</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>tbls, tbls_x, tbls_y</th>
-      <td><p>A list of <code><a href='tbl.html'>tbl()</a></code>s.</p></td>
+      <td><p>A list of <code><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl()</a></code>s.</p></td>
     </tr>
     <tr>
       <th>op</th>
@@ -243,9 +247,9 @@ element of <code>tbls</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>For <code>compare_tbls()</code>: additional parameters passed on the
+      <td><p>For <code><a href='https://dplyr.tidyverse.org/reference/bench_compare.html'>compare_tbls()</a></code>: additional parameters passed on the
 <code>compare()</code> function</p>
-<p>For <code>bench_tbls()</code>: additional benchmarks to run.</p></td>
+<p>For <code><a href='https://dplyr.tidyverse.org/reference/bench_compare.html'>bench_tbls()</a></code>: additional benchmarks to run.</p></td>
     </tr>
     <tr>
       <th>times</th>
@@ -266,10 +270,10 @@ supplied, defaults to the results from the first <code>src</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>eval_tbls()</code>: a list of data frames.</p>
-<p><code>compare_tbls()</code>: an invisible <code>TRUE</code> on success, otherwise
+    <p><code><a href='https://dplyr.tidyverse.org/reference/bench_compare.html'>eval_tbls()</a></code>: a list of data frames.</p>
+<p><code><a href='https://dplyr.tidyverse.org/reference/bench_compare.html'>compare_tbls()</a></code>: an invisible <code>TRUE</code> on success, otherwise
 an error is thrown.</p>
-<p><code>bench_tbls()</code>: an object of class
+<p><code><a href='https://dplyr.tidyverse.org/reference/bench_compare.html'>bench_tbls()</a></code>: an object of class
 <code><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark::microbenchmark()</a></code></p>
 
   </div>

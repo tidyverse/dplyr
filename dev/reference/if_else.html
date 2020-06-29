@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -217,7 +221,7 @@ strictness makes the output type more predictable, and makes it somewhat
 faster.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>if_else</span>(<span class='no'>condition</span>, <span class='no'>true</span>, <span class='no'>false</span>, <span class='kw'>missing</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span>(<span class='kw'>condition</span>, <span class='kw'>true</span>, <span class='kw'>false</span>, missing = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,7 +234,7 @@ faster.</p>
       <th>true, false</th>
       <td><p>Values to use for <code>TRUE</code> and <code>FALSE</code> values of
 <code>condition</code>. They must be either the same length as <code>condition</code>,
-or length 1. They must also be the same type: <code>if_else()</code> checks that
+or length 1. They must also be the same type: <code><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else()</a></code> checks that
 they have the same type and same class. All other attributes are
 taken from <code>true</code>.</p></td>
     </tr>
@@ -248,14 +252,13 @@ values.</p></td>
 otherwise <code>NA</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>5</span>:<span class='fl'>5</span>, <span class='fl'>NA</span>)
-<span class='fu'>if_else</span>(<span class='no'>x</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>, <span class='fl'>NA_integer_</span>, <span class='no'>x</span>)</div><div class='output co'>#&gt;  [1] NA NA NA NA NA  0  1  2  3  4  5 NA</div><div class='input'><span class='fu'>if_else</span>(<span class='no'>x</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>, <span class='st'>"negative"</span>, <span class='st'>"positive"</span>, <span class='st'>"missing"</span>)</div><div class='output co'>#&gt;  [1] "negative" "negative" "negative" "negative" "negative" "positive"
+    <pre class="examples"><div class='input'><span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>NA</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span>(<span class='kw'>x</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='fl'>NA_integer_</span>, <span class='kw'>x</span>)</div><div class='output co'>#&gt;  [1] NA NA NA NA NA  0  1  2  3  4  5 NA</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span>(<span class='kw'>x</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='st'>"negative"</span>, <span class='st'>"positive"</span>, <span class='st'>"missing"</span>)</div><div class='output co'>#&gt;  [1] "negative" "negative" "negative" "negative" "negative" "positive"
 #&gt;  [7] "positive" "positive" "positive" "positive" "positive" "missing" </div><div class='input'>
 <span class='co'># Unlike ifelse, if_else preserves types</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>5</span>], <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>x</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fl'>NA</span>))</div><div class='output co'>#&gt;  [1]  1  1  1  2  3 NA  3  3  2 NA</div><div class='input'><span class='fu'>if_else</span>(<span class='no'>x</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fl'>NA</span>))</div><div class='output co'>#&gt;  [1] a    a    a    b    c    &lt;NA&gt; c    c    b    &lt;NA&gt;
-#&gt; Levels: a b c d e</div><div class='input'># Attributes are taken from the `true` vector,
-</div></pre>
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>], <span class='fl'>10</span>, replace = <span class='fl'>TRUE</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='kw'>x</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='kw'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fl'>NA</span>))</div><div class='output co'>#&gt;  [1]  1  1  1  2  3 NA  3  3  2 NA</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span>(<span class='kw'>x</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='kw'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fl'>NA</span>))</div><div class='output co'>#&gt;  [1] a    a    a    b    c    &lt;NA&gt; c    c    b    &lt;NA&gt;
+#&gt; Levels: a b c d e</div><div class='input'><span class='co'># Attributes are taken from the `true` vector,</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

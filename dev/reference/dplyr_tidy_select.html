@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -220,7 +224,7 @@ dialect of R for selecting variables based on their names or properties.</p>
 <p>Tidy selection is a variant of tidy evaluation. This means that inside
 functions, tidy-select arguments require special attention, as described in
 the Indirection section. If you've never heard of tidy evaluation before,
-start with <code><a href='../articles/programming.html'>vignette("programming")</a></code>.</p>
+start with <code>vignette("programming")</code>.</p>
     </div>
 
 
@@ -229,50 +233,50 @@ start with <code><a href='../articles/programming.html'>vignette("programming")<
 
     <p>Tidyverse selections implement a dialect of R where operators make
 it easy to select variables:</p><ul>
-<li><p><code>:</code> for selecting a range of consecutive variables.</p></li>
-<li><p><code>!</code> for taking the complement of a set of variables.</p></li>
-<li><p><code>&amp;</code> and <code>|</code> for selecting the intersection or the union of two
+<li><p><code><a href='https://rdrr.io/r/base/Colon.html'>:</a></code> for selecting a range of consecutive variables.</p></li>
+<li><p><code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code> for taking the complement of a set of variables.</p></li>
+<li><p><code>&amp;</code> and <code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code> for selecting the intersection or the union of two
 sets of variables.</p></li>
 <li><p><code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> for combining selections.</p></li>
 </ul>
 
 <p>In addition, you can use <strong>selection helpers</strong>. Some helpers select specific
 columns:</p><ul>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/everything.html'>everything()</a></code>: Matches all variables.</p></li>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/everything.html'>last_col()</a></code>: Select last variable, possibly with an offset.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything()</a></code>: Matches all variables.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/everything.html'>last_col()</a></code>: Select last variable, possibly with an offset.</p></li>
 </ul>
 
 <p>These helpers select variables by matching patterns in their names:</p><ul>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>starts_with()</a></code>: Starts with a prefix.</p></li>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>ends_with()</a></code>: Ends with a suffix.</p></li>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>contains()</a></code>: Contains a literal string.</p></li>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>matches()</a></code>: Matches a regular expression.</p></li>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/starts_with.html'>num_range()</a></code>: Matches a numerical range like x01, x02, x03.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with()</a></code>: Starts with a prefix.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with()</a></code>: Ends with a suffix.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains()</a></code>: Contains a literal string.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>matches()</a></code>: Matches a regular expression.</p></li>
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>num_range()</a></code>: Matches a numerical range like x01, x02, x03.</p></li>
 </ul>
 
 <p>These helpers select variables from a character vector:</p><ul>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/all_of.html'>all_of()</a></code>: Matches variable names in a character vector. All
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>all_of()</a></code>: Matches variable names in a character vector. All
 names must be present, otherwise an out-of-bounds error is
 thrown.</p></li>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/all_of.html'>any_of()</a></code>: Same as <code><a href='https://rdrr.io/pkg/tidyselect/man/all_of.html'>all_of()</a></code>, except that no error is thrown
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>any_of()</a></code>: Same as <code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>all_of()</a></code>, except that no error is thrown
 for names that don't exist.</p></li>
 </ul>
 
 <p>This helper selects variables with a function:</p><ul>
-<li><p><code><a href='https://rdrr.io/pkg/tidyselect/man/where.html'>where()</a></code>: Applies a function to all variables and selects those
+<li><p><code><a href='https://tidyselect.r-lib.org/reference/where.html'>where()</a></code>: Applies a function to all variables and selects those
 for which the function returns <code>TRUE</code>.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="indirection"><a class="anchor" href="#indirection"></a>Indirection</h2>
 
     <p>There are two main cases:</p><ul>
-<li><p>If you have a character vector of column names, use <code><a href='https://rdrr.io/pkg/tidyselect/man/all_of.html'>all_of()</a></code>
-or <code><a href='https://rdrr.io/pkg/tidyselect/man/all_of.html'>any_of()</a></code>, depending on whether or not you want unknown variable
-names to cause an error, e.g <code><a href='select.html'>select(df, all_of(vars))</a></code>,
-<code><a href='select.html'>select(df, -any_of(vars))</a></code>.</p></li>
+<li><p>If you have a character vector of column names, use <code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>all_of()</a></code>
+or <code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>any_of()</a></code>, depending on whether or not you want unknown variable
+names to cause an error, e.g <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select(df, all_of(vars))</a></code>,
+<code><a href='https://dplyr.tidyverse.org/reference/select.html'>select(df, -any_of(vars))</a></code>.</p></li>
 <li><p>If you you want the user to supply a tidyselect specification in a
 function argument, embrace the function argument, e.g
-<code><a href='select.html'>select(df, {{ vars }})</a></code>.</p></li>
+<code><a href='https://dplyr.tidyverse.org/reference/select.html'>select(df, {{ vars }})</a></code>.</p></li>
 </ul>
 
 

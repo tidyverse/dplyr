@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -214,18 +218,18 @@ seems to solve a problem that no longer seems that important." />
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#questioning'><img src='figures/lifecycle-questioning.svg' alt='Questioning lifecycle'></a>
 
-<code>all_equal()</code> allows you to compare data frames, optionally ignoring
+<code><a href='https://dplyr.tidyverse.org/reference/all_equal.html'>all_equal()</a></code> allows you to compare data frames, optionally ignoring
 row and column names. It is questioning as of dplyr 1.0.0, because it
 seems to solve a problem that no longer seems that important.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>all_equal</span>(
-  <span class='no'>target</span>,
-  <span class='no'>current</span>,
-  <span class='kw'>ignore_col_order</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>ignore_row_order</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>convert</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_equal.html'>all_equal</a></span>(
+  <span class='kw'>target</span>,
+  <span class='kw'>current</span>,
+  ignore_col_order = <span class='fl'>TRUE</span>,
+  ignore_row_order = <span class='fl'>TRUE</span>,
+  convert = <span class='fl'>FALSE</span>,
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -261,17 +265,17 @@ the reasons why they're not equal. Use <code><a href='https://rdrr.io/r/base/Log
 result in an <code>if</code> expression.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>scramble</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>[<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>x</span>)), <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>x</span>))]
+    <pre class="examples"><div class='input'><span class='kw'>scramble</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='kw'>x</span>[<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>x</span>)), <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='kw'>x</span>))]
 
 <span class='co'># By default, ordering of rows and columns ignored</span>
-<span class='fu'>all_equal</span>(<span class='no'>mtcars</span>, <span class='fu'>scramble</span>(<span class='no'>mtcars</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_equal.html'>all_equal</a></span>(<span class='kw'>mtcars</span>, <span class='fu'>scramble</span>(<span class='kw'>mtcars</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># But those can be overriden if desired</span>
-<span class='fu'>all_equal</span>(<span class='no'>mtcars</span>, <span class='fu'>scramble</span>(<span class='no'>mtcars</span>), <span class='kw'>ignore_col_order</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "- Same column names, but different order"</div><div class='input'><span class='fu'>all_equal</span>(<span class='no'>mtcars</span>, <span class='fu'>scramble</span>(<span class='no'>mtcars</span>), <span class='kw'>ignore_row_order</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "Same row values, but different order"</div><div class='input'>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_equal.html'>all_equal</a></span>(<span class='kw'>mtcars</span>, <span class='fu'>scramble</span>(<span class='kw'>mtcars</span>), ignore_col_order = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "- Same column names, but different order"</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_equal.html'>all_equal</a></span>(<span class='kw'>mtcars</span>, <span class='fu'>scramble</span>(<span class='kw'>mtcars</span>), ignore_row_order = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "Same row values, but different order"</div><div class='input'>
 <span class='co'># By default all_equal is sensitive to variable differences</span>
-<span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"a"</span>, <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"a"</span>))
-<span class='fu'>all_equal</span>(<span class='no'>df1</span>, <span class='no'>df2</span>)</div><div class='output co'>#&gt; [1] "- Different types for column `x`: character vs factor&lt;127a2&gt;\n"</div><div class='input'><span class='co'># But you can request dplyr convert similar types</span>
-<span class='fu'>all_equal</span>(<span class='no'>df1</span>, <span class='no'>df2</span>, <span class='kw'>convert</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+<span class='kw'>df1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(x = <span class='st'>"a"</span>, stringsAsFactors = <span class='fl'>FALSE</span>)
+<span class='kw'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"a"</span>))
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_equal.html'>all_equal</a></span>(<span class='kw'>df1</span>, <span class='kw'>df2</span>)</div><div class='output co'>#&gt; [1] "- Different types for column `x`: character vs factor&lt;127a2&gt;\n"</div><div class='input'><span class='co'># But you can request dplyr convert similar types</span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_equal.html'>all_equal</a></span>(<span class='kw'>df1</span>, <span class='kw'>df2</span>, convert = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

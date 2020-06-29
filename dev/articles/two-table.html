@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../tidyverse-2.css" rel="stylesheet">
+<!--optional theme--><link href="../.css" rel="stylesheet">
 <!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Two-table verbs">
@@ -180,12 +181,13 @@
 <h2 class="hasAnchor">
 <a href="#mutating-joins" class="anchor"></a>Mutating joins</h2>
 <p>Mutating joins allow you to combine variables from multiple tables. For example, take the nycflights13 data. In one table we have flight information with an abbreviation for carrier, and in another we have a mapping between abbreviations and full names. You can use a join to add the carrier names to the flight data:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"nycflights13"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="http://github.com/hadley/nycflights13">"nycflights13"</a></span>)
 <span class="co"># Drop unimportant variables so it's easier to understand the join results.</span>
-<span class="no">flights2</span> <span class="kw">&lt;-</span> <span class="no">flights</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">year</span>:<span class="no">day</span>, <span class="no">hour</span>, <span class="no">origin</span>, <span class="no">dest</span>, <span class="no">tailnum</span>, <span class="no">carrier</span>)
+<span class="kw">flights2</span> <span class="op">&lt;-</span> <span class="kw">flights</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">year</span><span class="op">:</span><span class="kw">day</span>, <span class="kw">hour</span>, <span class="kw">origin</span>, <span class="kw">dest</span>, <span class="kw">tailnum</span>, <span class="kw">carrier</span>)
 
-<span class="no">flights2</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">airlines</span>)
+<span class="kw">flights2</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="kw">airlines</span>)
 <span class="co">#&gt; Joining, by = "carrier"</span>
 <span class="co">#&gt; # A tibble: 336,776 x 9</span>
 <span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name                  </span>
@@ -195,7 +197,8 @@
 <span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      American Airlines Inc.</span>
 <span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      JetBlue Airways       </span>
 <span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Delta Air Lines Inc.  </span>
-<span class="co">#&gt; # … with 336,771 more rows</span></pre></body></html></div>
+<span class="co">#&gt; # … with 336,771 more rows</span>
+</pre></div>
 <div id="controlling-how-the-tables-are-matched" class="section level3">
 <h3 class="hasAnchor">
 <a href="#controlling-how-the-tables-are-matched" class="anchor"></a>Controlling how the tables are matched</h3>
@@ -203,7 +206,8 @@
 <ul>
 <li>
 <p><code>NULL</code>, the default. dplyr will will use all variables that appear in both tables, a <strong>natural</strong> join. For example, the flights and weather tables match on their common variables: year, month, day, hour and origin.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">flights2</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">weather</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw">flights2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="kw">weather</span>)
 <span class="co">#&gt; Joining, by = c("year", "month", "day", "hour", "origin")</span>
 <span class="co">#&gt; # A tibble: 336,776 x 18</span>
 <span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier  temp  dewp humid</span>
@@ -215,11 +219,13 @@
 <span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL       39.9  25.0  54.8</span>
 <span class="co">#&gt; # … with 336,771 more rows, and 7 more variables: wind_dir &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></pre></body></html></div>
+<span class="co">#&gt; #   visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</span>
+</pre></div>
 </li>
 <li>
 <p>A character vector, <code>by = "x"</code>. Like a natural join, but uses only some of the common variables. For example, <code>flights</code> and <code>planes</code> have <code>year</code> columns, but they mean different things so we only want to join by <code>tailnum</code>.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">flights2</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">planes</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"tailnum"</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw">flights2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="kw">planes</span>, by = <span class="st">"tailnum"</span>)
 <span class="co">#&gt; # A tibble: 336,776 x 16</span>
 <span class="co">#&gt;   year.x month   day  hour origin dest  tailnum carrier year.y type </span>
 <span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;</span>
@@ -229,13 +235,15 @@
 <span class="co">#&gt; 4   2013     1     1     5 JFK    BQN   N804JB  B6        2012 Fixe…</span>
 <span class="co">#&gt; 5   2013     1     1     6 LGA    ATL   N668DN  DL        1991 Fixe…</span>
 <span class="co">#&gt; # … with 336,771 more rows, and 6 more variables: manufacturer &lt;chr&gt;,</span>
-<span class="co">#&gt; #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span></pre></body></html></div>
+<span class="co">#&gt; #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span>
+</pre></div>
 <p>Note that the year columns in the output are disambiguated with a suffix.</p>
 </li>
 <li>
 <p>A named character vector: <code>by = c("x" = "a")</code>. This will match variable <code>x</code> in table <code>x</code> to variable <code>a</code> in table <code>y</code>. The variables from use will be used in the output.</p>
 <p>Each flight has an origin and destination <code>airport</code>, so we need to specify which one we want to join to:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">flights2</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dest"</span> <span class="kw">=</span> <span class="st">"faa"</span>))
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">flights2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="kw">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dest"</span> = <span class="st">"faa"</span>))
 <span class="co">#&gt; # A tibble: 336,776 x 15</span>
 <span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -246,7 +254,7 @@
 <span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Hart…  33.6 -84.4  1026</span>
 <span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span>
 <span class="co">#&gt; #   tzone &lt;chr&gt;</span>
-<span class="no">flights2</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"origin"</span> <span class="kw">=</span> <span class="st">"faa"</span>))
+<span class="kw">flights2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="kw">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"origin"</span> = <span class="st">"faa"</span>))
 <span class="co">#&gt; # A tibble: 336,776 x 15</span>
 <span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -256,7 +264,8 @@
 <span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      John…  40.6 -73.8    13</span>
 <span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      La G…  40.8 -73.9    22</span>
 <span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span>
-<span class="co">#&gt; #   tzone &lt;chr&gt;</span></pre></body></html></div>
+<span class="co">#&gt; #   tzone &lt;chr&gt;</span>
+</pre></div>
 </li>
 </ul>
 </div>
@@ -264,13 +273,17 @@
 <h3 class="hasAnchor">
 <a href="#types-of-join" class="anchor"></a>Types of join</h3>
 <p>There are four types of mutating join, which differ in their behaviour when a match is not found. We’ll illustrate each with a simple example:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">df1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fl">2</span>:<span class="fl">1</span>)
-<span class="no">df2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>, <span class="fl">1</span>), <span class="kw">a</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">b</span> <span class="kw">=</span> <span class="st">"a"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(x = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>), y = <span class="fl">2</span><span class="op">:</span><span class="fl">1</span>)
+<span class="kw">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(x = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>, <span class="fl">1</span>), a = <span class="fl">10</span>, b = <span class="st">"a"</span>)
+</pre></div>
 <ul>
 <li>
 <p><code><a href="../reference/mutate-joins.html">inner_join(x, y)</a></code> only includes observations that match in both <code>x</code> and <code>y</code>.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">df1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">inner_join</a></span>(<span class="no">df2</span>) <span class="kw">%&gt;%</span> <span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()
-<span class="co">#&gt; Joining, by = "x"</span></pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">df1</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">inner_join</a></span>(<span class="kw">df2</span>) <span class="op">%&gt;%</span> <span class="kw">knitr</span>::<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()
+<span class="co">#&gt; Joining, by = "x"</span>
+</pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">x</th>
@@ -288,41 +301,47 @@
 </li>
 <li>
 <p><code><a href="../reference/mutate-joins.html">left_join(x, y)</a></code> includes all observations in <code>x</code>, regardless of whether they match or not. This is the most commonly used join because it ensures that you don’t lose observations from your primary table.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">df1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">df2</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="kw">df1</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="kw">df2</span>)
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;       x     y     a b    </span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1     1     2    10 a    </span>
-<span class="co">#&gt; 2     2     1    NA &lt;NA&gt;</span></pre></body></html></div>
+<span class="co">#&gt; 2     2     1    NA &lt;NA&gt;</span>
+</pre></div>
 </li>
 <li>
 <p><code><a href="../reference/mutate-joins.html">right_join(x, y)</a></code> includes all observations in <code>y</code>. It’s equivalent to <code><a href="../reference/mutate-joins.html">left_join(y, x)</a></code>, but the columns and rows will be ordered differently.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">df1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">right_join</a></span>(<span class="no">df2</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">df1</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">right_join</a></span>(<span class="kw">df2</span>)
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;       x     y     a b    </span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1     1     2    10 a    </span>
 <span class="co">#&gt; 2     3    NA    10 a</span>
-<span class="no">df2</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">df1</span>)
+<span class="kw">df2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="kw">df1</span>)
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;       x     a b         y</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     3    10 a        NA</span>
-<span class="co">#&gt; 2     1    10 a         2</span></pre></body></html></div>
+<span class="co">#&gt; 2     1    10 a         2</span>
+</pre></div>
 </li>
 <li>
 <p><code><a href="../reference/mutate-joins.html">full_join()</a></code> includes all observations from <code>x</code> and <code>y</code>.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">df1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">full_join</a></span>(<span class="no">df2</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="kw">df1</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">full_join</a></span>(<span class="kw">df2</span>)
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt;       x     y     a b    </span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1     1     2    10 a    </span>
 <span class="co">#&gt; 2     2     1    NA &lt;NA&gt; </span>
-<span class="co">#&gt; 3     3    NA    10 a</span></pre></body></html></div>
+<span class="co">#&gt; 3     3    NA    10 a</span>
+</pre></div>
 </li>
 </ul>
 <p>The left, right and full joins are collectively know as <strong>outer joins</strong>. When a row doesn’t match in an outer join, the new variables are filled in with missing values.</p>
@@ -331,10 +350,11 @@
 <h3 class="hasAnchor">
 <a href="#observations" class="anchor"></a>Observations</h3>
 <p>While mutating joins are primarily used to add new variables, they can also generate new observations. If a match is not unique, a join will add all possible combinations (the Cartesian product) of the matching observations:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">df1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">3</span>)
-<span class="no">df2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>), <span class="kw">z</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>))
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="kw">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(x = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>), y = <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>)
+<span class="kw">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(x = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>), z = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>))
 
-<span class="no">df1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="no">df2</span>)
+<span class="kw">df1</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span>(<span class="kw">df2</span>)
 <span class="co">#&gt; Joining, by = "x"</span>
 <span class="co">#&gt; # A tibble: 5 x 3</span>
 <span class="co">#&gt;       x     y z    </span>
@@ -343,7 +363,8 @@
 <span class="co">#&gt; 2     1     1 b    </span>
 <span class="co">#&gt; 3     1     2 a    </span>
 <span class="co">#&gt; 4     1     2 b    </span>
-<span class="co">#&gt; 5     2     3 a</span></pre></body></html></div>
+<span class="co">#&gt; 5     2     3 a</span>
+</pre></div>
 </div>
 </div>
 <div id="filtering-joins" class="section level2">
@@ -357,10 +378,11 @@
 <code><a href="../reference/filter-joins.html">anti_join(x, y)</a></code> <strong>drops</strong> all observations in <code>x</code> that have a match in <code>y</code>.</li>
 </ul>
 <p>These are most useful for diagnosing join mismatches. For example, there are many flights in the nycflights13 dataset that don’t have a matching tail number in the planes table:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"nycflights13"</span>)
-<span class="no">flights</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/filter-joins.html">anti_join</a></span>(<span class="no">planes</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"tailnum"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/count.html">count</a></span>(<span class="no">tailnum</span>, <span class="kw">sort</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="http://github.com/hadley/nycflights13">"nycflights13"</a></span>)
+<span class="kw">flights</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/filter-joins.html">anti_join</a></span>(<span class="kw">planes</span>, by = <span class="st">"tailnum"</span>) <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/count.html">count</a></span>(<span class="kw">tailnum</span>, sort = <span class="fl">TRUE</span>)
 <span class="co">#&gt; # A tibble: 722 x 2</span>
 <span class="co">#&gt;   tailnum     n</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt;</span>
@@ -369,20 +391,23 @@
 <span class="co">#&gt; 3 N722MQ    513</span>
 <span class="co">#&gt; 4 N723MQ    507</span>
 <span class="co">#&gt; 5 N713MQ    483</span>
-<span class="co">#&gt; # … with 717 more rows</span></pre></body></html></div>
+<span class="co">#&gt; # … with 717 more rows</span>
+</pre></div>
 <p>If you’re worried about what observations your joins will match, start with a <code><a href="../reference/filter-joins.html">semi_join()</a></code> or <code><a href="../reference/filter-joins.html">anti_join()</a></code>. <code><a href="../reference/filter-joins.html">semi_join()</a></code> and <code><a href="../reference/filter-joins.html">anti_join()</a></code> never duplicate; they only ever remove observations.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">df1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">4</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">4</span>)
-<span class="no">df2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>), <span class="kw">z</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>))
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="kw">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(x = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">4</span>), y = <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>)
+<span class="kw">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(x = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>), z = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>))
 
 <span class="co"># Four rows to start with:</span>
-<span class="no">df1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()
+<span class="kw">df1</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()
 <span class="co">#&gt; [1] 4</span>
 <span class="co"># And we get four rows after the join</span>
-<span class="no">df1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">inner_join</a></span>(<span class="no">df2</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"x"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()
+<span class="kw">df1</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">inner_join</a></span>(<span class="kw">df2</span>, by = <span class="st">"x"</span>) <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()
 <span class="co">#&gt; [1] 4</span>
 <span class="co"># But only two rows actually match</span>
-<span class="no">df1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span>(<span class="no">df2</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"x"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()
-<span class="co">#&gt; [1] 2</span></pre></body></html></div>
+<span class="kw">df1</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span>(<span class="kw">df2</span>, by = <span class="st">"x"</span>) <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>()
+<span class="co">#&gt; [1] 2</span>
+</pre></div>
 </div>
 <div id="set-operations" class="section level2">
 <h2 class="hasAnchor">
@@ -399,42 +424,46 @@
 <code><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff(x, y)</a></code>: return observations in <code>x</code>, but not in <code>y</code>.</li>
 </ul>
 <p>Given this simple data:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r">(<span class="no">df1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">2</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1L</span>, <span class="fl">1L</span>)))
+<div class="sourceCode" id="cb13"><pre class="downlit">
+(<span class="kw">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(x = <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1L</span>, <span class="fl">1L</span>)))
 <span class="co">#&gt; # A tibble: 2 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     1     1</span>
 <span class="co">#&gt; 2     2     1</span>
-(<span class="no">df2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">2</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">2</span>))
+(<span class="kw">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(x = <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y = <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>))
 <span class="co">#&gt; # A tibble: 2 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     1     1</span>
-<span class="co">#&gt; 2     2     2</span></pre></body></html></div>
+<span class="co">#&gt; 2     2     2</span>
+</pre></div>
 <p>The four possibilities are:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">intersect</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">intersect</a></span>(<span class="kw">df1</span>, <span class="kw">df2</span>)
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     1     1</span>
 <span class="co"># Note that we get 3 rows, not 4</span>
-<span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">union</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">union</a></span>(<span class="kw">df1</span>, <span class="kw">df2</span>)
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     1     1</span>
 <span class="co">#&gt; 2     2     1</span>
 <span class="co">#&gt; 3     2     2</span>
-<span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span>(<span class="no">df1</span>, <span class="no">df2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span>(<span class="kw">df1</span>, <span class="kw">df2</span>)
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     2     1</span>
-<span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span>(<span class="no">df2</span>, <span class="no">df1</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span>(<span class="kw">df2</span>, <span class="kw">df1</span>)
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     2     2</span></pre></body></html></div>
+<span class="co">#&gt; 1     2     2</span>
+</pre></div>
 </div>
 <div id="multiple-table-verbs" class="section level2">
 <h2 class="hasAnchor">

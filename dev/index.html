@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="tidyverse-2.css" rel="stylesheet">
+<!--optional theme--><link href=".css" rel="stylesheet">
 <!-- docsearch --><script src="docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="A Grammar of Data Manipulation">
@@ -193,17 +194,21 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="co"># The easiest way to get dplyr is to install the whole tidyverse:</span>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># The easiest way to get dplyr is to install the whole tidyverse:</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"tidyverse"</span>)
 
 <span class="co"># Alternatively, install just dplyr:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"dplyr"</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"dplyr"</span>)
+</pre></div>
 <div id="development-version" class="section level3">
 <h3 class="hasAnchor">
 <a href="#development-version" class="anchor"></a>Development version</h3>
 <p>To get a bug fix or to use a feature from the development version, you can install the development version of dplyr from GitHub.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="co"># install.packages("devtools")</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"tidyverse/dplyr"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co"># install.packages("devtools")</span>
+<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"tidyverse/dplyr"</span>)
+</pre></div>
 </div>
 </div>
 <div id="cheatsheet" class="section level2">
@@ -214,10 +219,11 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
 
-<span class="no">starwars</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/filter.html">filter</a></span>(<span class="no">species</span> <span class="kw">==</span> <span class="st">"Droid"</span>)
+<span class="kw">starwars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/filter.html">filter</a></span>(<span class="kw">species</span> <span class="op">==</span> <span class="st">"Droid"</span>)
 <span class="co">#&gt; # A tibble: 6 x 14</span>
 <span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
@@ -229,8 +235,8 @@
 <span class="co">#&gt; # … with 1 more row, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
-<span class="no">starwars</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/select.html">select</a></span>(<span class="no">name</span>, <span class="fu"><a href="https://rdrr.io/pkg/tidyselect/man/starts_with.html">ends_with</a></span>(<span class="st">"color"</span>))
+<span class="kw">starwars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/select.html">select</a></span>(<span class="kw">name</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">ends_with</a></span>(<span class="st">"color"</span>))
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt;   name           hair_color skin_color  eye_color</span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span>
@@ -241,9 +247,9 @@
 <span class="co">#&gt; 5 Leia Organa    brown      light       brown    </span>
 <span class="co">#&gt; # … with 82 more rows</span>
 
-<span class="no">starwars</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/mutate.html">mutate</a></span>(<span class="no">name</span>, <span class="kw">bmi</span> <span class="kw">=</span> <span class="no">mass</span> / ((<span class="no">height</span> / <span class="fl">100</span>)  ^ <span class="fl">2</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/select.html">select</a></span>(<span class="no">name</span>:<span class="no">mass</span>, <span class="no">bmi</span>)
+<span class="kw">starwars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/mutate.html">mutate</a></span>(<span class="kw">name</span>, bmi = <span class="kw">mass</span> <span class="op">/</span> ((<span class="kw">height</span> <span class="op">/</span> <span class="fl">100</span>)  <span class="op">^</span> <span class="fl">2</span>)) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/select.html">select</a></span>(<span class="kw">name</span><span class="op">:</span><span class="kw">mass</span>, <span class="kw">bmi</span>)
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt;   name           height  mass   bmi</span>
 <span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -254,8 +260,8 @@
 <span class="co">#&gt; 5 Leia Organa       150    49  21.8</span>
 <span class="co">#&gt; # … with 82 more rows</span>
 
-<span class="no">starwars</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/arrange.html">arrange</a></span>(<span class="fu"><a href="reference/desc.html">desc</a></span>(<span class="no">mass</span>))
+<span class="kw">starwars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/arrange.html">arrange</a></span>(<span class="fu"><a href="reference/desc.html">desc</a></span>(<span class="kw">mass</span>))
 <span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
@@ -267,15 +273,15 @@
 <span class="co">#&gt; # … with 82 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
-<span class="no">starwars</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/group_by.html">group_by</a></span>(<span class="no">species</span>) <span class="kw">%&gt;%</span>
+<span class="kw">starwars</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/group_by.html">group_by</a></span>(<span class="kw">species</span>) <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/summarise.html">summarise</a></span>(
-    <span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="reference/context.html">n</a></span>(),
-    <span class="kw">mass</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">mass</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-  ) <span class="kw">%&gt;%</span>
+    n = <span class="fu"><a href="reference/context.html">n</a></span>(),
+    mass = <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw">mass</span>, na.rm = <span class="fl">TRUE</span>)
+  ) <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/filter.html">filter</a></span>(
-    <span class="no">n</span> <span class="kw">&gt;</span> <span class="fl">1</span>,
-    <span class="no">mass</span> <span class="kw">&gt;</span> <span class="fl">50</span>
+    <span class="kw">n</span> <span class="op">&gt;</span> <span class="fl">1</span>,
+    <span class="kw">mass</span> <span class="op">&gt;</span> <span class="fl">50</span>
   )
 <span class="co">#&gt; # A tibble: 8 x 3</span>
 <span class="co">#&gt;   species      n  mass</span>
@@ -285,7 +291,8 @@
 <span class="co">#&gt; 3 Human       35  82.8</span>
 <span class="co">#&gt; 4 Kaminoan     2  88  </span>
 <span class="co">#&gt; 5 Mirialan     2  53.1</span>
-<span class="co">#&gt; # … with 3 more rows</span></pre></div>
+<span class="co">#&gt; # … with 3 more rows</span>
+</pre></div>
 </div>
 <div id="getting-help" class="section level2">
 <h2 class="hasAnchor">

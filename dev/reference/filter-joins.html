@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -215,21 +219,21 @@ anti_join() return all rows from x without a match in y.
     <div class="ref-description">
     <p>Filtering joins filter rows from <code>x</code> based on the presence or absence
 of matches in <code>y</code>:</p><ul>
-<li><p><code>semi_join()</code> return all rows from <code>x</code> with a match in <code>y</code>.</p></li>
-<li><p><code>anti_join()</code> return all rows from <code>x</code> with<strong>out</strong> a match in <code>y</code>.</p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>semi_join()</a></code> return all rows from <code>x</code> with a match in <code>y</code>.</p></li>
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>anti_join()</a></code> return all rows from <code>x</code> with<strong>out</strong> a match in <code>y</code>.</p></li>
 </ul>
 
     </div>
 
-    <pre class="usage"><span class='fu'>semi_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>semi_join</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, copy = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>semi_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>, <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>))
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>semi_join</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, copy = <span class='fl'>FALSE</span>, <span class='kw'>...</span>, na_matches = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>))
 
-<span class='fu'>anti_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>anti_join</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, copy = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>anti_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>, <span class='kw'>na_matches</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>))</pre>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>anti_join</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, copy = <span class='fl'>FALSE</span>, <span class='kw'>...</span>, na_matches = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"na"</span>, <span class='st'>"never"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -271,7 +275,7 @@ it is a potentially expensive operation so you must opt into it.</p></td>
       <th>na_matches</th>
       <td><p>Should <code>NA</code> and <code>NaN</code> values match one another?</p>
 <p>The default, <code>"na"</code>, treats two <code>NA</code> or <code>NaN</code> values as equal, like
-<code>%in%</code>, <code><a href='https://rdrr.io/r/base/match.html'>match()</a></code>, <code><a href='https://rdrr.io/r/base/merge.html'>merge()</a></code>.</p>
+<code><a href='https://rdrr.io/r/base/match.html'>%in%</a></code>, <code><a href='https://rdrr.io/r/base/match.html'>match()</a></code>, <code><a href='https://rdrr.io/r/base/merge.html'>merge()</a></code>.</p>
 <p>Use <code>"never"</code> to always treat two <code>NA</code> or <code>NaN</code> values as different, like
 joins for database sources, similarly to <code><a href='https://rdrr.io/r/base/merge.html'>merge(incomparables = FALSE)</a></code>.</p></td>
     </tr>
@@ -294,35 +298,34 @@ joins for database sources, similarly to <code><a href='https://rdrr.io/r/base/m
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>Methods available in currently loaded packages:</p><ul>
-<li><p><code>semi_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>semi_join()</a></code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>data.frame</a></code>)
 .</p></li>
-<li><p><code>anti_join()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
+<li><p><code><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>anti_join()</a></code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/join.tbl_sql.html'>tbl_lazy</a></code>), dplyr (<code><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>data.frame</a></code>)
 .</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other joins: 
-<code><a href='mutate-joins.html'>mutate-joins</a></code>,
-<code><a href='nest_join.html'>nest_join</a>()</code></p></div>
+<code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>mutate-joins</a></code>,
+<code><a href='https://dplyr.tidyverse.org/reference/nest_join.html'>nest_join</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># "Filtering" joins keep cases from the LHS</span>
-<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>semi_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 2</span><span>
+<span class='kw'>band_members</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>semi_join</a></span>(<span class='kw'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   name  band   
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'>1</span><span> John  Beatles
-#&gt; </span><span style='color: #555555;'>2</span><span> Paul  Beatles</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>anti_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> Paul  Beatles</div><div class='input'><span class='kw'>band_members</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>anti_join</a></span>(<span class='kw'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
 #&gt;   name  band  
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Mick  Stones</div><div class='input'>
 <span class='co'># To suppress the message about joining variables, supply `by`</span>
-<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>semi_join</span>(<span class='no'>band_instruments</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"name"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
+<span class='kw'>band_members</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>semi_join</a></span>(<span class='kw'>band_instruments</span>, by = <span class='st'>"name"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   name  band   
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'>1</span><span> John  Beatles
-#&gt; </span><span style='color: #555555;'>2</span><span> Paul  Beatles</div><div class='input'># This is good practice in production code
-</div></span></pre>
+#&gt; </span><span style='color: #555555;'>2</span><span> Paul  Beatles</div><div class='input'><span class='co'># This is good practice in production code</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

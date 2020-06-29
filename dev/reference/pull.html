@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -210,12 +214,12 @@ name the output." />
     </div>
 
     <div class="ref-description">
-    <p><code>pull()</code> is similar to <code>$</code>. It's mostly useful because it looks a little
+    <p><code><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull()</a></code> is similar to <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>. It's mostly useful because it looks a little
 nicer in pipes, it also works with remote data frames, and it can optionally
 name the output.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pull</span>(<span class='no'>.data</span>, <span class='kw'>var</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span>(<span class='kw'>.data</span>, var = <span class='op'>-</span><span class='fl'>1</span>, name = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -266,18 +270,18 @@ dbplyr (<code>tbl_sql</code>), dplyr (<code>data.frame</code>)
 .</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(-<span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1] 4 4 1 1 2 1 4 2 2 4 4 3 3 3 4 4 4 1 2 1 1 2 2 4 2 1 2 2 4 6 8 2</div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2 10.4
+    <pre class="examples"><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span>(<span class='op'>-</span><span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1] 4 4 1 1 2 1 4 2 2 4 4 3 3 3 4 4 4 1 2 1 1 2 2 4 2 1 2 2 4 6 8 2</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2 10.4
 #&gt; [16] 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4 15.8 19.7
-#&gt; [31] 15.0 21.4</div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt;  [1] 6 6 4 6 8 6 8 4 4 6 6 8 8 8 8 8 8 4 4 4 4 8 8 8 8 4 4 4 8 6 8 4</div><div class='input'>
+#&gt; [31] 15.0 21.4</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span>(<span class='kw'>cyl</span>)</div><div class='output co'>#&gt;  [1] 6 6 4 6 8 6 8 4 4 6 6 8 8 8 8 8 8 4 4 4 4 8 8 8 8 4 4 4 8 6 8 4</div><div class='input'>
 <span class='co'># Also works for remote sources</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"dbplyr"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dbplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>memdb_frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>10</span>:<span class='fl'>1</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='st'>"pull-ex"</span>)
-<span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> * <span class='no'>y</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pull</span>()
+<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"dbplyr"</span>, quietly = <span class='fl'>TRUE</span>)) {
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>dbplyr</span>::<span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>memdb_frame</a></span>(x = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, y = <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, .name = <span class='st'>"pull-ex"</span>)
+<span class='kw'>df</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(z = <span class='kw'>x</span> <span class='op'>*</span> <span class='kw'>y</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span>()
 }</div><div class='output co'>#&gt;  [1] 10 18 24 28 30 30 28 24 18 10</div><div class='input'>
 <span class='co'># Pull a named vector</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(<span class='no'>height</span>, <span class='no'>name</span>)</div><div class='output co'>#&gt;        Luke Skywalker                 C-3PO                 R2-D2 
+<span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span>(<span class='kw'>height</span>, <span class='kw'>name</span>)</div><div class='output co'>#&gt;        Luke Skywalker                 C-3PO                 R2-D2 
 #&gt;                   172                   167                    96 
 #&gt;           Darth Vader           Leia Organa             Owen Lars 
 #&gt;                   202                   150                   178 

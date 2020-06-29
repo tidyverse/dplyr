@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -212,12 +216,12 @@ but could fail in surprising ways. We now believe it's better to be explicit." /
 
     <div class="ref-description">
     <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
-<p><code>combine()</code> is deprecated in favour of <code><a href='https://vctrs.r-lib.org/reference/vec_c.html'>vctrs::vec_c()</a></code>. <code>combine()</code>
+<p><code><a href='https://dplyr.tidyverse.org/reference/combine.html'>combine()</a></code> is deprecated in favour of <code><a href='https://vctrs.r-lib.org/reference/vec_c.html'>vctrs::vec_c()</a></code>. <code><a href='https://dplyr.tidyverse.org/reference/combine.html'>combine()</a></code>
 attempted to automatically guess whether you wanted <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> or <code><a href='https://rdrr.io/r/base/unlist.html'>unlist()</a></code>,
 but could fail in surprising ways. We now believe it's better to be explicit.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>combine</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/combine.html'>combine</a></span>(<span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,19 +234,19 @@ but could fail in surprising ways. We now believe it's better to be explicit.</p
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"a"</span>)
-<span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"b"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>f1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"a"</span>)
+<span class='kw'>f2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"b"</span>)
 
-<span class='fu'>combine</span>(<span class='no'>f1</span>, <span class='no'>f2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `combine()` is deprecated as of dplyr 1.0.0.</span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/combine.html'>combine</a></span>(<span class='kw'>f1</span>, <span class='kw'>f2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `combine()` is deprecated as of dplyr 1.0.0.</span>
 #&gt; <span class='warning'>Please use `vctrs::vec_c()` instead.</span>
 #&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
 #&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; [1] a b
 #&gt; Levels: a b</div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw pkg'>vctrs</span><span class='kw ns'>::</span><span class='fu'><a href='https://vctrs.r-lib.org/reference/vec_c.html'>vec_c</a></span>(<span class='no'>f1</span>, <span class='no'>f1</span>)</div><div class='output co'>#&gt; [1] a a
+<span class='kw'>vctrs</span>::<span class='fu'><a href='https://vctrs.r-lib.org/reference/vec_c.html'>vec_c</a></span>(<span class='kw'>f1</span>, <span class='kw'>f1</span>)</div><div class='output co'>#&gt; [1] a a
 #&gt; Levels: a</div><div class='input'>
-<span class='fu'>combine</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>f1</span>, <span class='no'>f2</span>))</div><div class='output co'>#&gt; [1] a b
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/combine.html'>combine</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>f1</span>, <span class='kw'>f2</span>))</div><div class='output co'>#&gt; [1] a b
 #&gt; Levels: a b</div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw pkg'>vctrs</span><span class='kw ns'>::</span><span class='fu'><a href='https://vctrs.r-lib.org/reference/vec_c.html'>vec_c</a></span>(!!!<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>f1</span>, <span class='no'>f2</span>))</div><div class='output co'>#&gt; [1] a b
+<span class='kw'>vctrs</span>::<span class='fu'><a href='https://vctrs.r-lib.org/reference/vec_c.html'>vec_c</a></span>(<span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>f1</span>, <span class='kw'>f2</span>))</div><div class='output co'>#&gt; [1] a b
 #&gt; Levels: a b</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

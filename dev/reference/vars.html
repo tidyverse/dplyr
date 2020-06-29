@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -215,32 +219,32 @@ numeric vector of positions or a character vector of column names." />
     </div>
 
     <div class="ref-description">
-    <p><code>vars()</code> was only needed for the scoped verbs, which have been superseded
-by the use of <code><a href='across.html'>across()</a></code> in an existing verb. See <code><a href='../articles/colwise.html'>vignette("colwise")</a></code> for
+    <p><code><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars()</a></code> was only needed for the scoped verbs, which have been superseded
+by the use of <code><a href='https://dplyr.tidyverse.org/reference/across.html'>across()</a></code> in an existing verb. See <code>vignette("colwise")</code> for
 details.</p>
 <p>This helper is intended to provide equivalent semantics to
-<code><a href='select.html'>select()</a></code>. It is used for instance in scoped summarising and
-mutating verbs (<code><a href='mutate_all.html'>mutate_at()</a></code> and <code><a href='summarise_all.html'>summarise_at()</a></code>).</p>
-<p>Note that verbs accepting a <code>vars()</code> specification also accept a
+<code><a href='https://dplyr.tidyverse.org/reference/select.html'>select()</a></code>. It is used for instance in scoped summarising and
+mutating verbs (<code><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_at()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/summarise_all.html'>summarise_at()</a></code>).</p>
+<p>Note that verbs accepting a <code><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars()</a></code> specification also accept a
 numeric vector of positions or a character vector of column names.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vars</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; Variables to include/exclude
-in mutate/summarise. You can use same specifications as in <code><a href='select.html'>select()</a></code>.
+      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html'>tidy-select</a></code>&gt; Variables to include/exclude
+in mutate/summarise. You can use same specifications as in <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select()</a></code>.
 If missing, defaults to all non-grouping variables.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='all_vars.html'>all_vars()</a></code> and <code><a href='all_vars.html'>any_vars()</a></code> for other quoting
+    <div class='dont-index'><p><code><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>all_vars()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>any_vars()</a></code> for other quoting
 functions that you can use with scoped verbs.</p></div>
 
   </div>

@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -221,21 +225,21 @@ existing code, so we created a new alternative." />
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#superseded'><img src='figures/lifecycle-superseded.svg' alt='Superseded lifecycle'></a>
 
-<code>top_n()</code> has been superseded in favour of <code><a href='slice.html'>slice_min()</a></code>/<code><a href='slice.html'>slice_max()</a></code>.
+<code><a href='https://dplyr.tidyverse.org/reference/top_n.html'>top_n()</a></code> has been superseded in favour of <code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_min()</a></code>/<code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_max()</a></code>.
 While it will not be deprecated in the near future, retirement means
 that we will only perform critical bug fixes, so we recommend moving to the
 newer alternatives.</p>
-<p><code>top_n()</code> was superseded because the name was fundamentally confusing as
+<p><code><a href='https://dplyr.tidyverse.org/reference/top_n.html'>top_n()</a></code> was superseded because the name was fundamentally confusing as
 it returned what you might reasonably consider to be the <em>bottom</em>
 rows. Additionally, the <code>wt</code> variable had a confusing name, and strange
 default (the last column in the data frame). Unfortunately we could not
-see an easy way to fix the existing <code>top_n()</code> function without breaking
+see an easy way to fix the existing <code><a href='https://dplyr.tidyverse.org/reference/top_n.html'>top_n()</a></code> function without breaking
 existing code, so we created a new alternative.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>top_n</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='no'>wt</span>)
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/top_n.html'>top_n</a></span>(<span class='kw'>x</span>, <span class='kw'>n</span>, <span class='kw'>wt</span>)
 
-<span class='fu'>top_frac</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='no'>wt</span>)</pre>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/top_n.html'>top_frac</a></span>(<span class='kw'>x</span>, <span class='kw'>n</span>, <span class='kw'>wt</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -246,8 +250,8 @@ existing code, so we created a new alternative.</p>
     </tr>
     <tr>
       <th>n</th>
-      <td><p>Number of rows to return for <code>top_n()</code>, fraction of rows to
-return for <code>top_frac()</code>. If <code>n</code> is positive, selects the top rows.
+      <td><p>Number of rows to return for <code><a href='https://dplyr.tidyverse.org/reference/top_n.html'>top_n()</a></code>, fraction of rows to
+return for <code><a href='https://dplyr.tidyverse.org/reference/top_n.html'>top_frac()</a></code>. If <code>n</code> is positive, selects the top rows.
 If negative, selects the bottom rows.
 If <code>x</code> is grouped, this is the number (or fraction) of rows per group.
 Will include more rows if there are ties.</p></td>
@@ -261,26 +265,26 @@ specified, defaults to the last variable in the tbl.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))
+    <pre class="examples"><div class='input'><span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))
 
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>2</span>)  <span class='co'># highest values</span></div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/top_n.html'>top_n</a></span>(<span class='fl'>2</span>)  <span class='co'># highest values</span></div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
 #&gt; 1  6
-#&gt; 2 10</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(-<span class='fl'>2</span>) <span class='co'># lowest values</span></div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;   x
+#&gt; 2 10</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/top_n.html'>top_n</a></span>(<span class='op'>-</span><span class='fl'>2</span>) <span class='co'># lowest values</span></div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;   x
 #&gt; 1 1
 #&gt; 2 1
 #&gt; 3 1</div><div class='input'><span class='co'># now use</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_max</a></span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;    x
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_max</a></span>(<span class='kw'>x</span>, n = <span class='fl'>2</span>)</div><div class='output co'>#&gt;    x
 #&gt; 1 10
-#&gt; 2  6</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_min</a></span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;   x
+#&gt; 2  6</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_min</a></span>(<span class='kw'>x</span>, n = <span class='fl'>2</span>)</div><div class='output co'>#&gt;   x
 #&gt; 1 1
 #&gt; 2 1
 #&gt; 3 1</div><div class='input'>
 <span class='co'># top_frac() -&gt; prop argument of slice_min()/slice_max()</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_frac</span>(<span class='fl'>.5</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/top_n.html'>top_frac</a></span>(<span class='fl'>.5</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
 #&gt; 1  6
 #&gt; 2  4
 #&gt; 3 10</div><div class='input'><span class='co'># -&gt;</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_max</a></span>(<span class='no'>x</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;    x
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_max</a></span>(<span class='kw'>x</span>, prop = <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;    x
 #&gt; 1 10
 #&gt; 2  6
 #&gt; 3  4</div></pre>

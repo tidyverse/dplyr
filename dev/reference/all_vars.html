@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -217,33 +221,33 @@ variant takes the intersection of the predicate expressions with
 
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#superseded'><img src='figures/lifecycle-superseded.svg' alt='Superseded lifecycle'></a></p>
-<p><code>all_vars()</code> and <code>any_vars()</code> were only needed for the scoped verbs, which
-have been superseded by the use of <code><a href='across.html'>across()</a></code> in an existing verb. See
-<code><a href='../articles/colwise.html'>vignette("colwise")</a></code> for details.</p>
+<p><code><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>all_vars()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>any_vars()</a></code> were only needed for the scoped verbs, which
+have been superseded by the use of <code><a href='https://dplyr.tidyverse.org/reference/across.html'>across()</a></code> in an existing verb. See
+<code>vignette("colwise")</code> for details.</p>
 <p>These quoting functions signal to scoped filtering verbs
-(e.g. <code><a href='filter_all.html'>filter_if()</a></code> or <code><a href='filter_all.html'>filter_all()</a></code>) that a predicate expression
-should be applied to all relevant variables. The <code>all_vars()</code>
+(e.g. <code><a href='https://dplyr.tidyverse.org/reference/filter_all.html'>filter_if()</a></code> or <code><a href='https://dplyr.tidyverse.org/reference/filter_all.html'>filter_all()</a></code>) that a predicate expression
+should be applied to all relevant variables. The <code><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>all_vars()</a></code>
 variant takes the intersection of the predicate expressions with
-<code>&amp;</code> while the <code>any_vars()</code> variant takes the union with <code>|</code>.</p>
+<code>&amp;</code> while the <code><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>any_vars()</a></code> variant takes the union with <code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>all_vars</span>(<span class='no'>expr</span>)
+    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>all_vars</a></span>(<span class='kw'>expr</span>)
 
-<span class='fu'>any_vars</span>(<span class='no'>expr</span>)</pre>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/all_vars.html'>any_vars</a></span>(<span class='kw'>expr</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>expr</th>
-      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; An expression that
+      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_data_masking.html'>data-masking</a></code>&gt; An expression that
 returns a logical vector, using <code>.</code> to refer to the "current" variable.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='vars.html'>vars()</a></code> for other quoting functions that you
+    <div class='dont-index'><p><code><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars()</a></code> for other quoting functions that you
 can use with scoped verbs.</p></div>
 
   </div>
