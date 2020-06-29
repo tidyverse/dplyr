@@ -62,7 +62,7 @@ cur_data <- function() {
 
 #' @rdname context
 #' @export
-cur_data_all <- function(group_vars = FALSE) {
+cur_data_all <- function() {
   mask <- peek_mask("cur_data_all()")
   vars <- mask$current_vars()
   mask$pick(vars)
