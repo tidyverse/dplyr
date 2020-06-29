@@ -28,7 +28,7 @@ variable, so only work inside specific contexts like \code{summarise()} and
 \code{mutate()}
 \itemize{
 \item \code{n()} gives the current group size.
-\item \code{cur_data()} gives the current data for the current group (exclusing
+\item \code{cur_data()} gives the current data for the current group (excluding
 grouping variables)
 \item \code{cur_group()} gives the group keys, a tibble with one row and one column
 for each grouping variable.
