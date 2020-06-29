@@ -23,7 +23,7 @@
 #'
 #'   **NB**: unlike `group_by()` you can not create new variables here but
 #'   instead you can select multiple variables with (e.g.) `everything()`.
-#' @seealso [nest_by()] for a convenient way of creating rowwwise data frames
+#' @seealso [nest_by()] for a convenient way of creating rowwise data frames
 #'   with nested data.
 #' @return A row-wise data frame with class `rowwise_df`. Note that a
 #'   `rowwise_df` is implicitly grouped by row, but is not a `grouped_df`.

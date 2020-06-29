@@ -81,7 +81,7 @@ For example, we can select all character with light skin color and brown eyes wi
 starwars %>% filter(skin_color == "light", eye_color == "brown")
 ```
 
-This is rougly equivalent to this base R code:
+This is roughly equivalent to this base R code:
 
 ```{r, eval = FALSE}
 starwars[starwars$skin_color == "light" & starwars$eye_color == "brown", ]
@@ -295,7 +295,7 @@ their own positions in the tibble. The following calls are completely
 equivalent from dplyr's point of view:
 
 ```{r}
-# `year` represents the integer 1
+# `name` represents the integer 1
 select(starwars, name)
 select(starwars, 1)
 ```
