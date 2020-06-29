@@ -64,7 +64,7 @@ group transiently, so the output has the same groups as the input.
 \code{df \%>\% group_by(a, b) \%>\% summarise(n = n())}.
 \code{count()} is paired with \code{tally()}, a lower-level helper that is equivalent
 to \code{df \%>\% summarise(n = n())}. Supply \code{wt} to perform weighted counts,
-switching the summary from from \code{n = n()} to \code{n = sum(wt)}.
+switching the summary from \code{n = n()} to \code{n = sum(wt)}.
 
 \code{add_count()} are \code{add_tally()} are equivalents to \code{count()} and \code{tally()}
 but use \code{mutate()} instead of \code{summarise()} so that they add a new column
