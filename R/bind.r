@@ -115,7 +115,19 @@ bind_rows <- function(..., .id = NULL) {
     }
   }
 
-  dots <- map(dots, function(.x) if (is.data.frame(.x)) .x else tibble(!!!.x))
+  classes_tbl <- c("tbl_df", "tbl")
+  dots <- map(dots, function(.x) {
+    if (is.data.frame(.x)) {
+      .x
+    } else {
+      # weird edge case about named factors
+      if (is.factor(.x)) {
+        .x <- set_names(map(.x, unname), names(.x))
+      }
+      new_data_frame(as.list(.x), class = classes_tbl)
+    }
+  })
+
   if (is.null(.id)) {
     names(dots) <- NULL
   }
