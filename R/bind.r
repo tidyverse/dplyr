@@ -117,13 +117,9 @@ bind_rows <- function(..., .id = NULL) {
 
   classes_tbl <- c("tbl_df", "tbl")
   dots <- map(dots, function(.x) {
-    if (is.data.frame(.x)) {
+    if (is.data.frame(.x) || !vec_is_list(.x)) {
       .x
     } else {
-      # weird edge case about named factors
-      if (is.factor(.x)) {
-        .x <- set_names(map(.x, unname), names(.x))
-      }
       new_data_frame(as.list(.x), class = classes_tbl)
     }
   })
