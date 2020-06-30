@@ -287,7 +287,11 @@ mutate_cols <- function(.data, ...) {
 
       # only unchop if needed
       if (is.null(result)) {
-        if (length(rows) == 1) {
+        skip_unchop <- TRUE
+        if (is_grouped_df(.data) || inherits(.data, "rowwise_df")) {
+          skip_unchop <- length(rows) == 1 && identical(rows[[1L]], seq_len(nrow(.data)))
+        }
+        if (skip_unchop) {
           result <- chunks[[1]]
         } else {
           result <- tryCatch(
