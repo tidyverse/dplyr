@@ -138,7 +138,24 @@ bind_cols <- function(...) {
   is_data_frame <- map_lgl(dots, is.data.frame)
   names(dots)[is_data_frame] <- ""
 
-  out <- vec_cbind(!!!dots)
+  out <- withCallingHandlers(
+    vec_cbind(!!!dots),
+    vctrs_error_incompatible_size = function(e) {
+
+      format_column_names <- function(data, arg, size) {
+        what <- if (is.data.frame(data)) {
+          "data frame"
+        } else {
+          "single column"
+        }
+        glue("`{arg}` is a {what} with {size} rows.")
+      }
+      abort(c("Cannot column bind with incompatible number of rows.",
+              i = format_column_names(e$x, e$x_arg, e$x_size),
+              i = format_column_names(e$y, e$y_arg, e$y_size)
+      ), parent = e)
+    }
+  )
   if (!any(map_lgl(dots, is.data.frame))) {
     out <- as_tibble(out)
   }
