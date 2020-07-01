@@ -259,9 +259,13 @@ only supported option before version 1.0.0.</p></li>
 <li><p>"rowwise": Each row is it's own group.</p></li>
 </ul>
 
-<p>When <code>.groups</code> is not specified, you either get "drop_last"
-when all the results are size 1, or "keep" if the size varies.
-In addition, a message informs you of that choice, unless the
+<p>When <code>.groups</code> is not specified, it is chosen
+based on the number of rows of the results:</p><ul>
+<li><p>If all the results have 1 row, you get "drop_last".</p></li>
+<li><p>If the number of rows varies, you get "keep".</p></li>
+</ul>
+
+<p>In addition, a message informs you of that choice, unless the
 option "dplyr.summarise.inform" is set to <code>FALSE</code>.</p></td>
     </tr>
     </table>
