@@ -572,6 +572,5 @@ test_that("*_bind() give meaningful errors", {
     "# incompatible size"
     bind_cols(a = 1:2, mtcars)
     bind_cols(mtcars, a = 1:3)
-    bind_cols(mtcars[, 1:2], mtcars[, 3:4], data.frame())
   })
 })
