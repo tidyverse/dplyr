@@ -49,8 +49,10 @@
 #'   * "keep": Same grouping structure as `.data`.
 #'   * "rowwise": Each row is it's own group.
 #'
-#'   When `.groups` is not specified, you either get "drop_last"
-#'   when all the results are size 1, or "keep" if the size varies.
+#'   When `.groups` is not specified, it is chosen
+#'   based on the number of rows of the results:
+#'   * If all the results have 1 row, you get "drop_last".
+#'   * If the number of rows varies, you get "keep".
 #'   In addition, a message informs you of that choice, unless the
 #'   option "dplyr.summarise.inform" is set to `FALSE`.
 #'
