@@ -287,12 +287,16 @@ mutate_cols <- function(.data, ...) {
 
       # only unchop if needed
       if (is.null(result)) {
-        result <- tryCatch(
-          vec_unchop(chunks, rows),
-          vctrs_error_incompatible_type = function(cnd) {
-            abort(class = "dplyr:::error_mutate_incompatible_combine", parent = cnd)
-          }
-        )
+        if (length(rows) == 1) {
+          result <- chunks[[1]]
+        } else {
+          result <- tryCatch(
+            vec_unchop(chunks, rows),
+            vctrs_error_incompatible_type = function(cnd) {
+              abort(class = "dplyr:::error_mutate_incompatible_combine", parent = cnd)
+            }
+          )
+        }
       }
 
       if (not_named && is.data.frame(result)) {

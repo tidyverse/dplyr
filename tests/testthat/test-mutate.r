@@ -143,6 +143,16 @@ test_that("named data frames are packed (#2326, #3630)", {
   expect_equal(out, tibble(x = 1, y = tibble(a = 1)))
 })
 
+test_that("unchop only called for when multiple groups", {
+  df <- data.frame(g = 1, x = 1:5)
+  out <- mutate(df, x = ts(x, start = c(1971, 1), frequency = 52))
+  expect_s3_class(out$x, "ts")
+
+  gdf <- group_by(df, g)
+  out <- mutate(gdf, x = ts(x, start = c(1971, 1), frequency = 52))
+  expect_s3_class(out$x, "ts")
+})
+
 # output types ------------------------------------------------------------
 
 test_that("mutate preserves grouping", {
