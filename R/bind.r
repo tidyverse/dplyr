@@ -68,6 +68,9 @@
 #' \dontrun{
 #' # Rows do need to match when column-binding
 #' bind_cols(tibble(x = 1:3), tibble(y = 1:2))
+#'
+#' # even with 0 columns
+#' bind_cols(tibble(x = 1:3), tibble())
 #' }
 #'
 #' bind_cols(one, two)
