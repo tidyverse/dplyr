@@ -519,9 +519,12 @@ test_that("bind_rows() handles named S3 objects (#4931)", {
     tibble(x = c("foo", "a"), y = c("bar", "b"))
   )
 
-  expect_equivalent(
+  expect_identical(
     bind_rows(fct, fct),
-    tibble(x = unname(fct)[c(1, 1)], y = unname(fct)[c(2, 2)])
+    data.frame(
+      x = factor(c("a", "a"), levels = c("a", "b")),
+      y = factor(c("b", "b"), levels = c("a", "b"))
+    )
   )
 })
 
