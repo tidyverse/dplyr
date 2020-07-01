@@ -38,9 +38,10 @@ based on the number of rows of the results:
 \itemize{
 \item If all the results have 1 row, you get "drop_last".
 \item If the number of rows varies, you get "keep".
+}
+
 In addition, a message informs you of that choice, unless the
-option "dplyr.summarise.inform" is set to \code{FALSE}.
-}}
+option "dplyr.summarise.inform" is set to \code{FALSE}.}
 }
 \value{
 An object \emph{usually} of the same type as \code{.data}.

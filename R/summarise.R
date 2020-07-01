@@ -53,6 +53,7 @@
 #'   based on the number of rows of the results:
 #'   * If all the results have 1 row, you get "drop_last".
 #'   * If the number of rows varies, you get "keep".
+#'
 #'   In addition, a message informs you of that choice, unless the
 #'   option "dplyr.summarise.inform" is set to `FALSE`.
 #'
