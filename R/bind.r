@@ -115,13 +115,11 @@ bind_rows <- function(..., .id = NULL) {
     }
   }
 
-  classes_tbl <- c("tbl_df", "tbl")
   dots <- map(dots, function(.x) {
-    if (is.data.frame(.x) || !vec_is_list(.x)) {
-      .x
-    } else {
-      new_data_frame(as.list(.x), class = classes_tbl)
+    if (vec_is_list(.x)) {
+      .x <- new_data_frame(as.list(.x))
     }
+    .x
   })
 
   if (is.null(.id)) {

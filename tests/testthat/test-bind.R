@@ -443,10 +443,8 @@ test_that("bind_rows() handles rowwise vectors", {
 
 test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {
   ll <- list(a = 1, b = 2)
-  df <- tibble(a = 1, b = 2)
-
-  expect_equal(bind_rows(list(ll)), df)
-  expect_equal(bind_rows(list(ll, ll)), df[c(1, 1), ])
+  expect_equal(bind_rows(list(ll)), data.frame(a = 1, b = 2))
+  expect_equal(bind_rows(list(ll, ll)), data.frame(a = c(1, 1), b = c(2, 2)))
 })
 
 test_that("bind_rows can handle lists (#1104)", {
