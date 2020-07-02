@@ -61,9 +61,11 @@ Run `cloud_details(, "anglr")` for more info
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
+    Last 13 lines of output:
       > library(anglr)
+      Warning messages:
+      1: In rgl.init(initValue, onlyNULL) : RGL: unable to open X11 display
+      2: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'. 
       > 
       > test_check("anglr")
       ── 1. Failure: SC0 round trip suite works (@test-silicate-sanity.R#7)  ─────────
@@ -75,6 +77,15 @@ Run `cloud_details(, "anglr")` for more info
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+## In both
+
+*   checking whether package ‘anglr’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'.
+    See ‘/tmp/workdir/anglr/new/anglr.Rcheck/00install.out’ for details.
     ```
 
 # baguette
@@ -194,28 +205,6 @@ Run `cloud_details(, "coalitions")` for more info
       Execution halted
     ```
 
-# DiversityOccupancy
-
-<details>
-
-* Version: 1.0.6
-* Source code: https://github.com/cran/DiversityOccupancy
-* Date/Publication: 2017-03-02 18:32:36
-* Number of recursive dependencies: 97
-
-Run `cloud_details(, "DiversityOccupancy")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘DiversityOccupancy’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'.
-    See ‘/tmp/workdir/DiversityOccupancy/new/DiversityOccupancy.Rcheck/00install.out’ for details.
-    ```
-
 # easyalluvial
 
 <details>
@@ -306,58 +295,6 @@ Run `cloud_details(, "eph")` for more info
     ```
       Note: found 1 marked Latin-1 string
       Note: found 721 marked UTF-8 strings
-    ```
-
-# eurostat
-
-<details>
-
-* Version: 3.6.1
-* Source code: https://github.com/cran/eurostat
-* URL: https://ropengov.github.io/eurostat
-* BugReports: https://github.com/ropengov/eurostat/issues
-* Date/Publication: 2020-02-11 17:50:03 UTC
-* Number of recursive dependencies: 141
-
-Run `cloud_details(, "eurostat")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      ── 1. Error: (unknown) (@test_flags.R#5)  ──────────────────────────────────────
-      invalid 'labels'; length 0 should be 1 or 2
-      Backtrace:
-       1. eurostat::get_eurostat(...)
-       2. eurostat::label_eurostat(y)
-       3. eurostat::label_eurostat(...)
-       4. base::factor(...)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 4 | SKIPPED: 18 | WARNINGS: 2 | FAILED: 1 ]
-      1. Error: (unknown) (@test_flags.R#5) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘tidyselect’
-      All declared Imports should be used.
-    ```
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 1182 marked UTF-8 strings
     ```
 
 # fabletools
@@ -604,68 +541,6 @@ Run `cloud_details(, "gravity")` for more info
       Execution halted
     ```
 
-# jstor
-
-<details>
-
-* Version: 0.3.9
-* Source code: https://github.com/cran/jstor
-* URL: https://github.com/ropensci/jstor, https://docs.ropensci.org/jstor
-* BugReports: https://github.com/ropensci/jstor/issues
-* Date/Publication: 2020-06-04 04:50:03 UTC
-* Number of recursive dependencies: 68
-
-Run `cloud_details(, "jstor")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    ```
-
-# mvrsquared
-
-<details>
-
-* Version: 0.1.0
-* Source code: https://github.com/cran/mvrsquared
-* URL: https://github.com/TommyJones/mvrsquared
-* BugReports: https://github.com/TommyJones/mvrsquared/issues
-* Date/Publication: 2020-06-25 06:00:06 UTC
-* Number of recursive dependencies: 94
-
-Run `cloud_details(, "mvrsquared")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘spelling.R’
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      1/1 mismatches
-      [1] 0.852 - 0.849 == 0.003
-      
-      ── 2. Failure: Multithreading works as expected (@test-mvrsquared.R#50)  ───────
-      `r2` not equal to 1 - ss[[1]]/ss[[2]].
-      1/1 mismatches
-      [1] 0.852 - 0.849 == 0.00345
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 23 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 2 ]
-      1. Failure: Multithreading works as expected (@test-mvrsquared.R#44) 
-      2. Failure: Multithreading works as expected (@test-mvrsquared.R#50) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # pmdplyr
 
 <details>
@@ -703,39 +578,6 @@ Run `cloud_details(, "pmdplyr")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# predict3d
-
-<details>
-
-* Version: 0.1.3.3
-* Source code: https://github.com/cran/predict3d
-* URL: https://github.com/cardiomoon/predict3d
-* BugReports: https://github.com/cardiomoon/predict3d/issues
-* Date/Publication: 2019-09-03 13:00:02 UTC
-* Number of recursive dependencies: 110
-
-Run `cloud_details(, "predict3d")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘predict3d’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'.
-    See ‘/tmp/workdir/predict3d/new/predict3d.Rcheck/00install.out’ for details.
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘TH.data’ ‘moonBook’
-      All declared Imports should be used.
     ```
 
 # psychmeta
@@ -778,6 +620,29 @@ Run `cloud_details(, "psychmeta")` for more info
      15. │                 │   └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
      16. │            
     Execution halted
+    ```
+
+# SEERaBomb
+
+<details>
+
+* Version: 2019.2
+* Source code: https://github.com/cran/SEERaBomb
+* URL: http://epbi-radivot.cwru.edu/SEERaBomb/SEERaBomb.html
+* Date/Publication: 2019-12-12 18:50:03 UTC
+* Number of recursive dependencies: 151
+
+Run `cloud_details(, "SEERaBomb")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘SEERaBomb’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'.
+    See ‘/tmp/workdir/SEERaBomb/new/SEERaBomb.Rcheck/00install.out’ for details.
     ```
 
 # sigminer
