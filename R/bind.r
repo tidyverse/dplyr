@@ -115,7 +115,13 @@ bind_rows <- function(..., .id = NULL) {
     }
   }
 
-  dots <- map(dots, function(.x) if (is.data.frame(.x)) .x else tibble(!!!.x))
+  dots <- map(dots, function(.x) {
+    if (vec_is_list(.x)) {
+      .x <- new_data_frame(as.list(.x))
+    }
+    .x
+  })
+
   if (is.null(.id)) {
     names(dots) <- NULL
   }
