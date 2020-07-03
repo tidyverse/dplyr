@@ -399,6 +399,9 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'>7</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     4</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Rows do need to match when column-binding</span>
 <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_cols</a></span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(y = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>))
+
+<span class='co'># even with 0 columns</span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_cols</a></span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>), <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>())
 }
 
 <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_cols</a></span>(<span class='kw'>one</span>, <span class='kw'>two</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
