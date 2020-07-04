@@ -12,7 +12,7 @@ i Input `a` is `sum(y)`.
 Error: Problem with `mutate()` input `a`.
 x object 'y' not found
 i Input `a` is `sum(y)`.
-i The error occured in group 1: x = 1.
+i The error occurred in group 1: x = 1.
 
 
 incompatible column type
@@ -37,14 +37,14 @@ i Input `out` is `env(a = 1)`.
 Error: Problem with `mutate()` input `out`.
 x Input `out` must be a vector, not an environment.
 i Input `out` is `env(a = 1)`.
-i The error occured in group 1: g = 1.
+i The error occurred in group 1: g = 1.
 
 > df %>% rowwise() %>% mutate(out = rnorm)
 Error: Problem with `mutate()` input `out`.
 x Input `out` must be a vector, not a function.
 i Input `out` is `rnorm`.
 i Did you mean: `out = list(rnorm)` ?
-i The error occured in row 1.
+i The error occurred in row 1.
 
 
 incompatible types across groups
@@ -79,14 +79,14 @@ Error: Problem with `mutate()` input `int`.
 x Input `int` can't be recycled to size 2.
 i Input `int` is `1:5`.
 i Input `int` must be size 2 or 1, not 5.
-i The error occured in group 1: x = 2.
+i The error occurred in group 1: x = 2.
 
 > data.frame(x = c(2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)
 Error: Problem with `mutate()` input `int`.
 x Input `int` can't be recycled to size 1.
 i Input `int` is `1:5`.
 i Input `int` must be size 1, not 5.
-i The error occured in group 1: x = 2.
+i The error occurred in group 1: x = 2.
 
 > data.frame(x = c(2, 2, 3, 3)) %>% rowwise() %>% mutate(int = 1:5)
 Error: Problem with `mutate()` input `int`.
@@ -94,7 +94,7 @@ x Input `int` can't be recycled to size 1.
 i Input `int` is `1:5`.
 i Input `int` must be size 1, not 5.
 i Did you mean: `int = list(1:5)` ?
-i The error occured in row 1.
+i The error occurred in row 1.
 
 > tibble(y = list(1:3, "a")) %>% rowwise() %>% mutate(y2 = y)
 Error: Problem with `mutate()` input `y2`.
@@ -102,7 +102,7 @@ x Input `y2` can't be recycled to size 1.
 i Input `y2` is `y`.
 i Input `y2` must be size 1, not 3.
 i Did you mean: `y2 = list(y)` ?
-i The error occured in row 1.
+i The error occurred in row 1.
 
 
 .data pronoun
@@ -117,5 +117,5 @@ i Input `c` is `.data$b`.
 Error: Problem with `mutate()` input `c`.
 x Column `b` not found in `.data`
 i Input `c` is `.data$b`.
-i The error occured in group 1: a = 1.
+i The error occurred in group 1: a = 1.
 
