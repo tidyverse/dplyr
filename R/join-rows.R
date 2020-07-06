@@ -3,7 +3,7 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
 
   # Find matching rows in y for each row in x
   y_split <- vec_group_loc(y_key)
-  tryCatch(
+  withCallingHandlers(
     matches <- vec_match(x_key, y_split$key, na_equal = na_equal),
     vctrs_error_incompatible_type = function(cnd) {
       rx <- "^[^$]+[$]"
