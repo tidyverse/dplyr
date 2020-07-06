@@ -82,7 +82,8 @@ group_keys.data.frame <- function(.tbl, ...) {
 #' @rdname group_data
 #' @export
 group_rows <- function(.data) {
-  group_data(.data)[[".rows"]]
+  groups <- group_data(.data)
+  groups[[length(groups)]]
 }
 
 #' @export
@@ -115,7 +116,12 @@ group_vars <- function(x) {
 }
 #' @export
 group_vars.data.frame <- function(x) {
-  setdiff(names(group_data(x)), ".rows")
+  names <- names(group_data(x))
+  if (names[[length(names)]] == ".rows") {
+    names[-length(names)]
+  } else {
+    names
+  }
 }
 
 #' @export

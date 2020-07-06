@@ -26,13 +26,22 @@ test_that("group_data(<grouped_df>) returns a tibble", {
   expect_equivalent(gd, tibble(x = c(1, 2), ".rows" := list_of(1:2, 3L)))
 })
 
-test_that("group_data(<rowwise) returns a tibble", {
+test_that("group_data(<rowwise>) returns a tibble", {
   df <- tibble(x = 1:3)
   rf <- rowwise(df)
   gd <- group_data(rf)
 
   expect_s3_class(gd, "tbl_df")
   expect_equal(gd, tibble(".rows" := list_of(1, 2, 3)))
+})
+
+test_that("group_data() works if column is called `.rows` (#5382)", {
+  df <- tibble(.rows := c(1, 1, 2))
+  gf <- group_by(df, .rows)
+  gd <- group_data(gf)
+
+  expect_s3_class(gd, "tbl_df")
+  expect_identical(names(gd), c(".rows", ".rows"))
 })
 
 # group_rows() and group_keys() -------------------------------------------
@@ -46,7 +55,18 @@ test_that("group_rows() and group_keys() partition group_data()", {
   expect_equal(group_rows(gf), gd[[3]])
 })
 
+test_that("group_rows() and group_keys() partition group_data() if column is named .rows (#5382)", {
+  df <- data.frame(x = 1:2, .rows = 1:2)
+  gf <- group_by(df, x, .rows)
+  gd <- group_data(gf)
+
+  expect_equivalent(names(group_keys(gf)), names(df))
+  expect_equal(group_rows(gf), gd[[3]])
+})
+
 test_that("group_keys(...) is deprecated", {
+  local_options(lifecycle_verbosity = "warning")
+
   df <- tibble(x = 1, y = 2)
 
   expect_warning(out <- df %>% group_keys(x), "deprecated")
@@ -56,13 +76,15 @@ test_that("group_keys(...) is deprecated", {
 # group_indices() ---------------------------------------------------------
 
 test_that("no arg group_indices() is deprecated", {
+  local_options(lifecycle_verbosity = "warning")
+
   df <- tibble(x = 1)
   expect_warning(out <- summarise(df, id = group_indices()), "deprecated")
   expect_equal(out, tibble(id = 1))
 })
 
 test_that("group_indices(...) is deprecated", {
-  skip("Non-deterministic failures")
+  local_options(lifecycle_verbosity = "warning")
 
   df <- tibble(x = 1, y = 2)
   expect_warning(out <- df %>% group_indices(x), "deprecated")
@@ -72,6 +94,14 @@ test_that("group_indices(...) is deprecated", {
 test_that("group_indices() returns expected values", {
   df <- tibble(x = c("b", "a", "b"))
   gf <- group_by(df, x)
+
+  expect_equal(group_indices(df), c(1, 1, 1))
+  expect_equal(group_indices(gf), c(2, 1, 2))
+})
+
+test_that("group_indices() returns expected values with .rows column (#5382)", {
+  df <- tibble(.rows := c("b", "a", "b"))
+  gf <- group_by(df, .rows)
 
   expect_equal(group_indices(df), c(1, 1, 1))
   expect_equal(group_indices(gf), c(2, 1, 2))
@@ -94,6 +124,12 @@ test_that("rowwise data has one group for each group", {
 
 test_that("group_size correct for grouped data", {
   df <- tibble(x = rep(1:3, each = 10), y = rep(1:6, each = 5)) %>% group_by(x)
+  expect_equal(n_groups(df), 3L)
+  expect_equal(group_size(df), rep(10, 3))
+})
+
+test_that("group_size correct for grouped data with .rows column (#5382)", {
+  df <- tibble(.rows := rep(1:3, each = 10), y = rep(1:6, each = 5)) %>% group_by(.rows)
   expect_equal(n_groups(df), 3L)
   expect_equal(group_size(df), rep(10, 3))
 })

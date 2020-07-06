@@ -47,7 +47,7 @@ compute_groups <- function(data, vars, drop = FALSE) {
 
   signal("", class = "dplyr_regroup")
 
-  groups <- tibble(!!!old_keys, ".rows" := old_rows)
+  groups <- tibble(!!!old_keys, ".rows" := old_rows, .name_repair = "minimal")
 
   if (!isTRUE(drop) && any(map_lgl(old_keys, is.factor))) {
     # Extra work is needed to auto expand empty groups
@@ -85,7 +85,7 @@ compute_groups <- function(data, vars, drop = FALSE) {
     })
     names(new_keys) <- vars
 
-    groups <- tibble(!!!new_keys, ".rows" := new_rows)
+    groups <- tibble(!!!new_keys, ".rows" := new_rows, .name_repair = "minimal")
   }
 
   structure(groups, .drop = drop)
@@ -277,16 +277,16 @@ cbind.grouped_df <- function(...) {
   bind_cols(...)
 }
 
+# Helpers -----------------------------------------------------------------
+
 group_data_trim <- function(group_data, preserve = FALSE) {
   if (preserve) {
     return(group_data)
   }
 
-  non_empty <- lengths(group_data$".rows") > 0
+  non_empty <- lengths(group_data[[length(group_data)]]) > 0
   group_data[non_empty, , drop = FALSE]
 }
-
-# Helpers -----------------------------------------------------------------
 
 expand_groups <- function(old_groups, positions, nr) {
   .Call(`dplyr_expand_groups`, old_groups, positions, nr)
