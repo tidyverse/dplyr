@@ -119,13 +119,15 @@ arrange_rows <- function(.data, dots) {
     stop_arrange_transmute(cnd)
   })
 
+  use_proxy_order <- utils::packageVersion("vctrs") > "0.3.1"
+
   # we can't just use vec_compare_proxy(data) because we need to apply
   # direction for each column, so we get a list of proxies instead
   # and then mimic vctrs:::order_proxy
   #
   # should really be map2(quosures, directions, ...)
   proxies <- map2(data, directions, function(column, direction) {
-    proxy <- vec_proxy_compare(column, relax = TRUE)
+    proxy <- dplyr_proxy_order(column, use_proxy_order)
     desc <- identical(direction, "desc")
     if (is.data.frame(proxy)) {
       proxy <- order(vec_order(proxy,
@@ -140,3 +142,16 @@ arrange_rows <- function(.data, dots) {
 
   exec("order", !!!unname(proxies), decreasing = FALSE, na.last = TRUE)
 }
+
+# FIXME: Temporary patch until vctrs 0.3.2 has been on CRAN for long enough
+# to reasonably expect that users have upgraded
+dplyr_proxy_order <- function(x, use_proxy_order) {
+  if (use_proxy_order) {
+    vec_proxy_order(x)
+  } else {
+    vec_proxy_compare(x, relax = TRUE)
+  }
+}
+# Hack to pass CRAN check with vctrs 0.3.1,
+# where `vec_proxy_order()` doesn't exist
+utils::globalVariables("vec_proxy_order")
