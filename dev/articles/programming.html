@@ -441,7 +441,7 @@
 <span class="kw">my_summarise</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">data</span>, <span class="kw">group_var</span>, <span class="kw">summarise_var</span>) {
   <span class="kw">data</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>({{ <span class="kw">group_var</span> }})) <span class="op">%&gt;%</span> 
-    <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>({{ <span class="kw">group_var</span> }}, <span class="kw">mean</span>))
+    <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>({{ <span class="kw">summarise_var</span> }}, <span class="kw">mean</span>))
 }
 </pre></div>
 <p>Use the <code>.names</code> argument to <code><a href="../reference/across.html">across()</a></code> to control the names of the output.</p>
