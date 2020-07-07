@@ -21,7 +21,7 @@ It's often useful to perform the same operation on multiple columns, but copying
 ```{r, eval = FALSE}
 df %>% 
   group_by(g1, g2) %>% 
-  summarise(a = mean(a), b = mean(b), c = mean(c), d = mean(c))
+  summarise(a = mean(a), b = mean(b), c = mean(c), d = mean(d))
 ```
 
 (If you're trying to compute `mean(a, b, c, d)` for each row, instead see `vignette("rowwise")`)

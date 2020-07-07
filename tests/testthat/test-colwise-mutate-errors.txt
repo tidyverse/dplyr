@@ -20,10 +20,10 @@ x Column `gr1` doesn't exist.
 improper additional arguments
 =============================
 
-> mutate_all(mtcars, round, 0, 0)
+> mutate_all(mtcars, length, 0, 0)
 Error: Problem with `mutate()` input `mpg`.
-x 3 arguments passed to 'round'which requires 1 or 2 arguments
-i Input `mpg` is `.Primitive("round")(mpg, 0, 0)`.
+x 3 arguments passed to 'length' which requires 1
+i Input `mpg` is `.Primitive("length")(mpg, 0, 0)`.
 
 > mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
 Error: Problem with `mutate()` input `mpg`.

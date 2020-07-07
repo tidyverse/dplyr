@@ -36,8 +36,8 @@ that identifies the group
 \value{
 \itemize{
 \item \code{group_modify()} returns a grouped tibble. In that case \code{.f} must return a data frame.
-\item \code{group_map()} returns a list of results from calling \code{.f} on each group
-\item \code{group_walk()} calls \code{.f} for side effects and returns the input \code{.tbl}, invisibly
+\item \code{group_map()} returns a list of results from calling \code{.f} on each group.
+\item \code{group_walk()} calls \code{.f} for side effects and returns the input \code{.tbl}, invisibly.
 }
 }
 \description{

@@ -25,8 +25,9 @@ This argument was previously called \code{add}, but that prevented
 creating a new grouping variable called \code{add}, and conflicts with
 our naming conventions.}
 
-\item{.drop}{When \code{.drop = TRUE}, empty groups are dropped. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for
-what the default value is for this argument.}
+\item{.drop}{Drop groups formed by factor levels that don't appear in the
+data? The default is \code{TRUE} except when \code{.data} has been previously
+grouped with \code{.drop = FALSE}. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for details.}
 
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }

@@ -6,7 +6,9 @@
 #' `mutate()`
 #'
 #' * `n()` gives the current group size.
-#' * `cur_data()` gives the current data for the current group (exclusing
+#' * `cur_data()` gives the current data for the current group (excluding
+#'   grouping variables).
+#' * `cur_data_all()` gives the current data for the current group (including
 #'   grouping variables)
 #' * `cur_group()` gives the group keys, a tibble with one row and one column
 #'   for each grouping variable.
@@ -38,6 +40,7 @@
 #' gf %>% summarise(row = cur_group_rows())
 #' gf %>% summarise(data = list(cur_group()))
 #' gf %>% summarise(data = list(cur_data()))
+#' gf %>% summarise(data = list(cur_data_all()))
 #'
 #' gf %>% mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))
 #' @name context
@@ -54,6 +57,14 @@ n <- function() {
 cur_data <- function() {
   mask <- peek_mask("cur_data()")
   vars <- mask$current_non_group_vars()
+  mask$pick(vars)
+}
+
+#' @rdname context
+#' @export
+cur_data_all <- function() {
+  mask <- peek_mask("cur_data_all()")
+  vars <- mask$current_vars()
   mask$pick(vars)
 }
 

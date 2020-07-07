@@ -9,7 +9,8 @@ coalesce(...)
 \arguments{
 \item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Vectors. Inputs should be
 recyclable (either be length 1 or same length as the longest vector) and
-coercible to a common type.}
+coercible to a common type. If data frames, they are coalesced column by
+column.}
 }
 \value{
 A vector the same length as the first \code{...} argument with

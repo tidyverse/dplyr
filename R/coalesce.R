@@ -5,8 +5,9 @@
 #' which does the same thing for `NULL`s.
 #'
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Vectors. Inputs should be
-#'    recyclable (either be length 1 or same length as the longest vector) and
-#'    coercible to a common type.
+#'   recyclable (either be length 1 or same length as the longest vector) and
+#'   coercible to a common type. If data frames, they are coalesced column by
+#'   column.
 #' @return A vector the same length as the first `...` argument with
 #'   missing values replaced by the first non-missing value.
 #' @seealso [na_if()] to replace specified values with a `NA`.
@@ -40,9 +41,29 @@ coalesce <- function(...) {
   x <- values[[1]]
   values <- values[-1]
 
+  if (!is_null(attr(x, "dim"))) {
+    abort("Can't coalesce matrices or arrays.")
+  }
+  if (is.data.frame(x)) {
+    df_coalesce(x, values)
+  } else {
+    vec_coalesce(x, values)
+  }
+}
+
+vec_coalesce <- function(x, values) {
   for (i in seq_along(values)) {
     x_miss <- is.na(x)
     vec_slice(x, x_miss) <- vec_slice(values[[i]], x_miss)
   }
+
+  x
+}
+df_coalesce <- function(x, values) {
+  for (i in seq_along(x)) {
+    col_values <- map(values, `[[`, i)
+    x[[i]] <- vec_coalesce(x[[i]], col_values)
+  }
+
   x
 }

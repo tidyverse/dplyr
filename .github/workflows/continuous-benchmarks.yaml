@@ -11,6 +11,8 @@ jobs:
 
       - name: Setup R
         uses: r-lib/actions/setup-r@master
+        with:
+          r-version: 'release'
 
       - name: Install dependencies
         run: |
