@@ -321,19 +321,19 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1    10</span>
-<span class="co">#&gt; 2     2</span>
-<span class="co">#&gt; 3     7</span>
-<span class="co">#&gt; 4     3</span>
+<span class="co">#&gt; 1     9</span>
+<span class="co">#&gt; 2     3</span>
+<span class="co">#&gt; 3    10</span>
+<span class="co">#&gt; 4     7</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span>(<span class="kw">x</span>, .keep_all = <span class="fl">TRUE</span>) <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1    10     4</span>
-<span class="co">#&gt; 2     2     1</span>
-<span class="co">#&gt; 3     7     2</span>
-<span class="co">#&gt; 4     3     9</span>
+<span class="co">#&gt; 1     9     2</span>
+<span class="co">#&gt; 2     3     5</span>
+<span class="co">#&gt; 3    10     7</span>
+<span class="co">#&gt; 4     7     6</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 </pre></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
@@ -342,19 +342,19 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1    10</span>
-<span class="co">#&gt; 2     2</span>
-<span class="co">#&gt; 3     7</span>
-<span class="co">#&gt; 4     3</span>
+<span class="co">#&gt; 1     9</span>
+<span class="co">#&gt; 2     3</span>
+<span class="co">#&gt; 3    10</span>
+<span class="co">#&gt; 4     7</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="kw">df</span>[<span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(<span class="kw">df</span><span class="op">$</span><span class="kw">x</span>), , drop = <span class="fl">FALSE</span>] <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1    10     4</span>
-<span class="co">#&gt; 2     2     1</span>
-<span class="co">#&gt; 3     7     2</span>
-<span class="co">#&gt; 4     3     9</span>
+<span class="co">#&gt; 1     9     2</span>
+<span class="co">#&gt; 2     3     5</span>
+<span class="co">#&gt; 3    10     7</span>
+<span class="co">#&gt; 4     7     6</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 </pre></div>
 </div>
@@ -423,12 +423,16 @@
 </pre></div>
 <p>You can also use <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> but this also requires the use of <code><a href="https://rdrr.io/r/base/which.html">which()</a></code> to remove <code>NA</code>s:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="kw">starwars</span>[<span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw">starwars</span><span class="op">$</span><span class="kw">species</span> <span class="op">==</span> <span class="st">"human"</span>), , drop = <span class="fl">FALSE</span>]
-<span class="co">#&gt; # A tibble: 0 x 14</span>
-<span class="co">#&gt; # … with 14 variables: name &lt;chr&gt;, height &lt;int&gt;, mass &lt;dbl&gt;, hair_color &lt;chr&gt;,</span>
-<span class="co">#&gt; #   skin_color &lt;chr&gt;, eye_color &lt;chr&gt;, birth_year &lt;dbl&gt;, sex &lt;chr&gt;,</span>
-<span class="co">#&gt; #   gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
-<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">starwars</span>[<span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw">starwars</span><span class="op">$</span><span class="kw">species</span> <span class="op">==</span> <span class="st">"Human"</span>), , drop = <span class="fl">FALSE</span>]
+<span class="co">#&gt; # A tibble: 35 x 14</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; 3 Leia…    150    49 brown      light      brown           19   fema… femin…</span>
+<span class="co">#&gt; 4 Owen…    178   120 brown, gr… light      blue            52   male  mascu…</span>
+<span class="co">#&gt; # … with 31 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="kw">starwars</span>[<span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw">starwars</span><span class="op">$</span><span class="kw">mass</span> <span class="op">&gt;</span> <span class="fl">1000</span>), , drop = <span class="fl">FALSE</span>]
 <span class="co">#&gt; # A tibble: 1 x 14</span>
 <span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
@@ -457,22 +461,22 @@
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;       x     y     z    z2</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1    10     4    14   196</span>
-<span class="co">#&gt; 2     2     1     3     9</span>
-<span class="co">#&gt; 3     7     2     9    81</span>
-<span class="co">#&gt; 4     7    10    17   289</span>
+<span class="co">#&gt; 1     9     2    11   121</span>
+<span class="co">#&gt; 2     3     5     8    64</span>
+<span class="co">#&gt; 3    10     7    17   289</span>
+<span class="co">#&gt; 4     7     6    13   169</span>
 <span class="co">#&gt; # … with 96 more rows</span>
 </pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/transform.html">transform</a></span>(<span class="kw">df</span>, z = <span class="kw">x</span> <span class="op">+</span> <span class="kw">y</span>, z2 = (<span class="kw">x</span> <span class="op">+</span> <span class="kw">y</span>) <span class="op">^</span> <span class="fl">2</span>))
-<span class="co">#&gt;    x  y  z  z2</span>
-<span class="co">#&gt; 1 10  4 14 196</span>
-<span class="co">#&gt; 2  2  1  3   9</span>
-<span class="co">#&gt; 3  7  2  9  81</span>
-<span class="co">#&gt; 4  7 10 17 289</span>
-<span class="co">#&gt; 5  3  9 12 144</span>
-<span class="co">#&gt; 6  7  7 14 196</span>
+<span class="co">#&gt;    x y  z  z2</span>
+<span class="co">#&gt; 1  9 2 11 121</span>
+<span class="co">#&gt; 2  3 5  8  64</span>
+<span class="co">#&gt; 3 10 7 17 289</span>
+<span class="co">#&gt; 4  7 6 13 169</span>
+<span class="co">#&gt; 5  6 8 14 196</span>
+<span class="co">#&gt; 6  2 7  9  81</span>
 </pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
