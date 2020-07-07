@@ -229,7 +229,7 @@ mutate_cols <- function(.data, ...) {
 
   new_columns <- set_names(list(), character())
 
-  tryCatch({
+  withCallingHandlers({
     for (i in seq_along(dots)) {
       not_named <- (is.null(dots_names) || dots_names[i] == "")
 
@@ -290,7 +290,7 @@ mutate_cols <- function(.data, ...) {
         if (length(rows) == 1) {
           result <- chunks[[1]]
         } else {
-          result <- tryCatch(
+          result <- withCallingHandlers(
             vec_unchop(chunks, rows),
             vctrs_error_incompatible_type = function(cnd) {
               abort(class = "dplyr:::error_mutate_incompatible_combine", parent = cnd)

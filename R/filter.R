@@ -120,7 +120,7 @@ filter_rows <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
 
   env_filter <- env()
-  tryCatch(
+  withCallingHandlers(
     mask$eval_all_filter(dots, env_filter),
     simpleError = function(e) {
       stop_dplyr(env_filter$current_expression, dots, fn = "filter", problem = conditionMessage(e))

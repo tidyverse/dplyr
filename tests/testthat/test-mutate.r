@@ -354,6 +354,20 @@ test_that("can use .before and .after to control column position", {
   expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
 })
 
+test_that("mutate() preserves the call stack on error (#5308)", {
+  foobar <- function() stop("foo")
+
+  stack <- NULL
+  expect_error(
+    withCallingHandlers(
+      error = function(...) stack <<- sys.calls(),
+      mutate(mtcars, foobar())
+    )
+  )
+
+  expect_true(some(stack, is_call, "foobar"))
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {

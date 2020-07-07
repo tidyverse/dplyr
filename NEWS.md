@@ -16,6 +16,10 @@
 
 * `cummean()` no longer has off-by-one indexing problem (@cropgen, #5287).
 
+* The call stack is preserved on error. This makes it possible to `recover()`
+  into problematic code called from dplyr verbs (#5308).
+
+
 # dplyr 1.0.0
 
 ## Breaking changes

@@ -216,8 +216,7 @@ summarise_cols <- function(.data, ...) {
   chunks <- vector("list", length(dots))
   types <- vector("list", length(dots))
 
-  tryCatch({
-
+  withCallingHandlers({
     # generate all chunks and monitor the sizes
     for (i in seq_along(dots)) {
       quo <- dots[[i]]
@@ -230,7 +229,7 @@ summarise_cols <- function(.data, ...) {
 
       mask$across_cache_reset()
 
-      result_type <- types[[i]] <- tryCatch(
+      result_type <- types[[i]] <- withCallingHandlers(
         vec_ptype_common(!!!chunks[[i]]),
         vctrs_error_incompatible_type = function(cnd) {
           abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)
