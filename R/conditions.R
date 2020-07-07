@@ -13,7 +13,7 @@ arg_name <- function(quos, index) {
 cnd_bullet_cur_group_label <- function() {
   label <- cur_group_label()
   if (label != "") {
-    c(i = glue("The error occured in {label}."))
+    c(i = glue("The error occurred in {label}."))
   }
 }
 
