@@ -221,6 +221,7 @@
 </li>
 <li><p><code><a href="https://dplyr.tidyverse.org/reference/coalesce.html">coalesce()</a></code> now supports data frames correctly (<a href='https://github.com/tidyverse/dplyr/issues/5326'>#5326</a>).</p></li>
 <li><p><code><a href="https://dplyr.tidyverse.org/reference/cumall.html">cummean()</a></code> no longer has off-by-one indexing problem (<a href='https://github.com/cropgen'>@cropgen</a>, <a href='https://github.com/tidyverse/dplyr/issues/5287'>#5287</a>).</p></li>
+<li><p>The call stack is preserved on error. This makes it possible to <code><a href="https://rdrr.io/r/utils/recover.html">recover()</a></code> into problematic code called from dplyr verbs (<a href='https://github.com/tidyverse/dplyr/issues/5308'>#5308</a>).</p></li>
 </ul>
 </div>
     <div id="dplyr-100" class="section level1">
