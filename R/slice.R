@@ -249,6 +249,7 @@ slice_rows <- function(.data, ...) {
   }
 
   mask <- DataMask$new(.data, caller_env())
+  on.exit(mask$forget(), add = TRUE)
   rows <- mask$get_rows()
 
   quo <- quo(c(!!!dots))

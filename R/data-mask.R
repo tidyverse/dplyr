@@ -73,9 +73,10 @@ DataMask <- R6Class("DataMask",
       }
 
       promises <- map(names_bindings, function(.x) expr(osbolete_promise_fn(!!.x)))
-      suppressWarnings(
+      suppressWarnings({
+        rm(list = names_bindings, envir = private$bindings)
         env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
-      )
+      })
     },
 
     add = function(name, chunks) {

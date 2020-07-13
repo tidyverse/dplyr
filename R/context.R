@@ -142,7 +142,5 @@ peek_mask <- function(fun = "peek_mask()") {
   context_peek("mask", fun)
 }
 local_mask <- function(x, frame = caller_env()) {
-  expr <- expr(on.exit(mask$forget(), add = TRUE))
-  eval_bare(expr, frame)
   context_local("mask", x, frame = frame)
 }
