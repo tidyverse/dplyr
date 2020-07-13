@@ -45,20 +45,14 @@ DataMask <- R6Class("DataMask",
       private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
 
       promise_fn <- function(index, chunks = resolve_chunks(index), name = names_bindings[index]) {
-          current_group <- self$get_current_group()
+        # resolve the chunks and hold the slice for current group
+        res <- .subset2(chunks, self$get_current_group())
 
-          if (is.na(current_group)) {
-            abort("Attempt to use data mask too late")
-          }
+        # track - not safe to directly use `index`
+        self$set(name, chunks)
 
-          # resolve the chunks and hold the slice for current group
-          res <- .subset2(chunks, current_group)
-
-          # track - not safe to directly use `index`
-          self$set(name, chunks)
-
-          # return result for current slice
-          res
+        # return result for current slice
+        res
       }
 
       promises <- map(seq_len(ncol(data)), function(.x) expr(promise_fn(!!.x)))
@@ -69,6 +63,19 @@ DataMask <- R6Class("DataMask",
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
+    },
+
+    forget = function() {
+      names_bindings <- self$current_vars()
+
+      osbolete_promise_fn <- function(name) {
+        abort(glue("Obsolete data mask, cannot resolve `{name}`"))
+      }
+
+      promises <- map(names_bindings, function(.x) expr(osbolete_promise_fn(!!.x)))
+      suppressWarnings(
+        env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
+      )
     },
 
     add = function(name, chunks) {
