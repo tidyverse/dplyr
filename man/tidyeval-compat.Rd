@@ -22,19 +22,19 @@ exported from dplyr for backward compatibility.
 See \code{\link[=dplyr_data_masking]{?dplyr_data_masking}} and \code{vignette("programming")}
 for the latest recommendations.
 \itemize{
-\item \link[rlang:expr]{expr()}
-\item \link[rlang:enquo]{enquo()}
-\item \link[rlang:enquos]{enquos()}
+\item \link[rlang:nse-defuse]{expr()}
+\item \link[rlang:nse-defuse]{enquo()}
+\item \link[rlang:nse-defuse]{enquos()}
 \item \link[rlang:sym]{sym()}
-\item \link[rlang:syms]{syms()}
+\item \link[rlang:sym]{syms()}
 \item \link[rlang:as_label]{as_label()}
-\item \link[rlang:quo]{quo()}
-\item \link[rlang:quos]{quos()}
-\item \link[rlang:quo_name]{quo_name()}
-\item \link[rlang:ensym]{ensym()}
-\item \link[rlang:ensyms]{ensyms()}
-\item \link[rlang:enexpr]{enexpr()}
-\item \link[rlang:enexprs]{enexprs()}
+\item \link[rlang:nse-defuse]{quo()}
+\item \link[rlang:nse-defuse]{quos()}
+\item \link[rlang:quo_label]{quo_name()}
+\item \link[rlang:nse-defuse]{ensym()}
+\item \link[rlang:nse-defuse]{ensyms()}
+\item \link[rlang:nse-defuse]{enexpr()}
+\item \link[rlang:nse-defuse]{enexprs()}
 }
 }
 \keyword{internal}

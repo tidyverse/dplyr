@@ -16,7 +16,7 @@ class name}
 
 \item{...}{fields used by object.
 
-These dots are evaluated with \link[rlang:dots_list]{explicit splicing}.}
+These dots are evaluated with \link[rlang:list2]{explicit splicing}.}
 
 \item{x}{object to test for "src"-ness.}
 }

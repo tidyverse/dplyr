@@ -22,7 +22,7 @@ The default returns the last column (on the assumption that's the
 column you've created most recently).
 
 This argument is taken by expression and supports
-\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
+\link[rlang:nse-force]{quasiquotation} (you can unquote column
 names and column locations).}
 
 \item{name}{An optional parameter that specifies the column to be used

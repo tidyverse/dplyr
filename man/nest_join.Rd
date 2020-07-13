@@ -55,7 +55,7 @@ is a 0-row tibble.
 In some sense, a \code{nest_join()} is the most fundamental join since you can
 recreate the other joins from it:
 \itemize{
-\item \code{inner_join()} is a \code{nest_join()} plus \code{\link[tidyr:unnest]{tidyr::unnest()}}
+\item \code{inner_join()} is a \code{nest_join()} plus \code{\link[tidyr:nest]{tidyr::unnest()}}
 \item \code{left_join()} \code{nest_join()} plus \code{unnest(.drop = FALSE)}.
 \item \code{semi_join()} is a \code{nest_join()} plus a \code{filter()} where you check
 that every element of data has at least one row,
