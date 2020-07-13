@@ -547,14 +547,14 @@
 <span class="co">#&gt; 3     8 0.423</span>
 <span class="kw">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">broom</span>::<span class="fu"><a href="https://rdrr.io/pkg/generics/man/glance.html">glance</a></span>(<span class="kw">mod</span>))
 <span class="co">#&gt; `summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span>
-<span class="co">#&gt; # A tibble: 3 x 12</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
 <span class="co">#&gt; # Groups:   cyl [3]</span>
 <span class="co">#&gt;     cyl r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC</span>
-<span class="co">#&gt;   &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     4     0.509         0.454  3.33      9.32  0.0137     2 -27.7   61.5  62.7</span>
-<span class="co">#&gt; 2     6     0.465         0.357  1.17      4.34  0.0918     2  -9.83  25.7  25.5</span>
-<span class="co">#&gt; 3     8     0.423         0.375  2.02      8.80  0.0118     2 -28.7   63.3  65.2</span>
-<span class="co">#&gt; # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</span>
+<span class="co">#&gt;   &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     4     0.509         0.454  3.33      9.32  0.0137     1 -27.7   61.5  62.7</span>
+<span class="co">#&gt; 2     6     0.465         0.357  1.17      4.34  0.0918     1  -9.83  25.7  25.5</span>
+<span class="co">#&gt; 3     8     0.423         0.375  2.02      8.80  0.0118     1 -28.7   63.3  65.2</span>
+<span class="co">#&gt; # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</span>
 </pre></div>
 <p>Or easily access the parameters of each model:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit">

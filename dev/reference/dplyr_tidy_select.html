@@ -273,7 +273,7 @@ for which the function returns <code>TRUE</code>.</p></li>
 <li><p>If you have a character vector of column names, use <code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>all_of()</a></code>
 or <code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>any_of()</a></code>, depending on whether or not you want unknown variable
 names to cause an error, e.g <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select(df, all_of(vars))</a></code>,
-<code><a href='https://dplyr.tidyverse.org/reference/select.html'>select(df, -any_of(vars))</a></code>.</p></li>
+<code><a href='https://dplyr.tidyverse.org/reference/select.html'>select(df, !any_of(vars))</a></code>.</p></li>
 <li><p>If you you want the user to supply a tidyselect specification in a
 function argument, embrace the function argument, e.g
 <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select(df, {{ vars }})</a></code>.</p></li>

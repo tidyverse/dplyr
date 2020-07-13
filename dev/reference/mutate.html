@@ -396,7 +396,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='co'># to multiple columns in a tibble.</span>
 <span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>name</span>, <span class='kw'>homeworld</span>, <span class='kw'>species</span>) <span class='op'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='op'>-</span><span class='kw'>name</span>, <span class='kw'>as.factor</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
+ <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='op'>!</span><span class='kw'>name</span>, <span class='kw'>as.factor</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 3</span><span>
 #&gt;    name               homeworld species
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker     Tatooine  Human  

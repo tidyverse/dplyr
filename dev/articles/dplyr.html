@@ -401,7 +401,7 @@
 <span class="co">#&gt; 4 none       white       yellow   </span>
 <span class="co">#&gt; # … with 83 more rows</span>
 <span class="co"># Select all columns except those from hair_color to eye_color (inclusive)</span>
-<span class="kw">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="op">-</span>(<span class="kw">hair_color</span><span class="op">:</span><span class="kw">eye_color</span>))
+<span class="kw">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="op">!</span>(<span class="kw">hair_color</span><span class="op">:</span><span class="kw">eye_color</span>))
 <span class="co">#&gt; # A tibble: 87 x 11</span>
 <span class="co">#&gt;   name  height  mass birth_year sex   gender homeworld species films vehicles</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;   &lt;lis&gt; &lt;list&gt;  </span>
