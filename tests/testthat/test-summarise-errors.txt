@@ -111,3 +111,10 @@ x Column `b` not found in `.data`
 i Input `c` is `.data$b`.
 i The error occurred in group 1: a = 1.
 
+
+Duplicate column names
+======================
+
+> tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
+Error: Can't transform a data frame with duplicate names.
+

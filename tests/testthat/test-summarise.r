@@ -260,5 +260,8 @@ test_that("summarise() gives meaningful errors", {
     "# .data pronoun"
     summarise(tibble(a = 1), c = .data$b)
     summarise(group_by(tibble(a = 1:3), a), c = .data$b)
+
+    "# Duplicate column names"
+    tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
   })
 })
