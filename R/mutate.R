@@ -101,7 +101,7 @@
 #' # to multiple columns in a tibble.
 #' starwars %>%
 #'  select(name, homeworld, species) %>%
-#'  mutate(across(-name, as.factor))
+#'  mutate(across(!name, as.factor))
 #' # see more in ?across
 #'
 #' # Window functions are useful for grouped mutates:
