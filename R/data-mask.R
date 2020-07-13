@@ -39,7 +39,7 @@ DataMask <- R6Class("DataMask",
 
       names_bindings <- chr_unserialise_unicode(names2(data))
       if (anyDuplicated(names_bindings)) {
-        abort("Can't mutate a data frame with duplicate names.")
+        abort("Can't transform a data frame with duplicate names.")
       }
 
       private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
