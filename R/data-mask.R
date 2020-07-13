@@ -45,8 +45,14 @@ DataMask <- R6Class("DataMask",
       private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
 
       promise_fn <- function(index, chunks = resolve_chunks(index), name = names_bindings[index]) {
+          current_group <- self$get_current_group()
+
+          if (is.na(current_group)) {
+            abort("Attempt to use data mask too late")
+          }
+
           # resolve the chunks and hold the slice for current group
-          res <- .subset2(chunks, self$get_current_group())
+          res <- .subset2(chunks, current_group)
 
           # track - not safe to directly use `index`
           self$set(name, chunks)

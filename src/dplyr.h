@@ -72,7 +72,9 @@ SEXP current_group = PROTECT(Rf_ScalarInteger(NA_INTEGER));                     
 Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);           \
 int* p_current_group = INTEGER(current_group)
 
-#define DPLYR_MASK_FINALISE() UNPROTECT(5);
+#define DPLYR_MASK_FINALISE()                             \
+  *p_current_group = NA_INTEGER;                          \
+  UNPROTECT(5);
 
 #define DPLYR_MASK_SET_GROUP(INDEX)                                                   \
 *p_current_group = INDEX + 1;                                                         \
