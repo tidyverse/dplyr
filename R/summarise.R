@@ -205,7 +205,7 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
 
 summarise_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
-  on.exit(mask$forget(), add = TRUE)
+  on.exit(mask$forget("summarise"), add = TRUE)
 
   dots <- enquos(...)
   dots_names <- names(dots)
