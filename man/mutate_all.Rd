@@ -27,7 +27,7 @@ transmute_at(.tbl, .vars, .funs, ..., .cols = NULL)
 \item{.funs}{A function \code{fun}, a quosure style lambda \code{~ fun(.)} or a list of either form.}
 
 \item{...}{Additional arguments for the function calls in
-\code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
+\code{.funs}. These are evaluated only once, with \link[rlang:dyn-dots]{tidy dots} support.}
 
 \item{.predicate}{A predicate function to be applied to the columns
 or a logical vector. The variables for which \code{.predicate} is or

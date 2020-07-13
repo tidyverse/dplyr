@@ -28,16 +28,16 @@ In addition, you can use \strong{selection helpers}. Some helpers select specifi
 columns:
 \itemize{
 \item \code{\link[tidyselect:everything]{everything()}}: Matches all variables.
-\item \code{\link[tidyselect:last_col]{last_col()}}: Select last variable, possibly with an offset.
+\item \code{\link[tidyselect:everything]{last_col()}}: Select last variable, possibly with an offset.
 }
 
 These helpers select variables by matching patterns in their names:
 \itemize{
 \item \code{\link[tidyselect:starts_with]{starts_with()}}: Starts with a prefix.
-\item \code{\link[tidyselect:ends_with]{ends_with()}}: Ends with a suffix.
-\item \code{\link[tidyselect:contains]{contains()}}: Contains a literal string.
-\item \code{\link[tidyselect:matches]{matches()}}: Matches a regular expression.
-\item \code{\link[tidyselect:num_range]{num_range()}}: Matches a numerical range like x01, x02, x03.
+\item \code{\link[tidyselect:starts_with]{ends_with()}}: Ends with a suffix.
+\item \code{\link[tidyselect:starts_with]{contains()}}: Contains a literal string.
+\item \code{\link[tidyselect:starts_with]{matches()}}: Matches a regular expression.
+\item \code{\link[tidyselect:starts_with]{num_range()}}: Matches a numerical range like x01, x02, x03.
 }
 
 These helpers select variables from a character vector:
@@ -45,7 +45,7 @@ These helpers select variables from a character vector:
 \item \code{\link[tidyselect:all_of]{all_of()}}: Matches variable names in a character vector. All
 names must be present, otherwise an out-of-bounds error is
 thrown.
-\item \code{\link[tidyselect:any_of]{any_of()}}: Same as \code{all_of()}, except that no error is thrown
+\item \code{\link[tidyselect:all_of]{any_of()}}: Same as \code{all_of()}, except that no error is thrown
 for names that don't exist.
 }
 

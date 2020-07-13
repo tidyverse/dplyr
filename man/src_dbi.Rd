@@ -42,7 +42,7 @@ Generally, you should avoid saving username and password in your
 scripts as it is easy to accidentally expose valuable credentials.
 Instead, retrieve them from environment variables, or use database
 specific credential scores. For example, with MySQL you can set up \code{my.cnf}
-as described in \code{\link[RMySQL:MySQL]{RMySQL::MySQL()}}.}
+as described in \code{\link[RMySQL:MySQLDriver-class]{RMySQL::MySQL()}}.}
 
 \item{path}{Path to SQLite database. You can use the special path
 ":memory:" to create a temporary in memory database.}
