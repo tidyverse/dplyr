@@ -4,8 +4,8 @@
 # enough to reasonably expect that users have upgraded
 dplyr_proxy_order <- function(x) NULL
 
-# Hack to pass CRAN check with vctrs 0.3.1,
-# where `vec_proxy_order()` doesn't exist
+# Hack to pass CRAN check with older vctrs versions where
+# `vec_proxy_order()` doesn't exist
 utils::globalVariables("vec_proxy_order")
 
 .onLoad <- function(libname, pkgname) {
