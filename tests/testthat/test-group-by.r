@@ -476,6 +476,12 @@ test_that("group_by() can handle auto splicing in the mutate() step", {
     iris %>% group_by(across(starts_with("Sepal"), round))
   )
 
+  df <- tibble(x = c(1, 2), y = c(1, 2))
+  expect_identical(df %>% group_by(across(character())), df)
+  expect_identical(df %>% group_by(across(NULL)), df)
+
+  expect_identical(df %>% group_by(x) %>% group_by(across(character())), df)
+  expect_identical(df %>% group_by(x) %>% group_by(across(NULL)), df)
 })
 
 test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {

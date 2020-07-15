@@ -202,6 +202,20 @@ test_that("summarise(.groups=)", {
 
 # errors -------------------------------------------------------------------
 
+test_that("summarise() preserves the call stack on error (#5308)", {
+  foobar <- function() stop("foo")
+
+  stack <- NULL
+  expect_error(
+    withCallingHandlers(
+      error = function(...) stack <<- sys.calls(),
+      summarise(mtcars, foobar())
+    )
+  )
+
+  expect_true(some(stack, is_call, "foobar"))
+})
+
 test_that("summarise() gives meaningful errors", {
   verify_output(env = env(global_env()), test_path("test-summarise-errors.txt"), {
     "# Messages about .groups="
@@ -246,5 +260,8 @@ test_that("summarise() gives meaningful errors", {
     "# .data pronoun"
     summarise(tibble(a = 1), c = .data$b)
     summarise(group_by(tibble(a = 1:3), a), c = .data$b)
+
+    "# Duplicate column names"
+    tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
   })
 })

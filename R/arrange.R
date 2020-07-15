@@ -113,7 +113,7 @@ arrange_rows <- function(.data, dots) {
   #
   #       revisit when we have something like mutate_one() to
   #       evaluate one quosure in the data mask
-  data <- tryCatch({
+  data <- withCallingHandlers({
     transmute(new_data_frame(.data), !!!quosures)
   }, error = function(cnd) {
     stop_arrange_transmute(cnd)
@@ -125,7 +125,7 @@ arrange_rows <- function(.data, dots) {
   #
   # should really be map2(quosures, directions, ...)
   proxies <- map2(data, directions, function(column, direction) {
-    proxy <- vec_proxy_compare(column, relax = TRUE)
+    proxy <- dplyr_proxy_order(column)
     desc <- identical(direction, "desc")
     if (is.data.frame(proxy)) {
       proxy <- order(vec_order(proxy,
@@ -140,3 +140,19 @@ arrange_rows <- function(.data, dots) {
 
   exec("order", !!!unname(proxies), decreasing = FALSE, na.last = TRUE)
 }
+
+# FIXME: Temporary util until the API change from
+# https://github.com/r-lib/vctrs/pull/1155 is on CRAN and we can
+# depend on it
+delayedAssign(
+  "dplyr_proxy_order",
+  if (env_has(ns_env("vctrs"), "vec_proxy_order")) {
+    vec_proxy_order
+  } else {
+    function(x, ...) vec_proxy_compare(x, ..., relax = TRUE)
+  }
+)
+
+# Hack to pass CRAN check with older vctrs versions where
+# `vec_proxy_order()` doesn't exist
+utils::globalVariables("vec_proxy_order")

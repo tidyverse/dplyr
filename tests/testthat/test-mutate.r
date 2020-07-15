@@ -143,6 +143,16 @@ test_that("named data frames are packed (#2326, #3630)", {
   expect_equal(out, tibble(x = 1, y = tibble(a = 1)))
 })
 
+test_that("unchop only called for when multiple groups", {
+  df <- data.frame(g = 1, x = 1:5)
+  out <- mutate(df, x = ts(x, start = c(1971, 1), frequency = 52))
+  expect_s3_class(out$x, "ts")
+
+  gdf <- group_by(df, g)
+  out <- mutate(gdf, x = ts(x, start = c(1971, 1), frequency = 52))
+  expect_s3_class(out$x, "ts")
+})
+
 # output types ------------------------------------------------------------
 
 test_that("mutate preserves grouping", {
@@ -344,6 +354,35 @@ test_that("can use .before and .after to control column position", {
   expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
 })
 
+test_that("mutate() preserves the call stack on error (#5308)", {
+  foobar <- function() stop("foo")
+
+  stack <- NULL
+  expect_error(
+    withCallingHandlers(
+      error = function(...) stack <<- sys.calls(),
+      mutate(mtcars, foobar())
+    )
+  )
+
+  expect_true(some(stack, is_call, "foobar"))
+})
+
+test_that("dplyr data mask can become obsolete", {
+  lazy <- function(x) {
+    list(enquo(x))
+  }
+  df <- tibble(
+    x = 1:2
+  )
+
+  res <- df %>%
+    rowwise() %>%
+    mutate(y = lazy(x), .keep = "unused")
+  expect_equal(names(res), c("x", "y"))
+  expect_error(eval_tidy(res$y[[1]]))
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {
@@ -403,5 +442,12 @@ test_that("mutate() give meaningful errors", {
     tibble(a = 1:3) %>%
       group_by(a) %>%
       mutate(c = .data$b)
+
+    "# obsolete data mask"
+    lazy <- function(x) list(enquo(x))
+    res <- tbl %>%
+      rowwise() %>%
+      mutate(z = lazy(x), .keep = "unused")
+    eval_tidy(res$z[[1]])
   })
 })

@@ -33,10 +33,16 @@ only supported option before version 1.0.0.
 \item "rowwise": Each row is it's own group.
 }
 
-When \code{.groups} is not specified, you either get "drop_last"
-when all the results are size 1, or "keep" if the size varies.
+When \code{.groups} is not specified, it is chosen
+based on the number of rows of the results:
+\itemize{
+\item If all the results have 1 row, you get "drop_last".
+\item If the number of rows varies, you get "keep".
+}
+
 In addition, a message informs you of that choice, unless the
-option "dplyr.summarise.inform" is set to \code{FALSE}.}
+option "dplyr.summarise.inform" is set to \code{FALSE}, or when \code{summarise()}
+is called from a function in a package.}
 }
 \value{
 An object \emph{usually} of the same type as \code{.data}.

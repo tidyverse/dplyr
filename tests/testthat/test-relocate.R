@@ -37,3 +37,20 @@ test_that("before and after are defused with context", {
     names(relocate(mtcars, 3, .after = 5))
   )
 })
+
+test_that("relocate() respects order specified by ... (#5328)", {
+  df <- tibble(a = 1, x = 1, b = 1, z = 1, y = 1)
+
+  expect_equal(
+    names(relocate(df, x, y, z, .before = x)),
+    c("a", "x", "y", "z", "b")
+  )
+  expect_equal(
+    names(relocate(df, x, y, z, .after = last_col())),
+    c("a", "b", "x", "y", "z")
+  )
+  expect_equal(
+    names(relocate(df, x, a, z)),
+    c("x", "a", "z", "b", "y")
+  )
+})

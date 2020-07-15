@@ -101,7 +101,7 @@
 #' # to multiple columns in a tibble.
 #' starwars %>%
 #'  select(name, homeworld, species) %>%
-#'  mutate(across(-name, as.factor))
+#'  mutate(across(!name, as.factor))
 #' # see more in ?across
 #'
 #' # Window functions are useful for grouped mutates:
@@ -218,6 +218,7 @@ transmute.data.frame <- function(.data, ...) {
 
 mutate_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
+  on.exit(mask$forget("mutate"), add = TRUE)
   rows <- mask$get_rows()
 
   dots <- enquos(...)
@@ -227,9 +228,9 @@ mutate_cols <- function(.data, ...) {
     return(NULL)
   }
 
-  new_columns <- list()
+  new_columns <- set_names(list(), character())
 
-  tryCatch({
+  withCallingHandlers({
     for (i in seq_along(dots)) {
       not_named <- (is.null(dots_names) || dots_names[i] == "")
 
@@ -268,7 +269,7 @@ mutate_cols <- function(.data, ...) {
         }
       }
 
-      # evaluluate the chunks if needed
+      # evaluate the chunks if needed
       if (is.null(chunks)) {
         chunks <- mask$eval_all_mutate(dots[[i]])
       }
@@ -287,12 +288,16 @@ mutate_cols <- function(.data, ...) {
 
       # only unchop if needed
       if (is.null(result)) {
-        result <- tryCatch(
-          vec_unchop(chunks, rows),
-          vctrs_error_incompatible_type = function(cnd) {
-            abort(class = "dplyr:::error_mutate_incompatible_combine", parent = cnd)
-          }
-        )
+        if (length(rows) == 1) {
+          result <- chunks[[1]]
+        } else {
+          result <- withCallingHandlers(
+            vec_unchop(chunks, rows),
+            vctrs_error_incompatible_type = function(cnd) {
+              abort(class = "dplyr:::error_mutate_incompatible_combine", parent = cnd)
+            }
+          )
+        }
       }
 
       if (not_named && is.data.frame(result)) {
@@ -331,6 +336,9 @@ mutate_cols <- function(.data, ...) {
     } else {
       stop_dplyr(i, dots, fn = "mutate", problem = conditionMessage(e), parent = e)
     }
+  },
+  warning = function(w) {
+    warn_dplyr(i, dots, fn = "mutate", problem = conditionMessage(w), parent = w)
   })
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
