@@ -56,7 +56,7 @@
 #'
 #'   In addition, a message informs you of that choice, unless the
 #'   option "dplyr.summarise.inform" is set to `FALSE`, or when `summarise()`
-#'   is called from package code.
+#'   is called from a function in a package.
 #'
 #' @family single table verbs
 #' @return

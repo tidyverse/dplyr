@@ -42,7 +42,7 @@ based on the number of rows of the results:
 
 In addition, a message informs you of that choice, unless the
 option "dplyr.summarise.inform" is set to \code{FALSE}, or when \code{summarise()}
-is called from package code.}
+is called from a function in a package.}
 }
 \value{
 An object \emph{usually} of the same type as \code{.data}.
