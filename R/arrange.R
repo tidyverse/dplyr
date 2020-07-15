@@ -5,7 +5,7 @@
 #' columns.
 #'
 #' Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
-#' need to explicitly mention grouping variables (or use  `by_group = TRUE`)
+#' need to explicitly mention grouping variables (or use  `.by_group = TRUE`)
 #' in order to group by them, and functions of variables are evaluated
 #' once per data frame, not once per group.
 #'
