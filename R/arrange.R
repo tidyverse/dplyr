@@ -140,3 +140,19 @@ arrange_rows <- function(.data, dots) {
 
   exec("order", !!!unname(proxies), decreasing = FALSE, na.last = TRUE)
 }
+
+# FIXME: Temporary util until the API change from
+# https://github.com/r-lib/vctrs/pull/1155 is on CRAN and we can
+# depend on it
+delayedAssign(
+  "dplyr_proxy_order",
+  if (env_has(ns_env("vctrs"), "vec_proxy_order")) {
+    vec_proxy_order
+  } else {
+    function(x, ...) vec_proxy_compare(x, ..., relax = TRUE)
+  }
+)
+
+# Hack to pass CRAN check with older vctrs versions where
+# `vec_proxy_order()` doesn't exist
+utils::globalVariables("vec_proxy_order")
