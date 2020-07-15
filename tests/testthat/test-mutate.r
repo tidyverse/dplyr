@@ -368,6 +368,21 @@ test_that("mutate() preserves the call stack on error (#5308)", {
   expect_true(some(stack, is_call, "foobar"))
 })
 
+test_that("dplyr data mask can become obsolete", {
+  lazy <- function(x) {
+    list(enquo(x))
+  }
+  df <- tibble(
+    x = 1:2
+  )
+
+  res <- df %>%
+    rowwise() %>%
+    mutate(y = lazy(x), .keep = "unused")
+  expect_equal(names(res), c("x", "y"))
+  expect_error(eval_tidy(res$y[[1]]))
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {
@@ -427,5 +442,12 @@ test_that("mutate() give meaningful errors", {
     tibble(a = 1:3) %>%
       group_by(a) %>%
       mutate(c = .data$b)
+
+    "# obsolete data mask"
+    lazy <- function(x) list(enquo(x))
+    res <- tbl %>%
+      rowwise() %>%
+      mutate(z = lazy(x), .keep = "unused")
+    eval_tidy(res$z[[1]])
   })
 })

@@ -119,3 +119,14 @@ x Column `b` not found in `.data`
 i Input `c` is `.data$b`.
 i The error occurred in group 1: a = 1.
 
+
+obsolete data mask
+==================
+
+> lazy <- (function(x) list(enquo(x)))
+> res <- tbl %>% rowwise() %>% mutate(z = lazy(x), .keep = "unused")
+> eval_tidy(res$z[[1]])
+Error: Obsolete data mask.
+x Too late to resolve `x` after the end of `dplyr::mutate()`.
+i Did you save an object that uses `x` lazily in a column in the `dplyr::mutate()` expression ?
+
