@@ -77,6 +77,279 @@ Status: 1 ERROR
 
 
 ```
+# bibliometrix
+
+<details>
+
+* Version: 3.0.2
+* Source code: https://github.com/cran/bibliometrix
+* URL: https://www.bibliometrix.org, https://github.com/massimoaria/bibliometrix
+* BugReports: https://github.com/massimoaria/bibliometrix/issues
+* Date/Publication: 2020-06-17 10:00:03 UTC
+* Number of recursive dependencies: 153
+
+Run `cloud_details(, "bibliometrix")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/bibliometrix/new/bibliometrix.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘bibliometrix/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘bibliometrix’ version ‘3.0.2’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘pubmedR’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/bibliometrix/old/bibliometrix.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘bibliometrix/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘bibliometrix’ version ‘3.0.2’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘pubmedR’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# bioOED
+
+<details>
+
+* Version: 0.2.1
+* Source code: https://github.com/cran/bioOED
+* Date/Publication: 2019-08-07 15:00:02 UTC
+* Number of recursive dependencies: 118
+
+Run `cloud_details(, "bioOED")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/bioOED/new/bioOED.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘bioOED/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘bioOED’ version ‘0.2.1’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘MEIGOR’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/bioOED/old/bioOED.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘bioOED/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘bioOED’ version ‘0.2.1’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘MEIGOR’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# bootnet
+
+<details>
+
+* Version: 1.4.3
+* Source code: https://github.com/cran/bootnet
+* Date/Publication: 2020-06-02 11:20:03 UTC
+* Number of recursive dependencies: 181
+
+Run `cloud_details(, "bootnet")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/bootnet/new/bootnet.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘bootnet/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘bootnet’ version ‘1.4.3’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'qgraph', 'mgm', 'graphicalVAR'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/bootnet/old/bootnet.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘bootnet/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘bootnet’ version ‘1.4.3’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'qgraph', 'mgm', 'graphicalVAR'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
 # NA
 
 <details>
@@ -261,7 +534,7 @@ Status: 1 ERROR
 * Version: 1.3.3
 * Source code: https://github.com/cran/CB2
 * Date/Publication: 2020-05-26 11:00:21 UTC
-* Number of recursive dependencies: 97
+* Number of recursive dependencies: 100
 
 Run `cloud_details(, "CB2")` for more info
 
@@ -426,6 +699,468 @@ Run `cloud_details(, "NA")` for more info
 
 
 ```
+# choroplethr
+
+<details>
+
+* Version: 3.6.3
+* Source code: https://github.com/cran/choroplethr
+* URL: www.choroplethr.com
+* Date/Publication: 2018-08-15 18:00:13 UTC
+* Number of recursive dependencies: 108
+
+Run `cloud_details(, "choroplethr")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘choroplethr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/choroplethr/new/choroplethr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘choroplethr’ ...
+** package ‘choroplethr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+** byte-compile and prepare package for lazy loading
+Error: package ‘XML’ required by ‘acs’ could not be found
+Execution halted
+ERROR: lazy loading failed for package ‘choroplethr’
+* removing ‘/tmp/workdir/choroplethr/new/choroplethr.Rcheck/choroplethr’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘choroplethr’ ...
+** package ‘choroplethr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+** byte-compile and prepare package for lazy loading
+Error: package ‘XML’ required by ‘acs’ could not be found
+Execution halted
+ERROR: lazy loading failed for package ‘choroplethr’
+* removing ‘/tmp/workdir/choroplethr/old/choroplethr.Rcheck/choroplethr’
+
+```
+# CityWaterBalance
+
+<details>
+
+* Version: 0.1.0
+* Source code: https://github.com/cran/CityWaterBalance
+* Date/Publication: 2017-06-16 19:45:28 UTC
+* Number of recursive dependencies: 66
+
+Run `cloud_details(, "CityWaterBalance")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘CityWaterBalance’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/CityWaterBalance/new/CityWaterBalance.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘CityWaterBalance’ ...
+** package ‘CityWaterBalance’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘CityWaterBalance’
+* removing ‘/tmp/workdir/CityWaterBalance/new/CityWaterBalance.Rcheck/CityWaterBalance’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘CityWaterBalance’ ...
+** package ‘CityWaterBalance’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘CityWaterBalance’
+* removing ‘/tmp/workdir/CityWaterBalance/old/CityWaterBalance.Rcheck/CityWaterBalance’
+
+```
+# clustermole
+
+<details>
+
+* Version: 1.0.1
+* Source code: https://github.com/cran/clustermole
+* URL: https://github.com/igordot/clustermole
+* BugReports: https://github.com/igordot/clustermole/issues
+* Date/Publication: 2020-01-27 10:00:02 UTC
+* Number of recursive dependencies: 107
+
+Run `cloud_details(, "clustermole")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/clustermole/new/clustermole.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘clustermole/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘clustermole’ version ‘1.0.1’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘GSVA’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/clustermole/old/clustermole.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘clustermole/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘clustermole’ version ‘1.0.1’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘GSVA’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# CNVScope
+
+<details>
+
+* Version: 3.1.8
+* Source code: https://github.com/cran/CNVScope
+* URL: https://github.com/jamesdalg/CNVScope/
+* BugReports: https://github.com/jamesdalg/CNVScope/issues/
+* Date/Publication: 2020-07-03 04:30:03 UTC
+* Number of recursive dependencies: 204
+
+Run `cloud_details(, "CNVScope")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/CNVScope/new/CNVScope.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘CNVScope/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘CNVScope’ version ‘3.1.8’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available:
+  'GenomicInteractions', 'biomaRt', 'rtracklayer'
+
+Packages suggested but not available:
+  'GenomicFeatures', 'BSgenome.Hsapiens.UCSC.hg19'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/CNVScope/old/CNVScope.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘CNVScope/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘CNVScope’ version ‘3.1.8’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available:
+  'GenomicInteractions', 'biomaRt', 'rtracklayer'
+
+Packages suggested but not available:
+  'GenomicFeatures', 'BSgenome.Hsapiens.UCSC.hg19'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# countyweather
+
+<details>
+
+* Version: 0.1.0
+* Source code: https://github.com/cran/countyweather
+* Date/Publication: 2016-10-26 00:17:31
+* Number of recursive dependencies: 107
+
+Run `cloud_details(, "countyweather")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/countyweather/new/countyweather.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘countyweather/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘countyweather’ version ‘0.1.0’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘rnoaa’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/countyweather/old/countyweather.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘countyweather/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘countyweather’ version ‘0.1.0’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘rnoaa’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# daqapo
+
+<details>
+
+* Version: 0.3.0
+* Source code: https://github.com/cran/daqapo
+* URL: https://github.com/nielsmartin
+* BugReports: https://github.com/nielsmartin/daqapo/issues
+* Date/Publication: 2020-04-08 09:50:05 UTC
+* Number of recursive dependencies: 90
+
+Run `cloud_details(, "daqapo")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘daqapo’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/daqapo/new/daqapo.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘daqapo’ ...
+** package ‘daqapo’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘daqapo’
+* removing ‘/tmp/workdir/daqapo/new/daqapo.Rcheck/daqapo’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘daqapo’ ...
+** package ‘daqapo’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘daqapo’
+* removing ‘/tmp/workdir/daqapo/old/daqapo.Rcheck/daqapo’
+
+```
+# DecomposeR
+
+<details>
+
+* Version: 1.0.2
+* Source code: https://github.com/cran/DecomposeR
+* Date/Publication: 2020-06-01 17:10:02 UTC
+* Number of recursive dependencies: 129
+
+Run `cloud_details(, "DecomposeR")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘DecomposeR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/DecomposeR/new/DecomposeR.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘DecomposeR’ ...
+** package ‘DecomposeR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘DecomposeR’
+* removing ‘/tmp/workdir/DecomposeR/new/DecomposeR.Rcheck/DecomposeR’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘DecomposeR’ ...
+** package ‘DecomposeR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘DecomposeR’
+* removing ‘/tmp/workdir/DecomposeR/old/DecomposeR.Rcheck/DecomposeR’
+
+```
 # dendroTools
 
 <details>
@@ -489,6 +1224,77 @@ ERROR: lazy loading failed for package ‘dendroTools’
 * removing ‘/tmp/workdir/dendroTools/old/dendroTools.Rcheck/dendroTools’
 
 ```
+# diceR
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/diceR
+* URL: https://github.com/AlineTalhouk/diceR, https://alinetalhouk.github.io/diceR
+* BugReports: https://github.com/AlineTalhouk/diceR/issues
+* Date/Publication: 2020-07-07 22:30:02 UTC
+* Number of recursive dependencies: 140
+
+Run `cloud_details(, "diceR")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/diceR/new/diceR.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘diceR/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘diceR’ version ‘1.0.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘NMF’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/diceR/old/diceR.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘diceR/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘diceR’ version ‘1.0.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘NMF’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
 # dmdScheme
 
 <details>
@@ -550,6 +1356,75 @@ ERROR: lazy loading failed for package ‘dmdScheme’
 * removing ‘/tmp/workdir/dmdScheme/old/dmdScheme.Rcheck/dmdScheme’
 
 ```
+# easyr
+
+<details>
+
+* Version: 0.4-0
+* Source code: https://github.com/cran/easyr
+* URL: https://github.com/oliver-wyman-actuarial/easyr
+* BugReports: https://github.com/oliver-wyman-actuarial/easyr/issues
+* Date/Publication: 2020-06-02 14:50:02 UTC
+* Number of recursive dependencies: 94
+
+Run `cloud_details(, "easyr")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/easyr/new/easyr.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘easyr/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘easyr’ version ‘0.4-0’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'qs', 'XML'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/easyr/old/easyr.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘easyr/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘easyr’ version ‘0.4-0’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'qs', 'XML'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
 # EdSurvey
 
 <details>
@@ -558,7 +1433,7 @@ ERROR: lazy loading failed for package ‘dmdScheme’
 * Source code: https://github.com/cran/EdSurvey
 * URL: https://www.air.org/project/nces-data-r-project-edsurvey
 * Date/Publication: 2020-04-13 19:50:03 UTC
-* Number of recursive dependencies: 111
+* Number of recursive dependencies: 113
 
 Run `cloud_details(, "EdSurvey")` for more info
 
@@ -616,67 +1491,6 @@ Status: 1 ERROR
 
 
 
-
-```
-# EGAnet
-
-<details>
-
-* Version: 0.9.3
-* Source code: https://github.com/cran/EGAnet
-* Date/Publication: 2020-03-05 17:50:02 UTC
-* Number of recursive dependencies: 205
-
-Run `cloud_details(, "EGAnet")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘EGAnet’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/tmp/workdir/EGAnet/new/EGAnet.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘EGAnet’ ...
-** package ‘EGAnet’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘mnormt’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘EGAnet’
-* removing ‘/tmp/workdir/EGAnet/new/EGAnet.Rcheck/EGAnet’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘EGAnet’ ...
-** package ‘EGAnet’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘mnormt’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘EGAnet’
-* removing ‘/tmp/workdir/EGAnet/old/EGAnet.Rcheck/EGAnet’
 
 ```
 # EML
@@ -752,63 +1566,6 @@ ERROR: lazy loading failed for package ‘EML’
 * removing ‘/tmp/workdir/EML/old/EML.Rcheck/EML’
 
 ```
-# EstimateGroupNetwork
-
-<details>
-
-* Version: 0.2.2
-* Source code: https://github.com/cran/EstimateGroupNetwork
-* Date/Publication: 2020-01-08 08:20:02 UTC
-* Number of recursive dependencies: 111
-
-Run `cloud_details(, "EstimateGroupNetwork")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘EstimateGroupNetwork’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/tmp/workdir/EstimateGroupNetwork/new/EstimateGroupNetwork.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘EstimateGroupNetwork’ ...
-** package ‘EstimateGroupNetwork’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘mnormt’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘EstimateGroupNetwork’
-* removing ‘/tmp/workdir/EstimateGroupNetwork/new/EstimateGroupNetwork.Rcheck/EstimateGroupNetwork’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘EstimateGroupNetwork’ ...
-** package ‘EstimateGroupNetwork’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘mnormt’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘EstimateGroupNetwork’
-* removing ‘/tmp/workdir/EstimateGroupNetwork/old/EstimateGroupNetwork.Rcheck/EstimateGroupNetwork’
-
-```
 # EvaluateCore
 
 <details>
@@ -818,7 +1575,7 @@ ERROR: lazy loading failed for package ‘EstimateGroupNetwork’
 * URL: https://github.com/aravind-j/EvaluateCore https://aravind-j.github.io/EvaluateCore
 * BugReports: https://github.com/aravind-j/EvaluateCore/issues
 * Date/Publication: 2020-06-03 11:30:07 UTC
-* Number of recursive dependencies: 135
+* Number of recursive dependencies: 138
 
 Run `cloud_details(, "EvaluateCore")` for more info
 
@@ -975,7 +1732,7 @@ ERROR: lazy loading failed for package ‘fingertipscharts’
 * URL: http://github.com/dmenne/gastempt
 * BugReports: http://github.com/dmenne/gastempt/issues
 * Date/Publication: 2020-05-01 10:10:02 UTC
-* Number of recursive dependencies: 89
+* Number of recursive dependencies: 90
 
 Run `cloud_details(, "gastempt")` for more info
 
@@ -1017,25 +1774,27 @@ ERROR: configuration failed for package ‘gastempt’
 * removing ‘/tmp/workdir/gastempt/old/gastempt.Rcheck/gastempt’
 
 ```
-# graphicalVAR
+# geneHummus
 
 <details>
 
-* Version: 0.2.3
-* Source code: https://github.com/cran/graphicalVAR
-* Date/Publication: 2020-04-09 14:00:06 UTC
-* Number of recursive dependencies: 115
+* Version: 1.0.11
+* Source code: https://github.com/cran/geneHummus
+* URL: https://github.com/NCBI-Hackathons/GeneHummus
+* BugReports: https://github.com/NCBI-Hackathons/GeneHummus/issues
+* Date/Publication: 2019-04-04 22:30:03 UTC
+* Number of recursive dependencies: 41
 
-Run `cloud_details(, "graphicalVAR")` for more info
+Run `cloud_details(, "geneHummus")` for more info
 
 </details>
 
 ## In both
 
-*   checking whether package ‘graphicalVAR’ can be installed ... ERROR
+*   checking whether package ‘geneHummus’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/tmp/workdir/graphicalVAR/new/graphicalVAR.Rcheck/00install.out’ for details.
+    See ‘/tmp/workdir/geneHummus/new/geneHummus.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -1043,43 +1802,164 @@ Run `cloud_details(, "graphicalVAR")` for more info
 ### Devel
 
 ```
-* installing *source* package ‘graphicalVAR’ ...
-** package ‘graphicalVAR’ successfully unpacked and MD5 sums checked
+* installing *source* package ‘geneHummus’ ...
+** package ‘geneHummus’ successfully unpacked and MD5 sums checked
 ** using staged installation
-** libs
-g++ -std=gnu++11 -I"/opt/R/3.6.3/lib/R/include" -DNDEBUG  -I"/opt/R/3.6.3/lib/R/library/Rcpp/include" -I"/opt/R/3.6.3/lib/R/library/RcppArmadillo/include" -I/usr/local/include -fopenmp  -fpic  -g -O2  -c RcppExports.cpp -o RcppExports.o
-g++ -std=gnu++11 -I"/opt/R/3.6.3/lib/R/include" -DNDEBUG  -I"/opt/R/3.6.3/lib/R/library/Rcpp/include" -I"/opt/R/3.6.3/lib/R/library/RcppArmadillo/include" -I/usr/local/include -fopenmp  -fpic  -g -O2  -c Rothmana.cpp -o Rothmana.o
-g++ -std=gnu++11 -shared -L/opt/R/3.6.3/lib/R/lib -L/usr/local/lib -o graphicalVAR.so RcppExports.o Rothmana.o -fopenmp -llapack -lblas -lgfortran -lm -lquadmath -L/opt/R/3.6.3/lib/R/lib -lR
-installing to /tmp/workdir/graphicalVAR/new/graphicalVAR.Rcheck/00LOCK-graphicalVAR/00new/graphicalVAR/libs
 ** R
+** data
+*** moving datasets to lazyload DB
 ** byte-compile and prepare package for lazy loading
 Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘mnormt’
+  there is no package called ‘XML’
 Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
 Execution halted
-ERROR: lazy loading failed for package ‘graphicalVAR’
-* removing ‘/tmp/workdir/graphicalVAR/new/graphicalVAR.Rcheck/graphicalVAR’
+ERROR: lazy loading failed for package ‘geneHummus’
+* removing ‘/tmp/workdir/geneHummus/new/geneHummus.Rcheck/geneHummus’
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘graphicalVAR’ ...
-** package ‘graphicalVAR’ successfully unpacked and MD5 sums checked
+* installing *source* package ‘geneHummus’ ...
+** package ‘geneHummus’ successfully unpacked and MD5 sums checked
 ** using staged installation
-** libs
-g++ -std=gnu++11 -I"/opt/R/3.6.3/lib/R/include" -DNDEBUG  -I"/opt/R/3.6.3/lib/R/library/Rcpp/include" -I"/opt/R/3.6.3/lib/R/library/RcppArmadillo/include" -I/usr/local/include -fopenmp  -fpic  -g -O2  -c RcppExports.cpp -o RcppExports.o
-g++ -std=gnu++11 -I"/opt/R/3.6.3/lib/R/include" -DNDEBUG  -I"/opt/R/3.6.3/lib/R/library/Rcpp/include" -I"/opt/R/3.6.3/lib/R/library/RcppArmadillo/include" -I/usr/local/include -fopenmp  -fpic  -g -O2  -c Rothmana.cpp -o Rothmana.o
-g++ -std=gnu++11 -shared -L/opt/R/3.6.3/lib/R/lib -L/usr/local/lib -o graphicalVAR.so RcppExports.o Rothmana.o -fopenmp -llapack -lblas -lgfortran -lm -lquadmath -L/opt/R/3.6.3/lib/R/lib -lR
-installing to /tmp/workdir/graphicalVAR/old/graphicalVAR.Rcheck/00LOCK-graphicalVAR/00new/graphicalVAR/libs
 ** R
+** data
+*** moving datasets to lazyload DB
 ** byte-compile and prepare package for lazy loading
 Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘mnormt’
+  there is no package called ‘XML’
 Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
 Execution halted
-ERROR: lazy loading failed for package ‘graphicalVAR’
-* removing ‘/tmp/workdir/graphicalVAR/old/graphicalVAR.Rcheck/graphicalVAR’
+ERROR: lazy loading failed for package ‘geneHummus’
+* removing ‘/tmp/workdir/geneHummus/old/geneHummus.Rcheck/geneHummus’
+
+```
+# gesisdata
+
+<details>
+
+* Version: 0.1.0
+* Source code: https://github.com/cran/gesisdata
+* URL: https://github.com/fsolt/gesisdata
+* BugReports: https://github.com/fsolt/gesisdata/issues
+* Date/Publication: 2020-06-26 16:10:03 UTC
+* Number of recursive dependencies: 67
+
+Run `cloud_details(, "gesisdata")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘gesisdata’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/gesisdata/new/gesisdata.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘gesisdata’ ...
+** package ‘gesisdata’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘gesisdata’
+* removing ‘/tmp/workdir/gesisdata/new/gesisdata.Rcheck/gesisdata’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘gesisdata’ ...
+** package ‘gesisdata’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘gesisdata’
+* removing ‘/tmp/workdir/gesisdata/old/gesisdata.Rcheck/gesisdata’
+
+```
+# Greg
+
+<details>
+
+* Version: 1.3.4
+* Source code: https://github.com/cran/Greg
+* URL: http://gforge.se
+* Date/Publication: 2020-06-25 04:30:03 UTC
+* Number of recursive dependencies: 106
+
+Run `cloud_details(, "Greg")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/Greg/new/Greg.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘Greg/DESCRIPTION’ ... OK
+* this is package ‘Greg’ version ‘1.3.4’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘Gmisc’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/Greg/old/Greg.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘Greg/DESCRIPTION’ ... OK
+* this is package ‘Greg’ version ‘1.3.4’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘Gmisc’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
 
 ```
 # NA
@@ -1116,6 +1996,93 @@ Run `cloud_details(, "NA")` for more info
 
 
 ```
+# ICAMS
+
+<details>
+
+* Version: 2.1.2
+* Source code: https://github.com/cran/ICAMS
+* URL: https://github.com/steverozen/ICAMS
+* BugReports: https://github.com/steverozen/ICAMS/issues
+* Date/Publication: 2020-04-21 12:20:24 UTC
+* Number of recursive dependencies: 71
+
+Run `cloud_details(, "ICAMS")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/ICAMS/new/ICAMS.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘ICAMS/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘ICAMS’ version ‘2.1.2’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘BSgenome’
+
+Packages suggested but not available:
+  'BSgenome.Hsapiens.1000genomes.hs37d5',
+  'BSgenome.Hsapiens.UCSC.hg38', 'BSgenome.Mmusculus.UCSC.mm10'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/ICAMS/old/ICAMS.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘ICAMS/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘ICAMS’ version ‘2.1.2’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘BSgenome’
+
+Packages suggested but not available:
+  'BSgenome.Hsapiens.1000genomes.hs37d5',
+  'BSgenome.Hsapiens.UCSC.hg38', 'BSgenome.Mmusculus.UCSC.mm10'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
 # idiogramFISH
 
 <details>
@@ -1125,7 +2092,7 @@ Run `cloud_details(, "NA")` for more info
 * URL: https://ferroao.gitlab.io/manualidiogramfish/, https://ferroao.gitlab.io/idiogramFISH
 * BugReports: https://gitlab.com/ferroao/idiogramFISH/issues
 * Date/Publication: 2020-07-02 04:40:06 UTC
-* Number of recursive dependencies: 151
+* Number of recursive dependencies: 153
 
 Run `cloud_details(, "idiogramFISH")` for more info
 
@@ -1227,61 +2194,38 @@ Run `cloud_details(, "NA")` for more info
 
 
 ```
-# lvnet
+# NA
 
 <details>
 
-* Version: 0.3.5
-* Source code: https://github.com/cran/lvnet
-* Date/Publication: 2019-06-21 07:50:03 UTC
-* Number of recursive dependencies: 138
+* Version: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
 
-Run `cloud_details(, "lvnet")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
-## In both
-
-*   checking whether package ‘lvnet’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/tmp/workdir/lvnet/new/lvnet.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
+## Error before installation
 
 ### Devel
 
 ```
-* installing *source* package ‘lvnet’ ...
-** package ‘lvnet’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘mnormt’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘lvnet’
-* removing ‘/tmp/workdir/lvnet/new/lvnet.Rcheck/lvnet’
+
+
+
+
+
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘lvnet’ ...
-** package ‘lvnet’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘mnormt’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘lvnet’
-* removing ‘/tmp/workdir/lvnet/old/lvnet.Rcheck/lvnet’
+
+
+
+
+
 
 ```
 # manifestoR
@@ -1467,6 +2411,61 @@ ERROR: lazy loading failed for package ‘mcvis’
 * removing ‘/tmp/workdir/mcvis/old/mcvis.Rcheck/mcvis’
 
 ```
+# MetaboList
+
+<details>
+
+* Version: 2.0
+* Source code: https://github.com/cran/MetaboList
+* Date/Publication: 2019-08-22 16:40:02 UTC
+* Number of recursive dependencies: 66
+
+Run `cloud_details(, "MetaboList")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘MetaboList’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/MetaboList/new/MetaboList.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘MetaboList’ ...
+** package ‘MetaboList’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘MetaboList’
+* removing ‘/tmp/workdir/MetaboList/new/MetaboList.Rcheck/MetaboList’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘MetaboList’ ...
+** package ‘MetaboList’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘MetaboList’
+* removing ‘/tmp/workdir/MetaboList/old/MetaboList.Rcheck/MetaboList’
+
+```
 # metagam
 
 <details>
@@ -1476,7 +2475,7 @@ ERROR: lazy loading failed for package ‘mcvis’
 * URL: https://lifebrain.github.io/metagam/, https://github.com/Lifebrain/metagam
 * BugReports: https://github.com/Lifebrain/metagam/issues
 * Date/Publication: 2020-06-22 18:30:03 UTC
-* Number of recursive dependencies: 140
+* Number of recursive dependencies: 143
 
 Run `cloud_details(, "metagam")` for more info
 
@@ -1550,6 +2549,316 @@ Status: 1 ERROR
 
 
 ```
+# MetaIntegrator
+
+<details>
+
+* Version: 2.1.3
+* Source code: https://github.com/cran/MetaIntegrator
+* URL: http://biorxiv.org/content/early/2016/08/25/071514
+* Date/Publication: 2020-02-26 13:00:11 UTC
+* Number of recursive dependencies: 174
+
+Run `cloud_details(, "MetaIntegrator")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/MetaIntegrator/new/MetaIntegrator.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘MetaIntegrator/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MetaIntegrator’ version ‘2.1.3’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package suggested but not available: ‘snplist’
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/MetaIntegrator/old/MetaIntegrator.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘MetaIntegrator/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MetaIntegrator’ version ‘2.1.3’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package suggested but not available: ‘snplist’
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# mlVAR
+
+<details>
+
+* Version: 0.4.4
+* Source code: https://github.com/cran/mlVAR
+* Date/Publication: 2019-10-21 09:30:02 UTC
+* Number of recursive dependencies: 135
+
+Run `cloud_details(, "mlVAR")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/mlVAR/new/mlVAR.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘mlVAR/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘mlVAR’ version ‘0.4.4’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'qgraph', 'graphicalVAR'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/mlVAR/old/mlVAR.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘mlVAR/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘mlVAR’ version ‘0.4.4’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'qgraph', 'graphicalVAR'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# MoMPCA
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/MoMPCA
+* Date/Publication: 2020-07-01 09:40:07 UTC
+* Number of recursive dependencies: 82
+
+Run `cloud_details(, "MoMPCA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/MoMPCA/old/MoMPCA.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘MoMPCA/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MoMPCA’ version ‘1.0.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘MoMPCA’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking ‘build’ directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... OK
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... NOTE
+  Note: found 16 marked UTF-8 strings
+* checking data for ASCII and uncompressed saves ... OK
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Complete output:
+  > library(testthat)
+  > library(MoMPCA)
+  > 
+  > test_check("MoMPCA")
+  Killed
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘MoMPCA.Rmd’using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 1 ERROR, 1 NOTE
+
+
+
+
+
+
+```
+# MtreeRing
+
+<details>
+
+* Version: 1.4.2
+* Source code: https://github.com/cran/MtreeRing
+* URL: https://github.com/ropensci/MtreeRing
+* BugReports: https://github.com/ropensci/MtreeRing/issues
+* Date/Publication: 2019-10-03 09:40:02 UTC
+* Number of recursive dependencies: 109
+
+Run `cloud_details(, "MtreeRing")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘MtreeRing’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/MtreeRing/new/MtreeRing.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘MtreeRing’ ...
+** package ‘MtreeRing’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘MtreeRing’
+* removing ‘/tmp/workdir/MtreeRing/new/MtreeRing.Rcheck/MtreeRing’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘MtreeRing’ ...
+** package ‘MtreeRing’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘MtreeRing’
+* removing ‘/tmp/workdir/MtreeRing/old/MtreeRing.Rcheck/MtreeRing’
+
+```
 # nesRdata
 
 <details>
@@ -1586,10 +2895,9 @@ Run `cloud_details(, "nesRdata")` for more info
 *** moving datasets to lazyload DB
 ** inst
 ** byte-compile and prepare package for lazy loading
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/opt/R/3.6.3/lib/R/library/redland/libs/redland.so':
-  librdf.so.0: cannot open shared object file: No such file or directory
-Calls: <Anonymous> ... namespaceImport -> loadNamespace -> library.dynam -> dyn.load
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
 Execution halted
 ERROR: lazy loading failed for package ‘nesRdata’
 * removing ‘/tmp/workdir/nesRdata/new/nesRdata.Rcheck/nesRdata’
@@ -1606,13 +2914,221 @@ ERROR: lazy loading failed for package ‘nesRdata’
 *** moving datasets to lazyload DB
 ** inst
 ** byte-compile and prepare package for lazy loading
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/opt/R/3.6.3/lib/R/library/redland/libs/redland.so':
-  librdf.so.0: cannot open shared object file: No such file or directory
-Calls: <Anonymous> ... namespaceImport -> loadNamespace -> library.dynam -> dyn.load
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
 Execution halted
 ERROR: lazy loading failed for package ‘nesRdata’
 * removing ‘/tmp/workdir/nesRdata/old/nesRdata.Rcheck/nesRdata’
+
+```
+# nomisr
+
+<details>
+
+* Version: 0.4.3
+* Source code: https://github.com/cran/nomisr
+* URL: https://github.com/ropensci/nomisr, https://docs.evanodell.com/nomisr
+* BugReports: https://github.com/ropensci/nomisr/issues
+* Date/Publication: 2020-03-02 23:00:03 UTC
+* Number of recursive dependencies: 79
+
+Run `cloud_details(, "nomisr")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘nomisr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/nomisr/new/nomisr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘nomisr’ ...
+** package ‘nomisr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘nomisr’
+* removing ‘/tmp/workdir/nomisr/new/nomisr.Rcheck/nomisr’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘nomisr’ ...
+** package ‘nomisr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘nomisr’
+* removing ‘/tmp/workdir/nomisr/old/nomisr.Rcheck/nomisr’
+
+```
+# omicwas
+
+<details>
+
+* Version: 0.7.0
+* Source code: https://github.com/cran/omicwas
+* URL: https://github.com/fumi-github/omicwas
+* BugReports: https://github.com/fumi-github/omicwas/issues
+* Date/Publication: 2020-06-02 09:40:02 UTC
+* Number of recursive dependencies: 103
+
+Run `cloud_details(, "omicwas")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/omicwas/new/omicwas.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘omicwas/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘omicwas’ version ‘0.7.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘sva’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/omicwas/old/omicwas.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘omicwas/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘omicwas’ version ‘0.7.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘sva’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# parameters
+
+<details>
+
+* Version: 0.8.0
+* Source code: https://github.com/cran/parameters
+* URL: https://easystats.github.io/parameters/
+* BugReports: https://github.com/easystats/parameters/issues
+* Date/Publication: 2020-06-08 05:20:02 UTC
+* Number of recursive dependencies: 323
+
+Run `cloud_details(, "parameters")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/parameters/new/parameters.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘parameters/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘parameters’ version ‘0.8.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages suggested but not available: 'EGAnet', 'M3C'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/parameters/old/parameters.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘parameters/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘parameters’ version ‘0.8.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages suggested but not available: 'EGAnet', 'M3C'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
 
 ```
 # phyr
@@ -1795,6 +3311,69 @@ Run `cloud_details(, "NA")` for more info
 
 
 ```
+# processR
+
+<details>
+
+* Version: 0.2.3
+* Source code: https://github.com/cran/processR
+* URL: https://github.com/cardiomoon/processR
+* BugReports: https://github.com/cardiomoon/processR/issues
+* Date/Publication: 2020-01-27 14:10:02 UTC
+* Number of recursive dependencies: 169
+
+Run `cloud_details(, "processR")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘processR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/processR/new/processR.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘processR’ ...
+** package ‘processR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘mnormt’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘processR’
+* removing ‘/tmp/workdir/processR/new/processR.Rcheck/processR’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘processR’ ...
+** package ‘processR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘mnormt’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘processR’
+* removing ‘/tmp/workdir/processR/old/processR.Rcheck/processR’
+
+```
 # PROsetta
 
 <details>
@@ -1856,6 +3435,198 @@ Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWith
 Execution halted
 ERROR: lazy loading failed for package ‘PROsetta’
 * removing ‘/tmp/workdir/PROsetta/old/PROsetta.Rcheck/PROsetta’
+
+```
+# provSummarizeR
+
+<details>
+
+* Version: 1.4
+* Source code: https://github.com/cran/provSummarizeR
+* URL: https://github.com/End-to-end-provenance
+* BugReports: https://github.com/End-to-end-provenance/provSummarizeR/issues
+* Date/Publication: 2020-06-18 10:30:07 UTC
+* Number of recursive dependencies: 55
+
+Run `cloud_details(, "provSummarizeR")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/provSummarizeR/new/provSummarizeR.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘provSummarizeR/DESCRIPTION’ ... OK
+* this is package ‘provSummarizeR’ version ‘1.4’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages suggested but not available: 'rdtLite', 'rdt'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/provSummarizeR/old/provSummarizeR.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘provSummarizeR/DESCRIPTION’ ... OK
+* this is package ‘provSummarizeR’ version ‘1.4’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages suggested but not available: 'rdtLite', 'rdt'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# psychonetrics
+
+<details>
+
+* Version: 0.7.2
+* Source code: https://github.com/cran/psychonetrics
+* URL: http://psychonetrics.org/
+* BugReports: https://github.com/SachaEpskamp/psychonetrics/issues
+* Date/Publication: 2020-06-24 17:20:02 UTC
+* Number of recursive dependencies: 155
+
+Run `cloud_details(, "psychonetrics")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/psychonetrics/new/psychonetrics.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘psychonetrics/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘psychonetrics’ version ‘0.7.2’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘qgraph’
+
+Packages suggested but not available: 'graphicalVAR', 'metaSEM'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/psychonetrics/old/psychonetrics.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘psychonetrics/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘psychonetrics’ version ‘0.7.2’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘qgraph’
+
+Packages suggested but not available: 'graphicalVAR', 'metaSEM'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
 
 ```
 # qgraph
@@ -1938,7 +3709,7 @@ ERROR: lazy loading failed for package ‘qgraph’
 * URL: https://github.com/wenjingwang/quokar
 * BugReports: https://github.com/wenjingwang/quokar/issues
 * Date/Publication: 2017-11-10 10:21:36 UTC
-* Number of recursive dependencies: 82
+* Number of recursive dependencies: 85
 
 Run `cloud_details(, "quokar")` for more info
 
@@ -2074,7 +3845,7 @@ ERROR: lazy loading failed for package ‘r4lineups’
 * URL: https://github.com/radiant-rstats/radiant.data, https://radiant-rstats.github.io/radiant.data, https://radiant-rstats.github.io/docs
 * BugReports: https://github.com/radiant-rstats/radiant.data/issues
 * Date/Publication: 2020-06-16 16:30:10 UTC
-* Number of recursive dependencies: 146
+* Number of recursive dependencies: 147
 
 Run `cloud_details(, "radiant.data")` for more info
 
@@ -2135,7 +3906,7 @@ ERROR: lazy loading failed for package ‘radiant.data’
 * Version: 1.0
 * Source code: https://github.com/cran/Rarefy
 * Date/Publication: 2020-05-27 10:30:10 UTC
-* Number of recursive dependencies: 180
+* Number of recursive dependencies: 183
 
 Run `cloud_details(, "Rarefy")` for more info
 
@@ -2323,6 +4094,8 @@ Run `cloud_details(, "RNeXML")` for more info
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... ERROR
+Package required but not available: ‘XML’
+
 Packages suggested but not available: 'geiger', 'phytools'
 
 The suggested packages are required for a complete check.
@@ -2354,6 +4127,8 @@ Status: 1 ERROR
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... ERROR
+Package required but not available: ‘XML’
+
 Packages suggested but not available: 'geiger', 'phytools'
 
 The suggested packages are required for a complete check.
@@ -2378,7 +4153,7 @@ Status: 1 ERROR
 * Version: 0.7.0
 * Source code: https://github.com/cran/robmed
 * Date/Publication: 2020-06-08 12:30:03 UTC
-* Number of recursive dependencies: 75
+* Number of recursive dependencies: 78
 
 Run `cloud_details(, "robmed")` for more info
 
@@ -2468,6 +4243,150 @@ Run `cloud_details(, "NA")` for more info
 
 
 ```
+# salesforcer
+
+<details>
+
+* Version: 0.1.4
+* Source code: https://github.com/cran/salesforcer
+* URL: https://github.com/StevenMMortimer/salesforcer
+* BugReports: https://github.com/StevenMMortimer/salesforcer/issues
+* Date/Publication: 2020-06-13 17:20:02 UTC
+* Number of recursive dependencies: 67
+
+Run `cloud_details(, "salesforcer")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/salesforcer/new/salesforcer.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘salesforcer/DESCRIPTION’ ... OK
+* this is package ‘salesforcer’ version ‘0.1.4’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘XML’
+
+Package suggested but not available: ‘RForcecom’
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/salesforcer/old/salesforcer.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘salesforcer/DESCRIPTION’ ... OK
+* this is package ‘salesforcer’ version ‘0.1.4’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘XML’
+
+Package suggested but not available: ‘RForcecom’
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# SDLfilter
+
+<details>
+
+* Version: 2.0.1
+* Source code: https://github.com/cran/SDLfilter
+* URL: https://github.com/TakahiroShimada/SDLfilter
+* BugReports: https://github.com/TakahiroShimada/SDLfilter/issues
+* Date/Publication: 2020-07-05 06:10:05 UTC
+* Number of recursive dependencies: 120
+
+Run `cloud_details(, "SDLfilter")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘SDLfilter’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/SDLfilter/new/SDLfilter.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘SDLfilter’ ...
+** package ‘SDLfilter’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘SDLfilter’
+* removing ‘/tmp/workdir/SDLfilter/new/SDLfilter.Rcheck/SDLfilter’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘SDLfilter’ ...
+** package ‘SDLfilter’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘SDLfilter’
+* removing ‘/tmp/workdir/SDLfilter/old/SDLfilter.Rcheck/SDLfilter’
+
+```
 # NA
 
 <details>
@@ -2495,6 +4414,85 @@ Run `cloud_details(, "NA")` for more info
 ### CRAN
 
 ```
+
+
+
+
+
+
+```
+# sigminer
+
+<details>
+
+* Version: 1.0.7
+* Source code: https://github.com/cran/sigminer
+* URL: https://github.com/ShixiangWang/sigminer
+* BugReports: https://github.com/ShixiangWang/sigminer/issues
+* Date/Publication: 2020-06-17 05:20:02 UTC
+* Number of recursive dependencies: 188
+
+Run `cloud_details(, "sigminer")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/sigminer/new/sigminer.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘sigminer/DESCRIPTION’ ... OK
+* this is package ‘sigminer’ version ‘1.0.7’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages suggested but not available:
+  'BSgenome', 'BSgenome.Hsapiens.UCSC.hg19'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/sigminer/old/sigminer.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘sigminer/DESCRIPTION’ ... OK
+* this is package ‘sigminer’ version ‘1.0.7’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages suggested but not available:
+  'BSgenome', 'BSgenome.Hsapiens.UCSC.hg19'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
 
 
 
@@ -2576,25 +4574,190 @@ Status: 1 ERROR
 
 
 ```
-# thinkr
+# SpaDES.core
 
 <details>
 
-* Version: 0.13
-* Source code: https://github.com/cran/thinkr
-* Date/Publication: 2018-06-21 07:41:47 UTC
-* Number of recursive dependencies: 104
+* Version: 1.0.1
+* Source code: https://github.com/cran/SpaDES.core
+* URL: https://spades-core.predictiveecology.org/, https://github.com/PredictiveEcology/SpaDES.core
+* BugReports: https://github.com/PredictiveEcology/SpaDES.core/issues
+* Date/Publication: 2020-05-15 17:10:06 UTC
+* Number of recursive dependencies: 156
 
-Run `cloud_details(, "thinkr")` for more info
+Run `cloud_details(, "SpaDES.core")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/SpaDES.core/new/SpaDES.core.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘SpaDES.core/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘SpaDES.core’ version ‘1.0.1’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘qs’
+
+Package suggested but not available: ‘SpaDES.tools’
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/SpaDES.core/old/SpaDES.core.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘SpaDES.core/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘SpaDES.core’ version ‘1.0.1’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘qs’
+
+Package suggested but not available: ‘SpaDES.tools’
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# SpaDES.tools
+
+<details>
+
+* Version: 0.3.6
+* Source code: https://github.com/cran/SpaDES.tools
+* URL: https://spades-tools.predictiveecology.org, https://github.com/PredictiveEcology/SpaDES.tools
+* BugReports: https://github.com/PredictiveEcology/SpaDES.tools/issues
+* Date/Publication: 2020-06-23 05:30:32 UTC
+* Number of recursive dependencies: 129
+
+Run `cloud_details(, "SpaDES.tools")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/SpaDES.tools/new/SpaDES.tools.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘SpaDES.tools/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘SpaDES.tools’ version ‘0.3.6’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘SpaDES.tools’ can be installed ... ERROR
+Installation failed.
+See ‘/tmp/workdir/SpaDES.tools/new/SpaDES.tools.Rcheck/00install.out’ for details.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/SpaDES.tools/old/SpaDES.tools.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘SpaDES.tools/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘SpaDES.tools’ version ‘0.3.6’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘SpaDES.tools’ can be installed ... ERROR
+Installation failed.
+See ‘/tmp/workdir/SpaDES.tools/old/SpaDES.tools.Rcheck/00install.out’ for details.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# SWMPrExtension
+
+<details>
+
+* Version: 1.1.5
+* Source code: https://github.com/cran/SWMPrExtension
+* BugReports: https://github.com/NOAA-OCM/SWMPrExtension/issues
+* Date/Publication: 2020-05-30 04:20:03 UTC
+* Number of recursive dependencies: 119
+
+Run `cloud_details(, "SWMPrExtension")` for more info
 
 </details>
 
 ## In both
 
-*   checking whether package ‘thinkr’ can be installed ... ERROR
+*   checking whether package ‘SWMPrExtension’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/tmp/workdir/thinkr/new/thinkr.Rcheck/00install.out’ for details.
+    See ‘/tmp/workdir/SWMPrExtension/new/SWMPrExtension.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -2602,29 +4765,39 @@ Run `cloud_details(, "thinkr")` for more info
 ### Devel
 
 ```
-* installing *source* package ‘thinkr’ ...
-** package ‘thinkr’ successfully unpacked and MD5 sums checked
+* installing *source* package ‘SWMPrExtension’ ...
+** package ‘SWMPrExtension’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** R
+** data
+*** moving datasets to lazyload DB
+** inst
 ** byte-compile and prepare package for lazy loading
-Error: object ‘ph_with_vg’ is not exported by 'namespace:rvg'
+Error: package or namespace load failed for ‘SWMPr’ in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
+ there is no package called ‘XML’
+Error: package ‘SWMPr’ could not be loaded
 Execution halted
-ERROR: lazy loading failed for package ‘thinkr’
-* removing ‘/tmp/workdir/thinkr/new/thinkr.Rcheck/thinkr’
+ERROR: lazy loading failed for package ‘SWMPrExtension’
+* removing ‘/tmp/workdir/SWMPrExtension/new/SWMPrExtension.Rcheck/SWMPrExtension’
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘thinkr’ ...
-** package ‘thinkr’ successfully unpacked and MD5 sums checked
+* installing *source* package ‘SWMPrExtension’ ...
+** package ‘SWMPrExtension’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** R
+** data
+*** moving datasets to lazyload DB
+** inst
 ** byte-compile and prepare package for lazy loading
-Error: object ‘ph_with_vg’ is not exported by 'namespace:rvg'
+Error: package or namespace load failed for ‘SWMPr’ in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
+ there is no package called ‘XML’
+Error: package ‘SWMPr’ could not be loaded
 Execution halted
-ERROR: lazy loading failed for package ‘thinkr’
-* removing ‘/tmp/workdir/thinkr/old/thinkr.Rcheck/thinkr’
+ERROR: lazy loading failed for package ‘SWMPrExtension’
+* removing ‘/tmp/workdir/SWMPrExtension/old/SWMPrExtension.Rcheck/SWMPrExtension’
 
 ```
 # thurstonianIRT
@@ -2636,7 +4809,7 @@ ERROR: lazy loading failed for package ‘thinkr’
 * URL: https://github.com/paul-buerkner/thurstonianIRT
 * BugReports: https://github.com/paul-buerkner/thurstonianIRT/issues
 * Date/Publication: 2019-08-09 10:40:02 UTC
-* Number of recursive dependencies: 86
+* Number of recursive dependencies: 87
 
 Run `cloud_details(, "thurstonianIRT")` for more info
 
@@ -2665,8 +4838,6 @@ g++ -std=gnu++14 -I"/opt/R/3.6.3/lib/R/include" -DNDEBUG -I"../inst/include" -I"
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:392:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -2709,8 +4880,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:39
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:374:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -2741,8 +4910,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:37
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -2764,8 +4931,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -2785,8 +4950,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -2808,8 +4971,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -2831,7 +4992,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shar
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/detail/shared_count.hpp:356:33: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -2850,7 +5011,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp:256:65: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -2869,7 +5030,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp:471:31: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -2888,7 +5049,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp:484:22: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -2907,7 +5068,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp:567:34: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -2926,7 +5087,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp:576:34: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -2945,7 +5106,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp: In member function ‘boost::shared_ptr<T>& boost::shared_ptr<T>::operator=(std::auto_ptr<_Up>&&)’:
@@ -2964,8 +5125,6 @@ In file included from /usr/include/c++/7/bits/locale_conv.h:41:0,
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/SparseCore:37:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Sparse:26,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:14,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -2979,8 +5138,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/SparseC
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -3003,8 +5160,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -3040,8 +5195,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -3064,8 +5217,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -3656,7 +5807,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/fusion/functio
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/model/test_gradients.hpp:7,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/services/diagnose/diagnose.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:35,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/get_pointer.hpp: At global scope:
@@ -3675,8 +5826,6 @@ In file included from /usr/include/c++/7/bits/locale_conv.h:41:0,
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -4033,8 +6182,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -4059,8 +6206,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -4476,8 +6621,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -4490,8 +6633,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -4671,8 +6812,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -4702,8 +6841,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:491:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -4724,8 +6861,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -4852,8 +6987,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:491:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -4880,8 +7013,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -4908,8 +7039,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5043,8 +7172,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5078,8 +7205,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5137,8 +7262,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:491:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5154,8 +7277,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5362,8 +7483,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5381,8 +7500,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5619,8 +7736,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5638,8 +7753,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5656,8 +7769,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5718,8 +7829,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5793,8 +7902,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5826,8 +7933,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5900,8 +8005,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -5935,8 +8038,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6066,8 +8167,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6089,8 +8188,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6166,8 +8263,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6216,8 +8311,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6240,8 +8333,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6262,8 +8353,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:491:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6309,8 +8398,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:494:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6337,8 +8424,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6361,8 +8446,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6385,8 +8468,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6465,8 +8546,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6501,8 +8580,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6525,8 +8602,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6549,8 +8624,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:494:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6572,8 +8645,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6640,8 +8711,6 @@ stan_files/thurstonian_irt_model.cc:24:89:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:494:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6669,8 +8738,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6778,8 +8845,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:494:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6802,8 +8867,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6825,8 +8888,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:491:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -6848,8 +8909,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7013,8 +9072,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7037,8 +9094,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:368:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7060,8 +9115,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7084,8 +9137,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7192,8 +9243,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7216,8 +9265,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:498:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7245,8 +9292,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7311,8 +9356,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7363,8 +9406,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7513,8 +9554,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7565,8 +9604,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7603,8 +9640,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7669,8 +9704,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7693,8 +9726,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7717,8 +9748,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7741,8 +9770,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7779,8 +9806,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7817,8 +9842,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7841,8 +9864,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7921,8 +9942,6 @@ stan_files/thurstonian_irt_model.cc:24:89:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -7987,8 +10006,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8109,8 +10126,6 @@ stan_files/thurstonian_irt_model.cc:21:88:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8133,8 +10148,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8157,8 +10170,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8181,8 +10192,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8221,8 +10230,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8259,8 +10266,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8383,8 +10388,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8421,8 +10424,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8531,8 +10532,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8555,8 +10554,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8621,8 +10618,6 @@ stan_files/thurstonian_irt_model.cc:21:88:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8715,8 +10710,6 @@ stan_files/thurstonian_irt_model.cc:21:88:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8927,8 +10920,6 @@ g++ -std=gnu++14 -I"/opt/R/3.6.3/lib/R/include" -DNDEBUG -I"../inst/include" -I"
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:392:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -8971,8 +10962,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:39
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:374:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -9003,8 +10992,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:37
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -9026,8 +11013,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -9047,8 +11032,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -9070,8 +11053,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -9093,7 +11074,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shar
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/detail/shared_count.hpp:356:33: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -9112,7 +11093,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp:256:65: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -9131,7 +11112,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp:471:31: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -9150,7 +11131,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp:484:22: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -9169,7 +11150,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp:567:34: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -9188,7 +11169,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp:576:34: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
@@ -9207,7 +11188,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/shared_ptr.hpp
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/time_clock.hpp:17,
                  from /opt/R/3.6.3/lib/R/library/BH/include/boost/date_time/posix_time/posix_time_types.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/smart_ptr/shared_ptr.hpp: In member function ‘boost::shared_ptr<T>& boost::shared_ptr<T>::operator=(std::auto_ptr<_Up>&&)’:
@@ -9226,8 +11207,6 @@ In file included from /usr/include/c++/7/bits/locale_conv.h:41:0,
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/SparseCore:37:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Sparse:26,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:14,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -9241,8 +11220,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/SparseC
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -9265,8 +11242,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -9302,8 +11277,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -9326,8 +11299,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -9918,7 +11889,7 @@ In file included from /opt/R/3.6.3/lib/R/library/BH/include/boost/fusion/functio
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/model/test_gradients.hpp:7,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/services/diagnose/diagnose.hpp:10,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:35,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
+                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:4,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
 /opt/R/3.6.3/lib/R/library/BH/include/boost/get_pointer.hpp: At global scope:
@@ -9937,8 +11908,6 @@ In file included from /usr/include/c++/7/bits/locale_conv.h:41:0,
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -10295,8 +12264,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -10321,8 +12288,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -10738,8 +12703,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -10752,8 +12715,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -10933,8 +12894,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -10964,8 +12923,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:491:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -10986,8 +12943,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11114,8 +13069,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:491:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11142,8 +13095,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:367:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11170,8 +13121,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11305,8 +13254,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11340,8 +13287,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11399,8 +13344,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:491:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11416,8 +13359,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11624,8 +13565,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11643,8 +13582,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11881,8 +13818,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11900,8 +13835,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11918,8 +13851,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -11980,8 +13911,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12055,8 +13984,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12088,8 +14015,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12162,8 +14087,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12197,8 +14120,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12328,8 +14249,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12351,8 +14270,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12428,8 +14345,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12478,8 +14393,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12502,8 +14415,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12524,8 +14435,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:491:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12571,8 +14480,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:494:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12599,8 +14506,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12623,8 +14528,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12647,8 +14550,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12727,8 +14628,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12763,8 +14662,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12787,8 +14684,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12811,8 +14706,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:494:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12834,8 +14727,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12902,8 +14793,6 @@ stan_files/thurstonian_irt_model.cc:24:89:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:494:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -12931,8 +14820,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13040,8 +14927,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:494:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13064,8 +14949,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13087,8 +14970,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:491:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13110,8 +14991,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13275,8 +15154,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13299,8 +15176,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:368:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13322,8 +15197,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:36
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13346,8 +15219,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13454,8 +15325,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13478,8 +15347,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:498:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13507,8 +15374,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:49
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13573,8 +15438,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13625,8 +15488,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13775,8 +15636,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13827,8 +15686,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13865,8 +15722,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13931,8 +15786,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13955,8 +15808,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -13979,8 +15830,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14003,8 +15852,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14041,8 +15888,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14079,8 +15924,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14103,8 +15946,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14183,8 +16024,6 @@ stan_files/thurstonian_irt_model.cc:24:89:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14249,8 +16088,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14371,8 +16208,6 @@ stan_files/thurstonian_irt_model.cc:21:88:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14395,8 +16230,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14419,8 +16252,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14443,8 +16274,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14483,8 +16312,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14521,8 +16348,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14645,8 +16470,6 @@ stan_files/thurstonian_irt_model.cc:13:87:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14683,8 +16506,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14793,8 +16614,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:43
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14817,8 +16636,6 @@ In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:44
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14883,8 +16700,6 @@ stan_files/thurstonian_irt_model.cc:21:88:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:440:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -14977,8 +16792,6 @@ stan_files/thurstonian_irt_model.cc:21:88:   required from here
 In file included from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Core:434:0,
                  from /opt/R/3.6.3/lib/R/library/RcppEigen/include/Eigen/Dense:1,
                  from /opt/R/3.6.3/lib/R/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
-                 from /opt/R/3.6.3/lib/R/library/StanHeaders/include/src/stan/version.hpp:4,
-                 from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/stan_fit.hpp:11,
                  from /opt/R/3.6.3/lib/R/library/rstan/include/rstan/rstaninc.hpp:3,
                  from stan_files/thurstonian_irt_model.hpp:18,
                  from stan_files/thurstonian_irt_model.cc:3:
@@ -15176,6 +16989,69 @@ ERROR: lazy loading failed for package ‘thurstonianIRT’
 * removing ‘/tmp/workdir/thurstonianIRT/old/thurstonianIRT.Rcheck/thurstonianIRT’
 
 ```
+# tidygeocoder
+
+<details>
+
+* Version: 0.2.5
+* Source code: https://github.com/cran/tidygeocoder
+* URL: https://github.com/jessecambon/tidygeocoder
+* BugReports: https://github.com/jessecambon/tidygeocoder/issues
+* Date/Publication: 2020-03-22 17:40:02 UTC
+* Number of recursive dependencies: 84
+
+Run `cloud_details(, "tidygeocoder")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘tidygeocoder’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/tidygeocoder/new/tidygeocoder.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘tidygeocoder’ ...
+** package ‘tidygeocoder’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘tidygeocoder’
+* removing ‘/tmp/workdir/tidygeocoder/new/tidygeocoder.Rcheck/tidygeocoder’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘tidygeocoder’ ...
+** package ‘tidygeocoder’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘tidygeocoder’
+* removing ‘/tmp/workdir/tidygeocoder/old/tidygeocoder.Rcheck/tidygeocoder’
+
+```
 # tidySEM
 
 <details>
@@ -15233,6 +17109,67 @@ Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWith
 Execution halted
 ERROR: lazy loading failed for package ‘tidySEM’
 * removing ‘/tmp/workdir/tidySEM/old/tidySEM.Rcheck/tidySEM’
+
+```
+# tmap
+
+<details>
+
+* Version: 3.1
+* Source code: https://github.com/cran/tmap
+* URL: https://github.com/mtennekes/tmap
+* BugReports: https://github.com/mtennekes/tmap/issues
+* Date/Publication: 2020-07-09 15:00:03 UTC
+* Number of recursive dependencies: 139
+
+Run `cloud_details(, "tmap")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘tmap’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/tmap/new/tmap.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘tmap’ ...
+** package ‘tmap’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘tmap’
+* removing ‘/tmp/workdir/tmap/new/tmap.Rcheck/tmap’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘tmap’ ...
+** package ‘tmap’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘XML’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘tmap’
+* removing ‘/tmp/workdir/tmap/old/tmap.Rcheck/tmap’
 
 ```
 # trackdf
@@ -15392,7 +17329,7 @@ Status: 1 ERROR
 * URL: https://github.com/cardiomoon/webr
 * BugReports: https://github.com/cardiomoon/webr/issues
 * Date/Publication: 2020-01-26 14:20:02 UTC
-* Number of recursive dependencies: 148
+* Number of recursive dependencies: 149
 
 Run `cloud_details(, "webr")` for more info
 
@@ -15451,7 +17388,7 @@ ERROR: lazy loading failed for package ‘webr’
 * URL: http://krlmlr.github.io/wrswoR
 * BugReports: https://github.com/krlmlr/wrswoR/issues
 * Date/Publication: 2018-02-02 18:26:36 UTC
-* Number of recursive dependencies: 126
+* Number of recursive dependencies: 130
 
 Run `cloud_details(, "wrswoR")` for more info
 
@@ -15505,6 +17442,83 @@ Status: 1 ERROR
 * checking package namespace information ... OK
 * checking package dependencies ... ERROR
 Package suggested but not available: ‘metap’
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+# Z10
+
+<details>
+
+* Version: 0.1.0
+* Source code: https://github.com/cran/Z10
+* Date/Publication: 2018-11-26 20:40:07 UTC
+* Number of recursive dependencies: 107
+
+Run `cloud_details(, "Z10")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/Z10/new/Z10.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘Z10/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘Z10’ version ‘0.1.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package suggested but not available: ‘rnoaa’
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/Z10/old/Z10.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘Z10/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘Z10’ version ‘0.1.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package suggested but not available: ‘rnoaa’
 
 The suggested packages are required for a complete check.
 Checking can be attempted without them by setting the environment

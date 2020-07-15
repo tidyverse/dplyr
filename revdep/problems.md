@@ -19,9 +19,11 @@ Run `cloud_details(, "anglr")` for more info
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
+    Last 13 lines of output:
       > library(anglr)
+      Warning messages:
+      1: In rgl.init(initValue, onlyNULL) : RGL: unable to open X11 display
+      2: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'. 
       > 
       > test_check("anglr")
       ── 1. Failure: SC0 round trip suite works (@test-silicate-sanity.R#7)  ─────────
@@ -35,13 +37,13 @@ Run `cloud_details(, "anglr")` for more info
       Execution halted
     ```
 
-## Newly fixed
+## In both
 
 *   checking whether package ‘anglr’ can be installed ... WARNING
     ```
     Found the following significant warnings:
       Warning: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'.
-    See ‘/tmp/workdir/anglr/old/anglr.Rcheck/00install.out’ for details.
+    See ‘/tmp/workdir/anglr/new/anglr.Rcheck/00install.out’ for details.
     ```
 
 # crimedata
@@ -81,67 +83,6 @@ Run `cloud_details(, "crimedata")` for more info
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# dbparser
-
-<details>
-
-* Version: 1.1.2
-* Source code: https://github.com/cran/dbparser
-* URL: https://docs.ropensci.org/dbparser, https://github.com/ropensci/dbparser
-* BugReports: https://github.com/ropensci/dbparser/issues
-* Date/Publication: 2020-06-08 17:00:02 UTC
-* Number of recursive dependencies: 62
-
-Run `cloud_details(, "dbparser")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > 
-      > test_check("dbparser")
-      ── 1. Failure: Read darug classification attributes (@test_drug_main_node_parser
-      is_tibble(drug_classification()) isn't true.
-      
-      ── 2. Failure: Read drug classification attributes (@test_drug_main_node_parser_
-      is_tibble(drug_classification()) isn't true.
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 471 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 2 ]
-      1. Failure: Read darug classification attributes (@test_drug_main_node_parser_biotech.R#91) 
-      2. Failure: Read drug classification attributes (@test_drug_main_node_parser_small_molecule.R#96) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-# DiversityOccupancy
-
-<details>
-
-* Version: 1.0.6
-* Source code: https://github.com/cran/DiversityOccupancy
-* Date/Publication: 2017-03-02 18:32:36
-* Number of recursive dependencies: 97
-
-Run `cloud_details(, "DiversityOccupancy")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘DiversityOccupancy’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'.
-    See ‘/tmp/workdir/DiversityOccupancy/new/DiversityOccupancy.Rcheck/00install.out’ for details.
     ```
 
 # evaluator
@@ -223,15 +164,62 @@ Run `cloud_details(, "ftExtra")` for more info
       Execution halted
     ```
 
+# gMOIP
+
+<details>
+
+* Version: 1.4.3
+* Source code: https://github.com/cran/gMOIP
+* URL: https://github.com/relund/gMOIP/
+* BugReports: https://github.com/relund/gMOIP/issues
+* Date/Publication: 2020-02-20 15:10:02 UTC
+* Number of recursive dependencies: 99
+
+Run `cloud_details(, "gMOIP")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘gMOIP’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'.
+    See ‘/tmp/workdir/gMOIP/new/gMOIP.Rcheck/00install.out’ for details.
+    ```
+
+# iRF
+
+<details>
+
+* Version: 2.0.0
+* Source code: https://github.com/cran/iRF
+* URL: https://arxiv.org/abs/1706.08457
+* Date/Publication: 2017-07-26 04:57:45 UTC
+* Number of recursive dependencies: 63
+
+Run `cloud_details(, "iRF")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘iRF’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'.
+    See ‘/tmp/workdir/iRF/new/iRF.Rcheck/00install.out’ for details.
+    ```
+
 # keyATM
 
 <details>
 
-* Version: 0.2.2
+* Version: 0.3.0
 * Source code: https://github.com/cran/keyATM
 * URL: https://keyatm.github.io/keyATM/
 * BugReports: https://github.com/keyATM/keyATM/issues
-* Date/Publication: 2020-06-02 23:30:02 UTC
+* Date/Publication: 2020-07-12 22:50:02 UTC
 * Number of recursive dependencies: 108
 
 Run `cloud_details(, "keyATM")` for more info
@@ -245,18 +233,18 @@ Run `cloud_details(, "keyATM")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      Backtrace:
-       1. keyATM::keyATM(...)
-       2. keyATM:::keyATM_output(fitted)
+       2. keyATM:::keyATM_output(fitted, keep)
        3. keyATM:::keyATM_output_theta(model, info)
        6. vctrs::vec_rbind(!!!dots, .names_to = .id)
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 12 | SKIPPED: 6 | WARNINGS: 0 | FAILED: 4 ]
-      1. Error: (unknown) (@test-keyATM.R#16) 
-      2. Error: (unknown) (@test-keyATMHeterogeneity.R#51) 
-      3. Error: (unknown) (@test-keyATMvb.R#14) 
-      4. Error: (unknown) (@test-plot.R#11) 
+      [ OK: 17 | SKIPPED: 9 | WARNINGS: 0 | FAILED: 6 ]
+      1. Error: (unknown) (@test-keyATMBase.R#16) 
+      2. Error: (unknown) (@test-keyATMCov.R#17) 
+      3. Error: (unknown) (@test-keyATMDynamic.R#17) 
+      4. Error: (unknown) (@test-keyATMHeterogeneity.R#51) 
+      5. Error: (unknown) (@test-keyATMvb.R#14) 
+      6. Error: (unknown) (@test-plot.R#16) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -269,12 +257,6 @@ Run `cloud_details(, "keyATM")` for more info
       installed size is 16.5Mb
       sub-directories of 1Mb or more:
         libs  16.1Mb
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘quanteda’
-      All declared Imports should be used.
     ```
 
 # kntnr
@@ -299,11 +281,11 @@ Run `cloud_details(, "kntnr")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ── 4. Error: unnesting terriblly-nested records works (@test-parse-record.R#50) 
-      Problem with `summarise()` input `na_count_fileKey`.
-      ✖ object 'fileKey' not found
       ℹ Input `na_count_fileKey` is `sum(is.na(fileKey))`.
       ℹ The error occurred in group 1: record_id = "1".
+      Backtrace:
+       1. dplyr::group_by(records_obj, record_id)
+       2. dplyr::summarize(., na_count_fileKey = sum(is.na(fileKey)), na_count_subfield1 = sum(is.na(subfield1)))
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       [ OK: 70 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 4 ]
@@ -323,7 +305,7 @@ Run `cloud_details(, "kntnr")` for more info
 * Version: 0.1.8
 * Source code: https://github.com/cran/nanny
 * Date/Publication: 2020-06-13 13:50:03 UTC
-* Number of recursive dependencies: 150
+* Number of recursive dependencies: 140
 
 Run `cloud_details(, "nanny")` for more info
 
@@ -386,70 +368,27 @@ Run `cloud_details(, "nanny")` for more info
       All declared Imports should be used.
     ```
 
-# predict3d
+# SEERaBomb
 
 <details>
 
-* Version: 0.1.3.3
-* Source code: https://github.com/cran/predict3d
-* URL: https://github.com/cardiomoon/predict3d
-* BugReports: https://github.com/cardiomoon/predict3d/issues
-* Date/Publication: 2019-09-03 13:00:02 UTC
-* Number of recursive dependencies: 110
+* Version: 2019.2
+* Source code: https://github.com/cran/SEERaBomb
+* URL: http://epbi-radivot.cwru.edu/SEERaBomb/SEERaBomb.html
+* Date/Publication: 2019-12-12 18:50:03 UTC
+* Number of recursive dependencies: 153
 
-Run `cloud_details(, "predict3d")` for more info
+Run `cloud_details(, "SEERaBomb")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking whether package ‘predict3d’ can be installed ... WARNING
+*   checking whether package ‘SEERaBomb’ can be installed ... WARNING
     ```
     Found the following significant warnings:
       Warning: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'.
-    See ‘/tmp/workdir/predict3d/new/predict3d.Rcheck/00install.out’ for details.
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘TH.data’ ‘moonBook’
-      All declared Imports should be used.
-    ```
-
-# Rpolyhedra
-
-<details>
-
-* Version: 0.4.2
-* Source code: https://github.com/cran/Rpolyhedra
-* URL: https://github.com/ropensci/Rpolyhedra
-* BugReports: https://github.com/ropensci/Rpolyhedra/issues
-* Date/Publication: 2019-03-26 17:13:23 UTC
-* Number of recursive dependencies: 84
-
-Run `cloud_details(, "Rpolyhedra")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘Rpolyhedra’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: 'rgl.init' failed, running with 'rgl.useNULL = TRUE'.
-    See ‘/tmp/workdir/Rpolyhedra/new/Rpolyhedra.Rcheck/00install.out’ for details.
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘dplyr’ ‘testthat’
-      All declared Imports should be used.
+    See ‘/tmp/workdir/SEERaBomb/new/SEERaBomb.Rcheck/00install.out’ for details.
     ```
 
 # simTool
@@ -461,7 +400,7 @@ Run `cloud_details(, "Rpolyhedra")` for more info
 * URL: https://github.com/MarselScheer/simTool
 * BugReports: https://github.com/MarselScheer/simTool/issues
 * Date/Publication: 2020-05-17 14:20:03 UTC
-* Number of recursive dependencies: 68
+* Number of recursive dependencies: 66
 
 Run `cloud_details(, "simTool")` for more info
 
@@ -500,7 +439,7 @@ Run `cloud_details(, "simTool")` for more info
 * URL: https://github.com/business-science/tibbletime
 * BugReports: https://github.com/business-science/tibbletime/issues
 * Date/Publication: 2020-06-18 19:00:02 UTC
-* Number of recursive dependencies: 62
+* Number of recursive dependencies: 59
 
 Run `cloud_details(, "tibbletime")` for more info
 
@@ -543,7 +482,7 @@ Run `cloud_details(, "tibbletime")` for more info
 * URL: https://github.com/business-science/timetk
 * BugReports: https://github.com/business-science/timetk/issues
 * Date/Publication: 2020-07-03 11:40:02 UTC
-* Number of recursive dependencies: 220
+* Number of recursive dependencies: 183
 
 Run `cloud_details(, "timetk")` for more info
 
