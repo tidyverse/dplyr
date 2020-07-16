@@ -129,8 +129,13 @@ bind_rows <- function(..., .id = NULL) {
     names(dots) <- NULL
   }
   out <- vec_rbind(!!!dots, .names_to = .id)
-  if (length(dots) && is.data.frame(first <- dots[[1L]])) {
-    out <- dplyr_reconstruct(out, first)
+  if (length(dots)) {
+    first <- dots[[1L]]
+    if (is.data.frame(first)) {
+      out <- dplyr_reconstruct(out, first)
+    } else {
+      out <- as_tibble(out)
+    }
   }
   out
 }
