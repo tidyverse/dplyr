@@ -1425,6 +1425,40 @@ Status: 1 ERROR
 
 
 ```
+# NA
+
+<details>
+
+* Version: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
 # EdSurvey
 
 <details>
@@ -2694,112 +2728,6 @@ Status: 1 ERROR
 
 
 ```
-# MoMPCA
-
-<details>
-
-* Version: 1.0.0
-* Source code: https://github.com/cran/MoMPCA
-* Date/Publication: 2020-07-01 09:40:07 UTC
-* Number of recursive dependencies: 82
-
-Run `cloud_details(, "MoMPCA")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/MoMPCA/old/MoMPCA.Rcheck’
-* using R version 3.6.3 (2020-02-29)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using options ‘--no-manual --no-build-vignettes’
-* checking for file ‘MoMPCA/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘MoMPCA’ version ‘1.0.0’
-* package encoding: UTF-8
-* checking package namespace information ... OK
-* checking package dependencies ... OK
-* checking if this is a source package ... OK
-* checking if there is a namespace ... OK
-* checking for executable files ... OK
-* checking for hidden files and directories ... OK
-* checking for portable file names ... OK
-* checking for sufficient/correct file permissions ... OK
-* checking whether package ‘MoMPCA’ can be installed ... OK
-* checking installed package size ... OK
-* checking package directory ... OK
-* checking ‘build’ directory ... OK
-* checking DESCRIPTION meta-information ... OK
-* checking top-level files ... OK
-* checking for left-over files ... OK
-* checking index information ... OK
-* checking package subdirectories ... OK
-* checking R files for non-ASCII characters ... OK
-* checking R files for syntax errors ... OK
-* checking whether the package can be loaded ... OK
-* checking whether the package can be loaded with stated dependencies ... OK
-* checking whether the package can be unloaded cleanly ... OK
-* checking whether the namespace can be loaded with stated dependencies ... OK
-* checking whether the namespace can be unloaded cleanly ... OK
-* checking loading without being on the library search path ... OK
-* checking dependencies in R code ... OK
-* checking S3 generic/method consistency ... OK
-* checking replacement functions ... OK
-* checking foreign function calls ... OK
-* checking R code for possible problems ... OK
-* checking Rd files ... OK
-* checking Rd metadata ... OK
-* checking Rd cross-references ... OK
-* checking for missing documentation entries ... OK
-* checking for code/documentation mismatches ... OK
-* checking Rd \usage sections ... OK
-* checking Rd contents ... OK
-* checking for unstated dependencies in examples ... OK
-* checking contents of ‘data’ directory ... OK
-* checking data for non-ASCII characters ... NOTE
-  Note: found 16 marked UTF-8 strings
-* checking data for ASCII and uncompressed saves ... OK
-* checking installed files from ‘inst/doc’ ... OK
-* checking files in ‘vignettes’ ... OK
-* checking examples ... OK
-* checking for unstated dependencies in ‘tests’ ... OK
-* checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Complete output:
-  > library(testthat)
-  > library(MoMPCA)
-  > 
-  > test_check("MoMPCA")
-  Killed
-* checking for unstated dependencies in vignettes ... OK
-* checking package vignettes in ‘inst/doc’ ... OK
-* checking running R code from vignettes ... NONE
-  ‘MoMPCA.Rmd’using ‘UTF-8’... OK
-* checking re-building of vignette outputs ... SKIPPED
-* DONE
-Status: 1 ERROR, 1 NOTE
-
-
-
-
-
-
-```
 # MtreeRing
 
 <details>
@@ -3441,11 +3369,11 @@ ERROR: lazy loading failed for package ‘PROsetta’
 
 <details>
 
-* Version: 1.4
+* Version: 1.4.1
 * Source code: https://github.com/cran/provSummarizeR
 * URL: https://github.com/End-to-end-provenance
 * BugReports: https://github.com/End-to-end-provenance/provSummarizeR/issues
-* Date/Publication: 2020-06-18 10:30:07 UTC
+* Date/Publication: 2020-07-16 04:30:05 UTC
 * Number of recursive dependencies: 55
 
 Run `cloud_details(, "provSummarizeR")` for more info
@@ -3463,7 +3391,7 @@ Run `cloud_details(, "provSummarizeR")` for more info
 * using session charset: UTF-8
 * using options ‘--no-manual --no-build-vignettes’
 * checking for file ‘provSummarizeR/DESCRIPTION’ ... OK
-* this is package ‘provSummarizeR’ version ‘1.4’
+* this is package ‘provSummarizeR’ version ‘1.4.1’
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... ERROR
@@ -3493,7 +3421,7 @@ Status: 1 ERROR
 * using session charset: UTF-8
 * using options ‘--no-manual --no-build-vignettes’
 * checking for file ‘provSummarizeR/DESCRIPTION’ ... OK
-* this is package ‘provSummarizeR’ version ‘1.4’
+* this is package ‘provSummarizeR’ version ‘1.4.1’
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... ERROR
@@ -16989,67 +16917,38 @@ ERROR: lazy loading failed for package ‘thurstonianIRT’
 * removing ‘/tmp/workdir/thurstonianIRT/old/thurstonianIRT.Rcheck/thurstonianIRT’
 
 ```
-# tidygeocoder
+# NA
 
 <details>
 
-* Version: 0.2.5
-* Source code: https://github.com/cran/tidygeocoder
-* URL: https://github.com/jessecambon/tidygeocoder
-* BugReports: https://github.com/jessecambon/tidygeocoder/issues
-* Date/Publication: 2020-03-22 17:40:02 UTC
-* Number of recursive dependencies: 84
+* Version: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
 
-Run `cloud_details(, "tidygeocoder")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
-## In both
-
-*   checking whether package ‘tidygeocoder’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/tmp/workdir/tidygeocoder/new/tidygeocoder.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
+## Error before installation
 
 ### Devel
 
 ```
-* installing *source* package ‘tidygeocoder’ ...
-** package ‘tidygeocoder’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘XML’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘tidygeocoder’
-* removing ‘/tmp/workdir/tidygeocoder/new/tidygeocoder.Rcheck/tidygeocoder’
+
+
+
+
+
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘tidygeocoder’ ...
-** package ‘tidygeocoder’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘XML’
-Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Execution halted
-ERROR: lazy loading failed for package ‘tidygeocoder’
-* removing ‘/tmp/workdir/tidygeocoder/old/tidygeocoder.Rcheck/tidygeocoder’
+
+
+
+
+
 
 ```
 # tidySEM

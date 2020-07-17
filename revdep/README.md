@@ -27,6 +27,7 @@
 |diceR            |?       |      |        |     |
 |dmdScheme        |1.2     |1     |        |     |
 |easyr            |?       |      |        |     |
+|NA               |?       |      |        |     |
 |EdSurvey         |?       |      |        |     |
 |EML              |2.0.2   |1     |        |     |
 |EvaluateCore     |0.1.1   |1     |        |     |
@@ -48,7 +49,6 @@
 |metagam          |?       |      |        |     |
 |MetaIntegrator   |?       |      |        |     |
 |mlVAR            |?       |      |        |     |
-|MoMPCA           |?       |      |        |     |
 |MtreeRing        |1.4.2   |1     |        |     |
 |nesRdata         |0.3.1   |1     |        |     |
 |nomisr           |0.4.3   |1     |        |     |
@@ -81,7 +81,7 @@
 |SpaDES.tools     |?       |      |        |     |
 |SWMPrExtension   |1.1.5   |1     |        |     |
 |thurstonianIRT   |0.9.0   |1     |        |     |
-|tidygeocoder     |0.2.5   |1     |        |     |
+|NA               |?       |      |        |     |
 |tidySEM          |0.1.2   |1     |        |     |
 |tmap             |3.1     |1     |        |     |
 |trackdf          |?       |      |        |     |
@@ -90,23 +90,16 @@
 |wrswoR           |?       |      |        |     |
 |Z10              |?       |      |        |     |
 
-## New problems (15)
+## New problems (8)
 
 |package                              |version |error  |warning |note |
 |:------------------------------------|:-------|:------|:-------|:----|
-|[anglr](problems.md#anglr)           |0.6.0   |__+1__ |1       |     |
-|[crimedata](problems.md#crimedata)   |0.2.0   |__+1__ |        |     |
-|[evaluator](problems.md#evaluator)   |0.4.2   |__+1__ |        |     |
-|[ftExtra](problems.md#ftextra)       |0.0.1   |__+1__ |        |     |
+|[anglr](problems.md#anglr)           |0.6.0   |__+1__ |__+1__  |     |
+|[dodgr](problems.md#dodgr)           |0.2.7   |__+1__ |        |3    |
+|[florestal](problems.md#florestal)   |0.1.1   |       |__+1__  |     |
 |[gMOIP](problems.md#gmoip)           |1.4.3   |       |__+1__  |     |
-|[iRF](problems.md#irf)               |2.0.0   |       |__+1__  |     |
 |[keyATM](problems.md#keyatm)         |0.3.0   |__+1__ |        |1    |
-|[kntnr](problems.md#kntnr)           |0.4.4   |__+1__ |        |     |
-|[nanny](problems.md#nanny)           |0.1.8   |__+2__ |        |1    |
-|[SEERaBomb](problems.md#seerabomb)   |2019.2  |       |__+1__  |     |
-|[simTool](problems.md#simtool)       |1.1.6   |__+1__ |        |     |
 |[tibbletime](problems.md#tibbletime) |0.1.5   |__+1__ |        |     |
 |[timetk](problems.md#timetk)         |2.1.0   |__+1__ |        |2    |
 |[unpivotr](problems.md#unpivotr)     |0.6.0   |__+1__ |        |     |
-|[xpose](problems.md#xpose)           |0.4.10  |__+2__ |        |     |
 
