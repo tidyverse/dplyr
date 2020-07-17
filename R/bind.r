@@ -118,6 +118,11 @@ bind_rows <- function(..., .id = NULL) {
     }
   }
 
+  if (!length(dots)) {
+    return(tibble())
+  }
+
+  first <- dots[[1L]]
   dots <- map(dots, function(.x) {
     if (vec_is_list(.x)) {
       .x <- new_data_frame(as.list(.x))
@@ -129,8 +134,12 @@ bind_rows <- function(..., .id = NULL) {
     names(dots) <- NULL
   }
   out <- vec_rbind(!!!dots, .names_to = .id)
-  if (length(dots) && is.data.frame(first <- dots[[1L]])) {
-    out <- dplyr_reconstruct(out, first)
+  if (length(dots)) {
+    if (is.data.frame(first)) {
+      out <- dplyr_reconstruct(out, first)
+    } else {
+      out <- as_tibble(out)
+    }
   }
   out
 }
