@@ -179,8 +179,8 @@ public:
         R_xlen_t current = vec_pos[j];
         R_xlen_t start_idx = j;
 
-        j++;
-        while (j < end && vec_pos[j++] == current) ;
+        ++j;
+        for (; j < end && vec_pos[j] == current; ++j);
         expanders.push_back(expander(data_, positions_, depth_ + 1, current, start_idx, j));
       }
     }
