@@ -138,10 +138,18 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 #' n_distinct(x)
 #' @export
 n_distinct <- function(..., na.rm = FALSE) {
-  columns <- map(enquos(..., .named = TRUE), eval_tidy)
-  data <- as_tibble(columns, .name_repair = "minimal")
+  size <- vec_size_common(...)
+
+  data <- vec_recycle_common(..., .size = size)
+
+  # Remove after r-lib/vctrs#1198
+  data <- set_names(data, seq_along(data))
+
+  data <- new_data_frame(data, n = size)
+
   if (isTRUE(na.rm)){
     data <- vec_slice(data, !reduce(map(data, vec_equal_na), `|`))
   }
+
   vec_unique_count(data)
 }
