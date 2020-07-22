@@ -1,5 +1,7 @@
 ## Release summary
 
+Minor release addressing issues of the 1.0.0 release, and findings from CRAN checks with valgrind. 
+
 ## Test environments
 
 * local mac OS install, R 4.0.0
