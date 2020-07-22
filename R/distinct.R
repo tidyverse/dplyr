@@ -138,9 +138,11 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 #' n_distinct(x)
 #' @export
 n_distinct <- function(..., na.rm = FALSE) {
-  size <- vec_size_common(...)
+  args <- list2(...)
 
-  data <- vec_recycle_common(..., .size = size)
+  size <- vec_size_common(!!!args)
+
+  data <- vec_recycle_common(!!!args, .size = size)
 
   # Remove after r-lib/vctrs#1198
   data <- set_names(data, seq_along(data))
