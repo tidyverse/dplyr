@@ -144,7 +144,6 @@ n_distinct <- function(..., na.rm = FALSE) {
 
   data <- vec_recycle_common(!!!args, .size = size)
 
-  # Remove after r-lib/vctrs#1198
   nms <- vec_rep("", length(data))
   data <- set_names(data, nms)
 
