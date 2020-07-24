@@ -72,13 +72,13 @@
 #'   group_vars()
 #'
 #'
-#' # when factors are involved, groups can be empty
+#' # when factors are involved and .drop = FALSE, groups can be empty
 #' tbl <- tibble(
 #'   x = 1:10,
 #'   y = factor(rep(c("a", "c"), each  = 5), levels = c("a", "b", "c"))
 #' )
 #' tbl %>%
-#'   group_by(y) %>%
+#'   group_by(y, .drop = FALSE) %>%
 #'   group_rows()
 #'
 group_by <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
