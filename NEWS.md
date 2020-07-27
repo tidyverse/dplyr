@@ -61,7 +61,7 @@
 * `lead()` and `lag()` are stricter about their inputs. 
 
 * Extending data frames requires that the extra class or classes are added first, not last. 
-  Having the extact class at the end causes some vctrs operations to fail with a message like:
+  Having the extra class at the end causes some vctrs operations to fail with a message like:
   
   ```
   Input must be a vector, not a `<data.frame/...>` object
