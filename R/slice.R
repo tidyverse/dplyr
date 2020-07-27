@@ -129,6 +129,7 @@ slice_head <- function(.data, ..., n, prop) {
 
 #' @export
 slice_head.data.frame <- function(.data, ..., n, prop) {
+  ellipsis::check_dots_empty()
   size <- check_slice_size(n, prop)
   idx <- switch(size$type,
     n =    function(n) seq2(1, min(size$n, n)),
@@ -146,6 +147,7 @@ slice_tail <- function(.data, ..., n, prop) {
 
 #' @export
 slice_tail.data.frame <- function(.data, ..., n, prop) {
+  ellipsis::check_dots_empty()
   size <- check_slice_size(n, prop)
   idx <- switch(size$type,
     n =    function(n) seq2(max(n - size$n + 1, 1), n),
@@ -169,6 +171,8 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   if (missing(order_by)) {
     abort("argument `order_by` is missing, with no default.")
   }
+
+  ellipsis::check_dots_empty()
 
   size <- check_slice_size(n, prop)
   if (with_ties) {
@@ -196,6 +200,8 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   if (missing(order_by)) {
     abort("argument `order_by` is missing, with no default.")
   }
+
+  ellipsis::check_dots_empty()
 
   size <- check_slice_size(n, prop)
   if (with_ties) {
@@ -230,6 +236,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
+  ellipsis::check_dots_empty()
   size <- check_slice_size(n, prop)
   idx <- switch(size$type,
     n =    function(x, n) sample_int(n, size$n, replace = replace, wt = x),

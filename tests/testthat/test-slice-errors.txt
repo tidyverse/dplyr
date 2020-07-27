@@ -37,3 +37,53 @@ Error: `n` must be a non-missing positive number.
 > check_slice_size(prop = -1)
 Error: `prop` must be a non-missing positive number.
 
+
+slice_ data.frame methods do not use ...
+========================================
+
+> mtcars %>% slice_head(5)
+Error: `...` is not empty.
+
+We detected these problematic arguments:
+* `..1`
+
+These dots only exist to allow future extensions and should be empty.
+Did you misspecify an argument?
+
+> mtcars %>% slice_tail(5)
+Error: `...` is not empty.
+
+We detected these problematic arguments:
+* `..1`
+
+These dots only exist to allow future extensions and should be empty.
+Did you misspecify an argument?
+
+> mtcars %>% slice_min(order_by = mpg, 5)
+Error: `...` is not empty.
+
+We detected these problematic arguments:
+* `..1`
+
+These dots only exist to allow future extensions and should be empty.
+Did you misspecify an argument?
+
+> mtcars %>% slice_max(order_by = mpg, 5)
+Error: `...` is not empty.
+
+We detected these problematic arguments:
+* `..1`
+
+These dots only exist to allow future extensions and should be empty.
+Did you misspecify an argument?
+
+> mtcars %>% slice_sample(order_by = mpg, 5)
+Error: `...` is not empty.
+
+We detected these problematic arguments:
+* `order_by`
+* `..2`
+
+These dots only exist to allow future extensions and should be empty.
+Did you misspecify an argument?
+

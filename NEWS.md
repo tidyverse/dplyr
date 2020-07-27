@@ -1,5 +1,7 @@
 # dplyr 1.0.1
 
+* slice_helpers.data.frame methods now error if `...` not empty (#5442) 
+
 * New function `cur_data_all()` similar to `cur_data()` but includes the grouping variables (#5342). 
 
 * `count()` and `tally()` no longer automatically weights by column `n` if 

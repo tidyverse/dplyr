@@ -267,5 +267,12 @@ test_that("rename errors with invalid grouped data frame (#640)", {
     check_slice_size(prop = "a")
     check_slice_size(n = -1)
     check_slice_size(prop = -1)
+
+    "# slice_ data.frame methods do not use ..."
+    mtcars %>% slice_head(5)
+    mtcars %>% slice_tail(5)
+    mtcars %>% slice_min(order_by = mpg, 5)
+    mtcars %>% slice_max(order_by = mpg, 5)
+    mtcars %>% slice_sample(order_by = mpg, 5)
   })
 })
