@@ -334,7 +334,7 @@ mutate_cols <- function(.data, ...) {
     } else if(inherits(e, "dplyr:::error_mutate_incompatible_combine")) {
       stop_combine(e$parent, index = i, dots = dots, fn = "mutate")
     } else {
-      stop_dplyr(i, dots, fn = "mutate", problem = conditionMessage(e), parent = e)
+      stop_dplyr(i, dots, fn = "mutate", problem = structure(conditionMessage(e), class = "no_glue"), parent = e)
     }
   },
   warning = function(w) {

@@ -118,3 +118,12 @@ Duplicate column names
 > tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
 Error: Can't transform a data frame with duplicate names.
 
+
+Error that contains {
+=====================
+
+> tibble() %>% summarise(stop("{"))
+Error: Problem with `summarise()` input `..1`.
+x {
+i Input `..1` is `stop("{")`.
+

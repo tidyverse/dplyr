@@ -124,7 +124,7 @@ filter_rows <- function(.data, ...) {
   withCallingHandlers(
     mask$eval_all_filter(dots, env_filter),
     simpleError = function(e) {
-      stop_dplyr(env_filter$current_expression, dots, fn = "filter", problem = conditionMessage(e))
+      stop_dplyr(env_filter$current_expression, dots, fn = "filter", problem = structure(conditionMessage(e), class = "no_glue"))
     }
   )
 }

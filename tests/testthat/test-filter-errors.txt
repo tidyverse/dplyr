@@ -121,3 +121,12 @@ Error: Problem with `filter()` input `.data`.
 x `.data` is a <ts> object, not a data source.
 i Did you want to use `stats::filter()`?
 
+
+Error that contains {
+=====================
+
+> tibble() %>% filter(stop("{"))
+Error: Problem with `filter()` input `..1`.
+x {
+i Input `..1` is `stop("{")`.
+

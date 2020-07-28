@@ -1,5 +1,12 @@
 glue_c <- function(..., .envir = caller_env()) {
-  map_chr(c(...), glue, .envir = .envir)
+  vec_c(!!!map(list(...), function(x) {
+    if (inherits(x, "no_glue")) {
+      x <- unclass(x)
+    } else {
+      x[] <- glue(x, .envir = .envir)
+    }
+    x
+  }))
 }
 
 arg_name <- function(quos, index) {

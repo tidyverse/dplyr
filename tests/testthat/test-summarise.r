@@ -263,5 +263,8 @@ test_that("summarise() gives meaningful errors", {
 
     "# Duplicate column names"
     tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
+
+    "# Error that contains {"
+    tibble() %>% summarise(stop("{"))
   })
 })
