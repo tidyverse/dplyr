@@ -123,8 +123,16 @@ filter_rows <- function(.data, ...) {
   env_filter <- env()
   withCallingHandlers(
     mask$eval_all_filter(dots, env_filter),
-    simpleError = function(e) {
-      stop_dplyr(env_filter$current_expression, dots, fn = "filter", problem = structure(conditionMessage(e), class = "no_glue"))
+    error = function(e) {
+      local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
+
+      abort(c(
+        dplyr_error_header(),
+        x = conditionMessage(e),
+        i = dplyr_error_info(),
+        i = cnd_bullet_cur_group_label()
+      ))
+
     }
   )
 }
