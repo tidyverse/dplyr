@@ -372,7 +372,13 @@ mutate_cols <- function(.data, ...) {
   },
   warning = function(w) {
     local_call_step(dots = dots, .index = i, .fn = "mutate")
-    warn_dplyr(i, dots, fn = "mutate", problem = conditionMessage(w), parent = w)
+
+    warn(c(
+      dplyr_error_header(),
+      conditionMessage(w),
+      i = dplyr_error_info(),
+      i = cnd_bullet_cur_group_label()
+    ))
   })
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
