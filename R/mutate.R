@@ -322,22 +322,56 @@ mutate_cols <- function(.data, ...) {
 
   },
   error = function(e) {
-    if (inherits(e, "rlang_error_data_pronoun_not_found")) {
-      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "mutate")
-    } else if (inherits(e, "dplyr:::mutate_incompatible_size")) {
-      e$size <- vec_size(rows[[i]])
-      stop_mutate_recycle_incompatible_size(e, index = i, dots = dots)
+    local_call_step(dots = dots, .index = i, .fn = "mutate", .dot_data = inherits(e, "rlang_error_data_pronoun_not_found"))
+    error_name <- peek_call_step()$error_name
+
+    show_group_details <- TRUE
+    if (inherits(e, "dplyr:::mutate_incompatible_size")) {
+      size <- vec_size(rows[[i]])
+      x_size <- e$x_size
+      bullets <- c(
+        x = glue("Input `{error_name}` can't be recycled to size {size}."),
+        i = dplyr_error_info(),
+        i = glue("Input `{error_name}` must be size {or_1(size)}, not {x_size}."),
+        i = cnd_bullet_rowwise_unlist()
+      )
     } else if (inherits(e, "dplyr:::mutate_mixed_null")) {
-      stop_mutate_mixed_null(index = i, dots = dots)
+      show_group_details <- FALSE
+      bullets <- c(
+        x = glue("`{error_name}` must return compatible vectors across groups."),
+        i = dplyr_error_info(),
+        i = "Cannot combine NULL and non NULL results.",
+        i = cnd_bullet_rowwise_unlist()
+      )
     } else if (inherits(e, "dplyr:::mutate_not_vector")) {
-      stop_mutate_not_vector(index = i, dots = dots, result = e$result)
+      bullets <- c(
+        x = glue("Input `{error_name}` must be a vector, not {friendly_type_of(e$result)}."),
+        i = dplyr_error_info(),
+        i = cnd_bullet_rowwise_unlist()
+      )
     } else if(inherits(e, "dplyr:::error_mutate_incompatible_combine")) {
-      stop_combine(e$parent, index = i, dots = dots, fn = "mutate")
+      show_group_details <- FALSE
+      bullets <- c(
+        x = glue("Input `{error_name}` must return compatible vectors across groups"),
+        i = dplyr_error_info(),
+        i = combine_details(e$parent$x, e$parent$x_arg),
+        i = combine_details(e$parent$y, e$parent$y_arg)
+      )
     } else {
-      stop_dplyr(i, dots, fn = "mutate", problem = structure(conditionMessage(e), class = "no_glue"), parent = e)
+      bullets <- c(
+        x = conditionMessage(e), i = dplyr_error_info()
+      )
     }
+
+    abort(c(
+      dplyr_error_header(),
+      bullets,
+      i = if(show_group_details) cnd_bullet_cur_group_label()
+    ))
+
   },
   warning = function(w) {
+    local_call_step(dots = dots, .index = i, .fn = "mutate")
     warn_dplyr(i, dots, fn = "mutate", problem = conditionMessage(w), parent = w)
   })
 

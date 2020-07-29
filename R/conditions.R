@@ -102,14 +102,6 @@ combine_details <- function(x, arg) {
   glue("Result type for group {group} ({details}): <{vec_ptype_full(x)}>.")
 }
 
-stop_combine <- function(cnd, index, dots, fn = "summarise") {
-  stop_dplyr(index, dots, fn, problem = "Input `{error_name}` must return compatible vectors across groups",
-    combine_details(cnd$x, cnd$x_arg),
-    combine_details(cnd$y, cnd$y_arg),
-    .show_group_details = FALSE
-  )
-}
-
 err_vars <- function(x) {
   if (is.logical(x)) {
     x <- which(x)
@@ -153,44 +145,16 @@ stop_summarise_unsupported_type <- function(result) {
 
 # mutate() ----------------------------------------------------------------
 
-stop_mutate_mixed_null <- function(index, dots) {
-  # called from the C++ code
-  if(missing(dots)) {
-    abort(class = "dplyr:::mutate_mixed_null")
-  }
-
-  stop_dplyr(index, dots, "mutate",
-    problem = "`{error_name}` must return compatible vectors across groups.",
-    i = "Cannot combine NULL and non NULL results.",
-    .show_group_details = FALSE,
-    cnd_bullet_rowwise_unlist()
-  )
+stop_mutate_mixed_null <- function(index) {
+  abort(class = "dplyr:::mutate_mixed_null")
 }
-
 
 stop_mutate_not_vector <- function(result, index, dots) {
-  # called from the C++ code
-  if(missing(dots)) {
-    abort(class = "dplyr:::mutate_not_vector", result = result)
-  }
-
-  stop_dplyr(index, dots, "mutate",
-    problem = "Input `{error_name}` must be a vector, not {friendly_type_of(result)}.",
-    cnd_bullet_rowwise_unlist()
-  )
+  abort(class = "dplyr:::mutate_not_vector", result = result)
 }
 
-stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
-  # called from the C++ code
-  if(missing(dots)) {
-    abort(class = "dplyr:::mutate_incompatible_size", x_size = cnd)
-  }
-
-  stop_dplyr(index, dots, "mutate",
-    problem = "Input `{error_name}` can't be recycled to size {cnd$size}.",
-    i = "Input `{error_name}` must be size {or_1(cnd$size)}, not {cnd$x_size}.",
-    cnd_bullet_rowwise_unlist()
-  )
+stop_mutate_recycle_incompatible_size <- function(x_size) {
+  abort(class = "dplyr:::mutate_incompatible_size", x_size = x_size)
 }
 
 stop_summarise_incompatible_size <- function(group, index, expected_size, size) {
