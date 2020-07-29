@@ -82,25 +82,25 @@ check_join_vars <- function(vars, names) {
 
   na <- is.na(vars)
   if (any(na)) {
-    abort(glue_c(
+    abort(c(
       "Join columns must be not NA.",
-      x = "Problem at position {err_vars(na)}."
+      x = glue("Problem at position {err_vars(na)}.")
     ))
   }
 
   dup <- duplicated(vars)
   if (any(dup)) {
-    abort(glue_c(
+    abort(c(
       "Join columns must be unique.",
-      x = "Problem at position {err_vars(dup)}."
+      x = glue("Problem at position {err_vars(dup)}.")
     ))
   }
 
   missing <- setdiff(vars, names)
   if (length(missing) > 0) {
-    abort(glue_c(
+    abort(c(
       "Join columns must be present in data.",
-      x = "Problem with {err_vars(missing)}."
+      x = glue("Problem with {err_vars(missing)}.")
     ))
   }
 }
@@ -108,18 +108,18 @@ check_join_vars <- function(vars, names) {
 check_duplicate_vars <- function(vars, input) {
   dup <- duplicated(vars)
   if (any(dup)) {
-    abort(glue_c(
-      "Input columns in `{input}` must be unique.",
-      x = "Problem with {err_vars(vars[dup])}."
+    abort(c(
+      glue("Input columns in `{input}` must be unique."),
+      x = glue("Problem with {err_vars(vars[dup])}.")
     ))
   }
 }
 
 standardise_join_suffix <- function(x) {
   if (!is.character(x) || length(x) != 2) {
-    abort(glue_c(
+    abort(c(
       "`suffix` must be a character vector of length 2.",
-      i = "suffix is {friendly_type_of(x)} of length {length(x)}."
+      i = glue("suffix is {friendly_type_of(x)} of length {length(x)}.")
     ))
   }
 

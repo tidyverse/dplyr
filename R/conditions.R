@@ -1,14 +1,3 @@
-glue_c <- function(..., .envir = caller_env()) {
-  vec_c(!!!map(list(...), function(x) {
-    if (inherits(x, "no_glue")) {
-      x <- unclass(x)
-    } else {
-      x[] <- glue(x, .envir = .envir)
-    }
-    x
-  }))
-}
-
 arg_name <- function(quos, index) {
   name  <- names(quos)[index]
   if (name == "") {
@@ -106,11 +95,11 @@ stop_filter_incompatible_type <- function(index, dots, index_column_name, result
 }
 
 stop_filter_named <- function(index, expr, name) {
-  abort(glue_c(
-    "Problem with `filter()` input `..{index}`.",
-    x = "Input `..{index}` is named.",
-    i = "This usually means that you've used `=` instead of `==`.",
-    i = "Did you mean `{name} == {as_label(expr)}`?"
+  abort(c(
+    glue("Problem with `filter()` input `..{index}`."),
+    x = glue("Input `..{index}` is named."),
+    i = glue("This usually means that you've used `=` instead of `==`."),
+    i = glue("Did you mean `{name} == {as_label(expr)}`?")
   ))
 }
 
