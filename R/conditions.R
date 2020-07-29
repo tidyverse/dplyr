@@ -61,7 +61,7 @@ local_call_step <- function(dots, .index, .fn, .dot_data = FALSE, frame = caller
   )
 }
 peek_call_step <- function() {
-  context_peek("dplyr_call_step", "stop_dplyr", "dplyr error handling")
+  context_peek("dplyr_call_step", "peek_call_step", "dplyr error handling")
 }
 
 dplyr_error_header <- function() {
@@ -70,29 +70,6 @@ dplyr_error_header <- function() {
 
 dplyr_error_info <- function(){
   glue("Input `{error_name}` is `{error_expression}`.", .envir = peek_call_step())
-}
-
-stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE, parent = NULL, .signal = abort) {
-  envir <- peek_call_step()
-  bullets <- glue_c(
-    "Problem with `{fn}()` input `{error_name}`.",
-    x = problem,
-    i = "Input `{error_name}` is `{error_expression}`.",
-    ...,
-    if(.show_group_details) cnd_bullet_cur_group_label(),
-    .envir = envir
-  )
-  .signal(
-    bullets,
-    class = "dplyr_error",
-    error_name = envir[["error_name"]], error_expression = envir[["error_expression"]],
-    index = envir[["index"]], dots = envir[["dots"]], fn = envir[["fn"]],
-    parent = parent
-  )
-}
-
-warn_dplyr <- function(...) {
-  stop_dplyr(..., .signal = warn)
 }
 
 combine_details <- function(x, arg) {
