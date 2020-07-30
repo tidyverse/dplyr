@@ -366,7 +366,7 @@ mutate_cols <- function(.data, ...) {
     }
 
     abort(c(
-      dplyr_error_header(),
+      cnd_bullet_header(),
       bullets,
       i = if(show_group_details) cnd_bullet_cur_group_label()
     ), class = "dplyr:::mutate_error", error_name = error_name, error_expression = error_expression)
@@ -376,7 +376,7 @@ mutate_cols <- function(.data, ...) {
     local_call_step(dots = dots, .index = i, .fn = "mutate")
 
     warn(c(
-      dplyr_error_header(),
+      cnd_bullet_header(),
       conditionMessage(w),
       i = cnd_bullet_input_info(),
       i = cnd_bullet_cur_group_label()

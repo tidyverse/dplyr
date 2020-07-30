@@ -53,7 +53,7 @@ peek_call_step <- function() {
   context_peek("dplyr_call_step", "peek_call_step", "dplyr error handling")
 }
 
-dplyr_error_header <- function() {
+cnd_bullet_header <- function() {
   glue("Problem with `{fn}()` input `{error_name}`.", .envir = peek_call_step())
 }
 

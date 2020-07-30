@@ -127,7 +127,7 @@ filter_rows <- function(.data, ...) {
       local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
 
       abort(c(
-        dplyr_error_header(),
+        cnd_bullet_header(),
         x = conditionMessage(e),
         i = cnd_bullet_input_info(),
         i = cnd_bullet_cur_group_label()

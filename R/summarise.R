@@ -295,7 +295,7 @@ summarise_cols <- function(.data, ...) {
       )
     }
 
-    bullets <- c(dplyr_error_header(), bullets, i = cnd_bullet_input_info())
+    bullets <- c(cnd_bullet_header(), bullets, i = cnd_bullet_input_info())
     if (!inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
       bullets <- c(bullets, i = cnd_bullet_cur_group_label())
     }
