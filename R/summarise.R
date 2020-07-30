@@ -269,6 +269,8 @@ summarise_cols <- function(.data, ...) {
     local_call_step(dots = dots, .index = i, .fn = "summarise",
       .dot_data = inherits(e, "rlang_error_data_pronoun_not_found")
     )
+    call_step <- peek_call_step()
+    error_name <- call_step$error_name
 
     if (inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
       bullets <- c(
@@ -278,7 +280,7 @@ summarise_cols <- function(.data, ...) {
       )
     } else if (inherits(e, "dplyr:::summarise_unsupported_type")) {
       bullets <- c(
-        x = glue("Input `{error_name}` must be a vector, not {friendly_type_of(result)}.", error_name = peek_call_step()$error_name, result = e$result),
+        x = glue("Input `{error_name}` must be a vector, not {friendly_type_of(result)}.", result = e$result),
         i = cnd_bullet_rowwise_unlist()
       )
     } else if (inherits(e, "dplyr:::summarise_incompatible_size")) {
@@ -286,7 +288,7 @@ summarise_cols <- function(.data, ...) {
       peek_mask()$set_current_group(e$group)
 
       bullets <- c(
-        x = glue("Input `{error_name}` must be size {or_1(expected_size)}, not {size}.", error_name = peek_call_step()[["error_name"]], expected_size = e$expected_size, size = e$size),
+        x = glue("Input `{error_name}` must be size {or_1(expected_size)}, not {size}.", expected_size = e$expected_size, size = e$size),
         i = glue("An earlier column had size {expected_size}.", expected_size = e$expected_size)
       )
     } else {
