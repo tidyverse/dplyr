@@ -333,7 +333,7 @@ mutate_cols <- function(.data, ...) {
       x_size <- e$x_size
       bullets <- c(
         x = glue("Input `{error_name}` can't be recycled to size {size}."),
-        i = dplyr_error_info(),
+        i = cnd_bullet_input_info(),
         i = glue("Input `{error_name}` must be size {or_1(size)}, not {x_size}."),
         i = cnd_bullet_rowwise_unlist()
       )
@@ -341,27 +341,27 @@ mutate_cols <- function(.data, ...) {
       show_group_details <- FALSE
       bullets <- c(
         x = glue("`{error_name}` must return compatible vectors across groups."),
-        i = dplyr_error_info(),
+        i = cnd_bullet_input_info(),
         i = "Cannot combine NULL and non NULL results.",
         i = cnd_bullet_rowwise_unlist()
       )
     } else if (inherits(e, "dplyr:::mutate_not_vector")) {
       bullets <- c(
         x = glue("Input `{error_name}` must be a vector, not {friendly_type_of(e$result)}."),
-        i = dplyr_error_info(),
+        i = cnd_bullet_input_info(),
         i = cnd_bullet_rowwise_unlist()
       )
     } else if(inherits(e, "dplyr:::error_mutate_incompatible_combine")) {
       show_group_details <- FALSE
       bullets <- c(
         x = glue("Input `{error_name}` must return compatible vectors across groups"),
-        i = dplyr_error_info(),
+        i = cnd_bullet_input_info(),
         i = combine_details(e$parent$x, e$parent$x_arg),
         i = combine_details(e$parent$y, e$parent$y_arg)
       )
     } else {
       bullets <- c(
-        x = conditionMessage(e), i = dplyr_error_info()
+        x = conditionMessage(e), i = cnd_bullet_input_info()
       )
     }
 
@@ -378,7 +378,7 @@ mutate_cols <- function(.data, ...) {
     warn(c(
       dplyr_error_header(),
       conditionMessage(w),
-      i = dplyr_error_info(),
+      i = cnd_bullet_input_info(),
       i = cnd_bullet_cur_group_label()
     ))
   })

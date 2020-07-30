@@ -57,7 +57,7 @@ dplyr_error_header <- function() {
   glue("Problem with `{fn}()` input `{error_name}`.", .envir = peek_call_step())
 }
 
-dplyr_error_info <- function(){
+cnd_bullet_input_info <- function(){
   glue("Input `{error_name}` is `{error_expression}`.", .envir = peek_call_step())
 }
 

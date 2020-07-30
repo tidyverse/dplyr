@@ -129,7 +129,7 @@ filter_rows <- function(.data, ...) {
       abort(c(
         dplyr_error_header(),
         x = conditionMessage(e),
-        i = dplyr_error_info(),
+        i = cnd_bullet_input_info(),
         i = cnd_bullet_cur_group_label()
       ))
 
