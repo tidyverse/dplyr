@@ -127,27 +127,3 @@ stop_summarise_incompatible_size <- function(group, index, expected_size, size) 
   # called from the C++ code
   abort(class = "dplyr:::summarise_incompatible_size", size = size, group = group, index = index, expected_size = expected_size)
 }
-
-
-# arrange() ---------------------------------------------------------------
-
-stop_arrange_transmute <- function(cnd) {
-  if (inherits(cnd, "dplyr_error")) {
-    error_name <- cnd$error_name
-    index <- sub("^.*_", "", error_name)
-    error_expression <- cnd$error_expression
-
-    bullets <- c(
-      x = glue("Could not create a temporary column for `..{index}`."),
-      i = glue("`..{index}` is `{error_expression}`.")
-    )
-  } else {
-    bullets <- c(x = conditionMessage(cnd))
-  }
-
-  abort(c(
-    "arrange() failed at implicit mutate() step. ",
-    bullets
-  ))
-
-}

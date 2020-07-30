@@ -116,7 +116,24 @@ arrange_rows <- function(.data, dots) {
   data <- withCallingHandlers({
     transmute(new_data_frame(.data), !!!quosures)
   }, error = function(cnd) {
-    stop_arrange_transmute(cnd)
+    if (inherits(cnd, "dplyr:::mutate_error")) {
+      error_name <- cnd$error_name
+      index <- sub("^.*_", "", error_name)
+      error_expression <- cnd$error_expression
+
+      bullets <- c(
+        x = glue("Could not create a temporary column for `..{index}`."),
+        i = glue("`..{index}` is `{error_expression}`.")
+      )
+    } else {
+      bullets <- c(x = conditionMessage(cnd))
+    }
+
+    abort(c(
+      "arrange() failed at implicit mutate() step. ",
+      bullets
+    ))
+
   })
 
   # we can't just use vec_compare_proxy(data) because we need to apply

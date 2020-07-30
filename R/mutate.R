@@ -323,7 +323,9 @@ mutate_cols <- function(.data, ...) {
   },
   error = function(e) {
     local_call_step(dots = dots, .index = i, .fn = "mutate", .dot_data = inherits(e, "rlang_error_data_pronoun_not_found"))
-    error_name <- peek_call_step()$error_name
+    call_step_envir <- peek_call_step()
+    error_name <- call_step_envir$error_name
+    error_expression <- call_step_envir$error_expression
 
     show_group_details <- TRUE
     if (inherits(e, "dplyr:::mutate_incompatible_size")) {
@@ -367,7 +369,7 @@ mutate_cols <- function(.data, ...) {
       dplyr_error_header(),
       bullets,
       i = if(show_group_details) cnd_bullet_cur_group_label()
-    ))
+    ), class = "dplyr:::mutate_error", error_name = error_name, error_expression = error_expression)
 
   },
   warning = function(w) {
