@@ -356,8 +356,8 @@ mutate_cols <- function(.data, ...) {
       bullets <- c(
         x = glue("Input `{error_name}` must return compatible vectors across groups"),
         i = cnd_bullet_input_info(),
-        i = combine_details(e$parent$x, e$parent$x_arg),
-        i = combine_details(e$parent$y, e$parent$y_arg)
+        i = cnd_bullet_combine_details(e$parent$x, e$parent$x_arg),
+        i = cnd_bullet_combine_details(e$parent$y, e$parent$y_arg)
       )
     } else {
       bullets <- c(

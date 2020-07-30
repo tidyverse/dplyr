@@ -61,7 +61,7 @@ cnd_bullet_input_info <- function(){
   glue("Input `{error_name}` is `{error_expression}`.", .envir = peek_call_step())
 }
 
-combine_details <- function(x, arg) {
+cnd_bullet_combine_details <- function(x, arg) {
   group <- as.integer(sub("^..", "", arg))
   keys <- group_keys(peek_mask()$full_data())[group, ]
   details <- group_labels_details(keys)

@@ -273,8 +273,8 @@ summarise_cols <- function(.data, ...) {
     if (inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
       bullets <- c(
         x = glue("Input `{error_name}` must return compatible vectors across groups", .envir = peek_call_step()),
-        i = combine_details(e$parent$x, e$parent$x_arg),
-        i = combine_details(e$parent$y, e$parent$y_arg)
+        i = cnd_bullet_combine_details(e$parent$x, e$parent$x_arg),
+        i = cnd_bullet_combine_details(e$parent$y, e$parent$y_arg)
       )
     } else if (inherits(e, "dplyr:::summarise_unsupported_type")) {
       bullets <- c(
