@@ -81,7 +81,7 @@ err_vars <- function(x) {
 
 abort_glue <- function(message, .envir = parent.frame(), class = NULL) {
   if (length(message)) {
-    message <- glue(message, .envir = .envir)
+    message <- exec(glue, message, !!!.envir)
     exec(abort, message = message, class = class, !!!.envir)
   } else {
     exec(abort, class = class, !!!.envir)
