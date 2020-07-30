@@ -119,11 +119,18 @@ Duplicate column names
 Error: Can't transform a data frame with duplicate names.
 
 
-Error that contains {
-=====================
+Not glue()ing
+=============
 
 > tibble() %>% summarise(stop("{"))
 Error: Problem with `summarise()` input `..1`.
 x {
 i Input `..1` is `stop("{")`.
+
+> tibble(a = 1, b = "{value:1, unit:a}") %>% group_by(b) %>% summarise(a = stop(
++   "!"))
+Error: Problem with `summarise()` input `a`.
+x !
+i Input `a` is `stop("!")`.
+i The error occurred in group 1: b = "{value:1, unit:a}".
 

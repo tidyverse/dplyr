@@ -264,7 +264,8 @@ test_that("summarise() gives meaningful errors", {
     "# Duplicate column names"
     tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
 
-    "# Error that contains {"
+    "# Not glue()ing"
     tibble() %>% summarise(stop("{"))
+    tibble(a = 1, b="{value:1, unit:a}") %>% group_by(b) %>% summarise(a = stop("!"))
   })
 })
