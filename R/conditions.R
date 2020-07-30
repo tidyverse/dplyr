@@ -81,26 +81,17 @@ err_vars <- function(x) {
 
 # filter() ----------------------------------------------------------------
 
-stop_filter_incompatible_size <- function(index, dots, size, expected_size) {
+stop_filter_incompatible_size <- function(index, size, expected_size) {
   abort(glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}."))
 }
 
-stop_filter_incompatible_type <- function(index, dots, index_column_name, result) {
+stop_filter_incompatible_type <- function(index, index_column_name, result) {
   arg_name <- if (!is.null(index_column_name)) {
     glue("..{index}${index_column_name}")
   } else {
     glue("..{index}")
   }
   abort(glue("Input `{arg_name}` must be a logical vector, not a {vec_ptype_full(result)}."))
-}
-
-stop_filter_named <- function(index, expr, name) {
-  abort(c(
-    glue("Problem with `filter()` input `..{index}`."),
-    x = glue("Input `..{index}` is named."),
-    i = glue("This usually means that you've used `=` instead of `==`."),
-    i = glue("Did you mean `{name} == {as_label(expr)}`?")
-  ))
 }
 
 # summarise() -------------------------------------------------------------
@@ -115,7 +106,7 @@ stop_mutate_mixed_null <- function(index) {
   abort(class = "dplyr:::mutate_mixed_null")
 }
 
-stop_mutate_not_vector <- function(result, index, dots) {
+stop_mutate_not_vector <- function(result) {
   abort(class = "dplyr:::mutate_not_vector", result = result)
 }
 

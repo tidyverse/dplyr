@@ -147,7 +147,12 @@ check_filter <- function(dots) {
     # is suspicious
     expr <- quo_get_expr(quo)
     if (!is.logical(expr)) {
-      stop_filter_named(i, expr, names(dots)[i])
+      abort(c(
+        glue("Problem with `filter()` input `..{i}`."),
+        x = glue("Input `..{i}` is named."),
+        i = glue("This usually means that you've used `=` instead of `==`."),
+        i = glue("Did you mean `{name} == {as_label(expr)}`?", name = names(dots)[i])
+      ))
     }
 
   }
