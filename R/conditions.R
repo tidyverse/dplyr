@@ -79,42 +79,12 @@ err_vars <- function(x) {
   glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ")
 }
 
-# filter() ----------------------------------------------------------------
-
-stop_filter_incompatible_size <- function(index, size, expected_size) {
-  abort(glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}."))
-}
-
-stop_filter_incompatible_type <- function(index, index_column_name, result) {
-  arg_name <- if (!is.null(index_column_name)) {
-    glue("..{index}${index_column_name}")
+abort_glue <- function(message, .envir = parent.frame(), class = NULL) {
+  if (length(message)) {
+    message <- glue(message, .envir = .envir)
+    exec(abort, message = message, class = class, !!!.envir)
   } else {
-    glue("..{index}")
+    exec(abort, class = class, !!!.envir)
   }
-  abort(glue("Input `{arg_name}` must be a logical vector, not a {vec_ptype_full(result)}."))
 }
 
-# summarise() -------------------------------------------------------------
-
-stop_summarise_unsupported_type <- function(result) {
-  abort(class = "dplyr:::summarise_unsupported_type", result = result)
-}
-
-# mutate() ----------------------------------------------------------------
-
-stop_mutate_mixed_null <- function(index) {
-  abort(class = "dplyr:::mutate_mixed_null")
-}
-
-stop_mutate_not_vector <- function(result) {
-  abort(class = "dplyr:::mutate_not_vector", result = result)
-}
-
-stop_mutate_recycle_incompatible_size <- function(x_size) {
-  abort(class = "dplyr:::mutate_incompatible_size", x_size = x_size)
-}
-
-stop_summarise_incompatible_size <- function(group, index, expected_size, size) {
-  # called from the C++ code
-  abort(class = "dplyr:::summarise_incompatible_size", size = size, group = group, index = index, expected_size = expected_size)
-}
