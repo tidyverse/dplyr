@@ -377,7 +377,7 @@ mutate_cols <- function(.data, ...) {
 
     warn(c(
       cnd_bullet_header(),
-      conditionMessage(w),
+      i = conditionMessage(w),
       i = cnd_bullet_input_info(),
       i = cnd_bullet_cur_group_label()
     ))
