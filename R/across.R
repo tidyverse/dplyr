@@ -31,10 +31,10 @@
 #'   to access the current column and grouping keys respectively.
 #' @param ... Additional arguments for the function calls in `.fns`.
 #' @param .names A glue specification that describes how to name the output
-#'   columns. This can use `{col}` to stand for the selected column name, and
-#'   `{fn}` to stand for the name of the function being applied. The default
-#'   (`NULL`) is equivalent to `"{col}"` for the single function case and
-#'   `"{col}_{fn}"` for the case where a list is used for `.fns`.
+#'   columns. This can use `{.col}` to stand for the selected column name, and
+#'   `{.fn}` to stand for the name of the function being applied. The default
+#'   (`NULL`) is equivalent to `"{.col}"` for the single function case and
+#'   `"{.col}_{.fn}"` for the case where a list is used for `.fns`.
 #'
 #' @returns
 #' A tibble with one column for each column in `.cols` and each function in `.fns`.
@@ -60,13 +60,13 @@
 #' # Use the .names argument to control the output names
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), mean, .names = "mean_{col}"))
+#'   summarise(across(starts_with("Sepal"), mean, .names = "mean_{.col}"))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{col}.{fn}"))
+#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{.col}.{.fn}"))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{col}.fn{fn}"))
+#'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
 #'
 #' # c_across() ---------------------------------------------------------------
 #' df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
@@ -79,7 +79,7 @@
 #' @export
 across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   key <- key_deparse(sys.call())
-  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key)
+  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key, .caller_env = caller_env())
 
   vars <- setup$vars
   if (length(vars) == 0L) {
@@ -148,14 +148,22 @@ c_across <- function(cols = everything()) {
   vec_c(!!!cols, .name_spec = zap())
 }
 
+across_glue_mask <- function(.col, .fn, .caller_env) {
+  glue_mask <- env(.caller_env, .col = .col, .fn = .fn)
+  # TODO: we can make these bindings louder later
+  env_bind_active(
+    glue_mask, col = function() glue_mask$.col, fn = function() glue_mask$.fn
+  )
+  glue_mask
+}
+
 # TODO: The usage of a cache in `across_setup()` and `c_across_setup()` is a stopgap solution, and
 # this idea should not be used anywhere else. This should be replaced by the
 # next version of hybrid evaluation, which should offer a way for any function
 # to do any required "set up" work (like the `eval_select()` call) a single
 # time per top-level call, rather than once per group.
-across_setup <- function(cols, fns, names, key) {
+across_setup <- function(cols, fns, names, key, .caller_env) {
   mask <- peek_mask("across()")
-
   value <- mask$across_cache_get(key)
   if (!is.null(value)) {
     return(value)
@@ -169,7 +177,8 @@ across_setup <- function(cols, fns, names, key) {
 
   if (is.null(fns)) {
     if (!is.null(names)) {
-      names <- vec_as_names(glue(names, col = vars, fn = "1"), repair = "check_unique")
+      glue_mask <- across_glue_mask(.caller_env, .col = vars, .fn = "1")
+      names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
     }
 
     value <- list(vars = vars, fns = fns, names = names)
@@ -180,10 +189,10 @@ across_setup <- function(cols, fns, names, key) {
 
   # apply `.names` smart default
   if (is.function(fns) || is_formula(fns)) {
-    names <- names %||% "{col}"
+    names <- names %||% "{.col}"
     fns <- list("1" = fns)
   } else {
-    names <- names %||% "{col}_{fn}"
+    names <- names %||% "{.col}_{.fn}"
   }
 
   if (!is.list(fns)) {
@@ -206,10 +215,11 @@ across_setup <- function(cols, fns, names, key) {
     }
   }
 
-  names <- vec_as_names(glue(names,
-    col = rep(vars, each = length(fns)),
-    fn  = rep(names_fns, length(vars))
-  ), repair = "check_unique")
+  glue_mask <- glue_mask <- across_glue_mask(.caller_env,
+    .col = rep(vars, each = length(fns)),
+    .fn  = rep(names_fns, length(vars))
+  )
+  names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
 
   value <- list(vars = vars, fns = fns, names = names)
   mask$across_cache_add(key, value)

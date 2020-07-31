@@ -26,10 +26,10 @@ to access the current column and grouping keys respectively.}
 \item{...}{Additional arguments for the function calls in \code{.fns}.}
 
 \item{.names}{A glue specification that describes how to name the output
-columns. This can use \code{{col}} to stand for the selected column name, and
-\code{{fn}} to stand for the name of the function being applied. The default
-(\code{NULL}) is equivalent to \code{"{col}"} for the single function case and
-\code{"{col}_{fn}"} for the case where a list is used for \code{.fns}.}
+columns. This can use \code{{.col}} to stand for the selected column name, and
+\code{{.fn}} to stand for the name of the function being applied. The default
+(\code{NULL}) is equivalent to \code{"{.col}"} for the single function case and
+\code{"{.col}_{.fn}"} for the case where a list is used for \code{.fns}.}
 
 \item{cols, .cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
 Because \code{across()} is used within functions like \code{summarise()} and
@@ -75,13 +75,13 @@ iris \%>\%
 # Use the .names argument to control the output names
 iris \%>\%
   group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), mean, .names = "mean_{col}"))
+  summarise(across(starts_with("Sepal"), mean, .names = "mean_{.col}"))
 iris \%>\%
   group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{col}.{fn}"))
+  summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{.col}.{.fn}"))
 iris \%>\%
   group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{col}.fn{fn}"))
+  summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
 
 # c_across() ---------------------------------------------------------------
 df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))

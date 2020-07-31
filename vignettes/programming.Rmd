@@ -324,7 +324,7 @@ Use the `.names` argument to `across()` to control the names of the output.
 my_summarise <- function(data, group_var, summarise_var) {
   data %>%
     group_by(across({{ group_var }})) %>% 
-    summarise(across({{ summarise_var }}, mean, .names = "mean_{col}"))
+    summarise(across({{ summarise_var }}, mean, .names = "mean_{.col}"))
 }
 ```
 
