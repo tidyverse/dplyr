@@ -369,7 +369,7 @@ mutate_cols <- function(.data, ...) {
       cnd_bullet_header(),
       bullets,
       i = if(show_group_details) cnd_bullet_cur_group_label()
-    ), class = "dplyr:::mutate_error", error_name = error_name, error_expression = error_expression)
+    ), class = c("dplyr:::mutate_error", "dplyr_error"), error_name = error_name, error_expression = error_expression)
 
   },
   warning = function(w) {
