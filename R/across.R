@@ -153,9 +153,8 @@ c_across <- function(cols = everything()) {
 # next version of hybrid evaluation, which should offer a way for any function
 # to do any required "set up" work (like the `eval_select()` call) a single
 # time per top-level call, rather than once per group.
-across_setup <- function(cols, fns, names, key) {
+across_setup <- function(cols, fns, names, key, .caller_env = caller_env(n = 2)) {
   mask <- peek_mask("across()")
-
   value <- mask$across_cache_get(key)
   if (!is.null(value)) {
     return(value)
@@ -169,7 +168,7 @@ across_setup <- function(cols, fns, names, key) {
 
   if (is.null(fns)) {
     if (!is.null(names)) {
-      names <- vec_as_names(glue(names, col = vars, fn = "1"), repair = "check_unique")
+      names <- vec_as_names(glue(names, .envir = env(.caller_env, col = vars, fn = "1")), repair = "check_unique")
     }
 
     value <- list(vars = vars, fns = fns, names = names)
@@ -207,8 +206,7 @@ across_setup <- function(cols, fns, names, key) {
   }
 
   names <- vec_as_names(glue(names,
-    col = rep(vars, each = length(fns)),
-    fn  = rep(names_fns, length(vars))
+    .envir = env(.caller_env, col = rep(vars, each = length(fns)), fn = rep(names_fns, length(vars)))
   ), repair = "check_unique")
 
   value <- list(vars = vars, fns = fns, names = names)

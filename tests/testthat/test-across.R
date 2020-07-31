@@ -194,6 +194,15 @@ test_that("across(<empty set>) returns a data frame with 1 row (#5204)", {
   })
 })
 
+test_that("across(.names=) can use local variables in addition to {col} and {fn}", {
+  res <- local({
+    prefix <- "MEAN"
+    data.frame(x = 42) %>%
+      summarise(across(everything(), mean, .names = "{prefix}_{col}"))
+  })
+  expect_identical(res, data.frame(MEAN_x = 42))
+})
+
 
 # c_across ----------------------------------------------------------------
 
