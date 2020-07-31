@@ -156,8 +156,8 @@ check_name <- function(name, vars) {
     name <- n_name(vars)
 
     if (name != "n") {
-      inform(glue_c(
-        "Storing counts in `{name}`, as `n` already present in input",
+      inform(c(
+        glue("Storing counts in `{name}`, as `n` already present in input"),
         i = "Use `name = \"new_name\"` to pick a new name."
       ))
     }

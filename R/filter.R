@@ -123,8 +123,16 @@ filter_rows <- function(.data, ...) {
   env_filter <- env()
   withCallingHandlers(
     mask$eval_all_filter(dots, env_filter),
-    simpleError = function(e) {
-      stop_dplyr(env_filter$current_expression, dots, fn = "filter", problem = conditionMessage(e))
+    error = function(e) {
+      local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
+
+      abort(c(
+        cnd_bullet_header(),
+        x = conditionMessage(e),
+        i = cnd_bullet_input_info(),
+        i = cnd_bullet_cur_group_label()
+      ), class = "dplyr_error")
+
     }
   )
 }
@@ -139,7 +147,12 @@ check_filter <- function(dots) {
     # is suspicious
     expr <- quo_get_expr(quo)
     if (!is.logical(expr)) {
-      stop_filter_named(i, expr, names(dots)[i])
+      abort(c(
+        glue("Problem with `filter()` input `..{i}`."),
+        x = glue("Input `..{i}` is named."),
+        i = glue("This usually means that you've used `=` instead of `==`."),
+        i = glue("Did you mean `{name} == {as_label(expr)}`?", name = names(dots)[i])
+      ))
     }
 
   }

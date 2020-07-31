@@ -452,6 +452,9 @@ test_that("filter() gives useful error messages", {
 
     "# ts "
     filter(ts(1:10))
+
+    "# Error that contains {"
+    tibble() %>% filter(stop("{"))
   })
 })
 

@@ -1,33 +1,33 @@
 #include "dplyr.h"
 
 namespace dplyr {
+
 void stop_filter_incompatible_size(R_xlen_t i, SEXP quos, R_xlen_t nres, R_xlen_t n) {
-  SEXP s_index_expression = PROTECT(Rf_ScalarInteger(i + 1));
+  DPLYR_ERROR_INIT(3);
+    DPLYR_ERROR_SET(0, "index", Rf_ScalarInteger(i + 1));
+    DPLYR_ERROR_SET(1, "size", Rf_ScalarInteger(nres));
+    DPLYR_ERROR_SET(2, "expected_size", Rf_ScalarInteger(n));
 
-  SEXP s_expected_size = PROTECT(Rf_ScalarInteger(n));
-  SEXP s_size = PROTECT(Rf_ScalarInteger(nres));
-  SEXP sym_stop_filter_incompatible_size = Rf_install("stop_filter_incompatible_size");
+  DPLYR_ERROR_MESG_INIT(1);
+    DPLYR_ERROR_MSG_SET(0, "Input `..{index}` must be of size {or_1(expected_size)}, not size {size}.");
 
-  SEXP call = PROTECT(Rf_lang5(sym_stop_filter_incompatible_size,
-    s_index_expression, quos, s_size, s_expected_size
-  ));
-  Rf_eval(call, dplyr::envs::ns_dplyr);
-
-  // for rchk
-  UNPROTECT(4);
+  DPLYR_ERROR_THROW("dplyr:::filter_incompatible_size");
 }
 
 void stop_filter_incompatible_type(R_xlen_t i, SEXP quos, SEXP column_name, SEXP result){
-  SEXP s_index_expression = PROTECT(Rf_ScalarInteger(i + 1));
-  SEXP sym_stop_filter_incompatible_type = Rf_install("stop_filter_incompatible_type");
+  DPLYR_ERROR_INIT(3);
+    DPLYR_ERROR_SET(0, "index", Rf_ScalarInteger(i + 1));
+    DPLYR_ERROR_SET(1, "column_name", column_name);
+    DPLYR_ERROR_SET(2, "result", result);
 
-  SEXP call = PROTECT(Rf_lang5(sym_stop_filter_incompatible_type,
-    s_index_expression, quos, column_name, result
-  ));
-  Rf_eval(call, dplyr::envs::ns_dplyr);
+  DPLYR_ERROR_MESG_INIT(1);
+    if (column_name == R_NilValue) {
+      DPLYR_ERROR_MSG_SET(0, "Input `..{index}` must be a logical vector, not a {vec_ptype_full(result)}.");
+    } else {
+      DPLYR_ERROR_MSG_SET(0, "Input `..{index}${column_name}` must be a logical vector, not a {vec_ptype_full(result)}.");
+    }
 
-  // for rchk
-  UNPROTECT(2);
+  DPLYR_ERROR_THROW("dplyr:::filter_incompatible_type");
 }
 
 }

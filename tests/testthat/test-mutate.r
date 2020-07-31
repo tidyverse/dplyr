@@ -449,5 +449,8 @@ test_that("mutate() give meaningful errors", {
       rowwise() %>%
       mutate(z = lazy(x), .keep = "unused")
     eval_tidy(res$z[[1]])
+
+    "# Error that contains {"
+    tibble() %>% mutate(stop("{"))
   })
 })

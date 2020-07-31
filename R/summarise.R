@@ -266,17 +266,44 @@ summarise_cols <- function(.data, ...) {
 
   },
   error = function(e) {
-    if (inherits(e, "rlang_error_data_pronoun_not_found")) {
-      stop_error_data_pronoun_not_found(conditionMessage(e), index = i, dots = dots, fn = "summarise")
-    } else if (inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
-      stop_combine(e$parent, index = i, dots = dots, fn = "summarise")
+    local_call_step(dots = dots, .index = i, .fn = "summarise",
+      .dot_data = inherits(e, "rlang_error_data_pronoun_not_found")
+    )
+    call_step <- peek_call_step()
+    error_name <- call_step$error_name
+
+    if (inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
+      bullets <- c(
+        x = glue("Input `{error_name}` must return compatible vectors across groups", .envir = peek_call_step()),
+        i = cnd_bullet_combine_details(e$parent$x, e$parent$x_arg),
+        i = cnd_bullet_combine_details(e$parent$y, e$parent$y_arg)
+      )
     } else if (inherits(e, "dplyr:::summarise_unsupported_type")) {
-      stop_summarise_unsupported_type(result = e$result, index = i, dots = dots)
+      bullets <- c(
+        x = glue("Input `{error_name}` must be a vector, not {friendly_type_of(result)}.", result = e$result),
+        i = cnd_bullet_rowwise_unlist()
+      )
     } else if (inherits(e, "dplyr:::summarise_incompatible_size")) {
-      stop_summarise_incompatible_size(size = e$size, group = e$group, index = e$index, expected_size = e$expected_size, dots = dots)
+      # so that cnd_bullet_cur_group_label() correctly reports the faulty group
+      peek_mask()$set_current_group(e$group)
+
+      bullets <- c(
+        x = glue("Input `{error_name}` must be size {or_1(expected_size)}, not {size}.", expected_size = e$expected_size, size = e$size),
+        i = glue("An earlier column had size {expected_size}.", expected_size = e$expected_size)
+      )
     } else {
-      stop_dplyr(i, dots, fn = "summarise", problem = conditionMessage(e), parent = e)
+      bullets <- c(
+        x = conditionMessage(e)
+      )
     }
+
+    bullets <- c(cnd_bullet_header(), bullets, i = cnd_bullet_input_info())
+    if (!inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
+      bullets <- c(bullets, i = cnd_bullet_cur_group_label())
+    }
+
+    abort(bullets, class = "dplyr_error")
+
   })
 
   list(new = cols, size = sizes, all_one = identical(sizes ,1L))

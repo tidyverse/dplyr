@@ -47,6 +47,7 @@ SEXP symbols::resolved = Rf_install("resolved");
 SEXP symbols::bindings = Rf_install("bindings");
 SEXP symbols::which_used = Rf_install("which_used");
 SEXP symbols::dot_drop = Rf_install(".drop");
+SEXP symbols::abort_glue = Rf_install("abort_glue");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::empty_int_vector = get_empty_int_vector();

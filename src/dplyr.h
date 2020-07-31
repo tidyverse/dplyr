@@ -25,6 +25,7 @@ struct symbols {
   static SEXP bindings;
   static SEXP which_used;
   static SEXP dot_drop;
+  static SEXP abort_glue;
 };
 
 struct vectors {
@@ -91,5 +92,26 @@ for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) {          
 UNPROTECT(3)
 
 #define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
+
+#define DPLYR_ERROR_INIT(n)                                    \
+  SEXP error_data = PROTECT(Rf_allocVector(VECSXP, n));              \
+  SEXP error_names = PROTECT(Rf_allocVector(STRSXP, n));             \
+  Rf_setAttrib(error_data, R_NamesSymbol, error_names);
+
+#define DPLYR_ERROR_MESG_INIT(n)                               \
+  SEXP error_message = PROTECT(Rf_allocVector(STRSXP, n));     \
+
+#define DPLYR_ERROR_SET(i, name, value)                        \
+  SET_VECTOR_ELT(error_data, i, value);                        \
+  SET_STRING_ELT(error_names, i, Rf_mkChar(name));
+
+#define DPLYR_ERROR_MSG_SET(i, msg)                        \
+  SET_STRING_ELT(error_message, i, Rf_mkChar(msg));                          \
+
+#define DPLYR_ERROR_THROW(klass)                                    \
+  SEXP error_class = PROTECT(Rf_mkString(klass));              \
+  SEXP error_call = PROTECT(Rf_lang4(dplyr::symbols::abort_glue, error_message, error_data, error_class)); \
+  Rf_eval(error_call, dplyr::envs::ns_dplyr);                  \
+  UNPROTECT(5) ; // for rchk
 
 #endif

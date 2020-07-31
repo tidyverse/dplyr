@@ -1,7 +1,3 @@
-glue_c <- function(..., .envir = caller_env()) {
-  map_chr(c(...), glue, .envir = .envir)
-}
-
 arg_name <- function(quos, index) {
   name  <- names(quos)[index]
   if (name == "") {
@@ -13,14 +9,14 @@ arg_name <- function(quos, index) {
 cnd_bullet_cur_group_label <- function() {
   label <- cur_group_label()
   if (label != "") {
-    c(i = glue("The error occurred in {label}."))
+    glue("The error occurred in {label}.")
   }
 }
 
 cnd_bullet_rowwise_unlist <- function() {
   data <- peek_mask()$full_data()
   if (inherits(data, "rowwise_df")) {
-    c(i = "Did you mean: `{error_name} = list({error_expression})` ?")
+    glue("Did you mean: `{error_name} = list({error_expression})` ?", .envir = peek_call_step())
   }
 }
 
@@ -34,59 +30,42 @@ or_1 <- function(x) {
 
 # Common ------------------------------------------------------------------
 
-stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE, parent = NULL, .signal = abort) {
-  error_name <- arg_name(dots, .index)
+local_call_step <- function(dots, .index, .fn, .dot_data = FALSE, frame = caller_env()) {
   error_expression  <- if (.dot_data) {
     deparse(quo_get_expr(dots[[.index]]))
   } else{
     as_label(quo_get_expr(dots[[.index]]))
   }
-  envir <- env(
-    error_name = error_name,
-    error_expression = error_expression,
-    index = .index,
-    dots = dots,
-    fn = fn,
-    caller_env()
-  )
-  bullets <- glue_c(
-    "Problem with `{fn}()` input `{error_name}`.",
-    x = problem,
-    i = "Input `{error_name}` is `{error_expression}`.",
-    ...,
-    if(.show_group_details) cnd_bullet_cur_group_label(),
-    .envir = envir
-  )
-  .signal(
-    bullets,
-    class = "dplyr_error",
-    error_name = error_name, error_expression = error_expression,
-    index = .index, dots = dots, fn = fn,
-    parent = parent
+  context_local(
+    "dplyr_call_step",
+    env(
+      error_name = arg_name(dots, .index),
+      error_expression = error_expression,
+      index = .index,
+      dots = dots,
+      fn = .fn,
+      environment()
+    ),
+    frame = frame
   )
 }
-
-warn_dplyr <- function(...) {
-  stop_dplyr(..., .signal = warn)
+peek_call_step <- function() {
+  context_peek("dplyr_call_step", "peek_call_step", "dplyr error handling")
 }
 
-combine_details <- function(x, arg) {
+cnd_bullet_header <- function() {
+  glue("Problem with `{fn}()` input `{error_name}`.", .envir = peek_call_step())
+}
+
+cnd_bullet_input_info <- function(){
+  glue("Input `{error_name}` is `{error_expression}`.", .envir = peek_call_step())
+}
+
+cnd_bullet_combine_details <- function(x, arg) {
   group <- as.integer(sub("^..", "", arg))
   keys <- group_keys(peek_mask()$full_data())[group, ]
   details <- group_labels_details(keys)
-  c(i = glue("Result type for group {group} ({details}): <{vec_ptype_full(x)}>."))
-}
-
-stop_combine <- function(cnd, index, dots, fn = "summarise") {
-  stop_dplyr(index, dots, fn, problem = "Input `{error_name}` must return compatible vectors across groups",
-    combine_details(cnd$x, cnd$x_arg),
-    combine_details(cnd$y, cnd$y_arg),
-    .show_group_details = FALSE
-  )
-}
-
-stop_error_data_pronoun_not_found <- function(msg, index, dots, fn = "summarise") {
-  stop_dplyr(index, dots, fn, problem = msg, .dot_data = TRUE)
+  glue("Result type for group {group} ({details}): <{vec_ptype_full(x)}>.")
 }
 
 err_vars <- function(x) {
@@ -100,126 +79,12 @@ err_vars <- function(x) {
   glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ")
 }
 
-# filter() ----------------------------------------------------------------
-
-stop_filter_incompatible_size <- function(index, dots, size, expected_size) {
-  stop_dplyr(index, dots, "filter",
-    problem = "Input `..{index}` must be of size {or_1(expected_size)}, not size {size}."
-  )
-}
-
-stop_filter_incompatible_type <- function(index, dots, index_column_name, result) {
-  arg_name <- if (!is.null(index_column_name)) {
-    glue("..{index}${index_column_name}")
+abort_glue <- function(message, .envir = parent.frame(), class = NULL) {
+  if (length(message)) {
+    message <- exec(glue, message, !!!.envir)
+    exec(abort, message = message, class = class, !!!.envir)
   } else {
-    glue("..{index}")
+    exec(abort, class = class, !!!.envir)
   }
-
-  stop_dplyr(index, dots, "filter",
-    problem = "Input `{arg_name}` must be a logical vector, not a {vec_ptype_full(result)}."
-  )
 }
 
-stop_filter_named <- function(index, expr, name) {
-  abort(glue_c(
-    "Problem with `filter()` input `..{index}`.",
-    x = "Input `..{index}` is named.",
-    i = "This usually means that you've used `=` instead of `==`.",
-    i = "Did you mean `{name} == {as_label(expr)}`?"
-  ))
-}
-
-# summarise() -------------------------------------------------------------
-
-stop_summarise_unsupported_type <- function(result, index, dots) {
-  # called from the C++ code
-  if(missing(dots)) {
-    abort(class = "dplyr:::summarise_unsupported_type", result = result)
-  }
-
-  stop_dplyr(index, dots, "summarise",
-    problem = "Input `{error_name}` must be a vector, not {friendly_type_of(result)}.",
-    cnd_bullet_rowwise_unlist()
-  )
-}
-
-# mutate() ----------------------------------------------------------------
-
-stop_mutate_mixed_null <- function(index, dots) {
-  # called from the C++ code
-  if(missing(dots)) {
-    abort(class = "dplyr:::mutate_mixed_null")
-  }
-
-  stop_dplyr(index, dots, "mutate",
-    problem = "`{error_name}` must return compatible vectors across groups.",
-    i = "Cannot combine NULL and non NULL results.",
-    .show_group_details = FALSE,
-    cnd_bullet_rowwise_unlist()
-  )
-}
-
-
-stop_mutate_not_vector <- function(result, index, dots) {
-  # called from the C++ code
-  if(missing(dots)) {
-    abort(class = "dplyr:::mutate_not_vector", result = result)
-  }
-
-  stop_dplyr(index, dots, "mutate",
-    problem = "Input `{error_name}` must be a vector, not {friendly_type_of(result)}.",
-    cnd_bullet_rowwise_unlist()
-  )
-}
-
-stop_mutate_recycle_incompatible_size <- function(cnd, index, dots) {
-  # called from the C++ code
-  if(missing(dots)) {
-    abort(class = "dplyr:::mutate_incompatible_size", x_size = cnd)
-  }
-
-  stop_dplyr(index, dots, "mutate",
-    problem = "Input `{error_name}` can't be recycled to size {cnd$size}.",
-    i = "Input `{error_name}` must be size {or_1(cnd$size)}, not {cnd$x_size}.",
-    cnd_bullet_rowwise_unlist()
-  )
-}
-
-stop_summarise_incompatible_size <- function(group, index, expected_size, size, dots) {
-  # called from the C++ code
-  if(missing(dots)) {
-    abort(class = "dplyr:::summarise_incompatible_size", size = size, group = group, index = index, expected_size = expected_size)
-  }
-
-  # so that cnd_bullet_cur_group_label() correctly reports the faulty group
-  peek_mask()$set_current_group(group)
-
-  stop_dplyr(index, dots, "summarise",
-    problem = "Input `{error_name}` must be size {or_1(expected_size)}, not {size}.",
-    i = "An earlier column had size {expected_size}."
-  )
-}
-
-
-# arrange() ---------------------------------------------------------------
-
-stop_arrange_transmute <- function(cnd) {
-  if (inherits(cnd, "dplyr_error")) {
-    error_name <- cnd$error_name
-    index <- sub("^.*_", "", error_name)
-    error_expression <- cnd$error_expression
-
-    bullets <- c(
-      x = glue("Could not create a temporary column for `..{index}`."),
-      i = glue("`..{index}` is `{error_expression}`.")
-    )
-  } else {
-    bullets <- c(x = conditionMessage(cnd))
-  }
-
-  abort(c(
-    "arrange() failed at implicit mutate() step. ",
-    bullets
-  ))
-
-}

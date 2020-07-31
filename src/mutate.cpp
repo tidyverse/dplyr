@@ -1,25 +1,26 @@
 #include "dplyr.h"
 
 namespace dplyr {
-void stop_mutate_recycle(R_len_t n_result_i) {
-  SEXP sym_stop_mutate_recycle_incompatible_size = Rf_install("stop_mutate_recycle_incompatible_size");
-  SEXP call = PROTECT(Rf_lang2(sym_stop_mutate_recycle_incompatible_size, Rf_ScalarInteger(n_result_i)));
-  Rf_eval(call, dplyr::envs::ns_dplyr);
-  UNPROTECT(1);
+void stop_mutate_recycle_incompatible_size(R_len_t n_result_i) {
+  DPLYR_ERROR_INIT(1);
+    DPLYR_ERROR_SET(0, "x_size", Rf_ScalarInteger(n_result_i));
+
+  DPLYR_ERROR_MESG_INIT(0);
+
+  DPLYR_ERROR_THROW("dplyr:::mutate_incompatible_size");
 }
 
 void stop_mutate_mixed_null() {
-  SEXP sym_stop_mutate_mixed_null = Rf_install("stop_mutate_mixed_null");
-  SEXP call = PROTECT(Rf_lang1(sym_stop_mutate_mixed_null));
-  Rf_eval(call, dplyr::envs::ns_dplyr);
-  UNPROTECT(1);
+  DPLYR_ERROR_INIT(0);
+  DPLYR_ERROR_MESG_INIT(0);
+  DPLYR_ERROR_THROW("dplyr:::mutate_mixed_null");
 }
 
 void stop_mutate_not_vector(SEXP result) {
-  SEXP sym_stop_mutate_not_vector = Rf_install("stop_mutate_not_vector");
-  SEXP call = PROTECT(Rf_lang2(sym_stop_mutate_not_vector, result));
-  Rf_eval(call, dplyr::envs::ns_dplyr);
-  UNPROTECT(1);
+  DPLYR_ERROR_INIT(1);
+    DPLYR_ERROR_SET(0, "result", result);
+  DPLYR_ERROR_MESG_INIT(0);
+  DPLYR_ERROR_THROW("dplyr:::mutate_not_vector");
 }
 }
 
@@ -51,7 +52,7 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
       if (n_result_i != n_i) {
         // only allow sizes 1 and n_i are allowed
         if (n_result_i != 1) {
-          dplyr::stop_mutate_recycle(n_result_i);
+          dplyr::stop_mutate_recycle_incompatible_size(n_result_i);
         } else {
           SET_VECTOR_ELT(chunks, i, vctrs::short_vec_recycle(result_i, n_i));
         }
