@@ -1,6 +1,6 @@
 ## Release summary
 
-Minor release addressing issues of the 1.0.0 release, and findings from CRAN checks with valgrind. 
+Minor release addressing issues of the 1.0.0 release, and findings from CRAN checks. 
 
 ## Test environments
 
@@ -20,94 +20,14 @@ Newly failing R packages are listed below.
 
 ## revdepcheck results
 
-We checked 2111 reverse dependencies (2096 from CRAN + 15 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 2089 reverse dependencies (2071 from CRAN + 18 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 8 new problems
- * We failed to check 70 packages
+ * We saw 1 new problem
+ * We failed to check 119 packages
 
-Issues with CRAN packages are summarised below. 
+Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* anglr
-* dodgr
-* florestal
-* gMOIP
-* keyATM
-* tibbletime
-* timetk
-* unpivotr
-
-### Failed to check
-
-* ALA4R            (NA)
-* bibliometrix     (NA)
-* bioOED           (NA)
-* bootnet          (NA)
-* butcher          (NA)
-* CausalImpact     (NA)
-* CB2              (NA)
-* cbar             (NA)
-* choroplethr      (NA)
-* CityWaterBalance (NA)
-* clustermole      (NA)
-* CNVScope         (NA)
-* countyweather    (NA)
-* daqapo           (NA)
-* DecomposeR       (NA)
-* dendroTools      (NA)
-* diceR            (NA)
-* dmdScheme        (NA)
-* easyr            (NA)
-* EdSurvey         (NA)
-* EML              (NA)
-* EvaluateCore     (NA)
-* fingertipscharts (NA)
-* gastempt         (NA)
-* geneHummus       (NA)
-* gesisdata        (NA)
-* Greg             (NA)
-* ICAMS            (NA)
-* idiogramFISH     (NA)
-* manifestoR       (NA)
-* MarketMatching   (NA)
-* mcvis            (NA)
-* MetaboList       (NA)
-* metagam          (NA)
-* MetaIntegrator   (NA)
-* mlVAR            (NA)
-* MtreeRing        (NA)
-* nesRdata         (NA)
-* nomisr           (NA)
-* omicwas          (NA)
-* parameters       (NA)
-* phyr             (NA)
-* pmc              (NA)
-* processR         (NA)
-* PROsetta         (NA)
-* provSummarizeR   (NA)
-* psychonetrics    (NA)
-* qgraph           (NA)
-* quokar           (NA)
-* r4lineups        (NA)
-* radiant.data     (NA)
-* Rarefy           (NA)
-* rdflib           (NA)
-* RNeXML           (NA)
-* robmed           (NA)
-* salesforcer      (NA)
-* SDLfilter        (NA)
-* sigminer         (NA)
-* SimDesign        (NA)
-* SpaDES.core      (NA)
-* SpaDES.tools     (NA)
-* SWMPrExtension   (NA)
-* thurstonianIRT   (NA)
-* tidySEM          (NA)
-* tmap             (NA)
-* trackdf          (NA)
-* trackr           (NA)
-* webr             (NA)
-* wrswoR           (NA)
-* Z10              (NA)
+* unpivotr: pull request available https://github.com/nacnudus/unpivotr/issues/39
