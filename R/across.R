@@ -79,7 +79,7 @@
 #' @export
 across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   key <- key_deparse(sys.call())
-  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key)
+  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key, .caller_env = caller_env())
 
   vars <- setup$vars
   if (length(vars) == 0L) {
@@ -153,7 +153,7 @@ c_across <- function(cols = everything()) {
 # next version of hybrid evaluation, which should offer a way for any function
 # to do any required "set up" work (like the `eval_select()` call) a single
 # time per top-level call, rather than once per group.
-across_setup <- function(cols, fns, names, key, .caller_env = caller_env(n = 2)) {
+across_setup <- function(cols, fns, names, key, .caller_env) {
   mask <- peek_mask("across()")
   value <- mask$across_cache_get(key)
   if (!is.null(value)) {
