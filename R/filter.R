@@ -131,7 +131,7 @@ filter_rows <- function(.data, ...) {
         x = conditionMessage(e),
         i = cnd_bullet_input_info(),
         i = cnd_bullet_cur_group_label()
-      ))
+      ), class = "dplyr_error")
 
     }
   )

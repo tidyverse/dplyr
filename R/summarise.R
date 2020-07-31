@@ -302,7 +302,7 @@ summarise_cols <- function(.data, ...) {
       bullets <- c(bullets, i = cnd_bullet_cur_group_label())
     }
 
-    abort(bullets)
+    abort(bullets, class = "dplyr_error")
 
   })
 
