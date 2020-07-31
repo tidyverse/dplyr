@@ -497,3 +497,17 @@ test_that("can filter() with unruly class", {
     quux(data.frame(x = 1:2, dispatched = TRUE))
   )
 })
+
+test_that("filter() preserves the call stack on error (#5308)", {
+  foobar <- function() stop("foo")
+
+  stack <- NULL
+  expect_error(
+    withCallingHandlers(
+      error = function(...) stack <<- sys.calls(),
+      filter(mtcars, foobar())
+    )
+  )
+
+  expect_true(some(stack, is_call, "foobar"))
+})

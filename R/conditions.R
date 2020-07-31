@@ -13,7 +13,7 @@ arg_name <- function(quos, index) {
 cnd_bullet_cur_group_label <- function() {
   label <- cur_group_label()
   if (label != "") {
-    c(i = glue("The error occured in {label}."))
+    c(i = glue("The error occurred in {label}."))
   }
 }
 
@@ -34,7 +34,7 @@ or_1 <- function(x) {
 
 # Common ------------------------------------------------------------------
 
-stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE, parent = NULL) {
+stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_group_details = TRUE, parent = NULL, .signal = abort) {
   error_name <- arg_name(dots, .index)
   error_expression  <- if (.dot_data) {
     deparse(quo_get_expr(dots[[.index]]))
@@ -57,13 +57,17 @@ stop_dplyr <- function(.index, dots, fn, problem, ..., .dot_data = FALSE, .show_
     if(.show_group_details) cnd_bullet_cur_group_label(),
     .envir = envir
   )
-  abort(
+  .signal(
     bullets,
     class = "dplyr_error",
     error_name = error_name, error_expression = error_expression,
     index = .index, dots = dots, fn = fn,
     parent = parent
   )
+}
+
+warn_dplyr <- function(...) {
+  stop_dplyr(..., .signal = warn)
 }
 
 combine_details <- function(x, arg) {

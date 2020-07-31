@@ -49,10 +49,14 @@
 #'   * "keep": Same grouping structure as `.data`.
 #'   * "rowwise": Each row is it's own group.
 #'
-#'   When `.groups` is not specified, you either get "drop_last"
-#'   when all the results are size 1, or "keep" if the size varies.
+#'   When `.groups` is not specified, it is chosen
+#'   based on the number of rows of the results:
+#'   * If all the results have 1 row, you get "drop_last".
+#'   * If the number of rows varies, you get "keep".
+#'
 #'   In addition, a message informs you of that choice, unless the
-#'   option "dplyr.summarise.inform" is set to `FALSE`.
+#'   option "dplyr.summarise.inform" is set to `FALSE`, or when `summarise()`
+#'   is called from a function in a package.
 #'
 #' @family single table verbs
 #' @return
@@ -202,6 +206,7 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
 
 summarise_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
+  on.exit(mask$forget("summarise"), add = TRUE)
 
   dots <- enquos(...)
   dots_names <- names(dots)
@@ -213,8 +218,7 @@ summarise_cols <- function(.data, ...) {
   chunks <- vector("list", length(dots))
   types <- vector("list", length(dots))
 
-  tryCatch({
-
+  withCallingHandlers({
     # generate all chunks and monitor the sizes
     for (i in seq_along(dots)) {
       quo <- dots[[i]]
@@ -227,7 +231,7 @@ summarise_cols <- function(.data, ...) {
 
       mask$across_cache_reset()
 
-      result_type <- types[[i]] <- tryCatch(
+      result_type <- types[[i]] <- withCallingHandlers(
         vec_ptype_common(!!!chunks[[i]]),
         vctrs_error_incompatible_type = function(cnd) {
           abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)

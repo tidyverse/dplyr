@@ -42,12 +42,12 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{generics}{\code{\link[generics]{intersect}}, \code{\link[generics]{setdiff}}, \code{\link[generics]{setequal}}, \code{\link[generics]{union}}}
+  \item{generics}{\code{\link[generics:setops]{intersect}}, \code{\link[generics:setops]{setdiff}}, \code{\link[generics:setops]{setequal}}, \code{\link[generics:setops]{union}}}
 
-  \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
+  \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 
-  \item{tibble}{\code{\link[tibble]{add_row}}, \code{\link[tibble]{as_data_frame}}, \code{\link[tibble]{as_tibble}}, \code{\link[tibble]{data_frame}}, \code{\link[tibble]{data_frame_}}, \code{\link[tibble]{frame_data}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{lst_}}, \code{\link[tibble]{tbl_sum}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, \code{\link[tibble]{trunc_mat}}, \code{\link[tibble]{type_sum}}, \code{\link[tibble]{view}}}
+  \item{tibble}{\code{\link[tibble]{add_row}}, \code{\link[tibble:deprecated]{as_data_frame}}, \code{\link[tibble]{as_tibble}}, \code{\link[tibble:deprecated]{data_frame}}, \code{\link[tibble:deprecated]{data_frame_}}, \code{\link[tibble:deprecated]{frame_data}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{lst}}, \code{\link[tibble:deprecated]{lst_}}, \code{\link[tibble]{tbl_sum}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, \code{\link[tibble:formatting]{trunc_mat}}, \code{\link[tibble:reexports]{type_sum}}, \code{\link[tibble]{view}}}
 
-  \item{tidyselect}{\code{\link[tidyselect]{all_of}}, \code{\link[tidyselect]{any_of}}, \code{\link[tidyselect]{contains}}, \code{\link[tidyselect]{ends_with}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect]{last_col}}, \code{\link[tidyselect]{matches}}, \code{\link[tidyselect]{num_range}}, \code{\link[tidyselect]{one_of}}, \code{\link[tidyselect]{starts_with}}}
+  \item{tidyselect}{\code{\link[tidyselect]{all_of}}, \code{\link[tidyselect:all_of]{any_of}}, \code{\link[tidyselect:starts_with]{contains}}, \code{\link[tidyselect:starts_with]{ends_with}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect:everything]{last_col}}, \code{\link[tidyselect:starts_with]{matches}}, \code{\link[tidyselect:starts_with]{num_range}}, \code{\link[tidyselect]{one_of}}, \code{\link[tidyselect]{starts_with}}}
 }}
 

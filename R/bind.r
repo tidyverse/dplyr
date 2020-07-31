@@ -68,6 +68,9 @@
 #' \dontrun{
 #' # Rows do need to match when column-binding
 #' bind_cols(tibble(x = 1:3), tibble(y = 1:2))
+#'
+#' # even with 0 columns
+#' bind_cols(tibble(x = 1:3), tibble())
 #' }
 #'
 #' bind_cols(one, two)
@@ -115,7 +118,13 @@ bind_rows <- function(..., .id = NULL) {
     }
   }
 
-  dots <- map(dots, function(.x) if (is.data.frame(.x)) .x else tibble(!!!.x))
+  dots <- map(dots, function(.x) {
+    if (vec_is_list(.x)) {
+      .x <- new_data_frame(as.list(.x))
+    }
+    .x
+  })
+
   if (is.null(.id)) {
     names(dots) <- NULL
   }

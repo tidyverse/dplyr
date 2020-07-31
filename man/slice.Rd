@@ -154,7 +154,7 @@ df \%>\% group_by(group) \%>\% slice_head(prop = 0.5)
 # Filter equivalents --------------------------------------------
 # slice() expressions can often be written to use `filter()` and
 # `row_number()`, which can also be translated to SQL. For many databases,
-#you'll need to supply an explicit variable to use to compute the row number.
+# you'll need to supply an explicit variable to use to compute the row number.
 filter(mtcars, row_number() == 1L)
 filter(mtcars, row_number() == n())
 filter(mtcars, between(row_number(), 5, n()))

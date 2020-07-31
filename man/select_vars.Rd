@@ -19,7 +19,7 @@ current_vars(...)
 \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 
 These functions now live in the tidyselect package as
-\code{\link[tidyselect:vars_select]{tidyselect::vars_select()}}, \code{\link[tidyselect:vars_rename]{tidyselect::vars_rename()}} and
+\code{\link[tidyselect:vars_select]{tidyselect::vars_select()}}, \code{\link[tidyselect:vars_select]{tidyselect::vars_rename()}} and
 \code{\link[tidyselect:vars_pull]{tidyselect::vars_pull()}}.
 }
 \keyword{internal}

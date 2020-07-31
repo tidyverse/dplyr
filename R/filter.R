@@ -118,9 +118,10 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
 filter_rows <- function(.data, ...) {
   dots <- check_filter(enquos(...))
   mask <- DataMask$new(.data, caller_env())
+  on.exit(mask$forget("filter"), add = TRUE)
 
   env_filter <- env()
-  tryCatch(
+  withCallingHandlers(
     mask$eval_all_filter(dots, env_filter),
     simpleError = function(e) {
       stop_dplyr(env_filter$current_expression, dots, fn = "filter", problem = conditionMessage(e))
