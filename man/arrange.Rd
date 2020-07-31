@@ -35,7 +35,7 @@ properties:
 columns.
 
 Unlike other dplyr verbs, \code{arrange()} largely ignores grouping; you
-need to explicitly mention grouping variables (or use  \code{by_group = TRUE})
+need to explicitly mention grouping variables (or use  \code{.by_group = TRUE})
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.
 }
