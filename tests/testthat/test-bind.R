@@ -62,6 +62,16 @@ test_that("bind_cols unpacks tibbles", {
   )
 })
 
+test_that("bind_cols() honours .name_repair=", {
+  res <- expect_message(bind_cols(
+    data.frame(a = 1), data.frame(a = 2)
+  ))
+  expect_equal(res, data.frame(a...1 = 1, a...2 = 2))
+
+  expect_error(bind_cols(.name_repair = "check_unique",
+    data.frame(a = 1), data.frame(a = 2)
+  ))
+})
 
 # rows --------------------------------------------------------------------
 
