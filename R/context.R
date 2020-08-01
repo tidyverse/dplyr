@@ -13,6 +13,7 @@
 #' * `cur_group()` gives the group keys, a tibble with one row and one column
 #'   for each grouping variable.
 #' * `cur_group_id()` gives a unique numeric identifier for the current group.
+#' * `cur_group_rows()` gives the row indices for the current group.
 #' * `cur_column()` gives the name of the current column (in [across()] only).
 #'
 #' See [group_data()] for equivalent functions that return values for all
