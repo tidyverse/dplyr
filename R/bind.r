@@ -26,6 +26,9 @@
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
+#' @param .name_repair One of `"unique"`, `"universal"`, or
+#'   `"check_unique"`. See [vctrs::vec_as_names()] for the meaning of these
+#'   options.
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
@@ -146,7 +149,7 @@ bind_rows <- function(..., .id = NULL) {
 
 #' @export
 #' @rdname bind
-bind_cols <- function(...) {
+bind_cols <- function(..., .name_repair = c("unique", "universal", "check_unique", "minimal")) {
   dots <- list2(...)
 
   dots <- squash_if(dots, vec_is_list)
@@ -156,7 +159,7 @@ bind_cols <- function(...) {
   is_data_frame <- map_lgl(dots, is.data.frame)
   names(dots)[is_data_frame] <- ""
 
-  out <- vec_cbind(!!!dots)
+  out <- vec_cbind(!!!dots, .name_repair = .name_repair)
   if (!any(map_lgl(dots, is.data.frame))) {
     out <- as_tibble(out)
   }

@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `bind_cols()` gains a `.name_repair` argument, passed to `vctrs::vec_cbind()` (#5451)
+
 # dplyr 1.0.1
 
 * New function `cur_data_all()` similar to `cur_data()` but includes the grouping variables (#5342). 
