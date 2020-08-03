@@ -26,7 +26,9 @@
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
-#' @param .name_repair See [vctrs::vec_cbind()].
+#' @param .name_repair One of `"unique"`, `"universal"`, or
+#'   `"check_unique"`. See [vctrs::vec_as_names()] for the meaning of these
+#'   options.
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
