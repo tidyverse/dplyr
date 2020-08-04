@@ -41,5 +41,7 @@ jobs:
         run: R CMD INSTALL .
 
       - name: Deploy package
-        run: pkgdown::deploy_to_branch(new_process = FALSE)
-        shell: Rscript {0}
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
