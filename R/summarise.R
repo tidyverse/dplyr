@@ -112,6 +112,12 @@
 #'   group_by(cyl) %>%
 #'   summarise(disp = mean(disp), sd = sd(disp))
 #'
+#' # To avoid this, you can wrap these two arguments with tibble() so that they
+#' # are evaluated at once, instead of sequentially.
+#' mtcars %>%
+#'   group_by(cyl) %>%
+#'   summarise(tibble(disp = mean(disp), sd = sd(disp)))
+#'
 #' # Refer to column names stored as strings with the `.data` pronoun:
 #' var <- "mass"
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))

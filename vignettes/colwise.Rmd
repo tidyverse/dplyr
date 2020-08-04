@@ -98,12 +98,14 @@ Control how the names are created with the `.names` argument which takes a [glue
 starwars %>% summarise(across(where(is.numeric), min_max, .names = "{.fn}.{.col}"))
 ```
 
-If you'd prefer all summaries with the same function to be grouped together, you'll have to expand the calls yourself:
+If you'd prefer all summaries with the same function to be grouped together, you'll have to expand the calls yourself (note that we wrap two `across()`s with `tibble()` because otherwise the first `across()`'s result get accidentally `across()`ed and `max_min_` columns would be created):
 
 ```{r}
 starwars %>% summarise(
-  across(where(is.numeric), ~min(.x, na.rm = TRUE), .names = "min_{.col}"),
-  across(where(is.numeric), ~max(.x, na.rm = TRUE), .names = "max_{.col}")
+  tibble(
+    across(where(is.numeric), ~min(.x, na.rm = TRUE), .names = "min_{.col}"),
+    across(where(is.numeric), ~max(.x, na.rm = TRUE), .names = "max_{.col}")
+  )
 )
 ```
 
