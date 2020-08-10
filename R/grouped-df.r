@@ -14,7 +14,6 @@
 #' @param vars A character vector.
 #' @param drop When `.drop = TRUE`, empty groups are dropped.
 #'
-#' @import vctrs
 #' @export
 grouped_df <- function(data, vars, drop = group_by_drop_default(data)) {
   if (!is.data.frame(data)) {
