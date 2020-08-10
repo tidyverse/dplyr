@@ -249,6 +249,14 @@ DataMask <- R6Class("DataMask",
 
     across_cache_reset = function() {
       private$across_cache <- list()
+    },
+
+    set_current_quosure_env = function(env) {
+      private$current_quosure_env <- env
+    },
+
+    get_current_quosure_env = function() {
+      private$current_quosure_env
     }
 
   ),
@@ -266,6 +274,7 @@ DataMask <- R6Class("DataMask",
     bindings = NULL,
     current_group = 0L,
     caller = NULL,
-    across_cache = list()
+    across_cache = list(),
+    current_quosure_env = NULL
   )
 )

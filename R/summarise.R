@@ -222,6 +222,7 @@ summarise_cols <- function(.data, ...) {
     # generate all chunks and monitor the sizes
     for (i in seq_along(dots)) {
       quo <- dots[[i]]
+      mask$set_current_quosure_env(quo_get_env(dots[[i]]))
 
       # a list in which each element is the result of
       # evaluating the quosure in the "sliced data mask"

@@ -232,6 +232,7 @@ mutate_cols <- function(.data, ...) {
 
   withCallingHandlers({
     for (i in seq_along(dots)) {
+      mask$set_current_quosure_env(quo_get_env(dots[[i]]))
       not_named <- (is.null(dots_names) || dots_names[i] == "")
 
       # a list in which each element is the result of

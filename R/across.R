@@ -79,7 +79,8 @@
 #' @export
 across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   key <- key_deparse(sys.call())
-  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key, .caller_env = caller_env())
+  .cols <- enquo(.cols)
+  setup <- across_setup(.cols, fns = .fns, names = .names, key = key, .caller_env = caller_env())
 
   vars <- setup$vars
   if (length(vars) == 0L) {
@@ -169,10 +170,9 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
     return(value)
   }
 
-  cols <- enquo(cols)
   across_cols <- mask$across_cols()
 
-  vars <- tidyselect::eval_select(expr(!!cols), across_cols)
+  vars <- tidyselect::eval_select(quo_get_expr(cols), data = across_cols, env = mask$get_current_quosure_env())
   vars <- names(vars)
 
   if (is.null(fns)) {

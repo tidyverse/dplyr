@@ -117,9 +117,14 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
 
 filter_rows <- function(.data, ...) {
   dots <- check_filter(enquos(...))
+  if (!length(dots)) {
+    return(seq_len(nrow(.data)))
+  }
+
   mask <- DataMask$new(.data, caller_env())
   on.exit(mask$forget("filter"), add = TRUE)
 
+  mask$set_current_quosure_env(quo_get_env(dots[[1L]]))
   env_filter <- env()
   withCallingHandlers(
     mask$eval_all_filter(dots, env_filter),

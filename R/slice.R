@@ -257,6 +257,7 @@ slice_rows <- function(.data, ...) {
   rows <- mask$get_rows()
 
   quo <- quo(c(!!!dots))
+  mask$set_current_quosure_env(quo_get_env(quo))
   chunks <- mask$eval_all(quo)
 
   slice_indices <- new_list(length(rows))
