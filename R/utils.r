@@ -99,10 +99,6 @@ paste_line <- function(...) {
   paste(chr(...), collapse = "\n")
 }
 
-abort_if_not <- function(...) {
-  tryCatch(stopifnot(...), simpleError = function(e) abort(e))
-}
-
 # Until fixed upstream. `vec_data()` should not return lists from data
 # frames.
 dplyr_vec_data <- function(x) {

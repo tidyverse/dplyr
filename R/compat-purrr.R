@@ -1,4 +1,4 @@
-# nocov start - compat-purrr (last updated: rlang 0.3.0.9000)
+# nocov start - compat-purrr (last updated: rlang 0.3.2.9000)
 
 # This file serves as a reference for compatibility functions for
 # purrr. They are not drop-in replacements but allow a similar style
@@ -28,6 +28,11 @@ map_chr <- function(.x, .f, ...) {
 }
 map_cpl <- function(.x, .f, ...) {
   map_mold(.x, .f, complex(1), ...)
+}
+
+walk <- function(.x, .f, ...) {
+  map(.x, .f, ...)
+  invisible(.x)
 }
 
 pluck <- function(.x, .f) {
@@ -72,15 +77,12 @@ map2_chr <- function(.x, .y, .f, ...) {
 map2_cpl <- function(.x, .y, .f, ...) {
   as.vector(map2(.x, .y, .f, ...), "complex")
 }
-walk2 <- function(.x, .y, .f, ...) {
-  map2(.x, .y, .f, ...)
-  invisible(.x)
-}
+
 args_recycle <- function(args) {
-  lengths <- lengths(args)
+  lengths <- map_int(args, length)
   n <- max(lengths)
 
-  abort_if_not(all(lengths == 1L | lengths == n))
+  stopifnot(all(lengths == 1L | lengths == n))
   to_recycle <- lengths == 1L
   args[to_recycle] <- map(args[to_recycle], function(x) rep.int(x, n))
 
@@ -97,7 +99,7 @@ pmap <- function(.l, .f, ...) {
 
 probe <- function(.x, .p, ...) {
   if (is_logical(.p)) {
-    abort_if_not(length(.p) == length(.x))
+    stopifnot(length(.p) == length(.x))
     .p
   } else {
     map_lgl(.x, .p, ...)
