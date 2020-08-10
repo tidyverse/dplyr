@@ -279,9 +279,7 @@ mutate_cols <- function(.data, ...) {
       if (is.null(chunks)) {
         if (!is.null(dots_names) && dots_names[i] != "") {
           new_columns[[dots_names[i]]] <- zap()
-
-          # we might get a warning if dots_names[i] does not exist
-          suppressWarnings(mask$remove(dots_names[i]))
+          mask$remove(dots_names[i])
         }
         next
       }

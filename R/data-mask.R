@@ -56,10 +56,7 @@ DataMask <- R6Class("DataMask",
       }
 
       promises <- map(seq_len(ncol(data)), function(.x) expr(promise_fn(!!.x)))
-
-      suppressWarnings(
-        env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
-      )
+      env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
 
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
@@ -77,10 +74,8 @@ DataMask <- R6Class("DataMask",
       }
 
       promises <- map(names_bindings, function(.x) expr(osbolete_promise_fn(!!.x)))
-      suppressWarnings({
-        rm(list = names_bindings, envir = private$bindings)
-        env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
-      })
+      env_unbind(private$bindings, names_bindings)
+      env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
     },
 
     add = function(name, chunks) {
@@ -119,7 +114,7 @@ DataMask <- R6Class("DataMask",
 
     remove = function(name) {
       self$set(name, NULL)
-      rm(list = name, envir = private$bindings)
+      env_unbind(private$bindings, name)
     },
 
     resolve = function(name) {
