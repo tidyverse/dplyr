@@ -59,7 +59,7 @@
 <meta property="og:description" content="arrange() orders the rows of a data frame by the values of selected
 columns.
 Unlike other dplyr verbs, arrange() largely ignores grouping; you
-need to explicitly mention grouping variables (or use  by_group = TRUE)
+need to explicitly mention grouping variables (or use  .by_group = TRUE)
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
@@ -106,7 +106,7 @@ once per data frame, not once per group." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -217,18 +217,18 @@ once per data frame, not once per group." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange()</a></code> orders the rows of a data frame by the values of selected
+    <p><code>arrange()</code> orders the rows of a data frame by the values of selected
 columns.</p>
-<p>Unlike other dplyr verbs, <code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange()</a></code> largely ignores grouping; you
-need to explicitly mention grouping variables (or use  <code>by_group = TRUE</code>)
+<p>Unlike other dplyr verbs, <code>arrange()</code> largely ignores grouping; you
+need to explicitly mention grouping variables (or use  <code>.by_group = TRUE</code>)
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .by_group = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>arrange</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .by_group = <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .by_group = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>arrange</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .by_group = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -241,8 +241,8 @@ more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_data_masking.html'>data-masking</a></code>&gt; Variables, or functions or
-variables. Use <code><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc()</a></code> to sort a variable in descending order.</p></td>
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Variables, or functions or
+variables. Use <code><a href='desc.html'>desc()</a></code> to sort a variable in descending order.</p></td>
     </tr>
     <tr>
       <th>.by_group</th>
@@ -274,7 +274,7 @@ of the locale in use: see <code><a href='https://rdrr.io/r/base/locales.html'>lo
 
 
 <p>Unlike base sorting with <code><a href='https://rdrr.io/r/base/sort.html'>sort()</a></code>, <code>NA</code> are:</p><ul>
-<li><p>always sorted to the end for local data, even when wrapped with <code><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc()</a></code>.</p></li>
+<li><p>always sorted to the end for local data, even when wrapped with <code><a href='desc.html'>desc()</a></code>.</p></li>
 <li><p>treated differently for remote data, depending on the backend.</p></li>
 </ul>
 
@@ -292,15 +292,15 @@ dplyr (<code>data.frame</code>, <code>default</code>)
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
-<code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a>()</code></p></div>
+<code><a href='filter.html'>filter</a>()</code>,
+<code><a href='mutate.html'>mutate</a>()</code>,
+<code><a href='rename.html'>rename</a>()</code>,
+<code><a href='select.html'>select</a>()</code>,
+<code><a href='slice.html'>slice</a>()</code>,
+<code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>, <span class='kw'>disp</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+    <pre class="examples"><div class='input'><span class='fu'>arrange</span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>, <span class='kw'>disp</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
 #&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
 #&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
@@ -332,7 +332,7 @@ dplyr (<code>data.frame</code>, <code>default</code>)
 #&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
 #&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
 #&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span>(<span class='kw'>disp</span>))</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</div><div class='input'><span class='fu'>arrange</span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='desc.html'>desc</a></span>(<span class='kw'>disp</span>))</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
 #&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
 #&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
@@ -366,8 +366,8 @@ dplyr (<code>data.frame</code>, <code>default</code>)
 #&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
 #&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</div><div class='input'>
 <span class='co'># grouped arrange ignores groups</span>
-<span class='kw'>by_cyl</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>)
-<span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span>(<span class='kw'>wt</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='kw'>by_cyl</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>)
+<span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='kw'>wt</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -382,7 +382,7 @@ dplyr (<code>data.frame</code>, <code>default</code>)
 #&gt; </span><span style='color: #555555;'> 9</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
 #&gt; </span><span style='color: #555555;'>10</span><span>  15       8  301    335  3.54  3.57  14.6     0     1     5     8
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># Unless you specifically ask:</span>
-<span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span>(<span class='kw'>wt</span>), .by_group = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='kw'>wt</span>), .by_group = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -401,7 +401,7 @@ dplyr (<code>data.frame</code>, <code>default</code>)
 <span class='co'># see ?dplyr_data_masking for more details</span>
 <span class='kw'>tidy_eval_arrange</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>.data</span>, <span class='kw'>var</span>) {
   <span class='kw'>.data</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>({{ <span class='kw'>var</span> }})
+    <span class='fu'>arrange</span>({{ <span class='kw'>var</span> }})
 }
 <span class='fu'>tidy_eval_arrange</span>(<span class='kw'>mtcars</span>, <span class='kw'>mpg</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
@@ -437,7 +437,7 @@ dplyr (<code>data.frame</code>, <code>default</code>)
 #&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
 #&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</div><div class='input'>
 <span class='co'># use across() access select()-style semantics</span>
-<span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>)))</div><div class='output co'>#&gt;     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+<span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>)))</div><div class='output co'>#&gt;     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
 #&gt; 1            4.3         3.0          1.1         0.1     setosa
 #&gt; 2            4.4         2.9          1.4         0.2     setosa
 #&gt; 3            4.4         3.0          1.3         0.2     setosa
@@ -587,7 +587,7 @@ dplyr (<code>data.frame</code>, <code>default</code>)
 #&gt; 147          7.7         2.8          6.7         2.0  virginica
 #&gt; 148          7.7         3.0          6.1         2.3  virginica
 #&gt; 149          7.7         3.8          6.7         2.2  virginica
-#&gt; 150          7.9         3.8          6.4         2.0  virginica</div><div class='input'><span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='kw'>desc</span>))</div><div class='output co'>#&gt;     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+#&gt; 150          7.9         3.8          6.4         2.0  virginica</div><div class='input'><span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Sepal"</span>), <span class='kw'>desc</span>))</div><div class='output co'>#&gt;     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
 #&gt; 1            7.9         3.8          6.4         2.0  virginica
 #&gt; 2            7.7         3.8          6.7         2.2  virginica
 #&gt; 3            7.7         3.0          6.1         2.3  virginica

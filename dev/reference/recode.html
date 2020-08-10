@@ -117,7 +117,7 @@ recode()." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -231,25 +231,25 @@ recode()." />
     <p>This is a vectorised version of <code><a href='https://rdrr.io/r/base/switch.html'>switch()</a></code>: you can replace
 numeric values based on their position or their name, and character or factor
 values only by their name. This is an S3 generic: dplyr provides methods for
-numeric, character, and factors. For logical vectors, use <code><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else()</a></code>. For
-more complicated criteria, use <code><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when()</a></code>.</p>
-<p>You can use <code><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode()</a></code> directly with factors; it will preserve the existing
+numeric, character, and factors. For logical vectors, use <code><a href='if_else.html'>if_else()</a></code>. For
+more complicated criteria, use <code><a href='case_when.html'>case_when()</a></code>.</p>
+<p>You can use <code>recode()</code> directly with factors; it will preserve the existing
 order of levels while changing the values. Alternatively, you can
-use <code><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode_factor()</a></code>, which will change the order of levels to match
+use <code>recode_factor()</code>, which will change the order of levels to match
 the order of replacements. See the <a href='http://forcats.tidyverse.org/'>forcats</a>
 package for more tools for working with factors and their levels.</p>
 <p><a href='https://www.tidyverse.org/lifecycle/#questioning'><img src='figures/lifecycle-questioning.svg' alt='Questioning lifecycle'></a>
 
-<code><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode()</a></code> is questioning because the arguments are in the wrong order.
-We have <code>new &lt;- old</code>, <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate(df, new = old)</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename(df, new = old)</a></code>
-but <code><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode(x, old = new)</a></code>. We don't yet know how to fix this problem, but
+<code>recode()</code> is questioning because the arguments are in the wrong order.
+We have <code>new &lt;- old</code>, <code><a href='mutate.html'>mutate(df, new = old)</a></code>, and <code><a href='rename.html'>rename(df, new = old)</a></code>
+but <code>recode(x, old = new)</code>. We don't yet know how to fix this problem, but
 it's likely to involve creating a new function then retiring or deprecating
-<code><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode()</a></code>.</p>
+<code>recode()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>.x</span>, <span class='kw'>...</span>, .default = <span class='kw'>NULL</span>, .missing = <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>recode</span>(<span class='kw'>.x</span>, <span class='kw'>...</span>, .default = <span class='kw'>NULL</span>, .missing = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode_factor</a></span>(<span class='kw'>.x</span>, <span class='kw'>...</span>, .default = <span class='kw'>NULL</span>, .missing = <span class='kw'>NULL</span>, .ordered = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>recode_factor</span>(<span class='kw'>.x</span>, <span class='kw'>...</span>, .default = <span class='kw'>NULL</span>, .missing = <span class='kw'>NULL</span>, .ordered = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -287,7 +287,7 @@ replaced by this value. Must be either length 1 or the same length as
     </tr>
     <tr>
       <th>.ordered</th>
-      <td><p>If <code>TRUE</code>, <code><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode_factor()</a></code> creates an
+      <td><p>If <code>TRUE</code>, <code>recode_factor()</code> creates an
 ordered factor.</p></td>
     </tr>
     </table>
@@ -296,70 +296,70 @@ ordered factor.</p></td>
 
     <p>A vector the same length as <code>.x</code>, and the same type as
 the first of <code>...</code>, <code>.default</code>, or <code>.missing</code>.
-<code><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode_factor()</a></code> returns a factor whose levels are in the same order as
+<code>recode_factor()</code> returns a factor whose levels are in the same order as
 in <code>...</code>. The levels in <code>.default</code> and <code>.missing</code> come last.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://dplyr.tidyverse.org/reference/na_if.html'>na_if()</a></code> to replace specified values with a <code>NA</code>.</p>
-<p><code><a href='https://dplyr.tidyverse.org/reference/coalesce.html'>coalesce()</a></code> to replace missing values with a specified value.</p>
+    <div class='dont-index'><p><code><a href='na_if.html'>na_if()</a></code> to replace specified values with a <code>NA</code>.</p>
+<p><code><a href='coalesce.html'>coalesce()</a></code> to replace missing values with a specified value.</p>
 <p><code><a href='https://tidyr.tidyverse.org/reference/replace_na.html'>tidyr::replace_na()</a></code> to replace <code>NA</code> with a value.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># For character values, recode values with named arguments only. Unmatched</span>
 <span class='co'># values are unchanged.</span>
 <span class='kw'>char_vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='fl'>10</span>, replace = <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>)</div><div class='output co'>#&gt;  [1] "b"     "c"     "c"     "c"     "b"     "b"     "Apple" "b"     "Apple"
-#&gt; [10] "b"    </div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>)</div><div class='output co'>#&gt;  [1] "Banana" "c"      "c"      "c"      "Banana" "Banana" "Apple"  "Banana"
+<span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>)</div><div class='output co'>#&gt;  [1] "b"     "c"     "c"     "c"     "b"     "b"     "Apple" "b"     "Apple"
+#&gt; [10] "b"    </div><div class='input'><span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>)</div><div class='output co'>#&gt;  [1] "Banana" "c"      "c"      "c"      "Banana" "Banana" "Apple"  "Banana"
 #&gt;  [9] "Apple"  "Banana"</div><div class='input'>
 <span class='co'># Use .default as replacement for unmatched values. Note that NA and</span>
 <span class='co'># replacement values need to be of the same type. For more information, see</span>
 <span class='co'># https://adv-r.hadley.nz/vectors-chap.html#missing-values</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>, .default = <span class='fl'>NA_character_</span>)</div><div class='output co'>#&gt;  [1] "Banana" NA       NA       NA       "Banana" "Banana" "Apple"  "Banana"
+<span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>, .default = <span class='fl'>NA_character_</span>)</div><div class='output co'>#&gt;  [1] "Banana" NA       NA       NA       "Banana" "Banana" "Apple"  "Banana"
 #&gt;  [9] "Apple"  "Banana"</div><div class='input'>
 <span class='co'># Throws an error as NA is logical, not character.</span>
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>, .default = <span class='fl'>NA</span>)
+<span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>, .default = <span class='fl'>NA</span>)
 }
 
 <span class='co'># Use a named character vector for unquote splicing with !!!</span>
 <span class='kw'>level_key</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(a = <span class='st'>"apple"</span>, b = <span class='st'>"banana"</span>, c = <span class='st'>"carrot"</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>char_vec</span>, <span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='kw'>level_key</span>)</div><div class='output co'>#&gt;  [1] "banana" "carrot" "carrot" "carrot" "banana" "banana" "apple"  "banana"
+<span class='fu'>recode</span>(<span class='kw'>char_vec</span>, <span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='kw'>level_key</span>)</div><div class='output co'>#&gt;  [1] "banana" "carrot" "carrot" "carrot" "banana" "banana" "apple"  "banana"
 #&gt;  [9] "apple"  "banana"</div><div class='input'>
 <span class='co'># For numeric values, named arguments can also be used</span>
 <span class='kw'>num_vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>NA</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>num_vec</span>, `2` = <span class='fl'>20L</span>, `4` = <span class='fl'>40L</span>)</div><div class='output co'>#&gt; [1]  1 20  3 40 NA</div><div class='input'>
+<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, `2` = <span class='fl'>20L</span>, `4` = <span class='fl'>40L</span>)</div><div class='output co'>#&gt; [1]  1 20  3 40 NA</div><div class='input'>
 <span class='co'># Or if you don't name the arguments, recode() matches by position.</span>
 <span class='co'># (Only works for numeric vector)</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c" "d" NA </div><div class='input'><span class='co'># .x (position given) looks in (...), then grabs (... value at position)</span>
+<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c" "d" NA </div><div class='input'><span class='co'># .x (position given) looks in (...), then grabs (... value at position)</span>
 <span class='co'># so if nothing at position (here 5), it uses .default or NA.</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>3</span>), <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>, .default = <span class='st'>"nothing"</span>)</div><div class='output co'>#&gt; [1] "a"       "nothing" "c"      </div><div class='input'>
+<span class='fu'>recode</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>3</span>), <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>, .default = <span class='st'>"nothing"</span>)</div><div class='output co'>#&gt; [1] "a"       "nothing" "c"      </div><div class='input'>
 <span class='co'># Note that if the replacements are not compatible with .x,</span>
 <span class='co'># unmatched values are replaced by NA and a warning is issued.</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>num_vec</span>, `2` = <span class='st'>"b"</span>, `4` = <span class='st'>"d"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] NA  "b" NA  "d" NA </div><div class='input'><span class='co'># use .default to change the replacement value</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, .default = <span class='st'>"other"</span>)</div><div class='output co'>#&gt; [1] "a"     "b"     "c"     "other" NA     </div><div class='input'><span class='co'># use .missing to replace missing values in .x</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, .default = <span class='st'>"other"</span>, .missing = <span class='st'>"missing"</span>)</div><div class='output co'>#&gt; [1] "a"       "b"       "c"       "other"   "missing"</div><div class='input'>
+<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, `2` = <span class='st'>"b"</span>, `4` = <span class='st'>"d"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] NA  "b" NA  "d" NA </div><div class='input'><span class='co'># use .default to change the replacement value</span>
+<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, .default = <span class='st'>"other"</span>)</div><div class='output co'>#&gt; [1] "a"     "b"     "c"     "other" NA     </div><div class='input'><span class='co'># use .missing to replace missing values in .x</span>
+<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, .default = <span class='st'>"other"</span>, .missing = <span class='st'>"missing"</span>)</div><div class='output co'>#&gt; [1] "a"       "b"       "c"       "other"   "missing"</div><div class='input'>
 <span class='co'># For factor values, use only named replacements</span>
 <span class='co'># and supply default with levels()</span>
 <span class='kw'>factor_vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>))
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span>(<span class='kw'>factor_vec</span>, a = <span class='st'>"Apple"</span>, .default = <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='kw'>factor_vec</span>))</div><div class='output co'>#&gt; [1] Apple b     c    
+<span class='fu'>recode</span>(<span class='kw'>factor_vec</span>, a = <span class='st'>"Apple"</span>, .default = <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='kw'>factor_vec</span>))</div><div class='output co'>#&gt; [1] Apple b     c    
 #&gt; Levels: Apple b c</div><div class='input'>
 <span class='co'># Use recode_factor() to create factors with levels ordered as they</span>
 <span class='co'># appear in the recode call. The levels in .default and .missing</span>
 <span class='co'># come last.</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode_factor</a></span>(<span class='kw'>num_vec</span>, `1` = <span class='st'>"z"</span>, `2` = <span class='st'>"y"</span>, `3` = <span class='st'>"x"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] z    y    x    &lt;NA&gt; &lt;NA&gt;
-#&gt; Levels: z y x</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode_factor</a></span>(<span class='kw'>num_vec</span>, `1` = <span class='st'>"z"</span>, `2` = <span class='st'>"y"</span>, `3` = <span class='st'>"x"</span>,
+<span class='fu'>recode_factor</span>(<span class='kw'>num_vec</span>, `1` = <span class='st'>"z"</span>, `2` = <span class='st'>"y"</span>, `3` = <span class='st'>"x"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] z    y    x    &lt;NA&gt; &lt;NA&gt;
+#&gt; Levels: z y x</div><div class='input'><span class='fu'>recode_factor</span>(<span class='kw'>num_vec</span>, `1` = <span class='st'>"z"</span>, `2` = <span class='st'>"y"</span>, `3` = <span class='st'>"x"</span>,
               .default = <span class='st'>"D"</span>)</div><div class='output co'>#&gt; [1] z    y    x    D    &lt;NA&gt;
-#&gt; Levels: z y x D</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode_factor</a></span>(<span class='kw'>num_vec</span>, `1` = <span class='st'>"z"</span>, `2` = <span class='st'>"y"</span>, `3` = <span class='st'>"x"</span>,
+#&gt; Levels: z y x D</div><div class='input'><span class='fu'>recode_factor</span>(<span class='kw'>num_vec</span>, `1` = <span class='st'>"z"</span>, `2` = <span class='st'>"y"</span>, `3` = <span class='st'>"x"</span>,
               .default = <span class='st'>"D"</span>, .missing = <span class='st'>"M"</span>)</div><div class='output co'>#&gt; [1] z y x D M
 #&gt; Levels: z y x D M</div><div class='input'>
 <span class='co'># When the input vector is a compatible vector (character vector or</span>
 <span class='co'># factor), it is reused as default.</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode_factor</a></span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>], b = <span class='st'>"z"</span>, c = <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
-#&gt; Levels: z y a</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode_factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>]), b = <span class='st'>"z"</span>, c = <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
+<span class='fu'>recode_factor</span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>], b = <span class='st'>"z"</span>, c = <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
+#&gt; Levels: z y a</div><div class='input'><span class='fu'>recode_factor</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>]), b = <span class='st'>"z"</span>, c = <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
 #&gt; Levels: z y a</div><div class='input'>
 <span class='co'># Use a named character vector to recode factors with unquote splicing.</span>
 <span class='kw'>level_key</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(a = <span class='st'>"apple"</span>, b = <span class='st'>"banana"</span>, c = <span class='st'>"carrot"</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode_factor</a></span>(<span class='kw'>char_vec</span>, <span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='kw'>level_key</span>)</div><div class='output co'>#&gt;  [1] banana carrot carrot carrot banana banana apple  banana apple  banana
+<span class='fu'>recode_factor</span>(<span class='kw'>char_vec</span>, <span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='kw'>level_key</span>)</div><div class='output co'>#&gt;  [1] banana carrot carrot carrot banana banana apple  banana apple  banana
 #&gt; Levels: apple banana carrot</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -54,7 +54,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -449,7 +449,7 @@
 <span class="kw">my_summarise</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">data</span>, <span class="kw">group_var</span>, <span class="kw">summarise_var</span>) {
   <span class="kw">data</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>({{ <span class="kw">group_var</span> }})) <span class="op">%&gt;%</span> 
-    <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>({{ <span class="kw">summarise_var</span> }}, <span class="kw">mean</span>, .names = <span class="st">"mean_{col}"</span>))
+    <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>({{ <span class="kw">summarise_var</span> }}, <span class="kw">mean</span>, .names = <span class="st">"mean_{.col}"</span>))
 }
 </pre></div>
 </div>

@@ -103,7 +103,7 @@ temporary, limited to the current connection to the source." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -219,7 +219,7 @@ the table definition as needed. Wherever possible, the new object will be
 temporary, limited to the current connection to the source.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/copy_to.html'>copy_to</a></span>(<span class='kw'>dest</span>, <span class='kw'>df</span>, name = <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='kw'>df</span>)), overwrite = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>copy_to</span>(<span class='kw'>dest</span>, <span class='kw'>df</span>, name = <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='kw'>df</span>)), overwrite = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -253,12 +253,12 @@ exists.</p></td>
     <p>a <code>tbl</code> object in the remote source</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://dplyr.tidyverse.org/reference/compute.html'>collect()</a></code> for the opposite action; downloading remote data into
+    <div class='dont-index'><p><code><a href='compute.html'>collect()</a></code> for the opposite action; downloading remote data into
 a local dbl.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>iris2</span> <span class='op'>&lt;-</span> <span class='kw'>dbplyr</span>::<span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>src_memdb</a></span>() <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/copy_to.html'>copy_to</a></span>(<span class='kw'>iris</span>, overwrite = <span class='fl'>TRUE</span>)
+<span class='kw'>iris2</span> <span class='op'>&lt;-</span> <span class='kw'>dbplyr</span>::<span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>src_memdb</a></span>() <span class='op'>%&gt;%</span> <span class='fu'>copy_to</span>(<span class='kw'>iris</span>, overwrite = <span class='fl'>TRUE</span>)
 <span class='kw'>iris2</span>
 }</div></pre>
   </div>

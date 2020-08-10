@@ -54,7 +54,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -261,7 +261,7 @@
 </pre></div>
 <p>Control how the names are created with the <code>.names</code> argument which takes a <a href="http://glue.tidyverse.org/">glue</a> spec:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">where</span>(<span class="kw">is.numeric</span>), <span class="kw">min_max</span>, .names = <span class="st">"{fn}.{col}"</span>))
+<span class="kw">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">where</span>(<span class="kw">is.numeric</span>), <span class="kw">min_max</span>, .names = <span class="st">"{.fn}.{.col}"</span>))
 <span class="co">#&gt; # A tibble: 1 x 6</span>
 <span class="co">#&gt;   min.height max.height min.mass max.mass min.birth_year max.birth_year</span>
 <span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span>
@@ -270,8 +270,8 @@
 <p>If you’d prefer all summaries with the same function to be grouped together, you’ll have to expand the calls yourself:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="kw">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(
-  <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">where</span>(<span class="kw">is.numeric</span>), <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="kw">.x</span>, na.rm = <span class="fl">TRUE</span>), .names = <span class="st">"min_{col}"</span>),
-  <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">where</span>(<span class="kw">is.numeric</span>), <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="kw">.x</span>, na.rm = <span class="fl">TRUE</span>), .names = <span class="st">"max_{col}"</span>)
+  <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">where</span>(<span class="kw">is.numeric</span>), <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="kw">.x</span>, na.rm = <span class="fl">TRUE</span>), .names = <span class="st">"min_{.col}"</span>),
+  <span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">where</span>(<span class="kw">is.numeric</span>), <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="kw">.x</span>, na.rm = <span class="fl">TRUE</span>), .names = <span class="st">"max_{.col}"</span>)
 )
 <span class="co">#&gt; # A tibble: 1 x 9</span>
 <span class="co">#&gt;   min_height min_mass min_birth_year max_height max_mass max_birth_year</span>

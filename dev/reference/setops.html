@@ -104,7 +104,7 @@ intersect(), union() and setdiff() remove duplicates." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -221,7 +221,7 @@ provided. The default methods call the base versions. Beware that
 <code><a href='https://rdrr.io/pkg/generics/man/setops.html'>intersect()</a></code>, <code><a href='https://rdrr.io/pkg/generics/man/setops.html'>union()</a></code> and <code><a href='https://rdrr.io/pkg/generics/man/setops.html'>setdiff()</a></code> remove duplicates.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/setops.html'>union_all</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>union_all</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -375,7 +375,7 @@ provided. The default methods call the base versions. Beware that
 #&gt; Ferrari Dino         Ferrari Dino
 #&gt; Maserati Bora       Maserati Bora
 #&gt; Volvo 142E             Volvo 142E</div><div class='input'>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/setops.html'>union_all</a></span>(<span class='kw'>first</span>, <span class='kw'>second</span>)</div><div class='output co'>#&gt;                           mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='fu'>union_all</span>(<span class='kw'>first</span>, <span class='kw'>second</span>)</div><div class='output co'>#&gt;                           mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4                21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag            21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710               22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
@@ -494,7 +494,7 @@ provided. The default methods call the base versions. Beware that
 #&gt; 4      9
 #&gt; 5     10</div><div class='input'>
 <span class='co'># union all does not remove duplicates</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/setops.html'>union_all</a></span>(<span class='kw'>a</span>, <span class='kw'>b</span>)</div><div class='output co'>#&gt;    column
+<span class='fu'>union_all</span>(<span class='kw'>a</span>, <span class='kw'>b</span>)</div><div class='output co'>#&gt;    column
 #&gt; 1       1
 #&gt; 2       2
 #&gt; 3       3

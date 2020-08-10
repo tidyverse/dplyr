@@ -103,7 +103,7 @@ where operations are performed &quot;by group&quot;. ungroup() removes grouping.
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -215,13 +215,13 @@ where operations are performed &quot;by group&quot;. ungroup() removes grouping.
 
     <div class="ref-description">
     <p>Most data operations are done on groups defined by variables.
-<code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code> takes an existing tbl and converts it into a grouped tbl
-where operations are performed "by group". <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup()</a></code> removes grouping.</p>
+<code>group_by()</code> takes an existing tbl and converts it into a grouped tbl
+where operations are performed "by group". <code>ungroup()</code> removes grouping.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .add = <span class='fl'>FALSE</span>, .drop = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='kw'>.data</span>))
+    <pre class="usage"><span class='fu'>group_by</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .add = <span class='fl'>FALSE</span>, .drop = <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='kw'>.data</span>))
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>ungroup</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -234,12 +234,12 @@ more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>In <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code>, variables or computations to group by.
-In <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup()</a></code>, variables to remove from the grouping.</p></td>
+      <td><p>In <code>group_by()</code>, variables or computations to group by.
+In <code>ungroup()</code>, variables to remove from the grouping.</p></td>
     </tr>
     <tr>
       <th>.add</th>
-      <td><p>When <code>FALSE</code>, the default, <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code> will
+      <td><p>When <code>FALSE</code>, the default, <code>group_by()</code> will
 override existing groups. To add to the existing groups, use
 <code>.add = TRUE</code>.</p>
 <p>This argument was previously called <code>add</code>, but that prevented
@@ -250,17 +250,17 @@ our naming conventions.</p></td>
       <th>.drop</th>
       <td><p>Drop groups formed by factor levels that don't appear in the
 data? The default is <code>TRUE</code> except when <code>.data</code> has been previously
-grouped with <code>.drop = FALSE</code>. See <code><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default()</a></code> for details.</p></td>
+grouped with <code>.drop = FALSE</code>. See <code><a href='group_by_drop_default.html'>group_by_drop_default()</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>A <code><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl()</a></code></p></td>
+      <td><p>A <code><a href='tbl.html'>tbl()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A grouped data frame with class <code><a href='https://dplyr.tidyverse.org/reference/grouped_df.html'>grouped_df</a></code>,
+    <p>A grouped data frame with class <code><a href='grouped_df.html'>grouped_df</a></code>,
 unless the combination of <code>...</code> and <code>add</code> yields a empty set of
 grouping columns, in which case a tibble will be returned.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -271,22 +271,22 @@ grouping columns, in which case a tibble will be returned.</p>
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>Methods available in currently loaded packages:</p><ul>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by()</a></code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>)
+<li><p><code>group_by()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>)
 .</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup()</a></code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>grouped_df</code>, <code>rowwise_df</code>)
+<li><p><code>ungroup()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>grouped_df</code>, <code>rowwise_df</code>)
 .</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other grouping functions: 
-<code><a href='https://dplyr.tidyverse.org/reference/group_map.html'>group_map</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/group_nest.html'>group_nest</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/group_split.html'>group_split</a>()</code>,
-<code><a href='https://dplyr.tidyverse.org/reference/group_trim.html'>group_trim</a>()</code></p></div>
+<code><a href='group_map.html'>group_map</a>()</code>,
+<code><a href='group_nest.html'>group_nest</a>()</code>,
+<code><a href='group_split.html'>group_split</a>()</code>,
+<code><a href='group_trim.html'>group_trim</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>by_cyl</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>)
+    <pre class="examples"><div class='input'><span class='kw'>by_cyl</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='kw'>cyl</span>)
 
 <span class='co'># grouping doesn't change how the data looks (apart from listing</span>
 <span class='co'># how it's grouped):</span>
@@ -306,7 +306,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
 <span class='co'># It changes how it acts with the other dplyr verbs:</span>
-<span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(
+<span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(
   disp = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>disp</span>),
   hp = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>hp</span>)
 )</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
@@ -314,7 +314,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     4  105.  82.6
 #&gt; </span><span style='color: #555555;'>2</span><span>     6  183. 122. 
-#&gt; </span><span style='color: #555555;'>3</span><span>     8  353. 209. </div><div class='input'><span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>disp</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='kw'>disp</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 11</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     8  353. 209. </div><div class='input'><span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>disp</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='kw'>disp</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -322,29 +322,29 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'>2</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
 #&gt; </span><span style='color: #555555;'>3</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4</div><div class='input'>
 <span class='co'># Each call to summarise() removes a layer of grouping</span>
-<span class='kw'>by_vs_am</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>vs</span>, <span class='kw'>am</span>)
-<span class='kw'>by_vs</span> <span class='op'>&lt;-</span> <span class='kw'>by_vs_am</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(n = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span>())</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'vs' (override with `.groups` argument)</span></div><div class='input'><span class='kw'>by_vs</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+<span class='kw'>by_vs_am</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='kw'>vs</span>, <span class='kw'>am</span>)
+<span class='kw'>by_vs</span> <span class='op'>&lt;-</span> <span class='kw'>by_vs_am</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'vs' (override with `.groups` argument)</span></div><div class='input'><span class='kw'>by_vs</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   vs [2]</span><span>
 #&gt;      vs    am     n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     0     0    12
 #&gt; </span><span style='color: #555555;'>2</span><span>     0     1     6
 #&gt; </span><span style='color: #555555;'>3</span><span>     1     0     7
-#&gt; </span><span style='color: #555555;'>4</span><span>     1     1     7</div><div class='input'><span class='kw'>by_vs</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(n = <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>n</span>))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span>     1     1     7</div><div class='input'><span class='kw'>by_vs</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>n</span>))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;      vs     n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     0    18
 #&gt; </span><span style='color: #555555;'>2</span><span>     1    14</div><div class='input'>
 <span class='co'># To removing grouping, use ungroup</span>
 <span class='kw'>by_vs</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(n = <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>n</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
+  <span class='fu'>ungroup</span>() <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>n</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;       n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>    32</div><div class='input'>
 <span class='co'># You can group by expressions: this is just short-hand for</span>
 <span class='co'># a mutate() followed by a group_by()</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(vsam = <span class='kw'>vs</span> <span class='op'>+</span> <span class='kw'>am</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 12</span><span>
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span>(vsam = <span class='kw'>vs</span> <span class='op'>+</span> <span class='kw'>am</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 12</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   vsam [3]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  vsam
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -361,25 +361,28 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
 <span class='co'># By default, group_by() overrides existing grouping</span>
 <span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>vs</span>, <span class='kw'>am</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "vs" "am"</div><div class='input'>
+  <span class='fu'>group_by</span>(<span class='kw'>vs</span>, <span class='kw'>am</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_data.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "vs" "am"</div><div class='input'>
 <span class='co'># Use add = TRUE to instead append</span>
 <span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>vs</span>, <span class='kw'>am</span>, .add = <span class='fl'>TRUE</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl" "vs"  "am" </div><div class='input'>
+  <span class='fu'>group_by</span>(<span class='kw'>vs</span>, <span class='kw'>am</span>, .add = <span class='fl'>TRUE</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_data.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl" "vs"  "am" </div><div class='input'>
 
-<span class='co'># when factors are involved, groups can be empty</span>
+<span class='co'># when factors are involved and .drop = FALSE, groups can be empty</span>
 <span class='kw'>tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
   x = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>,
   y = <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"c"</span>), each  = <span class='fl'>5</span>), levels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>))
 )
 <span class='kw'>tbl</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>y</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_data.html'>group_rows</a></span>()</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[2]&gt;
+  <span class='fu'>group_by</span>(<span class='kw'>y</span>, .drop = <span class='fl'>FALSE</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_data.html'>group_rows</a></span>()</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[3]&gt;
 #&gt; [[1]]
 #&gt; [1] 1 2 3 4 5
 #&gt; 
 #&gt; [[2]]
+#&gt; integer(0)
+#&gt; 
+#&gt; [[3]]
 #&gt; [1]  6  7  8  9 10
 #&gt; </div><div class='input'></div></span></pre>
   </div>

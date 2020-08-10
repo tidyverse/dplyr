@@ -106,7 +106,7 @@ All functions preserve grouping and ordering." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -217,19 +217,19 @@ All functions preserve grouping and ordering." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://dplyr.tidyverse.org/reference/compute.html'>compute()</a></code> stores results in a remote temporary table.
-<code><a href='https://dplyr.tidyverse.org/reference/compute.html'>collect()</a></code> retrieves data into a local tibble.
-<code><a href='https://dplyr.tidyverse.org/reference/compute.html'>collapse()</a></code> is slightly different: it doesn't force computation, but
+    <p><code>compute()</code> stores results in a remote temporary table.
+<code>collect()</code> retrieves data into a local tibble.
+<code>collapse()</code> is slightly different: it doesn't force computation, but
 instead forces generation of the SQL query. This is sometimes needed to work
 around bugs in dplyr's SQL generation.</p>
 <p>All functions preserve grouping and ordering.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/compute.html'>compute</a></span>(<span class='kw'>x</span>, name = <span class='fu'>random_table_name</span>(), <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>compute</span>(<span class='kw'>x</span>, name = <span class='fu'>random_table_name</span>(), <span class='kw'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/compute.html'>collect</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+<span class='fu'>collect</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/compute.html'>collapse</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>collapse</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -258,33 +258,33 @@ details.</p></td>
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>Methods available in currently loaded packages:</p><ul>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/compute.html'>compute()</a></code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/compute.html'>collect()</a></code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
-<li><p><code><a href='https://dplyr.tidyverse.org/reference/compute.html'>collapse()</a></code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
+<li><p><code>compute()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
+<li><p><code>collect()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
+<li><p><code>collapse()</code>: dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html'>tbl_sql</a></code>), dplyr (<code>data.frame</code>)</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://dplyr.tidyverse.org/reference/copy_to.html'>copy_to()</a></code>, the opposite of <code><a href='https://dplyr.tidyverse.org/reference/compute.html'>collect()</a></code>: it takes a local data
+    <div class='dont-index'><p><code><a href='copy_to.html'>copy_to()</a></code>, the opposite of <code>collect()</code>: it takes a local data
 frame and uploads it to the remote source.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='https://dbplyr.tidyverse.org'>dbplyr</a></span>)) {
   <span class='kw'>mtcars2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>src_memdb</a></span>() <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/copy_to.html'>copy_to</a></span>(<span class='kw'>mtcars</span>, name = <span class='st'>"mtcars2-cc"</span>, overwrite = <span class='fl'>TRUE</span>)
+    <span class='fu'><a href='copy_to.html'>copy_to</a></span>(<span class='kw'>mtcars</span>, name = <span class='st'>"mtcars2-cc"</span>, overwrite = <span class='fl'>TRUE</span>)
 
   <span class='kw'>remote</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars2</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>cyl</span> <span class='op'>==</span> <span class='fl'>8</span>) <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>mpg</span><span class='op'>:</span><span class='kw'>drat</span>)
+    <span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>cyl</span> <span class='op'>==</span> <span class='fl'>8</span>) <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='select.html'>select</a></span>(<span class='kw'>mpg</span><span class='op'>:</span><span class='kw'>drat</span>)
 
   <span class='co'># Compute query and save in remote table</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/compute.html'>compute</a></span>(<span class='kw'>remote</span>)
+  <span class='fu'>compute</span>(<span class='kw'>remote</span>)
 
   <span class='co'># Compute query bring back to this session</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/compute.html'>collect</a></span>(<span class='kw'>remote</span>)
+  <span class='fu'>collect</span>(<span class='kw'>remote</span>)
 
   <span class='co'># Creates a fresh query based on the generated SQL</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/compute.html'>collapse</a></span>(<span class='kw'>remote</span>)
+  <span class='fu'>collapse</span>(<span class='kw'>remote</span>)
 }</div><div class='output co'>#&gt; <span class='message'>Loading required package: dbplyr</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘dbplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:dplyr’:</span>
 #&gt; <span class='message'></span>

@@ -104,7 +104,7 @@ than expected." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -221,11 +221,11 @@ the ordering, and provide a default value to use when the input is shorter
 than expected.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>nth</a></span>(<span class='kw'>x</span>, <span class='kw'>n</span>, order_by = <span class='kw'>NULL</span>, default = <span class='fu'>default_missing</span>(<span class='kw'>x</span>))
+    <pre class="usage"><span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='kw'>n</span>, order_by = <span class='kw'>NULL</span>, default = <span class='fu'>default_missing</span>(<span class='kw'>x</span>))
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>first</a></span>(<span class='kw'>x</span>, order_by = <span class='kw'>NULL</span>, default = <span class='fu'>default_missing</span>(<span class='kw'>x</span>))
+<span class='fu'>first</span>(<span class='kw'>x</span>, order_by = <span class='kw'>NULL</span>, default = <span class='fu'>default_missing</span>(<span class='kw'>x</span>))
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>last</a></span>(<span class='kw'>x</span>, order_by = <span class='kw'>NULL</span>, default = <span class='fu'>default_missing</span>(<span class='kw'>x</span>))</pre>
+<span class='fu'>last</span>(<span class='kw'>x</span>, order_by = <span class='kw'>NULL</span>, default = <span class='fu'>default_missing</span>(<span class='kw'>x</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -264,12 +264,12 @@ Make sure it is the same type as <code>x</code>.</p></td>
     <pre class="examples"><div class='input'><span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>
 <span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>first</a></span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>last</a></span>(<span class='kw'>y</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>nth</a></span>(<span class='kw'>x</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>nth</a></span>(<span class='kw'>x</span>, <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>nth</a></span>(<span class='kw'>x</span>, <span class='op'>-</span><span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] 9</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>nth</a></span>(<span class='kw'>x</span>, <span class='fl'>11</span>)</div><div class='output co'>#&gt; [1] NA</div><div class='input'>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>last</a></span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; [1] 10</div><div class='input'><span class='co'># Second argument provides optional ordering</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>last</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='fu'>first</span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'>last</span>(<span class='kw'>y</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='op'>-</span><span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] 9</div><div class='input'><span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='fl'>11</span>)</div><div class='output co'>#&gt; [1] NA</div><div class='input'>
+<span class='fu'>last</span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; [1] 10</div><div class='input'><span class='co'># Second argument provides optional ordering</span>
+<span class='fu'>last</span>(<span class='kw'>x</span>, <span class='kw'>y</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 <span class='co'># These functions always return a single value</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>first</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span>())</div><div class='output co'>#&gt; [1] NA</div></pre>
+<span class='fu'>first</span>(<span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span>())</div><div class='output co'>#&gt; [1] NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

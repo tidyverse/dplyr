@@ -104,7 +104,7 @@ more details." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -216,12 +216,12 @@ more details." />
 
     <div class="ref-description">
     <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
-<p>These functions have been deprecated; instead please use <code><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl()</a></code>
+<p>These functions have been deprecated; instead please use <code><a href='tbl.html'>tbl()</a></code>
 directly on an <code>DBIConnection</code>. See <a href='https://dbplyr.tidyverse.org/'>https://dbplyr.tidyverse.org/</a> for
 more details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/src_dbi.html'>src_mysql</a></span>(
+    <pre class="usage"><span class='fu'>src_mysql</span>(
   <span class='kw'>dbname</span>,
   host = <span class='kw'>NULL</span>,
   port = <span class='fl'>0L</span>,
@@ -230,7 +230,7 @@ more details.</p>
   <span class='kw'>...</span>
 )
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/src_dbi.html'>src_postgres</a></span>(
+<span class='fu'>src_postgres</span>(
   dbname = <span class='kw'>NULL</span>,
   host = <span class='kw'>NULL</span>,
   port = <span class='kw'>NULL</span>,
@@ -239,7 +239,7 @@ more details.</p>
   <span class='kw'>...</span>
 )
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/src_dbi.html'>src_sqlite</a></span>(<span class='kw'>path</span>, create = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>src_sqlite</span>(<span class='kw'>path</span>, create = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -289,14 +289,14 @@ as described in <code><a href='https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='https://dbplyr.tidyverse.org'>dbplyr</a></span>, quietly = <span class='fl'>TRUE</span>)) {
 
 <span class='kw'>con</span> <span class='op'>&lt;-</span> <span class='kw'>DBI</span>::<span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span>(<span class='kw'>RSQLite</span>::<span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/copy_to.html'>copy_to</a></span>(<span class='kw'>con</span>, <span class='kw'>mtcars</span>)
+<span class='fu'><a href='copy_to.html'>copy_to</a></span>(<span class='kw'>con</span>, <span class='kw'>mtcars</span>)
 
 <span class='co'># To retrieve a single table from a source, use `tbl()`</span>
-<span class='kw'>mtcars</span> <span class='op'>&lt;-</span> <span class='kw'>con</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='st'>"mtcars"</span>)
+<span class='kw'>mtcars</span> <span class='op'>&lt;-</span> <span class='kw'>con</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"mtcars"</span>)
 <span class='kw'>mtcars</span>
 
 <span class='co'># You can also use pass raw SQL if you want a more sophisticated query</span>
-<span class='kw'>con</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='fu'><a href='https://dbplyr.tidyverse.org/reference/sql.html'>sql</a></span>(<span class='st'>"SELECT * FROM mtcars WHERE cyl == 8"</span>))
+<span class='kw'>con</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='fu'><a href='sql.html'>sql</a></span>(<span class='st'>"SELECT * FROM mtcars WHERE cyl == 8"</span>))
 }</div><div class='output co'>#&gt; <span style='color: #555555;'># Source:   SQL [?? x 11]</span><span>
 #&gt; </span><span style='color: #555555;'># Database: sqlite 3.30.1 [:memory:]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb

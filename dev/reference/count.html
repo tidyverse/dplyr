@@ -109,7 +109,7 @@ with group-wise counts." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
         </div>
       </div>
     </div>
@@ -220,31 +220,31 @@ with group-wise counts." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://dplyr.tidyverse.org/reference/count.html'>count()</a></code> lets you quickly count the unique values of one or more variables:
+    <p><code>count()</code> lets you quickly count the unique values of one or more variables:
 <code>df %&gt;% count(a, b)</code> is roughly equivalent to
 <code>df %&gt;% group_by(a, b) %&gt;% summarise(n = n())</code>.
-<code><a href='https://dplyr.tidyverse.org/reference/count.html'>count()</a></code> is paired with <code><a href='https://dplyr.tidyverse.org/reference/count.html'>tally()</a></code>, a lower-level helper that is equivalent
+<code>count()</code> is paired with <code>tally()</code>, a lower-level helper that is equivalent
 to <code>df %&gt;% summarise(n = n())</code>. Supply <code>wt</code> to perform weighted counts,
 switching the summary from <code>n = n()</code> to <code>n = sum(wt)</code>.</p>
-<p><code><a href='https://dplyr.tidyverse.org/reference/count.html'>add_count()</a></code> are <code><a href='https://dplyr.tidyverse.org/reference/count.html'>add_tally()</a></code> are equivalents to <code><a href='https://dplyr.tidyverse.org/reference/count.html'>count()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/count.html'>tally()</a></code>
-but use <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code> instead of <code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise()</a></code> so that they add a new column
+<p><code>add_count()</code> are <code>add_tally()</code> are equivalents to <code>count()</code> and <code>tally()</code>
+but use <code><a href='mutate.html'>mutate()</a></code> instead of <code><a href='summarise.html'>summarise()</a></code> so that they add a new column
 with group-wise counts.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span>(
+    <pre class="usage"><span class='fu'>count</span>(
   <span class='kw'>x</span>,
   <span class='kw'>...</span>,
   wt = <span class='kw'>NULL</span>,
   sort = <span class='fl'>FALSE</span>,
   name = <span class='kw'>NULL</span>,
-  .drop = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='kw'>x</span>)
+  .drop = <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='kw'>x</span>)
 )
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>tally</a></span>(<span class='kw'>x</span>, wt = <span class='kw'>NULL</span>, sort = <span class='fl'>FALSE</span>, name = <span class='kw'>NULL</span>)
+<span class='fu'>tally</span>(<span class='kw'>x</span>, wt = <span class='kw'>NULL</span>, sort = <span class='fl'>FALSE</span>, name = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>add_count</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>, wt = <span class='kw'>NULL</span>, sort = <span class='fl'>FALSE</span>, name = <span class='kw'>NULL</span>, .drop = <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>())
+<span class='fu'>add_count</span>(<span class='kw'>x</span>, <span class='kw'>...</span>, wt = <span class='kw'>NULL</span>, sort = <span class='fl'>FALSE</span>, name = <span class='kw'>NULL</span>, .drop = <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>())
 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>add_tally</a></span>(<span class='kw'>x</span>, wt = <span class='kw'>NULL</span>, sort = <span class='fl'>FALSE</span>, name = <span class='kw'>NULL</span>)</pre>
+<span class='fu'>add_tally</span>(<span class='kw'>x</span>, wt = <span class='kw'>NULL</span>, sort = <span class='fl'>FALSE</span>, name = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -256,11 +256,11 @@ lazy data frame (e.g. from dbplyr or dtplyr).</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_data_masking.html'>data-masking</a></code>&gt; Variables to group by.</p></td>
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Variables to group by.</p></td>
     </tr>
     <tr>
       <th>wt</th>
-      <td><p>&lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_data_masking.html'>data-masking</a></code>&gt; Frequency weights.
+      <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Frequency weights.
 Can be <code>NULL</code> or a variable:</p><ul>
 <li><p>If <code>NULL</code> (the default), counts the number of rows in each group.</p></li>
 <li><p>If a variable, computes <code><a href='https://rdrr.io/r/base/sum.html'>sum(wt)</a></code> for each group.</p></li>
@@ -278,21 +278,21 @@ it will error, and require you to specify the name.</p></td>
     </tr>
     <tr>
       <th>.drop</th>
-      <td><p>For <code><a href='https://dplyr.tidyverse.org/reference/count.html'>count()</a></code>: if <code>FALSE</code> will include counts for empty groups
+      <td><p>For <code>count()</code>: if <code>FALSE</code> will include counts for empty groups
 (i.e. for levels of factors that don't exist in the data). Deprecated in
-<code><a href='https://dplyr.tidyverse.org/reference/count.html'>add_count()</a></code> since it didn't actually affect the output.</p></td>
+<code>add_count()</code> since it didn't actually affect the output.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same type as <code>.data</code>. <code><a href='https://dplyr.tidyverse.org/reference/count.html'>count()</a></code> and <code><a href='https://dplyr.tidyverse.org/reference/count.html'>add_count()</a></code>
+    <p>An object of the same type as <code>.data</code>. <code>count()</code> and <code>add_count()</code>
 group transiently, so the output has the same groups as the input.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># count() is a convenient way to get a sense of the distribution of</span>
 <span class='co'># values in a dataset</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span>(<span class='kw'>species</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 38 x 2</span><span>
+<span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span>(<span class='kw'>species</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 38 x 2</span><span>
 #&gt;    species       n
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Aleena        1
@@ -305,7 +305,7 @@ group transiently, so the output has the same groups as the input.</p>
 #&gt; </span><span style='color: #555555;'> 8</span><span> Ewok          1
 #&gt; </span><span style='color: #555555;'> 9</span><span> Geonosian     1
 #&gt; </span><span style='color: #555555;'>10</span><span> Gungan        3
-#&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span>(<span class='kw'>species</span>, sort = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span>(<span class='kw'>species</span>, sort = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
 #&gt;    species      n
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Human       35
@@ -318,7 +318,7 @@ group transiently, so the output has the same groups as the input.</p>
 #&gt; </span><span style='color: #555555;'> 8</span><span> Wookiee      2
 #&gt; </span><span style='color: #555555;'> 9</span><span> Zabrak       2
 #&gt; </span><span style='color: #555555;'>10</span><span> Aleena       1
-#&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span>(<span class='kw'>sex</span>, <span class='kw'>gender</span>, sort = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
+#&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span>(<span class='kw'>sex</span>, <span class='kw'>gender</span>, sort = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt;   sex            gender        n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> male           masculine    60
@@ -326,7 +326,7 @@ group transiently, so the output has the same groups as the input.</p>
 #&gt; </span><span style='color: #555555;'>3</span><span> none           masculine     5
 #&gt; </span><span style='color: #555555;'>4</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            4
 #&gt; </span><span style='color: #555555;'>5</span><span> hermaphroditic masculine     1
-#&gt; </span><span style='color: #555555;'>6</span><span> none           feminine      1</div><div class='input'><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span>(birth_decade = <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='kw'>birth_year</span>, <span class='op'>-</span><span class='fl'>1</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 2</span><span>
+#&gt; </span><span style='color: #555555;'>6</span><span> none           feminine      1</div><div class='input'><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span>(birth_decade = <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='kw'>birth_year</span>, <span class='op'>-</span><span class='fl'>1</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 2</span><span>
 #&gt;    birth_decade     n
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>           10     1
@@ -353,21 +353,21 @@ group transiently, so the output has the same groups as the input.</p>
   <span class='st'>"Susan"</span>,  <span class='st'>"female"</span>,      <span class='fl'>4</span>
 )
 <span class='co'># counts rows:</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span>(<span class='kw'>gender</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span>(<span class='kw'>gender</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   gender     n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> female     2
 #&gt; </span><span style='color: #555555;'>2</span><span> male       1</div><div class='input'><span class='co'># counts runs:</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span>(<span class='kw'>gender</span>, wt = <span class='kw'>runs</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span>(<span class='kw'>gender</span>, wt = <span class='kw'>runs</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   gender     n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> female     5
 #&gt; </span><span style='color: #555555;'>2</span><span> male      10</div><div class='input'>
 <span class='co'># tally() is a lower-level function that assumes you've done the grouping</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>tally</a></span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
+<span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;       n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>    87</div><div class='input'><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>species</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>tally</a></span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>    87</div><div class='input'><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>species</span>) <span class='op'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
 #&gt;    species       n
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Aleena        1
@@ -383,12 +383,12 @@ group transiently, so the output has the same groups as the input.</p>
 #&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span></div><div class='input'>
 <span class='co'># both count() and tally() have add_ variants that work like</span>
 <span class='co'># mutate() instead of summarise</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>add_count</a></span>(<span class='kw'>gender</span>, wt = <span class='kw'>runs</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>add_count</span>(<span class='kw'>gender</span>, wt = <span class='kw'>runs</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
 #&gt;   name   gender  runs     n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> Max    male      10    10
 #&gt; </span><span style='color: #555555;'>2</span><span> Sandra female     1     5
-#&gt; </span><span style='color: #555555;'>3</span><span> Susan  female     4     5</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>add_tally</a></span>(wt = <span class='kw'>runs</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> Susan  female     4     5</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>add_tally</span>(wt = <span class='kw'>runs</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
 #&gt;   name   gender  runs     n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> Max    male      10    15
