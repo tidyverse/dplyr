@@ -41,7 +41,7 @@
 #' first(integer())
 nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
   if (length(n) != 1 || !is.numeric(n)) {
-    abort("`nth()` argument `n=` should be a single integer.")
+    abort("`n` must be a single integer.")
   }
   n <- trunc(n)
 
