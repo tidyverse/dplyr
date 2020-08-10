@@ -73,6 +73,8 @@ select_if <- function(.tbl, .predicate, .funs = list(), ...) {
   if (!is_logical(.predicate)) {
     .predicate <- as_fun_list(.predicate, caller_env(), .caller = "select_if", .caller_arg = ".predicate")
   }
+  # faking a mask to get n() to work
+  local_mask(list(current_rows = function() seq_len(nrow(.tbl))))
   vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)

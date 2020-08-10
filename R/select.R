@@ -122,6 +122,9 @@ select.list <- function(.data, ...) {
 
 #' @export
 select.data.frame <- function(.data, ...) {
+  # faking a mask to get n() to work
+  local_mask(list(current_rows = function() seq_len(nrow(.data))))
+
   loc <- tidyselect::eval_select(expr(c(...)), .data)
   loc <- ensure_group_vars(loc, .data, notify = TRUE)
 
