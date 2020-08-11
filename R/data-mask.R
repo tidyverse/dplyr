@@ -107,9 +107,7 @@ DataMask <- R6Class("DataMask",
     },
 
     set = function(name, chunks) {
-      private$resolved[[name]] <- chunks
-      private$used <- !map_lgl(private$resolved, is.null)
-      private$which_used <- which(private$used)
+      .Call(`dplyr_mask_set`, private, name, chunks)
     },
 
     remove = function(name) {
