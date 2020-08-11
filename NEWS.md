@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Fixed `across()` issue where data frame columns would mask objects referred to
+  from `all_of()` (#5460).
+
 * `bind_cols()` gains a `.name_repair` argument, passed to `vctrs::vec_cbind()` (#5451)
 
 # dplyr 1.0.1
