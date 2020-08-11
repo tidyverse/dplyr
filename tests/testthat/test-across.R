@@ -215,6 +215,19 @@ test_that("across() uses environment from the current quosure (#5460)", {
   # Recursive case
   out <- df %>% summarise(summarise(across(), across(all_of(y), mean)))
   expect_equal(out, data.frame(x = 1))
+
+  # Inherited case
+  out <- df %>% summarise(local(across(all_of(y), mean)))
+  expect_equal(out, data.frame(x = 1))
+
+  # Recursive + inherited case
+  out <- df %>%
+    summarise(
+      local(
+        summarise(across(), across(all_of(y), mean))
+      )
+    )
+  expect_equal(out, data.frame(x = 1))
 })
 
 
