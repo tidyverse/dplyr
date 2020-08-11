@@ -88,22 +88,7 @@ DataMask <- R6Class("DataMask",
         }
       }
 
-      pos <- which(names(private$resolved) == name)
-      is_new_column <- length(pos) == 0L
-
-      if (is_new_column) {
-        pos <- length(private$resolved) + 1L
-        used <- FALSE
-      } else {
-        used <- private$used[[pos]]
-      }
-
-      if (!used) {
-        private$used[[pos]] <- TRUE
-        private$which_used <- c(private$which_used, pos)
-      }
-
-      private$resolved[[name]] <- chunks
+      .Call(`dplyr_mask_add`, private, name, chunks)
     },
 
     set = function(name, chunks) {

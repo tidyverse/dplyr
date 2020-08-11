@@ -84,6 +84,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
 
   {"dplyr_mask_set", (DL_FUNC)& dplyr_mask_set, 3},
+  {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 3},
 
   {NULL, NULL, 0}
 };
