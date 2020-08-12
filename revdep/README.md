@@ -1,13 +1,16 @@
 # Revdeps
 
-## Failed to check (137)
+## Failed to check (150)
 
 |package              |version |error |warning |note |
 |:--------------------|:-------|:-----|:-------|:----|
+|NA                   |?       |      |        |     |
 |afex                 |?       |      |        |     |
 |ALA4R                |?       |      |        |     |
+|apa                  |?       |      |        |     |
 |apaTables            |?       |      |        |     |
 |ARTool               |?       |      |        |     |
+|BayesianReasoning    |0.3.2   |1     |        |     |
 |bfw                  |?       |      |        |     |
 |bibliometrix         |?       |      |        |     |
 |NA                   |?       |      |        |     |
@@ -17,11 +20,12 @@
 |NA                   |?       |      |        |     |
 |NA                   |?       |      |        |     |
 |broom                |?       |      |        |     |
+|broomExtra           |?       |      |        |     |
 |butcher              |?       |      |        |     |
 |CB2                  |?       |      |        |     |
 |cbar                 |?       |      |        |     |
 |NA                   |?       |      |        |     |
-|choroplethr          |3.6.4   |1     |        |     |
+|choroplethr          |3.7.0   |1     |        |     |
 |CityWaterBalance     |0.1.0   |1     |        |     |
 |clustermole          |?       |      |        |     |
 |ClustImpute          |?       |      |        |     |
@@ -30,6 +34,7 @@
 |correlation          |?       |      |        |     |
 |countyweather        |?       |      |        |     |
 |cSEM                 |?       |      |        |     |
+|cvcqv                |?       |      |        |     |
 |daqapo               |0.3.0   |1     |        |     |
 |DecomposeR           |1.0.2   |1     |        |     |
 |dendroTools          |?       |      |        |     |
@@ -38,7 +43,6 @@
 |dmdScheme            |1.2     |1     |        |     |
 |easyr                |?       |      |        |     |
 |NA                   |?       |      |        |     |
-|EdSurvey             |?       |      |        |     |
 |EFAtools             |?       |      |        |     |
 |EGAnet               |?       |      |        |     |
 |EML                  |2.0.3   |1     |        |     |
@@ -56,15 +60,18 @@
 |gms                  |?       |      |        |     |
 |graphicalVAR         |?       |      |        |     |
 |Greg                 |?       |      |        |     |
-|hadron               |?       |      |        |     |
+|GuessCompx           |1.0.3   |1     |        |     |
 |huxtable             |?       |      |        |     |
 |NA                   |?       |      |        |     |
 |ICAMS                |?       |      |        |     |
 |idiogramFISH         |?       |      |        |     |
+|ISRaD                |?       |      |        |     |
 |NA                   |?       |      |        |     |
 |jrt                  |?       |      |        |     |
+|KCSKNNShiny          |0.1.0   |1     |        |     |
 |lcsm                 |?       |      |        |     |
 |NA                   |?       |      |        |     |
+|lmeInfo              |?       |      |        |     |
 |LOGAN                |?       |      |        |     |
 |lvnet                |?       |      |        |     |
 |manifestoR           |?       |      |        |     |
@@ -79,10 +86,12 @@
 |mlVAR                |?       |      |        |     |
 |mousetrap            |?       |      |        |     |
 |MtreeRing            |1.4.2   |1     |        |     |
+|NA                   |?       |      |        |     |
 |nesRdata             |0.3.1   |1     |        |     |
 |nomisr               |0.4.3   |1     |        |     |
 |omicwas              |?       |      |        |     |
 |parameters           |?       |      |        |     |
+|paramtest            |?       |      |        |     |
 |phyr                 |?       |      |        |     |
 |pmc                  |?       |      |        |     |
 |NA                   |?       |      |        |     |
@@ -92,6 +101,7 @@
 |provSummarizeR       |?       |      |        |     |
 |psychonetrics        |?       |      |        |     |
 |NA                   |?       |      |        |     |
+|pwr2ppl              |?       |      |        |     |
 |qgraph               |?       |      |        |     |
 |quickReg             |?       |      |        |     |
 |quokar               |0.1.0   |1     |        |     |
@@ -105,6 +115,7 @@
 |rattle               |?       |      |        |     |
 |rdflib               |0.2.3   |1     |        |     |
 |regressoR            |?       |      |        |     |
+|Relectoral           |0.1.0   |1     |        |     |
 |NA                   |?       |      |        |     |
 |NA                   |?       |      |        |     |
 |RNeXML               |?       |      |        |     |
@@ -119,18 +130,20 @@
 |NA                   |?       |      |        |     |
 |sigminer             |?       |      |        |     |
 |SimDesign            |?       |      |        |     |
+|simstandard          |?       |      |        |     |
 |SIRE                 |?       |      |        |     |
 |sjPlot               |?       |      |        |     |
 |sociome              |?       |      |        |     |
 |SpaDES.core          |?       |      |        |     |
-|SpaDES.tools         |?       |      |        |     |
 |splithalfr           |?       |      |        |     |
 |STAT                 |?       |      |        |     |
 |NA                   |?       |      |        |     |
-|strataG              |?       |      |        |     |
+|NA                   |?       |      |        |     |
 |suddengains          |?       |      |        |     |
 |SWMPrExtension       |1.1.5   |1     |        |     |
-|thurstonianIRT       |0.11.0  |1     |        |     |
+|SynthTools           |?       |      |        |     |
+|thurstonianIRT       |?       |      |        |     |
+|tidycomm             |?       |      |        |     |
 |NA                   |?       |      |        |     |
 |tidySEM              |?       |      |        |     |
 |tmap                 |3.1     |1     |        |     |
@@ -142,11 +155,10 @@
 |wrswoR               |?       |      |        |     |
 |Z10                  |?       |      |        |     |
 
-## New problems (3)
+## New problems (2)
 
-|package                            |version |error  |warning |note |
-|:----------------------------------|:-------|:------|:-------|:----|
-|[tsibble](problems.md#tsibble)     |0.9.2   |__+1__ |        |     |
-|[unpivotr](problems.md#unpivotr)   |0.6.0   |__+1__ |        |     |
-|[yardstick](problems.md#yardstick) |0.0.7   |__+1__ |        |     |
+|package                      |version |error  |warning |note |
+|:----------------------------|:-------|:------|:-------|:----|
+|[jstor](problems.md#jstor)   |0.3.9   |__+1__ |        |     |
+|[ralger](problems.md#ralger) |2.0.1   |__+1__ |        |1    |
 
