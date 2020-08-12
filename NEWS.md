@@ -2,6 +2,9 @@
 
 * `bind_cols()` gains a `.name_repair` argument, passed to `vctrs::vec_cbind()` (#5451)
 
+* `summarise(.groups = "rowwise")` makes a rowwise data frame even if the input data 
+  is not grouped (#5422). 
+
 # dplyr 1.0.1
 
 * New function `cur_data_all()` similar to `cur_data()` but includes the grouping variables (#5342). 
