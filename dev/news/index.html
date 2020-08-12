@@ -214,6 +214,7 @@
 <a href="#dplyr-development-version" class="anchor"></a>dplyr (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>Fixed <code><a href="../reference/across.html">across()</a></code> issue where data frame columns would mask objects referred to from <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/5460'>#5460</a>).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_cols()</a></code> gains a <code>.name_repair</code> argument, passed to <code><a href="https://vctrs.r-lib.org/reference/vec_bind.html">vctrs::vec_cbind()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/5451'>#5451</a>)</p></li>
 <li><p><code><a href="../reference/summarise.html">summarise(.groups = "rowwise")</a></code> makes a rowwise data frame even if the input data is not grouped (<a href='https://github.com/tidyverse/dplyr/issues/5422'>#5422</a>).</p></li>
 </ul>
