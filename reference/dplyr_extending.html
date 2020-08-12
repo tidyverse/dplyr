@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -105,7 +109,7 @@ implement them will find a home in what comes next." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
         </div>
       </div>
     </div>
@@ -158,6 +162,9 @@ implement them will find a home in what comes next." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -214,7 +221,7 @@ implement them will find a home in what comes next." />
 
     <div class="ref-description">
     <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
-<p>These three functions, along with <code>names&lt;-</code> and 1d numeric <code>[</code>
+<p>These three functions, along with <code>names&lt;-</code> and 1d numeric <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>
 (i.e. <code>x[loc]</code>) methods, provide a minimal interface for extending dplyr
 to work with new data frame subclasses. This means that for simple cases
 you should only need to provide a couple of methods, rather than a method
@@ -224,11 +231,11 @@ the problem more generally, but it's likely that any code you write to
 implement them will find a home in what comes next.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dplyr_row_slice</span>(<span class='no'>data</span>, <span class='no'>i</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>dplyr_row_slice</span>(<span class='kw'>data</span>, <span class='kw'>i</span>, <span class='kw'>...</span>)
 
-<span class='fu'>dplyr_col_modify</span>(<span class='no'>data</span>, <span class='no'>cols</span>)
+<span class='fu'>dplyr_col_modify</span>(<span class='kw'>data</span>, <span class='kw'>cols</span>)
 
-<span class='fu'>dplyr_reconstruct</span>(<span class='no'>data</span>, <span class='no'>template</span>)</pre>
+<span class='fu'>dplyr_reconstruct</span>(<span class='kw'>data</span>, <span class='kw'>template</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -264,7 +271,7 @@ in basically the same way.</p><ul>
 <code>dplyr_reconstruct()</code> method. Your method should recompute the attribute
 depending on rows now present.</p></li>
 <li><p>If you have <strong>scalar</strong> attributes that depend on <strong>columns</strong>, implement a
-<code>dplyr_reconstruct()</code> method and a 1d <code>[</code> method. For example, if your
+<code>dplyr_reconstruct()</code> method and a 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> method. For example, if your
 class requires that certain columns be present, your method should return
 a data.frame or tibble when those columns are removed.</p></li>
 <li><p>If your attributes are <strong>vectorised</strong> over <strong>rows</strong>, implement a
@@ -274,7 +281,7 @@ about how to recompute the attribute in <code>dplyr_reconstruct()</code>, and
 you will need to carefully verify the behaviour of each verb, and provide
 additional methods as needed.</p></li>
 <li><p>If your attributes that are <strong>vectorised</strong> over <strong>columns</strong>, implement
-<code>dplyr_col_modify()</code>, 1d <code>[</code>, and <code>names&lt;-</code> methods. All of these methods
+<code>dplyr_col_modify()</code>, 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>, and <code>names&lt;-</code> methods. All of these methods
 know which columns are being modified, so you can update the column
 attribute according. You'll also need to think carefully about how to
 recompute the attribute in <code>dplyr_reconstruct()</code>, and you will need to
@@ -291,18 +298,18 @@ work by generating a vector of row indices, and then subsetting
 with <code>dplyr_row_slice()</code>.</p></li>
 <li><p><code><a href='mutate.html'>mutate()</a></code> generates a list of new column value (using <code>NULL</code> to indicate
 when columns should be deleted), then passes that to <code>dplyr_col_modify()</code>.
-<code><a href='mutate.html'>transmute()</a></code> does the same then uses 1d <code>[</code> to select the columns.</p></li>
+<code><a href='mutate.html'>transmute()</a></code> does the same then uses 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> to select the columns.</p></li>
 <li><p><code><a href='summarise.html'>summarise()</a></code> works similarly to <code><a href='mutate.html'>mutate()</a></code> but the data modified by
 <code>dplyr_col_modify()</code> comes from <code><a href='group_data.html'>group_data()</a></code>.</p></li>
-<li><p><code><a href='select.html'>select()</a></code> uses 1d <code>[</code> to select columns, then <code>names&lt;-</code> to rename them.
-<code><a href='rename.html'>rename()</a></code> just uses <code>names&lt;-</code>. <code><a href='relocate.html'>relocate()</a></code> just uses 1d <code>[</code>.</p></li>
+<li><p><code><a href='select.html'>select()</a></code> uses 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> to select columns, then <code>names&lt;-</code> to rename them.
+<code><a href='rename.html'>rename()</a></code> just uses <code>names&lt;-</code>. <code><a href='relocate.html'>relocate()</a></code> just uses 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>.</p></li>
 <li><p><code><a href='mutate-joins.html'>inner_join()</a></code>, <code><a href='mutate-joins.html'>left_join()</a></code>, <code><a href='mutate-joins.html'>right_join()</a></code>, and <code><a href='mutate-joins.html'>full_join()</a></code>
 coerces <code>x</code> to a tibble, modify the rows, then uses <code>dplyr_reconstruct()</code>
 to convert back to the same type as <code>x</code>.</p></li>
 <li><p><code><a href='nest_join.html'>nest_join()</a></code> uses <code>dplyr_col_modify()</code> to cast the key variables to
 common type and add the nested-df that <code>y</code> becomes.</p></li>
 <li><p><code><a href='distinct.html'>distinct()</a></code> does a <code><a href='mutate.html'>mutate()</a></code> if any expressions are present, then
-uses 1d <code>[</code> to select variables to keep, then <code>dplyr_row_slice()</code> to
+uses 1d <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> to select variables to keep, then <code>dplyr_row_slice()</code> to
 select distinct rows.</p></li>
 </ul>
 
@@ -325,7 +332,8 @@ you'll need to provide methods directly.</p>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
+             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

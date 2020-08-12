@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -108,7 +112,7 @@ below to see their documentation.
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
         </div>
       </div>
     </div>
@@ -161,6 +165,9 @@ below to see their documentation.
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -223,7 +230,7 @@ below to see their documentation.</p>
 
   <dt>magrittr</dt><dd><p><code>%&gt;%</code></p></dd>
 
-  <dt>tibble</dt><dd><p><code><a href='https://tibble.tidyverse.org/reference/add_row.html'>add_row</a></code>, <code><a href='https://tibble.tidyverse.org/reference/deprecated.html'>as_data_frame</a></code>, <code><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></code>, <code><a href='https://tibble.tidyverse.org/reference/deprecated.html'>data_frame</a></code>, <code><a href='https://tibble.tidyverse.org/reference/deprecated.html'>data_frame_</a></code>, <code><a href='https://tibble.tidyverse.org/reference/deprecated.html'>frame_data</a></code>, <code><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></code>, <code><a href='https://tibble.tidyverse.org/reference/lst.html'>lst</a></code>, <code><a href='https://tibble.tidyverse.org/reference/deprecated.html'>lst_</a></code>, <code><a href='https://tibble.tidyverse.org/reference/tbl_sum.html'>tbl_sum</a></code>, <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>, <code><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></code>, <code><a href='https://tibble.tidyverse.org/reference/formatting.html'>trunc_mat</a></code>, <code><a href='https://tibble.tidyverse.org/reference/reexports.html'>type_sum</a></code>, <code><a href='https://tibble.tidyverse.org/reference/view.html'>view</a></code></p></dd>
+  <dt>tibble</dt><dd><p><code><a href='https://tibble.tidyverse.org/reference/add_row.html'>add_row</a></code>, <code><a href='https://tibble.tidyverse.org/reference/deprecated.html'>as_data_frame</a></code>, <code><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></code>, <code><a href='https://tibble.tidyverse.org/reference/deprecated.html'>data_frame</a></code>, <code><a href='https://tibble.tidyverse.org/reference/deprecated.html'>data_frame_</a></code>, <code><a href='https://tibble.tidyverse.org/reference/deprecated.html'>frame_data</a></code>, <code><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></code>, <code><a href='https://tibble.tidyverse.org/reference/lst.html'>lst</a></code>, <code><a href='https://tibble.tidyverse.org/reference/deprecated.html'>lst_</a></code>, <code><a href='https://tibble.tidyverse.org/reference/tbl_sum.html'>tbl_sum</a></code>, <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>, <code><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></code>, <code><a href='https://tibble.tidyverse.org/reference/formatting.html'>trunc_mat</a></code>, <code>type_sum</code>, <code><a href='https://tibble.tidyverse.org/reference/view.html'>view</a></code></p></dd>
 
   <dt>tidyselect</dt><dd><p><code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>all_of</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>any_of</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/everything.html'>last_col</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>matches</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>num_range</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/one_of.html'>one_of</a></code>, <code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></code></p></dd>
 
@@ -249,7 +256,8 @@ below to see their documentation.</p>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
+             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

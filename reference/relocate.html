@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -98,7 +102,7 @@ select() to make it easy to move blocks of columns at once." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
         </div>
       </div>
     </div>
@@ -151,6 +155,9 @@ select() to make it easy to move blocks of columns at once." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -210,7 +217,7 @@ select() to make it easy to move blocks of columns at once." />
 <code><a href='select.html'>select()</a></code> to make it easy to move blocks of columns at once.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>relocate</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.before</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>relocate</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .before = <span class='kw'>NULL</span>, .after = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -255,39 +262,39 @@ dplyr (<code>data.frame</code>)
 .</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>d</span> <span class='kw'>=</span> <span class='st'>"a"</span>, <span class='kw'>e</span> <span class='kw'>=</span> <span class='st'>"a"</span>, <span class='kw'>f</span> <span class='kw'>=</span> <span class='st'>"a"</span>)
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='no'>f</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
+    <pre class="examples"><div class='input'><span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>1</span>, b = <span class='fl'>1</span>, c = <span class='fl'>1</span>, d = <span class='st'>"a"</span>, e = <span class='st'>"a"</span>, f = <span class='st'>"a"</span>)
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='kw'>f</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
 #&gt;   f         a     b     c d     e    
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> a         1     1     1 a     a    </div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='no'>a</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='no'>c</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> a         1     1     1 a     a    </div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='kw'>a</span>, .after = <span class='kw'>c</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
 #&gt;       b     c     a d     e     f    
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1     1     1 a     a     a    </div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='no'>f</span>, <span class='kw'>.before</span> <span class='kw'>=</span> <span class='no'>b</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     1     1 a     a     a    </div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='kw'>f</span>, .before = <span class='kw'>b</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
 #&gt;       a f         b     c d     e    
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1 a         1     1 a     a    </div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='no'>a</span>, <span class='kw'>.after</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>last_col</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1 a         1     1 a     a    </div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='kw'>a</span>, .after = <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>last_col</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
 #&gt;       b     c d     e     f         a
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1     1 a     a     a         1</div><div class='input'>
 <span class='co'># Can also select variables based on their type</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='fu'>where</span>(<span class='no'>is.character</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='fu'>where</span>(<span class='kw'>is.character</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
 #&gt;   d     e     f         a     b     c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> a     a     a         1     1     1</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='fu'>where</span>(<span class='no'>is.numeric</span>), <span class='kw'>.after</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>last_col</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> a     a     a         1     1     1</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='fu'>where</span>(<span class='kw'>is.numeric</span>), .after = <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>last_col</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
 #&gt;   d     e     f         a     b     c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> a     a     a         1     1     1</div><div class='input'><span class='co'># Or with any other select helper</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/all_of.html'>any_of</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"e"</span>, <span class='st'>"i"</span>, <span class='st'>"o"</span>, <span class='st'>"u"</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/all_of.html'>any_of</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"e"</span>, <span class='st'>"i"</span>, <span class='st'>"o"</span>, <span class='st'>"u"</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
 #&gt;       a e         b     c d     f    
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1 a         1     1 a     a    </div><div class='input'>
 <span class='co'># When .before or .after refers to multiple variables they will be</span>
 <span class='co'># moved to be immediately before/after the selected variables.</span>
-<span class='no'>df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"a"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>d</span> <span class='kw'>=</span> <span class='st'>"a"</span>)
-<span class='no'>df2</span> <span class='kw'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='fu'>where</span>(<span class='no'>is.numeric</span>), <span class='kw'>.after</span> <span class='kw'>=</span> <span class='fu'>where</span>(<span class='no'>is.character</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 4</span><span>
+<span class='kw'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>1</span>, b = <span class='st'>"a"</span>, c = <span class='fl'>1</span>, d = <span class='st'>"a"</span>)
+<span class='kw'>df2</span> <span class='op'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='fu'>where</span>(<span class='kw'>is.numeric</span>), .after = <span class='fu'>where</span>(<span class='kw'>is.character</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 4</span><span>
 #&gt;   b     d         a     c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> a     a         1     1</div><div class='input'><span class='no'>df2</span> <span class='kw'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='fu'>where</span>(<span class='no'>is.numeric</span>), <span class='kw'>.before</span> <span class='kw'>=</span> <span class='fu'>where</span>(<span class='no'>is.character</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 4</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> a     a         1     1</div><div class='input'><span class='kw'>df2</span> <span class='op'>%&gt;%</span> <span class='fu'>relocate</span>(<span class='fu'>where</span>(<span class='kw'>is.numeric</span>), .before = <span class='fu'>where</span>(<span class='kw'>is.character</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 4</span><span>
 #&gt;       a     c b     d    
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1     1 a     a    </div></span></pre>
@@ -307,7 +314,8 @@ dplyr (<code>data.frame</code>)
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
+             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -113,7 +117,7 @@ exist in x.
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
         </div>
       </div>
     </div>
@@ -166,6 +170,9 @@ exist in x.
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -240,15 +247,15 @@ exist in <code>x</code>.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>rows_insert</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>in_place</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>rows_insert</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, <span class='kw'>...</span>, copy = <span class='fl'>FALSE</span>, in_place = <span class='fl'>FALSE</span>)
 
-<span class='fu'>rows_update</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>in_place</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>rows_update</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, <span class='kw'>...</span>, copy = <span class='fl'>FALSE</span>, in_place = <span class='fl'>FALSE</span>)
 
-<span class='fu'>rows_patch</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>in_place</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>rows_patch</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, <span class='kw'>...</span>, copy = <span class='fl'>FALSE</span>, in_place = <span class='fl'>FALSE</span>)
 
-<span class='fu'>rows_upsert</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>in_place</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>rows_upsert</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, <span class='kw'>...</span>, copy = <span class='fl'>FALSE</span>, in_place = <span class='fl'>FALSE</span>)
 
-<span class='fu'>rows_delete</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>in_place</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>rows_delete</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, <span class='kw'>...</span>, copy = <span class='fl'>FALSE</span>, in_place = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -302,40 +309,40 @@ a subset of the rows.</p></li>
 <p>If <code>in_place = TRUE</code>, the result will be returned invisibly.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>2</span>, <span class='fl'>NA</span>)], <span class='kw'>c</span> <span class='kw'>=</span> <span class='fl'>0.5</span> + <span class='fl'>0</span>:<span class='fl'>2</span>)
-<span class='no'>data</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
+    <pre class="examples"><div class='input'><span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, b = <span class='kw'>letters</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>NA</span>)], c = <span class='fl'>0.5</span> <span class='op'>+</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>2</span>)
+<span class='kw'>data</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;       a b         c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1 a       0.5
 #&gt; </span><span style='color: #555555;'>2</span><span>     2 b       1.5
 #&gt; </span><span style='color: #555555;'>3</span><span>     3 </span><span style='color: #BB0000;'>NA</span><span>      2.5</div><div class='input'>
 <span class='co'># Insert</span>
-<span class='fu'>rows_insert</span>(<span class='no'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+<span class='fu'>rows_insert</span>(<span class='kw'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>4</span>, b = <span class='st'>"z"</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;       a b         c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1 a       0.5
 #&gt; </span><span style='color: #555555;'>2</span><span>     2 b       1.5
 #&gt; </span><span style='color: #555555;'>3</span><span>     3 </span><span style='color: #BB0000;'>NA</span><span>      2.5
-#&gt; </span><span style='color: #555555;'>4</span><span>     4 z      </span><span style='color: #BB0000;'>NA</span><span>  </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>rows_insert</span>(<span class='no'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>)))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; Error : Attempting to insert duplicate rows.</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>4</span><span>     4 z      </span><span style='color: #BB0000;'>NA</span><span>  </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>rows_insert</span>(<span class='kw'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>3</span>, b = <span class='st'>"z"</span>)))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; Error : Attempting to insert duplicate rows.</div><div class='input'>
 <span class='co'># Update</span>
-<span class='fu'>rows_update</span>(<span class='no'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>2</span>:<span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+<span class='fu'>rows_update</span>(<span class='kw'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span>, b = <span class='st'>"z"</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;       a b         c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1 a       0.5
 #&gt; </span><span style='color: #555555;'>2</span><span>     2 z       1.5
-#&gt; </span><span style='color: #555555;'>3</span><span>     3 z       2.5</div><div class='input'><span class='fu'>rows_update</span>(<span class='no'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>2</span>:<span class='fl'>3</span>), <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"a"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     3 z       2.5</div><div class='input'><span class='fu'>rows_update</span>(<span class='kw'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(b = <span class='st'>"z"</span>, a = <span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span>), by = <span class='st'>"a"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;       a b         c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1 a       0.5
 #&gt; </span><span style='color: #555555;'>2</span><span>     2 z       1.5
 #&gt; </span><span style='color: #555555;'>3</span><span>     3 z       2.5</div><div class='input'>
 <span class='co'># Variants: patch and upsert</span>
-<span class='fu'>rows_patch</span>(<span class='no'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>2</span>:<span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+<span class='fu'>rows_patch</span>(<span class='kw'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span>, b = <span class='st'>"z"</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;       a b         c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1 a       0.5
 #&gt; </span><span style='color: #555555;'>2</span><span>     2 b       1.5
-#&gt; </span><span style='color: #555555;'>3</span><span>     3 z       2.5</div><div class='input'><span class='fu'>rows_upsert</span>(<span class='no'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>2</span>:<span class='fl'>4</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     3 z       2.5</div><div class='input'><span class='fu'>rows_upsert</span>(<span class='kw'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>2</span><span class='op'>:</span><span class='fl'>4</span>, b = <span class='st'>"z"</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;       a b         c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     1 a       0.5
@@ -343,13 +350,13 @@ a subset of the rows.</p></li>
 #&gt; </span><span style='color: #555555;'>3</span><span>     3 z       2.5
 #&gt; </span><span style='color: #555555;'>4</span><span>     4 z      </span><span style='color: #BB0000;'>NA</span><span>  </div><div class='input'>
 <span class='co'># Delete and truncate</span>
-<span class='fu'>rows_delete</span>(<span class='no'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>2</span>:<span class='fl'>3</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'>rows_delete</span>(<span class='kw'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       a b         c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1 a       0.5</div><div class='input'><span class='fu'>rows_delete</span>(<span class='no'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>2</span>:<span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"b"</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; <span class='message'>Ignoring extra columns: b</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1 a       0.5</div><div class='input'><span class='fu'>rows_delete</span>(<span class='kw'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span>, b = <span class='st'>"b"</span>))</div><div class='output co'>#&gt; <span class='message'>Matching, by = "a"</span></div><div class='output co'>#&gt; <span class='message'>Ignoring extra columns: b</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       a b         c
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1 a       0.5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>rows_delete</span>(<span class='no'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>2</span>:<span class='fl'>3</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"b"</span>), <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)))</div><div class='output co'>#&gt; Error : Attempting to delete missing rows.</div></span></pre>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1 a       0.5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>rows_delete</span>(<span class='kw'>data</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(a = <span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span>, b = <span class='st'>"b"</span>), by = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)))</div><div class='output co'>#&gt; Error : Attempting to delete missing rows.</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -366,7 +373,8 @@ a subset of the rows.</p></li>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
+             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

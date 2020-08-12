@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -100,7 +104,7 @@ tidyselect::vars_pull()." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
         </div>
       </div>
     </div>
@@ -153,6 +157,9 @@ tidyselect::vars_pull()." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -214,13 +221,13 @@ tidyselect::vars_pull()." />
 <code><a href='https://tidyselect.r-lib.org/reference/vars_pull.html'>tidyselect::vars_pull()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select_vars</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='no'>...</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>chr</span>())
+    <pre class="usage"><span class='fu'>select_vars</span>(vars = <span class='fu'>chr</span>(), <span class='kw'>...</span>, include = <span class='fu'>chr</span>(), exclude = <span class='fu'>chr</span>())
 
-<span class='fu'>rename_vars</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='no'>...</span>, <span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>rename_vars</span>(vars = <span class='fu'>chr</span>(), <span class='kw'>...</span>, strict = <span class='fl'>TRUE</span>)
 
-<span class='fu'>select_var</span>(<span class='no'>vars</span>, <span class='kw'>var</span> <span class='kw'>=</span> -<span class='fl'>1</span>)
+<span class='fu'>select_var</span>(<span class='kw'>vars</span>, var = <span class='op'>-</span><span class='fl'>1</span>)
 
-<span class='fu'>current_vars</span>(<span class='no'>...</span>)</pre>
+<span class='fu'>current_vars</span>(<span class='kw'>...</span>)</pre>
 
 
 
@@ -240,7 +247,8 @@ tidyselect::vars_pull()." />
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
+             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -99,7 +103,7 @@ be used to iterate on grouped tibbles." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
         </div>
       </div>
     </div>
@@ -152,6 +156,9 @@ be used to iterate on grouped tibbles." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -212,11 +219,11 @@ be used to iterate on grouped tibbles." />
 be used to iterate on grouped tibbles.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_map</span>(<span class='no'>.data</span>, <span class='no'>.f</span>, <span class='no'>...</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>group_map</span>(<span class='kw'>.data</span>, <span class='kw'>.f</span>, <span class='kw'>...</span>, .keep = <span class='fl'>FALSE</span>)
 
-<span class='fu'>group_modify</span>(<span class='no'>.data</span>, <span class='no'>.f</span>, <span class='no'>...</span>, <span class='kw'>.keep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>group_modify</span>(<span class='kw'>.data</span>, <span class='kw'>.f</span>, <span class='kw'>...</span>, .keep = <span class='fl'>FALSE</span>)
 
-<span class='fu'>group_walk</span>(<span class='no'>.data</span>, <span class='no'>.f</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>group_walk</span>(<span class='kw'>.data</span>, <span class='kw'>.f</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -252,8 +259,8 @@ that identifies the group</p></li>
     
 <ul>
 <li><p><code>group_modify()</code> returns a grouped tibble. In that case <code>.f</code> must return a data frame.</p></li>
-<li><p><code>group_map()</code> returns a list of results from calling <code>.f</code> on each group</p></li>
-<li><p><code>group_walk()</code> calls <code>.f</code> for side effects and returns the input <code>.tbl</code>, invisibly</p></li>
+<li><p><code>group_map()</code> returns a list of results from calling <code>.f</code> on each group.</p></li>
+<li><p><code>group_walk()</code> calls <code>.f</code> for side effects and returns the input <code>.tbl</code>, invisibly.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -282,9 +289,9 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># return a list</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_map</span>(~ <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>.x</span>, <span class='fl'>2L</span>))</div><div class='output co'>#&gt; [[1]]
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>group_map</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>.x</span>, <span class='fl'>2L</span>))</div><div class='output co'>#&gt; [[1]]
 #&gt; <span style='color: #555555;'># A tibble: 2 x 10</span><span>
 #&gt;     mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -307,9 +314,9 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 #&gt; </div><div class='input'>
 <span class='co'># return a tibble grouped by `cyl` with 2 rows per group</span>
 <span class='co'># the grouping data is recalculated</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_modify</span>(~ <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>.x</span>, <span class='fl'>2L</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>group_modify</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>.x</span>, <span class='fl'>2L</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -319,16 +326,16 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 #&gt; </span><span style='color: #555555;'>4</span><span>     6  21    160    110  3.9   2.88  17.0     0     1     4     4
 #&gt; </span><span style='color: #555555;'>5</span><span>     8  18.7  360    175  3.15  3.44  17.0     0     0     3     2
 #&gt; </span><span style='color: #555555;'>6</span><span>     8  14.3  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"broom"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"broom"</span>, quietly = <span class='fl'>TRUE</span>)) {
   <span class='co'># a list of tibbles</span>
-  <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'>group_map</span>(~ <span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>tidy</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>Petal.Length</span> ~ <span class='no'>Sepal.Length</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.x</span>)))
+  <span class='kw'>iris</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
+    <span class='fu'>group_map</span>(<span class='op'>~</span> <span class='kw'>broom</span>::<span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>Petal.Length</span> <span class='op'>~</span> <span class='kw'>Sepal.Length</span>, data = <span class='kw'>.x</span>)))
 
   <span class='co'># a restructured grouped tibble</span>
-  <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'>group_modify</span>(~ <span class='kw pkg'>broom</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/broom/man/reexports.html'>tidy</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>Petal.Length</span> ~ <span class='no'>Sepal.Length</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.x</span>)))
+  <span class='kw'>iris</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
+    <span class='fu'>group_modify</span>(<span class='op'>~</span> <span class='kw'>broom</span>::<span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>Petal.Length</span> <span class='op'>~</span> <span class='kw'>Sepal.Length</span>, data = <span class='kw'>.x</span>)))
 }</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;   Species    term         estimate std.error statistic  p.value
@@ -340,9 +347,9 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 #&gt; </span><span style='color: #555555;'>5</span><span> virginica  (Intercept)     0.610    0.417      1.46  1.50</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
 #&gt; </span><span style='color: #555555;'>6</span><span> virginica  Sepal.Length    0.750    0.063</span><span style='text-decoration: underline;'>0</span><span>    11.9   6.30</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-16</span><span></div><div class='input'>
 <span class='co'># a list of vectors</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_map</span>(~ <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>.x</span>$<span class='no'>Petal.Length</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>)))</div><div class='output co'>#&gt; [[1]]
+<span class='kw'>iris</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>group_map</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='kw'>.x</span><span class='op'>$</span><span class='kw'>Petal.Length</span>, probs = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>)))</div><div class='output co'>#&gt; [[1]]
 #&gt;   25%   50%   75% 
 #&gt; 1.400 1.500 1.575 
 #&gt; 
@@ -355,11 +362,11 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 #&gt; 5.100 5.550 5.875 
 #&gt; </div><div class='input'>
 <span class='co'># to use group_modify() the lambda must return a data frame</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_modify</span>(~ {
-     <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>.x</span>$<span class='no'>Petal.Length</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>)) <span class='kw'>%&gt;%</span>
-     <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/enframe.html'>enframe</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"prob"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"quantile"</span>)
+<span class='kw'>iris</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>group_modify</span>(<span class='op'>~</span> {
+     <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='kw'>.x</span><span class='op'>$</span><span class='kw'>Petal.Length</span>, probs = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>)) <span class='op'>%&gt;%</span>
+     <span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/enframe.html'>enframe</a></span>(name = <span class='st'>"prob"</span>, value = <span class='st'>"quantile"</span>)
   })</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 3</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;   Species    prob  quantile
@@ -373,12 +380,12 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 #&gt; </span><span style='color: #555555;'>7</span><span> virginica  25%       5.1 
 #&gt; </span><span style='color: #555555;'>8</span><span> virginica  50%       5.55
 #&gt; </span><span style='color: #555555;'>9</span><span> virginica  75%       5.88</div><div class='input'>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_modify</span>(~ {
-    <span class='no'>.x</span> <span class='kw'>%&gt;%</span>
-      <span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dfc</a></span>(<span class='no'>fivenum</span>) <span class='kw'>%&gt;%</span>
-      <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>nms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"min"</span>, <span class='st'>"Q1"</span>, <span class='st'>"median"</span>, <span class='st'>"Q3"</span>, <span class='st'>"max"</span>))
+<span class='kw'>iris</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>group_modify</span>(<span class='op'>~</span> {
+    <span class='kw'>.x</span> <span class='op'>%&gt;%</span>
+      <span class='kw'>purrr</span>::<span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dfc</a></span>(<span class='kw'>fivenum</span>) <span class='op'>%&gt;%</span>
+      <span class='fu'><a href='mutate.html'>mutate</a></span>(nms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"min"</span>, <span class='st'>"Q1"</span>, <span class='st'>"median"</span>, <span class='st'>"Q3"</span>, <span class='st'>"max"</span>))
   })</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 6</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;    Species    Sepal.Length Sepal.Width Petal.Length Petal.Width nms   
@@ -399,18 +406,17 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 #&gt; </span><span style='color: #555555;'>14</span><span> virginica           6.9         3.2         5.9          2.3 Q3    
 #&gt; </span><span style='color: #555555;'>15</span><span> virginica           7.9         3.8         6.9          2.5 max   </div><div class='input'>
 <span class='co'># group_walk() is for side effects</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='no'>temp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_walk</span>(~ <span class='fu'><a href='https://rdrr.io/r/utils/write.table.html'>write.csv</a></span>(<span class='no'>.x</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>temp</span>, <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>.y</span>$<span class='no'>Species</span>, <span class='st'>".csv"</span>))))
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='no'>temp</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"csv$"</span>)</div><div class='output co'>#&gt; [1] "setosa.csv"     "versicolor.csv" "virginica.csv" </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='no'>temp</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='kw'>temp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
+<span class='kw'>iris</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>group_walk</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/write.table.html'>write.csv</a></span>(<span class='kw'>.x</span>, file = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>temp</span>, <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='kw'>.y</span><span class='op'>$</span><span class='kw'>Species</span>, <span class='st'>".csv"</span>))))
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>temp</span>, pattern = <span class='st'>"csv$"</span>)</div><div class='output co'>#&gt; [1] "setosa.csv"     "versicolor.csv" "virginica.csv" </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='kw'>temp</span>, recursive = <span class='fl'>TRUE</span>)
 
 <span class='co'># group_modify() and ungrouped data frames</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_modify</span>(~ <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>.x</span>, <span class='fl'>2L</span>))</div><div class='output co'>#&gt;               mpg cyl disp  hp drat    wt  qsec vs am gear carb
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_modify</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>.x</span>, <span class='fl'>2L</span>))</div><div class='output co'>#&gt;               mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</div><div class='input'>
-</div></span></pre>
+#&gt; Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -427,7 +433,8 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
+             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

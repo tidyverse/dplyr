@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
@@ -57,7 +61,7 @@ the argument supports tidy selections. Tidy selection provides a concise
 dialect of R for selecting variables based on their names or properties.
 Tidy selection is a variant of tidy evaluation. This means that inside
 functions, tidy-select arguments require special attention, as described in
-the Indirection section. If you've never head of tidy evaluation before,
+the Indirection section. If you've never heard of tidy evaluation before,
 start with vignette(&quot;programming&quot;)." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -103,7 +107,7 @@ start with vignette(&quot;programming&quot;)." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
         </div>
       </div>
     </div>
@@ -156,6 +160,9 @@ start with vignette(&quot;programming&quot;)." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Releases</li>
+    <li>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
     </li>
@@ -216,7 +223,7 @@ the argument supports <strong>tidy selections</strong>. Tidy selection provides 
 dialect of R for selecting variables based on their names or properties.</p>
 <p>Tidy selection is a variant of tidy evaluation. This means that inside
 functions, tidy-select arguments require special attention, as described in
-the Indirection section. If you've never head of tidy evaluation before,
+the Indirection section. If you've never heard of tidy evaluation before,
 start with <code><a href='../articles/programming.html'>vignette("programming")</a></code>.</p>
     </div>
 
@@ -226,9 +233,9 @@ start with <code><a href='../articles/programming.html'>vignette("programming")<
 
     <p>Tidyverse selections implement a dialect of R where operators make
 it easy to select variables:</p><ul>
-<li><p><code>:</code> for selecting a range of consecutive variables.</p></li>
-<li><p><code>!</code> for taking the complement of a set of variables.</p></li>
-<li><p><code>&amp;</code> and <code>|</code> for selecting the intersection or the union of two
+<li><p><code><a href='https://rdrr.io/r/base/Colon.html'>:</a></code> for selecting a range of consecutive variables.</p></li>
+<li><p><code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code> for taking the complement of a set of variables.</p></li>
+<li><p><code>&amp;</code> and <code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code> for selecting the intersection or the union of two
 sets of variables.</p></li>
 <li><p><code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> for combining selections.</p></li>
 </ul>
@@ -266,7 +273,7 @@ for which the function returns <code>TRUE</code>.</p></li>
 <li><p>If you have a character vector of column names, use <code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>all_of()</a></code>
 or <code><a href='https://tidyselect.r-lib.org/reference/all_of.html'>any_of()</a></code>, depending on whether or not you want unknown variable
 names to cause an error, e.g <code><a href='select.html'>select(df, all_of(vars))</a></code>,
-<code><a href='select.html'>select(df, -any_of(vars))</a></code>.</p></li>
+<code><a href='select.html'>select(df, !any_of(vars))</a></code>.</p></li>
 <li><p>If you you want the user to supply a tidyselect specification in a
 function argument, embrace the function argument, e.g
 <code><a href='select.html'>select(df, {{ vars }})</a></code>.</p></li>
@@ -289,7 +296,8 @@ function argument, embrace the function argument, e.g
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
+             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
