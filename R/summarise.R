@@ -126,7 +126,11 @@ summarize <- summarise
 #' @export
 summarise.data.frame <- function(.data, ..., .groups = NULL) {
   cols <- summarise_cols(.data, ...)
-  summarise_build(.data, cols)
+  out <- summarise_build(.data, cols)
+  if (identical(.groups, "rowwise")) {
+    out <- rowwise_df(out, character())
+  }
+  out
 }
 
 #' @export
