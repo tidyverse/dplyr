@@ -100,7 +100,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9003</span>
         </div>
       </div>
     </div>
@@ -382,7 +382,7 @@
 <li><p><code><a href="../reference/location.html">location()</a></code> and <code><a href="../reference/location.html">changes()</a></code>: please use <code><a href="https://rdrr.io/pkg/lobstr/man/ref.html">lobstr::ref()</a></code> instead.</p></li>
 <li><p><code><a href="../reference/progress_estimated.html">progress_estimated()</a></code> is soft deprecated; it’s not the responsibility of dplyr to provide progress bars (<a href='https://github.com/tidyverse/dplyr/issues/4935'>#4935</a>).</p></li>
 <li><p><code><a href="../reference/src_local.html">src_local()</a></code> has been deprecated; it was part of an approach to testing dplyr backends that didn’t pan out.</p></li>
-<li><p><code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code> has been deprecated. We’ve recommended against them for some time. Instead please use the approach described at <a href="http://dbplyr.tidyverse.org/" class="uri">http://dbplyr.tidyverse.org/</a>.</p></li>
+<li><p><code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code> has been deprecated. We’ve recommended against them for some time. Instead please use the approach described at <a href="https://dbplyr.tidyverse.org/" class="uri">https://dbplyr.tidyverse.org/</a>.</p></li>
 <li><p><code><a href="../reference/select_vars.html">select_vars()</a></code>, <code><a href="../reference/select_vars.html">rename_vars()</a></code>, <code><a href="../reference/select_vars.html">select_var()</a></code>, <code><a href="../reference/select_vars.html">current_vars()</a></code> are now deprecated (<a href='https://github.com/perezp44'>@perezp44</a>, <a href='https://github.com/tidyverse/dplyr/issues/4432'>#4432</a>)</p></li>
 </ul>
 </div>
@@ -999,7 +999,7 @@ select(mtcars, -(!! vars))</code></pre>
 <a href="#databases" class="anchor"></a>Databases</h2>
 <p>This version of dplyr includes some major changes to how database connections work. By and large, you should be able to continue using your existing dplyr database code without modification, but there are two big changes that you should be aware of:</p>
 <ul>
-<li><p>Almost all database related code has been moved out of dplyr and into a new package, <a href="http://github.com/hadley/dbplyr/">dbplyr</a>. This makes dplyr simpler, and will make it easier to release fixes for bugs that only affect databases. <code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code> will still live dplyr so your existing code continues to work.</p></li>
+<li><p>Almost all database related code has been moved out of dplyr and into a new package, <a href="https://github.com/tidyverse/dbplyr/">dbplyr</a>. This makes dplyr simpler, and will make it easier to release fixes for bugs that only affect databases. <code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code> will still live dplyr so your existing code continues to work.</p></li>
 <li><p>It is no longer necessary to create a remote “src”. Instead you can work directly with the database connection returned by DBI. This reflects the maturity of the DBI ecosystem. Thanks largely to the work of Kirill Muller (funded by the R Consortium) DBI backends are now much more consistent, comprehensive, and easier to use. That means that there’s no longer a need for a layer in between you and DBI.</p></li>
 </ul>
 <p>You can continue to use <code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code>, but I recommend a new style that makes the connection to DBI more clear:</p>
@@ -1013,7 +1013,7 @@ select(mtcars, -(!! vars))</code></pre>
 <span class="kw">mtcars2</span>
 </pre></div>
 <p>This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with <code><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html">DBI::dbGetQuery()</a></code> and <code><a href="https://dbi.r-dbi.org/reference/dbExecute.html">DBI::dbExecute()</a></code>.</p>
-<p>If you’ve implemented a database backend for dplyr, please read the <a href="https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends">backend news</a> to see what’s changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see <code><a href="../reference/check_dbplyr.html">wrap_dbplyr_obj()</a></code> for helpers.</p>
+<p>If you’ve implemented a database backend for dplyr, please read the <a href="https://github.com/tidyverse/dbplyr/blob/master/NEWS.md#backends">backend news</a> to see what’s changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see <code><a href="../reference/check_dbplyr.html">wrap_dbplyr_obj()</a></code> for helpers.</p>
 </div>
 <div id="utf-8" class="section level2">
 <h2 class="hasAnchor">
@@ -1193,7 +1193,7 @@ starwars %&gt;%
 <li><p><code><a href="../reference/defunct.html">id()</a></code> has been deprecated. Please use <code><a href="../reference/group_data.html">group_indices()</a></code> instead (<a href='https://github.com/tidyverse/dplyr/issues/808'>#808</a>).</p></li>
 <li><p><code>rbind_all()</code> and <code>rbind_list()</code> are formally deprecated. Please use <code><a href="../reference/bind.html">bind_rows()</a></code> instead (<a href='https://github.com/tidyverse/dplyr/issues/803'>#803</a>).</p></li>
 <li><p>Outdated benchmarking demos have been removed (<a href='https://github.com/tidyverse/dplyr/issues/1487'>#1487</a>).</p></li>
-<li><p>Code related to starting and signalling clusters has been moved out to <a href="http://github.com/hadley/multidplyr">multidplyr</a>.</p></li>
+<li><p>Code related to starting and signalling clusters has been moved out to <a href="https://github.com/tidyverse/multidplyr">multidplyr</a>.</p></li>
 </ul>
 </div>
 </div>
@@ -1857,7 +1857,8 @@ starwars %&gt;%
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
+             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

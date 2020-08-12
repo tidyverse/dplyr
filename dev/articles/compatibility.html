@@ -54,7 +54,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9003</span>
         </div>
       </div>
     </div>
@@ -213,7 +213,7 @@
 <div id="database-code-moves-to-dbplyr" class="section level3">
 <h3 class="hasAnchor">
 <a href="#database-code-moves-to-dbplyr" class="anchor"></a>Database code moves to dbplyr</h3>
-<p>Almost all database related code has been moved out of dplyr and into a new package, <a href="http://github.com/hadley/dbplyr/">dbplyr</a>. This makes dplyr simpler, and will make it easier to release fixes for bugs that only affect databases. If you’ve implemented a database backend for dplyr, please read the <a href="https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends">backend news</a> on the backend.</p>
+<p>Almost all database related code has been moved out of dplyr and into a new package, <a href="https://github.com/tidyverse/dbplyr/">dbplyr</a>. This makes dplyr simpler, and will make it easier to release fixes for bugs that only affect databases. If you’ve implemented a database backend for dplyr, please read the <a href="https://github.com/tidyverse/dbplyr/blob/master/NEWS.md#backends">backend news</a> on the backend.</p>
 <p>Depending on what generics you use, and what generics you provide methods for you, you may need to write some conditional code. To help make this easier we’ve written <code><a href="../reference/check_dbplyr.html">wrap_dbplyr_obj()</a></code> which will write the helper code for you:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="../reference/check_dbplyr.html">wrap_dbplyr_obj</a></span>(<span class="st">"build_sql"</span>)
@@ -336,7 +336,7 @@
 <div id="for-package-authors" class="section level4">
 <h4 class="hasAnchor">
 <a href="#for-package-authors" class="anchor"></a>For package authors</h4>
-<p>For package authors, rlang provides a <a href="https://github.com/hadley/rlang/blob/master/R/compat-lazyeval.R">compatibility file</a> that you can copy to your package. <code>compat_lazy()</code> and <code>compat_lazy_dots()</code> turn lazy-able objects into proper quosures. This helps providing an underscored version to your users for backward compatibility. For instance, here is how we defined the underscored version of <code><a href="../reference/filter.html">filter()</a></code> in dplyr 0.6:</p>
+<p>For package authors, rlang provides a <a href="https://github.com/r-lib/rlang/blob/master/R/compat-lazyeval.R">compatibility file</a> that you can copy to your package. <code>compat_lazy()</code> and <code>compat_lazy_dots()</code> turn lazy-able objects into proper quosures. This helps providing an underscored version to your users for backward compatibility. For instance, here is how we defined the underscored version of <code><a href="../reference/filter.html">filter()</a></code> in dplyr 0.6:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="kw">filter_.tbl_df</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">.data</span>, <span class="kw">...</span>, <span class="kw">.dots</span> = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>()) {
   <span class="kw">dots</span> <span class="op">&lt;-</span> <span class="fu">compat_lazy_dots</span>(<span class="kw">.dots</span>, <span class="fu">caller_env</span>(), <span class="kw">...</span>)
@@ -406,7 +406,8 @@
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info">Kirill Müller</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel 
+             Henry, <a href="http://krlmlr.info">Kirill Müller</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

@@ -54,7 +54,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9001</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9003</span>
         </div>
       </div>
     </div>
@@ -259,7 +259,7 @@
 <span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1         66        264       15     1358              8            896</span>
 </pre></div>
-<p>Control how the names are created with the <code>.names</code> argument which takes a <a href="http://glue.tidyverse.org/">glue</a> spec:</p>
+<p>Control how the names are created with the <code>.names</code> argument which takes a <a href="https://glue.tidyverse.org/">glue</a> spec:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="kw">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">where</span>(<span class="kw">is.numeric</span>), <span class="kw">min_max</span>, .names = <span class="st">"{.fn}.{.col}"</span>))
 <span class="co">#&gt; # A tibble: 1 x 6</span>
@@ -529,7 +529,8 @@
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info">Kirill Müller</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel 
+             Henry, <a href="http://krlmlr.info">Kirill Müller</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
