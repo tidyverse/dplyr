@@ -47,7 +47,7 @@ alternative backends:
     datasets. Translates your dplyr code to high performance
     [data.table](http://r-datatable.com/) code.
 
-  - [dbplyr](http://dbplyr.tidyverse.org/): for data stored in a
+  - [dbplyr](https://dbplyr.tidyverse.org/): for data stored in a
     relational database. Translates your dplyr code to SQL.
 
   - [sparklyr](https://spark.rstudio.com): for very large datasets

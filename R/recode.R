@@ -10,7 +10,7 @@
 #' You can use `recode()` directly with factors; it will preserve the existing
 #' order of levels while changing the values. Alternatively, you can
 #' use `recode_factor()`, which will change the order of levels to match
-#' the order of replacements. See the [forcats](http://forcats.tidyverse.org/)
+#' the order of replacements. See the [forcats](https://forcats.tidyverse.org/)
 #' package for more tools for working with factors and their levels.
 #'
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}

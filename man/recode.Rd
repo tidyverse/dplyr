@@ -55,7 +55,7 @@ more complicated criteria, use \code{\link[=case_when]{case_when()}}.
 You can use \code{recode()} directly with factors; it will preserve the existing
 order of levels while changing the values. Alternatively, you can
 use \code{recode_factor()}, which will change the order of levels to match
-the order of replacements. See the \href{http://forcats.tidyverse.org/}{forcats}
+the order of replacements. See the \href{https://forcats.tidyverse.org/}{forcats}
 package for more tools for working with factors and their levels.
 
 \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}

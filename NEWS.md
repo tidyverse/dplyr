@@ -277,7 +277,7 @@
 
 * `src_mysql()`, `src_postgres()`, and `src_sqlite()` has been deprecated. 
   We've recommended against them for some time. Instead please use the approach 
-  described at <http://dbplyr.tidyverse.org/>.
+  described at <https://dbplyr.tidyverse.org/>.
 
 * `select_vars()`, `rename_vars()`, `select_var()`, `current_vars()` are now
   deprecated (@perezp44, #4432)
@@ -1032,7 +1032,7 @@
 This version of dplyr includes some major changes to how database connections work. By and large, you should be able to continue using your existing dplyr database code without modification, but there are two big changes that you should be aware of:
 
 * Almost all database related code has been moved out of dplyr and into a
-  new package, [dbplyr](http://github.com/hadley/dbplyr/). This makes dplyr
+  new package, [dbplyr](https://github.com/tidyverse/dbplyr/). This makes dplyr
   simpler, and will make it easier to release fixes for bugs that only affect
   databases. `src_mysql()`, `src_postgres()`, and `src_sqlite()` will still
   live dplyr so your existing code continues to work.
@@ -1058,7 +1058,7 @@ mtcars2
 
 This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with `DBI::dbGetQuery()` and `DBI::dbExecute()`.
 
-If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends) to see what's changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see `wrap_dbplyr_obj()` for helpers.
+If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/tidyverse/dbplyr/blob/master/NEWS.md#backends) to see what's changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see `wrap_dbplyr_obj()` for helpers.
 
 ## UTF-8
 
@@ -1397,7 +1397,7 @@ and so these functions have been deprecated (but remain around for backward comp
 * Outdated benchmarking demos have been removed (#1487).
 
 * Code related to starting and signalling clusters has been moved out to
-  [multidplyr](http://github.com/hadley/multidplyr).
+  [multidplyr](https://github.com/tidyverse/multidplyr).
 
 ## New functions
 

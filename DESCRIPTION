@@ -1,19 +1,20 @@
 Type: Package
 Package: dplyr
 Title: A Grammar of Data Manipulation
-Version: 1.0.1.9001
+Version: 1.0.1.9003
 Authors@R: 
     c(person(given = "Hadley",
              family = "Wickham",
              role = c("aut", "cre"),
-             email = "hadley@rstudio.com",
+             email = "romain@rstudio.com",
              comment = c(ORCID = "0000-0003-4757-117X")),
       person(given = "Romain",
              family = "François",
              role = "aut",
              comment = c(ORCID = "0000-0002-2444-4226")),
       person(given = "Lionel",
-             family = "Henry",
+             family = "
+             Henry",
              role = "aut"),
       person(given = "Kirill",
              family = "Müller",

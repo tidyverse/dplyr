@@ -45,7 +45,7 @@ In addition to data frames/tibbles, dplyr makes working with other computational
   Translates your dplyr code to high performance 
   [data.table](http://r-datatable.com/) code.
 
-- [dbplyr](http://dbplyr.tidyverse.org/): for data stored in a relational 
+- [dbplyr](https://dbplyr.tidyverse.org/): for data stored in a relational 
   database. Translates your dplyr code to SQL.
 
 - [sparklyr](https://spark.rstudio.com): for very large datasets stored in 

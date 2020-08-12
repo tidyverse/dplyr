@@ -29,7 +29,7 @@ It's rare that a data analysis involves only a single table of data. In practice
 * Set operations, which combine the observations in the data sets as if they 
   were set elements.
 
-(This discussion assumes that you have [tidy data](http://www.jstatsoft.org/v59/i10/), where the rows are observations and the columns are variables. If you're not familiar with that framework, I'd recommend reading up on it first.)
+(This discussion assumes that you have [tidy data](https://www.jstatsoft.org/v59/i10/), where the rows are observations and the columns are variables. If you're not familiar with that framework, I'd recommend reading up on it first.)
 
 All two-table verbs work similarly. The first two arguments are `x` and `y`, and provide the tables to combine. The output is always a new table with the same type as `x`.
 

@@ -40,14 +40,14 @@ This document introduces you to dplyr's basic set of tools, and shows you how to
 
 ## Data: starwars
 
-To explore the basic data manipulation verbs of dplyr, we'll use the dataset `starwars`. This dataset contains `r nrow(starwars)` characters and comes from the [Star Wars API](http://swapi.dev), and is documented in `?starwars`
+To explore the basic data manipulation verbs of dplyr, we'll use the dataset `starwars`. This dataset contains `r nrow(starwars)` characters and comes from the [Star Wars API](https://swapi.dev), and is documented in `?starwars`
 
 ```{r}
 dim(starwars)
 starwars
 ```
 
-Note that `starwars` is a tibble, a modern reimagining of the data frame. It's particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <http://tibble.tidyverse.org>; in particular you can convert data frames to tibbles with `as_tibble()`.
+Note that `starwars` is a tibble, a modern reimagining of the data frame. It's particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <https://tibble.tidyverse.org>; in particular you can convert data frames to tibbles with `as_tibble()`.
 
 ## Single table verbs
 
