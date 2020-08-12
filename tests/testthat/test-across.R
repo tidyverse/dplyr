@@ -203,6 +203,33 @@ test_that("across(.names=) can use local variables in addition to {col} and {fn}
   expect_identical(res, data.frame(MEAN_x = 42))
 })
 
+test_that("across() uses environment from the current quosure (#5460)", {
+  # If the data frame `y` is selected, causes a subscript conversion
+  # error since it is fractional
+  df <- data.frame(x = 1, y = 2.4)
+  y <- "x"
+  expect_equal(df %>% summarise(across(all_of(y), mean)), data.frame(x = 1))
+  expect_equal(df %>% mutate(across(all_of(y), mean)), df)
+  expect_equal(df %>% filter(across(all_of(y), ~ .x < 2)), df)
+
+  # Recursive case
+  out <- df %>% summarise(summarise(across(), across(all_of(y), mean)))
+  expect_equal(out, data.frame(x = 1))
+
+  # Inherited case
+  out <- df %>% summarise(local(across(all_of(y), mean)))
+  expect_equal(out, data.frame(x = 1))
+
+  # Recursive + inherited case
+  out <- df %>%
+    summarise(
+      local(
+        summarise(across(), across(all_of(y), mean))
+      )
+    )
+  expect_equal(out, data.frame(x = 1))
+})
+
 
 # c_across ----------------------------------------------------------------
 

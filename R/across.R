@@ -169,10 +169,12 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
     return(value)
   }
 
+  # `across()` is evaluated in a data mask so we need to remove the
+  # mask layer from the quosure environment (#5460)
   cols <- enquo(cols)
-  across_cols <- mask$across_cols()
+  cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = TRUE, inherit = TRUE))
 
-  vars <- tidyselect::eval_select(expr(!!cols), across_cols)
+  vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
 
   if (is.null(fns)) {
@@ -225,6 +227,18 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
   mask$across_cache_add(key, value)
 
   value
+}
+
+# FIXME: This pattern should be encapsulated by rlang
+data_mask_top <- function(env, recursive = FALSE, inherit = FALSE) {
+  while (env_has(env, ".__tidyeval_data_mask__.", inherit = inherit)) {
+    env <- env_parent(env_get(env, ".top_env", inherit = inherit))
+    if (!recursive) {
+      return(env)
+    }
+  }
+
+  env
 }
 
 c_across_setup <- function(cols, key) {
