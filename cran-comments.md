@@ -1,6 +1,7 @@
 ## Release summary
 
-Minor release addressing issues of the 1.0.0 release, and findings from CRAN checks. 
+This is a minor release that adress new findings since the major release 1.0.0 and also 
+is forward compatible with the next version of vctrs. 
 
 ## Test environments
 
