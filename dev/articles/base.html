@@ -54,7 +54,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.1.9003</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
         </div>
       </div>
     </div>
@@ -321,19 +321,19 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1    10</span>
+<span class="co">#&gt; 1     5</span>
 <span class="co">#&gt; 2     4</span>
-<span class="co">#&gt; 3     2</span>
-<span class="co">#&gt; 4     8</span>
+<span class="co">#&gt; 3     1</span>
+<span class="co">#&gt; 4     9</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span>(<span class="kw">x</span>, .keep_all = <span class="fl">TRUE</span>) <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1    10     9</span>
-<span class="co">#&gt; 2     4     2</span>
-<span class="co">#&gt; 3     2     5</span>
-<span class="co">#&gt; 4     8     7</span>
+<span class="co">#&gt; 1     5    10</span>
+<span class="co">#&gt; 2     4     7</span>
+<span class="co">#&gt; 3     1     4</span>
+<span class="co">#&gt; 4     9     8</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 </pre></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
@@ -342,19 +342,19 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1    10</span>
+<span class="co">#&gt; 1     5</span>
 <span class="co">#&gt; 2     4</span>
-<span class="co">#&gt; 3     2</span>
-<span class="co">#&gt; 4     8</span>
+<span class="co">#&gt; 3     1</span>
+<span class="co">#&gt; 4     9</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="kw">df</span>[<span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(<span class="kw">df</span><span class="op">$</span><span class="kw">x</span>), , drop = <span class="fl">FALSE</span>] <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1    10     9</span>
-<span class="co">#&gt; 2     4     2</span>
-<span class="co">#&gt; 3     2     5</span>
-<span class="co">#&gt; 4     8     7</span>
+<span class="co">#&gt; 1     5    10</span>
+<span class="co">#&gt; 2     4     7</span>
+<span class="co">#&gt; 3     1     4</span>
+<span class="co">#&gt; 4     9     8</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 </pre></div>
 </div>
@@ -461,22 +461,22 @@
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;       x     y     z    z2</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1    10     9    19   361</span>
-<span class="co">#&gt; 2     4     2     6    36</span>
-<span class="co">#&gt; 3     2     5     7    49</span>
-<span class="co">#&gt; 4     8     7    15   225</span>
+<span class="co">#&gt; 1     5    10    15   225</span>
+<span class="co">#&gt; 2     4     7    11   121</span>
+<span class="co">#&gt; 3     1     4     5    25</span>
+<span class="co">#&gt; 4     4     1     5    25</span>
 <span class="co">#&gt; # … with 96 more rows</span>
 </pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/transform.html">transform</a></span>(<span class="kw">df</span>, z = <span class="kw">x</span> <span class="op">+</span> <span class="kw">y</span>, z2 = (<span class="kw">x</span> <span class="op">+</span> <span class="kw">y</span>) <span class="op">^</span> <span class="fl">2</span>))
-<span class="co">#&gt;    x y  z  z2</span>
-<span class="co">#&gt; 1 10 9 19 361</span>
-<span class="co">#&gt; 2  4 2  6  36</span>
-<span class="co">#&gt; 3  2 5  7  49</span>
-<span class="co">#&gt; 4  8 7 15 225</span>
-<span class="co">#&gt; 5  7 2  9  81</span>
-<span class="co">#&gt; 6  3 1  4  16</span>
+<span class="co">#&gt;   x  y  z  z2</span>
+<span class="co">#&gt; 1 5 10 15 225</span>
+<span class="co">#&gt; 2 4  7 11 121</span>
+<span class="co">#&gt; 3 1  4  5  25</span>
+<span class="co">#&gt; 4 4  1  5  25</span>
+<span class="co">#&gt; 5 9  8 17 289</span>
+<span class="co">#&gt; 6 3  3  6  36</span>
 </pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
