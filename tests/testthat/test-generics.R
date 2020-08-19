@@ -51,6 +51,12 @@ test_that("doesn't expand row names", {
   expect_equal(.row_names_info(out, 1), -10)
 })
 
+test_that("preserves existing row names", {
+  df <- data.frame(x = c(a = 1, b = 2))
+  out <- dplyr_col_modify(df, list(y = 1))
+  expect_equal(row.names(df), c("a", "b"))
+})
+
 test_that("reconstruct method gets a data frame", {
   seen_df <- NULL
 

@@ -11,6 +11,12 @@ test_that("empty mutate returns input", {
   expect_equal(mutate(gf, !!!list()), gf)
 })
 
+test_that("rownames preserved", {
+  df <- data.frame(x = c(a = 1, b = 2))
+  df <- mutate(df, y = 2)
+  expect_equal(row.names(df), c("a", "b"))
+})
+
 test_that("mutations applied progressively", {
   df <- tibble(x = 1)
   expect_equal(df %>% mutate(y = x + 1, z = y + 1), tibble(x = 1, y = 2, z = 3))
