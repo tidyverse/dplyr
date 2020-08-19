@@ -35,7 +35,7 @@ dplyr is a grammar of data manipulation, providing a consistent set of verbs tha
 
 These all combine naturally with `group_by()` which allows you to perform any operation "by group". You can learn more about them in `vignette("dplyr")`. As well as these single-table verbs, dplyr also provides a variety of two-table verbs, which you can learn about in `vignette("two-table")`.
 
-If you are new to dplyr, the best place to start is the [data transformation chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
+If you are new to dplyr, the best place to start is the [data transformation chapter](https://r4ds.had.co.nz/transform.html) in R for data science.
 
 ## Backends
 
@@ -43,7 +43,7 @@ In addition to data frames/tibbles, dplyr makes working with other computational
 
 - [dtplyr](https://dtplyr.tidyverse.org/): for large, in-memory datasets. 
   Translates your dplyr code to high performance 
-  [data.table](http://r-datatable.com/) code.
+  [data.table](https://rdatatable.gitlab.io/data.table/) code.
 
 - [dbplyr](https://dbplyr.tidyverse.org/): for data stored in a relational 
   database. Translates your dplyr code to SQL.
@@ -107,7 +107,7 @@ starwars %>%
 
 ## Getting help
 
-If you encounter a clear bug, please file an issue with a minimal reproducible example on [GitHub](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use [community.rstudio.com](https://community.rstudio.com/) or the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
+If you encounter a clear bug, please file an issue with a minimal reproducible example on [GitHub](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use [community.rstudio.com](https://community.rstudio.com/) or the [manipulatr mailing list](https://groups.google.com/d/forum/manipulatr).
 
 ---
 Please note that this project is released with a [Contributor Code of Conduct](https://dplyr.tidyverse.org/CODE_OF_CONDUCT).
