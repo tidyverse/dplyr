@@ -216,7 +216,7 @@
 </div>
     <div id="dplyr-102" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.2">
-<a href="#dplyr-102" class="anchor"></a>dplyr 1.0.2<small> Unreleased </small>
+<a href="#dplyr-102" class="anchor"></a>dplyr 1.0.2<small> 2020-08-18 </small>
 </h1>
 <ul>
 <li><p>Fixed <code><a href="../reference/across.html">across()</a></code> issue where data frame columns would mask objects referred to from <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/5460'>#5460</a>).</p></li>
@@ -1228,7 +1228,7 @@ starwars %&gt;%
 <div id="tibble" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tibble" class="anchor"></a>Tibble</h3>
-<p>Functions related to the creation and coercion of <code>tbl_df</code>s, now live in their own package: <a href="http://blog.rstudio.org/2016/03/24/tibble-1-0-0/">tibble</a>. See <code>vignette("tibble")</code> for more details.</p>
+<p>Functions related to the creation and coercion of <code>tbl_df</code>s, now live in their own package: <a href="https://blog.rstudio.org/2016/03/24/tibble-1-0-0/">tibble</a>. See <code>vignette("tibble")</code> for more details.</p>
 <ul>
 <li><p><code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> and <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code> methods that never do partial matching (<a href='https://github.com/tidyverse/dplyr/issues/1504'>#1504</a>), and throw an error if the variable does not exist.</p></li>
 <li><p><code><a href="../reference/all_equal.html">all_equal()</a></code> allows to compare data frames ignoring row and column order, and optionally ignoring minor differences in type (e.g. int vs. double) (<a href='https://github.com/tidyverse/dplyr/issues/821'>#821</a>). The test handles the case where the df has 0 columns (<a href='https://github.com/tidyverse/dplyr/issues/1506'>#1506</a>). The test fails fails when convert is <code>FALSE</code> and types don’t match (<a href='https://github.com/tidyverse/dplyr/issues/1484'>#1484</a>).</p></li>
