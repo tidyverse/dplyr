@@ -251,7 +251,8 @@ seconds have elapsed before displaying any results.</p></td>
 <code>pause()</code>, and <code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `progress_estimated()` is deprecated as of dplyr 1.0.0.</span>
+    <pre class="examples"><div class='input'><span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `progress_estimated()` is deprecated as of dplyr 1.0.0.</span>
 #&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
 #&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='input'><span class='kw'>p</span><span class='op'>$</span><span class='fu'>tick</span>()
 <span class='kw'>p</span><span class='op'>$</span><span class='fu'>tick</span>()
@@ -272,7 +273,8 @@ seconds have elapsed before displaying any results.</p></td>
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>10</span>, min_time = <span class='fl'>3</span>)
 <span class='co'>for</span> (<span class='kw'>i</span> <span class='co'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>) <span class='kw'>p</span><span class='op'>$</span><span class='fu'>pause</span>(<span class='fl'>0.5</span>)<span class='op'>$</span><span class='fu'>tick</span>()<span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()
-}</div></span></pre>
+}
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

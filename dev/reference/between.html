@@ -236,9 +236,11 @@ appropriate SQL for remote tables.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>between</span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>, <span class='fl'>7</span>, <span class='fl'>9</span>)</div><div class='output co'>#&gt;  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>between</span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>, <span class='fl'>7</span>, <span class='fl'>9</span>)
+</div><div class='output co'>#&gt;  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE</div><div class='input'>
 <span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1e2</span>)
-<span class='kw'>x</span>[<span class='fu'>between</span>(<span class='kw'>x</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>1</span>)]</div><div class='output co'>#&gt;  [1]  0.67638957 -0.23276176  0.63747287 -0.68326687 -0.97967535 -0.46251911
+<span class='kw'>x</span>[<span class='fu'>between</span>(<span class='kw'>x</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>1</span>)]
+</div><div class='output co'>#&gt;  [1]  0.67638957 -0.23276176  0.63747287 -0.68326687 -0.97967535 -0.46251911
 #&gt;  [7]  0.74786883 -0.80534353  0.77599004  0.70359786  0.71540139  0.40152349
 #&gt; [13]  0.40427794 -0.77705556 -0.28045548  0.29738725 -0.23564615  0.04433469
 #&gt; [19] -0.32849189  0.46205231  0.69362435 -0.70859443 -0.20889688  0.35227917
@@ -250,7 +252,8 @@ appropriate SQL for remote tables.</p>
 #&gt; [55] -0.25911917  0.64904570  0.84197042  0.26416593  0.09731070 -0.98868279
 #&gt; [61]  0.37043223</div><div class='input'>
 <span class='co'>## Or on a tibble using filter</span>
-<span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>starwars</span>, <span class='fu'>between</span>(<span class='kw'>height</span>, <span class='fl'>100</span>, <span class='fl'>150</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 14</span><span>
+<span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>starwars</span>, <span class='fu'>between</span>(<span class='kw'>height</span>, <span class='fl'>100</span>, <span class='fl'>150</span>))
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 14</span><span>
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Leia…    150    49 brown      light      brown             19 fema… femin…

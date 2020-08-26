@@ -264,12 +264,21 @@ Make sure it is the same type as <code>x</code>.</p></td>
     <pre class="examples"><div class='input'><span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>
 <span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>
 
-<span class='fu'>first</span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'>last</span>(<span class='kw'>y</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-<span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='op'>-</span><span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] 9</div><div class='input'><span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='fl'>11</span>)</div><div class='output co'>#&gt; [1] NA</div><div class='input'>
-<span class='fu'>last</span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; [1] 10</div><div class='input'><span class='co'># Second argument provides optional ordering</span>
-<span class='fu'>last</span>(<span class='kw'>x</span>, <span class='kw'>y</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='fu'>first</span>(<span class='kw'>x</span>)
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'>last</span>(<span class='kw'>y</span>)
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='fl'>1</span>)
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='fl'>5</span>)
+</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='op'>-</span><span class='fl'>2</span>)
+</div><div class='output co'>#&gt; [1] 9</div><div class='input'><span class='fu'>nth</span>(<span class='kw'>x</span>, <span class='fl'>11</span>)
+</div><div class='output co'>#&gt; [1] NA</div><div class='input'>
+<span class='fu'>last</span>(<span class='kw'>x</span>)
+</div><div class='output co'>#&gt; [1] 10</div><div class='input'><span class='co'># Second argument provides optional ordering</span>
+<span class='fu'>last</span>(<span class='kw'>x</span>, <span class='kw'>y</span>)
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 <span class='co'># These functions always return a single value</span>
-<span class='fu'>first</span>(<span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span>())</div><div class='output co'>#&gt; [1] NA</div></pre>
+<span class='fu'>first</span>(<span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span>())
+</div><div class='output co'>#&gt; [1] NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

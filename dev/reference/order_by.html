@@ -241,14 +241,17 @@ is the vector being operated on</p></td>
 <code><a href='with_order.html'>with_order()</a></code> with the appropriate arguments.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>order_by</span>(<span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>))</div><div class='output co'>#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</div><div class='input'><span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>
+    <pre class="examples"><div class='input'><span class='fu'>order_by</span>(<span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>))
+</div><div class='output co'>#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</div><div class='input'><span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>
 <span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>
-<span class='fu'>order_by</span>(<span class='kw'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='kw'>y</span>))</div><div class='output co'>#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</div><div class='input'>
+<span class='fu'>order_by</span>(<span class='kw'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='kw'>y</span>))
+</div><div class='output co'>#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</div><div class='input'>
 <span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(year = <span class='fl'>2000</span><span class='op'>:</span><span class='fl'>2005</span>, value = (<span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>) <span class='op'>^</span> <span class='fl'>2</span>)
 <span class='kw'>scrambled</span> <span class='op'>&lt;-</span> <span class='kw'>df</span>[<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>df</span>)), ]
 
 <span class='kw'>wrong</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>scrambled</span>, running = <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='kw'>value</span>))
-<span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='kw'>wrong</span>, <span class='kw'>year</span>)</div><div class='output co'>#&gt;   year value running
+<span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='kw'>wrong</span>, <span class='kw'>year</span>)
+</div><div class='output co'>#&gt;   year value running
 #&gt; 1 2000     0      46
 #&gt; 2 2001     1       1
 #&gt; 3 2002     4       5
@@ -256,7 +259,8 @@ is the vector being operated on</p></td>
 #&gt; 5 2004    16      46
 #&gt; 6 2005    25      30</div><div class='input'>
 <span class='kw'>right</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>scrambled</span>, running = <span class='fu'>order_by</span>(<span class='kw'>year</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='kw'>value</span>)))
-<span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='kw'>right</span>, <span class='kw'>year</span>)</div><div class='output co'>#&gt;   year value running
+<span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='kw'>right</span>, <span class='kw'>year</span>)
+</div><div class='output co'>#&gt;   year value running
 #&gt; 1 2000     0       0
 #&gt; 2 2001     1       1
 #&gt; 3 2002     4       5

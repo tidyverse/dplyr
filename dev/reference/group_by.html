@@ -290,7 +290,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 
 <span class='co'># grouping doesn't change how the data looks (apart from listing</span>
 <span class='co'># how it's grouped):</span>
-<span class='kw'>by_cyl</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
+<span class='kw'>by_cyl</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -309,12 +310,14 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(
   disp = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>disp</span>),
   hp = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>hp</span>)
-)</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+)
+</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;     cyl  disp    hp
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     4  105.  82.6
 #&gt; </span><span style='color: #555555;'>2</span><span>     6  183. 122. 
-#&gt; </span><span style='color: #555555;'>3</span><span>     8  353. 209. </div><div class='input'><span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>disp</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='kw'>disp</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 11</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>     8  353. 209. </div><div class='input'><span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>disp</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='kw'>disp</span>))
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -323,14 +326,17 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'>3</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4</div><div class='input'>
 <span class='co'># Each call to summarise() removes a layer of grouping</span>
 <span class='kw'>by_vs_am</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='kw'>vs</span>, <span class='kw'>am</span>)
-<span class='kw'>by_vs</span> <span class='op'>&lt;-</span> <span class='kw'>by_vs_am</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'vs' (override with `.groups` argument)</span></div><div class='input'><span class='kw'>by_vs</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+<span class='kw'>by_vs</span> <span class='op'>&lt;-</span> <span class='kw'>by_vs_am</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='context.html'>n</a></span>())
+</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'vs' (override with `.groups` argument)</span></div><div class='input'><span class='kw'>by_vs</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   vs [2]</span><span>
 #&gt;      vs    am     n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     0     0    12
 #&gt; </span><span style='color: #555555;'>2</span><span>     0     1     6
 #&gt; </span><span style='color: #555555;'>3</span><span>     1     0     7
-#&gt; </span><span style='color: #555555;'>4</span><span>     1     1     7</div><div class='input'><span class='kw'>by_vs</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>n</span>))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span>     1     1     7</div><div class='input'><span class='kw'>by_vs</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>n</span>))
+</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;      vs     n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     0    18
@@ -338,13 +344,15 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='co'># To removing grouping, use ungroup</span>
 <span class='kw'>by_vs</span> <span class='op'>%&gt;%</span>
   <span class='fu'>ungroup</span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>n</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>n</span>))
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;       n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>    32</div><div class='input'>
 <span class='co'># You can group by expressions: this is just short-hand for</span>
 <span class='co'># a mutate() followed by a group_by()</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span>(vsam = <span class='kw'>vs</span> <span class='op'>+</span> <span class='kw'>am</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 12</span><span>
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span>(vsam = <span class='kw'>vs</span> <span class='op'>+</span> <span class='kw'>am</span>)
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 12</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   vsam [3]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  vsam
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -362,11 +370,13 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='co'># By default, group_by() overrides existing grouping</span>
 <span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='kw'>vs</span>, <span class='kw'>am</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_data.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "vs" "am"</div><div class='input'>
+  <span class='fu'><a href='group_data.html'>group_vars</a></span>()
+</div><div class='output co'>#&gt; [1] "vs" "am"</div><div class='input'>
 <span class='co'># Use add = TRUE to instead append</span>
 <span class='kw'>by_cyl</span> <span class='op'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='kw'>vs</span>, <span class='kw'>am</span>, .add = <span class='fl'>TRUE</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_data.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl" "vs"  "am" </div><div class='input'>
+  <span class='fu'><a href='group_data.html'>group_vars</a></span>()
+</div><div class='output co'>#&gt; [1] "cyl" "vs"  "am" </div><div class='input'>
 
 <span class='co'># when factors are involved and .drop = FALSE, groups can be empty</span>
 <span class='kw'>tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
@@ -375,7 +385,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 )
 <span class='kw'>tbl</span> <span class='op'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='kw'>y</span>, .drop = <span class='fl'>FALSE</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_data.html'>group_rows</a></span>()</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[3]&gt;
+  <span class='fu'><a href='group_data.html'>group_rows</a></span>()
+</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[3]&gt;
 #&gt; [[1]]
 #&gt; [1] 1 2 3 4 5
 #&gt; 
@@ -384,7 +395,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; 
 #&gt; [[3]]
 #&gt; [1]  6  7  8  9 10
-#&gt; </div><div class='input'></div></span></pre>
+#&gt; </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

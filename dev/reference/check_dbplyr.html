@@ -235,7 +235,8 @@ dplyr 0.7.0.</p>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"dbplyr"</span>, quietly = <span class='fl'>TRUE</span>)) {
 <span class='fu'>wrap_dbplyr_obj</span>(<span class='st'>"build_sql"</span>)
 <span class='fu'>wrap_dbplyr_obj</span>(<span class='st'>"base_agg"</span>)
-}</div><div class='output co'>#&gt; base_agg &lt;- function () 
+}
+</div><div class='output co'>#&gt; base_agg &lt;- function () 
 #&gt; {
 #&gt;     if (utils::packageVersion("dplyr") &gt; "0.5.0") {
 #&gt;         dplyr::check_dbplyr()

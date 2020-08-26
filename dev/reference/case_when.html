@@ -251,7 +251,8 @@ RHS. Inconsistent lengths or types will generate an error.</p>
   <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz"</span>,
   <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"buzz"</span>,
   <span class='fl'>TRUE</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='kw'>x</span>)
-)</div><div class='output co'>#&gt;  [1] "1"         "2"         "3"         "4"         "fizz"      "6"        
+)
+</div><div class='output co'>#&gt;  [1] "1"         "2"         "3"         "4"         "fizz"      "6"        
 #&gt;  [7] "buzz"      "8"         "9"         "fizz"      "11"        "12"       
 #&gt; [13] "13"        "buzz"      "fizz"      "16"        "17"        "18"       
 #&gt; [19] "19"        "fizz"      "buzz"      "22"        "23"        "24"       
@@ -267,7 +268,8 @@ RHS. Inconsistent lengths or types will generate an error.</p>
   <span class='kw'>x</span> <span class='op'>%%</span>  <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz"</span>,
   <span class='kw'>x</span> <span class='op'>%%</span>  <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"buzz"</span>,
   <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>35</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz buzz"</span>
-)</div><div class='output co'>#&gt;  [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10" "11" "12" "13" "14" "15"
+)
+</div><div class='output co'>#&gt;  [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10" "11" "12" "13" "14" "15"
 #&gt; [16] "16" "17" "18" "19" "20" "21" "22" "23" "24" "25" "26" "27" "28" "29" "30"
 #&gt; [31] "31" "32" "33" "34" "35" "36" "37" "38" "39" "40" "41" "42" "43" "44" "45"
 #&gt; [46] "46" "47" "48" "49" "50"</div><div class='input'>
@@ -276,7 +278,8 @@ RHS. Inconsistent lengths or types will generate an error.</p>
   <span class='kw'>x</span> <span class='op'>%%</span>  <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz"</span>,
   <span class='kw'>x</span> <span class='op'>%%</span>  <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"buzz"</span>,
   <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>35</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz buzz"</span>
-)</div><div class='output co'>#&gt;  [1] NA     NA     NA     NA     "fizz" NA     "buzz" NA     NA     "fizz"
+)
+</div><div class='output co'>#&gt;  [1] NA     NA     NA     NA     "fizz" NA     "buzz" NA     NA     "fizz"
 #&gt; [11] NA     NA     NA     "buzz" "fizz" NA     NA     NA     NA     "fizz"
 #&gt; [21] "buzz" NA     NA     NA     "fizz" NA     NA     "buzz" NA     "fizz"
 #&gt; [31] NA     NA     NA     NA     "fizz" NA     NA     NA     NA     "fizz"
@@ -290,7 +293,8 @@ RHS. Inconsistent lengths or types will generate an error.</p>
   <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"buzz"</span>,
   <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>x</span>) <span class='op'>~</span> <span class='st'>"nope"</span>,
   <span class='fl'>TRUE</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='kw'>x</span>)
-)</div><div class='output co'>#&gt;  [1] "1"         "nope"      "nope"      "nope"      "fizz"      "6"        
+)
+</div><div class='output co'>#&gt;  [1] "1"         "nope"      "nope"      "nope"      "fizz"      "6"        
 #&gt;  [7] "buzz"      "8"         "9"         "fizz"      "11"        "12"       
 #&gt; [13] "13"        "buzz"      "fizz"      "16"        "17"        "18"       
 #&gt; [19] "19"        "fizz"      "buzz"      "22"        "23"        "24"       
@@ -307,7 +311,8 @@ RHS. Inconsistent lengths or types will generate an error.</p>
   <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"fizz"</span>,
   <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"buzz"</span>,
   <span class='fl'>TRUE</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='kw'>x</span>)
-)</div><div class='output co'>#&gt;  [1] "1"    NA     NA     NA     "fizz" "6"    "buzz" "8"    "9"    "fizz"
+)
+</div><div class='output co'>#&gt;  [1] "1"    NA     NA     NA     "fizz" "6"    "buzz" "8"    "9"    "fizz"
 #&gt; [11] "11"   "12"   "13"   "buzz" "fizz" "16"   "17"   "18"   "19"   "fizz"
 #&gt; [21] "buzz" "22"   "23"   "24"   "fizz" "26"   "27"   "buzz" "29"   "fizz"
 #&gt; [31] "31"   "32"   "33"   "34"   NA     "36"   "37"   "38"   "39"   "fizz"
@@ -316,7 +321,8 @@ RHS. Inconsistent lengths or types will generate an error.</p>
   <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>5</span>,
   <span class='kw'>x</span> <span class='op'>%%</span> <span class='fl'>7</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>7</span>,
   <span class='fl'>TRUE</span> <span class='op'>~</span> <span class='fl'>NA_real_</span>
-)</div><div class='output co'>#&gt;  [1] NA NA NA NA  5 NA  7 NA NA  5 NA NA NA  7  5 NA NA NA NA  5  7 NA NA NA  5
+)
+</div><div class='output co'>#&gt;  [1] NA NA NA NA  5 NA  7 NA NA  5 NA NA NA  7  5 NA NA NA NA  5  7 NA NA NA  5
 #&gt; [26] NA NA  7 NA  5 NA NA NA NA 35 NA NA NA NA  5 NA  7 NA NA  5 NA NA NA  7  5</div><div class='input'>
 <span class='co'># case_when() evaluates all RHS expressions, and then constructs its</span>
 <span class='co'># result by extracting the selected (via the LHS expressions) parts.</span>
@@ -325,7 +331,8 @@ RHS. Inconsistent lengths or types will generate an error.</p>
 <span class='fu'>case_when</span>(
   <span class='kw'>y</span> <span class='op'>&gt;=</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='kw'>y</span>),
   <span class='fl'>TRUE</span>   <span class='op'>~</span> <span class='kw'>y</span>
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; [1] -2.0000000 -1.5000000 -1.0000000 -0.5000000  0.0000000  0.7071068  1.0000000
+)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; [1] -2.0000000 -1.5000000 -1.0000000 -0.5000000  0.0000000  0.7071068  1.0000000
 #&gt; [8]  1.2247449  1.4142136</div><div class='input'>
 <span class='co'># This throws an error as NA is logical not numeric</span>
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
@@ -348,7 +355,8 @@ RHS. Inconsistent lengths or types will generate an error.</p>
       <span class='kw'>species</span> <span class='op'>==</span> <span class='st'>"Droid"</span>        <span class='op'>~</span> <span class='st'>"robot"</span>,
       <span class='fl'>TRUE</span>                      <span class='op'>~</span> <span class='st'>"other"</span>
     )
-  )</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 6</span><span>
+  )
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 6</span><span>
 #&gt;    name               height  mass gender    species type 
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Luke Skywalker        172    77 masculine Human   other
@@ -374,11 +382,14 @@ RHS. Inconsistent lengths or types will generate an error.</p>
   )
 }
 
-<span class='fu'>case_character_type</span>(<span class='fl'>150</span>, <span class='fl'>250</span>, <span class='st'>"Droid"</span>)</div><div class='output co'>#&gt; [1] "large"</div><div class='input'><span class='fu'>case_character_type</span>(<span class='fl'>150</span>, <span class='fl'>150</span>, <span class='st'>"Droid"</span>)</div><div class='output co'>#&gt; [1] "robot"</div><div class='input'>
+<span class='fu'>case_character_type</span>(<span class='fl'>150</span>, <span class='fl'>250</span>, <span class='st'>"Droid"</span>)
+</div><div class='output co'>#&gt; [1] "large"</div><div class='input'><span class='fu'>case_character_type</span>(<span class='fl'>150</span>, <span class='fl'>150</span>, <span class='st'>"Droid"</span>)
+</div><div class='output co'>#&gt; [1] "robot"</div><div class='input'>
 <span class='co'># Such functions can be used inside `mutate()` as well:</span>
 <span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='mutate.html'>mutate</a></span>(type = <span class='fu'>case_character_type</span>(<span class='kw'>height</span>, <span class='kw'>mass</span>, <span class='kw'>species</span>)) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='pull.html'>pull</a></span>(<span class='kw'>type</span>)</div><div class='output co'>#&gt;  [1] "other" "robot" "robot" "large" "other" "other" "other" "robot" "other"
+  <span class='fu'><a href='pull.html'>pull</a></span>(<span class='kw'>type</span>)
+</div><div class='output co'>#&gt;  [1] "other" "robot" "robot" "large" "other" "other" "other" "robot" "other"
 #&gt; [10] "other" "other" "other" "large" "other" "other" "large" "other" "other"
 #&gt; [19] "other" "other" "other" "robot" "other" "other" "other" "other" "other"
 #&gt; [28] "other" "other" "other" "other" "other" "other" "other" "large" "large"
@@ -402,7 +413,8 @@ RHS. Inconsistent lengths or types will generate an error.</p>
 
 <span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='mutate.html'>mutate</a></span>(type = <span class='fu'>case_character_type</span>(<span class='kw'>height</span>, <span class='kw'>mass</span>, <span class='kw'>species</span>, robots = <span class='fl'>FALSE</span>)) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='pull.html'>pull</a></span>(<span class='kw'>type</span>)</div><div class='output co'>#&gt;  [1] "other" "other" "other" "large" "other" "other" "other" "other" "other"
+  <span class='fu'><a href='pull.html'>pull</a></span>(<span class='kw'>type</span>)
+</div><div class='output co'>#&gt;  [1] "other" "other" "other" "large" "other" "other" "other" "other" "other"
 #&gt; [10] "other" "other" "other" "large" "other" "other" "large" "other" "other"
 #&gt; [19] "other" "other" "other" "other" "other" "other" "other" "other" "other"
 #&gt; [28] "other" "other" "other" "other" "other" "other" "other" "large" "large"

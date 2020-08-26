@@ -254,13 +254,15 @@ in a function argument, embrace the argument, e.g. <code><a href='filter.html'>f
     <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='context.html'>n</a></span>(), min = <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>({{ <span class='kw'>var</span> }}), max = <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>({{ <span class='kw'>var</span> }}))
 }
 <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>dist_summary</span>(<span class='kw'>mpg</span>)
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span> <span class='fu'>dist_summary</span>(<span class='kw'>mpg</span>)</pre></li>
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span> <span class='fu'>dist_summary</span>(<span class='kw'>mpg</span>)
+</pre></li>
 <li><p>If you have the column name as a character vector, use the <code>.data</code>
 pronoun, e.g. <code><a href='summarise.html'>summarise(df, mean = mean(.data[[var]]))</a></code>.</p><pre><span class='co'>for</span> (<span class='kw'>var</span> <span class='co'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>mtcars</span>)) {
   <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='count.html'>count</a></span>(<span class='kw'>.data</span>[[<span class='kw'>var</span>]]) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()
 }
 
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>mtcars</span>), <span class='fu'>function</span>(<span class='kw'>var</span>) <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='count.html'>count</a></span>(<span class='kw'>.data</span>[[<span class='kw'>var</span>]]))</pre></li>
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>mtcars</span>), <span class='fu'>function</span>(<span class='kw'>var</span>) <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='count.html'>count</a></span>(<span class='kw'>.data</span>[[<span class='kw'>var</span>]]))
+</pre></li>
 </ul>
 
     <h2 class="hasAnchor" id="dot-dot-dot-"><a class="anchor" href="#dot-dot-dot-"></a>Dot-dot-dot (...)</h2>
@@ -268,14 +270,16 @@ pronoun, e.g. <code><a href='summarise.html'>summarise(df, mean = mean(.data[[va
     <p>When this modifier is applied to <code>...</code>, there is one other useful technique
 which solves the problem of creating a new variable with a name supplied by
 the user. Use the interpolation syntax from the glue package: <code>"{var}" := expression</code>. (Note the use of <code>:=</code> instead of <code><a href='https://rdrr.io/r/base/assignOps.html'>=</a></code> to enable this syntax).</p><pre><span class='kw'>var_name</span> <span class='op'>&lt;-</span> <span class='st'>"l100km"</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='st'>"{var_name}"</span> <span class='op'>:=</span> <span class='fl'>235</span> <span class='op'>/</span> <span class='kw'>mpg</span>)</pre>
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='st'>"{var_name}"</span> <span class='op'>:=</span> <span class='fl'>235</span> <span class='op'>/</span> <span class='kw'>mpg</span>)
+</pre>
 
 <p>Note that <code>...</code> automatically provides indirection, so you can use it as is
 (i.e. without embracing) inside a function:</p><pre><span class='kw'>grouped_mean</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>df</span>, <span class='kw'>var</span>, <span class='kw'>...</span>) {
   <span class='kw'>df</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>...</span>) <span class='op'>%&gt;%</span>
     <span class='fu'><a href='summarise.html'>summarise</a></span>(mean = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>({{ <span class='kw'>var</span> }}))
-}</pre>
+}
+</pre>
 
 
   </div>

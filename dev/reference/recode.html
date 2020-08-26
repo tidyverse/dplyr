@@ -308,13 +308,16 @@ in <code>...</code>. The levels in <code>.default</code> and <code>.missing</cod
     <pre class="examples"><div class='input'><span class='co'># For character values, recode values with named arguments only. Unmatched</span>
 <span class='co'># values are unchanged.</span>
 <span class='kw'>char_vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='fl'>10</span>, replace = <span class='fl'>TRUE</span>)
-<span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>)</div><div class='output co'>#&gt;  [1] "b"     "c"     "c"     "c"     "b"     "b"     "Apple" "b"     "Apple"
-#&gt; [10] "b"    </div><div class='input'><span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>)</div><div class='output co'>#&gt;  [1] "Banana" "c"      "c"      "c"      "Banana" "Banana" "Apple"  "Banana"
+<span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>)
+</div><div class='output co'>#&gt;  [1] "b"     "c"     "c"     "c"     "b"     "b"     "Apple" "b"     "Apple"
+#&gt; [10] "b"    </div><div class='input'><span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>)
+</div><div class='output co'>#&gt;  [1] "Banana" "c"      "c"      "c"      "Banana" "Banana" "Apple"  "Banana"
 #&gt;  [9] "Apple"  "Banana"</div><div class='input'>
 <span class='co'># Use .default as replacement for unmatched values. Note that NA and</span>
 <span class='co'># replacement values need to be of the same type. For more information, see</span>
 <span class='co'># https://adv-r.hadley.nz/vectors-chap.html#missing-values</span>
-<span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>, .default = <span class='fl'>NA_character_</span>)</div><div class='output co'>#&gt;  [1] "Banana" NA       NA       NA       "Banana" "Banana" "Apple"  "Banana"
+<span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>, .default = <span class='fl'>NA_character_</span>)
+</div><div class='output co'>#&gt;  [1] "Banana" NA       NA       NA       "Banana" "Banana" "Apple"  "Banana"
 #&gt;  [9] "Apple"  "Banana"</div><div class='input'>
 <span class='co'># Throws an error as NA is logical, not character.</span>
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
@@ -323,43 +326,57 @@ in <code>...</code>. The levels in <code>.default</code> and <code>.missing</cod
 
 <span class='co'># Use a named character vector for unquote splicing with !!!</span>
 <span class='kw'>level_key</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(a = <span class='st'>"apple"</span>, b = <span class='st'>"banana"</span>, c = <span class='st'>"carrot"</span>)
-<span class='fu'>recode</span>(<span class='kw'>char_vec</span>, <span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='kw'>level_key</span>)</div><div class='output co'>#&gt;  [1] "banana" "carrot" "carrot" "carrot" "banana" "banana" "apple"  "banana"
+<span class='fu'>recode</span>(<span class='kw'>char_vec</span>, <span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='kw'>level_key</span>)
+</div><div class='output co'>#&gt;  [1] "banana" "carrot" "carrot" "carrot" "banana" "banana" "apple"  "banana"
 #&gt;  [9] "apple"  "banana"</div><div class='input'>
 <span class='co'># For numeric values, named arguments can also be used</span>
 <span class='kw'>num_vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>NA</span>)
-<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, `2` = <span class='fl'>20L</span>, `4` = <span class='fl'>40L</span>)</div><div class='output co'>#&gt; [1]  1 20  3 40 NA</div><div class='input'>
+<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, `2` = <span class='fl'>20L</span>, `4` = <span class='fl'>40L</span>)
+</div><div class='output co'>#&gt; [1]  1 20  3 40 NA</div><div class='input'>
 <span class='co'># Or if you don't name the arguments, recode() matches by position.</span>
 <span class='co'># (Only works for numeric vector)</span>
-<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c" "d" NA </div><div class='input'><span class='co'># .x (position given) looks in (...), then grabs (... value at position)</span>
+<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>)
+</div><div class='output co'>#&gt; [1] "a" "b" "c" "d" NA </div><div class='input'><span class='co'># .x (position given) looks in (...), then grabs (... value at position)</span>
 <span class='co'># so if nothing at position (here 5), it uses .default or NA.</span>
-<span class='fu'>recode</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>3</span>), <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>, .default = <span class='st'>"nothing"</span>)</div><div class='output co'>#&gt; [1] "a"       "nothing" "c"      </div><div class='input'>
+<span class='fu'>recode</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>3</span>), <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>, .default = <span class='st'>"nothing"</span>)
+</div><div class='output co'>#&gt; [1] "a"       "nothing" "c"      </div><div class='input'>
 <span class='co'># Note that if the replacements are not compatible with .x,</span>
 <span class='co'># unmatched values are replaced by NA and a warning is issued.</span>
-<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, `2` = <span class='st'>"b"</span>, `4` = <span class='st'>"d"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] NA  "b" NA  "d" NA </div><div class='input'><span class='co'># use .default to change the replacement value</span>
-<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, .default = <span class='st'>"other"</span>)</div><div class='output co'>#&gt; [1] "a"     "b"     "c"     "other" NA     </div><div class='input'><span class='co'># use .missing to replace missing values in .x</span>
-<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, .default = <span class='st'>"other"</span>, .missing = <span class='st'>"missing"</span>)</div><div class='output co'>#&gt; [1] "a"       "b"       "c"       "other"   "missing"</div><div class='input'>
+<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, `2` = <span class='st'>"b"</span>, `4` = <span class='st'>"d"</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] NA  "b" NA  "d" NA </div><div class='input'><span class='co'># use .default to change the replacement value</span>
+<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, .default = <span class='st'>"other"</span>)
+</div><div class='output co'>#&gt; [1] "a"     "b"     "c"     "other" NA     </div><div class='input'><span class='co'># use .missing to replace missing values in .x</span>
+<span class='fu'>recode</span>(<span class='kw'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, .default = <span class='st'>"other"</span>, .missing = <span class='st'>"missing"</span>)
+</div><div class='output co'>#&gt; [1] "a"       "b"       "c"       "other"   "missing"</div><div class='input'>
 <span class='co'># For factor values, use only named replacements</span>
 <span class='co'># and supply default with levels()</span>
 <span class='kw'>factor_vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>))
-<span class='fu'>recode</span>(<span class='kw'>factor_vec</span>, a = <span class='st'>"Apple"</span>, .default = <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='kw'>factor_vec</span>))</div><div class='output co'>#&gt; [1] Apple b     c    
+<span class='fu'>recode</span>(<span class='kw'>factor_vec</span>, a = <span class='st'>"Apple"</span>, .default = <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='kw'>factor_vec</span>))
+</div><div class='output co'>#&gt; [1] Apple b     c    
 #&gt; Levels: Apple b c</div><div class='input'>
 <span class='co'># Use recode_factor() to create factors with levels ordered as they</span>
 <span class='co'># appear in the recode call. The levels in .default and .missing</span>
 <span class='co'># come last.</span>
-<span class='fu'>recode_factor</span>(<span class='kw'>num_vec</span>, `1` = <span class='st'>"z"</span>, `2` = <span class='st'>"y"</span>, `3` = <span class='st'>"x"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] z    y    x    &lt;NA&gt; &lt;NA&gt;
+<span class='fu'>recode_factor</span>(<span class='kw'>num_vec</span>, `1` = <span class='st'>"z"</span>, `2` = <span class='st'>"y"</span>, `3` = <span class='st'>"x"</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] z    y    x    &lt;NA&gt; &lt;NA&gt;
 #&gt; Levels: z y x</div><div class='input'><span class='fu'>recode_factor</span>(<span class='kw'>num_vec</span>, `1` = <span class='st'>"z"</span>, `2` = <span class='st'>"y"</span>, `3` = <span class='st'>"x"</span>,
-              .default = <span class='st'>"D"</span>)</div><div class='output co'>#&gt; [1] z    y    x    D    &lt;NA&gt;
+              .default = <span class='st'>"D"</span>)
+</div><div class='output co'>#&gt; [1] z    y    x    D    &lt;NA&gt;
 #&gt; Levels: z y x D</div><div class='input'><span class='fu'>recode_factor</span>(<span class='kw'>num_vec</span>, `1` = <span class='st'>"z"</span>, `2` = <span class='st'>"y"</span>, `3` = <span class='st'>"x"</span>,
-              .default = <span class='st'>"D"</span>, .missing = <span class='st'>"M"</span>)</div><div class='output co'>#&gt; [1] z y x D M
+              .default = <span class='st'>"D"</span>, .missing = <span class='st'>"M"</span>)
+</div><div class='output co'>#&gt; [1] z y x D M
 #&gt; Levels: z y x D M</div><div class='input'>
 <span class='co'># When the input vector is a compatible vector (character vector or</span>
 <span class='co'># factor), it is reused as default.</span>
-<span class='fu'>recode_factor</span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>], b = <span class='st'>"z"</span>, c = <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
-#&gt; Levels: z y a</div><div class='input'><span class='fu'>recode_factor</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>]), b = <span class='st'>"z"</span>, c = <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
+<span class='fu'>recode_factor</span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>], b = <span class='st'>"z"</span>, c = <span class='st'>"y"</span>)
+</div><div class='output co'>#&gt; [1] a z y
+#&gt; Levels: z y a</div><div class='input'><span class='fu'>recode_factor</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>]), b = <span class='st'>"z"</span>, c = <span class='st'>"y"</span>)
+</div><div class='output co'>#&gt; [1] a z y
 #&gt; Levels: z y a</div><div class='input'>
 <span class='co'># Use a named character vector to recode factors with unquote splicing.</span>
 <span class='kw'>level_key</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(a = <span class='st'>"apple"</span>, b = <span class='st'>"banana"</span>, c = <span class='st'>"carrot"</span>)
-<span class='fu'>recode_factor</span>(<span class='kw'>char_vec</span>, <span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='kw'>level_key</span>)</div><div class='output co'>#&gt;  [1] banana carrot carrot carrot banana banana apple  banana apple  banana
+<span class='fu'>recode_factor</span>(<span class='kw'>char_vec</span>, <span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='kw'>level_key</span>)
+</div><div class='output co'>#&gt;  [1] banana carrot carrot carrot banana banana apple  banana apple  banana
 #&gt; Levels: apple banana carrot</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

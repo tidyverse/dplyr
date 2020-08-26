@@ -259,7 +259,7 @@ for which the function returns TRUE.
 mini-language that makes it easy to refer to variables based on their name
 (e.g. <code>a:f</code> selects all columns from <code>a</code> on the left to <code>f</code> on the
 right). You can also use predicate functions like <a href='https://rdrr.io/r/base/numeric.html'>is.numeric</a> to select
-variables based on their properties.</p><h3>Overview of selection features</h3>
+variables based on their properties.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Overview of selection features</h3>
 
 
 <p>Tidyverse selections implement a dialect of R where operators make
@@ -354,7 +354,8 @@ specific help pages to learn about helpers like <code><a href='https://tidyselec
 the tidyverse:<div class="r"></p><pre><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>tidyverse</span>)
 
 <span class='co'># For better printing</span>
-<span class='kw'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='kw'>iris</span>)</pre><p></div></p>
+<span class='kw'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='kw'>iris</span>)
+</pre><p></div></p>
 <p>Select variables by name:<div class="r"></p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='kw'>height</span>)
 <span class='co'>#&gt; # A tibble: 87 x 1</span>
 <span class='co'>#&gt;   height</span>
@@ -373,7 +374,8 @@ the tidyverse:<div class="r"></p><pre><span class='fu'><a href='https://rdrr.io/
 <span class='co'>#&gt; 2         3            1.4         0.2 setosa  Sepal.Length   4.9</span>
 <span class='co'>#&gt; 3         3.2          1.3         0.2 setosa  Sepal.Length   4.7</span>
 <span class='co'>#&gt; 4         3.1          1.5         0.2 setosa  Sepal.Length   4.6</span>
-<span class='co'>#&gt; # ... with 146 more rows</span></pre><p></div></p>
+<span class='co'>#&gt; # ... with 146 more rows</span>
+</pre><p></div></p>
 <p>Select multiple variables by separating them with commas. Note how
 the order of columns is determined by the order of inputs:<div class="r"></p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='kw'>homeworld</span>, <span class='kw'>height</span>, <span class='kw'>mass</span>)
 <span class='co'>#&gt; # A tibble: 87 x 3</span>
@@ -383,7 +385,8 @@ the order of columns is determined by the order of inputs:<div class="r"></p><pr
 <span class='co'>#&gt; 2 Tatooine     167    75</span>
 <span class='co'>#&gt; 3 Naboo         96    32</span>
 <span class='co'>#&gt; 4 Tatooine     202   136</span>
-<span class='co'>#&gt; # ... with 83 more rows</span></pre><p></div></p>
+<span class='co'>#&gt; # ... with 83 more rows</span>
+</pre><p></div></p>
 <p>Functions like <code><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>tidyr::pivot_longer()</a></code> don't take variables with
 dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> to select multiple variables:<div class="r"></p><pre><span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>pivot_longer</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Sepal.Length</span>, <span class='kw'>Petal.Length</span>))
 <span class='co'>#&gt; # A tibble: 300 x 5</span>
@@ -393,7 +396,8 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 2         3.5         0.2 setosa  Petal.Length   1.4</span>
 <span class='co'>#&gt; 3         3           0.2 setosa  Sepal.Length   4.9</span>
 <span class='co'>#&gt; 4         3           0.2 setosa  Petal.Length   1.4</span>
-<span class='co'>#&gt; # ... with 296 more rows</span></pre><p></div></p><h3>Operators:</h3>
+<span class='co'>#&gt; # ... with 296 more rows</span>
+</pre><p></div></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Operators:</h3>
 
 
 <p>The <code><a href='https://rdrr.io/r/base/Colon.html'>:</a></code> operator selects a range of consecutive variables:<div class="r"></p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='kw'>name</span><span class='op'>:</span><span class='kw'>mass</span>)
@@ -404,7 +408,8 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 2 C-3PO             167    75</span>
 <span class='co'>#&gt; 3 R2-D2              96    32</span>
 <span class='co'>#&gt; 4 Darth Vader       202   136</span>
-<span class='co'>#&gt; # ... with 83 more rows</span></pre><p></div></p>
+<span class='co'>#&gt; # ... with 83 more rows</span>
+</pre><p></div></p>
 <p>The <code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code> operator negates a selection:<div class="r"></p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='op'>!</span>(<span class='kw'>name</span><span class='op'>:</span><span class='kw'>mass</span>))
 <span class='co'>#&gt; # A tibble: 87 x 11</span>
 <span class='co'>#&gt;   hair_color skin_color eye_color birth_year sex   gender homeworld species</span>
@@ -434,7 +439,8 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 2          4.9          1.4 setosa </span>
 <span class='co'>#&gt; 3          4.7          1.3 setosa </span>
 <span class='co'>#&gt; 4          4.6          1.5 setosa </span>
-<span class='co'>#&gt; # ... with 146 more rows</span></pre><p></div></p>
+<span class='co'>#&gt; # ... with 146 more rows</span>
+</pre><p></div></p>
 <p><code>&amp;</code> and <code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code> take the intersection or the union of two selections:<div class="r"></p><pre><span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Petal"</span>) <span class='op'>&amp;</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span>(<span class='st'>"Width"</span>))
 <span class='co'>#&gt; # A tibble: 150 x 1</span>
 <span class='co'>#&gt;   Petal.Width</span>
@@ -453,7 +459,8 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 2          1.4         0.2         3  </span>
 <span class='co'>#&gt; 3          1.3         0.2         3.2</span>
 <span class='co'>#&gt; 4          1.5         0.2         3.1</span>
-<span class='co'>#&gt; # ... with 146 more rows</span></pre><p></div></p>
+<span class='co'>#&gt; # ... with 146 more rows</span>
+</pre><p></div></p>
 <p>To take the difference between two selections, combine the <code>&amp;</code> and
 <code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code> operators:<div class="r"></p><pre><span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Petal"</span>) <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span>(<span class='st'>"Width"</span>))
 <span class='co'>#&gt; # A tibble: 150 x 1</span>
@@ -463,7 +470,8 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 2          1.4</span>
 <span class='co'>#&gt; 3          1.3</span>
 <span class='co'>#&gt; 4          1.5</span>
-<span class='co'>#&gt; # ... with 146 more rows</span></pre><p></div></p>
+<span class='co'>#&gt; # ... with 146 more rows</span>
+</pre><p></div></p>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

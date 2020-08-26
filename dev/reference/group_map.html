@@ -291,7 +291,8 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 <span class='co'># return a list</span>
 <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>group_map</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>.x</span>, <span class='fl'>2L</span>))</div><div class='output co'>#&gt; [[1]]
+  <span class='fu'>group_map</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>.x</span>, <span class='fl'>2L</span>))
+</div><div class='output co'>#&gt; [[1]]
 #&gt; <span style='color: #555555;'># A tibble: 2 x 10</span><span>
 #&gt;     mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -316,7 +317,8 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 <span class='co'># the grouping data is recalculated</span>
 <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>group_modify</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>.x</span>, <span class='fl'>2L</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
+  <span class='fu'>group_modify</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>.x</span>, <span class='fl'>2L</span>))
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
 #&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -336,7 +338,8 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
   <span class='kw'>iris</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
     <span class='fu'>group_modify</span>(<span class='op'>~</span> <span class='kw'>broom</span>::<span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>Petal.Length</span> <span class='op'>~</span> <span class='kw'>Sepal.Length</span>, data = <span class='kw'>.x</span>)))
-}</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
+}
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;   Species    term         estimate std.error statistic  p.value
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -349,7 +352,8 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 <span class='co'># a list of vectors</span>
 <span class='kw'>iris</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>group_map</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='kw'>.x</span><span class='op'>$</span><span class='kw'>Petal.Length</span>, probs = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>)))</div><div class='output co'>#&gt; [[1]]
+  <span class='fu'>group_map</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='kw'>.x</span><span class='op'>$</span><span class='kw'>Petal.Length</span>, probs = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>)))
+</div><div class='output co'>#&gt; [[1]]
 #&gt;   25%   50%   75% 
 #&gt; 1.400 1.500 1.575 
 #&gt; 
@@ -367,7 +371,8 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
   <span class='fu'>group_modify</span>(<span class='op'>~</span> {
      <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='kw'>.x</span><span class='op'>$</span><span class='kw'>Petal.Length</span>, probs = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>)) <span class='op'>%&gt;%</span>
      <span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/enframe.html'>enframe</a></span>(name = <span class='st'>"prob"</span>, value = <span class='st'>"quantile"</span>)
-  })</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 3</span><span>
+  })
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 3</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;   Species    prob  quantile
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -386,7 +391,8 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
     <span class='kw'>.x</span> <span class='op'>%&gt;%</span>
       <span class='kw'>purrr</span>::<span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dfc</a></span>(<span class='kw'>fivenum</span>) <span class='op'>%&gt;%</span>
       <span class='fu'><a href='mutate.html'>mutate</a></span>(nms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"min"</span>, <span class='st'>"Q1"</span>, <span class='st'>"median"</span>, <span class='st'>"Q3"</span>, <span class='st'>"max"</span>))
-  })</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 6</span><span>
+  })
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 6</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   Species [3]</span><span>
 #&gt;    Species    Sepal.Length Sepal.Width Petal.Length Petal.Width nms   
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
@@ -410,13 +416,16 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 <span class='kw'>iris</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
   <span class='fu'>group_walk</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/write.table.html'>write.csv</a></span>(<span class='kw'>.x</span>, file = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>temp</span>, <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='kw'>.y</span><span class='op'>$</span><span class='kw'>Species</span>, <span class='st'>".csv"</span>))))
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>temp</span>, pattern = <span class='st'>"csv$"</span>)</div><div class='output co'>#&gt; [1] "setosa.csv"     "versicolor.csv" "virginica.csv" </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='kw'>temp</span>, recursive = <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>temp</span>, pattern = <span class='st'>"csv$"</span>)
+</div><div class='output co'>#&gt; [1] "setosa.csv"     "versicolor.csv" "virginica.csv" </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='kw'>temp</span>, recursive = <span class='fl'>TRUE</span>)
 
 <span class='co'># group_modify() and ungrouped data frames</span>
 <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_modify</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>.x</span>, <span class='fl'>2L</span>))</div><div class='output co'>#&gt;               mpg cyl disp  hp drat    wt  qsec vs am gear carb
+  <span class='fu'>group_modify</span>(<span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>.x</span>, <span class='fl'>2L</span>))
+</div><div class='output co'>#&gt;               mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</div><div class='input'></div></span></pre>
+#&gt; Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -230,11 +230,15 @@ This is useful within <code><a href='arrange.html'>arrange()</a></code>.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>desc</span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>)</div><div class='output co'>#&gt;  [1]  -1  -2  -3  -4  -5  -6  -7  -8  -9 -10</div><div class='input'><span class='fu'>desc</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>letters</span>))</div><div class='output co'>#&gt;  [1]  -1  -2  -3  -4  -5  -6  -7  -8  -9 -10 -11 -12 -13 -14 -15 -16 -17 -18 -19
+    <pre class="examples"><div class='input'><span class='fu'>desc</span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>)
+</div><div class='output co'>#&gt;  [1]  -1  -2  -3  -4  -5  -6  -7  -8  -9 -10</div><div class='input'><span class='fu'>desc</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>letters</span>))
+</div><div class='output co'>#&gt;  [1]  -1  -2  -3  -4  -5  -6  -7  -8  -9 -10 -11 -12 -13 -14 -15 -16 -17 -18 -19
 #&gt; [20] -20 -21 -22 -23 -24 -25 -26</div><div class='input'>
 <span class='kw'>first_day</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"1910/1/1"</span>), <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"1920/1/1"</span>), <span class='st'>"years"</span>)
-<span class='fu'>desc</span>(<span class='kw'>first_day</span>)</div><div class='output co'>#&gt;  [1] 21915 21550 21185 20819 20454 20089 19724 19358 18993 18628 18263</div><div class='input'>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='fu'>desc</span>(<span class='kw'>mass</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 14</span><span>
+<span class='fu'>desc</span>(<span class='kw'>first_day</span>)
+</div><div class='output co'>#&gt;  [1] 21915 21550 21185 20819 20454 20089 19724 19358 18993 18628 18263</div><div class='input'>
+<span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='fu'>desc</span>(<span class='kw'>mass</span>))
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 87 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> Jabb…    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>         green-tan… orange         600   herm… mascu…

@@ -353,10 +353,13 @@ individual methods for extra arguments and differences in behaviour.</p>
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span>(<span class='fl'>1L</span>)</div><div class='output co'>#&gt;           mpg cyl disp  hp drat   wt  qsec vs am gear carb
+    <pre class="examples"><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span>(<span class='fl'>1L</span>)
+</div><div class='output co'>#&gt;           mpg cyl disp  hp drat   wt  qsec vs am gear carb
 #&gt; Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='co'># Similar to tail(mtcars, 1):</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span>(<span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;             mpg cyl disp  hp drat   wt qsec vs am gear carb
-#&gt; Volvo 142E 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span>(<span class='fl'>5</span><span class='op'>:</span><span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span>(<span class='fu'><a href='context.html'>n</a></span>())
+</div><div class='output co'>#&gt;             mpg cyl disp  hp drat   wt qsec vs am gear carb
+#&gt; Volvo 142E 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span>(<span class='fl'>5</span><span class='op'>:</span><span class='fu'><a href='context.html'>n</a></span>())
+</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
 #&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
 #&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
@@ -385,7 +388,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
 #&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
 #&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='co'># Rows can be dropped with negative indices:</span>
-<span class='fu'>slice</span>(<span class='kw'>mtcars</span>, <span class='op'>-</span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>))</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='fu'>slice</span>(<span class='kw'>mtcars</span>, <span class='op'>-</span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>))
+</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
 #&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
 #&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
@@ -415,24 +419,28 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
 #&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'>
 <span class='co'># First and last rows based on existing order</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span>(n = <span class='fl'>5</span>)</div><div class='output co'>#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span>(n = <span class='fl'>5</span>)
+</div><div class='output co'>#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
 #&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_tail</span>(n = <span class='fl'>5</span>)</div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt qsec vs am gear carb
+#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_tail</span>(n = <span class='fl'>5</span>)
+</div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt qsec vs am gear carb
 #&gt; Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.9  1  1    5    2
 #&gt; Ford Pantera L 15.8   8 351.0 264 4.22 3.170 14.5  0  1    5    4
 #&gt; Ferrari Dino   19.7   6 145.0 175 3.62 2.770 15.5  0  1    5    6
 #&gt; Maserati Bora  15.0   8 301.0 335 3.54 3.570 14.6  0  1    5    8
 #&gt; Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.6  1  1    4    2</div><div class='input'>
 <span class='co'># Rows with minimum and maximum values of a variable</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span>(<span class='kw'>mpg</span>, n = <span class='fl'>5</span>)</div><div class='output co'>#&gt;                      mpg cyl disp  hp drat    wt  qsec vs am gear carb
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span>(<span class='kw'>mpg</span>, n = <span class='fl'>5</span>)
+</div><div class='output co'>#&gt;                      mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; Cadillac Fleetwood  10.4   8  472 205 2.93 5.250 17.98  0  0    3    4
 #&gt; Lincoln Continental 10.4   8  460 215 3.00 5.424 17.82  0  0    3    4
 #&gt; Camaro Z28          13.3   8  350 245 3.73 3.840 15.41  0  0    3    4
 #&gt; Duster 360          14.3   8  360 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Chrysler Imperial   14.7   8  440 230 3.23 5.345 17.42  0  0    3    4</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_max</span>(<span class='kw'>mpg</span>, n = <span class='fl'>5</span>)</div><div class='output co'>#&gt;                 mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#&gt; Chrysler Imperial   14.7   8  440 230 3.23 5.345 17.42  0  0    3    4</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_max</span>(<span class='kw'>mpg</span>, n = <span class='fl'>5</span>)
+</div><div class='output co'>#&gt;                 mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; Toyota Corolla 33.9   4 71.1  65 4.22 1.835 19.90  1  1    4    1
 #&gt; Fiat 128       32.4   4 78.7  66 4.08 2.200 19.47  1  1    4    1
 #&gt; Honda Civic    30.4   4 75.7  52 4.93 1.615 18.52  1  1    4    2
@@ -440,7 +448,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Fiat X1-9      27.3   4 79.0  66 4.08 1.935 18.90  1  1    4    1</div><div class='input'>
 <span class='co'># slice_min() and slice_max() may return more rows than requested</span>
 <span class='co'># in the presence of ties. Use with_ties = FALSE to suppress</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span>(<span class='kw'>cyl</span>, n = <span class='fl'>1</span>)</div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span>(<span class='kw'>cyl</span>, n = <span class='fl'>1</span>)
+</div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Datsun 710     22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
 #&gt; Merc 240D      24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
 #&gt; Merc 230       22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
@@ -451,15 +460,18 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Fiat X1-9      27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
 #&gt; Porsche 914-2  26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
 #&gt; Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span>(<span class='kw'>cyl</span>, n = <span class='fl'>1</span>, with_ties = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;             mpg cyl disp hp drat   wt  qsec vs am gear carb
+#&gt; Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span>(<span class='kw'>cyl</span>, n = <span class='fl'>1</span>, with_ties = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt;             mpg cyl disp hp drat   wt  qsec vs am gear carb
 #&gt; Datsun 710 22.8   4  108 93 3.85 2.32 18.61  1  1    4    1</div><div class='input'>
 <span class='co'># slice_sample() allows you to random select with or without replacement</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span>(n = <span class='fl'>5</span>)</div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span>(n = <span class='fl'>5</span>)
+</div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Merc 450SE     16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
 #&gt; AMC Javelin    15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
 #&gt; Toyota Corolla 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
 #&gt; Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Mazda RX4      21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span>(n = <span class='fl'>5</span>, replace = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                   mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Mazda RX4      21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span>(n = <span class='fl'>5</span>, replace = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt;                   mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Toyota Corolla   33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
 #&gt; Pontiac Firebird 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
 #&gt; Merc 450SLC...3  15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
@@ -468,7 +480,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='co'># you can optionally weight by a variable - this code weights by the</span>
 <span class='co'># physical weight of the cars, so heavy cars are more likely to get</span>
 <span class='co'># selected</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span>(weight_by = <span class='kw'>wt</span>, n = <span class='fl'>5</span>)</div><div class='output co'>#&gt;                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span>(weight_by = <span class='kw'>wt</span>, n = <span class='fl'>5</span>)
+</div><div class='output co'>#&gt;                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Merc 230      22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
 #&gt; Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Merc 450SL    17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
@@ -482,7 +495,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 
 <span class='co'># All slice helpers operate per group, silently truncating to the group</span>
 <span class='co'># size, so the following code works without error</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>group</span>) <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span>(n = <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 2</span><span>
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>group</span>) <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span>(n = <span class='fl'>2</span>)
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   group [3]</span><span>
 #&gt;   group     x
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -493,7 +507,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; </span><span style='color: #555555;'>5</span><span> c     0.916</div><div class='input'>
 <span class='co'># When specifying the proportion of rows to include non-integer sizes</span>
 <span class='co'># are rounded down, so group a gets 0 rows</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>group</span>) <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span>(prop = <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>group</span>) <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span>(prop = <span class='fl'>0.5</span>)
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   group [2]</span><span>
 #&gt;   group     x
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -504,9 +519,12 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='co'># slice() expressions can often be written to use `filter()` and</span>
 <span class='co'># `row_number()`, which can also be translated to SQL. For many databases,</span>
 <span class='co'># you'll need to supply an explicit variable to use to compute the row number.</span>
-<span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='op'>==</span> <span class='fl'>1L</span>)</div><div class='output co'>#&gt;           mpg cyl disp  hp drat   wt  qsec vs am gear carb
-#&gt; Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='op'>==</span> <span class='fu'><a href='context.html'>n</a></span>())</div><div class='output co'>#&gt;             mpg cyl disp  hp drat   wt qsec vs am gear carb
-#&gt; Volvo 142E 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='between.html'>between</a></span>(<span class='fu'><a href='ranking.html'>row_number</a></span>(), <span class='fl'>5</span>, <span class='fu'><a href='context.html'>n</a></span>()))</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+<span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='op'>==</span> <span class='fl'>1L</span>)
+</div><div class='output co'>#&gt;           mpg cyl disp  hp drat   wt  qsec vs am gear carb
+#&gt; Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='op'>==</span> <span class='fu'><a href='context.html'>n</a></span>())
+</div><div class='output co'>#&gt;             mpg cyl disp  hp drat   wt qsec vs am gear carb
+#&gt; Volvo 142E 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='between.html'>between</a></span>(<span class='fu'><a href='ranking.html'>row_number</a></span>(), <span class='fl'>5</span>, <span class='fu'><a href='context.html'>n</a></span>()))
+</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
 #&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
 #&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
