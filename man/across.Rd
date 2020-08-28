@@ -2,12 +2,9 @@
 % Please edit documentation in R/across.R
 \name{across}
 \alias{across}
-\alias{c_across}
-\title{Apply a function (or a set of functions) to a set of columns}
+\title{Apply a function (or functions) across multiple columns}
 \usage{
 across(.cols = everything(), .fns = NULL, ..., .names = NULL)
-
-c_across(cols = everything())
 }
 \arguments{
 \item{.fns}{Functions to apply to each of the selected columns.
@@ -40,18 +37,12 @@ A tibble with one column for each column in \code{.cols} and each function in \c
 }
 \description{
 \code{across()} makes it easy to apply the same transformation to multiple
-columns, allowing you to use \code{\link[=select]{select()}} semantics inside in \code{\link[=summarise]{summarise()}} and
-\code{\link[=mutate]{mutate()}}. \code{across()} supersedes the family of "scoped variants" like
-\code{summarise_at()}, \code{summarise_if()}, and \code{summarise_all()}. See
-\code{vignette("colwise")} for more details.
+columns, allowing you to use \code{\link[=select]{select()}} semantics inside in "data-masking"
+functions like \code{\link[=summarise]{summarise()}} and \code{\link[=mutate]{mutate()}}. See \code{vignette("colwise")} for
+more details.
 
-\code{c_across()} is designed to work with \code{\link[=rowwise]{rowwise()}} to make it easy to
-perform row-wise aggregations. It has two differences from \code{c()}:
-\itemize{
-\item It uses tidy select semantics so you can easily select multiple variables.
-See \code{vignette("rowwise")} for more details.
-\item It uses \code{\link[vctrs:vec_c]{vctrs::vec_c()}} in order to give safer outputs.
-}
+\code{across()} supersedes the family of "scoped variants" like
+\code{summarise_at()}, \code{summarise_if()}, and \code{summarise_all()}.
 }
 \examples{
 # across() -----------------------------------------------------------------
@@ -82,13 +73,7 @@ iris \%>\%
 iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
-
-# c_across() ---------------------------------------------------------------
-df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
-df \%>\%
-  rowwise() \%>\%
-  mutate(
-    sum = sum(c_across(w:z)),
-    sd = sd(c_across(w:z))
- )
+}
+\seealso{
+\code{\link[=c_across]{c_across()}} for a function that returns a vector
 }
