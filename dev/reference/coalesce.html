@@ -246,7 +246,7 @@ missing values replaced by the first non-missing value.</p>
     <pre class="examples"><div class='input'><span class='co'># Use a single value to replace all missing values</span>
 <span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>))
 <span class='fu'>coalesce</span>(<span class='kw'>x</span>, <span class='fl'>0L</span>)
-</div><div class='output co'>#&gt; [1] 0 4 0 1 2 5 0 3</div><div class='input'>
+</div><div class='output co'>#&gt; [1] 5 4 3 0 2 0 1 0</div><div class='input'>
 <span class='co'># Or match together a complete vector from missing pieces</span>
 <span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>5</span>)
 <span class='kw'>z</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>)
@@ -275,8 +275,7 @@ missing values replaced by the first non-missing value.</p>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

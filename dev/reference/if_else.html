@@ -260,9 +260,9 @@ otherwise <code>NA</code>.</p>
 <span class='co'># Unlike ifelse, if_else preserves types</span>
 <span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>], <span class='fl'>10</span>, replace = <span class='fl'>TRUE</span>))
 <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='kw'>x</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='kw'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fl'>NA</span>))
-</div><div class='output co'>#&gt;  [1]  1  1  1  2  3 NA  3  3  2 NA</div><div class='input'><span class='fu'>if_else</span>(<span class='kw'>x</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='kw'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fl'>NA</span>))
-</div><div class='output co'>#&gt;  [1] a    a    a    b    c    &lt;NA&gt; c    c    b    &lt;NA&gt;
-#&gt; Levels: a b c d e</div><div class='input'><span class='co'># Attributes are taken from the `true` vector,</span>
+</div><div class='output co'>#&gt;  [1] NA NA NA NA  3  1  2  1  3  2</div><div class='input'><span class='fu'>if_else</span>(<span class='kw'>x</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='kw'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fl'>NA</span>))
+</div><div class='output co'>#&gt;  [1] &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; c    a    b    a    c    b   
+#&gt; Levels: a b c e</div><div class='input'><span class='co'># Attributes are taken from the `true` vector,</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -280,8 +280,7 @@ otherwise <code>NA</code>.</p>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

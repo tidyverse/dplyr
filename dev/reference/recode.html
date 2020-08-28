@@ -309,16 +309,15 @@ in <code>...</code>. The levels in <code>.default</code> and <code>.missing</cod
 <span class='co'># values are unchanged.</span>
 <span class='kw'>char_vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='fl'>10</span>, replace = <span class='fl'>TRUE</span>)
 <span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>)
-</div><div class='output co'>#&gt;  [1] "b"     "c"     "c"     "c"     "b"     "b"     "Apple" "b"     "Apple"
-#&gt; [10] "b"    </div><div class='input'><span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>)
-</div><div class='output co'>#&gt;  [1] "Banana" "c"      "c"      "c"      "Banana" "Banana" "Apple"  "Banana"
-#&gt;  [9] "Apple"  "Banana"</div><div class='input'>
+</div><div class='output co'>#&gt;  [1] "c" "c" "c" "b" "b" "b" "c" "c" "b" "b"</div><div class='input'><span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>)
+</div><div class='output co'>#&gt;  [1] "c"      "c"      "c"      "Banana" "Banana" "Banana" "c"      "c"     
+#&gt;  [9] "Banana" "Banana"</div><div class='input'>
 <span class='co'># Use .default as replacement for unmatched values. Note that NA and</span>
 <span class='co'># replacement values need to be of the same type. For more information, see</span>
 <span class='co'># https://adv-r.hadley.nz/vectors-chap.html#missing-values</span>
 <span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>, .default = <span class='fl'>NA_character_</span>)
-</div><div class='output co'>#&gt;  [1] "Banana" NA       NA       NA       "Banana" "Banana" "Apple"  "Banana"
-#&gt;  [9] "Apple"  "Banana"</div><div class='input'>
+</div><div class='output co'>#&gt;  [1] NA       NA       NA       "Banana" "Banana" "Banana" NA       NA      
+#&gt;  [9] "Banana" "Banana"</div><div class='input'>
 <span class='co'># Throws an error as NA is logical, not character.</span>
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>recode</span>(<span class='kw'>char_vec</span>, a = <span class='st'>"Apple"</span>, b = <span class='st'>"Banana"</span>, .default = <span class='fl'>NA</span>)
@@ -327,8 +326,8 @@ in <code>...</code>. The levels in <code>.default</code> and <code>.missing</cod
 <span class='co'># Use a named character vector for unquote splicing with !!!</span>
 <span class='kw'>level_key</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(a = <span class='st'>"apple"</span>, b = <span class='st'>"banana"</span>, c = <span class='st'>"carrot"</span>)
 <span class='fu'>recode</span>(<span class='kw'>char_vec</span>, <span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='kw'>level_key</span>)
-</div><div class='output co'>#&gt;  [1] "banana" "carrot" "carrot" "carrot" "banana" "banana" "apple"  "banana"
-#&gt;  [9] "apple"  "banana"</div><div class='input'>
+</div><div class='output co'>#&gt;  [1] "carrot" "carrot" "carrot" "banana" "banana" "banana" "carrot" "carrot"
+#&gt;  [9] "banana" "banana"</div><div class='input'>
 <span class='co'># For numeric values, named arguments can also be used</span>
 <span class='kw'>num_vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>NA</span>)
 <span class='fu'>recode</span>(<span class='kw'>num_vec</span>, `2` = <span class='fl'>20L</span>, `4` = <span class='fl'>40L</span>)
@@ -376,8 +375,8 @@ in <code>...</code>. The levels in <code>.default</code> and <code>.missing</cod
 <span class='co'># Use a named character vector to recode factors with unquote splicing.</span>
 <span class='kw'>level_key</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(a = <span class='st'>"apple"</span>, b = <span class='st'>"banana"</span>, c = <span class='st'>"carrot"</span>)
 <span class='fu'>recode_factor</span>(<span class='kw'>char_vec</span>, <span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='kw'>level_key</span>)
-</div><div class='output co'>#&gt;  [1] banana carrot carrot carrot banana banana apple  banana apple  banana
-#&gt; Levels: apple banana carrot</div></pre>
+</div><div class='output co'>#&gt;  [1] carrot carrot carrot banana banana banana carrot carrot banana banana
+#&gt; Levels: banana carrot</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -394,8 +393,7 @@ in <code>...</code>. The levels in <code>.default</code> and <code>.missing</cod
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

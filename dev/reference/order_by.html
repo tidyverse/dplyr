@@ -252,12 +252,12 @@ is the vector being operated on</p></td>
 <span class='kw'>wrong</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>scrambled</span>, running = <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='kw'>value</span>))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='kw'>wrong</span>, <span class='kw'>year</span>)
 </div><div class='output co'>#&gt;   year value running
-#&gt; 1 2000     0      46
-#&gt; 2 2001     1       1
-#&gt; 3 2002     4       5
-#&gt; 4 2003     9      55
-#&gt; 5 2004    16      46
-#&gt; 6 2005    25      30</div><div class='input'>
+#&gt; 1 2000     0       4
+#&gt; 2 2001     1      55
+#&gt; 3 2002     4       4
+#&gt; 4 2003     9      13
+#&gt; 5 2004    16      54
+#&gt; 6 2005    25      38</div><div class='input'>
 <span class='kw'>right</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>scrambled</span>, running = <span class='fu'>order_by</span>(<span class='kw'>year</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='kw'>value</span>)))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='kw'>right</span>, <span class='kw'>year</span>)
 </div><div class='output co'>#&gt;   year value running
@@ -283,8 +283,7 @@ is the vector being operated on</p></td>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
