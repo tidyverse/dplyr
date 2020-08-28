@@ -550,6 +550,18 @@ test_that("bind_rows() correctly restores (#2457)", {
   expect_s3_class(df$x, "vctrs_list_of")
 })
 
+test_that("bind_rows() validates lists (#5417)", {
+  out <- bind_rows(list(x = 1), list(x = 1, y = 1:2))
+  expect_identical(out, tibble(x = c(1, 1, 1), y = c(NA, 1:2)))
+
+  x <- vctrs::list_of(a = data.frame(x = 1), b = data.frame(y = 2:3))
+  out <- bind_rows(x)
+  exp <- tibble(
+    a = vctrs::data_frame(x = c(1, 1), y = int(NA, NA)),
+    b = vctrs::data_frame(x = dbl(NA, NA), y = 2:3)
+  )
+  expect_identical(out, exp)
+})
 
 # Errors ------------------------------------------------------------------
 

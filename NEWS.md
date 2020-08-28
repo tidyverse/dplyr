@@ -1,6 +1,10 @@
 # dplyr (development version)
 
+* Fixed issue in `bind_rows()` causing lists to be incorrectly transformed as
+  data frames (#5417, #5749).
+
 * Fixed behaviour of `...` in top-level `across()` calls (#5813, #5832).
+
 * `dplyr_col_select()` keeps attributes for bare data frames (#5294, #5831).
 
 * Fixed quosure handling in `dplyr::group_by()` that caused issues with extra
@@ -79,6 +83,7 @@
 * `mutate()` always keeps grouping variables, unconditional to `.keep=` (#5582).
 
 * dplyr now depends on R 3.3.0
+
 
 # dplyr 1.0.2
 
