@@ -11,6 +11,7 @@
 #' @param .keep_all If `TRUE`, keep all variables in `.data`.
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
+#' @param .keep_last If `TRUE`, keep the last duplicated row.
 #' @return
 #' An object of the same type as `.data`. The output has the following
 #' properties:
@@ -59,7 +60,7 @@
 #' ) %>% group_by(g)
 #' df %>% distinct(x)
 #'
-distinct <- function(.data, ..., .keep_all = FALSE) {
+distinct <- function(.data, ..., .keep_all = FALSE, .keep_last = FALSE) {
   UseMethod("distinct")
 }
 
@@ -69,7 +70,7 @@ distinct <- function(.data, ..., .keep_all = FALSE) {
 #' vars (character vector) comes out.
 #' @rdname group_by_prepare
 #' @export
-distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
+distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE, .keep_last = FALSE) {
   stopifnot(is_quosures(vars), is.character(group_vars))
 
   # If no input, keep all variables
@@ -119,10 +120,15 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 
   # out <- as_tibble(prep$data)
   out <- prep$data
-  loc <- vec_unique_loc(as_tibble(out)[prep$vars])
+  
+  if (.keep_last = FALSE) {
+    obj <- as_tibble(out)[prep$vars]
+    loc <- vec_unique_loc(obj)
+  } else {
+    loc <- grouping(obj)[attr(grouping(obj), 'ends')]
+  }
 
-
-  dplyr_row_slice(out[prep$keep], loc)
+    dplyr_row_slice(out[prep$keep], loc)
 }
 
 
