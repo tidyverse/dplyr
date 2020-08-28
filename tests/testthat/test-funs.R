@@ -5,6 +5,11 @@ test_that("returns NA if any argument is NA", {
   expect_equal(between(NA, 1, 1), NA)
 })
 
+test_that("clearly errors that not vectorised", {
+  expect_error(between(1, 1, 1:2), "right")
+  expect_error(between(1, 1:2, 1), "left")
+})
+
 test_that("compatible with base R", {
   x <- runif(1e3)
   expect_equal(between(x, 0.25, 0.5), x >= 0.25 & x <= 0.5)

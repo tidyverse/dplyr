@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Clarify that `between()` is not vectorised (#5493).
+
 # dplyr 1.0.2
 
 * Fixed `across()` issue where data frame columns would mask objects referred to

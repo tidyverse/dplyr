@@ -24,7 +24,8 @@ Useful links:
 Authors:
 \itemize{
   \item Romain François (\href{https://orcid.org/0000-0002-2444-4226}{ORCID})
-  \item Lionel Henry
+  \item Lionel 
+             Henry
   \item Kirill Müller (\href{https://orcid.org/0000-0002-1416-3412}{ORCID})
 }
 
