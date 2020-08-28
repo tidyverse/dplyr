@@ -13,8 +13,7 @@ Authors@R:
              role = "aut",
              comment = c(ORCID = "0000-0002-2444-4226")),
       person(given = "Lionel",
-             family = "
-             Henry",
+             family = "Henry",
              role = "aut"),
       person(given = "Kirill",
              family = "Müller",
