@@ -563,6 +563,65 @@ test_that("bind_rows() validates lists (#5417)", {
   expect_identical(out, exp)
 })
 
+test_that("bind_rows() handles missing, null, and empty elements (#5429)", {
+  x <- list(a = "A", b = 1)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_identical(
+    bind_rows(l),
+    tibble(a = c("A", "B"), b = c(1, 2))
+  )
+
+  x <- list(a = NA, b = NA)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_identical(
+    bind_rows(l),
+    tibble(a = c(NA, "B"), b = c(NA, 2))
+  )
+
+  x <- list(a = NULL, b = NULL)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_identical(
+    bind_rows(l),
+    tibble(a = "B", b = 2)
+  )
+
+  x <- list(a = NULL, b = 1)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_identical(
+    bind_rows(l),
+    tibble(b = c(1, 2), a = c(NA, "B"))
+  )
+
+  x <- list(a = character(0), b = 1)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_identical(
+    bind_rows(l),
+    tibble(a = "B", b = 2)
+  )
+
+  x <- list(a = character(0), b = 1:2)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_error(
+    bind_rows(l),
+    class = "vctrs_error_incompatible_size"
+  )
+
+  x <- list(a = letters[1:3], b = 1:2)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_error(
+    bind_rows(l),
+    class = "vctrs_error_incompatible_size"
+  )
+})
+
+
 # Errors ------------------------------------------------------------------
 
 test_that("*_bind() give meaningful errors", {
