@@ -11,6 +11,7 @@
 #' @param .keep_all If `TRUE`, keep all variables in `.data`.
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
+#' @param .keep_last If `TRUE`, keep the last duplicated row.
 #' @return
 #' An object of the same type as `.data`. The output has the following
 #' properties:
@@ -59,7 +60,7 @@
 #' ) %>% group_by(g)
 #' df %>% distinct(x)
 #'
-distinct <- function(.data, ..., .keep_all = FALSE) {
+distinct <- function(.data, ..., .keep_all = FALSE, .keep_last = FALSE) {
   UseMethod("distinct")
 }
 
@@ -69,9 +70,9 @@ distinct <- function(.data, ..., .keep_all = FALSE) {
 #' vars (character vector) comes out.
 #' @rdname group_by_prepare
 #' @export
-distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
+distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE, .keep_last = FALSE) {
   stopifnot(is_quosures(vars), is.character(group_vars))
-
+  
   # If no input, keep all variables
   if (length(vars) == 0) {
     return(list(
@@ -80,12 +81,12 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
       keep = seq_along(.data)
     ))
   }
-
+  
   # If any calls, use mutate to add new columns, then distinct on those
   computed_columns <- add_computed_columns(.data, vars)
   .data <- computed_columns$data
   distinct_vars <- computed_columns$added_names
-
+  
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use their names
   missing_vars <- setdiff(distinct_vars, names(.data))
@@ -96,32 +97,37 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
       bullets
     ))
   }
-
+  
   # Always include grouping variables preserving input order
   out_vars <- intersect(names(.data), c(distinct_vars, group_vars))
-
+  
   if (.keep_all) {
     keep <- seq_along(.data)
   } else {
     keep <- out_vars
   }
-
+  
   list(data = .data, vars = out_vars, keep = keep)
 }
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
   prep <- distinct_prepare(.data,
-    vars = enquos(...),
-    group_vars = group_vars(.data),
-    .keep_all = .keep_all
+                           vars = enquos(...),
+                           group_vars = group_vars(.data),
+                           .keep_all = .keep_all
   )
-
+  
   # out <- as_tibble(prep$data)
   out <- prep$data
-  loc <- vec_unique_loc(as_tibble(out)[prep$vars])
-
-
+  
+  if (.keep_last == FALSE) {
+    obj <- as_tibble(out)[prep$vars]
+    loc <- vec_unique_loc(obj)
+  } else {
+    loc <- grouping(obj)[attr(grouping(obj), 'ends')]
+  }
+  
   dplyr_row_slice(out[prep$keep], loc)
 }
 
@@ -139,19 +145,19 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 #' @export
 n_distinct <- function(..., na.rm = FALSE) {
   args <- list2(...)
-
+  
   size <- vec_size_common(!!!args)
-
+  
   data <- vec_recycle_common(!!!args, .size = size)
-
+  
   nms <- vec_rep("", length(data))
   data <- set_names(data, nms)
-
+  
   data <- new_data_frame(data, n = size)
-
+  
   if (isTRUE(na.rm)){
     data <- vec_slice(data, !reduce(map(data, vec_equal_na), `|`))
   }
-
+  
   vec_unique_count(data)
 }
