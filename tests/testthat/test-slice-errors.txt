@@ -37,3 +37,11 @@ Error: `n` must be a non-missing positive number.
 > check_slice_size(prop = -1)
 Error: `prop` must be a non-missing positive number.
 
+> check_slice_size(n = n())
+Error: `n` must be constant across groups in `check_slice_size()`.
+x `n()` must only be used inside dplyr verbs.
+
+> check_slice_size(prop = n())
+Error: `prop` must be constant across groups in `check_slice_size()`.
+x `n()` must only be used inside dplyr verbs.
+
