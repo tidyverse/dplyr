@@ -2,6 +2,9 @@
 
 * Clarify that `between()` is not vectorised (#5493).
 
+* Fixed `across()` issue where data frame columns would could not be referred to
+  with `all_of()` in the nested case (`mutate()` within `mutate()`) (#5498).
+
 # dplyr 1.0.2
 
 * Fixed `across()` issue where data frame columns would mask objects referred to

@@ -212,22 +212,40 @@ test_that("across() uses environment from the current quosure (#5460)", {
   expect_equal(df %>% mutate(across(all_of(y), mean)), df)
   expect_equal(df %>% filter(across(all_of(y), ~ .x < 2)), df)
 
-  # Recursive case
-  out <- df %>% summarise(summarise(across(), across(all_of(y), mean)))
-  expect_equal(out, data.frame(x = 1))
+  # Recursive case fails because the `y` column has precedence (#5498)
+  expect_error(df %>% summarise(summarise(across(), across(all_of(y), mean))))
 
   # Inherited case
   out <- df %>% summarise(local(across(all_of(y), mean)))
   expect_equal(out, data.frame(x = 1))
+})
 
-  # Recursive + inherited case
-  out <- df %>%
-    summarise(
-      local(
-        summarise(across(), across(all_of(y), mean))
-      )
-    )
-  expect_equal(out, data.frame(x = 1))
+test_that("across() sees columns in the recursive case (#5498)", {
+  df <- tibble(
+    vars = list("foo"),
+    data = list(data.frame(foo = 1, bar = 2))
+  )
+
+  out <- df %>% mutate(data = purrr::map2(data, vars, ~ {
+    .x %>% mutate(across(all_of(.y), ~ NA))
+  }))
+  exp <- tibble(
+    vars = list("foo"),
+    data = list(data.frame(foo = NA, bar = 2))
+  )
+  expect_identical(out, exp)
+
+  out <- df %>% mutate(data = purrr::map2(data, vars, ~ {
+    local({
+      .y <- "bar"
+      .x %>% mutate(across(all_of(.y), ~ NA))
+    })
+  }))
+  exp <- tibble(
+    vars = list("foo"),
+    data = list(data.frame(foo = 1, bar = NA))
+  )
+  expect_identical(out, exp)
 })
 
 

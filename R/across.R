@@ -1,19 +1,13 @@
-#' Apply a function (or a set of functions) to a set of columns
+#' Apply a function (or functions) across multiple columns
 #'
 #' @description
 #' `across()` makes it easy to apply the same transformation to multiple
-#' columns, allowing you to use [select()] semantics inside in [summarise()] and
-#' [mutate()]. `across()` supersedes the family of "scoped variants" like
-#' `summarise_at()`, `summarise_if()`, and `summarise_all()`. See
-#' `vignette("colwise")` for more details.
+#' columns, allowing you to use [select()] semantics inside in "data-masking"
+#' functions like [summarise()] and [mutate()]. See `vignette("colwise")` for
+#'  more details.
 #'
-#' `c_across()` is designed to work with [rowwise()] to make it easy to
-#' perform row-wise aggregations. It has two differences from `c()`:
-#'
-#' * It uses tidy select semantics so you can easily select multiple variables.
-#'   See `vignette("rowwise")` for more details.
-#'
-#' * It uses [vctrs::vec_c()] in order to give safer outputs.
+#' `across()` supersedes the family of "scoped variants" like
+#' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
 #'
 #' @param cols,.cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
@@ -67,16 +61,8 @@
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
-#'
-#' # c_across() ---------------------------------------------------------------
-#' df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
-#' df %>%
-#'   rowwise() %>%
-#'   mutate(
-#'     sum = sum(c_across(w:z)),
-#'     sd = sd(c_across(w:z))
-#'  )
 #' @export
+#' @seealso [c_across()] for a function that returns a vector
 across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   key <- key_deparse(sys.call())
   setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key, .caller_env = caller_env())
@@ -136,8 +122,29 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   new_tibble(out, nrow = size)
 }
 
+
+#' Combine values from multiple columns
+#'
+#' @description
+#' `c_across()` is designed to work with [rowwise()] to make it easy to
+#' perform row-wise aggregations. It has two differences from `c()`:
+#'
+#' * It uses tidy select semantics so you can easily select multiple variables.
+#'   See `vignette("rowwise")` for more details.
+#'
+#' * It uses [vctrs::vec_c()] in order to give safer outputs.
+#'
+#' @inheritParams across
+#' @seealso [across()] for a function that returns a tibble.
 #' @export
-#' @rdname across
+#' @examples
+#' df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
+#' df %>%
+#'   rowwise() %>%
+#'   mutate(
+#'     sum = sum(c_across(w:z)),
+#'     sd = sd(c_across(w:z))
+#'  )
 c_across <- function(cols = everything()) {
   key <- key_deparse(sys.call())
   vars <- c_across_setup({{ cols }}, key = key)
@@ -172,7 +179,7 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
   # `across()` is evaluated in a data mask so we need to remove the
   # mask layer from the quosure environment (#5460)
   cols <- enquo(cols)
-  cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = TRUE, inherit = TRUE))
+  cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = TRUE))
 
   vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
