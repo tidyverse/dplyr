@@ -253,7 +253,7 @@ test_that("slice_*() checks for empty ...", {
   expect_error(slice_tail(df, 5))
   expect_error(slice_min(df, x, 5))
   expect_error(slice_max(df, x, 5))
-  expect_error(slice_saple(df, 5))
+  expect_error(slice_sample(df, 5))
 })
 
 test_that("slice_*() checks for constant n= and prop=", {
