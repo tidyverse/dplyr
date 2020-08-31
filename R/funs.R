@@ -5,7 +5,7 @@
 #' appropriate SQL for remote tables.
 #'
 #' @param x A numeric vector of values
-#' @param left,right Boundary values
+#' @param left,right Boundary values (must be scalars).
 #' @export
 #' @examples
 #' between(1:12, 7, 9)
@@ -18,6 +18,13 @@
 between <- function(x, left, right) {
   if (!is.null(attr(x, "class")) && !inherits(x, c("Date", "POSIXct"))) {
     warn("between() called on numeric vector with S3 class");
+  }
+
+  if (length(left) != 1) {
+    abort("`left` must be length 1")
+  }
+  if (length(right) != 1) {
+    abort("`right` must length 1")
   }
 
   if (!is.double(x)) {

@@ -9,7 +9,7 @@ between(x, left, right)
 \arguments{
 \item{x}{A numeric vector of values}
 
-\item{left, right}{Boundary values}
+\item{left, right}{Boundary values (must be scalars).}
 }
 \description{
 This is a shortcut for \code{x >= left & x <= right}, implemented
