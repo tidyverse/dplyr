@@ -58,6 +58,8 @@
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{.col}.{.fn}"))
+#'
+#' # When the list is not named, .fn is replaced by the function's position
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
