@@ -48,6 +48,7 @@ SEXP symbols::bindings = Rf_install("bindings");
 SEXP symbols::which_used = Rf_install("which_used");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::abort_glue = Rf_install("abort_glue");
+SEXP symbols::used = Rf_install("used");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
@@ -81,6 +82,9 @@ static const R_CallMethodDef CallEntries[] = {
 
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
+
+  {"dplyr_mask_set", (DL_FUNC)& dplyr_mask_set, 3},
+  {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 3},
 
   {NULL, NULL, 0}
 };
