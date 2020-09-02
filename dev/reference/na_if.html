@@ -253,7 +253,7 @@ value.</p>
 <span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"abc"</span>, <span class='st'>"def"</span>, <span class='st'>""</span>, <span class='st'>"ghi"</span>)
 <span class='fu'>na_if</span>(<span class='kw'>y</span>, <span class='st'>""</span>)
 </div><div class='output co'>#&gt; [1] "abc" "def" NA    "ghi"</div><div class='input'>
-<span class='co'># na_if is particularly useful inside mutate,</span>
+<span class='co'># na_if() is particularly useful inside mutate(),</span>
 <span class='co'># and is meant for use with vectors rather than entire data frames</span>
 <span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='select.html'>select</a></span>(<span class='kw'>name</span>, <span class='kw'>eye_color</span>) <span class='op'>%&gt;%</span>
@@ -272,10 +272,10 @@ value.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Biggs Darklighter  brown    
 #&gt; </span><span style='color: #555555;'>10</span><span> Obi-Wan Kenobi     blue-gray
 #&gt; </span><span style='color: #555555;'># … with 77 more rows</span><span></div><div class='input'>
-<span class='co'># na_if can also be used with scoped variants of mutate</span>
-<span class='co'># like mutate_if to mutate multiple columns</span>
+<span class='co'># na_if() can also be used with mutate() and across()</span>
+<span class='co'># to mutate multiple columns</span>
 <span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='mutate_all.html'>mutate_if</a></span>(<span class='kw'>is.character</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='op'>~</span><span class='fu'>na_if</span>(<span class='kw'>.</span>, <span class='st'>"unknown"</span>)))
+   <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='fu'><a href='across.html'>across</a></span>(<span class='fu'>where</span>(<span class='kw'>is.character</span>), <span class='op'>~</span><span class='fu'>na_if</span>(<span class='kw'>.</span>, <span class='st'>"unknown"</span>)))
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 87 x 14</span><span>
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
