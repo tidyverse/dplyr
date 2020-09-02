@@ -89,26 +89,49 @@ min_max <- list(
   min = ~min(.x, na.rm = TRUE), 
   max = ~max(.x, na.rm = TRUE)
 )
-starwars %>% summarise(across(c(height, mass), min_max))
+starwars %>% summarise(across(where(is.numeric), min_max))
+starwars %>% summarise(across(c(height, mass, birth_year), min_max))
 ```
 
 Control how the names are created with the `.names` argument which takes a [glue](https://glue.tidyverse.org/) spec:
 
 ```{r}
-starwars %>% summarise(across(c(height, mass), min_max, .names = "{.fn}.{.col}"))
+starwars %>% summarise(across(where(is.numeric), min_max, .names = "{.fn}.{.col}"))
+starwars %>% summarise(across(c(height, mass, birth_year), min_max, .names = "{.fn}.{.col}"))
 ```
 
 If you'd prefer all summaries with the same function to be grouped together, you'll have to expand the calls yourself:
 
 ```{r}
 starwars %>% summarise(
-  across(c(height, mass), ~min(.x, na.rm = TRUE), .names = "min_{.col}"),
-  across(c(height, mass), ~max(.x, na.rm = TRUE), .names = "max_{.col}")
+  across(c(height, mass, birth_year), ~min(.x, na.rm = TRUE), .names = "min_{.col}"),
+  across(c(height, mass, birth_year), ~max(.x, na.rm = TRUE), .names = "max_{.col}")
 )
 ```
 
 (One day this might become an argument to `across()` but we're not yet sure how it would work.)
 
+We cannot however use `where(is.numeric)` in that last case because the second `across()` 
+would pick up the variables that were newly created ("min_height", "min_mass" and "min_birth_year"). 
+
+We can work around this by combining both calls to `across()` into a single expression: 
+
+```{r}
+starwars %>% summarise(
+  tibble(
+    across(where(is.numeric), ~min(.x, na.rm = TRUE), .names = "min_{.col}"),
+    across(where(is.numeric), ~max(.x, na.rm = TRUE), .names = "max_{.col}")  
+  )
+)
+```
+
+Alternatively we could reorganize results with `relocate()`:
+
+```{r}
+starwars %>% 
+  summarise(across(where(is.numeric), min_max, .names = "{.fn}.{.col}")) %>% 
+  relocate(starts_with("min"))
+```
 
 ### Current column
 
@@ -123,7 +146,7 @@ df %>% mutate(across(all_of(names(mult)), ~ .x * mult[[cur_column()]]))
 
 ### Gotchas
 
-Be careful when combining numeric summaries with `is.numeric`:
+Be careful when combining numeric summaries with `where(is.numeric)`:
 
 ```{r}
 df <- data.frame(x = c(1, 2, 3), y = c(1, 4, 9))
@@ -145,6 +168,9 @@ Alternatively, you could explicitly exclude `n` from the columns to operate on:
 df %>% 
   summarise(n = n(), across(where(is.numeric) & !n, sd))
 ```
+
+
+
 
 ### Other verbs
 
