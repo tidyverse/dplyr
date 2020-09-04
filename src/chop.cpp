@@ -97,6 +97,6 @@ SEXP dplyr_data_masks_setup(SEXP chops, SEXP data) {
     }
   }
 
-  UNPROTECT(1);
+  UNPROTECT(2);
   return masks;
 }
