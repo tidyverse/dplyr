@@ -100,6 +100,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 1},
   {"dplyr_data_masks_setup", (DL_FUNC)& dplyr_data_masks_setup, 2},
   {"env_resolved", (DL_FUNC)& env_resolved, 2},
+  {"dplyr_eval_tidy_all", (DL_FUNC)& dplyr_eval_tidy_all, 5},
 
   {NULL, NULL, 0}
 };
