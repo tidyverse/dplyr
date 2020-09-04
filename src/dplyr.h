@@ -16,6 +16,7 @@ namespace dplyr {
 
 struct envs {
   static SEXP ns_dplyr;
+  static SEXP ns_vctrs;
 };
 
 struct symbols {
@@ -41,6 +42,10 @@ struct vectors {
 
   static SEXP names_expanded;
   static SEXP names_summarise_recycle_chunks;
+};
+
+struct functions {
+  static SEXP vec_chop;
 };
 
 } // namespace dplyr
@@ -72,6 +77,8 @@ SEXP dplyr_group_keys(SEXP group_data);
 
 SEXP dplyr_mask_set(SEXP env_private, SEXP s_name, SEXP chunks);
 SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks);
+
+SEXP dplyr_lazy_vec_chop(SEXP e, SEXP data, SEXP indices);
 
 #define DPLYR_MASK_INIT()                                                          \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));         \
