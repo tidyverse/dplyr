@@ -90,6 +90,7 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks);
 
 SEXP dplyr_lazy_vec_chop(SEXP data);
 SEXP dplyr_data_masks_setup(SEXP chops, SEXP data);
+SEXP env_resolved(SEXP env, SEXP names);
 
 #define DPLYR_MASK_INIT()                                                          \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));         \

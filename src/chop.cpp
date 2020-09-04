@@ -100,3 +100,19 @@ SEXP dplyr_data_masks_setup(SEXP chops, SEXP data) {
   UNPROTECT(2);
   return masks;
 }
+
+SEXP env_resolved(SEXP env, SEXP names) {
+  R_xlen_t n = XLENGTH(names);
+  SEXP res = PROTECT(Rf_allocVector(LGLSXP, n));
+
+  int* p_res = LOGICAL(res);
+  for(R_xlen_t i = 0; i < n; i++) {
+    SEXP prom = Rf_findVarInFrame(env, Rf_installChar(STRING_ELT(names, i)));
+    p_res[i] = PRVALUE(prom) != R_UnboundValue;
+  }
+
+  Rf_namesgets(res, names);
+  UNPROTECT(1);
+  return res;
+}
+
