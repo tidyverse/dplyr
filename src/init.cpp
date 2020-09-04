@@ -3,6 +3,7 @@
 namespace dplyr {
 
 SEXP envs::ns_dplyr = NULL;
+SEXP envs::ns_vctrs = NULL;
 
 SEXP get_classes_vctrs_list_of() {
   SEXP klasses = Rf_allocVector(STRSXP, 3);
@@ -56,15 +57,19 @@ SEXP vectors::empty_int_vector = get_empty_int_vector();
 SEXP vectors::names_expanded = get_names_expanded();
 SEXP vectors::names_summarise_recycle_chunks = get_names_summarise_recycle_chunks();
 
+SEXP functions::vec_chop = NULL;
+
 } // dplyr
 
-SEXP dplyr_init_library(SEXP ns) {
-  dplyr::envs::ns_dplyr = ns;
+SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs) {
+  dplyr::envs::ns_dplyr = ns_dplyr;
+  dplyr::envs::ns_vctrs = ns_vctrs;
+  dplyr::functions::vec_chop = Rf_findVarInFrame(ns_vctrs, Rf_install("vec_chop"));
   return R_NilValue;
 }
 
 static const R_CallMethodDef CallEntries[] = {
-  {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 1},
+  {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 2},
 
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
   {"dplyr_between", (DL_FUNC)& dplyr_between, 3},
@@ -85,6 +90,8 @@ static const R_CallMethodDef CallEntries[] = {
 
   {"dplyr_mask_set", (DL_FUNC)& dplyr_mask_set, 3},
   {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 3},
+
+  {"dplyr_lazy_vec_chop", (DL_FUNC)& dplyr_lazy_vec_chop, 3},
 
   {NULL, NULL, 0}
 };
