@@ -46,6 +46,8 @@ struct vectors {
 
 struct functions {
   static SEXP vec_chop;
+  static SEXP dot_subset2;
+  static SEXP list;
 };
 
 } // namespace dplyr
@@ -58,6 +60,14 @@ namespace vctrs {
 bool vec_is_vector(SEXP x) ;
 R_len_t short_vec_size(SEXP x) ;
 SEXP short_vec_recycle(SEXP x, R_len_t n);
+
+inline bool vec_is_list(SEXP x) {
+  SEXP call = PROTECT(Rf_lang2(Rf_install("vec_is_list"), x));
+  SEXP res = Rf_eval(call, dplyr::envs::ns_vctrs);
+  UNPROTECT(1);
+  return LOGICAL(res)[0];
+}
+
 }
 
 SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr);
@@ -78,7 +88,8 @@ SEXP dplyr_group_keys(SEXP group_data);
 SEXP dplyr_mask_set(SEXP env_private, SEXP s_name, SEXP chunks);
 SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks);
 
-SEXP dplyr_lazy_vec_chop(SEXP e, SEXP data, SEXP indices);
+SEXP dplyr_lazy_vec_chop(SEXP data);
+SEXP dplyr_data_masks_setup(SEXP chops, SEXP data);
 
 #define DPLYR_MASK_INIT()                                                          \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));         \

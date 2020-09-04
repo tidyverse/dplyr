@@ -1,6 +1,14 @@
 
-lazy_vec_chop <- function(data, indices) {
-  .Call(dplyr_lazy_vec_chop,
-        new.env(parent = empty_env(), size = ncol(data), hash = TRUE),
-        data, indices)
+dplyr_lazy_vec_chop <- function(data) {
+  .Call(dplyr_lazy_vec_chop_impl, data)
+}
+
+dplyr_data_masks <- function(chops, data) {
+  masks <- .Call(dplyr_data_masks_setup, chops, data)
+
+  for (i in seq_along(masks)) {
+    masks[[i]] <- new_data_mask(masks[[i]])
+    masks[[i]]$.data <- as_data_pronoun(masks[[i]])
+  }
+  masks
 }
