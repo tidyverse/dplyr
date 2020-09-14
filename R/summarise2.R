@@ -5,11 +5,11 @@ summarise2_cols <- function(.data, ...) {
   dots <- enquos(...)
   auto_names <- names(enquos(..., .named = TRUE))
 
+  ## evaluate all expressions for all groups
   # updated internally before each eval_tidy() call
   context <- env(index_expression = NA_integer_, index_group = NA_integer_)
-
   lists <- withCallingHandlers(
-    .Call(dplyr_eval_tidy_all, dots, masks, caller_env(), auto_names, context),
+    .Call(dplyr_eval_tidy_all, dots, chops, masks, caller_env(), auto_names, context),
     error = function(e) {
       index_expression <- context$index_expression
       index_group <- context$index_group
@@ -30,6 +30,9 @@ summarise2_cols <- function(.data, ...) {
     }
   )
 
+  ## combine results
+  # TODO: promote errors to dplyr style errors.
+  # TODO: handle when columns repeat, e.g. summarise(x = 1, x = x + 1)
   tibbles <- map(lists, function(.x) {
     new_data_frame(df_list(!!!.x))
   })
@@ -99,3 +102,7 @@ summarise2.grouped_df <- function(.data, ..., .groups = NULL) {
 
   out
 }
+
+# for now
+#' @export
+summarise2.rowwise_df <- summarise.rowwise_df

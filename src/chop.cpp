@@ -132,7 +132,7 @@ SEXP env_resolved(SEXP env, SEXP names) {
   return res;
 }
 
-SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP masks, SEXP caller_env, SEXP auto_names, SEXP context) {
+SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env, SEXP auto_names, SEXP context) {
   R_xlen_t n_expr = XLENGTH(quosures);
   SEXP names = PROTECT(Rf_getAttrib(quosures, R_NamesSymbol));
   R_xlen_t n_masks = XLENGTH(masks);
