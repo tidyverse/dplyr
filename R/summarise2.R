@@ -11,11 +11,22 @@ summarise2_cols <- function(.data, ...) {
   lists <- withCallingHandlers(
     .Call(dplyr_eval_tidy_all, dots, masks, caller_env(), auto_names, context),
     error = function(e) {
-      # TODO: improve error, use its conditionMessage, the group, the quosure ...
-      abort("evaluation error",
-            index_expression = context$index_expression,
-            index_group = context$index_group
+      index_expression <- context$index_expression
+      index_group <- context$index_group
+
+      local_call_step(dots = dots, .index = index_expression, .fn = "summarise",
+                      .dot_data = inherits(e, "rlang_error_data_pronoun_not_found"))
+
+      bullets <- c(
+        cnd_bullet_header(),
+        x = conditionMessage(e),
+        i = cnd_bullet_input_info()
       )
+      if (is_grouped_df(.data)) {
+        keys <- group_keys(.data)[index_group, ]
+        bullets <- c(bullets, i = glue("The error occurred in group {index_group}: {group_labels_details(keys)}."))
+      }
+      abort(bullets)
     }
   )
 
