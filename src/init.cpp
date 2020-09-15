@@ -4,6 +4,7 @@ namespace dplyr {
 
 SEXP envs::ns_dplyr = NULL;
 SEXP envs::ns_vctrs = NULL;
+SEXP envs::ns_funs = NULL;
 
 SEXP get_classes_vctrs_list_of() {
   SEXP klasses = Rf_allocVector(STRSXP, 3);
@@ -62,20 +63,24 @@ SEXP vectors::names_summarise_recycle_chunks = get_names_summarise_recycle_chunk
 SEXP functions::vec_chop = NULL;
 SEXP functions::dot_subset2 = NULL;
 SEXP functions::list = NULL;
+SEXP functions::eval_hybrid = NULL;
 
 } // dplyr
 
-SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs) {
+SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs, SEXP ns_funs) {
   dplyr::envs::ns_dplyr = ns_dplyr;
   dplyr::envs::ns_vctrs = ns_vctrs;
+  dplyr::envs::ns_vctrs = ns_funs;
+
   dplyr::functions::vec_chop = Rf_findVarInFrame(ns_vctrs, Rf_install("vec_chop"));
   dplyr::functions::dot_subset2 = Rf_findVarInFrame(R_BaseEnv, Rf_install(".subset2"));
   dplyr::functions::list = Rf_findVarInFrame(R_BaseEnv, Rf_install("list"));
+  dplyr::functions::eval_hybrid = Rf_findVarInFrame(ns_funs, Rf_install("eval_hybrid"));
   return R_NilValue;
 }
 
 static const R_CallMethodDef CallEntries[] = {
-  {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 2},
+  {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 3},
 
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
   {"dplyr_between", (DL_FUNC)& dplyr_between, 3},
@@ -97,7 +102,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_set", (DL_FUNC)& dplyr_mask_set, 3},
   {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 3},
 
-  {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 1},
+  {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 2},
   {"dplyr_data_masks_setup", (DL_FUNC)& dplyr_data_masks_setup, 2},
   {"env_resolved", (DL_FUNC)& env_resolved, 2},
   {"dplyr_eval_tidy_all", (DL_FUNC)& dplyr_eval_tidy_all, 6},

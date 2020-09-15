@@ -1,6 +1,6 @@
 
-dplyr_lazy_vec_chop <- function(data) {
-  .Call(dplyr_lazy_vec_chop_impl, data)
+dplyr_lazy_vec_chop <- function(data, caller_env) {
+  .Call(dplyr_lazy_vec_chop_impl, data, caller_env)
 }
 
 resolved <- function(env) {

@@ -17,6 +17,7 @@ namespace dplyr {
 struct envs {
   static SEXP ns_dplyr;
   static SEXP ns_vctrs;
+  static SEXP ns_funs;
 };
 
 struct symbols {
@@ -50,6 +51,7 @@ struct functions {
   static SEXP vec_chop;
   static SEXP dot_subset2;
   static SEXP list;
+  static SEXP eval_hybrid;
 };
 
 } // namespace dplyr

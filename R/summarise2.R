@@ -1,5 +1,5 @@
 summarise2_cols <- function(.data, ...) {
-  chops <- dplyr_lazy_vec_chop(.data)
+  chops <- dplyr_lazy_vec_chop(.data, caller_env(2))
   masks <- dplyr_data_masks(chops, .data)
 
   dots <- enquos(...)
@@ -13,6 +13,8 @@ summarise2_cols <- function(.data, ...) {
     error = function(e) {
       index_expression <- context$index_expression
       index_group <- context$index_group
+
+      # TODO: handle when index_group = -1: error in hybrid eval
 
       local_call_step(dots = dots, .index = index_expression, .fn = "summarise",
                       .dot_data = inherits(e, "rlang_error_data_pronoun_not_found"))
