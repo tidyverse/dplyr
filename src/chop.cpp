@@ -89,15 +89,11 @@ SEXP dplyr_data_masks_setup(SEXP chops_env, SEXP data) {
   SEXP masks = PROTECT(Rf_allocVector(VECSXP, n_groups));
   SEXP list_indices = Rf_findVarInFrame(ENCLOS(chops_env), dplyr::symbols::dot_indices);
   for (R_xlen_t i = 0; i < n_groups; i++) {
-<<<<<<< HEAD
     SEXP mask_metadata_env = PROTECT(new_environment(2, R_EmptyEnv));
     Rf_defineVar(dplyr::symbols::dot_indices, VECTOR_ELT(list_indices, i), mask_metadata_env);
     Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(i+1), mask_metadata_env);
 
     SET_VECTOR_ELT(masks, i, new_environment(mask_size, mask_metadata_env));
-=======
-    SET_VECTOR_ELT(masks, i, new_environment(mask_size, R_EmptyEnv));
->>>>>>> sync with funs#mince
   }
 
   for (R_xlen_t i = 0; i < n_columns; i++) {
