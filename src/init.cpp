@@ -50,6 +50,8 @@ SEXP symbols::which_used = Rf_install("which_used");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::abort_glue = Rf_install("abort_glue");
 SEXP symbols::used = Rf_install("used");
+SEXP symbols::dot_indices = Rf_install(".indices");
+SEXP symbols::colon = Rf_install(":");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
