@@ -108,8 +108,6 @@ SEXP dplyr_data_masks_setup(SEXP chops_env, SEXP data) {
 
       Rf_defineVar(name, prom, VECTOR_ELT(masks, j));
       UNPROTECT(1);
-
-      // indices of this group
     }
   }
 
