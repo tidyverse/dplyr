@@ -211,6 +211,11 @@ DataMask <- R6Class("DataMask",
 
       cols <- vec_c(cols_unused, cols_used)
 
+      # workaround until https://github.com/r-lib/vctrs/issues/1263
+      if (length(cols) == 0) {
+        names(cols) <- character()
+      }
+
       # Match original ordering
       cols <- cols[across_vars]
 
