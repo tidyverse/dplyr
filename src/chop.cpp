@@ -269,7 +269,7 @@ SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env,
         UNPROTECT(1);
       }
     }
-
+    UNPROTECT(1);
   }
 
   UNPROTECT(2);
