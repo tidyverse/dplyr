@@ -40,7 +40,8 @@ void dplyr_lazy_vec_chop_ungrouped(SEXP chops_env, SEXP indices_env, SEXP data) 
   SEXP call = PROTECT(Rf_lang3(dplyr::symbols::colon, Rf_ScalarInteger(1), Rf_ScalarInteger(vctrs::short_vec_size(data))));
   SEXP list_indices = PROTECT(Rf_allocVector(VECSXP, 1));
   SET_VECTOR_ELT(list_indices, 0, Rf_eval(call, R_BaseEnv));
-  Rf_defineVar(dplyr::symbols::dot_indices, indices_env, list_indices);
+
+  Rf_defineVar(dplyr::symbols::dot_indices, list_indices, indices_env);
 
   for (R_xlen_t i = 0; i < n; i++) {
     SEXP prom = PROTECT(Rf_allocSExp(PROMSXP));
@@ -94,6 +95,7 @@ SEXP dplyr_data_masks_setup(SEXP chops_env, SEXP data) {
     Rf_defineVar(dplyr::symbols::current_group, Rf_ScalarInteger(i+1), mask_metadata_env);
 
     SET_VECTOR_ELT(masks, i, new_environment(mask_size, mask_metadata_env));
+    UNPROTECT(1);
   }
 
   for (R_xlen_t i = 0; i < n_columns; i++) {
@@ -236,7 +238,6 @@ SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env,
           Rf_defineVar(s_name, res_i, VECTOR_ELT(masks, i_group));
         }
       }
-
 
     } else {
       for (R_xlen_t i_group = 0; i_group < n_masks; i_group++) {
