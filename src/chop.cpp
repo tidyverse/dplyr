@@ -83,10 +83,10 @@ SEXP dplyr_data_masks_setup(SEXP chops_env, SEXP data) {
   } else if (Rf_inherits(data, "rowwise_df")) {
     n_groups = vctrs::short_vec_size(data);
   }
-  R_xlen_t n_columns = XLENGTH(names);
+  R_xlen_t n_columns = XLENGTH(data);
 
   // create masks
-  R_xlen_t mask_size = XLENGTH(data) + 20;
+  R_xlen_t mask_size = n_columns + 20;
   SEXP masks = PROTECT(Rf_allocVector(VECSXP, n_groups));
   SEXP list_indices = Rf_findVarInFrame(ENCLOS(chops_env), dplyr::symbols::dot_indices);
   for (R_xlen_t i = 0; i < n_groups; i++) {
