@@ -144,9 +144,15 @@ SEXP eval_hybrid(SEXP quo, SEXP chops) {
 
 }
 
-SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env, SEXP auto_names, SEXP context) {
+SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env, SEXP auto_names, SEXP private_env) {
   R_xlen_t n_expr = XLENGTH(quosures);
   SEXP names = PROTECT(Rf_getAttrib(quosures, R_NamesSymbol));
+  if (names == R_NilValue) {
+    UNPROTECT(1);
+
+    names = PROTECT(Rf_allocVector(STRSXP, n_expr));
+  }
+
   R_xlen_t n_masks = XLENGTH(masks);
 
   // initialize all results
@@ -158,21 +164,20 @@ SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env,
     UNPROTECT(1);
   }
 
-  SEXP index_expression = Rf_findVarInFrame(context, Rf_install("index_expression"));
+  SEXP index_expression = Rf_findVarInFrame(private_env, dplyr::symbols::current_expression);
   int *p_index_expression = INTEGER(index_expression);
 
-  SEXP index_group = Rf_findVarInFrame(context, Rf_install("index_group"));
+  SEXP index_group = Rf_findVarInFrame(private_env, dplyr::symbols::current_group);
   int* p_index_group = INTEGER(index_group);
 
   // eval all the things
   for (R_xlen_t i_expr = 0; i_expr < n_expr; i_expr++) {
-    SEXP quo = VECTOR_ELT(quosures, i_expr);
-    SEXP name = STRING_ELT(names, i_expr);
-    SEXP s_name = Rf_installChar(name);
     *p_index_expression = i_expr + 1;
 
+    SEXP quo = VECTOR_ELT(quosures, i_expr);
+
+    SEXP name = STRING_ELT(names, i_expr);
     SEXP auto_name = STRING_ELT(auto_names, i_expr);
-    SEXP s_auto_name = Rf_installChar(auto_name);
 
     *p_index_group = -1;
     SEXP hybrid_result = PROTECT(funs::eval_hybrid(quo, chops));
@@ -217,6 +222,8 @@ SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env,
 
         } else {
           // unnamed, but not a data frame, so use the deduced name
+          SEXP s_auto_name = Rf_installChar(auto_name);
+
           for (R_xlen_t i_group = 0; i_group < n_masks; i_group++) {
             SEXP hybrid_res_i = VECTOR_ELT(hybrid_result, i_group);
 
@@ -231,6 +238,8 @@ SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env,
         }
 
       } else {
+        SEXP s_name = Rf_installChar(name);
+
         // we have a proper name, so no auto splice or auto name use
         for (R_xlen_t i_group = 0; i_group < n_masks; i_group++) {
           SEXP res_i = VECTOR_ELT(hybrid_result, i_group);
@@ -243,6 +252,7 @@ SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env,
       for (R_xlen_t i_group = 0; i_group < n_masks; i_group++) {
         *p_index_group = i_group + 1;
         SEXP mask = VECTOR_ELT(masks, i_group);
+
         SEXP result = PROTECT(rlang::eval_tidy(quo, mask, caller_env));
 
         SET_VECTOR_ELT(VECTOR_ELT(res, i_group), i_expr, result);
@@ -257,6 +267,8 @@ SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env,
             }
             UNPROTECT(1);
           } else {
+            SEXP s_auto_name = Rf_installChar(auto_name);
+
             // this uses an auto name instead of ""
             SEXP names_res_i = Rf_getAttrib(VECTOR_ELT(res, i_group), R_NamesSymbol);
             SET_STRING_ELT(names_res_i, i_expr, auto_name);
@@ -264,7 +276,7 @@ SEXP dplyr_eval_tidy_all(SEXP quosures, SEXP chops, SEXP masks, SEXP caller_env,
             Rf_defineVar(s_auto_name, result, mask);
           }
         } else {
-          Rf_defineVar(s_name, result, mask);
+          Rf_defineVar(Rf_installChar(name), result, mask);
         }
 
         UNPROTECT(1);
