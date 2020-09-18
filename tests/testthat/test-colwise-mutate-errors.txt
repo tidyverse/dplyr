@@ -28,5 +28,5 @@ i Input `mpg` is `.Primitive("length")(mpg, 0, 0)`.
 > mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
 Error: Problem with `mutate()` input `mpg`.
 x formal argument "na.rm" matched by multiple actual arguments
-i Input `mpg` is `(function (x, ...) ...`.
+i Input `mpg` is `(function (x, ...) UseMethod("mean"))(mpg, na.rm = TRUE, na.rm = TRUE)`.
 

@@ -245,7 +245,6 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
 
 # helpers -----------------------------------------------------------------
 
-
 slice_rows <- function(.data, ...) {
   dots <- enquos(...)
   if (is_empty(dots)) {
@@ -253,12 +252,21 @@ slice_rows <- function(.data, ...) {
   }
 
   mask <- DataMask$new(.data, caller_env())
-  on.exit(mask$forget("slice"), add = TRUE)
+
+  ## apply ---------------------------------------------------
+  # collapse all quosures into one
+  # TODO: challenge that, it might be possible to leverage some funs:: hybrid evaluation
+  if (length(dots) != 1) {
+    dots <- quos(c(!!!dots))
+  }
+
+  lists <- mask$eval_all(dots, fn = "slice", auto_names = "..1")
+
+  ## combine ------------------------------------------------
+  chunks <- map(lists, `[[`, 1)
   rows <- mask$get_rows()
 
-  quo <- quo(c(!!!dots))
-  chunks <- mask$eval_all(quo)
-
+  # TODO: do the combine step internally
   slice_indices <- new_list(length(rows))
 
   for (group in seq_along(rows)) {

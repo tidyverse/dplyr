@@ -31,11 +31,9 @@ or_1 <- function(x) {
 # Common ------------------------------------------------------------------
 
 local_call_step <- function(dots, .index, .fn, .dot_data = FALSE, frame = caller_env()) {
-  error_expression  <- if (.dot_data) {
-    deparse(quo_get_expr(dots[[.index]]))
-  } else{
-    as_label(quo_get_expr(dots[[.index]]))
-  }
+  expr <- quo_squash(dots[[.index]])
+  error_expression  <- paste(deparse(expr), collapse = "")
+
   context_local(
     "dplyr_call_step",
     env(

@@ -11,6 +11,9 @@ DataMask <- R6Class("DataMask",
       frame <- caller_env(n = 2)
       local_mask(self, frame)
 
+      private$chops <- dplyr_lazy_vec_chop(data, caller)
+      private$masks <- dplyr_data_masks(private$chops, data)
+
       private$data <- data
       private$caller <- caller
       private$bindings <- env(empty_env())
@@ -120,8 +123,36 @@ DataMask <- R6Class("DataMask",
       private$resolved[[name]]
     },
 
-    eval_all = function(quo) {
-      .Call(`dplyr_mask_eval_all`, quo, private)
+    eval_all = function(quosures, fn, auto_names = names(quosures) %||% paste0(".quosure_", seq_along(quosures))) {
+      # context environment used internally to efficiently set:
+      private$eval_context <- env(
+        index_expression = NA_integer_, # which expression is currrently being evaluated
+        index_group = NA_integer_       # in which group
+      )
+      withCallingHandlers(
+        .Call(dplyr_eval_tidy_all, quosures, private$chops, private$masks, private$caller, auto_names, private),
+        error = function(e) {
+
+          # retrieve context information
+          index_expression <- private$current_expression
+          index_group <- private$current_group
+
+          # TODO: handle when index_group = -1: error in hybrid eval
+          local_call_step(dots = quosures, .index = index_expression, .fn = "slice",
+                          .dot_data = inherits(e, "rlang_error_data_pronoun_not_found"))
+
+          bullets <- c(
+            cnd_bullet_header(),
+            x = conditionMessage(e),
+            i = cnd_bullet_input_info()
+          )
+          if (is_grouped_df(.data)) {
+            keys <- group_keys(.data)[index_group, ]
+            bullets <- c(bullets, i = glue("The error occurred in group {index_group}: {group_labels_details(keys)}."))
+          }
+          abort(bullets)
+        }
+      )
     },
 
     eval_all_summarise = function(quo) {
@@ -233,6 +264,16 @@ DataMask <- R6Class("DataMask",
 
   private = list(
     data = NULL,
+    caller = NULL, # caller environment
+
+    chops = NULL,  # an environment with chops (maybe promises of each column of data)
+    masks = NULL,  # a list of environments, one for each group with (promises to) slices for each column
+
+    eval_context = NULL, # evaluation context
+
+    current_group = NA_integer_,
+    current_expression = NA_integer_,
+
     mask = NULL,
     old_vars = character(),
     group_vars = character(),
@@ -242,8 +283,6 @@ DataMask <- R6Class("DataMask",
     rows = NULL,
     keys = NULL,
     bindings = NULL,
-    current_group = 0L,
-    caller = NULL,
     across_cache = list()
   )
 )

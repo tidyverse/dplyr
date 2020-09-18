@@ -5,17 +5,23 @@ base R error messages
 =====================
 
 > sample_n(grp, nrow(df2) / 2, weight = y)
-Error in sample.int(n(), check_size(~nrow(df2)/2, n(), replace = replace), : too few positive probabilities
+Error: Problem with `slice()` input `..1`.
+x too few positive probabilities
+i Input `..1` is `sample.int(n(), check_size(nrow(df2)/2, n(), replace = replace),     replace = replace, prob = y)`.
 
 > sample_frac(grp, 1, weight = y)
-Error in sample.int(n(), round(n() * check_frac(~1, replace = replace)), : too few positive probabilities
+Error: Problem with `slice()` input `..1`.
+x too few positive probabilities
+i Input `..1` is `sample.int(n(), round(n() * check_frac(1, replace = replace)),     replace = replace, prob = y)`.
 
 
 can't sample more values than obs (without replacement)
 =======================================================
 
 > mtcars %>% group_by(cyl) %>% sample_n(10)
-Error: `size` must be less or equal than 7 (size of data), set `replace` = TRUE to use sampling with replacement.
+Error: Problem with `slice()` input `..1`.
+x `size` must be less or equal than 7 (size of data), set `replace` = TRUE to use sampling with replacement.
+i Input `..1` is `sample.int(n(), check_size(10, n(), replace = replace), replace = replace,     prob = NULL)`.
 
 
 unknown type
@@ -46,14 +52,22 @@ respects weight
 
 > df <- data.frame(x = 1:2, y = c(0, 1))
 > sample_n(df, 2, weight = y)
-Error in sample.int(n(), check_size(~2, n(), replace = replace), replace = replace, : too few positive probabilities
+Error: Problem with `slice()` input `..1`.
+x too few positive probabilities
+i Input `..1` is `sample.int(n(), check_size(2, n(), replace = replace), replace = replace,     prob = y)`.
 
 > sample_frac(df, 2)
-Error: `size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement.
+Error: Problem with `slice()` input `..1`.
+x `size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement.
+i Input `..1` is `sample.int(n(), round(n() * check_frac(2, replace = replace)),     replace = replace, prob = NULL)`.
 
 > sample_frac(df %>% group_by(y), 2)
-Error: `size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement.
+Error: Problem with `slice()` input `..1`.
+x `size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement.
+i Input `..1` is `sample.int(n(), round(n() * check_frac(2, replace = replace)),     replace = replace, prob = NULL)`.
 
 > sample_frac(df, 1, weight = y)
-Error in sample.int(n(), round(n() * check_frac(~1, replace = replace)), : too few positive probabilities
+Error: Problem with `slice()` input `..1`.
+x too few positive probabilities
+i Input `..1` is `sample.int(n(), round(n() * check_frac(1, replace = replace)),     replace = replace, prob = y)`.
 
