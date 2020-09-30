@@ -5,7 +5,7 @@
 \alias{starwars}
 \title{Starwars characters}
 \format{
-A tibble with 87 rows and 13 variables:
+A tibble with 87 rows and 14 variables:
 \describe{
 \item{name}{Name of the character}
 \item{height}{Height (cm)}
