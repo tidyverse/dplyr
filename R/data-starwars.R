@@ -2,7 +2,7 @@
 #'
 #' This data comes from SWAPI, the Star Wars API, <https://swapi.dev/>
 #'
-#' @format A tibble with 87 rows and 13 variables:
+#' @format A tibble with 87 rows and 14 variables:
 #' \describe{
 #' \item{name}{Name of the character}
 #' \item{height}{Height (cm)}
