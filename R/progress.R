@@ -100,7 +100,7 @@ Progress <- R6::R6Class("Progress",
     },
 
     print = function(...) {
-      if (!isTRUE(getOption("dplyr.show_progress")) || # user sepecifies no progress
+      if (!isTRUE(getOption("dplyr.show_progress")) || # user specifies no progress
         !interactive() || # not an interactive session
         !is.null(getOption("knitr.in.progress"))) { # dplyr used within knitr document
         return(invisible(self))
