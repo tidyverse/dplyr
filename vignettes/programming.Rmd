@@ -139,7 +139,7 @@ Underneath all functions that use tidy selection is the [tidyselect](https://tid
 * `select(df, starts_with("a"))` selects all columns whose name starts with "a";
   `select(df, ends_with("z"))` selects all columns whose name ends with "z".
   
-* `select(df, is.numeric)` selects all numeric columns.
+* `select(df, where(is.numeric))` selects all numeric columns.
 
 You can see more details in `?dplyr_tidy_select`.
 
