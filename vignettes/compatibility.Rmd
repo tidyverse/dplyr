@@ -24,7 +24,7 @@ This vignette starts with some general advice on writing package code that works
 Ideally, you want to make sure that your package works with both the released version and the development version of dplyr. This is typically a little bit more work, but has two big advantages:
 
 1. It's more convenient for your users, since they're not forced to update
-   dplyr if they don't want to)
+   dplyr if they don't want to.
 
 1. It's easier on CRAN since it doesn't require a massive coordinated release
    of multiple packages.
