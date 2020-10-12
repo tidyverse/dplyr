@@ -6,7 +6,7 @@
 #' than expected.
 #'
 #' @param x A vector
-#' @param n For `nth_value()`, a single integer specifying the position.
+#' @param n For `nth()`, a single integer specifying the position.
 #'   Negative integers index from the end (i.e. `-1L` will return the
 #'   last value in the vector).
 #'
