@@ -63,8 +63,6 @@ DataMask <- R6Class("DataMask",
       promises <- map(seq_len(ncol(data)), function(.x) expr(promise_fn(!!.x)))
       env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
 
-      private$mask <- new_data_mask(private$bindings)
-      private$mask$.data <- as_data_pronoun(private$mask)
     },
 
     forget = function(fn) {
@@ -247,7 +245,6 @@ DataMask <- R6Class("DataMask",
     chops = NULL,
     masks = NULL,
 
-    mask = NULL,
     old_vars = character(),
     group_vars = character(),
     used = logical(),

@@ -97,7 +97,6 @@ SEXP env_resolved(SEXP env, SEXP names);
 #define DPLYR_MASK_INIT()                                                          \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));         \
 R_xlen_t ngroups = XLENGTH(rows);                                                  \
-SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));         \
 SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));     \
 SEXP masks = PROTECT(Rf_findVarInFrame(env_private, Rf_install("masks")));         \
 SEXP bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::bindings)); \
@@ -106,7 +105,7 @@ Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);        
 int* p_current_group = INTEGER(current_group)
 
 #define DPLYR_MASK_FINALISE()                                  \
-UNPROTECT(6);
+UNPROTECT(5);
 
 #define DPLYR_MASK_SET_GROUP(INDEX)                                                   \
 *p_current_group = INDEX + 1;                                                         \
