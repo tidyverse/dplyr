@@ -17,6 +17,7 @@ namespace dplyr {
 struct envs {
   static SEXP ns_dplyr;
   static SEXP ns_vctrs;
+  static SEXP ns_rlang;
 };
 
 struct symbols {
