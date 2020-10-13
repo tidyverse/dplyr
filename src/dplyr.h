@@ -27,16 +27,20 @@ struct symbols {
   static SEXP current_group;
   static SEXP current_expression;
   static SEXP rows;
-  static SEXP mask;
   static SEXP caller;
   static SEXP all_vars;
-  static SEXP bindings;
   static SEXP dot_drop;
   static SEXP abort_glue;
   static SEXP dot_indices;
-  static SEXP colon;
   static SEXP chops;
   static SEXP masks;
+  static SEXP rm;
+  static SEXP envir;
+  static SEXP vec_is_list;
+  static SEXP new_env;
+  static SEXP new_data_mask;
+  static SEXP as_data_pronoun;
+  static SEXP dot_data;
 };
 
 struct vectors {
@@ -65,7 +69,7 @@ R_len_t short_vec_size(SEXP x) ;
 SEXP short_vec_recycle(SEXP x, R_len_t n);
 
 inline bool vec_is_list(SEXP x) {
-  SEXP call = PROTECT(Rf_lang2(Rf_install("vec_is_list"), x));
+  SEXP call = PROTECT(Rf_lang2(dplyr::symbols::vec_is_list, x));
   SEXP res = Rf_eval(call, dplyr::envs::ns_vctrs);
   UNPROTECT(1);
   return LOGICAL(res)[0];
@@ -99,7 +103,7 @@ SEXP env_resolved(SEXP env, SEXP names);
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                   \
 R_xlen_t ngroups = XLENGTH(rows);                                                            \
 SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));               \
-SEXP masks = PROTECT(Rf_findVarInFrame(env_private, Rf_install("masks")));                   \
+SEXP masks = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::masks));                 \
 SEXP current_group = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::current_group)); \
 int* p_current_group = INTEGER(current_group)
 
