@@ -78,6 +78,19 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
     UNPROTECT(1);
   }
   UNPROTECT(1); // names_resolved
+
+  // not sure this is useful
+  SEXP sym_name = Rf_installChar(name);
+  SEXP chops = Rf_findVarInFrame(env_private, Rf_install("chops"));
+  Rf_defineVar(sym_name, chunks, chops);
+
+  // but this most likely is
+  SEXP masks = Rf_findVarInFrame(env_private, Rf_install("masks"));
+  R_xlen_t n_groups = XLENGTH(masks);
+  for (R_xlen_t i = 0; i < n_groups; i++) {
+    Rf_defineVar(sym_name, VECTOR_ELT(chunks, i), ENCLOS(VECTOR_ELT(masks, i)));
+  }
+
   return R_NilValue;
 }
 
