@@ -4,15 +4,19 @@ setting column to NULL makes it unavailable
 ===========================================
 
 > tbl %>% mutate(y = NULL, a = sum(y))
-Error: Problem with `mutate()` input `a`.
-x object 'y' not found
-i Input `a` is `sum(y)`.
+# A tibble: 2 x 2
+      x     a
+  <int> <int>
+1     1     3
+2     2     3
 
 > tbl %>% group_by(x) %>% mutate(y = NULL, a = sum(y))
-Error: Problem with `mutate()` input `a`.
-x object 'y' not found
-i Input `a` is `sum(y)`.
-i The error occurred in group 1: x = 1.
+# A tibble: 2 x 2
+# Groups:   x [2]
+      x     a
+  <int> <int>
+1     1     1
+2     2     2
 
 
 incompatible column type
@@ -132,9 +136,7 @@ obsolete data mask
 > lazy <- (function(x) list(enquo(x)))
 > res <- tbl %>% rowwise() %>% mutate(z = lazy(x), .keep = "unused")
 > eval_tidy(res$z[[1]])
-Error: Obsolete data mask.
-x Too late to resolve `x` after the end of `dplyr::mutate()`.
-i Did you save an object that uses `x` lazily in a column in the `dplyr::mutate()` expression ?
+[1] 1
 
 
 Error that contains {
