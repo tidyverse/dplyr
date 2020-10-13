@@ -48,7 +48,6 @@ SEXP symbols::resolved = Rf_install("resolved");
 SEXP symbols::bindings = Rf_install("bindings");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::abort_glue = Rf_install("abort_glue");
-SEXP symbols::used = Rf_install("used");
 SEXP symbols::dot_indices = Rf_install(".indices");
 SEXP symbols::colon = Rf_install(":");
 
