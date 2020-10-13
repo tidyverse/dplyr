@@ -30,7 +30,6 @@ struct symbols {
   static SEXP caller;
   static SEXP resolved;
   static SEXP bindings;
-  static SEXP which_used;
   static SEXP dot_drop;
   static SEXP abort_glue;
   static SEXP used;
