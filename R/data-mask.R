@@ -11,6 +11,11 @@ DataMask <- R6Class("DataMask",
       frame <- caller_env(n = 2)
       local_mask(self, frame)
 
+      names_bindings <- chr_unserialise_unicode(names2(data))
+      if (anyDuplicated(names_bindings)) {
+        abort("Can't transform a data frame with duplicate names.")
+      }
+      names(data) <- names_bindings
       private$data <- data
       private$caller <- caller
 
@@ -41,10 +46,6 @@ DataMask <- R6Class("DataMask",
 
       private$used <- rep(FALSE, ncol(data))
 
-      names_bindings <- chr_unserialise_unicode(names2(data))
-      if (anyDuplicated(names_bindings)) {
-        abort("Can't transform a data frame with duplicate names.")
-      }
 
       private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
 
@@ -183,7 +184,7 @@ DataMask <- R6Class("DataMask",
     },
 
     get_used = function() {
-      private$used
+      .Call(env_resolved, private$chops, names(private$resolved))
     },
 
     unused_vars = function() {

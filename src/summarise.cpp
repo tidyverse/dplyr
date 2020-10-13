@@ -29,7 +29,7 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private) {
   for (R_xlen_t i = 0; i < ngroups; i++) {
     DPLYR_MASK_SET_GROUP(i);
 
-    SEXP result_i = PROTECT(DPLYR_MASK_EVAL(quo));
+    SEXP result_i = PROTECT(DPLYR_MASK_EVAL(quo, i));
     SET_VECTOR_ELT(chunks, i, result_i);
 
     if (!vctrs::vec_is_vector(result_i)) {
