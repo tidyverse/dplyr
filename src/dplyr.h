@@ -32,7 +32,6 @@ struct symbols {
   static SEXP bindings;
   static SEXP dot_drop;
   static SEXP abort_glue;
-  static SEXP used;
   static SEXP dot_indices;
   static SEXP colon;
 };
