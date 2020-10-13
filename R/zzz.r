@@ -15,7 +15,7 @@ utils::globalVariables("vec_proxy_order")
   toset <- !(names(op.dplyr) %in% names(op))
   if (any(toset)) options(op.dplyr[toset])
 
-  .Call(dplyr_init_library, ns_env("dplyr"), ns_env("vctrs"))
+  .Call(dplyr_init_library, ns_env("dplyr"), ns_env("vctrs"), ns_env("rlang"))
 
   # FIXME: Temporary until the API change from
   # https://github.com/r-lib/vctrs/pull/1155 is on CRAN and we can

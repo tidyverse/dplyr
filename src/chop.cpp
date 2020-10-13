@@ -90,12 +90,25 @@ SEXP dplyr_data_masks_setup(SEXP chops_env, SEXP data, SEXP rows) {
 
       Rf_defineVar(name, prom, VECTOR_ELT(masks, j));
       UNPROTECT(1);
-
-      // indices of this group
     }
   }
 
-  UNPROTECT(2);
+  SEXP new_data_mask_call = PROTECT(Rf_lang2(Rf_install("new_data_mask"), R_NilValue));
+  SEXP as_data_pronoun_call = PROTECT(Rf_lang2(Rf_install("as_data_pronoun"), R_NilValue));
+
+  for (R_xlen_t i = 0; i < n_groups; i++) {
+    SETCAR(CDR(new_data_mask_call), VECTOR_ELT(masks, i));
+    SEXP mask = PROTECT(Rf_eval(new_data_mask_call, dplyr::envs::ns_rlang));
+
+    SETCAR(CDR(as_data_pronoun_call), mask);
+    SEXP pronoun = PROTECT(Rf_eval(as_data_pronoun_call, dplyr::envs::ns_rlang));
+    Rf_defineVar(Rf_install(".data"), pronoun, mask);
+
+    SET_VECTOR_ELT(masks, i, mask);
+    UNPROTECT(2);
+  }
+
+  UNPROTECT(4);
   return masks;
 }
 

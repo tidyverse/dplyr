@@ -20,8 +20,8 @@ DataMask <- R6Class("DataMask",
       private$data <- data
       private$caller <- caller
 
-      private$chops <- dplyr_lazy_vec_chop(data, rows)
-      private$masks <- dplyr_data_masks(private$chops, data, rows)
+      private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
+      private$masks <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
 
       private$keys <- group_keys(data)
       private$group_vars <- group_vars(data)
@@ -158,16 +158,36 @@ DataMask <- R6Class("DataMask",
   ),
 
   private = list(
+    # the input data
     data = NULL,
+
+    # environment that contains lazy vec_chop()s for each input column
+    # and list of result chunks as they get added
     chops = NULL,
+
+    # a list of data masks, one for each group
     masks = NULL,
 
+    # names of all the variables, this initially is names(data)
+    # grows (and sometimes shrinks) as new columns are added
     all_vars = character(),
+
+    # names of the grouping variables
     group_vars = character(),
+
+    # list of indices, one integer vector per group
     rows = NULL,
+
+    # data frame of keys, one row per group
     keys = NULL,
+
+    # the current group, updated internally
     current_group = 0L,
+
+    # caller environment of the verb (summarise(), ...)
     caller = NULL,
+
+    # cache for across
     across_cache = list()
   )
 )
