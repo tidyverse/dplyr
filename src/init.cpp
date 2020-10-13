@@ -4,6 +4,7 @@ namespace dplyr {
 
 SEXP envs::ns_dplyr = NULL;
 SEXP envs::ns_vctrs = NULL;
+SEXP envs::ns_rlang = NULL;
 
 SEXP get_classes_vctrs_list_of() {
   SEXP klasses = Rf_allocVector(STRSXP, 3);
@@ -65,9 +66,10 @@ SEXP functions::list = NULL;
 
 } // dplyr
 
-SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs) {
+SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs, SEXP ns_rlang) {
   dplyr::envs::ns_dplyr = ns_dplyr;
   dplyr::envs::ns_vctrs = ns_vctrs;
+  dplyr::envs::ns_rlang = ns_rlang;
   dplyr::functions::vec_chop = Rf_findVarInFrame(ns_vctrs, Rf_install("vec_chop"));
   dplyr::functions::dot_subset2 = Rf_findVarInFrame(R_BaseEnv, Rf_install(".subset2"));
   dplyr::functions::list = Rf_findVarInFrame(R_BaseEnv, Rf_install("list"));
@@ -75,7 +77,7 @@ SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs) {
 }
 
 static const R_CallMethodDef CallEntries[] = {
-  {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 2},
+  {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 3},
 
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
   {"dplyr_between", (DL_FUNC)& dplyr_between, 3},
