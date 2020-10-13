@@ -46,7 +46,6 @@ SEXP symbols::mask = Rf_install("mask");
 SEXP symbols::caller = Rf_install("caller");
 SEXP symbols::resolved = Rf_install("resolved");
 SEXP symbols::bindings = Rf_install("bindings");
-SEXP symbols::which_used = Rf_install("which_used");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::abort_glue = Rf_install("abort_glue");
 SEXP symbols::used = Rf_install("used");

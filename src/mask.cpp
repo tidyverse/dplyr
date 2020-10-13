@@ -38,7 +38,6 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);
   SEXP names_resolved = PROTECT(Rf_getAttrib(resolved, R_NamesSymbol));
   SEXP used = Rf_findVarInFrame(env_private, dplyr::symbols::used);
-  SEXP which_used = Rf_findVarInFrame(env_private, dplyr::symbols::which_used);
 
   // search for position of name
   R_xlen_t n = XLENGTH(names_resolved);
@@ -61,30 +60,21 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
     SET_STRING_ELT(new_names_resolved, n, name);
     p_new_used[n] = TRUE;
 
-    SEXP new_which_used = PROTECT(integers_append(which_used, n + 1));
-
     Rf_namesgets(new_resolved, new_names_resolved);
     Rf_defineVar(dplyr::symbols::resolved, new_resolved, env_private);
     Rf_defineVar(dplyr::symbols::used, new_used, env_private);
-    Rf_defineVar(dplyr::symbols::which_used, new_which_used, env_private);
 
-    UNPROTECT(4);
+    UNPROTECT(3);
   } else {
     SET_VECTOR_ELT(resolved, i_name, chunks);
     p_used[i_name] = TRUE;
-
-    SEXP new_which_used = PROTECT(integers_append(which_used, i_name + 1));
-    Rf_defineVar(dplyr::symbols::which_used, new_which_used, env_private);
-    UNPROTECT(1);
   }
   UNPROTECT(1); // names_resolved
 
-  // not sure this is useful
   SEXP sym_name = Rf_installChar(name);
   SEXP chops = Rf_findVarInFrame(env_private, Rf_install("chops"));
   Rf_defineVar(sym_name, chunks, chops);
 
-  // but this most likely is
   SEXP masks = Rf_findVarInFrame(env_private, Rf_install("masks"));
   R_xlen_t n_groups = XLENGTH(masks);
   for (R_xlen_t i = 0; i < n_groups; i++) {
@@ -124,17 +114,5 @@ SEXP dplyr_mask_set(SEXP env_private, SEXP s_name, SEXP chunks) {
     n_used += *p_used;
   }
 
-  // update which_used
-  SEXP which_used = PROTECT(Rf_allocVector(INTSXP, n_used));
-  int* p_which_used = INTEGER(which_used);
-  p_used = LOGICAL(used);
-  for (R_xlen_t i = 0, j = 0; i < n; i++) {
-    if (p_used[i]) {
-      p_which_used[j++] = i + 1;
-    }
-  }
-  Rf_defineVar(dplyr::symbols::which_used, which_used, env_private);
-
-  UNPROTECT(1); // which_used
   return R_NilValue;
 }
