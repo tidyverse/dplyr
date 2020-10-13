@@ -211,7 +211,8 @@ DataMask <- R6Class("DataMask",
 
       cols <- vec_c(cols_unused, cols_used)
 
-      # workaround until https://github.com/r-lib/vctrs/issues/1263
+      # workaround until vctrs 0.3.5 is on CRAN
+      # (https://github.com/r-lib/vctrs/issues/1263)
       if (length(cols) == 0) {
         names(cols) <- character()
       }
