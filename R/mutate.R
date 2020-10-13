@@ -218,7 +218,6 @@ transmute.data.frame <- function(.data, ...) {
 
 mutate_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
-  on.exit(mask$forget("mutate"), add = TRUE)
   rows <- mask$get_rows()
 
   dots <- enquos(...)
