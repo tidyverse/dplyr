@@ -28,12 +28,14 @@ struct symbols {
   static SEXP rows;
   static SEXP mask;
   static SEXP caller;
-  static SEXP resolved;
+  static SEXP all_vars;
   static SEXP bindings;
   static SEXP dot_drop;
   static SEXP abort_glue;
   static SEXP dot_indices;
   static SEXP colon;
+  static SEXP chops;
+  static SEXP masks;
 };
 
 struct vectors {
@@ -85,7 +87,7 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes);
 SEXP dplyr_group_indices(SEXP data, SEXP s_nr);
 SEXP dplyr_group_keys(SEXP group_data);
 
-SEXP dplyr_mask_set(SEXP env_private, SEXP s_name, SEXP chunks);
+SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name);
 SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks);
 
 SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows);

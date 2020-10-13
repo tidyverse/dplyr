@@ -16,6 +16,7 @@ DataMask <- R6Class("DataMask",
         abort("Can't transform a data frame with duplicate names.")
       }
       names(data) <- names_bindings
+      private$all_vars <- names_bindings
       private$data <- data
       private$caller <- caller
 
@@ -25,7 +26,6 @@ DataMask <- R6Class("DataMask",
       private$keys <- group_keys(data)
       private$group_vars <- group_vars(data)
 
-      private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
     },
 
     add = function(name, chunks) {
@@ -41,32 +41,12 @@ DataMask <- R6Class("DataMask",
       .Call(`dplyr_mask_add`, private, name, chunks)
     },
 
-    set = function(name, chunks) {
-      .Call(`dplyr_mask_set`, private, name, chunks)
-    },
-
     remove = function(name) {
-      self$set(name, NULL)
+      .Call(`dplyr_mask_remove`, private, name)
     },
 
     resolve = function(name) {
-      chunks <- self$get_resolved(name)
-
-      if (is.null(chunks)) {
-        column <- private$data[[name]]
-        chunks <- vec_chop(column, private$rows)
-        if (inherits(private$data, "rowwise_df") && vec_is_list(column)) {
-          chunks <- map(chunks, `[[`, 1)
-        }
-        self$set(name, chunks)
-      }
-
-      chunks
-    },
-
-
-    get_resolved = function(name) {
-      private$resolved[[name]]
+      private$chops[[name]]
     },
 
     eval_all = function(quo) {
@@ -105,7 +85,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_vars = function() {
-      names(private$resolved)
+      private$all_vars
     },
 
     current_non_group_vars = function() {
@@ -125,7 +105,7 @@ DataMask <- R6Class("DataMask",
     },
 
     get_used = function() {
-      .Call(env_resolved, private$chops, names(private$resolved))
+      .Call(env_resolved, private$chops, private$all_vars)
     },
 
     unused_vars = function() {
@@ -182,8 +162,8 @@ DataMask <- R6Class("DataMask",
     chops = NULL,
     masks = NULL,
 
+    all_vars = character(),
     group_vars = character(),
-    resolved = list(),
     rows = NULL,
     keys = NULL,
     current_group = 0L,
