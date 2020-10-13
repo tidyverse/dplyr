@@ -35,33 +35,25 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   SEXP name = STRING_ELT(s_name, 0);
 
   // we assume control over these
-  SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);
-  SEXP names_resolved = PROTECT(Rf_getAttrib(resolved, R_NamesSymbol));
+  SEXP all_vars = Rf_findVarInFrame(env_private, dplyr::symbols::all_vars);
 
   // search for position of name
-  R_xlen_t n = XLENGTH(names_resolved);
-  R_xlen_t i_name = find_first(names_resolved, name);
+  R_xlen_t n = XLENGTH(all_vars);
+  R_xlen_t i_name = find_first(all_vars, name);
 
   bool is_new_column = i_name == n;
   if (is_new_column) {
-    SEXP new_resolved = PROTECT(Rf_allocVector(VECSXP, n + 1));
-    SEXP new_names_resolved = PROTECT(Rf_allocVector(STRSXP, n + 1));
+    SEXP new_all_vars = PROTECT(Rf_allocVector(STRSXP, n + 1));
 
     for (R_xlen_t i = 0; i < n; i++) {
-      SET_VECTOR_ELT(new_resolved, i, VECTOR_ELT(resolved, i));
-      SET_STRING_ELT(new_names_resolved, i, STRING_ELT(names_resolved, i));
+      SET_STRING_ELT(new_all_vars, i, STRING_ELT(all_vars, i));
     }
-    SET_VECTOR_ELT(new_resolved, n, chunks);
-    SET_STRING_ELT(new_names_resolved, n, name);
+    SET_STRING_ELT(new_all_vars, n, name);
 
-    Rf_namesgets(new_resolved, new_names_resolved);
-    Rf_defineVar(dplyr::symbols::resolved, new_resolved, env_private);
+    Rf_defineVar(dplyr::symbols::all_vars, new_all_vars, env_private);
 
-    UNPROTECT(2);
-  } else {
-    SET_VECTOR_ELT(resolved, i_name, chunks);
+    UNPROTECT(1);
   }
-  UNPROTECT(1); // names_resolved
 
   SEXP sym_name = Rf_installChar(name);
   SEXP chops = Rf_findVarInFrame(env_private, Rf_install("chops"));
@@ -76,24 +68,40 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   return R_NilValue;
 }
 
-SEXP dplyr_mask_set(SEXP env_private, SEXP s_name, SEXP chunks) {
+SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name) {
   SEXP name = STRING_ELT(s_name, 0);
 
-  // we assume control over these
-  SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);
-  SEXP names_resolved = PROTECT(Rf_getAttrib(resolved, R_NamesSymbol));
+  SEXP all_vars = Rf_findVarInFrame(env_private, dplyr::symbols::all_vars);
 
   // search for position of name
-  R_xlen_t n = XLENGTH(names_resolved);
-  R_xlen_t i_name = find_first(names_resolved, name);
-  UNPROTECT(1); // names_resolved
+  R_xlen_t n = XLENGTH(all_vars);
+  R_xlen_t i_name = find_first(all_vars, name);
 
-  if (i_name == n && chunks == R_NilValue) {
-    // early return, as this is removing a resolved that wasn't
-    // so it does nothing
-    return R_NilValue;
+  if (i_name != n) {
+    // all_vars <- setdiff(all_vars, name)
+    SEXP new_all_vars = Rf_allocVector(STRSXP, n - 1);
+    for (R_xlen_t i = 0, j = 0; i < n; i++) {
+      if (i == i_name) continue;
+      SET_STRING_ELT(new_all_vars, j++, STRING_ELT(all_vars, i));
+    }
+
+    //  no C-api for rm() so callback to R :shrug:
+    SEXP chops = Rf_findVarInFrame(env_private, dplyr::symbols::chops);
+
+    SEXP sym_name = Rf_installChar(name);
+    SEXP rm_call = PROTECT(Rf_lang3(Rf_install("rm"), sym_name, chops));
+    SET_TAG(CDDR(rm_call), Rf_install("envir"));
+    Rf_eval(rm_call, R_BaseEnv);
+
+    SEXP masks = Rf_findVarInFrame(env_private, dplyr::symbols::masks);
+    R_xlen_t n = XLENGTH(masks);
+    for (R_xlen_t i = 0; i < n; i++) {
+      SETCAR(CDDR(rm_call), ENCLOS(VECTOR_ELT(masks, i)));
+      Rf_eval(rm_call, R_BaseEnv);
+    }
+
+    UNPROTECT(1);
   }
-  SET_VECTOR_ELT(resolved, i_name, chunks);
 
   return R_NilValue;
 }

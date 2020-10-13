@@ -44,12 +44,14 @@ SEXP symbols::current_expression = Rf_install("current_expression");
 SEXP symbols::rows = Rf_install("rows");
 SEXP symbols::mask = Rf_install("mask");
 SEXP symbols::caller = Rf_install("caller");
-SEXP symbols::resolved = Rf_install("resolved");
+SEXP symbols::all_vars = Rf_install("all_vars");
 SEXP symbols::bindings = Rf_install("bindings");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::abort_glue = Rf_install("abort_glue");
 SEXP symbols::dot_indices = Rf_install(".indices");
 SEXP symbols::colon = Rf_install(":");
+SEXP symbols::chops = Rf_install("chops");
+SEXP symbols::masks = Rf_install("masks");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
@@ -92,7 +94,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
 
-  {"dplyr_mask_set", (DL_FUNC)& dplyr_mask_set, 3},
+  {"dplyr_mask_remove", (DL_FUNC)& dplyr_mask_remove, 2},
   {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 3},
 
   {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 2},

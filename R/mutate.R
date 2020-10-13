@@ -253,7 +253,7 @@ mutate_cols <- function(.data, ...) {
         if (name %in% names(new_columns)) {
           # already have result and chunks
           result <- new_columns[[name]]
-          chunks <- mask$get_resolved(name)
+          chunks <- mask$resolve(name)
         } else if (name %in% names(.data)) {
           # column from the original data
           result <- .data[[name]]
