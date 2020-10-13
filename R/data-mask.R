@@ -25,7 +25,6 @@ DataMask <- R6Class("DataMask",
       private$keys <- group_keys(data)
       private$group_vars <- group_vars(data)
 
-      private$used <- rep(FALSE, ncol(data))
       private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
     },
 
@@ -98,11 +97,11 @@ DataMask <- R6Class("DataMask",
     },
 
     current_rows = function() {
-      private$rows[[self$get_current_group()]]
+      private$rows[[private$current_group]]
     },
 
     current_key = function() {
-      vec_slice(private$keys, self$get_current_group())
+      vec_slice(private$keys, private$current_group)
     },
 
     current_vars = function() {
@@ -110,8 +109,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_non_group_vars = function() {
-      current_vars <- self$current_vars()
-      setdiff(current_vars, private$group_vars)
+      setdiff(self$current_vars(), private$group_vars)
     },
 
     get_current_group = function() {
@@ -185,7 +183,6 @@ DataMask <- R6Class("DataMask",
     masks = NULL,
 
     group_vars = character(),
-    used = logical(),
     resolved = list(),
     rows = NULL,
     keys = NULL,

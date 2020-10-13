@@ -37,37 +37,29 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   // we assume control over these
   SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);
   SEXP names_resolved = PROTECT(Rf_getAttrib(resolved, R_NamesSymbol));
-  SEXP used = Rf_findVarInFrame(env_private, dplyr::symbols::used);
 
   // search for position of name
   R_xlen_t n = XLENGTH(names_resolved);
   R_xlen_t i_name = find_first(names_resolved, name);
 
-  int* p_used = LOGICAL(used);
   bool is_new_column = i_name == n;
   if (is_new_column) {
-    SEXP new_used = PROTECT(Rf_allocVector(LGLSXP, n + 1));
     SEXP new_resolved = PROTECT(Rf_allocVector(VECSXP, n + 1));
     SEXP new_names_resolved = PROTECT(Rf_allocVector(STRSXP, n + 1));
-    int* p_new_used = LOGICAL(new_used);
 
     for (R_xlen_t i = 0; i < n; i++) {
       SET_VECTOR_ELT(new_resolved, i, VECTOR_ELT(resolved, i));
       SET_STRING_ELT(new_names_resolved, i, STRING_ELT(names_resolved, i));
-      p_new_used[i] = p_used[i];
     }
     SET_VECTOR_ELT(new_resolved, n, chunks);
     SET_STRING_ELT(new_names_resolved, n, name);
-    p_new_used[n] = TRUE;
 
     Rf_namesgets(new_resolved, new_names_resolved);
     Rf_defineVar(dplyr::symbols::resolved, new_resolved, env_private);
-    Rf_defineVar(dplyr::symbols::used, new_used, env_private);
 
-    UNPROTECT(3);
+    UNPROTECT(2);
   } else {
     SET_VECTOR_ELT(resolved, i_name, chunks);
-    p_used[i_name] = TRUE;
   }
   UNPROTECT(1); // names_resolved
 
@@ -90,7 +82,6 @@ SEXP dplyr_mask_set(SEXP env_private, SEXP s_name, SEXP chunks) {
   // we assume control over these
   SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);
   SEXP names_resolved = PROTECT(Rf_getAttrib(resolved, R_NamesSymbol));
-  SEXP used = Rf_findVarInFrame(env_private, dplyr::symbols::used);
 
   // search for position of name
   R_xlen_t n = XLENGTH(names_resolved);
@@ -102,17 +93,7 @@ SEXP dplyr_mask_set(SEXP env_private, SEXP s_name, SEXP chunks) {
     // so it does nothing
     return R_NilValue;
   }
-
-  // update used
-  LOGICAL(used)[i_name] = chunks != R_NilValue;
   SET_VECTOR_ELT(resolved, i_name, chunks);
-
-  // count how many are used
-  int* p_used = LOGICAL(used);
-  R_xlen_t n_used = 0;
-  for (R_xlen_t i = 0; i < n; i++, ++p_used) {
-    n_used += *p_used;
-  }
 
   return R_NilValue;
 }
