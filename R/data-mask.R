@@ -13,6 +13,10 @@ DataMask <- R6Class("DataMask",
 
       private$data <- data
       private$caller <- caller
+
+      private$chops <- dplyr_lazy_vec_chop(data, rows)
+      private$masks <- dplyr_data_masks(private$chops, data, rows)
+
       private$bindings <- env(empty_env())
       private$keys <- group_keys(data)
       private$group_vars <- group_vars(data)
@@ -239,6 +243,9 @@ DataMask <- R6Class("DataMask",
 
   private = list(
     data = NULL,
+    chops = NULL,
+    masks = NULL,
+
     mask = NULL,
     old_vars = character(),
     group_vars = character(),

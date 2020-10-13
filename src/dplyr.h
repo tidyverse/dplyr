@@ -90,8 +90,8 @@ SEXP dplyr_group_keys(SEXP group_data);
 SEXP dplyr_mask_set(SEXP env_private, SEXP s_name, SEXP chunks);
 SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks);
 
-SEXP dplyr_lazy_vec_chop(SEXP data, SEXP caller_env);
-SEXP dplyr_data_masks_setup(SEXP chops, SEXP data);
+SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows);
+SEXP dplyr_data_masks_setup(SEXP chops, SEXP data, SEXP rows);
 SEXP env_resolved(SEXP env, SEXP names);
 
 #define DPLYR_MASK_INIT()                                                          \
@@ -105,7 +105,6 @@ Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);        
 int* p_current_group = INTEGER(current_group)
 
 #define DPLYR_MASK_FINALISE()                                  \
-                                                               \
 UNPROTECT(5);
 
 #define DPLYR_MASK_SET_GROUP(INDEX)                                                   \
