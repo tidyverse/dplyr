@@ -1,7 +1,7 @@
 #include "dplyr.h"
 
 SEXP new_environment(int size, SEXP parent)  {
-  SEXP call = PROTECT(Rf_lang4(Rf_install("new.env"), Rf_ScalarLogical(TRUE), parent, Rf_ScalarInteger(size)));
+  SEXP call = PROTECT(Rf_lang4(dplyr::symbols::new_env, Rf_ScalarLogical(TRUE), parent, Rf_ScalarInteger(size)));
   SEXP res = Rf_eval(call, R_BaseEnv);
   UNPROTECT(1);
   return res;
@@ -93,8 +93,8 @@ SEXP dplyr_data_masks_setup(SEXP chops_env, SEXP data, SEXP rows) {
     }
   }
 
-  SEXP new_data_mask_call = PROTECT(Rf_lang2(Rf_install("new_data_mask"), R_NilValue));
-  SEXP as_data_pronoun_call = PROTECT(Rf_lang2(Rf_install("as_data_pronoun"), R_NilValue));
+  SEXP new_data_mask_call = PROTECT(Rf_lang2(dplyr::symbols::new_data_mask, R_NilValue));
+  SEXP as_data_pronoun_call = PROTECT(Rf_lang2(dplyr::symbols::as_data_pronoun, R_NilValue));
 
   for (R_xlen_t i = 0; i < n_groups; i++) {
     SETCAR(CDR(new_data_mask_call), VECTOR_ELT(masks, i));
@@ -102,7 +102,7 @@ SEXP dplyr_data_masks_setup(SEXP chops_env, SEXP data, SEXP rows) {
 
     SETCAR(CDR(as_data_pronoun_call), mask);
     SEXP pronoun = PROTECT(Rf_eval(as_data_pronoun_call, dplyr::envs::ns_rlang));
-    Rf_defineVar(Rf_install(".data"), pronoun, mask);
+    Rf_defineVar(dplyr::symbols::dot_data, pronoun, mask);
 
     SET_VECTOR_ELT(masks, i, mask);
     UNPROTECT(2);
