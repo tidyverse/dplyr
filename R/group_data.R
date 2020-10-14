@@ -105,7 +105,7 @@ group_indices.data.frame <- function(.data, ...) {
     .data <- group_by(.data, ...)
   }
 
-  .Call(`dplyr_group_indices`, group_rows(.data), nrow(.data))
+  .Call(`dplyr_group_indices`, .data, group_rows(.data))
 }
 
 #' @export
