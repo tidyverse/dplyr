@@ -2,7 +2,9 @@
 
 SEXP dplyr_group_indices(SEXP data, SEXP rows) {
   R_xlen_t nr = vctrs::short_vec_size(data);
-  if (nr == 0) return dplyr::vectors::empty_int_vector;
+  if (nr == 0) {
+    return dplyr::vectors::empty_int_vector;
+  }
 
   SEXP indices = PROTECT(Rf_allocVector(INTSXP, nr));
   int* p_indices = INTEGER(indices);
