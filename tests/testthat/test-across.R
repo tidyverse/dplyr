@@ -248,6 +248,12 @@ test_that("across() sees columns in the recursive case (#5498)", {
   expect_identical(out, exp)
 })
 
+test_that("across() works with empty data frames (#5523)", {
+   expect_equal(
+     mutate(tibble(), across()),
+     tibble()
+   )
+})
 
 # c_across ----------------------------------------------------------------
 
