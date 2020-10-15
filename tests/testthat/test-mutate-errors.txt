@@ -104,6 +104,12 @@ i Input `y2` must be size 1, not 3.
 i Did you mean: `y2 = list(y)` ?
 i The error occurred in row 1.
 
+> data.frame(x = 1:10) %>% mutate(y = 11:20, y = 1:2)
+Error: Problem with `mutate()` input `y`.
+x Input `y` can't be recycled to size 10.
+i Input `y` is `1:2`.
+i Input `y` must be size 10 or 1, not 2.
+
 
 .data pronoun
 =============

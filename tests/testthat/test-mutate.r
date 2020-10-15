@@ -435,6 +435,8 @@ test_that("mutate() give meaningful errors", {
     tibble(y = list(1:3, "a")) %>%
       rowwise() %>%
       mutate(y2 = y)
+    data.frame(x = 1:10) %>%
+      mutate(y = 11:20, y = 1:2)
 
     "# .data pronoun"
     tibble(a = 1) %>%
