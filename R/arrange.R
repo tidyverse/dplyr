@@ -142,7 +142,7 @@ arrange_rows <- function(.data, dots) {
   #
   # should really be map2(quosures, directions, ...)
   proxies <- map2(data, directions, function(column, direction) {
-    proxy <- dplyr_proxy_order(column)
+    proxy <- vec_proxy_order(column)
     desc <- identical(direction, "desc")
     if (is.data.frame(proxy)) {
       proxy <- order(vec_order(proxy,
