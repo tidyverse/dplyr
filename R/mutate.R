@@ -327,7 +327,7 @@ mutate_cols <- function(.data, ...) {
 
     show_group_details <- TRUE
     if (inherits(e, "dplyr:::mutate_incompatible_size")) {
-      size <- vec_size(rows[[i]])
+      size <- vec_size(rows[[mask$get_current_group()]])
       x_size <- e$x_size
       bullets <- c(
         x = glue("Input `{error_name}` can't be recycled to size {size}."),
