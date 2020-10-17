@@ -43,11 +43,13 @@ all_equal <- function(target, current, ignore_col_order = TRUE,
   equal_data_frame(target, current,
     ignore_col_order = ignore_col_order,
     ignore_row_order = ignore_row_order,
-    convert = convert
+    convert = convert, name_repair = name_repair
   )
 }
 
-equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
+equal_data_frame <- function(x, y, ignore_col_order = TRUE,
+                             ignore_row_order = TRUE, convert = FALSE,
+                             name_repair = "universal") {
   compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
   if (!isTRUE(compat)) {
     return(compat)
