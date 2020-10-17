@@ -10,6 +10,7 @@ all_equal(
   ignore_col_order = TRUE,
   ignore_row_order = TRUE,
   convert = FALSE,
+  name_repair = "universal",
   ...
 )
 }
@@ -22,6 +23,10 @@ all_equal(
 
 \item{convert}{Should similar classes be converted? Currently this will
 convert factor to character and integer to double.}
+
+\item{name_repair}{One of \code{"unique"}, \code{"universal"}, or
+\code{"check_unique"}. See \code{\link[vctrs:vec_as_names]{vctrs::vec_as_names()}} for the meaning of these
+options.}
 
 \item{...}{Ignored. Needed for compatibility with \code{all.equal()}.}
 }

@@ -11,6 +11,9 @@
 #' @param ignore_row_order Should order of rows be ignored?
 #' @param convert Should similar classes be converted? Currently this will
 #'   convert factor to character and integer to double.
+#' @param name_repair One of `"unique"`, `"universal"`, or
+#'   `"check_unique"`. See [vctrs::vec_as_names()] for the meaning of these
+#'   options.
 #' @param ... Ignored. Needed for compatibility with `all.equal()`.
 #' @return `TRUE` if equal, otherwise a character vector describing
 #'   the reasons why they're not equal. Use [isTRUE()] if using the
@@ -34,7 +37,8 @@
 #' # But you can request dplyr convert similar types
 #' all_equal(df1, df2, convert = TRUE)
 all_equal <- function(target, current, ignore_col_order = TRUE,
-                      ignore_row_order = TRUE, convert = FALSE, ...) {
+                      ignore_row_order = TRUE, convert = FALSE,
+                      name_repair = "universal",...) {
 
   equal_data_frame(target, current,
     ignore_col_order = ignore_col_order,
@@ -60,8 +64,8 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
   }
 
   # suppressMessages({
-    x <- as_tibble(x, .name_repair = "universal")
-    y <- as_tibble(y, .name_repair = "universal")
+    x <- as_tibble(x, .name_repair = name_repair)
+    y <- as_tibble(y, .name_repair = name_repair)
   # })
 
   x_split <- vec_split_id_order(x)
