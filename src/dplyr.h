@@ -38,8 +38,6 @@ struct symbols {
   static SEXP envir;
   static SEXP vec_is_list;
   static SEXP new_env;
-  static SEXP new_data_mask;
-  static SEXP as_data_pronoun;
   static SEXP dot_data;
 };
 
@@ -61,6 +59,8 @@ struct functions {
 
 namespace rlang {
 SEXP eval_tidy(SEXP expr, SEXP data, SEXP env);
+SEXP as_data_pronoun(SEXP x);
+SEXP new_data_mask(SEXP bottom, SEXP top);
 }
 
 namespace vctrs {
