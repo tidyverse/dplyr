@@ -94,7 +94,7 @@ SEXP dplyr_data_masks_setup(SEXP chops_env, SEXP data, SEXP rows) {
   }
 
   for (R_xlen_t i = 0; i < n_groups; i++) {
-    SEXP mask = PROTECT(rlang::new_data_mask(VECTOR_ELT(masks, i), VECTOR_ELT(masks, i)));
+    SEXP mask = PROTECT(rlang::new_data_mask(VECTOR_ELT(masks, i), R_NilValue));
     SEXP pronoun = PROTECT(rlang::as_data_pronoun(mask));
     Rf_defineVar(dplyr::symbols::dot_data, pronoun, mask);
 
