@@ -5,9 +5,13 @@ namespace rlang {
 // *INDENT-OFF*
 struct rlang_api_ptrs_t {
   SEXP (*eval_tidy)(SEXP expr, SEXP data, SEXP env);
+  SEXP (*as_data_pronoun)(SEXP x);
+  SEXP (*new_data_mask)(SEXP bottom, SEXP top);
 
   rlang_api_ptrs_t() {
-    eval_tidy =         (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_eval_tidy");
+    eval_tidy       = (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_eval_tidy");
+    as_data_pronoun = (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_as_data_pronoun");
+    new_data_mask   = (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_new_data_mask_3.0.0");
   }
 };
 // *INDENT-ON*
@@ -21,6 +25,14 @@ SEXP eval_tidy(SEXP expr, SEXP data, SEXP env) {
   return rlang_api().eval_tidy(expr, data, env);
 }
 
+SEXP as_data_pronoun(SEXP x) {
+  return rlang_api().as_data_pronoun(x);
+}
+
+SEXP new_data_mask(SEXP bottom, SEXP top) {
+  return rlang_api().new_data_mask(bottom, top);
+}
+
 }
 
 namespace vctrs {
@@ -32,8 +44,8 @@ struct vctrs_api_ptrs_t {
   SEXP (*short_vec_recycle)(SEXP, R_len_t);
 
   vctrs_api_ptrs_t() {
-    vec_is_vector =         (bool (*)(SEXP)) R_GetCCallable("vctrs", "vec_is_vector");
-    short_vec_size  =         (R_len_t (*)(SEXP)) R_GetCCallable("vctrs", "short_vec_size");
+    vec_is_vector     = (bool (*)(SEXP))          R_GetCCallable("vctrs", "vec_is_vector");
+    short_vec_size    = (R_len_t (*)(SEXP))       R_GetCCallable("vctrs", "short_vec_size");
     short_vec_recycle = (SEXP (*)(SEXP, R_len_t)) R_GetCCallable("vctrs", "short_vec_recycle");
   }
 };
