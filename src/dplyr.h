@@ -1,7 +1,7 @@
 #ifndef DPLYR_DPLYR_H
 #define DPLYR_DPLYR_H
 
-#define R_NOREMAP
+#define R_NO_REMAP
 #include <R.h>
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
