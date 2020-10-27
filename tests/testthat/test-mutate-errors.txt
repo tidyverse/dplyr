@@ -126,7 +126,9 @@ obsolete data mask
 > lazy <- (function(x) list(enquo(x)))
 > res <- tbl %>% rowwise() %>% mutate(z = lazy(x), .keep = "unused")
 > eval_tidy(res$z[[1]])
-[1] 1
+Error: Obsolete data mask.
+x Too late to resolve `x` after the end of `dplyr::mutate()`.
+i Did you save an object that uses `x` lazily in a column in the `dplyr::mutate()` expression ?
 
 
 Error that contains {

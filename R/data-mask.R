@@ -21,7 +21,7 @@ DataMask <- R6Class("DataMask",
       private$caller <- caller
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
-      private$masks <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
+      private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
 
       private$keys <- group_keys(data)
       private$group_vars <- group_vars(data)
@@ -72,16 +72,15 @@ DataMask <- R6Class("DataMask",
     },
 
     current_cols = function(vars) {
-      mask <- parent.env(private$masks[[private$current_group]])
-      env_get_list(mask, vars)
+      env_get_list(parent.env(private$mask), vars)
     },
 
     current_rows = function() {
-      private$rows[[private$current_group]]
+      private$rows[[self$get_current_group()]]
     },
 
     current_key = function() {
-      vec_slice(private$keys, private$current_group)
+      vec_slice(private$keys, self$get_current_group())
     },
 
     current_vars = function() {
@@ -93,11 +92,11 @@ DataMask <- R6Class("DataMask",
     },
 
     get_current_group = function() {
-      private$current_group[]
+      parent.env(private$chops)$.current_group
     },
 
     set_current_group = function(group) {
-      private$current_group <- group
+      parent.env(private$chops)$.current_group <- group
     },
 
     full_data = function() {
@@ -153,6 +152,25 @@ DataMask <- R6Class("DataMask",
 
     across_cache_reset = function() {
       private$across_cache <- list()
+    },
+
+    forget = function(fn) {
+      names_bindings <- self$current_vars()
+
+      osbolete_promise_fn <- function(name) {
+        abort(c(
+          "Obsolete data mask.",
+          x = glue("Too late to resolve `{name}` after the end of `dplyr::{fn}()`."),
+          i = glue("Did you save an object that uses `{name}` lazily in a column in the `dplyr::{fn}()` expression ?")
+        ))
+      }
+
+      promises <- map(names_bindings, function(.x) expr(osbolete_promise_fn(!!.x)))
+      bindings <- parent.env(private$mask)
+      suppressWarnings({
+        rm(list = names_bindings, envir = bindings)
+        env_bind_lazy(bindings, !!!set_names(promises, names_bindings))
+      })
     }
 
   ),
@@ -165,8 +183,8 @@ DataMask <- R6Class("DataMask",
     # and list of result chunks as they get added
     chops = NULL,
 
-    # a list of data masks, one for each group
-    masks = NULL,
+    # one mask with active bindings
+    mask = NULL,
 
     # names of all the variables, this initially is names(data)
     # grows (and sometimes shrinks) as new columns are added
@@ -180,9 +198,6 @@ DataMask <- R6Class("DataMask",
 
     # data frame of keys, one row per group
     keys = NULL,
-
-    # the current group, updated internally
-    current_group = 0L,
 
     # caller environment of the verb (summarise(), ...)
     caller = NULL,

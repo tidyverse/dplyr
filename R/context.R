@@ -78,7 +78,7 @@ cur_group <- function() {
 #' @rdname context
 #' @export
 cur_group_id <- function() {
-  peek_mask("cur_group_id()")$get_current_group()
+  peek_mask("cur_group_id()")$get_current_group()[]
 }
 
 #' @rdname context
