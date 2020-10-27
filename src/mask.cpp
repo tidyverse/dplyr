@@ -59,11 +59,8 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   SEXP chops = Rf_findVarInFrame(env_private, dplyr::symbols::chops);
   Rf_defineVar(sym_name, chunks, chops);
 
-  SEXP masks = Rf_findVarInFrame(env_private, dplyr::symbols::masks);
-  R_xlen_t n_groups = XLENGTH(masks);
-  for (R_xlen_t i = 0; i < n_groups; i++) {
-    Rf_defineVar(sym_name, VECTOR_ELT(chunks, i), ENCLOS(VECTOR_ELT(masks, i)));
-  }
+  SEXP mask = Rf_findVarInFrame(env_private, dplyr::symbols::mask);
+  add_mask_binding(sym_name, ENCLOS(mask), chops);
 
   return R_NilValue;
 }
@@ -93,12 +90,8 @@ SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name) {
     SET_TAG(CDDR(rm_call), dplyr::symbols::envir);
     Rf_eval(rm_call, R_BaseEnv);
 
-    SEXP masks = Rf_findVarInFrame(env_private, dplyr::symbols::masks);
-    R_xlen_t n = XLENGTH(masks);
-    for (R_xlen_t i = 0; i < n; i++) {
-      SETCAR(CDDR(rm_call), ENCLOS(VECTOR_ELT(masks, i)));
-      Rf_eval(rm_call, R_BaseEnv);
-    }
+    SETCAR(CDDR(rm_call), ENCLOS(Rf_findVarInFrame(env_private, dplyr::symbols::mask)));
+    Rf_eval(rm_call, R_BaseEnv);
 
     UNPROTECT(1);
   }

@@ -40,7 +40,7 @@ SEXP get_names_summarise_recycle_chunks(){
 SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::levels = Rf_install("levels");
 SEXP symbols::groups = Rf_install("groups");
-SEXP symbols::current_group = Rf_install("current_group");
+SEXP symbols::dot_current_group = Rf_install(".current_group");
 SEXP symbols::current_expression = Rf_install("current_expression");
 SEXP symbols::rows = Rf_install("rows");
 SEXP symbols::caller = Rf_install("caller");
@@ -49,7 +49,7 @@ SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::abort_glue = Rf_install("abort_glue");
 SEXP symbols::dot_indices = Rf_install(".indices");
 SEXP symbols::chops = Rf_install("chops");
-SEXP symbols::masks = Rf_install("masks");
+SEXP symbols::mask = Rf_install("mask");
 SEXP symbols::rm = Rf_install("rm");
 SEXP symbols::envir = Rf_install("envir");
 SEXP symbols::vec_is_list = Rf_install("vec_is_list");
@@ -65,6 +65,7 @@ SEXP vectors::names_summarise_recycle_chunks = get_names_summarise_recycle_chunk
 SEXP functions::vec_chop = NULL;
 SEXP functions::dot_subset2 = NULL;
 SEXP functions::list = NULL;
+SEXP functions::function = NULL;
 
 } // dplyr
 
@@ -75,6 +76,8 @@ SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs, SEXP ns_rlang) {
   dplyr::functions::vec_chop = Rf_findVarInFrame(ns_vctrs, Rf_install("vec_chop"));
   dplyr::functions::dot_subset2 = Rf_findVarInFrame(R_BaseEnv, Rf_install(".subset2"));
   dplyr::functions::list = Rf_findVarInFrame(R_BaseEnv, Rf_install("list"));
+  dplyr::functions::function = Rf_eval(Rf_install("function"), R_BaseEnv);
+
   return R_NilValue;
 }
 

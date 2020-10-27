@@ -47,10 +47,11 @@ void dplyr_lazy_vec_chop_ungrouped(SEXP chops_env, SEXP data) {
 }
 
 SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows) {
-  // a first environment to hide `.indices`
+  // a first environment to hide `.indices` and `.current_group`
   // this is for example used by funs::
-  SEXP indices_env = PROTECT(new_environment(1, R_EmptyEnv));
+  SEXP indices_env = PROTECT(new_environment(2, R_EmptyEnv));
   Rf_defineVar(dplyr::symbols::dot_indices, rows, indices_env);
+  Rf_defineVar(dplyr::symbols::dot_current_group, Rf_ScalarInteger(0), indices_env);
 
   // then an environment to hold the chops of the columns
   SEXP chops_env = PROTECT(new_environment(XLENGTH(data), indices_env));
@@ -65,45 +66,33 @@ SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows) {
   return chops_env;
 }
 
-SEXP dplyr_data_masks_setup(SEXP chops_env, SEXP data, SEXP rows) {
-  SEXP names = PROTECT(Rf_getAttrib(data, R_NamesSymbol));
+void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops) {
+  SEXP body = PROTECT(Rf_lang3(dplyr::functions::dot_subset2, name, dplyr::symbols::dot_current_group));
+  SEXP fun  = PROTECT(Rf_lang3(dplyr::functions::function, R_NilValue, body));
+  SEXP binding = PROTECT(Rf_eval(fun, env_chops));
+  R_MakeActiveBinding(name, binding, env_bindings);
 
-  R_xlen_t n_groups = XLENGTH(rows);
+  UNPROTECT(3);
+}
+
+SEXP dplyr_data_masks_setup(SEXP env_chops, SEXP data, SEXP rows) {
+  SEXP names = PROTECT(Rf_getAttrib(data, R_NamesSymbol));
   R_xlen_t n_columns = XLENGTH(data);
 
   // create masks
   R_xlen_t mask_size = XLENGTH(data) + 20;
-  SEXP masks = PROTECT(Rf_allocVector(VECSXP, n_groups));
-  for (R_xlen_t i = 0; i < n_groups; i++) {
-    SET_VECTOR_ELT(masks, i, new_environment(mask_size, R_EmptyEnv));
-  }
+  SEXP env_bindings = PROTECT(new_environment(mask_size, R_EmptyEnv));
 
   for (R_xlen_t i = 0; i < n_columns; i++) {
     SEXP name = Rf_installChar(STRING_ELT(names, i));
-
-    for (R_xlen_t j = 0; j < n_groups; j++) {
-      // promise of the slice for column {name} and group {j}
-      SEXP prom = PROTECT(Rf_allocSExp(PROMSXP));
-      SET_PRENV(prom, chops_env);
-      SET_PRCODE(prom, Rf_lang3(dplyr::functions::dot_subset2, name, Rf_ScalarInteger(j + 1)));
-      SET_PRVALUE(prom, R_UnboundValue);
-
-      Rf_defineVar(name, prom, VECTOR_ELT(masks, j));
-      UNPROTECT(1);
-    }
+    add_mask_binding(name, env_bindings, env_chops);
   }
+  SEXP mask = PROTECT(rlang::new_data_mask(env_bindings, R_NilValue));
+  SEXP pronoun = PROTECT(rlang::as_data_pronoun(env_bindings));
+  Rf_defineVar(dplyr::symbols::dot_data, pronoun, mask);
 
-  for (R_xlen_t i = 0; i < n_groups; i++) {
-    SEXP mask = PROTECT(rlang::new_data_mask(VECTOR_ELT(masks, i), R_NilValue));
-    SEXP pronoun = PROTECT(rlang::as_data_pronoun(mask));
-    Rf_defineVar(dplyr::symbols::dot_data, pronoun, mask);
-
-    SET_VECTOR_ELT(masks, i, mask);
-    UNPROTECT(2);
-  }
-
-  UNPROTECT(2);
-  return masks;
+  UNPROTECT(4);
+  return mask;
 }
 
 SEXP env_resolved(SEXP env, SEXP names) {

@@ -24,7 +24,7 @@ struct symbols {
   static SEXP groups;
   static SEXP levels;
   static SEXP ptype;
-  static SEXP current_group;
+  static SEXP dot_current_group;
   static SEXP current_expression;
   static SEXP rows;
   static SEXP caller;
@@ -33,7 +33,7 @@ struct symbols {
   static SEXP abort_glue;
   static SEXP dot_indices;
   static SEXP chops;
-  static SEXP masks;
+  static SEXP mask;
   static SEXP rm;
   static SEXP envir;
   static SEXP vec_is_list;
@@ -53,6 +53,7 @@ struct functions {
   static SEXP vec_chop;
   static SEXP dot_subset2;
   static SEXP list;
+  static SEXP function;
 };
 
 } // namespace dplyr
@@ -98,20 +99,22 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks);
 SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows);
 SEXP dplyr_data_masks_setup(SEXP chops, SEXP data, SEXP rows);
 SEXP env_resolved(SEXP env, SEXP names);
+void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops);
 
 #define DPLYR_MASK_INIT()                                                                    \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                   \
 R_xlen_t ngroups = XLENGTH(rows);                                                            \
 SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));               \
-SEXP masks = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::masks));                 \
-SEXP current_group = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::current_group)); \
+SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));                 \
+SEXP chops_env = PROTECT(Rf_findVarInFrame(env_private, Rf_install("chops"))); \
+SEXP current_group = PROTECT(Rf_findVarInFrame(ENCLOS(chops_env), dplyr::symbols::dot_current_group)) ;\
 int* p_current_group = INTEGER(current_group)
 
-#define DPLYR_MASK_FINALISE() UNPROTECT(4);
+#define DPLYR_MASK_FINALISE() UNPROTECT(5)
 
-#define DPLYR_MASK_SET_GROUP(INDEX) *p_current_group = INDEX + 1;
+#define DPLYR_MASK_SET_GROUP(INDEX) *p_current_group = INDEX + 1
 
-#define DPLYR_MASK_EVAL(quo, GROUP) rlang::eval_tidy(quo, VECTOR_ELT(masks, i), caller)
+#define DPLYR_MASK_EVAL(quo, GROUP) rlang::eval_tidy(quo, mask, caller)
 
 #define DPLYR_ERROR_INIT(n)                                    \
   SEXP error_data = PROTECT(Rf_allocVector(VECSXP, n));              \

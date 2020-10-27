@@ -118,6 +118,7 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
 filter_rows <- function(.data, ...) {
   dots <- check_filter(enquos(...))
   mask <- DataMask$new(.data, caller_env())
+  on.exit(mask$forget("filter"), add = TRUE)
 
   env_filter <- env()
   withCallingHandlers(
