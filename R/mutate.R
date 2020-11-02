@@ -185,11 +185,13 @@ mutate.data.frame <- function(.data, ...,
   if (keep == "all") {
     out
   } else if (keep == "unused") {
-    unused <- c(names(.data)[!attr(cols, "used")])
+    used <- attr(cols, "used")
+    unused <- names(used)[!used]
     keep <- intersect(names(out), c(unused, names(cols)))
     dplyr_col_select(out, keep)
   } else if (keep == "used") {
-    used <- names(.data)[attr(cols, "used")]
+    used <- attr(cols, "used")
+    used <- names(used)[used]
     keep <- intersect(names(out), c(used, names(cols)))
     dplyr_col_select(out, keep)
   } else if (keep == "none") {
@@ -383,6 +385,8 @@ mutate_cols <- function(.data, ...) {
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
   new_columns[is_zap] <- rep(list(NULL), sum(is_zap))
-  attr(new_columns, "used") <- mask$get_used()
+  used <- mask$get_used()
+  names(used) <- mask$current_vars()
+  attr(new_columns, "used") <- used
   new_columns
 }
