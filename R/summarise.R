@@ -47,7 +47,7 @@
 #'   only supported option before version 1.0.0.
 #'   * "drop": All levels of grouping are dropped.
 #'   * "keep": Same grouping structure as `.data`.
-#'   * "rowwise": Each row is it's own group.
+#'   * "rowwise": Each row is its own group.
 #'
 #'   When `.groups` is not specified, it is chosen
 #'   based on the number of rows of the results:

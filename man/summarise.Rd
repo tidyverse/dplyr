@@ -30,7 +30,7 @@ The value can be:
 only supported option before version 1.0.0.
 \item "drop": All levels of grouping are dropped.
 \item "keep": Same grouping structure as \code{.data}.
-\item "rowwise": Each row is it's own group.
+\item "rowwise": Each row is its own group.
 }
 
 When \code{.groups} is not specified, it is chosen
