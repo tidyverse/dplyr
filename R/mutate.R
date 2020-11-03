@@ -161,6 +161,8 @@ mutate <- function(.data, ...) {
 #'   * `"unused"` keeps only existing variables **not** used to make new
 #'     variables.
 #'   * `"none"`, only keeps grouping keys (like [transmute()]).
+#'
+#'   Grouping variables are always kept, unconditional to `.keep`.
 #' @param .before,.after \Sexpr[results=rd]{lifecycle::badge("experimental")}
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, control where new columns
 #'   should appear (the default is to add to the right hand side). See
