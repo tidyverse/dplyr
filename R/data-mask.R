@@ -186,14 +186,20 @@ DataMask <- R6Class("DataMask",
     data = NULL,
 
     # environment that contains lazy vec_chop()s for each input column
-    # and list of result chunks as they get added
+    # and list of result chunks as they get added.
+    #
+    # The parent environment of chops has:
+    # - .indices: the list of indices
+    # - .current_group: scalar integer that identifies the current group
     chops = NULL,
 
-    # one mask with active bindings
+    # dynamic data mask, with active bindings for each column
+    # this is an rlang data mask, as such the bindings are actually
+    # in the parent environment of `mask`
     mask = NULL,
 
     # names of all the variables, this initially is names(data)
-    # grows (and sometimes shrinks) as new columns are added
+    # grows (and sometimes shrinks) as new columns are added/removed
     all_vars = character(),
 
     # names of the grouping variables
