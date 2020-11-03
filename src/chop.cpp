@@ -11,10 +11,12 @@ void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool roww
   SEXP names = PROTECT(Rf_getAttrib(data, R_NamesSymbol));
   R_xlen_t n = XLENGTH(data);
 
+  const SEXP* p_data = VECTOR_PTR_RO(data);
+  const SEXP* p_names = STRING_PTR_RO(names);
   for (R_xlen_t i = 0; i < n; i++) {
     SEXP prom = PROTECT(Rf_allocSExp(PROMSXP));
     SET_PRENV(prom, R_EmptyEnv);
-    SEXP column = VECTOR_ELT(data, i);
+    SEXP column = p_data[i];
     if (rowwise && vctrs::vec_is_list(column)) {
       SET_PRCODE(prom, column);
     } else {
@@ -22,7 +24,7 @@ void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool roww
     }
     SET_PRVALUE(prom, R_UnboundValue);
 
-    Rf_defineVar(Rf_installChar(STRING_ELT(names, i)), prom, chops_env);
+    Rf_defineVar(Rf_installChar(p_names[i]), prom, chops_env);
     UNPROTECT(1);
   }
 
@@ -33,13 +35,15 @@ void dplyr_lazy_vec_chop_ungrouped(SEXP chops_env, SEXP data) {
   SEXP names = PROTECT(Rf_getAttrib(data, R_NamesSymbol));
   R_xlen_t n = XLENGTH(data);
 
+  const SEXP* p_data = VECTOR_PTR_RO(data);
+  const SEXP* p_names = STRING_PTR_RO(names);
   for (R_xlen_t i = 0; i < n; i++) {
     SEXP prom = PROTECT(Rf_allocSExp(PROMSXP));
     SET_PRENV(prom, R_EmptyEnv);
-    SET_PRCODE(prom, Rf_lang2(dplyr::functions::list, VECTOR_ELT(data, i)));
+    SET_PRCODE(prom, Rf_lang2(dplyr::functions::list, p_data[i]));
     SET_PRVALUE(prom, R_UnboundValue);
 
-    Rf_defineVar(Rf_installChar(STRING_ELT(names, i)), prom, chops_env);
+    Rf_defineVar(Rf_installChar(p_names[i]), prom, chops_env);
     UNPROTECT(1);
   }
 
@@ -77,6 +81,7 @@ void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops) {
 
 SEXP dplyr_data_masks_setup(SEXP env_chops, SEXP data, SEXP rows) {
   SEXP names = PROTECT(Rf_getAttrib(data, R_NamesSymbol));
+  const SEXP* p_names = STRING_PTR_RO(names);
   R_xlen_t n_columns = XLENGTH(data);
 
   // create masks
@@ -84,7 +89,7 @@ SEXP dplyr_data_masks_setup(SEXP env_chops, SEXP data, SEXP rows) {
   SEXP env_bindings = PROTECT(new_environment(mask_size, R_EmptyEnv));
 
   for (R_xlen_t i = 0; i < n_columns; i++) {
-    SEXP name = Rf_installChar(STRING_ELT(names, i));
+    SEXP name = Rf_installChar(p_names[i]);
     add_mask_binding(name, env_bindings, env_chops);
   }
   SEXP mask = PROTECT(rlang::new_data_mask(env_bindings, R_NilValue));
@@ -100,8 +105,10 @@ SEXP env_resolved(SEXP env, SEXP names) {
   SEXP res = PROTECT(Rf_allocVector(LGLSXP, n));
 
   int* p_res = LOGICAL(res);
+  const SEXP* p_names = STRING_PTR_RO(names);
+
   for(R_xlen_t i = 0; i < n; i++) {
-    SEXP prom = Rf_findVarInFrame(env, Rf_installChar(STRING_ELT(names, i)));
+    SEXP prom = Rf_findVarInFrame(env, Rf_installChar(p_names[i]));
     p_res[i] = PRVALUE(prom) != R_UnboundValue;
   }
 

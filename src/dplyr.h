@@ -5,12 +5,25 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
+#include <Rversion.h>
 
 #define UTF8_MASK (1<<3)
 #define ASCII_MASK (1<<6)
 
 #define IS_ASCII(x) (LEVELS(x) & ASCII_MASK)
 #define IS_UTF8(x) (LEVELS(x) & UTF8_MASK)
+
+#if (R_VERSION < R_Version(3, 5, 0))
+# define LOGICAL_RO(x) ((const int*) LOGICAL(x))
+# define INTEGER_RO(x) ((const int*) INTEGER(x))
+# define REAL_RO(x) ((const double*) REAL(x))
+# define COMPLEX_RO(x) ((const Rcomplex*) COMPLEX(x))
+# define STRING_PTR_RO(x) ((const SEXP*) STRING_PTR(x))
+# define RAW_RO(x) ((const Rbyte*) RAW(x))
+# define DATAPTR_RO(x) ((const void*) STRING_PTR(x))
+#endif
+
+#define VECTOR_PTR_RO(x) ((const SEXP*) DATAPTR_RO(x))
 
 namespace dplyr {
 
@@ -105,8 +118,8 @@ void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops);
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                   \
 R_xlen_t ngroups = XLENGTH(rows);                                                            \
 SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));               \
-SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));                 \
-SEXP chops_env = PROTECT(Rf_findVarInFrame(env_private, Rf_install("chops"))); \
+SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));                   \
+SEXP chops_env = PROTECT(Rf_findVarInFrame(env_private, Rf_install("chops")));               \
 SEXP current_group = PROTECT(Rf_findVarInFrame(ENCLOS(chops_env), dplyr::symbols::dot_current_group)) ;\
 int* p_current_group = INTEGER(current_group)
 

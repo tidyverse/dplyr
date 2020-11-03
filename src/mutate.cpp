@@ -31,9 +31,10 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
   bool seen_vec = false;
   bool seen_null = false;
 
+  const SEXP* p_rows = VECTOR_PTR_RO(rows);
   for (R_xlen_t i = 0; i < ngroups; i++) {
     DPLYR_MASK_SET_GROUP(i);
-    R_xlen_t n_i = XLENGTH(VECTOR_ELT(rows, i));
+    R_xlen_t n_i = XLENGTH(p_rows[i]);
     SEXP result_i = PROTECT(DPLYR_MASK_EVAL(quo, i));
     SET_VECTOR_ELT(chunks, i, result_i);
 
@@ -68,8 +69,9 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
   if (seen_null && seen_vec) {
     // find out the first time the group was NULL so that the error will
     // be associated with this group
+    const SEXP* p_chunks = VECTOR_PTR_RO(chunks);
     for (int i = 0; i < ngroups; i++) {
-      if (Rf_isNull(VECTOR_ELT(chunks, i))) {
+      if (Rf_isNull(p_chunks[i])) {
         DPLYR_MASK_SET_GROUP(i);
         dplyr::stop_mutate_mixed_null();
       }

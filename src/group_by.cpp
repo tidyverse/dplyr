@@ -286,11 +286,12 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds) {
   if (TYPEOF(dot_rows) != VECSXP) {
     return Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
   }
+  const SEXP* p_dot_rows = VECTOR_PTR_RO(dot_rows);
 
   if (LOGICAL(s_check_bounds)[0]) {
     R_xlen_t nr = XLENGTH(dot_rows);
     for (R_xlen_t i = 0; i < nr; i++) {
-      SEXP rows_i = VECTOR_ELT(dot_rows, i);
+      SEXP rows_i = p_dot_rows[i];
       if (TYPEOF(rows_i) != INTSXP) {
         return Rf_mkString("`.rows` column is not a list of one-based integer vectors.");
       }
@@ -298,7 +299,7 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds) {
 
     R_xlen_t nr_df = vctrs::short_vec_size(df);
     for (R_xlen_t i = 0; i < nr; i++) {
-      SEXP rows_i = VECTOR_ELT(dot_rows, i);
+      SEXP rows_i = p_dot_rows[i];
       R_xlen_t n_i = XLENGTH(rows_i);
       int* p_rows_i = INTEGER(rows_i);
       for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i) {
