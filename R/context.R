@@ -78,6 +78,9 @@ cur_group <- function() {
 #' @rdname context
 #' @export
 cur_group_id <- function() {
+  # [] to get a copy because the current group is dealt with internally
+  # if we don't get a copy, code like this won't give correct result:
+  # summarise(id = cur_group_id())
   peek_mask("cur_group_id()")$get_current_group()[]
 }
 
