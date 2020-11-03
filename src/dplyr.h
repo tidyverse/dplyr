@@ -119,7 +119,7 @@ SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));      
 R_xlen_t ngroups = XLENGTH(rows);                                                            \
 SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));               \
 SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));                   \
-SEXP chops_env = PROTECT(Rf_findVarInFrame(env_private, Rf_install("chops")));               \
+SEXP chops_env = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));               \
 SEXP current_group = PROTECT(Rf_findVarInFrame(ENCLOS(chops_env), dplyr::symbols::dot_current_group)) ;\
 int* p_current_group = INTEGER(current_group)
 
@@ -127,7 +127,7 @@ int* p_current_group = INTEGER(current_group)
 
 #define DPLYR_MASK_SET_GROUP(INDEX) *p_current_group = INDEX + 1
 
-#define DPLYR_MASK_EVAL(quo, GROUP) rlang::eval_tidy(quo, mask, caller)
+#define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
 
 #define DPLYR_ERROR_INIT(n)                                    \
   SEXP error_data = PROTECT(Rf_allocVector(VECSXP, n));              \
