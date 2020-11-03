@@ -187,12 +187,12 @@ mutate.data.frame <- function(.data, ...,
   } else if (keep == "unused") {
     used <- attr(cols, "used")
     unused <- names(used)[!used]
-    keep <- intersect(names(out), c(unused, names(cols)))
+    keep <- intersect(names(out), c(group_vars(.data), unused, names(cols)))
     dplyr_col_select(out, keep)
   } else if (keep == "used") {
     used <- attr(cols, "used")
     used <- names(used)[used]
-    keep <- intersect(names(out), c(used, names(cols)))
+    keep <- intersect(names(out), c(group_vars(.data), used, names(cols)))
     dplyr_col_select(out, keep)
   } else if (keep == "none") {
     keep <- c(
