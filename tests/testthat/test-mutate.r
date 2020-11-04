@@ -354,6 +354,26 @@ test_that("can use .before and .after to control column position", {
   expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
 })
 
+test_that(".keep= always retains grouping variables (#5582)", {
+  df <- tibble(x = 1, y = 2, z = 3) %>% group_by(z)
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "none"),
+    tibble(z = 3, a = 2) %>% group_by(z)
+  )
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "all"),
+    tibble(x = 1, y = 2, z = 3, a = 2) %>% group_by(z)
+  )
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "used"),
+    tibble(x = 1, z = 3, a = 2) %>% group_by(z)
+  )
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "unused"),
+    tibble(y = 2, z = 3, a = 2) %>% group_by(z)
+  )
+})
+
 test_that("mutate() preserves the call stack on error (#5308)", {
   foobar <- function() stop("foo")
 
