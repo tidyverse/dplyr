@@ -112,16 +112,20 @@ rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(x, key, df_name = "x", .check_unique = FALSE)
   rows_check_key_df(y, key, df_name = "y")
-  idx <- vctrs::vec_match(y[key], x[key])
 
-  bad <- which(is.na(idx))
-  if (has_length(bad)) {
+  if (!all(vec_in(y[key], x[key]))){
     abort("Attempting to update missing rows.")
   }
+  idx <- vctrs::vec_match(x[key], y[key])
+  pos <- seq_len(vec_size(x))
 
-  x[idx, names(y)] <- y
+  keep <- !is.na(idx)
+  pos <- pos[keep]
+  idx <- idx[keep]
+
+  x[pos, names(y)] <- vec_slice(y, idx)
   x
 }
 
@@ -242,12 +246,12 @@ rows_check_key <- function(by, x, y) {
   by
 }
 
-rows_check_key_df <- function(df, by, df_name) {
+rows_check_key_df <- function(df, by, df_name, .check_unique = TRUE) {
   y_miss <- setdiff(by, colnames(df))
   if (length(y_miss) > 0) {
     abort(glue("All `by` columns must exist in `{df_name}`."))
   }
-  if (vctrs::vec_duplicate_any(df[by])) {
+  if (.check_unique && vctrs::vec_duplicate_any(df[by])) {
     abort(glue("`{df_name}` key values are not unique."))
   }
 }
