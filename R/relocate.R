@@ -35,7 +35,7 @@
 #' df %>% relocate(where(is.character))
 #' df %>% relocate(where(is.numeric), .after = last_col())
 #' # Or with any other select helper
-#' df %>% relocate(all_of(c("a", "e", "i", "o", "u")))
+#' df %>% relocate(any_of(c("a", "e", "i", "o", "u")))
 #'
 #' # When .before or .after refers to multiple variables they will be
 #' # moved to be immediately before/after the selected variables.
