@@ -52,11 +52,17 @@ df \%>\% relocate(a, .after = last_col())
 df \%>\% relocate(where(is.character))
 df \%>\% relocate(where(is.numeric), .after = last_col())
 # Or with any other select helper
-df \%>\% relocate(any_of(c("a", "e", "i", "o", "u")))
+df \%>\% relocate(all_of(c("a", "e", "i", "o", "u")))
 
 # When .before or .after refers to multiple variables they will be
 # moved to be immediately before/after the selected variables.
 df2 <- tibble(a = 1, b = "a", c = 1, d = "a")
 df2 \%>\% relocate(where(is.numeric), .after = where(is.character))
 df2 \%>\% relocate(where(is.numeric), .before = where(is.character))
+
+# relocated columns can change name
+df \%>\% relocate(ff = f)
+df \%>\% relocate(aa = a, .after = c)
+df \%>\% relocate(ff = f, .before = b)
+df \%>\% relocate(aa = a, .after = last_col())
 }

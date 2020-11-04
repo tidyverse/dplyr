@@ -35,20 +35,26 @@
 #' df %>% relocate(where(is.character))
 #' df %>% relocate(where(is.numeric), .after = last_col())
 #' # Or with any other select helper
-#' df %>% relocate(any_of(c("a", "e", "i", "o", "u")))
+#' df %>% relocate(all_of(c("a", "e", "i", "o", "u")))
 #'
 #' # When .before or .after refers to multiple variables they will be
 #' # moved to be immediately before/after the selected variables.
 #' df2 <- tibble(a = 1, b = "a", c = 1, d = "a")
 #' df2 %>% relocate(where(is.numeric), .after = where(is.character))
 #' df2 %>% relocate(where(is.numeric), .before = where(is.character))
+#'
+#' # relocated columns can change name
+#' df %>% relocate(ff = f)
+#' df %>% relocate(aa = a, .after = c)
+#' df %>% relocate(ff = f, .before = b)
+#' df %>% relocate(aa = a, .after = last_col())
 relocate <- function(.data, ..., .before = NULL, .after = NULL) {
   UseMethod("relocate")
 }
 
 #' @export
 relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
-  to_move <- unname(tidyselect::eval_select(expr(c(...)), .data))
+  to_move <- tidyselect::eval_select(expr(c(...)), .data)
 
   .before <- enquo(.before)
   .after <- enquo(.after)
@@ -70,12 +76,19 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   } else {
     where <- 1L
     if (!where %in% to_move) {
-      to_move <- union(to_move, where)
+      to_move <- c(to_move, where)
     }
   }
 
   lhs <- setdiff(seq2(1, where - 1), to_move)
   rhs <- setdiff(seq2(where + 1, ncol(.data)), to_move)
 
-  .data[vec_unique(c(lhs, to_move, rhs))]
+  pos <- vec_unique(c(lhs, to_move, rhs))
+  out <- .data[pos]
+  new_names <- names(pos)
+
+  if (!is.null(new_names)) {
+    names(out)[new_names != ""] <- new_names[new_names != ""]
+  }
+  out
 }
