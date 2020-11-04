@@ -10,9 +10,13 @@ unnamed elements must return data frames
 Error: Result must be a data frame, not numeric
 
 > df %>% do(1)
+Warning: `progress_estimated()` is deprecated as of dplyr 1.0.0.
+
 Error: Results 1, 2, 3 must be data frames, not numeric
 
 > df %>% do("a")
+Warning: `progress_estimated()` is deprecated as of dplyr 1.0.0.
+
 Error: Results 1, 2, 3 must be data frames, not character
 
 
