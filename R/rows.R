@@ -119,11 +119,8 @@ rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
     abort("Attempting to update missing rows.")
   }
   idx <- vctrs::vec_match(x[key], y[key])
-  pos <- seq_len(vec_size(x))
-
-  keep <- !is.na(idx)
-  pos <- pos[keep]
-  idx <- idx[keep]
+  pos <- which(!is.na(idx))
+  idx <- idx[pos]
 
   x[pos, names(y)] <- vec_slice(y, idx)
   x
