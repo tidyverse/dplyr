@@ -81,6 +81,7 @@ rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 #' @export
 rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   key <- rows_check_key(by, x, y)
+  rows_check_subset(x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
@@ -108,6 +109,7 @@ rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 #' @export
 rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   key <- rows_check_key(by, x, y)
+  rows_check_subset(x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
@@ -136,6 +138,7 @@ rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 #' @export
 rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   key <- rows_check_key(by, x, y)
+  rows_check_subset(x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
@@ -164,6 +167,7 @@ rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 #' @export
 rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   key <- rows_check_key(by, x, y)
+  rows_check_subset(x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
@@ -201,6 +205,8 @@ rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 #' @export
 rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   key <- rows_check_key(by, x, y)
+  rows_check_subset(x, y)
+
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
@@ -238,12 +244,14 @@ rows_check_key <- function(by, x, y) {
     abort("`by` must be unnamed.")
   }
 
+  by
+}
+
+rows_check_subset <- function(x, y) {
   bad <- setdiff(colnames(y), colnames(x))
   if (has_length(bad)) {
     abort("All columns in `y` must exist in `x`.")
   }
-
-  by
 }
 
 rows_check_key_names_df <- function(df, by, df_name) {
