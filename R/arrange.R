@@ -83,7 +83,7 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE,
   method <- arg_match(.method)
 
   if (length(dots) == 0L) {
-    return(.data)
+    return(dplyr_row_slice(.data, TRUE))
   }
 
   if (.by_group) {
