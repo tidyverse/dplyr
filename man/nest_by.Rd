@@ -4,7 +4,7 @@
 \alias{nest_by}
 \title{Nest by one or more variables}
 \usage{
-nest_by(.data, ..., .key = "data", .keep = FALSE, .add = FALSE)
+nest_by(.data, ..., .key = "data", .keep = FALSE)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -17,17 +17,9 @@ In \code{ungroup()}, variables to remove from the grouping.}
 \item{.key}{Name of the list column}
 
 \item{.keep}{Should the grouping columns be kept in the list column.}
-
-\item{.add}{When \code{FALSE}, the default, \code{group_by()} will
-override existing groups. To add to the existing groups, use
-\code{.add = TRUE}.
-
-This argument was previously called \code{add}, but that prevented
-creating a new grouping variable called \code{add}, and conflicts with
-our naming conventions.}
 }
 \value{
-A \code{\link[=rowwise]{rowwise()}} data frame. The output has the following properties:
+A \link{rowwise} data frame. The output has the following properties:
 \itemize{
 \item The rows come from the underlying \code{\link[=group_keys]{group_keys()}}.
 \item The columns are the grouping keys plus one list-column of data frames.
@@ -43,9 +35,25 @@ with matching rows of the remaining columns.
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 
 \code{nest_by()} is closely related to \code{\link[=group_by]{group_by()}}. However, instead of storing
-the group structure in the metadata, it makes it explicit in the data,
-giving each group key a single row with a list-column of data frames that
-contain all the other data.
+the group structure in the metadata, it is made explicit in the data,
+giving each group key a single row along with a list-column of data frames
+that contain all the other data.
+
+\code{nest_by()} returns a \link{rowwise} data frame, which makes operations on the
+grouped data particularly elegant. See \code{vignette("rowwise")} for more
+details.
+}
+\details{
+Note that \code{df \%>\% nest_by(x, y)} is roughly equivalent to\preformatted{df \%>\%
+  group_by(x, y) \%>\%
+  summarise(data = list(cur_data())) \%>\%
+  rowwise()
+}
+
+If you want to unnest a nested data frame, you can either use
+\code{tidyr::unnest()} or take advantage of \code{summarise()}s multi-row behaviour:\preformatted{nested \%>\%
+  summarise(data)
+}
 }
 \section{Methods}{
 
@@ -69,5 +77,13 @@ models <- mtcars \%>\%
 models
 
 models \%>\% summarise(rsq = summary(model)$r.squared)
+# This is particularly elegant with the broom functions
+if (requireNamespace("broom", quietly = TRUE)) {
+  models \%>\% summarise(broom::glance(model))
+  models \%>\% summarise(broom::tidy(model))
+}
+
+# Note that you can also summarise to unnest the data
+models \%>\% summarise(data)
 }
 \keyword{internal}

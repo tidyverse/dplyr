@@ -1,12 +1,15 @@
+# To turn on warnings from tibble::`names<-()`
+local_options(lifecycle_verbosity = "warning")
+
 test_that("empty arrange() returns input", {
   df <- tibble(x = 1:10, y = 1:10)
   gf <- group_by(df, x)
 
-  expect_reference(arrange(df), df)
-  expect_reference(arrange(gf), gf)
+  expect_identical(arrange(df), df)
+  expect_identical(arrange(gf), gf)
 
-  expect_reference(arrange(df, !!!list()), df)
-  expect_reference(arrange(gf, !!!list()), gf)
+  expect_identical(arrange(df, !!!list()), df)
+  expect_identical(arrange(gf, !!!list()), gf)
 })
 
 test_that("can sort empty data frame", {
@@ -69,8 +72,7 @@ test_that("arrange handles complex columns", {
   expect_equal(arrange(df, y), df[3:1, ])
 })
 
-test_that("arrange handles S4 classes #1105", {
-  skip("TODO: https://github.com/r-lib/vctrs/issues/776")
+test_that("arrange handles S4 classes (#1105)", {
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
   setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
   on.exit(removeClass("TestS4"))
@@ -134,4 +136,47 @@ test_that("arrange() supports across() (#4679)", {
     df %>% arrange(across(y)),
     df %>% arrange(y)
   )
+})
+
+test_that("arrange() with empty dots still calls dplyr_row_slice()", {
+  tbl <- new_tibble(list(x = 1), nrow = 1L)
+  foo <- structure(tbl, class = c("foo_df", class(tbl)))
+
+  local_methods(
+    # `foo_df` always loses class when row slicing
+    dplyr_row_slice.foo_df = function(data, i, ...) {
+      out <- NextMethod()
+      new_tibble(out, nrow = nrow(out))
+    }
+  )
+
+  expect_s3_class(arrange(foo), class(tbl), exact = TRUE)
+  expect_s3_class(arrange(foo, x), class(tbl), exact = TRUE)
+})
+
+test_that("can arrange() with unruly class", {
+  local_methods(
+    `[.dplyr_foobar` = function(x, i, ...) new_dispatched_quux(vec_slice(x, i)),
+    dplyr_row_slice.dplyr_foobar = function(x, i, ...) x[i, ]
+  )
+
+  df <- foobar(data.frame(x = 1:3))
+  expect_identical(
+    arrange(df, desc(x)),
+    quux(data.frame(x = 3:1, dispatched = TRUE))
+  )
+})
+
+test_that("arrange() preserves the call stack on error (#5308)", {
+  foobar <- function() stop("foo")
+
+  stack <- NULL
+  expect_error(
+    withCallingHandlers(
+      error = function(...) stack <<- sys.calls(),
+      arrange(mtcars, foobar())
+    )
+  )
+
+  expect_true(some(stack, is_call, "foobar"))
 })

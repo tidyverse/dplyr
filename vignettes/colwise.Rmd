@@ -1,5 +1,5 @@
 ---
-title: "colwise operations"
+title: "Column-wise operations"
 description: >
   Learn how to easily repeat the same operation across multiple
   columns using `across()`.
@@ -21,7 +21,7 @@ It's often useful to perform the same operation on multiple columns, but copying
 ```{r, eval = FALSE}
 df %>% 
   group_by(g1, g2) %>% 
-  summarise(a = mean(a), b = mean(b), c = mean(c), d = mean(c))
+  summarise(a = mean(a), b = mean(b), c = mean(c), d = mean(d))
 ```
 
 (If you're trying to compute `mean(a, b, c, d)` for each row, instead see `vignette("rowwise")`)
@@ -58,7 +58,7 @@ Here are a couple of examples of `across()` in conjunction with its favourite ve
 
 ```{r}
 starwars %>% 
-  summarise(across(is.character, ~ length(unique(.x))))
+  summarise(across(where(is.character), ~ length(unique(.x))))
 
 starwars %>% 
   group_by(species) %>% 
@@ -68,7 +68,7 @@ starwars %>%
 starwars %>% 
   group_by(homeworld) %>% 
   filter(n() > 1) %>% 
-  summarise(across(is.numeric, ~ mean(.x, na.rm = TRUE)))
+  summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
 ```
 
 Because `across()` is usually used in combination with `summarise()` and `mutate()`, it doesn't select grouping variables in order to avoid accidentally modifying them:
@@ -77,7 +77,7 @@ Because `across()` is usually used in combination with `summarise()` and `mutate
 df <- data.frame(g = c(1, 1, 2), x = c(-1, 1, 3), y = c(-1, -4, -9))
 df %>% 
   group_by(g) %>% 
-  summarise(across(is.numeric, sum))
+  summarise(across(where(is.numeric), sum))
 ```
 
 ### Multiple functions
@@ -89,21 +89,21 @@ min_max <- list(
   min = ~min(.x, na.rm = TRUE), 
   max = ~max(.x, na.rm = TRUE)
 )
-starwars %>% summarise(across(is.numeric, min_max))
+starwars %>% summarise(across(where(is.numeric), min_max))
 ```
 
-Control how the names are created with the `.names` argument which takes a [glue](http://glue.tidyverse.org/) spec:
+Control how the names are created with the `.names` argument which takes a [glue](https://glue.tidyverse.org/) spec:
 
 ```{r}
-starwars %>% summarise(across(is.numeric, min_max, .names = "{fn}.{col}"))
+starwars %>% summarise(across(where(is.numeric), min_max, .names = "{.fn}.{.col}"))
 ```
 
 If you'd prefer all summaries with the same function to be grouped together, you'll have to expand the calls yourself:
 
 ```{r}
 starwars %>% summarise(
-  across(is.numeric, ~min(.x, na.rm = TRUE), .names = "min_{col}"),
-  across(is.numeric, ~max(.x, na.rm = TRUE), .names = "max_{col}")
+  across(where(is.numeric), ~min(.x, na.rm = TRUE), .names = "min_{.col}"),
+  across(where(is.numeric), ~max(.x, na.rm = TRUE), .names = "max_{.col}")
 )
 ```
 
@@ -129,21 +129,21 @@ Be careful when combining numeric summaries with `is.numeric`:
 df <- data.frame(x = c(1, 2, 3), y = c(1, 4, 9))
 
 df %>% 
-  summarise(n = n(), across(is.numeric, sd))
+  summarise(n = n(), across(where(is.numeric), sd))
 ```
 
 Here `n` becomes `NA` because `n` is numeric, so the `across()` computes its standard deviation, and the standard deviation of 3 (a constant) is `NA`. You probably want to compute `n()` last to avoid this problem:
 
 ```{r}
 df %>% 
-  summarise(across(is.numeric, sd), n = n())
+  summarise(across(where(is.numeric), sd), n = n())
 ```
 
 Alternatively, you could explicitly exclude `n` from the columns to operate on:
 
 ```{r}
 df %>% 
-  summarise(n = n(), across(is.numeric & !n, sd))
+  summarise(n = n(), across(where(is.numeric) & !n, sd))
 ```
 
 ### Other verbs
@@ -158,7 +158,7 @@ So far we've focussed on the use of `across()` with `summarise()`, but it works 
       (x - rng[1]) / (rng[2] - rng[1])
     }
     df <- tibble(x = 1:4, y = rnorm(4))
-    df %>% mutate(across(is.numeric, rescale01))
+    df %>% mutate(across(where(is.numeric), rescale01))
     ```
 
 *   Find all rows where no variable has missing values:
@@ -198,8 +198,8 @@ Why did we decide to move away from these functions in favour of `across()`?
     df %>%
       group_by(g1, g2) %>% 
       summarise(
-        across(is.numeric, mean), 
-        across(is.factor, nlevels),
+        across(where(is.numeric), mean), 
+        across(where(is.factor), nlevels),
         n = n(), 
       )
     ```
@@ -212,7 +212,7 @@ Why did we decide to move away from these functions in favour of `across()`?
 1.  `across()` unifies `_if` and `_at` semantics so that you can select by 
     position, name, and type, and you can now create compound selections that 
     were previously impossible. For example, you can now transform all numeric 
-    columns whose name begins with "x": `across(is.numeric & starts_with("x"))`.
+    columns whose name begins with "x": `across(where(is.numeric) & starts_with("x"))`.
 
 1.  `across()` doesn't need to use `vars()`. The `_at()` functions are the only
     place in dplyr where you have to manually quote variable names, which makes 
@@ -228,7 +228,7 @@ It's disappointing that we didn't discover `across()` earlier, and instead worke
 
 * We can use data frames to allow summary functions to return multiple columns.
 
-* We can use of absence of an outer name as a convention that you want to
+* We can use the absence of an outer name as a convention that you want to
   unpack a data frame column into individual columns.
 
 ### How do you convert existing code?
@@ -239,7 +239,7 @@ Fortunately, it's generally straightforward to translate your existing code to u
 
 *   Call `across()`. The first argument will be:
 
-    1. For `_if()`, the old second argument.
+    1. For `_if()`, the old second argument wrapped in `where()`.
     1. For `_at()`, the old second argument, with the call to `vars()` removed.
     1. For `_all()`, `everything()`.
 
@@ -250,7 +250,7 @@ For example:
 ```{r, results = FALSE}
 df %>% mutate_if(is.numeric, mean, na.rm = TRUE)
 # ->
-df %>% mutate(across(is.numeric, mean, na.rm = TRUE))
+df %>% mutate(across(where(is.numeric), mean, na.rm = TRUE))
 
 df %>% mutate_at(vars(c(x, starts_with("y"))), mean)
 # ->
@@ -277,11 +277,11 @@ There are a few exceptions to this rule:
     df <- tibble(x = c("a", "b"), y = c(1, 1), z = c(-1, 1))
     
     # Find all rows where EVERY numeric variable is greater than zero
-    df %>% filter(across(is.numeric, ~ .x > 0))
+    df %>% filter(across(where(is.numeric), ~ .x > 0))
     
     # Find all rows where ANY numeric variable is greater than zero
     rowAny <- function(x) rowSums(x) > 0
-    df %>% filter(rowAny(across(is.numeric, ~ .x > 0)))
+    df %>% filter(rowAny(across(where(is.numeric), ~ .x > 0)))
     ```
     
 *   When used in a `mutate()`, all transformations performed by an `across()` 

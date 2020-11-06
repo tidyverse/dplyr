@@ -16,11 +16,12 @@
 #'   This argument was previously called `add`, but that prevented
 #'   creating a new grouping variable called `add`, and conflicts with
 #'   our naming conventions.
-#' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
-#'   what the default value is for this argument.
-#' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
-#'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
-#'   otherwise.
+#' @param .drop Drop groups formed by factor levels that don't appear in the
+#'   data? The default is `TRUE` except when `.data` has been previously
+#'   grouped with `.drop = FALSE`. See [group_by_drop_default()] for details.
+#' @return A grouped data frame with class [`grouped_df`][grouped_df],
+#'   unless the combination of `...` and `add` yields a empty set of
+#'   grouping columns, in which case a tibble will be returned.
 #' @section Methods:
 #' These function are **generic**s, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -71,13 +72,13 @@
 #'   group_vars()
 #'
 #'
-#' # when factors are involved, groups can be empty
+#' # when factors are involved and .drop = FALSE, groups can be empty
 #' tbl <- tibble(
 #'   x = 1:10,
 #'   y = factor(rep(c("a", "c"), each  = 5), levels = c("a", "b", "c"))
 #' )
 #' tbl %>%
-#'   group_by(y) %>%
+#'   group_by(y, .drop = FALSE) %>%
 #'   group_rows()
 #'
 group_by <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
@@ -160,8 +161,8 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   unknown <- setdiff(group_names, tbl_vars(out))
   if (length(unknown) > 0) {
     abort(c(
-      "Must group by variables found in `.data`",
-      glue("Column `{unknown}` is not found")
+      "Must group by variables found in `.data`.",
+      glue("Column `{unknown}` is not found.")
     ))
   }
 
@@ -177,9 +178,15 @@ add_computed_columns <- function(.data, vars) {
   needs_mutate <- have_name(vars) | !is_symbol
 
   if (any(needs_mutate)) {
-    cols <- mutate_cols(.data, !!!vars)
-    out <- dplyr_col_modify(.data, cols)
-    col_names <- names(cols)
+    # TODO: use less of a hack
+    if (inherits(.data, "data.frame")) {
+      cols <- mutate_cols(.data, !!!vars)
+      out <- dplyr_col_modify(.data, cols)
+      col_names <- names(cols)
+    } else {
+      out <- mutate(.data, !!!vars)
+      col_names <- names(exprs_auto_name(vars))
+    }
   } else {
     out <- .data
     col_names <- names(exprs_auto_name(vars))

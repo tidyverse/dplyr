@@ -27,7 +27,7 @@ transmute_at(.tbl, .vars, .funs, ..., .cols = NULL)
 \item{.funs}{A function \code{fun}, a quosure style lambda \code{~ fun(.)} or a list of either form.}
 
 \item{...}{Additional arguments for the function calls in
-\code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
+\code{.funs}. These are evaluated only once, with \link[rlang:dyn-dots]{tidy dots} support.}
 
 \item{.predicate}{A predicate function to be applied to the columns
 or a logical vector. The variables for which \code{.predicate} is or
@@ -143,15 +143,15 @@ iris \%>\% mutate(across(matches("Sepal"), log))
 # returns TRUE or FALSE) to determine the relevant subset of
 # columns. Here we divide all the numeric columns by 100:
 starwars \%>\% mutate_if(is.numeric, scale2, na.rm = TRUE)
-starwars \%>\% mutate(across(is.numeric, ~ scale2(.x, na.rm = TRUE)))
+starwars \%>\% mutate(across(where(is.numeric), ~ scale2(.x, na.rm = TRUE)))
 
 # mutate_if() is particularly useful for transforming variables from
 # one type to another
 iris \%>\% mutate_if(is.factor, as.character)
 iris \%>\% mutate_if(is.double, as.integer)
 # ->
-iris \%>\% mutate(across(is.factor, as.character))
-iris \%>\% mutate(across(is.double, as.integer))
+iris \%>\% mutate(across(where(is.factor), as.character))
+iris \%>\% mutate(across(where(is.double), as.integer))
 
 # Multiple transformations ----------------------------------------
 
@@ -164,7 +164,7 @@ iris \%>\% mutate_if(is.numeric, list(scale = scale2, log = log))
 # ->
 iris \%>\%
   as_tibble() \%>\%
-  mutate(across(is.numeric, list(scale = scale2, log = log)))
+  mutate(across(where(is.numeric), list(scale = scale2, log = log)))
 
 # When there's only one function in the list, it modifies existing
 # variables in place. Give it a name to instead create new variables:

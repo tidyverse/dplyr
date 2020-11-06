@@ -1,7 +1,7 @@
 #' Select grouping variables
 #'
 #' This selection helpers matches grouping variables. It can be used
-#' in [select()] or [vars()][scoped] selections.
+#' in [select()] or [vars()] selections.
 #'
 #' @param data For advanced use only. The default `NULL` automatically
 #'   finds the "current" data frames.
@@ -41,7 +41,7 @@ group_cols_legacy <- function(vars = NULL) {
   if (is_sel_vars(vars)) {
     matches <- match(vars %@% groups, vars)
     if (anyNA(matches)) {
-      abort("Can't find the grouping variables")
+      abort("Can't find the grouping variables.")
     }
     matches
   } else {

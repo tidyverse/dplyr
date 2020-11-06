@@ -5,22 +5,22 @@
 #' method on a data frame or tbl: this will take care of capturing
 #' the unevaluated expressions for you.
 #'
-#' See [group_data()] for the accessor functions that retrieve various metadata
-#' from a `grouped_df`.
+#' These functions are designed for programmatic use. For data analysis
+#' purposes see [group_data()] for the accessor functions that retrieve
+#' various metadata from a grouped data frames.
 #'
 #' @keywords internal
 #' @param data a tbl or data frame.
 #' @param vars A character vector.
 #' @param drop When `.drop = TRUE`, empty groups are dropped.
 #'
-#' @import vctrs
 #' @export
 grouped_df <- function(data, vars, drop = group_by_drop_default(data)) {
   if (!is.data.frame(data)) {
-    abort("`data` must be a data frame")
+    abort("`data` must be a data frame.")
   }
   if (!is.character(vars)) {
-    abort("`vars` must be a character vector")
+    abort("`vars` must be a character vector.")
   }
 
   if (length(vars) == 0) {
@@ -35,7 +35,7 @@ compute_groups <- function(data, vars, drop = FALSE) {
   unknown <- setdiff(vars, names(data))
   if (length(unknown) > 0) {
     vars <- paste0(encodeString(vars, quote = "`"), collapse = ", ")
-    abort(glue("`vars` missing from `data`: {vars}"))
+    abort(glue("`vars` missing from `data`: {vars}."))
   }
 
   # Only train the dictionary based on selected columns
@@ -133,16 +133,17 @@ show_regroups <- function(code) {
 new_grouped_df <- function(x, groups, ..., class = character()) {
   if (!is.data.frame(x)) {
     abort(c(
-      "`new_grouped_df()` incompatible argument",
-      "`x` is not a data frame")
+      "`new_grouped_df()` incompatible argument.",
+      x = "`x` is not a data frame.")
     )
   }
   if (!is.data.frame(groups) || tail(names(groups), 1L) != ".rows") {
     abort(c(
-      "`new_grouped_df()` incompatible argument",
-      "`groups` should be a data frame, and its last column be called `.rows`"
+      "`new_grouped_df()` incompatible argument.",
+      i = "`groups` should be a data frame, and its last column be called `.rows`."
     ))
   }
+
   new_tibble(
     x,
     groups = groups,
@@ -159,18 +160,15 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
 #' @export
 validate_grouped_df <- function(x, check_bounds = FALSE) {
   if (is.null(attr(x, "groups")) && !is.null(attr(x, "vars"))) {
-    abort(
-      c(
-        "Corrupt `grouped_df` using old (< 0.8.0) format",
-        i = "Strip off old grouping with `ungroup()`"
-      ),
-      class = "dplyr_grouped_df_corrupt"
-    )
+    abort(c(
+      "Corrupt `grouped_df` using old (< 0.8.0) format.",
+      i = "Strip off old grouping with `ungroup()`."
+    ))
   }
 
   result <- .Call(`dplyr_validate_grouped_df`, x, check_bounds)
   if (!is.null(result)) {
-    abort(result, class = "dplyr_grouped_df_corrupt")
+    abort(result)
   }
   x
 }
@@ -200,12 +198,12 @@ tbl_sum.grouped_df <- function(x) {
 #' @export
 as.data.frame.grouped_df <- function(x, row.names = NULL,
                                      optional = FALSE, ...) {
-  new_data_frame(vec_data(x), n = nrow(x))
+  new_data_frame(dplyr_vec_data(x), n = nrow(x))
 }
 
 #' @export
 as_tibble.grouped_df <- function(x, ...) {
-  new_tibble(vec_data(x), nrow = nrow(x))
+  new_tibble(dplyr_vec_data(x), nrow = nrow(x))
 }
 
 #' @importFrom tibble is_tibble

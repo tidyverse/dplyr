@@ -4,8 +4,9 @@
 #' `rowwise()` allows you to compute on a data frame a row-at-a-time.
 #' This is most useful when a vectorised function doesn't exist.
 #'
-#' A row-wise tibble maintains its row-wise status until explicitly removed
-#' by [group_by()], [ungroup()], or [as_tibble()].
+#' Most dplyr verbs preserve row-wise grouping. The exception is [summarise()],
+#' which return a [grouped_df]. You can explicitly ungroup with [ungroup()]
+#' or [as_tibble()], or convert to a [grouped_df] with [group_by()].
 #'
 #' @section List-columns:
 #' Because a rowwise has exactly one row per group it offers a small
@@ -22,8 +23,10 @@
 #'
 #'   **NB**: unlike `group_by()` you can not create new variables here but
 #'   instead you can select multiple variables with (e.g.) `everything()`.
-#' @seealso [nest_by()] for a convenient way of creating rowwwise data frames
+#' @seealso [nest_by()] for a convenient way of creating rowwise data frames
 #'   with nested data.
+#' @return A row-wise data frame with class `rowwise_df`. Note that a
+#'   `rowwise_df` is implicitly grouped by row, but is not a `grouped_df`.
 #' @export
 #' @examples
 #' df <- tibble(x = runif(6), y = runif(6), z = runif(6))
@@ -56,9 +59,26 @@
 #'   rowwise(sim) %>%
 #'   summarise(z = list(rnorm(n, mean, sd)))
 rowwise <- function(data, ...) {
-  vars <- tidyselect::eval_select(expr(c(...)), data, include = group_vars(data))
+  UseMethod("rowwise")
+}
+
+#' @export
+rowwise.data.frame <- function(data, ...) {
+  vars <- tidyselect::eval_select(expr(c(...)), data)
   rowwise_df(data, vars)
 }
+
+#' @export
+rowwise.grouped_df <- function(data, ...) {
+  if (!missing(...)) {
+    abort(c(
+      "Can't re-group when creating rowwise data.",
+      i = "Either first `ungroup()` or call `rowwise()` without arguments."
+    ))
+  }
+  rowwise_df(data, group_vars(data))
+}
+
 
 # Constructor + helper ----------------------------------------------------
 
@@ -69,12 +89,12 @@ rowwise_df <- function(data, group_vars) {
 
 new_rowwise_df <- function(data, group_data) {
   if (!is_tibble(group_data) || has_name(group_data, ".rows")) {
-    abort("`group_data` must be a tibble without a `.rows` column")
+    abort("`group_data` must be a tibble without a `.rows` column.")
   }
 
   nrow <- nrow(data)
 
-  group_data <- new_tibble(vec_data(group_data), nrow = nrow) # strip attributes
+  group_data <- new_tibble(dplyr_vec_data(group_data), nrow = nrow) # strip attributes
   group_data$.rows <- new_list_of(as.list(seq_len(nrow)), ptype = integer())
   new_tibble(data, groups = group_data, nrow = nrow, class = "rowwise_df")
 }
@@ -92,7 +112,7 @@ tbl_sum.rowwise_df <- function(x) {
 
 #' @export
 as_tibble.rowwise_df <- function(x, ...) {
-  new_tibble(vec_data(x), nrow = nrow(x))
+  new_tibble(dplyr_vec_data(x), nrow = nrow(x))
 }
 
 #' @importFrom tibble is_tibble

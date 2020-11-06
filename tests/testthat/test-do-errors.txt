@@ -1,6 +1,6 @@
 > df <- data.frame(g = c(1, 2, 2, 3, 3, 3), x = 1:6, y = 6:1) %>% group_by(g)
 > df %>% do(head, tail)
-Error: Can only supply one unnamed argument, not 2
+Error: Can only supply one unnamed argument, not 2.
 
 
 unnamed elements must return data frames
@@ -10,9 +10,13 @@ unnamed elements must return data frames
 Error: Result must be a data frame, not numeric
 
 > df %>% do(1)
+Warning: `progress_estimated()` is deprecated as of dplyr 1.0.0.
+
 Error: Results 1, 2, 3 must be data frames, not numeric
 
 > df %>% do("a")
+Warning: `progress_estimated()` is deprecated as of dplyr 1.0.0.
+
 Error: Results 1, 2, 3 must be data frames, not character
 
 
@@ -20,5 +24,5 @@ can't use both named and unnamed args
 =====================================
 
 > df %>% do(x = 1, 2)
-Error: Arguments must either be all named or all unnamed
+Error: Arguments must either be all named or all unnamed.
 

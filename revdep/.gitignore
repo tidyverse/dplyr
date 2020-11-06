@@ -5,4 +5,5 @@ library.noindex
 data.sqlite
 *.html
 download
-libs
+lib
+cloud.noindex

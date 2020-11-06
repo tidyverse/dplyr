@@ -38,3 +38,9 @@ test_that("firsts uses default value for 0 length augmented vectors", {
   expect_equal(first(dt[0]), dt[NA])
   expect_equal(first(tm[0]), tm[NA])
 })
+
+test_that("nth() gives meaningful error message (#5466)", {
+  verify_output(test_path("test-nth-value.txt"), {
+    nth(1:10, "x")
+  })
+})

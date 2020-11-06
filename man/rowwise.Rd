@@ -16,12 +16,17 @@ combination uniquely identify each row.
 \strong{NB}: unlike \code{group_by()} you can not create new variables here but
 instead you can select multiple variables with (e.g.) \code{everything()}.}
 }
+\value{
+A row-wise data frame with class \code{rowwise_df}. Note that a
+\code{rowwise_df} is implicitly grouped by row, but is not a \code{grouped_df}.
+}
 \description{
 \code{rowwise()} allows you to compute on a data frame a row-at-a-time.
 This is most useful when a vectorised function doesn't exist.
 
-A row-wise tibble maintains its row-wise status until explicitly removed
-by \code{\link[=group_by]{group_by()}}, \code{\link[=ungroup]{ungroup()}}, or \code{\link[=as_tibble]{as_tibble()}}.
+Most dplyr verbs preserve row-wise grouping. The exception is \code{\link[=summarise]{summarise()}},
+which return a \link{grouped_df}. You can explicitly ungroup with \code{\link[=ungroup]{ungroup()}}
+or \code{\link[=as_tibble]{as_tibble()}}, or convert to a \link{grouped_df} with \code{\link[=group_by]{group_by()}}.
 }
 \section{List-columns}{
 
@@ -65,6 +70,6 @@ params \%>\%
   summarise(z = list(rnorm(n, mean, sd)))
 }
 \seealso{
-\code{\link[=nest_by]{nest_by()}} for a convenient way of creating rowwwise data frames
+\code{\link[=nest_by]{nest_by()}} for a convenient way of creating rowwise data frames
 with nested data.
 }

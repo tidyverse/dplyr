@@ -27,7 +27,7 @@ rename_at(.tbl, .vars, .funs = list(), ...)
 \item{.funs}{A function \code{fun}, a purrr style lambda \code{~ fun(.)} or a list of either form.}
 
 \item{...}{Additional arguments for the function calls in
-\code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
+\code{.funs}. These are evaluated only once, with \link[rlang:dyn-dots]{tidy dots} support.}
 
 \item{.predicate}{A predicate function to be applied to the columns
 or a logical vector. The variables for which \code{.predicate} is or
@@ -62,7 +62,7 @@ mtcars \%>\% rename_with(toupper)
 is_whole <- function(x) all(floor(x) == x)
 mtcars \%>\% rename_if(is_whole, toupper)
 # ->
-mtcars \%>\% rename_with(toupper, is_whole)
+mtcars \%>\% rename_with(toupper, where(is_whole))
 
 mtcars \%>\% rename_at(vars(mpg:hp), toupper)
 # ->
@@ -77,7 +77,7 @@ mtcars \%>\% rename_with(toupper)
 # Selection drops unselected variables:
 mtcars \%>\% select_if(is_whole, toupper)
 # ->
-mtcars \%>\% select(is_whole) \%>\% rename_with(toupper)
+mtcars \%>\% select(where(is_whole)) \%>\% rename_with(toupper)
 
 mtcars \%>\% select_at(vars(-contains("ar"), starts_with("c")), toupper)
 # ->

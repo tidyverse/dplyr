@@ -134,48 +134,48 @@ test_that("summarise_at removes grouping variables (#3613)", {
 })
 
 test_that("group_by_(at,all) handle utf-8 names (#3829)", {
-  with_non_utf8_encoding({
-    name <- get_native_lang_string()
-    tbl <- tibble(a = 1) %>%
-      setNames(name)
+  local_non_utf8_encoding()
 
-    res <- group_by_all(tbl) %>% groups()
-    expect_equal(res[[1]], sym(name))
+  name <- get_native_lang_string()
+  tbl <- tibble(a = 1) %>%
+    setNames(name)
 
-    res <- group_by_at(tbl, name) %>% groups()
-    expect_equal(res[[1]], sym(name))
-  })
+  res <- group_by_all(tbl) %>% groups()
+  expect_equal(res[[1]], sym(name))
+
+  res <- group_by_at(tbl, name) %>% groups()
+  expect_equal(res[[1]], sym(name))
 })
 
 test_that("*_(all,at) handle utf-8 names (#2967)", {
-  with_non_utf8_encoding({
-    name <- get_native_lang_string()
-    tbl <- tibble(a = 1) %>%
-      setNames(name)
+  local_non_utf8_encoding()
 
-    res <- tbl %>%
-      mutate_all(list(as.character)) %>%
-      names()
-    expect_equal(res, name)
+  name <- get_native_lang_string()
+  tbl <- tibble(a = 1) %>%
+    setNames(name)
 
-    res <- tbl %>%
-      mutate_at(name, list(as.character)) %>%
-      names()
-    expect_equal(res, name)
+  res <- tbl %>%
+    mutate_all(list(as.character)) %>%
+    names()
+  expect_equal(res, name)
 
-    res <- tbl %>%
-      summarise_all(list(as.character)) %>%
-      names()
-    expect_equal(res, name)
+  res <- tbl %>%
+    mutate_at(name, list(as.character)) %>%
+    names()
+  expect_equal(res, name)
 
-    res <- tbl %>%
-      summarise_at(name, list(as.character)) %>%
-      names()
-    expect_equal(res, name)
+  res <- tbl %>%
+    summarise_all(list(as.character)) %>%
+    names()
+  expect_equal(res, name)
 
-    res <- select_at(tbl, name) %>% names()
-    expect_equal(res, name)
-  })
+  res <- tbl %>%
+    summarise_at(name, list(as.character)) %>%
+    names()
+  expect_equal(res, name)
+
+  res <- select_at(tbl, name) %>% names()
+  expect_equal(res, name)
 })
 
 test_that("summarise_at with multiple columns AND unnamed functions works (#4119)", {
@@ -326,6 +326,16 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
   expect_identical(res, expected)
 })
 
+test_that("_if isn't tripped up by columns named 'i' (#5330)", {
+  test_df <- tibble(i = c("a", "b"), j = c(1, 2))
+
+  result_df <- test_df %>%
+    mutate_if(is.character, as.factor)
+
+  expect_equal(result_df$i, as.factor(test_df$i))
+  expect_equal(result_df$j, test_df$j)
+})
+
 # Errors --------------------------------------------
 
 test_that("colwise mutate gives meaningful error messages", {
@@ -339,7 +349,7 @@ test_that("colwise mutate gives meaningful error messages", {
     summarise_at(tbl, vars(gr1), mean)
 
     "# improper additional arguments"
-    mutate_all(mtcars, round, 0, 0)
+    mutate_all(mtcars, length, 0, 0)
     mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
   })
 })

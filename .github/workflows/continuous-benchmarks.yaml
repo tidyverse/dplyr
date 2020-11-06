@@ -11,6 +11,8 @@ jobs:
 
       - name: Setup R
         uses: r-lib/actions/setup-r@master
+        with:
+          r-version: 'release'
 
       - name: Install dependencies
         run: |
@@ -26,7 +28,10 @@ jobs:
         run: Rscript -e 'bench::cb_fetch()'
 
       - name: Run benchmarks
-        run: Rscript -e 'bench::cb_run()'
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          Rscript -e 'bench::cb_run()'
 
       - name: Show benchmarks
         run: git notes --ref benchmarks show

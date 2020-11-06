@@ -129,17 +129,17 @@ Data masking makes it easy to compute on values within a dataset. Tidy selection
 
 ### The tidyselect DSL
 
-Underneath all functions that use tidy selection is the [tidyselect](http://tidyselect.r-lib.org/) package. It provides a miniature domain specific language that makes it easy to select columns by name, position, or type. For example:
+Underneath all functions that use tidy selection is the [tidyselect](https://tidyselect.r-lib.org/) package. It provides a miniature domain specific language that makes it easy to select columns by name, position, or type. For example:
 
 * `select(df, 1)` selects the first column; 
-  `select(1, last_col())` selects the last column.
+  `select(df, last_col())` selects the last column.
   
 * `select(df, c(a, b, c))` selects columns `a`, `b`, and `c`.
 
 * `select(df, starts_with("a"))` selects all columns whose name starts with "a";
   `select(df, ends_with("z"))` selects all columns whose name ends with "z".
   
-* `select(df, is.numeric)` selects all numeric columns.
+* `select(df, where(is.numeric))` selects all numeric columns.
 
 You can see more details in `?dplyr_tidy_select`.
 
@@ -160,7 +160,7 @@ As with data masking, tidy selection makes a common task easier at the cost of m
     }
     mtcars %>% 
       group_by(cyl) %>% 
-      summarise_mean(is.numeric)
+      summarise_mean(where(is.numeric))
     ```
 
 *   When you have an env-variable that is a character vector, you need to use
@@ -314,7 +314,7 @@ You can use this same idea for multiple sets of input data-variables:
 my_summarise <- function(data, group_var, summarise_var) {
   data %>%
     group_by(across({{ group_var }})) %>% 
-    summarise(across({{ group_var }}, mean))
+    summarise(across({{ summarise_var }}, mean))
 }
 ```
 
@@ -324,7 +324,7 @@ Use the `.names` argument to `across()` to control the names of the output.
 my_summarise <- function(data, group_var, summarise_var) {
   data %>%
     group_by(across({{ group_var }})) %>% 
-    summarise(across({{ summarise_var }}, mean, .names = "mean_{col}"))
+    summarise(across({{ summarise_var }}, mean, .names = "mean_{.col}"))
 }
 ```
 

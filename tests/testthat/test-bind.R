@@ -62,6 +62,16 @@ test_that("bind_cols unpacks tibbles", {
   )
 })
 
+test_that("bind_cols() honours .name_repair=", {
+  res <- expect_message(bind_cols(
+    data.frame(a = 1), data.frame(a = 2)
+  ))
+  expect_equal(res, data.frame(a...1 = 1, a...2 = 2))
+
+  expect_error(bind_cols(.name_repair = "check_unique",
+    data.frame(a = 1), data.frame(a = 2)
+  ))
+})
 
 # rows --------------------------------------------------------------------
 
@@ -77,14 +87,11 @@ df_var <- tibble(
 
 test_that("bind_rows() equivalent to rbind()", {
   exp <- as_tibble(rbind(df_var, df_var, df_var))
+  attr(exp$t, "tzone") <- ""
+
   res <- bind_rows(df_var, df_var, df_var)
-  for(name in names(exp)) {
-    expect_equal(res[[name]], exp[[name]])
-  }
-  res <- bind_rows(df_var, df_var, df_var)
-  for(name in names(exp)) {
-    expect_equal(res[[name]], exp[[name]])
-  }
+
+  expect_equal(res, exp)
 })
 
 test_that("bind_rows reorders columns", {
@@ -162,6 +169,13 @@ test_that("bind_rows puts data frames in order received even if no columns (#217
 
   expect_equal(res$x, c(NA, 2))
   expect_equal(res$y, c(NA, "b"))
+})
+
+test_that("bind_rows(.id= NULL) does not set names (#5089)", {
+  expect_equal(
+    attr(bind_rows(list(a = tibble(x = 1:2))), "row.names"),
+    1:2
+  )
 })
 
 # Column coercion --------------------------------------------------------------
@@ -439,10 +453,8 @@ test_that("bind_rows() handles rowwise vectors", {
 
 test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {
   ll <- list(a = 1, b = 2)
-  df <- tibble(a = 1, b = 2)
-
-  expect_equal(bind_rows(list(ll)), df)
-  expect_equal(bind_rows(list(ll, ll)), df[c(1, 1), ])
+  expect_equal(bind_rows(list(ll)), tibble(a = 1, b = 2))
+  expect_equal(bind_rows(list(ll, ll)), tibble(a = c(1, 1), b = c(2, 2)))
 })
 
 test_that("bind_rows can handle lists (#1104)", {
@@ -519,7 +531,10 @@ test_that("bind_rows() handles named S3 objects (#4931)", {
 
   expect_identical(
     bind_rows(fct, fct),
-    tibble(x = unname(fct)[c(1, 1)], y = unname(fct)[c(2, 2)])
+    tibble(
+      x = factor(c("a", "a"), levels = c("a", "b")),
+      y = factor(c("b", "b"), levels = c("a", "b"))
+    )
   )
 })
 

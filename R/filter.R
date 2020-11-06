@@ -111,25 +111,28 @@ filter <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  if (missing(...)) {
-    return(.data)
-  }
-
   loc <- filter_rows(.data, ...)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
 filter_rows <- function(.data, ...) {
-  dots <- enquos(...)
-  check_filter(dots)
-
+  dots <- check_filter(enquos(...))
   mask <- DataMask$new(.data, caller_env())
+  on.exit(mask$forget("filter"), add = TRUE)
 
   env_filter <- env()
-  tryCatch(
+  withCallingHandlers(
     mask$eval_all_filter(dots, env_filter),
-    simpleError = function(e) {
-      stop_eval_tidy(e, index = env_filter$current_expression, dots = dots, fn = "filter")
+    error = function(e) {
+      local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
+
+      abort(c(
+        cnd_bullet_header(),
+        x = conditionMessage(e),
+        i = cnd_bullet_input_info(),
+        i = cnd_bullet_cur_group_label()
+      ), class = "dplyr_error")
+
     }
   )
 }
@@ -144,8 +147,15 @@ check_filter <- function(dots) {
     # is suspicious
     expr <- quo_get_expr(quo)
     if (!is.logical(expr)) {
-      stop_filter_named(i, expr, names(dots)[i])
+      abort(c(
+        glue("Problem with `filter()` input `..{i}`."),
+        x = glue("Input `..{i}` is named."),
+        i = glue("This usually means that you've used `=` instead of `==`."),
+        i = glue("Did you mean `{name} == {as_label(expr)}`?", name = names(dots)[i])
+      ))
     }
 
   }
+
+  dots
 }

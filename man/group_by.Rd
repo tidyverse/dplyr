@@ -25,15 +25,16 @@ This argument was previously called \code{add}, but that prevented
 creating a new grouping variable called \code{add}, and conflicts with
 our naming conventions.}
 
-\item{.drop}{When \code{.drop = TRUE}, empty groups are dropped. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for
-what the default value is for this argument.}
+\item{.drop}{Drop groups formed by factor levels that don't appear in the
+data? The default is \code{TRUE} except when \code{.data} has been previously
+grouped with \code{.drop = FALSE}. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for details.}
 
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }
 \value{
-A \link[=grouped_df]{grouped data frame}, unless the combination of \code{...} and \code{add}
-yields a non empty set of grouping columns, a regular (ungrouped) data frame
-otherwise.
+A grouped data frame with class \code{\link{grouped_df}},
+unless the combination of \code{...} and \code{add} yields a empty set of
+grouping columns, in which case a tibble will be returned.
 }
 \description{
 Most data operations are done on groups defined by variables.
@@ -93,13 +94,13 @@ by_cyl \%>\%
   group_vars()
 
 
-# when factors are involved, groups can be empty
+# when factors are involved and .drop = FALSE, groups can be empty
 tbl <- tibble(
   x = 1:10,
   y = factor(rep(c("a", "c"), each  = 5), levels = c("a", "b", "c"))
 )
 tbl \%>\%
-  group_by(y) \%>\%
+  group_by(y, .drop = FALSE) \%>\%
   group_rows()
 
 }

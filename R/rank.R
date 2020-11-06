@@ -55,7 +55,7 @@ row_number <- function(x) {
 }
 
 # Definition from
-# http://blogs.msdn.com/b/craigfr/archive/2008/03/31/ranking-functions-rank-dense-rank-and-ntile.aspx
+# https://techcommunity.microsoft.com/t5/sql-server/ranking-functions-rank-dense-rank-and-ntile/ba-p/383384
 #' @param n number of groups to split up into.
 #' @export
 #' @rdname ranking

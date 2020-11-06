@@ -26,6 +26,9 @@
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
+#' @param .name_repair One of `"unique"`, `"universal"`, or
+#'   `"check_unique"`. See [vctrs::vec_as_names()] for the meaning of these
+#'   options.
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
@@ -68,6 +71,9 @@
 #' \dontrun{
 #' # Rows do need to match when column-binding
 #' bind_cols(tibble(x = 1:3), tibble(y = 1:2))
+#'
+#' # even with 0 columns
+#' bind_cols(tibble(x = 1:3), tibble())
 #' }
 #'
 #' bind_cols(one, two)
@@ -96,18 +102,18 @@ bind_rows <- function(..., .id = NULL) {
   for (i in seq_along(dots)) {
     .x <- dots[[i]]
     if (!is.data.frame(.x) && !vec_is(.x)) {
-      abort(glue("Argument {i} must be a data frame or a named atomic vector"))
+      abort(glue("Argument {i} must be a data frame or a named atomic vector."))
     }
 
     if (is.null(names(.x))) {
-      abort(glue("Argument {i} must have names"))
+      abort(glue("Argument {i} must have names."))
     }
   }
 
   if (!is_null(.id)) {
     if (!is_string(.id)) {
       bad_args(".id", "must be a scalar string, ",
-        "not {friendly_type_of(.id)} of length {length(.id)}"
+        "not {friendly_type_of(.id)} of length {length(.id)}."
       )
     }
     if (!is_named(dots)) {
@@ -115,18 +121,35 @@ bind_rows <- function(..., .id = NULL) {
     }
   }
 
-  dots <- map(dots, function(.x) if (is.data.frame(.x)) .x else tibble(!!!.x))
+  if (!length(dots)) {
+    return(tibble())
+  }
 
+  first <- dots[[1L]]
+  dots <- map(dots, function(.x) {
+    if (vec_is_list(.x)) {
+      .x <- new_data_frame(as.list(.x))
+    }
+    .x
+  })
+
+  if (is.null(.id)) {
+    names(dots) <- NULL
+  }
   out <- vec_rbind(!!!dots, .names_to = .id)
-  if (length(dots) && is_tibble(first <- dots[[1L]])) {
-    out <- dplyr_reconstruct(out, first)
+  if (length(dots)) {
+    if (is.data.frame(first)) {
+      out <- dplyr_reconstruct(out, first)
+    } else {
+      out <- as_tibble(out)
+    }
   }
   out
 }
 
 #' @export
 #' @rdname bind
-bind_cols <- function(...) {
+bind_cols <- function(..., .name_repair = c("unique", "universal", "check_unique", "minimal")) {
   dots <- list2(...)
 
   dots <- squash_if(dots, vec_is_list)
@@ -136,11 +159,11 @@ bind_cols <- function(...) {
   is_data_frame <- map_lgl(dots, is.data.frame)
   names(dots)[is_data_frame] <- ""
 
-  out <- vec_cbind(!!!dots)
+  out <- vec_cbind(!!!dots, .name_repair = .name_repair)
   if (!any(map_lgl(dots, is.data.frame))) {
     out <- as_tibble(out)
   }
-  if (length(dots) && is_tibble(first <- dots[[1L]])) {
+  if (length(dots) && is.data.frame(first <- dots[[1L]])) {
     out <- dplyr_reconstruct(out, first)
   }
   out

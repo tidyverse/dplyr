@@ -10,7 +10,7 @@
 #' You can use `recode()` directly with factors; it will preserve the existing
 #' order of levels while changing the values. Alternatively, you can
 #' use `recode_factor()`, which will change the order of levels to match
-#' the order of replacements. See the [forcats](http://forcats.tidyverse.org/)
+#' the order of replacements. See the [forcats](https://forcats.tidyverse.org/)
 #' package for more tools for working with factors and their levels.
 #'
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
@@ -155,7 +155,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- list2(...)
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
-    bad_pos_args(bad, "must be named, not unnamed")
+    bad_pos_args(bad, "must be named, not unnamed.")
   }
 
   n <- length(.x)
@@ -178,15 +178,15 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
 recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- list2(...)
   if (length(values) == 0) {
-    abort("No replacements provided")
+    abort("No replacements provided.")
   }
 
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
-    bad_pos_args(bad, "must be named, not unnamed")
+    bad_pos_args(bad, "must be named, not unnamed.")
   }
   if (!is.null(.missing)) {
-    bad_args(".missing", "is not supported for factors")
+    bad_args(".missing", "is not supported for factors.")
   }
 
   n <- length(levels(.x))
@@ -218,7 +218,7 @@ find_template <- function(values, .default = NULL, .missing = NULL) {
   x <- compact(c(values, .default, .missing))
 
   if (length(x) == 0) {
-    abort("No replacements provided")
+    abort("No replacements provided.")
   }
 
   x[[1]]

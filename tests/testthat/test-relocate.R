@@ -6,8 +6,8 @@ test_that(".before and .after relocate individual cols", {
 
 test_that("can move blocks of variables", {
   df <- tibble(x = 1, a = "a", y = 2, b = "a")
-  expect_named(relocate(df, is.character), c("a", "b", "x", "y"))
-  expect_named(relocate(df, is.character, .after = is.numeric), c("x", "y", "a", "b"))
+  expect_named(relocate(df, where(is.character)), c("a", "b", "x", "y"))
+  expect_named(relocate(df, where(is.character), .after = where(is.numeric)), c("x", "y", "a", "b"))
 })
 
 test_that("don't lose non-contiguous variables", {
@@ -35,5 +35,22 @@ test_that("before and after are defused with context", {
   expect_identical(
     names(relocate(mtcars, 3, .after = local_fn(5))),
     names(relocate(mtcars, 3, .after = 5))
+  )
+})
+
+test_that("relocate() respects order specified by ... (#5328)", {
+  df <- tibble(a = 1, x = 1, b = 1, z = 1, y = 1)
+
+  expect_equal(
+    names(relocate(df, x, y, z, .before = x)),
+    c("a", "x", "y", "z", "b")
+  )
+  expect_equal(
+    names(relocate(df, x, y, z, .after = last_col())),
+    c("a", "b", "x", "y", "z")
+  )
+  expect_equal(
+    names(relocate(df, x, a, z)),
+    c("x", "a", "z", "b", "y")
   )
 })

@@ -13,6 +13,6 @@ add_rownames(df, var = "rowname")
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
-Please use \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}} instead.
+Please use \code{\link[tibble:rownames]{tibble::rownames_to_column()}} instead.
 }
 \keyword{internal}

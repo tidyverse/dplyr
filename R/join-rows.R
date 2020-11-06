@@ -11,7 +11,7 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
       y_name <- sub(rx, "", cnd$y_arg)
 
       abort(c(
-        glue("Can't join on `x${x_name}` x `y${y_name}` because of incompatible types. "),
+        glue("Can't join on `x${x_name}` x `y${y_name}` because of incompatible types."),
         i = glue("`x${x_name}` is of type <{x_type}>>.", x_type = vec_ptype_full(cnd$x)),
         i = glue("`y${y_name}` is of type <{y_type}>>.", y_type = vec_ptype_full(cnd$y))
       ))
@@ -36,6 +36,10 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
 
   if (type == "right" || type == "full") {
     miss_x <- !vec_in(y_key, x_key, na_equal = na_equal)
+
+    if (!na_equal) {
+      miss_x[is.na(miss_x)] <- TRUE
+    }
 
     if (any(miss_x)) {
       y_extra <- seq_len(vec_size(y_key))[miss_x]

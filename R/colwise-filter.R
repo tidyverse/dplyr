@@ -55,7 +55,7 @@
 #' filter_if(mtcars, ~ all(floor(.) == .), all_vars(. != 0))
 #' # ->
 #' is_int <- function(x) all(floor(x) == x)
-#' filter(mtcars, across(is_int, ~ .x != 0))
+#' filter(mtcars, across(where(is_int), ~ .x != 0))
 filter_all <- function(.tbl, .vars_predicate, .preserve = FALSE) {
   lifecycle::signal_superseded("1.0.0", "filter_all()", "across()")
   syms <- syms(tbl_vars(.tbl))
@@ -81,7 +81,7 @@ filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = FALSE) {
 
 apply_filter_syms <- function(pred, syms, tbl) {
   if (is_empty(syms)) {
-    bad_args(".predicate", "has no matching columns")
+    bad_args(".predicate", "has no matching columns.")
   }
   joiner <- all_exprs
 
@@ -95,7 +95,7 @@ apply_filter_syms <- function(pred, syms, tbl) {
     pred <- map(syms, function(sym) call2(pred, sym))
   } else {
     bad_args(".vars_predicate", "must be a function or a call to `all_vars()` or `any_vars()`, ",
-      "not {friendly_type_of(pred)}"
+      "not {friendly_type_of(pred)}."
     )
   }
 

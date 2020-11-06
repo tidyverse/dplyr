@@ -2,12 +2,9 @@
 % Please edit documentation in R/across.R
 \name{across}
 \alias{across}
-\alias{c_across}
-\title{Apply a function (or a set of functions) to a set of columns}
+\title{Apply a function (or functions) across multiple columns}
 \usage{
 across(.cols = everything(), .fns = NULL, ..., .names = NULL)
-
-c_across(cols = everything())
 }
 \arguments{
 \item{.fns}{Functions to apply to each of the selected columns.
@@ -26,10 +23,10 @@ to access the current column and grouping keys respectively.}
 \item{...}{Additional arguments for the function calls in \code{.fns}.}
 
 \item{.names}{A glue specification that describes how to name the output
-columns. This can use \code{{col}} to stand for the selected column name, and
-\code{{fn}} to stand for the name of the function being applied. The default
-(\code{NULL}) is equivalent to \code{"{col}"} for the single function case and
-\code{"{col}_{fn}"} for the case where a list is used for \code{.fns}.}
+columns. This can use \code{{.col}} to stand for the selected column name, and
+\code{{.fn}} to stand for the name of the function being applied. The default
+(\code{NULL}) is equivalent to \code{"{.col}"} for the single function case and
+\code{"{.col}_{.fn}"} for the case where a list is used for \code{.fns}.}
 
 \item{cols, .cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
 Because \code{across()} is used within functions like \code{summarise()} and
@@ -40,16 +37,12 @@ A tibble with one column for each column in \code{.cols} and each function in \c
 }
 \description{
 \code{across()} makes it easy to apply the same transformation to multiple
-columns, allowing you to use \code{\link[=select]{select()}} semantics inside in \code{\link[=summarise]{summarise()}} and
-\code{\link[=mutate]{mutate()}}. \code{across()} supersedes the family of "scoped variants" like
+columns, allowing you to use \code{\link[=select]{select()}} semantics inside in "data-masking"
+functions like \code{\link[=summarise]{summarise()}} and \code{\link[=mutate]{mutate()}}. See \code{vignette("colwise")} for
+more details.
+
+\code{across()} supersedes the family of "scoped variants" like
 \code{summarise_at()}, \code{summarise_if()}, and \code{summarise_all()}.
-
-See \code{vignette("colwise")} for more details.
-
-\code{c_across()} is designed to work with \code{\link[=rowwise]{rowwise()}} to make it easy to
-perform rowwise aggregations; it works like \code{c()} but uses tidy select
-semantics so you can easily select multiple variables. See
-\code{vignette("rowwise")} for more details.
 }
 \examples{
 # across() -----------------------------------------------------------------
@@ -58,7 +51,7 @@ iris \%>\%
   summarise(across(starts_with("Sepal"), mean))
 iris \%>\%
   as_tibble() \%>\%
-  mutate(across(is.factor, as.character))
+  mutate(across(where(is.factor), as.character))
 
 # A purrr-style formula
 iris \%>\%
@@ -73,20 +66,14 @@ iris \%>\%
 # Use the .names argument to control the output names
 iris \%>\%
   group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), mean, .names = "mean_{col}"))
+  summarise(across(starts_with("Sepal"), mean, .names = "mean_{.col}"))
 iris \%>\%
   group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{col}.{fn}"))
+  summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{.col}.{.fn}"))
 iris \%>\%
   group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{col}.fn{fn}"))
-
-# c_across() ---------------------------------------------------------------
-df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
-df \%>\%
-  rowwise() \%>\%
-  mutate(
-    sum = sum(c_across(w:z)),
-    sd = sd(c_across(w:z))
- )
+  summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
+}
+\seealso{
+\code{\link[=c_across]{c_across()}} for a function that returns a vector
 }

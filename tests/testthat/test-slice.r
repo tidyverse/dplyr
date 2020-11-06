@@ -201,6 +201,18 @@ test_that("functions silently truncate results", {
   expect_equal(df %>% slice_max(x, n = 6) %>% nrow(), 5)
 })
 
+test_that("proportion computed correctly", {
+  df <- data.frame(x = 1:10)
+
+  expect_equal(df %>% slice_head(prop = 0.11) %>% nrow(), 1)
+  expect_equal(df %>% slice_tail(prop = 0.11) %>% nrow(), 1)
+  expect_equal(df %>% slice_sample(prop = 0.11) %>% nrow(), 1)
+  expect_equal(df %>% slice_min(x, prop = 0.11) %>% nrow(), 1)
+  expect_equal(df %>% slice_max(x, prop = 0.11) %>% nrow(), 1)
+  expect_equal(df %>% slice_min(x, prop = 0.11, with_ties = FALSE) %>% nrow(), 1)
+  expect_equal(df %>% slice_max(x, prop = 0.11, with_ties = FALSE) %>% nrow(), 1)
+})
+
 test_that("min and max return ties by default", {
   df <- data.frame(x = c(1, 1, 1, 2, 2))
   expect_equal(df %>% slice_min(x) %>% nrow(), 3)
@@ -233,6 +245,15 @@ test_that("arguments to sample are passed along", {
 
   expect_equal(df %>% slice_sample(n = 1, weight_by = wt) %>% pull(x), 1)
   expect_equal(df %>% slice_sample(n = 2, weight_by = wt, replace = TRUE) %>% pull(x), c(1, 1))
+})
+
+test_that("slice_*() checks for empty ...", {
+  df <- data.frame(x = 1:10)
+  expect_error(slice_head(df, 5))
+  expect_error(slice_tail(df, 5))
+  expect_error(slice_min(df, x, 5))
+  expect_error(slice_max(df, x, 5))
+  expect_error(slice_saple(df, 5))
 })
 
 # Errors ------------------------------------------------------------------

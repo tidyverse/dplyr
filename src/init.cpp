@@ -13,15 +13,6 @@ SEXP get_classes_vctrs_list_of() {
   return klasses;
 }
 
-SEXP get_classes_tbl_df() {
-  SEXP klasses = Rf_allocVector(STRSXP, 3);
-  R_PreserveObject(klasses);
-  SET_STRING_ELT(klasses, 0, Rf_mkChar("tbl_df"));
-  SET_STRING_ELT(klasses, 1, Rf_mkChar("tbl"));
-  SET_STRING_ELT(klasses, 2, Rf_mkChar("data.frame"));
-  return klasses;
-}
-
 SEXP get_empty_int_vector() {
   SEXP x = Rf_allocVector(INTSXP, 0);
   R_PreserveObject(x);
@@ -47,7 +38,6 @@ SEXP get_names_summarise_recycle_chunks(){
 SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::levels = Rf_install("levels");
 SEXP symbols::groups = Rf_install("groups");
-SEXP symbols::vars = Rf_install("vars");
 SEXP symbols::current_group = Rf_install("current_group");
 SEXP symbols::current_expression = Rf_install("current_expression");
 SEXP symbols::rows = Rf_install("rows");
@@ -57,9 +47,10 @@ SEXP symbols::resolved = Rf_install("resolved");
 SEXP symbols::bindings = Rf_install("bindings");
 SEXP symbols::which_used = Rf_install("which_used");
 SEXP symbols::dot_drop = Rf_install(".drop");
+SEXP symbols::abort_glue = Rf_install("abort_glue");
+SEXP symbols::used = Rf_install("used");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
-SEXP vectors::classes_tbl_df = get_classes_tbl_df();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
 
 SEXP vectors::names_expanded = get_names_expanded();
@@ -87,11 +78,13 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 2},
   {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
 
-  {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
-  {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 1},
+  {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 3},
 
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
+
+  {"dplyr_mask_set", (DL_FUNC)& dplyr_mask_set, 3},
+  {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 3},
 
   {NULL, NULL, 0}
 };

@@ -3,16 +3,16 @@ complicance of n argument
 =========================
 
 > lead(letters, -1)
-Error: `n` must be a nonnegative integer scalar, not a double vector of length 1
+Error: `n` must be a nonnegative integer scalar, not a double vector of length 1.
 
 > lead(letters, "1")
-Error: `n` must be a nonnegative integer scalar, not a character vector of length 1
+Error: `n` must be a nonnegative integer scalar, not a character vector of length 1.
 
 > lag(letters, -1)
-Error: `n` must be a nonnegative integer scalar, not a double vector of length 1
+Error: `n` must be a nonnegative integer scalar, not a double vector of length 1.
 
 > lag(letters, "1")
-Error: `n` must be a nonnegative integer scalar, not a character vector of length 1
+Error: `n` must be a nonnegative integer scalar, not a character vector of length 1.
 
 
 ts
@@ -26,5 +26,5 @@ incompatible default
 ====================
 
 > lag(c("1", "2", "3"), default = FALSE)
-Error: Can't convert from `default` <logical> to `x` <character>.
+Error: Can't combine `default` <logical> and `x` <character>.
 

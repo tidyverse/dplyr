@@ -6,7 +6,7 @@
 \description{
 This page the describes the \verb{<data-masking>} argument modifier which
 indicates that the argument uses tidy evaluation with \strong{data masking}.
-If you've never head of tidy evaluation before, start with
+If you've never heard of tidy evaluation before, start with
 \code{vignette("programming")}.
 }
 \section{Key terms}{
@@ -57,10 +57,9 @@ lapply(names(mtcars), function(var) mtcars \%>\% count(.data[[var]]))
 
 \section{Dot-dot-dot (...)}{
 When this modifier is applied to \code{...}, there is one other useful technique
-which solves the problem of creating a new variable with a name supplied
-by the user. Use \code{!!var := expression}. (Note the use of \verb{:=} instead of
-\code{=}).\preformatted{var_name <- "l100km"
-mtcars \%>\% mutate(!!var_name := 235 / mpg)
+which solves the problem of creating a new variable with a name supplied by
+the user. Use the interpolation syntax from the glue package: \code{"{var}" := expression}. (Note the use of \verb{:=} instead of \code{=} to enable this syntax).\preformatted{var_name <- "l100km"
+mtcars \%>\% mutate("\{var_name\}" := 235 / mpg)
 }
 
 Note that \code{...} automatically provides indirection, so you can use it as is

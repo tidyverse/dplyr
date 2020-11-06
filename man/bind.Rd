@@ -8,7 +8,10 @@
 \usage{
 bind_rows(..., .id = NULL)
 
-bind_cols(...)
+bind_cols(
+  ...,
+  .name_repair = c("unique", "universal", "check_unique", "minimal")
+)
 }
 \arguments{
 \item{...}{Data frames to combine.
@@ -31,6 +34,10 @@ are taken from the named arguments to \code{bind_rows()}. When a
 list of data frames is supplied, the labels are taken from the
 names of the list. If no names are found a numeric sequence is
 used instead.}
+
+\item{.name_repair}{One of \code{"unique"}, \code{"universal"}, or
+\code{"check_unique"}. See \code{\link[vctrs:vec_as_names]{vctrs::vec_as_names()}} for the meaning of these
+options.}
 }
 \value{
 \code{bind_rows()} and \code{bind_cols()} return the same type as
@@ -85,6 +92,9 @@ bind_rows(tibble(x = 1:3), tibble(y = 1:4))
 \dontrun{
 # Rows do need to match when column-binding
 bind_cols(tibble(x = 1:3), tibble(y = 1:2))
+
+# even with 0 columns
+bind_cols(tibble(x = 1:3), tibble())
 }
 
 bind_cols(one, two)

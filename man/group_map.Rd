@@ -6,9 +6,9 @@
 \alias{group_walk}
 \title{Apply a function to each group}
 \usage{
-group_map(.data, .f, ..., keep = FALSE)
+group_map(.data, .f, ..., .keep = FALSE)
 
-group_modify(.data, .f, ..., keep = FALSE)
+group_modify(.data, .f, ..., .keep = FALSE)
 
 group_walk(.data, .f, ...)
 }
@@ -31,13 +31,13 @@ that identifies the group
 
 \item{...}{Additional arguments passed on to \code{.f}}
 
-\item{keep}{are the grouping variables kept in \code{.x}}
+\item{.keep}{are the grouping variables kept in \code{.x}}
 }
 \value{
 \itemize{
 \item \code{group_modify()} returns a grouped tibble. In that case \code{.f} must return a data frame.
-\item \code{group_map()} returns a list of results from calling \code{.f} on each group
-\item \code{group_walk()} calls \code{.f} for side effects and returns the input \code{.tbl}, invisibly
+\item \code{group_map()} returns a list of results from calling \code{.f} on each group.
+\item \code{group_walk()} calls \code{.f} for side effects and returns the input \code{.tbl}, invisibly.
 }
 }
 \description{

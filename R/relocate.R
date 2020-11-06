@@ -32,16 +32,16 @@
 #' df %>% relocate(a, .after = last_col())
 #'
 #' # Can also select variables based on their type
-#' df %>% relocate(is.character)
-#' df %>% relocate(is.numeric, .after = last_col())
+#' df %>% relocate(where(is.character))
+#' df %>% relocate(where(is.numeric), .after = last_col())
 #' # Or with any other select helper
 #' df %>% relocate(any_of(c("a", "e", "i", "o", "u")))
 #'
 #' # When .before or .after refers to multiple variables they will be
 #' # moved to be immediately before/after the selected variables.
 #' df2 <- tibble(a = 1, b = "a", c = 1, d = "a")
-#' df2 %>% relocate(is.numeric, .after = is.character)
-#' df2 %>% relocate(is.numeric, .before = is.character)
+#' df2 %>% relocate(where(is.numeric), .after = where(is.character))
+#' df2 %>% relocate(where(is.numeric), .before = where(is.character))
 relocate <- function(.data, ..., .before = NULL, .after = NULL) {
   UseMethod("relocate")
 }
@@ -56,16 +56,22 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   has_after <- !quo_is_null(.after)
 
   if (has_before && has_after) {
-    abort("Must supply only one of `.before` and `.after`")
+    abort("Must supply only one of `.before` and `.after`.")
   } else if (has_before) {
     where <- min(unname(tidyselect::eval_select(.before, .data)))
-    to_move <- c(setdiff(to_move, where), where)
+    if (!where %in% to_move) {
+      to_move <- c(to_move, where)
+    }
   } else if (has_after) {
     where <- max(unname(tidyselect::eval_select(.after, .data)))
-    to_move <- c(where, setdiff(to_move, where))
+    if (!where %in% to_move) {
+      to_move <- c(where, to_move)
+    }
   } else {
     where <- 1L
-    to_move <- union(to_move, where)
+    if (!where %in% to_move) {
+      to_move <- union(to_move, where)
+    }
   }
 
   lhs <- setdiff(seq2(1, where - 1), to_move)

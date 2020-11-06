@@ -107,7 +107,7 @@
 #' # Filter equivalents --------------------------------------------
 #' # slice() expressions can often be written to use `filter()` and
 #' # `row_number()`, which can also be translated to SQL. For many databases,
-#' #you'll need to supply an explicit variable to use to compute the row number.
+#' # you'll need to supply an explicit variable to use to compute the row number.
 #' filter(mtcars, row_number() == 1L)
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
@@ -129,6 +129,7 @@ slice_head <- function(.data, ..., n, prop) {
 
 #' @export
 slice_head.data.frame <- function(.data, ..., n, prop) {
+  ellipsis::check_dots_empty()
   size <- check_slice_size(n, prop)
   idx <- switch(size$type,
     n =    function(n) seq2(1, min(size$n, n)),
@@ -146,10 +147,11 @@ slice_tail <- function(.data, ..., n, prop) {
 
 #' @export
 slice_tail.data.frame <- function(.data, ..., n, prop) {
+  ellipsis::check_dots_empty()
   size <- check_slice_size(n, prop)
   idx <- switch(size$type,
     n =    function(n) seq2(max(n - size$n + 1, 1), n),
-    prop = function(n) seq2(max(n - size$prop * n + 1, 1), n)
+    prop = function(n) seq2(max(ceiling(n - size$prop * n) + 1, 1), n)
   )
   slice(.data, idx(dplyr::n()))
 }
@@ -167,9 +169,10 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 #' @export
 slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   if (missing(order_by)) {
-    abort("argument `order_by` is missing, with no default")
+    abort("argument `order_by` is missing, with no default.")
   }
 
+  ellipsis::check_dots_empty()
   size <- check_slice_size(n, prop)
   if (with_ties) {
     idx <- switch(size$type,
@@ -194,9 +197,9 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 #' @export
 slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   if (missing(order_by)) {
-    abort("argument `order_by` is missing, with no default")
+    abort("argument `order_by` is missing, with no default.")
   }
-
+  ellipsis::check_dots_empty()
   size <- check_slice_size(n, prop)
   if (with_ties) {
     idx <- switch(size$type,
@@ -204,7 +207,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
         order(x, decreasing = TRUE), smaller_ranks(desc(x), size$n)
       ),
       prop = function(x, n) head(
-        order(x, decreasing = TRUE), smaller_ranks(desc(x), size$prop)
+        order(x, decreasing = TRUE), smaller_ranks(desc(x), size$prop * n)
       )
     )
   } else {
@@ -231,6 +234,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
   size <- check_slice_size(n, prop)
+  ellipsis::check_dots_empty()
   idx <- switch(size$type,
     n =    function(x, n) sample_int(n, size$n, replace = replace, wt = x),
     prop = function(x, n) sample_int(n, size$prop * n, replace = replace, wt = x),
@@ -249,6 +253,7 @@ slice_rows <- function(.data, ...) {
   }
 
   mask <- DataMask$new(.data, caller_env())
+  on.exit(mask$forget("slice"), add = TRUE)
   rows <- mask$get_rows()
 
   quo <- quo(c(!!!dots))
@@ -265,10 +270,7 @@ slice_rows <- function(.data, ...) {
     } else if (is.numeric(res)) {
       res <- vec_cast(res, integer())
     } else if (!is.integer(res)) {
-      abort(
-        "slice() expressions should return indices (positive or negative integers)",
-        "dplyr_slice_incompatible"
-      )
+      abort("`slice()` expressions should return indices (positive or negative integers).")
     }
 
     if (length(res) == 0L) {
@@ -278,10 +280,7 @@ slice_rows <- function(.data, ...) {
     } else if (all(res <= 0, na.rm = TRUE)) {
       res <- setdiff(seq_along(current_rows), -res)
     } else {
-      abort(
-        "slice() expressions should return either all positive or all negative",
-        "dplyr_slice_ambiguous"
-      )
+      abort("`slice()` expressions should return either all positive or all negative.")
     }
 
     slice_indices[[group]] <- current_rows[res]
@@ -295,10 +294,10 @@ check_slice_size <- function(n, prop) {
     list(type = "n", n = 1L)
   } else if (!missing(n) && missing(prop)) {
     if (!is.numeric(n) || length(n) != 1) {
-      abort("`n` must be a single number")
+      abort("`n` must be a single number.")
     }
     if (is.na(n) || n < 0) {
-      abort("`n` must be a non-missing positive number")
+      abort("`n` must be a non-missing positive number.")
     }
 
     list(type = "n", n = n)
@@ -307,11 +306,11 @@ check_slice_size <- function(n, prop) {
       abort("`prop` must be a single number")
     }
     if (is.na(prop) || prop < 0) {
-      abort("`prop` must be a non-missing positive number")
+      abort("`prop` must be a non-missing positive number.")
     }
     list(type = "prop", prop = prop)
   } else {
-    abort("Must supply exactly one of `n` and `prop` arguments")
+    abort("Must supply exactly one of `n` and `prop` arguments.")
   }
 }
 

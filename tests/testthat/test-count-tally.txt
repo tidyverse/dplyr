@@ -1,0 +1,20 @@
+> df <- data.frame(g = c(1, 1, 2, 2), n = 1:4)
+> df %>% count(g, wt = n)
+  g n
+1 1 3
+2 2 7
+
+> df %>% count(g, wt = n) %>% count(wt = n)
+   n
+1 10
+
+> df %>% count(n)
+Message: Storing counts in `nn`, as `n` already present in input
+i Use `name = "new_name"` to pick a new name.
+
+  n nn
+1 1  1
+2 2  1
+3 3  1
+4 4  1
+

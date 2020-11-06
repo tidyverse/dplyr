@@ -14,11 +14,11 @@ test_that("inputs are recycled", {
   gf <- group_by(tibble(a = 1:2), a)
   expect_equal(
     gf %>% summarise(x = 1, y = 1:3, z = 1),
-    tibble(a = rep(1:2, each = 3), x = 1, y = c(1:3, 1:3), z = 1)
+    tibble(a = rep(1:2, each = 3), x = 1, y = c(1:3, 1:3), z = 1) %>% group_by(a)
   )
   expect_equal(
     gf %>% summarise(x = seq_len(a), y = 1),
-    tibble(a = c(1L, 2L, 2L), x = c(1L, 1L, 2L), y = 1)
+    tibble(a = c(1L, 2L, 2L), x = c(1L, 1L, 2L), y = 1) %>% group_by(a)
   )
 })
 
@@ -43,7 +43,7 @@ test_that("works with grouped empty data frames", {
   )
   expect_equal(
     df %>% rowwise(x) %>% summarise(y = 1L),
-    rowwise(tibble(x = integer(), y = integer()), x)
+    group_by(tibble(x = integer(), y = integer()), x)
   )
 })
 
@@ -73,7 +73,7 @@ test_that("preserved class, but not attributes", {
   expect_equal(attr(out, "res"), NULL)
 })
 
-test_that("works with  unquoted values", {
+test_that("works with unquoted values", {
   df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
   expect_equal(summarise(df, out = !!1), tibble(out = 1))
   expect_equal(summarise(df, out = !!quo(1)), tibble(out = 1))
@@ -84,6 +84,18 @@ test_that("formulas are evaluated in the right environment (#3019)", {
   out <- mtcars %>% summarise(fn = list(rlang::as_function(~ list(~foo, environment()))))
   out <- out$fn[[1]]()
   expect_identical(environment(out[[1]]), out[[2]])
+})
+
+test_that("data frame results with 0 columns are ignored (#5084)", {
+  df1 <- tibble(x = 1:2)
+  expect_equal(df1 %>% group_by(x) %>% summarise(data.frame()), df1)
+  expect_equal(df1 %>% group_by(x) %>% summarise(data.frame(), y = 65), mutate(df1, y = 65))
+  expect_equal(df1 %>% group_by(x) %>% summarise(y = 65, data.frame()), mutate(df1, y = 65))
+
+  df2 <- tibble(x = 1:2, y = 3:4)
+  expect_equal(df2 %>% group_by(x) %>% summarise(data.frame()), df1)
+  expect_equal(df2 %>% group_by(x) %>% summarise(data.frame(), z = 98), mutate(df1, z = 98))
+  expect_equal(df2 %>% group_by(x) %>% summarise(z = 98, data.frame()), mutate(df1, z = 98))
 })
 
 # grouping ----------------------------------------------------------------
@@ -166,16 +178,61 @@ test_that("named tibbles are packed (#2326)", {
   expect_equal(out$df, tibble(y = c(2L, 4L), z = c(3L, 3L)))
 })
 
+test_that("summarise(.groups=)", {
+  expect_message(eval_bare(
+    expr(data.frame(x = 1, y = 2) %>% group_by(x, y) %>% summarise()),
+    env(global_env())
+  ))
+  expect_message(eval_bare(
+    expr(data.frame(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()),
+    env(global_env())
+  ))
+
+  df <- data.frame(x = 1, y = 2)
+  expect_equal(df %>% summarise(z = 3, .groups= "rowwise"), rowwise(data.frame(z = 3)))
+
+  gf <- df %>% group_by(x, y)
+  expect_equal(gf %>% summarise() %>% group_vars(), "x")
+  expect_equal(gf %>% summarise(.groups = "drop_last") %>% group_vars(), "x")
+  expect_equal(gf %>% summarise(.groups = "drop") %>% group_vars(), character())
+  expect_equal(gf %>% summarise(.groups = "keep") %>% group_vars(), c("x", "y"))
+
+  rf <- df %>% rowwise(x, y)
+  expect_equal(rf %>% summarise(.groups = "drop") %>% group_vars(), character())
+  expect_equal(rf %>% summarise(.groups = "keep") %>% group_vars(), c("x", "y"))
+})
+
 # errors -------------------------------------------------------------------
 
+test_that("summarise() preserves the call stack on error (#5308)", {
+  foobar <- function() stop("foo")
+
+  stack <- NULL
+  expect_error(
+    withCallingHandlers(
+      error = function(...) stack <<- sys.calls(),
+      summarise(mtcars, foobar())
+    )
+  )
+
+  expect_true(some(stack, is_call, "foobar"))
+})
+
 test_that("summarise() gives meaningful errors", {
-  verify_output(test_path("test-summarise-errors.txt"), {
+  verify_output(env = env(global_env()), test_path("test-summarise-errors.txt"), {
+    "# Messages about .groups="
+    ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()
+    ignored <- tibble(x = 1, y = 2) %>% group_by(x) %>% summarise()
+    ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2,2))
+    ignored <- tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()
+    ignored <- tibble(x = 1, y = 2) %>% rowwise() %>% summarise()
+
     "# unsupported type"
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-      summarise(a = env(a = 1))
+      summarise(a = rlang::env(a = 1))
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       group_by(x, y) %>%
-      summarise(a = env(a = 1))
+      summarise(a = rlang::env(a = 1))
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       rowwise() %>%
       summarise(a = lm(y ~ x))
@@ -205,5 +262,12 @@ test_that("summarise() gives meaningful errors", {
     "# .data pronoun"
     summarise(tibble(a = 1), c = .data$b)
     summarise(group_by(tibble(a = 1:3), a), c = .data$b)
+
+    "# Duplicate column names"
+    tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
+
+    "# Not glue()ing"
+    tibble() %>% summarise(stop("{"))
+    tibble(a = 1, b="{value:1, unit:a}") %>% group_by(b) %>% summarise(a = stop("!"))
   })
 })

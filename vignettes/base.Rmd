@@ -140,7 +140,7 @@ subset(starwars, hair_color == "none" & eye_color == "black")
 You can also use `[` but this also requires the use of `which()` to remove `NA`s:
 
 ```{r}
-starwars[which(starwars$species == "human"), , drop = FALSE]
+starwars[which(starwars$species == "Human"), , drop = FALSE]
 starwars[which(starwars$mass > 1000), , drop = FALSE]
 starwars[which(starwars$hair_color == "none" & starwars$eye_color == "black"), , drop = FALSE]
 ```
@@ -266,7 +266,7 @@ setNames(iris, toupper(names(iris)))
 iris %>% select(1:3)
 iris %>% select(Species, Sepal.Length)
 iris %>% select(starts_with("Petal"))
-iris %>% select(is.factor)
+iris %>% select(where(is.factor))
 ```
 
 Subsetting variables by position is straightforward in base R:

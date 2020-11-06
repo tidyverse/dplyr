@@ -22,35 +22,35 @@ test_that("across() correctly names output columns", {
     c("x", "y", "z", "s")
   )
   expect_named(
-    summarise(gf, across(.names = "id_{col}")),
+    summarise(gf, across(.names = "id_{.col}")),
     c("x", "id_y", "id_z", "id_s")
   )
   expect_named(
-    summarise(gf, across(is.numeric, mean)),
+    summarise(gf, across(where(is.numeric), mean)),
     c("x", "y", "z")
   )
   expect_named(
-    summarise(gf, across(is.numeric, mean, .names = "mean_{col}")),
+    summarise(gf, across(where(is.numeric), mean, .names = "mean_{.col}")),
     c("x", "mean_y", "mean_z")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean = mean, sum = sum))),
+    summarise(gf, across(where(is.numeric), list(mean = mean, sum = sum))),
     c("x", "y_mean", "y_sum", "z_mean", "z_sum")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean = mean, sum))),
+    summarise(gf, across(where(is.numeric), list(mean = mean, sum))),
     c("x", "y_mean", "y_2", "z_mean", "z_2")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean, sum = sum))),
+    summarise(gf, across(where(is.numeric), list(mean, sum = sum))),
     c("x", "y_1", "y_sum", "z_1", "z_sum")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean, sum))),
+    summarise(gf, across(where(is.numeric), list(mean, sum))),
     c("x", "y_1", "y_2", "z_1", "z_2")
   )
   expect_named(
-    summarise(gf, across(is.numeric, list(mean = mean, sum = sum), .names = "{fn}_{col}")),
+    summarise(gf, across(where(is.numeric), list(mean = mean, sum = sum), .names = "{.fn}_{.col}")),
     c("x", "mean_y", "sum_y", "mean_z", "sum_z")
   )
 })
@@ -89,15 +89,15 @@ test_that("across() avoids simple argument name collisions with ... (#4965)", {
 test_that("across() works sequentially (#4907)", {
   df <- tibble(a = 1)
   expect_equal(
-    mutate(df, x = ncol(across(is.numeric)), y = ncol(across(is.numeric))),
+    mutate(df, x = ncol(across(where(is.numeric))), y = ncol(across(where(is.numeric)))),
     tibble(a = 1, x = 1L, y = 2L)
   )
   expect_equal(
-    mutate(df, a = "x", y = ncol(across(is.numeric))),
+    mutate(df, a = "x", y = ncol(across(where(is.numeric)))),
     tibble(a = "x", y = 0L)
   )
   expect_equal(
-    mutate(df, x = 1, y = ncol(across(is.numeric))),
+    mutate(df, x = 1, y = ncol(across(where(is.numeric)))),
     tibble(a = 1, x = 1, y = 2L)
   )
 })
@@ -110,14 +110,17 @@ test_that("across() retains original ordering", {
 test_that("across() gives meaningful messages", {
   verify_output(test_path("test-across-errors.txt"), {
     tibble(x = 1) %>%
-      summarise(res = across(is.numeric, 42))
+      summarise(res = across(where(is.numeric), 42))
+
+    across()
+    c_across()
   })
 })
 
 test_that("monitoring cache - across() can be used twice in the same expression", {
   df <- tibble(a = 1, b = 2)
   expect_equal(
-    mutate(df, x = ncol(across(is.numeric)) + ncol(across(a))),
+    mutate(df, x = ncol(across(where(is.numeric))) + ncol(across(a))),
     tibble(a = 1, b = 2, x = 3)
   )
 })
@@ -125,7 +128,7 @@ test_that("monitoring cache - across() can be used twice in the same expression"
 test_that("monitoring cache - across() can be used in separate expressions", {
   df <- tibble(a = 1, b = 2)
   expect_equal(
-    mutate(df, x = ncol(across(is.numeric)), y = ncol(across(a))),
+    mutate(df, x = ncol(across(where(is.numeric))), y = ncol(across(a))),
     tibble(a = 1, b = 2, x = 2, y = 1)
   )
 })
@@ -152,7 +155,7 @@ test_that("monitoring cache - across() internal cache key depends on all inputs"
   df <- group_by(df, g)
 
   expect_identical(
-    mutate(df, tibble(x = across(is.numeric, mean)$a, y = across(is.numeric, max)$a)),
+    mutate(df, tibble(x = across(where(is.numeric), mean)$a, y = across(where(is.numeric), max)$a)),
     mutate(df, x = mean(a), y = max(a))
   )
 })
@@ -174,6 +177,83 @@ test_that("across() uses tidy recycling rules", {
   )
 })
 
+test_that("across(<empty set>) returns a data frame with 1 row (#5204)", {
+  df <- tibble(x = 1:42)
+  expect_equal(
+    mutate(df, across(c(), as.factor)),
+    df
+  )
+  expect_equal(
+    mutate(df, y = across(c(), as.factor))$y,
+    tibble::new_tibble(list(), nrow = 42)
+  )
+  mutate(df, {
+    res <- across(c(), as.factor)
+    expect_equal(nrow(res), 1L)
+    res
+  })
+})
+
+test_that("across(.names=) can use local variables in addition to {col} and {fn}", {
+  res <- local({
+    prefix <- "MEAN"
+    data.frame(x = 42) %>%
+      summarise(across(everything(), mean, .names = "{prefix}_{.col}"))
+  })
+  expect_identical(res, data.frame(MEAN_x = 42))
+})
+
+test_that("across() uses environment from the current quosure (#5460)", {
+  # If the data frame `y` is selected, causes a subscript conversion
+  # error since it is fractional
+  df <- data.frame(x = 1, y = 2.4)
+  y <- "x"
+  expect_equal(df %>% summarise(across(all_of(y), mean)), data.frame(x = 1))
+  expect_equal(df %>% mutate(across(all_of(y), mean)), df)
+  expect_equal(df %>% filter(across(all_of(y), ~ .x < 2)), df)
+
+  # Recursive case fails because the `y` column has precedence (#5498)
+  expect_error(df %>% summarise(summarise(across(), across(all_of(y), mean))))
+
+  # Inherited case
+  out <- df %>% summarise(local(across(all_of(y), mean)))
+  expect_equal(out, data.frame(x = 1))
+})
+
+test_that("across() sees columns in the recursive case (#5498)", {
+  df <- tibble(
+    vars = list("foo"),
+    data = list(data.frame(foo = 1, bar = 2))
+  )
+
+  out <- df %>% mutate(data = purrr::map2(data, vars, ~ {
+    .x %>% mutate(across(all_of(.y), ~ NA))
+  }))
+  exp <- tibble(
+    vars = list("foo"),
+    data = list(data.frame(foo = NA, bar = 2))
+  )
+  expect_identical(out, exp)
+
+  out <- df %>% mutate(data = purrr::map2(data, vars, ~ {
+    local({
+      .y <- "bar"
+      .x %>% mutate(across(all_of(.y), ~ NA))
+    })
+  }))
+  exp <- tibble(
+    vars = list("foo"),
+    data = list(data.frame(foo = 1, bar = NA))
+  )
+  expect_identical(out, exp)
+})
+
+test_that("across() works with empty data frames (#5523)", {
+   expect_equal(
+     mutate(tibble(), across()),
+     tibble()
+   )
+})
 
 # c_across ----------------------------------------------------------------
 

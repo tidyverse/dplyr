@@ -62,8 +62,17 @@ test_that("no arg group_indices() is deprecated", {
 })
 
 test_that("group_indices(...) is deprecated", {
+  rlang::local_options(lifecycle_verbosity = "error")
+
   df <- tibble(x = 1, y = 2)
-  expect_warning(out <- df %>% group_indices(x), "deprecated")
+  expect_error(df %>% group_indices(x), "deprecated")
+})
+
+test_that("group_indices(...) still works though", {
+  rlang::local_options(lifecycle_verbosity = "quiet")
+
+  df <- tibble(x = 1, y = 2)
+  out <- df %>% group_indices(x)
   expect_equal(out, 1)
 })
 
@@ -73,6 +82,14 @@ test_that("group_indices() returns expected values", {
 
   expect_equal(group_indices(df), c(1, 1, 1))
   expect_equal(group_indices(gf), c(2, 1, 2))
+})
+
+test_that("group_indices() handles 0 rows data frames (#5541)", {
+  df <- new_grouped_df(
+    data.frame(x = integer(), y = integer()),
+    groups = data.frame(x=0, .rows = vctrs::list_of(1:1000))
+  )
+  expect_equal(group_indices(df), integer())
 })
 
 # group_size --------------------------------------------------------------

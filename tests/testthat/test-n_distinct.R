@@ -79,3 +79,16 @@ test_that("n_distinct() respects .data (#5008)", {
     data.frame(n = 1L)
   )
 })
+
+test_that("n_distinct() works with `{{ }}` (#5461)", {
+  wrapper <- function(data, col) {
+    summarise(data, result = n_distinct({{ col }}, na.rm = TRUE))
+  }
+
+  df <- data.frame(x = c(1, 1, 3, NA))
+
+  expect_identical(
+    wrapper(df, x),
+    data.frame(result = 2L)
+  )
+})

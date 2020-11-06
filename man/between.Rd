@@ -9,7 +9,7 @@ between(x, left, right)
 \arguments{
 \item{x}{A numeric vector of values}
 
-\item{left, right}{Boundary values}
+\item{left, right}{Boundary values (must be scalars).}
 }
 \description{
 This is a shortcut for \code{x >= left & x <= right}, implemented
@@ -21,4 +21,7 @@ between(1:12, 7, 9)
 
 x <- rnorm(1e2)
 x[between(x, -1, 1)]
+
+## Or on a tibble using filter
+filter(starwars, between(height, 100, 150))
 }

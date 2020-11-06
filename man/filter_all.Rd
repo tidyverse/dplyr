@@ -81,5 +81,5 @@ filter(mtcars, across(starts_with("d"), ~ (.x \%\% 2) == 0))
 filter_if(mtcars, ~ all(floor(.) == .), all_vars(. != 0))
 # ->
 is_int <- function(x) all(floor(x) == x)
-filter(mtcars, across(is_int, ~ .x != 0))
+filter(mtcars, across(where(is_int), ~ .x != 0))
 }

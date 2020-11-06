@@ -1,10 +1,10 @@
 > tbl_at_vars(iris, raw(3))
-Error: `.vars` must be a character/numeric vector or a `vars()` object, not a raw vector
+Error: `.vars` must be a character/numeric vector or a `vars()` object, not a raw vector.
 
 > tbl_if_vars(iris, list(identity, force), environment())
-Error: `.predicate` must have length 1, not 2
+Error: `.predicate` must have length 1, not 2.
 
 > .funs <- as_fun_list(list(identity, force), caller_env())
 > tbl_if_vars(iris, .funs, environment())
-Error: `.predicate` must have length 1, not 2
+Error: `.predicate` must have length 1, not 2.
 

@@ -6,8 +6,8 @@
   toset <- !(names(op.dplyr) %in% names(op))
   if (any(toset)) options(op.dplyr[toset])
 
-  ns <- ns_env("dplyr")
-  .Call(dplyr_init_library, ns_env())
+  .Call(dplyr_init_library, ns_env("dplyr"))
+
   invisible()
 }
 

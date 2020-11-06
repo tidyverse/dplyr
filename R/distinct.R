@@ -70,7 +70,7 @@ distinct <- function(.data, ..., .keep_all = FALSE) {
 #' @rdname group_by_prepare
 #' @export
 distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
-  abort_if_not(is_quosures(vars), is.character(group_vars))
+  stopifnot(is_quosures(vars), is.character(group_vars))
 
   # If no input, keep all variables
   if (length(vars) == 0) {
@@ -90,9 +90,10 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
   # can instead just use their names
   missing_vars <- setdiff(distinct_vars, names(.data))
   if (length(missing_vars) > 0) {
+    bullets <- set_names(glue("`{missing_vars}` not found in `.data`."), rep("x", length(missing_vars)))
     abort(c(
-      "distinct() must use existing variables",
-      glue("`{missing_vars}` not found in `.data`")
+      "`distinct()` must use existing variables.",
+      bullets
     ))
   }
 
@@ -137,10 +138,20 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 #' n_distinct(x)
 #' @export
 n_distinct <- function(..., na.rm = FALSE) {
-  columns <- map(enquos(..., .named = TRUE), eval_tidy)
-  data <- as_tibble(columns, .name_repair = "minimal")
+  args <- list2(...)
+
+  size <- vec_size_common(!!!args)
+
+  data <- vec_recycle_common(!!!args, .size = size)
+
+  nms <- vec_rep("", length(data))
+  data <- set_names(data, nms)
+
+  data <- new_data_frame(data, n = size)
+
   if (isTRUE(na.rm)){
     data <- vec_slice(data, !reduce(map(data, vec_equal_na), `|`))
   }
+
   vec_unique_count(data)
 }

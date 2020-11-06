@@ -41,10 +41,13 @@ group_data <- function(.data) {
 
 #' @export
 group_data.data.frame <- function(.data) {
-  out <- vec_init(.data[, 0], 1)
-  rownames(out) <- NULL
-  out$.rows <- list_of(seq_len(nrow(.data)), .ptype = integer())
-  out
+  rows <- new_list_of(list(seq_len(nrow(.data))), ptype = integer())
+  new_data_frame(list(.rows = rows), n = 1L)
+}
+
+#' @export
+group_data.tbl_df <- function(.data) {
+  as_tibble(NextMethod())
 }
 
 #' @export
@@ -102,7 +105,7 @@ group_indices.data.frame <- function(.data, ...) {
     .data <- group_by(.data, ...)
   }
 
-  .Call(`dplyr_group_indices`, group_rows(.data), nrow(.data))
+  .Call(`dplyr_group_indices`, .data, group_rows(.data))
 }
 
 #' @export

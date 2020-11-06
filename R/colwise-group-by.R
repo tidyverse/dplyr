@@ -30,7 +30,7 @@
 #' # Group by variables selected with a predicate:
 #' group_by_if(iris, is.factor)
 #' # ->
-#' iris %>% group_by(across(is.factor))
+#' iris %>% group_by(across(where(is.factor)))
 #'
 #' # Group by variables selected by name:
 #' group_by_at(mtcars, vars(vs, am))
@@ -46,7 +46,7 @@
 #'
 #' group_by_if(iris, is.factor, as.character)
 #' # ->
-#' iris %>% group_by(across(is.factor, as.character))
+#' iris %>% group_by(across(where(is.factor), as.character))
 group_by_all <- function(.tbl, .funs = list(), ..., .add = FALSE, .drop = group_by_drop_default(.tbl)) {
   lifecycle::signal_superseded("1.0.0", "group_by_all()", "across()")
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "group_by_all")

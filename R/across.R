@@ -1,17 +1,13 @@
-#' Apply a function (or a set of functions) to a set of columns
+#' Apply a function (or functions) across multiple columns
 #'
 #' @description
 #' `across()` makes it easy to apply the same transformation to multiple
-#' columns, allowing you to use [select()] semantics inside in [summarise()] and
-#' [mutate()]. `across()` supersedes the family of "scoped variants" like
+#' columns, allowing you to use [select()] semantics inside in "data-masking"
+#' functions like [summarise()] and [mutate()]. See `vignette("colwise")` for
+#'  more details.
+#'
+#' `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
-#'
-#' See `vignette("colwise")` for more details.
-#'
-#' `c_across()` is designed to work with [rowwise()] to make it easy to
-#' perform rowwise aggregations; it works like `c()` but uses tidy select
-#' semantics so you can easily select multiple variables. See
-#' `vignette("rowwise")` for more details.
 #'
 #' @param cols,.cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
@@ -29,10 +25,10 @@
 #'   to access the current column and grouping keys respectively.
 #' @param ... Additional arguments for the function calls in `.fns`.
 #' @param .names A glue specification that describes how to name the output
-#'   columns. This can use `{col}` to stand for the selected column name, and
-#'   `{fn}` to stand for the name of the function being applied. The default
-#'   (`NULL`) is equivalent to `"{col}"` for the single function case and
-#'   `"{col}_{fn}"` for the case where a list is used for `.fns`.
+#'   columns. This can use `{.col}` to stand for the selected column name, and
+#'   `{.fn}` to stand for the name of the function being applied. The default
+#'   (`NULL`) is equivalent to `"{.col}"` for the single function case and
+#'   `"{.col}_{.fn}"` for the case where a list is used for `.fns`.
 #'
 #' @returns
 #' A tibble with one column for each column in `.cols` and each function in `.fns`.
@@ -43,7 +39,7 @@
 #'   summarise(across(starts_with("Sepal"), mean))
 #' iris %>%
 #'   as_tibble() %>%
-#'   mutate(across(is.factor, as.character))
+#'   mutate(across(where(is.factor), as.character))
 #'
 #' # A purrr-style formula
 #' iris %>%
@@ -58,28 +54,23 @@
 #' # Use the .names argument to control the output names
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), mean, .names = "mean_{col}"))
+#'   summarise(across(starts_with("Sepal"), mean, .names = "mean_{.col}"))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{col}.{fn}"))
+#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{.col}.{.fn}"))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{col}.fn{fn}"))
-#'
-#' # c_across() ---------------------------------------------------------------
-#' df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
-#' df %>%
-#'   rowwise() %>%
-#'   mutate(
-#'     sum = sum(c_across(w:z)),
-#'     sd = sd(c_across(w:z))
-#'  )
+#'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
 #' @export
+#' @seealso [c_across()] for a function that returns a vector
 across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   key <- key_deparse(sys.call())
-  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key)
+  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key, .caller_env = caller_env())
 
   vars <- setup$vars
+  if (length(vars) == 0L) {
+    return(new_tibble(list(), nrow = 1L))
+  }
   fns <- setup$fns
   names <- setup$names
 
@@ -131,18 +122,46 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   new_tibble(out, nrow = size)
 }
 
+
+#' Combine values from multiple columns
+#'
+#' @description
+#' `c_across()` is designed to work with [rowwise()] to make it easy to
+#' perform row-wise aggregations. It has two differences from `c()`:
+#'
+#' * It uses tidy select semantics so you can easily select multiple variables.
+#'   See `vignette("rowwise")` for more details.
+#'
+#' * It uses [vctrs::vec_c()] in order to give safer outputs.
+#'
+#' @inheritParams across
+#' @seealso [across()] for a function that returns a tibble.
 #' @export
-#' @rdname across
+#' @examples
+#' df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
+#' df %>%
+#'   rowwise() %>%
+#'   mutate(
+#'     sum = sum(c_across(w:z)),
+#'     sd = sd(c_across(w:z))
+#'  )
 c_across <- function(cols = everything()) {
   key <- key_deparse(sys.call())
   vars <- c_across_setup({{ cols }}, key = key)
 
-  mask <- peek_mask()
+  mask <- peek_mask("c_across()")
 
   cols <- mask$current_cols(vars)
-  cols <- unname(cols)
+  vec_c(!!!cols, .name_spec = zap())
+}
 
-  vec_c(!!!cols)
+across_glue_mask <- function(.col, .fn, .caller_env) {
+  glue_mask <- env(.caller_env, .col = .col, .fn = .fn)
+  # TODO: we can make these bindings louder later
+  env_bind_active(
+    glue_mask, col = function() glue_mask$.col, fn = function() glue_mask$.fn
+  )
+  glue_mask
 }
 
 # TODO: The usage of a cache in `across_setup()` and `c_across_setup()` is a stopgap solution, and
@@ -150,23 +169,25 @@ c_across <- function(cols = everything()) {
 # next version of hybrid evaluation, which should offer a way for any function
 # to do any required "set up" work (like the `eval_select()` call) a single
 # time per top-level call, rather than once per group.
-across_setup <- function(cols, fns, names, key) {
-  mask <- peek_mask()
-
+across_setup <- function(cols, fns, names, key, .caller_env) {
+  mask <- peek_mask("across()")
   value <- mask$across_cache_get(key)
   if (!is.null(value)) {
     return(value)
   }
 
+  # `across()` is evaluated in a data mask so we need to remove the
+  # mask layer from the quosure environment (#5460)
   cols <- enquo(cols)
-  across_cols <- mask$across_cols()
+  cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = TRUE))
 
-  vars <- tidyselect::eval_select(expr(!!cols), across_cols)
+  vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
 
   if (is.null(fns)) {
     if (!is.null(names)) {
-      names <- vec_as_names(glue(names, col = vars, fn = "1"), repair = "check_unique")
+      glue_mask <- across_glue_mask(.caller_env, .col = vars, .fn = "1")
+      names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
     }
 
     value <- list(vars = vars, fns = fns, names = names)
@@ -177,14 +198,16 @@ across_setup <- function(cols, fns, names, key) {
 
   # apply `.names` smart default
   if (is.function(fns) || is_formula(fns)) {
-    names <- names %||% "{col}"
+    names <- names %||% "{.col}"
     fns <- list("1" = fns)
   } else {
-    names <- names %||% "{col}_{fn}"
+    names <- names %||% "{.col}_{.fn}"
   }
 
   if (!is.list(fns)) {
-    abort("`.fns` must be NULL, a function, a formula, or a list of functions/formulas", class = "dplyr_error_across")
+    abort(c("Problem with `across()` input `.fns`.",
+      i = "Input `.fns` must be NULL, a function, a formula, or a list of functions/formulas."
+    ))
   }
 
   # handle formulas
@@ -201,10 +224,11 @@ across_setup <- function(cols, fns, names, key) {
     }
   }
 
-  names <- vec_as_names(glue(names,
-    col = rep(vars, each = length(fns)),
-    fn  = rep(names_fns, length(vars))
-  ), repair = "check_unique")
+  glue_mask <- glue_mask <- across_glue_mask(.caller_env,
+    .col = rep(vars, each = length(fns)),
+    .fn  = rep(names_fns, length(vars))
+  )
+  names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
 
   value <- list(vars = vars, fns = fns, names = names)
   mask$across_cache_add(key, value)
@@ -212,8 +236,20 @@ across_setup <- function(cols, fns, names, key) {
   value
 }
 
+# FIXME: This pattern should be encapsulated by rlang
+data_mask_top <- function(env, recursive = FALSE, inherit = FALSE) {
+  while (env_has(env, ".__tidyeval_data_mask__.", inherit = inherit)) {
+    env <- env_parent(env_get(env, ".top_env", inherit = inherit))
+    if (!recursive) {
+      return(env)
+    }
+  }
+
+  env
+}
+
 c_across_setup <- function(cols, key) {
-  mask <- peek_mask()
+  mask <- peek_mask("c_across()")
 
   value <- mask$across_cache_get(key)
   if (!is.null(value)) {

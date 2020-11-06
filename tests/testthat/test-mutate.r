@@ -143,6 +143,16 @@ test_that("named data frames are packed (#2326, #3630)", {
   expect_equal(out, tibble(x = 1, y = tibble(a = 1)))
 })
 
+test_that("unchop only called for when multiple groups", {
+  df <- data.frame(g = 1, x = 1:5)
+  out <- mutate(df, x = ts(x, start = c(1971, 1), frequency = 52))
+  expect_s3_class(out$x, "ts")
+
+  gdf <- group_by(df, g)
+  out <- mutate(gdf, x = ts(x, start = c(1971, 1), frequency = 52))
+  expect_s3_class(out$x, "ts")
+})
+
 # output types ------------------------------------------------------------
 
 test_that("mutate preserves grouping", {
@@ -236,13 +246,13 @@ test_that("mutate() to UTF-8 column names", {
 })
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
-  with_non_utf8_encoding({
-    df <- tibble(a = "1", b = "2")
-    names(df) <- c("a", enc2native("\u4e2d"))
+  local_non_utf8_encoding()
 
-    res <- df %>% mutate_all(as.numeric)
-    expect_equal(names(res), as_utf8_character(names(df)))
-  })
+  df <- tibble(a = "1", b = "2")
+  names(df) <- c("a", enc2native("\u4e2d"))
+
+  res <- df %>% mutate_all(as.numeric)
+  expect_equal(names(res), as_utf8_character(names(df)))
 })
 
 test_that("mutate coerces results from one group with all NA values (#1463) ", {
@@ -306,7 +316,7 @@ test_that(".keep = 'used' not affected by across()", {
   # This must evaluate every column in order to figure out if should
   # be included in the set or not, but that shouldn't be counted for
   # the purposes of "used" variables
-  out <- mutate(df, across(is.numeric, identity), .keep = "unused")
+  out <- mutate(df, across(where(is.numeric), identity), .keep = "unused")
   expect_named(out, names(df))
 })
 
@@ -342,6 +352,55 @@ test_that("can use .before and .after to control column position", {
   # but doesn't affect order of existing columns
   df <- tibble(x = 1, y = 2)
   expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
+})
+
+test_that(".keep= always retains grouping variables (#5582)", {
+  df <- tibble(x = 1, y = 2, z = 3) %>% group_by(z)
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "none"),
+    tibble(z = 3, a = 2) %>% group_by(z)
+  )
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "all"),
+    tibble(x = 1, y = 2, z = 3, a = 2) %>% group_by(z)
+  )
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "used"),
+    tibble(x = 1, z = 3, a = 2) %>% group_by(z)
+  )
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "unused"),
+    tibble(y = 2, z = 3, a = 2) %>% group_by(z)
+  )
+})
+
+test_that("mutate() preserves the call stack on error (#5308)", {
+  foobar <- function() stop("foo")
+
+  stack <- NULL
+  expect_error(
+    withCallingHandlers(
+      error = function(...) stack <<- sys.calls(),
+      mutate(mtcars, foobar())
+    )
+  )
+
+  expect_true(some(stack, is_call, "foobar"))
+})
+
+test_that("dplyr data mask can become obsolete", {
+  lazy <- function(x) {
+    list(enquo(x))
+  }
+  df <- tibble(
+    x = 1:2
+  )
+
+  res <- df %>%
+    rowwise() %>%
+    mutate(y = lazy(x), .keep = "unused")
+  expect_equal(names(res), c("x", "y"))
+  expect_error(eval_tidy(res$y[[1]]))
 })
 
 # Error messages ----------------------------------------------------------
@@ -396,6 +455,8 @@ test_that("mutate() give meaningful errors", {
     tibble(y = list(1:3, "a")) %>%
       rowwise() %>%
       mutate(y2 = y)
+    data.frame(x = 1:10) %>%
+      mutate(y = 11:20, y = 1:2)
 
     "# .data pronoun"
     tibble(a = 1) %>%
@@ -403,5 +464,15 @@ test_that("mutate() give meaningful errors", {
     tibble(a = 1:3) %>%
       group_by(a) %>%
       mutate(c = .data$b)
+
+    "# obsolete data mask"
+    lazy <- function(x) list(enquo(x))
+    res <- tbl %>%
+      rowwise() %>%
+      mutate(z = lazy(x), .keep = "unused")
+    eval_tidy(res$z[[1]])
+
+    "# Error that contains {"
+    tibble() %>% mutate(stop("{"))
   })
 })

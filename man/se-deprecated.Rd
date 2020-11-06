@@ -69,20 +69,20 @@ summarize_(.data, ..., .dots = list())
 
 \item{vars}{Various meanings depending on the verb.}
 
-\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> If omitted, will count the
-number of rows. If specified, will perform a "weighted" count by summing
-the (non-missing) values of variable \code{wt}.
-
-If omitted, and column \code{n} exists, it will automatically be used as a
-weighting variable, although you will have to specify \code{name} to provide
-a new name for the output.}
+\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> Frequency weights.
+Can be \code{NULL} or a variable:
+\itemize{
+\item If \code{NULL} (the default), counts the number of rows in each group.
+\item If a variable, computes \code{sum(wt)} for each group.
+}}
 
 \item{sort}{If \code{TRUE}, will show the largest groups at the top.}
 
 \item{.data}{A data frame.}
 
-\item{.drop}{When \code{.drop = TRUE}, empty groups are dropped. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for
-what the default value is for this argument.}
+\item{.drop}{Drop groups formed by factor levels that don't appear in the
+data? The default is \code{TRUE} except when \code{.data} has been previously
+grouped with \code{.drop = FALSE}. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for details.}
 
 \item{.keep_all}{If \code{TRUE}, keep all variables in \code{.data}.
 If a combination of \code{...} is not distinct, this keeps the

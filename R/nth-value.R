@@ -6,7 +6,7 @@
 #' than expected.
 #'
 #' @param x A vector
-#' @param n For `nth_value()`, a single integer specifying the position.
+#' @param n For `nth()`, a single integer specifying the position.
 #'   Negative integers index from the end (i.e. `-1L` will return the
 #'   last value in the vector).
 #'
@@ -40,7 +40,9 @@
 #' # These functions always return a single value
 #' first(integer())
 nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
-  abort_if_not(length(n) == 1, is.numeric(n))
+  if (length(n) != 1 || !is.numeric(n)) {
+    abort("`n` must be a single integer.")
+  }
   n <- trunc(n)
 
   if (n == 0 || n > length(x) || n < -length(x)) {

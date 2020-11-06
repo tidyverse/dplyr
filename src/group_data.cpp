@@ -1,11 +1,15 @@
 #include "dplyr.h"
 
-SEXP dplyr_group_indices(SEXP rows, SEXP s_nr) {
-  R_xlen_t nr = INTEGER(s_nr)[0];
-  R_xlen_t ng = XLENGTH(rows);
+SEXP dplyr_group_indices(SEXP data, SEXP rows) {
+  R_xlen_t nr = vctrs::short_vec_size(data);
+  if (nr == 0) {
+    return dplyr::vectors::empty_int_vector;
+  }
 
   SEXP indices = PROTECT(Rf_allocVector(INTSXP, nr));
   int* p_indices = INTEGER(indices);
+
+  R_xlen_t ng = XLENGTH(rows);
   for (R_xlen_t i = 0; i < ng; i++) {
     SEXP rows_i = VECTOR_ELT(rows, i);
     R_xlen_t n_i = XLENGTH(rows_i);
@@ -14,14 +18,13 @@ SEXP dplyr_group_indices(SEXP rows, SEXP s_nr) {
       p_indices[*p_rows_i - 1] = i + 1;
     }
   }
-
   UNPROTECT(1);
   return indices;
 }
 
 SEXP dplyr_group_keys(SEXP group_data) {
   R_xlen_t n = XLENGTH(group_data) - 1;
-  SEXP old_names = Rf_getAttrib(group_data, R_NamesSymbol);
+  SEXP old_names = PROTECT(Rf_getAttrib(group_data, R_NamesSymbol));
   SEXP new_names = PROTECT(Rf_allocVector(STRSXP, n));
   SEXP keys = PROTECT(Rf_allocVector(VECSXP, n));
   for (R_xlen_t i=0; i<n; i++){
@@ -31,6 +34,6 @@ SEXP dplyr_group_keys(SEXP group_data) {
   Rf_copyMostAttrib(group_data, keys);
   Rf_setAttrib(keys, R_NamesSymbol, new_names);
   Rf_setAttrib(keys, dplyr::symbols::dot_drop, R_NilValue);
-  UNPROTECT(2);
+  UNPROTECT(3);
   return keys;
 }

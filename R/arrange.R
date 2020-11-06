@@ -1,11 +1,11 @@
 #' Arrange rows by column values
 #'
 #' @description
-#' `arrange()` order the rows of a data frame rows by the values of selected
+#' `arrange()` orders the rows of a data frame by the values of selected
 #' columns.
 #'
 #' Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
-#' need to explicit mention grouping variables (or use  `by_group = TRUE`)
+#' need to explicitly mention grouping variables (or use  `.by_group = TRUE`)
 #' in order to group by them, and functions of variables are evaluated
 #' once per data frame, not once per group.
 #'
@@ -122,10 +122,27 @@ arrange_rows <- function(.data, dots, method) {
   #
   #       revisit when we have something like mutate_one() to
   #       evaluate one quosure in the data mask
-  tryCatch({
-    data <- transmute(ungroup(.data), !!!quosures)
+  data <- withCallingHandlers({
+    transmute(new_data_frame(.data), !!!quosures)
   }, error = function(cnd) {
-    stop_arrange_transmute(cnd)
+    if (inherits(cnd, "dplyr:::mutate_error")) {
+      error_name <- cnd$error_name
+      index <- sub("^.*_", "", error_name)
+      error_expression <- cnd$error_expression
+
+      bullets <- c(
+        x = glue("Could not create a temporary column for `..{index}`."),
+        i = glue("`..{index}` is `{error_expression}`.")
+      )
+    } else {
+      bullets <- c(x = conditionMessage(cnd))
+    }
+
+    abort(c(
+      "arrange() failed at implicit mutate() step. ",
+      bullets
+    ), class = "dplyr_error")
+
   })
 
   # we can't just use vec_compare_proxy(data) because we need to apply
@@ -133,8 +150,8 @@ arrange_rows <- function(.data, dots, method) {
   # and then mimic vctrs:::order_proxy
   #
   # should really be map2(quosures, directions, ...)
-  proxies <- map2(unname(data), directions, function(column, direction) {
-    proxy <- vec_proxy_compare(column, relax = TRUE)
+  proxies <- map2(data, directions, function(column, direction) {
+    proxy <- vec_proxy_order(column)
     desc <- identical(direction, "desc")
     if (is.data.frame(proxy)) {
       proxy <- order(vec_order(proxy,
