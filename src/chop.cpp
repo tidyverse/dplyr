@@ -84,10 +84,9 @@ SEXP dplyr_data_masks_setup(SEXP env_chops, SEXP data, SEXP rows) {
   const SEXP* p_names = STRING_PTR_RO(names);
   R_xlen_t n_columns = XLENGTH(data);
 
-  // create masks
+  // create dynamic mask with one active binding per column
   R_xlen_t mask_size = XLENGTH(data) + 20;
   SEXP env_bindings = PROTECT(new_environment(mask_size, R_EmptyEnv));
-
   for (R_xlen_t i = 0; i < n_columns; i++) {
     SEXP name = Rf_installChar(p_names[i]);
     add_mask_binding(name, env_bindings, env_chops);
