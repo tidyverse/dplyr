@@ -523,6 +523,8 @@ test_that("group_by() and ungroup() give meaningful error messages", {
 
     df %>% ungroup(x)
     df %>% group_by(x, y) %>% ungroup(z)
+
+    df %>% group_by(z = a + 1)
   })
 })
 

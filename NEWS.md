@@ -4,6 +4,8 @@
 
 * `relocate()` can rename columns it relocates (#5569).
 
+* `distinct()` and `group_by()` have better error messages when the mutate step fails (#5060).
+
 * Clarify that `between()` is not vectorised (#5493).
 
 * Fixed `across()` issue where data frame columns would could not be referred to
