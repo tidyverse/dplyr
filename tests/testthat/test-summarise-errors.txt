@@ -3,19 +3,19 @@ Messages about .groups=
 =======================
 
 > ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()
-Message: `summarise()` has regrouped output by 'x'. You can override with `.groups=` argument
+Message: `summarise()` has regrouped output by 'x'. You can override with `.groups=` argument.
 
 > ignored <- tibble(x = 1, y = 2) %>% group_by(x) %>% summarise()
-Message: `summarise()` has ungrouped output. You can override with `.groups=` argument
+Message: `summarise()` has ungrouped output. You can override with `.groups=` argument.
 
 > ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2, 2))
-Message: `summarise()` has regrouped output by 'x', 'y'. You can override with `.groups=` argument
+Message: `summarise()` has regrouped output by 'x', 'y'. You can override with `.groups=` argument.
 
 > ignored <- tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()
-Message: `summarise()` has regrouped output by 'x', 'y'. You can override with `.groups=` argument
+Message: `summarise()` has regrouped output by 'x', 'y'. You can override with `.groups=` argument.
 
 > ignored <- tibble(x = 1, y = 2) %>% rowwise() %>% summarise()
-Message: `summarise()` has ungrouped output. You can override with `.groups=` argument
+Message: `summarise()` has ungrouped output. You can override with `.groups=` argument.
 
 
 unsupported type
