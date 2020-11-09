@@ -52,7 +52,7 @@ test_that("doesn't expand row names", {
 })
 
 test_that("preserves existing row names", {
-  df <- data.frame(x = c(a = 1, b = 2))
+  df <- data.frame(x = c(1, 2), row.names = c("a", "b"))
   out <- dplyr_col_modify(df, list(y = 1))
   expect_equal(row.names(df), c("a", "b"))
 })

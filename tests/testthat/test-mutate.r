@@ -12,7 +12,7 @@ test_that("empty mutate returns input", {
 })
 
 test_that("rownames preserved", {
-  df <- data.frame(x = c(a = 1, b = 2))
+  df <- data.frame(x = c(1, 2), row.names = c("a", "b"))
   df <- mutate(df, y = 2)
   expect_equal(row.names(df), c("a", "b"))
 })
