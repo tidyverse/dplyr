@@ -153,18 +153,18 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
     if (n > 1) {
       if (verbose) {
         new_groups <- glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
-        summarise_inform("regrouping output by {new_groups}")
+        summarise_inform("has regrouped output by {new_groups}")
       }
       out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
     } else {
       if (verbose) {
-        summarise_inform("ungrouping output")
+        summarise_inform("has ungrouped output")
       }
     }
   } else if (identical(.groups, "keep")) {
     if (verbose) {
       new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-      summarise_inform("regrouping output by {new_groups}")
+      summarise_inform("has regrouped output by {new_groups}")
     }
     out <- grouped_df(out, group_vars, group_by_drop_default(.data))
   } else if (identical(.groups, "rowwise")) {
@@ -190,9 +190,9 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
     if (verbose) {
       if (length(group_vars)) {
         new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-        summarise_inform("regrouping output by {new_groups}")
+        summarise_inform("has regrouped output by {new_groups}")
       } else {
-        summarise_inform("ungrouping output")
+        summarise_inform("has ungrouped output")
       }
     }
     out <- grouped_df(out, group_vars)
@@ -332,6 +332,6 @@ summarise_verbose <- function(.groups, .env) {
 
 summarise_inform <- function(..., .env = parent.frame()) {
   inform(paste0(
-    "`summarise()` ", glue(..., .envir = .env), " (override with `.groups` argument)"
+    "`summarise()` ", glue(..., .envir = .env), ". You can override with `.groups=` argument"
   ))
 }
