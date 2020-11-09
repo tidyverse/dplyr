@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `mutate()` and friends preserves row names in data frames once more (#5418).
+
 * Clarify that `between()` is not vectorised (#5493).
 
 * Fixed `across()` issue where data frame columns would could not be referred to
@@ -8,7 +10,6 @@
 * `across()` handles data frames with 0 columns (#5523). 
 
 * `mutate()` always keeps grouping variables, unconditional to `.keep=` (#5582).
-* `mutate()` and friends preserves row names in data frames once more (#5418).
 
 # dplyr 1.0.2
 
