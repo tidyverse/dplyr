@@ -43,7 +43,8 @@ location of the rows in each group. You can retrieve just the grouping
 data with \code{group_data()}, and just the locations with \code{group_rows()}.
 \item \code{group_indices()} returns an integer vector the same length as \code{.data}
 that gives the group that each row belongs to (cf. \code{group_rows()} which
-returns the rows which each group contains).
+returns the rows which each group contains). \code{group_indices()} with no
+argument is deprecated, superseded by \code{\link[=cur_group_id]{cur_group_id()}}.
 \item \code{group_vars()} gives names of grouping variables as character vector;
 \code{groups()} gives the names as a list of symbols.
 \item \code{group_size()} gives the size of each group, and \code{n_groups()} gives the
@@ -58,10 +59,12 @@ df <- tibble(x = c(1,1,2,2))
 group_vars(df)
 group_rows(df)
 group_data(df)
+group_indices(df)
 
 gf <- group_by(df, x)
 group_vars(gf)
 group_rows(gf)
 group_data(gf)
+group_indices(gf)
 }
 \keyword{internal}

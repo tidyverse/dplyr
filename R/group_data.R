@@ -9,7 +9,8 @@
 #'
 #' * `group_indices()` returns an integer vector the same length as `.data`
 #'   that gives the group that each row belongs to (cf. `group_rows()` which
-#'   returns the rows which each group contains).
+#'   returns the rows which each group contains). `group_indices()` with no
+#'   argument is deprecated, superseded by [cur_group_id()].
 #'
 #' * `group_vars()` gives names of grouping variables as character vector;
 #'   `groups()` gives the names as a list of symbols.
@@ -29,11 +30,13 @@
 #' group_vars(df)
 #' group_rows(df)
 #' group_data(df)
+#' group_indices(df)
 #'
 #' gf <- group_by(df, x)
 #' group_vars(gf)
 #' group_rows(gf)
 #' group_data(gf)
+#' group_indices(gf)
 #' @export
 group_data <- function(.data) {
   UseMethod("group_data")
