@@ -292,7 +292,7 @@ slice_rows <- function(.data, ...) {
 check_constant <- function(x, name, fn) {
   withCallingHandlers(force(x), error = function(e) {
     abort(c(
-      glue("`{name}` must be constant across groups in `{fn}()`."),
+      glue("`{name}` must be a constant in `{fn}()`."),
       x = conditionMessage(e)
     ), parent = e)
   })
