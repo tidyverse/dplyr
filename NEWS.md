@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `group_by()` uses the ungrouped data for the implicit mutate step (#5598).
+
 * `relocate()` can rename columns it relocates (#5569).
 
 * Clarify that `between()` is not vectorised (#5493).
