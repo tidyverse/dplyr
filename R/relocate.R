@@ -31,6 +31,9 @@
 #' df %>% relocate(f, .before = b)
 #' df %>% relocate(a, .after = last_col())
 #'
+#' # relocated columns can change name
+#' df %>% relocate(ff = f)
+#'
 #' # Can also select variables based on their type
 #' df %>% relocate(where(is.character))
 #' df %>% relocate(where(is.numeric), .after = last_col())
@@ -48,7 +51,7 @@ relocate <- function(.data, ..., .before = NULL, .after = NULL) {
 
 #' @export
 relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
-  to_move <- unname(tidyselect::eval_select(expr(c(...)), .data))
+  to_move <- tidyselect::eval_select(expr(c(...)), .data)
 
   .before <- enquo(.before)
   .after <- enquo(.after)
@@ -70,12 +73,19 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   } else {
     where <- 1L
     if (!where %in% to_move) {
-      to_move <- union(to_move, where)
+      to_move <- c(to_move, where)
     }
   }
 
   lhs <- setdiff(seq2(1, where - 1), to_move)
   rhs <- setdiff(seq2(where + 1, ncol(.data)), to_move)
 
-  .data[vec_unique(c(lhs, to_move, rhs))]
+  pos <- vec_unique(c(lhs, to_move, rhs))
+  out <- .data[pos]
+  new_names <- names(pos)
+
+  if (!is.null(new_names)) {
+    names(out)[new_names != ""] <- new_names[new_names != ""]
+  }
+  out
 }

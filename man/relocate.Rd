@@ -48,6 +48,9 @@ df \%>\% relocate(a, .after = c)
 df \%>\% relocate(f, .before = b)
 df \%>\% relocate(a, .after = last_col())
 
+# relocated columns can change name
+df \%>\% relocate(ff = f)
+
 # Can also select variables based on their type
 df \%>\% relocate(where(is.character))
 df \%>\% relocate(where(is.numeric), .after = last_col())
