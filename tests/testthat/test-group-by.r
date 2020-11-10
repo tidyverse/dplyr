@@ -505,6 +505,14 @@ test_that("group_by() has mutate() semantics (#4984)", {
   )
 })
 
+test_that("implicit mutate() operates on ungrouped data (#5598)", {
+  vars <- tibble(x = c(1,2), y = c(3,4), z = c(5,6)) %>%
+    dplyr::group_by(y) %>%
+    dplyr::group_by(across(any_of(c('y','z')))) %>%
+    dplyr::group_vars()
+  expect_equal(vars, c("y", "z"))
+})
+
 # Errors ------------------------------------------------------------------
 
 test_that("group_by() and ungroup() give meaningful error messages", {
