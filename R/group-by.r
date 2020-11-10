@@ -150,7 +150,7 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   new_groups <- new_groups[!map_lgl(new_groups, quo_is_missing)]
 
   # If any calls, use mutate to add new columns, then group by those
-  computed_columns <- add_computed_columns(ungroup(.data), new_groups)
+  computed_columns <- add_computed_columns(ungroup(.data), new_groups, "group_by")
   out <- computed_columns$data
   group_names <- computed_columns$added_names
 
@@ -173,14 +173,23 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   )
 }
 
-add_computed_columns <- function(.data, vars) {
+add_computed_columns <- function(.data, vars, .fn = "group_by") {
   is_symbol <- map_lgl(vars, quo_is_variable_reference)
   needs_mutate <- have_name(vars) | !is_symbol
 
   if (any(needs_mutate)) {
     # TODO: use less of a hack
     if (inherits(.data, "data.frame")) {
-      cols <- mutate_cols(.data, !!!vars)
+      cols <- withCallingHandlers(
+        mutate_cols(.data, !!!vars),
+        error = function(e) {
+          abort(c(
+            glue("Problem adding computed columns in `{.fn}()`."),
+            x = e$message
+          ), parent = e)
+        }
+      )
+
       out <- dplyr_col_modify(.data, cols)
       col_names <- names(cols)
     } else {
