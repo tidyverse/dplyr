@@ -383,6 +383,9 @@ mutate_cols <- function(.data, ...) {
       i = cnd_bullet_input_info(),
       i = cnd_bullet_cur_group_label()
     ))
+
+    # cancel `w`
+    invokeRestart("muffleWarning")
   })
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
