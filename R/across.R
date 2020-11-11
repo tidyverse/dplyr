@@ -43,10 +43,10 @@
 #'   mutate(across(c(1, 2), round))
 #' iris %>%
 #'   as_tibble() %>%
-#'   mutate(across(c(1:Sepal.Width), round))
+#'   mutate(across(1:Sepal.Width, round))
 #' iris %>%
 #'   as_tibble() %>%
-#'   mutate(across(c(where(is.double), -c(Petal.Length, Petal.Width)), round))
+#'   mutate(across(where(is.double) & !c(Petal.Length, Petal.Width), round))
 #'
 #' # A purrr-style formula
 #' iris %>%
