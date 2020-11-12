@@ -11,3 +11,9 @@ x `bb` not found in `.data`.
 Error: `distinct()` must use existing variables.
 x `aa` not found in `.data`.
 
+> df %>% distinct(y = a + 1)
+Error: Problem adding computed columns in `distinct()`.
+x Problem with `mutate()` input `y`.
+x object 'a' not found
+i Input `y` is `a + 1`.
+

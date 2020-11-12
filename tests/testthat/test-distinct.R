@@ -164,5 +164,7 @@ test_that("distinct gives a warning when selecting an unknown column (#3140)", {
     df %>% distinct(aa, x)
     df %>% distinct(aa, bb)
     df %>% distinct(.data$aa)
+
+    df %>% distinct(y = a + 1)
   })
 })
