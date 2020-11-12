@@ -130,7 +130,7 @@ slice_head <- function(.data, ..., n, prop) {
 #' @export
 slice_head.data.frame <- function(.data, ..., n, prop) {
   ellipsis::check_dots_empty()
-  size <- check_slice_size(n, prop)
+  size <- check_slice_size(n, prop, "slice_head")
   idx <- switch(size$type,
     n =    function(n) seq2(1, min(size$n, n)),
     prop = function(n) seq2(1, min(size$prop * n, n))
@@ -148,7 +148,7 @@ slice_tail <- function(.data, ..., n, prop) {
 #' @export
 slice_tail.data.frame <- function(.data, ..., n, prop) {
   ellipsis::check_dots_empty()
-  size <- check_slice_size(n, prop)
+  size <- check_slice_size(n, prop, "slice_tail")
   idx <- switch(size$type,
     n =    function(n) seq2(max(n - size$n + 1, 1), n),
     prop = function(n) seq2(max(ceiling(n - size$prop * n) + 1, 1), n)
@@ -173,7 +173,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   }
 
   ellipsis::check_dots_empty()
-  size <- check_slice_size(n, prop)
+  size <- check_slice_size(n, prop, "slice_min")
   if (with_ties) {
     idx <- switch(size$type,
       n =    function(x, n) head(order(x), smaller_ranks(x, size$n)),
@@ -200,7 +200,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     abort("argument `order_by` is missing, with no default.")
   }
   ellipsis::check_dots_empty()
-  size <- check_slice_size(n, prop)
+  size <- check_slice_size(n, prop, "slice_max")
   if (with_ties) {
     idx <- switch(size$type,
       n =    function(x, n) head(
@@ -233,7 +233,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  size <- check_slice_size(n, prop)
+  size <- check_slice_size(n, prop, "slice_sample")
   ellipsis::check_dots_empty()
   idx <- switch(size$type,
     n =    function(x, n) sample_int(n, size$n, replace = replace, wt = x),
@@ -289,10 +289,20 @@ slice_rows <- function(.data, ...) {
   vec_c(!!!slice_indices, .ptype = integer())
 }
 
-check_slice_size <- function(n, prop) {
+check_constant <- function(x, name, fn) {
+  withCallingHandlers(force(x), error = function(e) {
+    abort(c(
+      glue("`{name}` must be a constant in `{fn}()`."),
+      x = conditionMessage(e)
+    ), parent = e)
+  })
+}
+
+check_slice_size <- function(n, prop, .slice_fn = "check_slice_size") {
   if (missing(n) && missing(prop)) {
     list(type = "n", n = 1L)
   } else if (!missing(n) && missing(prop)) {
+    n <- check_constant(n, "n", .slice_fn)
     if (!is.numeric(n) || length(n) != 1) {
       abort("`n` must be a single number.")
     }
@@ -302,6 +312,7 @@ check_slice_size <- function(n, prop) {
 
     list(type = "n", n = n)
   } else if (!missing(prop) && missing(n)) {
+    prop <- check_constant(prop, "prop", .slice_fn)
     if (!is.numeric(prop) || length(prop) != 1) {
       abort("`prop` must be a single number")
     }

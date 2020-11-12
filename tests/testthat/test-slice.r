@@ -253,7 +253,25 @@ test_that("slice_*() checks for empty ...", {
   expect_error(slice_tail(df, 5))
   expect_error(slice_min(df, x, 5))
   expect_error(slice_max(df, x, 5))
-  expect_error(slice_saple(df, 5))
+  expect_error(slice_sample(df, 5))
+})
+
+test_that("slice_*() checks for constant n= and prop=", {
+  df <- data.frame(x = 1:10)
+  expect_error(slice_head(df, n = n()), "constant")
+  expect_error(slice_head(df, prop = n()), "constant")
+
+  expect_error(slice_tail(df, n = n()), "constant")
+  expect_error(slice_tail(df, prop = n()), "constant")
+
+  expect_error(slice_min(df, x, n = n()), "constant")
+  expect_error(slice_min(df, x, prop = n()), "constant")
+
+  expect_error(slice_max(df, x, n = n()), "constant")
+  expect_error(slice_max(df, x, prop = n()), "constant")
+
+  expect_error(slice_sample(df, n = n()), "constant")
+  expect_error(slice_sample(df, prop = n()), "constant")
 })
 
 # Errors ------------------------------------------------------------------
@@ -276,5 +294,7 @@ test_that("rename errors with invalid grouped data frame (#640)", {
     check_slice_size(prop = "a")
     check_slice_size(n = -1)
     check_slice_size(prop = -1)
+    check_slice_size(n = n())
+    check_slice_size(prop = n())
   })
 })
