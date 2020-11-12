@@ -332,6 +332,6 @@ summarise_verbose <- function(.groups, .env) {
 
 summarise_inform <- function(..., .env = parent.frame()) {
   inform(paste0(
-    "`summarise()` ", glue(..., .envir = .env), '. You can override with (e.g.) `.groups = "drop"`.'
+    "`summarise()` ", glue(..., .envir = .env), '. You can override using the `.groups` argument.'
   ))
 }
