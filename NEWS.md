@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `mutate()` and friends preserves row names in data frames once more (#5418).
+
 * `group_by()` uses the ungrouped data for the implicit mutate step (#5598).
 
 * `relocate()` can rename columns it relocates (#5569).
