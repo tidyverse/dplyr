@@ -67,8 +67,8 @@
 #'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
 #' @param keep Should the join keys from both `x` and `y` be preserved in the
-#'   output? Only applies to `nest_join()`, `left_join()`, `right_join()`, and
-#'   `full_join()`.
+#'   output? Only applies to `nest_join()`, `inner_join()`, `left_join()`,
+#'   `right_join()`, and `full_join()`.
 #' @param ... Other parameters passed onto methods.
 #' @param na_matches Should `NA` and `NaN` values match one another?
 #'
@@ -116,7 +116,7 @@ NULL
 
 #' @export
 #' @rdname mutate-joins
-inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
   UseMethod("inner_join")
 }
 
@@ -124,10 +124,11 @@ inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..
 #' @rdname mutate-joins
 inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                                   suffix = c(".x", ".y"), ...,
+                                  keep = FALSE,
                                   na_matches = c("na", "never")) {
 
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches)
+  join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches, keep = keep)
 }
 
 #' @export

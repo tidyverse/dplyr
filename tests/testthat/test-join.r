@@ -111,6 +111,22 @@ test_that("when keep = TRUE, full_join() preserves both sets of keys", {
   expect_equal(out$a.y, c(NA, 3, 4))
 })
 
+test_that("when keep = TRUE, inner_join() preserves both sets of keys (#5581)", {
+  # when keys have different names
+  df1 <- tibble(a = c(2, 3), b = c(1, 2))
+  df2 <- tibble(x = c(3, 4), y = c(3, 4))
+  out <- inner_join(df1, df2, by = c("a" = "x"), keep = TRUE)
+  expect_equal(out$a, c(3))
+  expect_equal(out$x, c(3))
+
+  # when keys have same name
+  df1 <- tibble(a = c(2, 3), b = c(1, 2))
+  df2 <- tibble(a = c(3, 4), y = c(3, 4))
+  out <- inner_join(df1, df2, by = c("a"), keep = TRUE)
+  expect_equal(out$a.x, c(3))
+  expect_equal(out$a.y, c(3))
+})
+
 test_that("joins matches NAs by default (#892, #2033)", {
   df1 <- tibble(x = c(NA_character_, 1))
   df2 <- tibble(x = c(NA_character_, 2))
