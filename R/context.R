@@ -96,9 +96,9 @@ group_labels_details <- function(keys) {
 cur_group_label <- function() {
   mask <- peek_mask("cur_group_label()")
   data <- mask$full_data()
-  if (is_grouped_df(data)) {
-    paste0("group ", cur_group_id(), ": ", group_labels_details(cur_group()))
-  } else if (inherits(data, "rowwise_df")) {
+  if(is_grouped_df(data) && nrow(data) > 0) {
+    glue("group {id}: {label}", id = cur_group_id(), label = group_labels_details(cur_group()))
+  } else if (inherits(data, "rowwise_df") && nrow(data) > 0) {
     paste0("row ", cur_group_id())
   } else {
     ""
