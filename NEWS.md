@@ -1,9 +1,10 @@
 # dplyr (development version)
 
-* `mutate()` and friends preserves row names in data frames once more (#5418).
 * Removed default fallbacks to lazyeval methods; this will yield better error messages when 
   you call a dplyr function with the wrong input, and is part of our long term 
-  plan to remove the deprecate lazyeval interface. 
+  plan to remove the deprecated lazyeval interface. 
+
+* `mutate()` and friends preserves row names in data frames once more (#5418).
 
 * `group_by()` uses the ungrouped data for the implicit mutate step (#5598).
 
