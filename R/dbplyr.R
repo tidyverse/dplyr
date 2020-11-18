@@ -40,6 +40,7 @@
 #'  backend to throw an error if a table exists when it shouldn't.
 #' @name backend_dbplyr
 #' @param con A database connection.
+#' @param ... Arguments passed to other methods.
 #' @keywords internal
 NULL
 
@@ -53,7 +54,7 @@ sql_translate_env <- function(con) UseMethod("sql_translate_env")
 
 #' @name backend_dbplyr
 #' @export
-db_list_tables <- function(con) UseMethod("db_list_tables")
+db_list_tables <- function(con, ...) UseMethod("db_list_tables")
 
 #' @name backend_dbplyr
 #' @export
