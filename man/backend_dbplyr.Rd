@@ -34,7 +34,7 @@ db_desc(x)
 
 sql_translate_env(con)
 
-db_list_tables(con)
+db_list_tables(con, ...)
 
 db_has_table(con, table)
 
@@ -95,6 +95,8 @@ sql_escape_ident(con, x)
 }
 \arguments{
 \item{con}{A database connection.}
+
+\item{...}{Arguments passed to other methods.}
 
 \item{table}{A string, the table name.}
 
