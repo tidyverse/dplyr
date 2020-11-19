@@ -20,7 +20,7 @@ incompatible column type
 
 > tibble(x = 1) %>% mutate(y = mean)
 Error: Problem with `mutate()` input `y`.
-x Column `mean` not found
+x Input `y` must be a vector, not a function.
 i Input `y` is `mean`.
 
 
@@ -41,8 +41,9 @@ i The error occurred in group 1: g = 1.
 
 > df %>% rowwise() %>% mutate(out = rnorm)
 Error: Problem with `mutate()` input `out`.
-x Column `rnorm` not found
+x Input `out` must be a vector, not a function.
 i Input `out` is `rnorm`.
+i Did you mean: `out = list(rnorm)` ?
 i The error occurred in row 1.
 
 

@@ -266,7 +266,11 @@ mutate_cols <- function(.data, ...) {
           # so that this can be intercepted by e.g. arrange()
           chunks <- withCallingHandlers(
             mask$eval_all_mutate(dots[[i]]), error = function(e) {
-              abort(glue("Column `{name}` not found"), class = "dplyr:::mutate_column_not_found")
+              if (grepl("not found", conditionMessage(e))) {
+                abort(glue("Column `{name}` not found"), class = "dplyr:::mutate_column_not_found")
+              } else {
+                stop(e)
+              }
             }
           )
         }
