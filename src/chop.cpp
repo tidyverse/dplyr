@@ -122,8 +122,9 @@ SEXP env_resolved(SEXP env, SEXP names) {
   const SEXP* p_names = STRING_PTR_RO(names);
 
   for(R_xlen_t i = 0; i < n; i++) {
-    SEXP prom = Rf_findVarInFrame(env, dplyr::as_symbol(p_names[i]));
+    SEXP prom = PROTECT(Rf_findVarInFrame(env, dplyr::as_symbol(p_names[i])));
     p_res[i] = PRVALUE(prom) != R_UnboundValue;
+    UNPROTECT(1);
   }
 
   Rf_namesgets(res, names);

@@ -122,8 +122,9 @@ public:
   end(end_)
   {
     SEXP fac = data[depth_];
-    SEXP levels = Rf_getAttrib(fac, dplyr::symbols::levels);
+    SEXP levels = PROTECT(Rf_getAttrib(fac, dplyr::symbols::levels));
     R_xlen_t n_levels = XLENGTH(levels);
+    UNPROTECT(1);
 
     expanders.resize(n_levels);
 
@@ -271,20 +272,26 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds) {
     return Rf_mkString("not a `grouped_df` object.");
   }
 
-  SEXP groups = Rf_getAttrib(df, dplyr::symbols::groups);
+  SEXP groups = PROTECT(Rf_getAttrib(df, dplyr::symbols::groups));
 
   if (!Rf_inherits(groups, "data.frame") || XLENGTH(groups) < 1) {
-    return Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    SEXP out = Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    UNPROTECT(1);
+    return out;
   }
 
-  SEXP groups_names = Rf_getAttrib(groups, R_NamesSymbol);
+  SEXP groups_names = PROTECT(Rf_getAttrib(groups, R_NamesSymbol));
   if (Rf_isNull(groups_names) || TYPEOF(groups_names) != STRSXP || ::strcmp(CHAR(STRING_ELT(groups_names, XLENGTH(groups_names) - 1)), ".rows")) {
-    return Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    SEXP out = Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    UNPROTECT(2);
+    return out;
   }
 
   SEXP dot_rows = VECTOR_ELT(groups, XLENGTH(groups) - 1);
   if (TYPEOF(dot_rows) != VECSXP) {
-    return Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    SEXP out = Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    UNPROTECT(2);
+    return out;
   }
   const SEXP* p_dot_rows = VECTOR_PTR_RO(dot_rows);
 
@@ -293,7 +300,9 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds) {
     for (R_xlen_t i = 0; i < nr; i++) {
       SEXP rows_i = p_dot_rows[i];
       if (TYPEOF(rows_i) != INTSXP) {
-        return Rf_mkString("`.rows` column is not a list of one-based integer vectors.");
+        SEXP out = Rf_mkString("`.rows` column is not a list of one-based integer vectors.");
+        UNPROTECT(2);
+        return out;
       }
     }
 
@@ -304,12 +313,15 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds) {
       int* p_rows_i = INTEGER(rows_i);
       for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i) {
         if (*p_rows_i < 1 || *p_rows_i > nr_df) {
-          return Rf_mkString("out of bounds indices.");
+          SEXP out = Rf_mkString("out of bounds indices.");
+          UNPROTECT(2);
+          return out;
         }
       }
     }
 
   }
 
+  UNPROTECT(2);
   return R_NilValue;
 }
