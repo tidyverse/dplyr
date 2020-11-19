@@ -8,13 +8,13 @@ SEXP as_utf8(SEXP s) {
 }
 
 R_xlen_t find_first(SEXP haystack, SEXP needle) {
-  needle = as_utf8(needle);
+  SEXP needle_utf8 = PROTECT(as_utf8(needle));
   R_xlen_t n = XLENGTH(haystack);
   R_xlen_t i_name = 0;
   for (; i_name < n; i_name++) {
-    if (needle == as_utf8(STRING_ELT(haystack, i_name))) break;
+    if (needle_utf8 == as_utf8(STRING_ELT(haystack, i_name))) break;
   }
-
+  UNPROTECT(1);
   return i_name;
 }
 
