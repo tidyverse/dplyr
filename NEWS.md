@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Improved performance with many columns, with a dynamic data mask using active
+  bindings and lazy chops (#5017). 
+
 * `mutate()` and friends preserves row names in data frames once more (#5418).
 
 * `group_by()` uses the ungrouped data for the implicit mutate step (#5598).
@@ -7,8 +10,6 @@
 * `relocate()` can rename columns it relocates (#5569).
 
 * `distinct()` and `group_by()` have better error messages when the mutate step fails (#5060).
-* Improved performance with many columns, with a dynamic data mask using active
-  bindings and lazy chops (#5017). 
 
 * Clarify that `between()` is not vectorised (#5493).
 
