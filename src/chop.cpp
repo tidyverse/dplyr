@@ -1,6 +1,8 @@
 #include "dplyr.h"
 
 namespace dplyr {
+
+// TODO: replace it with using the callable r_str_as_symbol() from rlang when available.
 SEXP as_symbol(SEXP str) {
   const char* str_native = Rf_translateChar(str);
 
