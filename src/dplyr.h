@@ -27,6 +27,8 @@
 
 namespace dplyr {
 
+SEXP as_symbol(SEXP str);
+
 struct envs {
   static SEXP ns_dplyr;
   static SEXP ns_vctrs;

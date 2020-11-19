@@ -1,5 +1,19 @@
 #include "dplyr.h"
 
+namespace dplyr {
+
+// TODO: replace it with using the callable r_str_as_symbol() from rlang when available.
+SEXP as_symbol(SEXP str) {
+  const char* str_native = Rf_translateChar(str);
+
+  if (str_native == CHAR(str)) {
+    return Rf_installChar(str);
+  } else {
+    return Rf_install(str_native);
+  }
+}
+}
+
 SEXP new_environment(int size, SEXP parent)  {
   SEXP call = PROTECT(Rf_lang4(dplyr::symbols::new_env, Rf_ScalarLogical(TRUE), parent, Rf_ScalarInteger(size)));
   SEXP res = Rf_eval(call, R_BaseEnv);
@@ -24,7 +38,7 @@ void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool roww
     }
     SET_PRVALUE(prom, R_UnboundValue);
 
-    Rf_defineVar(Rf_installChar(p_names[i]), prom, chops_env);
+    Rf_defineVar(dplyr::as_symbol(p_names[i]), prom, chops_env);
     UNPROTECT(1);
   }
 
@@ -43,7 +57,8 @@ void dplyr_lazy_vec_chop_ungrouped(SEXP chops_env, SEXP data) {
     SET_PRCODE(prom, Rf_lang2(dplyr::functions::list, p_data[i]));
     SET_PRVALUE(prom, R_UnboundValue);
 
-    Rf_defineVar(Rf_installChar(p_names[i]), prom, chops_env);
+    SEXP symb = dplyr::as_symbol(p_names[i]);
+    Rf_defineVar(symb, prom, chops_env);
     UNPROTECT(1);
   }
 
@@ -88,7 +103,7 @@ SEXP dplyr_data_masks_setup(SEXP env_chops, SEXP data, SEXP rows) {
   R_xlen_t mask_size = XLENGTH(data) + 20;
   SEXP env_bindings = PROTECT(new_environment(mask_size, R_EmptyEnv));
   for (R_xlen_t i = 0; i < n_columns; i++) {
-    SEXP name = Rf_installChar(p_names[i]);
+    SEXP name = dplyr::as_symbol(p_names[i]);
     add_mask_binding(name, env_bindings, env_chops);
   }
   SEXP mask = PROTECT(rlang::new_data_mask(env_bindings, R_NilValue));
@@ -107,7 +122,7 @@ SEXP env_resolved(SEXP env, SEXP names) {
   const SEXP* p_names = STRING_PTR_RO(names);
 
   for(R_xlen_t i = 0; i < n; i++) {
-    SEXP prom = Rf_findVarInFrame(env, Rf_installChar(p_names[i]));
+    SEXP prom = Rf_findVarInFrame(env, dplyr::as_symbol(p_names[i]));
     p_res[i] = PRVALUE(prom) != R_UnboundValue;
   }
 
