@@ -424,6 +424,11 @@ test_that("mutate() deals with 0 groups (#5534)", {
   )
 })
 
+test_that("mutate(=NULL) preserves correct all_vars", {
+  df <- data.frame(x = 1, y = 2) %>% mutate(x = NULL, vars = cur_data_all()) %>% pull()
+  expect_equal(df, tibble(y = 2))
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {

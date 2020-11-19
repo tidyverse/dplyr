@@ -5,6 +5,7 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
+#include <Rversion.h>
 
 #define UTF8_MASK (1<<3)
 #define ASCII_MASK (1<<6)
@@ -12,27 +13,47 @@
 #define IS_ASCII(x) (LEVELS(x) & ASCII_MASK)
 #define IS_UTF8(x) (LEVELS(x) & UTF8_MASK)
 
+#if (R_VERSION < R_Version(3, 5, 0))
+# define LOGICAL_RO(x) ((const int*) LOGICAL(x))
+# define INTEGER_RO(x) ((const int*) INTEGER(x))
+# define REAL_RO(x) ((const double*) REAL(x))
+# define COMPLEX_RO(x) ((const Rcomplex*) COMPLEX(x))
+# define STRING_PTR_RO(x) ((const SEXP*) STRING_PTR(x))
+# define RAW_RO(x) ((const Rbyte*) RAW(x))
+# define DATAPTR_RO(x) ((const void*) STRING_PTR(x))
+#endif
+
+#define VECTOR_PTR_RO(x) ((const SEXP*) DATAPTR_RO(x))
+
 namespace dplyr {
+
+SEXP as_symbol(SEXP str);
 
 struct envs {
   static SEXP ns_dplyr;
+  static SEXP ns_vctrs;
+  static SEXP ns_rlang;
 };
 
 struct symbols {
   static SEXP groups;
   static SEXP levels;
   static SEXP ptype;
-  static SEXP current_group;
+  static SEXP dot_current_group;
   static SEXP current_expression;
   static SEXP rows;
-  static SEXP mask;
   static SEXP caller;
-  static SEXP resolved;
-  static SEXP bindings;
-  static SEXP which_used;
+  static SEXP all_vars;
   static SEXP dot_drop;
   static SEXP abort_glue;
-  static SEXP used;
+  static SEXP dot_indices;
+  static SEXP chops;
+  static SEXP mask;
+  static SEXP rm;
+  static SEXP envir;
+  static SEXP vec_is_list;
+  static SEXP new_env;
+  static SEXP dot_data;
 };
 
 struct vectors {
@@ -43,16 +64,33 @@ struct vectors {
   static SEXP names_summarise_recycle_chunks;
 };
 
+struct functions {
+  static SEXP vec_chop;
+  static SEXP dot_subset2;
+  static SEXP list;
+  static SEXP function;
+};
+
 } // namespace dplyr
 
 namespace rlang {
 SEXP eval_tidy(SEXP expr, SEXP data, SEXP env);
+SEXP as_data_pronoun(SEXP x);
+SEXP new_data_mask(SEXP bottom, SEXP top);
 }
 
 namespace vctrs {
 bool vec_is_vector(SEXP x) ;
 R_len_t short_vec_size(SEXP x) ;
 SEXP short_vec_recycle(SEXP x, R_len_t n);
+
+inline bool vec_is_list(SEXP x) {
+  SEXP call = PROTECT(Rf_lang2(dplyr::symbols::vec_is_list, x));
+  SEXP res = Rf_eval(call, dplyr::envs::ns_vctrs);
+  UNPROTECT(1);
+  return LOGICAL(res)[0];
+}
+
 }
 
 SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr);
@@ -70,36 +108,26 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes);
 SEXP dplyr_group_indices(SEXP data, SEXP rows);
 SEXP dplyr_group_keys(SEXP group_data);
 
-SEXP dplyr_mask_set(SEXP env_private, SEXP s_name, SEXP chunks);
+SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name);
 SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks);
 
-#define DPLYR_MASK_INIT()                                                          \
-SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));         \
-R_xlen_t ngroups = XLENGTH(rows);                                                  \
-SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));         \
-SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));     \
-SEXP bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::bindings)); \
-SEXP current_group = PROTECT(Rf_ScalarInteger(NA_INTEGER));                        \
-Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);           \
+SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows);
+SEXP dplyr_data_masks_setup(SEXP chops, SEXP data, SEXP rows);
+SEXP env_resolved(SEXP env, SEXP names);
+void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops);
+
+#define DPLYR_MASK_INIT()                                                                    \
+SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                   \
+R_xlen_t ngroups = XLENGTH(rows);                                                            \
+SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));               \
+SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));                   \
+SEXP chops_env = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));               \
+SEXP current_group = PROTECT(Rf_findVarInFrame(ENCLOS(chops_env), dplyr::symbols::dot_current_group)) ;\
 int* p_current_group = INTEGER(current_group)
 
-#define DPLYR_MASK_FINALISE()                                  \
-                                                               \
-UNPROTECT(5);
+#define DPLYR_MASK_FINALISE() UNPROTECT(5)
 
-#define DPLYR_MASK_SET_GROUP(INDEX)                                                   \
-*p_current_group = INDEX + 1;                                                         \
-SEXP resolved = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::resolved));    \
-SEXP which_used = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::which_used));\
-int* p_which_used = INTEGER(which_used);                                              \
-SEXP names_resolved = PROTECT(Rf_getAttrib(resolved, R_NamesSymbol));                 \
-R_xlen_t n_resolved = XLENGTH(which_used);                                            \
-for (R_xlen_t i_resolved = 0; i_resolved < n_resolved; i_resolved++) {                \
-  int idx_promise = p_which_used[i_resolved] - 1;                                     \
-  SEXP name_idx = Rf_installChar(STRING_ELT(names_resolved, idx_promise));            \
-  Rf_defineVar(name_idx, VECTOR_ELT(VECTOR_ELT(resolved, idx_promise), i), bindings); \
-}                                                                                     \
-UNPROTECT(3)
+#define DPLYR_MASK_SET_GROUP(INDEX) *p_current_group = INDEX + 1
 
 #define DPLYR_MASK_EVAL(quo) rlang::eval_tidy(quo, mask, caller)
 

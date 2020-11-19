@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Improved performance with many columns, with a dynamic data mask using active
+  bindings and lazy chops (#5017). 
+
 * `mutate()` and friends preserves row names in data frames once more (#5418).
 
 * `group_by()` uses the ungrouped data for the implicit mutate step (#5598).
