@@ -270,6 +270,7 @@ summarise_cols <- function(.data, ...) {
 
   },
   error = function(e) {
+    shiny_error_bypass(e)
     local_call_step(dots = dots, .index = i, .fn = "summarise",
       .dot_data = inherits(e, "rlang_error_data_pronoun_not_found")
     )

@@ -88,3 +88,8 @@ abort_glue <- function(message, .envir = parent.frame(), class = NULL) {
   }
 }
 
+shiny_error_bypass <- function(e) {
+  if (inherits(e, "shiny.silent.error")) {
+    stop(e)
+  }
+}

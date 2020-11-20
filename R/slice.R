@@ -292,6 +292,7 @@ slice_rows <- function(.data, ...) {
 
 check_constant <- function(x, name, fn) {
   withCallingHandlers(force(x), error = function(e) {
+    shiny_error_bypass(e)
     abort(c(
       glue("`{name}` must be a constant in `{fn}()`."),
       x = conditionMessage(e)
