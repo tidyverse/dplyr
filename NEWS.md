@@ -5,7 +5,9 @@
 
 * `mutate()` and friends preserves row names in data frames once more (#5418).
 
-* `group_by()` uses the ungrouped data for the implicit mutate step (#5598).
+* `group_by()` uses the ungrouped data for the implicit mutate step (#5598). 
+  You might have to define an `ungroup()` method for custom classes.
+  For example, see https://github.com/hadley/cubelyr/pull/3. 
 
 * `relocate()` can rename columns it relocates (#5569).
 
