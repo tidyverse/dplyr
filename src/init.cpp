@@ -73,10 +73,17 @@ SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs, SEXP ns_rlang) {
   dplyr::envs::ns_dplyr = ns_dplyr;
   dplyr::envs::ns_vctrs = ns_vctrs;
   dplyr::envs::ns_rlang = ns_rlang;
-  dplyr::functions::vec_chop = Rf_findVarInFrame(ns_vctrs, Rf_install("vec_chop"));
-  dplyr::functions::dot_subset2 = Rf_findVarInFrame(R_BaseEnv, Rf_install(".subset2"));
-  dplyr::functions::list = Rf_findVarInFrame(R_BaseEnv, Rf_install("list"));
-  dplyr::functions::function = Rf_eval(Rf_install("function"), R_BaseEnv);
+  dplyr::functions::vec_chop = PROTECT(Rf_findVarInFrame(ns_vctrs, Rf_install("vec_chop")));
+  dplyr::functions::dot_subset2 = PROTECT(Rf_findVarInFrame(R_BaseEnv, Rf_install(".subset2")));
+  dplyr::functions::list = PROTECT(Rf_findVarInFrame(R_BaseEnv, Rf_install("list")));
+  dplyr::functions::function = PROTECT(Rf_eval(Rf_install("function"), R_BaseEnv));
+
+  R_PreserveObject(dplyr::functions::vec_chop);
+  R_PreserveObject(dplyr::functions::dot_subset2);
+  R_PreserveObject(dplyr::functions::list);
+  R_PreserveObject(dplyr::functions::function);
+
+  UNPROTECT(4);
 
   return R_NilValue;
 }
