@@ -1,69 +1,64 @@
-# jstor
+# cubelyr
 
 <details>
 
-* Version: 0.3.9
-* Source code: https://github.com/cran/jstor
-* URL: https://github.com/ropensci/jstor, https://docs.ropensci.org/jstor
-* BugReports: https://github.com/ropensci/jstor/issues
-* Date/Publication: 2020-06-04 04:50:03 UTC
-* Number of recursive dependencies: 69
+* Version: 1.0.0
+* GitHub: https://github.com/hadley/cubelyr
+* Source code: https://github.com/cran/cubelyr
+* Date/Publication: 2020-02-29 13:00:02 UTC
+* Number of recursive dependencies: 48
 
-Run `cloud_details(, "jstor")` for more info
+Run `cloud_details(, "cubelyr")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking tests ... ERROR
+*   checking examples ... ERROR
     ```
-      Running ‘testthat.R’
+    ...
+    D: long [dbl, 24]
+    D: month [int, 12]
+    D: year [int, 1]
+    M: cloudhigh [dbl[,24,12,1]]
+    M: cloudlow [dbl[,24,12,1]]
+    M: cloudmid [dbl[,24,12,1]]
+    M: ozone [dbl[,24,12,1]]
+    M: pressure [dbl[,24,12,1]]
+    M: surftemp [dbl[,24,12,1]]
+    M: temperature [dbl[,24,12,1]]
+    > # Each component can only refer to one dimensions, ensuring that you always
+    > # create a rectangular subset
+    > ## Not run: filter(nasa, lat > long)
+    > 
+    > # Arrange is meaningless for tbl_cubes
+    > 
+    > by_loc <- group_by(nasa, lat, long)
+    Error in UseMethod("ungroup") : 
+      no applicable method for 'ungroup' applied to an object of class "tbl_cube"
+    Calls: group_by ... group_by.tbl_cube -> <Anonymous> -> add_computed_columns -> ungroup
+    Execution halted
     ```
-
-# ralger
-
-<details>
-
-* Version: 2.0.1
-* Source code: https://github.com/cran/ralger
-* URL: https://github.com/feddelegrand7/ralger
-* BugReports: https://github.com/feddelegrand7/ralger/issues
-* Date/Publication: 2020-07-24 04:10:02 UTC
-* Number of recursive dependencies: 65
-
-Run `cloud_details(, "ralger")` for more info
-
-</details>
-
-## Newly broken
 
 *   checking tests ... ERROR
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      
-      x[214]: "Dead Poets Society"
-      y[214]: "The Wages of Fear"
-      
-      ── 2. Failure: tidy_scrap() function (@test-tidy_scrap.R#3)  ───────────────────
-      tidy_scrap(...) not equal to `%>%`(...).
-      Component "value": 2 string mismatches
+      Backtrace:
+          █
+       1. ├─dplyr::group_by(nasa, month) test-cube.R:121:2
+       2. └─cubelyr:::group_by.tbl_cube(nasa, month)
+       3.   └─dplyr::group_by_prepare(.data, ...)
+       4.     ├─dplyr:::add_computed_columns(ungroup(.data), new_groups, "group_by")
+       5.     └─dplyr::ungroup(.data)
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      [ OK: 2 | SKIPPED: 0 | WARNINGS: 1 | FAILED: 2 ]
-      1. Failure: scrap() function (@test-scrap.R#4) 
-      2. Failure: tidy_scrap() function (@test-tidy_scrap.R#3) 
+      ERROR (test-cube.R:94:3): summarise works with single group
+      ERROR (test-cube.R:121:3): group_vars() returns variables
       
-      Error: testthat unit tests failed
+      [ FAIL 2 | WARN 0 | SKIP 0 | PASS 26 ]
+      Error: Test failures
       Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘testthat’
-      All declared Imports should be used.
     ```
 
