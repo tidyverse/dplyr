@@ -223,6 +223,7 @@ transmute.data.frame <- function(.data, ...) {
 mutate_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
   on.exit(mask$forget("mutate"), add = TRUE)
+
   rows <- mask$get_rows()
 
   dots <- enquos(...)
@@ -254,7 +255,7 @@ mutate_cols <- function(.data, ...) {
         if (name %in% names(new_columns)) {
           # already have result and chunks
           result <- new_columns[[name]]
-          chunks <- mask$get_resolved(name)
+          chunks <- mask$resolve(name)
         } else if (name %in% names(.data)) {
           # column from the original data
           result <- .data[[name]]
@@ -383,6 +384,9 @@ mutate_cols <- function(.data, ...) {
       i = cnd_bullet_input_info(),
       i = cnd_bullet_cur_group_label()
     ))
+
+    # cancel `w`
+    invokeRestart("muffleWarning")
   })
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")

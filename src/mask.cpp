@@ -8,13 +8,13 @@ SEXP as_utf8(SEXP s) {
 }
 
 R_xlen_t find_first(SEXP haystack, SEXP needle) {
-  needle = as_utf8(needle);
+  SEXP needle_utf8 = PROTECT(as_utf8(needle));
   R_xlen_t n = XLENGTH(haystack);
   R_xlen_t i_name = 0;
   for (; i_name < n; i_name++) {
-    if (needle == as_utf8(STRING_ELT(haystack, i_name))) break;
+    if (needle_utf8 == as_utf8(STRING_ELT(haystack, i_name))) break;
   }
-
+  UNPROTECT(1);
   return i_name;
 }
 
@@ -35,93 +35,81 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   SEXP name = STRING_ELT(s_name, 0);
 
   // we assume control over these
-  SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);
-  SEXP names_resolved = PROTECT(Rf_getAttrib(resolved, R_NamesSymbol));
-  SEXP used = Rf_findVarInFrame(env_private, dplyr::symbols::used);
-  SEXP which_used = Rf_findVarInFrame(env_private, dplyr::symbols::which_used);
+  SEXP all_vars = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::all_vars));
 
   // search for position of name
-  R_xlen_t n = XLENGTH(names_resolved);
-  R_xlen_t i_name = find_first(names_resolved, name);
+  R_xlen_t n = XLENGTH(all_vars);
+  R_xlen_t i_name = find_first(all_vars, name);
 
-  int* p_used = LOGICAL(used);
   bool is_new_column = i_name == n;
   if (is_new_column) {
-    SEXP new_used = PROTECT(Rf_allocVector(LGLSXP, n + 1));
-    SEXP new_resolved = PROTECT(Rf_allocVector(VECSXP, n + 1));
-    SEXP new_names_resolved = PROTECT(Rf_allocVector(STRSXP, n + 1));
-    int* p_new_used = LOGICAL(new_used);
+    SEXP new_all_vars = PROTECT(Rf_allocVector(STRSXP, n + 1));
 
     for (R_xlen_t i = 0; i < n; i++) {
-      SET_VECTOR_ELT(new_resolved, i, VECTOR_ELT(resolved, i));
-      SET_STRING_ELT(new_names_resolved, i, STRING_ELT(names_resolved, i));
-      p_new_used[i] = p_used[i];
+      SET_STRING_ELT(new_all_vars, i, STRING_ELT(all_vars, i));
     }
-    SET_VECTOR_ELT(new_resolved, n, chunks);
-    SET_STRING_ELT(new_names_resolved, n, name);
-    p_new_used[n] = TRUE;
+    SET_STRING_ELT(new_all_vars, n, name);
 
-    SEXP new_which_used = PROTECT(integers_append(which_used, n + 1));
+    Rf_defineVar(dplyr::symbols::all_vars, new_all_vars, env_private);
 
-    Rf_namesgets(new_resolved, new_names_resolved);
-    Rf_defineVar(dplyr::symbols::resolved, new_resolved, env_private);
-    Rf_defineVar(dplyr::symbols::used, new_used, env_private);
-    Rf_defineVar(dplyr::symbols::which_used, new_which_used, env_private);
-
-    UNPROTECT(4);
-  } else {
-    SET_VECTOR_ELT(resolved, i_name, chunks);
-    p_used[i_name] = TRUE;
-
-    SEXP new_which_used = PROTECT(integers_append(which_used, i_name + 1));
-    Rf_defineVar(dplyr::symbols::which_used, new_which_used, env_private);
     UNPROTECT(1);
   }
-  UNPROTECT(1); // names_resolved
+
+  SEXP sym_name = dplyr::as_symbol(name);
+  SEXP chops = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));
+  Rf_defineVar(sym_name, chunks, chops);
+
+  SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
+  add_mask_binding(sym_name, ENCLOS(mask), chops);
+
+  UNPROTECT(3);
   return R_NilValue;
 }
 
-SEXP dplyr_mask_set(SEXP env_private, SEXP s_name, SEXP chunks) {
+//  no C-api for rm() so callback to R :shrug:
+SEXP get_rm_call() {
+  SEXP rm_call = PROTECT(Rf_lang3(dplyr::symbols::rm, R_NilValue, R_NilValue));
+  SET_TAG(CDDR(rm_call), dplyr::symbols::envir);
+  R_PreserveObject(rm_call);
+  UNPROTECT(1);
+  return rm_call;
+}
+
+void rm(SEXP name, SEXP env) {
+  static SEXP rm_call = get_rm_call();
+  SETCADR(rm_call, name);
+  SETCADDR(rm_call, env);
+  Rf_eval(rm_call, R_BaseEnv);
+}
+
+SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name) {
   SEXP name = STRING_ELT(s_name, 0);
 
-  // we assume control over these
-  SEXP resolved = Rf_findVarInFrame(env_private, dplyr::symbols::resolved);
-  SEXP names_resolved = PROTECT(Rf_getAttrib(resolved, R_NamesSymbol));
-  SEXP used = Rf_findVarInFrame(env_private, dplyr::symbols::used);
+  SEXP all_vars = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::all_vars));
 
   // search for position of name
-  R_xlen_t n = XLENGTH(names_resolved);
-  R_xlen_t i_name = find_first(names_resolved, name);
-  UNPROTECT(1); // names_resolved
+  R_xlen_t n = XLENGTH(all_vars);
+  R_xlen_t i_name = find_first(all_vars, name);
 
-  if (i_name == n && chunks == R_NilValue) {
-    // early return, as this is removing a resolved that wasn't
-    // so it does nothing
-    return R_NilValue;
-  }
-
-  // update used
-  LOGICAL(used)[i_name] = chunks != R_NilValue;
-  SET_VECTOR_ELT(resolved, i_name, chunks);
-
-  // count how many are used
-  int* p_used = LOGICAL(used);
-  R_xlen_t n_used = 0;
-  for (R_xlen_t i = 0; i < n; i++, ++p_used) {
-    n_used += *p_used;
-  }
-
-  // update which_used
-  SEXP which_used = PROTECT(Rf_allocVector(INTSXP, n_used));
-  int* p_which_used = INTEGER(which_used);
-  p_used = LOGICAL(used);
-  for (R_xlen_t i = 0, j = 0; i < n; i++) {
-    if (p_used[i]) {
-      p_which_used[j++] = i + 1;
+  if (i_name != n) {
+    // all_vars <- setdiff(all_vars, name)
+    SEXP new_all_vars = PROTECT(Rf_allocVector(STRSXP, n - 1));
+    for (R_xlen_t i = 0, j = 0; i < n; i++) {
+      if (i == i_name) continue;
+      SET_STRING_ELT(new_all_vars, j++, STRING_ELT(all_vars, i));
     }
-  }
-  Rf_defineVar(dplyr::symbols::which_used, which_used, env_private);
+    Rf_defineVar(dplyr::symbols::all_vars, new_all_vars, env_private);
 
-  UNPROTECT(1); // which_used
+    SEXP chops = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));
+    SEXP sym_name = dplyr::as_symbol(name);
+    rm(sym_name, chops);
+
+    SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
+    rm(sym_name, ENCLOS(mask));
+
+    UNPROTECT(3);
+  }
+
+  UNPROTECT(1);
   return R_NilValue;
 }

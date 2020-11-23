@@ -409,6 +409,26 @@ test_that("dplyr data mask can become obsolete", {
   expect_error(eval_tidy(res$y[[1]]))
 })
 
+test_that("mutate() deals with 0 groups (#5534)", {
+  df <- data.frame(x = numeric()) %>%
+    group_by(x)
+
+  expect_equal(
+    mutate(df, y = x + 1),
+    data.frame(x = numeric(), y = numeric()) %>% group_by(x)
+  )
+
+  expect_warning(
+    mutate(df, y = max(x)),
+    "Inf"
+  )
+})
+
+test_that("mutate(=NULL) preserves correct all_vars", {
+  df <- data.frame(x = 1, y = 2) %>% mutate(x = NULL, vars = cur_data_all()) %>% pull()
+  expect_equal(df, tibble(y = 2))
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {
