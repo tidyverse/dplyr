@@ -28,7 +28,7 @@ URL: https://dplyr.tidyverse.org,
     https://github.com/tidyverse/dplyr
 BugReports: https://github.com/tidyverse/dplyr/issues
 Depends: 
-    R (>= 3.2.0)
+    R (>= 3.3.0)
 Imports: 
     ellipsis,
     generics,
