@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `inner_join()` gains a `keep` parameter for consistency with the other
+  mutating joins (@patrickbarks, #5581).
+
 * `mutate()` and friends preserves row names in data frames once more (#5418).
 
 * `group_by()` uses the ungrouped data for the implicit mutate step (#5598).
