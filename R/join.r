@@ -67,8 +67,7 @@
 #'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
 #' @param keep Should the join keys from both `x` and `y` be preserved in the
-#'   output? Only applies to `nest_join()`, `inner_join()`, `left_join()`,
-#'   `right_join()`, and `full_join()`.
+#'   output?
 #' @param ... Other parameters passed onto methods.
 #' @param na_matches Should `NA` and `NaN` values match one another?
 #'
