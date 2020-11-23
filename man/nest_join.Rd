@@ -38,8 +38,7 @@ same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
 \item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
-output? Only applies to \code{nest_join()}, \code{left_join()}, \code{right_join()}, and
-\code{full_join()}.}
+output?}
 
 \item{name}{The name of the list column nesting joins create.
 If \code{NULL} the name of \code{y} is used.}

@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `inner_join()` gains a `keep` parameter for consistency with the other
+  mutating joins (@patrickbarks, #5581).
+
 * Improved performance with many columns, with a dynamic data mask using active
   bindings and lazy chops (#5017). 
 
