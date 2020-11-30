@@ -8,13 +8,13 @@ SEXP as_utf8(SEXP s) {
 }
 
 R_xlen_t find_first(SEXP haystack, SEXP needle) {
-  needle = as_utf8(needle);
+  SEXP needle_utf8 = PROTECT(as_utf8(needle));
   R_xlen_t n = XLENGTH(haystack);
   R_xlen_t i_name = 0;
   for (; i_name < n; i_name++) {
-    if (needle == as_utf8(STRING_ELT(haystack, i_name))) break;
+    if (needle_utf8 == as_utf8(STRING_ELT(haystack, i_name))) break;
   }
-
+  UNPROTECT(1);
   return i_name;
 }
 
@@ -35,7 +35,7 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   SEXP name = STRING_ELT(s_name, 0);
 
   // we assume control over these
-  SEXP all_vars = Rf_findVarInFrame(env_private, dplyr::symbols::all_vars);
+  SEXP all_vars = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::all_vars));
 
   // search for position of name
   R_xlen_t n = XLENGTH(all_vars);
@@ -56,12 +56,13 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   }
 
   SEXP sym_name = rlang::str_as_symbol(name);
-  SEXP chops = Rf_findVarInFrame(env_private, dplyr::symbols::chops);
+  SEXP chops = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));
   Rf_defineVar(sym_name, chunks, chops);
 
-  SEXP mask = Rf_findVarInFrame(env_private, dplyr::symbols::mask);
+  SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
   add_mask_binding(sym_name, ENCLOS(mask), chops);
 
+  UNPROTECT(3);
   return R_NilValue;
 }
 
@@ -84,7 +85,7 @@ void rm(SEXP name, SEXP env) {
 SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name) {
   SEXP name = STRING_ELT(s_name, 0);
 
-  SEXP all_vars = Rf_findVarInFrame(env_private, dplyr::symbols::all_vars);
+  SEXP all_vars = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::all_vars));
 
   // search for position of name
   R_xlen_t n = XLENGTH(all_vars);
@@ -99,13 +100,16 @@ SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name) {
     }
     Rf_defineVar(dplyr::symbols::all_vars, new_all_vars, env_private);
 
-    SEXP chops = Rf_findVarInFrame(env_private, dplyr::symbols::chops);
+    SEXP chops = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));
     SEXP sym_name = rlang::str_as_symbol(name);
     rm(sym_name, chops);
-    rm(sym_name, ENCLOS(Rf_findVarInFrame(env_private, dplyr::symbols::mask)));
 
-    UNPROTECT(1);
+    SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
+    rm(sym_name, ENCLOS(mask));
+
+    UNPROTECT(3);
   }
 
+  UNPROTECT(1);
   return R_NilValue;
 }
