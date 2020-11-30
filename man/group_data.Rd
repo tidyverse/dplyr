@@ -40,7 +40,7 @@ instead.}
 The columns give the values of the grouping variables. The last column,
 always called \code{.rows}, is a list of integer vectors that gives the
 location of the rows in each group. You can retrieve just the grouping
-data with \code{group_data()}, and just the locations with \code{group_rows()}.
+data with \code{group_keys()}, and just the locations with \code{group_rows()}.
 \item \code{group_indices()} returns an integer vector the same length as \code{.data}
 that gives the group that each row belongs to (cf. \code{group_rows()} which
 returns the rows which each group contains). \code{group_indices()} with no
