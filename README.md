@@ -13,6 +13,7 @@ status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](htt
 coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
 [![R build
 status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions)
+[![R-CMD-check](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions)
 <!-- badges: end -->
 
 ## Overview
