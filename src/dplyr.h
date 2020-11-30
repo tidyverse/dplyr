@@ -27,8 +27,6 @@
 
 namespace dplyr {
 
-SEXP as_symbol(SEXP str);
-
 struct envs {
   static SEXP ns_dplyr;
   static SEXP ns_vctrs;
@@ -77,6 +75,7 @@ namespace rlang {
 SEXP eval_tidy(SEXP expr, SEXP data, SEXP env);
 SEXP as_data_pronoun(SEXP x);
 SEXP new_data_mask(SEXP bottom, SEXP top);
+SEXP str_as_symbol(SEXP);
 }
 
 namespace vctrs {
