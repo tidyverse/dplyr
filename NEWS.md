@@ -20,6 +20,8 @@
 
 * `mutate()` always keeps grouping variables, unconditional to `.keep=` (#5582).
 
+* dplyr now depends on R 3.3.0
+
 # dplyr 1.0.2
 
 * Fixed `across()` issue where data frame columns would mask objects referred to
