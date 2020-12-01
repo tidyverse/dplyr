@@ -55,14 +55,14 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
     UNPROTECT(1);
   }
 
-  SEXP sym_name = rlang::str_as_symbol(name);
+  SEXP sym_name = PROTECT(rlang::str_as_symbol(name));
   SEXP chops = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));
   Rf_defineVar(sym_name, chunks, chops);
 
   SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
   add_mask_binding(sym_name, ENCLOS(mask), chops);
 
-  UNPROTECT(3);
+  UNPROTECT(4);
   return R_NilValue;
 }
 
