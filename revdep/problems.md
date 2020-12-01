@@ -1,14 +1,14 @@
-# cubelyr
+# alfred
 
 <details>
 
-* Version: 1.0.0
-* GitHub: https://github.com/hadley/cubelyr
-* Source code: https://github.com/cran/cubelyr
-* Date/Publication: 2020-02-29 13:00:02 UTC
-* Number of recursive dependencies: 48
+* Version: 0.1.8
+* GitHub: https://github.com/onnokleen/alfred
+* Source code: https://github.com/cran/alfred
+* Date/Publication: 2020-09-11 14:50:03 UTC
+* Number of recursive dependencies: 77
 
-Run `cloud_details(, "cubelyr")` for more info
+Run `cloud_details(, "alfred")` for more info
 
 </details>
 
@@ -16,49 +16,103 @@ Run `cloud_details(, "cubelyr")` for more info
 
 *   checking examples ... ERROR
     ```
-    ...
-    D: long [dbl, 24]
-    D: month [int, 12]
-    D: year [int, 1]
-    M: cloudhigh [dbl[,24,12,1]]
-    M: cloudlow [dbl[,24,12,1]]
-    M: cloudmid [dbl[,24,12,1]]
-    M: ozone [dbl[,24,12,1]]
-    M: pressure [dbl[,24,12,1]]
-    M: surftemp [dbl[,24,12,1]]
-    M: temperature [dbl[,24,12,1]]
-    > # Each component can only refer to one dimensions, ensuring that you always
-    > # create a rectangular subset
-    > ## Not run: filter(nasa, lat > long)
+    Running examples in ‘alfred-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: get_alfred_series
+    > ### Title: Accessing ALFRED
+    > ### Aliases: get_alfred_series
+    > ### Keywords: alfred
     > 
-    > # Arrange is meaningless for tbl_cubes
+    > ### ** Examples
     > 
-    > by_loc <- group_by(nasa, lat, long)
-    Error in UseMethod("ungroup") : 
-      no applicable method for 'ungroup' applied to an object of class "tbl_cube"
-    Calls: group_by ... group_by.tbl_cube -> <Anonymous> -> add_computed_columns -> ungroup
+    > ## Not run: 
+    > ##D     get_alfred_series("INDPRO", "indpro")
+    > ##D     
+    > ## End(Not run)
+    > get_alfred_series("INDPRO", "indpro", realtime_start = "2008-10-31", realtime_end = "2009-10-31")
+    Error in get_alfred_series("INDPRO", "indpro", realtime_start = "2008-10-31",  : 
+      Download of specified time-series failed - did you misspell the identifier?
     Execution halted
     ```
+
+# SCORPIUS
+
+<details>
+
+* Version: 1.0.7
+* GitHub: https://github.com/rcannood/SCORPIUS
+* Source code: https://github.com/cran/SCORPIUS
+* Date/Publication: 2020-05-11 11:00:06 UTC
+* Number of recursive dependencies: 103
+
+Run `cloud_details(, "SCORPIUS")` for more info
+
+</details>
+
+## Newly broken
 
 *   checking tests ... ERROR
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      Backtrace:
-          █
-       1. ├─dplyr::group_by(nasa, month) test-cube.R:121:2
-       2. └─cubelyr:::group_by.tbl_cube(nasa, month)
-       3.   └─dplyr::group_by_prepare(.data, ...)
-       4.     ├─dplyr:::add_computed_columns(ungroup(.data), new_groups, "group_by")
-       5.     └─dplyr::ungroup(.data)
+       8.     │   └─base::eval(mc, parent.frame())
+       9.     └─mclust::meEEE(...)
+      
+      ── Skip (test-sparse.R:3:1): (code run outside of `test_that()`) ───────────────
+      Reason: On CRAN
+      
+      ── Skipped tests  ──────────────────────────────────────────────────────────────
+      ● On CRAN (1)
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      ERROR (test-cube.R:94:3): summarise works with single group
-      ERROR (test-cube.R:121:3): group_vars() returns variables
+      ERROR (test-extract_modules.R:15:3): With generated data
       
-      [ FAIL 2 | WARN 0 | SKIP 0 | PASS 26 ]
+      [ FAIL 1 | WARN 0 | SKIP 1 | PASS 182 ]
       Error: Test failures
       Execution halted
+    ```
+
+# TextMiningGUI
+
+<details>
+
+* Version: 0.1
+* GitHub: NA
+* Source code: https://github.com/cran/TextMiningGUI
+* Date/Publication: 2020-08-11 15:20:08 UTC
+* Number of recursive dependencies: 158
+
+Run `cloud_details(, "TextMiningGUI")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘TextMiningGUI-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: TextMiningGUI
+    > ### Title: TextMiningGUI
+    > ### Aliases: TextMiningGUI
+    > 
+    > ### ** Examples
+    > 
+    > library(TextMiningGUI)
+    > if(TextMiningGUI()){}
+    Error in structure(.External(.C_dotTclObjv, objv), class = "tclObj") : 
+      [tcl] invalid command name "toplevel".
+    Calls: TextMiningGUI ... tktoplevel -> tkwidget -> tcl -> .Tcl.objv -> structure
+    Execution halted
+    ```
+
+*   checking whether package ‘TextMiningGUI’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: loading Rplot failed
+    See ‘/tmp/workdir/TextMiningGUI/new/TextMiningGUI.Rcheck/00install.out’ for details.
     ```
 
