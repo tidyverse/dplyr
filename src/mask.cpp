@@ -101,13 +101,13 @@ SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name) {
     Rf_defineVar(dplyr::symbols::all_vars, new_all_vars, env_private);
 
     SEXP chops = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));
-    SEXP sym_name = rlang::str_as_symbol(name);
+    SEXP sym_name = PROTECT(rlang::str_as_symbol(name));
     rm(sym_name, chops);
 
     SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
     rm(sym_name, ENCLOS(mask));
 
-    UNPROTECT(3);
+    UNPROTECT(4);
   }
 
   UNPROTECT(1);

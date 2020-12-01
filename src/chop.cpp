@@ -89,8 +89,9 @@ SEXP dplyr_data_masks_setup(SEXP env_chops, SEXP data, SEXP rows) {
   R_xlen_t mask_size = XLENGTH(data) + 20;
   SEXP env_bindings = PROTECT(new_environment(mask_size, R_EmptyEnv));
   for (R_xlen_t i = 0; i < n_columns; i++) {
-    SEXP name = rlang::str_as_symbol(p_names[i]);
+    SEXP name = PROTECT(rlang::str_as_symbol(p_names[i]));
     add_mask_binding(name, env_bindings, env_chops);
+    UNPROTECT(1);
   }
   SEXP mask = PROTECT(rlang::new_data_mask(env_bindings, R_NilValue));
   SEXP pronoun = PROTECT(rlang::as_data_pronoun(env_bindings));
@@ -108,9 +109,10 @@ SEXP env_resolved(SEXP env, SEXP names) {
   const SEXP* p_names = STRING_PTR_RO(names);
 
   for(R_xlen_t i = 0; i < n; i++) {
-    SEXP prom = PROTECT(Rf_findVarInFrame(env, rlang::str_as_symbol(p_names[i])));
+    SEXP name = PROTECT(rlang::str_as_symbol(p_names[i]));
+    SEXP prom = PROTECT(Rf_findVarInFrame(env, name));
     p_res[i] = PRVALUE(prom) != R_UnboundValue;
-    UNPROTECT(1);
+    UNPROTECT(2);
   }
 
   Rf_namesgets(res, names);
