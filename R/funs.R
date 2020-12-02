@@ -5,7 +5,7 @@
 #' appropriate SQL for remote tables.
 #'
 #' @param x A numeric vector of values
-#' @param left, right Boundary values (must be scalars).
+#' @param left,right Boundary values (must be scalars).
 #' @export
 #' @examples
 #' between(1:12, 7, 9)
