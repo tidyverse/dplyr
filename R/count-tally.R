@@ -62,7 +62,11 @@
 #' df %>% add_count(gender, wt = runs)
 #' df %>% add_tally(wt = runs)
 count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+  UseMethod("count")
+}
 
+#' @export
+count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   if (!missing(...)) {
     out <- group_by(x, ..., .add = TRUE, .drop = .drop)
   } else {

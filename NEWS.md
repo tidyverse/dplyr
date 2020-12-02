@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `count()` is now generic. 
+
 * `inner_join()` gains a `keep` parameter for consistency with the other
   mutating joins (@patrickbarks, #5581).
 
