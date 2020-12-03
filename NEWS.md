@@ -27,6 +27,13 @@
 
 * dplyr now depends on R 3.3.0
 
+* `all_equal()` now exposes the `name_repair` parameter, giving the user more
+  control over the output messages in case of detected inequality. NOTE that we
+  generally discourage the use `all_equal()` (which is why it's marked as
+  _questioning_) and recommend to use the more powerful
+  [`waldo::compare()`](https://waldo.r-lib.org/reference/compare.html) instead.
+  (#5565)
+
 # dplyr 1.0.2
 
 * Fixed `across()` issue where data frame columns would mask objects referred to
