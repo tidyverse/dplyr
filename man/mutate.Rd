@@ -45,7 +45,9 @@ for checking your work as it displays inputs and outputs side-by-side.
 \item \code{"unused"} keeps only existing variables \strong{not} used to make new
 variables.
 \item \code{"none"}, only keeps grouping keys (like \code{\link[=transmute]{transmute()}}).
-}}
+}
+
+Grouping variables are always kept, unconditional to \code{.keep}.}
 
 \item{.before, .after}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
 <\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, control where new columns

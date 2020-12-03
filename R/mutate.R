@@ -161,6 +161,8 @@ mutate <- function(.data, ...) {
 #'   * `"unused"` keeps only existing variables **not** used to make new
 #'     variables.
 #'   * `"none"`, only keeps grouping keys (like [transmute()]).
+#'
+#'   Grouping variables are always kept, unconditional to `.keep`.
 #' @param .before,.after \Sexpr[results=rd]{lifecycle::badge("experimental")}
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, control where new columns
 #'   should appear (the default is to add to the right hand side). See
@@ -185,12 +187,14 @@ mutate.data.frame <- function(.data, ...,
   if (keep == "all") {
     out
   } else if (keep == "unused") {
-    unused <- c(names(.data)[!attr(cols, "used")])
-    keep <- intersect(names(out), c(unused, names(cols)))
+    used <- attr(cols, "used")
+    unused <- names(used)[!used]
+    keep <- intersect(names(out), c(group_vars(.data), unused, names(cols)))
     dplyr_col_select(out, keep)
   } else if (keep == "used") {
-    used <- names(.data)[attr(cols, "used")]
-    keep <- intersect(names(out), c(used, names(cols)))
+    used <- attr(cols, "used")
+    used <- names(used)[used]
+    keep <- intersect(names(out), c(group_vars(.data), used, names(cols)))
     dplyr_col_select(out, keep)
   } else if (keep == "none") {
     keep <- c(
@@ -219,6 +223,7 @@ transmute.data.frame <- function(.data, ...) {
 mutate_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
   on.exit(mask$forget("mutate"), add = TRUE)
+
   rows <- mask$get_rows()
 
   dots <- enquos(...)
@@ -250,7 +255,7 @@ mutate_cols <- function(.data, ...) {
         if (name %in% names(new_columns)) {
           # already have result and chunks
           result <- new_columns[[name]]
-          chunks <- mask$get_resolved(name)
+          chunks <- mask$resolve(name)
         } else if (name %in% names(.data)) {
           # column from the original data
           result <- .data[[name]]
@@ -379,10 +384,15 @@ mutate_cols <- function(.data, ...) {
       i = cnd_bullet_input_info(),
       i = cnd_bullet_cur_group_label()
     ))
+
+    # cancel `w`
+    invokeRestart("muffleWarning")
   })
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
   new_columns[is_zap] <- rep(list(NULL), sum(is_zap))
-  attr(new_columns, "used") <- mask$get_used()
+  used <- mask$get_used()
+  names(used) <- mask$current_vars()
+  attr(new_columns, "used") <- used
   new_columns
 }

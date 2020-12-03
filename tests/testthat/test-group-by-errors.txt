@@ -16,3 +16,9 @@ Did you misspecify an argument?
 Error: Can't subset columns that don't exist.
 x Column `z` doesn't exist.
 
+> df %>% group_by(z = a + 1)
+Error: Problem adding computed columns in `group_by()`.
+x Problem with `mutate()` input `z`.
+x object 'a' not found
+i Input `z` is `a + 1`.
+

@@ -59,8 +59,9 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes) {
   SEXP useful = PROTECT(Rf_allocVector(LGLSXP, n_chunks));
   int* p_useful = LOGICAL(useful);
   int n_useful = 0;
+  const SEXP* p_ptypes = VECTOR_PTR_RO(ptypes);
   for (R_len_t j = 0; j < n_chunks; j++) {
-    n_useful += p_useful[j] = is_useful_chunk(VECTOR_ELT(ptypes, j));
+    n_useful += p_useful[j] = is_useful_chunk(p_ptypes[j]);
   }
 
   // early exit if there are no useful chunks, this includes
@@ -75,6 +76,7 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes) {
   int k = 1;
   SEXP sizes = PROTECT(Rf_allocVector(INTSXP, n_groups));
   int* p_sizes = INTEGER(sizes);
+  const SEXP* p_chunks = VECTOR_PTR_RO(chunks);
   for (R_xlen_t i = 0; i < n_groups; i++, ++p_sizes) {
     R_len_t n_i = 1;
 
@@ -84,7 +86,7 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes) {
       for (; j < n_chunks && !p_useful[j]; j++);
       if (j == n_chunks) break;
 
-      R_len_t n_i_j = vctrs::short_vec_size(VECTOR_ELT(VECTOR_ELT(chunks, j), i));
+      R_len_t n_i_j = vctrs::short_vec_size(VECTOR_ELT(p_chunks[j], i));
 
       if (n_i != n_i_j) {
         if (n_i == 1) {
@@ -111,7 +113,7 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes) {
       for (; j < n_chunks && !p_useful[j]; j++);
       if (j == n_chunks) break;
 
-      SEXP chunks_j = VECTOR_ELT(chunks, j);
+      SEXP chunks_j = p_chunks[j];
       int* p_sizes = INTEGER(sizes);
       for (int i = 0; i < n_groups; i++, ++p_sizes) {
         SET_VECTOR_ELT(chunks_j, i,

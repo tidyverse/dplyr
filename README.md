@@ -11,8 +11,6 @@ status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/
 status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R-CMD-check)
 [![Codecov test
 coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
-[![R build
-status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions)
 <!-- badges: end -->
 
 ## Overview
@@ -34,7 +32,7 @@ provides a variety of two-table verbs, which you can learn about in
 `vignette("two-table")`.
 
 If you are new to dplyr, the best place to start is the [data
-transformation chapter](http://r4ds.had.co.nz/transform.html) in R for
+transformation chapter](https://r4ds.had.co.nz/transform.html) in R for
 data science.
 
 ## Backends
@@ -45,7 +43,7 @@ alternative backends:
 
   - [dtplyr](https://dtplyr.tidyverse.org/): for large, in-memory
     datasets. Translates your dplyr code to high performance
-    [data.table](http://r-datatable.com/) code.
+    [data.table](https://rdatatable.gitlab.io/data.table/) code.
 
   - [dbplyr](https://dbplyr.tidyverse.org/): for data stored in a
     relational database. Translates your dplyr code to SQL.
@@ -161,7 +159,7 @@ reproducible example on
 [GitHub](https://github.com/tidyverse/dplyr/issues). For questions and
 other discussion, please use
 [community.rstudio.com](https://community.rstudio.com/) or the
-[manipulatr mailing list](https://groups.google.com/group/manipulatr).
+[manipulatr mailing list](https://groups.google.com/d/forum/manipulatr).
 
 -----
 

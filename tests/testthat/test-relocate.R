@@ -54,3 +54,19 @@ test_that("relocate() respects order specified by ... (#5328)", {
     c("x", "a", "z", "b", "y")
   )
 })
+
+test_that("relocate() can rename (#5569)", {
+  df <- tibble(a = 1, b = 1, c = 1, d = "a", e = "a", f = "a")
+  expect_equal(
+    relocate(df, ffff = f),
+    tibble(ffff = "a", a = 1, b = 1, c = 1, d = "a", e = "a")
+  )
+  expect_equal(
+    relocate(df, ffff = f, .before = c),
+    tibble(a = 1, b = 1, ffff = "a", c = 1, d = "a", e = "a")
+  )
+  expect_equal(
+    relocate(df, ffff = f, .after = c),
+    tibble(a = 1, b = 1, c = 1, ffff = "a", d = "a", e = "a")
+  )
+})

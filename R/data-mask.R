@@ -11,71 +11,21 @@ DataMask <- R6Class("DataMask",
       frame <- caller_env(n = 2)
       local_mask(self, frame)
 
-      private$data <- data
-      private$caller <- caller
-      private$bindings <- env(empty_env())
-      private$keys <- group_keys(data)
-      private$group_vars <- group_vars(data)
-
-      # A function that returns all the chunks for a column
-      resolve_chunks <- if (inherits(data, "rowwise_df")) {
-        function(index) {
-          col <- .subset2(data, index)
-          res <- vec_chop(col, rows)
-          if (vec_is_list(col)) {
-            res <- map(res, `[[`, 1L)
-          }
-          res
-        }
-      } else if (is_grouped_df(data)) {
-        function(index) vec_chop(.subset2(data, index), rows)
-      } else {
-        # for ungrouped data frames, there is only one chunk that
-        # is made of the full column
-        function(index) list(.subset2(data, index))
-      }
-
-      private$used <- rep(FALSE, ncol(data))
-
       names_bindings <- chr_unserialise_unicode(names2(data))
       if (anyDuplicated(names_bindings)) {
         abort("Can't transform a data frame with duplicate names.")
       }
+      names(data) <- names_bindings
+      private$all_vars <- names_bindings
+      private$data <- data
+      private$caller <- caller
 
-      private$resolved <- set_names(vector(mode = "list", length = ncol(data)), names_bindings)
+      private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
+      private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
 
-      promise_fn <- function(index, chunks = resolve_chunks(index), name = names_bindings[index]) {
-        # resolve the chunks and hold the slice for current group
-        res <- .subset2(chunks, self$get_current_group())
+      private$keys <- group_keys(data)
+      private$group_vars <- group_vars(data)
 
-        # track - not safe to directly use `index`
-        self$set(name, chunks)
-
-        # return result for current slice
-        res
-      }
-
-      promises <- map(seq_len(ncol(data)), function(.x) expr(promise_fn(!!.x)))
-      env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
-
-      private$mask <- new_data_mask(private$bindings)
-      private$mask$.data <- as_data_pronoun(private$mask)
-    },
-
-    forget = function(fn) {
-      names_bindings <- self$current_vars()
-
-      osbolete_promise_fn <- function(name) {
-        abort(c(
-          "Obsolete data mask.",
-          x = glue("Too late to resolve `{name}` after the end of `dplyr::{fn}()`."),
-          i = glue("Did you save an object that uses `{name}` lazily in a column in the `dplyr::{fn}()` expression ?")
-        ))
-      }
-
-      promises <- map(names_bindings, function(.x) expr(osbolete_promise_fn(!!.x)))
-      env_unbind(private$bindings, names_bindings)
-      env_bind_lazy(private$bindings, !!!set_names(promises, names_bindings))
     },
 
     add = function(name, chunks) {
@@ -91,33 +41,12 @@ DataMask <- R6Class("DataMask",
       .Call(`dplyr_mask_add`, private, name, chunks)
     },
 
-    set = function(name, chunks) {
-      .Call(`dplyr_mask_set`, private, name, chunks)
-    },
-
     remove = function(name) {
-      self$set(name, NULL)
-      env_unbind(private$bindings, name)
+      .Call(`dplyr_mask_remove`, private, name)
     },
 
     resolve = function(name) {
-      chunks <- self$get_resolved(name)
-
-      if (is.null(chunks)) {
-        column <- private$data[[name]]
-        chunks <- vec_chop(column, private$rows)
-        if (inherits(private$data, "rowwise_df") && vec_is_list(column)) {
-          chunks <- map(chunks, `[[`, 1)
-        }
-        self$set(name, chunks)
-      }
-
-      chunks
-    },
-
-
-    get_resolved = function(name) {
-      private$resolved[[name]]
+      private$chops[[name]]
     },
 
     eval_all = function(quo) {
@@ -143,7 +72,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_cols = function(vars) {
-      env_get_list(private$bindings, vars)
+      env_get_list(parent.env(private$mask), vars)
     },
 
     current_rows = function() {
@@ -155,23 +84,19 @@ DataMask <- R6Class("DataMask",
     },
 
     current_vars = function() {
-      names(private$resolved)
+      private$all_vars
     },
 
     current_non_group_vars = function() {
-      current_vars <- self$current_vars()
-      setdiff(current_vars, private$group_vars)
+      setdiff(self$current_vars(), private$group_vars)
     },
 
     get_current_group = function() {
-      # The [] is so that we get a copy, which is important for how
-      # current_group is dealt with internally, to avoid defining it at each
-      # iteration of the dplyr_mask_eval_*() loops.
-      private$current_group[]
+      parent.env(private$chops)$.current_group
     },
 
     set_current_group = function(group) {
-      private$current_group <- group
+      parent.env(private$chops)$.current_group <- group
     },
 
     full_data = function() {
@@ -179,7 +104,7 @@ DataMask <- R6Class("DataMask",
     },
 
     get_used = function() {
-      private$used
+      .Call(env_resolved, private$chops, private$all_vars)
     },
 
     unused_vars = function() {
@@ -233,23 +158,63 @@ DataMask <- R6Class("DataMask",
 
     across_cache_reset = function() {
       private$across_cache <- list()
+    },
+
+    forget = function(fn) {
+      names_bindings <- self$current_vars()
+
+      osbolete_promise_fn <- function(name) {
+        abort(c(
+          "Obsolete data mask.",
+          x = glue("Too late to resolve `{name}` after the end of `dplyr::{fn}()`."),
+          i = glue("Did you save an object that uses `{name}` lazily in a column in the `dplyr::{fn}()` expression ?")
+        ))
+      }
+
+      promises <- map(names_bindings, function(.x) expr(osbolete_promise_fn(!!.x)))
+      bindings <- parent.env(private$mask)
+      suppressWarnings({
+        rm(list = names_bindings, envir = bindings)
+        env_bind_lazy(bindings, !!!set_names(promises, names_bindings))
+      })
     }
 
   ),
 
   private = list(
+    # the input data
     data = NULL,
+
+    # environment that contains lazy vec_chop()s for each input column
+    # and list of result chunks as they get added.
+    #
+    # The parent environment of chops has:
+    # - .indices: the list of indices
+    # - .current_group: scalar integer that identifies the current group
+    chops = NULL,
+
+    # dynamic data mask, with active bindings for each column
+    # this is an rlang data mask, as such the bindings are actually
+    # in the parent environment of `mask`
     mask = NULL,
-    old_vars = character(),
+
+    # names of all the variables, this initially is names(data)
+    # grows (and sometimes shrinks) as new columns are added/removed
+    all_vars = character(),
+
+    # names of the grouping variables
     group_vars = character(),
-    used = logical(),
-    resolved = list(),
-    which_used = integer(),
+
+    # list of indices, one integer vector per group
     rows = NULL,
+
+    # data frame of keys, one row per group
     keys = NULL,
-    bindings = NULL,
-    current_group = 0L,
+
+    # caller environment of the verb (summarise(), ...)
     caller = NULL,
+
+    # cache for across
     across_cache = list()
   )
 )

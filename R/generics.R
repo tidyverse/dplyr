@@ -152,7 +152,8 @@ dplyr_col_modify.data.frame <- function(data, cols) {
   }
 
   # Transform back to data frame before reconstruction
-  out <- new_data_frame(out, n = nrow(data))
+  row_names <- .row_names_info(data, type = 0L)
+  out <- new_data_frame(out, n = nrow(data), row.names = row_names)
 
   dplyr_reconstruct(out, data)
 }

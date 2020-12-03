@@ -11,6 +11,12 @@ test_that("empty mutate returns input", {
   expect_equal(mutate(gf, !!!list()), gf)
 })
 
+test_that("rownames preserved", {
+  df <- data.frame(x = c(1, 2), row.names = c("a", "b"))
+  df <- mutate(df, y = 2)
+  expect_equal(row.names(df), c("a", "b"))
+})
+
 test_that("mutations applied progressively", {
   df <- tibble(x = 1)
   expect_equal(df %>% mutate(y = x + 1, z = y + 1), tibble(x = 1, y = 2, z = 3))
@@ -354,6 +360,26 @@ test_that("can use .before and .after to control column position", {
   expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
 })
 
+test_that(".keep= always retains grouping variables (#5582)", {
+  df <- tibble(x = 1, y = 2, z = 3) %>% group_by(z)
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "none"),
+    tibble(z = 3, a = 2) %>% group_by(z)
+  )
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "all"),
+    tibble(x = 1, y = 2, z = 3, a = 2) %>% group_by(z)
+  )
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "used"),
+    tibble(x = 1, z = 3, a = 2) %>% group_by(z)
+  )
+  expect_equal(
+    df %>% mutate(a = x + 1, .keep = "unused"),
+    tibble(y = 2, z = 3, a = 2) %>% group_by(z)
+  )
+})
+
 test_that("mutate() preserves the call stack on error (#5308)", {
   foobar <- function() stop("foo")
 
@@ -381,6 +407,38 @@ test_that("dplyr data mask can become obsolete", {
     mutate(y = lazy(x), .keep = "unused")
   expect_equal(names(res), c("x", "y"))
   expect_error(eval_tidy(res$y[[1]]))
+})
+
+test_that("mutate() deals with 0 groups (#5534)", {
+  df <- data.frame(x = numeric()) %>%
+    group_by(x)
+
+  expect_equal(
+    mutate(df, y = x + 1),
+    data.frame(x = numeric(), y = numeric()) %>% group_by(x)
+  )
+
+  expect_warning(
+    mutate(df, y = max(x)),
+    "Inf"
+  )
+})
+
+test_that("mutate(=NULL) preserves correct all_vars", {
+  df <- data.frame(x = 1, y = 2) %>% mutate(x = NULL, vars = cur_data_all()) %>% pull()
+  expect_equal(df, tibble(y = 2))
+})
+
+test_that("functions are not skipped in data pronoun (#5608)", {
+  f <- function(i) i + 1
+  df <- tibble(a = list(f), b = 1)
+
+  two <- df %>%
+    rowwise() %>%
+    mutate(res = .data$a(.data$b)) %>%
+    pull(res)
+
+  expect_equal(two, 2)
 })
 
 # Error messages ----------------------------------------------------------
