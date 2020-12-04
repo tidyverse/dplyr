@@ -16,7 +16,12 @@ bundle.grouped_df <- function(.data) {
 
   # adapt .rows
   new_groups <- attr(.data, "groups")
-  new_rows <- vector("list", length(old_rows))
+
+  # new_groups$.rows <- new_list_of(
+  #   .Call(`dplyr_bundle_rows`, old_rows),
+  #   ptype = integer(),
+  #   class = "bundled_indices"
+  # )
   breaks <- cumsum(c(1L, list_sizes(old_rows)))
   start <- breaks[-length(breaks)]
   end <- breaks[-1] - 1L

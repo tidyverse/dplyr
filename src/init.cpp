@@ -115,6 +115,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_data_masks_setup", (DL_FUNC)& dplyr_data_masks_setup, 3},
   {"env_resolved", (DL_FUNC)& env_resolved, 2},
 
+  {"dplyr_bundle_rows", (DL_FUNC)& bundle_rows, 1},
+
   {NULL, NULL, 0}
 };
 
