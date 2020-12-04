@@ -1,9 +1,8 @@
 #include "dplyr.h"
 
-// new_rows <- vector("list", length(old_rows))
-//   breaks <- cumsum(c(1L, list_sizes(old_rows)))
-//   start <- breaks[-length(breaks)]
-// end <- breaks[-1] - 1L
+SEXP dplyr_vec_chop(SEXP x, SEXP indices) {
+  return vctrs::vec_chop(x, indices);
+}
 
 SEXP bundle_rows(SEXP old_rows) {
   R_xlen_t n = XLENGTH(old_rows);
@@ -13,12 +12,8 @@ SEXP bundle_rows(SEXP old_rows) {
   const SEXP* p_old_rows = VECTOR_PTR_RO(old_rows);
   for (R_xlen_t i = 0; i < n; i++) {
     R_len_t size = LENGTH(p_old_rows[i]);
-    if (size > 0) {
-      SET_VECTOR_ELT(new_rows, i, vctrs::compact_seq(k, size, true));
-      k += size;
-    } else {
-      SET_VECTOR_ELT(new_rows, i, dplyr::vectors::empty_int_vector);
-    }
+    SET_VECTOR_ELT(new_rows, i, vctrs::compact_seq(k, size, true));
+    k += size;
   }
 
   UNPROTECT(1);

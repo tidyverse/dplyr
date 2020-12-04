@@ -49,6 +49,7 @@ struct vctrs_api_ptrs_t {
   R_len_t (*short_vec_size)(SEXP x);
   SEXP (*short_vec_recycle)(SEXP, R_len_t);
   SEXP (*compact_seq)(R_len_t, R_len_t, bool);
+  SEXP (*vec_chop)(SEXP, SEXP);
 
   vctrs_api_ptrs_t() {
     vec_is_vector     = (bool (*)(SEXP))                   R_GetCCallable("vctrs", "vec_is_vector");
@@ -56,6 +57,7 @@ struct vctrs_api_ptrs_t {
     short_vec_recycle = (SEXP (*)(SEXP, R_len_t))          R_GetCCallable("vctrs", "short_vec_recycle");
 
     compact_seq       = (SEXP (*)(R_len_t, R_len_t, bool)) R_GetCCallable("vctrs", "exp_short_compact_seq");
+    vec_chop          = (SEXP (*)(SEXP, SEXP))             R_GetCCallable("vctrs", "exp_vec_chop");
   }
 };
 // *INDENT-ON*
@@ -79,6 +81,10 @@ SEXP short_vec_recycle(SEXP x, R_len_t n) {
 
 SEXP compact_seq(R_len_t start, R_len_t size, bool increasing) {
   return vctrs_api().compact_seq(start, size, increasing);
+}
+
+SEXP vec_chop(SEXP x, SEXP indices) {
+  return vctrs_api().vec_chop(x, indices);
 }
 
 }

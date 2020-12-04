@@ -17,16 +17,8 @@ bundle.grouped_df <- function(.data) {
   # adapt .rows
   new_groups <- attr(.data, "groups")
 
-  # new_groups$.rows <- new_list_of(
-  #   .Call(`dplyr_bundle_rows`, old_rows),
-  #   ptype = integer(),
-  #   class = "bundled_indices"
-  # )
-  breaks <- cumsum(c(1L, list_sizes(old_rows)))
-  start <- breaks[-length(breaks)]
-  end <- breaks[-1] - 1L
   new_groups$.rows <- new_list_of(
-    map2(start, end, seq2),
+    .Call(`dplyr_bundle_rows`, old_rows),
     ptype = integer(),
     class = "bundled_indices"
   )
@@ -36,4 +28,8 @@ bundle.grouped_df <- function(.data) {
     groups = new_groups,
     class = "bundled_df"
   )
+}
+
+dplyr_vec_chop <- function(x, indices) {
+  .Call(`_dplyr_vec_chop`, x, indices)
 }

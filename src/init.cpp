@@ -62,7 +62,7 @@ SEXP vectors::empty_int_vector = get_empty_int_vector();
 SEXP vectors::names_expanded = get_names_expanded();
 SEXP vectors::names_summarise_recycle_chunks = get_names_summarise_recycle_chunks();
 
-SEXP functions::vec_chop = NULL;
+SEXP functions::dplyr_vec_chop = NULL;
 SEXP functions::dot_subset2 = NULL;
 SEXP functions::list = NULL;
 SEXP functions::function = NULL;
@@ -73,12 +73,12 @@ SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs, SEXP ns_rlang) {
   dplyr::envs::ns_dplyr = ns_dplyr;
   dplyr::envs::ns_vctrs = ns_vctrs;
   dplyr::envs::ns_rlang = ns_rlang;
-  dplyr::functions::vec_chop = PROTECT(Rf_findVarInFrame(ns_vctrs, Rf_install("vec_chop")));
+  dplyr::functions::dplyr_vec_chop = PROTECT(Rf_findVarInFrame(ns_dplyr, Rf_install("dplyr_vec_chop")));
   dplyr::functions::dot_subset2 = PROTECT(Rf_findVarInFrame(R_BaseEnv, Rf_install(".subset2")));
   dplyr::functions::list = PROTECT(Rf_findVarInFrame(R_BaseEnv, Rf_install("list")));
   dplyr::functions::function = PROTECT(Rf_eval(Rf_install("function"), R_BaseEnv));
 
-  R_PreserveObject(dplyr::functions::vec_chop);
+  R_PreserveObject(dplyr::functions::dplyr_vec_chop);
   R_PreserveObject(dplyr::functions::dot_subset2);
   R_PreserveObject(dplyr::functions::list);
   R_PreserveObject(dplyr::functions::function);
@@ -116,6 +116,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"env_resolved", (DL_FUNC)& env_resolved, 2},
 
   {"dplyr_bundle_rows", (DL_FUNC)& bundle_rows, 1},
+  {"_dplyr_vec_chop", (DL_FUNC)& dplyr_vec_chop, 2},
 
   {NULL, NULL, 0}
 };

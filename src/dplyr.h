@@ -63,7 +63,7 @@ struct vectors {
 };
 
 struct functions {
-  static SEXP vec_chop;
+  static SEXP dplyr_vec_chop;
   static SEXP dot_subset2;
   static SEXP list;
   static SEXP function;
@@ -83,6 +83,7 @@ bool vec_is_vector(SEXP x) ;
 R_len_t short_vec_size(SEXP x) ;
 SEXP short_vec_recycle(SEXP x, R_len_t n);
 SEXP compact_seq(R_len_t, R_len_t, bool);
+SEXP vec_chop(SEXP x, SEXP indices);
 
 inline bool vec_is_list(SEXP x) {
   SEXP call = PROTECT(Rf_lang2(dplyr::symbols::vec_is_list, x));
@@ -117,6 +118,7 @@ SEXP env_resolved(SEXP env, SEXP names);
 void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops);
 
 SEXP bundle_rows(SEXP old_rows);
+SEXP dplyr_vec_chop(SEXP x, SEXP indices);
 
 #define DPLYR_MASK_INIT()                                                                    \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                   \
