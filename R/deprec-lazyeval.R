@@ -52,10 +52,6 @@ add_tally_ <- function(x, wt, sort = FALSE) {
 }
 
 #' @export
-arrange.default <- function(.data, ...) {
-  arrange_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
 #' @rdname se-deprecated
 arrange_ <- function(.data, ..., .dots = list()) {
   lazy_deprec("arrange")
@@ -84,11 +80,6 @@ count_ <- function(x, vars, wt = NULL, sort = FALSE, .drop = group_by_drop_defau
   count(x, !!!vars, wt = !!wt, sort = sort, .drop = .drop)
 }
 
-
-#' @export
-distinct.default <- function(.data, ..., .keep_all = FALSE) {
-  distinct_(.data, .dots = compat_as_lazy_dots(...), .keep_all = .keep_all)
-}
 #' @export
 #' @rdname se-deprecated
 #' @inheritParams distinct
@@ -120,10 +111,6 @@ do_ <- function(.data, ..., .dots = list()) {
   UseMethod("do_")
 }
 #' @export
-do.default <- function(.data, ...) {
-  do_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
 do_.NULL <- function(.data, ..., .dots = list()) {
   NULL
 }
@@ -144,10 +131,6 @@ do_.rowwise_df <- function(.data, ..., .dots = list()) {
 }
 
 
-#' @export
-filter.default <- function(.data, ..., .preserve = FALSE) {
-  filter_(.data, .dots = compat_as_lazy_dots(...))
-}
 #' @export
 #' @rdname se-deprecated
 filter_ <- function(.data, ..., .dots = list()) {
@@ -175,10 +158,6 @@ funs_ <- function(dots, args = list(), env = base_env()) {
   funs(!!!dots, .args = args)
 }
 
-#' @export
-group_by.default <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
-  group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
-}
 #' @export
 #' @rdname se-deprecated
 #' @inheritParams group_by
@@ -229,10 +208,6 @@ group_indices_.rowwise_df <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-mutate.default <- function(.data, ...) {
-  mutate_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
 #' @rdname se-deprecated
 mutate_ <- function(.data, ..., .dots = list()) {
   lazy_deprec("mutate")
@@ -267,20 +242,11 @@ transmute_ <- function(.data, ..., .dots = list()) {
   UseMethod("transmute_")
 }
 #' @export
-transmute_.default <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  transmute(.data, !!!dots)
-}
-#' @export
-transmute_.grouped_df <- function(.data, ..., .dots = list()) {
+transmute_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   transmute(.data, !!!dots)
 }
 
-#' @export
-rename.default <- function(.data, ...) {
-  rename_(.data, .dots = compat_as_lazy_dots(...))
-}
 #' @rdname se-deprecated
 #' @export
 rename_ <- function(.data, ..., .dots = list()) {
@@ -307,10 +273,6 @@ rename_vars_ <- function(vars, args) {
   tidyselect::vars_rename(vars, !!!args)
 }
 
-#' @export
-select.default <- function(.data, ...) {
-  select_(.data, .dots = compat_as_lazy_dots(...))
-}
 #' @export
 #' @rdname se-deprecated
 select_ <- function(.data, ..., .dots = list()) {
@@ -340,10 +302,6 @@ select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
 }
 
 #' @export
-slice.default <- function(.data, ..., .preserve = FALSE) {
-  slice_(.data, .dots = compat_as_lazy_dots(...))
-}
-#' @export
 #' @rdname se-deprecated
 slice_ <- function(.data, ..., .dots = list()) {
   lazy_deprec("slice", hint = FALSE)
@@ -360,11 +318,6 @@ slice_.tbl_df <- function(.data, ..., .dots = list()) {
   slice(.data, !!!dots)
 }
 
-
-#' @export
-summarise.default <- function(.data, ...) {
-  summarise_(.data, .dots = compat_as_lazy_dots(...))
-}
 #' @export
 #' @rdname se-deprecated
 summarise_ <- function(.data, ..., .dots = list()) {

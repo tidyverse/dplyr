@@ -381,17 +381,6 @@ test_that("transmute_ works", {
   )
 })
 
-
-test_that("group_by_ backwards compatibility with add = TRUE adds groups", {
-  df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
-  add_groups_extendedclass <- function(tbl) {
-    grouped <- group_by(tbl, x)
-    group_by.default(grouped, y, add = TRUE)
-  }
-
-  expect_equal(group_vars(add_groups_extendedclass(df)), c("x", "y"))
-})
-
 test_that("_each() and _all() families agree", {
   df <- data.frame(x = 1:3, y = 1:3)
 

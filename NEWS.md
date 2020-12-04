@@ -1,6 +1,10 @@
 # dplyr (development version)
 
-* `count()` is now generic. 
+* `count()` and `tally()` are now generic. 
+
+* Removed default fallbacks to lazyeval methods; this will yield better error messages when 
+  you call a dplyr function with the wrong input, and is part of our long term 
+  plan to remove the deprecated lazyeval interface. 
 
 * `inner_join()` gains a `keep` parameter for consistency with the other
   mutating joins (@patrickbarks, #5581).
