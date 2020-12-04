@@ -8,15 +8,14 @@
 
   .Call(dplyr_init_library, ns_env("dplyr"), ns_env("vctrs"), ns_env("rlang"))
 
-  if (is_installed("dbplyr")){
-    ns_dbplyr <- ns_env("dbplyr")
-    if (!exists("count.tbl_sql", ns_dbplyr)) {
-      s3_register("count", "tbl_sql")
-    }
-    if (!exists("tally.tbl_sql", ns_dbplyr)) {
-      s3_register("tally", "tbl_sql")
-    }
+  has_dbplyr <- is_installed("dbplyr")
+  if (!has_dbplyr || !exists("count.tbl_sql", ns_env("dbplyr"))) {
+    s3_register("dplyr::count", "tbl_sql")
   }
+  if (!has_dbplyr || !exists("tally.tbl_sql", ns_env("dbplyr"))) {
+    s3_register("dplyr::tally", "tbl_sql")
+  }
+
 
   invisible()
 }
