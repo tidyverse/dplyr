@@ -24,7 +24,7 @@ bundle.grouped_df <- function(.data) {
   )
 
   new_grouped_df(
-    vec_slice(.data, indices),
+    vec_slice(ungroup(.data), indices),
     groups = new_groups,
     class = "bundled_df"
   )
