@@ -6,7 +6,7 @@
   toset <- !(names(op.dplyr) %in% names(op))
   if (any(toset)) options(op.dplyr[toset])
 
-  .Call(dplyr_init_library, ns_env("dplyr"))
+  .Call(dplyr_init_library, ns_env("dplyr"), ns_env("vctrs"), ns_env("rlang"))
 
   invisible()
 }

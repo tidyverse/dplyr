@@ -24,7 +24,7 @@ between <- function(x, left, right) {
     abort("`left` must be length 1")
   }
   if (length(right) != 1) {
-    abort("`right` must length 1")
+    abort("`right` must be length 1")
   }
 
   if (!is.double(x)) {

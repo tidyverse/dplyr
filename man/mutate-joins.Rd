@@ -14,7 +14,15 @@
 \alias{full_join.data.frame}
 \title{Mutating joins}
 \usage{
-inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
+inner_join(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = FALSE
+)
 
 \method{inner_join}{data.frame}(
   x,
@@ -23,6 +31,7 @@ inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
+  keep = FALSE,
   na_matches = c("na", "never")
 )
 
@@ -123,6 +132,9 @@ Should be a character vector of length 2.}
 
 \item{...}{Other parameters passed onto methods.}
 
+\item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
+output?}
+
 \item{na_matches}{Should \code{NA} and \code{NaN} values match one another?
 
 The default, \code{"na"}, treats two \code{NA} or \code{NaN} values as equal, like
@@ -130,10 +142,6 @@ The default, \code{"na"}, treats two \code{NA} or \code{NaN} values as equal, li
 
 Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as different, like
 joins for database sources, similarly to \code{merge(incomparables = FALSE)}.}
-
-\item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
-output? Only applies to \code{nest_join()}, \code{left_join()}, \code{right_join()}, and
-\code{full_join()}.}
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}

@@ -1,42 +1,48 @@
 ## revdepcheck results
 
-We checked 893 reverse dependencies (821 from CRAN + 72 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 2374 reverse dependencies (2328 from CRAN + 46 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 8 new problems
- * We failed to check 3 packages
+ * We saw 3 new problems
+ * We failed to check 24 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* assertr
-  checking tests ...
-
-* breathtestcore
-  checking tests ...
-
-* desctable
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* GSODR
-  checking tests ...
-
-* keyholder
-  checking tests ...
-
-* mrgsolve
+* alfred
   checking examples ... ERROR
 
-* neuropsychology
-  checking examples ... ERROR
+* SCORPIUS
+  checking tests ... ERROR
 
-* sf
+* TextMiningGUI
   checking examples ... ERROR
+  checking whether package ‘TextMiningGUI’ can be installed ... WARNING
 
 ### Failed to check
 
-* cdcfluview    (failed to install)
-* dataRetrieval (check timed out)
-* loon          (failed to install)
+* BAwiR              (NA)
+* BiodiversityR      (NA)
+* butcher            (NA)
+* CausalImpact       (NA)
+* CB2                (NA)
+* cbar               (NA)
+* diceR              (NA)
+* DiversityOccupancy (NA)
+* ESTER              (NA)
+* florestal          (NA)
+* ggstatsplot        (NA)
+* jstor              (NA)
+* MarketMatching     (NA)
+* metagam            (NA)
+* mlr3db             (NA)
+* patternize         (NA)
+* precautionary      (NA)
+* processR           (NA)
+* psychonetrics      (NA)
+* raptr              (NA)
+* Rarefy             (NA)
+* statsExpressions   (NA)
+* trackr             (NA)
+* wrswoR             (NA)

@@ -424,6 +424,23 @@ test_that("mutate() deals with 0 groups (#5534)", {
   )
 })
 
+test_that("mutate(=NULL) preserves correct all_vars", {
+  df <- data.frame(x = 1, y = 2) %>% mutate(x = NULL, vars = cur_data_all()) %>% pull()
+  expect_equal(df, tibble(y = 2))
+})
+
+test_that("functions are not skipped in data pronoun (#5608)", {
+  f <- function(i) i + 1
+  df <- tibble(a = list(f), b = 1)
+
+  two <- df %>%
+    rowwise() %>%
+    mutate(res = .data$a(.data$b)) %>%
+    pull(res)
+
+  expect_equal(two, 2)
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {

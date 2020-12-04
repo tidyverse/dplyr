@@ -5,7 +5,7 @@
 #'   The columns give the values of the grouping variables. The last column,
 #'   always called `.rows`, is a list of integer vectors that gives the
 #'   location of the rows in each group. You can retrieve just the grouping
-#'   data with `group_data()`, and just the locations with `group_rows()`.
+#'   data with `group_keys()`, and just the locations with `group_rows()`.
 #'
 #' * `group_indices()` returns an integer vector the same length as `.data`
 #'   that gives the group that each row belongs to (cf. `group_rows()` which
