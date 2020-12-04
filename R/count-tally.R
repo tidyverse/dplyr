@@ -61,12 +61,12 @@
 #' # mutate() instead of summarise
 #' df %>% add_count(gender, wt = runs)
 #' df %>% add_tally(wt = runs)
-count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
   UseMethod("count")
 }
 
 #' @export
-count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   if (!missing(...)) {
     out <- group_by(x, ..., .add = TRUE, .drop = .drop)
   } else {
@@ -82,6 +82,8 @@ count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = 
   out
 }
 
+count.tbl_sql <- count.data.frame
+
 #' @export
 #' @rdname count
 tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
@@ -89,7 +91,7 @@ tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 }
 
 #' @export
-tally.default <- function(x, wt = NULL, sort = FALSE, name = NULL) {
+tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
   name <- check_name(name, group_vars(x))
 
@@ -105,6 +107,8 @@ tally.default <- function(x, wt = NULL, sort = FALSE, name = NULL) {
     out
   }
 }
+
+tally.tbl_sql <- tally.data.frame
 
 #' @export
 #' @rdname count
