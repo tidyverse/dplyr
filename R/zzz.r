@@ -8,6 +8,12 @@
 
   .Call(dplyr_init_library, ns_env("dplyr"), ns_env("vctrs"), ns_env("rlang"))
 
+  has_dbplyr <- is_installed("dbplyr")
+  if (!has_dbplyr || !exists("count.tbl_sql", ns_env("dbplyr"))) {
+    s3_register("dplyr::count", "tbl_sql")
+    s3_register("dplyr::tally", "tbl_sql")
+  }
+
   invisible()
 }
 
