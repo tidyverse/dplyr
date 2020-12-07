@@ -18,10 +18,10 @@
 |cbar               |?       |      |        |     |
 |NA                 |?       |      |        |     |
 |NA                 |?       |      |        |     |
+|crossmap           |?       |      |        |     |
 |NA                 |?       |      |        |     |
 |NA                 |?       |      |        |     |
 |diceR              |?       |      |        |     |
-|NA                 |?       |      |        |     |
 |DiversityOccupancy |1.0.6   |1     |        |     |
 |NA                 |?       |      |        |     |
 |ESTER              |0.2.0   |1     |        |     |
@@ -29,7 +29,7 @@
 |florestal          |0.1.3   |1     |        |     |
 |NA                 |?       |      |        |     |
 |NA                 |?       |      |        |     |
-|ggstatsplot        |0.6.5   |1     |        |     |
+|ggstatsplot        |0.6.6   |1     |        |     |
 |NA                 |?       |      |        |     |
 |NA                 |?       |      |        |     |
 |NA                 |?       |      |        |     |
@@ -65,7 +65,7 @@
 |NA                 |?       |      |        |     |
 |NA                 |?       |      |        |     |
 |NA                 |?       |      |        |     |
-|statsExpressions   |0.6.0   |1     |        |     |
+|statsExpressions   |0.6.1   |1     |        |     |
 |NA                 |?       |      |        |     |
 |NA                 |?       |      |        |     |
 |NA                 |?       |      |        |     |
@@ -75,11 +75,15 @@
 |NA                 |?       |      |        |     |
 |wrswoR             |?       |      |        |     |
 
-## New problems (3)
+## New problems (7)
 
-|package                                    |version |error  |warning |note |
-|:------------------------------------------|:-------|:------|:-------|:----|
-|[alfred](problems.md#alfred)               |0.1.8   |__+1__ |        |     |
-|[SCORPIUS](problems.md#scorpius)           |1.0.7   |__+1__ |        |     |
-|[TextMiningGUI](problems.md#textmininggui) |0.1     |__+1__ |__+1__  |     |
+|package                                              |version |error  |warning |note     |
+|:----------------------------------------------------|:-------|:------|:-------|:--------|
+|[disk.frame](problems.md#diskframe)                  |0.3.7   |       |__+1__  |__+1__   |
+|[IRISMustangMetrics](problems.md#irismustangmetrics) |2.4.2   |__+1__ |        |         |
+|[lplyr](problems.md#lplyr)                           |0.1.12  |__+1__ |        |         |
+|[mosaicCore](problems.md#mosaiccore)                 |0.8.0   |__+1__ |        |         |
+|[plotly](problems.md#plotly)                         |4.9.2.1 |__+2__ |        |1        |
+|[tcR](problems.md#tcr)                               |2.3.2   |       |__+1__  |1 __+1__ |
+|[timetk](problems.md#timetk)                         |2.6.0   |__+1__ |        |2        |
 

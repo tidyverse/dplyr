@@ -1,24 +1,38 @@
 ## revdepcheck results
 
-We checked 2374 reverse dependencies (2328 from CRAN + 46 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 2383 reverse dependencies (2338 from CRAN + 45 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 3 new problems
- * We failed to check 24 packages
+ * We saw 7 new problems
+ * We failed to check 25 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* alfred
+* disk.frame
+  checking S3 generic/method consistency ... WARNING
+  checking Rd \usage sections ... NOTE
+
+* IRISMustangMetrics
   checking examples ... ERROR
 
-* SCORPIUS
+* lplyr
+  checking examples ... ERROR
+
+* mosaicCore
   checking tests ... ERROR
 
-* TextMiningGUI
+* plotly
   checking examples ... ERROR
-  checking whether package ‘TextMiningGUI’ can be installed ... WARNING
+  checking tests ... ERROR
+
+* tcR
+  checking S3 generic/method consistency ... WARNING
+  checking Rd \usage sections ... NOTE
+
+* timetk
+  checking examples ... ERROR
 
 ### Failed to check
 
@@ -28,6 +42,7 @@ Issues with CRAN packages are summarised below.
 * CausalImpact       (NA)
 * CB2                (NA)
 * cbar               (NA)
+* crossmap           (NA)
 * diceR              (NA)
 * DiversityOccupancy (NA)
 * ESTER              (NA)

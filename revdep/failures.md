@@ -688,6 +688,89 @@ Run `cloud_details(, "NA")` for more info
 
 
 ```
+# crossmap
+
+<details>
+
+* Version: 0.2.0
+* GitHub: https://github.com/rossellhayes/crossmap
+* Source code: https://github.com/cran/crossmap
+* Date/Publication: 2020-09-24 07:30:02 UTC
+* Number of recursive dependencies: 60
+
+Run `cloud_details(, "crossmap")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/crossmap/old/crossmap.Rcheck’
+* using R version 3.6.3 (2020-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘crossmap/DESCRIPTION’ ... OK
+* this is package ‘crossmap’ version ‘0.2.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘crossmap’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... OK
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking examples ... OK
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ...
+
+
+
+
+
+```
 # NA
 
 <details>
@@ -821,41 +904,6 @@ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 * DONE
 Status: 1 ERROR
-
-
-
-
-
-
-```
-# NA
-
-<details>
-
-* Version: NA
-* GitHub: NA
-* Source code: https://github.com/cran/NA
-* Number of recursive dependencies: 0
-
-Run `cloud_details(, "NA")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
 
 
 
@@ -1193,11 +1241,11 @@ Run `cloud_details(, "NA")` for more info
 
 <details>
 
-* Version: 0.6.5
+* Version: 0.6.6
 * GitHub: https://github.com/IndrajeetPatil/ggstatsplot
 * Source code: https://github.com/cran/ggstatsplot
-* Date/Publication: 2020-10-31 09:20:03 UTC
-* Number of recursive dependencies: 206
+* Date/Publication: 2020-12-03 10:40:02 UTC
+* Number of recursive dependencies: 201
 
 Run `cloud_details(, "ggstatsplot")` for more info
 
@@ -1471,7 +1519,9 @@ Run `cloud_details(, "jstor")` for more info
 * checking files in ‘vignettes’ ... OK
 * checking examples ... OK
 * checking for unstated dependencies in ‘tests’ ... OK
-* checking tests ...
+* checking tests ... ERROR
+  Running ‘testthat.R’
+
 
 
 
@@ -2323,8 +2373,8 @@ g++ -std=gnu++11 -I"/usr/share/R/include" -DNDEBUG -DARMA_DONT_USE_OPENMP -I"/us
 g++ -std=gnu++11 -I"/usr/share/R/include" -DNDEBUG -DARMA_DONT_USE_OPENMP -I"/usr/local/lib/R/site-library/Rcpp/include" -I"/usr/local/lib/R/site-library/RcppArmadillo/include" -I"/usr/local/lib/R/site-library/pbv/include" -I"/usr/local/lib/R/site-library/roptim/include"  -fopenmp  -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-jbaK_j/r-base-3.6.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c 06_DWLS_Wmat.cpp -o 06_DWLS_Wmat.o
 g++ -std=gnu++11 -I"/usr/share/R/include" -DNDEBUG -DARMA_DONT_USE_OPENMP -I"/usr/local/lib/R/site-library/Rcpp/include" -I"/usr/local/lib/R/site-library/RcppArmadillo/include" -I"/usr/local/lib/R/site-library/pbv/include" -I"/usr/local/lib/R/site-library/roptim/include"  -fopenmp  -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-jbaK_j/r-base-3.6.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c 06_ULS_expectedHessian_cpp.cpp -o 06_ULS_expectedHessian_cpp.o
 g++ -std=gnu++11 -I"/usr/share/R/include" -DNDEBUG -DARMA_DONT_USE_OPENMP -I"/usr/local/lib/R/site-library/Rcpp/include" -I"/usr/local/lib/R/site-library/RcppArmadillo/include" -I"/usr/local/lib/R/site-library/pbv/include" -I"/usr/local/lib/R/site-library/roptim/include"  -fopenmp  -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-jbaK_j/r-base-3.6.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c 06_ULS_fitfunction_cpp.cpp -o 06_ULS_fitfunction_cpp.o
-/tmp/cca1TePY.s: Assembler messages:
-/tmp/cca1TePY.s: Fatal error: can't close 06_ULS_fitfunction_cpp.o: No space left on device
+/tmp/cc2e0RWg.s: Assembler messages:
+/tmp/cc2e0RWg.s: Fatal error: can't close 06_ULS_fitfunction_cpp.o: No space left on device
 make: *** [/usr/lib/R/etc/Makeconf:177: 06_ULS_fitfunction_cpp.o] Error 1
 ERROR: compilation failed for package ‘psychonetrics’
 * removing ‘/tmp/workdir/psychonetrics/new/psychonetrics.Rcheck/psychonetrics’
@@ -2945,11 +2995,11 @@ Run `cloud_details(, "NA")` for more info
 
 <details>
 
-* Version: 0.6.0
+* Version: 0.6.1
 * GitHub: https://github.com/IndrajeetPatil/statsExpressions
 * Source code: https://github.com/cran/statsExpressions
-* Date/Publication: 2020-10-31 00:50:03 UTC
-* Number of recursive dependencies: 179
+* Date/Publication: 2020-12-01 21:50:03 UTC
+* Number of recursive dependencies: 174
 
 Run `cloud_details(, "statsExpressions")` for more info
 
