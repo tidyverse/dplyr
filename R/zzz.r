@@ -11,11 +11,8 @@
   has_dbplyr <- is_installed("dbplyr")
   if (!has_dbplyr || !exists("count.tbl_sql", ns_env("dbplyr"))) {
     s3_register("dplyr::count", "tbl_sql")
-  }
-  if (!has_dbplyr || !exists("tally.tbl_sql", ns_env("dbplyr"))) {
     s3_register("dplyr::tally", "tbl_sql")
   }
-
 
   invisible()
 }
