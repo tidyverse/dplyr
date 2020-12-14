@@ -4,7 +4,7 @@
 \alias{dplyr_data_masking}
 \title{Argument type: data-masking}
 \description{
-This page the describes the \verb{<data-masking>} argument modifier which
+This page describes the \verb{<data-masking>} argument modifier which
 indicates that the argument uses tidy evaluation with \strong{data masking}.
 If you've never heard of tidy evaluation before, start with
 \code{vignette("programming")}.
