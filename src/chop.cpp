@@ -111,7 +111,8 @@ SEXP env_resolved(SEXP env, SEXP names) {
   for(R_xlen_t i = 0; i < n; i++) {
     SEXP name = PROTECT(rlang::str_as_symbol(p_names[i]));
     SEXP prom = PROTECT(Rf_findVarInFrame(env, name));
-    p_res[i] = PRVALUE(prom) != R_UnboundValue;
+    SEXP val = TYPEOF(prom) == PROMSXP ? PRVALUE(prom) : prom;
+    p_res[i] = val != R_UnboundValue;
     UNPROTECT(2);
   }
 
