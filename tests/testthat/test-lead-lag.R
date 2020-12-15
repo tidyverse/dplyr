@@ -64,6 +64,11 @@ test_that("lead() and lag() work for matrices (#5028)", {
   expect_equal(lead(m, 1, default = NA), matrix(c(2L, 3L, NA_integer_, 5L, 6L, NA_integer_), ncol = 2))
 })
 
+test_that("lead() and lag() checks size of default (#5641)", {
+  expect_error(lead(1:10, default = integer()))
+  expect_error(lag(1:10, default = integer()))
+})
+
 # Errors ------------------------------------------------------------------
 
 test_that("lead() / lag() give meaningful errors", {
@@ -79,5 +84,6 @@ test_that("lead() / lag() give meaningful errors", {
 
     "# incompatible default"
     lag(c("1", "2", "3"), default = FALSE)
+    lag(c("1", "2", "3"), default = character())
   })
 })
