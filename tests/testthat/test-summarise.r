@@ -202,6 +202,14 @@ test_that("summarise(.groups=)", {
   expect_equal(rf %>% summarise(.groups = "keep") %>% group_vars(), c("x", "y"))
 })
 
+test_that("summarise() casts data frame results to common type (#5646)", {
+  df <- data.frame(x = 1:2, g = 1:2) %>% group_by(g)
+
+  res <- df %>%
+    summarise(if (g == 1) data.frame(y = 1) else data.frame(y = 1, z = 2), .groups = "drop")
+  expect_equal(res$z, c(NA, 2))
+})
+
 # errors -------------------------------------------------------------------
 
 test_that("summarise() preserves the call stack on error (#5308)", {

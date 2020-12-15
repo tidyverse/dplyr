@@ -441,6 +441,15 @@ test_that("functions are not skipped in data pronoun (#5608)", {
   expect_equal(two, 2)
 })
 
+test_that("mutate() casts data frame results to common type (#5646)", {
+  df <- data.frame(x = 1:2, g = 1:2) %>% group_by(g)
+
+  res <- df %>%
+    mutate(if (g == 1) data.frame(y = 1) else data.frame(y = 1, z = 2))
+  expect_equal(res$z, c(NA, 2))
+})
+
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {
