@@ -52,11 +52,9 @@ struct symbols {
   static SEXP vec_is_list;
   static SEXP new_env;
   static SEXP dot_data;
-=======
   static SEXP used;
   static SEXP filter_combine;
   static SEXP across;
->>>>>>> 765632200 (+if_any() / if_all())
 };
 
 struct vectors {
