@@ -70,7 +70,7 @@ filter(mtcars, if_all(everything(), ~ .x > 150))
 # Or the union:
 filter_all(mtcars, any_vars(. > 150))
 # ->
-filter(mtcars, if_any(everything(), . > 150))
+filter(mtcars, if_any(everything(), ~ . > 150))
 
 
 # You can vary the selection of columns on which to apply the
