@@ -52,6 +52,11 @@ struct symbols {
   static SEXP vec_is_list;
   static SEXP new_env;
   static SEXP dot_data;
+=======
+  static SEXP used;
+  static SEXP filter_combine;
+  static SEXP across;
+>>>>>>> 765632200 (+if_any() / if_all())
 };
 
 struct vectors {
@@ -76,6 +81,7 @@ SEXP eval_tidy(SEXP expr, SEXP data, SEXP env);
 SEXP as_data_pronoun(SEXP x);
 SEXP new_data_mask(SEXP bottom, SEXP top);
 SEXP str_as_symbol(SEXP);
+SEXP quo_get_expr(SEXP quo);
 }
 
 namespace vctrs {

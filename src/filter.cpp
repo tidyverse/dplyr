@@ -1,4 +1,5 @@
 #include "dplyr.h"
+#include <string.h>
 
 namespace dplyr {
 
@@ -43,7 +44,7 @@ bool all_lgl_columns(SEXP data) {
   return true;
 }
 
-void reduce_lgl(SEXP reduced, SEXP x, int n) {
+void reduce_lgl_and(SEXP reduced, SEXP x, int n) {
   R_xlen_t nres = XLENGTH(x);
   int* p_reduced = LOGICAL(reduced);
   if (nres == 1) {
@@ -58,6 +59,32 @@ void reduce_lgl(SEXP reduced, SEXP x, int n) {
       *p_reduced = *p_reduced == TRUE && *p_x == TRUE ;
     }
   }
+}
+
+SEXP reduce_lgl_or(SEXP df, int n) {
+  R_xlen_t ncols = XLENGTH(df);
+  if (ncols == 0) {
+    return Rf_allocVector(LGLSXP, n);
+  }
+
+  if (ncols == 1) {
+    return VECTOR_ELT(df, 0);
+  }
+
+  SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
+  int* p_reduced = LOGICAL(reduced);
+  const SEXP* p_df = VECTOR_PTR_RO(df);
+  for (R_xlen_t j = 0; j < ncols; j++) {
+    int* p_df_j = LOGICAL(p_df[j]);
+    for (int i = 0; i < n; i++) {
+      if (p_df_j[i] == TRUE) {
+        p_reduced[i] = TRUE;
+      }
+    }
+  }
+
+  UNPROTECT(1);
+  return reduced;
 }
 
 void filter_check_size(SEXP res, int i, R_xlen_t n, SEXP quos) {
@@ -89,7 +116,7 @@ void filter_check_type(SEXP res, R_xlen_t i, SEXP quos) {
   }
 }
 
-SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, SEXP env_filter) {
+SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, SEXP env_filter, bool first) {
   // then reduce to a single logical vector of size n
   SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
 
@@ -111,13 +138,43 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, SEXP env_fil
     filter_check_type(res, i, quos);
 
     if (TYPEOF(res) == LGLSXP) {
-      reduce_lgl(reduced, res, n);
+      reduce_lgl_and(reduced, res, n);
     } else if(Rf_inherits(res, "data.frame")) {
-      R_xlen_t ncol = XLENGTH(res);
-      const SEXP* p_res = VECTOR_PTR_RO(res);
-      for (R_xlen_t j = 0; j<ncol; j++) {
-        reduce_lgl(reduced, p_res[j], n);
+      SEXP combine = PROTECT(Rf_getAttrib(res, dplyr::symbols::filter_combine));
+      bool warn = true;
+      bool combine_and = true;
+      if (TYPEOF(combine) == STRSXP && XLENGTH(combine) == 1) {
+        if (strcmp(CHAR(STRING_ELT(combine, 0)), "and") == 0) {
+          warn = false;
+        } else if (strcmp(CHAR(STRING_ELT(combine, 0)), "or") == 0){
+          warn = false;
+          combine_and = false;
+        }
       }
+      if (first && warn) {
+        SEXP expr = rlang::quo_get_expr(VECTOR_ELT(quos, i));
+        bool across = TYPEOF(expr) == LANGSXP && CAR(expr) == dplyr::symbols::across;
+        if (across) {
+          Rf_warningcall(R_NilValue, "Using `across()` in `filter()` is deprecated, use `if_any()` or `if_all()`");
+        } else {
+          Rf_warningcall(R_NilValue, "data frame results in `filter()` are deprecated, use `if_any()` or `if_all()`");
+        }
+      }
+
+      if (combine_and) {
+        const SEXP* p_res = VECTOR_PTR_RO(res);
+        R_xlen_t ncol = XLENGTH(res);
+        for (R_xlen_t j = 0; j < ncol; j++) {
+          reduce_lgl_and(reduced, p_res[j], n);
+        }
+      } else {
+        reduce_lgl_and(
+          reduced,
+          reduce_lgl_or(res, n),
+          n
+        );
+      }
+      UNPROTECT(1);
     }
 
     UNPROTECT(2);
@@ -140,7 +197,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_
     SEXP rows_i = p_rows[i];
     R_xlen_t n_i = XLENGTH(rows_i);
 
-    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, n_i, env_filter));
+    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, n_i, env_filter, i == 0));
 
     int* p_rows_i = INTEGER(rows_i);
     int* p_result_i = LOGICAL(result_i);

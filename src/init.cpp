@@ -55,6 +55,9 @@ SEXP symbols::envir = Rf_install("envir");
 SEXP symbols::vec_is_list = Rf_install("vec_is_list");
 SEXP symbols::new_env = Rf_install("new.env");
 SEXP symbols::dot_data = Rf_install(".data");
+SEXP symbols::used = Rf_install("used");
+SEXP symbols::filter_combine = Rf_install("filter_combine");
+SEXP symbols::across = Rf_install("across");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
