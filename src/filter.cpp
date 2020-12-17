@@ -64,7 +64,13 @@ void reduce_lgl_and(SEXP reduced, SEXP x, int n) {
 SEXP reduce_lgl_or(SEXP df, int n) {
   R_xlen_t ncols = XLENGTH(df);
   if (ncols == 0) {
-    return Rf_allocVector(LGLSXP, n);
+    SEXP res = PROTECT(Rf_allocVector(LGLSXP, n));
+    int* p_res = LOGICAL(res);
+    for (int i = 0; i < n; i++) {
+      p_res[i] = FALSE;
+    }
+    UNPROTECT(1);
+    return res;
   }
 
   if (ncols == 1) {
@@ -73,6 +79,9 @@ SEXP reduce_lgl_or(SEXP df, int n) {
 
   SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
   int* p_reduced = LOGICAL(reduced);
+  for (int i = 0; i < n; i++) {
+    p_reduced[i] = FALSE;
+  }
   const SEXP* p_df = VECTOR_PTR_RO(df);
   for (R_xlen_t j = 0; j < ncols; j++) {
     int* p_df_j = LOGICAL(p_df[j]);

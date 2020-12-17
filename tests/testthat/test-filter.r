@@ -366,27 +366,6 @@ test_that("filter() handles named logical (#4638)", {
   expect_equal(filter(tbl, a), tbl)
 })
 
-test_that("filter() reduce&() data frame results (#4678)", {
-  expect_identical(
-    iris %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3)),
-    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3)
-  )
-  expect_identical(
-    iris %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3), Petal.Length < 3),
-    iris %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
-  )
-
-
-  expect_identical(
-    iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3)),
-    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3)
-  )
-  expect_identical(
-    iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, Sepal.Width > 3), Petal.Length < 3),
-    iris %>% group_by(Species) %>% filter(Sepal.Length > 3, Sepal.Width > 3, Petal.Length < 3)
-  )
-})
-
 test_that("filter() allows named constants that resolve to logical vectors (#4612)", {
   filters <- mtcars %>%
     transmute(
@@ -513,4 +492,17 @@ test_that("filter() preserves the call stack on error (#5308)", {
   )
 
   expect_true(some(stack, is_call, "foobar"))
+})
+
+test_that("if_any() and if_all() work", {
+  df <- tibble(x1 = 1:10, x2 = c(1:5, 10:6))
+  expect_equal(
+    filter(df, if_all(starts_with("x"), ~ . > 6)),
+    filter(df, x1 > 6 & x2 > 6)
+  )
+
+  expect_equal(
+    filter(df, if_any(starts_with("x"), ~ . > 6)),
+    filter(df, x1 > 6 | x2 > 6)
+  )
 })
