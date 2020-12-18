@@ -26,6 +26,7 @@
 * `group_by()` uses the ungrouped data for the implicit mutate step (#5598). 
   You might have to define an `ungroup()` method for custom classes.
   For example, see https://github.com/hadley/cubelyr/pull/3. 
+  
 * New functions `if_any()` and `if_all()` to use inside `filter()` (#4770).
 
 * `group_by()` uses the ungrouped data for the implicit mutate step (#5598).
