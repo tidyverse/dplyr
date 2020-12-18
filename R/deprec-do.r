@@ -102,7 +102,10 @@ do.grouped_df <- function(.data, ...) {
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
-  p <- progress_estimated(n * m, min_time = 2)
+  p <- rlang::with_options(
+    lifecycle_verbosity = "quiet",
+    progress_estimated(n * m, min_time = 2)
+  )
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
@@ -230,7 +233,10 @@ do.rowwise_df <- function(.data, ...) {
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
-  p <- progress_estimated(n * m, min_time = 2)
+  p <- rlang::with_options(
+    lifecycle_verbosity = "quiet",
+    progress_estimated(n * m, min_time = 2)
+  )
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
