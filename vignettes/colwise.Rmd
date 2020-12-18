@@ -114,7 +114,7 @@ starwars %>% summarise(
 We cannot however use `where(is.numeric)` in that last case because the second `across()` 
 would pick up the variables that were newly created ("min_height", "min_mass" and "min_birth_year"). 
 
-We can work around this by combining both calls to `across()` into a single expression: 
+We can work around this by combining both calls to `across()` into a single expression that returns a tibble:
 
 ```{r}
 starwars %>% summarise(
@@ -169,12 +169,20 @@ df %>%
   summarise(n = n(), across(where(is.numeric) & !n, sd))
 ```
 
+Another approach is to combine both the call to `n()` and `across()` in a single
+expression that returns a tibble: 
 
+```{r}
+df %>% 
+  summarise(
+    tibble(n = n(), across(where(is.numeric), sd))
+  )
+```
 
 
 ### Other verbs
 
-So far we've focussed on the use of `across()` with `summarise()`, but it works with any other dplyr verb that uses data masking:
+So far we've focused on the use of `across()` with `summarise()`, but it works with any other dplyr verb that uses data masking:
 
 *   Rescale all numeric variables to range 0-1:
 
