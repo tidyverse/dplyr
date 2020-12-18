@@ -156,10 +156,6 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
         summarise_inform("has grouped output by {new_groups}")
       }
       out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
-    } else {
-      if (verbose) {
-        summarise_inform("has ungrouped output")
-      }
     }
   } else if (identical(.groups, "keep")) {
     if (verbose) {
