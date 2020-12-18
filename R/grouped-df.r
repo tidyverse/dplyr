@@ -76,8 +76,12 @@ compute_groups <- function(data, vars, drop = FALSE) {
 
     # Make the new keys from the old keys and the new_indices
     new_keys <- pmap(list(old_keys, new_indices, uniques), function(key, index, unique) {
-      if(is.factor(key)) {
-        new_factor(index, levels = levels(key))
+      if (is.factor(key)) {
+        if (is.ordered(key)) {
+          new_ordered(index, levels = levels(key))
+        } else {
+          new_factor(index, levels = levels(key))
+        }
       } else {
         vec_slice(unique, index)
       }

@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `group_by(.drop = FALSE)` preserves ordered factors (@brianrice2, #5545).
+
 * `count()` and `tally()` are now generic. 
 
 * Removed default fallbacks to lazyeval methods; this will yield better error messages when 

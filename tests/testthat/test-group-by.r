@@ -387,6 +387,15 @@ test_that("grouped data frames remember their .drop = FALSE (#4337)", {
   expect_false(group_by_drop_default(res2))
 })
 
+test_that("group_by(.drop = FALSE) preserve ordered factors (#5455)", {
+  df <- tibble(x = ordered("x"))
+  drop <- df %>% group_by(x) %>% group_data()
+  nodrop <- df %>% group_by(x, .drop = FALSE) %>% group_data()
+
+  expect_equal(is.ordered(drop$x), is.ordered(nodrop$x))
+  expect_true(is.ordered(nodrop$x))
+})
+
 test_that("summarise maintains the .drop attribute (#4061)", {
   df <- tibble(
     f1 = factor("a", levels = c("a", "b", "c")),
