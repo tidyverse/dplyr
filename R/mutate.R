@@ -295,7 +295,7 @@ mutate_cols <- function(.data, ...) {
           result <- chunks[[1]]
         } else {
           result <- withCallingHandlers(
-            vec_unchop(chunks, rows),
+            vec_unchop(chunks <- vec_cast_common(!!!chunks), rows),
             vctrs_error_incompatible_type = function(cnd) {
               abort(class = "dplyr:::error_mutate_incompatible_combine", parent = cnd)
             }

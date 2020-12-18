@@ -242,6 +242,8 @@ summarise_cols <- function(.data, ...) {
         }
       )
 
+      chunks[[i]] <- vec_cast_common(!!!chunks[[i]], .to = result_type)
+
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
         # remember each result separately
         map2(seq_along(result_type), names(result_type), function(j, nm) {
