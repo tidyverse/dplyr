@@ -60,6 +60,10 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   }
   if (n == 0) return(x)
 
+  if (vec_size(default) != 1L) {
+    abort(glue("`default` must be size 1, not size {vec_size(default)}"))
+  }
+
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
@@ -84,6 +88,10 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     )
   }
   if (n == 0) return(x)
+
+  if (vec_size(default) != 1L) {
+    abort(glue("`default` must be size 1, not size {vec_size(default)}"))
+  }
 
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
