@@ -195,12 +195,6 @@ So far we've focused on the use of `across()` with `summarise()`, but it works w
     df %>% mutate(across(where(is.numeric), rescale01))
     ```
 
-*   Find all rows where no variable has missing values:
-
-    ```{r}
-    starwars %>% filter(across(everything(), ~ !is.na(.x)))
-    ```
-
 For some verbs, like `group_by()`, `count()` and `distinct()`, you can omit the summary functions:
 
 *   Find all distinct 
@@ -216,6 +210,34 @@ For some verbs, like `group_by()`, `count()` and `distinct()`, you can omit the 
     ```
 
 `across()` doesn't work with `select()` or `rename()` because they already use tidy select syntax; if you want to transform column names with a function, you can use  `rename_with()`.
+
+### filter()
+
+We cannot directly use `across()` in `filter()` because we need an extra step to combine 
+the results. To that end, `filter()` has two special purpose companion functions: 
+
+* `if_any()` to keep the rows for which the predicate is true for *at least one* selected
+  column: 
+  
+```{r}
+starwars %>% 
+  filter(if_any(everything(), ~ !is.na(.x)))
+```
+  
+* `if_all()` to keep the rows where the predicate is true for *all* selected columns:
+
+```{r}
+starwars %>% 
+  filter(if_all(everything(), ~ !is.na(.x)))
+```
+
+*   Find all rows where no variable has missing values:
+
+    ```{r}
+    starwars %>% filter(across(everything(), ~ !is.na(.x)))
+    ```
+
+
 
 ## `_if`, `_at`, `_all`
 
@@ -302,20 +324,19 @@ There are a few exceptions to this rule:
     have a direct equivalent with `across()`; use the new `rename_with()`
     instead.
 
-*   Previously, `filter()` was paired with the `all_vars()` and `any_vars()` 
-    helpers. Now, `across()` is equivalent to `all_vars()`, and there's no 
-    direct replacement for `any_vars()`. However you can make a simple helper
-    yourself:
-  
+*   Previously, `filter_*()` were paired with the `all_vars()` and `any_vars()` 
+    helpers. The new helpers `if_any()` and `if_all()` can be used inside `filter()`
+    to keep rows for which the predicate is true for at least one, or all
+    selected columns: 
+    
     ```{r}
     df <- tibble(x = c("a", "b"), y = c(1, 1), z = c(-1, 1))
     
     # Find all rows where EVERY numeric variable is greater than zero
-    df %>% filter(across(where(is.numeric), ~ .x > 0))
+    df %>% filter(if_all(where(is.numeric), ~ .x > 0))
     
     # Find all rows where ANY numeric variable is greater than zero
-    rowAny <- function(x) rowSums(x) > 0
-    df %>% filter(rowAny(across(where(is.numeric), ~ .x > 0)))
+    df %>% filter(if_any(where(is.numeric), ~ .x > 0))
     ```
     
 *   When used in a `mutate()`, all transformations performed by an `across()` 
