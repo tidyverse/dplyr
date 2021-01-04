@@ -230,7 +230,6 @@ test_that("summarise() gives meaningful errors", {
   verify_output(env = env(global_env()), test_path("test-summarise-errors.txt"), {
     "# Messages about .groups="
     ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()
-    ignored <- tibble(x = 1, y = 2) %>% group_by(x) %>% summarise()
     ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2,2))
     ignored <- tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()
     ignored <- tibble(x = 1, y = 2) %>% rowwise() %>% summarise()
