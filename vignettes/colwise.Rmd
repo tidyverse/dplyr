@@ -216,7 +216,7 @@ For some verbs, like `group_by()`, `count()` and `distinct()`, you can omit the 
 We cannot directly use `across()` in `filter()` because we need an extra step to combine 
 the results. To that end, `filter()` has two special purpose companion functions: 
 
-* `if_any()` to keep the rows for which the predicate is true for *at least one* selected
+* `if_any()` keeps the rows where the predicate is true for *at least one* selected
   column: 
   
 ```{r}
