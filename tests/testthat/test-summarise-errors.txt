@@ -23,8 +23,8 @@ Error: Problem with `summarise()` input `a`.
 x Input `a` must be a vector, not an environment.
 i Input `a` is `rlang::env(a = 1)`.
 
-> tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = rlang::
-+   env(a = 1))
+> tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>% summarise(a = rlang::env(
++   a = 1))
 Error: Problem with `summarise()` input `a`.
 x Input `a` must be a vector, not an environment.
 i Input `a` is `rlang::env(a = 1)`.
