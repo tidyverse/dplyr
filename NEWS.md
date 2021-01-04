@@ -29,8 +29,6 @@
   
 * New functions `if_any()` and `if_all()` to use inside `filter()` (#4770).
 
-* `group_by()` uses the ungrouped data for the implicit mutate step (#5598).
-
 * `relocate()` can rename columns it relocates (#5569).
 
 * `distinct()` and `group_by()` have better error messages when the mutate step fails (#5060).
