@@ -130,3 +130,19 @@ Error: Problem with `filter()` input `..1`.
 x {
 i Input `..1` is `stop("{")`.
 
+
+across() in filter() warns
+==========================
+
+> data.frame(x = 1, y = 1) %>% filter(across(everything(), ~.x > 0))
+Warning: Using `across()` in `filter()` is deprecated, use `if_any()` or `if_all()`
+
+  x y
+1 1 1
+
+> data.frame(x = 1, y = 1) %>% filter(data.frame(x > 0, y > 0))
+Warning: data frame results in `filter()` are deprecated, use `if_any()` or `if_all()`
+
+  x y
+1 1 1
+

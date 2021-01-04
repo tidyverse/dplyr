@@ -434,6 +434,12 @@ test_that("filter() gives useful error messages", {
 
     "# Error that contains {"
     tibble() %>% filter(stop("{"))
+
+    "# across() in filter() warns"
+    data.frame(x = 1, y = 1) %>%
+      filter(across(everything(), ~ .x > 0))
+    data.frame(x = 1, y = 1) %>%
+      filter(data.frame(x > 0, y > 0))
   })
 })
 
