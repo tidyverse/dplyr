@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `summarise()` no longer informs when the result is ungrouped (#5633).
+
 * `group_by(.drop = FALSE)` preserves ordered factors (@brianrice2, #5545).
 
 * `count()` and `tally()` are now generic. 

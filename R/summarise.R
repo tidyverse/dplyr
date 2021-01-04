@@ -54,9 +54,9 @@
 #'   * If all the results have 1 row, you get "drop_last".
 #'   * If the number of rows varies, you get "keep".
 #'
-#'   In addition, a message informs you of that choice, unless the
-#'   option "dplyr.summarise.inform" is set to `FALSE`, or when `summarise()`
-#'   is called from a function in a package.
+#'   In addition, a message informs you of that choice, unless the result is ungrouped,
+#'   the option "dplyr.summarise.inform" is set to `FALSE`,
+#'   or when `summarise()` is called from a function in a package.
 #'
 #' @family single table verbs
 #' @return
