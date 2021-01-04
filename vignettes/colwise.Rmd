@@ -224,7 +224,7 @@ starwars %>%
   filter(if_any(everything(), ~ !is.na(.x)))
 ```
   
-* `if_all()` to keep the rows where the predicate is true for *all* selected columns:
+* `if_all()` keeps the rows where the predicate is true for *all* selected columns:
 
 ```{r}
 starwars %>% 
