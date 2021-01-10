@@ -325,6 +325,8 @@ mutate_cols <- function(.data, ...) {
 
   },
   error = function(e) {
+    shiny_error_bypass(e)
+
     local_call_step(dots = dots, .index = i, .fn = "mutate", .dot_data = inherits(e, "rlang_error_data_pronoun_not_found"))
     call_step_envir <- peek_call_step()
     error_name <- call_step_envir$error_name

@@ -116,6 +116,7 @@ arrange_rows <- function(.data, dots) {
   data <- withCallingHandlers({
     transmute(new_data_frame(.data), !!!quosures)
   }, error = function(cnd) {
+    shiny_error_bypass(cnd)
     if (inherits(cnd, "dplyr:::mutate_error")) {
       error_name <- cnd$error_name
       index <- sub("^.*_", "", error_name)

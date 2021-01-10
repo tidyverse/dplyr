@@ -183,6 +183,7 @@ add_computed_columns <- function(.data, vars, .fn = "group_by") {
       cols <- withCallingHandlers(
         mutate_cols(.data, !!!vars),
         error = function(e) {
+          shiny_error_bypass(e)
           abort(c(
             glue("Problem adding computed columns in `{.fn}()`."),
             x = e$message

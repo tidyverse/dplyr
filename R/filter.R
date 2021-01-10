@@ -124,6 +124,7 @@ filter_rows <- function(.data, ...) {
   withCallingHandlers(
     mask$eval_all_filter(dots, env_filter),
     error = function(e) {
+      shiny_error_bypass(e)
       local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
 
       abort(c(
