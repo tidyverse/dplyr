@@ -260,19 +260,6 @@ mutate_cols <- function(.data, ...) {
           # column from the original data
           result <- .data[[name]]
           chunks <- mask$resolve(name)
-        } else {
-          # try to evaluate anyway because the name might be something
-          # in the environment, but then if this fails send a custom message
-          # so that this can be intercepted by e.g. arrange()
-          chunks <- withCallingHandlers(
-            mask$eval_all_mutate(dots[[i]]), error = function(e) {
-              if (grepl("not found", conditionMessage(e))) {
-                abort(glue("Column `{name}` not found"), class = "dplyr:::mutate_column_not_found")
-              } else {
-                stop(e)
-              }
-            }
-          )
         }
 
         if (inherits(.data, "rowwise_df") && vec_is_list(result)) {
@@ -381,14 +368,18 @@ mutate_cols <- function(.data, ...) {
       )
     }
 
-    abort(c(
+    bullets <- c(
       cnd_bullet_header(),
       bullets,
       i = if(show_group_details) cnd_bullet_cur_group_label()
-      ),
+    )
+
+    abort(
+      bullets,
       class = c("dplyr:::mutate_error", "dplyr_error"),
       error_name = error_name, error_expression = error_expression,
-      parent = e
+      parent = e,
+      bullets = bullets
     )
 
   },

@@ -116,20 +116,10 @@ arrange_rows <- function(.data, dots) {
   data <- withCallingHandlers({
     transmute(new_data_frame(.data), !!!quosures)
   }, error = function(cnd) {
-    if (inherits(cnd, "dplyr:::mutate_error")) {
-      parent_error <- cnd$parent
-      if (inherits(parent_error, "dplyr:::mutate_column_not_found")) {
-        abort(conditionMessage(parent_error))
-      } else {
-        error_name <- cnd$error_name
-        index <- sub("^.*_", "", error_name)
-        error_expression <- cnd$error_expression
 
-        bullets <- c(
-          x = glue("Could not create a temporary column for `..{index}`."),
-          i = glue("`..{index}` is `{error_expression}`.")
-        )
-      }
+    if (inherits(cnd, "dplyr:::mutate_error")) {
+      # reverse the name mangling
+      bullets <- gsub("^^--arrange_quosure_", "..", cnd$bullets, fixed = TRUE)
     } else {
       bullets <- c(x = conditionMessage(cnd))
     }
