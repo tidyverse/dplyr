@@ -79,12 +79,12 @@ err_vars <- function(x) {
   glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ")
 }
 
-abort_glue <- function(message, .envir = parent.frame(), class = NULL) {
+abort_glue <- function(message, data = list(), class = NULL) {
   if (length(message)) {
-    message <- exec(glue, message, !!!.envir)
-    exec(abort, message = message, class = class, !!!.envir)
+    message <- exec(glue, message, !!!data)
+    exec(abort, message = message, class = class, !!!data)
   } else {
-    exec(abort, class = class, !!!.envir)
+    exec(abort, class = class, !!!data)
   }
 }
 
