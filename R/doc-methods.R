@@ -35,7 +35,7 @@ methods_generic <- function(x) {
 }
 
 methods_rd <- function(x) {
-  methods <- methods_generic(x)
+  methods <- tryCatch(methods_generic(x), error = function(e) data.frame())
   if (nrow(methods) == 0) {
     return("no methods found")
   }
