@@ -368,11 +368,19 @@ mutate_cols <- function(.data, ...) {
       )
     }
 
-    abort(c(
+    bullets <- c(
       cnd_bullet_header(),
       bullets,
       i = if(show_group_details) cnd_bullet_cur_group_label()
-    ), class = c("dplyr:::mutate_error", "dplyr_error"), error_name = error_name, error_expression = error_expression)
+    )
+
+    abort(
+      bullets,
+      class = c("dplyr:::mutate_error", "dplyr_error"),
+      error_name = error_name, error_expression = error_expression,
+      parent = e,
+      bullets = bullets
+    )
 
   },
   warning = function(w) {
