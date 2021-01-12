@@ -35,6 +35,7 @@
 #' @examples
 #' # across() -----------------------------------------------------------------
 #' # Different ways to select the same set of columns
+#' # See <https://tidyselect.r-lib.org/articles/syntax.html> for details
 #' iris %>%
 #'   as_tibble() %>%
 #'   mutate(across(c(Sepal.Length, Sepal.Width), round))
