@@ -46,12 +46,20 @@ more details.
 }
 \examples{
 # across() -----------------------------------------------------------------
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), mean))
+# Different ways to select the same set of columns
+# See <https://tidyselect.r-lib.org/articles/syntax.html> for details
 iris \%>\%
   as_tibble() \%>\%
-  mutate(across(where(is.factor), as.character))
+  mutate(across(c(Sepal.Length, Sepal.Width), round))
+iris \%>\%
+  as_tibble() \%>\%
+  mutate(across(c(1, 2), round))
+iris \%>\%
+  as_tibble() \%>\%
+  mutate(across(1:Sepal.Width, round))
+iris \%>\%
+  as_tibble() \%>\%
+  mutate(across(where(is.double) & !c(Petal.Length, Petal.Width), round))
 
 # A purrr-style formula
 iris \%>\%
