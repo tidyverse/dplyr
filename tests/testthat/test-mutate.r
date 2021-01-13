@@ -449,6 +449,17 @@ test_that("mutate() casts data frame results to common type (#5646)", {
   expect_equal(res$z, c(NA, 2))
 })
 
+test_that("can suppress or catch warnings from the outside (#5675)", {
+  # Check that basic warning handling still works
+  expect_no_warning(
+    suppressWarnings(mutate(tibble(), warning("foo")))
+  )
+
+  f <- function() warn("foo", "dplyr:::foo")
+  x <- tryCatch(warning = identity, mutate(mtcars, f()))
+  expect_match(conditionMessage(x), "foo")
+})
+
 
 # Error messages ----------------------------------------------------------
 

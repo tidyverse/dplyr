@@ -384,6 +384,10 @@ mutate_cols <- function(.data, ...) {
 
   },
   warning = function(w) {
+    # Allow upstack calling handler to muffle the warning. This avoids
+    # doing the expensive work below for a silenced warning (#5675).
+    signalCondition(w)
+
     local_call_step(dots = dots, .index = i, .fn = "mutate")
 
     warn(c(
