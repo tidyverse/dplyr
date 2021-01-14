@@ -52,7 +52,7 @@ The following table shows a condensed translation between dplyr verbs and their 
 | `pull(df, 1)`                 | `df[[1]]`                                        | 
 | `pull(df, x)`                 | `df$x`                                           | 
 | `rename(df, y = x)`           | `names(df)[names(df) == "x"] <- "y"`             | 
-| `relocate(df, y)`             | `df[union("y", names(df))`                       | 
+| `relocate(df, y)`             | `df[union("y", names(df))]`                       | 
 | `select(df, x, y)`            | `df[c("x", "y")]`, `subset()`                    | 
 | `select(df, starts_with("x")` | `df[grepl(names(df), "^x")]`                     | 
 | `summarise(df, mean(x))`      | `mean(df$x)`, `tapply()`, `aggregate()`, `by()`  | 
