@@ -160,33 +160,33 @@ The \code{:} operator selects a range of consecutive variables:\if{html}{\out{<d
 
 The \code{!} operator negates a selection:\if{html}{\out{<div class="r">}}\preformatted{starwars \%>\% select(!(name:mass))
 #> # A tibble: 87 x 11
-#>   hair_color skin_color  eye_color birth_year sex   gender    homeworld species
-#>   <chr>      <chr>       <chr>          <dbl> <chr> <chr>     <chr>     <chr>  
-#> 1 blond      fair        blue            19   male  masculine Tatooine  Human  
-#> 2 <NA>       gold        yellow         112   none  masculine Tatooine  Droid  
-#> 3 <NA>       white, blue red             33   none  masculine Naboo     Droid  
-#> 4 none       white       yellow          41.9 male  masculine Tatooine  Human  
+#>   hair_color skin_color eye_color birth_year sex   gender homeworld species
+#>   <chr>      <chr>      <chr>          <dbl> <chr> <chr>  <chr>     <chr>
+#> 1 blond      fair       blue            19   male  mascu~ Tatooine  Human
+#> 2 <NA>       gold       yellow         112   none  mascu~ Tatooine  Droid
+#> 3 <NA>       white, bl~ red             33   none  mascu~ Naboo     Droid
+#> 4 none       white      yellow          41.9 male  mascu~ Tatooine  Human
 #> # ... with 83 more rows, and 3 more variables: films <list>, vehicles <list>,
 #> #   starships <list>
 
 iris \%>\% select(!c(Sepal.Length, Petal.Length))
 #> # A tibble: 150 x 3
 #>   Sepal.Width Petal.Width Species
-#>         <dbl>       <dbl> <fct>  
-#> 1         3.5         0.2 setosa 
-#> 2         3           0.2 setosa 
-#> 3         3.2         0.2 setosa 
-#> 4         3.1         0.2 setosa 
+#>         <dbl>       <dbl> <fct>
+#> 1         3.5         0.2 setosa
+#> 2         3           0.2 setosa
+#> 3         3.2         0.2 setosa
+#> 4         3.1         0.2 setosa
 #> # ... with 146 more rows
 
 iris \%>\% select(!ends_with("Width"))
 #> # A tibble: 150 x 3
 #>   Sepal.Length Petal.Length Species
-#>          <dbl>        <dbl> <fct>  
-#> 1          5.1          1.4 setosa 
-#> 2          4.9          1.4 setosa 
-#> 3          4.7          1.3 setosa 
-#> 4          4.6          1.5 setosa 
+#>          <dbl>        <dbl> <fct>
+#> 1          5.1          1.4 setosa
+#> 2          4.9          1.4 setosa
+#> 3          4.7          1.3 setosa
+#> 4          4.6          1.5 setosa
 #> # ... with 146 more rows
 }\if{html}{\out{</div>}}
 
@@ -205,7 +205,7 @@ iris \%>\% select(starts_with("Petal") | ends_with("Width"))
 #>   Petal.Length Petal.Width Sepal.Width
 #>          <dbl>       <dbl>       <dbl>
 #> 1          1.4         0.2         3.5
-#> 2          1.4         0.2         3  
+#> 2          1.4         0.2         3
 #> 3          1.3         0.2         3.2
 #> 4          1.5         0.2         3.1
 #> # ... with 146 more rows
@@ -226,7 +226,7 @@ To take the difference between two selections, combine the \code{&} and
 }
 
 \seealso{
-Other single table verbs: 
+Other single table verbs:
 \code{\link{arrange}()},
 \code{\link{filter}()},
 \code{\link{mutate}()},

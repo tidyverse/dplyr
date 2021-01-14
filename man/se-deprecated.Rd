@@ -21,7 +21,6 @@
 \alias{select_vars_}
 \alias{slice_}
 \alias{summarise_}
-\alias{summarize_}
 \title{Deprecated SE versions of main verbs.}
 \usage{
 add_count_(x, vars, wt = NULL, sort = FALSE)
@@ -61,8 +60,6 @@ select_vars_(vars, args, include = chr(), exclude = chr())
 slice_(.data, ..., .dots = list())
 
 summarise_(.data, ..., .dots = list())
-
-summarize_(.data, ..., .dots = list())
 }
 \arguments{
 \item{x}{A \code{\link[=tbl]{tbl()}}}

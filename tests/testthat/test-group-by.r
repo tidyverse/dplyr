@@ -40,11 +40,9 @@ test_that("grouping by constant adds column (#410)", {
   expect_equal(nrow(grouped), 1L)
 })
 
-test_that(".dots is soft deprecated", {
-  rlang::scoped_options(lifecycle_verbosity = "warning")
-
+test_that("group_by(.dots=) is defunct", {
   df <- tibble(x = 1, y = 1)
-  expect_warning(gf <- group_by(df, .dots = "x"), "deprecated")
+  expect_error(group_by(df, .dots = "x"), "defunct")
 })
 
 # Test full range of variable types --------------------------------------------
