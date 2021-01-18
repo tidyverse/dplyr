@@ -462,7 +462,7 @@ test_that("can suppress or catch warnings from the outside (#5675)", {
 
   # Check that caught warnings are instrumented. Requires
   # <https://github.com/wch/r-source/commit/688eaebf>.
-  if (getRversion() >= "3.5.0") {
+  if (can_return_from_exit) {
     expect_match(msg, "Problem with")
   }
 })

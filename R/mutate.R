@@ -423,7 +423,7 @@ check_muffled_warning <- function(cnd) {
   # `tryCatch(warning = )`, the original warning `cnd` will be caught
   # instead of the instrumented warning.
   on.exit(
-    if (early_exit) {
+    if (can_return_from_exit && early_exit) {
       return(FALSE)
     }
   )
@@ -439,3 +439,7 @@ check_muffled_warning <- function(cnd) {
   early_exit <- FALSE
   muffled
 }
+
+on_load(
+  can_return_from_exit <- getRversion() >= "3.5.0"
+)

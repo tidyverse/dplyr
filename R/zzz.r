@@ -14,6 +14,8 @@
     s3_register("dplyr::tally", "tbl_sql")
   }
 
+  run_on_load()
+
   invisible()
 }
 
