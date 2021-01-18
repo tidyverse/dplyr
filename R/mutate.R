@@ -384,9 +384,12 @@ mutate_cols <- function(.data, ...) {
 
   },
   warning = function(w) {
-    # Allow upstack calling handler to muffle the warning. This avoids
-    # doing the expensive work below for a silenced warning (#5675).
-    signalCondition(w)
+    # Check if there is an upstack calling handler that would muffle
+    # the warning. This avoids doing the expensive work below for a
+    # silenced warning (#5675).
+    if (check_muffled_warning(w)) {
+      return()
+    }
 
     local_call_step(dots = dots, .index = i, .fn = "mutate")
 
@@ -407,4 +410,32 @@ mutate_cols <- function(.data, ...) {
   names(used) <- mask$current_vars()
   attr(new_columns, "used") <- used
   new_columns
+}
+
+check_muffled_warning <- function(cnd) {
+  early_exit <- TRUE
+
+  # Cancel early exits, e.g. from an exiting handler. This way we can
+  # still instrument caught warnings to avoid confusing
+  # inconsistencies. This doesn't work on versions of R older than
+  # 3.5.0 because they don't include this change:
+  # https://github.com/wch/r-source/commit/688eaebf. So with
+  # `tryCatch(warning = )`, the original warning `cnd` will be caught
+  # instead of the instrumented warning.
+  on.exit(
+    if (early_exit) {
+      return(FALSE)
+    }
+  )
+
+  muffled <- withRestarts(
+    muffleWarning = function(...) TRUE,
+    {
+      signalCondition(cnd)
+      FALSE
+    }
+  )
+
+  early_exit <- FALSE
+  muffled
 }

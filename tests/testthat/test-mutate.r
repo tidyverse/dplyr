@@ -457,7 +457,14 @@ test_that("can suppress or catch warnings from the outside (#5675)", {
 
   f <- function() warn("foo", "dplyr:::foo")
   x <- tryCatch(warning = identity, mutate(mtcars, f()))
-  expect_match(conditionMessage(x), "foo")
+  msg <- conditionMessage(x)
+  expect_match(msg, "foo")
+
+  # Check that caught warnings are instrumented. Requires
+  # <https://github.com/wch/r-source/commit/688eaebf>.
+  if (getRversion() >= "3.5.0") {
+    expect_match(msg, "Problem with")
+  }
 })
 
 
