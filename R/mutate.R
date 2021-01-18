@@ -305,11 +305,7 @@ mutate_cols <- function(.data, ...) {
 
       if (not_named && is.data.frame(result)) {
         new_columns[names(result)] <- result
-
-        # remember each result separately
-        map2(seq_along(result), names(result), function(i, nm) {
-          mask$add(nm, pluck(chunks, i))
-        })
+        mask$add_many(result, chunks)
       } else {
         name <- if (not_named) auto_named_dots[i] else dots_names[i]
 
@@ -317,9 +313,8 @@ mutate_cols <- function(.data, ...) {
         new_columns[[name]] <- result
 
         # remember
-        mask$add(name, chunks)
+        mask$add_one(name, chunks)
       }
-
 
     }
 

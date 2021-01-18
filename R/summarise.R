@@ -247,14 +247,10 @@ summarise_cols <- function(.data, ...) {
       chunks[[i]] <- vec_cast_common(!!!chunks[[i]], .to = result_type)
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
-        # remember each result separately
-        chunks_extracted <- .Call(dplyr_extract_chunks, chunks[[i]], result_type)
-        map2(seq_along(result_type), names(result_type), function(j, nm) {
-          mask$add(nm, chunks_extracted[[j]])
-        })
+        mask$add_many(result_type, chunks[[i]])
       } else {
         # remember
-        mask$add(auto_named_dots[i], chunks[[i]])
+        mask$add_one(auto_named_dots[i], chunks[[i]])
       }
     }
 
