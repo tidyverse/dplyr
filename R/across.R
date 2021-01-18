@@ -102,7 +102,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
   if (is.null(fns)) {
     nrow <- length(mask$current_rows())
-    data <- new_tibble(data, nrow = nrow)
+    data <- new_data_frame(data, n = nrow)
 
     if (is.null(names)) {
       return(data)
