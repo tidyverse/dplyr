@@ -127,3 +127,9 @@ dplyr_new_data_frame <- function(x = data.frame(),
     class = class
   )
 }
+
+maybe_restart <- function(restart) {
+  if (!is_null(findRestart(restart))) {
+    invokeRestart(restart)
+  }
+}

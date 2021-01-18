@@ -388,7 +388,7 @@ mutate_cols <- function(.data, ...) {
     # the warning. This avoids doing the expensive work below for a
     # silenced warning (#5675).
     if (check_muffled_warning(w)) {
-      return()
+      maybe_restart("muffleWarning")
     }
 
     local_call_step(dots = dots, .index = i, .fn = "mutate")
@@ -400,8 +400,8 @@ mutate_cols <- function(.data, ...) {
       i = cnd_bullet_cur_group_label()
     ))
 
-    # cancel `w`
-    invokeRestart("muffleWarning")
+    # Cancel `w`
+    maybe_restart("muffleWarning")
   })
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
