@@ -143,3 +143,24 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes) {
   UNPROTECT(3);
   return res;
 }
+
+SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype) {
+  R_xlen_t n_columns = XLENGTH(df_ptype);
+  R_xlen_t n_rows = XLENGTH(df_list);
+
+  const SEXP* p_df_list = VECTOR_PTR_RO(df_list);
+
+  SEXP out = PROTECT(Rf_allocVector(VECSXP, n_columns));
+  for (R_xlen_t i = 0; i < n_columns; i++) {
+    SEXP out_i = PROTECT(Rf_allocVector(VECSXP, n_rows));
+    for (R_xlen_t j = 0; j < n_rows; j++) {
+      SET_VECTOR_ELT(out_i, j, VECTOR_ELT(p_df_list[j], i));
+    }
+    SET_VECTOR_ELT(out, i, out_i);
+    UNPROTECT(1);
+  }
+  UNPROTECT(1);
+  return out;
+}
+
+

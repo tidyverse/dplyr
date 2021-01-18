@@ -248,8 +248,9 @@ summarise_cols <- function(.data, ...) {
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
         # remember each result separately
+        chunks_extracted <- .Call(dplyr_extract_chunks, chunks[[i]], result_type)
         map2(seq_along(result_type), names(result_type), function(j, nm) {
-          mask$add(nm, pluck(chunks[[i]], j))
+          mask$add(nm, chunks_extracted[[j]])
         })
       } else {
         # remember

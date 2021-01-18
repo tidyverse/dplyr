@@ -118,6 +118,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_data_masks_setup", (DL_FUNC)& dplyr_data_masks_setup, 3},
   {"env_resolved", (DL_FUNC)& env_resolved, 2},
 
+  {"dplyr_extract_chunks", (DL_FUNC)& dplyr_extract_chunks, 2},
+
   {NULL, NULL, 0}
 };
 
