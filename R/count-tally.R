@@ -8,7 +8,7 @@
 #' to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
 #' switching the summary from `n = n()` to `n = sum(wt)`.
 #'
-#' `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
+#' `add_count()` and `add_tally()` are equivalents to `count()` and `tally()`
 #' but use `mutate()` instead of `summarise()` so that they add a new column
 #' with group-wise counts.
 #'
