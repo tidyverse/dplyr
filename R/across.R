@@ -142,7 +142,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   size <- vec_size_common(!!!out)
   out <- vec_recycle_common(!!!out, .size = size)
   names(out) <- names
-  new_tibble(out, nrow = size)
+  new_data_frame(out, n = size)
 }
 
 #' @rdname across
