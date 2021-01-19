@@ -159,6 +159,7 @@ SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype) {
     SET_VECTOR_ELT(out, i, out_i);
     UNPROTECT(1);
   }
+  Rf_namesgets(out, Rf_getAttrib(df_ptype, R_NamesSymbol));
   UNPROTECT(1);
   return out;
 }
