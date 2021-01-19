@@ -204,6 +204,58 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   out
 }
 
+top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+  key <- key_deparse(sys.call())
+  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key, .caller_env = caller_env())
+  vars <- setup$vars
+
+  # nothing
+  if (length(vars) == 0L) {
+    return(list())
+  }
+
+  fns <- setup$fns
+  names <- setup$names
+
+  # no functions, so just return a list of symbols
+  if (is.null(fns)) {
+    expressions <- syms(vars)
+    names(expressions) <- if (is.null(.names)) vars else names
+    return(expressions)
+  }
+
+  n_vars <- length(vars)
+  n_fns <- length(fns)
+
+  seq_vars <- seq_len(n_vars)
+  seq_fns  <- seq_len(n_fns)
+
+  expressions <- vector(mode = "list", n_vars * n_fns)
+
+  dots <- list(...)
+
+  k <- 1L
+  for (i in seq_vars) {
+    var <- vars[[i]]
+
+    for (j in seq_fns) {
+      fn <- fns[[j]]
+
+      xp <- if (length(dots)) {
+        expr( (!!fn)(!!sym(var), !!!dots) )
+      } else {
+        expr( (!!fn)(!!sym(var)) )
+      }
+      attr(xp, "column") <- var
+      expressions[[k]] <- xp
+
+      k <- k + 1L
+    }
+  }
+  names(expressions) <- names
+  expressions
+}
+
 summarise_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
   on.exit(mask$forget("summarise"), add = TRUE)
@@ -218,40 +270,76 @@ summarise_cols <- function(.data, ...) {
   chunks <- vector("list", length(dots))
   types <- vector("list", length(dots))
 
+  chunks <- list()
+  types <- list()
+  out_names <- character()
+
   withCallingHandlers({
-    # generate all chunks and monitor the sizes
     for (i in seq_along(dots)) {
       quo <- dots[[i]]
 
-      # a list in which each element is the result of
-      # evaluating the quosure in the "sliced data mask"
-      #
-      # TODO: reinject hybrid evaluation at the R level
-      results <- mask$eval_all_summarise(quo)
-
-      if (is.null(results)) {
-        next
-      } else {
-        chunks[[i]] <- results
-      }
-
       mask$across_cache_reset()
 
-      result_type <- types[[i]] <- withCallingHandlers(
-        vec_ptype_common(!!!chunks[[i]]),
-        vctrs_error_incompatible_type = function(cnd) {
-          abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)
-        }
-      )
+      # intercept unnamed calls to across() and split them
+      #
+      # summarise(across(c(x, y), mean))
+      # -->
+      # summarise(x = mean(x), y = mean(y))
+      if (quo_is_call(quo, "across") && (is.null(dots_names) || dots_names[i] == "")) {
+        quo <- new_quosure(
+          node_poke_car(quo_get_expr(quo), top_across),
+          quo_get_env(quo)
+        )
+        expressions <- eval_tidy(quo)
+        names_auto <- names_given <- names(expressions)
 
-      chunks[[i]] <- vec_cast_common(!!!chunks[[i]], .to = result_type)
+        chunks_i <- local({
+          all_chunks <- vector(mode = "list", length(expressions))
+          old_var <- context_peek_bare("column")
+          on.exit(context_poke("column", old_var))
 
-      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
-        mask$add_many(result_type, chunks[[i]])
+          for (j in seq_along(expressions)) {
+            context_poke("column", attr(expressions[[j]], "column"))
+            quo_j <- new_quosure(expressions[[j]], quo_get_env(quo))
+            all_chunks[[j]] <- mask$eval_all_summarise(quo_j)
+          }
+          all_chunks
+        })
+
       } else {
-        # remember
-        mask$add_one(auto_named_dots[i], chunks[[i]])
+        # usual code, we get a list of *one* chunk
+        chunks_i <- list(mask$eval_all_summarise(quo))
+        names_given <- if (!is.null(dots_names)) dots_names[i]
+        names_auto <- auto_named_dots[i]
       }
+
+      # (most of the time this loop is size 1)
+      for (j in seq_along(chunks_i)) {
+        chunks_i_j <- chunks_i[[j]]
+        types_i_j <- withCallingHandlers(
+          vec_ptype_common(!!!chunks_i_j),
+          vctrs_error_incompatible_type = function(cnd) {
+            abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)
+          }
+        )
+        chunks_i_j <- vec_cast_common(!!!chunks_i_j, .to = types_i_j)
+
+        if ((is.null(names_given) || names_given[j] == "") && is.data.frame(types_i_j)) {
+          chunks_extracted <- .Call(dplyr_extract_chunks, chunks_i_j, types_i_j)
+          map2(seq_along(types_i_j), names(types_i_j), function(j, nm) {
+            mask$add_one(nm, chunks_extracted[[j]])
+          })
+          chunks <- append(chunks, chunks_extracted)
+          types <- append(types, as.list(types_i_j))
+          out_names <- c(out_names, names(types_i_j))
+        } else {
+          mask$add_one(names_auto[j], chunks_i_j)
+          chunks <- append(chunks, list(chunks_i_j))
+          types <- append(types, list(types_i_j))
+          out_names <- c(out_names, names_auto[j])
+        }
+      }
+
     }
 
     keep <- map_lgl(chunks, function(.x) !is.null(.x))
@@ -269,12 +357,7 @@ summarise_cols <- function(.data, ...) {
     # materialize columns
     for (i in seq_along(chunks)) {
       result <- vec_c(!!!chunks[[i]], .ptype = types[[i]])
-
-      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
-        cols[names(result)] <- result
-      } else {
-        cols[[ auto_named_dots[i] ]] <- result
-      }
+      cols[[ out_names[i] ]] <- result
     }
 
   },
