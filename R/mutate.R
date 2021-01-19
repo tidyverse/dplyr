@@ -384,6 +384,13 @@ mutate_cols <- function(.data, ...) {
 
   },
   warning = function(w) {
+    # Check if there is an upstack calling handler that would muffle
+    # the warning. This avoids doing the expensive work below for a
+    # silenced warning (#5675).
+    if (check_muffled_warning(w)) {
+      maybe_restart("muffleWarning")
+    }
+
     local_call_step(dots = dots, .index = i, .fn = "mutate")
 
     warn(c(
@@ -393,8 +400,8 @@ mutate_cols <- function(.data, ...) {
       i = cnd_bullet_cur_group_label()
     ))
 
-    # cancel `w`
-    invokeRestart("muffleWarning")
+    # Cancel `w`
+    maybe_restart("muffleWarning")
   })
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
@@ -404,3 +411,35 @@ mutate_cols <- function(.data, ...) {
   attr(new_columns, "used") <- used
   new_columns
 }
+
+check_muffled_warning <- function(cnd) {
+  early_exit <- TRUE
+
+  # Cancel early exits, e.g. from an exiting handler. This way we can
+  # still instrument caught warnings to avoid confusing
+  # inconsistencies. This doesn't work on versions of R older than
+  # 3.5.0 because they don't include this change:
+  # https://github.com/wch/r-source/commit/688eaebf. So with
+  # `tryCatch(warning = )`, the original warning `cnd` will be caught
+  # instead of the instrumented warning.
+  on.exit(
+    if (can_return_from_exit && early_exit) {
+      return(FALSE)
+    }
+  )
+
+  muffled <- withRestarts(
+    muffleWarning = function(...) TRUE,
+    {
+      signalCondition(cnd)
+      FALSE
+    }
+  )
+
+  early_exit <- FALSE
+  muffled
+}
+
+on_load(
+  can_return_from_exit <- getRversion() >= "3.5.0"
+)
