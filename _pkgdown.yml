@@ -91,6 +91,7 @@ reference:
   - group_trim
   - group_split
   - with_groups
+  - rows
 
 - title: Questioning
   desc: >
