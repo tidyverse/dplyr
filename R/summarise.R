@@ -240,14 +240,9 @@ top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
     for (j in seq_fns) {
       fn <- fns[[j]]
-
-      xp <- if (length(dots)) {
-        expr( (!!fn)(!!sym(var), !!!dots) )
-      } else {
-        expr( (!!fn)(!!sym(var)) )
-      }
-      attr(xp, "column") <- var
-      expressions[[k]] <- xp
+      call <- call2(fn, sym(var), !!!dots)
+      attr(call, "column") <- var
+      expressions[[k]] <- call
 
       k <- k + 1L
     }
