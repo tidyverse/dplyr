@@ -38,7 +38,7 @@
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
-#' @param ... <[`data-masking`][dplyr_data_masking]> Variables, or functions or
+#' @param ... <[`data-masking`][dplyr_data_masking]> Variables, or functions of
 #'   variables. Use [desc()] to sort a variable in descending order.
 #' @family single table verbs
 #' @examples
