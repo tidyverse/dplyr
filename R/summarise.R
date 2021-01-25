@@ -280,7 +280,7 @@ summarise_cols <- function(.data, ...) {
       # summarise(across(c(x, y), mean))
       # -->
       # summarise(x = mean(x), y = mean(y))
-      if (quo_is_call(quo, "across") && (is.null(dots_names) || dots_names[i] == "")) {
+      if (quo_is_call(quo, "across", ns = c("", "dplyr")) && (is.null(dots_names) || dots_names[i] == "")) {
         quo <- new_quosure(
           node_poke_car(quo_get_expr(quo), top_across),
           quo_get_env(quo)
