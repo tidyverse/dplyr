@@ -222,6 +222,16 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
   cols <- enquo(cols)
   cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = TRUE))
 
+  # FIXME: this is a little bit hacky to make top_across()
+  #        work, otherwise mask$across_cols() fails when calling
+  #        self$current_cols(across_vars_used)
+  #        it should not affect anything because it is expected that
+  #        across_setup() is only ever called on the first group anyway
+  #        but perhaps it is time to review how across_cols() work
+  if (mask$get_current_group() == 0L) {
+    mask$set_current_group(1L)
+  }
+
   vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
 
