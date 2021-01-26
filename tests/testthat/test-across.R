@@ -216,13 +216,11 @@ test_that("across() uses environment from the current quosure (#5460)", {
   out <- df %>% summarise(local(across(all_of(y), mean)))
   expect_equal(out, data.frame(x = 1))
 
-  skip("needs more work")
   # Recursive case fails because the `y` column has precedence (#5498)
   expect_error(df %>% summarise(summarise(across(), across(all_of(y), mean))))
 })
 
 test_that("across() sees columns in the recursive case (#5498)", {
-  skip("needs more work")
   df <- tibble(
     vars = list("foo"),
     data = list(data.frame(foo = 1, bar = 2))
