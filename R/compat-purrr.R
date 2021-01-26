@@ -34,6 +34,10 @@ walk <- function(.x, .f, ...) {
   map(.x, .f, ...)
   invisible(.x)
 }
+walk2 <- function(.x, .y, .f, ...) {
+  map2(.x, .y, .f, ...)
+  invisible(.x)
+}
 
 pluck <- function(.x, .f) {
   map(.x, `[[`, .f)
