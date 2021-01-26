@@ -231,7 +231,7 @@ top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   seq_fns  <- seq_len(n_fns)
 
   expressions <- vector(mode = "list", n_vars * n_fns)
-
+  columns <- character(n_vars * n_fns)
   dots <- list(...)
 
   k <- 1L
@@ -241,13 +241,13 @@ top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     for (j in seq_fns) {
       fn <- fns[[j]]
       call <- call2(fn, sym(var), !!!dots)
-      attr(call, "column") <- var
       expressions[[k]] <- call
-
+      columns[[k]] <- var
       k <- k + 1L
     }
   }
   names(expressions) <- names
+  attr(expressions, "columns") <- columns
   expressions
 }
 
@@ -271,7 +271,10 @@ summarise_cols <- function(.data, ...) {
 
   withCallingHandlers({
     for (i in seq_along(dots)) {
+
       quo <- dots[[i]]
+      names_given <- if (!is.null(dots_names)) dots_names[i]
+      names_auto <- auto_named_dots[i]
 
       mask$across_cache_reset()
 
@@ -281,60 +284,55 @@ summarise_cols <- function(.data, ...) {
       # -->
       # summarise(x = mean(x), y = mean(y))
       if (quo_is_call(quo, "across", ns = c("", "dplyr")) && (is.null(dots_names) || dots_names[i] == "")) {
-        quo <- new_quosure(
-          node_poke_car(quo_get_expr(quo), top_across),
-          quo_get_env(quo)
-        )
+        quo_env <- quo_get_env(quo)
+        quo <- new_quosure(node_poke_car(quo_get_expr(quo), top_across), quo_env)
         expressions <- eval_tidy(quo)
         names_auto <- names_given <- names(expressions)
 
-        chunks_i <- local({
-          all_chunks <- vector(mode = "list", length(expressions))
-          old_var <- context_peek_bare("column")
-          on.exit(context_poke("column", old_var))
-
-          for (j in seq_along(expressions)) {
-            context_poke("column", attr(expressions[[j]], "column"))
-            quo_j <- new_quosure(expressions[[j]], quo_get_env(quo))
-            all_chunks[[j]] <- mask$eval_all_summarise(quo_j)
-          }
-          all_chunks
-        })
-
+        quosures <- vector(mode = "list", length(expressions))
+        for (j in seq_along(expressions)) {
+          quo_j <- new_quosure(expressions[[j]], quo_env)
+          attr(quo_j, "column") <- attr(expressions, "columns")[j]
+          quosures[[j]] <- quo_j
+        }
       } else {
-        # usual code, we get a list of *one* chunk
-        chunks_i <- list(mask$eval_all_summarise(quo))
-        names_given <- if (!is.null(dots_names)) dots_names[i]
-        names_auto <- auto_named_dots[i]
+        quosures <- list(quo)
       }
 
-      # (most of the time this loop is size 1)
-      for (j in seq_along(chunks_i)) {
-        chunks_i_j <- chunks_i[[j]]
-        types_i_j <- withCallingHandlers(
-          vec_ptype_common(!!!chunks_i_j),
+      # with the previous part above, for each element of ... we can
+      # have either one or several quosures, each of them handled here:
+      for (k in seq_along(quosures)) {
+        quo <- quosures[[k]]
+        column <- attr(quo, "column")
+        context_poke("column", attr(quo, "column"))
+
+        chunks_k <- mask$eval_all_summarise(quo)
+        types_k <- withCallingHandlers(
+          vec_ptype_common(!!!chunks_k),
           vctrs_error_incompatible_type = function(cnd) {
             abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)
           }
         )
-        chunks_i_j <- vec_cast_common(!!!chunks_i_j, .to = types_i_j)
+        chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
 
-        if ((is.null(names_given) || names_given[j] == "") && is.data.frame(types_i_j)) {
-          chunks_extracted <- .Call(dplyr_extract_chunks, chunks_i_j, types_i_j)
-          map2(seq_along(types_i_j), names(types_i_j), function(j, nm) {
-            mask$add_one(nm, chunks_extracted[[j]])
+        if ((is.null(names_given) || names_given[k] == "") && is.data.frame(types_k)) {
+          chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
+
+          map2(chunks_extracted, names(types_k), function(chunks_k_j, nm) {
+            mask$add_one(nm, chunks_k_j)
           })
-          chunks <- append(chunks, chunks_extracted)
-          types <- append(types, as.list(types_i_j))
-          out_names <- c(out_names, names(types_i_j))
-        } else {
-          mask$add_one(names_auto[j], chunks_i_j)
-          chunks <- append(chunks, list(chunks_i_j))
-          types <- append(types, list(types_i_j))
-          out_names <- c(out_names, names_auto[j])
-        }
-      }
 
+          chunks <- append(chunks, chunks_extracted)
+          types <- append(types, as.list(types_k))
+          out_names <- c(out_names, names(types_k))
+        } else {
+          mask$add_one(names_auto[k], chunks_k)
+          chunks <- append(chunks, list(chunks_k))
+          types <- append(types, list(types_k))
+          out_names <- c(out_names, names_auto[k])
+        }
+
+      }
     }
 
     keep <- map_lgl(chunks, function(.x) !is.null(.x))
