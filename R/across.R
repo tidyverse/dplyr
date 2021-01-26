@@ -213,12 +213,18 @@ across_glue_mask <- function(.col, .fn, .caller_env) {
 across_setup <- function(cols, fns, names, key, .caller_env) {
   mask <- peek_mask("across()")
   value <- mask$across_cache_get(key)
-  if (!is.null(value)) {
-    return(value)
+  if (is.null(value)) {
+    value <- across_setup_impl({{cols}},
+      fns = fns, names = names, .caller_env = .caller_env, mask = mask
+    )
+    mask$across_cache_add(key, value)
   }
+  value
+}
+
+across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("across()")) {
   is_top_across <- mask$get_current_group() == 0L
 
-  # but `to_across()` is not
   cols <- enquo(cols)
   if (is_top_across) {
     # FIXME: this is a little bit hacky to make top_across()
@@ -244,8 +250,6 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
     }
 
     value <- list(vars = vars, fns = fns, names = names)
-    mask$across_cache_add(key, value)
-
     return(value)
   }
 
@@ -283,10 +287,7 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
   )
   names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
 
-  value <- list(vars = vars, fns = fns, names = names)
-  mask$across_cache_add(key, value)
-
-  value
+  list(vars = vars, fns = fns, names = names)
 }
 
 # FIXME: This pattern should be encapsulated by rlang
@@ -325,8 +326,7 @@ key_deparse <- function(key) {
 }
 
 top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  key <- key_deparse(sys.call())
-  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key, .caller_env = caller_env())
+  setup <- across_setup_impl({{ .cols }}, fns = .fns, names = .names, .caller_env = caller_env())
   vars <- setup$vars
 
   # nothing
