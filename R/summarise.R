@@ -251,13 +251,52 @@ top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   expressions
 }
 
+dplyr_quosures <- function(...) {
+  quosures <- enquos(...)
+  names_given <- names(quosures) %||% rep("", length(quosures))
+  names_auto  <- names(enquos(..., .named = TRUE))
+
+  for (i in seq_along(quosures)) {
+    quo <- quosures[[i]]
+    attr(quo, "name_given") <- names_given[i]
+    attr(quo, "name_auto") <- names_auto[i]
+    attr(quo, "is_named") <- names_given[i] != ""
+    attr(quo, "index") <- i
+    quosures[[i]] <- quo
+  }
+  quosures
+}
+
+expand_quosure <- function(quo) {
+  if (quo_is_call(quo, "across", ns = c("", "dplyr")) && !attr(quo, "is_named")) {
+    quo_env <- quo_get_env(quo)
+    quo <- new_quosure(node_poke_car(quo_get_expr(quo), top_across), quo_env)
+    expressions <- eval_tidy(quo)
+    names_expressions <- names(expressions)
+
+    quosures <- vector(mode = "list", length(expressions))
+    for (j in seq_along(expressions)) {
+      quo_j <- new_quosure(expressions[[j]], quo_env)
+      name <- names_expressions[j]
+      attr(quo_j, "name_given") <- name
+      attr(quo_j, "name_auto") <- name
+      attr(quo_j, "is_named") <- TRUE
+      attr(quo_j, "index") <- c(attr(quo, "index"), j)
+      attr(quo_j, "column") <- attr(expressions, "columns")[j]
+      quosures[[j]] <- quo_j
+    }
+  } else {
+    quosures <- list(quo)
+  }
+
+  quosures
+}
+
 summarise_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
   on.exit(mask$forget("summarise"), add = TRUE)
 
-  dots <- enquos(...)
-  dots_names <- names(dots)
-  auto_named_dots <- names(enquos(..., .named = TRUE))
+  dots <- dplyr_quosures(...)
 
   cols <- list()
 
@@ -271,39 +310,14 @@ summarise_cols <- function(.data, ...) {
 
   withCallingHandlers({
     for (i in seq_along(dots)) {
-
-      quo <- dots[[i]]
-      names_given <- if (!is.null(dots_names)) dots_names[i]
-      names_auto <- auto_named_dots[i]
-
       mask$across_cache_reset()
 
-      # intercept unnamed calls to across() and split them
-      #
-      # summarise(across(c(x, y), mean))
-      # -->
-      # summarise(x = mean(x), y = mean(y))
-      if (quo_is_call(quo, "across", ns = c("", "dplyr")) && (is.null(dots_names) || dots_names[i] == "")) {
-        quo_env <- quo_get_env(quo)
-        quo <- new_quosure(node_poke_car(quo_get_expr(quo), top_across), quo_env)
-        expressions <- eval_tidy(quo)
-        names_auto <- names_given <- names(expressions)
-
-        quosures <- vector(mode = "list", length(expressions))
-        for (j in seq_along(expressions)) {
-          quo_j <- new_quosure(expressions[[j]], quo_env)
-          attr(quo_j, "column") <- attr(expressions, "columns")[j]
-          quosures[[j]] <- quo_j
-        }
-      } else {
-        quosures <- list(quo)
-      }
+      quosures <- expand_quosure(dots[[i]])
 
       # with the previous part above, for each element of ... we can
       # have either one or several quosures, each of them handled here:
       for (k in seq_along(quosures)) {
         quo <- quosures[[k]]
-        column <- attr(quo, "column")
         context_poke("column", attr(quo, "column"))
 
         chunks_k <- mask$eval_all_summarise(quo)
@@ -315,10 +329,10 @@ summarise_cols <- function(.data, ...) {
         )
         chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
 
-        if ((is.null(names_given) || names_given[k] == "") && is.data.frame(types_k)) {
+        if (!attr(quo, "is_named") && is.data.frame(types_k)) {
           chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
 
-          map2(chunks_extracted, names(types_k), function(chunks_k_j, nm) {
+          walk2(chunks_extracted, names(types_k), function(chunks_k_j, nm) {
             mask$add_one(nm, chunks_k_j)
           })
 
@@ -326,10 +340,11 @@ summarise_cols <- function(.data, ...) {
           types <- append(types, as.list(types_k))
           out_names <- c(out_names, names(types_k))
         } else {
-          mask$add_one(names_auto[k], chunks_k)
+          name <- attr(quo, "name_auto")
+          mask$add_one(name, chunks_k)
           chunks <- append(chunks, list(chunks_k))
           types <- append(types, list(types_k))
-          out_names <- c(out_names, names_auto[k])
+          out_names <- c(out_names, name)
         }
 
       }
