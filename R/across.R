@@ -6,6 +6,10 @@
 #' functions like [summarise()] and [mutate()]. See `vignette("colwise")` for
 #'  more details.
 #'
+#' `if_any()` and `if_all()` are used with `filter()` to apply the same
+#' predicate function to a selection of columns and combine the
+#' results into a single logical vector.
+#'
 #' `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
 #'
@@ -31,7 +35,9 @@
 #'   `"{.col}_{.fn}"` for the case where a list is used for `.fns`.
 #'
 #' @returns
-#' A tibble with one column for each column in `.cols` and each function in `.fns`.
+#' `across()` returns a tibble with one column for each column in `.cols` and each function in `.fns`.
+#'
+#' `if_any()` and `if_all()` return a logical vector.
 #' @examples
 #' # across() -----------------------------------------------------------------
 #' # Different ways to select the same set of columns
@@ -71,6 +77,13 @@
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
+#'
+#' # if_any() and if_all() ----------------------------------------------------
+#' iris %>%
+#'   filter(if_any(ends_with("Width"), ~ . > 4))
+#' iris %>%
+#'   filter(if_all(ends_with("Width"), ~ . > 2))
+#'
 #' @export
 #' @seealso [c_across()] for a function that returns a vector
 across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
@@ -132,6 +145,23 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   new_tibble(out, nrow = size)
 }
 
+#' @rdname across
+#' @export
+if_any <- function(.cols, .fns = NULL, ..., .names = NULL) {
+  structure(
+    across({{.cols}}, .fns = .fns, ..., .names = .names),
+    filter_combine = "or"
+  )
+}
+
+#' @rdname across
+#' @export
+if_all <- function(.cols, .fns = NULL, ..., .names = NULL) {
+  structure(
+    across({{.cols}}, .fns = .fns, ..., .names = .names),
+    filter_combine = "and"
+  )
+}
 
 #' Combine values from multiple columns
 #'

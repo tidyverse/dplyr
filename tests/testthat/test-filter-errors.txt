@@ -130,3 +130,15 @@ Error: Problem with `filter()` input `..1`.
 x {
 i Input `..1` is `stop("{")`.
 
+
+across() in filter() does not warn yet
+======================================
+
+> data.frame(x = 1, y = 1) %>% filter(across(everything(), ~.x > 0))
+  x y
+1 1 1
+
+> data.frame(x = 1, y = 1) %>% filter(data.frame(x > 0, y > 0))
+  x y
+1 1 1
+
