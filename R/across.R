@@ -223,9 +223,9 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
 }
 
 across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("across()")) {
-  is_top_across <- mask$get_current_group() == 0L
-
   cols <- enquo(cols)
+
+  is_top_across <- mask$get_current_group() == 0L
   if (is_top_across) {
     # FIXME: this is a little bit hacky to make top_across()
     #        work, otherwise mask$across_cols() fails when calling
@@ -356,7 +356,7 @@ top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
   expressions <- vector(mode = "list", n_vars * n_fns)
   columns <- character(n_vars * n_fns)
-  dots <- list(...)
+  extra_args <- list(...)
 
   k <- 1L
   for (i in seq_vars) {
@@ -364,7 +364,7 @@ top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
     for (j in seq_fns) {
       fn <- fns[[j]]
-      call <- call2(fn, sym(var), !!!dots)
+      call <- call2(fn, sym(var), !!!extra_args)
       expressions[[k]] <- call
       columns[[k]] <- var
       k <- k + 1L
