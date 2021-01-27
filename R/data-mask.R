@@ -179,11 +179,15 @@ DataMask <- R6Class("DataMask",
       }
 
       promises <- map(names_bindings, function(.x) expr(osbolete_promise_fn(!!.x)))
-      bindings <- parent.env(private$mask)
+      bindings <- self$get_env_bindings()
       suppressWarnings({
         rm(list = names_bindings, envir = bindings)
         env_bind_lazy(bindings, !!!set_names(promises, names_bindings))
       })
+    },
+
+    get_env_bindings = function() {
+      parent.env(private$mask)
     }
 
   ),
