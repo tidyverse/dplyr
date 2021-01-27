@@ -255,6 +255,14 @@ test_that("across() works with empty data frames (#5523)", {
    )
 })
 
+test_that("lambdas in across() can use columns", {
+  df <- tibble(x = 2, y = 4, z = 8)
+  expect_identical(
+    df %>% mutate_all(~ .x / y),
+    df %>% mutate(across(everything(), ~ .x / y))
+  )
+})
+
 # c_across ----------------------------------------------------------------
 
 test_that("selects and combines columns", {
