@@ -160,6 +160,10 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, SEXP env_fil
           combine_and = false;
         }
       }
+
+      // disable the warnings entirely for now, so that we can first release
+      // if_any() and if_all(), will start warning later
+      warn = false;
       if (first && warn) {
         SEXP expr = rlang::quo_get_expr(VECTOR_ELT(quos, i));
         bool across = TYPEOF(expr) == LANGSXP && CAR(expr) == dplyr::symbols::across;
