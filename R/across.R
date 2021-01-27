@@ -267,8 +267,12 @@ across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("a
     ))
   }
 
-  # handle formulas
-  fns <- map(fns, as_function)
+  fns <- map(fns, function(fn) {
+    if (is_formula(fn)) {
+      f_env(fn) <- mask$get_env_bindings()
+    }
+    as_function(fn)
+  })
 
   # make sure fns has names, use number to replace unnamed
   if (is.null(names(fns))) {
