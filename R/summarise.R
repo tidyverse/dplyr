@@ -227,7 +227,13 @@ summarise_cols <- function(.data, ...) {
       # evaluating the quosure in the "sliced data mask"
       #
       # TODO: reinject hybrid evaluation at the R level
-      chunks[[i]] <- mask$eval_all_summarise(quo)
+      results <- mask$eval_all_summarise(quo)
+
+      if (is.null(results)) {
+        next
+      } else {
+        chunks[[i]] <- results
+      }
 
       mask$across_cache_reset()
 
@@ -251,12 +257,20 @@ summarise_cols <- function(.data, ...) {
       }
     }
 
+    keep <- map_lgl(chunks, function(.x) !is.null(.x))
+    chunks <- chunks[keep]
+    types <- types[keep]
+
     recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types)
     chunks <- recycle_info$chunks
     sizes <- recycle_info$sizes
+    if (!is.null(dots_names)) {
+      dots_names <- dots_names[keep]
+    }
+    auto_named_dots <- auto_named_dots[keep]
 
     # materialize columns
-    for (i in seq_along(dots)) {
+    for (i in seq_along(chunks)) {
       result <- vec_c(!!!chunks[[i]], .ptype = types[[i]])
 
       if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
@@ -273,8 +287,10 @@ summarise_cols <- function(.data, ...) {
     )
     call_step <- peek_call_step()
     error_name <- call_step$error_name
+    show_group_details <- TRUE
 
     if (inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
+      show_group_details <- FALSE
       bullets <- c(
         x = glue("Input `{error_name}` must return compatible vectors across groups", .envir = peek_call_step()),
         i = cnd_bullet_combine_details(e$parent$x, e$parent$x_arg),
@@ -293,6 +309,11 @@ summarise_cols <- function(.data, ...) {
         x = glue("Input `{error_name}` must be size {or_1(expected_size)}, not {size}.", expected_size = e$expected_size, size = e$size),
         i = glue("An earlier column had size {expected_size}.", expected_size = e$expected_size)
       )
+    } else if (inherits(e, "dplyr:::summarise_mixed_null")) {
+      bullets <- c(
+        x = glue("`{error_name}` must return compatible vectors across groups."),
+        i = "Cannot combine NULL and non NULL results."
+      )
     } else {
       bullets <- c(
         x = conditionMessage(e)
@@ -300,7 +321,7 @@ summarise_cols <- function(.data, ...) {
     }
 
     bullets <- c(cnd_bullet_header(), bullets, i = cnd_bullet_input_info())
-    if (!inherits(e, "dplyr:::error_summarise_incompatible_combine")) {
+    if (!show_group_details) {
       bullets <- c(bullets, i = cnd_bullet_cur_group_label())
     }
 
@@ -308,7 +329,7 @@ summarise_cols <- function(.data, ...) {
 
   })
 
-  list(new = cols, size = sizes, all_one = identical(sizes ,1L))
+  list(new = cols, size = sizes, all_one = identical(sizes, 1L))
 }
 
 summarise_build <- function(.data, cols) {

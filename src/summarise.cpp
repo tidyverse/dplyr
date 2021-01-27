@@ -9,6 +9,12 @@ void stop_summarise_unsupported_type(SEXP result) {
   DPLYR_ERROR_THROW("dplyr:::summarise_unsupported_type");
 }
 
+void stop_summarise_mixed_null() {
+  DPLYR_ERROR_INIT(0);
+  DPLYR_ERROR_MESG_INIT(0);
+  DPLYR_ERROR_THROW("dplyr:::summarise_mixed_null");
+}
+
 void stop_summarise_incompatible_size(int index_group, int index_expression, int expected_size, int size) {
   DPLYR_ERROR_INIT(4);
     DPLYR_ERROR_SET(0, "group", Rf_ScalarInteger(index_group + 1));
@@ -25,6 +31,7 @@ void stop_summarise_incompatible_size(int index_group, int index_expression, int
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private) {
   DPLYR_MASK_INIT();
 
+  R_xlen_t n_null = 0;
   SEXP chunks = PROTECT(Rf_allocVector(VECSXP, ngroups));
   for (R_xlen_t i = 0; i < ngroups; i++) {
     DPLYR_MASK_SET_GROUP(i);
@@ -32,15 +39,23 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private) {
     SEXP result_i = PROTECT(DPLYR_MASK_EVAL(quo));
     SET_VECTOR_ELT(chunks, i, result_i);
 
-    if (!vctrs::vec_is_vector(result_i)) {
+    if (result_i == R_NilValue) {
+      n_null++;
+    } else if (!vctrs::vec_is_vector(result_i)) {
       dplyr::stop_summarise_unsupported_type(result_i);
     }
 
     UNPROTECT(1);
   }
   DPLYR_MASK_FINALISE();
-
   UNPROTECT(1);
+
+  if (n_null == ngroups) {
+    return R_NilValue;
+  } else if (n_null != 0) {
+    dplyr::stop_summarise_mixed_null();
+  }
+
   return chunks;
 }
 

@@ -210,6 +210,13 @@ test_that("summarise() casts data frame results to common type (#5646)", {
   expect_equal(res$z, c(NA, 2))
 })
 
+test_that("summarise() silently skips when all results are NULL (#5708)", {
+  df <- data.frame(x = 1:2, g = 1:2) %>% group_by(g)
+
+  expect_equal(summarise(df, x = NULL), summarise(df))
+  expect_error(summarise(df, x = if(g == 1) 42))
+})
+
 # errors -------------------------------------------------------------------
 
 test_that("summarise() preserves the call stack on error (#5308)", {
@@ -261,6 +268,9 @@ test_that("summarise() gives meaningful errors", {
     tibble(z = c(1, 3)) %>%
       group_by(z) %>%
       summarise(x = seq_len(z), y = 1:2)
+
+    "# NULL and no NULL"
+    data.frame(x = 1:2, g = 1:2) %>% group_by(g) %>% summarise(x = if(g == 1) 42)
 
     "# Missing variable"
     summarise(mtcars, a = mean(not_there))
