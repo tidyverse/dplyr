@@ -1,6 +1,9 @@
 # dplyr (development version)
 
+* New functions `if_any()` and `if_all()` to use inside `filter()` (#4770).
+
 # dplyr 1.0.3
+
 * Fixed a performance regression in `mutate()` when warnings occur once per
   group (#5675). We no longer instrument warnings with debugging information
   when `mutate()` is called within `suppressWarnings()`.
@@ -27,8 +30,6 @@
   You might have to define an `ungroup()` method for custom classes.
   For example, see https://github.com/hadley/cubelyr/pull/3. 
   
-* New functions `if_any()` and `if_all()` to use inside `filter()` (#4770).
-
 * `relocate()` can rename columns it relocates (#5569).
 
 * `distinct()` and `group_by()` have better error messages when the mutate step fails (#5060).
