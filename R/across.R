@@ -163,7 +163,6 @@ if_all <- function(.cols, .fns = NULL, ..., .names = NULL) {
   )
 }
 
->>>>>>> 8873ea3cb (move top_across() and quosures management -functions to across.R)
 #' Combine values from multiple columns
 #'
 #' @description
