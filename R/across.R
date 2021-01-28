@@ -376,7 +376,7 @@ top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
 dplyr_quosures <- function(...) {
   quosures <- enquos(..., .ignore_empty = "all")
-  names_given <- names(quosures) %||% rep("", length(quosures))
+  names_given <- names2(quosures)
   names_auto  <- names(enquos(..., .named = TRUE, .ignore_empty = "all"))
 
   for (i in seq_along(quosures)) {
