@@ -227,13 +227,13 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_
   return keep;
 }
 
-SEXP dplyr_reduce_lgl_or(SEXP df) {
-  int n = vctrs::short_vec_size(df);
+SEXP dplyr_reduce_lgl_or(SEXP df, SEXP n_) {
+  int n = INTEGER(n_)[0];
   return reduce_lgl_or(df, n);
 }
 
-SEXP dplyr_reduce_lgl_and(SEXP df) {
-  int n = vctrs::short_vec_size(df);
+SEXP dplyr_reduce_lgl_and(SEXP df, SEXP n_) {
+  int n = INTEGER(n_)[0];
   SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
   int* p_reduced = LOGICAL(reduced);
   for (R_xlen_t i = 0; i < n ; i++) {
