@@ -284,6 +284,20 @@ test_that("if_any() and if_all() can be used in mutate() (#5709)", {
   expect_equal(res$all, c(FALSE, FALSE, FALSE, TRUE))
 })
 
+test_that("if_any() and if_all() respect filter()-like NA handling", {
+  df <- expand.grid(
+    x = c(TRUE, FALSE, NA), y = c(TRUE, FALSE, NA)
+  )
+  expect_identical(
+    filter(df, x & y),
+    filter(df, if_all(c(x,y), identity))
+  )
+  expect_identical(
+    filter(df, x | y),
+    filter(df, if_any(c(x,y), identity))
+  )
+})
+
 # c_across ----------------------------------------------------------------
 
 test_that("selects and combines columns", {
