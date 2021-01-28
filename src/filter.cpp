@@ -172,35 +172,32 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_
   return keep;
 }
 
+SEXP new_logical(int n, int value) {
+  SEXP x = PROTECT(Rf_allocVector(LGLSXP, n));
+  int* p_x = LOGICAL(x);
+  for (int i = 0; i < n; i++) {
+    p_x[i] = value;
+  }
+  UNPROTECT(1);
+  return x;
+}
+
 SEXP dplyr_reduce_lgl_or(SEXP df, SEXP n_) {
   int n = INTEGER(n_)[0];
-
   R_xlen_t ncols = XLENGTH(df);
-  if (ncols == 0) {
-    SEXP res = PROTECT(Rf_allocVector(LGLSXP, n));
-    int* p_res = LOGICAL(res);
-    for (int i = 0; i < n; i++) {
-      p_res[i] = FALSE;
-    }
-    UNPROTECT(1);
-    return res;
-  }
 
   if (ncols == 1) {
     return VECTOR_ELT(df, 0);
   }
 
-  SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
+  SEXP reduced = PROTECT(new_logical(n, FALSE));
   int* p_reduced = LOGICAL(reduced);
-  for (int i = 0; i < n; i++) {
-    p_reduced[i] = FALSE;
-  }
-  const SEXP* p_df = VECTOR_PTR_RO(df);
-  for (R_xlen_t j = 0; j < ncols; j++) {
-    int* p_df_j = LOGICAL(p_df[j]);
-    for (int i = 0; i < n; i++) {
-      if (p_df_j[i] == TRUE) {
-        p_reduced[i] = TRUE;
+  if (ncols > 0) {
+    const SEXP* p_df = VECTOR_PTR_RO(df);
+    for (R_xlen_t j = 0; j < ncols; j++) {
+      int* p_df_j = LOGICAL(p_df[j]);
+      for (int i = 0; i < n; i++) {
+        p_reduced[i] = p_reduced[i] == TRUE || p_df_j[i] == TRUE;
       }
     }
   }
@@ -211,16 +208,24 @@ SEXP dplyr_reduce_lgl_or(SEXP df, SEXP n_) {
 
 SEXP dplyr_reduce_lgl_and(SEXP df, SEXP n_) {
   int n = INTEGER(n_)[0];
-  SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
-  int* p_reduced = LOGICAL(reduced);
-  for (R_xlen_t i = 0; i < n ; i++) {
-    p_reduced[i] = TRUE;
+
+  R_xlen_t ncols = XLENGTH(df);
+  if (ncols == 1) {
+    return VECTOR_ELT(df, 0);
   }
 
-  const SEXP* p_df = VECTOR_PTR_RO(df);
-  R_xlen_t ncol = XLENGTH(df);
-  for (R_xlen_t j = 0; j < ncol; j++) {
-    reduce_lgl_and(reduced, p_df[j], n);
+  SEXP reduced = PROTECT(new_logical(n, TRUE));
+  int* p_reduced = LOGICAL(reduced);
+
+  if (ncols > 0) {
+    const SEXP* p_df = VECTOR_PTR_RO(df);
+    R_xlen_t ncol = XLENGTH(df);
+    for (R_xlen_t j = 0; j < ncol; j++) {
+      int* p_df_j = LOGICAL(p_df[j]);
+      for (R_xlen_t i = 0; i < n ; i++) {
+        p_reduced[i] = p_reduced[i] == TRUE && p_df_j[i] == TRUE;
+      }
+    }
   }
 
   UNPROTECT(1);
