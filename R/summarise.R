@@ -230,7 +230,8 @@ summarise_cols <- function(.data, ...) {
       # have either one or several quosures, each of them handled here:
       for (k in seq_along(quosures)) {
         quo <- quosures[[k]]
-        context_poke("column", attr(quo, "column"))
+        quo_data <- attr(quo, "dplyr::data")
+        context_poke("column", quo_data$column)
 
         chunks_k <- mask$eval_all_summarise(quo)
         if (is.null(chunks_k)) {
@@ -245,7 +246,7 @@ summarise_cols <- function(.data, ...) {
         )
         chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
 
-        if (!attr(quo, "is_named") && is.data.frame(types_k)) {
+        if (!quo_data$is_named && is.data.frame(types_k)) {
           chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
 
           walk2(chunks_extracted, names(types_k), function(chunks_k_j, nm) {
@@ -256,7 +257,7 @@ summarise_cols <- function(.data, ...) {
           types <- append(types, as.list(types_k))
           out_names <- c(out_names, names(types_k))
         } else {
-          name <- attr(quo, "name_auto")
+          name <- quo_data$name_auto
           mask$add_one(name, chunks_k)
           chunks <- append(chunks, list(chunks_k))
           types <- append(types, list(types_k))

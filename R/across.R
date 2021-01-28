@@ -374,24 +374,30 @@ top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   expressions
 }
 
+new_dplyr_quosure <- function(quo, ...) {
+  attr(quo, "dplyr::data") <- list2(...)
+  quo
+}
+
 dplyr_quosures <- function(...) {
   quosures <- enquos(..., .ignore_empty = "all")
   names_given <- names2(quosures)
   names_auto  <- names(enquos(..., .named = TRUE, .ignore_empty = "all"))
 
   for (i in seq_along(quosures)) {
-    quo <- quosures[[i]]
-    attr(quo, "name_given") <- names_given[i]
-    attr(quo, "name_auto") <- names_auto[i]
-    attr(quo, "is_named") <- names_given[i] != ""
-    attr(quo, "index") <- i
-    quosures[[i]] <- quo
+    quosures[[i]] <- new_dplyr_quosure(quosures[[i]],
+      name_given = names_given[i],
+      name_auto = names_auto[i],
+      is_named = names_given[i] != "",
+      index = i
+    )
   }
   quosures
 }
 
 expand_quosure <- function(quo) {
-  if (quo_is_call(quo, "across", ns = c("", "dplyr")) && !attr(quo, "is_named")) {
+  quo_data <- attr(quo, "dplyr::data")
+  if (quo_is_call(quo, "across", ns = c("", "dplyr")) && !quo_data$is_named) {
     quo_env <- quo_get_env(quo)
     quo <- new_quosure(node_poke_car(quo_get_expr(quo), top_across), quo_env)
     expressions <- eval_tidy(quo)
@@ -399,14 +405,14 @@ expand_quosure <- function(quo) {
 
     quosures <- vector(mode = "list", length(expressions))
     for (j in seq_along(expressions)) {
-      quo_j <- new_quosure(expressions[[j]], quo_env)
       name <- names_expressions[j]
-      attr(quo_j, "name_given") <- name
-      attr(quo_j, "name_auto") <- name
-      attr(quo_j, "is_named") <- TRUE
-      attr(quo_j, "index") <- c(attr(quo, "index"), j)
-      attr(quo_j, "column") <- attr(expressions, "columns")[j]
-      quosures[[j]] <- quo_j
+      quosures[[j]] <- new_dplyr_quosure(new_quosure(expressions[[j]], quo_env),
+        name_given = name,
+        name_auto = name,
+        is_named = TRUE,
+        index = c(quo_data$index, j),
+        column = attr(expressions, "columns")[j]
+      )
     }
   } else {
     quosures <- list(quo)

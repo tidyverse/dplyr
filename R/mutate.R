@@ -240,7 +240,8 @@ mutate_cols <- function(.data, ...) {
 
       for (k in seq_along(quosures)) {
         quo <- quosures[[k]]
-        context_poke("column", attr(quo, "column"))
+        quo_data <- attr(quo, "dplyr::data")
+        context_poke("column", quo_data$column)
 
         # a list in which each element is the result of
         # evaluating the quosure in the "sliced data mask"
@@ -282,8 +283,8 @@ mutate_cols <- function(.data, ...) {
         }
 
         if (is.null(chunks)) {
-          if (attr(quo, "is_named")) {
-            name <- attr(quo, "name_given")
+          if (quo_data$is_named) {
+            name <- quo_data$name_given
             new_columns[[name]] <- zap()
             mask$remove(name)
           }
@@ -304,12 +305,12 @@ mutate_cols <- function(.data, ...) {
           }
         }
 
-        if (!attr(quo, "is_named") && is.data.frame(result)) {
+        if (!quo_data$is_named && is.data.frame(result)) {
           new_columns[names(result)] <- result
           mask$add_many(result, chunks)
         } else {
           # treat as a single output otherwise
-          name <- attr(quo, "name_auto")
+          name <- quo_data$name_auto
           new_columns[[name]] <- result
           mask$add_one(name, chunks)
         }
