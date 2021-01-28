@@ -155,10 +155,8 @@ if_any <- function(.cols, .fns = NULL, ..., .names = NULL) {
 #' @rdname across
 #' @export
 if_all <- function(.cols, .fns = NULL, ..., .names = NULL) {
-  structure(
-    across({{.cols}}, .fns = .fns, ..., .names = .names),
-    filter_combine = "and"
-  )
+  df <- across({{.cols}}, .fns = .fns, ..., .names = .names)
+  .Call(dplyr_reduce_lgl_and, df)
 }
 
 #' Combine values from multiple columns

@@ -232,3 +232,20 @@ SEXP dplyr_reduce_lgl_or(SEXP df) {
   return reduce_lgl_or(df, n);
 }
 
+SEXP dplyr_reduce_lgl_and(SEXP df) {
+  int n = vctrs::short_vec_size(df);
+  SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
+  int* p_reduced = LOGICAL(reduced);
+  for (R_xlen_t i = 0; i < n ; i++) {
+    p_reduced[i] = TRUE;
+  }
+
+  const SEXP* p_df = VECTOR_PTR_RO(df);
+  R_xlen_t ncol = XLENGTH(df);
+  for (R_xlen_t j = 0; j < ncol; j++) {
+    reduce_lgl_and(reduced, p_df[j], n);
+  }
+
+  UNPROTECT(1);
+  return reduced;
+}

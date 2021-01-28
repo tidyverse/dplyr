@@ -111,6 +111,7 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes);
 SEXP dplyr_group_indices(SEXP data, SEXP rows);
 SEXP dplyr_group_keys(SEXP group_data);
 SEXP dplyr_reduce_lgl_or(SEXP);
+SEXP dplyr_reduce_lgl_and(SEXP);
 
 SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name);
 SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks);

@@ -115,6 +115,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 3},
 
   {"dplyr_reduce_lgl_or", (DL_FUNC)& dplyr_reduce_lgl_or, 1},
+  {"dplyr_reduce_lgl_and", (DL_FUNC)& dplyr_reduce_lgl_and, 1},
 
   {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 2},
   {"dplyr_data_masks_setup", (DL_FUNC)& dplyr_data_masks_setup, 3},
