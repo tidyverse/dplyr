@@ -230,7 +230,7 @@ summarise_cols <- function(.data, ...) {
       # have either one or several quosures, each of them handled here:
       for (k in seq_along(quosures)) {
         quo <- quosures[[k]]
-        quo_data <- attr(quo, "dplyr::data")
+        quo_data <- attr(quo, "dplyr:::data")
         context_poke("column", quo_data$column)
 
         chunks_k <- mask$eval_all_summarise(quo)

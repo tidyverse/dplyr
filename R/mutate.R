@@ -240,7 +240,7 @@ mutate_cols <- function(.data, ...) {
 
       for (k in seq_along(quosures)) {
         quo <- quosures[[k]]
-        quo_data <- attr(quo, "dplyr::data")
+        quo_data <- attr(quo, "dplyr:::data")
         context_poke("column", quo_data$column)
 
         # a list in which each element is the result of

@@ -390,7 +390,7 @@ top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 }
 
 new_dplyr_quosure <- function(quo, ...) {
-  attr(quo, "dplyr::data") <- list2(...)
+  attr(quo, "dplyr:::data") <- list2(...)
   quo
 }
 
@@ -411,7 +411,7 @@ dplyr_quosures <- function(...) {
 }
 
 expand_quosure <- function(quo) {
-  quo_data <- attr(quo, "dplyr::data")
+  quo_data <- attr(quo, "dplyr:::data")
   if (quo_is_call(quo, "across", ns = c("", "dplyr")) && !quo_data$is_named) {
     # call top_across() instead of across()
     quo_env <- quo_get_env(quo)
