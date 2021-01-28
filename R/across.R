@@ -102,7 +102,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
   if (is.null(fns)) {
     nrow <- length(mask$current_rows())
-    data <- new_data_frame(data, n = nrow)
+    data <- new_data_frame(data, n = nrow, class = c("tbl_df", "tbl"))
 
     if (is.null(names)) {
       return(data)
@@ -142,7 +142,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   size <- vec_size_common(!!!out)
   out <- vec_recycle_common(!!!out, .size = size)
   names(out) <- names
-  new_data_frame(out, n = size)
+  new_data_frame(out, n = size, class = c("tbl_df", "tbl"))
 }
 
 #' @rdname across
