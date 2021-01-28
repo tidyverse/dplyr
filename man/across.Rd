@@ -49,7 +49,7 @@ columns, allowing you to use \code{\link[=select]{select()}} semantics inside in
 functions like \code{\link[=summarise]{summarise()}} and \code{\link[=mutate]{mutate()}}. See \code{vignette("colwise")} for
 more details.
 
-\code{if_any()} and \code{if_all()} are used with \code{filter()} to apply the same
+\code{if_any()} and \code{if_all()} are used with to apply the same
 predicate function to a selection of columns and combine the
 results into a single logical vector.
 
