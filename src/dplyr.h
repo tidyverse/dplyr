@@ -53,7 +53,6 @@ struct symbols {
   static SEXP new_env;
   static SEXP dot_data;
   static SEXP used;
-  static SEXP filter_combine;
   static SEXP across;
 };
 
