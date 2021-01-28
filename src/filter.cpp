@@ -226,3 +226,9 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_
 
   return keep;
 }
+
+SEXP dplyr_reduce_lgl_or(SEXP df) {
+  int n = vctrs::short_vec_size(df);
+  return reduce_lgl_or(df, n);
+}
+

@@ -467,6 +467,15 @@ test_that("can suppress or catch warnings from the outside (#5675)", {
   }
 })
 
+test_that("if_any() can be used in mutate() (#5709", {
+  d <- data.frame(x = c(1, 5, 10), y = c(0, 0, 0), z = c(10, 5, 1))
+  res <- d %>% mutate(
+    test = case_when(
+      if_any(x:z, ~ . > 8) ~ "big",
+      TRUE                 ~ "small"
+    ))
+  expect_equal(res$test, c("big", "small", "big"))
+})
 
 # Error messages ----------------------------------------------------------
 

@@ -148,10 +148,8 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #' @rdname across
 #' @export
 if_any <- function(.cols, .fns = NULL, ..., .names = NULL) {
-  structure(
-    across({{.cols}}, .fns = .fns, ..., .names = .names),
-    filter_combine = "or"
-  )
+  df <- across({{.cols}}, .fns = .fns, ..., .names = .names)
+  .Call(dplyr_reduce_lgl_or, df)
 }
 
 #' @rdname across
