@@ -212,12 +212,12 @@ test_that("across() uses environment from the current quosure (#5460)", {
   expect_equal(df %>% mutate(across(all_of(y), mean)), df)
   expect_equal(df %>% filter(if_all(all_of(y), ~ .x < 2)), df)
 
-  # Recursive case fails because the `y` column has precedence (#5498)
-  expect_error(df %>% summarise(summarise(across(), across(all_of(y), mean))))
-
   # Inherited case
   out <- df %>% summarise(local(across(all_of(y), mean)))
   expect_equal(out, data.frame(x = 1))
+
+  # Recursive case fails because the `y` column has precedence (#5498)
+  expect_error(df %>% summarise(summarise(across(), across(all_of(y), mean))))
 })
 
 test_that("across() sees columns in the recursive case (#5498)", {
@@ -253,6 +253,14 @@ test_that("across() works with empty data frames (#5523)", {
      mutate(tibble(), across()),
      tibble()
    )
+})
+
+test_that("lambdas in across() can use columns", {
+  df <- tibble(x = 2, y = 4, z = 8)
+  expect_identical(
+    df %>% mutate_all(~ .x / y),
+    df %>% mutate(across(everything(), ~ .x / y))
+  )
 })
 
 # c_across ----------------------------------------------------------------

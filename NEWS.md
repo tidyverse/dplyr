@@ -2,6 +2,9 @@
 
 * New functions `if_any()` and `if_all()` to use inside `filter()` (#4770).
 
+* Improved performance for `across()`. This makes `summarise(across())` and 
+  `mutate(across())` perform as well as the superseded colwise equivalents (#5697). 
+
 * `summarise()` silently ignores NULL results (#5708).
 
 # dplyr 1.0.3

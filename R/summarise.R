@@ -208,9 +208,7 @@ summarise_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
   on.exit(mask$forget("summarise"), add = TRUE)
 
-  dots <- enquos(...)
-  dots_names <- names(dots)
-  auto_named_dots <- names(enquos(..., .named = TRUE))
+  dots <- dplyr_quosures(...)
 
   cols <- list()
 
@@ -218,66 +216,65 @@ summarise_cols <- function(.data, ...) {
   chunks <- vector("list", length(dots))
   types <- vector("list", length(dots))
 
+  chunks <- list()
+  types <- list()
+  out_names <- character()
+
   withCallingHandlers({
-    # generate all chunks and monitor the sizes
     for (i in seq_along(dots)) {
-      quo <- dots[[i]]
-
-      # a list in which each element is the result of
-      # evaluating the quosure in the "sliced data mask"
-      #
-      # TODO: reinject hybrid evaluation at the R level
-      results <- mask$eval_all_summarise(quo)
-
-      if (is.null(results)) {
-        next
-      } else {
-        chunks[[i]] <- results
-      }
-
       mask$across_cache_reset()
 
-      result_type <- types[[i]] <- withCallingHandlers(
-        vec_ptype_common(!!!chunks[[i]]),
-        vctrs_error_incompatible_type = function(cnd) {
-          abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)
+      quosures <- expand_quosure(dots[[i]])
+
+      # with the previous part above, for each element of ... we can
+      # have either one or several quosures, each of them handled here:
+      for (k in seq_along(quosures)) {
+        quo <- quosures[[k]]
+        quo_data <- attr(quo, "dplyr:::data")
+        context_poke("column", quo_data$column)
+
+        chunks_k <- mask$eval_all_summarise(quo)
+        if (is.null(chunks_k)) {
+          next
         }
-      )
 
-      chunks[[i]] <- vec_cast_common(!!!chunks[[i]], .to = result_type)
+        types_k <- withCallingHandlers(
+          vec_ptype_common(!!!chunks_k),
+          vctrs_error_incompatible_type = function(cnd) {
+            abort(class = "dplyr:::error_summarise_incompatible_combine", parent = cnd)
+          }
+        )
+        chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
 
-      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result_type)) {
-        # remember each result separately
-        map2(seq_along(result_type), names(result_type), function(j, nm) {
-          mask$add(nm, pluck(chunks[[i]], j))
-        })
-      } else {
-        # remember
-        mask$add(auto_named_dots[i], chunks[[i]])
+        if (!quo_data$is_named && is.data.frame(types_k)) {
+          chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
+
+          walk2(chunks_extracted, names(types_k), function(chunks_k_j, nm) {
+            mask$add_one(nm, chunks_k_j)
+          })
+
+          chunks <- append(chunks, chunks_extracted)
+          types <- append(types, as.list(types_k))
+          out_names <- c(out_names, names(types_k))
+        } else {
+          name <- quo_data$name_auto
+          mask$add_one(name, chunks_k)
+          chunks <- append(chunks, list(chunks_k))
+          types <- append(types, list(types_k))
+          out_names <- c(out_names, name)
+        }
+
       }
     }
-
-    keep <- map_lgl(chunks, function(.x) !is.null(.x))
-    chunks <- chunks[keep]
-    types <- types[keep]
 
     recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types)
     chunks <- recycle_info$chunks
     sizes <- recycle_info$sizes
-    if (!is.null(dots_names)) {
-      dots_names <- dots_names[keep]
-    }
-    auto_named_dots <- auto_named_dots[keep]
 
     # materialize columns
     for (i in seq_along(chunks)) {
       result <- vec_c(!!!chunks[[i]], .ptype = types[[i]])
-
-      if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
-        cols[names(result)] <- result
-      } else {
-        cols[[ auto_named_dots[i] ]] <- result
-      }
+      cols[[ out_names[i] ]] <- result
     }
 
   },

@@ -28,7 +28,7 @@ DataMask <- R6Class("DataMask",
 
     },
 
-    add = function(name, chunks) {
+    add_one = function(name, chunks) {
       if (inherits(private$data, "rowwise_df")){
         is_scalar_list <- function(.x) {
           vec_is_list(.x) && length(.x) == 1L
@@ -39,6 +39,13 @@ DataMask <- R6Class("DataMask",
       }
 
       .Call(`dplyr_mask_add`, private, name, chunks)
+    },
+
+    add_many = function(ptype, chunks) {
+      chunks_extracted <- .Call(dplyr_extract_chunks, chunks, ptype)
+      map2(seq_along(ptype), names(ptype), function(j, nm) {
+        self$add_one(nm, chunks_extracted[[j]])
+      })
     },
 
     remove = function(name) {
@@ -172,11 +179,15 @@ DataMask <- R6Class("DataMask",
       }
 
       promises <- map(names_bindings, function(.x) expr(osbolete_promise_fn(!!.x)))
-      bindings <- parent.env(private$mask)
+      bindings <- self$get_env_bindings()
       suppressWarnings({
         rm(list = names_bindings, envir = bindings)
         env_bind_lazy(bindings, !!!set_names(promises, names_bindings))
       })
+    },
+
+    get_env_bindings = function() {
+      parent.env(private$mask)
     }
 
   ),

@@ -102,7 +102,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
   if (is.null(fns)) {
     nrow <- length(mask$current_rows())
-    data <- new_tibble(data, nrow = nrow)
+    data <- new_data_frame(data, n = nrow, class = c("tbl_df", "tbl"))
 
     if (is.null(names)) {
       return(data)
@@ -142,7 +142,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   size <- vec_size_common(!!!out)
   out <- vec_recycle_common(!!!out, .size = size)
   names(out) <- names
-  new_tibble(out, nrow = size)
+  new_data_frame(out, n = size, class = c("tbl_df", "tbl"))
 }
 
 #' @rdname across
@@ -212,14 +212,32 @@ across_glue_mask <- function(.col, .fn, .caller_env) {
 across_setup <- function(cols, fns, names, key, .caller_env) {
   mask <- peek_mask("across()")
   value <- mask$across_cache_get(key)
-  if (!is.null(value)) {
-    return(value)
+  if (is.null(value)) {
+    value <- across_setup_impl({{cols}},
+      fns = fns, names = names, .caller_env = .caller_env, mask = mask
+    )
+    mask$across_cache_add(key, value)
   }
+  value
+}
 
-  # `across()` is evaluated in a data mask so we need to remove the
-  # mask layer from the quosure environment (#5460)
+across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("across()")) {
   cols <- enquo(cols)
-  cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = TRUE))
+
+  is_top_across <- mask$get_current_group() == 0L
+  if (is_top_across) {
+    # FIXME: this is a little bit hacky to make top_across()
+    #        work, otherwise mask$across_cols() fails when calling
+    #        self$current_cols(across_vars_used)
+    #        it should not affect anything because it is expected that
+    #        across_setup() is only ever called on the first group anyway
+    #        but perhaps it is time to review how across_cols() work
+    mask$set_current_group(1L)
+  } else {
+    # The real `across()` is evaluated in a data mask so we need to remove the
+    # mask layer from the quosure environment (#5460)
+    cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = TRUE))
+  }
 
   vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
@@ -231,8 +249,6 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
     }
 
     value <- list(vars = vars, fns = fns, names = names)
-    mask$across_cache_add(key, value)
-
     return(value)
   }
 
@@ -250,8 +266,12 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
     ))
   }
 
-  # handle formulas
-  fns <- map(fns, as_function)
+  fns <- map(fns, function(fn) {
+    if (is_formula(fn)) {
+      f_env(fn) <- mask$get_env_bindings()
+    }
+    as_function(fn)
+  })
 
   # make sure fns has names, use number to replace unnamed
   if (is.null(names(fns))) {
@@ -270,10 +290,7 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
   )
   names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
 
-  value <- list(vars = vars, fns = fns, names = names)
-  mask$across_cache_add(key, value)
-
-  value
+  list(vars = vars, fns = fns, names = names)
 }
 
 # FIXME: This pattern should be encapsulated by rlang
@@ -309,4 +326,114 @@ c_across_setup <- function(cols, key) {
 
 key_deparse <- function(key) {
   deparse(key, width.cutoff = 500L, backtick = TRUE, nlines = 1L, control = NULL)
+}
+
+# When mutate() or summarise() have an unnamed call to across() at the top level, e.g.
+# summarise(across(<...>)) or mutate(across(<...>))
+#
+# a call to top_across(<...>) is evaluated instead.
+# top_across() returns a flattened list of expressions along with some
+# information about the "current column" for each expression
+# in the "columns" attribute:
+#
+# For example with: summarise(across(c(x, y), mean, .names = "mean_{.col}")) top_across() will return
+# something like:
+#
+# structure(
+#   list(mean_x = expr(mean(x)), mean_y = expr(mean(y)))
+#   columns = c("x", "y")
+# )
+top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+  setup <- across_setup_impl({{ .cols }}, fns = .fns, names = .names, .caller_env = caller_env())
+  vars <- setup$vars
+
+  # nothing
+  if (length(vars) == 0L) {
+    return(list())
+  }
+
+  fns <- setup$fns
+  names <- setup$names
+
+  # no functions, so just return a list of symbols
+  if (is.null(fns)) {
+    expressions <- syms(vars)
+    names(expressions) <- if (is.null(.names)) vars else names
+    return(expressions)
+  }
+
+  n_vars <- length(vars)
+  n_fns <- length(fns)
+
+  seq_vars <- seq_len(n_vars)
+  seq_fns  <- seq_len(n_fns)
+
+  expressions <- vector(mode = "list", n_vars * n_fns)
+  columns <- character(n_vars * n_fns)
+  extra_args <- list(...)
+
+  k <- 1L
+  for (i in seq_vars) {
+    var <- vars[[i]]
+
+    for (j in seq_fns) {
+      fn <- fns[[j]]
+      call <- call2(fn, sym(var), !!!extra_args)
+      expressions[[k]] <- call
+      columns[[k]] <- var
+      k <- k + 1L
+    }
+  }
+  names(expressions) <- names
+  attr(expressions, "columns") <- columns
+  expressions
+}
+
+new_dplyr_quosure <- function(quo, ...) {
+  attr(quo, "dplyr:::data") <- list2(...)
+  quo
+}
+
+dplyr_quosures <- function(...) {
+  quosures <- enquos(..., .ignore_empty = "all")
+  names_given <- names2(quosures)
+  names_auto  <- names(enquos(..., .named = TRUE, .ignore_empty = "all"))
+
+  for (i in seq_along(quosures)) {
+    quosures[[i]] <- new_dplyr_quosure(quosures[[i]],
+      name_given = names_given[i],
+      name_auto = names_auto[i],
+      is_named = names_given[i] != "",
+      index = i
+    )
+  }
+  quosures
+}
+
+expand_quosure <- function(quo) {
+  quo_data <- attr(quo, "dplyr:::data")
+  if (quo_is_call(quo, "across", ns = c("", "dplyr")) && !quo_data$is_named) {
+    # call top_across() instead of across()
+    quo_env <- quo_get_env(quo)
+    quo <- new_quosure(node_poke_car(quo_get_expr(quo), top_across), quo_env)
+    expressions <- eval_tidy(quo)
+    names_expressions <- names(expressions)
+
+    # process the results of top_across()
+    quosures <- vector(mode = "list", length(expressions))
+    for (j in seq_along(expressions)) {
+      name <- names_expressions[j]
+      quosures[[j]] <- new_dplyr_quosure(new_quosure(expressions[[j]], quo_env),
+        name_given = name,
+        name_auto = name,
+        is_named = TRUE,
+        index = c(quo_data$index, j),
+        column = attr(expressions, "columns")[j]
+      )
+    }
+  } else {
+    quosures <- list(quo)
+  }
+
+  quosures
 }
