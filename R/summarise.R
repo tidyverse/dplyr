@@ -232,7 +232,8 @@ summarise_cols <- function(.data, ...) {
         quo <- quosures[[k]]
         context_poke("column", attr(quo, "column"))
 
-        chunks_k <- mask$eval_all_summarise(quo)
+        chunks_k <- mask$eval_all_summarise(quo) %||% next
+
         types_k <- withCallingHandlers(
           vec_ptype_common(!!!chunks_k),
           vctrs_error_incompatible_type = function(cnd) {
@@ -262,17 +263,9 @@ summarise_cols <- function(.data, ...) {
       }
     }
 
-    keep <- map_lgl(chunks, function(.x) !is.null(.x))
-    chunks <- chunks[keep]
-    types <- types[keep]
-
     recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types)
     chunks <- recycle_info$chunks
     sizes <- recycle_info$sizes
-    if (!is.null(dots_names)) {
-      dots_names <- dots_names[keep]
-    }
-    auto_named_dots <- auto_named_dots[keep]
 
     # materialize columns
     for (i in seq_along(chunks)) {
