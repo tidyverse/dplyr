@@ -467,7 +467,6 @@ test_that("can suppress or catch warnings from the outside (#5675)", {
   }
 })
 
-
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {

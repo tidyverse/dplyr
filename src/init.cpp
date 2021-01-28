@@ -56,7 +56,6 @@ SEXP symbols::vec_is_list = Rf_install("vec_is_list");
 SEXP symbols::new_env = Rf_install("new.env");
 SEXP symbols::dot_data = Rf_install(".data");
 SEXP symbols::used = Rf_install("used");
-SEXP symbols::filter_combine = Rf_install("filter_combine");
 SEXP symbols::across = Rf_install("across");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
@@ -113,6 +112,9 @@ static const R_CallMethodDef CallEntries[] = {
 
   {"dplyr_mask_remove", (DL_FUNC)& dplyr_mask_remove, 2},
   {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 3},
+
+  {"dplyr_reduce_lgl_or", (DL_FUNC)& dplyr_reduce_lgl_or, 2},
+  {"dplyr_reduce_lgl_and", (DL_FUNC)& dplyr_reduce_lgl_and, 2},
 
   {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 2},
   {"dplyr_data_masks_setup", (DL_FUNC)& dplyr_data_masks_setup, 3},

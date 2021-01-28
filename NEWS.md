@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* New functions `if_any()` and `if_all()` to use inside `filter()` (#4770).
+* New functions `if_any()` and `if_all()` (#4770, #5713).
 
 * Improved performance for `across()`. This makes `summarise(across())` and 
   `mutate(across())` perform as well as the superseded colwise equivalents (#5697). 

@@ -263,6 +263,41 @@ test_that("lambdas in across() can use columns", {
   )
 })
 
+test_that("if_any() and if_all() enforce logical", {
+  # TODO: use snapshot tests
+  d <- data.frame(x = 10, y = 10)
+  expect_error(filter(d, if_all(x:y, identity)))
+  expect_error(filter(d, if_any(x:y, identity)))
+
+  expect_error(mutate(d, ok = if_any(x:y, identity)))
+  expect_error(mutate(d, ok = if_all(x:y, identity)))
+})
+
+test_that("if_any() and if_all() can be used in mutate() (#5709)", {
+  d <- data.frame(x = c(1, 5, 10, 10), y = c(0, 0, 0, 10), z = c(10, 5, 1, 10))
+  res <- d %>%
+    mutate(
+      any = if_any(x:z, ~ . > 8),
+      all = if_all(x:z, ~ . > 8)
+    )
+  expect_equal(res$any, c(TRUE, FALSE, TRUE, TRUE))
+  expect_equal(res$all, c(FALSE, FALSE, FALSE, TRUE))
+})
+
+test_that("if_any() and if_all() respect filter()-like NA handling", {
+  df <- expand.grid(
+    x = c(TRUE, FALSE, NA), y = c(TRUE, FALSE, NA)
+  )
+  expect_identical(
+    filter(df, x & y),
+    filter(df, if_all(c(x,y), identity))
+  )
+  expect_identical(
+    filter(df, x | y),
+    filter(df, if_any(c(x,y), identity))
+  )
+})
+
 # c_across ----------------------------------------------------------------
 
 test_that("selects and combines columns", {
