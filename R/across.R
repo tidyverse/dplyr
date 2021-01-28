@@ -148,14 +148,14 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #' @rdname across
 #' @export
 if_any <- function(.cols, .fns = NULL, ..., .names = NULL) {
-  df <- across({{.cols}}, .fns = .fns, ..., .names = .names)
+  df <- across({{ .cols }}, .fns = .fns, ..., .names = .names)
   .Call(dplyr_reduce_lgl_or, df)
 }
 
 #' @rdname across
 #' @export
 if_all <- function(.cols, .fns = NULL, ..., .names = NULL) {
-  df <- across({{.cols}}, .fns = .fns, ..., .names = .names)
+  df <- across({{ .cols }}, .fns = .fns, ..., .names = .names)
   .Call(dplyr_reduce_lgl_and, df)
 }
 
