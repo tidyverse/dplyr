@@ -232,7 +232,10 @@ summarise_cols <- function(.data, ...) {
         quo <- quosures[[k]]
         context_poke("column", attr(quo, "column"))
 
-        chunks_k <- mask$eval_all_summarise(quo) %||% next
+        chunks_k <- mask$eval_all_summarise(quo)
+        if (is.null(chunks_k)) {
+          next
+        }
 
         types_k <- withCallingHandlers(
           vec_ptype_common(!!!chunks_k),
