@@ -263,6 +263,15 @@ test_that("lambdas in across() can use columns", {
   )
 })
 
+test_that("if_any() and if_all() enforce logical", {
+  d <- data.frame(x = 10, y = 10)
+  expect_error(filter(d, if_all(x:y, identity)))
+  expect_error(filter(d, if_any(x:y, identity)))
+
+  expect_error(mutate(d, ok = if_any(x:y, identity)))
+  expect_error(mutate(d, ok = if_all(x:y, identity)))
+})
+
 # c_across ----------------------------------------------------------------
 
 test_that("selects and combines columns", {

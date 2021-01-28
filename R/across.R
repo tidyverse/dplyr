@@ -149,6 +149,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #' @export
 if_any <- function(.cols, .fns = NULL, ..., .names = NULL) {
   df <- across({{ .cols }}, .fns = .fns, ..., .names = .names)
+  df <- vec_cast_common(!!!df, .to = logical())
   .Call(dplyr_reduce_lgl_or, df)
 }
 
@@ -156,6 +157,7 @@ if_any <- function(.cols, .fns = NULL, ..., .names = NULL) {
 #' @export
 if_all <- function(.cols, .fns = NULL, ..., .names = NULL) {
   df <- across({{ .cols }}, .fns = .fns, ..., .names = .names)
+  df <- vec_cast_common(!!!df, .to = logical())
   .Call(dplyr_reduce_lgl_and, df)
 }
 
