@@ -28,6 +28,7 @@ i Input `a` is `rlang::env(a = 1)`.
 Error: Problem with `summarise()` input `a`.
 x Input `a` must be a vector, not an environment.
 i Input `a` is `rlang::env(a = 1)`.
+i The error occurred in group 1: x = 1, y = 1.
 
 > tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% rowwise() %>% summarise(a = lm(
 +   y ~ x))
@@ -35,6 +36,7 @@ Error: Problem with `summarise()` input `a`.
 x Input `a` must be a vector, not a `lm` object.
 i Did you mean: `a = list(lm(y ~ x))` ?
 i Input `a` is `lm(y ~ x)`.
+i The error occurred in row 1.
 
 
 mixed types
@@ -46,13 +48,11 @@ x Input `a` must return compatible vectors across groups
 i Result type for group 1 (id = 1): <double>.
 i Result type for group 2 (id = 2): <character>.
 i Input `a` is `a[[1]]`.
-i The error occurred in group 2: id = 2.
 
 > tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[1]])
 Error: Problem with `summarise()` input `a`.
 x Input `a` must return compatible vectors across groups
 i Input `a` is `a[[1]]`.
-i The error occurred in row 2.
 
 
 incompatible size
@@ -69,12 +69,14 @@ Error: Problem with `summarise()` input `y`.
 x Input `y` must be size 3 or 1, not 2.
 i An earlier column had size 3.
 i Input `y` is `1:2`.
+i The error occurred in group 1: z = 1.
 
 > tibble(z = c(1, 3)) %>% group_by(z) %>% summarise(x = seq_len(z), y = 1:2)
 Error: Problem with `summarise()` input `y`.
 x Input `y` must be size 3 or 1, not 2.
 i An earlier column had size 3.
 i Input `y` is `1:2`.
+i The error occurred in group 2: z = 3.
 
 
 NULL and no NULL
@@ -99,6 +101,7 @@ i Input `a` is `mean(not_there)`.
 Error: Problem with `summarise()` input `a`.
 x object 'not_there' not found
 i Input `a` is `mean(not_there)`.
+i The error occurred in group 1: cyl = 4.
 
 
 .data pronoun
@@ -113,6 +116,7 @@ i Input `c` is `.data$b`.
 Error: Problem with `summarise()` input `c`.
 x Column `b` not found in `.data`
 i Input `c` is `.data$b`.
+i The error occurred in group 1: a = 1.
 
 
 Duplicate column names
@@ -135,4 +139,5 @@ i Input `..1` is `stop("{")`.
 Error: Problem with `summarise()` input `a`.
 x !
 i Input `a` is `stop("!")`.
+i The error occurred in group 1: b = "{value:1, unit:a}".
 

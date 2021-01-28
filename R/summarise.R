@@ -310,6 +310,7 @@ summarise_cols <- function(.data, ...) {
         i = glue("An earlier column had size {expected_size}.", expected_size = e$expected_size)
       )
     } else if (inherits(e, "dplyr:::summarise_mixed_null")) {
+      show_group_details <- FALSE
       bullets <- c(
         x = glue("`{error_name}` must return compatible vectors across groups."),
         i = "Cannot combine NULL and non NULL results."
@@ -320,11 +321,12 @@ summarise_cols <- function(.data, ...) {
       )
     }
 
-    bullets <- c(cnd_bullet_header(), bullets, i = cnd_bullet_input_info())
-    if (!show_group_details) {
-      bullets <- c(bullets, i = cnd_bullet_cur_group_label())
-    }
-
+    bullets <- c(
+      cnd_bullet_header(),
+      bullets,
+      i = cnd_bullet_input_info(),
+      i = if (show_group_details) cnd_bullet_cur_group_label()
+    )
     abort(bullets, class = "dplyr_error")
 
   })
