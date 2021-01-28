@@ -197,6 +197,7 @@ SEXP dplyr_reduce_lgl_or(SEXP df, SEXP n_) {
     for (R_xlen_t j = 0; j < ncols; j++) {
       int* p_df_j = LOGICAL(p_df[j]);
       for (int i = 0; i < n; i++) {
+        // == TRUE needed because of NA
         p_reduced[i] = p_reduced[i] == TRUE || p_df_j[i] == TRUE;
       }
     }
@@ -223,6 +224,7 @@ SEXP dplyr_reduce_lgl_and(SEXP df, SEXP n_) {
     for (R_xlen_t j = 0; j < ncol; j++) {
       int* p_df_j = LOGICAL(p_df[j]);
       for (R_xlen_t i = 0; i < n ; i++) {
+        // == TRUE needed because of NA
         p_reduced[i] = p_reduced[i] == TRUE && p_df_j[i] == TRUE;
       }
     }
