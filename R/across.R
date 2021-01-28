@@ -328,6 +328,21 @@ key_deparse <- function(key) {
   deparse(key, width.cutoff = 500L, backtick = TRUE, nlines = 1L, control = NULL)
 }
 
+# When mutate() or summarise() have an unnamed call to across() at the top level, e.g.
+# summarise(across(<...>)) or mutate(across(<...>))
+#
+# a call to top_across(<...>) is evaluated instead.
+# top_across() returns a flattened list of expressions along with some
+# information about the "current column" for each expression
+# in the "columns" attribute:
+#
+# For example with: summarise(across(c(x, y), mean, .names = "mean_{.col}")) top_across() will return
+# something like:
+#
+# structure(
+#   list(mean_x = expr(mean(x)), mean_y = expr(mean(y)))
+#   columns = c("x", "y")
+# )
 top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   setup <- across_setup_impl({{ .cols }}, fns = .fns, names = .names, .caller_env = caller_env())
   vars <- setup$vars
@@ -398,11 +413,13 @@ dplyr_quosures <- function(...) {
 expand_quosure <- function(quo) {
   quo_data <- attr(quo, "dplyr::data")
   if (quo_is_call(quo, "across", ns = c("", "dplyr")) && !quo_data$is_named) {
+    # call top_across() instead of across()
     quo_env <- quo_get_env(quo)
     quo <- new_quosure(node_poke_car(quo_get_expr(quo), top_across), quo_env)
     expressions <- eval_tidy(quo)
     names_expressions <- names(expressions)
 
+    # process the results of top_across()
     quosures <- vector(mode = "list", length(expressions))
     for (j in seq_along(expressions)) {
       name <- names_expressions[j]
