@@ -272,6 +272,17 @@ test_that("if_any() and if_all() enforce logical", {
   expect_error(mutate(d, ok = if_all(x:y, identity)))
 })
 
+test_that("if_any() and if_all() can be used in mutate() (#5709)", {
+  d <- data.frame(x = c(1, 5, 10, 10), y = c(0, 0, 0, 10), z = c(10, 5, 1, 10))
+  res <- d %>%
+    mutate(
+      any = if_any(x:z, ~ . > 8),
+      all = if_all(x:z, ~ . > 8)
+    )
+  expect_equal(res$any, c(TRUE, FALSE, TRUE, TRUE))
+  expect_equal(res$all, c(FALSE, FALSE, FALSE, TRUE))
+})
+
 # c_across ----------------------------------------------------------------
 
 test_that("selects and combines columns", {
