@@ -79,6 +79,16 @@ i Input `y` is `1:2`.
 i The error occurred in group 2: z = 3.
 
 
+NULL and no NULL
+================
+
+> data.frame(x = 1:2, g = 1:2) %>% group_by(g) %>% summarise(x = if (g == 1) 42)
+Error: Problem with `summarise()` input `x`.
+x `x` must return compatible vectors across groups.
+i Cannot combine NULL and non NULL results.
+i Input `x` is `if (g == 1) 42`.
+
+
 Missing variable
 ================
 

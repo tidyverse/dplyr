@@ -2,6 +2,8 @@
 
 * New functions `if_any()` and `if_all()` to use inside `filter()` (#4770).
 
+* `summarise()` silently ignores NULL results (#5708).
+
 # dplyr 1.0.3
 
 * Fixed a performance regression in `mutate()` when warnings occur once per
