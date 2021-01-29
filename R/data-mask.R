@@ -188,6 +188,10 @@ DataMask <- R6Class("DataMask",
 
     get_env_bindings = function() {
       parent.env(private$mask)
+    },
+
+    get_rlang_mask = function() {
+      private$mask
     }
 
   ),

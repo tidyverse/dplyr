@@ -267,10 +267,11 @@ across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("a
   }
 
   fns <- map(fns, function(fn) {
-    if (is_formula(fn)) {
-      f_env(fn) <- mask$get_env_bindings()
+    if (is_formula(fn) && is_top_across) {
+      f_rhs(fn) <- call2(eval_tidy, expr(expr(!!f_rhs(fn))), data = mask$get_rlang_mask())
     }
-    as_function(fn)
+    fn <- as_function(fn)
+    fn
   })
 
   # make sure fns has names, use number to replace unnamed
