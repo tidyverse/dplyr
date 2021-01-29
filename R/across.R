@@ -268,7 +268,7 @@ across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("a
 
   fns <- map(fns, function(fn) {
     if (is_formula(fn) && is_top_across) {
-      f_rhs(fn) <- call2(eval_tidy, expr(expr(!!f_rhs(fn))), data = mask$get_rlang_mask())
+      f_rhs(fn) <- call2(eval_tidy, expr(rlang::expr(!!f_rhs(fn))), data = mask$get_rlang_mask())
     }
     fn <- as_function(fn)
     fn
