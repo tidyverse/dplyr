@@ -214,18 +214,18 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
   value <- mask$across_cache_get(key)
   if (is.null(value)) {
     value <- across_setup_impl({{cols}},
-      fns = fns, names = names, .caller_env = .caller_env, mask = mask
+      fns = fns, names = names, .caller_env = .caller_env, mask = mask,
+      .top_level = FALSE
     )
     mask$across_cache_add(key, value)
   }
   value
 }
 
-across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("across()")) {
+across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("across()"), .top_level = FALSE) {
   cols <- enquo(cols)
 
-  is_top_across <- mask$get_current_group() == 0L
-  if (is_top_across) {
+  if (.top_level) {
     # FIXME: this is a little bit hacky to make top_across()
     #        work, otherwise mask$across_cols() fails when calling
     #        self$current_cols(across_vars_used)
@@ -271,8 +271,12 @@ across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("a
   }
 
   fns <- map(fns, function(fn) {
-    if (is_formula(fn) && is_top_across) {
-      f_rhs(fn) <- call2(quote(rlang::eval_tidy), expr_protect(f_rhs(fn)), data = mask$get_rlang_mask())
+    if (is_formula(fn) && .top_level) {
+      f_rhs(fn) <- call2(
+        quote(rlang::eval_tidy),
+        expr_protect(f_rhs(fn)),
+        data = mask$get_rlang_mask()
+      )
     }
     fn <- as_function(fn)
     fn
@@ -349,7 +353,11 @@ key_deparse <- function(key) {
 #   columns = c("x", "y")
 # )
 top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  setup <- across_setup_impl({{ .cols }}, fns = .fns, names = .names, .caller_env = caller_env())
+  setup <- across_setup_impl(
+    {{ .cols }},
+    fns = .fns, names = .names, .caller_env = caller_env(),
+    .top_level = TRUE
+  )
   vars <- setup$vars
 
   # nothing
