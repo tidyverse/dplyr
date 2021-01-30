@@ -261,6 +261,22 @@ test_that("lambdas in across() can use columns", {
     df %>% mutate_all(~ .x / y),
     df %>% mutate(across(everything(), ~ .x / y))
   )
+  expect_identical(
+    df %>% mutate_all(~ .x / y),
+    df %>% mutate(across(everything(), ~ .x / .data$y))
+  )
+})
+
+test_that("lambdas in across() can use columns in follow up expressions (#5717)", {
+  df <- tibble(x = 2, y = 4, z = 8)
+  expect_identical(
+    df %>% mutate(a = 2, x = x / y, y = y / y, z = z / y),
+    df %>% mutate(a = 2, across(c(x, y, z), ~ .x / y))
+  )
+  expect_identical(
+    df %>% mutate(a = 2, x = x / y, y = y / y, z = z / y),
+    df %>% mutate(a = 2, across(c(x, y, z), ~ .x / .data$y))
+  )
 })
 
 test_that("if_any() and if_all() enforce logical", {
