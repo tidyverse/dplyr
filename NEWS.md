@@ -7,11 +7,11 @@
 
 * `summarise()` silently ignores NULL results (#5708).
 
-# dplyr 1.0.3
-
 * Fixed a performance regression in `mutate()` when warnings occur once per
   group (#5675). We no longer instrument warnings with debugging information
   when `mutate()` is called within `suppressWarnings()`.
+
+# dplyr 1.0.3
 
 * `summarise()` no longer informs when the result is ungrouped (#5633).
 
