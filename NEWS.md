@@ -1,9 +1,9 @@
-# dplyr (development version)
-
-* New functions `if_any()` and `if_all()` (#4770, #5713).
+# dplyr 1.0.4
 
 * Improved performance for `across()`. This makes `summarise(across())` and 
   `mutate(across())` perform as well as the superseded colwise equivalents (#5697). 
+
+* New functions `if_any()` and `if_all()` (#4770, #5713).
 
 * `summarise()` silently ignores NULL results (#5708).
 
