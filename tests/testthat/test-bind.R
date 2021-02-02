@@ -446,7 +446,11 @@ test_that("bind_rows() handles rowwise vectors", {
   expect_identical(tbl, tibble(a = c("foo", "A"), b = c("bar", "B")))
 
   id_tbl <- bind_rows(a = c(a = 1, b = 2), b = c(a = 3, b = 4), .id = "id")
-  expect_equivalent(id_tbl, tibble(id = c("a", "b"), a = c(1, 3), b = c(2, 4)))
+  expect_equal(
+    id_tbl,
+    tibble(id = c("a", "b"), a = c(1, 3), b = c(2, 4)),
+    ignore_attr = TRUE
+  )
 })
 
 test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {
@@ -459,13 +463,13 @@ test_that("bind_rows can handle lists (#1104)", {
   my_list <- list(list(x = 1, y = "a"), list(x = 2, y = "b"))
   res <- bind_rows(my_list)
   expect_equal(nrow(res), 2L)
-  expect_s3_class(res$x, "numeric")
-  expect_s3_class(res$y, "character")
+  expect_type(res$x, "double")
+  expect_type(res$y, "character")
 
   res <- bind_rows(list(x = 1, y = "a"), list(x = 2, y = "b"))
   expect_equal(nrow(res), 2L)
-  expect_s3_class(res$x, "numeric")
-  expect_s3_class(res$y, "character")
+  expect_type(res$x, "double")
+  expect_type(res$y, "character")
 })
 
 test_that("columns that are OBJECT but have NULL class are handled gracefully (#3349)", {
@@ -514,8 +518,8 @@ test_that("bind_rows() only flattens list subclasses with explicit inheritance (
 })
 
 test_that("bind_rows() handles named list", {
-  expect_equivalent(bind_rows(map(mtcars, mean)), summarise_all(mtcars, mean))
-  expect_equivalent(bind_rows(!!!map(mtcars, mean)), summarise_all(mtcars, mean))
+  expect_equal(bind_rows(map(mtcars, mean)), summarise_all(mtcars, mean), ignore_attr = TRUE)
+  expect_equal(bind_rows(!!!map(mtcars, mean)), summarise_all(mtcars, mean), ignore_attr = TRUE)
 })
 
 test_that("bind_rows() handles named S3 objects (#4931)", {

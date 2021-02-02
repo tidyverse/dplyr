@@ -25,7 +25,7 @@ test_that("slice silently ignores out of range values (#226)", {
 test_that("slice works with negative indices", {
   res <- slice(mtcars, -(1:2))
   exp <- tail(mtcars, -2)
-  expect_equivalent(res, exp)
+  expect_equal(res, exp, ignore_attr = TRUE)
 })
 
 test_that("slice works with grouped data", {

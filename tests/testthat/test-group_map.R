@@ -72,7 +72,7 @@ test_that("group_map() uses ptype on empty splits (#4421)", {
     group_by(cyl) %>%
     filter(hp > 1000) %>%
     group_map(~.x)
-  expect_equivalent(res, list())
+  expect_equal(res, list(), ignore_attr = TRUE)
   ptype <- attr(res, "ptype")
   expect_equal(names(ptype), setdiff(names(mtcars), "cyl"))
   expect_equal(nrow(ptype), 0L)
