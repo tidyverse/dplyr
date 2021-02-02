@@ -9,11 +9,11 @@ test_that("lead and lag preserves dates and times", {
   x <- as.Date("2013-01-01") + 1:3
   y <- as.POSIXct(x)
 
-  expect_is(lead(x), "Date")
-  expect_is(lag(x), "Date")
+  expect_s3_class(lead(x), "Date")
+  expect_s3_class(lag(x), "Date")
 
-  expect_is(lead(y), "POSIXct")
-  expect_is(lag(y), "POSIXct")
+  expect_s3_class(lead(y), "POSIXct")
+  expect_s3_class(lag(y), "POSIXct")
 })
 
 test_that("#925 is fixed", {

@@ -5,7 +5,7 @@ test_that("tbl_nongroup_vars() excludes group variables", {
 
 test_that("tbl_vars() records groups", {
   gdf <- group_by(mtcars, cyl, am)
-  expect_is(tbl_vars(gdf), "dplyr_sel_vars")
+  expect_s3_class(tbl_vars(gdf), "dplyr_sel_vars")
   expect_true(is_sel_vars(tbl_vars(gdf)))
   expect_identical(tbl_vars(gdf) %@% groups, c("cyl", "am"))
 })

@@ -71,13 +71,13 @@ test_that("grouped do evaluates args in correct environment", {
 
 test_that("ungrouped data frame with unnamed argument returns data frame", {
   out <- mtcars %>% do(head(.))
-  expect_is(out, "data.frame")
+  expect_s3_class(out, "data.frame")
   expect_equal(dim(out), c(6, 11))
 })
 
 test_that("ungrouped data frame with named argument returns list data frame", {
   out <- mtcars %>% do(x = 1, y = 2:10)
-  expect_is(out, "tbl_df")
+  expect_s3_class(out, "tbl_df")
   expect_equal(out$x, list(1))
   expect_equal(out$y, list(2:10))
 })

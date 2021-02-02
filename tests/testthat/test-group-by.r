@@ -183,7 +183,7 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
   no_cyl <- by_cyl %>% `[`(c(1, 3))
 
   expect_equal(group_vars(no_cyl), character())
-  expect_is(no_cyl, "tbl_df")
+  expect_s3_class(no_cyl, "tbl_df")
 })
 
 test_that("group_by works after arrange (#959)", {
@@ -240,7 +240,7 @@ test_that("group_by handles raw columns (#1803)", {
 
 test_that("rowwise handles raw columns (#1803)", {
   df <- tibble(a = 1:3, b = as.raw(1:3))
-  expect_is(rowwise(df), "rowwise_df")
+  expect_s3_class(rowwise(df), "rowwise_df")
 })
 
 test_that("group_by() names pronouns correctly (#2686)", {

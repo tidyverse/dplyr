@@ -1,11 +1,11 @@
 # Basic behaviour -------------------------------------------------------------
 
 test_that("sample preserves class", {
-  expect_is(sample_n(mtcars, 1), "data.frame")
-  expect_is(sample_n(as_tibble(mtcars), 1), "tbl_df")
+  expect_s3_class(sample_n(mtcars, 1), "data.frame")
+  expect_s3_class(sample_n(as_tibble(mtcars), 1), "tbl_df")
 
-  expect_is(sample_frac(mtcars, 1), "data.frame")
-  expect_is(sample_frac(as_tibble(mtcars), 1), "tbl_df")
+  expect_s3_class(sample_frac(mtcars, 1), "data.frame")
+  expect_s3_class(sample_frac(as_tibble(mtcars), 1), "tbl_df")
 })
 
 # Ungrouped --------------------------------------------------------------------
@@ -21,7 +21,7 @@ test_that("sample respects weight", {
 
 test_that("sampling grouped tbl samples each group", {
   sampled <- mtcars %>% group_by(cyl) %>% sample_n(2)
-  expect_is(sampled, "grouped_df")
+  expect_s3_class(sampled, "grouped_df")
   expect_equal(group_vars(sampled), "cyl")
   expect_equal(nrow(sampled), 6)
   expect_equal(map_int(group_rows(sampled), length), c(2,2,2))

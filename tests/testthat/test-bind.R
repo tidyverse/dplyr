@@ -241,7 +241,7 @@ test_that("bind_rows handles all NA columns (#493)", {
   )
   res <- bind_rows(mydata)
   expect_true(is.na(res$x[3]))
-  expect_is(res$x, "factor")
+  expect_s3_class(res$x, "factor")
 
   mydata <- list(
     data.frame(x = NA),
@@ -249,7 +249,7 @@ test_that("bind_rows handles all NA columns (#493)", {
   )
   res <- bind_rows(mydata)
   expect_true(is.na(res$x[1]))
-  expect_is(res$x, "factor")
+  expect_s3_class(res$x, "factor")
 })
 
 test_that("bind_rows handles complex. #933", {
@@ -284,11 +284,11 @@ test_that("bind_rows respects ordered factors (#1112)", {
   id <- factor(c("a", "c", "d"), levels = l, ordered = TRUE)
   df <- data.frame(id = rep(id, 2), val = rnorm(6))
   res <- bind_rows(df, df)
-  expect_is(res$id, "ordered")
+  expect_s3_class(res$id, "ordered")
   expect_equal(levels(df$id), levels(res$id))
 
   res <- group_by(df, id) %>% filter(complete.cases(across()))
-  expect_is(res$id, "ordered")
+  expect_s3_class(res$id, "ordered")
   expect_equal(levels(df$id), levels(res$id))
 })
 
@@ -297,7 +297,7 @@ test_that("bind_rows keeps ordered factors (#948)", {
     data.frame(x = factor(c(1, 2, 3), ordered = TRUE)),
     data.frame(x = factor(c(1, 2, 3), ordered = TRUE))
   )
-  expect_is(y$x, "ordered")
+  expect_s3_class(y$x, "ordered")
   expect_equal(levels(y$x), as.character(1:3))
 })
 
@@ -383,7 +383,7 @@ test_that("bind_cols accepts NULL (#1148)", {
 test_that("bind_rows handles 0-length named list (#1515)", {
   res <- bind_rows(list(a = 1)[-1])
   expect_equal(nrow(res), 0L)
-  expect_is(res, "data.frame")
+  expect_s3_class(res, "data.frame")
   expect_equal(ncol(res), 0L)
 })
 
@@ -427,7 +427,7 @@ test_that("bind_rows accepts data frame columns (#2015)", {
   attr(df, "row.names") <- .set_row_names(10)
 
   res <- dplyr::bind_rows(df, df)
-  expect_is(df$y, "data.frame")
+  expect_s3_class(df$y, "data.frame")
   expect_equal(names(df$y), c("a", "y"))
 })
 
@@ -459,13 +459,13 @@ test_that("bind_rows can handle lists (#1104)", {
   my_list <- list(list(x = 1, y = "a"), list(x = 2, y = "b"))
   res <- bind_rows(my_list)
   expect_equal(nrow(res), 2L)
-  expect_is(res$x, "numeric")
-  expect_is(res$y, "character")
+  expect_s3_class(res$x, "numeric")
+  expect_s3_class(res$y, "character")
 
   res <- bind_rows(list(x = 1, y = "a"), list(x = 2, y = "b"))
   expect_equal(nrow(res), 2L)
-  expect_is(res$x, "numeric")
-  expect_is(res$y, "character")
+  expect_s3_class(res$x, "numeric")
+  expect_s3_class(res$y, "character")
 })
 
 test_that("columns that are OBJECT but have NULL class are handled gracefully (#3349)", {
@@ -540,7 +540,7 @@ test_that("bind_rows() correctly restores (#2457)", {
   df <- bind_rows(
     tibble(x = vctrs::list_of(1))
   )
-  expect_is(df$x, "vctrs_list_of")
+  expect_s3_class(df$x, "vctrs_list_of")
 })
 
 

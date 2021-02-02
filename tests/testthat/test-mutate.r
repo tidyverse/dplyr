@@ -175,8 +175,8 @@ test_that("mutate preserves grouping", {
 test_that("mutate works on zero-row grouped data frame (#596)", {
   dat <- data.frame(a = numeric(0), b = character(0), stringsAsFactors = TRUE)
   res <- dat %>% group_by(b, .drop = FALSE) %>% mutate(a2 = a * 2)
-  expect_is(res$a2, "numeric")
-  expect_is(res, "grouped_df")
+  expect_type(res$a2, "double")
+  expect_s3_class(res, "grouped_df")
   expect_equal(res$a2, numeric(0))
 
   expect_type(group_rows(res), "list")
@@ -187,8 +187,8 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
 test_that("mutate works on zero-row rowwise data frame (#4224)", {
   dat <- data.frame(a = numeric(0))
   res <- dat %>% rowwise() %>% mutate(a2 = a * 2)
-  expect_is(res$a2, "numeric")
-  expect_is(res, "rowwise_df")
+  expect_type(res$a2, "double")
+  expect_s3_class(res, "rowwise_df")
   expect_equal(res$a2, numeric(0))
 })
 
@@ -263,7 +263,7 @@ test_that("mutate coerces results from one group with all NA values (#1463) ", {
   df <- tibble(x = c(1, 2), y = c(1, NA))
   res <- df %>% group_by(x) %>% mutate(z = ifelse(y > 1, 1, 2))
   expect_true(is.na(res$z[2]))
-  expect_is(res$z, "numeric")
+  expect_type(res$z, "double")
 })
 
 test_that("grouped subsets are not lazy (#3360)", {

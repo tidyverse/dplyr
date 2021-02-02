@@ -76,7 +76,7 @@ test_that("group_map() uses ptype on empty splits (#4421)", {
   ptype <- attr(res, "ptype")
   expect_equal(names(ptype), setdiff(names(mtcars), "cyl"))
   expect_equal(nrow(ptype), 0L)
-  expect_is(ptype, "data.frame")
+  expect_s3_class(ptype, "data.frame")
 })
 
 test_that("group_modify() uses ptype on empty splits (#4421)", {

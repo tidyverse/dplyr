@@ -41,7 +41,7 @@ test_that("bind_rows respects ordered factors (#1112)", {
   id <- factor(c("a", "c", "d"), levels = l, ordered = TRUE)
   df <- data.frame(id = rep(id, 2), val = rnorm(6))
   res <- bind_rows(df, df)
-  expect_is(res$id, "ordered")
+  expect_s3_class(res$id, "ordered")
   expect_equal(levels(df$id), levels(res$id))
 })
 
