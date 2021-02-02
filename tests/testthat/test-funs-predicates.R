@@ -1,5 +1,3 @@
-context("funs-predicates")
-
 test_that("all_exprs() creates intersection", {
   expect_identical(all_exprs(am == 1), quo(am == 1))
 

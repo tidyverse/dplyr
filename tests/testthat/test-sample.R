@@ -1,5 +1,3 @@
-context("Sample")
-
 # Basic behaviour -------------------------------------------------------------
 
 test_that("sample preserves class", {

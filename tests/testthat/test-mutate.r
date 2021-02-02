@@ -1,5 +1,3 @@
-context("Mutate")
-
 test_that("empty mutate returns input", {
   df <- tibble(x = 1)
   gf <- group_by(df, x)

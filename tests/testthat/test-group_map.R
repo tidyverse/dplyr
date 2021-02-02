@@ -1,5 +1,3 @@
-context("group_map")
-
 test_that("group_map() respects empty groups", {
   res <- group_by(mtcars, cyl) %>%
     group_map(~ head(.x, 2L))

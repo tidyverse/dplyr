@@ -1,5 +1,3 @@
-context("Set ops")
-
 test_that("set operations use coercion rules (#799)", {
   df1 <- tibble(x = 1:2, y = c(1, 1))
   df2 <- tibble(x = 1:2, y = 1:2)

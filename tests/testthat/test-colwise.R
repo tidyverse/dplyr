@@ -1,5 +1,3 @@
-context("colwise utils")
-
 test_that("tbl_at_vars() treats `NULL` as empty inputs", {
   expect_identical(tbl_at_vars(mtcars, vars(NULL)), tbl_at_vars(mtcars, vars()))
   expect_identical(

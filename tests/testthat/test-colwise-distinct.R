@@ -1,5 +1,3 @@
-context("colwise distinct")
-
 test_that("scoped distinct is identical to manual distinct", {
   df <- tibble(
     x = rep(2:5, each=2),

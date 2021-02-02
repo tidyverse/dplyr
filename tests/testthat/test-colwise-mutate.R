@@ -1,5 +1,3 @@
-context("colwise mutate/summarise")
-
 test_that("can use character vectors or bare functions", {
   df <- data.frame(x = 1:3)
   expect_equal(summarise_all(df, "mean"), data.frame(x = 2))

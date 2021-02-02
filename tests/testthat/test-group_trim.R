@@ -1,5 +1,3 @@
-context("test-group_trim")
-
 test_that("group_trim() is identity on non grouped data", {
   expect_identical(group_trim(iris), iris)
 })

@@ -1,5 +1,3 @@
-context("Lead and lag")
-
 test_that("lead and lag preserve factors", {
   x <- factor(c("a", "b", "c"))
 

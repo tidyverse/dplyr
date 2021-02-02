@@ -1,5 +1,3 @@
-context("colwise filter")
-
 test_that("filter_if()", {
   expect_identical(nrow(filter_if(mtcars, is_integerish, all_vars(. > 1))), 0L)
   expect_identical(nrow(filter_if(mtcars, is_integerish, all_vars(. > 0))), 7L)

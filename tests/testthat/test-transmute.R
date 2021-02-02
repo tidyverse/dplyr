@@ -1,5 +1,3 @@
-context("transmute")
-
 test_that("non-syntactic grouping variable is preserved (#1138)", {
   df <- tibble(`a b` = 1L) %>% group_by(`a b`) %>% transmute()
   expect_named(df, "a b")

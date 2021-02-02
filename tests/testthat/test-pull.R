@@ -1,5 +1,3 @@
-context("pull")
-
 test_that("default extracts last var from data frame", {
   df <- tibble(x = 1:10, y = 1:10)
   expect_equal(pull(df), 1:10)

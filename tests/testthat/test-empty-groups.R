@@ -1,5 +1,3 @@
-context("empty groups")
-
 df <- tibble(
   e = 1,
   f = factor(c(1, 1, 2, 2), levels = 1:3),

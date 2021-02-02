@@ -1,5 +1,3 @@
-context("rbind")
-
 df_var <- data.frame(
   l = c(T, F, F),
   i = c(1, 1, 2),

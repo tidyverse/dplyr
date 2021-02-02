@@ -1,5 +1,3 @@
-context("Nth value")
-
 test_that("nth works with lists", {
   x <- list(1, 2, 3)
 

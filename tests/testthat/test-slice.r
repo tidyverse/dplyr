@@ -1,5 +1,3 @@
-context("slice")
-
 test_that("empty slice returns input", {
   df <- tibble(x = 1:3)
   expect_equal(slice(df), df)

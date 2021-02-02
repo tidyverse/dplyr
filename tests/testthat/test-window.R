@@ -1,5 +1,3 @@
-context("Window functions")
-
 test_that("If n = 0, lead and lag return x", {
   expect_equal(lead(1:2, 0), 1:2)
   expect_equal(lag(1:2, 0), 1:2)

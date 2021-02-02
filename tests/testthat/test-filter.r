@@ -1,5 +1,3 @@
-context("Filter")
-
 test_that("filter handles passing ...", {
   df <- data.frame(x = 1:4)
 

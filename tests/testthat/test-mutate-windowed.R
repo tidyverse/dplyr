@@ -1,5 +1,3 @@
-context("Mutate - windowed")
-
 test_that("desc is correctly handled by window functions", {
   df <- data.frame(
     x = 1:10, y = seq(1, 10, by = 1),

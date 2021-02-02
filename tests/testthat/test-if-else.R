@@ -1,5 +1,3 @@
-context("if_else")
-
 test_that("scalar true and false are vectorised", {
   x <- c(TRUE, TRUE, FALSE, FALSE)
   expect_equal(if_else(x, 1, 2), c(1, 1, 2, 2))

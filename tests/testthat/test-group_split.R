@@ -1,5 +1,3 @@
-context("group_split")
-
 test_that("group_split() keeps the grouping variables by default", {
   tbl <- tibble(x = 1:4, g = factor(rep(c("a", "b"), each = 2)))
   res <- group_split(tbl, g)

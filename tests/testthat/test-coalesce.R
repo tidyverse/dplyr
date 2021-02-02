@@ -1,5 +1,3 @@
-context("coalesce")
-
 test_that("non-missing scalar replaces all missing values", {
   x <- c(NA, 1)
   expect_equal(coalesce(x, 1), c(1, 1))

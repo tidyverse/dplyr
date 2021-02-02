@@ -1,5 +1,3 @@
-context("recode")
-
 test_that("positional substitution works", {
   expect_equal(recode(1:2, "a", "b"), c("a", "b"))
 })

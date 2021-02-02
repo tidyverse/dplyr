@@ -1,5 +1,3 @@
-context("case_when")
-
 test_that("matches values in order", {
   x <- 1:3
   expect_equal(

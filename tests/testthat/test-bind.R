@@ -1,5 +1,3 @@
-context("binds")
-
 # columns -----------------------------------------------------------------
 
 test_that("cbind uses shallow copies", {

@@ -1,5 +1,3 @@
-context("count-tally")
-
 # count -------------------------------------------------------------------
 
 test_that("informs if n column already present, unless overridden", {

@@ -1,5 +1,3 @@
-context("colwise select")
-
 df <- tibble(x = 0L, y = 0.5, z = 1)
 
 test_that("can select/rename all variables", {

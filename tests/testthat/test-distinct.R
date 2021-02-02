@@ -1,5 +1,3 @@
-context("Distinct")
-
 test_that("distinct equivalent to local unique when keep_all is TRUE", {
   df <- data.frame(
     x = c(1, 1, 1, 1),
