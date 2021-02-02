@@ -1,6 +1,3 @@
-setup(options(lifecycle_verbosity = "quiet"))
-teardown(options(lifecycle_verbosity = NULL))
-
 # Grouped data frames ----------------------------------------------------------
 
 df <- data.frame(
@@ -25,6 +22,10 @@ test_that("named argument become list columns", {
 })
 
 test_that("multiple outputs can access data (#2998)", {
+  # TODO: perhaps that does not need this if we deal with
+  #       https://github.com/tidyverse/dplyr/issues/5724
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   out <- do(tibble(a = 1), g = nrow(.), h = nrow(.))
   expect_equal(names(out), c("g", "h"))
   expect_equal(out$g, list(1L))
@@ -70,12 +71,16 @@ test_that("grouped do evaluates args in correct environment", {
 # Ungrouped data frames --------------------------------------------------------
 
 test_that("ungrouped data frame with unnamed argument returns data frame", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   out <- mtcars %>% do(head(.))
   expect_s3_class(out, "data.frame")
   expect_equal(dim(out), c(6, 11))
 })
 
 test_that("ungrouped data frame with named argument returns list data frame", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   out <- mtcars %>% do(x = 1, y = 2:10)
   expect_s3_class(out, "tbl_df")
   expect_equal(out$x, list(1))
@@ -83,6 +88,8 @@ test_that("ungrouped data frame with named argument returns list data frame", {
 })
 
 test_that("ungrouped do evaluates args in correct environment", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   a <- 10
   f <- function(a) {
     mtcars %>% do(a = a)
@@ -102,6 +109,8 @@ test_that("can do on rowwise dataframe", {
 # Zero row inputs --------------------------------------------------------------
 
 test_that("empty data frames give consistent outputs", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   dat <- tibble(x = numeric(0), g = character(0))
   grp <- dat %>% group_by(g)
   emt <- grp %>% filter(FALSE)
