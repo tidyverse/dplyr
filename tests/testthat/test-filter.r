@@ -249,8 +249,7 @@ test_that("filter handles S4 objects (#1366)", {
 
   df <- data.frame(x = Numbers(1:10, foo = 10))
   res <- filter(df, x > 3)
-  expect_true(isS4(res$x))
-  expect_s3_class(res$x, "Numbers")
+  expect_s4_class(res$x, "Numbers")
   expect_equal(res$x@foo, 10)
 })
 
