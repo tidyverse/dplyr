@@ -20,16 +20,28 @@ test_that("rows_update()", {
     tibble(a = 1:3, b = c("a", "z", "z"), c = data$c)
   )
 
-  expect_error(
-    rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b")),
-    "update missing"
-  )
-
   expect_silent(
     expect_identical(
       rows_update(data, tibble(b = "z", a = 2:3), by = "a"),
       tibble(a = 1:3, b = c("a", "z", "z"), c = data$c)
     )
+  )
+
+  expect_error(
+    rows_update(data, tibble(d = 1)),
+    "must exist"
+  )
+  expect_error(
+    rows_update(data, tibble(a = c(1, 1))),
+    "not unique"
+  )
+  expect_error(
+    rows_update(data, tibble(a = 1), by = "b"),
+    "must exist"
+  )
+  expect_error(
+    rows_update(data, tibble(a = 1), by = c(b = "a")),
+    "must be unnamed"
   )
 })
 
@@ -41,16 +53,28 @@ test_that("rows_patch()", {
     tibble(a = 1:3, b = c("a", "b", "z"), c = data$c)
   )
 
-  expect_error(
-    rows_patch(data, tibble(a = 2:3, b = "z"), by = c("a", "b")),
-    "patch missing"
-  )
-
   expect_silent(
     expect_identical(
       rows_patch(data, tibble(b = "z", a = 2:3), by = "a"),
       tibble(a = 1:3, b = c("a", "b", "z"), c = data$c)
     )
+  )
+
+  expect_error(
+    rows_patch(data, tibble(d = 1)),
+    "must exist"
+  )
+  expect_error(
+    rows_patch(data, tibble(a = c(1, 1))),
+    "not unique"
+  )
+  expect_error(
+    rows_patch(data, tibble(a = 1), by = "b"),
+    "must exist"
+  )
+  expect_error(
+    rows_patch(data, tibble(a = 1), by = c(b = "a")),
+    "must be unnamed"
   )
 })
 
@@ -60,6 +84,23 @@ test_that("rows_upsert()", {
   expect_identical(
     rows_upsert(data, tibble(a = 2:4, b = "z")),
     tibble(a = 1:4, b = c("a", "z", "z", "z"), c = c(data$c, NA))
+  )
+
+  expect_error(
+    rows_upsert(data, tibble(d = 1)),
+    "must exist"
+  )
+  expect_error(
+    rows_upsert(data, tibble(a = c(1, 1))),
+    "not unique"
+  )
+  expect_error(
+    rows_upsert(data, tibble(a = 1), by = "b"),
+    "must exist"
+  )
+  expect_error(
+    rows_upsert(data, tibble(a = 1), by = c(b = "a")),
+    "must be unnamed"
   )
 })
 
@@ -71,19 +112,14 @@ test_that("rows_delete()", {
     data[1, ]
   )
 
-  expect_error(
-    rows_delete(data, tibble(a = 2:4)),
-    "delete missing"
-  )
-
   expect_identical(
     rows_delete(data, tibble(a = 2:3, b = "b")),
     data[1, ]
   )
 
-  expect_error(
-    rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b")),
-    "delete missing"
+  expect_message(
+    rows_delete(data, tibble(a = 2:3, b = "b")),
+    "Ignoring extra columns"
   )
 })
 
@@ -97,12 +133,10 @@ verify_output("test-rows.txt", {
 
   "# Update"
   rows_update(data, tibble(a = 2:3, b = "z"))
-  rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))
   rows_update(data, tibble(b = "z", a = 2:3), by = "a")
 
   "# Variants: patch and upsert"
   rows_patch(data, tibble(a = 2:3, b = "z"))
-  rows_patch(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))
   rows_upsert(data, tibble(a = 2:4, b = "z"))
 
   "# Delete and truncate"
@@ -112,9 +146,7 @@ verify_output("test-rows.txt", {
   rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b"))
 
   "# Errors"
-  rows_insert(data[c(1, 1), ], tibble(a = 3))
   rows_insert(data, tibble(a = c(4, 4)))
-
   rows_insert(data, tibble(d = 4))
   rows_insert(data, tibble(a = 4, b = "z"), by = "e")
 })

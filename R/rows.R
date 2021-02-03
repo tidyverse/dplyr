@@ -11,8 +11,7 @@
 #'
 #' * `rows_insert()` adds new rows (like `INSERT`); key values in `y` must
 #'    not occur in `x`.
-#' * `rows_update()` modifies existing rows (like `UPDATE`); key values in
-#'   `y` must occur in `x`.
+#' * `rows_update()` modifies existing rows (like `UPDATE`)
 #' * `rows_patch()` works like `rows_update()` but only overwrites `NA` values.
 #' * `rows_upsert()` inserts or updates depending on whether or not the
 #'   key value in `y` already exists in `x`.
@@ -82,15 +81,16 @@ rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 #' @export
 rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   key <- rows_check_key(by, x, y)
+  rows_check_subset(x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
-  rows_check_key_df(y, key, df_name = "y")
+  rows_check_key_names_df(x, key, df_name = "x")
+  rows_check_key_names_df(y, key, df_name = "y")
 
-  idx <- vctrs::vec_match(y[key], x[key])
-  bad <- which(!is.na(idx))
-  if (has_length(bad)) {
+  rows_check_key_unique_df(y, key, df_name = "y")
+
+  if (any(vctrs::vec_in(y[key], x[key]))) {
     abort("Attempting to insert duplicate rows.")
   }
 
@@ -109,19 +109,20 @@ rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 #' @export
 rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   key <- rows_check_key(by, x, y)
+  rows_check_subset(x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
-  rows_check_key_df(y, key, df_name = "y")
-  idx <- vctrs::vec_match(y[key], x[key])
+  rows_check_key_names_df(x, key, df_name = "x")
+  rows_check_key_names_df(y, key, df_name = "y")
 
-  bad <- which(is.na(idx))
-  if (has_length(bad)) {
-    abort("Attempting to update missing rows.")
-  }
+  rows_check_key_unique_df(y, key, df_name = "y")
 
-  x[idx, names(y)] <- y
+  idx <- vctrs::vec_match(x[key], y[key])
+  pos <- which(!is.na(idx))
+  idx <- idx[pos]
+
+  x[pos, names(y)] <- y[idx, ]
   x
 }
 
@@ -137,21 +138,20 @@ rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 #' @export
 rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   key <- rows_check_key(by, x, y)
+  rows_check_subset(x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
-  rows_check_key_df(y, key, df_name = "y")
-  idx <- vctrs::vec_match(y[key], x[key])
+  rows_check_key_names_df(x, key, df_name = "x")
+  rows_check_key_names_df(y, key, df_name = "y")
 
-  bad <- which(is.na(idx))
-  if (has_length(bad)) {
-    abort("Attempting to patch missing rows.")
-  }
+  rows_check_key_unique_df(y, key, df_name = "y")
 
-  new_data <- map2(x[idx, names(y)], y, coalesce)
+  idx <- vctrs::vec_match(x[key], y[key])
+  pos <- which(!is.na(idx))
+  idx <- idx[pos]
 
-  x[idx, names(y)] <- new_data
+  x[pos, names(y)] <- map2(x[pos, names(y)], y[idx, ], coalesce)
   x
 }
 
@@ -167,18 +167,30 @@ rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 #' @export
 rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   key <- rows_check_key(by, x, y)
+  rows_check_subset(x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
-  rows_check_key_df(y, key, df_name = "y")
-  idx <- vctrs::vec_match(y[key], x[key])
-  new <- is.na(idx)
-  idx_existing <- idx[!new]
-  idx_new <- idx[new]
+  rows_check_key_names_df(x, key, df_name = "x")
+  rows_check_key_names_df(y, key, df_name = "y")
 
-  x[idx_existing, names(y)] <- vec_slice(y, !new)
-  rows_bind(x, vec_slice(y, new))
+  rows_check_key_unique_df(y, key, df_name = "y")
+
+  # update
+  idx <- vctrs::vec_match(x[key], y[key])
+  pos <- which(!is.na(idx))
+  if (length(pos)) {
+    idx <- idx[pos]
+    x[pos, names(y)] <- y[idx, ]
+  }
+
+  # and insert
+  pos_insert <- which(!vctrs::vec_in(y[key], x[key]))
+  if (length(pos_insert)) {
+    x <- rows_bind(x, vec_slice(y, pos_insert))
+  }
+  x
+
 }
 
 #' @rdname rows
@@ -193,11 +205,16 @@ rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 #' @export
 rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   key <- rows_check_key(by, x, y)
+  rows_check_subset(x, y)
+
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
-  rows_check_key_df(y, key, df_name = "y")
+  rows_check_key_names_df(x, key, df_name = "x")
+  rows_check_key_unique_df(x, key, df_name = "x")
+
+  rows_check_key_names_df(y, key, df_name = "y")
+  rows_check_key_unique_df(y, key, df_name = "y")
 
   extra_cols <- setdiff(names(y), key)
   if (has_length(extra_cols)) {
@@ -206,14 +223,7 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
     )
   }
 
-  idx <- vctrs::vec_match(y[key], x[key])
-
-  bad <- which(is.na(idx))
-  if (has_length(bad)) {
-    abort("Attempting to delete missing rows.")
-  }
-
-  dplyr_row_slice(x, -idx)
+  x[which(!vctrs::vec_in(x[key], y[key])), ]
 }
 
 # helpers -----------------------------------------------------------------
@@ -234,19 +244,24 @@ rows_check_key <- function(by, x, y) {
     abort("`by` must be unnamed.")
   }
 
+  by
+}
+
+rows_check_subset <- function(x, y) {
   bad <- setdiff(colnames(y), colnames(x))
   if (has_length(bad)) {
     abort("All columns in `y` must exist in `x`.")
   }
-
-  by
 }
 
-rows_check_key_df <- function(df, by, df_name) {
+rows_check_key_names_df <- function(df, by, df_name) {
   y_miss <- setdiff(by, colnames(df))
   if (length(y_miss) > 0) {
     abort(glue("All `by` columns must exist in `{df_name}`."))
   }
+}
+
+rows_check_key_unique_df <- function(df, by, df_name) {
   if (vctrs::vec_duplicate_any(df[by])) {
     abort(glue("`{df_name}` key values are not unique."))
   }
