@@ -70,18 +70,16 @@ test_that("lead() and lag() checks size of default (#5641)", {
 # Errors ------------------------------------------------------------------
 
 test_that("lead() / lag() give meaningful errors", {
-  verify_output(test_path("test-lead-lag-errors.txt"), {
-    "# complicance of n argument"
-    lead(letters, -1)
-    lead(letters, "1")
-    lag(letters, -1)
-    lag(letters, "1")
+  "# complicance of n argument"
+  expect_snapshot_error(lead(letters, -1))
+  expect_snapshot_error(lead(letters, "1"))
+  expect_snapshot_error(lag(letters, -1))
+  expect_snapshot_error(lag(letters, "1"))
 
-    "# ts"
-    lag(ts(1:10))
+  "# ts"
+  expect_snapshot_error(lag(ts(1:10)))
 
-    "# incompatible default"
-    lag(c("1", "2", "3"), default = FALSE)
-    lag(c("1", "2", "3"), default = character())
-  })
+  "# incompatible default"
+  expect_snapshot_error(lag(c("1", "2", "3"), default = FALSE))
+  expect_snapshot_error(lag(c("1", "2", "3"), default = character()))
 })

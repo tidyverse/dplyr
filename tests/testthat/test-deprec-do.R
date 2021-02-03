@@ -200,21 +200,19 @@ test_that("do() does not retain .drop attribute (#4176)", {
 # Errors --------------------------------------------
 
 test_that("do() gives meaningful error messages", {
-  verify_output(test_path("test-do-errors.txt"), {
-    df <- data.frame(
-      g = c(1, 2, 2, 3, 3, 3),
-      x = 1:6,
-      y = 6:1
-    ) %>% group_by(g)
+  df <- data.frame(
+    g = c(1, 2, 2, 3, 3, 3),
+    x = 1:6,
+    y = 6:1
+  ) %>% group_by(g)
 
-    df %>% do(head, tail)
+  expect_snapshot_error(df %>% do(head, tail))
 
-    "# unnamed elements must return data frames"
-    df %>% ungroup() %>% do(1)
-    df %>% do(1)
-    df %>% do("a")
+  # unnamed elements must return data frames
+  expect_snapshot_error(df %>% ungroup() %>% do(1))
+  expect_snapshot_error(df %>% do(1))
+  expect_snapshot_error(df %>% do("a"))
 
-    "# can't use both named and unnamed args"
-    df %>% do(x = 1, 2)
-  })
+  # can't use both named and unnamed args
+  expect_snapshot_error(df %>% do(x = 1, 2))
 })

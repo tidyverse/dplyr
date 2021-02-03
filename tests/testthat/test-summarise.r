@@ -234,57 +234,77 @@ test_that("summarise() preserves the call stack on error (#5308)", {
 })
 
 test_that("summarise() gives meaningful errors", {
-  verify_output(env = env(global_env()), test_path("test-summarise-errors.txt"), {
-    "# Messages about .groups="
-    ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()
-    ignored <- tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2,2))
-    ignored <- tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()
-    ignored <- tibble(x = 1, y = 2) %>% rowwise() %>% summarise()
+  # Messages about .groups=
+  expect_snapshot(tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise())
+  expect_snapshot(tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2,2)))
+  expect_snapshot(tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise())
+  expect_snapshot(tibble(x = 1, y = 2) %>% rowwise() %>% summarise())
 
-    "# unsupported type"
+  # unsupported type
+  expect_snapshot_error(
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       summarise(a = rlang::env(a = 1))
+  )
+  expect_snapshot_error(
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       group_by(x, y) %>%
       summarise(a = rlang::env(a = 1))
+  )
+  expect_snapshot_error(
     tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
       rowwise() %>%
       summarise(a = lm(y ~ x))
+  )
 
-    "# mixed types"
+  # mixed types
+  expect_snapshot_error(
     tibble(id = 1:2, a = list(1, "2")) %>%
       group_by(id) %>%
       summarise(a = a[[1]])
+  )
+  expect_snapshot_error(
     tibble(id = 1:2, a = list(1, "2")) %>%
       rowwise() %>%
       summarise(a = a[[1]])
+  )
 
-    "# incompatible size"
+  # incompatible size
+  expect_snapshot_error(
     tibble(z = 1) %>%
       summarise(x = 1:3, y = 1:2)
+  )
+  expect_snapshot_error(
     tibble(z = 1:2) %>%
       group_by(z) %>%
       summarise(x = 1:3, y = 1:2)
+  )
+  expect_snapshot_error(
     tibble(z = c(1, 3)) %>%
       group_by(z) %>%
       summarise(x = seq_len(z), y = 1:2)
+  )
 
-    "# NULL and no NULL"
+  # NULL and no NULL
+  expect_snapshot_error(
     data.frame(x = 1:2, g = 1:2) %>% group_by(g) %>% summarise(x = if(g == 1) 42)
+  )
 
-    "# Missing variable"
-    summarise(mtcars, a = mean(not_there))
-    summarise(group_by(mtcars, cyl), a = mean(not_there))
+  # Missing variable
+  expect_snapshot_error(summarise(mtcars, a = mean(not_there)))
+  expect_snapshot_error(summarise(group_by(mtcars, cyl), a = mean(not_there)))
 
-    "# .data pronoun"
-    summarise(tibble(a = 1), c = .data$b)
-    summarise(group_by(tibble(a = 1:3), a), c = .data$b)
+  # .data pronoun
+  expect_snapshot_error(summarise(tibble(a = 1), c = .data$b))
+  expect_snapshot_error(summarise(group_by(tibble(a = 1:3), a), c = .data$b))
 
-    "# Duplicate column names"
+  # Duplicate column names
+  expect_snapshot_error(
     tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
+  )
 
-    "# Not glue()ing"
-    tibble() %>% summarise(stop("{"))
+  # Not glue()ing
+  expect_snapshot_error(tibble() %>% summarise(stop("{")))
+  expect_snapshot_error(
     tibble(a = 1, b="{value:1, unit:a}") %>% group_by(b) %>% summarise(a = stop("!"))
-  })
+  )
 })

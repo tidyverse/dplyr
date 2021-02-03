@@ -150,37 +150,35 @@ test_that("validate_grouped_df() gives useful errors", {
   df11 <- df6
   attr(df11, "groups") <- NULL
 
-  verify_output(test_path("test-grouped-df-validate.txt"), {
-    "# Invalid `groups` attribute"
-    validate_grouped_df(df1)
-    validate_grouped_df(df2)
-    validate_grouped_df(df3)
-    validate_grouped_df(df4)
+  # Invalid `groups` attribute
+  expect_snapshot_error(validate_grouped_df(df1))
+  expect_snapshot_error(validate_grouped_df(df2))
+  expect_snapshot_error(validate_grouped_df(df3))
+  expect_snapshot_error(validate_grouped_df(df4))
 
-    "# Older style grouped_df"
-    validate_grouped_df(df5)
+  # Older style grouped_df
+  expect_snapshot_error(validate_grouped_df(df5))
 
-    "# validate_grouped_df()"
-    validate_grouped_df(df6, check_bounds = TRUE)
-    validate_grouped_df(df7, check_bounds = TRUE)
-    validate_grouped_df(df8, check_bounds = TRUE)
-    validate_grouped_df(df10)
-    validate_grouped_df(df11)
+  # validate_grouped_df(
+  expect_snapshot_error(validate_grouped_df(df6, check_bounds = TRUE))
+  expect_snapshot_error(validate_grouped_df(df7, check_bounds = TRUE))
+  expect_snapshot_error(validate_grouped_df(df8, check_bounds = TRUE))
+  expect_snapshot_error(validate_grouped_df(df10))
+  expect_snapshot_error(validate_grouped_df(df11))
 
-    "# new_grouped_df()"
+  # new_grouped_df()
+  expect_snapshot_error(
     new_grouped_df(
       tibble(x = 1:10),
       tibble(other = list(1:2))
     )
-    new_grouped_df(10)
-  })
+  )
+  expect_snapshot_error(new_grouped_df(10))
 })
 
 # compute_group ----------------------------------------------------------
 
 test_that("helper gives meaningful error messages", {
-  verify_output(test_path("test-grouped-df-errors.txt"), {
-    grouped_df(data.frame(x = 1), "y", FALSE)
-    grouped_df(data.frame(x = 1), 1)
-  })
+  expect_snapshot_error(grouped_df(data.frame(x = 1), "y", FALSE))
+  expect_snapshot_error(grouped_df(data.frame(x = 1), 1))
 })

@@ -8,8 +8,6 @@ test_that("scalar y replaces all matching x", {
 # Errors ------------------------------------------------------------------
 
 test_that("na_if() gives meaningful errors", {
-  verify_output(test_path("test-na-if-errors.txt"), {
-    na_if(1:3, 1:2)
-    na_if(1, 1:2)
-  })
+  expect_snapshot_error(na_if(1:3, 1:2))
+  expect_snapshot_error(na_if(1, 1:2))
 })
