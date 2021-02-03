@@ -86,36 +86,34 @@ test_that("sample_n and sample_frac handles lazy grouped data frames (#3380)", {
 # Errors --------------------------------------------
 
 test_that("sample_*() gives meaningful error messages", {
-  verify_output(test_path("test-sample-errors.txt"), {
-    df2 <- tibble(
-      x = rep(1:2, 100),
-      y = rep(c(0, 1), 100),
-      g = rep(1:2, each = 100)
-    )
+  df2 <- tibble(
+    x = rep(1:2, 100),
+    y = rep(c(0, 1), 100),
+    g = rep(1:2, each = 100)
+  )
 
-    grp <- df2 %>% group_by(g)
+  grp <- df2 %>% group_by(g)
 
-    "# base R error messages"
-    sample_n(grp, nrow(df2) / 2, weight = y)
-    sample_frac(grp, 1, weight = y)
+  # base R error messages
+  expect_snapshot_error(sample_n(grp, nrow(df2) / 2, weight = y))
+  expect_snapshot_error(sample_frac(grp, 1, weight = y))
 
-    "# can't sample more values than obs (without replacement)"
-    mtcars %>% group_by(cyl) %>% sample_n(10)
+  # can't sample more values than obs (without replacement)
+  expect_snapshot_error(mtcars %>% group_by(cyl) %>% sample_n(10))
 
-    "# unknown type"
-    sample_n(list())
-    sample_frac(list())
+  # unknown type
+  expect_snapshot_error(sample_n(list()))
+  expect_snapshot_error(sample_frac(list()))
 
-    "# helper function check_weight()"
-    check_weight(letters[1:2], 2)
-    check_weight(-1:-2, 2)
-    check_weight(letters, 2)
+  # helper function check_weight()
+  expect_snapshot_error(check_weight(letters[1:2], 2))
+  expect_snapshot_error(check_weight(-1:-2, 2))
+  expect_snapshot_error(check_weight(letters, 2))
 
-    "# respects weight"
-    df <- data.frame(x = 1:2, y = c(0, 1))
-    sample_n(df, 2, weight = y)
-    sample_frac(df, 2)
-    sample_frac(df %>% group_by(y), 2)
-    sample_frac(df, 1, weight = y)
-  })
+  "# respects weight"
+  df <- data.frame(x = 1:2, y = c(0, 1))
+  expect_snapshot_error(sample_n(df, 2, weight = y))
+  expect_snapshot_error(sample_frac(df, 2))
+  expect_snapshot_error(sample_frac(df %>% group_by(y), 2))
+  expect_snapshot_error(sample_frac(df, 1, weight = y))
 })

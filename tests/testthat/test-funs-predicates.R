@@ -13,8 +13,6 @@ test_that("any_exprs() creates union", {
 })
 
 test_that("all_exprs() gives meaningful error messages", {
-  verify_output(test_path("test-funs-predicates-errors.txt"), {
-    all_exprs()
-    any_exprs()
-  })
+  expect_snapshot_error(all_exprs())
+  expect_snapshot_error(any_exprs())
 })

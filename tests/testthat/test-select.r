@@ -151,14 +151,12 @@ test_that("dplyr_col_select() aborts when `[` implementation is broken", {
   df2 <- new_tibble(list(x = 1), nrow = 1L, class = "dplyr_test_operator_wrong_size")
   expect_error(dplyr_col_select(d2f, 1:2))
 
-  verify_output(test_path("test-select-errors.txt"), {
-    "# from vctrs"
-    dplyr_col_select(df1, 2)
+  # from vctrs
+  expect_snapshot_error(dplyr_col_select(df1, 2))
 
-    "# not returning a data frame"
-    dplyr_col_select(df1, 1)
+  # not returning a data frame
+  expect_snapshot_error(dplyr_col_select(df1, 1))
 
-    "# unexpected number of columns"
-    dplyr_col_select(df2, 1)
-  })
+  # unexpected number of columns
+  expect_snapshot_error(dplyr_col_select(df2, 1))
 })

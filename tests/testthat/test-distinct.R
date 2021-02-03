@@ -158,11 +158,9 @@ test_that("distinct preserves grouping", {
 test_that("distinct gives a warning when selecting an unknown column (#3140)", {
   df <- tibble(g = c(1, 2), x = c(1, 2))
 
-  verify_output(test_path("test-distinct-errors.txt"), {
-    df %>% distinct(aa, x)
-    df %>% distinct(aa, bb)
-    df %>% distinct(.data$aa)
+  expect_snapshot_error(df %>% distinct(aa, x))
+  expect_snapshot_error(df %>% distinct(aa, bb))
+  expect_snapshot_error(df %>% distinct(.data$aa))
 
-    df %>% distinct(y = a + 1)
-  })
+  expect_snapshot_error(df %>% distinct(y = a + 1))
 })

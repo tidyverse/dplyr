@@ -94,18 +94,15 @@ test_that("set equality", {
 # Errors ------------------------------------------------------------------
 
 test_that("set operation give useful error message. #903", {
-  verify_output(test_path("test-sets-errors.txt"), {
-    alfa <- tibble(
-      land = c("Sverige", "Norway", "Danmark", "Island", "GB"),
-      data = rnorm(length(land))
-    )
-
-    beta <- tibble(
-      land = c("Norge", "Danmark", "Island", "Storbritannien"),
-      data2 = rnorm(length(land))
-    )
-    intersect(alfa, beta)
-    union(alfa, beta)
-    setdiff(alfa, beta)
-  })
+  alfa <- tibble(
+    land = c("Sverige", "Norway", "Danmark", "Island", "GB"),
+    data = rnorm(length(land))
+  )
+  beta <- tibble(
+    land = c("Norge", "Danmark", "Island", "Storbritannien"),
+    data2 = rnorm(length(land))
+  )
+  expect_snapshot_error(intersect(alfa, beta))
+  expect_snapshot_error(union(alfa, beta))
+  expect_snapshot_error(setdiff(alfa, beta))
 })

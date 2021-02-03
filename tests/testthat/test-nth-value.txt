@@ -1,3 +1,0 @@
-> nth(1:10, "x")
-Error: `n` must be a single integer.
-

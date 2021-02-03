@@ -26,15 +26,12 @@ test_that("works with lists", {
 # Errors ------------------------------------------------------------------
 
 test_that("if_else() give meaningful errors", {
-  verify_output(test_path("test-if-else-errors.txt"), {
+  expect_snapshot_error(if_else(1:10, 1, 2))
+  expect_snapshot_error(if_else(1:3 < 2, 1:2, 1:3))
+  expect_snapshot_error(if_else(1:3 < 2, 1:3, 1:2))
+  expect_snapshot_error(if_else(1:3 < 2, 1, 1L))
 
-    if_else(1:10, 1, 2)
-    if_else(1:3 < 2, 1:2, 1:3)
-    if_else(1:3 < 2, 1:3, 1:2)
-    if_else(1:3 < 2, 1, 1L)
-
-    x <- factor("x")
-    y <- ordered("x")
-    if_else(1:3 < 2, x, y)
-  })
+  x <- factor("x")
+  y <- ordered("x")
+  expect_snapshot_error(if_else(1:3 < 2, x, y))
 })

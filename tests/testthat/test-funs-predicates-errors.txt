@@ -1,6 +1,0 @@
-> all_exprs()
-Error: At least one expression must be given.
-
-> any_exprs()
-Error: At least one expression must be given.
-
