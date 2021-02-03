@@ -23,3 +23,11 @@ x Input `..1` can't be recycled to size 1.
 i Input `..1` is `rep(x, 2)`.
 i Input `..1` must be size 1, not 2.
 
+
+`.method` is validated
+======================
+
+> arrange(tibble(x = 1), .method = "dplyr")
+Error: `.method` must be one of "dplyr_auto", "auto", "shell", or "radix".
+Did you mean "dplyr_auto"?
+

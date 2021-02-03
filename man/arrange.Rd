@@ -7,7 +7,12 @@
 \usage{
 arrange(.data, ..., .by_group = FALSE)
 
-\method{arrange}{data.frame}(.data, ..., .by_group = FALSE)
+\method{arrange}{data.frame}(
+  .data,
+  ...,
+  .by_group = FALSE,
+  .method = c("dplyr_auto", "auto", "shell", "radix")
+)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -19,6 +24,12 @@ variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending orde
 
 \item{.by_group}{If \code{TRUE}, will sort first by grouping variable. Applies to
 grouped data frames only.}
+
+\item{.method}{The underlying method to sort with. If \code{"radix"}, \code{"shell"},
+or \code{"auto"}, the method is passed on to \code{\link[=order]{order()}} as is. If \code{"dplyr_auto"},
+the method will be set to \code{"radix"} if all of the columns to arrange by are
+internally integer, double, logical, or character, otherwise the method will
+be set to \code{"shell"}.}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following
@@ -42,8 +53,10 @@ once per data frame, not once per group.
 \details{
 \subsection{Locales}{
 
-The sort order for character vectors will depend on the collating sequence
-of the locale in use: see \code{\link[=locales]{locales()}}.
+When \code{.method} is set to \code{"dplyr_auto"} or \code{"radix"}, the sort order for
+character vectors always follows the "C" locale. Otherwise, the sort order
+for character vectors will depend on the collating sequence of the locale
+in use: see \code{\link[=locales]{locales()}}.
 }
 
 \subsection{Missing values}{
