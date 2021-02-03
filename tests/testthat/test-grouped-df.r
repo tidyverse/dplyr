@@ -28,8 +28,8 @@ test_that("[ method reuses group_data() if possible", {
   df <- tibble(x = 1, y = 2, z = 3)
   gf <- group_by(df, x, y)
 
-  expect_reference(group_data(gf), group_data(gf[1:2]))
-  expect_reference(group_data(gf), group_data(gf[, 1:2]))
+  expect_true(rlang::is_reference(group_data(gf), group_data(gf[1:2])))
+  expect_true(rlang::is_reference(group_data(gf), group_data(gf[, 1:2])))
 })
 
 test_that("[ supports drop=TRUE (#3714)", {
@@ -79,10 +79,10 @@ test_that("names<- updates grouping data", {
 test_that("names<- doesn't modify group data if not necessary", {
   df <- tibble(x = 1, y = 2)
   gf1 <- gf2 <- group_by(df, x)
-  expect_reference(group_data(gf1), group_data(gf2))
+  expect_true(rlang::is_reference(group_data(gf1), group_data(gf2)))
 
   names(gf1) <- c("x", "Y")
-  expect_reference(group_data(gf1), group_data(gf2))
+  expect_true(rlang::is_reference(group_data(gf1), group_data(gf2)))
 })
 
 test_that("group order is maintained in grouped-df methods (#5040)", {
