@@ -28,11 +28,13 @@ test_that("mutate_each_() and summarise_each_() handle lazydots", {
   expect_equal(cyl_mean, mean(mtcars$cyl))
 })
 
-# test_that("select_vars_() handles lazydots", {
-#   withr::local_options(lifecycle_verbosity = "quiet")
-#
-#   expect_identical(select_vars_(letters, c("a", "b")), set_names(c("a", "b")))
-# })
+test_that("select_vars_() handles lazydots", {
+  withr::local_options(
+    lifecycle_verbosity = "quiet",
+    tidyselect_verbosity = "quiet"
+  )
+  expect_identical(select_vars_(letters, c("a", "b")), set_names(c("a", "b")))
+})
 
 df <- tibble(
   a = c(1:3, 2:3),
