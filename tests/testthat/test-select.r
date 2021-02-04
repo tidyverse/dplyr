@@ -14,7 +14,9 @@ test_that("grouping variables preserved with a message (#1511)", {
 })
 
 test_that("non-syntactic grouping variable is preserved (#1138)", {
-  df <- tibble(`a b` = 1L) %>% group_by(`a b`) %>% select()
+  expect_snapshot(
+    df <- tibble(`a b` = 1L) %>% group_by(`a b`) %>% select()
+  )
   expect_named(df, "a b")
 })
 
