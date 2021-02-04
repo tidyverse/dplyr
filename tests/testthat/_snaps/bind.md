@@ -1,3 +1,23 @@
+# bind_cols repairs names
+
+    Code
+      bound <- bind_cols(df, df)
+    Message <simpleMessage>
+      New names:
+      * a -> a...1
+      * b -> b...2
+      * a -> a...3
+      * b -> b...4
+
+# bind_cols() handles unnamed list with name repair (#3402)
+
+    Code
+      df <- bind_cols(list(1, 2))
+    Message <simpleMessage>
+      New names:
+      * NA -> ...1
+      * NA -> ...2
+
 # *_bind() give meaningful errors
 
     `.id` must be a scalar string, not a double vector of length 1.

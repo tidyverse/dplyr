@@ -39,11 +39,13 @@ test_that("bind_cols handles all-NULL values (#2303)", {
 
 test_that("bind_cols repairs names", {
   df <- tibble(a = 1, b = 2)
-  bound <- bind_cols(df, df)
+  expect_snapshot(bound <- bind_cols(df, df))
 
-  repaired <- as_tibble(
-    data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE),
-    .name_repair = "unique"
+  repaired <- expect_message(
+    as_tibble(
+      data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE),
+      .name_repair = "unique"
+    ), "New names"
   )
 
   expect_identical(bound, repaired)
@@ -402,15 +404,17 @@ test_that("bind_rows infers classes from first result (#1692)", {
   expect_equal(class(bind_rows(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 })
 
-test_that("bind_cols infers classes from first result (#1692)", {
+test_that("bind_cols() infers classes from first result (#1692)", {
   d1 <- data.frame(a = 1:10, b = rep(1:2, each = 5))
   d2 <- tibble(c = 1:10, d = rep(1:2, each = 5))
   d3 <- group_by(d2, d)
   d4 <- rowwise(d2)
   d5 <- list(c = 1:10, d = rep(1:2, each = 5))
 
-  expect_equal(class(bind_cols(d1, d1)), "data.frame")
-  expect_equal(class(bind_cols(d2, d1)), c("tbl_df", "tbl", "data.frame"))
+  suppressMessages({
+    expect_equal(class(bind_cols(d1, d1)), "data.frame")
+    expect_equal(class(bind_cols(d2, d1)), c("tbl_df", "tbl", "data.frame"))
+  })
   res3 <- bind_cols(d3, d1)
   expect_equal(class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame"))
   expect_equal(map_int(group_rows(res3), length), c(5, 5))
@@ -491,10 +495,9 @@ test_that("ignores NULL values", {
 })
 
 test_that("bind_cols() handles unnamed list with name repair (#3402)", {
-  expect_identical(
-    bind_cols(list(1, 2)),
-    bind_cols(list(...1 = 1, ...2 = 2))
-  )
+  expect_snapshot(df <- bind_cols(list(1, 2)))
+
+  expect_identical(df, bind_cols(list(...1 = 1, ...2 = 2)))
 })
 
 test_that("bind_cols() doesn't squash record types", {

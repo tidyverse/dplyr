@@ -68,7 +68,9 @@ test_that("factor comparison requires strict equality of levels (#2440)", {
 test_that("all.equal.data.frame handles data.frames with NULL names", {
   x <- data.frame(LETTERS[1:3], rnorm(3))
   names(x) <- NULL
-  expect_true(all_equal(x, x))
+  suppressMessages(
+    expect_true(all_equal(x, x))
+  )
 })
 
 test_that("data frame equality test with ignore_row_order=TRUE detects difference in number of rows. #1065", {
@@ -166,7 +168,9 @@ test_that("ignore column order", {
 
 test_that("all.equal() works on nameless tibbles (#4552)", {
   ir <- set_names(iris, NULL)
-  expect_true(all_equal(ir, ir))
+  suppressMessages(
+    expect_true(all_equal(ir, ir))
+  )
 })
 
 
