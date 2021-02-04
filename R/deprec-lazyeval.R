@@ -298,7 +298,7 @@ select_.grouped_df <- function(.data, ..., .dots = list()) {
 select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
   lifecycle::deprecate_warn("0.7.0", "select_vars_()", "tidyselect::vars_select()")
   args <- compat_lazy_dots(args, caller_env())
-  tidyselect::vars_select(vars, !!!args, include = include, exclude = exclude)
+  tidyselect::vars_select(vars, !!!args, .include = include, .exclude = exclude)
 }
 
 #' @export

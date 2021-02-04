@@ -29,11 +29,17 @@ test_that("mutate_each_() and summarise_each_() handle lazydots", {
 })
 
 test_that("select_vars_() handles lazydots", {
-  withr::local_options(
-    lifecycle_verbosity = "quiet",
-    tidyselect_verbosity = "quiet"
-  )
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_identical(select_vars_(letters, c("a", "b")), set_names(c("a", "b")))
+  expect_identical(
+    select_vars_(letters, c("a", "b"), include = "c"),
+    set_names(c("c", "a", "b"))
+  )
+  expect_identical(
+    select_vars_(letters, c("a", "b"), exclude = "b"),
+    set_names(c("a"))
+  )
 })
 
 df <- tibble(
