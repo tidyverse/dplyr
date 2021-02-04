@@ -17,14 +17,14 @@ test_that("top_n() handles calls", {
 })
 
 test_that("top_n() quotes n", {
-  expect_identical(top_n(mtcars, n() * .5), top_n(mtcars, 16))
+  expect_snapshot(res1 <- top_n(mtcars, n() * .5))
+  expect_snapshot(res2 <- top_n(mtcars, 16))
+  expect_identical(res1, res2)
 })
 
 test_that("top_frac() is a shorthand for top_n(n()*)", {
   expect_identical(top_n(mtcars, n() * .5, disp), top_frac(mtcars, .5, disp))
 
-  expect_message(
-    regexp = "Selecting by carb",
-    expect_identical(top_n(mtcars, n() * .5), top_frac(mtcars, .5))
-  )
+  expect_snapshot(res1 <- top_n(mtcars, n() * .5))
+  expect_snapshot(res2 <- top_frac(mtcars, .5))
 })
