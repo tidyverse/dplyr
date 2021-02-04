@@ -234,6 +234,8 @@ test_that("summarise() preserves the call stack on error (#5308)", {
 })
 
 test_that("summarise() gives meaningful errors", {
+  withr::local_options(dplyr.summarise.inform = TRUE)
+
   # Messages about .groups=
   expect_snapshot(tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise())
   expect_snapshot(tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2,2)))

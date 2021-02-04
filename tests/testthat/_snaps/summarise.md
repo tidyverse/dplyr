@@ -2,6 +2,8 @@
 
     Code
       tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()
+    Message <message>
+      `summarise()` has grouped output by 'x'. You can override using the `.groups` argument.
     Output
       # A tibble: 1 x 2
       # Groups:   x [1]
@@ -13,6 +15,8 @@
 
     Code
       tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2, 2))
+    Message <message>
+      `summarise()` has grouped output by 'x', 'y'. You can override using the `.groups` argument.
     Output
       # A tibble: 2 x 3
       # Groups:   x, y [1]
@@ -25,6 +29,8 @@
 
     Code
       tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()
+    Message <message>
+      `summarise()` has grouped output by 'x', 'y'. You can override using the `.groups` argument.
     Output
       # A tibble: 1 x 2
       # Groups:   x, y [1]
@@ -36,6 +42,8 @@
 
     Code
       tibble(x = 1, y = 2) %>% rowwise() %>% summarise()
+    Message <message>
+      `summarise()` has ungrouped output. You can override using the `.groups` argument.
     Output
       # A tibble: 1 x 0
 
