@@ -86,7 +86,8 @@ test_that("can rename with vars() (#2594)", {
 
 test_that("selection works with grouped data frames (#2624)", {
   gdf <- group_by(iris, Species)
-  expect_identical(mutate_if(gdf, is.factor, as.character), gdf)
+  expect_snapshot(out <- mutate_if(gdf, is.factor, as.character))
+  expect_identical(out, gdf)
 })
 
 test_that("at selection works even if not all ops are named (#2634)", {

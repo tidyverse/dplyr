@@ -1,3 +1,11 @@
+# selection works with grouped data frames (#2624)
+
+    Code
+      out <- mutate_if(gdf, is.factor, as.character)
+    Message <message>
+      `mutate_if()` ignored the following grouping variables:
+      Column `Species`
+
 # colwise mutate gives meaningful error messages
 
     Can't subset columns that don't exist.

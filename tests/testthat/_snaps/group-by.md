@@ -1,3 +1,17 @@
+# select(group_by(.)) implicitely adds grouping variables (#170)
+
+    Code
+      res <- mtcars %>% group_by(vs) %>% select(mpg)
+    Message <message>
+      Adding missing grouping variables: `vs`
+
+# group_by works with zero-row data frames (#486)
+
+    Code
+      x <- select(dfg, a)
+    Message <message>
+      Adding missing grouping variables: `g`
+
 # group_by() and ungroup() give meaningful error messages
 
     Must group by variables found in `.data`.
