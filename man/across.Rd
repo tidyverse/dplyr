@@ -8,9 +8,9 @@
 \usage{
 across(.cols = everything(), .fns = NULL, ..., .names = NULL)
 
-if_any(.cols = everything(), .fns = NULL, ..., .names = NULL)
+if_any(.cols, .fns, ..., .names = NULL)
 
-if_all(.cols = everything(), .fns = NULL, ..., .names = NULL)
+if_all(.cols = everything(), .fns, ..., .names = NULL)
 }
 \arguments{
 \item{.fns}{Functions to apply to each of the selected columns.
