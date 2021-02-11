@@ -91,7 +91,8 @@ compute_groups <- function(data, vars, drop = FALSE) {
     groups <- tibble(!!!new_keys, ".rows" := new_rows)
   }
 
-  structure(groups, .drop = drop)
+  attr(groups, ".drop") <- drop
+  groups
 }
 
 count_regroups <- function(code) {
