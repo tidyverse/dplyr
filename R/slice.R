@@ -239,7 +239,6 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
     n =    function(x, n) sample_int(n, size$n, replace = replace, wt = x),
     prop = function(x, n) sample_int(n, size$prop * n, replace = replace, wt = x),
   )
-
   slice(.data, idx({{ weight_by }}, dplyr::n()))
 }
 
@@ -327,10 +326,13 @@ check_slice_size <- function(n, prop, .slice_fn = "check_slice_size") {
 }
 
 sample_int <- function(n, size, replace = FALSE, wt = NULL) {
-  if (replace) {
-    sample.int(n, size, prob = wt, replace = TRUE)
+  if (!replace) {
+    size <- min(size, n)
+  }
+  if (size == 0L) {
+    integer(0)
   } else {
-    sample.int(n, min(size, n), prob = wt)
+    sample.int(n, size, prob = wt, replace = replace)
   }
 }
 
