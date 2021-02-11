@@ -393,7 +393,7 @@ mutate_cols <- function(.data, ...) {
       cnd_bullet_header(),
       i = conditionMessage(w),
       i = cnd_bullet_input_info(),
-      i = cnd_bullet_cur_group_label()
+      i = cnd_bullet_cur_group_label(what = "warning")
     ))
 
     # Cancel `w`
