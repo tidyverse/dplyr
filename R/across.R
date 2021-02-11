@@ -6,7 +6,7 @@
 #' functions like [summarise()] and [mutate()]. See `vignette("colwise")` for
 #'  more details.
 #'
-#' `if_any()` and `if_all()` are used with [select()] semantics to apply the same
+#' `if_any()` and `if_all()` apply the same
 #' predicate function to a selection of columns and combine the
 #' results into a single logical vector.
 #'
