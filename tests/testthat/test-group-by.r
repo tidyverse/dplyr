@@ -522,6 +522,11 @@ test_that("implicit mutate() operates on ungrouped data (#5598)", {
   expect_equal(vars, c("y", "z"))
 })
 
+test_that("grouped_df() does not break row.names (#5745)", {
+  groups <- compute_groups(data.frame(x = 1:10), "x")
+  expect_equal(.row_names_info(groups, type = 0), c(NA, -10L))
+})
+
 # Errors ------------------------------------------------------------------
 
 test_that("group_by() and ungroup() give meaningful error messages", {
