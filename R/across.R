@@ -153,7 +153,7 @@ if_any <- function(.cols, .fns, ..., .names = NULL) {
     abort("if_any() needs both .cols= and .fns=")
   }
 
-  df <- across(!!.fns, .fns = .fns, ..., .names = .names)
+  df <- across(!!.cols, .fns = .fns, ..., .names = .names)
   n <- nrow(df)
   df <- vec_cast_common(!!!df, .to = logical())
   .Call(dplyr_reduce_lgl_or, df, n)
@@ -167,7 +167,7 @@ if_all <- function(.cols = everything(), .fns, ..., .names = NULL) {
     abort("if_all() needs both .cols= and .fns=")
   }
 
-  df <- across(!!.fns, .fns = .fns, ..., .names = .names)
+  df <- across(!!.cols, .fns = .fns, ..., .names = .names)
   n <- nrow(df)
   df <- vec_cast_common(!!!df, .to = logical())
   .Call(dplyr_reduce_lgl_and, df, n)
