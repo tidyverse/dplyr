@@ -147,7 +147,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
 #' @rdname across
 #' @export
-if_any <- function(.cols, .fns = NULL, ..., .names = NULL) {
+if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   df <- across({{ .cols }}, .fns = .fns, ..., .names = .names)
   n <- nrow(df)
   df <- vec_cast_common(!!!df, .to = logical())
@@ -156,7 +156,7 @@ if_any <- function(.cols, .fns = NULL, ..., .names = NULL) {
 
 #' @rdname across
 #' @export
-if_all <- function(.cols, .fns = NULL, ..., .names = NULL) {
+if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   df <- across({{ .cols }}, .fns = .fns, ..., .names = .names)
   n <- nrow(df)
   df <- vec_cast_common(!!!df, .to = logical())
