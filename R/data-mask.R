@@ -192,6 +192,10 @@ DataMask <- R6Class("DataMask",
 
     get_rlang_mask = function() {
       private$mask
+    },
+
+    get_caller_env = function() {
+      private$caller
     }
 
   ),
