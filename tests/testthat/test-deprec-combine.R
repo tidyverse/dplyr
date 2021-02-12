@@ -113,32 +113,32 @@ test_that("combine works with NA and POSIXct (#2203)", {
     NA, as.POSIXct("2010-01-01"), as.POSIXct("2010-01-02"),
     NA, as.POSIXct("2010-01-04")
   ))
-  attr(works, "tzone") <- NULL
-  expect_equal(works, c(as.POSIXct(c(
-    NA, "2010-01-01", "2010-01-02",
-    NA, "2010-01-04"
-  ))))
+  expect_equal(
+    works,
+    c(as.POSIXct(c(NA, "2010-01-01", "2010-01-02", NA, "2010-01-04"))),
+    ignore_attr = TRUE
+  )
   # NA length 1
 
   works <- combine(list(
     as.POSIXct("2010-01-01"), as.POSIXct("2010-01-02"),
     NA, as.POSIXct("2010-01-04")
   ))
-  attr(works, "tzone") <- NULL
-  expect_equal(works, c(as.POSIXct(c(
-    "2010-01-01", "2010-01-02",
-    NA, "2010-01-04"
-  ))))
+  expect_equal(
+    works,
+    c(as.POSIXct(c("2010-01-01", "2010-01-02", NA, "2010-01-04"))),
+    ignore_attr = TRUE
+  )
   # NA length > 1
   works <- combine(list(
     as.POSIXct("2010-01-01"), as.POSIXct("2010-01-02"),
     c(NA, NA), as.POSIXct("2010-01-04")
   ))
-  attr(works, "tzone") <- NULL
-  expect_equal(works, c(as.POSIXct(c(
-    "2010-01-01", "2010-01-02",
-    NA, NA, "2010-01-04"
-  ))))
+  expect_equal(
+    works,
+    c(as.POSIXct(c("2010-01-01", "2010-01-02", NA, NA, "2010-01-04"))),
+    ignore_attr = TRUE
+  )
 })
 
 test_that("combine works with NA and Date (#2203)", {
