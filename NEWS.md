@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Fixed edge case of `slice_sample()` when `weight_by=` is used and there 
+  0 rows (#5729). 
+
 # dplyr 1.0.4
 
 * Improved performance for `across()`. This makes `summarise(across())` and 

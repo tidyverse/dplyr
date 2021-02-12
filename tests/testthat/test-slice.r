@@ -274,6 +274,12 @@ test_that("slice_*() checks for constant n= and prop=", {
   expect_error(slice_sample(df, prop = n()), "constant")
 })
 
+test_that("slice_sample() does not error on zero rows (#5729)", {
+  df <- tibble(dummy = character(), weight = numeric(0))
+  res <- expect_error(slice_sample(df, prop=0.5, weight_by = weight), NA)
+  expect_equal(nrow(res), 0L)
+})
+
 # Errors ------------------------------------------------------------------
 
 test_that("rename errors with invalid grouped data frame (#640)", {
