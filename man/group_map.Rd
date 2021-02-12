@@ -15,7 +15,7 @@ group_walk(.data, .f, ...)
 \arguments{
 \item{.data}{A grouped tibble}
 
-\item{.f}{A function or formula to apply to each group. It must return a data frame.
+\item{.f}{A function or formula to apply to each group.
 
 If a \strong{function}, it is used as is. It should have at least 2 formal arguments.
 

@@ -34,7 +34,7 @@ as_group_map_function <- function(.f) {
 #' @family grouping functions
 #'
 #' @param .data A grouped tibble
-#' @param .f A function or formula to apply to each group. It must return a data frame.
+#' @param .f A function or formula to apply to each group.
 #'
 #'   If a __function__, it is used as is. It should have at least 2 formal arguments.
 #'
