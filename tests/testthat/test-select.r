@@ -154,11 +154,11 @@ test_that("dplyr_col_select() aborts when `[` implementation is broken", {
   expect_error(dplyr_col_select(d2f, 1:2))
 
   # from vctrs
-  expect_snapshot_error(dplyr_col_select(df1, 2))
+  expect_snapshot(error = TRUE, dplyr_col_select(df1, 2))
 
   # not returning a data frame
-  expect_snapshot_error(dplyr_col_select(df1, 1))
+  expect_snapshot(error = TRUE, dplyr_col_select(df1, 1))
 
   # unexpected number of columns
-  expect_snapshot_error(dplyr_col_select(df2, 1))
+  expect_snapshot(error = TRUE, dplyr_col_select(df2, 1))
 })

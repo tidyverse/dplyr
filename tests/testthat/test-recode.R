@@ -149,13 +149,13 @@ test_that("can recode factor with redundant levels", {
 # Errors --------------------------------------------
 
 test_that("recode() gives meaningful error messages", {
-  expect_snapshot_error(recode(factor("a"), a = 5, .missing = 10))
-  expect_snapshot_error(recode("a", b = 5, "c"))
+  expect_snapshot(error = TRUE, recode(factor("a"), a = 5, .missing = 10))
+  expect_snapshot(error = TRUE, recode("a", b = 5, "c"))
 
-  expect_snapshot_error(recode(factor("a"), b = 5, "c"))
+  expect_snapshot(error = TRUE, recode(factor("a"), b = 5, "c"))
 
   # no replacement
-  expect_snapshot_error(recode(1:5))
-  expect_snapshot_error(recode("a"))
-  expect_snapshot_error(recode(factor("a")))
+  expect_snapshot(error = TRUE, recode(1:5))
+  expect_snapshot(error = TRUE, recode("a"))
+  expect_snapshot(error = TRUE, recode(factor("a")))
 })

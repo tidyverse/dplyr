@@ -38,5 +38,5 @@ test_that("firsts uses default value for 0 length augmented vectors", {
 })
 
 test_that("nth() gives meaningful error message (#5466)", {
-  expect_snapshot_error(nth(1:10, "x"))
+  expect_snapshot(error = TRUE, nth(1:10, "x"))
 })

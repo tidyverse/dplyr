@@ -19,13 +19,13 @@ test_that("lists of formulas are auto-named", {
 # Errors --------------------------------------------
 
 test_that("colwise utils gives meaningful error messages", {
-  expect_snapshot_error(tbl_at_vars(iris, raw(3)))
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE, tbl_at_vars(iris, raw(3)))
+  expect_snapshot(error = TRUE,
     tbl_if_vars(iris, list(identity, force), environment())
   )
 
   .funs <- as_fun_list(list(identity, force), caller_env())
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     tbl_if_vars(iris, .funs, environment())
   )
 })

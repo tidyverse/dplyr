@@ -378,88 +378,88 @@ test_that("filter() allows named constants that resolve to logical vectors (#461
 
 test_that("filter() gives useful error messages", {
   # wrong type
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     iris %>%
       group_by(Species) %>%
       filter(1:n())
   )
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     iris %>%
       filter(1:n())
   )
 
   # wrong size
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     iris %>%
       group_by(Species) %>%
       filter(c(TRUE, FALSE))
   )
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     iris %>%
       rowwise(Species) %>%
       filter(c(TRUE, FALSE))
   )
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     iris %>%
       filter(c(TRUE, FALSE))
   )
 
   # wrong size in column
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     iris %>%
       group_by(Species) %>%
       filter(data.frame(c(TRUE, FALSE)))
   )
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     iris %>%
       rowwise() %>%
       filter(data.frame(c(TRUE, FALSE)))
   )
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     iris %>%
       filter(data.frame(c(TRUE, FALSE)))
   )
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     tibble(x = 1) %>%
       filter(c(TRUE, TRUE))
   )
 
   # wrong type in column
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     iris %>%
       group_by(Species) %>%
       filter(data.frame(Sepal.Length > 3, 1:n()))
   )
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     iris %>%
       filter(data.frame(Sepal.Length > 3, 1:n()))
   )
 
   # evaluation error
-  expect_snapshot_error(mtcars %>% filter(`_x`))
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE, mtcars %>% filter(`_x`))
+  expect_snapshot(error = TRUE,
     mtcars %>%
       group_by(cyl) %>%
       filter(`_x`)
   )
 
   # named inputs
-  expect_snapshot_error(filter(mtcars, x = 1))
-  expect_snapshot_error(filter(mtcars, y > 2, z = 3))
-  expect_snapshot_error(filter(mtcars, TRUE, x = 1))
+  expect_snapshot(error = TRUE, filter(mtcars, x = 1))
+  expect_snapshot(error = TRUE, filter(mtcars, y > 2, z = 3))
+  expect_snapshot(error = TRUE, filter(mtcars, TRUE, x = 1))
 
   # ts
-  expect_snapshot_error(filter(ts(1:10)))
+  expect_snapshot(error = TRUE, filter(ts(1:10)))
 
   # Error that contains {
-  expect_snapshot_error(tibble() %>% filter(stop("{")))
+  expect_snapshot(error = TRUE, tibble() %>% filter(stop("{")))
 
   # across() in filter() does not warn yet
-  expect_snapshot_output(
+  expect_snapshot(
     data.frame(x = 1, y = 1) %>%
       filter(across(everything(), ~ .x > 0))
   )
-  expect_snapshot_output(
+  expect_snapshot(
     data.frame(x = 1, y = 1) %>%
       filter(data.frame(x > 0, y > 0))
   )

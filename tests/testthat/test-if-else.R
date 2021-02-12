@@ -26,12 +26,12 @@ test_that("works with lists", {
 # Errors ------------------------------------------------------------------
 
 test_that("if_else() give meaningful errors", {
-  expect_snapshot_error(if_else(1:10, 1, 2))
-  expect_snapshot_error(if_else(1:3 < 2, 1:2, 1:3))
-  expect_snapshot_error(if_else(1:3 < 2, 1:3, 1:2))
-  expect_snapshot_error(if_else(1:3 < 2, 1, 1L))
+  expect_snapshot(error = TRUE, if_else(1:10, 1, 2))
+  expect_snapshot(error = TRUE, if_else(1:3 < 2, 1:2, 1:3))
+  expect_snapshot(error = TRUE, if_else(1:3 < 2, 1:3, 1:2))
+  expect_snapshot(error = TRUE, if_else(1:3 < 2, 1, 1L))
 
   x <- factor("x")
   y <- ordered("x")
-  expect_snapshot_error(if_else(1:3 < 2, x, y))
+  expect_snapshot(error = TRUE, if_else(1:3 < 2, x, y))
 })

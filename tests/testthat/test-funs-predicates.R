@@ -13,6 +13,6 @@ test_that("any_exprs() creates union", {
 })
 
 test_that("all_exprs() gives meaningful error messages", {
-  expect_snapshot_error(all_exprs())
-  expect_snapshot_error(any_exprs())
+  expect_snapshot(error = TRUE, all_exprs())
+  expect_snapshot(error = TRUE, any_exprs())
 })

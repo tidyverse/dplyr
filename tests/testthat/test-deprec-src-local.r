@@ -24,13 +24,13 @@ test_that("src_df() is deprecated / errors", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
   # src_local errs with pkg/env
-  expect_snapshot_error(src_df("base", new.env()))
-  expect_snapshot_error(src_df())
+  expect_snapshot(error = TRUE, src_df("base", new.env()))
+  expect_snapshot(error = TRUE, src_df())
 
   env <- new.env(parent = emptyenv())
   env$x <- 1
   src_env <- src_df(env = env)
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     copy_to(src_env, tibble(x = 1), name = "x")
   )
 })

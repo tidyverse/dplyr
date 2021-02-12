@@ -177,6 +177,6 @@ test_that("all.equal() works on nameless tibbles (#4552)", {
 # Errors ------------------------------------------------------------------
 
 test_that("count() give meaningful errors", {
-  expect_snapshot_error(union(tibble(a = 1), tibble(a = "1")))
-  expect_snapshot_error(union(tibble(a = 1, b = 2), tibble(a = "1", b = "2")))
+  expect_snapshot(error = TRUE, union(tibble(a = 1), tibble(a = "1")))
+  expect_snapshot(error = TRUE, union(tibble(a = 1, b = 2), tibble(a = "1", b = "2")))
 })

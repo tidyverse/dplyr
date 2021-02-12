@@ -10,9 +10,15 @@
 
 # combine() gives meaningful error messages
 
-    Can't combine `..1` <character> and `..2` <double>.
+    Code
+      combine("a", 1)
+    Error <vctrs_error_incompatible_type>
+      Can't combine `..1` <character> and `..2` <double>.
 
 ---
 
-    Can't combine `..1` <factor<127a2>> and `..2` <integer>.
+    Code
+      combine(factor("a"), 1L)
+    Error <vctrs_error_incompatible_type>
+      Can't combine `..1` <factor<127a2>> and `..2` <integer>.
 

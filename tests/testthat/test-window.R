@@ -115,5 +115,5 @@ test_that("order_by() works in arbitrary envs (#2297)", {
 })
 
 test_that("order_by() give meaningful errors", {
-  expect_snapshot_error(order_by(NULL, !!1L))
+  expect_snapshot(error = TRUE, order_by(NULL, !!1L))
 })

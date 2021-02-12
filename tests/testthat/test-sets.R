@@ -102,7 +102,7 @@ test_that("set operation give useful error message. #903", {
     land = c("Norge", "Danmark", "Island", "Storbritannien"),
     data2 = rnorm(length(land))
   )
-  expect_snapshot_error(intersect(alfa, beta))
-  expect_snapshot_error(union(alfa, beta))
-  expect_snapshot_error(setdiff(alfa, beta))
+  expect_snapshot(error = TRUE, intersect(alfa, beta))
+  expect_snapshot(error = TRUE, union(alfa, beta))
+  expect_snapshot(error = TRUE, setdiff(alfa, beta))
 })

@@ -1,8 +1,14 @@
 # all_exprs() gives meaningful error messages
 
-    At least one expression must be given.
+    Code
+      all_exprs()
+    Error <rlang_error>
+      At least one expression must be given.
 
 ---
 
-    At least one expression must be given.
+    Code
+      any_exprs()
+    Error <rlang_error>
+      At least one expression must be given.
 

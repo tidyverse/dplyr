@@ -284,19 +284,19 @@ test_that("rename errors with invalid grouped data frame (#640)", {
   df <- tibble(x = 1:3)
 
   # Incompatible type
-  expect_snapshot_error(slice(df, TRUE))
-  expect_snapshot_error(slice(df, FALSE))
+  expect_snapshot(error = TRUE, slice(df, TRUE))
+  expect_snapshot(error = TRUE, slice(df, FALSE))
 
   # Mix of positive and negative integers
-  expect_snapshot_error(mtcars %>% slice(c(-1, 2)))
-  expect_snapshot_error(mtcars %>% slice(c(2:3, -1)))
+  expect_snapshot(error = TRUE, mtcars %>% slice(c(-1, 2)))
+  expect_snapshot(error = TRUE, mtcars %>% slice(c(2:3, -1)))
 
   # n and prop are carefully validated
-  expect_snapshot_error(check_slice_size(n = 1, prop = 1))
-  expect_snapshot_error(check_slice_size(n = "a"))
-  expect_snapshot_error(check_slice_size(prop = "a"))
-  expect_snapshot_error(check_slice_size(n = -1))
-  expect_snapshot_error(check_slice_size(prop = -1))
-  expect_snapshot_error(check_slice_size(n = n()))
-  expect_snapshot_error(check_slice_size(prop = n()))
+  expect_snapshot(error = TRUE, check_slice_size(n = 1, prop = 1))
+  expect_snapshot(error = TRUE, check_slice_size(n = "a"))
+  expect_snapshot(error = TRUE, check_slice_size(prop = "a"))
+  expect_snapshot(error = TRUE, check_slice_size(n = -1))
+  expect_snapshot(error = TRUE, check_slice_size(prop = -1))
+  expect_snapshot(error = TRUE, check_slice_size(n = n()))
+  expect_snapshot(error = TRUE, check_slice_size(prop = n()))
 })

@@ -557,34 +557,34 @@ test_that("*_bind() give meaningful errors", {
   # invalid .id
   df1 <- tibble(x = 1:3)
   df2 <- tibble(x = 4:6)
-  expect_snapshot_error(bind_rows(df1, df2, .id = 5))
+  expect_snapshot(error = TRUE, bind_rows(df1, df2, .id = 5))
 
   # invalid type"
   ll <- list(1:5, env(a = 1))
-  expect_snapshot_error(bind_rows(ll))
+  expect_snapshot(error = TRUE, bind_rows(ll))
 
   ll <- list(tibble(a = 1:5), env(a = 1))
-  expect_snapshot_error(bind_rows(ll))
+  expect_snapshot(error = TRUE, bind_rows(ll))
 
   df1 <- tibble(a = factor("a"))
   df2 <- tibble(a = 1L)
   df3 <- tibble(a = 1)
-  expect_snapshot_error(bind_rows(df1, df2))
-  expect_snapshot_error(bind_rows(df1, df3))
+  expect_snapshot(error = TRUE, bind_rows(df1, df2))
+  expect_snapshot(error = TRUE, bind_rows(df1, df3))
 
   df1 <- tibble(b = c(1, 2))
   df2 <- tibble(b = c(1L, 2L))
   df3 <- tibble(b = factor(c("A", "B")))
   df4 <- tibble(b = c("C", "D"))
-  expect_snapshot_error(bind_rows(df1, df3))
-  expect_snapshot_error(bind_rows(df1, df4))
-  expect_snapshot_error(bind_rows(df2, df3))
-  expect_snapshot_error(bind_rows(df2, df4))
+  expect_snapshot(error = TRUE, bind_rows(df1, df3))
+  expect_snapshot(error = TRUE, bind_rows(df1, df4))
+  expect_snapshot(error = TRUE, bind_rows(df2, df3))
+  expect_snapshot(error = TRUE, bind_rows(df2, df4))
 
   "# unnamed vectors"
-  expect_snapshot_error(bind_rows(1:2))
+  expect_snapshot(error = TRUE, bind_rows(1:2))
 
   "# incompatible size"
-  expect_snapshot_error(bind_cols(a = 1:2, mtcars))
-  expect_snapshot_error(bind_cols(mtcars, a = 1:3))
+  expect_snapshot(error = TRUE, bind_cols(a = 1:2, mtcars))
+  expect_snapshot(error = TRUE, bind_cols(mtcars, a = 1:3))
 })

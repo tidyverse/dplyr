@@ -20,11 +20,19 @@
 
 # funs() give meaningful error messages
 
-    `function(si) {
+    Code
+      funs(function(si) {
         mp[si]
-    }` must be a function name (quoted or unquoted) or an unquoted call, not `function`.
+      })
+    Error <rlang_error>
+      `function(si) {
+          mp[si]
+      }` must be a function name (quoted or unquoted) or an unquoted call, not `function`.
 
 ---
 
-    `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`.
+    Code
+      funs(~mp[.])
+    Error <rlang_error>
+      `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`.
 

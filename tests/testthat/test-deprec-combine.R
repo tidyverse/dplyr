@@ -241,6 +241,6 @@ test_that("combine uses tidy dots (#3407)", {
 test_that("combine() gives meaningful error messages", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
-  expect_snapshot_error(combine("a", 1))
-  expect_snapshot_error(combine(factor("a"), 1L))
+  expect_snapshot(error = TRUE, combine("a", 1))
+  expect_snapshot(error = TRUE, combine(factor("a"), 1L))
 })

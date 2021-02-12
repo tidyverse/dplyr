@@ -108,12 +108,12 @@ test_that("across() retains original ordering", {
 })
 
 test_that("across() gives meaningful messages", {
-  expect_snapshot_error(
+  expect_snapshot(error = TRUE,
     tibble(x = 1) %>%
       summarise(res = across(where(is.numeric), 42))
   )
-  expect_snapshot_error(across())
-  expect_snapshot_error(c_across())
+  expect_snapshot(error = TRUE, across())
+  expect_snapshot(error = TRUE, c_across())
 })
 
 test_that("monitoring cache - across() can be used twice in the same expression", {

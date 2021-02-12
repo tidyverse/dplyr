@@ -194,13 +194,13 @@ test_that("do() gives meaningful error messages", {
     y = 6:1
   ) %>% group_by(g)
 
-  expect_snapshot_error(df %>% do(head, tail))
+  expect_snapshot(error = TRUE, df %>% do(head, tail))
 
   # unnamed elements must return data frames
-  expect_snapshot_error(df %>% ungroup() %>% do(1))
-  expect_snapshot_error(df %>% do(1))
-  expect_snapshot_error(df %>% do("a"))
+  expect_snapshot(error = TRUE, df %>% ungroup() %>% do(1))
+  expect_snapshot(error = TRUE, df %>% do(1))
+  expect_snapshot(error = TRUE, df %>% do("a"))
 
   # can't use both named and unnamed args
-  expect_snapshot_error(df %>% do(x = 1, 2))
+  expect_snapshot(error = TRUE, df %>% do(x = 1, 2))
 })

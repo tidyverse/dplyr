@@ -54,7 +54,7 @@ test_that("except when it should be removed", {
 
 test_that("rowwise has decent print method", {
   rf <- rowwise(tibble(x = 1:5), "x")
-  expect_snapshot_output(rf)
+  expect_snapshot(rf)
 })
 
 test_that("rowwise captures group_vars", {

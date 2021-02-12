@@ -7,6 +7,6 @@ test_that("quo_is_variable_reference handles .data",{
 })
 
 test_that("check_pkg() give meaningful error messages", {
-  expect_snapshot_error(dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz"))
-  expect_snapshot_error(dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz", install = FALSE))
+  expect_snapshot(error = TRUE, dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz"))
+  expect_snapshot(error = TRUE, dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz", install = FALSE))
 })

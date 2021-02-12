@@ -122,6 +122,6 @@ test_that("funs() is deprecated", {
 test_that("funs() give meaningful error messages", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
-  expect_snapshot_error(funs(function(si) { mp[si] }))
-  expect_snapshot_error(funs(~mp[.]))
+  expect_snapshot(error = TRUE, funs(function(si) { mp[si] }))
+  expect_snapshot(error = TRUE, funs(~mp[.]))
 })
