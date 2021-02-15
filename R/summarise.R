@@ -343,15 +343,9 @@ summarise_build <- function(.data, cols) {
 # messaging ---------------------------------------------------------------
 
 summarise_verbose <- function(.groups, .env) {
-  if (!is.null(.groups)) {
-    return(FALSE)
-  }
-  op_inform <- getOption("dplyr.summarise.inform")
-  if (identical(op_inform, TRUE)) {
-    return(TRUE)
-  }
-  is_reference(topenv(.env), global_env()) &&
-    !identical(op_inform, FALSE)
+  is.null(.groups) &&
+    is_reference(topenv(.env), global_env()) &&
+    !identical(getOption("dplyr.summarise.inform"), FALSE)
 }
 
 summarise_inform <- function(..., .env = parent.frame()) {
