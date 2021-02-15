@@ -2,6 +2,8 @@
 
 * Fixed edge case of `slice_sample()` when `weight_by=` is used and there 
   0 rows (#5729). 
+  
+* `across()` can again use columns in functions defined inline (#5734). 
 
 # dplyr 1.0.4
 

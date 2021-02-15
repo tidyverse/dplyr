@@ -279,6 +279,14 @@ test_that("lambdas in across() can use columns in follow up expressions (#5717)"
   )
 })
 
+test_that("functions defined inline can use columns (#5734)", {
+  df <- data.frame(x = 1, y = 2)
+  expect_equal(
+    df %>% mutate(across('x', function(.x) .x / y)) %>% pull(x),
+    0.5
+  )
+})
+
 test_that("if_any() and if_all() enforce logical", {
   # TODO: use snapshot tests
   d <- data.frame(x = 10, y = 10)
