@@ -59,7 +59,7 @@ Suggests:
     RMySQL,
     RPostgreSQL,
     RSQLite,
-    testthat (>= 3.0.0),
+    testthat (>= 3.0.2),
     withr
 VignetteBuilder: 
     knitr
