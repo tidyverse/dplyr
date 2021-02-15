@@ -1,7 +1,6 @@
 test_that("src_sqlite() gives meaningful error messages", {
   skip_if_not_installed("dbplyr")
+  withr::local_options(lifecycle_verbosity = "quiet")
 
-  verify_output(test_path("test-deprec-dbi-errors.txt"), {
-    src_sqlite(":memory:")
-  })
+  expect_snapshot(error = TRUE, src_sqlite(":memory:"))
 })

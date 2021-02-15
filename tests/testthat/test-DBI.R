@@ -1,5 +1,3 @@
-context("DBI")
-
 test_that("can work directly with DBI connection", {
   skip_if_not_installed("RSQLite")
   skip_if_not_installed("dbplyr")
@@ -11,6 +9,6 @@ test_that("can work directly with DBI connection", {
   df1 <- copy_to(con, df)
   df2 <- tbl(con, "df")
 
-  expect_equivalent(collect(df1), df)
-  expect_equivalent(collect(df2), df)
+  expect_equal(collect(df1), df, ignore_attr = TRUE)
+  expect_equal(collect(df2), df, ignore_attr = TRUE)
 })

@@ -1,5 +1,3 @@
-context("binds")
-
 # columns -----------------------------------------------------------------
 
 test_that("cbind uses shallow copies", {
@@ -41,11 +39,13 @@ test_that("bind_cols handles all-NULL values (#2303)", {
 
 test_that("bind_cols repairs names", {
   df <- tibble(a = 1, b = 2)
-  bound <- bind_cols(df, df)
+  expect_snapshot(bound <- bind_cols(df, df))
 
-  repaired <- as_tibble(
-    data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE),
-    .name_repair = "unique"
+  repaired <- expect_message(
+    as_tibble(
+      data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE),
+      .name_repair = "unique"
+    ), "New names"
   )
 
   expect_identical(bound, repaired)
@@ -243,7 +243,7 @@ test_that("bind_rows handles all NA columns (#493)", {
   )
   res <- bind_rows(mydata)
   expect_true(is.na(res$x[3]))
-  expect_is(res$x, "factor")
+  expect_s3_class(res$x, "factor")
 
   mydata <- list(
     data.frame(x = NA),
@@ -251,7 +251,7 @@ test_that("bind_rows handles all NA columns (#493)", {
   )
   res <- bind_rows(mydata)
   expect_true(is.na(res$x[1]))
-  expect_is(res$x, "factor")
+  expect_s3_class(res$x, "factor")
 })
 
 test_that("bind_rows handles complex. #933", {
@@ -286,11 +286,11 @@ test_that("bind_rows respects ordered factors (#1112)", {
   id <- factor(c("a", "c", "d"), levels = l, ordered = TRUE)
   df <- data.frame(id = rep(id, 2), val = rnorm(6))
   res <- bind_rows(df, df)
-  expect_is(res$id, "ordered")
+  expect_s3_class(res$id, "ordered")
   expect_equal(levels(df$id), levels(res$id))
 
   res <- group_by(df, id) %>% filter(complete.cases(across()))
-  expect_is(res$id, "ordered")
+  expect_s3_class(res$id, "ordered")
   expect_equal(levels(df$id), levels(res$id))
 })
 
@@ -299,7 +299,7 @@ test_that("bind_rows keeps ordered factors (#948)", {
     data.frame(x = factor(c(1, 2, 3), ordered = TRUE)),
     data.frame(x = factor(c(1, 2, 3), ordered = TRUE))
   )
-  expect_is(y$x, "ordered")
+  expect_s3_class(y$x, "ordered")
   expect_equal(levels(y$x), as.character(1:3))
 })
 
@@ -385,7 +385,7 @@ test_that("bind_cols accepts NULL (#1148)", {
 test_that("bind_rows handles 0-length named list (#1515)", {
   res <- bind_rows(list(a = 1)[-1])
   expect_equal(nrow(res), 0L)
-  expect_is(res, "data.frame")
+  expect_s3_class(res, "data.frame")
   expect_equal(ncol(res), 0L)
 })
 
@@ -404,15 +404,17 @@ test_that("bind_rows infers classes from first result (#1692)", {
   expect_equal(class(bind_rows(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 })
 
-test_that("bind_cols infers classes from first result (#1692)", {
+test_that("bind_cols() infers classes from first result (#1692)", {
   d1 <- data.frame(a = 1:10, b = rep(1:2, each = 5))
   d2 <- tibble(c = 1:10, d = rep(1:2, each = 5))
   d3 <- group_by(d2, d)
   d4 <- rowwise(d2)
   d5 <- list(c = 1:10, d = rep(1:2, each = 5))
 
-  expect_equal(class(bind_cols(d1, d1)), "data.frame")
-  expect_equal(class(bind_cols(d2, d1)), c("tbl_df", "tbl", "data.frame"))
+  suppressMessages({
+    expect_equal(class(bind_cols(d1, d1)), "data.frame")
+    expect_equal(class(bind_cols(d2, d1)), c("tbl_df", "tbl", "data.frame"))
+  })
   res3 <- bind_cols(d3, d1)
   expect_equal(class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame"))
   expect_equal(map_int(group_rows(res3), length), c(5, 5))
@@ -429,7 +431,7 @@ test_that("bind_rows accepts data frame columns (#2015)", {
   attr(df, "row.names") <- .set_row_names(10)
 
   res <- dplyr::bind_rows(df, df)
-  expect_is(df$y, "data.frame")
+  expect_s3_class(df$y, "data.frame")
   expect_equal(names(df$y), c("a", "y"))
 })
 
@@ -448,7 +450,11 @@ test_that("bind_rows() handles rowwise vectors", {
   expect_identical(tbl, tibble(a = c("foo", "A"), b = c("bar", "B")))
 
   id_tbl <- bind_rows(a = c(a = 1, b = 2), b = c(a = 3, b = 4), .id = "id")
-  expect_equivalent(id_tbl, tibble(id = c("a", "b"), a = c(1, 3), b = c(2, 4)))
+  expect_equal(
+    id_tbl,
+    tibble(id = c("a", "b"), a = c(1, 3), b = c(2, 4)),
+    ignore_attr = TRUE
+  )
 })
 
 test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {
@@ -461,13 +467,13 @@ test_that("bind_rows can handle lists (#1104)", {
   my_list <- list(list(x = 1, y = "a"), list(x = 2, y = "b"))
   res <- bind_rows(my_list)
   expect_equal(nrow(res), 2L)
-  expect_is(res$x, "numeric")
-  expect_is(res$y, "character")
+  expect_type(res$x, "double")
+  expect_type(res$y, "character")
 
   res <- bind_rows(list(x = 1, y = "a"), list(x = 2, y = "b"))
   expect_equal(nrow(res), 2L)
-  expect_is(res$x, "numeric")
-  expect_is(res$y, "character")
+  expect_type(res$x, "double")
+  expect_type(res$y, "character")
 })
 
 test_that("columns that are OBJECT but have NULL class are handled gracefully (#3349)", {
@@ -489,10 +495,9 @@ test_that("ignores NULL values", {
 })
 
 test_that("bind_cols() handles unnamed list with name repair (#3402)", {
-  expect_identical(
-    bind_cols(list(1, 2)),
-    bind_cols(list(...1 = 1, ...2 = 2))
-  )
+  expect_snapshot(df <- bind_cols(list(1, 2)))
+
+  expect_identical(df, bind_cols(list(...1 = 1, ...2 = 2)))
 })
 
 test_that("bind_cols() doesn't squash record types", {
@@ -516,8 +521,8 @@ test_that("bind_rows() only flattens list subclasses with explicit inheritance (
 })
 
 test_that("bind_rows() handles named list", {
-  expect_equivalent(bind_rows(map(mtcars, mean)), summarise_all(mtcars, mean))
-  expect_equivalent(bind_rows(!!!map(mtcars, mean)), summarise_all(mtcars, mean))
+  expect_equal(bind_rows(map(mtcars, mean)), summarise_all(mtcars, mean), ignore_attr = TRUE)
+  expect_equal(bind_rows(!!!map(mtcars, mean)), summarise_all(mtcars, mean), ignore_attr = TRUE)
 })
 
 test_that("bind_rows() handles named S3 objects (#4931)", {
@@ -542,46 +547,44 @@ test_that("bind_rows() correctly restores (#2457)", {
   df <- bind_rows(
     tibble(x = vctrs::list_of(1))
   )
-  expect_is(df$x, "vctrs_list_of")
+  expect_s3_class(df$x, "vctrs_list_of")
 })
 
 
 # Errors ------------------------------------------------------------------
 
 test_that("*_bind() give meaningful errors", {
-  verify_output(test_path("test-bind-errors.txt"), {
-    "# invalid .id"
-    df1 <- tibble(x = 1:3)
-    df2 <- tibble(x = 4:6)
-    bind_rows(df1, df2, .id = 5)
+  # invalid .id
+  df1 <- tibble(x = 1:3)
+  df2 <- tibble(x = 4:6)
+  expect_snapshot(error = TRUE, bind_rows(df1, df2, .id = 5))
 
-    "# invalid type"
-    ll <- list(1:5, env(a = 1))
-    bind_rows(ll)
+  # invalid type"
+  ll <- list(1:5, env(a = 1))
+  expect_snapshot(error = TRUE, bind_rows(ll))
 
-    ll <- list(tibble(a = 1:5), env(a = 1))
-    bind_rows(ll)
+  ll <- list(tibble(a = 1:5), env(a = 1))
+  expect_snapshot(error = TRUE, bind_rows(ll))
 
-    df1 <- tibble(a = factor("a"))
-    df2 <- tibble(a = 1L)
-    df3 <- tibble(a = 1)
-    bind_rows(df1, df2)
-    bind_rows(df1, df3)
+  df1 <- tibble(a = factor("a"))
+  df2 <- tibble(a = 1L)
+  df3 <- tibble(a = 1)
+  expect_snapshot(error = TRUE, bind_rows(df1, df2))
+  expect_snapshot(error = TRUE, bind_rows(df1, df3))
 
-    df1 <- tibble(b = c(1, 2))
-    df2 <- tibble(b = c(1L, 2L))
-    df3 <- tibble(b = factor(c("A", "B")))
-    df4 <- tibble(b = c("C", "D"))
-    bind_rows(df1, df3)
-    bind_rows(df1, df4)
-    bind_rows(df2, df3)
-    bind_rows(df2, df4)
+  df1 <- tibble(b = c(1, 2))
+  df2 <- tibble(b = c(1L, 2L))
+  df3 <- tibble(b = factor(c("A", "B")))
+  df4 <- tibble(b = c("C", "D"))
+  expect_snapshot(error = TRUE, bind_rows(df1, df3))
+  expect_snapshot(error = TRUE, bind_rows(df1, df4))
+  expect_snapshot(error = TRUE, bind_rows(df2, df3))
+  expect_snapshot(error = TRUE, bind_rows(df2, df4))
 
-    "# unnamed vectors"
-    bind_rows(1:2)
+  "# unnamed vectors"
+  expect_snapshot(error = TRUE, bind_rows(1:2))
 
-    "# incompatible size"
-    bind_cols(a = 1:2, mtcars)
-    bind_cols(mtcars, a = 1:3)
-  })
+  "# incompatible size"
+  expect_snapshot(error = TRUE, bind_cols(a = 1:2, mtcars))
+  expect_snapshot(error = TRUE, bind_cols(mtcars, a = 1:3))
 })

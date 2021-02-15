@@ -1,18 +1,21 @@
-setup(options(lifecycle_verbosity = "quiet"))
-teardown(options(lifecycle_verbosity = NULL))
-
 test_that("fun_list is merged with new args", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   funs <- funs(fn = bar)
   funs <- as_fun_list(funs, env(), baz = "baz")
   expect_identical(funs$fn, quo(bar(., baz = "baz")))
 })
 
 test_that("funs() works with namespaced calls", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_identical(summarise_all(mtcars, funs(base::mean(.))), summarise_all(mtcars, funs(mean(.))))
   expect_identical(summarise_all(mtcars, funs(base::mean)), summarise_all(mtcars, funs(mean(.))))
 })
 
 test_that("funs() found in local environment", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   f <- function(x) 1
   df <- data.frame(x = c(2:10, 1000))
 
@@ -21,19 +24,27 @@ test_that("funs() found in local environment", {
 })
 
 test_that("funs() accepts quoted functions", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_identical(funs(mean), funs("mean"))
 })
 
 test_that("funs() accepts unquoted functions", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   funs <- funs(fn = !!mean)
   expect_identical(funs$fn, new_quosure(call2(base::mean, quote(.))))
 })
 
 test_that("funs() accepts quoted calls", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_identical(funs(mean), funs(mean(.)))
 })
 
 test_that("funs() can be merged with new arguments", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   fns <- funs(foo(.))
   expect_identical(as_fun_list(fns, current_env(), foo = 1L), funs(foo(., foo = 1L)))
 })
@@ -55,6 +66,8 @@ test_that("can enfun() named functions by expression", {
 })
 
 test_that("local objects are not treated as symbols", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   mean <- funs(my_mean(.))
   expect_identical(enfun(mean), mean)
 })
@@ -74,6 +87,8 @@ test_that("can enfun() purrr-style lambdas", {
 })
 
 test_that("funs_ works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     funs(mean),
     funs_(list(~ mean))
@@ -98,12 +113,15 @@ test_that("as_fun_list() auto names chr vectors (4307)", {
   )
 })
 
+test_that("funs() is deprecated", {
+  expect_snapshot(funs(fn = bar))
+})
 
 # Errors ------------------------------------------------------------------
 
 test_that("funs() give meaningful error messages", {
-  verify_output(test_path("test-deprec-funs-errors.txt"), {
-    funs(function(si) { mp[si] })
-    funs(~mp[.])
-  })
+  withr::local_options(lifecycle_verbosity = "quiet")
+
+  expect_snapshot(error = TRUE, funs(function(si) { mp[si] }))
+  expect_snapshot(error = TRUE, funs(~mp[.]))
 })

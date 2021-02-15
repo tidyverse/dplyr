@@ -1,6 +1,3 @@
-setup(options(lifecycle_verbosity = "quiet"))
-teardown(options(lifecycle_verbosity = NULL))
-
 # Grouped data frames ----------------------------------------------------------
 
 df <- data.frame(
@@ -71,13 +68,13 @@ test_that("grouped do evaluates args in correct environment", {
 
 test_that("ungrouped data frame with unnamed argument returns data frame", {
   out <- mtcars %>% do(head(.))
-  expect_is(out, "data.frame")
+  expect_s3_class(out, "data.frame")
   expect_equal(dim(out), c(6, 11))
 })
 
 test_that("ungrouped data frame with named argument returns list data frame", {
   out <- mtcars %>% do(x = 1, y = 2:10)
-  expect_is(out, "tbl_df")
+  expect_s3_class(out, "tbl_df")
   expect_equal(out$x, list(1))
   expect_equal(out$y, list(2:10))
 })
@@ -191,21 +188,19 @@ test_that("do() does not retain .drop attribute (#4176)", {
 # Errors --------------------------------------------
 
 test_that("do() gives meaningful error messages", {
-  verify_output(test_path("test-do-errors.txt"), {
-    df <- data.frame(
-      g = c(1, 2, 2, 3, 3, 3),
-      x = 1:6,
-      y = 6:1
-    ) %>% group_by(g)
+  df <- data.frame(
+    g = c(1, 2, 2, 3, 3, 3),
+    x = 1:6,
+    y = 6:1
+  ) %>% group_by(g)
 
-    df %>% do(head, tail)
+  expect_snapshot(error = TRUE, df %>% do(head, tail))
 
-    "# unnamed elements must return data frames"
-    df %>% ungroup() %>% do(1)
-    df %>% do(1)
-    df %>% do("a")
+  # unnamed elements must return data frames
+  expect_snapshot(error = TRUE, df %>% ungroup() %>% do(1))
+  expect_snapshot(error = TRUE, df %>% do(1))
+  expect_snapshot(error = TRUE, df %>% do("a"))
 
-    "# can't use both named and unnamed args"
-    df %>% do(x = 1, 2)
-  })
+  # can't use both named and unnamed args
+  expect_snapshot(error = TRUE, df %>% do(x = 1, 2))
 })

@@ -5,6 +5,8 @@
   
 * `across()` can again use columns in functions defined inline (#5734). 
 
+* Using testthat 3rd edition. 
+
 # dplyr 1.0.4
 
 * Improved performance for `across()`. This makes `summarise(across())` and 

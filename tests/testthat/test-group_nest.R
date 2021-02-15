@@ -1,5 +1,3 @@
-context("group_nest")
-
 test_that("group_nest() works", {
   grouped <- group_by(starwars, species, homeworld)
   gdata <- group_data(grouped)

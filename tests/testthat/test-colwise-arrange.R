@@ -1,5 +1,3 @@
-context("colwise arrange")
-
 df <- mtcars[1:3]
 
 test_that("scoped arrange is identical to manual arrange", {

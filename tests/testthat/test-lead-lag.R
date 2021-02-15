@@ -1,5 +1,3 @@
-context("Lead and lag")
-
 test_that("lead and lag preserve factors", {
   x <- factor(c("a", "b", "c"))
 
@@ -11,11 +9,11 @@ test_that("lead and lag preserves dates and times", {
   x <- as.Date("2013-01-01") + 1:3
   y <- as.POSIXct(x)
 
-  expect_is(lead(x), "Date")
-  expect_is(lag(x), "Date")
+  expect_s3_class(lead(x), "Date")
+  expect_s3_class(lag(x), "Date")
 
-  expect_is(lead(y), "POSIXct")
-  expect_is(lag(y), "POSIXct")
+  expect_s3_class(lead(y), "POSIXct")
+  expect_s3_class(lag(y), "POSIXct")
 })
 
 test_that("#925 is fixed", {
@@ -72,18 +70,16 @@ test_that("lead() and lag() checks size of default (#5641)", {
 # Errors ------------------------------------------------------------------
 
 test_that("lead() / lag() give meaningful errors", {
-  verify_output(test_path("test-lead-lag-errors.txt"), {
-    "# complicance of n argument"
-    lead(letters, -1)
-    lead(letters, "1")
-    lag(letters, -1)
-    lag(letters, "1")
+  "# complicance of n argument"
+  expect_snapshot(error = TRUE, lead(letters, -1))
+  expect_snapshot(error = TRUE, lead(letters, "1"))
+  expect_snapshot(error = TRUE, lag(letters, -1))
+  expect_snapshot(error = TRUE, lag(letters, "1"))
 
-    "# ts"
-    lag(ts(1:10))
+  "# ts"
+  expect_snapshot(error = TRUE, lag(ts(1:10)))
 
-    "# incompatible default"
-    lag(c("1", "2", "3"), default = FALSE)
-    lag(c("1", "2", "3"), default = character())
-  })
+  "# incompatible default"
+  expect_snapshot(error = TRUE, lag(c("1", "2", "3"), default = FALSE))
+  expect_snapshot(error = TRUE, lag(c("1", "2", "3"), default = character()))
 })

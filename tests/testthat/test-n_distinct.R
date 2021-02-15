@@ -1,5 +1,3 @@
-context("n_distinct")
-
 test_that("n_distinct gives the correct results on iris", {
   expect_equal(
     sapply(iris, n_distinct),

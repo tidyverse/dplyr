@@ -1,5 +1,3 @@
-context("Nth value")
-
 test_that("nth works with lists", {
   x <- list(1, 2, 3)
 
@@ -40,7 +38,5 @@ test_that("firsts uses default value for 0 length augmented vectors", {
 })
 
 test_that("nth() gives meaningful error message (#5466)", {
-  verify_output(test_path("test-nth-value.txt"), {
-    nth(1:10, "x")
-  })
+  expect_snapshot(error = TRUE, nth(1:10, "x"))
 })

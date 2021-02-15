@@ -77,15 +77,13 @@ test_that("cur_data() and cur_data_all() work sequentially", {
 })
 
 test_that("give useful error messages when not applicable", {
-  verify_output(test_path("test-context-error.txt"), {
-    n()
+  expect_snapshot(error = TRUE, n())
 
-    cur_data()
-    cur_data_all()
+  expect_snapshot(error = TRUE, cur_data())
+  expect_snapshot(error = TRUE, cur_data_all())
 
-    cur_column()
-    cur_group()
-    cur_group_id()
-    cur_group_rows()
-  })
+  expect_snapshot(error = TRUE, cur_column())
+  expect_snapshot(error = TRUE, cur_group())
+  expect_snapshot(error = TRUE, cur_group_id())
+  expect_snapshot(error = TRUE, cur_group_rows())
 })

@@ -1,5 +1,3 @@
-context("colwise filter")
-
 test_that("filter_if()", {
   expect_identical(nrow(filter_if(mtcars, is_integerish, all_vars(. > 1))), 0L)
   expect_identical(nrow(filter_if(mtcars, is_integerish, all_vars(. > 0))), 7L)
@@ -67,8 +65,6 @@ test_that("colwise filter support .data$. in the quosure versions", {
 # Errors ------------------------------------------------------------------
 
 test_that("colwise filter() give meaningful errors", {
-  verify_output(test_path("test-colwise-filter-errors.txt"), {
-    filter_if(mtcars, is_character, all_vars(. > 0))
-    filter_all(mtcars, list(~. > 0))
-  })
+  expect_snapshot(error = TRUE, filter_if(mtcars, is_character, all_vars(. > 0)))
+  expect_snapshot(error = TRUE, filter_all(mtcars, list(~. > 0)))
 })

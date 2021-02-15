@@ -1,5 +1,3 @@
-context("colwise mutate/summarise")
-
 test_that("can use character vectors or bare functions", {
   df <- data.frame(x = 1:3)
   expect_equal(summarise_all(df, "mean"), data.frame(x = 2))
@@ -88,7 +86,8 @@ test_that("can rename with vars() (#2594)", {
 
 test_that("selection works with grouped data frames (#2624)", {
   gdf <- group_by(iris, Species)
-  expect_identical(mutate_if(gdf, is.factor, as.character), gdf)
+  expect_snapshot(out <- mutate_if(gdf, is.factor, as.character))
+  expect_identical(out, gdf)
 })
 
 test_that("at selection works even if not all ops are named (#2634)", {
@@ -339,17 +338,23 @@ test_that("_if isn't tripped up by columns named 'i' (#5330)", {
 # Errors --------------------------------------------
 
 test_that("colwise mutate gives meaningful error messages", {
-  verify_output(test_path("test-colwise-mutate-errors.txt"), {
-    "# column not found"
+  # column not found
+  expect_snapshot(error = TRUE,
     mutate_at(tibble(), "test", ~ 1)
+  )
 
-    "# not summarising grouping variables"
-    tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8)
-    tbl <- group_by(tbl, gr1)
+  # not summarising grouping variables
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8)
+  tbl <- group_by(tbl, gr1)
+  expect_snapshot(error = TRUE,
     summarise_at(tbl, vars(gr1), mean)
+  )
 
-    "# improper additional arguments"
+  # improper additional arguments
+  expect_snapshot(error = TRUE,
     mutate_all(mtcars, length, 0, 0)
+  )
+  expect_snapshot(error = TRUE,
     mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
-  })
+  )
 })

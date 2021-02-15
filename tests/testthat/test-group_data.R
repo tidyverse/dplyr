@@ -23,7 +23,11 @@ test_that("group_data(<grouped_df>) returns a tibble", {
   gd <- group_data(gf)
 
   expect_s3_class(gd, "tbl_df")
-  expect_equivalent(gd, tibble(x = c(1, 2), ".rows" := list_of(1:2, 3L)))
+  expect_equal(
+    gd,
+    tibble(x = c(1, 2), ".rows" := list_of(1:2, 3L)),
+    ignore_attr = TRUE
+  )
 })
 
 test_that("group_data(<rowwise) returns a tibble", {
@@ -42,7 +46,7 @@ test_that("group_rows() and group_keys() partition group_data()", {
   gf <- group_by(df, x, y)
   gd <- group_data(gf)
 
-  expect_equivalent(group_keys(gf), gd[1:2]) # .drop attribute
+  expect_equal(group_keys(gf), gd[1:2], ignore_attr = TRUE) # .drop attribute
   expect_equal(group_rows(gf), gd[[3]])
 })
 

@@ -1,5 +1,3 @@
-context("union_all")
-
 test_that("union all on vectors concatenates", {
   expect_equal(union_all(1:3, 4:6), 1:6)
 })

@@ -28,8 +28,8 @@ test_that("[ method reuses group_data() if possible", {
   df <- tibble(x = 1, y = 2, z = 3)
   gf <- group_by(df, x, y)
 
-  expect_reference(group_data(gf), group_data(gf[1:2]))
-  expect_reference(group_data(gf), group_data(gf[, 1:2]))
+  expect_true(rlang::is_reference(group_data(gf), group_data(gf[1:2])))
+  expect_true(rlang::is_reference(group_data(gf), group_data(gf[, 1:2])))
 })
 
 test_that("[ supports drop=TRUE (#3714)", {
@@ -79,10 +79,10 @@ test_that("names<- updates grouping data", {
 test_that("names<- doesn't modify group data if not necessary", {
   df <- tibble(x = 1, y = 2)
   gf1 <- gf2 <- group_by(df, x)
-  expect_reference(group_data(gf1), group_data(gf2))
+  expect_true(rlang::is_reference(group_data(gf1), group_data(gf2)))
 
   names(gf1) <- c("x", "Y")
-  expect_reference(group_data(gf1), group_data(gf2))
+  expect_true(rlang::is_reference(group_data(gf1), group_data(gf2)))
 })
 
 test_that("group order is maintained in grouped-df methods (#5040)", {
@@ -150,37 +150,35 @@ test_that("validate_grouped_df() gives useful errors", {
   df11 <- df6
   attr(df11, "groups") <- NULL
 
-  verify_output(test_path("test-grouped-df-validate.txt"), {
-    "# Invalid `groups` attribute"
-    validate_grouped_df(df1)
-    validate_grouped_df(df2)
-    validate_grouped_df(df3)
-    validate_grouped_df(df4)
+  # Invalid `groups` attribute
+  expect_snapshot(error = TRUE, validate_grouped_df(df1))
+  expect_snapshot(error = TRUE, validate_grouped_df(df2))
+  expect_snapshot(error = TRUE, validate_grouped_df(df3))
+  expect_snapshot(error = TRUE, validate_grouped_df(df4))
 
-    "# Older style grouped_df"
-    validate_grouped_df(df5)
+  # Older style grouped_df
+  expect_snapshot(error = TRUE, validate_grouped_df(df5))
 
-    "# validate_grouped_df()"
-    validate_grouped_df(df6, check_bounds = TRUE)
-    validate_grouped_df(df7, check_bounds = TRUE)
-    validate_grouped_df(df8, check_bounds = TRUE)
-    validate_grouped_df(df10)
-    validate_grouped_df(df11)
+  # validate_grouped_df(
+  expect_snapshot(error = TRUE, validate_grouped_df(df6, check_bounds = TRUE))
+  expect_snapshot(error = TRUE, validate_grouped_df(df7, check_bounds = TRUE))
+  expect_snapshot(error = TRUE, validate_grouped_df(df8, check_bounds = TRUE))
+  expect_snapshot(error = TRUE, validate_grouped_df(df10))
+  expect_snapshot(error = TRUE, validate_grouped_df(df11))
 
-    "# new_grouped_df()"
+  # new_grouped_df()
+  expect_snapshot(error = TRUE,
     new_grouped_df(
       tibble(x = 1:10),
       tibble(other = list(1:2))
     )
-    new_grouped_df(10)
-  })
+  )
+  expect_snapshot(error = TRUE, new_grouped_df(10))
 })
 
 # compute_group ----------------------------------------------------------
 
 test_that("helper gives meaningful error messages", {
-  verify_output(test_path("test-grouped-df-errors.txt"), {
-    grouped_df(data.frame(x = 1), "y", FALSE)
-    grouped_df(data.frame(x = 1), 1)
-  })
+  expect_snapshot(error = TRUE, grouped_df(data.frame(x = 1), "y", FALSE))
+  expect_snapshot(error = TRUE, grouped_df(data.frame(x = 1), 1))
 })

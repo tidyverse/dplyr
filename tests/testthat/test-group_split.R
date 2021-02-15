@@ -1,12 +1,10 @@
-context("group_split")
-
 test_that("group_split() keeps the grouping variables by default", {
   tbl <- tibble(x = 1:4, g = factor(rep(c("a", "b"), each = 2)))
   res <- group_split(tbl, g)
 
   expect_equal(res, list_of(tbl[1:2,], tbl[3:4,]))
   expect_identical(res, list_of(tbl[1:2,], tbl[3:4,]))
-  expect_is(res, "vctrs_list_of")
+  expect_s3_class(res, "vctrs_list_of")
   expect_identical(attr(res, "ptype"), tibble(x = integer(), g = factor(levels = c("a", "b"))))
 })
 
@@ -15,7 +13,7 @@ test_that("group_split() can discard the grouping variables with .keep = FALSE",
   res <- group_split(tbl, g, .keep = FALSE)
 
   expect_identical(res, list_of(tbl[1:2, 1, drop = FALSE], tbl[3:4,1, drop = FALSE]))
-  expect_is(res, "vctrs_list_of")
+  expect_s3_class(res, "vctrs_list_of")
   expect_identical(attr(res, "ptype"), tibble(x = integer()))
 })
 
@@ -24,7 +22,7 @@ test_that("group_split() respects empty groups", {
   res <- group_split(tbl, g)
 
   expect_identical(res, list_of(tbl[1:2,], tbl[3:4,]))
-  expect_is(res, "vctrs_list_of")
+  expect_s3_class(res, "vctrs_list_of")
   expect_identical(attr(res, "ptype"), tibble(x = integer(), g = factor(levels = c("a", "b", "c"))))
 
   res <- group_split(tbl, g, .drop = FALSE)

@@ -1,5 +1,3 @@
-context("coalesce")
-
 test_that("non-missing scalar replaces all missing values", {
   x <- c(NA, 1)
   expect_equal(coalesce(x, 1), c(1, 1))
@@ -21,10 +19,8 @@ test_that("finds non-missing values in multiple positions", {
 })
 
 test_that("coalesce() gives meaningful error messages", {
-  verify_output(test_path("test-coalesce-errors.txt"), {
-    coalesce(1:2, 1:3)
-    coalesce(1:2, letters[1:2])
-  })
+  expect_snapshot(error = TRUE, coalesce(1:2, 1:3))
+  expect_snapshot(error = TRUE, coalesce(1:2, letters[1:2]))
 })
 
 test_that("coalesce() supports data frames (#5326)", {

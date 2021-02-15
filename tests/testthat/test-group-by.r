@@ -1,5 +1,3 @@
-context("Group by")
-
 df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
 
 test_that("group_by with .add = TRUE adds groups", {
@@ -75,7 +73,7 @@ test_that("local group_by preserves variable types", {
 test_that("mutate does not loose variables (#144)", {
   df <- tibble(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8))
   by_ab <- group_by(df, a, b)
-  by_a <- summarise(by_ab, x = sum(x))
+  by_a <- summarise(by_ab, x = sum(x), .groups = "drop_last")
   by_a_quartile <- group_by(by_a, quartile = ntile(x, 4))
 
   expect_equal(names(by_a_quartile), c("a", "b", "x", "quartile"))
@@ -118,7 +116,9 @@ test_that("group_by() handles list as grouping variables", {
 })
 
 test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
-  res <- mtcars %>% group_by(vs) %>% select(mpg)
+  expect_snapshot(
+    res <- mtcars %>% group_by(vs) %>% select(mpg)
+  )
   expect_equal(names(res), c("vs", "mpg"))
 })
 
@@ -164,7 +164,9 @@ test_that("group_by works with zero-row data frames (#486)", {
   expect_equal(group_vars(x), "g")
   expect_equal(group_size(x), integer(0))
 
-  x <- select(dfg, a) # Only select 'a' column; should result in 'g' and 'a'
+  expect_snapshot(
+    x <- select(dfg, a) # Only select 'a' column; should result in 'g' and 'a'
+  )
   expect_equal(dim(x), c(0, 2))
   expect_equal(group_vars(x), "g")
   expect_equal(group_size(x), integer(0))
@@ -185,7 +187,7 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
   no_cyl <- by_cyl %>% `[`(c(1, 3))
 
   expect_equal(group_vars(no_cyl), character())
-  expect_is(no_cyl, "tbl_df")
+  expect_s3_class(no_cyl, "tbl_df")
 })
 
 test_that("group_by works after arrange (#959)", {
@@ -242,7 +244,7 @@ test_that("group_by handles raw columns (#1803)", {
 
 test_that("rowwise handles raw columns (#1803)", {
   df <- tibble(a = 1:3, b = as.raw(1:3))
-  expect_is(rowwise(df), "rowwise_df")
+  expect_s3_class(rowwise(df), "rowwise_df")
 })
 
 test_that("group_by() names pronouns correctly (#2686)", {
@@ -407,7 +409,7 @@ test_that("summarise maintains the .drop attribute (#4061)", {
     group_by(f1, f2, .drop = TRUE)
   expect_equal(n_groups(res), 1L)
 
-  res2 <- summarise(res, x = sum(x))
+  res2 <- summarise(res, x = sum(x), .groups = "drop_last")
   expect_equal(n_groups(res2), 1L)
   expect_true(group_by_drop_default(res2))
 })
@@ -423,14 +425,14 @@ test_that("joins maintain the .drop attribute (#4061)", {
     y = 1
   ), f1, .drop = TRUE)
 
-  res <- left_join(df1, df2)
+  res <- left_join(df1, df2, by = "f1")
   expect_equal(n_groups(res), 2L)
 
   df2 <- group_by(tibble(
     f1 = factor(c("a", "c"), levels = c("a", "b", "c")),
     y = 1:2
   ), f1, .drop = TRUE)
-  res <- full_join(df1, df2)
+  res <- full_join(df1, df2, by = "f1")
   expect_equal(n_groups(res), 3L)
 })
 
@@ -530,15 +532,12 @@ test_that("grouped_df() does not break row.names (#5745)", {
 # Errors ------------------------------------------------------------------
 
 test_that("group_by() and ungroup() give meaningful error messages", {
-  verify_output(test_path("test-group-by-errors.txt"), {
-    df <- tibble(x = 1, y = 2)
+  df <- tibble(x = 1, y = 2)
 
-    df %>% group_by(unknown)
+  expect_snapshot(error = TRUE, df %>% group_by(unknown))
+  expect_snapshot(error = TRUE, df %>% ungroup(x))
+  expect_snapshot(error = TRUE, df %>% group_by(x, y) %>% ungroup(z))
 
-    df %>% ungroup(x)
-    df %>% group_by(x, y) %>% ungroup(z)
-
-    df %>% group_by(z = a + 1)
-  })
+  expect_snapshot(error = TRUE, df %>% group_by(z = a + 1))
 })
 

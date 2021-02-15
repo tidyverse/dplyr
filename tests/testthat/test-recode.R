@@ -1,5 +1,3 @@
-context("recode")
-
 test_that("positional substitution works", {
   expect_equal(recode(1:2, "a", "b"), c("a", "b"))
 })
@@ -151,15 +149,13 @@ test_that("can recode factor with redundant levels", {
 # Errors --------------------------------------------
 
 test_that("recode() gives meaningful error messages", {
-  verify_output(test_path("test-recode-errors.txt"), {
-    recode(factor("a"), a = 5, .missing = 10)
+  expect_snapshot(error = TRUE, recode(factor("a"), a = 5, .missing = 10))
+  expect_snapshot(error = TRUE, recode("a", b = 5, "c"))
 
-    recode("a", b = 5, "c")
-    recode(factor("a"), b = 5, "c")
+  expect_snapshot(error = TRUE, recode(factor("a"), b = 5, "c"))
 
-    "# no replacement"
-    recode(1:5)
-    recode("a")
-    recode(factor("a"))
-  })
+  # no replacement
+  expect_snapshot(error = TRUE, recode(1:5))
+  expect_snapshot(error = TRUE, recode("a"))
+  expect_snapshot(error = TRUE, recode(factor("a")))
 })

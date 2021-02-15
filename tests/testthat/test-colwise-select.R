@@ -1,5 +1,3 @@
-context("colwise select")
-
 df <- tibble(x = 0L, y = 0.5, z = 1)
 
 test_that("can select/rename all variables", {
@@ -173,18 +171,16 @@ test_that("select_if() discards the column when predicate gives NA (#4486)", {
 # Errors ------------------------------------------------------------------
 
 test_that("colwise select() / rename() give meaningful errors", {
-  verify_output(test_path("test-colwise-select-errors.txt"), {
-    df <- tibble(x = 0L, y = 0.5, z = 1)
+  df <- tibble(x = 0L, y = 0.5, z = 1)
 
-    "# colwise rename()"
-    df %>% rename_all()
-    df %>% rename_if(is_integerish)
-    df %>% rename_at(vars(x:y))
-    df %>% rename_all(list(tolower, toupper))
+  # colwise rename()
+  expect_snapshot(error = TRUE, df %>% rename_all())
+  expect_snapshot(error = TRUE, df %>% rename_if(is_integerish))
+  expect_snapshot(error = TRUE, df %>% rename_at(vars(x:y)))
+  expect_snapshot(error = TRUE, df %>% rename_all(list(tolower, toupper)))
 
-    "# colwise select() "
-    df %>% select_all(list(tolower, toupper))
-    df %>% select_if(function(.x) 1)
-    df %>% select_if(function(.x) c(TRUE, TRUE))
-  })
+  # colwise select()
+  expect_snapshot(error = TRUE, df %>% select_all(list(tolower, toupper)))
+  expect_snapshot(error = TRUE, df %>% select_if(function(.x) 1))
+  expect_snapshot(error = TRUE, df %>% select_if(function(.x) c(TRUE, TRUE)))
 })

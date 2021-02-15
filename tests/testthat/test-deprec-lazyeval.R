@@ -1,21 +1,26 @@
-setup(options(lifecycle_verbosity = "quiet"))
-teardown(options(lifecycle_verbosity = NULL))
-
 test_that("can select negatively (#2519)", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_identical(select_(mtcars, ~ -cyl), mtcars[-2])
 })
 
 test_that("select yields proper names", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_identical(names(select_(mtcars, ~ cyl:hp)), c("cyl", "disp", "hp"))
 })
 
 test_that("lazydots are named and arrange() doesn't fail (it assumes empty names)", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   dots <- compat_lazy_dots(list(), env(), "cyl")
   expect_identical(names(dots), "")
   expect_identical(arrange_(mtcars, "cyl"), arrange(mtcars, cyl))
 })
 
 test_that("mutate_each_() and summarise_each_() handle lazydots", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   cyl_chr <- mutate_each_(mtcars, list(as.character), "cyl")$cyl
   expect_identical(cyl_chr, as.character(mtcars$cyl))
 
@@ -24,7 +29,17 @@ test_that("mutate_each_() and summarise_each_() handle lazydots", {
 })
 
 test_that("select_vars_() handles lazydots", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_identical(select_vars_(letters, c("a", "b")), set_names(c("a", "b")))
+  expect_identical(
+    select_vars_(letters, c("a", "b"), include = "c"),
+    set_names(c("c", "a", "b"))
+  )
+  expect_identical(
+    select_vars_(letters, c("a", "b"), exclude = "b"),
+    set_names(c("a"))
+  )
 })
 
 df <- tibble(
@@ -33,6 +48,8 @@ df <- tibble(
 )
 
 test_that("arrange_ works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     arrange_(df, ~ -a),
     arrange(df, -a)
@@ -49,7 +66,9 @@ test_that("arrange_ works", {
   )
 })
 
-test_that("count_ works", {
+test_that("count_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     count_(df, ~ b),
     count(df, b)
@@ -72,7 +91,9 @@ test_that("count_ works", {
   )
 })
 
-test_that("distinct_ works", {
+test_that("distinct_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     distinct_(df, ~ a),
     distinct(df, a)
@@ -104,7 +125,9 @@ test_that("distinct_ works", {
   )
 })
 
-test_that("do_ works", {
+test_that("do_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     do_(df, ~ tibble(-.$a)),
     do(df, tibble(-.$a))
@@ -142,7 +165,9 @@ test_that("do_ works", {
   )
 })
 
-test_that("filter_ works", {
+test_that("filter_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     filter_(df, ~ a > 1),
     filter(df, a > 1)
@@ -160,7 +185,9 @@ test_that("filter_ works", {
   )
 })
 
-test_that("group_by_ works", {
+test_that("group_by_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     group_by_(df, ~ a),
     group_by(df, a)
@@ -187,7 +214,9 @@ test_that("group_by_ works", {
   )
 })
 
-test_that("mutate_ works", {
+test_that("mutate_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     mutate_(df, c = ~ -a),
     mutate(df, c = -a)
@@ -215,7 +244,9 @@ test_that("mutate_ works", {
   )
 })
 
-test_that("rename_ works", {
+test_that("rename_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     rename_(df, c = ~ a),
     rename(df, c = a)
@@ -232,7 +263,9 @@ test_that("rename_ works", {
   )
 })
 
-test_that("select_ works", {
+test_that("select_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     select_(df, ~ a),
     select(df, a)
@@ -257,15 +290,11 @@ test_that("select_ works", {
     select_(df, .dots = list(~ -a)),
     select(df, -a)
   )
-
-  pos <- 1
-  expect_identical(
-    select_(df, c = "pos"),
-    select(df, c = pos)
-  )
 })
 
-test_that("slice_ works", {
+test_that("slice_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     slice_(df, ~ 2:n()),
     slice(df, 2:n())
@@ -288,7 +317,9 @@ test_that("slice_ works", {
   )
 })
 
-test_that("summarise_ works", {
+test_that("summarise_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     summarise_(df, a = ~ mean(a)),
     summarise(df, a = mean(a))
@@ -326,7 +357,9 @@ test_that("summarise_ works", {
   )
 })
 
-test_that("summarize_ works", {
+test_that("summarize_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     summarize_(df, a = ~ mean(a)),
     summarize(df, a = mean(a))
@@ -358,7 +391,9 @@ test_that("summarize_ works", {
   )
 })
 
-test_that("transmute_ works", {
+test_that("transmute_() works", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     transmute_(df, c = ~ -a),
     transmute(df, c = -a)
@@ -382,6 +417,8 @@ test_that("transmute_ works", {
 })
 
 test_that("_each() and _all() families agree", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   df <- data.frame(x = 1:3, y = 1:3)
 
   expect_equal(summarise_each(df, list(mean)), summarise_all(df, mean))

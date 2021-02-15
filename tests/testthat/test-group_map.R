@@ -1,5 +1,3 @@
-context("group_map")
-
 test_that("group_map() respects empty groups", {
   res <- group_by(mtcars, cyl) %>%
     group_map(~ head(.x, 2L))
@@ -74,11 +72,11 @@ test_that("group_map() uses ptype on empty splits (#4421)", {
     group_by(cyl) %>%
     filter(hp > 1000) %>%
     group_map(~.x)
-  expect_equivalent(res, list())
+  expect_equal(res, list(), ignore_attr = TRUE)
   ptype <- attr(res, "ptype")
   expect_equal(names(ptype), setdiff(names(mtcars), "cyl"))
   expect_equal(nrow(ptype), 0L)
-  expect_is(ptype, "data.frame")
+  expect_s3_class(ptype, "data.frame")
 })
 
 test_that("group_modify() uses ptype on empty splits (#4421)", {
@@ -119,13 +117,11 @@ test_that("group_map() does not warn about .keep= for rowwise_df", {
 test_that("group_map() give meaningful errors", {
   head1 <- function(d) head(d, 1)
 
-  verify_output(test_path("test-group_map-errors.txt"), {
-    "# group_modify()"
-    mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19))
-    mtcars %>% group_by(cyl) %>% group_modify(~ 10)
-    iris %>% group_by(Species) %>% group_modify(head1)
+  # group_modify()
+  expect_snapshot(error = TRUE, mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19)))
+  expect_snapshot(error = TRUE, mtcars %>% group_by(cyl) %>% group_modify(~ 10))
+  expect_snapshot(error = TRUE, iris %>% group_by(Species) %>% group_modify(head1))
 
-    "# group_map()"
-    iris %>% group_by(Species) %>% group_map(head1)
-  })
+  # group_map()
+  expect_snapshot(error = TRUE, iris %>% group_by(Species) %>% group_map(head1))
 })

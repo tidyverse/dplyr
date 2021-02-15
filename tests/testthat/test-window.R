@@ -1,5 +1,3 @@
-context("Window functions")
-
 test_that("If n = 0, lead and lag return x", {
   expect_equal(lead(1:2, 0), 1:2)
   expect_equal(lag(1:2, 0), 1:2)
@@ -117,7 +115,5 @@ test_that("order_by() works in arbitrary envs (#2297)", {
 })
 
 test_that("order_by() give meaningful errors", {
-  verify_output(test_path("test-window-errors.txt"), {
-    order_by(NULL, !!1L)
-  })
+  expect_snapshot(error = TRUE, order_by(NULL, !!1L))
 })

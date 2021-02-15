@@ -1,5 +1,3 @@
-context("case_when")
-
 test_that("matches values in order", {
   x <- 1:3
   expect_equal(
@@ -182,21 +180,22 @@ test_that("NULL inputs are compacted", {
 # Errors ------------------------------------------------------------------
 
 test_that("case_when() give meaningful errors", {
-  verify_output(test_path("test-case-when-errors.txt"), {
+  expect_snapshot(error = TRUE,
     case_when(
       c(TRUE, FALSE) ~ 1:3,
       c(FALSE, TRUE) ~ 1:2
     )
+  )
 
+  expect_snapshot(error = TRUE,
     case_when(
       c(TRUE, FALSE) ~ 1,
       c(FALSE, TRUE, FALSE) ~ 2,
       c(FALSE, TRUE, FALSE, NA) ~ 3
     )
+  )
 
-    case_when(50 ~ 1:3)
-    case_when(paste(50))
-
-    case_when()
-  })
+  expect_snapshot(error = TRUE, case_when(50 ~ 1:3))
+  expect_snapshot(error = TRUE, case_when(paste(50)))
+  expect_snapshot(error = TRUE, case_when())
 })

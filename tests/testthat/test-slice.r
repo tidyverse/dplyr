@@ -1,5 +1,3 @@
-context("slice")
-
 test_that("empty slice returns input", {
   df <- tibble(x = 1:3)
   expect_equal(slice(df), df)
@@ -27,7 +25,7 @@ test_that("slice silently ignores out of range values (#226)", {
 test_that("slice works with negative indices", {
   res <- slice(mtcars, -(1:2))
   exp <- tail(mtcars, -2)
-  expect_equivalent(res, exp)
+  expect_equal(res, exp, ignore_attr = TRUE)
 })
 
 test_that("slice works with grouped data", {
@@ -285,22 +283,20 @@ test_that("slice_sample() does not error on zero rows (#5729)", {
 test_that("rename errors with invalid grouped data frame (#640)", {
   df <- tibble(x = 1:3)
 
-  verify_output(test_path("test-slice-errors.txt"), {
-    "# Incompatible type"
-    slice(df, TRUE)
-    slice(df, FALSE)
+  # Incompatible type
+  expect_snapshot(error = TRUE, slice(df, TRUE))
+  expect_snapshot(error = TRUE, slice(df, FALSE))
 
-    "# Mix of positive and negative integers"
-    mtcars %>% slice(c(-1, 2))
-    mtcars %>% slice(c(2:3, -1))
+  # Mix of positive and negative integers
+  expect_snapshot(error = TRUE, mtcars %>% slice(c(-1, 2)))
+  expect_snapshot(error = TRUE, mtcars %>% slice(c(2:3, -1)))
 
-    "# n and prop are carefully validated"
-    check_slice_size(n = 1, prop = 1)
-    check_slice_size(n = "a")
-    check_slice_size(prop = "a")
-    check_slice_size(n = -1)
-    check_slice_size(prop = -1)
-    check_slice_size(n = n())
-    check_slice_size(prop = n())
-  })
+  # n and prop are carefully validated
+  expect_snapshot(error = TRUE, check_slice_size(n = 1, prop = 1))
+  expect_snapshot(error = TRUE, check_slice_size(n = "a"))
+  expect_snapshot(error = TRUE, check_slice_size(prop = "a"))
+  expect_snapshot(error = TRUE, check_slice_size(n = -1))
+  expect_snapshot(error = TRUE, check_slice_size(prop = -1))
+  expect_snapshot(error = TRUE, check_slice_size(n = n()))
+  expect_snapshot(error = TRUE, check_slice_size(prop = n()))
 })
