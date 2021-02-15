@@ -7,6 +7,8 @@
 
 * Using testthat 3rd edition. 
 
+* Fixed bug introduced in `across()` in previous version (#5765).
+
 # dplyr 1.0.4
 
 * Improved performance for `across()`. This makes `summarise(across())` and 

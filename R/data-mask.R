@@ -103,7 +103,7 @@ DataMask <- R6Class("DataMask",
     },
 
     set_current_group = function(group) {
-      parent.env(private$chops)$.current_group <- group
+      parent.env(private$chops)$.current_group[] <- group
     },
 
     full_data = function() {
