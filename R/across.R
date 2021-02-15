@@ -213,7 +213,7 @@ across_setup <- function(cols, fns, names, key, .caller_env) {
   mask <- peek_mask("across()")
   value <- mask$across_cache_get(key)
   if (is.null(value)) {
-    value <- across_setup_impl({{cols}},
+    value <- across_setup_impl({{ cols }},
       fns = fns, names = names, .caller_env = .caller_env, mask = mask,
       .top_level = FALSE
     )
@@ -263,10 +263,6 @@ across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("a
     abort(c("Problem with `across()` input `.fns`.",
       i = "Input `.fns` must be NULL, a function, a formula, or a list of functions/formulas."
     ))
-  }
-
-  expr_protect <- function(x) {
-    call2(quote, x)
   }
 
   fns <- map(fns, as_function)
