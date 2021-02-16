@@ -3,7 +3,7 @@
     Code
       combine()
     Warning <lifecycle_warning_deprecated>
-      `combine()` is deprecated as of dplyr 1.0.0.
+      `combine()` was deprecated in dplyr 1.0.0.
       Please use `vctrs::vec_c()` instead.
     Output
       logical(0)

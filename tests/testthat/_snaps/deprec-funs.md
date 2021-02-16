@@ -3,7 +3,7 @@
     Code
       funs(fn = bar)
     Warning <lifecycle_warning_deprecated>
-      `funs()` is deprecated as of dplyr 0.8.0.
+      `funs()` was deprecated in dplyr 0.8.0.
       Please use a list of either functions or lambdas: 
       
         # Simple named list: 
