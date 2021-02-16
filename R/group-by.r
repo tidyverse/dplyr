@@ -149,7 +149,15 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   }
 
   # If any calls, use mutate to add new columns, then group by those
-  computed_columns <- add_computed_columns(ungroup(.data), new_groups, "group_by")
+  ungrouped <- ungroup(.data)
+  atts <- attributes(.data)
+  atts <- append(
+    attributes(ungrouped),
+    atts[setdiff(names(atts), c("names", "row.names", "groups", "class"))]
+  )
+  attributes(ungrouped) <- atts
+
+  computed_columns <- add_computed_columns(ungrouped, new_groups, "group_by")
   out <- computed_columns$data
   group_names <- computed_columns$added_names
 
