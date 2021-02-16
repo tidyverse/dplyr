@@ -529,6 +529,17 @@ test_that("grouped_df() does not break row.names (#5745)", {
   expect_equal(.row_names_info(groups, type = 0), c(NA, -10L))
 })
 
+test_that("group_by() keeps attributes unrelated to the grouping (#5760)", {
+  d <- data.frame(x = 453, y = 642)
+  attr(d, "foo") <- "bar"
+
+  d2 <- group_by(d, x)
+  expect_equal(attr(d2, "foo"), "bar")
+
+  d3 <- group_by(d2, y, .add = TRUE)
+  expect_equal(attr(d2, "foo"), "bar")
+})
+
 # Errors ------------------------------------------------------------------
 
 test_that("group_by() and ungroup() give meaningful error messages", {
