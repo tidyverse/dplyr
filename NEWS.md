@@ -7,7 +7,7 @@
 
 * Using testthat 3rd edition. 
 
-* Fixed bug introduced in `across()` in previous version (#5765).
+* Fixed bugs introduced in `across()` in previous version (#5765).
 
 * `group_by()` keeps attributes unrelated to the grouping (#5760).
 

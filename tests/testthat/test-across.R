@@ -254,27 +254,87 @@ test_that("across() works with empty data frames (#5523)", {
    )
 })
 
-test_that("lambdas in across() can use columns", {
+test_that("lambdas in mutate() + across() can use columns", {
   df <- tibble(x = 2, y = 4, z = 8)
   expect_identical(
-    df %>% mutate_all(~ .x / y),
+    df %>% mutate(data.frame(x = x / y, y = y / y, z = z / y)),
     df %>% mutate(across(everything(), ~ .x / y))
   )
   expect_identical(
-    df %>% mutate_all(~ .x / y),
+    df %>% mutate(data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% mutate(+across(everything(), ~ .x / y))
+  )
+
+  expect_identical(
+    df %>% mutate(data.frame(x = x / y, y = y / y, z = z / y)),
     df %>% mutate(across(everything(), ~ .x / .data$y))
+  )
+  expect_identical(
+    df %>% mutate(data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% mutate(+across(everything(), ~ .x / .data$y))
   )
 })
 
-test_that("lambdas in across() can use columns in follow up expressions (#5717)", {
+test_that("lambdas in summarise() + across() can use columns", {
   df <- tibble(x = 2, y = 4, z = 8)
   expect_identical(
-    df %>% mutate(a = 2, x = x / y, y = y / y, z = z / y),
+    df %>% summarise(data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% summarise(across(everything(), ~ .x / y))
+  )
+  expect_identical(
+    df %>% summarise(data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% summarise(+across(everything(), ~ .x / y))
+  )
+
+  expect_identical(
+    df %>% summarise(data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% summarise(across(everything(), ~ .x / .data$y))
+  )
+  expect_identical(
+    df %>% summarise(data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% summarise(+across(everything(), ~ .x / .data$y))
+  )
+})
+
+test_that("lambdas in mutate() + across() can use columns in follow up expressions (#5717)", {
+  df <- tibble(x = 2, y = 4, z = 8)
+  expect_identical(
+    df %>% mutate(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
     df %>% mutate(a = 2, across(c(x, y, z), ~ .x / y))
   )
   expect_identical(
-    df %>% mutate(a = 2, x = x / y, y = y / y, z = z / y),
+    df %>% mutate(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% mutate(a = 2, +across(c(x, y, z), ~ .x / y))
+  )
+
+  expect_identical(
+    df %>% mutate(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
     df %>% mutate(a = 2, across(c(x, y, z), ~ .x / .data$y))
+  )
+  expect_identical(
+    df %>% mutate(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% mutate(a = 2, +across(c(x, y, z), ~ .x / .data$y))
+  )
+})
+
+test_that("lambdas in summarise() + across() can use columns in follow up expressions (#5717)", {
+  df <- tibble(x = 2, y = 4, z = 8)
+  expect_identical(
+    df %>% summarise(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% summarise(a = 2, across(c(x, y, z), ~ .x / y))
+  )
+  expect_identical(
+    df %>% summarise(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% summarise(a = 2, +across(c(x, y, z), ~ .x / y))
+  )
+
+  expect_identical(
+    df %>% summarise(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% summarise(a = 2, across(c(x, y, z), ~ .x / .data$y))
+  )
+  expect_identical(
+    df %>% summarise(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
+    df %>% summarise(a = 2, +across(c(x, y, z), ~ .x / .data$y))
   )
 })
 
