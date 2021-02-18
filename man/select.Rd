@@ -160,14 +160,13 @@ The \code{:} operator selects a range of consecutive variables:\if{html}{\out{<d
 
 The \code{!} operator negates a selection:\if{html}{\out{<div class="r">}}\preformatted{starwars \%>\% select(!(name:mass))
 #> # A tibble: 87 x 11
-#>   hair_color skin_color eye_color birth_year sex   gender homeworld species
-#>   <chr>      <chr>      <chr>          <dbl> <chr> <chr>  <chr>     <chr>  
-#> 1 blond      fair       blue            19   male  mascu~ Tatooine  Human  
-#> 2 <NA>       gold       yellow         112   none  mascu~ Tatooine  Droid  
-#> 3 <NA>       white, bl~ red             33   none  mascu~ Naboo     Droid  
-#> 4 none       white      yellow          41.9 male  mascu~ Tatooine  Human  
-#> # ... with 83 more rows, and 3 more variables: films <list>, vehicles <list>,
-#> #   starships <list>
+#>   hair_color skin_color  eye_color birth_year sex   gender    homeworld species films     vehicles  starships
+#>   <chr>      <chr>       <chr>          <dbl> <chr> <chr>     <chr>     <chr>   <list>    <list>    <list>   
+#> 1 blond      fair        blue            19   male  masculine Tatooine  Human   <chr [5]> <chr [2]> <chr [2]>
+#> 2 <NA>       gold        yellow         112   none  masculine Tatooine  Droid   <chr [6]> <chr [0]> <chr [0]>
+#> 3 <NA>       white, blue red             33   none  masculine Naboo     Droid   <chr [7]> <chr [0]> <chr [0]>
+#> 4 none       white       yellow          41.9 male  masculine Tatooine  Human   <chr [4]> <chr [0]> <chr [1]>
+#> # ... with 83 more rows
 
 iris \%>\% select(!c(Sepal.Length, Petal.Length))
 #> # A tibble: 150 x 3
