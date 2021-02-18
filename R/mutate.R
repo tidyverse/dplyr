@@ -238,6 +238,8 @@ mutate_cols <- function(.data, ...) {
 
       quosures <- expand_quosure(dots[[i]])
 
+      # first populate `quosures_results`
+      quosures_results <- vector(mode = "list", length = length(quosures))
       for (k in seq_along(quosures)) {
         quo <- quosures[[k]]
         quo_data <- attr(quo, "dplyr:::data")
@@ -283,11 +285,6 @@ mutate_cols <- function(.data, ...) {
         }
 
         if (is.null(chunks)) {
-          if (quo_data$is_named) {
-            name <- quo_data$name_given
-            new_columns[[name]] <- zap()
-            mask$remove(name)
-          }
           next
         }
 
@@ -304,6 +301,27 @@ mutate_cols <- function(.data, ...) {
             )
           }
         }
+
+        quosures_results[[k]] <- list(result = result, chunks = chunks)
+      }
+
+      # then use `quosures_results` to update the mask and new columns
+      for (k in seq_along(quosures)) {
+        quo <- quosures[[k]]
+        quo_data <- attr(quo, "dplyr:::data")
+
+        quo_result <- quosures_results[[k]]
+        if (is.null(quo_result)) {
+          if (quo_data$is_named) {
+            name <- quo_data$name_given
+            new_columns[[name]] <- zap()
+            mask$remove(name)
+          }
+          next
+        }
+
+        result <- quo_result$result
+        chunks <- quo_result$chunks
 
         if (!quo_data$is_named && is.data.frame(result)) {
           new_columns[names(result)] <- result

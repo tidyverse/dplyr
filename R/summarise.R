@@ -225,6 +225,7 @@ summarise_cols <- function(.data, ...) {
       mask$across_cache_reset()
 
       quosures <- expand_quosure(dots[[i]])
+      quosures_results <- vector(mode = "list", length = length(quosures))
 
       # with the previous part above, for each element of ... we can
       # have either one or several quosures, each of them handled here:
@@ -245,6 +246,20 @@ summarise_cols <- function(.data, ...) {
           }
         )
         chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
+
+        quosures_results[[k]] <- list(chunks = chunks_k, types = types_k)
+      }
+
+      for (k in seq_along(quosures)) {
+        quo <- quosures[[k]]
+        quo_data <- attr(quo, "dplyr:::data")
+
+        quo_result <- quosures_results[[k]]
+        if (is.null(quo_result)) {
+          next
+        }
+        types_k <- quo_result$types
+        chunks_k <- quo_result$chunks
 
         if (!quo_data$is_named && is.data.frame(types_k)) {
           chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
