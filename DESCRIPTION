@@ -60,6 +60,7 @@ Suggests:
     RPostgreSQL,
     RSQLite,
     testthat (>= 3.0.2),
+    tidyr, 
     withr
 VignetteBuilder: 
     knitr
