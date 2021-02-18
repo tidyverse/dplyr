@@ -538,6 +538,9 @@ test_that("group_by() keeps attributes unrelated to the grouping (#5760)", {
 
   d3 <- group_by(d2, y, .add = TRUE)
   expect_equal(attr(d2, "foo"), "bar")
+
+  d4 <- group_by(d2, y2 = y * 2, .add = TRUE)
+  expect_equal(attr(d2, "foo"), "bar")
 })
 
 # Errors ------------------------------------------------------------------
