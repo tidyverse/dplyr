@@ -1,4 +1,4 @@
-# dplyr (development version)
+# dplyr 1.0.5
 
 * Fixed edge case of `slice_sample()` when `weight_by=` is used and there 
   0 rows (#5729). 
