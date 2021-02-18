@@ -8,7 +8,7 @@
 \usage{
 across(.cols = everything(), .fns = NULL, ..., .names = NULL)
 
-if_any(.cols, .fns, ..., .names = NULL)
+if_any(.cols = everything(), .fns, ..., .names = NULL)
 
 if_all(.cols = everything(), .fns, ..., .names = NULL)
 }

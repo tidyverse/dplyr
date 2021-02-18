@@ -147,7 +147,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
 #' @rdname across
 #' @export
-if_any <- function(.cols, .fns, ..., .names = NULL) {
+if_any <- function(.cols = everything(), .fns, ..., .names = NULL) {
   .cols <- enquo(.cols)
   if (quo_is_missing(.cols) || missing(.fns)) {
     abort("if_any() needs both .cols= and .fns=")
