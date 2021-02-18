@@ -236,10 +236,11 @@ mutate_cols <- function(.data, ...) {
     for (i in seq_along(dots)) {
       mask$across_cache_reset()
 
+      # get results from all the quosures that are expanded from ..i
+      # then ingest them after
       quosures <- expand_quosure(dots[[i]])
-
-      # first populate `quosures_results`
       quosures_results <- vector(mode = "list", length = length(quosures))
+
       for (k in seq_along(quosures)) {
         quo <- quosures[[k]]
         quo_data <- attr(quo, "dplyr:::data")
@@ -305,7 +306,7 @@ mutate_cols <- function(.data, ...) {
         quosures_results[[k]] <- list(result = result, chunks = chunks)
       }
 
-      # then use `quosures_results` to update the mask and new columns
+
       for (k in seq_along(quosures)) {
         quo <- quosures[[k]]
         quo_data <- attr(quo, "dplyr:::data")
