@@ -11,6 +11,8 @@
 
 * `group_by()` keeps attributes unrelated to the grouping (#5760).
 
+* The `.cols=` argument of `if_any()` and `if_all()` defaults to `everything()`. 
+
 # dplyr 1.0.4
 
 * Improved performance for `across()`. This makes `summarise(across())` and 
