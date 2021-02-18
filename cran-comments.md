@@ -2,14 +2,6 @@
 
 This is a minor release in the 1.0.* series.  
 
-## Test environments
-
-* local mac OS install, R 4.0.3
-* ubuntu 16.04 (on github actions), R-devel, R 4.0.3, R 3.6.3, 3.5.3, R 3.4.4, R 3.3.3
-* mac OS 10.15.4 (on github actions) R-devel, R 3.6.0
-* Microsoft Windows Server 2019 10.0.17763 (on github actions) R 4.0.3
-* win-builder (devel)
-
 ## R CMD check results
 
 0 errors v | 0 warnings v | 0 notes v
@@ -18,12 +10,127 @@ R CMD check succeeded
 
 ## revdepcheck results
 
-We checked 2486 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 2524 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 1 new problem, reported below.
- * We failed to check 249 packages
+ * We saw 2 new problems
+ * We failed to check 109 packages
+
+Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* rattle: unrelated gtk issue. 
+* rattle: unrelated gtk issue
+* MXM: unrelated issue about solve()
+
+### Failed to check
+
+* accept               (NA)
+* ActCR                (NA)
+* ADtools              (NA)
+* AIG                  (NA)
+* AMPLE                (NA)
+* Andromeda            (NA)
+* AQuadtree            (NA)
+* ARTool               (NA)
+* BAwiR                (NA)
+* bayesdfa             (NA)
+* BayesianReasoning    (NA)
+* BENMMI               (NA)
+* BETS                 (NA)
+* BGPhazard            (NA)
+* BMTME                (NA)
+* butcher              (NA)
+* CamelUp              (NA)
+* CARBayes             (NA)
+* CausalImpact         (NA)
+* CB2                  (NA)
+* cbar                 (NA)
+* CoordinateCleaner    (NA)
+* Countr               (NA)
+* CRANsearcher         (NA)
+* crossmap             (NA)
+* CruzPlot             (NA)
+* CTShiny              (NA)
+* DAISIE               (NA)
+* DataVisualizations   (NA)
+* DCPO                 (NA)
+* diceR                (NA)
+* DirectEffects        (NA)
+* DLMtool              (NA)
+* DTAT                 (NA)
+* EdSurvey             (NA)
+* EFDR                 (NA)
+* EML                  (NA)
+* EpiNow2              (NA)
+* EstimateGroupNetwork (NA)
+* EValue               (NA)
+* FRK                  (NA)
+* FSinR                (NA)
+* FSK2R                (NA)
+* FunnelPlotR          (NA)
+* GADMTools            (NA)
+* gastempt             (NA)
+* GenomicMating        (NA)
+* GetBCBData           (NA)
+* glmmfields           (NA)
+* GPSCDF               (NA)
+* Greg                 (NA)
+* GuessCompx           (NA)
+* IAT                  (NA)
+* IPDfromKM            (NA)
+* JacobiEigen          (NA)
+* JFE                  (NA)
+* KraljicMatrix        (NA)
+* LDAShiny             (NA)
+* LexisPlotR           (NA)
+* MAGNAMWAR            (NA)
+* MarketMatching       (NA)
+* MetaboList           (NA)
+* metagam              (NA)
+* mlr3db               (NA)
+* MLRShiny             (NA)
+* MLZ                  (NA)
+* Modelcharts          (NA)
+* multinma             (NA)
+* NBShiny              (NA)
+* NetworkRiskMeasures  (NA)
+* Nmisc                (NA)
+* OncoBayes2           (NA)
+* OpenRepGrid.ic       (NA)
+* OTrecod              (NA)
+* pencal               (NA)
+* PHEindicatormethods  (NA)
+* PhenotypeSimulator   (NA)
+* PML                  (NA)
+* POFIBGE              (NA)
+* PriceIndices         (NA)
+* PWFSLSmoke           (NA)
+* RadialVisGadgets     (NA)
+* Rarefy               (NA)
+* RBaseX               (NA)
+* Rfssa                (NA)
+* rmdcev               (NA)
+* RNeXML               (NA)
+* Rpolyhedra           (NA)
+* rstap                (NA)
+* RtutoR               (NA)
+* RVA                  (NA)
+* SCtools              (NA)
+* ShinyItemAnalysis    (NA)
+* SimplifyStats        (NA)
+* SimRVSequences       (NA)
+* SIPDIBGE             (NA)
+* SOMEnv               (NA)
+* SSLR                 (NA)
+* StratifiedMedicine   (NA)
+* StratifiedRF         (NA)
+* SubgrPlots           (NA)
+* SWMPrExtension       (NA)
+* TestDimorph          (NA)
+* TextMiningGUI        (NA)
+* trackr               (NA)
+* UCSCXenaShiny        (NA)
+* UKgrid               (NA)
+* WebGestaltR          (NA)
+* wrswoR               (NA)
