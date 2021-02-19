@@ -31,6 +31,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          remotes::install_cran("tidyverse")
           install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_dev("pkgdown")
